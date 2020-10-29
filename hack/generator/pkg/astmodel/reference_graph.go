@@ -28,9 +28,9 @@ func CollectResourceDefinitions(definitions Types) TypeNameSet {
 }
 
 // CollectArmSpecDefinitions returns a TypeNameSet of all of the
-// arm spec definitions passed in.
+// ARM spec definitions passed in.
 func CollectArmSpecAndStatusDefinitions(definitions Types) TypeNameSet {
-	findType := func(t Type) (TypeName, error) {
+	findArmType := func(t Type) (TypeName, error) {
 		name, ok := t.(TypeName)
 		if !ok {
 			return TypeName{}, errors.Errorf("Type was not of type TypeName, instead %T", t)
@@ -39,27 +39,37 @@ func CollectArmSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 		armName := CreateArmTypeName(name)
 
 		if _, ok = definitions[armName]; !ok {
-			return TypeName{}, errors.Errorf("Couldn't ARM type find %q", armName)
+			return TypeName{}, errors.Errorf("Couldn't find ARM type %q", armName)
 		}
 
 		return armName, nil
 	}
 
-	// TODO: We should be using a better way to identify ARM types. I believe
-	// TODO Bevan is working on it.
 	armSpecAndStatus := make(TypeNameSet)
 	for _, def := range definitions {
-		if resourceType, ok := def.Type().(*ResourceType); ok {
 
-			armSpecName, err := findType(resourceType.spec)
+		if IsStoragePackageReference(def.Name().PackageReference) {
+			// We need to explicitly skip storage packages because the code below expects to find
+			// a related ARM type for each resource spec type, but those don't exist in our
+			// storage packages and the code triggers a panic() based on the error from findArmType
+			continue
+		}
+
+		if resourceType, ok := definitions.ResolveResourceType(def.Type()); ok {
+
+			armSpecName, err := findArmType(resourceType.spec)
 			if err != nil {
+				// This should never happen because every type should have a matching ARM type
+				// So this panic may indicate we have a bug in the stage that generates the ARM types
 				panic(errors.Wrapf(err, "Error getting ARM spec for resource %q", def.Name()))
 			}
 			armSpecAndStatus.Add(armSpecName)
 
 			if resourceType.status != nil {
-				armStatusName, err := findType(resourceType.status)
+				armStatusName, err := findArmType(resourceType.status)
 				if err != nil {
+					// This should never happen because every type should have a matching ARM type
+					// So this panic may indicate we have a bug in the stage that generates the ARM types
 					panic(errors.Wrapf(err, "Error getting ARM status for resource %q", def.Name()))
 				}
 				armSpecAndStatus.Add(armStatusName)

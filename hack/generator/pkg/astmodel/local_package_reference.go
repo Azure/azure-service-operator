@@ -53,7 +53,11 @@ func (pr LocalPackageReference) PackagePath() string {
 
 // Equals returns true if the passed package reference references the same package, false otherwise
 func (pr LocalPackageReference) Equals(ref PackageReference) bool {
-	if other, ok := ref.(LocalPackageReference); ok {
+	if ref == nil {
+		return false
+	}
+
+	if other, ok := ref.AsLocalPackage(); ok {
 		return pr.version == other.version &&
 			pr.group == other.group
 	}

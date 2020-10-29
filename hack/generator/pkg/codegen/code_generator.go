@@ -83,6 +83,7 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 
 		createArmTypesAndCleanKubernetesTypes(idFactory),
 		applyKubernetesResourceInterface(idFactory),
+		createStorageTypes(),
 		simplifyDefinitions(),
 
 		// Safety checks at the end:
@@ -98,13 +99,14 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	defs := make(astmodel.Types)
 	for i, stage := range generator.pipeline {
 		klog.V(0).Infof("Pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.description)
-		updatedDefs, err := stage.Action(ctx, defs)
+		// Defensive copy (in case the pipeline modifies its inputs) so that we can compare types in vs out
+		defsOut, err := stage.Action(ctx, defs.Copy())
 		if err != nil {
 			return errors.Wrapf(err, "Failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.description)
 		}
 
-		defsAdded := updatedDefs.Except(defs)
-		defsRemoved := defs.Except(updatedDefs)
+		defsAdded := defsOut.Except(defs)
+		defsRemoved := defs.Except(defsOut)
 
 		if len(defsAdded) > 0 && len(defsRemoved) > 0 {
 			klog.V(1).Infof("Added %d, removed %d type definitions", len(defsAdded), len(defsRemoved))
@@ -114,7 +116,7 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			klog.V(1).Infof("Removed %d type definitions", len(defsRemoved))
 		}
 
-		defs = updatedDefs
+		defs = defsOut
 	}
 
 	return nil

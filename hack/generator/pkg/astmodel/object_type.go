@@ -105,6 +105,7 @@ func (objectType *ObjectType) Properties() []*PropertyDefinition {
 	return result
 }
 
+// Property returns the details of a specific property based on its unique case sensitive name
 func (objectType *ObjectType) Property(name PropertyName) (*PropertyDefinition, bool) {
 	prop, ok := objectType.properties[name]
 	return prop, ok

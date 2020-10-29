@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"github.com/pkg/errors"
 	"go/ast"
 	"go/token"
 )
@@ -99,4 +100,53 @@ func (def TypeDefinition) RequiredPackageReferences() []PackageReference {
 // this is not always used as we often combine multiple definitions into one file
 func FileNameHint(name TypeName) string {
 	return transformToSnakeCase(name.name)
+}
+
+// ApplyObjectTransformation applies a specific transformation to the ObjectType contained by this
+// definition, returning a new definition
+// If the definition does not contain an object, an error will be returned
+func (def TypeDefinition) ApplyObjectTransformation(transform func(*ObjectType) (Type, error)) (*TypeDefinition, error) {
+	// We use a TypeVisitor to allow automatic handling of wrapper types (such as ArmType and StorageType)
+	visited := false
+	visitor := MakeTypeVisitor()
+	visitor.VisitObjectType = func(_ *TypeVisitor, ot *ObjectType, _ interface{}) (Type, error) {
+		rt, err := transform(ot)
+		if err != nil {
+			return nil, err
+		}
+		visited = true
+		return rt, nil
+	}
+
+	newType, err := visitor.Visit(def.theType, nil)
+	if err != nil {
+		return nil, errors.Wrapf(err, "transformation of %v failed", def.name)
+	}
+
+	if !visited {
+		return nil, errors.Errorf("transformation was not applied to %v (expected object type, found %v)", def.name, def.theType)
+	}
+
+	result := def.WithType(newType)
+	return &result, nil
+}
+
+// ApplyObjectTransformations applies multiple transformations to the ObjectType contained by this
+// definition, returning a new definition.
+// If the definition does not contain an object, an error will be returned
+// The transformations are constrained to return ObjectType results to allow them to be chained together.
+func (def TypeDefinition) ApplyObjectTransformations(transforms ...func(*ObjectType) (*ObjectType, error)) (*TypeDefinition, error) {
+	return def.ApplyObjectTransformation(func(objectType *ObjectType) (Type, error) {
+		result := objectType
+		for i, transform := range transforms {
+			rt, err := transform(result)
+			if err != nil {
+				return nil, errors.Wrapf(err, "failed to apply object transformation %d", i)
+			}
+
+			result = rt
+		}
+
+		return result, nil
+	})
 }

@@ -93,3 +93,73 @@ func (types Types) Copy() Types {
 	result.AddTypes(types)
 	return result
 }
+
+// ResolveResourceType returns the underlying resource type if the definition contains one or names one
+func (types Types) ResolveResourceType(aType Type) (*ResourceType, bool) {
+	switch t := aType.(type) {
+
+	case *ResourceType:
+		return t, true
+
+	case TypeName:
+		if def, ok := types[t]; ok {
+			return types.ResolveResourceType(def.theType)
+		}
+		return nil, false
+
+	default:
+		return nil, false
+	}
+}
+
+// IsArmType returns true if the passed type is an Arm type or names an Arm type; false otherwise.
+func (types Types) IsArmType(aType Type) bool {
+	switch t := aType.(type) {
+	case *ArmType:
+		return true
+
+	case *ResourceType:
+		return types.IsArmResource(t)
+
+	case TypeName:
+		if def, ok := types[t]; ok {
+			return types.IsArmDefinition(&def)
+		}
+		return false
+
+	default:
+		return false
+	}
+}
+
+// IsArmDefinition returns true if the passed definition is for an Arm type or names an Arm type; false otherwise.
+func (types Types) IsArmDefinition(definition *TypeDefinition) bool {
+	return types.IsArmType(definition.Type())
+}
+
+// IsArmDefinition returns true if the passed resource contains Arm Types or names Arm types; false otherwise.
+func (types Types) IsArmResource(resource *ResourceType) bool {
+	return types.IsArmType(resource.SpecType()) || types.IsArmType(resource.StatusType())
+}
+
+// ResolveEnumType returns true if the passed type is an enum type or names an enum type; false otherwise.
+func (types Types) ResolveEnumType(aType Type) (EnumType, bool) {
+	switch t := aType.(type) {
+	case *EnumType:
+		return *t, true
+
+	case TypeName:
+		if def, ok := types[t]; ok {
+			return types.ResolveEnumDefinition(&def)
+		}
+		return EnumType{}, false
+
+	default:
+		return EnumType{}, false
+	}
+}
+
+// ResolveEnumDefinition returns true if the passed definition is for an Enum type or names an Enum type; false otherwise.
+func (types Types) ResolveEnumDefinition(definition *TypeDefinition) (EnumType, bool) {
+	return types.ResolveEnumType(definition.Type())
+}

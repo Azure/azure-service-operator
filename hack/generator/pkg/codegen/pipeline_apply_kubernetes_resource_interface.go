@@ -21,24 +21,25 @@ func applyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Pipe
 
 			result := make(astmodel.Types)
 			for _, typeDef := range types {
+
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
 
 					specName, ok := resource.SpecType().(astmodel.TypeName)
 					if !ok {
-						return nil, errors.Errorf("Resource %q spec was not of type TypeName, instead: %T", typeDef.Name(), typeDef.Type())
+						return nil, errors.Errorf("resource %q spec was not of type TypeName, instead: %T", typeDef.Name(), typeDef.Type())
 					}
 
 					spec, ok := types[specName]
 					if !ok {
-						return nil, errors.Errorf("Couldn't find resource spec %q", specName)
+						return nil, errors.Errorf("couldn't find resource spec %q", specName)
 					}
 
-					specObject, ok := spec.Type().(*astmodel.ObjectType)
-					if !ok {
-						return nil, errors.Errorf("Spec %q was not of type ObjectType, instead %T", specName, spec.Type())
+					specObj, err := astmodel.TypeAsObjectType(spec.Type())
+					if err != nil {
+						return nil, errors.Wrapf(err, "resource spec %q did not contain an object", specName)
 					}
 
-					iface, err := astmodel.NewKubernetesResourceInterfaceImpl(idFactory, specObject)
+					iface, err := astmodel.NewKubernetesResourceInterfaceImpl(idFactory, specObj)
 					if err != nil {
 						return nil, errors.Wrapf(err, "Couldn't implement Kubernetes resource interface for %q", spec.Name())
 					}

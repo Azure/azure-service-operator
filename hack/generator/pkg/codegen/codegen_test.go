@@ -120,9 +120,9 @@ func runGoldenTest(t *testing.T, path string) {
 	for _, stage := range codegen.pipeline {
 		if stage.HasId("loadSchema") {
 			pipeline = append(pipeline, loadTestSchemaIntoTypes(idFactory, cfg, testSchemaLoader))
-		} else if stage.HasId("deleteGenerated") {
-			continue // Skip this
-		} else if stage.HasId("rogueCheck") {
+		} else if stage.HasId("deleteGenerated") ||
+			stage.HasId("rogueCheck") ||
+			stage.HasId("createStorage") {
 			continue // Skip this
 		} else if stage.HasId("exportPackages") {
 			pipeline = append(pipeline, exportPackagesTestPipelineStage)

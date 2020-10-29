@@ -227,6 +227,54 @@ func Test_PropertyDefinitionWithType_GivenSameType_ReturnsExistingReference(t *t
 }
 
 /*
+ * WithValidation() Tests
+ */
+
+func Test_PropertyDefinitionWithValidation_GivenValidation_AddsToValidation(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	v := ValidateRequired()
+	property := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithValidation(v)
+
+	g.Expect(property.validations).To(ContainElement(v))
+}
+
+func Test_PropertyDefinitionWithValidation_GivenValidation_LeavesOriginalUnmodified(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	v := ValidateRequired()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	property := original.WithValidation(v)
+
+	g.Expect(property).NotTo(Equal(original))
+}
+
+/*
+ * WithoutValidation() tests
+ */
+
+func Test_PropertyDefinitionWithoutValidation_ReturnsPropertyWithoutValidation(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	v := ValidateRequired()
+	property := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).
+		WithValidation(v).
+		WithoutValidation()
+
+	g.Expect(property.validations).To(BeEmpty())
+}
+
+func Test_PropertyDefinitionWithoutValidation_LeavesOriginalUnmodified(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	v := ValidateRequired()
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithValidation(v)
+	property := original.WithoutValidation()
+
+	g.Expect(property).NotTo(Equal(original))
+}
+
+/*
  * MakeRequired() Tests
  */
 

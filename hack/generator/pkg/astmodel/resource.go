@@ -41,6 +41,10 @@ func IsResourceType(t Type) bool {
 	return ok
 }
 
+func IsResourceDefinition(def TypeDefinition) bool {
+	return IsResourceType(def.Type())
+}
+
 // NewAzureResourceType defines a new resource type for Azure. It ensures that
 // the resource has certain expected properties such as type and name.
 // The typeName parameter is just used for logging.

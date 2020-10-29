@@ -56,6 +56,11 @@ func (pi PackageImport) PackageName() string {
 	return pi.PackageReference.PackageName()
 }
 
+// PackagePath is the full path of the package reference
+func (pi PackageImport) PackagePath() string {
+	return pi.PackageReference.PackagePath()
+}
+
 // Equals returns true if the passed package reference references the same package, false otherwise
 func (pi PackageImport) Equals(ref PackageImport) bool {
 	packagesEqual := pi.PackageReference.Equals(ref.PackageReference)

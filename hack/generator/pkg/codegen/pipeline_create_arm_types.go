@@ -200,37 +200,6 @@ func removeValidations(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 	return t, nil
 }
 
-type conversionHandler = func(t *astmodel.ObjectType) (*astmodel.ObjectType, error)
-
-func transformTypeDefinition(
-	def astmodel.TypeDefinition,
-	handlers []conversionHandler) (astmodel.TypeDefinition, error) {
-
-	if !astmodel.IsObjectDefinition(def) && !astmodel.IsArmDefinition(def) {
-		return astmodel.TypeDefinition{}, errors.Errorf("input type %q (%T) did not contain expected type", def.Name(), def.Type())
-	}
-
-	visitor := astmodel.MakeTypeVisitor()
-	visitor.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-		resultType := it
-		var err error
-		for _, handler := range handlers {
-			resultType, err = handler(resultType)
-			if err != nil {
-				return nil, err
-			}
-		}
-		return resultType, nil
-	}
-
-	transformed, err := visitor.VisitDefinition(def, nil)
-	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "failed to transform type definition %q", def.Name())
-	}
-
-	return *transformed, nil
-}
-
 func getResourceSpecDefinition(
 	definitions astmodel.Types,
 	resourceType *astmodel.ResourceType) (astmodel.TypeDefinition, error) {
@@ -243,7 +212,7 @@ func getResourceSpecDefinition(
 
 	resourceSpecDef, ok := definitions[specName]
 	if !ok {
-		return astmodel.TypeDefinition{}, errors.Errorf("couldn't find spec")
+		return astmodel.TypeDefinition{}, errors.Errorf("couldn't find spec %v", specName)
 	}
 
 	// preserve outer spec name
@@ -269,18 +238,19 @@ func createArmResourceSpecDefinition(
 	}
 
 	// ARM specs have a special interface that they need to implement, go ahead and create that here
-	armSpecObj, ok := armTypeDef.Type().(*astmodel.ObjectType)
+	spec, ok := armTypeDef.Type().(*astmodel.ArmType)
 	if !ok {
-		return emptyDef, emptyName, errors.Errorf("Arm spec %q isn't of type ObjectType, instead: %T", armTypeDef.Name(), armTypeDef.Type())
+		return emptyDef, emptyName, errors.Errorf("Arm spec %q isn't of type ArmType, instead: %T", armTypeDef.Name(), armTypeDef.Type())
 	}
 
-	iface, err := astmodel.NewArmSpecInterfaceImpl(idFactory, armSpecObj)
+	specObj := spec.ObjectType()
+	iface, err := astmodel.NewArmSpecInterfaceImpl(idFactory, &specObj)
 	if err != nil {
 		return emptyDef, emptyName, err
 	}
 
-	updatedSpec := armSpecObj.WithInterface(iface)
-	armTypeDef = armTypeDef.WithType(updatedSpec)
+	updatedSpec := specObj.WithInterface(iface)
+	armTypeDef = armTypeDef.WithType(astmodel.NewArmType(*updatedSpec))
 
 	return armTypeDef, resourceSpecDef.Name(), nil
 }
@@ -290,15 +260,23 @@ func createArmTypeDefinition(definitions astmodel.Types, def astmodel.TypeDefini
 		return convertPropertiesToArmTypes(t, definitions)
 	}
 
-	armDef, err := transformTypeDefinition(
-		// This type is the ARM type so give it the ARM name
-		def.WithName(astmodel.CreateArmTypeName(def.Name())),
-		[]conversionHandler{removeValidations, convertPropertiesToArmTypesWrapper})
+	armName := astmodel.CreateArmTypeName(def.Name())
+	armDef, err := def.WithName(armName).
+		ApplyObjectTransformations(removeValidations, convertPropertiesToArmTypesWrapper)
 	if err != nil {
-		return astmodel.TypeDefinition{}, err
+		return astmodel.TypeDefinition{},
+			errors.Wrapf(err, "creating ARM prototype %v from Kubernetes definition %v", armName, def.Name())
 	}
 
-	return armDef, nil
+	result, err := armDef.ApplyObjectTransformation(func(objectType *astmodel.ObjectType) (astmodel.Type, error) {
+		return astmodel.NewArmType(*objectType), nil
+	})
+	if err != nil {
+		return astmodel.TypeDefinition{},
+			errors.Wrapf(err, "creating ARM definition %v from Kubernetes definition %v", armName, def.Name())
+	}
+
+	return *result, nil
 }
 
 func modifyKubeResourceSpecDefinition(
@@ -311,7 +289,7 @@ func modifyKubeResourceSpecDefinition(
 		return astmodel.TypeDefinition{}, err
 	}
 
-	createOwnerProperty := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
+	injectOwnerProperty := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		if resourceType.Owner() != nil {
 			ownerField, err := createOwnerProperty(idFactory, resourceType.Owner())
 			if err != nil {
@@ -323,13 +301,8 @@ func modifyKubeResourceSpecDefinition(
 		return t, nil
 	}
 
-	kubePropertyRemapper := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
-		var hasName bool
-		for _, prop := range t.Properties() {
-			if prop.PropertyName() == "Name" {
-				hasName = true
-			}
-		}
+	remapProperties := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
+		_, hasName := t.Property("Name")
 
 		// TODO: Right now the Kubernetes type has all of its standard requiredness (validations). If we want to allow
 		// TODO: users to submit "just a name and owner" types we will have to strip some validation until
@@ -342,14 +315,12 @@ func modifyKubeResourceSpecDefinition(
 		return kubernetesType, nil
 	}
 
-	kubernetesDef, err := transformTypeDefinition(
-		resourceSpecDef,
-		[]conversionHandler{kubePropertyRemapper, createOwnerProperty})
+	kubernetesDef, err := resourceSpecDef.ApplyObjectTransformations(remapProperties, injectOwnerProperty)
 	if err != nil {
-		return astmodel.TypeDefinition{}, err
+		return astmodel.TypeDefinition{}, errors.Wrapf(err, "remapping properties of Kubernetes definition")
 	}
 
-	return kubernetesDef, nil
+	return *kubernetesDef, nil
 }
 
 func addArmConversionInterface(
@@ -364,17 +335,23 @@ func addArmConversionInterface(
 		return emptyDef, errors.Errorf("ARM definition %q did not define an object type", armDef.Name())
 	}
 
-	addInterfaceHandler := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
-		return t.WithInterface(armconversion.NewArmTransformerImpl(
+	addInterfaceHandler := func(t *astmodel.ObjectType) (astmodel.Type, error) {
+		result := t.WithInterface(armconversion.NewArmTransformerImpl(
 			armDef.Name(),
 			objectType,
 			idFactory,
-			isResource)), nil
+			isResource))
+		return result, nil
 	}
 
-	return transformTypeDefinition(
-		kubeDef,
-		[]conversionHandler{addInterfaceHandler})
+	result, err := kubeDef.ApplyObjectTransformation(addInterfaceHandler)
+	if err != nil {
+		emptyDef := astmodel.TypeDefinition{}
+		return emptyDef,
+			errors.Errorf("Failed to add ARM conversion interface to Kubenetes object definition %v", armDef.Name())
+	}
+
+	return *result, nil
 }
 
 func convertArmPropertyTypeIfNeeded(definitions astmodel.Types, t astmodel.Type) (astmodel.Type, error) {

@@ -63,17 +63,18 @@ func GetAzureNameProperty(idFactory astmodel.IdentifierFactory) *astmodel.Proper
 
 func getReceiverObjectType(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *astmodel.ObjectType {
 	// Determine the type we're operating on
-	receiverType, err := codeGenerationContext.GetImportedDefinition(receiver)
+	rt, err := codeGenerationContext.GetImportedDefinition(receiver)
 	if err != nil {
 		panic(err)
 	}
 
-	kubeType, ok := receiverType.Type().(*astmodel.ObjectType)
+	receiverType, ok := rt.Type().(*astmodel.ObjectType)
 	if !ok {
-		panic(fmt.Sprintf("receiver for ArmConversionFunction is not of type ObjectType. TypeName: %v, Type %T", receiver, receiverType.Type()))
+		// Don't expect to have any wrapper types left at this point
+		panic(fmt.Sprintf("receiver for ArmConversionFunction is not of expected type. TypeName: %v, Type %T", receiver, rt.Type()))
 	}
 
-	return kubeType
+	return receiverType
 }
 
 func generateTypeConversionAssignments(
