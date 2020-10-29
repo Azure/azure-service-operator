@@ -50,6 +50,9 @@ jobs:
       - name: Run generator CI (Linux)
         if: ${{ runner.os == 'Linux' }} 
         run: make -C ./hack/generator ci
+      - name: Run generated CI (Linux)
+        if: ${{ runner.os == 'Linux' }}
+        run: make -C ./hack/generated ci
       - name: Make generated controller integration tests (and unit tests)
         if: ${{ runner.os == 'Linux' && env.AZURE_TENANT_ID != '' }}
         run: make -C ./hack/generated test-int-cover
@@ -69,11 +72,19 @@ jobs:
           set PATH=%PATH%;%USERPROFILE%\go\bin
           gcov2lcov  -infile cover.out -outfile coverage.lcov
           EXIT /B %exitcode%
-      - name: Coverall
+      - name: Coveralls generator
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.github_token }}
           path-to-lcov: ./hack/generator/coverage.lcov
+          flag-name: generator-${{ runner.os }}
+          parallel: true
+      - name: Coveralls generated
+        uses: coverallsapp/github-action@master
+        if: ${{ runner.os == 'Linux' }}
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: ./hack/generated/coverage.lcov
           flag-name: generator-${{ runner.os }}
           parallel: true
   test-controller:
