@@ -8,6 +8,7 @@ package testcommon
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"testing"
 	"time"
@@ -18,49 +19,49 @@ func WaitFor(ctx context.Context, timeout time.Duration, check func(context.Cont
 	waitCtx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
-	done := false
-
-	for !done {
+	for {
 		select {
 		case <-waitCtx.Done():
 			return waitCtx.Err()
 		default:
-			var err error
-			done, err = check(waitCtx)
+			done, err := check(waitCtx)
 			if err != nil {
 				return err
 			}
+
+			if done {
+				return nil
+			}
+
+			time.Sleep(5 * time.Second)
 		}
-
-		time.Sleep(5 * time.Second)
 	}
-
-	return nil
 }
 
-// testMainWrapper is a wrapper that can be called by TestMain so that we can use defer
 func SetupTeardownTestMain(
 	m *testing.M,
-	skipShortTests bool,
+	skipSlowTests bool,
 	setup func() error,
 	teardown func() error) int {
 
-	if skipShortTests {
-		flag.Parse()
-		if testing.Short() {
-			log.Println("Skipping slow tests in short mode")
-			return 0
-		}
+	// safety check before calling testing.Short()
+	if !flag.CommandLine.Parsed() {
+		panic("flag.Parse must have been invoked")
+	}
+
+	if skipSlowTests && testing.Short() {
+		log.Println("Skipping slow tests in short mode")
+		return 0
 	}
 
 	setupErr := setup()
 	if setupErr != nil {
-		panic(setupErr)
+		panic(fmt.Sprintf("setup error: %s", setupErr.Error()))
 	}
 
 	defer func() {
 		if teardownErr := teardown(); teardownErr != nil {
-			panic(teardownErr)
+			panic(fmt.Sprintf("teardown error: %s", teardownErr.Error()))
 		}
 	}()
 

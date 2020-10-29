@@ -15,10 +15,12 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
+	"k8s.io/client-go/rest"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
+	batch "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.batch/v20170901"
 	resources "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.resources/v20200601"
 	storage "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.storage/v20190401"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
@@ -41,14 +43,18 @@ type TestContext struct {
 
 // TODO: State Annotation parameter should be removed once the interface for Status determined and promoted
 // TODO: to genruntime. Same for errorAnnotation
-func NewTestContext(region string, namespace string, stateAnnotation string, errorAnnotation string) (*TestContext, error) {
-	scheme := CreateScheme()
-	config, err := ctrl.GetConfig()
-	if err != nil {
-		return nil, errors.Wrap(err, "unable to get kubeconfig")
+func NewTestContext(
+	config *rest.Config,
+	region string,
+	namespace string,
+	stateAnnotation string,
+	errorAnnotation string) (*TestContext, error) {
+
+	clientOpts := client.Options{
+		Scheme: CreateScheme(),
 	}
 
-	kubeClient, err := client.New(config, client.Options{Scheme: scheme})
+	kubeClient, err := client.New(config, clientOpts)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating kubeclient")
 	}
@@ -125,7 +131,7 @@ func CreateScheme() *runtime.Scheme {
 	scheme := runtime.NewScheme()
 
 	_ = clientgoscheme.AddToScheme(scheme)
-	//_ = batch.AddToScheme(scheme)
+	_ = batch.AddToScheme(scheme)
 	_ = storage.AddToScheme(scheme)
 	_ = resources.AddToScheme(scheme)
 
