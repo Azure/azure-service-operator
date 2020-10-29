@@ -265,9 +265,14 @@ func (property *PropertyDefinition) renderedTags() string {
 func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGenerationContext) *ast.Field {
 	tags := property.renderedTags()
 
+	var names []*ast.Ident
+	if property.propertyName != "" {
+		names = []*ast.Ident{ast.NewIdent(string(property.propertyName))}
+	}
+
 	result := &ast.Field{
 		Doc:   &ast.CommentGroup{},
-		Names: []*ast.Ident{ast.NewIdent(string(property.propertyName))},
+		Names: names,
 		Type:  property.PropertyType().AsType(codeGenerationContext),
 		Tag: &ast.BasicLit{
 			Kind:  token.STRING,

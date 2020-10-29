@@ -16,10 +16,12 @@ import (
  */
 
 var (
-	fullName   = NewPropertyDefinition("FullName", "full-name", StringType)
-	familyName = NewPropertyDefinition("FamilyName", "family-name", StringType)
-	knownAs    = NewPropertyDefinition("KnownAs", "known-as", StringType)
-	gender     = NewPropertyDefinition("Gender", "gender", StringType)
+	fullName             = NewPropertyDefinition("FullName", "full-name", StringType)
+	familyName           = NewPropertyDefinition("FamilyName", "family-name", StringType)
+	knownAs              = NewPropertyDefinition("KnownAs", "known-as", StringType)
+	gender               = NewPropertyDefinition("Gender", "gender", StringType)
+	embeddedProp         = NewPropertyDefinition("", "-", MakeTypeName(MakeGenRuntimePackageReference(), "DummyType"))
+	optionalEmbeddedProp = NewPropertyDefinition("", "-", MakeTypeName(MakeGenRuntimePackageReference(), "DummyType")).MakeOptional()
 )
 
 /*
@@ -57,6 +59,27 @@ func Test_Properties_GivenObjectWithProperties_ReturnsExpectedSortedSlice(t *tes
 }
 
 /*
+ * EmbeddedProperties() tests
+ */
+
+func Test_EmbeddedProperties_GivenEmptyObject_ReturnsEmptySlice(t *testing.T) {
+	g := NewGomegaWithT(t)
+	properties := EmptyObjectType.EmbeddedProperties()
+	g.Expect(properties).To(HaveLen(0))
+}
+
+func Test_EmbeddedProperties_GivenObjectWithProperties_ReturnsExpectedSortedSlice(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	object, err := EmptyObjectType.WithEmbeddedProperty(embeddedProp)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	properties := object.EmbeddedProperties()
+	g.Expect(properties).To(HaveLen(1))
+	g.Expect(properties[0]).To(Equal(embeddedProp))
+}
+
+/*
  * Equals() tests
  */
 
@@ -71,6 +94,8 @@ func TestObjectType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 	longerType := NewObjectType().WithProperties(fullName, familyName, knownAs, gender)
 	differentType := NewObjectType().WithProperties(fullName, clanName, knownAs, gender)
 	mapType := NewMapType(StringType, personType)
+	personWithEmbeddedProperty, _ := personType.WithEmbeddedProperty(embeddedProp)
+	personWithEmbeddedOptionalProperty, _ := personType.WithEmbeddedProperty(optionalEmbeddedProp)
 
 	cases := []struct {
 		name      string
@@ -81,6 +106,8 @@ func TestObjectType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 		// Expect equal to self
 		{"Equal to self", personType, personType, true},
 		{"Equal to self", otherPersonType, otherPersonType, true},
+		{"Equal to self", personWithEmbeddedProperty, personWithEmbeddedProperty, true},
+		{"Equal to self", personWithEmbeddedOptionalProperty, personWithEmbeddedOptionalProperty, true},
 		// Expect equal to same
 		{"Equal to same", personType, otherPersonType, true},
 		{"Equal to same", otherPersonType, personType, true},
@@ -99,6 +126,12 @@ func TestObjectType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 		// Expect not-equal for different property (but same property count)
 		{"Not-equal when different type", personType, differentType, false},
 		{"Not-equal when different type", differentType, personType, false},
+		// Expect not-equal for same type with one embedded property
+		{"Not-equal when different embedded properties", personType, personWithEmbeddedProperty, false},
+		{"Not-equal when different embedded properties", personWithEmbeddedProperty, personType, false},
+		// Expect not-equal when embedded properties differ by optionality
+		{"Not-equal when embedded property differs by optionality", personWithEmbeddedProperty, personWithEmbeddedOptionalProperty, false},
+		{"Not-equal when embedded property differs by optionality", personWithEmbeddedOptionalProperty, personWithEmbeddedProperty, false},
 	}
 
 	for _, c := range cases {

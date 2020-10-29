@@ -164,7 +164,30 @@ func IdentityVisitOfObjectType(this *TypeVisitor, it *ObjectType, ctx interface{
 		return nil, kerrors.NewAggregate(errs)
 	}
 
-	return it.WithProperties(newProps...), nil
+	// map the embedded types too
+	var newEmbeddedProps []*PropertyDefinition
+	for _, prop := range it.embedded {
+		p, err := this.Visit(prop.propertyType, ctx)
+		if err != nil {
+			errs = append(errs, err)
+		} else {
+			newEmbeddedProps = append(newProps, prop.WithType(p))
+		}
+	}
+
+	if len(errs) > 0 {
+		return nil, kerrors.NewAggregate(errs)
+	}
+
+	result := it.WithProperties(newProps...)
+	// Since it's possible that the type was renamed we need to clear the old embedded properties
+	result = result.WithoutEmbeddedProperties()
+	result, err := result.WithEmbeddedProperties(newEmbeddedProps...)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
 func IdentityVisitOfMapType(this *TypeVisitor, it *MapType, ctx interface{}) (Type, error) {
