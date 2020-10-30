@@ -358,6 +358,11 @@ func convertArmPropertyTypeIfNeeded(definitions astmodel.Types, t astmodel.Type)
 
 	visitor := astmodel.MakeTypeVisitor()
 	visitor.VisitTypeName = func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+		// Allow json type to pass through.
+		if it == astmodel.JSONType {
+			return it, nil
+		}
+
 		def, ok := definitions[it]
 		if !ok {
 			return nil, errors.Errorf("Failed to lookup %v", it)

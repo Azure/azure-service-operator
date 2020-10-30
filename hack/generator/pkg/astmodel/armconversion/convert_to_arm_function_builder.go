@@ -269,6 +269,9 @@ func (builder *convertToArmBuilder) toArmComplexPropertyConversion(
 		return builder.convertComplexMapProperty(params)
 	case astmodel.TypeName:
 		if params.sameTypes {
+			if params.destinationType.Equals(astmodel.JSONType) {
+				return builder.deepCopyJSON(params)
+			}
 			// The only type names we leave alone are enums, which
 			// don't need conversion.
 			return builder.assignPrimitiveType(params)
@@ -539,9 +542,11 @@ func callToArmFunction(source ast.Expr, destination ast.Expr, methodName string)
 }
 
 func typeRequiresCopying(theType astmodel.Type) bool {
-	switch theType.(type) {
+	switch t := theType.(type) {
 	case *astmodel.OptionalType, *astmodel.MapType, *astmodel.ArrayType:
 		return true
+	case astmodel.TypeName:
+		return t == astmodel.JSONType
 	}
 	return false
 }
