@@ -8,6 +8,7 @@ package codegen
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -15,17 +16,83 @@ import (
 	"testing"
 
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
-
 	"github.com/sebdah/goldie/v2"
 	"github.com/xeipuuv/gojsonschema"
+	"gopkg.in/yaml.v3"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 )
 
-func runGoldenTest(t *testing.T, path string) {
+type GoldenTestConfig struct {
+	HasArmResources      bool `yaml:"hasArmResources"`
+	InjectEmbeddedStruct bool `yaml:"injectEmbeddedStruct"`
+}
+
+func makeDefaultTestConfig() GoldenTestConfig {
+	return GoldenTestConfig{
+		HasArmResources:      false,
+		InjectEmbeddedStruct: false,
+	}
+}
+
+func loadTestConfig(path string) (GoldenTestConfig, error) {
+	result := makeDefaultTestConfig()
+
+	fileBytes, err := ioutil.ReadFile(path)
+	if err != nil {
+		// If the file doesn't exist we just use the default
+		if os.IsNotExist(err) {
+			return result, nil
+		}
+
+		return result, err
+	}
+
+	err = yaml.Unmarshal(fileBytes, &result)
+	if err != nil {
+		return result, errors.Wrapf(err, "unmarshalling golden config %s", path)
+	}
+
+	return result, nil
+}
+
+func makeTestPackageReference() astmodel.PackageReference {
+	return astmodel.MakeLocalPackageReference("test", "v20200101")
+}
+
+func injectEmbeddedStructType() PipelineStage {
+	return MakePipelineStage(
+		"injectEmbeddedStructType",
+		"Injects an embedded struct into each object",
+		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+
+			results := make(astmodel.Types)
+			for _, def := range defs {
+				if astmodel.IsObjectType(def.Type()) {
+					result, err := def.ApplyObjectTransformation(func(objectType *astmodel.ObjectType) (astmodel.Type, error) {
+						prop := astmodel.NewPropertyDefinition(
+							"",
+							",inline",
+							astmodel.MakeTypeName(makeTestPackageReference(), "EmbeddedTestType"))
+						return objectType.WithEmbeddedProperty(prop)
+					})
+					if err != nil {
+						return nil, err
+					}
+					results.Add(*result)
+				} else {
+					results.Add(def)
+				}
+			}
+
+			return results, nil
+		})
+}
+
+func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 	testName := strings.TrimPrefix(t.Name(), "TestGolden/")
 
 	g := goldie.New(t)
@@ -52,7 +119,7 @@ func runGoldenTest(t *testing.T, path string) {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
 			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
-				astmodel.MakeLocalPackageReference("test", "v20200101"),
+				makeTestPackageReference(),
 				"Test",
 			))
 			defs, err := StripUnusedDefinitions(roots, defs)
@@ -113,8 +180,6 @@ func runGoldenTest(t *testing.T, path string) {
 		t.Fatalf("could not create code generator: %v", err)
 	}
 
-	hasResources := strings.HasPrefix(testName, "ArmResource")
-
 	// Snip out the bits of the code generator we know we need to override
 	var pipeline []PipelineStage
 	for _, stage := range codegen.pipeline {
@@ -126,9 +191,15 @@ func runGoldenTest(t *testing.T, path string) {
 			continue // Skip this
 		} else if stage.HasId("exportPackages") {
 			pipeline = append(pipeline, exportPackagesTestPipelineStage)
-		} else if stage.HasId("stripUnreferenced") && !hasResources {
+		} else if stage.HasId("removeAliases") && testConfig.InjectEmbeddedStruct {
+			// TODO: We should support a better way to inject new pieces of a pipeline, but for
+			// TODO: now this is fine
+			// Add embedded struct injection after removeTypeAliases
+			pipeline = append(pipeline, stage)
+			pipeline = append(pipeline, injectEmbeddedStructType())
+		} else if stage.HasId("stripUnreferenced") && !testConfig.HasArmResources {
 			pipeline = append(pipeline, stripUnusedTypesPipelineStage)
-		} else if stage.HasId("createArmTypes") && !hasResources {
+		} else if stage.HasId("createArmTypes") && !testConfig.HasArmResources {
 			continue
 		} else {
 			pipeline = append(pipeline, stage)
@@ -183,7 +254,8 @@ func TestGolden(t *testing.T) {
 	testGroups := make(map[string][]Test)
 
 	// find all input .json files
-	err := filepath.Walk("testdata", func(path string, info os.FileInfo, err error) error {
+	testDataRoot := "testdata"
+	err := filepath.Walk(testDataRoot, func(path string, info os.FileInfo, err error) error {
 		if filepath.Ext(path) == ".json" {
 			groupName := filepath.Base(filepath.Dir(path))
 			testName := strings.TrimSuffix(filepath.Base(path), ".json")
@@ -205,6 +277,13 @@ func TestGolden(t *testing.T) {
 	}
 
 	for groupName, fs := range testGroups {
+		configPath := fmt.Sprintf("%s/%s/config.yaml", testDataRoot, groupName)
+
+		testConfig, err := loadTestConfig(configPath)
+		if err != nil {
+			t.Fatalf("could not load test config: %v", err)
+		}
+
 		t.Run(groupName, func(t *testing.T) {
 			// safety check that there is at least one test in each group
 			if len(fs) == 0 {
@@ -212,8 +291,12 @@ func TestGolden(t *testing.T) {
 			}
 
 			for _, f := range fs {
+				// TODO: Remove this
+				if f.name != "Embedded_type_simple_resource" {
+					continue
+				}
 				t.Run(f.name, func(t *testing.T) {
-					runGoldenTest(t, f.path)
+					runGoldenTest(t, f.path, testConfig)
 				})
 			}
 		})

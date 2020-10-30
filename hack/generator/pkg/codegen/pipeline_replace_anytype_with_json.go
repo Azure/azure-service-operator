@@ -56,7 +56,7 @@ func replaceAnyTypeWithJSON() PipelineStage {
 			for _, def := range types {
 				d, err := visitor.VisitDefinition(def, nil)
 				if err != nil {
-					return nil, errors.Wrapf(err, "visiting %q", d.Name())
+					return nil, errors.Wrapf(err, "visiting %q", def.Name())
 				}
 				results.Add(*d)
 			}

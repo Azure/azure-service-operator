@@ -171,7 +171,7 @@ func IdentityVisitOfObjectType(this *TypeVisitor, it *ObjectType, ctx interface{
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			newEmbeddedProps = append(newProps, prop.WithType(p))
+			newEmbeddedProps = append(newEmbeddedProps, prop.WithType(p))
 		}
 	}
 
