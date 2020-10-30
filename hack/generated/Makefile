@@ -54,6 +54,7 @@ generate: $(CONTROLLER_GEN) $(CONVERSION_GEN) ## Generate code
 	# Force regeneration of all of the conversions
 	@echo "Deleting old deepcopy files"
 	$(Q) find "./apis" -type f -name "zz_generated.*" -delete
+	$(Q) find "./apis" -type d -empty -delete
 
 	@echo "Executing controller-gen to generate deepcopy functions"
 	$(Q) $(CONTROLLER_GEN) object:headerFile=../boilerplate.go.txt paths="./..."

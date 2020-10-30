@@ -82,6 +82,13 @@ exportFilters:
     group: microsoft.datafactory
     version: v20180601
     because: ExecuteSSISPackageActivityTypeProperties.PackageConnectionManagers is a map[string]map[string]SSISExecutionParameter, which controller-gen doesn't know how to handle
+  - action: include
+    group: microsoft.storage
+    version: v20190401
+    because: There are lots of storage types, we just want one
+  - action: exclude
+    group: microsoft.storage
+    because: There are lots of storage types, we just want one
 
 # Exclusions for packages that currently produce types including AnyType.
 # TODO: get rid of these, either by chasing the teams generating
