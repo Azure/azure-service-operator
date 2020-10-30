@@ -11,7 +11,8 @@ include ../../tools.mk
 CRD_OPTIONS     ?= "crd:crdVersions=v1,allowDangerousTypes=true"
 GO_DIRS         := $(shell $(GO) list -f '{{.Dir}}' ./...)
 # We exclude the apis folder because it's really large and test discovery takes a good amount of time (>10s)
-GO_DIRS_TO_TEST := $(shell $(GO) list -f '{{.Dir}}' ./... | grep -v /apis/)
+DIRS_TO_SKIP    := "/apis/(?!microsoft.resources)"
+GO_DIRS_TO_TEST := $(shell $(GO) list -f '{{.Dir}}' ./... | grep -Pv $(DIRS_TO_SKIP))
 CONTROLLER_DEBUG_LOGLEVEL := 4
 
 V = 0
@@ -34,7 +35,7 @@ ci: generate build  # test-cover or test-cover-int will be called by the CI job 
 
 .PHONY: lint
 lint: $(GOLANGCI_LINT) ; $(info $(M) running golangci configured linters…) ## Lint codebase
-	$(Q) $(GOLANGCI_LINT) run -v
+	$(Q) $(GOLANGCI_LINT) run -v $(GO_DIRS_TO_TEST)
 
 .PHONY: lint-full
 lint-full: $(GOLANGCI_LINT) ; $(info $(M) running golangci configured linters…) ## Run slower linters to detect possible issues
