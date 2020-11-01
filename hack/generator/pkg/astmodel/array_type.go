@@ -40,7 +40,7 @@ func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) ast
 }
 
 // RequiredPackageReferences returns a list of packages required by this
-func (array *ArrayType) RequiredPackageReferences() []PackageReference {
+func (array *ArrayType) RequiredPackageReferences() *PackageReferenceSet {
 	return array.element.RequiredPackageReferences()
 }
 

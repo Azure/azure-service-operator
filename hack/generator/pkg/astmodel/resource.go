@@ -231,17 +231,16 @@ func (definition *ResourceType) WithOwner(owner *TypeName) *ResourceType {
 }
 
 // RequiredPackageReferences returns a list of packages required by this
-func (definition *ResourceType) RequiredPackageReferences() []PackageReference {
-	references := definition.spec.RequiredPackageReferences()
+func (definition *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
+	references := NewPackageReferenceSet(MetaV1PackageReference)
+	references.Merge(definition.spec.RequiredPackageReferences())
 
 	if definition.status != nil {
-		references = append(references, definition.status.RequiredPackageReferences()...)
+		references.Merge(definition.status.RequiredPackageReferences())
 	}
 
-	references = append(references, MetaV1PackageReference)
-
 	// Interface imports
-	references = append(references, definition.InterfaceImplementer.RequiredPackageReferences()...)
+	references.Merge(definition.InterfaceImplementer.RequiredPackageReferences())
 
 	return references
 }

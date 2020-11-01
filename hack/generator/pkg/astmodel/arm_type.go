@@ -26,7 +26,7 @@ func NewArmType(object ObjectType) *ArmType {
 }
 
 // RequiredPackageReferences returns a list of packages required by this type
-func (at ArmType) RequiredPackageReferences() []PackageReference {
+func (at ArmType) RequiredPackageReferences() *PackageReferenceSet {
 	return at.objectType.RequiredPackageReferences()
 }
 

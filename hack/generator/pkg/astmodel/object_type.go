@@ -170,21 +170,24 @@ func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContex
 }
 
 // RequiredPackageReferences returns a list of packages required by this
-func (objectType *ObjectType) RequiredPackageReferences() []PackageReference {
-	var result []PackageReference
+func (objectType *ObjectType) RequiredPackageReferences() *PackageReferenceSet {
+	result := NewPackageReferenceSet()
+
 	for _, property := range objectType.embedded {
-		result = append(result, property.PropertyType().RequiredPackageReferences()...)
+		propertyType := property.PropertyType()
+		result.Merge(propertyType.RequiredPackageReferences())
 	}
 
 	for _, property := range objectType.properties {
-		result = append(result, property.PropertyType().RequiredPackageReferences()...)
+		propertyType := property.PropertyType()
+		result.Merge(propertyType.RequiredPackageReferences())
 	}
 
 	for _, function := range objectType.functions {
-		result = append(result, function.RequiredPackageReferences()...)
+		result.Merge(function.RequiredPackageReferences())
 	}
 
-	result = append(result, objectType.InterfaceImplementer.RequiredPackageReferences()...)
+	result.Merge(objectType.InterfaceImplementer.RequiredPackageReferences())
 
 	return result
 }

@@ -118,7 +118,7 @@ func (allOf AllOfType) AsDeclarations(_ *CodeGenerationContext, _ TypeName, _ []
 
 // RequiredPackageReferences always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (allOf AllOfType) RequiredPackageReferences() []PackageReference {
+func (allOf AllOfType) RequiredPackageReferences() *PackageReferenceSet {
 	panic("should have been replaced by generation time by 'convertAllOfAndOneOf' phase")
 }
 

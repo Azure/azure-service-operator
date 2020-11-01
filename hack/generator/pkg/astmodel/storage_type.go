@@ -41,7 +41,7 @@ func IsStorageDefinition(definition TypeDefinition) bool {
 }
 
 // RequiredImports returns a list of packages required by this type
-func (st *StorageType) RequiredPackageReferences() []PackageReference {
+func (st *StorageType) RequiredPackageReferences() *PackageReferenceSet {
 	return st.objectType.RequiredPackageReferences()
 }
 

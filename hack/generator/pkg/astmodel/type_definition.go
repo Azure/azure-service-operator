@@ -92,7 +92,7 @@ func AsSimpleDeclarations(codeGenerationContext *CodeGenerationContext, name Typ
 }
 
 // RequiredImports returns a list of packages required by this type
-func (def TypeDefinition) RequiredPackageReferences() []PackageReference {
+func (def TypeDefinition) RequiredPackageReferences() *PackageReferenceSet {
 	return def.theType.RequiredPackageReferences()
 }
 

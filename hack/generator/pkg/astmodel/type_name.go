@@ -71,8 +71,8 @@ func (typeName TypeName) References() TypeNameSet {
 }
 
 // RequiredPackageReferences returns all the imports required for this definition
-func (typeName TypeName) RequiredPackageReferences() []PackageReference {
-	return []PackageReference{typeName.PackageReference}
+func (typeName TypeName) RequiredPackageReferences() *PackageReferenceSet {
+	return NewPackageReferenceSet(typeName.PackageReference)
 }
 
 // Equals returns true if the passed type is the same TypeName, false otherwise

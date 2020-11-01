@@ -15,7 +15,7 @@ type Function interface {
 	// (You can't have two functions with the same name on the same object or resource)
 	Name() string
 
-	RequiredPackageReferences() []PackageReference
+	RequiredPackageReferences() *PackageReferenceSet
 
 	// References returns the set of types to which this function refers.
 	// Should *not* include the receiver of this function

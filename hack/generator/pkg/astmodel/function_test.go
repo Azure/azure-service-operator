@@ -24,10 +24,10 @@ func (fake *FakeFunction) Name() string {
 	return fake.name
 }
 
-func (fake *FakeFunction) RequiredPackageReferences() []PackageReference {
-	var result []PackageReference
+func (fake *FakeFunction) RequiredPackageReferences() *PackageReferenceSet {
+	result := NewPackageReferenceSet()
 	for k := range fake.Imported {
-		result = append(result, k)
+		result.AddReference(k)
 	}
 
 	return result

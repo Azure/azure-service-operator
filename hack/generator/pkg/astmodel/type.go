@@ -15,7 +15,7 @@ import (
 // Type represents something that is a Go type
 type Type interface {
 	// RequiredPackageReferences returns a set of packages imports required by this type
-	RequiredPackageReferences() []PackageReference
+	RequiredPackageReferences() *PackageReferenceSet
 
 	// References returns the names of all types that this type
 	// references. For example, an Array of Persons references a
