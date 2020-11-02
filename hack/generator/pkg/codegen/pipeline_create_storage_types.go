@@ -167,8 +167,7 @@ func (factory *StorageTypeFactory) makeStorageProperty(
 func (factory *StorageTypeFactory) preserveKubernetesResourceStorageProperties(
 	prop *astmodel.PropertyDefinition,
 	_ StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error) {
-	if prop.HasName(astmodel.AzureNameProperty) ||
-		prop.HasName(astmodel.OwnerProperty) {
+	if astmodel.IsKubernetesResourceProperty(prop.PropertyName()) {
 		// Keep these unchanged
 		return prop, nil
 	}

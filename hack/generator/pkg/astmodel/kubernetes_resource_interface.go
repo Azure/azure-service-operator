@@ -98,6 +98,11 @@ func (k *objectFunction) Equals(f Function) bool {
 	return k.o.Equals(typedF.o)
 }
 
+// IsKubernetesResourceProperty returns true if the supplied property name is one of our "magical" names
+func IsKubernetesResourceProperty(name PropertyName) bool {
+	return name == AzureNameProperty || name == OwnerProperty
+}
+
 func ownerFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
 	receiverIdent := ast.NewIdent(k.idFactory.CreateIdentifier(receiver.Name(), NotExported))
 	receiverType := receiver.AsType(codeGenerationContext)
