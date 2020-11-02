@@ -21,7 +21,7 @@ func Test_NewPackageImport_GivenValues_InitializesFields(t *testing.T) {
 	pr := MakeLocalPackageReference("group", "ver")
 	pi := NewPackageImport(pr)
 
-	g.Expect(pi.PackageReference).To(Equal(pr))
+	g.Expect(pi.packageReference).To(Equal(pr))
 	g.Expect(pi.name).To(BeEmpty())
 }
 

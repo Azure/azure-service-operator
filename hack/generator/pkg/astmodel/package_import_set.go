@@ -23,10 +23,10 @@ func NewPackageImportSet() *PackageImportSet {
 // If the set already contains an UNNAMED import for the same reference, it's overwritten, as we
 // prefer named imports
 func (set *PackageImportSet) AddImport(packageImport PackageImport) {
-	imp, ok := set.imports[packageImport.PackageReference]
+	imp, ok := set.imports[packageImport.packageReference]
 	if !ok || imp.name == "" {
 		// Don't have this import already, or the one we have has no name
-		set.imports[packageImport.PackageReference] = packageImport
+		set.imports[packageImport.packageReference] = packageImport
 	}
 }
 
@@ -46,12 +46,12 @@ func (set *PackageImportSet) Merge(other *PackageImportSet) {
 // Remove ensures the specified item is not present
 // Removing an item not in the set is not an error.
 func (set *PackageImportSet) Remove(packageImport PackageImport) {
-	delete(set.imports, packageImport.PackageReference)
+	delete(set.imports, packageImport.packageReference)
 }
 
 // Contains allows checking to see if an import is included
 func (set *PackageImportSet) ContainsImport(packageImport PackageImport) bool {
-	if imp, ok := set.imports[packageImport.PackageReference]; ok {
+	if imp, ok := set.imports[packageImport.packageReference]; ok {
 		return imp.Equals(packageImport)
 	}
 
@@ -123,11 +123,11 @@ func ByNameInGroups(left PackageImport, right PackageImport) bool {
 	}
 
 	// Explicit names are the same
-	if IsLocalPackageReference(left.PackageReference) != IsLocalPackageReference(right.PackageReference) {
+	if IsLocalPackageReference(left.packageReference) != IsLocalPackageReference(right.packageReference) {
 		// if left is local, right is not, left goes first, and vice versa
-		return IsLocalPackageReference(left.PackageReference)
+		return IsLocalPackageReference(left.packageReference)
 	}
 
 	// Explicit names are the same, both local or both external
-	return left.PackageReference.String() < right.PackageReference.String()
+	return left.packageReference.String() < right.packageReference.String()
 }

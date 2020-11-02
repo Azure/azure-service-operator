@@ -13,7 +13,7 @@ import (
 
 // PackageImport represents an import of a name from a package
 type PackageImport struct {
-	PackageReference PackageReference
+	packageReference PackageReference
 	name             string
 }
 
@@ -22,7 +22,7 @@ var _ fmt.Stringer = &PackageImport{}
 // NewPackageImport creates a new package import from a reference
 func NewPackageImport(packageReference PackageReference) PackageImport {
 	return PackageImport{
-		PackageReference: packageReference,
+		packageReference: packageReference,
 	}
 }
 
@@ -42,7 +42,7 @@ func (pi PackageImport) AsImportSpec() *ast.ImportSpec {
 		Name: name,
 		Path: &ast.BasicLit{
 			Kind:  token.STRING,
-			Value: "\"" + pi.PackageReference.PackagePath() + "\"",
+			Value: "\"" + pi.packageReference.PackagePath() + "\"",
 		},
 	}
 }
@@ -53,17 +53,12 @@ func (pi PackageImport) PackageName() string {
 		return pi.name
 	}
 
-	return pi.PackageReference.PackageName()
-}
-
-// PackagePath is the full path of the package reference
-func (pi PackageImport) PackagePath() string {
-	return pi.PackageReference.PackagePath()
+	return pi.packageReference.PackageName()
 }
 
 // Equals returns true if the passed package reference references the same package, false otherwise
 func (pi PackageImport) Equals(ref PackageImport) bool {
-	packagesEqual := pi.PackageReference.Equals(ref.PackageReference)
+	packagesEqual := pi.packageReference.Equals(ref.packageReference)
 	namesEqual := pi.name == ref.name
 
 	return packagesEqual && namesEqual
@@ -71,8 +66,8 @@ func (pi PackageImport) Equals(ref PackageImport) bool {
 
 func (pi PackageImport) String() string {
 	if len(pi.name) > 0 {
-		return fmt.Sprintf("%v %v", pi.name, pi.PackageReference)
+		return fmt.Sprintf("%v %v", pi.name, pi.packageReference)
 	}
 
-	return pi.PackageReference.String()
+	return pi.packageReference.String()
 }
