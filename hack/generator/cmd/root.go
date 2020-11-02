@@ -8,8 +8,6 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
-
-	"github.com/Azure/k8s-infra/hack/generator/cmd/gen"
 )
 
 // Execute kicks off the command line
@@ -34,7 +32,7 @@ func newRootCommand() (*cobra.Command, error) {
 	rootCmd.Flags().SortFlags = false
 
 	cmdFuncs := []func() (*cobra.Command, error){
-		gen.NewGenCommand,
+		NewGenTypesCommand,
 	}
 
 	for _, f := range cmdFuncs {

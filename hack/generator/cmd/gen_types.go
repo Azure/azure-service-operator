@@ -3,27 +3,26 @@
  * Licensed under the MIT license.
  */
 
-package gen
+package cmd
 
 import (
 	"context"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/codegen"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/xcobra"
 )
 
-// NewGenCommand creates a new cobra Command when invoked from the command line
-func NewGenCommand() (*cobra.Command, error) {
+// NewGenTypesCommand creates a new cobra Command when invoked from the command line
+func NewGenTypesCommand() (*cobra.Command, error) {
 	cmd := &cobra.Command{
 		// TODO: there's not great support for required
 		// TODO: arguments in cobra so this is the best we get... see:
 		// TODO: https://github.com/spf13/cobra/issues/395
-		Use:   "gen <config>",
+		Use:   "gen-types <config>",
 		Short: "generate K8s infrastructure resources from Azure deployment template schema",
 		Args:  cobra.ExactArgs(1),
 		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
@@ -47,11 +46,6 @@ func NewGenCommand() (*cobra.Command, error) {
 
 			return nil
 		}),
-	}
-
-	cmd.Flags().StringArrayP("resources", "r", nil, "list of resource type / versions to generate")
-	if err := viper.BindPFlag("resources", cmd.Flags().Lookup("resources")); err != nil {
-		return cmd, err
 	}
 
 	return cmd, nil

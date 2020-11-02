@@ -24,7 +24,7 @@ ci: build test-cover gen-arm
 
 .PHONY: gen-arm
 gen-arm: build ; $(info $(M) running k8sinfra-gen gen…) @ ## Running gen
-	$(Q) ./bin/$(APP) gen azure-arm.yaml
+	$(Q) ./bin/$(APP) gen-types azure-arm.yaml
 	# Run with verbosity 4 to see a stack trace for errors.
 	# $(Q) ./bin/$(APP) gen azure-arm.yaml -v 4
 
