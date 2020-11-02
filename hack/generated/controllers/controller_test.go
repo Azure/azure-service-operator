@@ -25,7 +25,7 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// It should be created in Kubernetes
-	g.Eventually(rg).Should(testContext.MatcherMaker.BeProvisioned(ctx))
+	g.Eventually(rg).Should(testContext.Match.BeProvisioned(ctx))
 
 	g.Expect(rg.Status.Location).To(Equal(testContext.AzureRegion))
 	g.Expect(rg.Status.Properties.ProvisioningState).To(Equal(string(armclient.SucceededProvisioningState)))
@@ -35,7 +35,7 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 	// Delete the resource group
 	err = testContext.KubeClient.Delete(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Eventually(rg).Should(testContext.MatcherMaker.BeDeleted(ctx))
+	g.Eventually(rg).Should(testContext.Match.BeDeleted(ctx))
 
 	// Ensure that the resource group was really deleted in Azure
 	// TODO: Do we want to just use an SDK here? This process is quite icky as is...
@@ -76,7 +76,7 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// It should be created in Kubernetes
-	g.Eventually(acct).Should(testContext.MatcherMaker.BeProvisioned(ctx))
+	g.Eventually(acct).Should(testContext.Match.BeProvisioned(ctx))
 
 	g.Expect(acct.Status.Location).To(Equal(testContext.AzureRegion))
 	expectedKind := storage.StorageAccountStatusKindBlobStorage
@@ -87,7 +87,7 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 	// Delete the storage account
 	err = testContext.KubeClient.Delete(ctx, acct)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Eventually(acct).Should(testContext.MatcherMaker.BeDeleted(ctx))
+	g.Eventually(acct).Should(testContext.Match.BeDeleted(ctx))
 
 	// Ensure that the resource group was really deleted in Azure
 	// TODO: Do we want to just use an SDK here? This process is quite icky as is...

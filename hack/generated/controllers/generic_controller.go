@@ -384,13 +384,18 @@ func (gr *GenericReconciler) MonitorDeployment(ctx context.Context, action Recon
 			return errors.Wrapf(err, "getting deployment %q from ARM", deployment.Id)
 		}
 
-		if deployment.Properties != nil && deployment.Properties.ProvisioningState == armclient.SucceededProvisioningState {
+		if deployment.IsSuccessful() {
 			// TODO: There's some overlap here with what Update does
 			if len(deployment.Properties.OutputResources) == 0 {
 				return errors.Errorf("template deployment didn't have any output resources")
 			}
 
-			status, err = gr.getStatus(ctx, deployment.Properties.OutputResources[0].ID, data)
+			resourceID, err := deployment.ResourceID()
+			if err != nil {
+				return errors.Wrap(err, "getting resource ID from resource")
+			}
+
+			status, err = gr.getStatus(ctx, resourceID, data)
 			if err != nil {
 				return errors.Wrap(err, "getting status from ARM")
 			}

@@ -46,7 +46,7 @@ func SetupTeardownTestMain(
 
 	// safety check before calling testing.Short()
 	if !flag.CommandLine.Parsed() {
-		panic("flag.Parse must have been invoked")
+		flag.Parse()
 	}
 
 	if skipSlowTests && testing.Short() {

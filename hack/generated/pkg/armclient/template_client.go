@@ -8,110 +8,109 @@ package armclient
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/go-autorest/autorest/azure"
+	"os"
+	"strings"
+	"time"
+
 	"github.com/Azure/go-autorest/autorest/azure/auth"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
-	"strings"
+
+	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 )
 
-type (
-	// TODO: Naming?
-	Applier interface {
-		CreateDeployment(ctx context.Context, deployment *Deployment) (*Deployment, error)
-		DeleteDeployment(ctx context.Context, deploymentId string) error
-		GetDeployment(ctx context.Context, deploymentId string) (*Deployment, error)
-		NewResourceGroupDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
-		NewSubscriptionDeployment(location string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
+// TODO: Naming?
+type Applier interface {
+	CreateDeployment(ctx context.Context, deployment *Deployment) (*Deployment, error)
+	DeleteDeployment(ctx context.Context, deploymentId string) error
+	GetDeployment(ctx context.Context, deploymentId string) (*Deployment, error)
+	NewResourceGroupDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
+	NewSubscriptionDeployment(location string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
 
-		// TODO: These functions take an empty status and fill it out with the response from Azure (rather than as
-		// TODO: the return type. I don't love that pattern but don't have a better one either.
-		BeginDeleteResource(ctx context.Context, id string, apiVersion string, status genruntime.ArmResourceStatus) error
-		GetResource(ctx context.Context, id string, apiVersion string, status genruntime.ArmResourceStatus) error
-		HeadResource(ctx context.Context, id string, apiVersion string) (bool, error)
-	}
+	// TODO: These functions take an empty status and fill it out with the response from Azure (rather than as
+	// TODO: the return type. I don't love that pattern but don't have a better one either.
+	BeginDeleteResource(ctx context.Context, id string, apiVersion string, status genruntime.ArmResourceStatus) error
+	GetResource(ctx context.Context, id string, apiVersion string, status genruntime.ArmResourceStatus) error
+	HeadResource(ctx context.Context, id string, apiVersion string) (bool, error)
+}
 
-	AzureTemplateClient struct {
-		RawClient      *Client
-		Logger         logr.Logger
-		SubscriptionID string
-	}
+type AzureTemplateClient struct {
+	RawClient      *Client
+	Logger         logr.Logger
+	SubscriptionID string
+}
 
-	Template struct {
-		Schema         string            `json:"$schema,omitempty"`
-		ContentVersion string            `json:"contentVersion,omitempty"`
-		Parameters     interface{}       `json:"parameters,omitempty"`
-		Variables      interface{}       `json:"variables,omitempty"`
-		Resources      []interface{}     `json:"resources,omitempty"`
-		Outputs        map[string]Output `json:"outputs,omitempty"`
-	}
+type Template struct {
+	Schema         string            `json:"$schema,omitempty"`
+	ContentVersion string            `json:"contentVersion,omitempty"`
+	Parameters     interface{}       `json:"parameters,omitempty"`
+	Variables      interface{}       `json:"variables,omitempty"`
+	Resources      []interface{}     `json:"resources,omitempty"`
+	Outputs        map[string]Output `json:"outputs,omitempty"`
+}
 
-	// TODO: Do we want/need this?
-	Output struct {
-		Condition string `json:"condition,omitempty"`
-		Type      string `json:"type,omitempty"`
-		Value     string `json:"value,omitempty"`
-	}
+type Output struct {
+	Condition string `json:"condition,omitempty"`
+	Type      string `json:"type,omitempty"`
+	Value     string `json:"value,omitempty"`
+}
 
-	/*
-		TemplateResourceObjectOutput represents the structure output from a deployment template for a given resource when
-		requesting a 'Full' representation. The structure for a resource group is as follows:
-		    {
-			  "apiVersion": "2018-05-01",
-			  "location": "westus2",
-			  "properties": {
-			    "provisioningState": "Succeeded"
-			  },
-			  "subscriptionId": "guid",
-			  "scope": "",
-			  "resourceId": "Microsoft.Resources/resourceGroups/foo",
-			  "referenceApiVersion": "2018-05-01",
-			  "condition": true,
-			  "isConditionTrue": true,
-			  "isTemplateResource": false,
-			  "isAction": false,
-			  "provisioningOperation": "Read"
-		    }
-	*/
-	TemplateResourceObjectOutput struct {
-		APIVersion            string      `json:"apiVersion,omitempty"`
-		Location              string      `json:"location,omitempty"`
-		Properties            interface{} `json:"properties,omitempty"`
-		SubscriptionID        string      `json:"subscriptionId,omitempty"`
-		Scope                 string      `json:"scope,omitempty"`
-		ID                    string      `json:"id,omitempty"`
-		ResourceID            string      `json:"resourceId,omitempty"`
-		ReferenceAPIVersion   string      `json:"referenceApiVersion,omitempty"`
-		Condition             *bool       `json:"condition,omitempty"`
-		IsCondition           *bool       `json:"isConditionTrue,omitempty"`
-		IsTemplateResource    *bool       `json:"isTemplateResource,omitempty"`
-		IsAction              *bool       `json:"isAction,omitempty"`
-		ProvisioningOperation string      `json:"provisioningOperation,omitempty"`
-	}
+/*
+	TemplateResourceObjectOutput represents the structure output from a deployment template for a given resource when
+	requesting a 'Full' representation. The structure for a resource group is as follows:
+		{
+		  "apiVersion": "2018-05-01",
+		  "location": "westus2",
+		  "properties": {
+			"provisioningState": "Succeeded"
+		  },
+		  "subscriptionId": "guid",
+		  "scope": "",
+		  "resourceId": "Microsoft.Resources/resourceGroups/foo",
+		  "referenceApiVersion": "2018-05-01",
+		  "condition": true,
+		  "isConditionTrue": true,
+		  "isTemplateResource": false,
+		  "isAction": false,
+		  "provisioningOperation": "Read"
+		}
+*/
+type TemplateResourceObjectOutput struct {
+	APIVersion            string      `json:"apiVersion,omitempty"`
+	Location              string      `json:"location,omitempty"`
+	Properties            interface{} `json:"properties,omitempty"`
+	SubscriptionID        string      `json:"subscriptionId,omitempty"`
+	Scope                 string      `json:"scope,omitempty"`
+	ID                    string      `json:"id,omitempty"`
+	ResourceID            string      `json:"resourceId,omitempty"`
+	ReferenceAPIVersion   string      `json:"referenceApiVersion,omitempty"`
+	Condition             *bool       `json:"condition,omitempty"`
+	IsCondition           *bool       `json:"isConditionTrue,omitempty"`
+	IsTemplateResource    *bool       `json:"isTemplateResource,omitempty"`
+	IsAction              *bool       `json:"isAction,omitempty"`
+	ProvisioningOperation string      `json:"provisioningOperation,omitempty"`
+}
 
-	TemplateOutput struct {
-		Type  string                       `json:"type,omitempty"`
-		Value TemplateResourceObjectOutput `json:"value,omitempty"`
-	}
+type TemplateOutput struct {
+	Type  string                       `json:"type,omitempty"`
+	Value TemplateResourceObjectOutput `json:"value,omitempty"`
+}
 
-	ClientConfig struct {
-		Env    Enver
-		Logger logr.Logger
-	}
+type RetryConfig struct {
+	Attempts   int
+	Backoff    time.Duration
+	MaxBackoff time.Duration
+}
 
-	AzureTemplateClientOption func(config *ClientConfig) *ClientConfig
-)
+type ClientConfig struct {
+	Logger  logr.Logger
+	Retries *RetryConfig
+}
+
+type AzureTemplateClientOption func(config *ClientConfig) *ClientConfig
 
 var _ Applier = &AzureTemplateClient{}
-
-func WithEnv(env Enver) func(*ClientConfig) *ClientConfig {
-	return func(cfg *ClientConfig) *ClientConfig {
-		cfg.Env = env
-		return cfg
-	}
-}
 
 func WithLogger(logger logr.Logger) func(*ClientConfig) *ClientConfig {
 	return func(cfg *ClientConfig) *ClientConfig {
@@ -120,9 +119,23 @@ func WithLogger(logger logr.Logger) func(*ClientConfig) *ClientConfig {
 	}
 }
 
+func WithRetries(retries *RetryConfig) func(*ClientConfig) *ClientConfig {
+	return func(cfg *ClientConfig) *ClientConfig {
+		cfg.Retries = retries
+		return cfg
+	}
+}
+
+func WithDefaultRetries() func(*ClientConfig) *ClientConfig {
+	return WithRetries(&RetryConfig{
+		Attempts:   5,
+		Backoff:    2 * time.Second,
+		MaxBackoff: 30 * time.Second,
+	})
+}
+
 func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateClient, error) {
 	cfg := &ClientConfig{
-		Env:    new(stdEnv),
 		Logger: ctrl.Log.WithName("azure_template_client"),
 	}
 
@@ -130,12 +143,12 @@ func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateCl
 		opt(cfg)
 	}
 
-	subID := cfg.Env.GetEnv(auth.SubscriptionID)
+	subID := os.Getenv(auth.SubscriptionID)
 	if subID == "" {
 		return nil, errors.Errorf("env var %q was not set", auth.SubscriptionID)
 	}
 
-	envSettings, err := GetSettingsFromEnvironment(cfg.Env)
+	envSettings, err := auth.GetSettingsFromEnvironment()
 	if err != nil {
 		return nil, err
 	}
@@ -145,9 +158,13 @@ func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateCl
 		return nil, err
 	}
 
-	rawClient, err := NewClient(authorizer)
-	if err != nil {
-		return nil, err
+	rawClient := NewClient(authorizer)
+
+	if cfg.Retries != nil {
+		rawClient = rawClient.WithExponentialRetries(
+			cfg.Retries.Attempts,
+			cfg.Retries.Backoff,
+			cfg.Retries.MaxBackoff)
 	}
 
 	return &AzureTemplateClient{
@@ -252,7 +269,7 @@ func (atc *AzureTemplateClient) HeadResource(ctx context.Context, id string, api
 	}
 
 	idAndAPIVersion := id + fmt.Sprintf("?api-version=%s", apiVersion)
-	err := atc.RawClient.GetResource(ctx, idAndAPIVersion, nil, nil)
+	err := atc.RawClient.GetResource(ctx, idAndAPIVersion, nil)
 	switch {
 	case IsNotFound(err):
 		return false, nil
@@ -263,38 +280,14 @@ func (atc *AzureTemplateClient) HeadResource(ctx context.Context, id string, api
 	}
 }
 
-// GetSettingsFromEnvironment returns the available authentication settings from the environment.
-func GetSettingsFromEnvironment(env Enver) (auth.EnvironmentSettings, error) {
-	var err error
-	result := auth.EnvironmentSettings{
-		Values: map[string]string{},
+func MakeArmResourceId(subscriptionId string, segments ...string) (string, error) {
+	// There should be an even number of segments
+	if len(segments)%2 != 0 {
+		return "", errors.Errorf("expected even number of ARM resource ID segments, got: %d", len(segments))
 	}
 
-	setValue(result, env, auth.SubscriptionID)
-	setValue(result, env, auth.TenantID)
-	setValue(result, env, auth.AuxiliaryTenantIDs)
-	setValue(result, env, auth.ClientID)
-	setValue(result, env, auth.ClientSecret)
-	setValue(result, env, auth.CertificatePath)
-	setValue(result, env, auth.CertificatePassword)
-	setValue(result, env, auth.Username)
-	setValue(result, env, auth.Password)
-	setValue(result, env, auth.EnvironmentName)
-	setValue(result, env, auth.Resource)
-	if v := result.Values[auth.EnvironmentName]; v == "" {
-		result.Environment = azure.PublicCloud
-	} else {
-		result.Environment, err = azure.EnvironmentFromName(v)
-	}
-	if result.Values[auth.Resource] == "" {
-		result.Values[auth.Resource] = result.Environment.ResourceManagerEndpoint
-	}
-	return result, err
-}
+	start := "/subscriptions/" + subscriptionId
+	remaining := strings.Join(segments, "/")
 
-// adds the specified environment variable value to the Values map if it exists
-func setValue(settings auth.EnvironmentSettings, env Enver, key string) {
-	if v := env.GetEnv(key); v != "" {
-		settings.Values[key] = v
-	}
+	return start + "/" + remaining, nil
 }

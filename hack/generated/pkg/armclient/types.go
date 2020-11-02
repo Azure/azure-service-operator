@@ -218,6 +218,25 @@ func (d *Deployment) ProvisioningStateOrUnknown() string {
 	return string(d.Properties.ProvisioningState)
 }
 
+func (d *Deployment) IsSuccessful() bool {
+	return d.Properties != nil && d.Properties.ProvisioningState == SucceededProvisioningState
+}
+
+func (d *Deployment) ResourceID() (string, error) {
+	if !d.IsTerminalProvisioningState() {
+		return "", errors.New("deployment not finished yet, cannot get resource id")
+	}
+	if !d.IsSuccessful() {
+		return "", errors.New("deployment failed, cannot get resource id")
+	}
+
+	if d.Properties == nil || len(d.Properties.OutputResources) == 0 {
+		return "", errors.New("deployment didn't have any output resources")
+	}
+
+	return d.Properties.OutputResources[0].ID, nil
+}
+
 func idWithAPIVersion(resourceID string) string {
 	return resourceID + "?api-version=2019-10-01"
 }
