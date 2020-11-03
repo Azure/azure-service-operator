@@ -16,7 +16,7 @@ import (
 type AzureBlobContainerManager struct{}
 
 func getContainerClient() (s.BlobContainersClient, error) {
-	containersClient := s.NewBlobContainersClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	containersClient := s.NewBlobContainersClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	auth, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return s.BlobContainersClient{}, err

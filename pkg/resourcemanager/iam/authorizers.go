@@ -40,7 +40,7 @@ func grantType() OAuthGrantType {
 	if config.UseDeviceFlow() {
 		return OAuthGrantTypeDeviceFlow
 	}
-	if config.UseMI() {
+	if config.GlobalCredentials().UseMI() {
 		return OAuthGrantTypeMI
 	}
 	return OAuthGrantTypeServicePrincipal
@@ -143,7 +143,7 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 	vaultEndpoint := strings.TrimSuffix(config.Environment().KeyVaultEndpoint, "/")
 	// BUG: alternateEndpoint replaces other endpoints in the configs below
 	alternateEndpoint, _ := url.Parse(
-		"https://login.windows.net/" + config.TenantID() + "/oauth2/token")
+		"https://login.windows.net/" + config.GlobalCredentials().TenantID() + "/oauth2/token")
 
 	var a autorest.Authorizer
 	var err error
@@ -151,14 +151,14 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 	switch grantType() {
 	case OAuthGrantTypeServicePrincipal:
 		oauthconfig, err := adal.NewOAuthConfig(
-			config.Environment().ActiveDirectoryEndpoint, config.TenantID())
+			config.Environment().ActiveDirectoryEndpoint, config.GlobalCredentials().TenantID())
 		if err != nil {
 			return a, err
 		}
 		oauthconfig.AuthorizeEndpoint = *alternateEndpoint
 
 		token, err := adal.NewServicePrincipalToken(
-			*oauthconfig, config.ClientID(), config.ClientSecret(), vaultEndpoint)
+			*oauthconfig, config.GlobalCredentials().ClientID(), config.GlobalCredentials().ClientSecret(), vaultEndpoint)
 		if err != nil {
 			return a, err
 		}
@@ -179,7 +179,7 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 		a = autorest.NewBearerAuthorizer(token)
 
 	case OAuthGrantTypeDeviceFlow:
-		deviceConfig := auth.NewDeviceFlowConfig(config.ClientID(), config.TenantID())
+		deviceConfig := auth.NewDeviceFlowConfig(config.GlobalCredentials().ClientID(), config.GlobalCredentials().TenantID())
 		deviceConfig.Resource = vaultEndpoint
 		deviceConfig.AADEndpoint = alternateEndpoint.String()
 		a, err = deviceConfig.Authorizer()
@@ -204,13 +204,13 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 	switch grantType() {
 	case OAuthGrantTypeServicePrincipal:
 		oauthConfig, err := adal.NewOAuthConfig(
-			config.Environment().ActiveDirectoryEndpoint, config.TenantID())
+			config.Environment().ActiveDirectoryEndpoint, config.GlobalCredentials().TenantID())
 		if err != nil {
 			return nil, err
 		}
 
 		token, err := adal.NewServicePrincipalToken(
-			*oauthConfig, config.ClientID(), config.ClientSecret(), resource)
+			*oauthConfig, config.GlobalCredentials().ClientID(), config.GlobalCredentials().ClientSecret(), resource)
 		if err != nil {
 			return nil, err
 		}
@@ -230,7 +230,7 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 		a = autorest.NewBearerAuthorizer(token)
 
 	case OAuthGrantTypeDeviceFlow:
-		deviceconfig := auth.NewDeviceFlowConfig(config.ClientID(), config.TenantID())
+		deviceconfig := auth.NewDeviceFlowConfig(config.GlobalCredentials().ClientID(), config.GlobalCredentials().TenantID())
 		deviceconfig.Resource = resource
 		a, err = deviceconfig.Authorizer()
 		if err != nil {
@@ -262,11 +262,11 @@ func GetMSITokenForResource(resource string) (*adal.ServicePrincipalToken, error
 // GetResourceManagementTokenHybrid retrieves auth token for hybrid environment
 func GetResourceManagementTokenHybrid(activeDirectoryEndpoint, tokenAudience string) (adal.OAuthTokenProvider, error) {
 	var tokenProvider adal.OAuthTokenProvider
-	oauthConfig, err := adal.NewOAuthConfig(activeDirectoryEndpoint, config.TenantID())
+	oauthConfig, err := adal.NewOAuthConfig(activeDirectoryEndpoint, config.GlobalCredentials().TenantID())
 	tokenProvider, err = adal.NewServicePrincipalToken(
 		*oauthConfig,
-		config.ClientID(),
-		config.ClientSecret(),
+		config.GlobalCredentials().ClientID(),
+		config.GlobalCredentials().ClientSecret(),
 		tokenAudience)
 
 	return tokenProvider, err

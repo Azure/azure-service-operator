@@ -52,9 +52,9 @@ func ParseEnvironment() error {
 
 	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "westus2")          // DefaultLocation()
 	useDeviceFlow = ParseBoolFromEnvironment("AZURE_USE_DEVICEFLOW")         // UseDeviceFlow()
-	useMI = ParseBoolFromEnvironment("AZURE_USE_MI")                         // UseMI()
+	credentials.useMI = ParseBoolFromEnvironment("AZURE_USE_MI")             // UseMI()
 	keepResources = ParseBoolFromEnvironment("AZURE_SAMPLES_KEEP_RESOURCES") // KeepResources()
-	operatorKeyvault = envy.Get("AZURE_OPERATOR_KEYVAULT", "")               // operatorKeyvault()
+	credentials.operatorKeyvault = envy.Get("AZURE_OPERATOR_KEYVAULT", "")   // operatorKeyvault()
 	testResourcePrefix = envy.Get("TEST_RESOURCE_PREFIX", "t-"+helpers.RandomString(6))
 
 	var err error
@@ -62,22 +62,22 @@ func ParseEnvironment() error {
 	for _, requirement := range GetRequiredConfigs() {
 		switch requirement {
 		case RequireClientID:
-			clientID, err = envy.MustGet("AZURE_CLIENT_ID") // ClientID()
+			credentials.clientID, err = envy.MustGet("AZURE_CLIENT_ID") // ClientID()
 			if err != nil {
 				return fmt.Errorf("expected env vars not provided (AZURE_CLIENT_ID): %s\n", err)
 			}
 		case RequireClientSecret:
-			clientSecret, err = envy.MustGet("AZURE_CLIENT_SECRET") // ClientSecret()
+			credentials.clientSecret, err = envy.MustGet("AZURE_CLIENT_SECRET") // ClientSecret()
 			if err != nil {
 				return fmt.Errorf("expected env vars not provided (AZURE_CLIENT_SECRET): %s\n", err)
 			}
 		case RequireTenantID:
-			tenantID, err = envy.MustGet("AZURE_TENANT_ID") // TenantID()
+			credentials.tenantID, err = envy.MustGet("AZURE_TENANT_ID") // TenantID()
 			if err != nil {
 				return fmt.Errorf("expected env vars not provided (AZURE_TENANT_ID): %s\n", err)
 			}
 		case RequireSubscriptionID:
-			subscriptionID, err = envy.MustGet("AZURE_SUBSCRIPTION_ID") // SubscriptionID()
+			credentials.subscriptionID, err = envy.MustGet("AZURE_SUBSCRIPTION_ID") // SubscriptionID()
 			if err != nil {
 				return fmt.Errorf("expected env vars not provided (AZURE_SUBSCRIPTION_ID): %s\n", err)
 			}
@@ -92,7 +92,7 @@ func GetRequiredConfigs() []ConfigRequirementType {
 		// Device flow required Configs
 		return []ConfigRequirementType{RequireClientID, RequireTenantID, RequireSubscriptionID}
 	}
-	if useMI {
+	if credentials.useMI {
 		// Managed Service Identity required Configs
 		return []ConfigRequirementType{RequireTenantID, RequireSubscriptionID}
 	}

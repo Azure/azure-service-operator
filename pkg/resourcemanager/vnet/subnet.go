@@ -22,7 +22,7 @@ func NewAzureSubnetManager() *AzureSubnetManager {
 
 // getSubnetClient returns a new instance of an subnet client
 func getSubnetClient() (vnetwork.SubnetsClient, error) {
-	client := vnetwork.NewSubnetsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	client := vnetwork.NewSubnetsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		client = vnetwork.SubnetsClient{}

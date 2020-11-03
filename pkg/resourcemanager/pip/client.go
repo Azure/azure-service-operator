@@ -27,7 +27,7 @@ func NewAzurePublicIPAddressClient(secretclient secrets.SecretClient, scheme *ru
 }
 
 func getPublicIPAddressClient() vnetwork.PublicIPAddressesClient {
-	pipClient := vnetwork.NewPublicIPAddressesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	pipClient := vnetwork.NewPublicIPAddressesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	pipClient.Authorizer = a
 	pipClient.AddToUserAgent(config.UserAgent())

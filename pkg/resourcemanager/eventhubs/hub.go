@@ -32,7 +32,7 @@ type azureEventHubManager struct {
 }
 
 func getHubsClient() (eventhub.EventHubsClient, error) {
-	hubClient := eventhub.NewEventHubsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	hubClient := eventhub.NewEventHubsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	auth, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return eventhub.EventHubsClient{}, err
@@ -414,7 +414,7 @@ func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescriptio
 	var capturePtr *model.CaptureDescription
 
 	storage := captureDescription.Destination.StorageAccount
-	storageAccountResourceID := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
+	storageAccountResourceID := fmt.Sprintf(storageAccountResourceFmt, config.GlobalCredentials().SubscriptionID(), storage.ResourceGroup, storage.AccountName)
 
 	if captureDescription.Enabled {
 		capturePtr = &model.CaptureDescription{

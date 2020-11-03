@@ -28,7 +28,7 @@ func NewAzureLoadBalancerClient(secretclient secrets.SecretClient, scheme *runti
 }
 
 func getLoadBalancerClient() vnetwork.LoadBalancersClient {
-	lbClient := vnetwork.NewLoadBalancersClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	lbClient := vnetwork.NewLoadBalancersClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	lbClient.Authorizer = a
 	lbClient.AddToUserAgent(config.UserAgent())

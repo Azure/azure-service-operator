@@ -81,7 +81,7 @@ func ParseNetworkPolicy(ruleSet *v1alpha1.StorageNetworkRuleSet) storage.Network
 }
 
 func getStoragesClient() (storage.AccountsClient, error) {
-	storagesClient := storage.NewAccountsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	storagesClient := storage.NewAccountsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return storage.AccountsClient{}, err

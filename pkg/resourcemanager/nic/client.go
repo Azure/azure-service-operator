@@ -27,7 +27,7 @@ func NewAzureNetworkInterfaceClient(secretclient secrets.SecretClient, scheme *r
 }
 
 func getNetworkInterfaceClient() vnetwork.InterfacesClient {
-	nicClient := vnetwork.NewInterfacesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	nicClient := vnetwork.NewInterfacesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	nicClient.Authorizer = a
 	nicClient.AddToUserAgent(config.UserAgent())

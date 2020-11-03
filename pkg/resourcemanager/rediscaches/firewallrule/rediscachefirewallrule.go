@@ -25,7 +25,7 @@ func NewAzureRedisCacheFirewallRuleManager() *AzureRedisCacheFirewallRuleManager
 
 // getRedisCacheFirewallRuleClient retrieves a firewallrules client
 func getRedisCacheFirewallRuleClient() (redis.FirewallRulesClient, error) {
-	firewallRulesClient := redis.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	firewallRulesClient := redis.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return redis.FirewallRulesClient{}, err

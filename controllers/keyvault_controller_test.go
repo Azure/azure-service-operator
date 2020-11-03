@@ -75,8 +75,8 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	keyVaultLocation := tc.resourceGroupLocation
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
 		{
-			TenantID: config.TenantID(),
-			ClientID: config.ClientID(),
+			TenantID: config.GlobalCredentials().TenantID(),
+			ClientID: config.GlobalCredentials().ClientID(),
 
 			Permissions: &azurev1alpha1.Permissions{
 				Keys: &[]string{
@@ -163,8 +163,8 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 			ResourceGroup: tc.resourceGroupName,
 			AccessPolicies: &[]azurev1alpha1.AccessPolicyEntry{
 				{
-					TenantID: config.TenantID(),
-					ClientID: config.ClientID(),
+					TenantID: config.GlobalCredentials().TenantID(),
+					ClientID: config.GlobalCredentials().ClientID(),
 					Permissions: &azurev1alpha1.Permissions{
 						Secrets: &[]string{"backup"},
 					},
@@ -296,8 +296,8 @@ func TestKeyvaultControllerWithVirtualNetworkRulesAndUpdate(t *testing.T) {
 	keyVaultLocation := tc.resourceGroupLocation
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
 		{
-			TenantID: config.TenantID(),
-			ClientID: config.ClientID(),
+			TenantID: config.GlobalCredentials().TenantID(),
+			ClientID: config.GlobalCredentials().ClientID(),
 
 			Permissions: &azurev1alpha1.Permissions{
 				Secrets: &[]string{

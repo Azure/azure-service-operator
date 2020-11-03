@@ -21,7 +21,7 @@ func NewPSQLDatabaseClient() *PSQLDatabaseClient {
 
 //GetPSQLDatabasesClient retrieves the psqldabase
 func GetPSQLDatabasesClient() (psql.DatabasesClient, error) {
-	databasesClient := psql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	databasesClient := psql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return psql.DatabasesClient{}, err
@@ -32,7 +32,7 @@ func GetPSQLDatabasesClient() (psql.DatabasesClient, error) {
 }
 
 func getPSQLCheckNameAvailabilityClient() (psql.CheckNameAvailabilityClient, error) {
-	nameavailabilityClient := psql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	nameavailabilityClient := psql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return psql.CheckNameAvailabilityClient{}, err

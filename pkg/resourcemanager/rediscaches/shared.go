@@ -25,7 +25,7 @@ type AzureRedisManager struct {
 }
 
 func (r *AzureRedisManager) GetRedisCacheClient() (redis.Client, error) {
-	redisClient := redis.NewClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	redisClient := redis.NewClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		log.Println("failed to initialize authorizer: " + err.Error())

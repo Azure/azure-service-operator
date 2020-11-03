@@ -16,18 +16,15 @@ var (
 	// each has corresponding public accessors below.
 	// if anything requires a `Set` accessor, that indicates it perhaps
 	// shouldn't be set here, because mutable vars shouldn't be global.
-	clientID               string
-	clientSecret           string
-	tenantID               string
-	subscriptionID         string
+
+	// TODO: eliminate this!
+	credentials            Credentials
 	locationDefault        string
 	authorizationServerURL string
 	cloudName              string
 	useDeviceFlow          bool
-	useMI                  bool
 	buildID                string
 	keepResources          bool
-	operatorKeyvault       string
 	userAgent              string
 	baseURI                string
 	environment            *azure.Environment
@@ -35,24 +32,54 @@ var (
 	testResourcePrefix string // used to generate resource names in tests, should probably exist in a test only package
 )
 
+// Credentials collects the values we use to authenticate to ARM.
+type Credentials struct {
+	clientID       string
+	clientSecret   string
+	tenantID       string
+	subscriptionID string
+
+	// TODO: not sure whether these are part of the credentials or
+	// not? They're in the secret.
+	useMI            bool
+	operatorKeyvault string
+}
+
 // ClientID is the OAuth client ID.
-func ClientID() string {
-	return clientID
+func (c Credentials) ClientID() string {
+	return c.clientID
 }
 
 // ClientSecret is the OAuth client secret.
-func ClientSecret() string {
-	return clientSecret
+func (c Credentials) ClientSecret() string {
+	return c.clientSecret
 }
 
 // TenantID is the AAD tenant to which this client belongs.
-func TenantID() string {
-	return tenantID
+func (c Credentials) TenantID() string {
+	return c.tenantID
 }
 
 // SubscriptionID is a target subscription for Azure resources.
-func SubscriptionID() string {
-	return subscriptionID
+func (c Credentials) SubscriptionID() string {
+	return c.subscriptionID
+}
+
+// UseMI() specifies if managed service identity auth should be used. Used for
+// aad-pod-identity
+func (c Credentials) UseMI() bool {
+	return c.useMI
+}
+
+// OperatorKeyvault() specifies the keyvault the operator should use to store secrets
+func (c Credentials) OperatorKeyvault() string {
+	return c.operatorKeyvault
+}
+
+// GlobalCredentials() returns the configured credentials.
+// TODO: get rid of all uses of this.
+func GlobalCredentials() Credentials {
+	return credentials
 }
 
 // deprecated: use DefaultLocation() instead
@@ -74,21 +101,10 @@ func AuthorizationServerURL() string {
 	return authorizationServerURL
 }
 
-// OperatorKeyvault() specifies the keyvault the operator should use to store secrets
-func OperatorKeyvault() string {
-	return operatorKeyvault
-}
-
 // UseDeviceFlow() specifies if interactive auth should be used. Interactive
 // auth uses the OAuth Device Flow grant type.
 func UseDeviceFlow() bool {
 	return useDeviceFlow
-}
-
-// UseMI() specifies if managed service identity auth should be used. Used for
-// aad-pod-identity
-func UseMI() bool {
-	return useMI
 }
 
 // KeepResources() specifies whether to keep resources created by samples.
@@ -137,12 +153,13 @@ func BaseURI() string {
 
 // ConfigString returns the parts of the configuration file with are not secrets as a string for easy logging
 func ConfigString() string {
+	creds := GlobalCredentials()
 	return fmt.Sprintf(
 		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %v, useManagedIdentity: %v",
-		ClientID(),
-		TenantID(),
-		SubscriptionID(),
+		creds.ClientID(),
+		creds.TenantID(),
+		creds.SubscriptionID(),
 		cloudName,
 		UseDeviceFlow(),
-		UseMI())
+		creds.UseMI())
 }

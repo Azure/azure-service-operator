@@ -39,7 +39,7 @@ func NewAzureKeyVaultManager(scheme *runtime.Scheme) *azureKeyVaultManager {
 }
 
 func getVaultsClient() (keyvault.VaultsClient, error) {
-	vaultsClient := keyvault.NewVaultsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	vaultsClient := keyvault.NewVaultsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return vaultsClient, err
@@ -230,7 +230,7 @@ func InstantiateVault(ctx context.Context, vaultName string, containsUpdate bool
 	if err != nil {
 		return keyvault.VaultsClient{}, uuid.UUID{}, err
 	}
-	id, err := uuid.FromString(config.TenantID())
+	id, err := uuid.FromString(config.GlobalCredentials().TenantID())
 	if err != nil {
 		return keyvault.VaultsClient{}, uuid.UUID{}, err
 	}
@@ -345,7 +345,7 @@ func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 		},
 	}
 	if clientID != "" {
-		objID, err := getObjectID(ctx, config.TenantID(), clientID)
+		objID, err := getObjectID(ctx, config.GlobalCredentials().TenantID(), clientID)
 		if err != nil {
 			return keyvault.Vault{}, err
 		}

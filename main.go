@@ -128,7 +128,7 @@ func main() {
 
 	setupLog.V(0).Info("Configuration details", "Configuration", resourcemanagerconfig.ConfigString())
 
-	keyvaultName := resourcemanagerconfig.OperatorKeyvault()
+	keyvaultName := resourcemanagerconfig.GlobalCredentials().OperatorKeyvault()
 
 	if keyvaultName == "" {
 		setupLog.Info("Keyvault name is empty")

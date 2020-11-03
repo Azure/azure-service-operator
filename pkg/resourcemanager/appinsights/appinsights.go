@@ -306,7 +306,7 @@ func (m *Manager) GetAppInsights(
 }
 
 func getComponentsClient() (insights.ComponentsClient, error) {
-	insightsClient := insights.NewComponentsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	insightsClient := insights.NewComponentsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		insightsClient = insights.ComponentsClient{}

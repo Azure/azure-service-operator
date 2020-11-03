@@ -36,8 +36,8 @@ func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 	keyPermissions := []string{"get", "list", "update", "delete", "recover", "backup", "restore", "create", "import"}
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
 		{
-			TenantID: config.TenantID(),
-			ClientID: config.ClientID(),
+			TenantID: config.GlobalCredentials().TenantID(),
+			ClientID: config.GlobalCredentials().ClientID(),
 			Permissions: &azurev1alpha1.Permissions{
 				Keys: &keyPermissions,
 			},

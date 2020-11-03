@@ -21,7 +21,7 @@ func NewPSQLFirewallRuleClient() *PSQLFirewallRuleClient {
 }
 
 func getPSQLFirewallRulesClient() (psql.FirewallRulesClient, error) {
-	firewallRulesClient := psql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	firewallRulesClient := psql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return psql.FirewallRulesClient{}, err

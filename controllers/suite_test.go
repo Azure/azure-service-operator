@@ -6,7 +6,6 @@ package controllers
 import (
 	"context"
 	"fmt"
-	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	"log"
 	"net/http"
 	"os"
@@ -15,6 +14,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 
@@ -865,7 +866,7 @@ func setup() error {
 	}
 
 	log.Println("Creating KV:", keyvaultName)
-	_, err = resourcemanagerkeyvaults.AzureKeyVaultManager.CreateVaultWithAccessPolicies(context.Background(), resourceGroupName, keyvaultName, resourcegroupLocation, resourcemanagerconfig.ClientID())
+	_, err = resourcemanagerkeyvaults.AzureKeyVaultManager.CreateVaultWithAccessPolicies(context.Background(), resourceGroupName, keyvaultName, resourcegroupLocation, resourcemanagerconfig.GlobalCredentials().ClientID())
 	// Key Vault needs to be in "Suceeded" state
 	finish := time.Now().Add(tc.timeout)
 	for {

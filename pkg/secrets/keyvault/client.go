@@ -26,7 +26,7 @@ import (
 )
 
 func getVaultsClient() (mgmtclient.VaultsClient, error) {
-	vaultsClient := mgmtclient.NewVaultsClient(config.SubscriptionID())
+	vaultsClient := mgmtclient.NewVaultsClient(config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return vaultsClient, err

@@ -49,7 +49,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 		retry = 1 * time.Second
 
 		// Initialize service principal ID to give access to the keyvault
-		userID = config.ClientID()
+		userID = config.GlobalCredentials().ClientID()
 
 		// Initialize resource names
 		keyVaultName = "t-kvtest-kv" + strconv.FormatInt(GinkgoRandomSeed(), 10)

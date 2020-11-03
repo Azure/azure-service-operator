@@ -20,7 +20,7 @@ func NewMySQLVNetRuleClient() *MySQLVNetRuleClient {
 }
 
 func getMySQLVNetRulesClient() mysql.VirtualNetworkRulesClient {
-	VNetRulesClient := mysql.NewVirtualNetworkRulesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	VNetRulesClient := mysql.NewVirtualNetworkRulesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	VNetRulesClient.Authorizer = a
 	VNetRulesClient.AddToUserAgent(config.UserAgent())
@@ -29,7 +29,7 @@ func getMySQLVNetRulesClient() mysql.VirtualNetworkRulesClient {
 
 // GetNetworkSubnetClient retrieves a Subnetclient
 func GetGoNetworkSubnetClient() network.SubnetsClient {
-	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	SubnetsClient.Authorizer = a
 	SubnetsClient.AddToUserAgent(config.UserAgent())

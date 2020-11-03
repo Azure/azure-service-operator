@@ -36,7 +36,7 @@ type PollClient struct {
 
 // NewPollClient returns a client using hte env values from config
 func NewPollClient() PollClient {
-	return NewPollClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	return NewPollClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 }
 
 // NewPollClientWithBaseURI returns a paramterized client

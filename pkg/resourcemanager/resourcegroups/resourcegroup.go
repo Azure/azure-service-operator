@@ -22,7 +22,7 @@ import (
 type AzureResourceGroupManager struct{}
 
 func getGroupsClient() (resources.GroupsClient, error) {
-	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return resources.GroupsClient{}, err
@@ -33,7 +33,7 @@ func getGroupsClient() (resources.GroupsClient, error) {
 }
 
 func getGroupsClientWithAuthFile() (resources.GroupsClient, error) {
-	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	// requires env var AZURE_AUTH_LOCATION set to output of
 	// `az ad sp create-for-rbac --sdk-auth`
 	a, err := auth.NewAuthorizerFromFile(config.BaseURI())

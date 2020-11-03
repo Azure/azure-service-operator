@@ -29,7 +29,7 @@ func NewAzureVirtualMachineExtensionClient(secretclient secrets.SecretClient, sc
 }
 
 func getVirtualMachineExtensionClient() compute.VirtualMachineExtensionsClient {
-	computeClient := compute.NewVirtualMachineExtensionsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	computeClient := compute.NewVirtualMachineExtensionsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	computeClient.Authorizer = a
 	computeClient.AddToUserAgent(config.UserAgent())

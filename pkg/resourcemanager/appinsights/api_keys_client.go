@@ -27,7 +27,7 @@ func NewAPIKeyClient(secretClient secrets.SecretClient, scheme *runtime.Scheme) 
 }
 
 func getApiKeysClient() (insights.APIKeysClient, error) {
-	insightsClient := insights.NewAPIKeysClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	insightsClient := insights.NewAPIKeysClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		insightsClient = insights.APIKeysClient{}
@@ -49,18 +49,18 @@ func (c *InsightsAPIKeysClient) CreateKey(ctx context.Context, resourceGroup, in
 	}
 
 	readIds := []string{
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/api", config.SubscriptionID(), resourceGroup, insightsaccount),
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/draft", config.SubscriptionID(), resourceGroup, insightsaccount),
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/extendqueries", config.SubscriptionID(), resourceGroup, insightsaccount),
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/search", config.SubscriptionID(), resourceGroup, insightsaccount),
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/aggregate", config.SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/api", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/draft", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/extendqueries", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/search", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/aggregate", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
 	}
 
 	writeIds := []string{
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/annotations", config.SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/annotations", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
 	}
 
-	authSDKControl := []string{fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/agentconfig", config.SubscriptionID(), resourceGroup, insightsaccount)}
+	authSDKControl := []string{fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/agentconfig", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount)}
 
 	keyprops := insights.APIKeyRequest{
 		Name: &name,
