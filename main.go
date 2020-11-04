@@ -31,6 +31,7 @@ import (
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
@@ -135,7 +136,7 @@ func main() {
 		secretClient = k8sSecrets.New(mgr.GetClient())
 	} else {
 		setupLog.Info("Instantiating secrets client for keyvault " + keyvaultName)
-		secretClient = keyvaultSecrets.New(keyvaultName)
+		secretClient = keyvaultSecrets.New(keyvaultName, config.GlobalCredentials())
 	}
 
 	apimManager := resourceapimanagement.NewManager()

@@ -122,7 +122,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 
 	//Add code to set secret and get secret from this keyvault using secretclient
 
-	keyvaultSecretClient := kvsecrets.New(keyVaultName)
+	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials())
 	secretName := "test-key"
 	key := types.NamespacedName{Name: secretName, Namespace: "default"}
 	datanew := map[string][]byte{
@@ -182,7 +182,7 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in azure")
 	//Add code to set secret and get secret from this keyvault using secretclient
 
-	keyvaultSecretClient := kvsecrets.New(keyVaultName)
+	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials())
 	key := types.NamespacedName{Name: "test-key", Namespace: "default"}
 	datanew := map[string][]byte{
 		"test1": []byte("test2"),
@@ -329,7 +329,7 @@ func TestKeyvaultControllerWithVirtualNetworkRulesAndUpdate(t *testing.T) {
 		return result.Response.StatusCode == http.StatusOK
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in azure")
 
-	keyvaultSecretClient := kvsecrets.New(keyVaultName)
+	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials())
 	secretName := "test-key"
 	key := types.NamespacedName{Name: secretName, Namespace: "default"}
 	datanew := map[string][]byte{

@@ -114,7 +114,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 				"sweet": []byte("potato"),
 			}
 
-			client := New(keyVaultName)
+			client := New(keyVaultName, config.GlobalCredentials())
 
 			key := types.NamespacedName{Name: secretName, Namespace: "default"}
 
@@ -174,7 +174,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 				"sweet": []byte("potato"),
 			}
 
-			client := New(keyVaultName)
+			client := New(keyVaultName, config.GlobalCredentials())
 
 			key := types.NamespacedName{Name: secretName, Namespace: "default"}
 
