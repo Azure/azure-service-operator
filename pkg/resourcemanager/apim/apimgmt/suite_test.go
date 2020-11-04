@@ -9,6 +9,7 @@ import (
 
 	"context"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
@@ -61,7 +62,7 @@ var _ = BeforeSuite(func() {
 	tc = TestContext{
 		ResourceGroupName:     resourceGroupName,
 		ResourceGroupLocation: resourceGroupLocation,
-		APIManager:            NewManager(),
+		APIManager:            NewManager(config.GlobalCredentials()),
 		ResourceGroupManager:  resourceGroupManager,
 		timeout:               20 * time.Minute,
 		retryInterval:         3 * time.Second,

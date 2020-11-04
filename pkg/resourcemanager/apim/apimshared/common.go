@@ -16,9 +16,9 @@ import (
 )
 
 // GetAPIMgmtSvcClient returns a new instance of an API Svc client
-func GetAPIMgmtSvcClient() (apim.ServiceClient, error) {
-	client := apim.NewServiceClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetAPIMgmtSvcClient(creds config.Credentials) (apim.ServiceClient, error) {
+	client := apim.NewServiceClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		client = apim.ServiceClient{}
 	} else {
@@ -29,9 +29,9 @@ func GetAPIMgmtSvcClient() (apim.ServiceClient, error) {
 }
 
 // GetVNetClient returns a new instance of an VirtualNetwork client
-func GetVNetClient() (vnet.VirtualNetworksClient, error) {
-	client := vnet.NewVirtualNetworksClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetVNetClient(creds config.Credentials) (vnet.VirtualNetworksClient, error) {
+	client := vnet.NewVirtualNetworksClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		client = vnet.VirtualNetworksClient{}
 	} else {
@@ -42,9 +42,9 @@ func GetVNetClient() (vnet.VirtualNetworksClient, error) {
 }
 
 // GetAPIMgmtLoggerClient returns a new instance of an VirtualNetwork client
-func GetAPIMgmtLoggerClient() (apim.LoggerClient, error) {
-	client := apim.NewLoggerClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetAPIMgmtLoggerClient(creds config.Credentials) (apim.LoggerClient, error) {
+	client := apim.NewLoggerClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		client = apim.LoggerClient{}
 	} else {
@@ -55,9 +55,9 @@ func GetAPIMgmtLoggerClient() (apim.LoggerClient, error) {
 }
 
 // GetInsightsClient retrieves a client
-func GetInsightsClient() (insights.ComponentsClient, error) {
-	client := insights.NewComponentsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetInsightsClient(creds config.Credentials) (insights.ComponentsClient, error) {
+	client := insights.NewComponentsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		client = insights.ComponentsClient{}
 	} else {
@@ -68,8 +68,8 @@ func GetInsightsClient() (insights.ComponentsClient, error) {
 }
 
 // GetAPIMgmtSvc returns an instance of an APIM service
-func GetAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (apim.ServiceResource, error) {
-	client, err := GetAPIMgmtSvcClient()
+func GetAPIMgmtSvc(ctx context.Context, creds config.Credentials, resourceGroupName, resourceName string) (apim.ServiceResource, error) {
+	client, err := GetAPIMgmtSvcClient(creds)
 	if err != nil {
 		return apim.ServiceResource{}, err
 	}
@@ -82,9 +82,10 @@ func GetAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName s
 }
 
 // APIMgmtSvcStatus check to see if the API Mgmt Svc has been activated, returns "true" if it has been activated
-func APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, resourceID *string, err error) {
+func APIMgmtSvcStatus(ctx context.Context, creds config.Credentials, resourceGroupName, resourceName string) (exists bool, result bool, resourceID *string, err error) {
 	resource, err := GetAPIMgmtSvc(
 		ctx,
+		creds,
 		resourceGroupName,
 		resourceName,
 	)
@@ -107,8 +108,8 @@ func APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceNam
 }
 
 // GetSubnetConfigurationByName gets a VNet by name
-func GetSubnetConfigurationByName(ctx context.Context, resourceGroupName string, resourceName string, subnetName string) (apim.VirtualNetworkConfiguration, error) {
-	client, err := GetVNetClient()
+func GetSubnetConfigurationByName(ctx context.Context, creds config.Credentials, resourceGroupName, resourceName, subnetName string) (apim.VirtualNetworkConfiguration, error) {
+	client, err := GetVNetClient(creds)
 	if err != nil {
 		return apim.VirtualNetworkConfiguration{}, err
 	}
@@ -148,8 +149,8 @@ func GetSubnetConfigurationByName(ctx context.Context, resourceGroupName string,
 }
 
 // CheckAPIMgmtSvcName checks to see if the APIM service name is available
-func CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bool, err error) {
-	client, err := GetAPIMgmtSvcClient()
+func CheckAPIMgmtSvcName(ctx context.Context, creds config.Credentials, resourceName string) (available bool, err error) {
+	client, err := GetAPIMgmtSvcClient(creds)
 	if err != nil {
 		return false, err
 	}
@@ -170,8 +171,8 @@ func CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bo
 }
 
 // GetAppInstanceIDByName retrieves an app insight by name
-func GetAppInstanceIDByName(ctx context.Context, resourceGroup string, resourceName string) (insights.ApplicationInsightsComponent, error) {
-	client, err := GetInsightsClient()
+func GetAppInstanceIDByName(ctx context.Context, creds config.Credentials, resourceGroup, resourceName string) (insights.ApplicationInsightsComponent, error) {
+	client, err := GetInsightsClient(creds)
 	if err != nil {
 		return insights.ApplicationInsightsComponent{}, err
 	}
@@ -184,10 +185,10 @@ func GetAppInstanceIDByName(ctx context.Context, resourceGroup string, resourceN
 }
 
 // GetAPIMClient returns a pointer to an API Management client
-func GetAPIMClient() (apim.APIClient, error) {
-	apimClient := apim.NewAPIClient(config.GlobalCredentials().SubscriptionID())
+func GetAPIMClient(creds config.Credentials) (apim.APIClient, error) {
+	apimClient := apim.NewAPIClient(creds.SubscriptionID())
 
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return apim.APIClient{}, err
 	}

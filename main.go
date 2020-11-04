@@ -139,8 +139,11 @@ func main() {
 		secretClient = keyvaultSecrets.New(keyvaultName, config.GlobalCredentials())
 	}
 
-	apimManager := resourceapimanagement.NewManager()
-	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager()
+	// TODO(creds-refactor): construction of these managers will need
+	// to move into the reconcilers so that they can use the correct
+	// creds for the specific resource being reconciled.
+	apimManager := resourceapimanagement.NewManager(config.GlobalCredentials())
+	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager(config.GlobalCredentials())
 	vnetManager := vnet.NewAzureVNetManager()
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 

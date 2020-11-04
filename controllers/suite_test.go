@@ -16,6 +16,7 @@ import (
 	"time"
 
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 
@@ -231,7 +232,7 @@ func setup() error {
 	err = (&APIMAPIReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerapimgmt.NewManager(),
+			AzureClient: resourcemanagerapimgmt.NewManager(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ApiMgmt",
 				ctrl.Log.WithName("controllers").WithName("ApiMgmt"),

@@ -8,13 +8,15 @@ import (
 
 	apim "github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 // NewAzureAPIMgmtServiceManager creates a new instance of AzureAPIMgmtServiceManager
-func NewAzureAPIMgmtServiceManager() *AzureAPIMgmtServiceManager {
+func NewAzureAPIMgmtServiceManager(creds config.Credentials) *AzureAPIMgmtServiceManager {
 	return &AzureAPIMgmtServiceManager{
+		Creds: creds,
 		Telemetry: *telemetry.InitializeTelemetryDefault(
 			"ApimService",
 			ctrl.Log.WithName("controllers").WithName("ApimService"),
