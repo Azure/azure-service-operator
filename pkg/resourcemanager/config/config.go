@@ -18,7 +18,7 @@ var (
 	// shouldn't be set here, because mutable vars shouldn't be global.
 
 	// TODO: eliminate this!
-	credentials            Credentials
+	creds                  credentials
 	locationDefault        string
 	authorizationServerURL string
 	cloudName              string
@@ -32,54 +32,10 @@ var (
 	testResourcePrefix string // used to generate resource names in tests, should probably exist in a test only package
 )
 
-// Credentials collects the values we use to authenticate to ARM.
-type Credentials struct {
-	clientID       string
-	clientSecret   string
-	tenantID       string
-	subscriptionID string
-
-	// TODO: not sure whether these are part of the credentials or
-	// not? They're in the secret.
-	useMI            bool
-	operatorKeyvault string
-}
-
-// ClientID is the OAuth client ID.
-func (c Credentials) ClientID() string {
-	return c.clientID
-}
-
-// ClientSecret is the OAuth client secret.
-func (c Credentials) ClientSecret() string {
-	return c.clientSecret
-}
-
-// TenantID is the AAD tenant to which this client belongs.
-func (c Credentials) TenantID() string {
-	return c.tenantID
-}
-
-// SubscriptionID is a target subscription for Azure resources.
-func (c Credentials) SubscriptionID() string {
-	return c.subscriptionID
-}
-
-// UseMI() specifies if managed service identity auth should be used. Used for
-// aad-pod-identity
-func (c Credentials) UseMI() bool {
-	return c.useMI
-}
-
-// OperatorKeyvault() specifies the keyvault the operator should use to store secrets
-func (c Credentials) OperatorKeyvault() string {
-	return c.operatorKeyvault
-}
-
 // GlobalCredentials() returns the configured credentials.
 // TODO: get rid of all uses of this.
 func GlobalCredentials() Credentials {
-	return credentials
+	return creds
 }
 
 // deprecated: use DefaultLocation() instead
