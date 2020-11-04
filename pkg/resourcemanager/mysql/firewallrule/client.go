@@ -21,7 +21,7 @@ func NewMySQLFirewallRuleClient() *MySQLFirewallRuleClient {
 
 func getMySQLFirewallRulesClient() mysql.FirewallRulesClient {
 	firewallRulesClient := mysql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	firewallRulesClient.Authorizer = a
 	firewallRulesClient.AddToUserAgent(config.UserAgent())
 	return firewallRulesClient

@@ -26,7 +26,7 @@ type AzureCosmosDBManager struct {
 func getCosmosDBClient() (documentdb.DatabaseAccountsClient, error) {
 	cosmosDBClient := documentdb.NewDatabaseAccountsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
 
-	a, err := iam.GetResourceManagementAuthorizer()
+	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	if err != nil {
 		cosmosDBClient = documentdb.DatabaseAccountsClient{}
 	} else {

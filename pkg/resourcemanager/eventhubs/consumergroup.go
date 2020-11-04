@@ -31,7 +31,7 @@ func NewConsumerGroupClient() *azureConsumerGroupManager {
 
 func getConsumerGroupsClient() (eventhub.ConsumerGroupsClient, error) {
 	consumerGroupClient := eventhub.NewConsumerGroupsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	auth, err := iam.GetResourceManagementAuthorizer()
+	auth, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	if err != nil {
 		return eventhub.ConsumerGroupsClient{}, err
 	}

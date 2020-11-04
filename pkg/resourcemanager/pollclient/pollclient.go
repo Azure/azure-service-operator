@@ -42,7 +42,7 @@ func NewPollClient() PollClient {
 // NewPollClientWithBaseURI returns a paramterized client
 func NewPollClientWithBaseURI(baseURI string, subscriptionID string) PollClient {
 	c := PollClient{NewWithBaseURI(baseURI, subscriptionID)}
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	c.Authorizer = a
 	c.AddToUserAgent(config.UserAgent())
 	return c

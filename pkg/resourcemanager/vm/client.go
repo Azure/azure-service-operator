@@ -32,7 +32,7 @@ func NewAzureVirtualMachineClient(secretclient secrets.SecretClient, scheme *run
 
 func getVirtualMachineClient() compute.VirtualMachinesClient {
 	computeClient := compute.NewVirtualMachinesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	computeClient.Authorizer = a
 	computeClient.AddToUserAgent(config.UserAgent())
 	return computeClient

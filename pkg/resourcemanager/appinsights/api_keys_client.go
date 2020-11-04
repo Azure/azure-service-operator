@@ -28,7 +28,7 @@ func NewAPIKeyClient(secretClient secrets.SecretClient, scheme *runtime.Scheme) 
 
 func getApiKeysClient() (insights.APIKeysClient, error) {
 	insightsClient := insights.NewAPIKeysClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
+	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	if err != nil {
 		insightsClient = insights.APIKeysClient{}
 		return insights.APIKeysClient{}, err

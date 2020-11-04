@@ -21,7 +21,7 @@ func NewPostgreSQLVNetRuleClient() *PostgreSQLVNetRuleClient {
 
 func GetPostgreSQLVNetRulesClient() psql.VirtualNetworkRulesClient {
 	VNetRulesClient := psql.NewVirtualNetworkRulesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	VNetRulesClient.Authorizer = a
 	VNetRulesClient.AddToUserAgent(config.UserAgent())
 	return VNetRulesClient
@@ -30,7 +30,7 @@ func GetPostgreSQLVNetRulesClient() psql.VirtualNetworkRulesClient {
 // retrieves the Subnetclient
 func GetGoNetworkSubnetClient() network.SubnetsClient {
 	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	SubnetsClient.Authorizer = a
 	SubnetsClient.AddToUserAgent(config.UserAgent())
 	return SubnetsClient

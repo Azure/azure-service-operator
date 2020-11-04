@@ -32,7 +32,7 @@ func NewAzureVMScaleSetClient(secretclient secrets.SecretClient, scheme *runtime
 
 func getVMScaleSetClient() compute.VirtualMachineScaleSetsClient {
 	computeClient := compute.NewVirtualMachineScaleSetsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	computeClient.Authorizer = a
 	computeClient.AddToUserAgent(config.UserAgent())
 	return computeClient

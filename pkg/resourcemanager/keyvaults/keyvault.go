@@ -40,7 +40,7 @@ func NewAzureKeyVaultManager(scheme *runtime.Scheme) *azureKeyVaultManager {
 
 func getVaultsClient() (keyvault.VaultsClient, error) {
 	vaultsClient := keyvault.NewVaultsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
+	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	if err != nil {
 		return vaultsClient, err
 	}
@@ -51,7 +51,7 @@ func getVaultsClient() (keyvault.VaultsClient, error) {
 
 func getObjectID(ctx context.Context, tenantID string, clientID string) (*string, error) {
 	appclient := auth.NewApplicationsClient(tenantID)
-	a, err := iam.GetGraphAuthorizer()
+	a, err := iam.GetGraphAuthorizer(config.GlobalCredentials())
 	if err != nil {
 		return nil, err
 	}
@@ -580,7 +580,7 @@ func (k *azureKeyVaultManager) convert(obj runtime.Object) (*v1alpha1.KeyVault, 
 
 func NewOpsClient(keyvaultName string) *kvops.BaseClient {
 	keyvaultClient := kvops.New()
-	a, _ := iam.GetKeyvaultAuthorizer()
+	a, _ := iam.GetKeyvaultAuthorizer(config.GlobalCredentials())
 	keyvaultClient.Authorizer = a
 	keyvaultClient.AddToUserAgent(config.UserAgent())
 	return &keyvaultClient

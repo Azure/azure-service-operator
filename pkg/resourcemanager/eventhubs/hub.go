@@ -33,7 +33,7 @@ type azureEventHubManager struct {
 
 func getHubsClient() (eventhub.EventHubsClient, error) {
 	hubClient := eventhub.NewEventHubsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	auth, err := iam.GetResourceManagementAuthorizer()
+	auth, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	if err != nil {
 		return eventhub.EventHubsClient{}, err
 	}

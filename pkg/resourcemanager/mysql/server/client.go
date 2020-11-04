@@ -29,7 +29,7 @@ func NewMySQLServerClient(secretclient secrets.SecretClient, scheme *runtime.Sch
 
 func getMySQLServersClient() mysql.ServersClient {
 	serversClient := mysql.NewServersClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	serversClient.Authorizer = a
 	serversClient.AddToUserAgent(config.UserAgent())
 	return serversClient
@@ -37,7 +37,7 @@ func getMySQLServersClient() mysql.ServersClient {
 
 func getMySQLCheckNameAvailabilityClient() mysql.CheckNameAvailabilityClient {
 	nameavailabilityClient := mysql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	nameavailabilityClient.Authorizer = a
 	nameavailabilityClient.AddToUserAgent(config.UserAgent())
 	return nameavailabilityClient

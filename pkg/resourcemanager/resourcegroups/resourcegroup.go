@@ -23,7 +23,7 @@ type AzureResourceGroupManager struct{}
 
 func getGroupsClient() (resources.GroupsClient, error) {
 	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
+	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	if err != nil {
 		return resources.GroupsClient{}, err
 	}

@@ -27,7 +27,7 @@ import (
 
 func getVaultsClient() (mgmtclient.VaultsClient, error) {
 	vaultsClient := mgmtclient.NewVaultsClient(config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
+	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	if err != nil {
 		return vaultsClient, err
 	}
@@ -62,7 +62,7 @@ func getVaultsURL(ctx context.Context, vaultName string) string {
 // New instantiates a new KeyVaultSecretClient instance
 func New(keyvaultName string) *KeyvaultSecretClient {
 	keyvaultClient := keyvaults.New()
-	a, _ := iam.GetKeyvaultAuthorizer()
+	a, _ := iam.GetKeyvaultAuthorizer(config.GlobalCredentials())
 	keyvaultClient.Authorizer = a
 	keyvaultClient.AddToUserAgent(config.UserAgent())
 	return &KeyvaultSecretClient{

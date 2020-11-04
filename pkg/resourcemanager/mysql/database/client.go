@@ -23,7 +23,7 @@ func NewMySQLDatabaseClient() *MySQLDatabaseClient {
 //GetMySQLDatabasesClient return the mysqldatabaseclient
 func GetMySQLDatabasesClient() mysql.DatabasesClient {
 	databasesClient := mysql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	databasesClient.Authorizer = a
 	databasesClient.AddToUserAgent(config.UserAgent())
 	return databasesClient
@@ -31,7 +31,7 @@ func GetMySQLDatabasesClient() mysql.DatabasesClient {
 
 func getMySQLCheckNameAvailabilityClient() mysql.CheckNameAvailabilityClient {
 	nameavailabilityClient := mysql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
 	nameavailabilityClient.Authorizer = a
 	nameavailabilityClient.AddToUserAgent(config.UserAgent())
 	return nameavailabilityClient
