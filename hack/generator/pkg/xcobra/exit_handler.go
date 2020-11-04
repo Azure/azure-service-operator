@@ -8,6 +8,7 @@
 package xcobra
 
 import (
+	"errors"
 	"os"
 )
 
@@ -16,8 +17,10 @@ func exitWithCode(err error) {
 		return
 	}
 
-	if e, ok := err.(ErrorWithCode); ok {
+	var e ErrorWithCode
+	if errors.As(err, &e) {
 		os.Exit(e.Code)
 	}
+
 	os.Exit(1)
 }

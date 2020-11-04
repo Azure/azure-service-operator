@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -31,7 +32,8 @@ func (e *OwnerNotFound) Error() string {
 }
 
 func (e *OwnerNotFound) Is(err error) bool {
-	if typedErr, ok := err.(*OwnerNotFound); ok {
+	var typedErr *OwnerNotFound
+	if errors.As(err, &typedErr) {
 		return e.OwnerName == typedErr.OwnerName
 	}
 	return false

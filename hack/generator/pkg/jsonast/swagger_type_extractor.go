@@ -81,7 +81,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 
 			resourceType, err := scanner.RunHandlerForSchema(ctx, *resourceSchema)
 			if err != nil {
-				if err == context.Canceled {
+				if errors.Is(err, context.Canceled) {
 					return err
 				}
 

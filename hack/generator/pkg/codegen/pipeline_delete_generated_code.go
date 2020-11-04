@@ -90,9 +90,10 @@ func isFileGenerated(filename string) (bool, error) {
 	reader := bufio.NewReader(f)
 	for i := 0; i < maxLinesToCheck; i++ {
 		line, err := reader.ReadString('\n')
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			return false, nil
 		}
+
 		if err != nil {
 			return false, err
 		}

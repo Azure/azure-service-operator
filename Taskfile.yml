@@ -1,0 +1,16 @@
+version: '3'
+
+includes:
+  generator:
+    taskfile: ./hack/generator
+    dir: ./hack/generator/
+  generated:
+    taskfile: ./hack/generated
+    dir: ./hack/generated/
+
+tasks:
+  ci:
+    desc: Run all CI checks.
+    cmds:
+    - task: generator:ci
+    - task: generated:ci

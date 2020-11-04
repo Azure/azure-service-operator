@@ -1,61 +1,40 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.137.0/containers/go
 {
 	"name": "Go",
-	"dockerFile": "Dockerfile",
-	"runArgs": [
-		"--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined",
-		// Mount go mod cache
-		"-v", "k8sinfra-gomodcache:/go/pkg",
-		// Cache vscode exentsions installs and homedir
-		"-v", "k8sinfra-vscodecache:/root/.vscode-server",
-		// Keep command history 
-		"-v", "k8sinfra-bashhistory:/root/commandhistory",
-		// Mount docker socket for docker builds
-		"-v", "/var/run/docker.sock:/var/run/docker.sock",
-		// Use host network
-		"--network=host",
-		// Mount ssh 
-		"-v", "${env:HOME}${env:USERPROFILE}/.ssh:/root/.ssh",
-		// Mount azure, git and kubernetes config dirs
-		"-v", "${env:HOME}${env:USERPROFILE}/.azure:/root/.azure",
-		"-v", "${env:HOME}${env:USERPROFILE}/.gitconfig:/root/.gitconfig", // Required due to volume mount used for .vscode-server
-		"-v", "${env:HOME}${env:USERPROFILE}/.kube:/root/.kube"
-	],
-	"workspaceMount": "src=${localWorkspaceFolder},dst=/workspace,type=bind,consistency=delegated",
-	"workspaceFolder": "/workspace",
-	"settings": {
+	"build": { "dockerfile": "Dockerfile" },
+	"runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"go.useGoProxyToCheckForToolUpdates": false,
 		"go.gopath": "/go",
 		"go.useLanguageServer": true,
+		"go.lintTool": "golangci-lint",
 		"[go]": {
 			"editor.snippetSuggestions": "none",
 			"editor.formatOnSave": true,
 			"editor.codeActionsOnSave": {
 				"source.organizeImports": true
 			}
-		},
-		"gopls": {
-			"usePlaceholders": true, // add parameter placeholders when completing a function
-			// Experimental settings
-			"completeUnimported": true, // autocomplete unimported packages
-			"watchFileChanges": true, // watch file changes outside of the editor
-			"deepCompletion": true // enable deep completion
-		},
-		"files.eol": "\n", // formatting only supports LF line endings,
-		"remote.extensionKind": {
-			"ms-azuretools.vscode-docker": "workspace"
-		},
-		"yaml.schemas": {
-			"kubernetes": "*.yaml"
-		},
-		"go.lintTool":"golangci-lint",
-		"go.lintFlags": [
-		"--fast"
-		]
+		}
 	},
+	
+	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"ms-vsliveshare.vsliveshare-pack",
-		"ms-azuretools.vscode-docker",
 		"golang.Go",
+		"ms-azuretools.vscode-docker",
 		"redhat.vscode-yaml",
 		"ms-kubernetes-tools.vscode-kubernetes-tools"
-	]
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [9000],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "go version",
+
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode"
 }

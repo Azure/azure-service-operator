@@ -21,6 +21,7 @@ type ResourceNamer struct {
 
 func NewResourceNamer(prefix string, separator string, randomChars int) *ResourceNamer {
 	return &ResourceNamer{
+		// nolint: do not want cryptographic randomness here
 		rand:        rand.New(rand.NewSource(time.Now().UnixNano())),
 		runes:       []rune("abcdefghijklmnopqrstuvwxyz"),
 		prefix:      prefix,

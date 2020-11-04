@@ -1,0 +1,75 @@
+version: '3'
+
+vars:
+  # careful here as these can conflict with the variables
+  # defined in generated/Taskfile.yml when included in ./Taskfile.yml
+  GENERATOR_APP: k8sinfra-gen
+  PACKAGE: github.com/Azure/k8s-infra/hack/generator
+  DATE:
+    sh: date +%FT%T%z
+  TREE_STATE:
+    sh: if [[ -z "$(git status --porcelain)" ]]; then echo "clean"; else echo "dirty"; fi
+  SHORT_VERSION:
+    sh: git rev-parse --short HEAD
+  VERSION:
+    sh: git rev-list -1 HEAD
+  ROOT_DIR:
+    sh: git rev-parse --show-toplevel
+
+tasks:
+  default:
+    desc: Perform all local pre-commit tasks.
+    deps: [header-check, format-code, lint, test, generate-arm]
+
+  ci: 
+    deps: [header-check, lint, test-cover, generate-arm]
+
+  build:
+    desc: Generate the {{.GENERATOR_APP}} binary.
+    cmds:
+    - go build -ldflags "-X {{.PACKAGE}}/pkg/codegen.GitCommit={{.SHORT_VERSION}} -X {{.PACKAGE}}/pkg/codegen.GitTreeState={{.TREE_STATE}}" -o ./bin/{{.GENERATOR_APP}}
+
+  generate-arm: 
+    desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen.
+    deps: [build]
+    cmds:
+    - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml
+
+  test:
+    desc: Run unit tests.
+    cmds:
+    - go test ./... -tags=noexit
+
+  test-cover:
+    desc: Run unit tests and output coverage.
+    cmds:
+    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=cover.out -coverpkg=./...
+    - gcov2lcov -infile cover.out -outfile coverage.lcov
+
+  lint:
+    desc: Run lint checks.
+    cmds:
+    - golangci-lint run -v
+
+  lint-full:
+    desc: Run all lint checks.
+    cmds:
+    - golangci-lint run -v --fast=false
+
+  format-code:
+    desc: Ensure all code is correctly formatted.
+    cmds:
+    - gofmt -l -s -w {{.GENERATOR_GO_DIRS|catLines}}
+    vars:
+      GENERATOR_GO_DIRS:
+        sh: cd {{.ROOT_DIR}}/hack/generator && go list -f '{{"{{.Dir}}"}}' ./... 
+
+  header-check:
+    desc: Ensure all files have an appropriate license header.
+    cmds:
+    - "{{.ROOT_DIR}}/scripts/verify_boilerplate.sh"
+
+  tidy:
+    desc: Run 'go mod tidy'.
+    cmds:
+    - go mod tidy

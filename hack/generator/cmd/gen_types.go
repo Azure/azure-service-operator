@@ -60,16 +60,11 @@ type stackTracer interface {
 // here because the innermost error may not have been created by
 // pkg/errors (gasp).
 func findDeepestTrace(err error) errors.StackTrace {
-	if err == nil {
-		return nil
+
+	var tracer stackTracer
+	if errors.As(err, &tracer) {
+		return tracer.StackTrace()
 	}
-	deeperTrace := findDeepestTrace(errors.Unwrap(err))
-	if deeperTrace != nil {
-		return deeperTrace
-	}
-	tracer, ok := err.(stackTracer)
-	if !ok {
-		return nil
-	}
-	return tracer.StackTrace()
+
+	return nil
 }

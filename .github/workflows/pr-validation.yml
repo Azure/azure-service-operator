@@ -1,0 +1,55 @@
+name: pr-validation
+on:
+  pull_request: 
+    branches:
+      - master
+
+jobs:
+  test-generator:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+
+      - name: Build devcontainer image
+        run: docker build --tag devcontainer:1.0 .devcontainer
+
+      - name: Run CI tasks
+        run: docker run -w /workspace -v $GITHUB_WORKSPACE:/workspace -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID devcontainer:1.0 task ci
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Upload generator coverage to coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: ./hack/generator/coverage.lcov
+          flag-name: pr-generator-${{ runner.os }}
+          parallel: true
+
+      - name: Upload generated coverage to coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: ./hack/generated/coverage.lcov
+          flag-name: pr-generated-${{ runner.os }}
+          parallel: true
+
+      - name: Upload generated integration coverage to coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: ./hack/generated/coverage-integration-envtest.lcov
+          flag-name: pr-generated-integration-${{ runner.os }}
+          parallel: true
+
+      - name: Coveralls done
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
