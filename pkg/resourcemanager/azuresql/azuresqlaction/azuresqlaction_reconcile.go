@@ -12,7 +12,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultsecretlib "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -49,7 +48,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.ServerSecretKeyVault) == 0 {
 				adminSecretClient = s.SecretClient
 			} else {
-				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, config.GlobalCredentials())
+				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, s.Creds)
 				if !keyvaultsecretlib.IsKeyVaultAccessible(adminSecretClient) {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
 					return false, nil
@@ -97,7 +96,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.ServerSecretKeyVault) == 0 {
 				adminSecretClient = s.SecretClient
 			} else {
-				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, config.GlobalCredentials())
+				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, s.Creds)
 				if !keyvaultsecretlib.IsKeyVaultAccessible(adminSecretClient) {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
 					return false, nil
@@ -109,7 +108,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.UserSecretKeyVault) == 0 {
 				userSecretClient = s.SecretClient
 			} else {
-				userSecretClient = keyvaultsecretlib.New(instance.Spec.UserSecretKeyVault, config.GlobalCredentials())
+				userSecretClient = keyvaultsecretlib.New(instance.Spec.UserSecretKeyVault, s.Creds)
 				if !keyvaultsecretlib.IsKeyVaultAccessible(userSecretClient) {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
 					return false, nil

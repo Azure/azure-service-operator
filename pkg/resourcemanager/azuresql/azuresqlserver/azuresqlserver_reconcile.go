@@ -55,7 +55,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		}
 
 		// Assure that the requested name is available and assume the secret exists
-		checkNameResult, err := CheckNameAvailability(ctx, instance.Name)
+		checkNameResult, err := CheckNameAvailability(ctx, s.Creds, instance.Name)
 
 		if err != nil {
 			instance.Status.Provisioning = false

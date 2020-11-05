@@ -25,12 +25,14 @@ import (
 )
 
 type AzureSqlManagedUserManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlManagedUserManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlManagedUserManager {
+func NewAzureSqlManagedUserManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlManagedUserManager {
 	return &AzureSqlManagedUserManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
@@ -38,7 +40,7 @@ func NewAzureSqlManagedUserManager(secretClient secrets.SecretClient, scheme *ru
 
 // GetDB retrieves a database
 func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (azuresql.Database, error) {
-	dbClient, err := azuresqlshared.GetGoDbClient()
+	dbClient, err := azuresqlshared.GetGoDbClient(s.Creds)
 	if err != nil {
 		return azuresql.Database{}, err
 	}

@@ -153,7 +153,7 @@ func setup() error {
 	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(k8sManager.GetScheme())
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient()
-	azureSqlDatabaseManager := resourcemanagersqldb.NewAzureSqlDbManager()
+	azureSqlDatabaseManager := resourcemanagersqldb.NewAzureSqlDbManager(config.GlobalCredentials())
 
 	timeout = time.Second * 780
 
@@ -385,6 +385,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: resourcemanagersqlserver.NewAzureSqlServerManager(
+				config.GlobalCredentials(),
 				secretClient,
 				scheme.Scheme,
 			),
@@ -419,7 +420,7 @@ func setup() error {
 	err = (&AzureSqlFirewallRuleReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(),
+			AzureClient: resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSQLFirewallRuleOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
@@ -435,7 +436,7 @@ func setup() error {
 	err = (&AzureSQLVNetRuleReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager(),
+			AzureClient: resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSQLVNetRuleOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLVNetRuleOperator"),
@@ -452,6 +453,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
+				config.GlobalCredentials(),
 				secretClient,
 				scheme.Scheme,
 			),
@@ -471,6 +473,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: resourcemanagersqluser.NewAzureSqlUserManager(
+				config.GlobalCredentials(),
 				secretClient,
 				scheme.Scheme,
 			),
@@ -490,6 +493,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
+				config.GlobalCredentials(),
 				secretClient,
 				scheme.Scheme,
 			),
@@ -638,7 +642,7 @@ func setup() error {
 	err = (&AzureSqlActionReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme.Scheme),
+			AzureClient: resourcemanagersqlaction.NewAzureSqlActionManager(config.GlobalCredentials(), secretClient, scheme.Scheme),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlAction",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),

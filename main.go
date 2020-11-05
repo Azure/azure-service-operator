@@ -173,13 +173,15 @@ func main() {
 	}
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
 	sqlServerManager := resourcemanagersqlserver.NewAzureSqlServerManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
-	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager()
-	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager()
-	sqlVNetRuleManager := resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager()
+	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager(config.GlobalCredentials())
+	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(config.GlobalCredentials())
+	sqlVNetRuleManager := resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager(config.GlobalCredentials())
 	sqlFailoverGroupManager := resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
@@ -191,14 +193,16 @@ func main() {
 		scheme,
 	)
 	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
 	sqlManagedUserManager := resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
-	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
+	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(config.GlobalCredentials(), secretClient, scheme)
 
 	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{

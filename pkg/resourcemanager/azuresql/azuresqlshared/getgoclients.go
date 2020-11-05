@@ -12,9 +12,9 @@ import (
 )
 
 // GetGoDbClient retrieves a DatabasesClient
-func GetGoDbClient() (sql.DatabasesClient, error) {
-	dbClient := sql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetGoDbClient(creds config.Credentials) (sql.DatabasesClient, error) {
+	dbClient := sql.NewDatabasesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return sql.DatabasesClient{}, err
 	}
@@ -24,9 +24,9 @@ func GetGoDbClient() (sql.DatabasesClient, error) {
 }
 
 // GetGoServersClient retrieves a ServersClient
-func GetGoServersClient() (sql.ServersClient, error) {
-	serversClient := sql.NewServersClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetGoServersClient(creds config.Credentials) (sql.ServersClient, error) {
+	serversClient := sql.NewServersClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return sql.ServersClient{}, err
 	}
@@ -36,9 +36,9 @@ func GetGoServersClient() (sql.ServersClient, error) {
 }
 
 // GetGoFailoverGroupsClient retrieves a FailoverGroupsClient
-func GetGoFailoverGroupsClient() (sql.FailoverGroupsClient, error) {
-	failoverGroupsClient := sql.NewFailoverGroupsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetGoFailoverGroupsClient(creds config.Credentials) (sql.FailoverGroupsClient, error) {
+	failoverGroupsClient := sql.NewFailoverGroupsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return sql.FailoverGroupsClient{}, err
 	}
@@ -48,9 +48,9 @@ func GetGoFailoverGroupsClient() (sql.FailoverGroupsClient, error) {
 }
 
 // GetGoFirewallClient retrieves a FirewallRulesClient
-func GetGoFirewallClient() (sql.FirewallRulesClient, error) {
-	firewallClient := sql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetGoFirewallClient(creds config.Credentials) (sql.FirewallRulesClient, error) {
+	firewallClient := sql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return sql.FirewallRulesClient{}, err
 	}
@@ -60,9 +60,9 @@ func GetGoFirewallClient() (sql.FirewallRulesClient, error) {
 }
 
 // GetGoVNetRulesClient retrieves a VirtualNetworkRulesClient
-func GetGoVNetRulesClient() (sql.VirtualNetworkRulesClient, error) {
-	VNetRulesClient := sql.NewVirtualNetworkRulesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetGoVNetRulesClient(creds config.Credentials) (sql.VirtualNetworkRulesClient, error) {
+	VNetRulesClient := sql.NewVirtualNetworkRulesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return sql.VirtualNetworkRulesClient{}, err
 	}
@@ -72,9 +72,9 @@ func GetGoVNetRulesClient() (sql.VirtualNetworkRulesClient, error) {
 }
 
 // GetNetworkSubnetClient retrieves a Subnetclient
-func GetGoNetworkSubnetClient() (network.SubnetsClient, error) {
-	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetGoNetworkSubnetClient(creds config.Credentials) (network.SubnetsClient, error) {
+	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return network.SubnetsClient{}, err
 	}
@@ -84,9 +84,9 @@ func GetGoNetworkSubnetClient() (network.SubnetsClient, error) {
 }
 
 // GetBackupLongTermRetentionPoliciesClient retrieves a Subnetclient
-func GetBackupLongTermRetentionPoliciesClient() (sql3.BackupLongTermRetentionPoliciesClient, error) {
-	BackupClient := sql3.NewBackupLongTermRetentionPoliciesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetBackupLongTermRetentionPoliciesClient(creds config.Credentials) (sql3.BackupLongTermRetentionPoliciesClient, error) {
+	BackupClient := sql3.NewBackupLongTermRetentionPoliciesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return sql3.BackupLongTermRetentionPoliciesClient{}, err
 	}
