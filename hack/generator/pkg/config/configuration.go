@@ -207,16 +207,20 @@ func (config *Configuration) TransformType(name astmodel.TypeName) (astmodel.Typ
 }
 
 // TransformTypeProperties applies any property transformers to the type
-func (config *Configuration) TransformTypeProperties(name astmodel.TypeName, objectType *astmodel.ObjectType) *PropertyTransformResult {
+func (config *Configuration) TransformTypeProperties(name astmodel.TypeName, objectType *astmodel.ObjectType) []*PropertyTransformResult {
+
+	var results []*PropertyTransformResult
+	toTransform := objectType
 
 	for _, transformer := range config.propertyTransformers {
-		result := transformer.TransformProperty(name, objectType)
+		result := transformer.TransformProperty(name, toTransform)
 		if result != nil {
-			return result
+			toTransform = result.NewType
+			results = append(results, result)
 		}
 	}
 
-	return nil
+	return results
 }
 
 // StatusConfiguration provides configuration options for the

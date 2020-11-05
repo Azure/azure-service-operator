@@ -141,6 +141,41 @@ typeTransformers:
     remove: true
     because: it has no writable properties in swagger
 
+  - name: "*"
+    property: Condition
+    ifType:
+      name: bool
+      optional: true
+    remove: true
+    because: It exists on ARMResource but doesn't make sense in the context of a CRD
+  - name: "*"
+    property: Copy
+    ifType:
+      group: deploymenttemplate
+      version: v20150101
+      name: ResourceCopy
+      optional: true
+    remove: true
+    because: It exists on ARMResource but doesn't make sense in the context of a CRD
+  - name: "*"
+    property: DependsOn
+    remove: true
+    because: It exists on ARMResource but doesn't make sense in the context of a CRD
+  - name: "*"
+    property: Scope
+    ifType:
+      name: string
+      optional: true
+    remove: true
+    because: It exists on ARMResource but doesn't make sense in the context of a CRD
+  - name: "*"
+    property: Comments
+    ifType:
+      name: string
+      optional: true
+    remove: true
+    because: It exists on ARMResource but doesn't make sense in the context of a CRD
+
 status:
   schemaRoot: "./azure-rest-api-specs/specification"
 

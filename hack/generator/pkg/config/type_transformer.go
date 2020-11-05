@@ -16,10 +16,11 @@ import (
 
 // A transformation target
 type TransformTarget struct {
-	Group   string `yaml:",omitempty"`
-	Version string `yaml:"package,omitempty"`
-	Name    string `yaml:",omitempty"`
-	Map     *MapType
+	Group    string `yaml:",omitempty"`
+	Version  string `yaml:"version,omitempty"`
+	Name     string `yaml:",omitempty"`
+	Optional bool   `yaml:",omitempty"`
+	Map      *MapType
 }
 
 type MapType struct {
@@ -54,14 +55,20 @@ func produceTargetType(target TransformTarget, descriptor string) (astmodel.Type
 		return nil, errors.Errorf("multiple target types defined")
 	}
 
+	var result astmodel.Type
+
 	if target.Name != "" {
 		if target.Group != "" && target.Version != "" {
-			return astmodel.MakeTypeName(
+			result = astmodel.MakeTypeName(
 				astmodel.MakeLocalPackageReference(target.Group, target.Version),
-				target.Name), nil
+				target.Name)
+		} else {
+			var err error
+			result, err = primitiveTypeTarget(target.Name)
+			if err != nil {
+				return nil, err
+			}
 		}
-
-		return primitiveTypeTarget(target.Name)
 	}
 
 	if target.Map != nil {
@@ -75,10 +82,18 @@ func produceTargetType(target TransformTarget, descriptor string) (astmodel.Type
 			return nil, err
 		}
 
-		return astmodel.NewMapType(keyType, valueType), nil
+		result = astmodel.NewMapType(keyType, valueType)
 	}
 
-	return nil, errors.Errorf("no target type found in %s", descriptor)
+	if result == nil {
+		return nil, errors.Errorf("no target type found in %s", descriptor)
+	}
+
+	if target.Optional {
+		result = astmodel.NewOptionalType(result)
+	}
+
+	return result, nil
 }
 
 func (transformer *TypeTransformer) Initialize() error {

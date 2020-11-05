@@ -8,9 +8,10 @@ package codegen
 import (
 	"context"
 
+	"k8s.io/klog/v2"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
-	"k8s.io/klog/v2"
 )
 
 // applyPropertyRewrites applies any typeTransformers for properties.
@@ -32,8 +33,8 @@ func applyPropertyRewrites(config *config.Configuration) PipelineStage {
 					continue
 				}
 
-				transformation := config.TransformTypeProperties(name, objectType)
-				if transformation != nil {
+				transformations := config.TransformTypeProperties(name, objectType)
+				for _, transformation := range transformations {
 					klog.V(2).Infof("Transforming %s", transformation)
 					objectType = transformation.NewType
 				}
