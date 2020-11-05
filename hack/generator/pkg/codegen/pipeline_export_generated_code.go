@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"time"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
@@ -122,9 +123,6 @@ func MarkLatestResourceVersionsForStorage(
 }
 
 func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*astmodel.PackageDefinition, outputPath string) error {
-	fileCount := 0
-	definitionCount := 0
-
 	var pkgs []*astmodel.PackageDefinition
 	for _, pkg := range packages {
 		pkgs = append(pkgs, pkg)
@@ -139,7 +137,11 @@ func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*ast
 	})
 
 	// emit each package
-	klog.V(0).Infof("Writing output files into %q", outputPath)
+	klog.V(0).Infof("Writing %d packages into %q", len(pkgs), outputPath)
+
+	globalProgress := newProgressMeter()
+	groupProgress := newProgressMeter()
+
 	for _, pkg := range pkgs {
 		if ctx.Err() != nil { // check for cancellation
 			return ctx.Err()
@@ -160,11 +162,12 @@ func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*ast
 			return errors.Wrapf(err, "error writing definitions into %q", outputDir)
 		}
 
-		fileCount += count
-		definitionCount += pkg.DefinitionCount()
+		globalProgress.LogProgress("", pkg.DefinitionCount(), count)
+		groupProgress.LogProgress(pkg.GroupName, pkg.DefinitionCount(), count)
 	}
 
-	klog.V(0).Infof("Completed writing %v files containing %v definitions", fileCount, definitionCount)
+	globalProgress.Log()
+
 	return nil
 }
 
@@ -209,4 +212,52 @@ func getUnversionedName(name astmodel.TypeName) (unversionedName, error) {
 type unversionedName struct {
 	group string
 	name  string
+}
+
+func newProgressMeter() *progressMeter {
+	return &progressMeter{
+		resetAt: time.Now(),
+	}
+}
+
+// progressMeter is a utility struct used to improve our reporting of progress while exporting files
+type progressMeter struct {
+	label       string
+	definitions int
+	files       int
+	resetAt     time.Time
+}
+
+// Log() writes a log message for our progress to this point
+func (export *progressMeter) Log() {
+	started := export.resetAt
+	export.resetAt = time.Now()
+
+	if export.definitions == 0 && export.files == 0 {
+		return
+	}
+
+	elapsed := time.Since(started).Round(time.Millisecond)
+	if export.label != "" {
+		klog.V(2).Infof("Wrote %d files containing %d definitions for %v in %v", export.files, export.definitions, export.label, elapsed)
+	} else {
+		klog.V(2).Infof("Wrote %d files containing %d definitions in %v", export.files, export.definitions, time.Since(started))
+	}
+
+	export.resetAt = time.Now()
+}
+
+// LogProgress() accumulates totals until a new label is supplied, when it will write a log message
+func (export *progressMeter) LogProgress(label string, definitions int, files int) {
+	if export.label != label {
+		// New group, output our current totals and reset
+		export.Log()
+		export.definitions = 0
+		export.files = 0
+		export.resetAt = time.Now()
+	}
+
+	export.label = label
+	export.definitions += definitions
+	export.files += files
 }
