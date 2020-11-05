@@ -25,6 +25,9 @@ func Test_NewResourceGroupDeployment(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
+	testContext, err := testContext.ForTest(t)
+	g.Expect(err).ToNot(HaveOccurred())
+
 	resourceGroup := testContext.NewTestResourceGroup()
 	resourceGroupSpec, err := resourceGroup.Spec.ConvertToArm(resourceGroup.Name)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -32,18 +35,22 @@ func Test_NewResourceGroupDeployment(t *testing.T) {
 	typedResourceGroupSpec := resourceGroupSpec.(resources.ResourceGroupSpecArm)
 
 	deploymentName := testContext.Namer.GenerateName("deployment")
-	deployment := armclient.NewSubscriptionDeployment(testContext.AzureSubscription, testContext.AzureRegion, deploymentName, resourceGroupSpec)
+	deployment := armclient.NewSubscriptionDeployment(
+		testContext.AzureClient.SubscriptionID(),
+		testContext.AzureRegion,
+		deploymentName,
+		resourceGroupSpec)
 
 	log.Printf(
 		"Creating resource group %s (via deployment %s) in subscription %s\n",
 		resourceGroup.Name,
 		deploymentName,
-		testContext.AzureSubscription)
+		testContext.AzureClient.SubscriptionID())
 
 	deployment, err = testContext.AzureClient.CreateDeployment(ctx, deployment)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Eventually(deployment).Should(testContext.Match.BeProvisioned(ctx))
+	g.Eventually(deployment).Should(testContext.AzureMatch.BeProvisioned(ctx))
 
 	// Get the resource group ID
 	id, err := deployment.ResourceID()
@@ -56,15 +63,17 @@ func Test_NewResourceGroupDeployment(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// Ensure that the resource group is deleted
-	g.Eventually([]string{id, typedResourceGroupSpec.ApiVersion}).Should(testContext.Match.BeDeleted(ctx))
+	g.Eventually([]string{id, typedResourceGroupSpec.ApiVersion}).Should(testContext.AzureMatch.BeDeleted(ctx))
 }
 
 func Test_NewResourceGroupDeployment_Error(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
-	deploymentName := testContext.Namer.GenerateName("deployment")
+	testContext, err := testContext.ForTest(t)
+	g.Expect(err).ToNot(HaveOccurred())
 
+	deploymentName := testContext.Namer.GenerateName("deployment")
 	rgName := testContext.Namer.GenerateName("rg")
 
 	resourceGroup := resources.ResourceGroup{
@@ -80,13 +89,17 @@ func Test_NewResourceGroupDeployment_Error(t *testing.T) {
 	resourceGroupSpec, err := resourceGroup.Spec.ConvertToArm(rgName)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	deployment := armclient.NewSubscriptionDeployment(testContext.AzureSubscription, testContext.AzureRegion, deploymentName, resourceGroupSpec)
+	deployment := armclient.NewSubscriptionDeployment(
+		testContext.AzureClient.SubscriptionID(),
+		testContext.AzureRegion,
+		deploymentName,
+		resourceGroupSpec)
 
 	log.Printf(
 		"Creating resource group %s (via deployment %s) in subscription %s\n",
 		rgName,
 		deploymentName,
-		testContext.AzureSubscription)
+		testContext.AzureClient.SubscriptionID())
 
 	_, err = testContext.AzureClient.CreateDeployment(ctx, deployment)
 	g.Expect(err).To(HaveOccurred())

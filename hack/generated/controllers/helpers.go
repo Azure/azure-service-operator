@@ -12,8 +12,8 @@ import (
 	"github.com/google/uuid"
 )
 
-// CreateDeploymentName generates a unique deployment name
-func CreateDeploymentName() (string, error) {
+// createDeploymentName generates a unique deployment name
+func createDeploymentName(_ string) (string, error) {
 	// no status yet, so start provisioning
 	deploymentUUID, err := uuid.NewUUID()
 	if err != nil {

@@ -7,6 +7,8 @@ package testcommon
 
 import (
 	"context"
+	"log"
+	"testing"
 	"time"
 
 	"github.com/pkg/errors"
@@ -22,57 +24,108 @@ import (
 	batch "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.batch/v20170901"
 	resources "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.resources/v20200601"
 	storage "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.storage/v20190401"
+	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 )
-
-type KubeTestContext struct {
-	TestContext
-	KubeClient client.Client
-	Ensure     *Ensure
-	Match      *KubeMatcher
-
-	Namespace string
-}
 
 // TODO: State Annotation parameter should be removed once the interface for Status determined and promoted
 // TODO: to genruntime. Same for errorAnnotation
-func NewKubeTestContext(
-	config *rest.Config,
-	region string,
-	namespace string,
-	stateAnnotation string,
-	errorAnnotation string) (*KubeTestContext, error) {
+type KubeGlobalContext struct {
+	TestContext
 
-	clientOpts := client.Options{
-		Scheme: CreateScheme(),
-	}
+	useEnvTest bool
 
-	kubeClient, err := client.New(config, clientOpts)
-	if err != nil {
-		return nil, errors.Wrapf(err, "creating kubeclient")
-	}
-
-	ensure := NewEnsure(kubeClient, stateAnnotation, errorAnnotation)
-
-	testContext, err := NewTestContext(region)
-	if err != nil {
-		return nil, err
-	}
-
-	return &KubeTestContext{
-		TestContext: *testContext,
-		Ensure:      ensure,
-		Match:       NewKubeMatcher(ensure),
-		KubeClient:  kubeClient,
-		Namespace:   namespace,
-	}, nil
+	namespace       string
+	stateAnnotation string
+	errorAnnotation string
 }
 
-func (tc *KubeTestContext) CreateTestNamespace() error {
+func (ctx KubeGlobalContext) Namespace() string {
+	return ctx.namespace
+}
+
+func NewKubeContext(
+	useEnvTest bool,
+	recordReplay bool,
+	namespace string,
+	region string,
+	stateAnnotation string,
+	errorAnnotation string) KubeGlobalContext {
+	return KubeGlobalContext{
+		TestContext:     NewTestContext(region, recordReplay),
+		useEnvTest:      useEnvTest,
+		namespace:       namespace,
+		stateAnnotation: stateAnnotation,
+		errorAnnotation: errorAnnotation,
+	}
+}
+
+func (ctx KubeGlobalContext) ForTest(t *testing.T) (KubePerTestContext, error) {
+	perTestContext, err := ctx.TestContext.ForTest(t)
+	if err != nil {
+		return KubePerTestContext{}, err
+	}
+
+	var baseCtx *KubeBaseTestContext
+	if ctx.useEnvTest {
+		baseCtx, err = createEnvtestContext(perTestContext)
+	} else {
+		baseCtx, err = createRealKubeContext(perTestContext)
+	}
+
+	if err != nil {
+		return KubePerTestContext{}, err
+	}
+
+	clientOptions := client.Options{Scheme: CreateScheme()}
+	kubeClient, err := client.New(baseCtx.KubeConfig, clientOptions)
+	if err != nil {
+		return KubePerTestContext{}, err
+	}
+
+	ensure := NewEnsure(
+		kubeClient,
+		ctx.stateAnnotation,
+		ctx.errorAnnotation)
+
+	match := NewKubeMatcher(ensure)
+
+	result := KubePerTestContext{
+		KubeGlobalContext:   &ctx,
+		KubeBaseTestContext: *baseCtx,
+		KubeClient:          kubeClient,
+		Ensure:              ensure,
+		Match:               match,
+	}
+
+	err = result.createTestNamespace()
+	if err != nil {
+		return KubePerTestContext{}, err
+	}
+
+	return result, nil
+}
+
+type KubeBaseTestContext struct {
+	PerTestContext
+
+	KubeConfig *rest.Config
+}
+
+type KubePerTestContext struct {
+	*KubeGlobalContext
+	KubeBaseTestContext
+
+	KubeClient client.Client
+	Ensure     *Ensure
+	Match      *KubeMatcher
+}
+
+func (tc KubePerTestContext) createTestNamespace() error {
 	ctx := context.Background()
 
 	ns := &corev1.Namespace{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: tc.Namespace,
+			Name: tc.namespace,
 		},
 	}
 	_, err := controllerutil.CreateOrUpdate(ctx, tc.KubeClient, ns, func() error {
@@ -85,21 +138,21 @@ func (tc *KubeTestContext) CreateTestNamespace() error {
 	return nil
 }
 
-func (tc *KubeTestContext) MakeObjectMeta(prefix string) ctrl.ObjectMeta {
+func (tc KubePerTestContext) MakeObjectMeta(prefix string) ctrl.ObjectMeta {
 	return ctrl.ObjectMeta{
 		Name:      tc.Namer.GenerateName(prefix),
-		Namespace: tc.Namespace,
+		Namespace: tc.namespace,
 	}
 }
 
-func (tc *KubeTestContext) MakeObjectMetaWithName(name string) ctrl.ObjectMeta {
+func (tc KubePerTestContext) MakeObjectMetaWithName(name string) ctrl.ObjectMeta {
 	return ctrl.ObjectMeta{
 		Name:      name,
-		Namespace: tc.Namespace,
+		Namespace: tc.namespace,
 	}
 }
 
-func (tc *KubeTestContext) NewTestResourceGroup() *resources.ResourceGroup {
+func (tc KubePerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
 	return &resources.ResourceGroup{
 		ObjectMeta: tc.MakeObjectMeta("rg"),
 		Spec: resources.ResourceGroupSpec{
@@ -124,4 +177,56 @@ func CreateScheme() *runtime.Scheme {
 	_ = resources.AddToScheme(scheme)
 
 	return scheme
+}
+
+type WaitCondition bool
+
+const (
+	WaitForCreation WaitCondition = true
+	DoNotWait       WaitCondition = false
+)
+
+// CreateNewTestResourceGroup creates a new randomly-named resource group
+// and registers it to be deleted up when the context is cleaned up
+func (tc KubePerTestContext) CreateNewTestResourceGroup(wait WaitCondition) (*resources.ResourceGroup, error) {
+	ctx := context.Background()
+
+	rg := tc.NewTestResourceGroup()
+
+	log.Printf("Creating test resource group %q", rg.Name)
+	err := tc.KubeClient.Create(ctx, rg)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating resource group")
+	}
+
+	// register the RG for cleanup
+	// important to do this before waiting for it, so that
+	// we delete it even if we time out
+	tc.T.Cleanup(func() {
+		ctx := context.Background()
+		log.Printf("Deleting test resource group %q", rg.Name)
+		err := tc.KubeClient.Delete(ctx, rg)
+		if err != nil {
+			// don't error out, just warn
+			log.Printf("Unable to delete resource group: %s", err.Error())
+		}
+	})
+
+	if wait {
+		err = WaitFor(ctx, 2*time.Minute, func(ctx context.Context) (bool, error) {
+			return tc.Ensure.Provisioned(ctx, rg)
+		})
+
+		if err != nil {
+			return nil, errors.Wrapf(err, "waiting for resource group creation")
+		}
+	}
+
+	return rg, nil
+}
+
+func AsOwner(obj metav1.ObjectMeta) genruntime.KnownResourceReference {
+	return genruntime.KnownResourceReference{
+		Name: obj.Name,
+	}
 }

@@ -1,0 +1,37 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"name":"k8sinfratest-deployment-mzojax","location":"westus","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"k8sinfratest-rg-kheqhf","location":"BadLocation","tags":{"CreatedAt":"2020-11-04T08:22:00Z"},"type":"Microsoft.Resources/resourceGroups"}]}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-mzojax?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"LocationNotAvailableForResourceGroup","message":"The provided location ''BadLocation'' is not available for resource group. List of available regions is ''centralus,eastasia,southeastasia,eastus,eastus2,westus,westus2,northcentralus,southcentralus,westcentralus,northeurope,westeurope,japaneast,japanwest,brazilsouth,australiasoutheast,australiaeast,westindia,southindia,centralindia,canadacentral,canadaeast,uksouth,ukwest,koreacentral,koreasouth,francecentral,southafricanorth,uaenorth,australiacentral,switzerlandnorth,germanywestcentral,norwayeast''."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "571"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 05 Nov 2020 00:39:39 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 400 Bad Request
+    code: 400
+    duration: ""

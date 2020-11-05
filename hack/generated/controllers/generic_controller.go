@@ -51,14 +51,17 @@ const (
 
 // GenericReconciler reconciles resources
 type GenericReconciler struct {
-	Log              logr.Logger
-	ARMClient        armclient.Applier
-	KubeClient       *kubeclient.Client
-	ResourceResolver *armresourceresolver.Resolver
-	Recorder         record.EventRecorder
-	Name             string
-	GVK              schema.GroupVersionKind
-	Controller       controller.Controller
+	Log                  logr.Logger
+	ARMClient            armclient.Applier
+	KubeClient           *kubeclient.Client
+	ResourceResolver     *armresourceresolver.Resolver
+	Recorder             record.EventRecorder
+	Name                 string
+	GVK                  schema.GroupVersionKind
+	Controller           controller.Controller
+	RequeueDelay         time.Duration
+	RequeueDelayFast     time.Duration
+	CreateDeploymentName func(azureName string) (string, error)
 }
 
 type ReconcileAction string
@@ -74,7 +77,35 @@ const (
 
 type ReconcileActionFunc = func(ctx context.Context, action ReconcileAction, data *ReconcileMetadata) (ctrl.Result, error)
 
-func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []runtime.Object, log logr.Logger, options controller.Options) []error {
+type Options struct {
+	controller.Options
+
+	// options specific to our controller
+	RequeueDelay         time.Duration
+	RequeueDelayFast     time.Duration
+	CreateDeploymentName func(azureName string) (string, error)
+}
+
+func (options *Options) setDefaults() {
+	// default requeue delay to 5 seconds
+	if options.RequeueDelay == 0 {
+		options.RequeueDelay = 5 * time.Second
+	}
+
+	if options.RequeueDelayFast == 0 {
+		options.RequeueDelayFast = 50 * time.Millisecond
+	}
+
+	// override deployment name generator, if provided
+	if options.CreateDeploymentName == nil {
+		options.CreateDeploymentName = createDeploymentName
+	}
+}
+
+func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []runtime.Object, log logr.Logger, options Options) []error {
+
+	options.setDefaults()
+
 	var errs []error
 	for _, obj := range objs {
 		if err := register(mgr, applier, obj, log, options); err != nil {
@@ -84,7 +115,7 @@ func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []runtime.Obj
 	return errs
 }
 
-func register(mgr ctrl.Manager, applier armclient.Applier, obj runtime.Object, log logr.Logger, options controller.Options) error {
+func register(mgr ctrl.Manager, applier armclient.Applier, obj runtime.Object, log logr.Logger, options Options) error {
 	v, err := conversion.EnforcePtr(obj)
 	if err != nil {
 		return errors.Wrap(err, "obj was expected to be ptr but was not")
@@ -106,18 +137,21 @@ func register(mgr ctrl.Manager, applier armclient.Applier, obj runtime.Object, l
 	kubeClient := kubeclient.NewClient(mgr.GetClient(), mgr.GetScheme())
 
 	reconciler := &GenericReconciler{
-		ARMClient:        applier,
-		KubeClient:       kubeClient,
-		ResourceResolver: armresourceresolver.NewResolver(kubeClient),
-		Name:             t.Name(),
-		Log:              log.WithName(controllerName),
-		Recorder:         mgr.GetEventRecorderFor(controllerName),
-		GVK:              gvk,
+		ARMClient:            applier,
+		KubeClient:           kubeClient,
+		ResourceResolver:     armresourceresolver.NewResolver(kubeClient),
+		Name:                 t.Name(),
+		Log:                  log.WithName(controllerName),
+		Recorder:             mgr.GetEventRecorderFor(controllerName),
+		GVK:                  gvk,
+		RequeueDelay:         options.RequeueDelay,
+		RequeueDelayFast:     options.RequeueDelayFast,
+		CreateDeploymentName: options.CreateDeploymentName,
 	}
 
 	ctrlBuilder := ctrl.NewControllerManagedBy(mgr).
 		For(obj).
-		WithOptions(options)
+		WithOptions(options.Options)
 
 	c, err := ctrlBuilder.Build(reconciler)
 	if err != nil {
@@ -292,7 +326,7 @@ func (gr *GenericReconciler) StartDeleteOfResource(
 
 	// delete has started, check back to seen when the finalizer can be removed
 	return ctrl.Result{
-		RequeueAfter: 5 * time.Second,
+		RequeueAfter: gr.RequeueDelay,
 	}, nil
 }
 
@@ -320,7 +354,7 @@ func (gr *GenericReconciler) MonitorDelete(
 
 	if found {
 		data.log.V(0).Info("Found resource: continuing to wait for deletion...")
-		return ctrl.Result{RequeueAfter: 10 * time.Second}, nil
+		return ctrl.Result{RequeueAfter: gr.RequeueDelay}, nil
 	}
 
 	err = gr.deleteResourceSucceeded(ctx, data)
@@ -363,7 +397,7 @@ func (gr *GenericReconciler) CreateDeployment(ctx context.Context, action Reconc
 	// TODO: This is going to be common... need a wrapper/helper somehow?
 	if !deployment.IsTerminalProvisioningState() {
 		result = ctrl.Result{
-			RequeueAfter: 5 * time.Second,
+			RequeueAfter: gr.RequeueDelay,
 		}
 	}
 	return result, err
@@ -452,7 +486,7 @@ func (gr *GenericReconciler) MonitorDeployment(ctx context.Context, action Recon
 	// TODO: This is going to be common... need a wrapper/helper somehow?
 	if !deployment.IsTerminalProvisioningState() {
 		result = ctrl.Result{
-			RequeueAfter: 5 * time.Second,
+			RequeueAfter: gr.RequeueDelay,
 		}
 	}
 	return result, err
@@ -481,7 +515,7 @@ func (gr *GenericReconciler) ManageOwnership(ctx context.Context, action Reconci
 
 		return ctrl.Result{
 			// TODO: We should consider a scaling backoff here, see: https://github.com/Azure/k8s-infra/issues/263
-			RequeueAfter: 5 * time.Second,
+			RequeueAfter: gr.RequeueDelay,
 		}, nil
 	}
 
@@ -492,7 +526,7 @@ func (gr *GenericReconciler) ManageOwnership(ctx context.Context, action Reconci
 
 	// TODO: Fast requeue as we're moving to the next stage... Do we prefer this or doing it "all at once"?
 	return ctrl.Result{
-		RequeueAfter: 50 * time.Millisecond,
+		RequeueAfter: gr.RequeueDelayFast,
 	}, nil
 }
 
@@ -578,7 +612,7 @@ func (gr *GenericReconciler) resourceSpecToDeployment(ctx context.Context, data 
 	}
 
 	if !deploymentNameOk {
-		deploymentName, err = CreateDeploymentName()
+		deploymentName, err = (gr.CreateDeploymentName)(data.metaObj.AzureName())
 		if err != nil {
 			return nil, err
 		}

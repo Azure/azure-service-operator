@@ -1,5 +1,6 @@
 run:
   deadline: 5m
+  allow-parallel-runners: true
 
 linters:
   enable:

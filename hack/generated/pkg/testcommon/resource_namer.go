@@ -6,23 +6,42 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	"hash/fnv"
 	"math/rand"
 	"strings"
-	"time"
 )
 
-type ResourceNamer struct {
-	rand        *rand.Rand
+type ResourceNameConfig struct {
 	runes       []rune
 	prefix      string
 	randomChars int
 	separator   string
 }
 
-func NewResourceNamer(prefix string, separator string, randomChars int) *ResourceNamer {
-	return &ResourceNamer{
+type ResourceNamer struct {
+	ResourceNameConfig
+	rand *rand.Rand
+}
+
+// NewResourceNamer returns a ResourceNamer that generates random
+// suffixes based upon the test name
+func (rnc ResourceNameConfig) NewResourceNamer(testName string) ResourceNamer {
+	hasher := fnv.New64()
+	n, err := hasher.Write([]byte(testName))
+	if n != len(testName) || err != nil {
+		panic("failed to write hash")
+	}
+
+	seed := hasher.Sum64()
+	return ResourceNamer{
+		ResourceNameConfig: rnc,
 		// nolint: do not want cryptographic randomness here
-		rand:        rand.New(rand.NewSource(time.Now().UnixNano())),
+		rand: rand.New(rand.NewSource(int64(seed))),
+	}
+}
+
+func NewResourceNameConfig(prefix string, separator string, randomChars int) *ResourceNameConfig {
+	return &ResourceNameConfig{
 		runes:       []rune("abcdefghijklmnopqrstuvwxyz"),
 		prefix:      prefix,
 		randomChars: randomChars,
@@ -30,11 +49,17 @@ func NewResourceNamer(prefix string, separator string, randomChars int) *Resourc
 	}
 }
 
-func (n *ResourceNamer) WithSeparator(separator string) *ResourceNamer {
-	return NewResourceNamer(n.prefix, separator, n.randomChars)
+func (n ResourceNameConfig) WithSeparator(separator string) *ResourceNameConfig {
+	n.separator = separator
+	return &n
 }
 
-func (n *ResourceNamer) generateName(prefix string, num int) string {
+func (n ResourceNamer) WithSeparator(separator string) ResourceNamer {
+	n.separator = separator
+	return n
+}
+
+func (n ResourceNamer) generateName(prefix string, num int) string {
 	result := make([]rune, num)
 	for i := 0; i < num; i++ {
 		result[i] = n.runes[n.rand.Intn(len(n.runes))]
@@ -50,6 +75,6 @@ func (n *ResourceNamer) generateName(prefix string, num int) string {
 	return strings.Join(s, n.separator)
 }
 
-func (n *ResourceNamer) GenerateName(prefix string) string {
+func (n ResourceNamer) GenerateName(prefix string) string {
 	return n.generateName(prefix, n.randomChars)
 }

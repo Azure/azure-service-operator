@@ -8,6 +8,9 @@
 # Test binary, built with `go test -c`
 *.test
 
+# go-task file hashes
+.task/
+
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 *.lcov

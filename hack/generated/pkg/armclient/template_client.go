@@ -8,15 +8,15 @@ package armclient
 import (
 	"context"
 	"fmt"
-	"os"
 	"strings"
 	"time"
 
-	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 )
 
@@ -28,6 +28,8 @@ type Applier interface {
 	NewResourceGroupDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
 	NewSubscriptionDeployment(location string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
 
+	SubscriptionID() string
+
 	// TODO: These functions take an empty status and fill it out with the response from Azure (rather than as
 	// TODO: the return type. I don't love that pattern but don't have a better one either.
 	BeginDeleteResource(ctx context.Context, id string, apiVersion string, status genruntime.ArmResourceStatus) error
@@ -38,7 +40,7 @@ type Applier interface {
 type AzureTemplateClient struct {
 	RawClient      *Client
 	Logger         logr.Logger
-	SubscriptionID string
+	subscriptionID string
 }
 
 type Template struct {
@@ -134,20 +136,7 @@ func WithDefaultRetries() func(*ClientConfig) *ClientConfig {
 	})
 }
 
-func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateClient, error) {
-	cfg := &ClientConfig{
-		Logger: ctrl.Log.WithName("azure_template_client"),
-	}
-
-	for _, opt := range opts {
-		opt(cfg)
-	}
-
-	subID := os.Getenv(auth.SubscriptionID)
-	if subID == "" {
-		return nil, errors.Errorf("env var %q was not set", auth.SubscriptionID)
-	}
-
+func AuthorizerFromEnvironment() (autorest.Authorizer, error) {
 	envSettings, err := auth.GetSettingsFromEnvironment()
 	if err != nil {
 		return nil, err
@@ -156,6 +145,18 @@ func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateCl
 	authorizer, err := envSettings.GetAuthorizer()
 	if err != nil {
 		return nil, err
+	}
+
+	return authorizer, nil
+}
+
+func NewAzureTemplateClient(authorizer autorest.Authorizer, subID string, opts ...AzureTemplateClientOption) (*AzureTemplateClient, error) {
+	cfg := &ClientConfig{
+		Logger: ctrl.Log.WithName("azure_template_client"),
+	}
+
+	for _, opt := range opts {
+		opt(cfg)
 	}
 
 	rawClient := NewClient(authorizer)
@@ -170,8 +171,12 @@ func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateCl
 	return &AzureTemplateClient{
 		RawClient:      rawClient,
 		Logger:         cfg.Logger,
-		SubscriptionID: subID,
+		subscriptionID: subID,
 	}, nil
+}
+
+func (atc *AzureTemplateClient) SubscriptionID() string {
+	return atc.subscriptionID
 }
 
 func (atc *AzureTemplateClient) GetResource(ctx context.Context, id string, apiVersion string, status genruntime.ArmResourceStatus) error {
@@ -229,13 +234,13 @@ func createResourceIdTemplate(resourceSpec genruntime.ArmResourceSpec) map[strin
 }
 
 func (atc *AzureTemplateClient) NewResourceGroupDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment {
-	deployment := NewResourceGroupDeployment(atc.SubscriptionID, resourceGroup, deploymentName, resourceSpec)
+	deployment := NewResourceGroupDeployment(atc.subscriptionID, resourceGroup, deploymentName, resourceSpec)
 	deployment.Properties.Template.Outputs = createResourceIdTemplate(resourceSpec)
 	return deployment
 }
 
 func (atc *AzureTemplateClient) NewSubscriptionDeployment(location string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment {
-	deployment := NewSubscriptionDeployment(atc.SubscriptionID, location, deploymentName, resourceSpec)
+	deployment := NewSubscriptionDeployment(atc.subscriptionID, location, deploymentName, resourceSpec)
 	deployment.Properties.Template.Outputs = createResourceIdTemplate(resourceSpec)
 	return deployment
 }
@@ -269,7 +274,8 @@ func (atc *AzureTemplateClient) HeadResource(ctx context.Context, id string, api
 	}
 
 	idAndAPIVersion := id + fmt.Sprintf("?api-version=%s", apiVersion)
-	err := atc.RawClient.GetResource(ctx, idAndAPIVersion, nil)
+	ignored := struct{}{}
+	err := atc.RawClient.GetResource(ctx, idAndAPIVersion, &ignored)
 	switch {
 	case IsNotFound(err):
 		return false, nil

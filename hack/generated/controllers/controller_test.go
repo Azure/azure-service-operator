@@ -13,15 +13,20 @@ import (
 
 	storage "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.storage/v20190401"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
+	"github.com/Azure/k8s-infra/hack/generated/pkg/testcommon"
 )
 
 func Test_ResourceGroup_CRUD(t *testing.T) {
+	t.Parallel()
+
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
+	testContext, err := testContext.ForTest(t)
+	g.Expect(err).ToNot(HaveOccurred())
 
 	// Create a resource group
 	rg := testContext.NewTestResourceGroup()
-	err := testContext.KubeClient.Create(ctx, rg)
+	err = testContext.KubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// It should be created in Kubernetes
@@ -48,8 +53,15 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 }
 
 func Test_StorageAccount_CRUD(t *testing.T) {
+	t.Parallel()
+
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
+	testContext, err := testContext.ForTest(t)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg, err := testContext.CreateNewTestResourceGroup(testcommon.WaitForCreation)
+	g.Expect(err).ToNot(HaveOccurred())
 
 	// Custom namer because storage accounts have strict names
 	namer := testContext.Namer.WithSeparator("")
@@ -61,7 +73,7 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 		Spec: storage.StorageAccounts_Spec{
 			Location:   testContext.AzureRegion,
 			ApiVersion: "2019-04-01", // TODO: This should be removed from the storage type eventually
-			Owner:      testContext.SharedResourceGroupOwner(),
+			Owner:      testcommon.AsOwner(rg.ObjectMeta),
 			Kind:       storage.StorageAccountsSpecKindBlobStorage,
 			Sku: storage.Sku{
 				Name: storage.SkuNameStandardLRS,
@@ -72,7 +84,7 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 			},
 		},
 	}
-	err := testContext.KubeClient.Create(ctx, acct)
+	err = testContext.KubeClient.Create(ctx, acct)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// It should be created in Kubernetes

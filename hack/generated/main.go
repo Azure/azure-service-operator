@@ -7,9 +7,12 @@ package main
 
 import (
 	"flag"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
+	"fmt"
 	"os"
 	"time"
+
+	"github.com/Azure/go-autorest/autorest/azure/auth"
+	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
@@ -68,9 +71,21 @@ func main() {
 		os.Exit(1)
 	}
 
-	armApplier, err := armclient.NewAzureTemplateClient()
+	authorizer, err := armclient.AuthorizerFromEnvironment()
 	if err != nil {
-		setupLog.Error(err, "failed to create arm Applier.")
+		setupLog.Error(err, "unable to get authorization settings")
+		os.Exit(1)
+	}
+
+	subID := os.Getenv(auth.SubscriptionID)
+	if subID == "" {
+		setupLog.Error(err, fmt.Sprintf("unable to get env var %q", auth.SubscriptionID))
+		os.Exit(1)
+	}
+
+	armApplier, err := armclient.NewAzureTemplateClient(authorizer, subID)
+	if err != nil {
+		setupLog.Error(err, "failed to create ARM applier")
 		os.Exit(1)
 	}
 
@@ -88,6 +103,10 @@ func main() {
 	}
 }
 
-func concurrency(c int) controller.Options {
-	return controller.Options{MaxConcurrentReconciles: c}
+func concurrency(c int) controllers.Options {
+	return controllers.Options{
+		Options: controller.Options{
+			MaxConcurrentReconciles: c,
+		},
+	}
 }

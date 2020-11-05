@@ -8,6 +8,7 @@ require (
 	github.com/Azure/go-autorest/autorest/date v0.2.0
 	github.com/Azure/k8s-infra v0.2.0
 	github.com/devigned/tab v0.1.1
+	github.com/dnaeon/go-vcr v1.1.0
 	github.com/go-logr/logr v0.1.0
 	github.com/google/uuid v1.1.1
 	github.com/onsi/gomega v1.10.1
