@@ -1,5 +1,7 @@
 version: '3'
 
+output: prefixed
+
 vars:
   GENERATOR_APP: k8sinfra-gen
   GENERATOR_ROOT: ./hack/generator/
