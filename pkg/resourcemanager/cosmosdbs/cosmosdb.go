@@ -20,13 +20,14 @@ import (
 
 // AzureCosmosDBManager is the struct which contains helper functions for resource groups
 type AzureCosmosDBManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 }
 
-func getCosmosDBClient() (documentdb.DatabaseAccountsClient, error) {
-	cosmosDBClient := documentdb.NewDatabaseAccountsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
+func getCosmosDBClient(creds config.Credentials) (documentdb.DatabaseAccountsClient, error) {
+	cosmosDBClient := documentdb.NewDatabaseAccountsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
 
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		cosmosDBClient = documentdb.DatabaseAccountsClient{}
 	} else {
@@ -38,12 +39,12 @@ func getCosmosDBClient() (documentdb.DatabaseAccountsClient, error) {
 }
 
 // CreateOrUpdateCosmosDB creates a new CosmosDB
-func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
+func (m *AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	ctx context.Context,
 	accountName string,
 	spec v1alpha1.CosmosDBSpec,
 	tags map[string]*string) (*documentdb.DatabaseAccount, string, error) {
-	cosmosDBClient, err := getCosmosDBClient()
+	cosmosDBClient, err := getCosmosDBClient(m.Creds)
 	if err != nil {
 		return nil, "", err
 	}
@@ -79,11 +80,11 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 }
 
 // GetCosmosDB gets the cosmos db account
-func (*AzureCosmosDBManager) GetCosmosDB(
+func (m *AzureCosmosDBManager) GetCosmosDB(
 	ctx context.Context,
 	groupName string,
 	cosmosDBName string) (*documentdb.DatabaseAccount, error) {
-	cosmosDBClient, err := getCosmosDBClient()
+	cosmosDBClient, err := getCosmosDBClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -96,10 +97,10 @@ func (*AzureCosmosDBManager) GetCosmosDB(
 }
 
 // CheckNameExistsCosmosDB checks if the global account name already exists
-func (*AzureCosmosDBManager) CheckNameExistsCosmosDB(
+func (m *AzureCosmosDBManager) CheckNameExistsCosmosDB(
 	ctx context.Context,
 	accountName string) (bool, error) {
-	cosmosDBClient, err := getCosmosDBClient()
+	cosmosDBClient, err := getCosmosDBClient(m.Creds)
 	if err != nil {
 		return false, err
 	}
@@ -120,11 +121,11 @@ func (*AzureCosmosDBManager) CheckNameExistsCosmosDB(
 }
 
 // DeleteCosmosDB removes the resource group named by env var
-func (*AzureCosmosDBManager) DeleteCosmosDB(
+func (m *AzureCosmosDBManager) DeleteCosmosDB(
 	ctx context.Context,
 	groupName string,
 	cosmosDBName string) (*autorest.Response, error) {
-	cosmosDBClient, err := getCosmosDBClient()
+	cosmosDBClient, err := getCosmosDBClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -142,11 +143,11 @@ func (*AzureCosmosDBManager) DeleteCosmosDB(
 }
 
 // ListKeys lists the read & write keys for a database account
-func (*AzureCosmosDBManager) ListKeys(
+func (m *AzureCosmosDBManager) ListKeys(
 	ctx context.Context,
 	groupName string,
 	accountName string) (*documentdb.DatabaseAccountListKeysResult, error) {
-	client, err := getCosmosDBClient()
+	client, err := getCosmosDBClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -160,11 +161,11 @@ func (*AzureCosmosDBManager) ListKeys(
 }
 
 // ListConnectionStrings lists the connection strings for a database account
-func (*AzureCosmosDBManager) ListConnectionStrings(
+func (m *AzureCosmosDBManager) ListConnectionStrings(
 	ctx context.Context,
 	groupName string,
 	accountName string) (*documentdb.DatabaseAccountListConnectionStringsResult, error) {
-	client, err := getCosmosDBClient()
+	client, err := getCosmosDBClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}

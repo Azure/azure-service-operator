@@ -250,7 +250,7 @@ func setup() error {
 	err = (&CosmosDBReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagercosmosdb.NewAzureCosmosDBManager(secretClient),
+			AzureClient: resourcemanagercosmosdb.NewAzureCosmosDBManager(config.GlobalCredentials(), secretClient),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"CosmosDB",
 				ctrl.Log.WithName("controllers").WithName("CosmosDB"),
