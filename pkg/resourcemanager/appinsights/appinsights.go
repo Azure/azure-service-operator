@@ -25,13 +25,15 @@ import (
 
 // Manager manages Azure Application Insights services
 type Manager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
 // NewManager creates a new AppInsights Manager
-func NewManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *Manager {
+func NewManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *Manager {
 	return &Manager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
@@ -80,7 +82,7 @@ func (m *Manager) CreateAppInsights(
 	location string,
 	resourceName string) (*insights.ApplicationInsightsComponent, error) {
 
-	componentsClient, err := getComponentsClient()
+	componentsClient, err := getComponentsClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -280,7 +282,7 @@ func (m *Manager) DeleteAppInsights(
 	resourceGroupName string,
 	resourceName string) (autorest.Response, error) {
 
-	componentsClient, err := getComponentsClient()
+	componentsClient, err := getComponentsClient(m.Creds)
 	if err != nil {
 		return autorest.Response{Response: &http.Response{StatusCode: 500}}, err
 	}
@@ -298,16 +300,16 @@ func (m *Manager) GetAppInsights(
 	resourceGroupName string,
 	resourceName string) (insights.ApplicationInsightsComponent, error) {
 
-	componentsClient, err := getComponentsClient()
+	componentsClient, err := getComponentsClient(m.Creds)
 	if err != nil {
 		return insights.ApplicationInsightsComponent{}, err
 	}
 	return componentsClient.Get(ctx, resourceGroupName, resourceName)
 }
 
-func getComponentsClient() (insights.ComponentsClient, error) {
-	insightsClient := insights.NewComponentsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getComponentsClient(creds config.Credentials) (insights.ComponentsClient, error) {
+	insightsClient := insights.NewComponentsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		insightsClient = insights.ComponentsClient{}
 	} else {

@@ -158,6 +158,7 @@ func main() {
 
 	redisCacheFirewallRuleManager := rcfwr.NewAzureRedisCacheFirewallRuleManager()
 	appInsightsManager := resourcemanagerappinsights.NewManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
@@ -870,7 +871,7 @@ func main() {
 	if err = (&controllers.AppInsightsApiKeyReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: resourcemanagerappinsights.NewAPIKeyClient(secretClient, scheme),
+			AzureClient: resourcemanagerappinsights.NewAPIKeyClient(config.GlobalCredentials(), secretClient, scheme),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AppInsightsApiKey",
 				ctrl.Log.WithName("controllers").WithName("AppInsightsApiKey"),

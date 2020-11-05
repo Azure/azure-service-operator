@@ -195,6 +195,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: resourcemanagerappinsights.NewManager(
+				config.GlobalCredentials(),
 				secretClient,
 				scheme.Scheme,
 			),
@@ -214,6 +215,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: resourcemanagerappinsights.NewAPIKeyClient(
+				config.GlobalCredentials(),
 				secretClient,
 				scheme.Scheme,
 			),

@@ -15,20 +15,22 @@ import (
 )
 
 type InsightsAPIKeysClient struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAPIKeyClient(secretClient secrets.SecretClient, scheme *runtime.Scheme) *InsightsAPIKeysClient {
+func NewAPIKeyClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *InsightsAPIKeysClient {
 	return &InsightsAPIKeysClient{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
 }
 
-func getApiKeysClient() (insights.APIKeysClient, error) {
-	insightsClient := insights.NewAPIKeysClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getApiKeysClient(creds config.Credentials) (insights.APIKeysClient, error) {
+	insightsClient := insights.NewAPIKeysClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		insightsClient = insights.APIKeysClient{}
 		return insights.APIKeysClient{}, err
@@ -43,24 +45,24 @@ func getApiKeysClient() (insights.APIKeysClient, error) {
 func (c *InsightsAPIKeysClient) CreateKey(ctx context.Context, resourceGroup, insightsaccount, name string, read, write, authSDK bool) (insights.ApplicationInsightsComponentAPIKey, error) {
 	apiKey := insights.ApplicationInsightsComponentAPIKey{}
 
-	client, err := getApiKeysClient()
+	client, err := getApiKeysClient(c.Creds)
 	if err != nil {
 		return apiKey, err
 	}
 
 	readIds := []string{
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/api", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/draft", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/extendqueries", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/search", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/aggregate", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/api", c.Creds.SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/draft", c.Creds.SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/extendqueries", c.Creds.SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/search", c.Creds.SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/aggregate", c.Creds.SubscriptionID(), resourceGroup, insightsaccount),
 	}
 
 	writeIds := []string{
-		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/annotations", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount),
+		fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/annotations", c.Creds.SubscriptionID(), resourceGroup, insightsaccount),
 	}
 
-	authSDKControl := []string{fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/agentconfig", config.GlobalCredentials().SubscriptionID(), resourceGroup, insightsaccount)}
+	authSDKControl := []string{fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/microsoft.insights/components/%s/agentconfig", c.Creds.SubscriptionID(), resourceGroup, insightsaccount)}
 
 	keyprops := insights.APIKeyRequest{
 		Name: &name,
@@ -97,7 +99,7 @@ func (c *InsightsAPIKeysClient) CreateKey(ctx context.Context, resourceGroup, in
 }
 
 func (c *InsightsAPIKeysClient) DeleteKey(ctx context.Context, resourceGroup, insightsaccount, name string) error {
-	client, err := getApiKeysClient()
+	client, err := getApiKeysClient(c.Creds)
 	if err != nil {
 		return err
 	}
@@ -111,7 +113,7 @@ func (c *InsightsAPIKeysClient) DeleteKey(ctx context.Context, resourceGroup, in
 
 func (c *InsightsAPIKeysClient) GetKey(ctx context.Context, resourceGroup, insightsaccount, name string) (insights.ApplicationInsightsComponentAPIKey, error) {
 	result := insights.ApplicationInsightsComponentAPIKey{}
-	client, err := getApiKeysClient()
+	client, err := getApiKeysClient(c.Creds)
 	if err != nil {
 		return result, err
 	}
@@ -126,7 +128,7 @@ func (c *InsightsAPIKeysClient) GetKey(ctx context.Context, resourceGroup, insig
 
 func (c *InsightsAPIKeysClient) ListKeys(ctx context.Context, resourceGroup, insightsaccount string) (insights.ApplicationInsightsComponentAPIKeyListResult, error) {
 	result := insights.ApplicationInsightsComponentAPIKeyListResult{}
-	client, err := getApiKeysClient()
+	client, err := getApiKeysClient(c.Creds)
 	if err != nil {
 		return result, err
 	}
