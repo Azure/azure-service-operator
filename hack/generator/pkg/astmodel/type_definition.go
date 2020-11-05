@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"github.com/pkg/errors"
 	"go/ast"
 	"go/token"
@@ -74,7 +75,7 @@ func AsSimpleDeclarations(codeGenerationContext *CodeGenerationContext, name Typ
 	var docComments *ast.CommentGroup
 	if len(description) > 0 {
 		docComments = &ast.CommentGroup{}
-		addWrappedComments(&docComments.List, description, 120)
+		astbuilder.AddWrappedComments(&docComments.List, description, 120)
 	}
 
 	return []ast.Decl{

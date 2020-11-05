@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"go/ast"
 	"go/token"
 	"sort"
@@ -80,31 +81,21 @@ func (enum *EnumType) createBaseDeclaration(
 		},
 	}
 
-	addWrappedComments(&declaration.Doc.List, description, 120)
+	astbuilder.AddWrappedComments(&declaration.Doc.List, description, 120)
 
 	validationComment := GenerateKubebuilderComment(enum.CreateValidation())
-	addComment(&declaration.Doc.List, validationComment)
+	astbuilder.AddComment(&declaration.Doc.List, validationComment)
 
 	return declaration
 }
 
 func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) ast.Spec {
 
-	enumIdentifier := ast.NewIdent(name.Name())
 	valueIdentifier := ast.NewIdent(GetEnumValueId(name, value))
-
-	valueLiteral := ast.BasicLit{
-		Kind:  token.STRING,
-		Value: value.Value,
-	}
-
 	valueSpec := &ast.ValueSpec{
 		Names: []*ast.Ident{valueIdentifier},
 		Values: []ast.Expr{
-			&ast.CallExpr{
-				Fun:  enumIdentifier,
-				Args: []ast.Expr{&valueLiteral},
-			},
+			astbuilder.CallFuncByName(name.Name(), astbuilder.TextLiteral(value.Value)),
 		},
 	}
 

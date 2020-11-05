@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package astmodel
+package astbuilder
 
 import (
 	"go/ast"
@@ -11,27 +11,36 @@ import (
 	"strings"
 )
 
-// Utility methods for adding comments
-
-func addWrappedComments(commentList *[]*ast.Comment, comments []string, width int) {
+func AddWrappedComments(commentList *[]*ast.Comment, comments []string, width int) {
 	for _, comment := range comments {
 		// Skip empty comments
 		if comment == "" {
 			continue
 		}
 
-		addWrappedComment(commentList, comment, width)
+		AddWrappedComment(commentList, comment, width)
 	}
 }
 
-func addWrappedComment(commentList *[]*ast.Comment, comment string, width int) {
+func AddWrappedComment(commentList *[]*ast.Comment, comment string, width int) {
 	for _, c := range formatComment(comment, width) {
-		addComment(commentList, c)
+		AddComment(commentList, c)
 	}
 }
 
-func addComment(commentList *[]*ast.Comment, comment string) {
-	line := strings.TrimSpace(comment)
+func AddComments(commentList *[]*ast.Comment, comments []string) {
+	for _, comment := range comments {
+		// Skip empty comments
+		if comment == "" {
+			continue
+		}
+
+		AddComment(commentList, comment)
+	}
+}
+
+func AddComment(commentList *[]*ast.Comment, comment string) {
+	line := comment
 
 	if !strings.HasPrefix(line, "//") {
 		line = "//" + line
@@ -113,4 +122,14 @@ func findBreakPoint(line string, start int, width int) int {
 	}
 
 	return len(line) - 1
+}
+
+// CommentLength returns the text length of the comments, including EoLN characters
+func CommentLength(comments []*ast.Comment) int {
+	length := 0
+	for _, l := range comments {
+		length += len(l.Text) + 1 // length including EoLN
+	}
+
+	return length
 }

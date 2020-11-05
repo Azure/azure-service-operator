@@ -137,29 +137,26 @@ func armSpecInterfaceSimpleGetFunction(
 		}
 	}
 
-	return astbuilder.DefineFunc(
-		astbuilder.FuncDetails{
-			Name:          ast.NewIdent(methodName),
-			ReceiverIdent: receiverIdent,
-			// TODO: We're too loosey-goosey here with ptr vs value receiver.
-			// TODO: We basically need to use a value receiver right now because
-			// TODO: ConvertToArm always returns a value, but for other interface impls
-			// TODO: for example on resource we use ptr receiver... the inconsistency is
-			// TODO: awkward...
-			ReceiverType: receiverType,
-			Comment:      fmt.Sprintf("returns the %s of the resource", propertyName),
-			Params:       nil,
-			Returns: []*ast.Field{
-				{
-					Type: ast.NewIdent("string"),
+	fn := &astbuilder.FuncDetails{
+		Name:          ast.NewIdent(methodName),
+		ReceiverIdent: receiverIdent,
+		// TODO: We're too loosey-goosey here with ptr vs value receiver.
+		// TODO: We basically need to use a value receiver right now because
+		// TODO: ConvertToArm always returns a value, but for other interface impls
+		// TODO: for example on resource we use ptr receiver... the inconsistency is
+		// TODO: awkward...
+		ReceiverType: receiverType,
+		Body: []ast.Stmt{
+			&ast.ReturnStmt{
+				Results: []ast.Expr{
+					result,
 				},
 			},
-			Body: []ast.Stmt{
-				&ast.ReturnStmt{
-					Results: []ast.Expr{
-						result,
-					},
-				},
-			},
-		})
+		},
+	}
+
+	fn.AddComments(fmt.Sprintf("returns the %s of the resource", propertyName))
+	fn.AddReturns("string")
+
+	return fn.DefineFunc()
 }

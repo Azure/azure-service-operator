@@ -53,32 +53,20 @@ func newConvertToArmFunctionBuilder(
 }
 
 func (builder *convertToArmBuilder) functionDeclaration() *ast.FuncDecl {
-	return astbuilder.DefineFunc(
-		astbuilder.FuncDetails{
-			Name:          ast.NewIdent(builder.methodName),
-			ReceiverIdent: builder.receiverIdent,
-			ReceiverType: &ast.StarExpr{
-				X: builder.receiverTypeExpr,
-			},
-			Comment: "converts from a Kubernetes CRD object to an ARM object",
-			Params: []*ast.Field{
-				{
-					Type: ast.NewIdent("string"),
-					Names: []*ast.Ident{
-						ast.NewIdent(nameParameterString),
-					},
-				},
-			},
-			Returns: []*ast.Field{
-				{
-					Type: ast.NewIdent("interface{}"),
-				},
-				{
-					Type: ast.NewIdent("error"),
-				},
-			},
-			Body: builder.functionBodyStatements(),
-		})
+	fn := &astbuilder.FuncDetails{
+		Name:          ast.NewIdent(builder.methodName),
+		ReceiverIdent: builder.receiverIdent,
+		ReceiverType: &ast.StarExpr{
+			X: builder.receiverTypeExpr,
+		},
+		Body: builder.functionBodyStatements(),
+	}
+
+	fn.AddParameter(nameParameterString, ast.NewIdent("string"))
+	fn.AddReturns("interface{}", "error")
+	fn.AddComments("converts from a Kubernetes CRD object to an ARM object")
+
+	return fn.DefineFunc()
 }
 
 func (builder *convertToArmBuilder) functionBodyStatements() []ast.Stmt {
@@ -372,9 +360,10 @@ func (builder *convertToArmBuilder) convertComplexArrayProperty(
 	elemIdent := ast.NewIdent("elem")
 
 	if depth > 0 {
-		results = append(results, astbuilder.SimpleVariableDeclaration(
+		results = append(results, astbuilder.LocalVariableDeclaration(
 			typedVarIdent,
-			destinationType.AsType(builder.codeGenerationContext)))
+			destinationType.AsType(builder.codeGenerationContext),
+			""))
 		typedVarIdent = ast.NewIdent(fmt.Sprintf("elemTyped%d", depth))
 	}
 

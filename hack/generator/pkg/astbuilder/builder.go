@@ -6,7 +6,6 @@
 package astbuilder
 
 import (
-	"fmt"
 	"go/ast"
 	"go/token"
 )
@@ -36,8 +35,9 @@ func CheckErrorAndReturn(otherReturns ...ast.Expr) ast.Stmt {
 	}
 }
 
-// NewQualifiedStruct creates a new assignment statement where a struct is constructed and stored in a variable of the given name. For example:
-// 	<varName> := <packageRef>.<structName>{}
+// NewQualifiedStruct creates a new assignment statement where a struct is constructed and stored in a variable of the given name.
+// For example:
+//     <varName> := <packageRef>.<structName>{}
 func NewQualifiedStruct(varName *ast.Ident, qualifier *ast.Ident, structName *ast.Ident) ast.Stmt {
 	return SimpleAssignment(
 		varName,
@@ -50,8 +50,9 @@ func NewQualifiedStruct(varName *ast.Ident, qualifier *ast.Ident, structName *as
 		})
 }
 
-// NewStruct creates a new assignment statement where a struct is constructed and stored in a variable of the given name. For example:
-// 	<varName> := <structName>{}
+// NewStruct creates a new assignment statement where a struct is constructed and stored in a variable of the given name.
+// For example:
+//     <varName> := <structName>{}
 func NewStruct(varName *ast.Ident, structName *ast.Ident) ast.Stmt {
 	return SimpleAssignment(
 		varName,
@@ -61,106 +62,44 @@ func NewStruct(varName *ast.Ident, structName *ast.Ident) ast.Stmt {
 		})
 }
 
-type FuncDetails struct {
-	ReceiverIdent *ast.Ident
-	ReceiverType  ast.Expr
-	Name          *ast.Ident
-	Comment       string
-	Params        []*ast.Field
-	Returns       []*ast.Field
-	Body          []ast.Stmt
-}
-
-// DefineFunc defines a function (header, body, etc), like:
-// 	<comment>
-//	func (<receiverIdent> <receiverType>) <name>(<params...>) (<returns...>) {
-// 		<body...>
-//	}
-func DefineFunc(funcDetails FuncDetails) *ast.FuncDecl {
-
-	var comment []*ast.Comment
-	if funcDetails.Comment != "" {
-		comment = []*ast.Comment{
-			{
-				Text: fmt.Sprintf("// %s %s", funcDetails.Name, funcDetails.Comment),
-			},
-		}
-	}
-
-	return &ast.FuncDecl{
-		Recv: &ast.FieldList{
-			List: []*ast.Field{
-				{
-					Names: []*ast.Ident{
-						funcDetails.ReceiverIdent,
-					},
-					Type: funcDetails.ReceiverType,
-				},
-			},
-		},
-		Name: funcDetails.Name,
-		Doc: &ast.CommentGroup{
-			List: comment,
-		},
-		Type: &ast.FuncType{
-			Params: &ast.FieldList{
-				List: funcDetails.Params,
-			},
-			Results: &ast.FieldList{
-				List: funcDetails.Returns,
-			},
-		},
-		Body: &ast.BlockStmt{
-			List: funcDetails.Body,
-		},
-	}
-}
-
-// SimpleAssignment performs a simple assignment like:
-// 	<lhs> <tok> <rhs>
-func SimpleAssignment(lhs ast.Expr, tok token.Token, rhs ast.Expr) *ast.AssignStmt {
-	return &ast.AssignStmt{
-		Lhs: []ast.Expr{
-			lhs,
-		},
-		Tok: tok,
-		Rhs: []ast.Expr{
-			rhs,
-		},
-	}
-}
-
-// SimpleVariableDeclaration performs a simple variable declaration like:
+// LocalVariableDeclaration performs a local variable declaration for use within a method like:
 // 	var <ident> <typ>
-func SimpleVariableDeclaration(ident *ast.Ident, typ ast.Expr) *ast.DeclStmt {
+func LocalVariableDeclaration(ident *ast.Ident, typ ast.Expr, comment string) ast.Stmt {
 	return &ast.DeclStmt{
-		Decl: &ast.GenDecl{
-			Tok: token.VAR,
-			Specs: []ast.Spec{
-				&ast.ValueSpec{
-					Names: []*ast.Ident{
-						ident,
-					},
-					Type: typ,
+		Decl: VariableDeclaration(ident, typ, comment),
+	}
+}
+
+// VariableDeclaration performs a global variable declaration like:
+//  // <comment>
+// 	var <ident> <typ>
+// For a LocalVariable within a method, use LocalVariableDeclaration() to create an ast.Stmt instead
+func VariableDeclaration(ident *ast.Ident, typ ast.Expr, comment string) *ast.GenDecl {
+	decl := &ast.GenDecl{
+		Tok: token.VAR,
+		Specs: []ast.Spec{
+			&ast.ValueSpec{
+				Names: []*ast.Ident{
+					ident,
 				},
+				Type: typ,
 			},
 		},
+		Doc: &ast.CommentGroup{},
 	}
+
+	AddWrappedComment(&decl.Doc.List, comment, 80)
+
+	return decl
 }
 
 // AppendList returns a statement for a list append, like:
-//	<lhs> = append(<lhs>, <rhs>)
+//     <lhs> = append(<lhs>, <rhs>)
 func AppendList(lhs ast.Expr, rhs ast.Expr) ast.Stmt {
 	return SimpleAssignment(
 		lhs,
 		token.ASSIGN,
-		&ast.CallExpr{
-			Fun: ast.NewIdent("append"),
-			Args: []ast.Expr{
-				lhs,
-				rhs,
-			},
-		})
+		CallFuncByName("append", lhs, rhs))
 }
 
 // InsertMap returns an assignment statement for inserting an item into a map, like:
@@ -243,6 +182,20 @@ func ReturnIfNil(toCheck ast.Expr, returns ...ast.Expr) ast.Stmt {
 		returns...)
 }
 
+// ReturnIfNotNil checks if a variable is not nil and if it is returns, like:
+// 	if <toCheck> != nil {
+// 		return <returns...>
+//	}
+func ReturnIfNotNil(toCheck ast.Expr, returns ...ast.Expr) ast.Stmt {
+	return ReturnIfExpr(
+		&ast.BinaryExpr{
+			X:  toCheck,
+			Op: token.NEQ,
+			Y:  ast.NewIdent("nil"),
+		},
+		returns...)
+}
+
 // ReturnIfExpr returns if the expression evaluates as true.
 //	if <cond> {
 // 		return <returns...>
@@ -266,22 +219,13 @@ func ReturnIfExpr(cond ast.Expr, returns ...ast.Expr) *ast.IfStmt {
 
 // FormatError produces a call to fmt.Errorf with the given format string and args
 //	fmt.Errorf(<formatString>, <args>)
-func FormatError(formatString string, args ...ast.Expr) *ast.CallExpr {
+func FormatError(formatString string, args ...ast.Expr) ast.Expr {
 	var callArgs []ast.Expr
 	callArgs = append(
 		callArgs,
-		&ast.BasicLit{
-			Kind:  token.STRING,
-			Value: formatString,
-		})
+		StringLiteral(formatString))
 	callArgs = append(callArgs, args...)
-	return &ast.CallExpr{
-		Fun: &ast.SelectorExpr{
-			X:   ast.NewIdent("fmt"),
-			Sel: ast.NewIdent("Errorf"),
-		},
-		Args: callArgs,
-	}
+	return CallQualifiedFuncByName("fmt", "Errorf", callArgs...)
 }
 
 // AddrOf returns a statement that gets the address of the provided expression.
@@ -290,5 +234,11 @@ func AddrOf(exp ast.Expr) *ast.UnaryExpr {
 	return &ast.UnaryExpr{
 		Op: token.AND,
 		X:  exp,
+	}
+}
+
+func Returns(returns ...ast.Expr) ast.Stmt {
+	return &ast.ReturnStmt{
+		Results: returns,
 	}
 }

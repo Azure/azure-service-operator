@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package astmodel
+package astbuilder
 
 import (
 	. "github.com/onsi/gomega"

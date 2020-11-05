@@ -9,14 +9,14 @@ import "go/ast"
 
 type FakeFunction struct {
 	name       string
-	Imported   map[PackageReference]struct{}
+	Imported   *PackageReferenceSet
 	Referenced TypeNameSet
 }
 
 func NewFakeFunction(name string) *FakeFunction {
 	return &FakeFunction{
 		name:     name,
-		Imported: nil,
+		Imported: NewPackageReferenceSet(),
 	}
 }
 
@@ -26,10 +26,7 @@ func (fake *FakeFunction) Name() string {
 
 func (fake *FakeFunction) RequiredPackageReferences() *PackageReferenceSet {
 	result := NewPackageReferenceSet()
-	for k := range fake.Imported {
-		result.AddReference(k)
-	}
-
+	result.Merge(fake.Imported)
 	return result
 }
 
@@ -61,13 +58,12 @@ func (fake *FakeFunction) Equals(f Function) bool {
 	}
 
 	// Check to see if they have the same imports
-	if len(fake.Imported) != len(fn.Imported) {
+	if fake.Imported.Length() != fn.Imported.Length() {
 		return false
 	}
 
-	for imp := range fake.Imported {
-		if _, ok := fn.Imported[imp]; !ok {
-			// Missing key, not equal
+	for _, imp := range fake.Imported.AsSlice() {
+		if !fn.Imported.Contains(imp) {
 			return false
 		}
 	}

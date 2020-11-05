@@ -58,38 +58,25 @@ func newConvertFromArmFunctionBuilder(
 
 func (builder *convertFromArmBuilder) functionDeclaration() *ast.FuncDecl {
 
-	return astbuilder.DefineFunc(
-		astbuilder.FuncDetails{
-			Name:          ast.NewIdent(builder.methodName),
-			ReceiverIdent: builder.receiverIdent,
-			ReceiverType: &ast.StarExpr{
-				X: builder.receiverTypeExpr,
-			},
-			Comment: "populates a Kubernetes CRD object from an Azure ARM object",
-			Params: []*ast.Field{
-				{
-					Type: &ast.SelectorExpr{
-						X:   ast.NewIdent(astmodel.GenRuntimePackageName),
-						Sel: ast.NewIdent("KnownResourceReference"),
-					},
-					Names: []*ast.Ident{
-						ast.NewIdent(builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)),
-					},
-				},
-				{
-					Type: ast.NewIdent("interface{}"),
-					Names: []*ast.Ident{
-						builder.inputIdent,
-					},
-				},
-			},
-			Returns: []*ast.Field{
-				{
-					Type: ast.NewIdent("error"),
-				},
-			},
-			Body: builder.functionBodyStatements(),
+	fn := &astbuilder.FuncDetails{
+		Name:          ast.NewIdent(builder.methodName),
+		ReceiverIdent: builder.receiverIdent,
+		ReceiverType: &ast.StarExpr{
+			X: builder.receiverTypeExpr,
+		},
+		Body: builder.functionBodyStatements(),
+	}
+
+	fn.AddComments("populates a Kubernetes CRD object from an Azure ARM object")
+	fn.AddParameter(
+		builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
+		&ast.SelectorExpr{
+			X:   ast.NewIdent(astmodel.GenRuntimePackageName),
+			Sel: ast.NewIdent("KnownResourceReference"),
 		})
+	fn.AddParameter(builder.inputIdent.Name, ast.NewIdent("interface{}"))
+	fn.AddReturns("error")
+	return fn.DefineFunc()
 }
 
 func (builder *convertFromArmBuilder) functionBodyStatements() []ast.Stmt {
@@ -131,7 +118,7 @@ func (builder *convertFromArmBuilder) assertInputTypeIsArm() []ast.Stmt {
 		result,
 		astbuilder.ReturnIfNotOk(
 			astbuilder.FormatError(
-				fmt.Sprintf("\"unexpected type supplied for %s() function. Expected %s, got %%T\"",
+				fmt.Sprintf("unexpected type supplied for %s() function. Expected %s, got %%T",
 					builder.methodName,
 					builder.armTypeIdent.Name),
 				builder.inputIdent)))
@@ -152,7 +139,7 @@ func (builder *convertFromArmBuilder) namePropertyHandler(
 	}
 
 	// Check to make sure that the ARM object has a "Name" property (which matches our "AzureName")
-	fromProp, ok := fromType.Property(astmodel.PropertyName("Name"))
+	fromProp, ok := fromType.Property("Name")
 	if !ok {
 		panic("Arm resource missing property 'Name'")
 	}
@@ -162,18 +149,13 @@ func (builder *convertFromArmBuilder) namePropertyHandler(
 			Sel: ast.NewIdent(string(toProp.PropertyName())),
 		},
 		token.ASSIGN,
-		&ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   ast.NewIdent(astmodel.GenRuntimePackageName),
-				Sel: ast.NewIdent("ExtractKubernetesResourceNameFromArmName"),
-			},
-			Args: []ast.Expr{
-				&ast.SelectorExpr{
-					X:   builder.typedInputIdent,
-					Sel: ast.NewIdent(string(fromProp.PropertyName())),
-				},
-			},
-		})
+		astbuilder.CallQualifiedFuncByName(
+			astmodel.GenRuntimePackageName,
+			"ExtractKubernetesResourceNameFromArmName",
+			&ast.SelectorExpr{
+				X:   builder.typedInputIdent,
+				Sel: ast.NewIdent(string(fromProp.PropertyName())),
+			}))
 
 	return []ast.Stmt{result}
 
@@ -260,7 +242,7 @@ func (builder *convertFromArmBuilder) propertiesWithSameNameButDifferentTypeHand
 		if !definedErrVar {
 			result = append(
 				result,
-				astbuilder.SimpleVariableDeclaration(ast.NewIdent("err"), ast.NewIdent("error")))
+				astbuilder.LocalVariableDeclaration(ast.NewIdent("err"), ast.NewIdent("error"), ""))
 			definedErrVar = true
 		}
 
@@ -400,9 +382,10 @@ func (builder *convertFromArmBuilder) convertComplexArrayProperty(
 		actualDestination = elemIdent
 		results = append(
 			results,
-			astbuilder.SimpleVariableDeclaration(
+			astbuilder.LocalVariableDeclaration(
 				elemIdent,
-				destinationType.AsType(builder.codeGenerationContext)))
+				destinationType.AsType(builder.codeGenerationContext),
+				""))
 		elemIdent = ast.NewIdent(fmt.Sprintf("elem%d", depth))
 	}
 
@@ -538,9 +521,11 @@ func (builder *convertFromArmBuilder) convertComplexTypeNameProperty(
 
 	destinationType := params.destinationType.(astmodel.TypeName)
 
-	propertyLocalVarName := ast.NewIdent(builder.idFactory.CreateIdentifier(params.nameHint, astmodel.NotExported))
+	propertyLocalVar := ast.NewIdent(builder.idFactory.CreateIdentifier(params.nameHint, astmodel.NotExported))
 
-	newStruct := astbuilder.NewStruct(propertyLocalVarName, ast.NewIdent(destinationType.Name()))
+	ownerName := builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)
+
+	newStruct := astbuilder.NewStruct(propertyLocalVar, ast.NewIdent(destinationType.Name()))
 	if !destinationType.PackageReference.Equals(builder.codeGenerationContext.CurrentPackage()) {
 		// struct name has to be qualified
 		packageName, err := builder.codeGenerationContext.GetImportedPackageName(destinationType.PackageReference)
@@ -549,7 +534,7 @@ func (builder *convertFromArmBuilder) convertComplexTypeNameProperty(
 		}
 
 		newStruct = astbuilder.NewQualifiedStruct(
-			propertyLocalVarName,
+			propertyLocalVar,
 			ast.NewIdent(packageName),
 			ast.NewIdent(destinationType.Name()))
 	}
@@ -560,16 +545,8 @@ func (builder *convertFromArmBuilder) convertComplexTypeNameProperty(
 		astbuilder.SimpleAssignment(
 			ast.NewIdent("err"),
 			token.ASSIGN,
-			&ast.CallExpr{
-				Fun: &ast.SelectorExpr{
-					X:   propertyLocalVarName,
-					Sel: ast.NewIdent(builder.methodName),
-				},
-				Args: []ast.Expr{
-					ast.NewIdent(builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)),
-					params.source,
-				},
-			}))
+			astbuilder.CallQualifiedFunc(
+				propertyLocalVar, ast.NewIdent(builder.methodName), ast.NewIdent(ownerName), params.source)))
 	results = append(results, astbuilder.CheckErrorAndReturn())
 	if params.assignmentHandler == nil {
 		results = append(
@@ -577,11 +554,11 @@ func (builder *convertFromArmBuilder) convertComplexTypeNameProperty(
 			astbuilder.SimpleAssignment(
 				params.destination,
 				token.ASSIGN,
-				propertyLocalVarName))
+				propertyLocalVar))
 	} else {
 		results = append(
 			results,
-			params.assignmentHandler(params.destination, propertyLocalVarName))
+			params.assignmentHandler(params.destination, propertyLocalVar))
 	}
 
 	return results

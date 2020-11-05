@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"go/ast"
 	"go/token"
 
@@ -133,124 +134,124 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *Re
 var _ Type = &ResourceType{}
 
 // SpecType returns the type used for specification
-func (definition *ResourceType) SpecType() Type {
-	return definition.spec
+func (resource *ResourceType) SpecType() Type {
+	return resource.spec
 }
 
 // StatusType returns the type used for current status
-func (definition *ResourceType) StatusType() Type {
-	return definition.status
+func (resource *ResourceType) StatusType() Type {
+	return resource.status
 }
 
 // WithSpec returns a new resource that has the specified spec type
-func (definition *ResourceType) WithSpec(specType Type) *ResourceType {
+func (resource *ResourceType) WithSpec(specType Type) *ResourceType {
 
 	if specResource, ok := specType.(*ResourceType); ok {
 		// type is a resource, take its SpecType instead
 		// so we don't nest resources
-		return definition.WithSpec(specResource.SpecType())
+		return resource.WithSpec(specResource.SpecType())
 	}
 
-	result := *definition
+	result := *resource
 	result.spec = specType
 	return &result
 }
 
 // WithStatus returns a new resource that has the specified status type
-func (definition *ResourceType) WithStatus(statusType Type) *ResourceType {
+func (resource *ResourceType) WithStatus(statusType Type) *ResourceType {
 
 	if specResource, ok := statusType.(*ResourceType); ok {
 		// type is a resource, take its StatusType instead
 		// so we don't nest resources
-		return definition.WithStatus(specResource.StatusType())
+		return resource.WithStatus(specResource.StatusType())
 	}
 
-	result := *definition
+	result := *resource
 	result.status = statusType
 	return &result
 }
 
 // WithInterface creates a new Resource with a function (method) attached to it
-func (definition *ResourceType) WithInterface(iface *InterfaceImplementation) *ResourceType {
+func (resource *ResourceType) WithInterface(iface *InterfaceImplementation) *ResourceType {
 	// Create a copy of objectType to preserve immutability
-	result := *definition
+	result := *resource
 	result.InterfaceImplementer = result.InterfaceImplementer.WithInterface(iface)
 	return &result
 }
 
 // AsType converts the ResourceType to go AST Expr
-func (definition *ResourceType) AsType(_ *CodeGenerationContext) ast.Expr {
+func (resource *ResourceType) AsType(_ *CodeGenerationContext) ast.Expr {
 	panic("a resource cannot be used directly as a type")
 }
 
 // Equals returns true if the other type is also a ResourceType and has Equal fields
-func (definition *ResourceType) Equals(other Type) bool {
-	if definition == other {
+func (resource *ResourceType) Equals(other Type) bool {
+	if resource == other {
 		return true
 	}
 
 	if otherResource, ok := other.(*ResourceType); ok {
-		return TypeEquals(definition.spec, otherResource.spec) &&
-			TypeEquals(definition.status, otherResource.status) &&
-			definition.isStorageVersion == otherResource.isStorageVersion &&
-			definition.InterfaceImplementer.Equals(otherResource.InterfaceImplementer)
+		return TypeEquals(resource.spec, otherResource.spec) &&
+			TypeEquals(resource.status, otherResource.status) &&
+			resource.isStorageVersion == otherResource.isStorageVersion &&
+			resource.InterfaceImplementer.Equals(otherResource.InterfaceImplementer)
 	}
 
 	return false
 }
 
 // References returns the types referenced by Status or Spec parts of the resource
-func (definition *ResourceType) References() TypeNameSet {
-	spec := definition.spec.References()
+func (resource *ResourceType) References() TypeNameSet {
+	spec := resource.spec.References()
 
 	var status TypeNameSet
-	if definition.status != nil {
-		status = definition.status.References()
+	if resource.status != nil {
+		status = resource.status.References()
 	}
 
 	return SetUnion(spec, status)
 }
 
 // Owner returns the name of the owner type
-func (definition *ResourceType) Owner() *TypeName {
-	return definition.owner
+func (resource *ResourceType) Owner() *TypeName {
+	return resource.owner
 }
 
 // MarkAsStorageVersion marks the resource as the Kubebuilder storage version
-func (definition *ResourceType) MarkAsStorageVersion() *ResourceType {
-	result := *definition
+func (resource *ResourceType) MarkAsStorageVersion() *ResourceType {
+	result := *resource
 	result.isStorageVersion = true
 	return &result
 }
 
 // WithOwner updates the owner of the resource and returns a copy of the resource
-func (definition *ResourceType) WithOwner(owner *TypeName) *ResourceType {
-	result := *definition
+func (resource *ResourceType) WithOwner(owner *TypeName) *ResourceType {
+	result := *resource
 	result.owner = owner
 	return &result
 }
 
 // RequiredPackageReferences returns a list of packages required by this
-func (definition *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
+func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 	references := NewPackageReferenceSet(MetaV1PackageReference)
-	references.Merge(definition.spec.RequiredPackageReferences())
+	references.Merge(resource.spec.RequiredPackageReferences())
 
-	if definition.status != nil {
-		references.Merge(definition.status.RequiredPackageReferences())
+	if resource.status != nil {
+		references.Merge(resource.status.RequiredPackageReferences())
 	}
 
 	// Interface imports
-	references.Merge(definition.InterfaceImplementer.RequiredPackageReferences())
+	references.Merge(resource.InterfaceImplementer.RequiredPackageReferences())
 
 	return references
 }
 
 // AsDeclarations converts the resource type to a set of go declarations
-func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
+func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
 
 	packageName, err := codeGenerationContext.GetImportedPackageName(MetaV1PackageReference)
 	if err != nil {
-		panic(errors.Wrapf(err, "resource definition for %s failed to import package", name))
+		panic(errors.Wrapf(err, "resource resource for %s failed to import package", name))
 	}
 
 	typeMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
@@ -266,11 +267,11 @@ func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenera
 	fields := []*ast.Field{
 		typeMetaField,
 		objectMetaField,
-		defineField("Spec", definition.spec.AsType(codeGenerationContext), "`json:\"spec,omitempty\"`"),
+		defineField("Spec", resource.spec.AsType(codeGenerationContext), "`json:\"spec,omitempty\"`"),
 	}
 
-	if definition.status != nil {
-		fields = append(fields, defineField("Status", definition.status.AsType(codeGenerationContext), "`json:\"status,omitempty\"`"))
+	if resource.status != nil {
+		fields = append(fields, defineField("Status", resource.status.AsType(codeGenerationContext), "`json:\"status,omitempty\"`"))
 	}
 
 	resourceIdentifier := ast.NewIdent(name.Name())
@@ -283,16 +284,16 @@ func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenera
 
 	var comments []*ast.Comment
 
-	addComment(&comments, "// +kubebuilder:object:root=true")
-	if definition.status != nil {
-		addComment(&comments, "// +kubebuilder:subresource:status")
+	astbuilder.AddComment(&comments, "// +kubebuilder:object:root=true")
+	if resource.status != nil {
+		astbuilder.AddComment(&comments, "// +kubebuilder:subresource:status")
 	}
 
-	if definition.isStorageVersion {
-		addComment(&comments, "// +kubebuilder:storageversion")
+	if resource.isStorageVersion {
+		astbuilder.AddComment(&comments, "// +kubebuilder:storageversion")
 	}
 
-	addWrappedComments(&comments, description, 200)
+	astbuilder.AddWrappedComments(&comments, description, 200)
 
 	var declarations []ast.Decl
 	resourceDeclaration := &ast.GenDecl{
@@ -302,29 +303,29 @@ func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenera
 	}
 
 	declarations = append(declarations, resourceDeclaration)
-	declarations = append(declarations, definition.InterfaceImplementer.AsDeclarations(codeGenerationContext, name, nil)...)
+	declarations = append(declarations, resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, name, nil)...)
 
-	declarations = append(declarations, definition.resourceListTypeDecls(codeGenerationContext, name, description)...)
+	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, name, description)...)
 
 	return declarations
 }
 
-func (definition *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
+func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
 	return MakeTypeName(
 		name.PackageReference,
 		name.Name()+"List")
 }
 
-func (definition *ResourceType) resourceListTypeDecls(
+func (resource *ResourceType) resourceListTypeDecls(
 	codeGenerationContext *CodeGenerationContext,
 	resourceTypeName TypeName,
 	description []string) []ast.Decl {
 
-	typeName := definition.makeResourceListTypeName(resourceTypeName)
+	typeName := resource.makeResourceListTypeName(resourceTypeName)
 
 	packageName, err := codeGenerationContext.GetImportedPackageName(MetaV1PackageReference)
 	if err != nil {
-		panic(errors.Wrapf(err, "resource list definition for %s failed to import package", typeName))
+		panic(errors.Wrapf(err, "resource list resource for %s failed to import package", typeName))
 	}
 
 	typeMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
@@ -354,7 +355,7 @@ func (definition *ResourceType) resourceListTypeDecls(
 			},
 		}
 
-	addWrappedComments(&comments, description, 200)
+	astbuilder.AddWrappedComments(&comments, description, 200)
 
 	return []ast.Decl{
 		&ast.GenDecl{
@@ -367,10 +368,10 @@ func (definition *ResourceType) resourceListTypeDecls(
 
 // SchemeTypes returns the types represented by this resource which must be registered
 // with the controller Scheme
-func (definition *ResourceType) SchemeTypes(name TypeName) []TypeName {
+func (resource *ResourceType) SchemeTypes(name TypeName) []TypeName {
 	return []TypeName{
 		name,
-		definition.makeResourceListTypeName(name),
+		resource.makeResourceListTypeName(name),
 	}
 }
 

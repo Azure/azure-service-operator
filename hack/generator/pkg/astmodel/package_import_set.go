@@ -91,6 +91,10 @@ func (set *PackageImportSet) AsSortedSlice(less func(i PackageImport, j PackageI
 
 // Length returns the number of unique imports in this set
 func (set *PackageImportSet) Length() int {
+	if set == nil {
+		return 0
+	}
+
 	return len(set.imports)
 }
 

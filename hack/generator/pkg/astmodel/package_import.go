@@ -7,8 +7,8 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"go/ast"
-	"go/token"
 )
 
 // PackageImport represents an import of a name from a package
@@ -40,10 +40,7 @@ func (pi PackageImport) AsImportSpec() *ast.ImportSpec {
 
 	return &ast.ImportSpec{
 		Name: name,
-		Path: &ast.BasicLit{
-			Kind:  token.STRING,
-			Value: "\"" + pi.packageReference.PackagePath() + "\"",
-		},
+		Path: astbuilder.StringLiteral(pi.packageReference.PackagePath()),
 	}
 }
 

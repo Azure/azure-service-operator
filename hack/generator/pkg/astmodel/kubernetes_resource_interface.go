@@ -115,34 +115,36 @@ func ownerFunction(k *objectFunction, codeGenerationContext *CodeGenerationConte
 	groupIdent := ast.NewIdent("group")
 	kindIdent := ast.NewIdent("kind")
 
-	return astbuilder.DefineFunc(
-		astbuilder.FuncDetails{
-			Name:          ast.NewIdent(methodName),
-			ReceiverIdent: receiverIdent,
-			ReceiverType: &ast.StarExpr{
-				X: receiverType,
-			},
-			Comment: "returns the ResourceReference of the owner, or nil if there is no owner",
-			Params:  nil,
-			Returns: []*ast.Field{
-				{
-					Type: &ast.StarExpr{
-						X: &ast.SelectorExpr{
-							X:   ast.NewIdent(GenRuntimePackageName),
-							Sel: ast.NewIdent("ResourceReference"),
-						},
+	fn := &astbuilder.FuncDetails{
+		Name:          ast.NewIdent(methodName),
+		ReceiverIdent: receiverIdent,
+		ReceiverType: &ast.StarExpr{
+			X: receiverType,
+		},
+		Params: nil,
+		Returns: []*ast.Field{
+			{
+				Type: &ast.StarExpr{
+					X: &ast.SelectorExpr{
+						X:   ast.NewIdent(GenRuntimePackageName),
+						Sel: ast.NewIdent("ResourceReference"),
 					},
 				},
 			},
-			Body: []ast.Stmt{
-				lookupGroupAndKindStmt(groupIdent, kindIdent, specSelector),
-				&ast.ReturnStmt{
-					Results: []ast.Expr{
-						createResourceReference(groupIdent, kindIdent, specSelector),
-					},
+		},
+		Body: []ast.Stmt{
+			lookupGroupAndKindStmt(groupIdent, kindIdent, specSelector),
+			&ast.ReturnStmt{
+				Results: []ast.Expr{
+					createResourceReference(groupIdent, kindIdent, specSelector),
 				},
 			},
-		})
+		},
+	}
+
+	fn.AddComments("returns the ResourceReference of the owner, or nil if there is no owner")
+
+	return fn.DefineFunc()
 }
 
 func lookupGroupAndKindStmt(
@@ -213,29 +215,25 @@ func azureNameFunction(k *objectFunction, codeGenerationContext *CodeGenerationC
 		Sel: ast.NewIdent("Spec"),
 	}
 
-	return astbuilder.DefineFunc(
-		astbuilder.FuncDetails{
-			Name:          ast.NewIdent(methodName),
-			ReceiverIdent: receiverIdent,
-			ReceiverType: &ast.StarExpr{
-				X: receiverType,
-			},
-			Comment: "returns the Azure name of the resource",
-			Params:  nil,
-			Returns: []*ast.Field{
-				{
-					Type: ast.NewIdent("string"),
-				},
-			},
-			Body: []ast.Stmt{
-				&ast.ReturnStmt{
-					Results: []ast.Expr{
-						&ast.SelectorExpr{
-							X:   specSelector,
-							Sel: ast.NewIdent(AzureNameProperty),
-						},
+	fn := &astbuilder.FuncDetails{
+		Name:          ast.NewIdent(methodName),
+		ReceiverIdent: receiverIdent,
+		ReceiverType: &ast.StarExpr{
+			X: receiverType,
+		},
+		Body: []ast.Stmt{
+			&ast.ReturnStmt{
+				Results: []ast.Expr{
+					&ast.SelectorExpr{
+						X:   specSelector,
+						Sel: ast.NewIdent(AzureNameProperty),
 					},
 				},
 			},
-		})
+		},
+	}
+
+	fn.AddComments("returns the Azure name of the resource")
+	fn.AddReturns("string")
+	return fn.DefineFunc()
 }
