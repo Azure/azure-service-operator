@@ -30,11 +30,6 @@ func exportPackages(outputPath string) PipelineStage {
 				return nil, errors.Wrapf(err, "failed to assign generated definitions to packages")
 			}
 
-			packages, err = MarkLatestResourceVersionsForStorage(packages)
-			if err != nil {
-				return nil, errors.Wrapf(err, "unable to mark latest resource versions for as storage versions")
-			}
-
 			err = writeFiles(ctx, packages, outputPath)
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to write files into %q", outputPath)
@@ -70,56 +65,6 @@ func CreatePackagesForDefinitions(definitions astmodel.Types) (map[astmodel.Pack
 	}
 
 	return packages, nil
-}
-
-// MarkLatestResourceVersionsForStorage marks the latest version of each resource as the storage version
-func MarkLatestResourceVersionsForStorage(
-	packages map[astmodel.PackageReference]*astmodel.PackageDefinition) (map[astmodel.PackageReference]*astmodel.PackageDefinition, error) {
-
-	result := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
-
-	resourceLookup, err := groupResourcesByVersion(packages)
-	if err != nil {
-		return nil, err
-	}
-
-	for pkgRef, pkg := range packages {
-
-		resultPkg := astmodel.NewPackageDefinition(pkg.GroupName, pkg.PackageName, pkg.GeneratorVersion)
-		for _, def := range pkg.Definitions() {
-			// see if it is a resource
-			if resourceType, ok := def.Type().(*astmodel.ResourceType); ok {
-
-				unversionedName, err := getUnversionedName(def.Name())
-				if err != nil {
-					// should never happen as all resources have versioned names
-					return nil, err
-				}
-
-				allVersionsOfResource := resourceLookup[unversionedName]
-				latestVersionOfResource := allVersionsOfResource[len(allVersionsOfResource)-1]
-
-				thisPackagePath := def.Name().PackageReference.PackagePath()
-				latestPackagePath := latestVersionOfResource.Name().PackageReference.PackagePath()
-
-				// mark as storage version if it's the latest version
-				isLatestVersion := thisPackagePath == latestPackagePath
-				if isLatestVersion {
-					def = astmodel.MakeTypeDefinition(def.Name(), resourceType.MarkAsStorageVersion()).
-						WithDescription(def.Description())
-				}
-
-				resultPkg.AddDefinition(def)
-			} else {
-				// otherwise simply add it
-				resultPkg.AddDefinition(def)
-			}
-		}
-
-		result[pkgRef] = resultPkg
-	}
-
-	return result, nil
 }
 
 func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*astmodel.PackageDefinition, outputPath string) error {
@@ -169,49 +114,6 @@ func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*ast
 	globalProgress.Log()
 
 	return nil
-}
-
-func groupResourcesByVersion(packages map[astmodel.PackageReference]*astmodel.PackageDefinition) (map[unversionedName][]astmodel.TypeDefinition, error) {
-
-	result := make(map[unversionedName][]astmodel.TypeDefinition)
-
-	for _, pkg := range packages {
-		for _, def := range pkg.Definitions() {
-			if _, ok := def.Type().(*astmodel.ResourceType); ok {
-				name, err := getUnversionedName(def.Name())
-				if err != nil {
-					// this should never happen as resources will all have versioned names
-					return nil, errors.Wrapf(err, "Unable to extract unversioned name in groupResources")
-				}
-
-				result[name] = append(result[name], def)
-			}
-		}
-	}
-
-	// order each set of resources by package name (== by version as these are sortable dates)
-	for _, slice := range result {
-		sort.Slice(slice, func(i, j int) bool {
-			return slice[i].Name().PackageReference.PackageName() < slice[j].Name().PackageReference.PackageName()
-		})
-	}
-
-	return result, nil
-}
-
-func getUnversionedName(name astmodel.TypeName) (unversionedName, error) {
-	if localRef, ok := name.PackageReference.AsLocalPackage(); ok {
-		group := localRef.Group()
-
-		return unversionedName{group, name.Name()}, nil
-	}
-
-	return unversionedName{}, errors.New("expected local reference")
-}
-
-type unversionedName struct {
-	group string
-	name  string
 }
 
 func newProgressMeter() *progressMeter {

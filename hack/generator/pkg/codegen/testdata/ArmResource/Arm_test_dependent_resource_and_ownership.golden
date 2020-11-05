@@ -10,6 +10,7 @@ import (
 )
 
 // +kubebuilder:object:root=true
+// +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -62,6 +63,7 @@ func (aSpecArm A_SpecArm) GetType() string {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type B struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -114,6 +116,7 @@ func (bSpecArm B_SpecArm) GetType() string {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type C struct {
 	metav1.TypeMeta   `json:",inline"`

@@ -10,6 +10,7 @@ import (
 )
 
 // +kubebuilder:object:root=true
+// +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResource struct {
 	metav1.TypeMeta   `json:",inline"`

@@ -86,6 +86,8 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 		createStorageTypes(),
 		simplifyDefinitions(),
 
+		markStorageVersion(),
+
 		// Safety checks at the end:
 		ensureDefinitionsDoNotUseAnyTypes(),
 		checkForMissingStatusInformation(),
