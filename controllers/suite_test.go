@@ -151,8 +151,8 @@ func setup() error {
 	secretClient := k8sSecrets.New(k8sManager.GetClient())
 	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(k8sManager.GetScheme())
-	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
-	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient()
+	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme.Scheme)
+	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(config.GlobalCredentials())
 	azureSqlDatabaseManager := resourcemanagersqldb.NewAzureSqlDbManager(config.GlobalCredentials())
 
 	timeout = time.Second * 780
@@ -352,7 +352,7 @@ func setup() error {
 	err = (&EventhubNamespaceReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagereventhub.NewEventHubNamespaceClient(),
+			AzureClient: resourcemanagereventhub.NewEventHubNamespaceClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"EventhubNamespace",
 				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),

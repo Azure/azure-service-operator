@@ -162,8 +162,8 @@ func main() {
 		secretClient,
 		scheme,
 	)
-	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient()
-	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient()
+	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(config.GlobalCredentials())
+	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(config.GlobalCredentials())
 	cosmosDBClient := resourcemanagercosmosdb.NewAzureCosmosDBManager(
 		config.GlobalCredentials(),
 		secretClient,
@@ -172,7 +172,7 @@ func main() {
 	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
 		KeyvaultClient: keyVaultManager,
 	}
-	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
+	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme)
 	sqlServerManager := resourcemanagersqlserver.NewAzureSqlServerManager(
 		config.GlobalCredentials(),
 		secretClient,
