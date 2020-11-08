@@ -168,10 +168,8 @@ func main() {
 		config.GlobalCredentials(),
 		secretClient,
 	)
-	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(mgr.GetScheme())
-	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
-		KeyvaultClient: keyVaultManager,
-	}
+	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(config.GlobalCredentials(), mgr.GetScheme())
+	keyVaultKeyManager := resourcemanagerkeyvault.NewKeyvaultKeyClient(config.GlobalCredentials(), keyVaultManager)
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme)
 	sqlServerManager := resourcemanagersqlserver.NewAzureSqlServerManager(
 		config.GlobalCredentials(),

@@ -128,7 +128,8 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	keyVaultNameForSecrets := tc.keyvaultName
 
 	// Instantiate a KV client for the Keyvault that was created during test suite setup
-	_, err := kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
+	kvManager := kvhelper.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
+	_, err := kvManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
 	assert.Equal(nil, err, "wait for keyvault to be available")
 
 	// Create EventhubNamespace instance as prereq

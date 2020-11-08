@@ -86,7 +86,7 @@ func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 	// create key
 	EnsureInstance(ctx, t, tc, keyVaultKey)
 
-	kvopsclient := resourcemanagerkeyvaults.NewOpsClient(keyVaultName)
+	kvopsclient := resourcemanagerkeyvaults.NewOpsClient(config.GlobalCredentials(), keyVaultName)
 
 	assert.Eventually(func() bool {
 		kvault, err := tc.keyVaultManager.GetVault(ctx, tc.resourceGroupName, keyVaultInstance.Name)

@@ -13,8 +13,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 )
 
-var AzureKeyVaultManager KeyVaultManager = &azureKeyVaultManager{}
-
 type KeyVaultManager interface {
 	CreateVault(ctx context.Context, instance *azurev1alpha1.KeyVault, sku azurev1alpha1.KeyVaultSku, tags map[string]*string, exists bool) (keyvault.Vault, error)
 

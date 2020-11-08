@@ -150,7 +150,7 @@ func setup() error {
 
 	secretClient := k8sSecrets.New(k8sManager.GetClient())
 	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
-	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(k8sManager.GetScheme())
+	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(config.GlobalCredentials(), k8sManager.GetScheme())
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme.Scheme)
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(config.GlobalCredentials())
 	azureSqlDatabaseManager := resourcemanagersqldb.NewAzureSqlDbManager(config.GlobalCredentials())
@@ -176,9 +176,10 @@ func setup() error {
 	err = (&KeyVaultKeyReconciler{
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
-			AzureClient: &resourcemanagerkeyvaults.KeyvaultKeyClient{
-				KeyvaultClient: keyVaultManager,
-			},
+			AzureClient: resourcemanagerkeyvaults.NewKeyvaultKeyClient(
+				config.GlobalCredentials(),
+				keyVaultManager,
+			),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"KeyVaultKey",
 				ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
@@ -873,7 +874,8 @@ func setup() error {
 	}
 
 	log.Println("Creating KV:", keyvaultName)
-	_, err = resourcemanagerkeyvaults.AzureKeyVaultManager.CreateVaultWithAccessPolicies(context.Background(), resourceGroupName, keyvaultName, resourcegroupLocation, resourcemanagerconfig.GlobalCredentials().ClientID())
+	kvManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
+	_, err = kvManager.CreateVaultWithAccessPolicies(context.Background(), resourceGroupName, keyvaultName, resourcegroupLocation, resourcemanagerconfig.GlobalCredentials().ClientID())
 	// Key Vault needs to be in "Suceeded" state
 	finish := time.Now().Add(tc.timeout)
 	for {
