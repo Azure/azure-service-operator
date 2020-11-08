@@ -837,6 +837,7 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
 			AzureClient: loadbalancer.NewAzureLoadBalancerClient(
+				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
 			),

@@ -606,6 +606,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: loadbalancer.NewAzureLoadBalancerClient(
+				config.GlobalCredentials(),
 				secretClient,
 				k8sManager.GetScheme(),
 			),
