@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -96,7 +97,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		} else {
 			// handle failures in the async operation
 			if instance.Status.PollingURL != "" {
-				pClient := pollclient.NewPollClient()
+				pClient := pollclient.NewPollClient(config.GlobalCredentials())
 				res, err := pClient.Get(ctx, instance.Status.PollingURL)
 				if err != nil {
 					instance.Status.Provisioning = false

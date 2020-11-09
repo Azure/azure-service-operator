@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 
 	"k8s.io/apimachinery/pkg/runtime"
@@ -52,7 +53,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 		// handle failures in the async operation
 		if pollURL != "" {
-			pClient := pollclient.NewPollClient()
+			pClient := pollclient.NewPollClient(config.GlobalCredentials())
 			res, err := pClient.Get(ctx, pollURL)
 			azerr := errhelp.NewAzureError(err)
 			if err != nil {

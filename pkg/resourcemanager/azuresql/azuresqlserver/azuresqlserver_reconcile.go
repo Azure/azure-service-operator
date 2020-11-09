@@ -128,7 +128,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 			// handle failures in the async operation
 			if instance.Status.PollingURL != "" {
-				pClient := pollclient.NewPollClient()
+				pClient := pollclient.NewPollClient(s.Creds)
 				res, err := pClient.Get(ctx, instance.Status.PollingURL)
 				if err != nil {
 					return false, err

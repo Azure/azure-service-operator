@@ -6,9 +6,11 @@ package azuresqldb
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 	"net/http"
 	"strings"
+
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1beta1"
@@ -16,8 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 )
 
 // Ensure creates an AzureSqlDb
@@ -65,7 +66,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	// Before we attempt to issue a new update, check if there is a previously ongoing update
 	if instance.Status.PollingURL != "" {
 		// TODO: There are other places which use PollClient which may or may not need this treatment as well...
-		pClient := pollclient.NewPollClient()
+		pClient := pollclient.NewPollClient(db.creds)
 		res, err := pClient.Get(ctx, instance.Status.PollingURL)
 		pollErr := errhelp.NewAzureError(err)
 		if pollErr != nil {
