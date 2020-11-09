@@ -13,16 +13,17 @@ import (
 )
 
 type PSQLDatabaseClient struct {
+	creds config.Credentials
 }
 
-func NewPSQLDatabaseClient() *PSQLDatabaseClient {
-	return &PSQLDatabaseClient{}
+func NewPSQLDatabaseClient(creds config.Credentials) *PSQLDatabaseClient {
+	return &PSQLDatabaseClient{creds: creds}
 }
 
 //GetPSQLDatabasesClient retrieves the psqldabase
-func GetPSQLDatabasesClient() (psql.DatabasesClient, error) {
-	databasesClient := psql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func GetPSQLDatabasesClient(creds config.Credentials) (psql.DatabasesClient, error) {
+	databasesClient := psql.NewDatabasesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return psql.DatabasesClient{}, err
 	}
@@ -31,9 +32,9 @@ func GetPSQLDatabasesClient() (psql.DatabasesClient, error) {
 	return databasesClient, err
 }
 
-func getPSQLCheckNameAvailabilityClient() (psql.CheckNameAvailabilityClient, error) {
-	nameavailabilityClient := psql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getPSQLCheckNameAvailabilityClient(creds config.Credentials) (psql.CheckNameAvailabilityClient, error) {
+	nameavailabilityClient := psql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return psql.CheckNameAvailabilityClient{}, err
 	}
@@ -42,9 +43,9 @@ func getPSQLCheckNameAvailabilityClient() (psql.CheckNameAvailabilityClient, err
 	return nameavailabilityClient, err
 }
 
-func (p *PSQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, databasename string) (bool, error) {
+func (c *PSQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, databasename string) (bool, error) {
 
-	client, err := getPSQLCheckNameAvailabilityClient()
+	client, err := getPSQLCheckNameAvailabilityClient(c.creds)
 	if err != nil {
 		return false, err
 	}
@@ -63,9 +64,9 @@ func (p *PSQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, 
 
 }
 
-func (p *PSQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, databasename string, servername string, resourcegroup string) (*http.Response, error) {
+func (c *PSQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, databasename string, servername string, resourcegroup string) (*http.Response, error) {
 
-	client, err := GetPSQLDatabasesClient()
+	client, err := GetPSQLDatabasesClient(c.creds)
 	if err != nil {
 		return &http.Response{
 			StatusCode: 500,
@@ -73,7 +74,7 @@ func (p *PSQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, database
 	}
 
 	// Check if name is valid if this is the first create call
-	valid, err := p.CheckDatabaseNameAvailability(ctx, databasename)
+	valid, err := c.CheckDatabaseNameAvailability(ctx, databasename)
 	if valid == false {
 		return &http.Response{
 			StatusCode: 500,
@@ -98,9 +99,9 @@ func (p *PSQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, database
 	return future.GetResult(client)
 }
 
-func (p *PSQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename string, servername string, resourcegroup string) (status string, err error) {
+func (c *PSQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename string, servername string, resourcegroup string) (status string, err error) {
 
-	client, err := GetPSQLDatabasesClient()
+	client, err := GetPSQLDatabasesClient(c.creds)
 	if err != nil {
 		return "", err
 	}
@@ -115,9 +116,9 @@ func (p *PSQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename st
 	return "db not present", nil
 }
 
-func (p *PSQLDatabaseClient) GetDatabase(ctx context.Context, resourcegroup string, servername string, databasename string) (db psql.Database, err error) {
+func (c *PSQLDatabaseClient) GetDatabase(ctx context.Context, resourcegroup string, servername string, databasename string) (db psql.Database, err error) {
 
-	client, err := GetPSQLDatabasesClient()
+	client, err := GetPSQLDatabasesClient(c.creds)
 	if err != nil {
 		return psql.Database{}, err
 	}

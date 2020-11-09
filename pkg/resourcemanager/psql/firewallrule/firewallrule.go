@@ -14,15 +14,16 @@ import (
 )
 
 type PSQLFirewallRuleClient struct {
+	creds config.Credentials
 }
 
-func NewPSQLFirewallRuleClient() *PSQLFirewallRuleClient {
-	return &PSQLFirewallRuleClient{}
+func NewPSQLFirewallRuleClient(creds config.Credentials) *PSQLFirewallRuleClient {
+	return &PSQLFirewallRuleClient{creds: creds}
 }
 
-func getPSQLFirewallRulesClient() (psql.FirewallRulesClient, error) {
-	firewallRulesClient := psql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getPSQLFirewallRulesClient(creds config.Credentials) (psql.FirewallRulesClient, error) {
+	firewallRulesClient := psql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return psql.FirewallRulesClient{}, err
 	}
@@ -31,9 +32,9 @@ func getPSQLFirewallRulesClient() (psql.FirewallRulesClient, error) {
 	return firewallRulesClient, err
 }
 
-func (p *PSQLFirewallRuleClient) CreateFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string, startip string, endip string) (*http.Response, error) {
+func (c *PSQLFirewallRuleClient) CreateFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string, startip string, endip string) (*http.Response, error) {
 
-	client, err := getPSQLFirewallRulesClient()
+	client, err := getPSQLFirewallRulesClient(c.creds)
 	if err != nil {
 		return &http.Response{
 			StatusCode: 500,
@@ -63,9 +64,9 @@ func (p *PSQLFirewallRuleClient) CreateFirewallRule(ctx context.Context, resourc
 	return future.GetResult(client)
 }
 
-func (p *PSQLFirewallRuleClient) DeleteFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string) (status string, err error) {
+func (c *PSQLFirewallRuleClient) DeleteFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string) (status string, err error) {
 
-	client, err := getPSQLFirewallRulesClient()
+	client, err := getPSQLFirewallRulesClient(c.creds)
 	if err != nil {
 		return "", err
 	}
@@ -80,9 +81,9 @@ func (p *PSQLFirewallRuleClient) DeleteFirewallRule(ctx context.Context, resourc
 	return "Firewall Rule not present", nil
 }
 
-func (p *PSQLFirewallRuleClient) GetFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string) (firewall psql.FirewallRule, err error) {
+func (c *PSQLFirewallRuleClient) GetFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string) (firewall psql.FirewallRule, err error) {
 
-	client, err := getPSQLFirewallRulesClient()
+	client, err := getPSQLFirewallRulesClient(c.creds)
 	if err != nil {
 		return psql.FirewallRule{}, err
 	}

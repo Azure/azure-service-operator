@@ -19,20 +19,22 @@ import (
 )
 
 type PSQLServerClient struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewPSQLServerClient(secretclient secrets.SecretClient, scheme *runtime.Scheme) *PSQLServerClient {
+func NewPSQLServerClient(creds config.Credentials, secretclient secrets.SecretClient, scheme *runtime.Scheme) *PSQLServerClient {
 	return &PSQLServerClient{
+		Creds:        creds,
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
 }
 
-func getPSQLServersClient() (psql.ServersClient, error) {
-	serversClient := psql.NewServersClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getPSQLServersClient(creds config.Credentials) (psql.ServersClient, error) {
+	serversClient := psql.NewServersClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return psql.ServersClient{}, err
 	}
@@ -41,9 +43,9 @@ func getPSQLServersClient() (psql.ServersClient, error) {
 	return serversClient, nil
 }
 
-func getPSQLCheckNameAvailabilityClient() (psql.CheckNameAvailabilityClient, error) {
-	nameavailabilityClient := psql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getPSQLCheckNameAvailabilityClient(creds config.Credentials) (psql.CheckNameAvailabilityClient, error) {
+	nameavailabilityClient := psql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return psql.CheckNameAvailabilityClient{}, err
 	}
@@ -52,9 +54,9 @@ func getPSQLCheckNameAvailabilityClient() (psql.CheckNameAvailabilityClient, err
 	return nameavailabilityClient, nil
 }
 
-func (p *PSQLServerClient) CheckServerNameAvailability(ctx context.Context, servername string) (bool, error) {
+func (c *PSQLServerClient) CheckServerNameAvailability(ctx context.Context, servername string) (bool, error) {
 
-	client, err := getPSQLCheckNameAvailabilityClient()
+	client, err := getPSQLCheckNameAvailabilityClient(c.Creds)
 	if err != nil {
 		return false, err
 	}
@@ -73,7 +75,7 @@ func (p *PSQLServerClient) CheckServerNameAvailability(ctx context.Context, serv
 
 }
 
-func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
+func (c *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 	instance v1alpha2.PostgreSQLServer,
 	tags map[string]*string,
 	skuInfo psql.Sku, adminlogin string,
@@ -81,13 +83,13 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 	createmode psql.CreateMode,
 	hash string) (pollingURL string, server psql.Server, err error) {
 
-	client, err := getPSQLServersClient()
+	client, err := getPSQLServersClient(c.Creds)
 	if err != nil {
 		return "", psql.Server{}, err
 	}
 
 	// Check if name is valid if this is the first create call
-	valid, err := p.CheckServerNameAvailability(ctx, instance.Name)
+	valid, err := c.CheckServerNameAvailability(ctx, instance.Name)
 	if !valid {
 		return "", psql.Server{}, err
 	}
@@ -164,9 +166,9 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 	return pollingURL, server, err
 }
 
-func (p *PSQLServerClient) DeleteServer(ctx context.Context, resourcegroup string, servername string) (status string, err error) {
+func (c *PSQLServerClient) DeleteServer(ctx context.Context, resourcegroup string, servername string) (status string, err error) {
 
-	client, err := getPSQLServersClient()
+	client, err := getPSQLServersClient(c.Creds)
 	if err != nil {
 		return "", err
 	}
@@ -181,9 +183,9 @@ func (p *PSQLServerClient) DeleteServer(ctx context.Context, resourcegroup strin
 
 }
 
-func (p *PSQLServerClient) GetServer(ctx context.Context, resourcegroup string, servername string) (server psql.Server, err error) {
+func (c *PSQLServerClient) GetServer(ctx context.Context, resourcegroup string, servername string) (server psql.Server, err error) {
 
-	client, err := getPSQLServersClient()
+	client, err := getPSQLServersClient(c.Creds)
 	if err != nil {
 		return psql.Server{}, err
 	}
@@ -191,17 +193,17 @@ func (p *PSQLServerClient) GetServer(ctx context.Context, resourcegroup string, 
 	return client.Get(ctx, resourcegroup, servername)
 }
 
-func (p *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *v1alpha2.PostgreSQLServer) error {
+func (c *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *v1alpha2.PostgreSQLServer) error {
 	key := types.NamespacedName{
 		Name:      secretName,
 		Namespace: instance.Namespace,
 	}
 
-	err := p.SecretClient.Upsert(ctx,
+	err := c.SecretClient.Upsert(ctx,
 		key,
 		data,
 		secrets.WithOwner(instance),
-		secrets.WithScheme(p.Scheme),
+		secrets.WithScheme(c.Scheme),
 	)
 	if err != nil {
 		return err
@@ -210,7 +212,7 @@ func (p *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretNa
 	return nil
 }
 
-func (p *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, secretName string, data map[string][]byte, instance *v1alpha2.PostgreSQLServer, fullservername string) error {
+func (c *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, secretName string, data map[string][]byte, instance *v1alpha2.PostgreSQLServer, fullservername string) error {
 	key := types.NamespacedName{
 		Name:      secretName,
 		Namespace: instance.Namespace,
@@ -218,11 +220,11 @@ func (p *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, s
 
 	data["fullyQualifiedServerName"] = []byte(fullservername)
 
-	err := p.SecretClient.Upsert(ctx,
+	err := c.SecretClient.Upsert(ctx,
 		key,
 		data,
 		secrets.WithOwner(instance),
-		secrets.WithScheme(p.Scheme),
+		secrets.WithScheme(c.Scheme),
 	)
 	if err != nil {
 		return err
@@ -231,7 +233,7 @@ func (p *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, s
 	return nil
 }
 
-func (p *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *v1alpha2.PostgreSQLServer) (map[string][]byte, error) {
+func (c *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *v1alpha2.PostgreSQLServer) (map[string][]byte, error) {
 	name := instance.Name
 
 	usernameLength := 8
@@ -239,7 +241,7 @@ func (p *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *v1a
 	secret := map[string][]byte{}
 
 	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
-	if stored, err := p.SecretClient.Get(ctx, key); err == nil {
+	if stored, err := c.SecretClient.Get(ctx, key); err == nil {
 		return stored, nil
 	}
 

@@ -184,10 +184,11 @@ func main() {
 		secretClient,
 		scheme,
 	)
-	psqlserverclient := psqlserver.NewPSQLServerClient(secretClient, mgr.GetScheme())
-	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient()
-	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient()
+	psqlserverclient := psqlserver.NewPSQLServerClient(config.GlobalCredentials(), secretClient, mgr.GetScheme())
+	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient(config.GlobalCredentials())
+	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient(config.GlobalCredentials())
 	psqlusermanager := psqluser.NewPostgreSqlUserManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
@@ -823,7 +824,7 @@ func main() {
 	if err = (&controllers.PostgreSQLVNetRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: psqlvnetrule.NewPostgreSQLVNetRuleClient(),
+			AzureClient: psqlvnetrule.NewPostgreSQLVNetRuleClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLVNetRule",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLVNetRule"),

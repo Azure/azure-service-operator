@@ -762,7 +762,7 @@ func setup() error {
 	err = (&PostgreSQLServerReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerpsqlserver.NewPSQLServerClient(secretClient, k8sManager.GetScheme()),
+			AzureClient: resourcemanagerpsqlserver.NewPSQLServerClient(config.GlobalCredentials(), secretClient, k8sManager.GetScheme()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLServer",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
@@ -778,7 +778,7 @@ func setup() error {
 	err = (&PostgreSQLDatabaseReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerpsqldatabase.NewPSQLDatabaseClient(),
+			AzureClient: resourcemanagerpsqldatabase.NewPSQLDatabaseClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabase"),
@@ -794,7 +794,7 @@ func setup() error {
 	err = (&PostgreSQLFirewallRuleReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerpsqlfirewallrule.NewPSQLFirewallRuleClient(),
+			AzureClient: resourcemanagerpsqlfirewallrule.NewPSQLFirewallRuleClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRule"),
@@ -810,7 +810,7 @@ func setup() error {
 	err = (&PostgreSQLUserReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerpsqluser.NewPostgreSqlUserManager(secretClient, k8sManager.GetScheme()),
+			AzureClient: resourcemanagerpsqluser.NewPostgreSqlUserManager(config.GlobalCredentials(), secretClient, k8sManager.GetScheme()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLUser",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLUser"),
