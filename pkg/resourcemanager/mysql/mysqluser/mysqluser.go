@@ -34,23 +34,25 @@ const MSecretUsernameKey = "username"
 // MSecretPasswordKey is the password key in secret
 const MSecretPasswordKey = "password"
 
-//MySqlUserManager for mysqluser manager
+// MySqlUserManager for mysqluser manager
 type MySqlUserManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-//NewMySqlUserManager creates a new NewMySqlUserManager
-func NewMySqlUserManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *MySqlUserManager {
+// NewMySqlUserManager creates a new MySqlUserManager
+func NewMySqlUserManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *MySqlUserManager {
 	return &MySqlUserManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
 }
 
 // GetDB retrieves a database
-func (s *MySqlUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (db mysql.Database, err error) {
-	dbClient := mysqldatabase.GetMySQLDatabasesClient()
+func (m *MySqlUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (db mysql.Database, err error) {
+	dbClient := mysqldatabase.GetMySQLDatabasesClient(m.Creds)
 	return dbClient.Get(
 		ctx,
 		resourceGroupName,
@@ -60,7 +62,7 @@ func (s *MySqlUserManager) GetDB(ctx context.Context, resourceGroupName string, 
 }
 
 // ConnectToSqlDb connects to the SQL db using the given credentials
-func (s *MySqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, fullserver string, database string, port int, user string, password string) (*sql.DB, error) {
+func (m *MySqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, fullserver string, database string, port int, user string, password string) (*sql.DB, error) {
 
 	connString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?tls=skip-verify&interpolateParams=true", user, password, fullserver, port, database)
 
@@ -78,7 +80,7 @@ func (s *MySqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string
 }
 
 // GrantUserRoles grants roles to a user for a given database
-func (s *MySqlUserManager) GrantUserRoles(ctx context.Context, user string, database string, roles []string, db *sql.DB) error {
+func (m *MySqlUserManager) GrantUserRoles(ctx context.Context, user string, database string, roles []string, db *sql.DB) error {
 	var errorStrings []string
 	if err := helpers.FindBadChars(user); err != nil {
 		return fmt.Errorf("Problem found with username: %v", err)
@@ -104,7 +106,7 @@ func (s *MySqlUserManager) GrantUserRoles(ctx context.Context, user string, data
 }
 
 // CreateUser creates user with secret credentials
-func (s *MySqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
+func (m *MySqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
 	newUser := string(secret[MSecretUsernameKey])
 	newPassword := string(secret[MSecretPasswordKey])
 
@@ -125,7 +127,7 @@ func (s *MySqlUserManager) CreateUser(ctx context.Context, secret map[string][]b
 }
 
 // UserExists checks if db contains user
-func (s *MySqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
+func (m *MySqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
 
 	err := db.QueryRowContext(ctx, "SELECT * FROM mysql.user WHERE User = $1", username)
 	//err := db.ExecContext(ctx, tsql)
@@ -138,7 +140,7 @@ func (s *MySqlUserManager) UserExists(ctx context.Context, db *sql.DB, username 
 }
 
 // DropUser drops a user from db
-func (s *MySqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
+func (m *MySqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
 
 	if err := helpers.FindBadChars(user); err != nil {
 		return fmt.Errorf("Problem found with username: %v", err)
@@ -148,7 +150,7 @@ func (s *MySqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string
 }
 
 // DeleteSecrets deletes the secrets associated with a SQLUser
-func (s *MySqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.MySQLUser, secretClient secrets.SecretClient) (bool, error) {
+func (m *MySqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.MySQLUser, secretClient secrets.SecretClient) (bool, error) {
 	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
 	// In keyvault we have some creative freedom to allow more flexibility
 	secretKey := GetNamespacedName(instance, secretClient)
@@ -167,7 +169,7 @@ func (s *MySqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1
 }
 
 // GetOrPrepareSecret gets or creates a secret
-func (s *MySqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.MySQLUser, secretClient secrets.SecretClient) map[string][]byte {
+func (m *MySqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.MySQLUser, secretClient secrets.SecretClient) map[string][]byte {
 	key := GetNamespacedName(instance, secretClient)
 
 	mysqldbdnssuffix := "mysql.database.azure.com"

@@ -16,28 +16,30 @@ import (
 )
 
 type MySQLServerClient struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewMySQLServerClient(secretclient secrets.SecretClient, scheme *runtime.Scheme) *MySQLServerClient {
+func NewMySQLServerClient(creds config.Credentials, secretclient secrets.SecretClient, scheme *runtime.Scheme) *MySQLServerClient {
 	return &MySQLServerClient{
+		Creds:        creds,
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
 }
 
-func getMySQLServersClient() mysql.ServersClient {
-	serversClient := mysql.NewServersClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getMySQLServersClient(creds config.Credentials) mysql.ServersClient {
+	serversClient := mysql.NewServersClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	serversClient.Authorizer = a
 	serversClient.AddToUserAgent(config.UserAgent())
 	return serversClient
 }
 
-func getMySQLCheckNameAvailabilityClient() mysql.CheckNameAvailabilityClient {
-	nameavailabilityClient := mysql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getMySQLCheckNameAvailabilityClient(creds config.Credentials) mysql.CheckNameAvailabilityClient {
+	nameavailabilityClient := mysql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	nameavailabilityClient.Authorizer = a
 	nameavailabilityClient.AddToUserAgent(config.UserAgent())
 	return nameavailabilityClient
@@ -45,7 +47,7 @@ func getMySQLCheckNameAvailabilityClient() mysql.CheckNameAvailabilityClient {
 
 func (m *MySQLServerClient) CheckServerNameAvailability(ctx context.Context, servername string) (bool, error) {
 
-	client := getMySQLCheckNameAvailabilityClient()
+	client := getMySQLCheckNameAvailabilityClient(m.Creds)
 
 	resourceType := "Microsoft.DBforMySQL/servers"
 
@@ -63,7 +65,7 @@ func (m *MySQLServerClient) CheckServerNameAvailability(ctx context.Context, ser
 
 func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, instance v1alpha2.MySQLServer, tags map[string]*string, skuInfo mysql.Sku, adminlogin string, adminpassword string, createmode mysql.CreateMode, hash string) (pollingURL string, server mysql.Server, err error) {
 
-	client := getMySQLServersClient()
+	client := getMySQLServersClient(m.Creds)
 
 	// Check if name is valid if this is the first create call
 	valid, err := m.CheckServerNameAvailability(ctx, instance.Name)
@@ -146,7 +148,7 @@ func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, instance v1
 
 func (m *MySQLServerClient) DeleteServer(ctx context.Context, resourcegroup string, servername string) (status string, err error) {
 
-	client := getMySQLServersClient()
+	client := getMySQLServersClient(m.Creds)
 
 	_, err = client.Get(ctx, resourcegroup, servername)
 	if err == nil { // Server present, so go ahead and delete
@@ -160,6 +162,6 @@ func (m *MySQLServerClient) DeleteServer(ctx context.Context, resourcegroup stri
 
 func (m *MySQLServerClient) GetServer(ctx context.Context, resourcegroup string, servername string) (server mysql.Server, err error) {
 
-	client := getMySQLServersClient()
+	client := getMySQLServersClient(m.Creds)
 	return client.Get(ctx, resourcegroup, servername)
 }

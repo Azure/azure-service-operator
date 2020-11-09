@@ -13,15 +13,16 @@ import (
 )
 
 type MySQLFirewallRuleClient struct {
+	creds config.Credentials
 }
 
-func NewMySQLFirewallRuleClient() *MySQLFirewallRuleClient {
-	return &MySQLFirewallRuleClient{}
+func NewMySQLFirewallRuleClient(creds config.Credentials) *MySQLFirewallRuleClient {
+	return &MySQLFirewallRuleClient{creds: creds}
 }
 
-func getMySQLFirewallRulesClient() mysql.FirewallRulesClient {
-	firewallRulesClient := mysql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getMySQLFirewallRulesClient(creds config.Credentials) mysql.FirewallRulesClient {
+	firewallRulesClient := mysql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	firewallRulesClient.Authorizer = a
 	firewallRulesClient.AddToUserAgent(config.UserAgent())
 	return firewallRulesClient
@@ -29,7 +30,7 @@ func getMySQLFirewallRulesClient() mysql.FirewallRulesClient {
 
 func (m *MySQLFirewallRuleClient) CreateFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string, startip string, endip string) (future mysql.FirewallRulesCreateOrUpdateFuture, err error) {
 
-	client := getMySQLFirewallRulesClient()
+	client := getMySQLFirewallRulesClient(m.creds)
 
 	firewallRuleProperties := mysql.FirewallRuleProperties{
 		StartIPAddress: to.StringPtr(startip),
@@ -50,7 +51,7 @@ func (m *MySQLFirewallRuleClient) CreateFirewallRule(ctx context.Context, resour
 
 func (m *MySQLFirewallRuleClient) DeleteFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string) (status string, err error) {
 
-	client := getMySQLFirewallRulesClient()
+	client := getMySQLFirewallRulesClient(m.creds)
 
 	_, err = client.Get(ctx, resourcegroup, servername, firewallrulename)
 	if err == nil { // FW rule present, so go ahead and delete
@@ -64,7 +65,7 @@ func (m *MySQLFirewallRuleClient) DeleteFirewallRule(ctx context.Context, resour
 
 func (m *MySQLFirewallRuleClient) GetFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string) (firewall mysql.FirewallRule, err error) {
 
-	client := getMySQLFirewallRulesClient()
+	client := getMySQLFirewallRulesClient(m.creds)
 
 	return client.Get(ctx, resourcegroup, servername, firewallrulename)
 }

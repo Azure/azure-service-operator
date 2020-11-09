@@ -22,7 +22,7 @@ func (m *MySQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object
 		return true, err
 	}
 
-	client := getMySQLFirewallRulesClient()
+	client := getMySQLFirewallRulesClient(m.creds)
 
 	instance.Status.Provisioning = true
 	// Check if this server already exists and its state if it does. This is required

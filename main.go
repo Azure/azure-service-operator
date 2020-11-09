@@ -664,6 +664,7 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
 			AzureClient: mysqlserver.NewMySQLServerClient(
+				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
 			),
@@ -681,7 +682,7 @@ func main() {
 	if err = (&controllers.MySQLDatabaseReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: mysqldatabase.NewMySQLDatabaseClient(),
+			AzureClient: mysqldatabase.NewMySQLDatabaseClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
@@ -696,7 +697,7 @@ func main() {
 	if err = (&controllers.MySQLFirewallRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: mysqlfirewall.NewMySQLFirewallRuleClient(),
+			AzureClient: mysqlfirewall.NewMySQLFirewallRuleClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
@@ -712,7 +713,7 @@ func main() {
 	if err = (&controllers.MySQLUserReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: mysqluser.NewMySqlUserManager(secretClient, scheme),
+			AzureClient: mysqluser.NewMySqlUserManager(config.GlobalCredentials(), secretClient, scheme),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLUser",
 				ctrl.Log.WithName("controllers").WithName("MySQLUser"),
@@ -766,7 +767,7 @@ func main() {
 	if err = (&controllers.MySQLVNetRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(),
+			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLVNetRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),

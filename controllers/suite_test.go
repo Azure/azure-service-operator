@@ -677,6 +677,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: mysqlServerManager.NewMySQLServerClient(
+				config.GlobalCredentials(),
 				secretClient,
 				k8sManager.GetScheme(),
 			),
@@ -695,7 +696,7 @@ func setup() error {
 	err = (&MySQLDatabaseReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: mysqlDatabaseManager.NewMySQLDatabaseClient(),
+			AzureClient: mysqlDatabaseManager.NewMySQLDatabaseClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
@@ -711,7 +712,7 @@ func setup() error {
 	err = (&MySQLFirewallRuleReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: mysqlFirewallManager.NewMySQLFirewallRuleClient(),
+			AzureClient: mysqlFirewallManager.NewMySQLFirewallRuleClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
@@ -727,7 +728,7 @@ func setup() error {
 	err = (&MySQLVNetRuleReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(),
+			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLVNetRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
@@ -743,7 +744,7 @@ func setup() error {
 	err = (&MySQLUserReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: mysqluser.NewMySqlUserManager(secretClient, scheme.Scheme),
+			AzureClient: mysqluser.NewMySqlUserManager(config.GlobalCredentials(), secretClient, scheme.Scheme),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLUser",
 				ctrl.Log.WithName("controllers").WithName("MySQLUser"),
