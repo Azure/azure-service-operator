@@ -9,21 +9,6 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
-// SqlServerPort is the default server port for sql server
-const SqlServerPort = 1433
-
-// DriverName is driver name for db connection
-const DriverName = "sqlserver"
-
-// SecretUsernameKey is the username key in secret
-const SecretUsernameKey = "username"
-
-// SecretPasswordKey is the password key in secret
-const SecretPasswordKey = "password"
-
-// AzureSQLUserFinalizerName is the name of the finalizer
-const AzureSQLUserFinalizerName = "azuresqluser.finalizers.azure.com"
-
 // AzureSQLUserReconciler reconciles a AzureSQLUser object
 type AzureSQLUserReconciler struct {
 	Reconciler *AsyncReconciler
