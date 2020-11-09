@@ -34,7 +34,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 	var resourcegroupLocation string
 	var userID string
 
-	resourceGroupManager := rghelper.NewAzureResourceGroupManager()
+	resourceGroupManager := rghelper.NewAzureResourceGroupManager(config.GlobalCredentials())
 	kvManager := kvhelper.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
 
 	BeforeEach(func() {

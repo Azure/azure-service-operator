@@ -149,7 +149,7 @@ func setup() error {
 	}
 
 	secretClient := k8sSecrets.New(k8sManager.GetClient())
-	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
+	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(config.GlobalCredentials())
 	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(config.GlobalCredentials(), k8sManager.GetScheme())
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme.Scheme)
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(config.GlobalCredentials())

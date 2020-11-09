@@ -145,7 +145,7 @@ func main() {
 	apimManager := resourceapimanagement.NewManager(config.GlobalCredentials())
 	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager(config.GlobalCredentials())
 	vnetManager := vnet.NewAzureVNetManager()
-	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
+	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager(config.GlobalCredentials())
 
 	redisCacheManager := rediscache.NewAzureRedisCacheManager(
 		config.GlobalCredentials(),

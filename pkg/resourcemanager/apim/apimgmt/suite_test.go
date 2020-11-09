@@ -53,7 +53,7 @@ var _ = BeforeSuite(func() {
 	resourceGroupName := "AzureOperatorsTest"
 
 	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
-	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
+	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(config.GlobalCredentials())
 
 	//create resourcegroup for this suite
 	_, err = resourceGroupManager.CreateGroup(ctx, resourceGroupName, resourceGroupLocation)
