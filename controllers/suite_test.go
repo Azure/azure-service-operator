@@ -300,6 +300,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: rediscaches.NewAzureRedisCacheManager(
+				config.GlobalCredentials(),
 				secretClient,
 				scheme.Scheme,
 			),
@@ -319,6 +320,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: rediscacheactions.NewAzureRedisCacheActionManager(
+				config.GlobalCredentials(),
 				secretClient,
 				scheme.Scheme,
 			),
@@ -337,7 +339,7 @@ func setup() error {
 	err = (&RedisCacheFirewallRuleReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: rcfwr.NewAzureRedisCacheFirewallRuleManager(),
+			AzureClient: rcfwr.NewAzureRedisCacheFirewallRuleManager(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"RedisCacheFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("RedisCacheFirewallRule"),

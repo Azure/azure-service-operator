@@ -148,15 +148,17 @@ func main() {
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 
 	redisCacheManager := rediscache.NewAzureRedisCacheManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
 	redisCacheActionManager := rediscacheactions.NewAzureRedisCacheActionManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
 
-	redisCacheFirewallRuleManager := rcfwr.NewAzureRedisCacheFirewallRuleManager()
+	redisCacheFirewallRuleManager := rcfwr.NewAzureRedisCacheFirewallRuleManager(config.GlobalCredentials())
 	appInsightsManager := resourcemanagerappinsights.NewManager(
 		config.GlobalCredentials(),
 		secretClient,
