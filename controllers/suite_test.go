@@ -549,6 +549,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: resourcemanagernic.NewAzureNetworkInterfaceClient(
+				config.GlobalCredentials(),
 				secretClient,
 				k8sManager.GetScheme(),
 			),

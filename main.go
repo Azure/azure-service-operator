@@ -749,6 +749,7 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
 			AzureClient: nic.NewAzureNetworkInterfaceClient(
+				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
 			),
