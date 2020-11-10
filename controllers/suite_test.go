@@ -17,6 +17,7 @@ import (
 
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	mysqladmin "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/aadadmin"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 
@@ -764,6 +765,22 @@ func setup() error {
 		return err
 	}
 
+	err = (&MySQLServerAdministratorReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: mysqladmin.NewMySQLServerAdministratorManager(config.GlobalCredentials()),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLServerAdministrator",
+				ctrl.Log.WithName("controllers").WithName("MySQLServerAdministrator"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLServerAdministrator-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
 	err = (&PostgreSQLServerReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
@@ -945,6 +962,7 @@ func TestMain(m *testing.M) {
 	err = setup()
 	if err != nil {
 		log.Println(fmt.Sprintf("could not set up environment: %v\n", err))
+		os.Exit(1)
 	}
 
 	code = m.Run()

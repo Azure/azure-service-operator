@@ -23,7 +23,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-// Ensure idempotently instantiates the requested server (ig possible) in Azure
+// Ensure idempotently instantiates the requested server (if possible) in Azure
 func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	options := &resourcemanager.Options{}
 	for _, opt := range opts {

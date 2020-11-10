@@ -53,6 +53,27 @@ func TestMySQLHappyPath(t *testing.T) {
 
 	EnsureInstance(ctx, t, tc, mySQLDBInstance)
 
+	mySQLAdmin := &azurev1alpha1.MySQLServerAdministrator{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "admin",
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.MySQLServerAdministratorSpec{
+			ResourceGroup:     rgName,
+			Server:            mySQLServerName,
+			AdministratorType: azurev1alpha1.MySQLServerAdministratorTypeActiveDirectory,
+			// The below fields are for a user managed identity which exists in the ASO-CI subscription
+			// TODO: That means this test won't pass locally if not run against that sub...
+			TenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47",
+			Login:    "azureserviceoperator-test-mi",
+			Sid:      "ad84ef71-31fc-4797-b970-48bd515edf5c",
+		},
+	}
+	EnsureInstance(ctx, t, tc, mySQLAdmin)
+
+	// Delete the admin
+	EnsureDelete(ctx, t, tc, mySQLAdmin)
+
 	ruleName := GenerateTestResourceNameWithRandom("mysql-fw", 10)
 
 	ruleInstance := &azurev1alpha1.MySQLFirewallRule{
