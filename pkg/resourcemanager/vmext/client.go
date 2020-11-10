@@ -17,28 +17,30 @@ import (
 )
 
 type AzureVirtualMachineExtensionClient struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureVirtualMachineExtensionClient(secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzureVirtualMachineExtensionClient {
+func NewAzureVirtualMachineExtensionClient(creds config.Credentials, secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzureVirtualMachineExtensionClient {
 	return &AzureVirtualMachineExtensionClient{
+		Creds:        creds,
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
 }
 
-func getVirtualMachineExtensionClient() compute.VirtualMachineExtensionsClient {
-	computeClient := compute.NewVirtualMachineExtensionsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getVirtualMachineExtensionClient(creds config.Credentials) compute.VirtualMachineExtensionsClient {
+	computeClient := compute.NewVirtualMachineExtensionsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	computeClient.Authorizer = a
 	computeClient.AddToUserAgent(config.UserAgent())
 	return computeClient
 }
 
-func (m *AzureVirtualMachineExtensionClient) CreateVirtualMachineExtension(ctx context.Context, location string, resourceGroupName string, vmName string, extName string, autoUpgradeMinorVersion bool, forceUpdateTag string, publisher string, typeName string, typeHandlerVersion string, settings string, protectedSettings string) (future compute.VirtualMachineExtensionsCreateOrUpdateFuture, err error) {
+func (c *AzureVirtualMachineExtensionClient) CreateVirtualMachineExtension(ctx context.Context, location string, resourceGroupName string, vmName string, extName string, autoUpgradeMinorVersion bool, forceUpdateTag string, publisher string, typeName string, typeHandlerVersion string, settings string, protectedSettings string) (future compute.VirtualMachineExtensionsCreateOrUpdateFuture, err error) {
 
-	client := getVirtualMachineExtensionClient()
+	client := getVirtualMachineExtensionClient(c.Creds)
 
 	var extensionSettings map[string]*string
 
@@ -75,9 +77,9 @@ func (m *AzureVirtualMachineExtensionClient) CreateVirtualMachineExtension(ctx c
 	return future, err
 }
 
-func (m *AzureVirtualMachineExtensionClient) DeleteVirtualMachineExtension(ctx context.Context, extName string, vmName string, resourcegroup string) (status string, err error) {
+func (c *AzureVirtualMachineExtensionClient) DeleteVirtualMachineExtension(ctx context.Context, extName string, vmName string, resourcegroup string) (status string, err error) {
 
-	client := getVirtualMachineExtensionClient()
+	client := getVirtualMachineExtensionClient(c.Creds)
 
 	_, err = client.Get(ctx, resourcegroup, vmName, extName, "")
 	if err == nil { // vm present, so go ahead and delete
@@ -89,9 +91,9 @@ func (m *AzureVirtualMachineExtensionClient) DeleteVirtualMachineExtension(ctx c
 
 }
 
-func (m *AzureVirtualMachineExtensionClient) GetVirtualMachineExtension(ctx context.Context, resourcegroup string, vmName string, extName string) (vm compute.VirtualMachineExtension, err error) {
+func (c *AzureVirtualMachineExtensionClient) GetVirtualMachineExtension(ctx context.Context, resourcegroup string, vmName string, extName string) (vm compute.VirtualMachineExtension, err error) {
 
-	client := getVirtualMachineExtensionClient()
+	client := getVirtualMachineExtensionClient(c.Creds)
 
 	return client.Get(ctx, resourcegroup, vmName, extName, "")
 }

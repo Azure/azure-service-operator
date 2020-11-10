@@ -592,6 +592,7 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
 			AzureClient: vmext.NewAzureVirtualMachineExtensionClient(
+				config.GlobalCredentials(),
 				secretClient,
 				k8sManager.GetScheme(),
 			),
