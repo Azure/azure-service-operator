@@ -10,14 +10,16 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // New returns an instance of the Storage Account Client
-func New(secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureStorageManager {
+func New(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureStorageManager {
 	return &azureStorageManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}

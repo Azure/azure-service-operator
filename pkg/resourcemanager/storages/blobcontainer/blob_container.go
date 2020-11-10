@@ -13,11 +13,13 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 )
 
-type AzureBlobContainerManager struct{}
+type AzureBlobContainerManager struct {
+	creds config.Credentials
+}
 
-func getContainerClient() (s.BlobContainersClient, error) {
-	containersClient := s.NewBlobContainersClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	auth, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getContainerClient(creds config.Credentials) (s.BlobContainersClient, error) {
+	containersClient := s.NewBlobContainersClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	auth, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return s.BlobContainersClient{}, err
 	}
@@ -32,8 +34,8 @@ func getContainerClient() (s.BlobContainersClient, error) {
 // accountName - the name of the storage account
 // containerName - the name of the container
 // accessLevel - 'PublicAccessContainer', 'PublicAccessBlob', or 'PublicAccessNone'
-func (bc *AzureBlobContainerManager) CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string, accessLevel s.PublicAccess) (*s.BlobContainer, error) {
-	containerClient, err := getContainerClient()
+func (m *AzureBlobContainerManager) CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string, accessLevel s.PublicAccess) (*s.BlobContainer, error) {
+	containerClient, err := getContainerClient(m.creds)
 	if err != nil {
 		return nil, err
 	}
@@ -61,8 +63,8 @@ func (bc *AzureBlobContainerManager) CreateBlobContainer(ctx context.Context, re
 // resourceGroupName - name of the resource group within the azure subscription.
 // accountName - the name of the storage account
 // containerName - the name of the container
-func (bc *AzureBlobContainerManager) GetBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (result s.BlobContainer, err error) {
-	containerClient, err := getContainerClient()
+func (m *AzureBlobContainerManager) GetBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (result s.BlobContainer, err error) {
+	containerClient, err := getContainerClient(m.creds)
 	if err != nil {
 		return s.BlobContainer{}, err
 	}
@@ -75,8 +77,8 @@ func (bc *AzureBlobContainerManager) GetBlobContainer(ctx context.Context, resou
 // resourceGroupName - name of the resource group within the azure subscription.
 // accountName - the name of the storage account
 // containerName - the name of the container
-func (bc *AzureBlobContainerManager) DeleteBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (result autorest.Response, err error) {
-	containerClient, err := getContainerClient()
+func (m *AzureBlobContainerManager) DeleteBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (result autorest.Response, err error) {
+	containerClient, err := getContainerClient(m.creds)
 	if err != nil {
 		return autorest.Response{
 			Response: &http.Response{

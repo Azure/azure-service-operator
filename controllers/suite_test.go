@@ -664,7 +664,7 @@ func setup() error {
 	err = (&BlobContainerReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerblobcontainer.New(),
+			AzureClient: resourcemanagerblobcontainer.New(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"BlobContainer",
 				ctrl.Log.WithName("controllers").WithName("BlobContainer"),
@@ -828,7 +828,7 @@ func setup() error {
 	err = (&StorageAccountReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerstorageaccount.New(secretClient, k8sManager.GetScheme()),
+			AzureClient: resourcemanagerstorageaccount.New(config.GlobalCredentials(), secretClient, k8sManager.GetScheme()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),

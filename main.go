@@ -209,7 +209,7 @@ func main() {
 	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: storageaccountManager.New(secretClient, scheme),
+			AzureClient: storageaccountManager.New(config.GlobalCredentials(), secretClient, scheme),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
@@ -506,7 +506,7 @@ func main() {
 	if err = (&controllers.BlobContainerReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: blobContainerManager.New(),
+			AzureClient: blobContainerManager.New(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"BlobContainer",
 				ctrl.Log.WithName("controllers").WithName("BlobContainer"),

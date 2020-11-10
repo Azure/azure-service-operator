@@ -26,6 +26,7 @@ import (
 const templateForConnectionString = "DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=%s"
 
 type azureStorageManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
@@ -80,9 +81,9 @@ func ParseNetworkPolicy(ruleSet *v1alpha1.StorageNetworkRuleSet) storage.Network
 	}
 }
 
-func getStoragesClient() (storage.AccountsClient, error) {
-	storagesClient := storage.NewAccountsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getStoragesClient(creds config.Credentials) (storage.AccountsClient, error) {
+	storagesClient := storage.NewAccountsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return storage.AccountsClient{}, err
 	}
@@ -92,7 +93,7 @@ func getStoragesClient() (storage.AccountsClient, error) {
 }
 
 // CreateStorage creates a new storage account
-func (_ *azureStorageManager) CreateStorage(ctx context.Context,
+func (m *azureStorageManager) CreateStorage(ctx context.Context,
 	groupName string,
 	storageAccountName string,
 	location string,
@@ -102,7 +103,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 	accessTier azurev1alpha1.StorageAccountAccessTier,
 	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool, networkRule *storage.NetworkRuleSet) (pollingURL string, result storage.Account, err error) {
 
-	storagesClient, err := getStoragesClient()
+	storagesClient, err := getStoragesClient(m.Creds)
 	if err != nil {
 		return "", storage.Account{}, err
 	}
@@ -162,8 +163,8 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
 // storageAccountName - the name of the storage account
-func (_ *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName string, storageAccountName string) (result storage.Account, err error) {
-	storagesClient, err := getStoragesClient()
+func (m *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName string, storageAccountName string) (result storage.Account, err error) {
+	storagesClient, err := getStoragesClient(m.Creds)
 	if err != nil {
 		return storage.Account{}, err
 	}
@@ -172,8 +173,8 @@ func (_ *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName 
 }
 
 // DeleteStorage removes the resource group named by env var
-func (_ *azureStorageManager) DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
-	storagesClient, err := getStoragesClient()
+func (m *azureStorageManager) DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
+	storagesClient, err := getStoragesClient(m.Creds)
 	if err != nil {
 		return autorest.Response{
 			Response: &http.Response{
@@ -185,8 +186,8 @@ func (_ *azureStorageManager) DeleteStorage(ctx context.Context, groupName strin
 	return storagesClient.Delete(ctx, groupName, storageAccountName)
 }
 
-func (_ *azureStorageManager) ListKeys(ctx context.Context, resourceGroupName string, accountName string) (result storage.AccountListKeysResult, err error) {
-	storagesClient, err := getStoragesClient()
+func (m *azureStorageManager) ListKeys(ctx context.Context, resourceGroupName string, accountName string) (result storage.AccountListKeysResult, err error) {
+	storagesClient, err := getStoragesClient(m.Creds)
 	if err != nil {
 		return storage.AccountListKeysResult{}, err
 	}
@@ -195,10 +196,10 @@ func (_ *azureStorageManager) ListKeys(ctx context.Context, resourceGroupName st
 }
 
 // StoreSecrets upserts the secret information for this storage account
-func (s *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupName string, accountName string, instance *v1alpha1.StorageAccount) error {
+func (m *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupName string, accountName string, instance *v1alpha1.StorageAccount) error {
 
 	// get the keys
-	keyResult, err := s.ListKeys(ctx, resourceGroupName, accountName)
+	keyResult, err := m.ListKeys(ctx, resourceGroupName, accountName)
 	if err != nil {
 		return err
 	}
@@ -222,10 +223,10 @@ func (s *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupNam
 		Name:      fmt.Sprintf("storageaccount-%s-%s", resourceGroupName, accountName),
 		Namespace: instance.Namespace,
 	}
-	return s.SecretClient.Upsert(ctx,
+	return m.SecretClient.Upsert(ctx,
 		key,
 		data,
 		secrets.WithOwner(instance),
-		secrets.WithScheme(s.Scheme),
+		secrets.WithScheme(m.Scheme),
 	)
 }
