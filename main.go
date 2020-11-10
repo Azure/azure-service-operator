@@ -789,6 +789,7 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
 			AzureClient: vm.NewAzureVirtualMachineClient(
+				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
 			),
