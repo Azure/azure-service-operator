@@ -515,7 +515,7 @@ func setup() error {
 	err = (&VirtualNetworkReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagervnet.NewAzureVNetManager(),
+			AzureClient: resourcemanagervnet.NewAzureVNetManager(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"VirtualNetwork",
 				ctrl.Log.WithName("controllers").WithName("VirtualNetwork"),

@@ -19,13 +19,14 @@ import (
 
 // AzureVNetManager is the struct that the manager functions hang off
 type AzureVNetManager struct {
+	Creds     config.Credentials
 	Telemetry telemetry.Telemetry
 }
 
 // getVNetClient returns a new instance of an VirtualNetwork client
-func getVNetClient() (vnetwork.VirtualNetworksClient, error) {
-	client := vnetwork.NewVirtualNetworksClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getVNetClient(creds config.Credentials) (vnetwork.VirtualNetworksClient, error) {
+	client := vnetwork.NewVirtualNetworksClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		client = vnetwork.VirtualNetworksClient{}
 	} else {
@@ -36,8 +37,8 @@ func getVNetClient() (vnetwork.VirtualNetworksClient, error) {
 }
 
 // CreateVNet creates VNets
-func (*AzureVNetManager) CreateVNet(ctx context.Context, location string, resourceGroupName string, resourceName string, addressSpace string, subnets []azurev1alpha1.VNetSubnets) (vnetwork.VirtualNetwork, error) {
-	client, err := getVNetClient()
+func (m *AzureVNetManager) CreateVNet(ctx context.Context, location string, resourceGroupName string, resourceName string, addressSpace string, subnets []azurev1alpha1.VNetSubnets) (vnetwork.VirtualNetwork, error) {
+	client, err := getVNetClient(m.Creds)
 	if err != nil {
 		return vnetwork.VirtualNetwork{}, err
 	}
@@ -86,8 +87,8 @@ func (*AzureVNetManager) CreateVNet(ctx context.Context, location string, resour
 }
 
 // DeleteVNet deletes a VNet
-func (*AzureVNetManager) DeleteVNet(ctx context.Context, resourceGroupName string, resourceName string) (autorest.Response, error) {
-	client, err := getVNetClient()
+func (m *AzureVNetManager) DeleteVNet(ctx context.Context, resourceGroupName string, resourceName string) (autorest.Response, error) {
+	client, err := getVNetClient(m.Creds)
 	if err != nil {
 		return autorest.Response{}, err
 	}
@@ -105,8 +106,8 @@ func (*AzureVNetManager) DeleteVNet(ctx context.Context, resourceGroupName strin
 }
 
 // GetVNet gets a VNet
-func (v *AzureVNetManager) GetVNet(ctx context.Context, resourceGroupName string, resourceName string) (vNet vnetwork.VirtualNetwork, err error) {
-	client, err := getVNetClient()
+func (m *AzureVNetManager) GetVNet(ctx context.Context, resourceGroupName string, resourceName string) (vNet vnetwork.VirtualNetwork, err error) {
+	client, err := getVNetClient(m.Creds)
 	if err != nil {
 		return vnetwork.VirtualNetwork{}, err
 	}
@@ -114,13 +115,13 @@ func (v *AzureVNetManager) GetVNet(ctx context.Context, resourceGroupName string
 	return client.Get(ctx, resourceGroupName, resourceName, "")
 }
 
-func (v *AzureVNetManager) GetAvailableIP(ctx context.Context, resourceGroup, vnet, subnet string) (string, error) {
-	client, err := getVNetClient()
+func (m *AzureVNetManager) GetAvailableIP(ctx context.Context, resourceGroup, vnet, subnet string) (string, error) {
+	client, err := getVNetClient(m.Creds)
 	if err != nil {
 		return "", err
 	}
 
-	sclient := NewAzureSubnetManager()
+	sclient := NewAzureSubnetManager(m.Creds)
 
 	sub, err := sclient.Get(ctx, resourceGroup, vnet, subnet)
 	if err != nil {

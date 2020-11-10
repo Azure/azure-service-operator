@@ -144,7 +144,7 @@ func main() {
 	// creds for the specific resource being reconciled.
 	apimManager := resourceapimanagement.NewManager(config.GlobalCredentials())
 	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager(config.GlobalCredentials())
-	vnetManager := vnet.NewAzureVNetManager()
+	vnetManager := vnet.NewAzureVNetManager(config.GlobalCredentials())
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager(config.GlobalCredentials())
 
 	redisCacheManager := rediscache.NewAzureRedisCacheManager(

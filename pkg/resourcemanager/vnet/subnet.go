@@ -13,17 +13,19 @@ import (
 )
 
 // AzureSubnetManager is the struct that the manager functions hang off
-type AzureSubnetManager struct{}
+type AzureSubnetManager struct {
+	creds config.Credentials
+}
 
 //NewAzureSubnetManager returns a new client for subnets
-func NewAzureSubnetManager() *AzureSubnetManager {
-	return &AzureSubnetManager{}
+func NewAzureSubnetManager(creds config.Credentials) *AzureSubnetManager {
+	return &AzureSubnetManager{creds: creds}
 }
 
 // getSubnetClient returns a new instance of an subnet client
-func getSubnetClient() (vnetwork.SubnetsClient, error) {
-	client := vnetwork.NewSubnetsClientWithBaseURI(config.BaseURI(), config.GlobalCredentials().SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(config.GlobalCredentials())
+func getSubnetClient(creds config.Credentials) (vnetwork.SubnetsClient, error) {
+	client := vnetwork.NewSubnetsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		client = vnetwork.SubnetsClient{}
 	} else {
@@ -34,8 +36,8 @@ func getSubnetClient() (vnetwork.SubnetsClient, error) {
 }
 
 // Get gets a Subnet from Azure
-func (v *AzureSubnetManager) Get(ctx context.Context, resourceGroup, vnet, subnet string) (vnetwork.Subnet, error) {
-	client, err := getSubnetClient()
+func (m *AzureSubnetManager) Get(ctx context.Context, resourceGroup, vnet, subnet string) (vnetwork.Subnet, error) {
+	client, err := getSubnetClient(m.creds)
 	if err != nil {
 		return vnetwork.Subnet{}, err
 	}
