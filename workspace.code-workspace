@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "hack/generated"
+		},
+		{
+			"path": "hack/generator"
+		}
+	],
+	"settings": {}
+}
