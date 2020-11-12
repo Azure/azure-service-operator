@@ -51,3 +51,7 @@ manager
 # terraform artifacts
 .terraform*
 terraform.tfstate*
+
+# operator bundle artifacts
+bundle.Dockerfile
+bundle/
