@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"k8sinfratest-deployment-mzojax","location":"westus","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"k8sinfratest-rg-kheqhf","location":"BadLocation","tags":{"CreatedAt":"2020-11-04T08:22:00Z"},"type":"Microsoft.Resources/resourceGroups"}]}}}'
+    body: '{"name":"k8sinfratest-deployment-mzojax","location":"westus","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"k8sinfratest-rg-kheqhf","location":"BadLocation","tags":{"CreatedAt":"2020-11-09T23:03:51Z"},"type":"Microsoft.Resources/resourceGroups"}]}}}'
     form: {}
     headers:
       Content-Type:
@@ -21,7 +21,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 05 Nov 2020 00:39:39 GMT
+      - Mon, 09 Nov 2020 23:03:49 GMT
       Expires:
       - "-1"
       Pragma:

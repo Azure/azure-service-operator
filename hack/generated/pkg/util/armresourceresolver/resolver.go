@@ -196,7 +196,7 @@ func (r *Resolver) findGVK(owner *genruntime.ResourceReference) (schema.GroupVer
 
 	// TODO: We should do this on process launch probably since we can check based on the AllKnownTypes() collection
 	if !found {
-		return ownerGvk, errors.Errorf("couldn't find registered scheme for owner %+v", owner)
+		return ownerGvk, errors.Errorf("couldn't find owner %+v in scheme", owner)
 	}
 
 	return ownerGvk, nil

@@ -18,11 +18,12 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // TODO: Naming?
 type Applier interface {
-	CreateDeployment(ctx context.Context, deployment *Deployment) (*Deployment, error)
+	CreateDeployment(ctx context.Context, deployment *Deployment) error
 	DeleteDeployment(ctx context.Context, deploymentId string) error
 	GetDeployment(ctx context.Context, deploymentId string) (*Deployment, error)
 	NewResourceGroupDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
@@ -142,6 +143,22 @@ func AuthorizerFromEnvironment() (autorest.Authorizer, error) {
 		return nil, err
 	}
 
+	// the previous never returns an error, so we must do
+	// the checks ourselves…
+	// see: https://github.com/Azure/go-autorest/issues/580
+	var errs []error
+	requiredEnvVars := []string{auth.SubscriptionID, auth.ClientSecret, auth.ClientID, auth.TenantID}
+	// TODO: this doesn't support, for example, MSI auth
+	for _, requiredEnvVar := range requiredEnvVars {
+		if envSettings.Values[requiredEnvVar] == "" {
+			errs = append(errs, errors.Errorf("environment variable %s must be set", requiredEnvVar))
+		}
+	}
+
+	if len(errs) > 0 {
+		return nil, kerrors.NewAggregate(errs)
+	}
+
 	authorizer, err := envSettings.GetAuthorizer()
 	if err != nil {
 		return nil, err
@@ -189,8 +206,9 @@ func (atc *AzureTemplateClient) GetResource(ctx context.Context, id string, apiV
 	return err
 }
 
-// CreateDeployment deploys a resource to Azure via a deployment template
-func (atc *AzureTemplateClient) CreateDeployment(ctx context.Context, deployment *Deployment) (*Deployment, error) {
+// CreateDeployment deploys a resource to Azure via a deployment template,
+// and updates the given Deployment with the current state.
+func (atc *AzureTemplateClient) CreateDeployment(ctx context.Context, deployment *Deployment) error {
 	return atc.RawClient.PutDeployment(ctx, deployment)
 }
 
@@ -208,9 +226,11 @@ func (atc *AzureTemplateClient) DeleteDeployment(ctx context.Context, deployment
 
 func (atc *AzureTemplateClient) GetDeployment(ctx context.Context, deploymentId string) (*Deployment, error) {
 	var deployment Deployment
-	if err := atc.RawClient.GetResource(ctx, idWithAPIVersion(deploymentId), &deployment); err != nil {
-		return &deployment, err
+	err := atc.RawClient.GetResource(ctx, idWithAPIVersion(deploymentId), &deployment)
+	if err != nil {
+		return nil, err
 	}
+
 	return &deployment, nil
 }
 

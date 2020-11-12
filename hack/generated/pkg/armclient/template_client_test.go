@@ -47,7 +47,7 @@ func Test_NewResourceGroupDeployment(t *testing.T) {
 		deploymentName,
 		testContext.AzureClient.SubscriptionID())
 
-	deployment, err = testContext.AzureClient.CreateDeployment(ctx, deployment)
+	err = testContext.AzureClient.CreateDeployment(ctx, deployment)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Eventually(deployment).Should(testContext.AzureMatch.BeProvisioned(ctx))
@@ -101,7 +101,7 @@ func Test_NewResourceGroupDeployment_Error(t *testing.T) {
 		deploymentName,
 		testContext.AzureClient.SubscriptionID())
 
-	_, err = testContext.AzureClient.CreateDeployment(ctx, deployment)
+	err = testContext.AzureClient.CreateDeployment(ctx, deployment)
 	g.Expect(err).To(HaveOccurred())
 
 	// Some basic assertions about the shape of the error

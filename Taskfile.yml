@@ -168,6 +168,8 @@ tasks:
     - mkdir -p config/crd/bases/valid
     - cp config/crd/bases/microsoft.batch.infra.azure.com_batchaccounts.yaml config/crd/bases/valid
     - cp config/crd/bases/microsoft.storage.infra.azure.com_storageaccounts.yaml config/crd/bases/valid
+    - cp config/crd/bases/microsoft.storage.infra.azure.com_storageaccountsblobservices.yaml config/crd/bases/valid
+    - cp config/crd/bases/microsoft.storage.infra.azure.com_storageaccountsblobservicescontainers.yaml config/crd/bases/valid
     - cp config/crd/bases/microsoft.resources.infra.azure.com_resourcegroups.yaml config/crd/bases/valid
 
   controller:test-integration-envtest:

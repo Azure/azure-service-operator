@@ -2,28 +2,28 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","location":"westus","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"k8sinfratest-rg-ewlqsf","location":"westus","tags":{"CreatedAt":"2020-11-03T06:03:56Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'', ''k8sinfratest-rg-ewlqsf'')]"}}}}}'
+    body: '{"name":"k8s_1e2aa8d6-8708-5041-983c-bf90493b733e","location":"westus","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"k8sinfratest-rg-ewlqsf","location":"westus","tags":{"CreatedAt":"2020-11-10T05:23:56Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'', ''k8sinfratest-rg-ewlqsf'')]"}}}}}'
     form: {}
     headers:
       Content-Type:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"13196815245535170793","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Accepted","timestamp":"2020-11-03T21:47:34.9424581Z","duration":"PT4.005195S","correlationId":"778c8e3f-2659-4a7f-9f95-8ee494060749","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e","name":"k8s_1e2aa8d6-8708-5041-983c-bf90493b733e","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"9381820820981348105","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Accepted","timestamp":"2020-11-10T05:24:02.4500883Z","duration":"PT3.878976S","correlationId":"4f6d49df-77b1-42fd-8429-51987a2eca07","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2/operationStatuses/08585971668345403396?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e/operationStatuses/08585966210469064937?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "690"
+      - "689"
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:47:35 GMT
+      - Tue, 10 Nov 2020 05:24:02 GMT
       Expires:
       - "-1"
       Pragma:
@@ -43,17 +43,17 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"13196815245535170793","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-03T21:47:36.672161Z","duration":"PT5.7348979S","correlationId":"778c8e3f-2659-4a7f-9f95-8ee494060749","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e","name":"k8s_1e2aa8d6-8708-5041-983c-bf90493b733e","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"9381820820981348105","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:03.4547443Z","duration":"PT4.883632S","correlationId":"4f6d49df-77b1-42fd-8429-51987a2eca07","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:47:38 GMT
+      - Tue, 10 Nov 2020 05:24:03 GMT
       Expires:
       - "-1"
       Pragma:
@@ -77,17 +77,17 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"13196815245535170793","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-03T21:47:36.672161Z","duration":"PT5.7348979S","correlationId":"778c8e3f-2659-4a7f-9f95-8ee494060749","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e","name":"k8s_1e2aa8d6-8708-5041-983c-bf90493b733e","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"9381820820981348105","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:03.4547443Z","duration":"PT4.883632S","correlationId":"4f6d49df-77b1-42fd-8429-51987a2eca07","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:47:46 GMT
+      - Tue, 10 Nov 2020 05:24:03 GMT
       Expires:
       - "-1"
       Pragma:
@@ -111,17 +111,51 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"13196815245535170793","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Succeeded","timestamp":"2020-11-03T21:47:46.3786254Z","duration":"PT15.4413623S","correlationId":"778c8e3f-2659-4a7f-9f95-8ee494060749","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/k8sinfratest-rg-ewlqsf"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf"}]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e","name":"k8s_1e2aa8d6-8708-5041-983c-bf90493b733e","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"9381820820981348105","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:03.4547443Z","duration":"PT4.883632S","correlationId":"4f6d49df-77b1-42fd-8429-51987a2eca07","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:47:46 GMT
+      - Tue, 10 Nov 2020 05:24:07 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e","name":"k8s_1e2aa8d6-8708-5041-983c-bf90493b733e","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"9381820820981348105","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Succeeded","timestamp":"2020-11-10T05:24:09.7181762Z","duration":"PT11.1470639S","correlationId":"4f6d49df-77b1-42fd-8429-51987a2eca07","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/k8sinfratest-rg-ewlqsf"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:24:13 GMT
       Expires:
       - "-1"
       Pragma:
@@ -146,14 +180,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf","name":"k8sinfratest-rg-ewlqsf","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2020-11-03T06:03:56Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf","name":"k8sinfratest-rg-ewlqsf","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2020-11-10T05:23:56Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:47:46 GMT
+      - Tue, 10 Nov 2020 05:24:13 GMT
       Expires:
       - "-1"
       Pragma:
@@ -175,7 +209,7 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1e2aa8d6-8708-5041-983c-bf90493b733e?api-version=2019-10-01
     method: DELETE
   response:
     body: ""
@@ -185,11 +219,11 @@ interactions:
       Content-Length:
       - "0"
       Date:
-      - Tue, 03 Nov 2020 21:47:48 GMT
+      - Tue, 10 Nov 2020 05:24:14 GMT
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtLUs4Uzo1RkVFODE1MDcyOjJEOEFBQzoyRDU4NDM6MkQ4NDJDOjJENjg2QTU1RjI2MUQyLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzIn0?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtLUs4Uzo1RjFFMkFBOEQ2OjJEODcwODoyRDUwNDE6MkQ5ODNDOjJEQkY5MDQ5M0I3MzNFLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzIn0?api-version=2019-10-01
       Pragma:
       - no-cache
       Retry-After:
@@ -204,28 +238,28 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2019-04-01","kind":"BlobStorage","location":"westus","name":"k8sinfrateststorgiatzw","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'', ''k8sinfrateststorgiatzw'')]"}}}}}'
+    body: '{"name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2019-04-01","kind":"BlobStorage","location":"westus","name":"k8sinfrateststorgiatzw","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'', ''k8sinfrateststorgiatzw'')]"}}}}}'
     form: {}
     headers:
       Content-Type:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Accepted","timestamp":"2020-11-03T21:47:55.3762671Z","duration":"PT0.7750866S","correlationId":"6191557d-dcba-43bc-85f4-d8245c01a445","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Accepted","timestamp":"2020-11-10T05:24:17.0041205Z","duration":"PT0.798937S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2/operationStatuses/08585971668108764277?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e/operationStatuses/08585966210292724221?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "708"
+      - "707"
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:47:55 GMT
+      - Tue, 10 Nov 2020 05:24:16 GMT
       Expires:
       - "-1"
       Pragma:
@@ -245,17 +279,17 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-03T21:47:56.208721Z","duration":"PT1.6075405S","correlationId":"6191557d-dcba-43bc-85f4-d8245c01a445","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Accepted","timestamp":"2020-11-10T05:24:17.0041205Z","duration":"PT0.798937S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:47:56 GMT
+      - Tue, 10 Nov 2020 05:24:17 GMT
       Expires:
       - "-1"
       Pragma:
@@ -279,17 +313,17 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-03T21:47:56.208721Z","duration":"PT1.6075405S","correlationId":"6191557d-dcba-43bc-85f4-d8245c01a445","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:18.2310405Z","duration":"PT2.025857S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:47:56 GMT
+      - Tue, 10 Nov 2020 05:24:22 GMT
       Expires:
       - "-1"
       Pragma:
@@ -313,17 +347,17 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-03T21:47:56.208721Z","duration":"PT1.6075405S","correlationId":"6191557d-dcba-43bc-85f4-d8245c01a445","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:18.2310405Z","duration":"PT2.025857S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:48:01 GMT
+      - Tue, 10 Nov 2020 05:24:22 GMT
       Expires:
       - "-1"
       Pragma:
@@ -347,85 +381,17 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-03T21:48:03.2581824Z","duration":"PT8.6570019S","correlationId":"6191557d-dcba-43bc-85f4-d8245c01a445","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:18.2310405Z","duration":"PT2.025857S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:48:06 GMT
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-03T21:48:03.2581824Z","duration":"PT8.6570019S","correlationId":"6191557d-dcba-43bc-85f4-d8245c01a445","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Tue, 03 Nov 2020 21:48:11 GMT
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "9"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-03T21:48:03.2581824Z","duration":"PT8.6570019S","correlationId":"6191557d-dcba-43bc-85f4-d8245c01a445","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Tue, 03 Nov 2020 21:48:17 GMT
+      - Tue, 10 Nov 2020 05:24:28 GMT
       Expires:
       - "-1"
       Pragma:
@@ -449,17 +415,119 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-03T21:48:03.2581824Z","duration":"PT8.6570019S","correlationId":"6191557d-dcba-43bc-85f4-d8245c01a445","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:32.1527848Z","duration":"PT15.9476013S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:48:22 GMT
+      - Tue, 10 Nov 2020 05:24:33 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "17"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:32.1527848Z","duration":"PT15.9476013S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:24:38 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "12"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:32.1527848Z","duration":"PT15.9476013S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:24:44 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "6"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:32.1527848Z","duration":"PT15.9476013S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:24:49 GMT
       Expires:
       - "-1"
       Pragma:
@@ -483,17 +551,85 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2","name":"k8s_ee815072-8aac-5843-842c-686a55f261d2","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Succeeded","timestamp":"2020-11-03T21:48:27.9476075Z","duration":"PT33.346427S","correlationId":"6191557d-dcba-43bc-85f4-d8245c01a445","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw"}]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:50.2342211Z","duration":"PT34.0290376S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:48:27 GMT
+      - Tue, 10 Nov 2020 05:24:54 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:24:50.2342211Z","duration":"PT34.0290376S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:00 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","name":"k8s_7b4d934c-9181-52e6-912c-67c108a32c3e","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10656703011749167364","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Succeeded","timestamp":"2020-11-10T05:25:01.3236502Z","duration":"PT45.1184667S","correlationId":"1a6be716-407d-49f1-b5cf-c1f18a7d452a","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:05 GMT
       Expires:
       - "-1"
       Pragma:
@@ -518,14 +654,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw?api-version=2019-04-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"BlobStorage","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw","name":"k8sinfrateststorgiatzw","type":"Microsoft.Storage/storageAccounts","location":"westus","tags":{},"properties":{"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"enabled":true,"lastEnabledTime":"2020-11-03T21:48:01.7489404Z"},"blob":{"enabled":true,"lastEnabledTime":"2020-11-03T21:48:01.7489404Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2020-11-03T21:48:01.6551752Z","primaryEndpoints":{"dfs":"https://k8sinfrateststorgiatzw.dfs.core.windows.net/","blob":"https://k8sinfrateststorgiatzw.blob.core.windows.net/","table":"https://k8sinfrateststorgiatzw.table.core.windows.net/"},"primaryLocation":"westus","statusOfPrimary":"available"}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"BlobStorage","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw","name":"k8sinfrateststorgiatzw","type":"Microsoft.Storage/storageAccounts","location":"westus","tags":{},"properties":{"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"enabled":true,"lastEnabledTime":"2020-11-10T05:24:29.4570195Z"},"blob":{"enabled":true,"lastEnabledTime":"2020-11-10T05:24:29.4570195Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2020-11-10T05:24:29.3632628Z","primaryEndpoints":{"dfs":"https://k8sinfrateststorgiatzw.dfs.core.windows.net/","blob":"https://k8sinfrateststorgiatzw.blob.core.windows.net/","table":"https://k8sinfrateststorgiatzw.table.core.windows.net/"},"primaryLocation":"westus","statusOfPrimary":"available"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json
       Date:
-      - Tue, 03 Nov 2020 21:48:28 GMT
+      - Tue, 10 Nov 2020 05:25:05 GMT
       Expires:
       - "-1"
       Pragma:
@@ -549,7 +685,7 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ee815072-8aac-5843-842c-686a55f261d2?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_7b4d934c-9181-52e6-912c-67c108a32c3e?api-version=2019-10-01
     method: DELETE
   response:
     body: ""
@@ -559,11 +695,455 @@ interactions:
       Content-Length:
       - "0"
       Date:
-      - Tue, 03 Nov 2020 21:48:30 GMT
+      - Tue, 10 Nov 2020 05:25:09 GMT
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtSzhTSU5GUkFURVNUOjJEUkc6MkRFV0xRU0YtSzhTOjVGRUU4MTUwNzI6MkQ4QUFDOjJENTg0MzoyRDg0MkM6MkQ2ODZBNTVGMjYxRDItIiwiam9iTG9jYXRpb24iOiJ3ZXN0dXMifQ?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtSzhTSU5GUkFURVNUOjJEUkc6MkRFV0xRU0YtSzhTOjVGN0I0RDkzNEM6MkQ5MTgxOjJENTJFNjoyRDkxMkM6MkQ2N0MxMDhBMzJDM0UtIiwiam9iTG9jYXRpb24iOiJ3ZXN0dXMifQ?api-version=2019-10-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
+      - "14998"
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"name":"k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2019-04-01","name":"k8sinfrateststorgiatzw/default","type":"Microsoft.Storage/storageAccounts/blobServices"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts/blobServices'', ''k8sinfrateststorgiatzw'', ''default'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c","name":"k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14644625414381836457","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Accepted","timestamp":"2020-11-10T05:25:12.4447171Z","duration":"PT0.7968944S","correlationId":"ab1427e5-6611-44be-9600-3b0d18b95002","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts/blobServices","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c/operationStatuses/08585966209738297850?api-version=2019-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "717"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:12 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c","name":"k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14644625414381836457","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Accepted","timestamp":"2020-11-10T05:25:12.4447171Z","duration":"PT0.7968944S","correlationId":"ab1427e5-6611-44be-9600-3b0d18b95002","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts/blobServices","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:13 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c","name":"k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14644625414381836457","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:25:13.9414441Z","duration":"PT2.2936214S","correlationId":"ab1427e5-6611-44be-9600-3b0d18b95002","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts/blobServices","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:18 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c","name":"k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14644625414381836457","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Succeeded","timestamp":"2020-11-10T05:25:18.2602979Z","duration":"PT6.6124752S","correlationId":"ab1427e5-6611-44be-9600-3b0d18b95002","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts/blobServices","locations":[null]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw/blobServices/default"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw/blobServices/default"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:18 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw/blobServices/default?api-version=2019-04-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw/blobServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/blobServices","properties":{"cors":{"corsRules":[]},"deleteRetentionPolicy":{"enabled":false}}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 10 Nov 2020 05:25:19 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_11f3692a-5d4e-51ec-a9e1-f8b2388d449c?api-version=2019-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Date:
+      - Tue, 10 Nov 2020 05:25:21 GMT
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtSzhTSU5GUkFURVNUOjJEUkc6MkRFV0xRU0YtSzhTOjVGMTFGMzY5MkE6MkQ1RDRFOjJENTFFQzoyREE5RTE6MkRGOEIyMzg4RDQ0OUMtIiwiam9iTG9jYXRpb24iOiJ3ZXN0dXMifQ?api-version=2019-10-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
+      - "14997"
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"name":"k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2019-04-01","name":"k8sinfrateststorgiatzw/default/k8sinfratest-container-nayxdk","type":"Microsoft.Storage/storageAccounts/blobServices/containers"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts/blobServices/containers'', ''k8sinfrateststorgiatzw'', ''default'', ''k8sinfratest-container-nayxdk'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b","name":"k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14328654642488608965","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Accepted","timestamp":"2020-11-10T05:25:21.5897683Z","duration":"PT0.8258203S","correlationId":"653d7a73-025a-4605-89d6-1a65eeedd655","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts/blobServices/containers","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b/operationStatuses/08585966209647136593?api-version=2019-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "728"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:22 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b","name":"k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14328654642488608965","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Accepted","timestamp":"2020-11-10T05:25:21.5897683Z","duration":"PT0.8258203S","correlationId":"653d7a73-025a-4605-89d6-1a65eeedd655","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts/blobServices/containers","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:22 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b","name":"k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14328654642488608965","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:25:23.3245549Z","duration":"PT2.5606069S","correlationId":"653d7a73-025a-4605-89d6-1a65eeedd655","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts/blobServices/containers","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:27 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b","name":"k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14328654642488608965","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-10T05:25:23.3245549Z","duration":"PT2.5606069S","correlationId":"653d7a73-025a-4605-89d6-1a65eeedd655","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts/blobServices/containers","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:27 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b","name":"k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14328654642488608965","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Succeeded","timestamp":"2020-11-10T05:25:28.8333991Z","duration":"PT8.0694511S","correlationId":"653d7a73-025a-4605-89d6-1a65eeedd655","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts/blobServices/containers","locations":[null]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw/blobServices/default/containers/k8sinfratest-container-nayxdk"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw/blobServices/default/containers/k8sinfratest-container-nayxdk"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:32 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw/blobServices/default/containers/k8sinfratest-container-nayxdk?api-version=2019-04-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw/blobServices/default/containers/k8sinfratest-container-nayxdk","name":"k8sinfratest-container-nayxdk","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8D88539087AECBA\"","properties":{"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2020-11-10T05:25:27.0000000Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 10 Nov 2020 05:25:33 GMT
+      Etag:
+      - '"0x8D88539087AECBA"'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Resources/deployments/k8s_ccb031f4-7b94-5c77-87e8-a04e5f6a7e8b?api-version=2019-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Date:
+      - Tue, 10 Nov 2020 05:25:35 GMT
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtSzhTSU5GUkFURVNUOjJEUkc6MkRFV0xRU0YtSzhTOjVGQ0NCMDMxRjQ6MkQ3Qjk0OjJENUM3NzoyRDg3RTg6MkRBMDRFNUY2QTdFOEItIiwiam9iTG9jYXRpb24iOiJ3ZXN0dXMifQ?api-version=2019-10-01
       Pragma:
       - no-cache
       Retry-After:
@@ -585,7 +1165,7 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw?api-version=2019-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw/blobServices/default/containers/k8sinfratest-container-nayxdk?api-version=2019-04-01
     method: DELETE
   response:
     body: ""
@@ -597,7 +1177,7 @@ interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:48:38 GMT
+      - Tue, 10 Nov 2020 05:25:36 GMT
       Expires:
       - "-1"
       Pragma:
@@ -621,6 +1201,76 @@ interactions:
       - application/json
       User-Agent:
       - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw/blobServices/default/containers/k8sinfratest-container-nayxdk?api-version=2019-04-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ContainerOperationFailure","message":"The specified container does not exist.\nRequestId:bd63e6c8-501e-0070-1e21-b7826b000000\nTime:2020-11-10T05:25:37.1920729Z"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "181"
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 10 Nov 2020 05:25:36 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw?api-version=2019-04-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Tue, 10 Nov 2020 05:25:44 GMT
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
+      - "14994"
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-ewlqsf/providers/Microsoft.Storage/storageAccounts/k8sinfrateststorgiatzw?api-version=2019-04-01
     method: GET
   response:
@@ -633,7 +1283,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:48:38 GMT
+      - Tue, 10 Nov 2020 05:25:44 GMT
       Expires:
       - "-1"
       Pragma:
@@ -667,7 +1317,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 03 Nov 2020 21:48:42 GMT
+      - Tue, 10 Nov 2020 05:25:44 GMT
       Expires:
       - "-1"
       Pragma:

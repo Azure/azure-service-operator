@@ -69,11 +69,13 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	httpClient.Transport = recorder
 
 	t.Cleanup(func() {
-		log.Printf("stopping ARM client recorder")
-		err := recorder.Stop()
-		if err != nil {
-			// cleanup function should not error-out
-			log.Printf("unable to stop ARM client recorder: %s", err.Error())
+		if !t.Failed() {
+			log.Printf("saving ARM client recorder")
+			err := recorder.Stop()
+			if err != nil {
+				// cleanup function should not error-out
+				log.Printf("unable to stop ARM client recorder: %s", err.Error())
+			}
 		}
 	})
 

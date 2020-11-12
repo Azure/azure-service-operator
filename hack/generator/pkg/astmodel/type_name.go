@@ -8,6 +8,7 @@ package astmodel
 import (
 	"fmt"
 	"go/ast"
+	"strings"
 
 	"github.com/gobuffalo/flect"
 )
@@ -91,5 +92,10 @@ func (typeName TypeName) String() string {
 
 // Singular returns a typename with the name singularized
 func (typeName TypeName) Singular() TypeName {
+	// work around bug in flect: https://github.com/Azure/k8s-infra/issues/319
+	if strings.HasSuffix(strings.ToLower(typeName.name), "services") {
+		return MakeTypeName(typeName.PackageReference, typeName.name[0:len(typeName.name)-1])
+	}
+
 	return MakeTypeName(typeName.PackageReference, flect.Singularize(typeName.name))
 }

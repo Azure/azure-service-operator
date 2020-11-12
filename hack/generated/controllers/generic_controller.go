@@ -9,9 +9,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"strings"
 	"time"
 
+	autorestAzure "github.com/Azure/go-autorest/autorest/azure"
 	"github.com/Azure/k8s-infra/pkg/util/ownerutil"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -46,6 +48,10 @@ const (
 // +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=microsoft.storage.infra.azure.com,resources=storageaccounts,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=microsoft.storage.infra.azure.com,resources=storageaccounts/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.storage.infra.azure.com,resources=storageaccountsblobservices,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.storage.infra.azure.com,resources=storageaccountsblobservices/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.storage.infra.azure.com,resources=storageaccountsblobservicesblobcontainers,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.storage.infra.azure.com,resources=storageaccountsblobservicesblobcontainers/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=microsoft.batch.infra.azure.com,resources=batchaccounts,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=microsoft.batch.infra.azure.com,resources=batchaccounts/status,verbs=get;update;patch
 
@@ -61,7 +67,7 @@ type GenericReconciler struct {
 	Controller           controller.Controller
 	RequeueDelay         time.Duration
 	RequeueDelayFast     time.Duration
-	CreateDeploymentName func(azureName string) (string, error)
+	CreateDeploymentName func(obj metav1.Object) (string, error)
 }
 
 type ReconcileAction string
@@ -83,7 +89,7 @@ type Options struct {
 	// options specific to our controller
 	RequeueDelay         time.Duration
 	RequeueDelayFast     time.Duration
-	CreateDeploymentName func(azureName string) (string, error)
+	CreateDeploymentName func(obj metav1.Object) (string, error)
 }
 
 func (options *Options) setDefaults() {
@@ -369,22 +375,30 @@ func (gr *GenericReconciler) CreateDeployment(ctx context.Context, action Reconc
 		return ctrl.Result{}, err
 	}
 
-	// TODO: Could somehow have a method that grouped both of these calls
-	data.log.Info("Starting new deployment to Azure", "action", string(action), "id", deployment.Id)
-	gr.Recorder.Event(data.metaObj, v1.EventTypeNormal, string(action), fmt.Sprintf("Starting new deployment to Azure with ID %q", deployment.Id))
+	// Try to create deployment:
+	data.log.Info("Starting new deployment to Azure", "action", string(action))
+	err = gr.ARMClient.CreateDeployment(ctx, deployment)
+
+	if err != nil {
+		var reqErr *autorestAzure.RequestError
+		if errors.As(err, &reqErr) && reqErr.StatusCode == http.StatusConflict {
+			deployId, err := deployment.GetEntityPath()
+			if err != nil {
+				// TODO: what if GetEntityPath doesn't work due to malformed deployment?
+				data.log.Info("Deployment already exists", "id", deployId)
+			}
+
+			// TODO: we need to diff the old/new deployment here and detect if we need to do a redeploy
+		} else {
+			return ctrl.Result{}, err
+		}
+	} else {
+		data.log.Info("Created deployment in Azure", "id", deployment.Id)
+		gr.Recorder.Eventf(data.metaObj, v1.EventTypeNormal, string(action), "Created new deployment to Azure with ID %q", deployment.Id)
+	}
 
 	err = gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
-		deployment, err = gr.ARMClient.CreateDeployment(ctx, deployment)
-		if err != nil {
-			return err
-		}
-
-		err = mutData.Update(deployment, nil) // Status is always nil here
-		if err != nil {
-			return err
-		}
-
-		return nil
+		return mutData.Update(deployment, nil) // Status is always nil here
 	})
 
 	if err != nil {
@@ -499,6 +513,7 @@ func (gr *GenericReconciler) ManageOwnership(ctx context.Context, action Reconci
 	if err != nil {
 		return ctrl.Result{}, err
 	}
+
 	if !isOwnerReady {
 		// TODO: We need to figure out how we're handing these sorts of errors.
 		// TODO: See https://github.com/Azure/k8s-infra/issues/274.
@@ -612,7 +627,7 @@ func (gr *GenericReconciler) resourceSpecToDeployment(ctx context.Context, data 
 	}
 
 	if !deploymentNameOk {
-		deploymentName, err = (gr.CreateDeploymentName)(data.metaObj.AzureName())
+		deploymentName, err = (gr.CreateDeploymentName)(data.metaObj)
 		if err != nil {
 			return nil, err
 		}

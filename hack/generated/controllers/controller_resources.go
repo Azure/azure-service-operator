@@ -27,4 +27,6 @@ var KnownTypes = []runtime.Object{
 	// new(batch.BatchAccountsPool),
 	new(resources.ResourceGroup),
 	new(storage.StorageAccount),
+	new(storage.StorageAccountsBlobService),
+	new(storage.StorageAccountsBlobServicesContainer),
 }

@@ -15,6 +15,7 @@ import (
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2/klogr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -83,8 +84,9 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		controllers.KnownTypes,
 		klogr.New(),
 		controllers.Options{
-			CreateDeploymentName: func(azureName string) (string, error) {
-				result := uuid.NewSHA1(uuid.Nil, []byte(perTestContext.TestName+"/"+azureName))
+			CreateDeploymentName: func(obj metav1.Object) (string, error) {
+				// create deployment name based on test name and kubernetes name
+				result := uuid.NewSHA1(uuid.Nil, []byte(perTestContext.TestName+"/"+obj.GetNamespace()+"/"+obj.GetName()))
 				return fmt.Sprintf("k8s_%s", result.String()), nil
 			},
 			RequeueDelay: requeueDelay,

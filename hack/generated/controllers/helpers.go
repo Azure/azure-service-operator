@@ -10,10 +10,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // createDeploymentName generates a unique deployment name
-func createDeploymentName(_ string) (string, error) {
+func createDeploymentName(_ metav1.Object) (string, error) {
 	// no status yet, so start provisioning
 	deploymentUUID, err := uuid.NewUUID()
 	if err != nil {

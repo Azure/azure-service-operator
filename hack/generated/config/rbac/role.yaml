@@ -76,3 +76,43 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - microsoft.storage.infra.azure.com
+  resources:
+  - storageaccountsblobservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.storage.infra.azure.com
+  resources:
+  - storageaccountsblobservices/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - microsoft.storage.infra.azure.com
+  resources:
+  - storageaccountsblobservicesblobcontainers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.storage.infra.azure.com
+  resources:
+  - storageaccountsblobservicesblobcontainers/status
+  verbs:
+  - get
+  - patch
+  - update

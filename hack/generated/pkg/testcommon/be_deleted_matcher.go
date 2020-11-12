@@ -47,7 +47,7 @@ func (m *BeDeletedMatcher) Match(actual interface{}) (bool, error) {
 	return m.ensure.Deleted(m.ctx, obj)
 }
 
-func (m *BeDeletedMatcher) message(actual interface{}, expectedMatch bool) string {
+func (m *BeDeletedMatcher) message(actual interface{}, negate bool) string {
 	obj, err := actualAsObj(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
@@ -57,7 +57,7 @@ func (m *BeDeletedMatcher) message(actual interface{}, expectedMatch bool) strin
 	}
 
 	notStr := ""
-	if !expectedMatch {
+	if negate {
 		notStr = "not "
 	}
 
