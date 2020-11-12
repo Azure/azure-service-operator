@@ -10,17 +10,16 @@ import (
 	"strings"
 
 	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	uuid "github.com/satori/go.uuid"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	uuid "github.com/satori/go.uuid"
 
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
-
-	_ "github.com/denisenkom/go-mssqldb"
 	mssql "github.com/denisenkom/go-mssqldb"
 )
 
@@ -59,9 +58,9 @@ func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Con
 	fullServerAddress := fmt.Sprintf("%s."+config.Environment().SQLDatabaseDNSSuffix, server)
 	connString := fmt.Sprintf("Server=%s;Database=%s", fullServerAddress, database)
 
-	tokenProvider, err := getMSITokenProvider()
+	tokenProvider, err := iam.GetMSITokenProviderForResource("https://database.windows.net/")
 	if err != nil {
-		return db, fmt.Errorf("getMSITokenProvider failed: %v", err)
+		return db, fmt.Errorf("GetMSITokenProviderForResource failed: %v", err)
 	}
 
 	connector, err := mssql.NewAccessTokenConnector(connString, tokenProvider)
@@ -200,22 +199,6 @@ func (s *AzureSqlManagedUserManager) DeleteSecrets(ctx context.Context, instance
 		}
 	}
 	return nil
-}
-
-func getMSITokenProvider() (func() (string, error), error) {
-	msi, err := iam.GetMSITokenForResource("https://database.windows.net/")
-	if err != nil {
-		return nil, err
-	}
-
-	return func() (string, error) {
-		err = msi.EnsureFresh()
-		if err != nil {
-			return "", err
-		}
-		token := msi.OAuthToken()
-		return token, nil
-	}, nil
 }
 
 func convertToSid(msiClientId string) string {

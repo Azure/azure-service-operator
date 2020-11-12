@@ -14,9 +14,9 @@ type MySQLUserReconciler struct {
 	Reconciler *AsyncReconciler
 }
 
-// Reconcile for mysqluser
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlusers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={mysqlusers/status,mysqlusers/finalizers},verbs=get;update;patch
+
 func (r *MySQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.MySQLUser{})
 }

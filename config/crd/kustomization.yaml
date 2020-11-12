@@ -33,6 +33,7 @@ resources:
 - bases/azure.microsoft.com_mysqldatabases.yaml
 - bases/azure.microsoft.com_mysqlfirewallrules.yaml
 - bases/azure.microsoft.com_mysqlusers.yaml
+- bases/azure.microsoft.com_mysqlaadusers.yaml
 - bases/azure.microsoft.com_mysqlserveradministrators.yaml
 - bases/azure.microsoft.com_azurepublicipaddresses.yaml
 - bases/azure.microsoft.com_azurenetworkinterfaces.yaml
