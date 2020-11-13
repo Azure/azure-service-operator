@@ -14,8 +14,8 @@ type AzureSQLUserReconciler struct {
 	Reconciler *AsyncReconciler
 }
 
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=AzureSQLUsers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources={AzureSQLUsers/status,AzureSQLUsers/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlusers,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={azuresqlusers/status,azuresqlusers/finalizers},verbs=get;update;patch
 
 func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureSQLUser{})
