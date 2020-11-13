@@ -261,17 +261,3 @@ func GetMSITokenForResource(resource string) (*adal.ServicePrincipalToken, error
 
 	return token, err
 }
-
-// GetResourceManagementTokenHybrid retrieves auth token for hybrid environment
-// TODO(creds-refactor): this seems to be unused, remove it.
-func GetResourceManagementTokenHybrid(creds config.Credentials, activeDirectoryEndpoint, tokenAudience string) (adal.OAuthTokenProvider, error) {
-	var tokenProvider adal.OAuthTokenProvider
-	oauthConfig, err := adal.NewOAuthConfig(activeDirectoryEndpoint, creds.TenantID())
-	tokenProvider, err = adal.NewServicePrincipalToken(
-		*oauthConfig,
-		creds.ClientID(),
-		creds.ClientSecret(),
-		tokenAudience)
-
-	return tokenProvider, err
-}

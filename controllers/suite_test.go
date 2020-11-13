@@ -884,7 +884,13 @@ func setup() error {
 
 	log.Println("Creating KV:", keyvaultName)
 	kvManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
-	_, err = kvManager.CreateVaultWithAccessPolicies(context.Background(), resourceGroupName, keyvaultName, resourcegroupLocation, resourcemanagerconfig.GlobalCredentials().ClientID())
+	_, err = kvManager.CreateVaultWithAccessPolicies(
+		context.Background(),
+		resourceGroupName,
+		keyvaultName,
+		resourcegroupLocation,
+		resourcemanagerconfig.GlobalCredentials().ClientID(),
+	)
 	// Key Vault needs to be in "Suceeded" state
 	finish := time.Now().Add(tc.timeout)
 	for {

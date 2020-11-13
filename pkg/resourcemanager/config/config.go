@@ -32,7 +32,7 @@ var (
 	testResourcePrefix string // used to generate resource names in tests, should probably exist in a test only package
 )
 
-// GlobalCredentials() returns the configured credentials.
+// GlobalCredentials returns the configured credentials.
 // TODO: get rid of all uses of this.
 func GlobalCredentials() Credentials {
 	return creds

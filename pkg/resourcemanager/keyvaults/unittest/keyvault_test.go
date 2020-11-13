@@ -32,7 +32,7 @@ func TestParseAccessPoliciesInvalid(t *testing.T) {
 
 	ctx := context.Background()
 
-	resp, err := azurekeyvault.ParseAccessPolicy(&entry, ctx, config.GlobalCredentials())
+	resp, err := azurekeyvault.ParseAccessPolicy(ctx, config.GlobalCredentials(), &entry)
 	assert.True(t, err != nil)
 	assert.True(t, cmp.Equal(resp, keyvault.AccessPolicyEntry{}))
 }
@@ -85,7 +85,7 @@ func TestParseAccessPolicies(t *testing.T) {
 
 	ctx := context.Background()
 
-	resp, err := azurekeyvault.ParseAccessPolicy(&entry, ctx, config.GlobalCredentials())
+	resp, err := azurekeyvault.ParseAccessPolicy(ctx, config.GlobalCredentials(), &entry)
 	assert.True(t, err == nil)
 	assert.True(t, cmp.Equal(resp, out))
 }

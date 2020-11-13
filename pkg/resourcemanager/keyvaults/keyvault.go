@@ -51,9 +51,6 @@ func getVaultsClient(creds config.Credentials) (keyvault.VaultsClient, error) {
 	return vaultsClient, nil
 }
 
-// TODO(creds-refactor): can we just use the tenant and client id from
-// the creds here? Depends whether the client code uses them to
-// override the creds.
 func getObjectID(ctx context.Context, creds config.Credentials, tenantID string, clientID string) (*string, error) {
 	appclient := auth.NewApplicationsClient(tenantID)
 	a, err := iam.GetGraphAuthorizer(creds)
@@ -119,7 +116,7 @@ func ParseNetworkPolicy(ruleSet *v1alpha1.NetworkRuleSet) keyvault.NetworkRuleSe
 }
 
 // ParseAccessPolicy - helper function to parse access policies from Kubernetes spec
-func ParseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context, creds config.Credentials) (keyvault.AccessPolicyEntry, error) {
+func ParseAccessPolicy(ctx context.Context, creds config.Credentials, policy *v1alpha1.AccessPolicyEntry) (keyvault.AccessPolicyEntry, error) {
 	tenantID, err := uuid.FromString(policy.TenantID)
 	if err != nil {
 		return keyvault.AccessPolicyEntry{}, err
@@ -276,7 +273,7 @@ func (m *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	if instance.Spec.AccessPolicies != nil {
 		for _, policy := range *instance.Spec.AccessPolicies {
 			policy := policy // Make a copy of the variable and redeclare it
-			newEntry, err := ParseAccessPolicy(&policy, ctx, m.Creds)
+			newEntry, err := ParseAccessPolicy(ctx, m.Creds, &policy)
 			if err != nil {
 				return keyvault.Vault{}, err
 			}

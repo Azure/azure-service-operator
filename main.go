@@ -140,8 +140,8 @@ func main() {
 	}
 
 	// TODO(creds-refactor): construction of these managers will need
-	// to move into the reconcilers so that they can use the correct
-	// creds for the specific resource being reconciled.
+	// to move into the AsyncReconciler.Reconcile so that it can use the correct
+	// creds based on the namespace of the specific resource being reconciled.
 	apimManager := resourceapimanagement.NewManager(config.GlobalCredentials())
 	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager(config.GlobalCredentials())
 	vnetManager := vnet.NewAzureVNetManager(config.GlobalCredentials())

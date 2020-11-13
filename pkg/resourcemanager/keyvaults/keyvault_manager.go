@@ -28,3 +28,5 @@ type KeyVaultManager interface {
 	// also embed async client methods
 	resourcemanager.ARMClient
 }
+
+var _ KeyVaultManager = &azureKeyVaultManager{}
