@@ -31,8 +31,8 @@ const (
 	OAuthGrantTypeServicePrincipal OAuthGrantType = iota
 	// OAuthGrantTypeDeviceFlow for device flow
 	OAuthGrantTypeDeviceFlow
-	// OAuthGrantTypeMI for aad-pod-identity
-	OAuthGrantTypeMI
+	// OAuthGrantTypeManagedIdentity for aad-pod-identity
+	OAuthGrantTypeManagedIdentity
 )
 
 // GrantType returns what grant type has been configured.
@@ -40,8 +40,8 @@ func grantType(creds config.Credentials) OAuthGrantType {
 	if config.UseDeviceFlow() {
 		return OAuthGrantTypeDeviceFlow
 	}
-	if creds.UseMI() {
-		return OAuthGrantTypeMI
+	if creds.UseManagedIdentity() {
+		return OAuthGrantTypeManagedIdentity
 	}
 	return OAuthGrantTypeServicePrincipal
 }
@@ -165,7 +165,7 @@ func GetKeyvaultAuthorizer(creds config.Credentials) (autorest.Authorizer, error
 
 		a = autorest.NewBearerAuthorizer(token)
 
-	case OAuthGrantTypeMI:
+	case OAuthGrantTypeManagedIdentity:
 		MIEndpoint, err := adal.GetMSIVMEndpoint()
 		if err != nil {
 			return nil, err
@@ -179,6 +179,9 @@ func GetKeyvaultAuthorizer(creds config.Credentials) (autorest.Authorizer, error
 		a = autorest.NewBearerAuthorizer(token)
 
 	case OAuthGrantTypeDeviceFlow:
+		// TODO: Remove this - it's an interactive authentication
+		// method and doesn't make sense in an operator. Maybe it was
+		// useful for early testing?
 		deviceConfig := auth.NewDeviceFlowConfig(creds.ClientID(), creds.TenantID())
 		deviceConfig.Resource = vaultEndpoint
 		deviceConfig.AADEndpoint = alternateEndpoint.String()
@@ -216,7 +219,7 @@ func getAuthorizerForResource(resource string, creds config.Credentials) (autore
 		}
 		a = autorest.NewBearerAuthorizer(token)
 
-	case OAuthGrantTypeMI:
+	case OAuthGrantTypeManagedIdentity:
 		MIEndpoint, err := adal.GetMSIVMEndpoint()
 		if err != nil {
 			return nil, err

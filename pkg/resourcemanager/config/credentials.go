@@ -11,20 +11,17 @@ type Credentials interface {
 	ClientSecret() string
 	TenantID() string
 	SubscriptionID() string
-	UseMI() bool
+	UseManagedIdentity() bool
 	OperatorKeyvault() string
 }
 
 type credentials struct {
-	clientID       string
-	clientSecret   string
-	tenantID       string
-	subscriptionID string
-
-	// TODO: not sure whether these are part of the credentials or
-	// not? They're in the secret.
-	useMI            bool
-	operatorKeyvault string
+	clientID           string
+	clientSecret       string
+	tenantID           string
+	subscriptionID     string
+	useManagedIdentity bool
+	operatorKeyvault   string
 }
 
 var _ Credentials = credentials{}
@@ -51,8 +48,8 @@ func (c credentials) SubscriptionID() string {
 
 // UseMI() specifies if managed service identity auth should be used. Used for
 // aad-pod-identity
-func (c credentials) UseMI() bool {
-	return c.useMI
+func (c credentials) UseManagedIdentity() bool {
+	return c.useManagedIdentity
 }
 
 // OperatorKeyvault() specifies the keyvault the operator should use to store secrets

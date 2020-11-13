@@ -117,5 +117,5 @@ func ConfigString() string {
 		creds.SubscriptionID(),
 		cloudName,
 		UseDeviceFlow(),
-		creds.UseMI())
+		creds.UseManagedIdentity())
 }
