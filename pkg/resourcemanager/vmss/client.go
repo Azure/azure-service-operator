@@ -13,6 +13,7 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -30,6 +31,11 @@ func NewAzureVMScaleSetClient(creds config.Credentials, secretclient secrets.Sec
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureVMScaleSetClient(creds, secretClient, scheme)
 }
 
 func getVMScaleSetClient(creds config.Credentials) compute.VirtualMachineScaleSetsClient {

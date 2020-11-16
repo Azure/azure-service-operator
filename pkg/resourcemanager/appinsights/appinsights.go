@@ -8,8 +8,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Azure/azure-service-operator/pkg/secrets"
-
 	"github.com/Azure/azure-sdk-for-go/services/appinsights/mgmt/2015-05-01/insights"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -22,6 +20,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 // Manager manages Azure Application Insights services
@@ -40,6 +39,11 @@ func NewManager(creds config.Credentials, secretClient secrets.SecretClient, sch
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewManager(creds, secretClient, scheme)
 }
 
 func (m *Manager) convert(obj runtime.Object) (*v1alpha1.AppInsights, error) {

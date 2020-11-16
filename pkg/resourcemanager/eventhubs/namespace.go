@@ -9,21 +9,20 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-
-	"github.com/Azure/go-autorest/autorest"
-
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-
-	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
-	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type azureEventHubNamespaceManager struct {
@@ -43,6 +42,11 @@ func getNamespacesClient(creds config.Credentials) (eventhub.NamespacesClient, e
 
 func NewEventHubNamespaceClient(creds config.Credentials) *azureEventHubNamespaceManager {
 	return &azureEventHubNamespaceManager{creds: creds}
+}
+
+// NewNamespaceARMClient returns a new manager (but as an ARMClient).
+func NewNamespaceARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewEventHubNamespaceClient(creds)
 }
 
 // DeleteNamespace deletes an existing namespace. This operation also removes all associated resources under the namespace.

@@ -8,11 +8,15 @@ import (
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 // AzureRedisCacheFirewallRuleManager creates a new AzureRedisCacheFirewallRuleManager
@@ -23,6 +27,11 @@ type AzureRedisCacheFirewallRuleManager struct {
 // NewAzureRedisCacheFirewallRuleManager creates a new AzureRedisCacheFirewallRuleManager
 func NewAzureRedisCacheFirewallRuleManager(creds config.Credentials) *AzureRedisCacheFirewallRuleManager {
 	return &AzureRedisCacheFirewallRuleManager{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureRedisCacheFirewallRuleManager(creds)
 }
 
 // getRedisCacheFirewallRuleClient retrieves a firewallrules client

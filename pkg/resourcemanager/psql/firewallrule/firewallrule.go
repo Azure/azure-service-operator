@@ -8,9 +8,13 @@ import (
 	"net/http"
 
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type PSQLFirewallRuleClient struct {
@@ -19,6 +23,11 @@ type PSQLFirewallRuleClient struct {
 
 func NewPSQLFirewallRuleClient(creds config.Credentials) *PSQLFirewallRuleClient {
 	return &PSQLFirewallRuleClient{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewPSQLFirewallRuleClient(creds)
 }
 
 func getPSQLFirewallRulesClient(creds config.Credentials) (psql.FirewallRulesClient, error) {

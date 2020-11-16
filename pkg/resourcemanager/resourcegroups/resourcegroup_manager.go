@@ -7,15 +7,21 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
+	"github.com/Azure/go-autorest/autorest"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
-
-// var AzureResourceGroupManager ResourceGroupManager = &azureResourceGroupManager{}
 
 func NewAzureResourceGroupManager(creds config.Credentials) *AzureResourceGroupManager {
 	return &AzureResourceGroupManager{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureResourceGroupManager(creds)
 }
 
 type ResourceGroupManager interface {

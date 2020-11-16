@@ -8,8 +8,12 @@ import (
 
 	network "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type PostgreSQLVNetRuleClient struct {
@@ -18,6 +22,11 @@ type PostgreSQLVNetRuleClient struct {
 
 func NewPostgreSQLVNetRuleClient(creds config.Credentials) *PostgreSQLVNetRuleClient {
 	return &PostgreSQLVNetRuleClient{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewPostgreSQLVNetRuleClient(creds)
 }
 
 func GetPostgreSQLVNetRulesClient(creds config.Credentials) psql.VirtualNetworkRulesClient {

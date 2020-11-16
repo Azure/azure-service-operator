@@ -13,6 +13,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -30,6 +31,11 @@ func NewPSQLServerClient(creds config.Credentials, secretclient secrets.SecretCl
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewPSQLServerClient(creds, secretClient, scheme)
 }
 
 func getPSQLServersClient(creds config.Credentials) (psql.ServersClient, error) {

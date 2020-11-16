@@ -6,12 +6,14 @@ package cosmosdbs
 import (
 	"context"
 
+	"github.com/Azure/go-autorest/autorest"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest"
 )
 
 // NewAzureCosmosDBManager creates a new cosmos db client
@@ -20,6 +22,11 @@ func NewAzureCosmosDBManager(creds config.Credentials, secretClient secrets.Secr
 		Creds:        creds,
 		SecretClient: secretClient,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureCosmosDBManager(creds, secretClient)
 }
 
 // CosmosDBManager client functions

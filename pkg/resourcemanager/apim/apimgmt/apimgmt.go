@@ -8,20 +8,20 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 
-	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 // Manager represents an API Management type
@@ -32,6 +32,11 @@ type Manager struct {
 // NewManager returns an API Manager type
 func NewManager(creds config.Credentials) *Manager {
 	return &Manager{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewManager(creds)
 }
 
 // CreateAPI creates an API within an API management service

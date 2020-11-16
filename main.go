@@ -11,10 +11,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-
-	"github.com/Azure/azure-service-operator/controllers"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -24,6 +20,9 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha2 "github.com/Azure/azure-service-operator/api/v1alpha2"
 	azurev1beta1 "github.com/Azure/azure-service-operator/api/v1beta1"
+	"github.com/Azure/azure-service-operator/controllers"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	resourceapimanagement "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	apimservice "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
@@ -35,7 +34,6 @@ import (
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
@@ -66,8 +64,6 @@ import (
 	vmss "github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
-	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	// +kubebuilder:scaffold:imports
 )
@@ -112,7 +108,6 @@ func init() {
 func main() {
 	var metricsAddr string
 	var enableLeaderElection bool
-	var secretClient secrets.SecretClient
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
@@ -142,87 +137,10 @@ func main() {
 
 	setupLog.V(0).Info("Configuration details", "Configuration", resourcemanagerconfig.ConfigString())
 
-	keyvaultName := resourcemanagerconfig.GlobalCredentials().OperatorKeyvault()
-
-	if keyvaultName == "" {
-		setupLog.Info("Keyvault name is empty")
-		secretClient = k8sSecrets.New(mgr.GetClient(), config.SecretNamingVersion())
-	} else {
-		setupLog.Info("Instantiating secrets client for keyvault " + keyvaultName)
-		secretClient = keyvaultSecrets.New(keyvaultName, config.GlobalCredentials(), config.SecretNamingVersion())
-	}
-
-	// TODO(creds-refactor): construction of these managers will need
-	// to move into the AsyncReconciler.Reconcile so that it can use the correct
-	// creds based on the namespace of the specific resource being reconciled.
-	apimManager := resourceapimanagement.NewManager(config.GlobalCredentials())
-	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager(config.GlobalCredentials())
-	vnetManager := vnet.NewAzureVNetManager(config.GlobalCredentials())
-	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager(config.GlobalCredentials())
-
-	redisCacheManager := rediscache.NewAzureRedisCacheManager(
-		config.GlobalCredentials(),
-		secretClient,
-		scheme,
-	)
-	redisCacheActionManager := rediscacheactions.NewAzureRedisCacheActionManager(
-		config.GlobalCredentials(),
-		secretClient,
-		scheme,
-	)
-
-	redisCacheFirewallRuleManager := rcfwr.NewAzureRedisCacheFirewallRuleManager(config.GlobalCredentials())
-	appInsightsManager := resourcemanagerappinsights.NewManager(
-		config.GlobalCredentials(),
-		secretClient,
-		scheme,
-	)
-	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(config.GlobalCredentials())
-	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(config.GlobalCredentials())
-	cosmosDBClient := resourcemanagercosmosdb.NewAzureCosmosDBManager(
-		config.GlobalCredentials(),
-		secretClient,
-	)
-	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(config.GlobalCredentials(), mgr.GetScheme())
-	keyVaultKeyManager := resourcemanagerkeyvault.NewKeyvaultKeyClient(config.GlobalCredentials(), keyVaultManager)
-	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme)
-	sqlServerManager := resourcemanagersqlserver.NewAzureSqlServerManager(
-		config.GlobalCredentials(),
-		secretClient,
-		scheme,
-	)
-	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager(config.GlobalCredentials())
-	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(config.GlobalCredentials())
-	sqlVNetRuleManager := resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager(config.GlobalCredentials())
-	sqlFailoverGroupManager := resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
-		config.GlobalCredentials(),
-		secretClient,
-		scheme,
-	)
-	psqlserverclient := psqlserver.NewPSQLServerClient(config.GlobalCredentials(), secretClient, mgr.GetScheme())
-	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient(config.GlobalCredentials())
-	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient(config.GlobalCredentials())
-	psqlusermanager := psqluser.NewPostgreSqlUserManager(
-		config.GlobalCredentials(),
-		secretClient,
-		scheme,
-	)
-	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(
-		config.GlobalCredentials(),
-		secretClient,
-		scheme,
-	)
-	sqlManagedUserManager := resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
-		config.GlobalCredentials(),
-		secretClient,
-		scheme,
-	)
-	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(config.GlobalCredentials(), secretClient, scheme)
-
 	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: storageaccountManager.New(config.GlobalCredentials(), secretClient, scheme),
+			Client:     mgr.GetClient(),
+			ARMFactory: storageaccountManager.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
@@ -237,8 +155,8 @@ func main() {
 	}
 	err = (&controllers.CosmosDBReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: cosmosDBClient,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagercosmosdb.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"CosmosDB",
 				ctrl.Log.WithName("controllers").WithName("CosmosDB"),
@@ -254,8 +172,8 @@ func main() {
 
 	err = (&controllers.RedisCacheReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: redisCacheManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: rediscache.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"RedisCache",
 				ctrl.Log.WithName("controllers").WithName("RedisCache"),
@@ -271,8 +189,8 @@ func main() {
 
 	if err = (&controllers.RedisCacheActionReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: redisCacheActionManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: rediscacheactions.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"RedisCacheAction",
 				ctrl.Log.WithName("controllers").WithName("RedisCacheAction"),
@@ -287,8 +205,8 @@ func main() {
 
 	if err = (&controllers.RedisCacheFirewallRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: redisCacheFirewallRuleManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: rcfwr.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"RedisCacheFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("RedisCacheFirewallRule"),
@@ -303,8 +221,8 @@ func main() {
 
 	err = (&controllers.EventhubReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: eventhubClient,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagereventhub.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"Eventhub",
 				ctrl.Log.WithName("controllers").WithName("Eventhub"),
@@ -320,8 +238,8 @@ func main() {
 
 	err = (&controllers.ResourceGroupReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: resourceGroupManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagerresourcegroup.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ResourceGroup",
 				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
@@ -337,8 +255,8 @@ func main() {
 
 	err = (&controllers.EventhubNamespaceReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: eventhubNamespaceClient,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagereventhub.NewNamespaceARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"EventhubNamespace",
 				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
@@ -354,8 +272,8 @@ func main() {
 
 	err = (&controllers.KeyVaultReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: keyVaultManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagerkeyvault.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"KeyVault",
 				ctrl.Log.WithName("controllers").WithName("KeyVault"),
@@ -371,8 +289,8 @@ func main() {
 
 	err = (&controllers.ConsumerGroupReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: consumerGroupClient,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagereventhub.NewConsumerGroupARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ConsumerGroup",
 				ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
@@ -388,8 +306,8 @@ func main() {
 
 	if err = (&controllers.AzureSqlServerReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: sqlServerManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagersqlserver.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlServer",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
@@ -405,8 +323,8 @@ func main() {
 	/* Azure Sql Database */
 	err = (&controllers.AzureSqlDatabaseReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: sqlDBManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagersqldb.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlDb",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
@@ -422,8 +340,8 @@ func main() {
 
 	if err = (&controllers.AzureSqlFirewallRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: sqlFirewallRuleManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagersqlfirewallrule.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSQLFirewallRuleOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
@@ -438,8 +356,8 @@ func main() {
 
 	if err = (&controllers.AzureSQLVNetRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: sqlVNetRuleManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagersqlvnetrule.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSQLVNetRuleOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLVNetRuleOperator"),
@@ -454,8 +372,8 @@ func main() {
 
 	if err = (&controllers.AzureSqlActionReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: sqlActionManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagersqlaction.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSQLActionOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLActionOperator"),
@@ -470,8 +388,8 @@ func main() {
 
 	if err = (&controllers.AzureSQLUserReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: sqlUserManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagersqluser.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSQLUser",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
@@ -486,8 +404,8 @@ func main() {
 
 	if err = (&controllers.AzureSQLManagedUserReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: sqlManagedUserManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagersqlmanageduser.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSQLManagedUser",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLManagedUser"),
@@ -502,8 +420,8 @@ func main() {
 
 	if err = (&controllers.AzureSqlFailoverGroupReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: sqlFailoverGroupManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagersqlfailovergroup.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlFailoverGroup",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
@@ -518,8 +436,8 @@ func main() {
 
 	if err = (&controllers.BlobContainerReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: blobContainerManager.New(config.GlobalCredentials()),
+			Client:     mgr.GetClient(),
+			ARMFactory: blobContainerManager.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"BlobContainer",
 				ctrl.Log.WithName("controllers").WithName("BlobContainer"),
@@ -534,8 +452,8 @@ func main() {
 
 	if err = (&controllers.AppInsightsReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: appInsightsManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagerappinsights.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AppInsights",
 				ctrl.Log.WithName("controllers").WithName("AppInsights"),
@@ -550,8 +468,8 @@ func main() {
 
 	if err = (&controllers.PostgreSQLServerReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: psqlserverclient,
+			Client:     mgr.GetClient(),
+			ARMFactory: psqlserver.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLServer",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
@@ -566,8 +484,8 @@ func main() {
 
 	if err = (&controllers.PostgreSQLDatabaseReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: psqldatabaseclient,
+			Client:     mgr.GetClient(),
+			ARMFactory: psqldatabase.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabase"),
@@ -582,8 +500,8 @@ func main() {
 
 	if err = (&controllers.PostgreSQLFirewallRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: psqlfirewallruleclient,
+			Client:     mgr.GetClient(),
+			ARMFactory: psqlfirewallrule.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRule"),
@@ -598,8 +516,8 @@ func main() {
 
 	if err = (&controllers.PostgreSQLUserReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: psqlusermanager,
+			Client:     mgr.GetClient(),
+			ARMFactory: psqluser.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PSQLUser",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLUser"),
@@ -614,8 +532,8 @@ func main() {
 
 	if err = (&controllers.ApimServiceReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: apimServiceManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: apimservice.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ApimService",
 				ctrl.Log.WithName("controllers").WithName("ApimService"),
@@ -630,8 +548,8 @@ func main() {
 
 	if err = (&controllers.VirtualNetworkReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: vnetManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: vnet.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"VNet",
 				ctrl.Log.WithName("controllers").WithName("VNet"),
@@ -646,8 +564,8 @@ func main() {
 
 	if err = (&controllers.APIMAPIReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: apimManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourceapimanagement.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"APIManagement",
 				ctrl.Log.WithName("controllers").WithName("APIManagement"),
@@ -662,8 +580,8 @@ func main() {
 
 	if err = (&controllers.KeyVaultKeyReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: keyVaultKeyManager,
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagerkeyvault.NewKeyARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"KeyVaultKey",
 				ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
@@ -678,12 +596,8 @@ func main() {
 
 	if err = (&controllers.MySQLServerReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client: mgr.GetClient(),
-			AzureClient: mysqlserver.NewMySQLServerClient(
-				config.GlobalCredentials(),
-				secretClient,
-				mgr.GetScheme(),
-			),
+			Client:     mgr.GetClient(),
+			ARMFactory: mysqlserver.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLServer",
 				ctrl.Log.WithName("controllers").WithName("MySQLServer"),
@@ -697,8 +611,8 @@ func main() {
 	}
 	if err = (&controllers.MySQLDatabaseReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: mysqldatabase.NewMySQLDatabaseClient(config.GlobalCredentials()),
+			Client:     mgr.GetClient(),
+			ARMFactory: mysqldatabase.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
@@ -712,8 +626,8 @@ func main() {
 	}
 	if err = (&controllers.MySQLFirewallRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: mysqlfirewall.NewMySQLFirewallRuleClient(config.GlobalCredentials()),
+			Client:     mgr.GetClient(),
+			ARMFactory: mysqlfirewall.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
@@ -728,8 +642,8 @@ func main() {
 
 	if err = (&controllers.MySQLUserReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: mysqluser.NewMySqlUserManager(config.GlobalCredentials(), secretClient, scheme),
+			Client:     mgr.GetClient(),
+			ARMFactory: mysqluser.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLUser",
 				ctrl.Log.WithName("controllers").WithName("MySQLUser"),
@@ -742,11 +656,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	identityFinder := helpers.NewAADIdentityFinder(mgr.GetClient(), config.PodNamespace())
+	identityFinder := helpers.NewAADIdentityFinder(mgr.GetClient(), resourcemanagerconfig.PodNamespace())
 	if err = (&controllers.MySQLAADUserReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: mysqlaaduser.NewMySQLAADUserManager(config.GlobalCredentials(), identityFinder),
+			Client: mgr.GetClient(),
+			ARMFactory: func(creds resourcemanagerconfig.Credentials, _ secrets.SecretClient, _ *runtime.Scheme) resourcemanager.ARMClient {
+				return mysqlaaduser.NewMySQLAADUserManager(creds, identityFinder)
+			},
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLAADUser",
 				ctrl.Log.WithName("controllers").WithName("MySQLAADUser"),
@@ -761,8 +677,8 @@ func main() {
 
 	if err = (&controllers.MySQLServerAdministratorReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: mysqladmin.NewMySQLServerAdministratorManager(config.GlobalCredentials()),
+			Client:     mgr.GetClient(),
+			ARMFactory: mysqladmin.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLServerAdministrator",
 				ctrl.Log.WithName("controllers").WithName("MySQLServerAdministrator"),
@@ -777,12 +693,8 @@ func main() {
 
 	if err = (&controllers.AzurePublicIPAddressReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client: mgr.GetClient(),
-			AzureClient: pip.NewAzurePublicIPAddressClient(
-				config.GlobalCredentials(),
-				secretClient,
-				mgr.GetScheme(),
-			),
+			Client:     mgr.GetClient(),
+			ARMFactory: pip.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PublicIPAddress",
 				ctrl.Log.WithName("controllers").WithName("PublicIPAddress"),
@@ -797,12 +709,8 @@ func main() {
 
 	if err = (&controllers.AzureNetworkInterfaceReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client: mgr.GetClient(),
-			AzureClient: nic.NewAzureNetworkInterfaceClient(
-				config.GlobalCredentials(),
-				secretClient,
-				mgr.GetScheme(),
-			),
+			Client:     mgr.GetClient(),
+			ARMFactory: nic.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"NetworkInterface",
 				ctrl.Log.WithName("controllers").WithName("NetworkInterface"),
@@ -817,8 +725,8 @@ func main() {
 
 	if err = (&controllers.MySQLVNetRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(config.GlobalCredentials()),
+			Client:     mgr.GetClient(),
+			ARMFactory: mysqlvnetrule.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLVNetRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
@@ -833,12 +741,8 @@ func main() {
 
 	if err = (&controllers.AzureVirtualMachineReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client: mgr.GetClient(),
-			AzureClient: vm.NewAzureVirtualMachineClient(
-				config.GlobalCredentials(),
-				secretClient,
-				mgr.GetScheme(),
-			),
+			Client:     mgr.GetClient(),
+			ARMFactory: vm.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"VirtualMachine",
 				ctrl.Log.WithName("controllers").WithName("VirtualMachine"),
@@ -853,12 +757,8 @@ func main() {
 
 	if err = (&controllers.AzureVirtualMachineExtensionReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client: mgr.GetClient(),
-			AzureClient: vmext.NewAzureVirtualMachineExtensionClient(
-				config.GlobalCredentials(),
-				secretClient,
-				mgr.GetScheme(),
-			),
+			Client:     mgr.GetClient(),
+			ARMFactory: vmext.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"VirtualMachineExtension",
 				ctrl.Log.WithName("controllers").WithName("VirtualMachineExtension"),
@@ -873,8 +773,8 @@ func main() {
 
 	if err = (&controllers.PostgreSQLVNetRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: psqlvnetrule.NewPostgreSQLVNetRuleClient(config.GlobalCredentials()),
+			Client:     mgr.GetClient(),
+			ARMFactory: psqlvnetrule.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLVNetRule",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLVNetRule"),
@@ -889,12 +789,8 @@ func main() {
 
 	if err = (&controllers.AzureLoadBalancerReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client: mgr.GetClient(),
-			AzureClient: loadbalancer.NewAzureLoadBalancerClient(
-				config.GlobalCredentials(),
-				secretClient,
-				mgr.GetScheme(),
-			),
+			Client:     mgr.GetClient(),
+			ARMFactory: loadbalancer.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"LoadBalancer",
 				ctrl.Log.WithName("controllers").WithName("LoadBalancer"),
@@ -909,12 +805,8 @@ func main() {
 
 	if err = (&controllers.AzureVMScaleSetReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client: mgr.GetClient(),
-			AzureClient: vmss.NewAzureVMScaleSetClient(
-				config.GlobalCredentials(),
-				secretClient,
-				mgr.GetScheme(),
-			),
+			Client:     mgr.GetClient(),
+			ARMFactory: vmss.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"VMScaleSet",
 				ctrl.Log.WithName("controllers").WithName("VMScaleSet"),
@@ -929,8 +821,8 @@ func main() {
 
 	if err = (&controllers.AppInsightsApiKeyReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: resourcemanagerappinsights.NewAPIKeyClient(config.GlobalCredentials(), secretClient, scheme),
+			Client:     mgr.GetClient(),
+			ARMFactory: resourcemanagerappinsights.NewAPIKeyARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AppInsightsApiKey",
 				ctrl.Log.WithName("controllers").WithName("AppInsightsApiKey"),

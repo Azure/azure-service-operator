@@ -56,11 +56,11 @@ func GetVaultsURL(vaultName string) string {
 }
 
 // New instantiates a new KeyVaultSecretClient instance.
-// TODO(creds-refactor): The keyvaultName argument seems seems
-// redundant since that's in the credentials, but it's used to
-// override the one specified in credentials so it might be right to
-// keep it. Confirm this.
-func New(keyVaultName string, creds config.Credentials, secretNamingVersion secrets.SecretNamingVersion) *SecretClient {
+// TODO(creds-refactor): The keyvaultName argument seems redundant
+// since that's in the credentials, but it's used to override the one
+// specified in credentials so it might be right to keep it. Confirm
+// this.
+func New(keyVaultName string, creds config.Credentials) *KeyvaultSecretClient {
 	keyvaultClient := keyvaults.New()
 	a, _ := iam.GetKeyvaultAuthorizer(creds)
 	keyvaultClient.Authorizer = a

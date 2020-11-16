@@ -51,6 +51,11 @@ func NewEventhubClient(creds config.Credentials, secretClient secrets.SecretClie
 	}
 }
 
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewEventhubClient(creds, secretClient, scheme)
+}
+
 func (m *azureEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
 	hubClient, err := getHubsClient(m.Creds)
 	if err != nil {

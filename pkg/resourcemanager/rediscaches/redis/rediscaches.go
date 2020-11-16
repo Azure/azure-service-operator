@@ -8,16 +8,18 @@ import (
 	"errors"
 	"log"
 
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // AzureRedisCacheManager creates a new RedisCacheManager
@@ -34,6 +36,11 @@ func NewAzureRedisCacheManager(creds config.Credentials, secretClient secrets.Se
 			Scheme:       scheme,
 		},
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureRedisCacheManager(creds, secretClient, scheme)
 }
 
 // CreateRedisCache creates a new RedisCache

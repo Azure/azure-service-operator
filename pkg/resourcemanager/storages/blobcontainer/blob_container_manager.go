@@ -8,13 +8,22 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/go-autorest/autorest"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 // New returns a pointer to a new instance of a blob container client
 func New(creds config.Credentials) *AzureBlobContainerManager {
 	return &AzureBlobContainerManager{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return New(creds)
 }
 
 // BlobContainerManager exists in case we need it

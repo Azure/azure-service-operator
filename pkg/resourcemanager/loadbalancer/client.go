@@ -8,11 +8,13 @@ import (
 	"strings"
 
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type AzureLoadBalancerClient struct {
@@ -27,6 +29,11 @@ func NewAzureLoadBalancerClient(creds config.Credentials, secretclient secrets.S
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureLoadBalancerClient(creds, secretClient, scheme)
 }
 
 func getLoadBalancerClient(creds config.Credentials) vnetwork.LoadBalancersClient {

@@ -28,6 +28,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type AzureKeyVaultManager struct {
@@ -40,6 +41,11 @@ func NewAzureKeyVaultManager(creds config.Credentials, scheme *runtime.Scheme) *
 		Creds:  creds,
 		Scheme: scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureKeyVaultManager(creds, scheme)
 }
 
 func GetKeyVaultClient(creds config.Credentials) (keyvault.VaultsClient, error) {

@@ -10,11 +10,12 @@ import (
 	"strings"
 
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
-	_ "github.com/lib/pq" //the pg lib
+	_ "github.com/lib/pq" //the pg lib registers itself with database/sql
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	psdatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -46,6 +47,11 @@ func NewPostgreSqlUserManager(creds config.Credentials, secretClient secrets.Sec
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewPostgreSqlUserManager(creds, secretClient, scheme)
 }
 
 // GetDB retrieves a database

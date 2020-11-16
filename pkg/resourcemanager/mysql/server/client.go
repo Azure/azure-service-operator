@@ -7,12 +7,14 @@ import (
 	"context"
 
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type MySQLServerClient struct {
@@ -27,6 +29,11 @@ func NewMySQLServerClient(creds config.Credentials, secretclient secrets.SecretC
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewMySQLServerClient(creds, secretClient, scheme)
 }
 
 func getMySQLServersClient(creds config.Credentials) mysql.ServersClient {

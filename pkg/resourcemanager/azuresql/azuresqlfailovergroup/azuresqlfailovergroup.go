@@ -12,6 +12,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1beta1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -29,6 +30,11 @@ func NewAzureSqlFailoverGroupManager(creds config.Credentials, secretClient secr
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureSqlFailoverGroupManager(creds, secretClient, scheme)
 }
 
 // GetServer returns a SQL server

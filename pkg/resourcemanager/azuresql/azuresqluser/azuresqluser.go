@@ -15,6 +15,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -44,6 +45,11 @@ func NewAzureSqlUserManager(creds config.Credentials, secretClient secrets.Secre
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureSqlUserManager(creds, secretClient, scheme)
 }
 
 // GetDB retrieves a database

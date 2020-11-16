@@ -8,8 +8,12 @@ import (
 
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	network "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type MySQLVNetRuleClient struct {
@@ -18,6 +22,11 @@ type MySQLVNetRuleClient struct {
 
 func NewMySQLVNetRuleClient(creds config.Credentials) *MySQLVNetRuleClient {
 	return &MySQLVNetRuleClient{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewMySQLVNetRuleClient(creds)
 }
 
 func getMySQLVNetRulesClient(creds config.Credentials) mysql.VirtualNetworkRulesClient {

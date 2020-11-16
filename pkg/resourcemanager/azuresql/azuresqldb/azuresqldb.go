@@ -8,15 +8,17 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-
-	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type AzureSqlDbManager struct {
@@ -28,6 +30,11 @@ var _ SqlDbManager = &AzureSqlDbManager{}
 
 func NewAzureSqlDbManager(creds config.Credentials) *AzureSqlDbManager {
 	return &AzureSqlDbManager{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureSqlDbManager(creds)
 }
 
 // GetServer returns a SQL server

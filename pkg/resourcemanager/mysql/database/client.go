@@ -7,9 +7,12 @@ import (
 	"context"
 
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	"k8s.io/apimachinery/pkg/runtime"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 //MySQLDatabaseClient struct
@@ -20,6 +23,11 @@ type MySQLDatabaseClient struct {
 //NewMySQLDatabaseClient create a new MySQLDatabaseClient
 func NewMySQLDatabaseClient(creds config.Credentials) *MySQLDatabaseClient {
 	return &MySQLDatabaseClient{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewMySQLDatabaseClient(creds)
 }
 
 //GetMySQLDatabasesClient return the mysqldatabaseclient

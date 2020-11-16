@@ -7,9 +7,13 @@ import (
 	"context"
 
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type MySQLFirewallRuleClient struct {
@@ -18,6 +22,11 @@ type MySQLFirewallRuleClient struct {
 
 func NewMySQLFirewallRuleClient(creds config.Credentials) *MySQLFirewallRuleClient {
 	return &MySQLFirewallRuleClient{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewMySQLFirewallRuleClient(creds)
 }
 
 func getMySQLFirewallRulesClient(creds config.Credentials) mysql.FirewallRulesClient {

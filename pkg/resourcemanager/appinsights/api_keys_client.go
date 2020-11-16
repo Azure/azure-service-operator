@@ -8,10 +8,12 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/services/appinsights/mgmt/2015-05-01/insights"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type InsightsAPIKeysClient struct {
@@ -26,6 +28,11 @@ func NewAPIKeyClient(creds config.Credentials, secretClient secrets.SecretClient
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewAPIKeyARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAPIKeyClient(creds, secretClient, scheme)
 }
 
 func getApiKeysClient(creds config.Credentials) (insights.APIKeysClient, error) {

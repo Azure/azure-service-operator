@@ -21,6 +21,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type MySQLServerAdministratorManager struct {
@@ -31,6 +32,11 @@ func NewMySQLServerAdministratorManager(creds config.Credentials) *MySQLServerAd
 	return &MySQLServerAdministratorManager{
 		creds: creds,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewMySQLServerAdministratorManager(creds)
 }
 
 func newMySQLServerAdministratorsClient(creds config.Credentials) (mysql.ServerAdministratorsClient, error) {

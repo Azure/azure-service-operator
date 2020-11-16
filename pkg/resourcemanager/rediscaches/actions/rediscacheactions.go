@@ -7,14 +7,14 @@ import (
 	"context"
 	"fmt"
 
+	model "github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-
-	model "github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
-
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // AzureRedisCacheActionManager creates a new RedisCacheManager
@@ -31,6 +31,11 @@ func NewAzureRedisCacheActionManager(creds config.Credentials, secretClient secr
 			Scheme:       scheme,
 		},
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureRedisCacheActionManager(creds, secretClient, scheme)
 }
 
 // RegeneratePrimaryAccessKey regenerates either the primary or secondary access keys

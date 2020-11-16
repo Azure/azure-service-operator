@@ -7,10 +7,13 @@ import (
 	"context"
 
 	apim "github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
+	"k8s.io/apimachinery/pkg/runtime"
+	ctrl "sigs.k8s.io/controller-runtime"
+
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
-	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 // NewAzureAPIMgmtServiceManager creates a new instance of AzureAPIMgmtServiceManager
@@ -22,6 +25,11 @@ func NewAzureAPIMgmtServiceManager(creds config.Credentials) *AzureAPIMgmtServic
 			ctrl.Log.WithName("controllers").WithName("ApimService"),
 		),
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureAPIMgmtServiceManager(creds)
 }
 
 // APIMgmtServiceManager manages Azure Application Insights service components

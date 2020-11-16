@@ -7,8 +7,12 @@ import (
 	"context"
 
 	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type AzureSqlVNetRuleManager struct {
@@ -17,6 +21,11 @@ type AzureSqlVNetRuleManager struct {
 
 func NewAzureSqlVNetRuleManager(creds config.Credentials) *AzureSqlVNetRuleManager {
 	return &AzureSqlVNetRuleManager{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureSqlVNetRuleManager(creds)
 }
 
 // GetSQLVNetRule returns a VNet rule

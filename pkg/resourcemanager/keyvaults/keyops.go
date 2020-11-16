@@ -9,15 +9,17 @@ import (
 	"net/http"
 
 	kvops "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 // KeyvaultKeyClient emcompasses the methods needed for the keyops client to fulfill the ARMClient interface
@@ -31,6 +33,12 @@ func NewKeyvaultKeyClient(creds config.Credentials, client *AzureKeyVaultManager
 		Creds:          creds,
 		KeyvaultClient: client,
 	}
+}
+
+// NewKeyARMClient returns a new manager (but as an ARMClient).
+func NewKeyARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	kvManager := NewAzureKeyVaultManager(creds, scheme)
+	return NewKeyvaultKeyClient(creds, kvManager)
 }
 
 // Ensure idempotently implements the user's requested state

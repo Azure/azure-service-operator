@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -32,6 +33,11 @@ func NewAzureSqlServerManager(creds config.Credentials, secretClient secrets.Sec
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureSqlServerManager(creds, secretClient, scheme)
 }
 
 // DeleteSQLServer deletes a SQL server

@@ -15,35 +15,39 @@ import (
 	"time"
 
 	"github.com/gobuffalo/envy"
-
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	mysqladmin "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/aadadmin"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqlaaduser"
-
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/client-go/kubernetes/scheme"
 	kscheme "k8s.io/client-go/kubernetes/scheme"
-
 	"k8s.io/client-go/rest"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
-	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
-
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	resourcemanagerapimgmt "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagersqlaction "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlaction"
+	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 	resourcemanagersqlmanageduser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlmanageduser"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
+	mysqladmin "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/aadadmin"
 	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlFirewallManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqlaaduser"
 	mysqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
 	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	mysqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/vnetrule"
@@ -63,16 +67,9 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmext"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
-
-	"k8s.io/client-go/kubernetes/scheme"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/envtest"
-
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/api/v1alpha2"
-	"github.com/Azure/azure-service-operator/api/v1beta1"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -174,8 +171,8 @@ func setup() error {
 
 	err = (&KeyVaultReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: keyVaultManager,
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerkeyvaults.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"KeyVault",
 				ctrl.Log.WithName("controllers").WithName("KeyVault"),
@@ -190,11 +187,8 @@ func setup() error {
 
 	err = (&KeyVaultKeyReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagerkeyvaults.NewKeyvaultKeyClient(
-				config.GlobalCredentials(),
-				keyVaultManager,
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerkeyvaults.NewKeyARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"KeyVaultKey",
 				ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
@@ -209,12 +203,8 @@ func setup() error {
 
 	err = (&AppInsightsReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagerappinsights.NewManager(
-				config.GlobalCredentials(),
-				secretClient,
-				scheme.Scheme,
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerappinsights.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AppInsights",
 				ctrl.Log.WithName("controllers").WithName("AppInsights"),
@@ -229,12 +219,8 @@ func setup() error {
 
 	err = (&AppInsightsApiKeyReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagerappinsights.NewAPIKeyClient(
-				config.GlobalCredentials(),
-				secretClient,
-				scheme.Scheme,
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerappinsights.NewAPIKeyARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AppInsightsApiKey",
 				ctrl.Log.WithName("controllers").WithName("AppInsightsApiKey"),
@@ -249,8 +235,8 @@ func setup() error {
 
 	err = (&APIMAPIReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerapimgmt.NewManager(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerapimgmt.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ApiMgmt",
 				ctrl.Log.WithName("controllers").WithName("ApiMgmt"),
@@ -265,8 +251,8 @@ func setup() error {
 
 	err = (&CosmosDBReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagercosmosdb.NewAzureCosmosDBManager(config.GlobalCredentials(), secretClient),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagercosmosdb.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"CosmosDB",
 				ctrl.Log.WithName("controllers").WithName("CosmosDB"),
@@ -281,8 +267,8 @@ func setup() error {
 
 	err = (&EventhubReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: eventhubClient,
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagereventhub.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"EventHub",
 				ctrl.Log.WithName("controllers").WithName("EventHub"),
@@ -297,8 +283,8 @@ func setup() error {
 
 	err = (&ResourceGroupReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourceGroupManager,
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcegroupsresourcemanager.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ResourceGroup",
 				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
@@ -313,12 +299,8 @@ func setup() error {
 
 	err = (&RedisCacheReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: rediscaches.NewAzureRedisCacheManager(
-				config.GlobalCredentials(),
-				secretClient,
-				scheme.Scheme,
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: rediscaches.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"RedisCache",
 				ctrl.Log.WithName("controllers").WithName("RedisCache"),
@@ -333,12 +315,8 @@ func setup() error {
 
 	err = (&RedisCacheActionReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: rediscacheactions.NewAzureRedisCacheActionManager(
-				config.GlobalCredentials(),
-				secretClient,
-				scheme.Scheme,
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: rediscacheactions.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"RedisCacheAction",
 				ctrl.Log.WithName("controllers").WithName("RedisCacheAction"),
@@ -353,8 +331,8 @@ func setup() error {
 
 	err = (&RedisCacheFirewallRuleReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: rcfwr.NewAzureRedisCacheFirewallRuleManager(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: rcfwr.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"RedisCacheFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("RedisCacheFirewallRule"),
@@ -369,8 +347,8 @@ func setup() error {
 
 	err = (&EventhubNamespaceReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagereventhub.NewEventHubNamespaceClient(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagereventhub.NewNamespaceARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"EventhubNamespace",
 				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
@@ -385,8 +363,8 @@ func setup() error {
 
 	err = (&ConsumerGroupReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: consumerGroupClient,
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagereventhub.NewConsumerGroupARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ConsumerGroup",
 				ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
@@ -401,12 +379,8 @@ func setup() error {
 
 	err = (&AzureSqlServerReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagersqlserver.NewAzureSqlServerManager(
-				config.GlobalCredentials(),
-				secretClient,
-				scheme.Scheme,
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagersqlserver.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlServer",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
@@ -421,8 +395,8 @@ func setup() error {
 
 	err = (&AzureSqlDatabaseReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: azureSqlDatabaseManager,
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagersqldb.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlDb",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
@@ -437,8 +411,8 @@ func setup() error {
 
 	err = (&AzureSqlFirewallRuleReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagersqlfirewallrule.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSQLFirewallRuleOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
@@ -453,8 +427,8 @@ func setup() error {
 
 	err = (&AzureSQLVNetRuleReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagersqlvnetrule.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSQLVNetRuleOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLVNetRuleOperator"),
@@ -469,12 +443,8 @@ func setup() error {
 
 	err = (&AzureSqlFailoverGroupReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
-				config.GlobalCredentials(),
-				secretClient,
-				scheme.Scheme,
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagersqlfailovergroup.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlFailoverGroup",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
@@ -489,12 +459,8 @@ func setup() error {
 
 	err = (&AzureSQLUserReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagersqluser.NewAzureSqlUserManager(
-				config.GlobalCredentials(),
-				secretClient,
-				scheme.Scheme,
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagersqluser.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlUser",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
@@ -509,12 +475,8 @@ func setup() error {
 
 	err = (&AzureSQLManagedUserReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
-				config.GlobalCredentials(),
-				secretClient,
-				scheme.Scheme,
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagersqlmanageduser.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlManagedUser",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlManagedUser"),
@@ -529,8 +491,8 @@ func setup() error {
 
 	err = (&VirtualNetworkReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagervnet.NewAzureVNetManager(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagervnet.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"VirtualNetwork",
 				ctrl.Log.WithName("controllers").WithName("VirtualNetwork"),
@@ -545,12 +507,8 @@ func setup() error {
 
 	err = (&AzurePublicIPAddressReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagerpip.NewAzurePublicIPAddressClient(
-				config.GlobalCredentials(),
-				secretClient,
-				k8sManager.GetScheme(),
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerpip.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PublicIPAddress",
 				ctrl.Log.WithName("controllers").WithName("PublicIPAddress"),
@@ -565,12 +523,8 @@ func setup() error {
 
 	err = (&AzureNetworkInterfaceReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagernic.NewAzureNetworkInterfaceClient(
-				config.GlobalCredentials(),
-				secretClient,
-				k8sManager.GetScheme(),
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagernic.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"NetworkInterface",
 				ctrl.Log.WithName("controllers").WithName("NetworkInterface"),
@@ -585,12 +539,8 @@ func setup() error {
 
 	err = (&AzureVirtualMachineReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: vm.NewAzureVirtualMachineClient(
-				config.GlobalCredentials(),
-				secretClient,
-				k8sManager.GetScheme(),
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: vm.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"VirtualMachine",
 				ctrl.Log.WithName("controllers").WithName("VirtualMachine"),
@@ -605,12 +555,8 @@ func setup() error {
 
 	err = (&AzureVirtualMachineExtensionReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: vmext.NewAzureVirtualMachineExtensionClient(
-				config.GlobalCredentials(),
-				secretClient,
-				k8sManager.GetScheme(),
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: vmext.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"VirtualMachineExtension",
 				ctrl.Log.WithName("controllers").WithName("VirtualMachineExtension"),
@@ -625,12 +571,8 @@ func setup() error {
 
 	err = (&AzureLoadBalancerReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: loadbalancer.NewAzureLoadBalancerClient(
-				config.GlobalCredentials(),
-				secretClient,
-				k8sManager.GetScheme(),
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: loadbalancer.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"LoadBalancer",
 				ctrl.Log.WithName("controllers").WithName("LoadBalancer"),
@@ -645,12 +587,8 @@ func setup() error {
 
 	err = (&AzureVMScaleSetReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: vmss.NewAzureVMScaleSetClient(
-				config.GlobalCredentials(),
-				secretClient,
-				k8sManager.GetScheme(),
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: vmss.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"VMScaleSet",
 				ctrl.Log.WithName("controllers").WithName("VMScaleSet"),
@@ -665,8 +603,8 @@ func setup() error {
 
 	err = (&AzureSqlActionReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagersqlaction.NewAzureSqlActionManager(config.GlobalCredentials(), secretClient, scheme.Scheme),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagersqlaction.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlAction",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
@@ -681,8 +619,8 @@ func setup() error {
 
 	err = (&BlobContainerReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerblobcontainer.New(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerblobcontainer.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"BlobContainer",
 				ctrl.Log.WithName("controllers").WithName("BlobContainer"),
@@ -697,12 +635,8 @@ func setup() error {
 
 	err = (&MySQLServerReconciler{
 		Reconciler: &AsyncReconciler{
-			Client: k8sManager.GetClient(),
-			AzureClient: mysqlServerManager.NewMySQLServerClient(
-				config.GlobalCredentials(),
-				secretClient,
-				k8sManager.GetScheme(),
-			),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: mysqlServerManager.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLServer",
 				ctrl.Log.WithName("controllers").WithName("MySQLServer"),
@@ -717,8 +651,8 @@ func setup() error {
 
 	err = (&MySQLDatabaseReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: mysqlDatabaseManager.NewMySQLDatabaseClient(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: mysqlDatabaseManager.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
@@ -733,8 +667,8 @@ func setup() error {
 
 	err = (&MySQLFirewallRuleReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: mysqlFirewallManager.NewMySQLFirewallRuleClient(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: mysqlFirewallManager.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
@@ -749,8 +683,8 @@ func setup() error {
 
 	err = (&MySQLVNetRuleReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: mysqlvnetrule.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLVNetRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
@@ -765,8 +699,8 @@ func setup() error {
 
 	err = (&MySQLUserReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: mysqluser.NewMySqlUserManager(config.GlobalCredentials(), secretClient, scheme.Scheme),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: mysqluser.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLUser",
 				ctrl.Log.WithName("controllers").WithName("MySQLUser"),
@@ -782,8 +716,10 @@ func setup() error {
 	identityFinder := helpers.NewAADIdentityFinder(k8sManager.GetClient(), config.PodNamespace())
 	err = (&MySQLAADUserReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: mysqlaaduser.NewMySQLAADUserManager(config.GlobalCredentials(), identityFinder),
+			Client: k8sManager.GetClient(),
+			ARMFactory: func(creds resourcemanagerconfig.Credentials, _ secrets.SecretClient, _ *runtime.Scheme) resourcemanager.ARMClient {
+				return mysqlaaduser.NewMySQLAADUserManager(creds, identityFinder)
+			},
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLAADUser",
 				ctrl.Log.WithName("controllers").WithName("MySQLAADUser"),
@@ -798,8 +734,8 @@ func setup() error {
 
 	err = (&MySQLServerAdministratorReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: mysqladmin.NewMySQLServerAdministratorManager(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: mysqladmin.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLServerAdministrator",
 				ctrl.Log.WithName("controllers").WithName("MySQLServerAdministrator"),
@@ -814,8 +750,8 @@ func setup() error {
 
 	err = (&PostgreSQLServerReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerpsqlserver.NewPSQLServerClient(config.GlobalCredentials(), secretClient, k8sManager.GetScheme()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerpsqlserver.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLServer",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
@@ -830,8 +766,8 @@ func setup() error {
 
 	err = (&PostgreSQLDatabaseReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerpsqldatabase.NewPSQLDatabaseClient(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerpsqldatabase.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabase"),
@@ -846,8 +782,8 @@ func setup() error {
 
 	err = (&PostgreSQLFirewallRuleReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerpsqlfirewallrule.NewPSQLFirewallRuleClient(config.GlobalCredentials()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerpsqlfirewallrule.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRule"),
@@ -862,8 +798,8 @@ func setup() error {
 
 	err = (&PostgreSQLUserReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerpsqluser.NewPostgreSqlUserManager(config.GlobalCredentials(), secretClient, k8sManager.GetScheme()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerpsqluser.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLUser",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLUser"),
@@ -878,8 +814,8 @@ func setup() error {
 
 	err = (&StorageAccountReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerstorageaccount.New(config.GlobalCredentials(), secretClient, k8sManager.GetScheme()),
+			Client:     k8sManager.GetClient(),
+			ARMFactory: resourcemanagerstorageaccount.NewARMClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),

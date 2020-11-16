@@ -6,10 +6,12 @@ package resourcemanager
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 const (
@@ -36,9 +38,15 @@ type KubeParent struct {
 	Target runtime.Object
 }
 
+// ARMClient provides methods to create/update, delete and query a
+// specific resource in ARM.
 type ARMClient interface {
 	Ensure(context.Context, runtime.Object, ...ConfigOption) (bool, error)
 	Delete(context.Context, runtime.Object, ...ConfigOption) (bool, error)
 	GetParents(runtime.Object) ([]KubeParent, error)
 	GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error)
 }
+
+// ClientFactory constructs an ARMClient with the specified
+// dependencies.
+type ClientFactory func(config.Credentials, secrets.SecretClient, *runtime.Scheme) ARMClient

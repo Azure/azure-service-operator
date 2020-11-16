@@ -25,6 +25,11 @@ func New(creds config.Credentials, secretClient secrets.SecretClient, scheme *ru
 	}
 }
 
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return New(creds, secretClient, scheme)
+}
+
 type StorageManager interface {
 	CreateStorage(ctx context.Context,
 		groupName string,

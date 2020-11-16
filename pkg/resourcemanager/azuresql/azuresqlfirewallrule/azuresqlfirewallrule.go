@@ -7,10 +7,13 @@ import (
 	"context"
 
 	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-
-	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type AzureSqlFirewallRuleManager struct {
@@ -19,6 +22,11 @@ type AzureSqlFirewallRuleManager struct {
 
 func NewAzureSqlFirewallRuleManager(creds config.Credentials) *AzureSqlFirewallRuleManager {
 	return &AzureSqlFirewallRuleManager{creds: creds}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewAzureSqlFirewallRuleManager(creds)
 }
 
 // GetServer returns a SQL server

@@ -11,9 +11,11 @@ import (
 	mysqlmgmt "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	_ "github.com/go-sql-driver/mysql" //mysql drive link
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
@@ -41,6 +43,11 @@ func NewMySqlUserManager(creds config.Credentials, secretClient secrets.SecretCl
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
+}
+
+// NewARMClient returns a new manager (but as an ARMClient).
+func NewARMClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) resourcemanager.ARMClient {
+	return NewMySqlUserManager(creds, secretClient, scheme)
 }
 
 // GetDB retrieves a database
