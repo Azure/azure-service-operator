@@ -35,14 +35,14 @@ type PollClient struct {
 }
 
 // NewPollClient returns a client using hte env values from config
-func NewPollClient() PollClient {
-	return NewPollClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+func NewPollClient(creds config.Credentials) PollClient {
+	return NewPollClientWithBaseURI(config.BaseURI(), creds)
 }
 
 // NewPollClientWithBaseURI returns a paramterized client
-func NewPollClientWithBaseURI(baseURI string, subscriptionID string) PollClient {
-	c := PollClient{NewWithBaseURI(baseURI, subscriptionID)}
-	a, _ := iam.GetResourceManagementAuthorizer()
+func NewPollClientWithBaseURI(baseURI string, creds config.Credentials) PollClient {
+	c := PollClient{NewWithBaseURI(baseURI, creds.SubscriptionID())}
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	c.Authorizer = a
 	c.AddToUserAgent(config.UserAgent())
 	return c

@@ -10,6 +10,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
@@ -61,7 +62,7 @@ var _ = BeforeSuite(func() {
 
 	resourceGroupName := "t-rg-dev-rm-st-" + helpers.RandomString(10)
 	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
-	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
+	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(config.GlobalCredentials())
 
 	// create resourcegroup for this suite
 	_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)

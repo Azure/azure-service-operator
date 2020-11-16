@@ -9,13 +9,17 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 )
 
 // NewAzureCosmosDBManager creates a new cosmos db client
-func NewAzureCosmosDBManager(secretClient secrets.SecretClient) *AzureCosmosDBManager {
-	return &AzureCosmosDBManager{secretClient}
+func NewAzureCosmosDBManager(creds config.Credentials, secretClient secrets.SecretClient) *AzureCosmosDBManager {
+	return &AzureCosmosDBManager{
+		Creds:        creds,
+		SecretClient: secretClient,
+	}
 }
 
 // CosmosDBManager client functions

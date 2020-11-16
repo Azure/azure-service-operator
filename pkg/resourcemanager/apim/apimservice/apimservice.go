@@ -10,17 +10,19 @@ import (
 
 	apim "github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	apimshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
 type AzureAPIMgmtServiceManager struct {
+	Creds     config.Credentials
 	Telemetry telemetry.Telemetry
 }
 
 // CreateAPIMgmtSvc creates a new API Mgmt Svc
-func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, tier string, location string, resourceGroupName string, resourceName string, publisherName string, publisherEmail string) (*apim.ServiceResource, error) {
-	client, err := apimshared.GetAPIMgmtSvcClient()
+func (m *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, tier string, location string, resourceGroupName string, resourceName string, publisherName string, publisherEmail string) (*apim.ServiceResource, error) {
+	client, err := apimshared.GetAPIMgmtSvcClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -60,8 +62,8 @@ func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, tier 
 }
 
 // DeleteAPIMgmtSvc deletes an instance of an API Mgmt Svc
-func (_ *AzureAPIMgmtServiceManager) DeleteAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (*apim.ServiceResource, error) {
-	client, err := apimshared.GetAPIMgmtSvcClient()
+func (m *AzureAPIMgmtServiceManager) DeleteAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (*apim.ServiceResource, error) {
+	client, err := apimshared.GetAPIMgmtSvcClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -76,15 +78,15 @@ func (_ *AzureAPIMgmtServiceManager) DeleteAPIMgmtSvc(ctx context.Context, resou
 }
 
 // APIMgmtSvcStatus checks to see if the API Mgmt Svc has been activated
-func (_ *AzureAPIMgmtServiceManager) APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, resourceID *string, err error) {
-	return apimshared.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
+func (m *AzureAPIMgmtServiceManager) APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, resourceID *string, err error) {
+	return apimshared.APIMgmtSvcStatus(ctx, m.Creds, resourceGroupName, resourceName)
 }
 
 // SetVNetForAPIMgmtSvc sets the VNet for an API Mgmt Svc by name (only if it hasn't been previously set)
-func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, vnetType string, vnetResourceGroupName string, vnetResourceName string, subnetName string) (err error, updated bool) {
+func (m *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, vnetType string, vnetResourceGroupName string, vnetResourceName string, subnetName string) (err error, updated bool) {
 
 	// check to make sure that the API Mgmt Svc has been activated
-	exists, activated, _, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
+	exists, activated, _, err := m.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
 	if !exists || !activated || err != nil {
 		return fmt.Errorf("API Mgmt Service hasn't been created or activated yet: %s, %s", resourceGroupName, resourceName), false
 	}
@@ -100,18 +102,18 @@ func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, r
 	}
 
 	// get the subnet configuration
-	subnetConfig, err := apimshared.GetSubnetConfigurationByName(ctx, vnetResourceGroupName, vnetResourceName, subnetName)
+	subnetConfig, err := apimshared.GetSubnetConfigurationByName(ctx, m.Creds, vnetResourceGroupName, vnetResourceName, subnetName)
 	if err != nil {
 		return err, false
 	}
 
-	client, err := apimshared.GetAPIMgmtSvcClient()
+	client, err := apimshared.GetAPIMgmtSvcClient(m.Creds)
 	if err != nil {
 		return err, false
 	}
 
 	// check to make sure that the VPN hasn't already been added to the APIM svc
-	apimsvc, err := apimshared.GetAPIMgmtSvc(ctx, resourceGroupName, resourceName)
+	apimsvc, err := apimshared.GetAPIMgmtSvc(ctx, m.Creds, resourceGroupName, resourceName)
 	if err != nil {
 		return err, false
 	}
@@ -146,10 +148,10 @@ func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, r
 }
 
 // SetAppInsightsForAPIMgmtSvc sets the app insight instance to use with the service
-func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, appInsightsResourceGroup string, appInsightsName string) error {
+func (m *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, appInsightsResourceGroup string, appInsightsName string) error {
 
 	// check to make sure app insight exists
-	insight, err := apimshared.GetAppInstanceIDByName(ctx, appInsightsResourceGroup, appInsightsName)
+	insight, err := apimshared.GetAppInstanceIDByName(ctx, m.Creds, appInsightsResourceGroup, appInsightsName)
 	if err != nil {
 		return err
 	} else if insight.ID == nil || insight.InstrumentationKey == nil {
@@ -157,7 +159,7 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 	}
 
 	// check to make sure that the API Mgmt Svc has been activated
-	exists, activated, _, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
+	exists, activated, _, err := m.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
 	if !exists || !activated || err != nil {
 		return fmt.Errorf("API Mgmt Service hasn't been created or activated yet: %s, %s", resourceGroupName, resourceName)
 	}
@@ -165,6 +167,7 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 	// get the etag for apim service
 	apimsvc, err := apimshared.GetAPIMgmtSvc(
 		ctx,
+		m.Creds,
 		resourceGroupName,
 		resourceName,
 	)
@@ -174,7 +177,7 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 		return fmt.Errorf("could not find API Mgmt Service %s, %s", resourceGroupName, resourceName)
 	}
 
-	loggerClient, err := apimshared.GetAPIMgmtLoggerClient()
+	loggerClient, err := apimshared.GetAPIMgmtLoggerClient(m.Creds)
 	if err != nil {
 		return err
 	}
@@ -214,6 +217,6 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 }
 
 // CheckAPIMgmtSvcName checks to see if the APIM service name is available
-func (g *AzureAPIMgmtServiceManager) CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bool, err error) {
-	return apimshared.CheckAPIMgmtSvcName(ctx, resourceName)
+func (m *AzureAPIMgmtServiceManager) CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bool, err error) {
+	return apimshared.CheckAPIMgmtSvcName(ctx, m.Creds, resourceName)
 }

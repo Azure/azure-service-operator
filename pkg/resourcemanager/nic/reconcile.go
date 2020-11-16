@@ -15,14 +15,14 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func (g *AzureNetworkInterfaceClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (m *AzureNetworkInterfaceClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
-	instance, err := g.convert(obj)
+	instance, err := m.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	client := getNetworkInterfaceClient()
+	client := getNetworkInterfaceClient(m.Creds)
 
 	location := instance.Spec.Location
 	resourceGroup := instance.Spec.ResourceGroup
@@ -34,7 +34,7 @@ func (g *AzureNetworkInterfaceClient) Ensure(ctx context.Context, obj runtime.Ob
 	instance.Status.Provisioning = true
 	// Check if this item already exists. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
-	item, err := g.GetNetworkInterface(ctx, resourceGroup, resourceName)
+	item, err := m.GetNetworkInterface(ctx, resourceGroup, resourceName)
 	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
@@ -42,7 +42,7 @@ func (g *AzureNetworkInterfaceClient) Ensure(ctx context.Context, obj runtime.Ob
 		instance.Status.ResourceId = *item.ID
 		return true, nil
 	}
-	future, err := g.CreateNetworkInterface(
+	future, err := m.CreateNetworkInterface(
 		ctx,
 		location,
 		resourceGroup,

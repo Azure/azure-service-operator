@@ -19,28 +19,30 @@ import (
 )
 
 type AzureVirtualMachineClient struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureVirtualMachineClient(secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzureVirtualMachineClient {
+func NewAzureVirtualMachineClient(creds config.Credentials, secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzureVirtualMachineClient {
 	return &AzureVirtualMachineClient{
+		Creds:        creds,
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
 }
 
-func getVirtualMachineClient() compute.VirtualMachinesClient {
-	computeClient := compute.NewVirtualMachinesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+func getVirtualMachineClient(creds config.Credentials) compute.VirtualMachinesClient {
+	computeClient := compute.NewVirtualMachinesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	computeClient.Authorizer = a
 	computeClient.AddToUserAgent(config.UserAgent())
 	return computeClient
 }
 
-func (m *AzureVirtualMachineClient) CreateVirtualMachine(ctx context.Context, location string, resourceGroupName string, resourceName string, vmSize string, osType string, adminUserName string, adminPassword string, sshPublicKeyData string, networkInterfaceName string, platformImageURN string) (future compute.VirtualMachinesCreateOrUpdateFuture, err error) {
+func (c *AzureVirtualMachineClient) CreateVirtualMachine(ctx context.Context, location string, resourceGroupName string, resourceName string, vmSize string, osType string, adminUserName string, adminPassword string, sshPublicKeyData string, networkInterfaceName string, platformImageURN string) (future compute.VirtualMachinesCreateOrUpdateFuture, err error) {
 
-	client := getVirtualMachineClient()
+	client := getVirtualMachineClient(c.Creds)
 
 	vmSizeInput := compute.VirtualMachineSizeTypes(vmSize)
 	provisionVMAgent := true
@@ -134,9 +136,9 @@ func (m *AzureVirtualMachineClient) CreateVirtualMachine(ctx context.Context, lo
 	return future, err
 }
 
-func (m *AzureVirtualMachineClient) DeleteVirtualMachine(ctx context.Context, vmName string, resourcegroup string) (status string, err error) {
+func (c *AzureVirtualMachineClient) DeleteVirtualMachine(ctx context.Context, vmName string, resourcegroup string) (status string, err error) {
 
-	client := getVirtualMachineClient()
+	client := getVirtualMachineClient(c.Creds)
 
 	_, err = client.Get(ctx, resourcegroup, vmName, "")
 	if err == nil { // vm present, so go ahead and delete
@@ -148,24 +150,24 @@ func (m *AzureVirtualMachineClient) DeleteVirtualMachine(ctx context.Context, vm
 
 }
 
-func (m *AzureVirtualMachineClient) GetVirtualMachine(ctx context.Context, resourcegroup string, vmName string) (vm compute.VirtualMachine, err error) {
+func (c *AzureVirtualMachineClient) GetVirtualMachine(ctx context.Context, resourcegroup string, vmName string) (vm compute.VirtualMachine, err error) {
 
-	client := getVirtualMachineClient()
+	client := getVirtualMachineClient(c.Creds)
 
 	return client.Get(ctx, resourcegroup, vmName, "")
 }
 
-func (p *AzureVirtualMachineClient) AddVirtualMachineCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.AzureVirtualMachine) error {
+func (c *AzureVirtualMachineClient) AddVirtualMachineCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.AzureVirtualMachine) error {
 	key := types.NamespacedName{
 		Name:      secretName,
 		Namespace: instance.Namespace,
 	}
 
-	err := p.SecretClient.Upsert(ctx,
+	err := c.SecretClient.Upsert(ctx,
 		key,
 		data,
 		secrets.WithOwner(instance),
-		secrets.WithScheme(p.Scheme),
+		secrets.WithScheme(c.Scheme),
 	)
 	if err != nil {
 		return err
@@ -174,13 +176,13 @@ func (p *AzureVirtualMachineClient) AddVirtualMachineCredsToSecrets(ctx context.
 	return nil
 }
 
-func (p *AzureVirtualMachineClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureVirtualMachine) (map[string][]byte, error) {
+func (c *AzureVirtualMachineClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureVirtualMachine) (map[string][]byte, error) {
 	name := instance.Name
 
 	secret := map[string][]byte{}
 
 	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
-	if stored, err := p.SecretClient.Get(ctx, key); err == nil {
+	if stored, err := c.SecretClient.Get(ctx, key); err == nil {
 		return stored, nil
 	}
 

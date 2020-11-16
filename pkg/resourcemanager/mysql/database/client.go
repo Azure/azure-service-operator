@@ -13,25 +13,26 @@ import (
 
 //MySQLDatabaseClient struct
 type MySQLDatabaseClient struct {
+	creds config.Credentials
 }
 
 //NewMySQLDatabaseClient create a new MySQLDatabaseClient
-func NewMySQLDatabaseClient() *MySQLDatabaseClient {
-	return &MySQLDatabaseClient{}
+func NewMySQLDatabaseClient(creds config.Credentials) *MySQLDatabaseClient {
+	return &MySQLDatabaseClient{creds: creds}
 }
 
 //GetMySQLDatabasesClient return the mysqldatabaseclient
-func GetMySQLDatabasesClient() mysql.DatabasesClient {
-	databasesClient := mysql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+func GetMySQLDatabasesClient(creds config.Credentials) mysql.DatabasesClient {
+	databasesClient := mysql.NewDatabasesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	databasesClient.Authorizer = a
 	databasesClient.AddToUserAgent(config.UserAgent())
 	return databasesClient
 }
 
-func getMySQLCheckNameAvailabilityClient() mysql.CheckNameAvailabilityClient {
-	nameavailabilityClient := mysql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+func getMySQLCheckNameAvailabilityClient(creds config.Credentials) mysql.CheckNameAvailabilityClient {
+	nameavailabilityClient := mysql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	nameavailabilityClient.Authorizer = a
 	nameavailabilityClient.AddToUserAgent(config.UserAgent())
 	return nameavailabilityClient
@@ -39,7 +40,7 @@ func getMySQLCheckNameAvailabilityClient() mysql.CheckNameAvailabilityClient {
 
 func (m *MySQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, databasename string) (bool, error) {
 
-	client := getMySQLCheckNameAvailabilityClient()
+	client := getMySQLCheckNameAvailabilityClient(m.creds)
 
 	resourceType := "Microsoft.DBforMySQL/servers/databases"
 
@@ -57,7 +58,7 @@ func (m *MySQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context,
 
 func (m *MySQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, databasename string, servername string, resourcegroup string) (future mysql.DatabasesCreateOrUpdateFuture, err error) {
 
-	client := GetMySQLDatabasesClient()
+	client := GetMySQLDatabasesClient(m.creds)
 
 	// Check if name is valid if this is the first create call
 	valid, err := m.CheckDatabaseNameAvailability(ctx, databasename)
@@ -80,7 +81,7 @@ func (m *MySQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, databas
 
 func (m *MySQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename string, servername string, resourcegroup string) (status string, err error) {
 
-	client := GetMySQLDatabasesClient()
+	client := GetMySQLDatabasesClient(m.creds)
 
 	_, err = client.Get(ctx, resourcegroup, servername, databasename)
 	if err == nil { // db present, so go ahead and delete
@@ -94,7 +95,7 @@ func (m *MySQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename s
 
 func (m *MySQLDatabaseClient) GetDatabase(ctx context.Context, resourcegroup string, servername string, databasename string) (db mysql.Database, err error) {
 
-	client := GetMySQLDatabasesClient()
+	client := GetMySQLDatabasesClient(m.creds)
 
 	return client.Get(ctx, resourcegroup, servername, databasename)
 }

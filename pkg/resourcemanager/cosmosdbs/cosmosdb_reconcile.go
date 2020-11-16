@@ -44,7 +44,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	instance.Status.Provisioned = false
 
 	if instance.Status.PollingURL != "" {
-		pollClient := pollclient.NewPollClient()
+		pollClient := pollclient.NewPollClient(m.Creds)
 		pollResponse, err := pollClient.Get(ctx, instance.Status.PollingURL)
 		if err != nil {
 			instance.Status.Provisioning = false

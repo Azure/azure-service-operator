@@ -9,12 +9,13 @@ import (
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/go-autorest/autorest"
 )
 
 // NewAzureVNetManager creates a new instance of AzureVNetManager
-func NewAzureVNetManager() *AzureVNetManager {
-	return &AzureVNetManager{}
+func NewAzureVNetManager(creds config.Credentials) *AzureVNetManager {
+	return &AzureVNetManager{Creds: creds}
 }
 
 // VNetManager manages VNet service components

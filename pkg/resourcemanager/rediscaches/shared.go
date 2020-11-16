@@ -20,13 +20,14 @@ import (
 
 // AzureRedisManager
 type AzureRedisManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func (r *AzureRedisManager) GetRedisCacheClient() (redis.Client, error) {
-	redisClient := redis.NewClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
+func (m *AzureRedisManager) GetRedisCacheClient() (redis.Client, error) {
+	redisClient := redis.NewClientWithBaseURI(config.BaseURI(), m.Creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(m.Creds)
 	if err != nil {
 		log.Println("failed to initialize authorizer: " + err.Error())
 		return redisClient, err
@@ -37,8 +38,8 @@ func (r *AzureRedisManager) GetRedisCacheClient() (redis.Client, error) {
 }
 
 //ListKeys lists the keys for redis cache
-func (r *AzureRedisManager) ListKeys(ctx context.Context, resourceGroupName string, redisCacheName string) (result redis.AccessKeys, err error) {
-	redisClient, err := r.GetRedisCacheClient()
+func (m *AzureRedisManager) ListKeys(ctx context.Context, resourceGroupName string, redisCacheName string) (result redis.AccessKeys, err error) {
+	redisClient, err := m.GetRedisCacheClient()
 	if err != nil {
 		return result, err
 	}
@@ -46,7 +47,7 @@ func (r *AzureRedisManager) ListKeys(ctx context.Context, resourceGroupName stri
 }
 
 // CreateSecrets creates a secret for a redis cache
-func (r *AzureRedisManager) CreateSecrets(ctx context.Context, instance *v1alpha1.RedisCache, data map[string][]byte) error {
+func (m *AzureRedisManager) CreateSecrets(ctx context.Context, instance *v1alpha1.RedisCache, data map[string][]byte) error {
 	secretName := instance.Spec.SecretName
 	if secretName == "" {
 		secretName = instance.Name
@@ -54,12 +55,12 @@ func (r *AzureRedisManager) CreateSecrets(ctx context.Context, instance *v1alpha
 
 	key := types.NamespacedName{Name: secretName, Namespace: instance.Namespace}
 
-	err := r.SecretClient.Upsert(
+	err := m.SecretClient.Upsert(
 		ctx,
 		key,
 		data,
 		secrets.WithOwner(instance),
-		secrets.WithScheme(r.Scheme),
+		secrets.WithScheme(m.Scheme),
 	)
 	if err != nil {
 		return err
@@ -69,11 +70,11 @@ func (r *AzureRedisManager) CreateSecrets(ctx context.Context, instance *v1alpha
 }
 
 // ListKeysAndCreateSecrets lists keys and creates secrets
-func (r *AzureRedisManager) ListKeysAndCreateSecrets(ctx context.Context, instance *v1alpha1.RedisCache) error {
+func (m *AzureRedisManager) ListKeysAndCreateSecrets(ctx context.Context, instance *v1alpha1.RedisCache) error {
 	var err error
 	var result redis.AccessKeys
 
-	result, err = r.ListKeys(ctx, instance.Spec.ResourceGroupName, instance.Name)
+	result, err = m.ListKeys(ctx, instance.Spec.ResourceGroupName, instance.Name)
 	if err != nil {
 		return err
 	}
@@ -82,7 +83,7 @@ func (r *AzureRedisManager) ListKeysAndCreateSecrets(ctx context.Context, instan
 		"secondaryKey": []byte(*result.SecondaryKey),
 	}
 
-	err = r.CreateSecrets(
+	err = m.CreateSecrets(
 		ctx,
 		instance,
 		data,

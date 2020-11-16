@@ -15,20 +15,22 @@ import (
 )
 
 type AzureNetworkInterfaceClient struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureNetworkInterfaceClient(secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzureNetworkInterfaceClient {
+func NewAzureNetworkInterfaceClient(creds config.Credentials, secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzureNetworkInterfaceClient {
 	return &AzureNetworkInterfaceClient{
+		Creds:        creds,
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
 }
 
-func getNetworkInterfaceClient() vnetwork.InterfacesClient {
-	nicClient := vnetwork.NewInterfacesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+func getNetworkInterfaceClient(creds config.Credentials) vnetwork.InterfacesClient {
+	nicClient := vnetwork.NewInterfacesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	nicClient.Authorizer = a
 	nicClient.AddToUserAgent(config.UserAgent())
 	return nicClient
@@ -36,7 +38,7 @@ func getNetworkInterfaceClient() vnetwork.InterfacesClient {
 
 func (m *AzureNetworkInterfaceClient) CreateNetworkInterface(ctx context.Context, location string, resourceGroupName string, resourceName string, vnetName string, subnetName string, publicIPAddressName string) (future vnetwork.InterfacesCreateOrUpdateFuture, err error) {
 
-	client := getNetworkInterfaceClient()
+	client := getNetworkInterfaceClient(m.Creds)
 
 	subnetIDInput := helpers.MakeResourceID(
 		client.SubscriptionID,
@@ -91,7 +93,7 @@ func (m *AzureNetworkInterfaceClient) CreateNetworkInterface(ctx context.Context
 
 func (m *AzureNetworkInterfaceClient) DeleteNetworkInterface(ctx context.Context, nicName string, resourcegroup string) (status string, err error) {
 
-	client := getNetworkInterfaceClient()
+	client := getNetworkInterfaceClient(m.Creds)
 
 	_, err = client.Get(ctx, resourcegroup, nicName, "")
 	if err == nil { // nic present, so go ahead and delete
@@ -105,7 +107,7 @@ func (m *AzureNetworkInterfaceClient) DeleteNetworkInterface(ctx context.Context
 
 func (m *AzureNetworkInterfaceClient) GetNetworkInterface(ctx context.Context, resourcegroup string, nicName string) (nic vnetwork.Interface, err error) {
 
-	client := getNetworkInterfaceClient()
+	client := getNetworkInterfaceClient(m.Creds)
 
 	return client.Get(ctx, resourcegroup, nicName, "")
 }

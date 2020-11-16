@@ -11,23 +11,25 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	sql3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
 type AzureSqlDbManager struct {
+	creds config.Credentials
 }
 
 // Ensure we implement the interface we expect
 var _ SqlDbManager = &AzureSqlDbManager{}
 
-func NewAzureSqlDbManager() *AzureSqlDbManager {
-	return &AzureSqlDbManager{}
+func NewAzureSqlDbManager(creds config.Credentials) *AzureSqlDbManager {
+	return &AzureSqlDbManager{creds: creds}
 }
 
 // GetServer returns a SQL server
-func (_ *AzureSqlDbManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient()
+func (m *AzureSqlDbManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClient(m.creds)
 	if err != nil {
 		return sql.Server{}, err
 	}
@@ -40,8 +42,8 @@ func (_ *AzureSqlDbManager) GetServer(ctx context.Context, resourceGroupName str
 }
 
 // GetDB retrieves a database
-func (_ *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
-	dbClient, err := azuresqlshared.GetGoDbClient()
+func (m *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
+	dbClient, err := azuresqlshared.GetGoDbClient(m.creds)
 	if err != nil {
 		return sql.Database{}, err
 	}
@@ -55,25 +57,25 @@ func (_ *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string,
 }
 
 // DeleteDB deletes a DB
-func (sdk *AzureSqlDbManager) DeleteDB(
+func (m *AzureSqlDbManager) DeleteDB(
 	ctx context.Context,
 	resourceGroupName string,
 	serverName string,
 	databaseName string) (future *sql.DatabasesDeleteFuture, err error) {
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	server, err := sdk.GetServer(ctx, resourceGroupName, serverName)
+	server, err := m.GetServer(ctx, resourceGroupName, serverName)
 	if err != nil || *server.State != "Ready" {
 		return nil, nil
 	}
 
 	// check to see if the db exists, if it doesn't then short-circuit
-	_, err = sdk.GetDB(ctx, resourceGroupName, serverName, databaseName)
+	_, err = m.GetDB(ctx, resourceGroupName, serverName, databaseName)
 	if err != nil {
 		return nil, nil
 	}
 
-	dbClient, err := azuresqlshared.GetGoDbClient()
+	dbClient, err := azuresqlshared.GetGoDbClient(m.creds)
 	if err != nil {
 		return nil, err
 	}
@@ -93,7 +95,7 @@ func (sdk *AzureSqlDbManager) DeleteDB(
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
-func (_ *AzureSqlDbManager) CreateOrUpdateDB(
+func (m *AzureSqlDbManager) CreateOrUpdateDB(
 	ctx context.Context,
 	resourceGroupName string,
 	location string,
@@ -101,7 +103,7 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(
 	tags map[string]*string,
 	properties azuresqlshared.SQLDatabaseProperties) (string, *sql.Database, error) {
 
-	dbClient, err := azuresqlshared.GetGoDbClient()
+	dbClient, err := azuresqlshared.GetGoDbClient(m.creds)
 	if err != nil {
 		return "", nil, err
 	}
@@ -131,9 +133,9 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(
 }
 
 // AddLongTermRetention enables / disables long term retention
-func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGroupName string, serverName string, databaseName string, weeklyRetention string, monthlyRetention string, yearlyRetention string, weekOfYear int32) (*http.Response, error) {
+func (m *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGroupName string, serverName string, databaseName string, weeklyRetention string, monthlyRetention string, yearlyRetention string, weekOfYear int32) (*http.Response, error) {
 
-	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient()
+	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient(m.creds)
 	// TODO: Probably shouldn't return a response at all in the err case here (all through this function)
 	if err != nil {
 		return &http.Response{

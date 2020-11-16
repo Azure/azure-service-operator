@@ -57,9 +57,9 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		mysqlUserSecretClient = s.SecretClient
 	}
 
-	// if the admin secret keyvault is not specified, fall back to global secretclient
+	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds)
 		if len(instance.Spec.AdminSecret) != 0 {
 			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
 		}
@@ -204,9 +204,9 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 		mysqlUserSecretClient = s.SecretClient
 	}
 
-	// if the admin secret keyvault is not specified, fall back to global secretclient
+	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds)
 		if len(instance.Spec.AdminSecret) != 0 {
 			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
 		}

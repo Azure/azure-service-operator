@@ -82,7 +82,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		if err != nil {
 			// handle failures in the async operation
 			if instance.Status.PollingURL != "" {
-				pClient := pollclient.NewPollClient()
+				pClient := pollclient.NewPollClient(m.Creds)
 				res, err := pClient.Get(ctx, instance.Status.PollingURL)
 				if err != nil {
 					instance.Status.Provisioning = false

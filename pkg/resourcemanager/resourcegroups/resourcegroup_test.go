@@ -40,7 +40,7 @@ var _ = Describe("ResourceGroups", func() {
 
 			resourcegroupName := "t-rg-" + helpers.RandomString(10)
 			resourcegroupLocation := config.DefaultLocation()
-			resourceGroupManager := NewAzureResourceGroupManager()
+			resourceGroupManager := NewAzureResourceGroupManager(config.GlobalCredentials())
 			var err error
 
 			_, err = resourceGroupManager.CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)
@@ -63,7 +63,8 @@ var _ = Describe("ResourceGroups", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetGroup(context.Background(), resourcegroupName)
+				manager := NewAzureResourceGroupManager(config.GlobalCredentials())
+				result, _ := manager.GetGroup(context.Background(), resourcegroupName)
 				return result.Response.StatusCode == http.StatusNotFound || *result.Properties.ProvisioningState == "Deleting"
 			}, timeout,
 			).Should(BeTrue())
