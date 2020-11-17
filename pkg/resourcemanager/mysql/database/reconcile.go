@@ -23,7 +23,7 @@ func (m *MySQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, op
 		return true, err
 	}
 
-	client := GetMySQLDatabasesClient()
+	client := GetMySQLDatabasesClient(m.creds)
 
 	instance.Status.Provisioning = true
 	// Check if this database already exists. This is required

@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"k8s.io/client-go/kubernetes/scheme"
 
@@ -59,7 +60,7 @@ var _ = BeforeSuite(func() {
 
 	resourceGroupName := "t-rg-dev-kv-" + helpers.RandomString(10)
 	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
-	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
+	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(config.GlobalCredentials())
 
 	//create resourcegroup for this suite
 	_, err = resourceGroupManager.CreateGroup(ctx, resourceGroupName, resourceGroupLocation)
@@ -92,7 +93,8 @@ var _ = AfterSuite(func() {
 
 	polling := time.Second * 10
 	Eventually(func() bool {
-		_, err := resourcegroupsresourcemanager.GetGroup(ctx, tc.ResourceGroupName)
+		rgManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(config.GlobalCredentials())
+		_, err := rgManager.GetGroup(ctx, tc.ResourceGroupName)
 		if err == nil {
 			log.Println("waiting for resource group to be deleted")
 			return false

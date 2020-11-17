@@ -19,16 +19,19 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
 // Manager represents an API Management type
-type Manager struct{}
+type Manager struct {
+	creds config.Credentials
+}
 
 // NewManager returns an API Manager type
-func NewManager() *Manager {
-	return &Manager{}
+func NewManager(creds config.Credentials) *Manager {
+	return &Manager{creds: creds}
 }
 
 // CreateAPI creates an API within an API management service
@@ -60,13 +63,13 @@ func (m *Manager) CreateAPI(
 	}
 
 	// Fetch the parent API Management service the API will reside under
-	svc, err := apimshared.GetAPIMgmtSvc(ctx, resourceGroupName, apiServiceName)
+	svc, err := apimshared.GetAPIMgmtSvc(ctx, m.creds, resourceGroupName, apiServiceName)
 	if err != nil {
 		// If there is no parent APIM service, we cannot proceed
 		return apimanagement.APIContract{}, err
 	}
 
-	apiClient, err := apimshared.GetAPIMClient()
+	apiClient, err := apimshared.GetAPIMClient(m.creds)
 	if err != nil {
 		return apimanagement.APIContract{}, err
 	}
@@ -83,7 +86,7 @@ func (m *Manager) CreateAPI(
 
 // DeleteAPI deletes an API within an API management service
 func (m *Manager) DeleteAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiID string, eTag string, deleteRevisions bool) (autorest.Response, error) {
-	apiClient, err := apimshared.GetAPIMClient()
+	apiClient, err := apimshared.GetAPIMClient(m.creds)
 	if err != nil {
 		return autorest.Response{
 			Response: &http.Response{
@@ -100,7 +103,7 @@ func (m *Manager) DeleteAPI(ctx context.Context, resourceGroupName string, apiSe
 
 // GetAPI fetches an API within an API management service
 func (m *Manager) GetAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiID string) (apimanagement.APIContract, error) {
-	apiClient, err := apimshared.GetAPIMClient()
+	apiClient, err := apimshared.GetAPIMClient(m.creds)
 	if err != nil {
 		return apimanagement.APIContract{}, err
 	}
@@ -116,7 +119,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 	}
 
 	// Attempt to fetch the parent API Management service the API will or does reside within
-	svc, err := apimshared.GetAPIMgmtSvc(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService)
+	svc, err := apimshared.GetAPIMgmtSvc(ctx, m.creds, instance.Spec.ResourceGroup, instance.Spec.APIService)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		// If there is no parent APIM service, we cannot proceed

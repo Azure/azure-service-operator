@@ -36,21 +36,23 @@ const PSecretPasswordKey = "password"
 
 //PostgreSqlUserManager for psqluser manager
 type PostgreSqlUserManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
 //NewPostgreSqlUserManager creates a new PostgreSqlUserManager
-func NewPostgreSqlUserManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *PostgreSqlUserManager {
+func NewPostgreSqlUserManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *PostgreSqlUserManager {
 	return &PostgreSqlUserManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
 }
 
 // GetDB retrieves a database
-func (s *PostgreSqlUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (db psql.Database, err error) {
-	dbClient, err := psdatabase.GetPSQLDatabasesClient()
+func (m *PostgreSqlUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (db psql.Database, err error) {
+	dbClient, err := psdatabase.GetPSQLDatabasesClient(m.Creds)
 	if err != nil {
 		return psql.Database{}, err
 	}
@@ -64,7 +66,7 @@ func (s *PostgreSqlUserManager) GetDB(ctx context.Context, resourceGroupName str
 }
 
 // ConnectToSqlDb connects to the PostgreSQL db using the given credentials
-func (s *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, fullservername string, database string, port int, user string, password string) (*sql.DB, error) {
+func (m *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, fullservername string, database string, port int, user string, password string) (*sql.DB, error) {
 
 	connString := fmt.Sprintf("host=%s user=%s password=%s port=%d dbname=%s sslmode=require connect_timeout=30", fullservername, user, password, port, database)
 
@@ -82,7 +84,7 @@ func (s *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername s
 }
 
 // GrantUserRoles grants roles to a user for a given database
-func (s *PostgreSqlUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
+func (m *PostgreSqlUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
 	var errorStrings []string
 
 	if err := helpers.FindBadChars(user); err != nil {
@@ -109,7 +111,7 @@ func (s *PostgreSqlUserManager) GrantUserRoles(ctx context.Context, user string,
 }
 
 // CreateUser creates user with secret credentials
-func (s *PostgreSqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
+func (m *PostgreSqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
 	newUser := string(secret[PSecretUsernameKey])
 	newPassword := string(secret[PSecretPasswordKey])
 
@@ -131,7 +133,7 @@ func (s *PostgreSqlUserManager) CreateUser(ctx context.Context, secret map[strin
 }
 
 // UpdateUser - Updates user password
-func (s *PostgreSqlUserManager) UpdateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) error {
+func (m *PostgreSqlUserManager) UpdateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) error {
 	user := string(secret[PSecretUsernameKey])
 	newPassword := helpers.NewPassword()
 
@@ -150,7 +152,7 @@ func (s *PostgreSqlUserManager) UpdateUser(ctx context.Context, secret map[strin
 }
 
 // UserExists checks if db contains user
-func (s *PostgreSqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
+func (m *PostgreSqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
 
 	res, err := db.ExecContext(ctx, "SELECT * FROM pg_user WHERE usename = $1", username)
 	if err != nil {
@@ -162,7 +164,7 @@ func (s *PostgreSqlUserManager) UserExists(ctx context.Context, db *sql.DB, user
 }
 
 // DropUser drops a user from db
-func (s *PostgreSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
+func (m *PostgreSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
 	if err := helpers.FindBadChars(user); err != nil {
 		return fmt.Errorf("Problem found with username: %v", err)
 	}
@@ -173,7 +175,7 @@ func (s *PostgreSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user s
 }
 
 // DeleteSecrets deletes the secrets associated with a SQLUser
-func (s *PostgreSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) (bool, error) {
+func (m *PostgreSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) (bool, error) {
 
 	secretKey := GetNamespacedName(instance, secretClient)
 
@@ -191,7 +193,7 @@ func (s *PostgreSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1a
 }
 
 // GetOrPrepareSecret gets or creates a secret
-func (s *PostgreSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) map[string][]byte {
+func (m *PostgreSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) map[string][]byte {
 	key := GetNamespacedName(instance, secretClient)
 
 	secret, err := secretClient.Get(ctx, key)

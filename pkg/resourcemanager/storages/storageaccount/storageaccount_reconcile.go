@@ -19,9 +19,9 @@ import (
 )
 
 // Ensure creates a storage account
-func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (m *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
-	instance, err := sa.convert(obj)
+	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
 	}
@@ -45,14 +45,14 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	labels := helpers.LabelsToTags(instance.GetLabels())
 
 	hash := ""
-	stor, err := sa.GetStorage(ctx, groupName, name)
+	stor, err := m.GetStorage(ctx, groupName, name)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		instance.Status.State = "NotReady"
 
 		// handle failures in the async operation
 		if pollURL != "" {
-			pClient := pollclient.NewPollClient()
+			pClient := pollclient.NewPollClient(m.Creds)
 			res, err := pClient.Get(ctx, pollURL)
 			azerr := errhelp.NewAzureError(err)
 			if err != nil {
@@ -84,7 +84,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	if instance.Status.State == "Succeeded" {
 
 		// upsert
-		err = sa.StoreSecrets(ctx, groupName, name, instance)
+		err = m.StoreSecrets(ctx, groupName, name, instance)
 		if err != nil {
 			return false, err
 		}
@@ -102,7 +102,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	instance.Status.Provisioning = true
 	instance.Status.Provisioned = false
 
-	pollURL, _, err = sa.CreateStorage(ctx, groupName, name, location, sku, kind, labels, accessTier, enableHTTPSTrafficOnly, dataLakeEnabled, &networkAcls)
+	pollURL, _, err = m.CreateStorage(ctx, groupName, name, location, sku, kind, labels, accessTier, enableHTTPSTrafficOnly, dataLakeEnabled, &networkAcls)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureError(err)
@@ -129,7 +129,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 				// call to the reconcile loop for an update of this exact resource. So
 				// we call a Get to check if this is the current resource and if
 				// yes, we let the call go through instead of ending the reconcile loop
-				_, err := sa.GetStorage(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
+				_, err := m.GetStorage(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
 				if err != nil {
 					// This means that the Server exists elsewhere and we should
 					// terminate the reconcile loop

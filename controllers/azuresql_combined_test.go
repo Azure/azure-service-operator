@@ -16,6 +16,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -300,7 +301,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			EnsureInstance(ctx, t, tc, kvSqlUser1)
 
 			// Check that the user's secret is in the keyvault
-			keyVaultSecretClient := kvsecrets.New(keyVaultName)
+			keyVaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials())
 
 			assert.Eventually(func() bool {
 				keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName1
@@ -342,7 +343,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			EnsureInstance(ctx, t, tc, kvSqlUser2)
 
 			// Check that the user's secret is in the keyvault
-			keyVaultSecretClient := kvsecrets.New(keyVaultName)
+			keyVaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials())
 
 			assert.Eventually(func() bool {
 				keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName1
@@ -362,7 +363,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		key := types.NamespacedName{Name: kvSqlUser1.ObjectMeta.Name, Namespace: keyNamespace}
 
 		keyVaultName := tc.keyvaultName
-		keyVaultSecretClient := kvsecrets.New(keyVaultName)
+		keyVaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials())
 		var oldSecret, _ = keyVaultSecretClient.Get(ctx, key)
 
 		sqlActionName := GenerateTestResourceNameWithRandom("azuresqlaction-dev", 10)
@@ -409,7 +410,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			EnsureDelete(ctx, t, tc, kvSqlUser2)
 
 			// Check that the user's secret is in the keyvault
-			keyVaultSecretClient := kvsecrets.New(tc.keyvaultName)
+			keyVaultSecretClient := kvsecrets.New(tc.keyvaultName, config.GlobalCredentials())
 
 			assert.Eventually(func() bool {
 				key := types.NamespacedName{Name: sqlUser.ObjectMeta.Name, Namespace: sqlUser.ObjectMeta.Namespace}

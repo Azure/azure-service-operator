@@ -36,8 +36,8 @@ func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 	keyPermissions := []string{"get", "list", "update", "delete", "recover", "backup", "restore", "create", "import"}
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
 		{
-			TenantID: config.TenantID(),
-			ClientID: config.ClientID(),
+			TenantID: config.GlobalCredentials().TenantID(),
+			ClientID: config.GlobalCredentials().ClientID(),
 			Permissions: &azurev1alpha1.Permissions{
 				Keys: &keyPermissions,
 			},
@@ -86,7 +86,7 @@ func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 	// create key
 	EnsureInstance(ctx, t, tc, keyVaultKey)
 
-	kvopsclient := resourcemanagerkeyvaults.NewOpsClient(keyVaultName)
+	kvopsclient := resourcemanagerkeyvaults.NewOpsClient(config.GlobalCredentials(), keyVaultName)
 
 	assert.Eventually(func() bool {
 		kvault, err := tc.keyVaultManager.GetVault(ctx, tc.resourceGroupName, keyVaultInstance.Name)

@@ -13,6 +13,7 @@ import (
 
 	"context"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
@@ -58,7 +59,7 @@ var _ = BeforeSuite(func() {
 
 	resourceGroupName := "t-rg-appinsights-" + helpers.RandomString(10)
 	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
-	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
+	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(config.GlobalCredentials())
 
 	//create resourcegroup for this suite
 	_, err = resourceGroupManager.CreateGroup(ctx, resourceGroupName, resourceGroupLocation)
@@ -88,7 +89,8 @@ var _ = AfterSuite(func() {
 
 	for {
 		time.Sleep(time.Second * 10)
-		_, err := resourcegroupsresourcemanager.GetGroup(ctx, tc.ResourceGroupName)
+		rgManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(config.GlobalCredentials())
+		_, err := rgManager.GetGroup(ctx, tc.ResourceGroupName)
 		if err == nil {
 			log.Println("waiting for resource group to be deleted")
 		} else {

@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultsecretlib "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -75,7 +76,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 
 	if len(KeyVaultName) != 0 {
 		// Instantiate the KeyVault Secret Client
-		keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
+		keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName, config.GlobalCredentials())
 
 		r.Telemetry.LogInfoByInstance("status", "ensuring vault", req.String())
 

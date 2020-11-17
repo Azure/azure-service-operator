@@ -34,7 +34,8 @@ var _ = Describe("Keyvault Secrets Client", func() {
 	var resourcegroupLocation string
 	var userID string
 
-	resourceGroupManager := rghelper.NewAzureResourceGroupManager()
+	resourceGroupManager := rghelper.NewAzureResourceGroupManager(config.GlobalCredentials())
+	kvManager := kvhelper.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -49,7 +50,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 		retry = 1 * time.Second
 
 		// Initialize service principal ID to give access to the keyvault
-		userID = config.ClientID()
+		userID = config.GlobalCredentials().ClientID()
 
 		// Initialize resource names
 		keyVaultName = "t-kvtest-kv" + strconv.FormatInt(GinkgoRandomSeed(), 10)
@@ -68,7 +69,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 		).Should(BeTrue())
 
 		// Create a keyvault
-		_, err = kvhelper.AzureKeyVaultManager.CreateVaultWithAccessPolicies(ctx, resourcegroupName, keyVaultName, resourcegroupLocation, userID)
+		_, err = kvManager.CreateVaultWithAccessPolicies(ctx, resourcegroupName, keyVaultName, resourcegroupLocation, userID)
 		//Expect(err).NotTo(HaveOccurred())
 
 	})
@@ -76,7 +77,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
 		// Delete the keyvault
-		kvhelper.AzureKeyVaultManager.DeleteVault(ctx, resourcegroupName, keyVaultName)
+		kvManager.DeleteVault(ctx, resourcegroupName, keyVaultName)
 		//Expect(err).NotTo(HaveOccurred())
 
 		// Delete the resource group
@@ -114,7 +115,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 				"sweet": []byte("potato"),
 			}
 
-			client := New(keyVaultName)
+			client := New(keyVaultName, config.GlobalCredentials())
 
 			key := types.NamespacedName{Name: secretName, Namespace: "default"}
 
@@ -174,7 +175,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 				"sweet": []byte("potato"),
 			}
 
-			client := New(keyVaultName)
+			client := New(keyVaultName, config.GlobalCredentials())
 
 			key := types.NamespacedName{Name: secretName, Namespace: "default"}
 

@@ -25,9 +25,9 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func getVaultsClient() (mgmtclient.VaultsClient, error) {
-	vaultsClient := mgmtclient.NewVaultsClient(config.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
+func getVaultsClient(creds config.Credentials) (mgmtclient.VaultsClient, error) {
+	vaultsClient := mgmtclient.NewVaultsClient(creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return vaultsClient, err
 	}
@@ -59,10 +59,14 @@ func getVaultsURL(ctx context.Context, vaultName string) string {
 	return vaultURL
 }
 
-// New instantiates a new KeyVaultSecretClient instance
-func New(keyvaultName string) *KeyvaultSecretClient {
+// New instantiates a new KeyVaultSecretClient instance.
+// TODO(creds-refactor): The keyvaultName argument seems seems
+// redundant since that's in the credentials, but it's used to
+// override the one specified in credentials so it might be right to
+// keep it. Confirm this.
+func New(keyvaultName string, creds config.Credentials) *KeyvaultSecretClient {
 	keyvaultClient := keyvaults.New()
-	a, _ := iam.GetKeyvaultAuthorizer()
+	a, _ := iam.GetKeyvaultAuthorizer(creds)
 	keyvaultClient.Authorizer = a
 	keyvaultClient.AddToUserAgent(config.UserAgent())
 	return &KeyvaultSecretClient{
