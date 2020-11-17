@@ -9,10 +9,11 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/gobuffalo/envy"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 type ConfigRequirementType int
@@ -22,6 +23,7 @@ const (
 	RequireClientSecret
 	RequireTenantID
 	RequireSubscriptionID
+	OptionalClientID
 )
 
 // ParseEnvironment loads a sibling `.env` file then looks through all environment
@@ -63,13 +65,15 @@ func ParseEnvironment() error {
 		return errors.Wrapf(err, "couldn't get POD_NAMESPACE env variable")
 	}
 
-	for _, requirement := range GetRequiredConfigs() {
+	for _, requirement := range GetExpectedConfigurationVariables() {
 		switch requirement {
 		case RequireClientID:
 			creds.clientID, err = envy.MustGet("AZURE_CLIENT_ID") // ClientID()
 			if err != nil {
 				return fmt.Errorf("expected env vars not provided (AZURE_CLIENT_ID): %s\n", err)
 			}
+		case OptionalClientID:
+			creds.clientID = envy.Get("AZURE_CLIENT_ID", "")
 		case RequireClientSecret:
 			creds.clientSecret, err = envy.MustGet("AZURE_CLIENT_SECRET") // ClientSecret()
 			if err != nil {
@@ -86,21 +90,22 @@ func ParseEnvironment() error {
 				return fmt.Errorf("expected env vars not provided (AZURE_SUBSCRIPTION_ID): %s\n", err)
 			}
 		}
+
 	}
 
 	return nil
 }
 
-func GetRequiredConfigs() []ConfigRequirementType {
+func GetExpectedConfigurationVariables() []ConfigRequirementType {
 	if useDeviceFlow {
 		// Device flow required Configs
 		return []ConfigRequirementType{RequireClientID, RequireTenantID, RequireSubscriptionID}
 	}
 	if creds.useManagedIdentity {
 		// Managed Service Identity required Configs
-		return []ConfigRequirementType{RequireTenantID, RequireSubscriptionID}
+		return []ConfigRequirementType{RequireTenantID, RequireSubscriptionID, OptionalClientID}
 	}
-	// Default required Configs
+	// Default required Configs (service principal)
 	return []ConfigRequirementType{RequireClientID, RequireClientSecret, RequireTenantID, RequireSubscriptionID}
 }
 
