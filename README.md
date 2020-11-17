@@ -60,6 +60,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
     ```
 3. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
+   For more information about other forms of authentication supported by ASO, see [the authentication section of the deployment documentation](./docs/howto/deploy.md#Authentication). 
 
     First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
     ```yaml
