@@ -28,6 +28,7 @@ var (
 	userAgent              string
 	baseURI                string
 	environment            *azure.Environment
+	podNamespace           string
 
 	testResourcePrefix string // used to generate resource names in tests, should probably exist in a test only package
 )
@@ -97,6 +98,11 @@ func Environment() *azure.Environment {
 	return environment
 }
 
+// PodNamespace returns the namespace the manager pod is running in
+func PodNamespace() string {
+	return podNamespace
+}
+
 // AppendRandomSuffix will append a suffix of five random characters to the specified prefix.
 func AppendRandomSuffix(prefix string) string {
 	return randname.GenerateWithPrefix(prefix, 5)
@@ -111,11 +117,12 @@ func BaseURI() string {
 func ConfigString() string {
 	creds := GlobalCredentials()
 	return fmt.Sprintf(
-		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %v, useManagedIdentity: %v",
+		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %v, useManagedIdentity: %v, podNamespace: %q",
 		creds.ClientID(),
 		creds.TenantID(),
 		creds.SubscriptionID(),
 		cloudName,
 		UseDeviceFlow(),
-		creds.UseManagedIdentity())
+		creds.UseManagedIdentity(),
+		podNamespace)
 }

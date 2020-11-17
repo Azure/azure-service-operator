@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/gobuffalo/envy"
+	"github.com/pkg/errors"
 )
 
 type ConfigRequirementType int
@@ -44,6 +45,7 @@ func ParseEnvironment() error {
 		return fmt.Errorf("Invalid Cloud chosen: AZURE_CLOUD_ENV set to '%s'", azcloud)
 	}
 
+	var err error
 	cloudName = azcloud
 
 	azureEnv, _ := azure.EnvironmentFromName(azcloud) // shouldn't fail
@@ -56,8 +58,10 @@ func ParseEnvironment() error {
 	keepResources = ParseBoolFromEnvironment("AZURE_SAMPLES_KEEP_RESOURCES") // KeepResources()
 	creds.operatorKeyvault = envy.Get("AZURE_OPERATOR_KEYVAULT", "")         // operatorKeyvault()
 	testResourcePrefix = envy.Get("TEST_RESOURCE_PREFIX", "t-"+helpers.RandomString(6))
-
-	var err error
+	podNamespace, err = envy.MustGet("POD_NAMESPACE")
+	if err != nil {
+		return errors.Wrapf(err, "couldn't get POD_NAMESPACE env variable")
+	}
 
 	for _, requirement := range GetRequiredConfigs() {
 		switch requirement {

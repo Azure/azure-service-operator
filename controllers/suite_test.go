@@ -15,6 +15,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/gobuffalo/envy"
+
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -84,6 +86,10 @@ var tc TestContext
 
 func setup() error {
 	log.Println(fmt.Sprintf("Starting common controller test setup"))
+
+	// Go ahead and assume that we're deployed in the default namespace for
+	// the purpose of these tests
+	envy.Set("POD_NAMESPACE", "azureoperator-system")
 
 	err := resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
@@ -767,8 +773,7 @@ func setup() error {
 		return err
 	}
 
-	// TODO: read namespace from env variable
-	identityFinder := helpers.NewAADIdentityFinder(k8sManager.GetClient(), "azureoperator-system")
+	identityFinder := helpers.NewAADIdentityFinder(k8sManager.GetClient(), config.PodNamespace())
 	err = (&MySQLAADUserReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),

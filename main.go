@@ -742,8 +742,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	// TODO: read namespace from env variable
-	identityFinder := helpers.NewAADIdentityFinder(mgr.GetClient(), "azureoperator-system")
+	identityFinder := helpers.NewAADIdentityFinder(mgr.GetClient(), config.PodNamespace())
 	if err = (&controllers.MySQLAADUserReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
