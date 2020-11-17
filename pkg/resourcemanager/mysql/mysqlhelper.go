@@ -34,8 +34,7 @@ func GetFullyQualifiedUserName(userName string, serverName string) string {
 
 // ConnectToSqlDb connects to the SQL db using the given credentials
 func ConnectToSqlDB(ctx context.Context, driverName string, fullServer string, database string, port int, user string, password string) (*sql.DB, error) {
-	// TODO: This shouldn't be tls=skip-verify, will fix in standalone PR
-	connString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?tls=skip-verify&interpolateParams=true", user, password, fullServer, port, database)
+	connString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?tls=true&interpolateParams=true", user, password, fullServer, port, database)
 
 	db, err := sql.Open(driverName, connString)
 	if err != nil {
