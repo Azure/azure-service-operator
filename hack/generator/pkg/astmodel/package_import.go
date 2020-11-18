@@ -46,11 +46,16 @@ func (pi PackageImport) AsImportSpec() *ast.ImportSpec {
 
 // PackageName is the package name of the package reference
 func (pi PackageImport) PackageName() string {
-	if pi.name != "" {
+	if pi.HasExplicitName() {
 		return pi.name
 	}
 
 	return pi.packageReference.PackageName()
+}
+
+// HasExplicitName() returns true if this package import has an explicitly defined name
+func (pi PackageImport) HasExplicitName() bool {
+	return pi.name != ""
 }
 
 // Equals returns true if the passed package reference references the same package, false otherwise

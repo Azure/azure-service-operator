@@ -147,21 +147,18 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 	// TODO: Make this configurable
 	requiredImports.ApplyName(MetaV1PackageReference, "metav1")
 
-	// Determine if there are any conflicting imports -- these are imports with the same "name"
-	// but a different package path
-	imports := requiredImports.AsSortedSlice(ByNameInGroups)
-	for _, imp := range imports {
-		for _, otherImp := range imports {
-			if !imp.Equals(otherImp) && imp.PackageName() == otherImp.PackageName() {
-				klog.Warningf(
-					"File %v: import %v (named %v) and import %v (named %v) conflict",
-					file.packageReference,
-					imp.packageReference,
-					imp.PackageName(),
-					otherImp.packageReference,
-					otherImp.PackageName())
-			}
+	// Force local imports to have explicit names based on the service
+	for _, imp := range requiredImports.AsSlice() {
+		if IsLocalPackageReference(imp.packageReference) && !imp.HasExplicitName() {
+			name := requiredImports.ServiceNameForImport(imp)
+			requiredImports.AddImport(imp.WithName(name))
 		}
+	}
+
+	// Resolve any conflicts and report any that couldn't be fixed up automatically
+	err := requiredImports.ResolveConflicts()
+	if err != nil {
+		klog.Errorf("File %s: %v", file.packageReference, err)
 	}
 
 	return requiredImports

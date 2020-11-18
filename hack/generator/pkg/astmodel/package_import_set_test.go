@@ -14,6 +14,15 @@ var (
 	simpleTestRef PackageReference = MakeExternalPackageReference("simple")
 	pathTestRef   PackageReference = MakeExternalPackageReference("package/path")
 
+	// Important for these two package references to have the same version so that they conflict
+	emailTestRef   PackageReference = MakeExternalPackageReference("microsoft.email/v20180801")
+	networkTestRef PackageReference = MakeExternalPackageReference("microsoft.network/v20180801")
+
+	// Important for these two package references to have the same version as each other,
+	// AND each service name must conflict with the references above
+	emailTestAltRef   PackageReference = MakeExternalPackageReference("microsoft.email/v20200801")
+	networkTestAltRef PackageReference = MakeExternalPackageReference("microsoft.network/v20200801")
+
 	simpleTestImport         = NewPackageImport(simpleTestRef)
 	pathTestImport           = NewPackageImport(pathTestRef)
 	simpleTestImportWithName = simpleTestImport.WithName("simple")
@@ -212,6 +221,93 @@ func TestByNameInGroups_AppliesExpectedOrdering(t *testing.T) {
 			g := NewGomegaWithT(t)
 			less := ByNameInGroups(c.left, c.right)
 			g.Expect(less).To(Equal(c.less))
+		})
+	}
+}
+
+/*
+ * Resolve Conflict Tests
+ */
+
+func TestPackageImportSet_ResolveConflicts_GivenExplicitlyNamedConflicts_ReturnsErrors(t *testing.T) {
+	g := NewGomegaWithT(t)
+	importA := NewPackageImport(emailTestRef).WithName("collide")
+	importB := NewPackageImport(networkTestRef).WithName("collide")
+
+	set := NewPackageImportSet()
+	set.AddImport(importA)
+	set.AddImport(importB)
+
+	err := set.ResolveConflicts()
+	g.Expect(err).NotTo(BeNil())
+}
+
+func TestPackageImportSet_ResolveConflicts_GivenImplicityNamedConflicts_AssignsExpectedNames(t *testing.T) {
+
+	createSet := func(refs ...PackageReference) *PackageImportSet {
+		result := NewPackageImportSet()
+		for _, ref := range refs {
+			result.AddImportOfReference(ref)
+		}
+
+		return result
+	}
+
+	cases := []struct {
+		name         string
+		set          *PackageImportSet
+		testRef      PackageReference
+		expectedName string
+	}{
+		{
+			"Import conflicts with simple resolution (i)",
+			createSet(emailTestRef, networkTestRef),
+			emailTestRef,
+			"email",
+		},
+		{
+			"Import conflicts with simple resolution (ii)",
+			createSet(emailTestRef, networkTestRef),
+			networkTestRef,
+			"network",
+		},
+		{
+			"Import conflicts with versioned resolution (i)",
+			createSet(emailTestRef, networkTestRef, emailTestAltRef, networkTestAltRef),
+			emailTestRef,
+			"emailv20180801",
+		},
+		{
+			"Import conflicts with versioned resolution (ii)",
+			createSet(emailTestRef, networkTestRef, emailTestAltRef, networkTestAltRef),
+			networkTestRef,
+			"networkv20180801"},
+		{
+			"Import conflicts with versioned resolution (iii)",
+			createSet(emailTestRef, networkTestRef, emailTestAltRef, networkTestAltRef),
+			emailTestAltRef,
+			"emailv20200801",
+		},
+		{
+			"Import conflicts with versioned resolution (iv)",
+			createSet(emailTestRef, networkTestRef, emailTestAltRef, networkTestAltRef),
+			networkTestAltRef,
+			"networkv20200801",
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			err := c.set.ResolveConflicts()
+			g.Expect(err).To(BeNil())
+
+			imp, ok := c.set.ImportFor(c.testRef)
+			g.Expect(ok).To(BeTrue())
+			g.Expect(imp.name).To(Equal(c.expectedName))
 		})
 	}
 }
