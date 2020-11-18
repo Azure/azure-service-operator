@@ -71,7 +71,7 @@ gox: install-tools
 	$(Q) tar -czvf ./bin/$(SHORT_VERSION)/$(APP)_windows_amd64.tar.gz -C ./bin/$(SHORT_VERSION)/ $(APP)_windows_amd64.exe
 
 .PHONY: diagrams
-diagrams: $(patsubst %.dot,%.png,$(wildcard spec/images/*.dot))
+diagrams: $(patsubst %.dot,%.png,$(wildcard spec/images/*.dot spec/images/*/*.dot))
 
 %.png: %.dot
 	$(info $(M) Generating diagram $@ from $< …)

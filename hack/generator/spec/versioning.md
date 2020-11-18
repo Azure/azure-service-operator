@@ -150,7 +150,7 @@ The `ConvertToStorage()` method is responsible for copying all of the properties
 
 Each property defined in the API type is considered in turn, and will require different handling based on its type and whether a suitable match is found on the storage type:
 
-![](images/versioning-property-mapping-flowchart.png)
+![](images/versioning/property-mapping-flowchart.png)
 
 **For properties with a primitive type** a matching property must have the same name and the identical type. If found, a simple assignment will copy the value over. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type.
 
@@ -255,7 +255,7 @@ We'll generate two golden tests for each type in each API type, one to test veri
 
 **Testing conversion to the latest version** will check that an instance of a older version of the API can be correctly up-converted to the latest version:
 
-![](images/versioning-golden-tests-to-latest.png)
+![](images/versioning/golden-tests-to-latest.png)
 
 The test will involve these steps:
 
@@ -272,7 +272,7 @@ If neither rule is satisfied, the test will silently null out.
 
 **Testing conversion from the latest version** will check that an instance of the latest version of the API can be correctly down-converted to an older version.
 
-![](images/versioning-golden-tests-from-latest.png)
+![](images/versioning/golden-tests-from-latest.png)
 
 * Create an exemplar instance of the latest API type 
 * Convert it to the storage type using `ConvertToStorage()`

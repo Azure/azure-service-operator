@@ -129,7 +129,7 @@ These methods will be automatically generated in order to handle the majority of
 
 With only two classes, our version map is simple and straightforward.
 
-![](images/case-study-chained-storage-2011-01-01.png)
+![](images/case-study-chained-storage/2011-01-01.png)
 
 
 # Version 2012-02-02 - No Change
@@ -158,7 +158,7 @@ An additional bidirectional conversion between `v20110101storage` and `v20120202
 
 Our version map diagram is becoming useful for seeing the relationship between versions:
 
-![](images/case-study-chained-storage-2012-02-02.png)
+![](images/case-study-chained-storage/2012-02-02.png)
 
 Observe that the prior storage version is still shown, with a bidirectional conversion with the current storage version. Existing users who upgrade their service operator will have their storage upgraded using this conversion. The conversion between storage versions will be generated with the same approach, and with the same structure, as all our other conversions.
 
@@ -264,7 +264,7 @@ func (person *Person) ConvertFromStorage(vnext storage.Person) error {
 
 A graph of our conversions now starts to show the chaining between storage versions that gives the name to this approach. Bidirectional conversions to and from earlier versions of storage allow conversion between any pairs of API versions.
 
-![](images/case-study-chained-storage-2013-03-03.png)
+![](images/case-study-chained-storage/2013-03-03.png)
 
 ## How often are new properties added?
 
@@ -404,7 +404,7 @@ Preview releases, by definition, include unstable changes that may differ once t
 
 We don't want to make changes to our storage versions based on these speculative changes, so we handle persistence of the preview release with the existing storage version, by way of a down-conversion to `v20130303storage`:
 
-![](images/case-study-chained-storage-2014-04-04-preview.png)
+![](images/case-study-chained-storage/2014-04-04-preview.png)
 
 
 # Version 2014-04-04 - Schema Change
@@ -546,7 +546,7 @@ For each property we need to consider that it might have already been populated 
 
 We can see in our version map that the preview release is still supported, but the associated storage version is not in the main chain of interconvertible versions.
 
-![](images/case-study-chained-storage-2014-04-04.png)
+![](images/case-study-chained-storage/2014-04-04.png)
 
 # Version 2015-05-05 - Property Rename
 
@@ -628,13 +628,13 @@ While `SortKey` appears at the end of the list of assignments in the first metho
 
 Here we see our horizon policy coming into effect, with support for version 2011-01-01 being dropped in this release:
 
-![](images/case-study-chained-storage-2015-05-05.png)
+![](images/case-study-chained-storage/2015-05-05.png)
 
 For users staying up to date with releases of the service operator, this will likely have no effect - but users still using the original release (storage version `v2011-01-01storage`) will need to update to an intermediate release before adopting this version.
 
 An alternative approach would be to always support conversion from every storage version, even if the related API version has been dropped:
 
-![](images/case-study-chained-storage-2015-05-05-alternate.png)
+![](images/case-study-chained-storage/2015-05-05-alternate.png)
 
 This would allow users to upgrade from almost any older version of the service operator. ("Almost" because we would still have older versions drop off when they are retired by ARM.)
 
@@ -787,7 +787,7 @@ We're recursively applying the same conversion pattern to `Address` as we have a
 
 Again we see the oldest version drop out, allowing users of the three prior versions of the service operator to upgrade cleanly:
 
-![](images/case-study-chained-storage-2016-06-06.png)
+![](images/case-study-chained-storage/2016-06-06.png)
 
 # Version 2017-07-07 - Optionality changes
 
@@ -858,7 +858,7 @@ If we instead had an _optional_ field that became _required_ in a later version 
 
 ## Version Map
 
-![](images/case-study-chained-storage-2017-07-07.png)
+![](images/case-study-chained-storage/2017-07-07.png)
 
 ## How often does optionality change?
 
@@ -900,7 +900,7 @@ These changes are entirely similar to those previously covered in version 2014-0
 
 In this release, we see that support for both `2014-04-04` and the preview version `2014-04-04preview` has been dropped:
 
-![](images/case-study-chained-storage-2018-08-08.png)
+![](images/case-study-chained-storage/2018-08-08.png)
 
 Users still running earlier releases of the service operator that are using `2014-04-04` or earlier will need to install an intermediate release in order to upgrade to this one.
 
@@ -994,7 +994,7 @@ If we don't include metadata to capture type renames, the conversion can be manu
 
 ## Version Map
 
-![](images/case-study-chained-storage-2019-09-09.png)
+![](images/case-study-chained-storage/2019-09-09.png)
 
 ## How often do properties change their type?
 
