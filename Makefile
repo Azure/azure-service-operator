@@ -124,8 +124,8 @@ docker-push:
 	docker push ${IMG}
 
 # Build and Push the docker image
-.PHONY: build-and-push
-build-and-push: docker-build docker-push
+.PHONY: docker-build-and-push
+docker-build-and-push: docker-build docker-push
 
 # Build manager binary
 .PHONY: manager

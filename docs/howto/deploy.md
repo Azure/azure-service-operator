@@ -20,7 +20,7 @@ However, if you're interested and building and deploying the operators from sour
 
     ```shell
     docker login
-    IMG=<container_registry>/<username>/<image_name>:<tag> make build-and-push
+    IMG=<container_registry>/<username>/<image_name>:<tag> make docker-build-and-push
     ```
 
 ## Deploy the operator

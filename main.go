@@ -37,6 +37,7 @@ import (
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	loadbalancer "github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
+	mysqladmin "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/aadadmin"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlfirewall "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
 	mysqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
@@ -726,6 +727,22 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "MySQLUser")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.MySQLServerAdministratorReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: mysqladmin.NewMySQLServerAdministratorManager(config.GlobalCredentials()),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLServerAdministrator",
+				ctrl.Log.WithName("controllers").WithName("MySQLServerAdministrator"),
+			),
+			Recorder: mgr.GetEventRecorderFor("MySQLServerAdministrator-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MySQLServerAdministrator")
 		os.Exit(1)
 	}
 
