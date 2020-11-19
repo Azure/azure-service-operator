@@ -25,7 +25,6 @@ type TypeVisitor struct {
 	VisitOptionalType func(this *TypeVisitor, it *OptionalType, ctx interface{}) (Type, error)
 	VisitEnumType     func(this *TypeVisitor, it *EnumType, ctx interface{}) (Type, error)
 	VisitResourceType func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
-	VisitStorageType  func(this *TypeVisitor, it *StorageType, ctx interface{}) (Type, error)
 	VisitFlaggedType  func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error)
 }
 
