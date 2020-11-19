@@ -14,6 +14,8 @@ import (
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
+var KubernetesResourceInterfaceName astmodel.TypeName = astmodel.MakeTypeName(astmodel.MakeGenRuntimePackageReference(), "KubernetesResource")
+
 const nameParameterString = "name"
 
 type convertToArmBuilder struct {
@@ -36,7 +38,7 @@ func newConvertToArmFunctionBuilder(
 			receiverTypeExpr:      receiver.AsType(codeGenerationContext),
 			armTypeIdent:          ast.NewIdent(c.armTypeName.Name()),
 			idFactory:             c.idFactory,
-			isResource:            c.isResource,
+			isSpecType:            c.isSpecType,
 			codeGenerationContext: codeGenerationContext,
 		},
 		resultIdent: ast.NewIdent("result"),
@@ -77,7 +79,7 @@ func (builder *convertToArmBuilder) functionBodyStatements() []ast.Stmt {
 	result = append(
 		result,
 		astbuilder.ReturnIfNil(builder.receiverIdent, ast.NewIdent("nil"), ast.NewIdent("nil")))
-	result = append(result, astbuilder.NewStruct(builder.resultIdent, builder.armTypeIdent))
+	result = append(result, astbuilder.NewVariable(builder.resultIdent, builder.armTypeIdent))
 
 	// Each ARM object property needs to be filled out
 	result = append(
@@ -106,11 +108,13 @@ func (builder *convertToArmBuilder) namePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType) []ast.Stmt {
 
-	_, ok := fromType.Property(GetAzureNameProperty(builder.idFactory).PropertyName())
-	if !ok || toProp.PropertyName() != "Name" || !builder.isResource {
+	if toProp.PropertyName() != "Name" || !builder.isSpecType {
 		return nil
 	}
 
+	// we do not read from AzureName() but instead use
+	// the passed-in 'name' parameter which contains
+	// a full ARM ID including any owners, etc
 	result := astbuilder.SimpleAssignment(
 		&ast.SelectorExpr{
 			X:   builder.resultIdent,
@@ -118,6 +122,7 @@ func (builder *convertToArmBuilder) namePropertyHandler(
 		},
 		token.ASSIGN,
 		ast.NewIdent(nameParameterString))
+
 	return []ast.Stmt{result}
 }
 
@@ -125,7 +130,7 @@ func (builder *convertToArmBuilder) typePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType) []ast.Stmt {
 
-	if toProp.PropertyName() != "Type" || !builder.isResource {
+	if toProp.PropertyName() != "Type" || !builder.isSpecType {
 		return nil
 	}
 

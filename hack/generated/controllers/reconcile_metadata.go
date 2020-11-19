@@ -180,7 +180,7 @@ func (r *ReconcileMetadata) SpecSignature() (string, error) {
 
 func (r *ReconcileMetadata) Update(
 	deployment *armclient.Deployment,
-	status genruntime.ArmTransformer) error {
+	status genruntime.FromArmConverter) error {
 
 	controllerutil.AddFinalizer(r.metaObj, GenericControllerFinalizer)
 

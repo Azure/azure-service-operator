@@ -7,10 +7,11 @@ package astmodel
 
 import (
 	"fmt"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"go/ast"
 	"sort"
 	"strings"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 )
 
 // PropertyName is a semantic type

@@ -41,7 +41,7 @@ func newConvertFromArmFunctionBuilder(
 			receiverTypeExpr:      receiver.AsType(codeGenerationContext),
 			armTypeIdent:          ast.NewIdent(c.armTypeName.Name()),
 			idFactory:             c.idFactory,
-			isResource:            c.isResource,
+			isSpecType:            c.isSpecType,
 			codeGenerationContext: codeGenerationContext,
 		},
 	}
@@ -134,15 +134,52 @@ func (builder *convertFromArmBuilder) namePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType) []ast.Stmt {
 
-	if !toProp.Equals(GetAzureNameProperty(builder.idFactory)) || !builder.isResource {
+	if !builder.isSpecType || !toProp.HasName(astmodel.AzureNameProperty) {
+		return nil
+	}
+
+	if typeName, ok := toProp.PropertyType().(astmodel.TypeName); ok {
+		// we are assigning to (presumably) an enum-typed AzureName property, (no way to check that here)
+		// we will cast the result of ExtractKubernetesResourceNameFromArmName
+		// to the target type:
+
+		// Check to make sure that the ARM object has a "Name" property (which matches our "AzureName")
+		fromProp, ok := fromType.Property("Name")
+		if !ok {
+			panic("ARM resource missing property 'Name'")
+		}
+
+		result := astbuilder.SimpleAssignment(
+			&ast.SelectorExpr{
+				X:   builder.receiverIdent,
+				Sel: ast.NewIdent(string(toProp.PropertyName())),
+			},
+			token.ASSIGN,
+			astbuilder.CallFunc(
+				// "calling" enum name is equivalent to casting
+				ast.NewIdent(typeName.Name()),
+				astbuilder.CallQualifiedFuncByName(
+					astmodel.GenRuntimePackageName,
+					"ExtractKubernetesResourceNameFromArmName",
+					&ast.SelectorExpr{
+						X:   builder.typedInputIdent,
+						Sel: ast.NewIdent(string(fromProp.PropertyName())),
+					})))
+
+		return []ast.Stmt{result}
+	}
+
+	// otherwise check if we are writing to a string-typed AzureName property
+	if !toProp.Equals(GetAzureNameProperty(builder.idFactory)) {
 		return nil
 	}
 
 	// Check to make sure that the ARM object has a "Name" property (which matches our "AzureName")
 	fromProp, ok := fromType.Property("Name")
 	if !ok {
-		panic("Arm resource missing property 'Name'")
+		panic("ARM resource missing property 'Name'")
 	}
+
 	result := astbuilder.SimpleAssignment(
 		&ast.SelectorExpr{
 			X:   builder.receiverIdent,
@@ -158,14 +195,13 @@ func (builder *convertFromArmBuilder) namePropertyHandler(
 			}))
 
 	return []ast.Stmt{result}
-
 }
 
 func (builder *convertFromArmBuilder) ownerPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType) []ast.Stmt {
 
-	if toProp.PropertyName() != builder.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported) || !builder.isResource {
+	if toProp.PropertyName() != builder.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported) || !builder.isSpecType {
 		return nil
 	}
 
@@ -525,7 +561,7 @@ func (builder *convertFromArmBuilder) convertComplexTypeNameProperty(
 
 	ownerName := builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)
 
-	newStruct := astbuilder.NewStruct(propertyLocalVar, ast.NewIdent(destinationType.Name()))
+	newVariable := astbuilder.NewVariable(propertyLocalVar, ast.NewIdent(destinationType.Name()))
 	if !destinationType.PackageReference.Equals(builder.codeGenerationContext.CurrentPackage()) {
 		// struct name has to be qualified
 		packageName, err := builder.codeGenerationContext.GetImportedPackageName(destinationType.PackageReference)
@@ -533,13 +569,13 @@ func (builder *convertFromArmBuilder) convertComplexTypeNameProperty(
 			panic(err)
 		}
 
-		newStruct = astbuilder.NewQualifiedStruct(
+		newVariable = astbuilder.NewVariableQualified(
 			propertyLocalVar,
 			ast.NewIdent(packageName),
 			ast.NewIdent(destinationType.Name()))
 	}
 
-	results = append(results, newStruct)
+	results = append(results, newVariable)
 	results = append(
 		results,
 		astbuilder.SimpleAssignment(

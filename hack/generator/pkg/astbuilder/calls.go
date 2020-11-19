@@ -10,7 +10,7 @@ import "go/ast"
 // CallFunc() creates an expression to call a function with specified arguments, generating code
 // like:
 // <funcName>(<arguments>...)
-func CallFunc(funcName *ast.Ident, arguments ...ast.Expr) ast.Expr {
+func CallFunc(funcName ast.Expr, arguments ...ast.Expr) ast.Expr {
 	return &ast.CallExpr{
 		Fun:  funcName,
 		Args: arguments,

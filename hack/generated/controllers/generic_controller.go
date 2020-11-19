@@ -424,7 +424,7 @@ func (gr *GenericReconciler) MonitorDeployment(ctx context.Context, action Recon
 		return ctrl.Result{}, err
 	}
 
-	var status genruntime.ArmTransformer
+	var status genruntime.FromArmConverter
 	err = gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
 
 		deployment, err = gr.ARMClient.GetDeployment(ctx, deployment.Id)
@@ -560,7 +560,7 @@ func (gr *GenericReconciler) constructArmResource(ctx context.Context, data *Rec
 	return resource, nil
 }
 
-func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *ReconcileMetadata) (genruntime.ArmTransformer, error) {
+func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *ReconcileMetadata) (genruntime.FromArmConverter, error) {
 	deployableSpec, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
 	if err != nil {
 		return nil, err

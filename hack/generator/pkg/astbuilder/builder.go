@@ -35,31 +35,55 @@ func CheckErrorAndReturn(otherReturns ...ast.Expr) ast.Stmt {
 	}
 }
 
-// NewQualifiedStruct creates a new assignment statement where a struct is constructed and stored in a variable of the given name.
+// NewVariableQualified creates a new declaration statement where a variable is declared
+// with its default value.
+//
 // For example:
+//     var <varName> <packageRef>.<structName>
+//
+// Note that it does *not* do:
 //     <varName> := <packageRef>.<structName>{}
-func NewQualifiedStruct(varName *ast.Ident, qualifier *ast.Ident, structName *ast.Ident) ast.Stmt {
-	return SimpleAssignment(
-		varName,
-		token.DEFINE,
-		&ast.CompositeLit{
-			Type: &ast.SelectorExpr{
-				X:   qualifier,
-				Sel: structName,
+//
+// …as that does not work for enum types.
+func NewVariableQualified(varName *ast.Ident, qualifier *ast.Ident, structName *ast.Ident) ast.Stmt {
+	return &ast.DeclStmt{
+		Decl: &ast.GenDecl{
+			Tok: token.VAR,
+			Specs: []ast.Spec{
+				&ast.TypeSpec{
+					Name: varName,
+					Type: &ast.SelectorExpr{
+						X:   qualifier,
+						Sel: structName,
+					},
+				},
 			},
-		})
+		},
+	}
 }
 
-// NewStruct creates a new assignment statement where a struct is constructed and stored in a variable of the given name.
+// NewVariable creates a new declaration statement where a variable is declared
+// with its default value.
+//
 // For example:
+//     var <varName> <structName>
+//
+// Note that it does *not* do:
 //     <varName> := <structName>{}
-func NewStruct(varName *ast.Ident, structName *ast.Ident) ast.Stmt {
-	return SimpleAssignment(
-		varName,
-		token.DEFINE,
-		&ast.CompositeLit{
-			Type: structName,
-		})
+//
+// …as that does not work for enum types.
+func NewVariable(varName *ast.Ident, structName *ast.Ident) ast.Stmt {
+	return &ast.DeclStmt{
+		Decl: &ast.GenDecl{
+			Tok: token.VAR,
+			Specs: []ast.Spec{
+				&ast.TypeSpec{
+					Name: varName,
+					Type: structName,
+				},
+			},
+		},
+	}
 }
 
 // LocalVariableDeclaration performs a local variable declaration for use within a method like:

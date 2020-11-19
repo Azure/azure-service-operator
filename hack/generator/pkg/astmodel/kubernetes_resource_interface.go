@@ -6,10 +6,12 @@
 package astmodel
 
 import (
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	"github.com/pkg/errors"
+	"fmt"
 	"go/ast"
 	"go/token"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	"github.com/pkg/errors"
 )
 
 // These are some magical field names which we're going to use or generate
@@ -18,22 +20,82 @@ const (
 	OwnerProperty     = "Owner"
 )
 
-// NewArmTransformerImpl creates a new interface with the specified ARM conversion functions
-func NewKubernetesResourceInterfaceImpl(
+// WithKubernetesResourceInterfaceImpl creates a new interface with the specified ARM conversion functions
+func (r *ResourceType) WithKubernetesResourceInterfaceImpl(
 	idFactory IdentifierFactory,
-	spec *ObjectType) (*InterfaceImplementation, error) {
+	types Types) (*ResourceType, error) {
+
+	resolvedSpec, err := types.FullyResolve(r.SpecType())
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to resolve resource spec type")
+	}
+
+	spec, err := TypeAsObjectType(resolvedSpec)
+	if err != nil {
+		return nil, errors.Wrapf(err, "resource spec %q did not contain an object", r.SpecType().String())
+	}
 
 	// Check the spec first to ensure it looks how we expect
 	ownerProperty := idFactory.CreatePropertyName(OwnerProperty, Exported)
 	_, ok := spec.Property(ownerProperty)
 	if !ok {
-		return nil, errors.Errorf("Resource spec doesn't have %q property", ownerProperty)
+		return nil, errors.Errorf("resource spec doesn't have %q property", ownerProperty)
 	}
 
-	azureNameProperty := idFactory.CreatePropertyName(AzureNameProperty, Exported)
-	_, ok = spec.Property(azureNameProperty)
+	nameProp, ok := spec.Property(AzureNameProperty)
 	if !ok {
-		return nil, errors.Errorf("Resource spec doesn't have %q property", azureNameProperty)
+		return nil, errors.Errorf("resource spec doesn't have %q property", AzureNameProperty)
+	}
+
+	namePropType := nameProp.PropertyType()
+	// resolve property type if it is a typename
+	namePropType, err = types.FullyResolve(namePropType)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to resolve type of resource Name property: %s", namePropType.String())
+	}
+
+	var nameFunc asFuncType
+
+	// handle different types of Name property
+	switch namePropType := namePropType.(type) {
+	case *EnumType:
+		if !namePropType.BaseType().Equals(StringType) {
+			return nil, errors.Errorf("unable to handle non-string enum base type in Name property")
+		}
+
+		options := namePropType.Options()
+		if len(options) == 1 {
+			// if there is only one possible value,
+			// we make an AzureName function that returns it, and do not
+			// provide an AzureName property on the spec
+			r = r.WithSpec(spec.WithoutProperty(AzureNameProperty))
+			nameFunc = withFixedValueAzureNameFunction(options[0].Value)
+		} else {
+			// with multiple values, provide an AzureName function that casts from the
+			// enum-valued AzureName property:
+
+			// the property type must be a TypeName pointing to an enum at this
+			// point in the pipeline so let's assert that:
+			enumType := nameProp.PropertyType().(TypeName)
+			nameFunc = withEnumAzureNameFunction(enumType)
+		}
+
+	case *PrimitiveType:
+		if !namePropType.Equals(StringType) {
+			return nil, errors.Errorf("cannot use type %s as type of Name property", namePropType.String())
+		}
+
+		nameFunc = azureNameFunction
+
+	default:
+		return nil, errors.Errorf("unsupported type for Name property: %s", namePropType.String())
+	}
+
+	azureNameFunc := &objectFunction{
+		name:      AzureNameProperty,
+		o:         spec,
+		idFactory: idFactory,
+		asFunc:    nameFunc,
 	}
 
 	ownerFunc := &objectFunction{
@@ -43,19 +105,10 @@ func NewKubernetesResourceInterfaceImpl(
 		asFunc:    ownerFunction,
 	}
 
-	azureNameFunc := &objectFunction{
-		name:      AzureNameProperty,
-		o:         spec,
-		idFactory: idFactory,
-		asFunc:    azureNameFunction,
-	}
-
-	result := NewInterfaceImplementation(
+	return r.WithInterface(NewInterfaceImplementation(
 		MakeTypeName(MakeGenRuntimePackageReference(), "KubernetesResource"),
 		ownerFunc,
-		azureNameFunc)
-
-	return result, nil
+		azureNameFunc)), nil
 }
 
 // objectFunction is a simple helper that implements the Function interface. It is intended for use for functions
@@ -64,8 +117,83 @@ type objectFunction struct {
 	name      string
 	o         *ObjectType
 	idFactory IdentifierFactory
+	asFunc    asFuncType
+}
 
-	asFunc func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl
+type asFuncType func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl
+
+// withEnumAzureNameFunction adds an AzureName() function that casts an AzureName property
+// with an enum value to a string
+func withEnumAzureNameFunction(propType Type) asFuncType {
+	return func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
+		receiverIdent := ast.NewIdent(f.idFactory.CreateIdentifier(receiver.Name(), NotExported))
+		receiverType := receiver.AsType(codeGenerationContext)
+
+		fn := &astbuilder.FuncDetails{
+			Name:          ast.NewIdent(methodName),
+			ReceiverIdent: receiverIdent,
+			ReceiverType:  &ast.StarExpr{X: receiverType},
+			Body: []ast.Stmt{
+				&ast.ReturnStmt{
+					Results: []ast.Expr{
+						&ast.CallExpr{
+							// cast from the enum value to string
+							Fun: ast.NewIdent("string"),
+							Args: []ast.Expr{
+								&ast.SelectorExpr{
+									X:   receiverIdent,
+									Sel: ast.NewIdent(AzureNameProperty),
+								},
+							},
+						},
+					},
+				},
+			},
+		}
+
+		fn.AddComments(fmt.Sprintf("returns the Azure name of the resource (string representation of %s)", propType.String()))
+		fn.AddReturns("string")
+		return fn.DefineFunc()
+	}
+}
+
+// withFixedValueAzureNameFunction adds an AzureName() function that returns a fixed value
+func withFixedValueAzureNameFunction(fixedValue string) asFuncType {
+
+	// ensure fixedValue is quoted. This is always the case with enum values we pass,
+	// but let's be safe:
+	if len(fixedValue) == 0 {
+		panic("cannot created fixed value AzureName function with empty fixed value")
+	}
+
+	if !(fixedValue[0] == '"' && fixedValue[len(fixedValue)-1] == '"') {
+		fixedValue = fmt.Sprintf("%q", fixedValue)
+	}
+
+	return func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
+		receiverIdent := ast.NewIdent(f.idFactory.CreateIdentifier(receiver.Name(), NotExported))
+		receiverType := receiver.AsType(codeGenerationContext)
+
+		fn := &astbuilder.FuncDetails{
+			Name:          ast.NewIdent(methodName),
+			ReceiverIdent: receiverIdent,
+			ReceiverType:  &ast.StarExpr{X: receiverType},
+			Body: []ast.Stmt{
+				&ast.ReturnStmt{
+					Results: []ast.Expr{
+						&ast.BasicLit{
+							Kind:  token.STRING,
+							Value: fixedValue,
+						},
+					},
+				},
+			},
+		}
+
+		fn.AddComments(fmt.Sprintf("returns the Azure name of the resource (always %s)", fixedValue))
+		fn.AddReturns("string")
+		return fn.DefineFunc()
+	}
 }
 
 var _ Function = &objectFunction{}

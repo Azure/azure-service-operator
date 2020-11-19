@@ -112,7 +112,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{
 	if fakeResourceSpec == nil {
 		return nil, nil
 	}
-	result := FakeResource_SpecArm{}
+	var result FakeResource_SpecArm
 	result.ApiVersion = fakeResourceSpec.ApiVersion
 	if fakeResourceSpec.Color != nil {
 		colorTyped := *fakeResourceSpec.Color
@@ -136,6 +136,11 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{
 	return result, nil
 }
 
+// CreateEmptyArmValue returns an empty ARM value suitable for deserializing into
+func (fakeResourceSpec *FakeResource_Spec) CreateEmptyArmValue() interface{} {
+	return FakeResource_SpecArm{}
+}
+
 // PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
 func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
 	typedInput, ok := armInput.(FakeResource_SpecArm)
@@ -149,14 +154,14 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 		fakeResourceSpec.Color = &colorTyped
 	}
 	var err error
-	foo := Foo{}
+	var foo Foo
 	err = foo.PopulateFromArm(owner, typedInput.Foo)
 	if err != nil {
 		return err
 	}
 	fakeResourceSpec.Foo = foo
 	if typedInput.OptionalFoo != nil {
-		optionalFoo := Foo{}
+		var optionalFoo Foo
 		err = optionalFoo.PopulateFromArm(owner, *typedInput.OptionalFoo)
 		if err != nil {
 			return err
@@ -187,12 +192,17 @@ func (foo *Foo) ConvertToArm(name string) (interface{}, error) {
 	if foo == nil {
 		return nil, nil
 	}
-	result := FooArm{}
+	var result FooArm
 	if foo.Name != nil {
 		nameTyped := *foo.Name
 		result.Name = &nameTyped
 	}
 	return result, nil
+}
+
+// CreateEmptyArmValue returns an empty ARM value suitable for deserializing into
+func (foo *Foo) CreateEmptyArmValue() interface{} {
+	return FooArm{}
 }
 
 // PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object

@@ -50,6 +50,12 @@ tasks:
     cmds:
     - go test ./... -tags=noexit
 
+  generator:update-golden-tests:
+    desc: Update {{.GENERATOR_APP}} golden test outputs.
+    dir: "{{.GENERATOR_ROOT}}"
+    cmds:
+    - go test ./pkg/codegen -run ^TestGolden$ -update
+
   generator:format-code:
     desc: Ensure all code is correctly formatted.
     dir: "{{.GENERATOR_ROOT}}"

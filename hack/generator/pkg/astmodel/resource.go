@@ -7,9 +7,10 @@ package astmodel
 
 import (
 	"fmt"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"go/ast"
 	"go/token"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 
 	"k8s.io/klog/v2"
 
@@ -106,24 +107,11 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *Re
 		apiVersionProperty = apiVersionProperty.MakeRequired()
 		objectType = objectType.WithProperty(apiVersionProperty)
 
-		// If the name is not a string, force it to be -- there are a good number
-		// of resources which define name as an enum with a limited set of values.
-		// That is actually incorrect because it forbids nested naming from being used
-		// (i.e. myresource/mysubresource/enumvalue) and that's the style of naming
-		// that we're always using because we deploy each resource standalone.
-		if !nameProperty.PropertyType().Equals(StringType) {
-			klog.V(4).Infof(
-				"Forcing resource %s name property with type %T to be string instead",
-				typeName,
-				nameProperty.PropertyType())
-			nameProperty = nameProperty.WithType(StringType)
-			objectType = objectType.WithProperty(nameProperty)
-		}
-
 		if isTypeOptional {
 			typeProperty = typeProperty.MakeRequired()
 			objectType = objectType.WithProperty(typeProperty)
 		}
+
 		specType = objectType
 	}
 

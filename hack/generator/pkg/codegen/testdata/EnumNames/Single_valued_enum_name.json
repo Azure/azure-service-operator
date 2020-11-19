@@ -1,0 +1,43 @@
+{
+    "$comment": "Tests that a resource can have an enum name with a single value",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "it": {
+            "$ref": "#/resourceDefinitions/AResource"
+        }
+    },
+    "resourceDefinitions": {
+        "AResource": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "enum": [
+                        "onlyonevalue"
+                    ]
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/AResource"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        }
+    },
+    "definitions": {}
+}

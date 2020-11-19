@@ -7,8 +7,9 @@ package armconversion
 
 import (
 	"fmt"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"go/ast"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
 type ConversionDirection string
@@ -26,7 +27,7 @@ type ArmConversionFunction struct {
 	armType     *astmodel.ObjectType
 	idFactory   astmodel.IdentifierFactory
 	direction   ConversionDirection
-	isResource  bool
+	isSpecType  bool
 }
 
 var _ astmodel.Function = &ArmConversionFunction{}

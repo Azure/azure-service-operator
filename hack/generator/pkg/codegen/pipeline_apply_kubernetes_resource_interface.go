@@ -7,6 +7,7 @@ package codegen
 
 import (
 	"context"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
 )
@@ -19,32 +20,31 @@ func applyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Pipe
 		"Ensures that every resource implements the KubernetesResource interface",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
+			skip := make(map[astmodel.TypeName]struct{})
+
 			result := make(astmodel.Types)
-			for _, typeDef := range types {
+			for typeName, typeDef := range types {
+				if _, ok := skip[typeName]; ok {
+					continue
+				}
 
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
-
-					specName, ok := resource.SpecType().(astmodel.TypeName)
-					if !ok {
-						return nil, errors.Errorf("resource %q spec was not of type TypeName, instead: %T", typeDef.Name(), typeDef.Type())
-					}
-
-					spec, ok := types[specName]
-					if !ok {
-						return nil, errors.Errorf("couldn't find resource spec %q", specName)
-					}
-
-					specObj, err := astmodel.TypeAsObjectType(spec.Type())
+					newResource, err := resource.WithKubernetesResourceInterfaceImpl(idFactory, types)
 					if err != nil {
-						return nil, errors.Wrapf(err, "resource spec %q did not contain an object", specName)
+						return nil, errors.Wrapf(err, "couldn't implement Kubernetes resource interface for %q", typeName)
 					}
 
-					iface, err := astmodel.NewKubernetesResourceInterfaceImpl(idFactory, specObj)
-					if err != nil {
-						return nil, errors.Wrapf(err, "Couldn't implement Kubernetes resource interface for %q", spec.Name())
+					// this is really very ugly; a better way?
+					if _, ok := newResource.SpecType().(astmodel.TypeName); !ok {
+						// the resource Spec was replaced with a new definition; update it
+						// by replacing the named definition:
+						specName := resource.SpecType().(astmodel.TypeName)
+						result[specName] = astmodel.MakeTypeDefinition(specName, newResource.SpecType())
+						skip[specName] = struct{}{}
+						newResource = newResource.WithSpec(specName)
 					}
 
-					newDef := typeDef.WithType(resource.WithInterface(iface))
+					newDef := typeDef.WithType(newResource)
 					result.Add(newDef)
 				} else {
 					result.Add(typeDef)

@@ -87,11 +87,7 @@ func NewEmptyArmResourceStatus(metaObject genruntime.MetaObject) (genruntime.Arm
 	}
 
 	// TODO: Do we actually want to return a ptr here, not a value?
-	// No need to actually pass name here (we're going to populate this entity from ARM anyway)
-	armStatus, err := kubeStatus.ConvertToArm("")
-	if err != nil {
-		return nil, err
-	}
+	armStatus := kubeStatus.CreateEmptyArmValue()
 
 	// TODO: Some reflect hackery here to make sure that this is a ptr not a value
 	armStatusPtr := NewPtrFromValue(armStatus)
@@ -104,9 +100,9 @@ func NewEmptyArmResourceStatus(metaObject genruntime.MetaObject) (genruntime.Arm
 	return castArmStatus, nil
 }
 
-// NewEmptyStatus creates a new empty Status object (which implements ArmTransformer) from
+// NewEmptyStatus creates a new empty Status object (which implements FromArmConverter) from
 // a genruntime.MetaObject.
-func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.ArmTransformer, error) {
+func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.FromArmConverter, error) {
 	t := reflect.TypeOf(metaObject).Elem()
 
 	statusField, ok := t.FieldByName("Status")
@@ -115,7 +111,7 @@ func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.ArmTransformer
 	}
 
 	statusPtr := reflect.New(statusField.Type)
-	status, ok := statusPtr.Interface().(genruntime.ArmTransformer)
+	status, ok := statusPtr.Interface().(genruntime.FromArmConverter)
 	if !ok {
 		return nil, errors.Errorf("status did not implement genruntime.ArmTransformer")
 	}

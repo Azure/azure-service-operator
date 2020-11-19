@@ -291,10 +291,6 @@ func TestGolden(t *testing.T) {
 			}
 
 			for _, f := range fs {
-				// TODO: Remove this
-				if f.name != "Embedded_type_simple_resource" {
-					continue
-				}
 				t.Run(f.name, func(t *testing.T) {
 					runGoldenTest(t, f.path, testConfig)
 				})

@@ -62,6 +62,10 @@ type ResourceGroupStatus struct {
 
 var _ genruntime.ArmTransformer = &ResourceGroupStatus{}
 
+func (status *ResourceGroupStatus) CreateEmptyArmValue() interface{} {
+	return ResourceGroupStatusArm{}
+}
+
 // ConvertToArm converts from a Kubernetes CRD object to an ARM object
 func (status *ResourceGroupStatus) ConvertToArm(name string) (interface{}, error) {
 	if status == nil {
@@ -113,6 +117,10 @@ type ResourceGroupStatusProperties struct {
 
 var _ genruntime.ArmTransformer = &ResourceGroupStatusProperties{}
 
+func (p *ResourceGroupStatusProperties) CreateEmptyArmValue() interface{} {
+	return ResourceGroupStatusPropertiesArm{}
+}
+
 // ConvertToArm converts from a Kubernetes CRD object to an ARM object
 func (p *ResourceGroupStatusProperties) ConvertToArm(name string) (interface{}, error) {
 	if p == nil {
@@ -150,6 +158,10 @@ type ResourceGroupSpec struct {
 }
 
 var _ genruntime.ArmTransformer = &ResourceGroupSpec{}
+
+func (spec *ResourceGroupSpec) CreateEmptyArmValue() interface{} {
+	return ResourceGroupSpecArm{}
+}
 
 // ConvertToArm converts from a Kubernetes CRD object to an ARM object
 func (spec *ResourceGroupSpec) ConvertToArm(name string) (interface{}, error) {
