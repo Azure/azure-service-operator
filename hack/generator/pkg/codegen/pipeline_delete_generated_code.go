@@ -98,8 +98,10 @@ func isFileGenerated(filename string) (bool, error) {
 			return false, err
 		}
 
-		if strings.Contains(line, astmodel.CodeGenerationComment) {
-			return true, nil
+		for _, codeGenComment := range astmodel.CodeGenerationComments {
+			if strings.Contains(line, codeGenComment) {
+				return true, nil
+			}
 		}
 	}
 

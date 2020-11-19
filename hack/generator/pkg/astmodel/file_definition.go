@@ -226,10 +226,13 @@ func (file *FileDefinition) AsAst() ast.Node {
 			})
 	}
 
-	header, headerLen := createComments(
+	var comments []string
+	comments = append(comments, CodeGenerationComments...)
+	comments = append(comments,
 		"Copyright (c) Microsoft Corporation.",
-		"Licensed under the MIT license.",
-		CodeGenerationComment)
+		"Licensed under the MIT license.")
+
+	header, headerLen := createComments(comments...)
 
 	packageName := file.packageReference.PackageName()
 
