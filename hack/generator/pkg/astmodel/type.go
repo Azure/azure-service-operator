@@ -78,9 +78,6 @@ func createAsObjectTypeVisitor() *TypeVisitor {
 	 * Unwrap if needed
 	 */
 
-	result.VisitArmType = func(_ *TypeVisitor, at *ArmType, _ interface{}) (Type, error) {
-		return &at.objectType, nil
-	}
 	result.VisitOptionalType = func(tv *TypeVisitor, ot *OptionalType, ctx interface{}) (Type, error) {
 		return tv.Visit(ot.element, ctx)
 	}
