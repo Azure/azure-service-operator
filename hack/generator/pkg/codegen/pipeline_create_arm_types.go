@@ -281,13 +281,19 @@ func createArmResourceSpecDefinition(
 	}
 
 	// ARM specs have a special interface that they need to implement, go ahead and create that here
-	spec, ok := armTypeDef.Type().(*astmodel.ArmType)
-	if !ok {
-		return emptyDef, emptyName, errors.Errorf("Arm spec %q isn't of type ArmType, instead: %T", armTypeDef.Name(), armTypeDef.Type())
+	if !astmodel.ArmFlag.IsOn(armTypeDef.Type()) {
+		return emptyDef, emptyName, errors.Errorf("Arm spec %q isn't a flagged object, instead: %T", armTypeDef.Name(), armTypeDef.Type())
 	}
 
-	specObj := spec.ObjectType()
-	iface, err := astmodel.NewArmSpecInterfaceImpl(idFactory, &specObj)
+	// Safe because above test passed
+	flagged := armTypeDef.Type().(*astmodel.FlaggedType)
+
+	specObj, ok := flagged.Element().(*astmodel.ObjectType)
+	if !ok {
+		return emptyDef, emptyName, errors.Errorf("Arm spec %q isn't an object, instead: %T", armTypeDef.Name(), armTypeDef.Type())
+	}
+
+	iface, err := astmodel.NewArmSpecInterfaceImpl(idFactory, specObj)
 	if err != nil {
 		return emptyDef, emptyName, err
 	}

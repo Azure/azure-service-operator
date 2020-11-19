@@ -45,10 +45,10 @@ func simplifyDefinitions() PipelineStage {
 func createSimplifyingVisitor() astmodel.TypeVisitor {
 	result := astmodel.MakeTypeVisitor()
 
-	// Unwrap ArmTypes, promoting the object within
-	result.VisitArmType = func(tv *astmodel.TypeVisitor, at *astmodel.ArmType, ctx interface{}) (astmodel.Type, error) {
-		ot := at.ObjectType()
-		return tv.Visit(&ot, ctx)
+	// Unwrap FlaggedTypes, promoting the object within
+	result.VisitFlaggedType = func(tv *astmodel.TypeVisitor, ft *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
+		element := ft.Element()
+		return tv.Visit(element, ctx)
 	}
 
 	// Unwrap flagged types, promoting the object within.
