@@ -19,13 +19,6 @@ type ArmType struct {
 // ArmType is a Type
 var _ Type = &ArmType{}
 
-// NewArmType wraps an object type to indicate it's an ARM targeted variation
-func NewArmType(object ObjectType) *ArmType {
-	return &ArmType{
-		objectType: object,
-	}
-}
-
 // RequiredPackageReferences returns a list of packages required by this type
 func (at ArmType) RequiredPackageReferences() *PackageReferenceSet {
 	return at.objectType.RequiredPackageReferences()
