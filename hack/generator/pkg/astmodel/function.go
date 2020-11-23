@@ -6,7 +6,7 @@
 package astmodel
 
 import (
-	"go/ast"
+	ast "github.com/dave/dst"
 )
 
 // Function represents something that is an (unnamed) Go function

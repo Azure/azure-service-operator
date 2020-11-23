@@ -6,11 +6,11 @@
 package astmodel
 
 import (
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	"go/ast"
 	"go/token"
 	"sort"
 
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	ast "github.com/dave/dst"
 	"github.com/pkg/errors"
 )
 
@@ -39,19 +39,23 @@ func NewObjectType() *ObjectType {
 }
 
 func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
-	identifier := ast.NewIdent(name.Name())
 	declaration := &ast.GenDecl{
+		Decs: ast.GenDeclDecorations{
+			NodeDecs: ast.NodeDecs{
+				Before: ast.EmptyLine,
+				After:  ast.EmptyLine,
+			},
+		},
 		Tok: token.TYPE,
-		Doc: &ast.CommentGroup{},
 		Specs: []ast.Spec{
 			&ast.TypeSpec{
-				Name: identifier,
+				Name: ast.NewIdent(name.Name()),
 				Type: objectType.AsType(codeGenerationContext),
 			},
 		},
 	}
 
-	astbuilder.AddWrappedComments(&declaration.Doc.List, description, 200)
+	astbuilder.AddWrappedComments(&declaration.Decs.Start, description, 200)
 
 	result := []ast.Decl{declaration}
 	result = append(result, objectType.InterfaceImplementer.AsDeclarations(codeGenerationContext, name, nil)...)

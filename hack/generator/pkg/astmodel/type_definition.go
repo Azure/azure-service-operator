@@ -6,10 +6,11 @@
 package astmodel
 
 import (
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	"github.com/pkg/errors"
-	"go/ast"
 	"go/token"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	ast "github.com/dave/dst"
+	"github.com/pkg/errors"
 )
 
 // TypeDefinition is a name paired with a type
@@ -72,15 +73,19 @@ func (def TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationCo
 
 // AsSimpleDeclarations is a helper for types that only require a simple name/alias to be defined
 func AsSimpleDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string, theType Type) []ast.Decl {
-	var docComments *ast.CommentGroup
+	var docComments ast.Decorations
 	if len(description) > 0 {
-		docComments = &ast.CommentGroup{}
-		astbuilder.AddWrappedComments(&docComments.List, description, 120)
+		astbuilder.AddWrappedComments(&docComments, description, 120)
 	}
 
 	return []ast.Decl{
 		&ast.GenDecl{
-			Doc: docComments,
+			Decs: ast.GenDeclDecorations{
+				NodeDecs: ast.NodeDecs{
+					Start:  docComments,
+					Before: ast.EmptyLine,
+				},
+			},
 			Tok: token.TYPE,
 			Specs: []ast.Spec{
 				&ast.TypeSpec{

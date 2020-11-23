@@ -6,9 +6,10 @@
 package astmodel
 
 import (
-	"go/ast"
 	"go/token"
 	"sort"
+
+	ast "github.com/dave/dst"
 )
 
 type InterfaceImplementer struct {

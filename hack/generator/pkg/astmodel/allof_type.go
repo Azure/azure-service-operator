@@ -7,10 +7,10 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
 	"sort"
 	"strings"
 
+	ast "github.com/dave/dst"
 	"k8s.io/klog/v2"
 )
 

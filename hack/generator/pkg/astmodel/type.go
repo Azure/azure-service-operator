@@ -7,8 +7,8 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
 
+	ast "github.com/dave/dst"
 	"github.com/pkg/errors"
 )
 

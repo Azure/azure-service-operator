@@ -6,10 +6,9 @@
 package armconversion
 
 import (
-	"go/ast"
-
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	ast "github.com/dave/dst"
 )
 
 // CreateEmptyArmValueFunc represents a function that creates
@@ -24,8 +23,8 @@ var _ astmodel.Function = &CreateEmptyArmValueFunc{}
 
 func (f CreateEmptyArmValueFunc) AsFunc(c *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *ast.FuncDecl {
 	fn := &astbuilder.FuncDetails{
-		Name:          ast.NewIdent("CreateEmptyArmValue"),
-		ReceiverIdent: ast.NewIdent(f.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)),
+		Name:          "CreateEmptyArmValue",
+		ReceiverIdent: f.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported),
 		ReceiverType: &ast.StarExpr{
 			X: ast.NewIdent(receiver.Name()),
 		},

@@ -7,7 +7,8 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
+
+	ast "github.com/dave/dst"
 )
 
 // ArmType wraps an existing type to indicate that it is an ARM targeted variation

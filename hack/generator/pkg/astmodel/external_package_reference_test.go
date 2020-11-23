@@ -6,8 +6,9 @@
 package astmodel
 
 import (
-	. "github.com/onsi/gomega"
 	"testing"
+
+	. "github.com/onsi/gomega"
 )
 
 func TestMakeExternalPackageReference_GivenPath_ReturnsInstanceWithPath(t *testing.T) {

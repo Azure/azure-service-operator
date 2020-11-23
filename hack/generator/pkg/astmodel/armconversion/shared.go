@@ -7,17 +7,17 @@ package armconversion
 
 import (
 	"fmt"
-	"go/ast"
 	"go/token"
 	"sync"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	ast "github.com/dave/dst"
 )
 
 type conversionBuilder struct {
-	receiverIdent              *ast.Ident
+	receiverIdent              string
 	receiverTypeExpr           ast.Expr
-	armTypeIdent               *ast.Ident
+	armTypeIdent               string
 	codeGenerationContext      *astmodel.CodeGenerationContext
 	idFactory                  astmodel.IdentifierFactory
 	isSpecType                 bool
@@ -57,7 +57,7 @@ func (builder *conversionBuilder) deepCopyJSON(
 	newSource := &ast.UnaryExpr{
 		X: &ast.CallExpr{
 			Fun: &ast.SelectorExpr{
-				X:   params.source,
+				X:   params.Source(),
 				Sel: ast.NewIdent("DeepCopy"),
 			},
 			Args: []ast.Expr{},
@@ -69,7 +69,7 @@ func (builder *conversionBuilder) deepCopyJSON(
 		assignmentHandler = assignmentHandlerAssign
 	}
 	return []ast.Stmt{
-		assignmentHandler(params.destination, newSource),
+		assignmentHandler(params.Destination(), newSource),
 	}
 }
 
@@ -182,6 +182,14 @@ type complexPropertyConversionParameters struct {
 	// the same, so no conversion between Arm and non-Arm types is
 	// required (although structure copying is).
 	sameTypes bool
+}
+
+func (params complexPropertyConversionParameters) Source() ast.Expr {
+	return ast.Clone(params.source).(ast.Expr)
+}
+
+func (params complexPropertyConversionParameters) Destination() ast.Expr {
+	return ast.Clone(params.destination).(ast.Expr)
 }
 
 func (params complexPropertyConversionParameters) copy() complexPropertyConversionParameters {

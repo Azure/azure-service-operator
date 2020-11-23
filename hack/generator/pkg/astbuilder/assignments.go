@@ -6,8 +6,9 @@
 package astbuilder
 
 import (
-	"go/ast"
 	"go/token"
+
+	ast "github.com/dave/dst"
 )
 
 // SimpleAssignment performs a simple assignment like:

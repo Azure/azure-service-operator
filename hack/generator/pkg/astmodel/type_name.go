@@ -7,9 +7,9 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
 	"strings"
 
+	ast "github.com/dave/dst"
 	"github.com/gobuffalo/flect"
 )
 

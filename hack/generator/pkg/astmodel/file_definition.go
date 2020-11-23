@@ -6,17 +6,13 @@
 package astmodel
 
 import (
-	"bufio"
-	"bytes"
-	"go/ast"
-	"go/format"
-	"go/parser"
 	"go/token"
 	"io"
 	"os"
 	"sort"
-	"strings"
 
+	ast "github.com/dave/dst"
+	"github.com/dave/dst/decorator"
 	"k8s.io/klog/v2"
 )
 
@@ -190,7 +186,7 @@ func (file *FileDefinition) orderImports(i PackageImport, j PackageImport) bool 
 }
 
 // AsAst generates an AST node representing this file
-func (file *FileDefinition) AsAst() ast.Node {
+func (file *FileDefinition) AsAst() *ast.File {
 
 	var decls []ast.Decl
 
@@ -202,7 +198,15 @@ func (file *FileDefinition) AsAst() ast.Node {
 
 	// Create import header if needed
 	if packageReferences.Length() > 0 {
-		decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: file.generateImportSpecs(packageReferences)})
+		decls = append(decls, &ast.GenDecl{
+			Decs: ast.GenDeclDecorations{
+				NodeDecs: ast.NodeDecs{
+					After: ast.EmptyLine,
+				},
+			},
+			Tok:   token.IMPORT,
+			Specs: file.generateImportSpecs(packageReferences),
+		})
 	}
 
 	// Emit all definitions:
@@ -232,6 +236,11 @@ func (file *FileDefinition) AsAst() ast.Node {
 				Body: &ast.BlockStmt{
 					List: []ast.Stmt{
 						&ast.ExprStmt{
+							Decs: ast.ExprStmtDecorations{
+								NodeDecs: ast.NodeDecs{
+									Before: ast.NewLine,
+								},
+							},
 							X: &ast.CallExpr{
 								Fun:  ast.NewIdent("SchemeBuilder.Register"), // HACK
 								Args: exprs,
@@ -248,18 +257,19 @@ func (file *FileDefinition) AsAst() ast.Node {
 		"Copyright (c) Microsoft Corporation.",
 		"Licensed under the MIT license.")
 
-	header, headerLen := createComments(comments...)
+	header := createComments(comments...)
 
 	packageName := file.packageReference.PackageName()
 
-	// We set Package (the offset of the package keyword) so that it follows the header comments
 	result := &ast.File{
-		Doc: &ast.CommentGroup{
-			List: header,
+		Decs: ast.FileDecorations{
+			NodeDecs: ast.NodeDecs{
+				Start: header,
+				After: ast.EmptyLine,
+			},
 		},
-		Name:    ast.NewIdent(packageName),
-		Decls:   decls,
-		Package: token.Pos(headerLen),
+		Name:  ast.NewIdent(packageName),
+		Decls: decls,
 	}
 
 	return result
@@ -267,44 +277,22 @@ func (file *FileDefinition) AsAst() ast.Node {
 
 // createComments converts a series of strings into a series of comments,
 // returning both the comments and their text length
-func createComments(lines ...string) ([]*ast.Comment, int) {
-	var result []*ast.Comment
-	length := 0
+func createComments(lines ...string) ast.Decorations {
+	var result ast.Decorations
 	for _, l := range lines {
-		line := &ast.Comment{Text: "// " + l + "\n"}
-		length += len(line.Text)
+		line := "// " + l + "\n"
 		result = append(result, line)
 	}
 
-	return result, length
+	return result
 }
 
 // SaveToWriter writes the file to the specifier io.Writer
 func (file FileDefinition) SaveToWriter(filename string, dst io.Writer) error {
 	original := file.AsAst()
 
-	// Write generated source into a memory buffer
-	fset := token.NewFileSet()
-	fset.AddFile(filename, 1, 102400)
-
-	var unformattedBuffer bytes.Buffer
-	err := format.Node(&unformattedBuffer, fset, original)
-	if err != nil {
-		return err
-	}
-
-	// This is a nasty technique with only one redeeming characteristic: It works
-	reformattedBuffer := file.addBlankLinesBeforeComments(unformattedBuffer)
-
-	// Read the source from the memory buffer (has the effect similar to 'go fmt')
-	var cleanAst ast.Node
-	cleanAst, err = parser.ParseFile(fset, filename, &reformattedBuffer, parser.ParseComments)
-	if err != nil {
-		klog.Errorf("Failed to reformat code (%s); keeping code as is.", err)
-		cleanAst = original
-	}
-
-	return format.Node(dst, fset, cleanAst)
+	err := decorator.Fprint(dst, original)
+	return err
 }
 
 // SaveToFile writes this generated file to disk
@@ -318,36 +306,4 @@ func (file FileDefinition) SaveToFile(filePath string) error {
 	defer f.Close()
 
 	return file.SaveToWriter(filePath, f)
-}
-
-// addBlankLinesBeforeComments reads the source in the passed buffer and injects a blank line just
-// before each '//' style comment so that the comments are nicely spaced out in the generated code.
-func (file FileDefinition) addBlankLinesBeforeComments(buffer bytes.Buffer) bytes.Buffer {
-	// Read all the lines from the buffer
-	var lines []string
-	reader := bufio.NewReader(&buffer)
-	scanner := bufio.NewScanner(reader)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-
-	isComment := func(s string) bool {
-		return strings.HasPrefix(strings.TrimSpace(s), "//")
-	}
-
-	var result bytes.Buffer
-	lastLineWasComment := false
-	for _, l := range lines {
-		// Add blank line prior to each comment block
-		if !lastLineWasComment && isComment(l) {
-			result.WriteString("\n")
-		}
-
-		result.WriteString(l)
-		result.WriteString("\n")
-
-		lastLineWasComment = isComment(l)
-	}
-
-	return result
 }

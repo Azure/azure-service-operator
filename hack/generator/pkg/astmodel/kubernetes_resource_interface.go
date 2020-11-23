@@ -7,10 +7,10 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
 	"go/token"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	ast "github.com/dave/dst"
 	"github.com/pkg/errors"
 )
 
@@ -126,22 +126,27 @@ type asFuncType func(f *objectFunction, codeGenerationContext *CodeGenerationCon
 // with an enum value to a string
 func withEnumAzureNameFunction(propType Type) asFuncType {
 	return func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
-		receiverIdent := ast.NewIdent(f.idFactory.CreateIdentifier(receiver.Name(), NotExported))
+		receiverIdent := f.idFactory.CreateIdentifier(receiver.Name(), NotExported)
 		receiverType := receiver.AsType(codeGenerationContext)
 
 		fn := &astbuilder.FuncDetails{
-			Name:          ast.NewIdent(methodName),
+			Name:          methodName,
 			ReceiverIdent: receiverIdent,
 			ReceiverType:  &ast.StarExpr{X: receiverType},
 			Body: []ast.Stmt{
 				&ast.ReturnStmt{
+					Decs: ast.ReturnStmtDecorations{
+						NodeDecs: ast.NodeDecs{
+							Before: ast.NewLine,
+						},
+					},
 					Results: []ast.Expr{
 						&ast.CallExpr{
 							// cast from the enum value to string
 							Fun: ast.NewIdent("string"),
 							Args: []ast.Expr{
 								&ast.SelectorExpr{
-									X:   receiverIdent,
+									X:   ast.NewIdent(receiverIdent),
 									Sel: ast.NewIdent(AzureNameProperty),
 								},
 							},
@@ -171,15 +176,20 @@ func withFixedValueAzureNameFunction(fixedValue string) asFuncType {
 	}
 
 	return func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
-		receiverIdent := ast.NewIdent(f.idFactory.CreateIdentifier(receiver.Name(), NotExported))
+		receiverIdent := f.idFactory.CreateIdentifier(receiver.Name(), NotExported)
 		receiverType := receiver.AsType(codeGenerationContext)
 
 		fn := &astbuilder.FuncDetails{
-			Name:          ast.NewIdent(methodName),
+			Name:          methodName,
 			ReceiverIdent: receiverIdent,
 			ReceiverType:  &ast.StarExpr{X: receiverType},
 			Body: []ast.Stmt{
 				&ast.ReturnStmt{
+					Decs: ast.ReturnStmtDecorations{
+						NodeDecs: ast.NodeDecs{
+							Before: ast.NewLine,
+						},
+					},
 					Results: []ast.Expr{
 						&ast.BasicLit{
 							Kind:  token.STRING,
@@ -232,22 +242,14 @@ func IsKubernetesResourceProperty(name PropertyName) bool {
 }
 
 func ownerFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
-	receiverIdent := ast.NewIdent(k.idFactory.CreateIdentifier(receiver.Name(), NotExported))
-	receiverType := receiver.AsType(codeGenerationContext)
 
-	specSelector := &ast.SelectorExpr{
-		X:   receiverIdent,
-		Sel: ast.NewIdent("Spec"),
-	}
-
-	groupIdent := ast.NewIdent("group")
-	kindIdent := ast.NewIdent("kind")
+	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
 
 	fn := &astbuilder.FuncDetails{
-		Name:          ast.NewIdent(methodName),
+		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType: &ast.StarExpr{
-			X: receiverType,
+			X: receiver.AsType(codeGenerationContext),
 		},
 		Params: nil,
 		Returns: []*ast.Field{
@@ -261,10 +263,24 @@ func ownerFunction(k *objectFunction, codeGenerationContext *CodeGenerationConte
 			},
 		},
 		Body: []ast.Stmt{
-			lookupGroupAndKindStmt(groupIdent, kindIdent, specSelector),
+			lookupGroupAndKindStmt(
+				"group",
+				"kind",
+				&ast.SelectorExpr{
+					X:   ast.NewIdent(receiverIdent),
+					Sel: ast.NewIdent("Spec"),
+				},
+			),
 			&ast.ReturnStmt{
 				Results: []ast.Expr{
-					createResourceReference(groupIdent, kindIdent, specSelector),
+					createResourceReference(
+						"group",
+						"kind",
+						&ast.SelectorExpr{
+							X:   ast.NewIdent(receiverIdent),
+							Sel: ast.NewIdent("Spec"),
+						},
+					),
 				},
 			},
 		},
@@ -276,14 +292,14 @@ func ownerFunction(k *objectFunction, codeGenerationContext *CodeGenerationConte
 }
 
 func lookupGroupAndKindStmt(
-	groupIdent *ast.Ident,
-	kindIdent *ast.Ident,
+	groupIdent string,
+	kindIdent string,
 	specSelector *ast.SelectorExpr) *ast.AssignStmt {
 
 	return &ast.AssignStmt{
 		Lhs: []ast.Expr{
-			groupIdent,
-			kindIdent,
+			ast.NewIdent(groupIdent),
+			ast.NewIdent(kindIdent),
 		},
 		Tok: token.DEFINE,
 		Rhs: []ast.Expr{
@@ -301,8 +317,8 @@ func lookupGroupAndKindStmt(
 }
 
 func createResourceReference(
-	groupIdent *ast.Ident,
-	kindIdent *ast.Ident,
+	groupIdent string,
+	kindIdent string,
 	specSelector *ast.SelectorExpr) ast.Expr {
 
 	return astbuilder.AddrOf(
@@ -324,36 +340,39 @@ func createResourceReference(
 				},
 				&ast.KeyValueExpr{
 					Key:   ast.NewIdent("Group"),
-					Value: groupIdent,
+					Value: ast.NewIdent(groupIdent),
 				},
 				&ast.KeyValueExpr{
 					Key:   ast.NewIdent("Kind"),
-					Value: kindIdent,
+					Value: ast.NewIdent(kindIdent),
 				},
 			},
 		})
 }
 
 func azureNameFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
-	receiverIdent := ast.NewIdent(k.idFactory.CreateIdentifier(receiver.Name(), NotExported))
+	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
 	receiverType := receiver.AsType(codeGenerationContext)
 
-	specSelector := &ast.SelectorExpr{
-		X:   receiverIdent,
-		Sel: ast.NewIdent("Spec"),
-	}
-
 	fn := &astbuilder.FuncDetails{
-		Name:          ast.NewIdent(methodName),
+		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType: &ast.StarExpr{
 			X: receiverType,
 		},
 		Body: []ast.Stmt{
 			&ast.ReturnStmt{
+				Decs: ast.ReturnStmtDecorations{
+					NodeDecs: ast.NodeDecs{
+						Before: ast.NewLine,
+					},
+				},
 				Results: []ast.Expr{
 					&ast.SelectorExpr{
-						X:   specSelector,
+						X: &ast.SelectorExpr{
+							X:   ast.NewIdent(receiverIdent),
+							Sel: ast.NewIdent("Spec"),
+						},
 						Sel: ast.NewIdent(AzureNameProperty),
 					},
 				},

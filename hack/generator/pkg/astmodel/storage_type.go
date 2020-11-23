@@ -7,7 +7,8 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
+
+	ast "github.com/dave/dst"
 )
 
 // StorageType wraps an existing type to indicate that it is a storage focussed variation

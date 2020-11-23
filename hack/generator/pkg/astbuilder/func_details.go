@@ -7,14 +7,15 @@ package astbuilder
 
 import (
 	"fmt"
-	"go/ast"
 	"strings"
+
+	ast "github.com/dave/dst"
 )
 
 type FuncDetails struct {
-	ReceiverIdent *ast.Ident
+	ReceiverIdent string
 	ReceiverType  ast.Expr
-	Name          *ast.Ident
+	Name          string
 	Comments      []string
 	Params        []*ast.Field
 	Returns       []*ast.Field
@@ -34,7 +35,7 @@ func NewTestFuncDetails(testName string, body ...ast.Stmt) *FuncDetails {
 	}
 
 	result := &FuncDetails{
-		Name: ast.NewIdent(name),
+		Name: name,
 		Body: body,
 	}
 
@@ -57,7 +58,7 @@ func NewTestFuncDetails(testName string, body ...ast.Stmt) *FuncDetails {
 func (fn *FuncDetails) DefineFunc() *ast.FuncDecl {
 
 	// Safety check that we are making something valid
-	if (fn.ReceiverIdent == nil) != (fn.ReceiverType == nil) {
+	if (fn.ReceiverIdent == "") != (fn.ReceiverType == nil) {
 		reason := fmt.Sprintf(
 			"ReceiverIdent and ReceiverType must both be specified, or both omitted. ReceiverIdent: %q, ReceiverType: %q",
 			fn.ReceiverIdent,
@@ -74,16 +75,20 @@ func (fn *FuncDetails) DefineFunc() *ast.FuncDecl {
 		}
 	}
 
-	var comment []*ast.Comment
+	var comment ast.Decorations
 	if len(fn.Comments) > 0 {
 		fn.Comments[0] = fmt.Sprintf("// %s %s", fn.Name, fn.Comments[0])
 		AddComments(&comment, fn.Comments)
 	}
 
 	result := &ast.FuncDecl{
-		Name: fn.Name,
-		Doc: &ast.CommentGroup{
-			List: comment,
+		Name: ast.NewIdent(fn.Name),
+		Decs: ast.FuncDeclDecorations{
+			NodeDecs: ast.NodeDecs{
+				Before: ast.EmptyLine,
+				After:  ast.EmptyLine,
+				Start:  comment,
+			},
 		},
 		Type: &ast.FuncType{
 			Params: &ast.FieldList{
@@ -98,12 +103,12 @@ func (fn *FuncDetails) DefineFunc() *ast.FuncDecl {
 		},
 	}
 
-	if fn.ReceiverIdent != nil {
+	if fn.ReceiverIdent != "" {
 		// We have a receiver, so include it
 
 		field := &ast.Field{
 			Names: []*ast.Ident{
-				fn.ReceiverIdent,
+				ast.NewIdent(fn.ReceiverIdent),
 			},
 			Type: fn.ReceiverType,
 		}

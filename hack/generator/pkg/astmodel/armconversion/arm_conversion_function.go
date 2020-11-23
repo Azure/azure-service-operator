@@ -7,9 +7,9 @@ package armconversion
 
 import (
 	"fmt"
-	"go/ast"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	ast "github.com/dave/dst"
 )
 
 type ConversionDirection string
@@ -78,6 +78,7 @@ func (c *ArmConversionFunction) asConvertToArmFunc(
 		codeGenerationContext,
 		receiver,
 		methodName)
+
 	return builder.functionDeclaration()
 }
 

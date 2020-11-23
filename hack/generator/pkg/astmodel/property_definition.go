@@ -7,11 +7,11 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
 	"sort"
 	"strings"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	ast "github.com/dave/dst"
 )
 
 // PropertyName is a semantic type
@@ -273,7 +273,11 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 
 	// We don't use StringLiteral() for the tag as it adds extra quotes
 	result := &ast.Field{
-		Doc:   &ast.CommentGroup{},
+		Decs: ast.FieldDecorations{
+			NodeDecs: ast.NodeDecs{
+				Before: ast.NewLine,
+			},
+		},
 		Names: names,
 		Type:  property.PropertyType().AsType(codeGenerationContext),
 		Tag:   astbuilder.TextLiteralf("`%s`", tags),
@@ -281,13 +285,15 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 
 	// generate validation comments:
 	for _, validation := range property.validations {
+		result.Decs.Before = ast.EmptyLine
 		// these are not doc comments but they must go here to be emitted before the property
-		astbuilder.AddComment(&result.Doc.List, GenerateKubebuilderComment(validation))
+		astbuilder.AddComment(&result.Decs.Start, GenerateKubebuilderComment(validation))
 	}
 
 	// generate comment:
 	if property.description != "" {
-		astbuilder.AddWrappedComment(&result.Doc.List, fmt.Sprintf("%s: %s", property.propertyName, property.description), 80)
+		result.Decs.Before = ast.EmptyLine
+		astbuilder.AddWrappedComment(&result.Decs.Start, fmt.Sprintf("%s: %s", property.propertyName, property.description), 80)
 	}
 
 	return result

@@ -7,7 +7,8 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
+
+	ast "github.com/dave/dst"
 )
 
 // MapType is used to define properties that contain additional property values

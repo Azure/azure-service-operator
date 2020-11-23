@@ -7,14 +7,12 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
 	"go/token"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-
-	"k8s.io/klog/v2"
-
+	ast "github.com/dave/dst"
 	"github.com/pkg/errors"
+	"k8s.io/klog/v2"
 )
 
 // ResourceType represents a Kubernetes CRD resource which has both
@@ -262,15 +260,14 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 		fields = append(fields, defineField("Status", resource.status.AsType(codeGenerationContext), "`json:\"status,omitempty\"`"))
 	}
 
-	resourceIdentifier := ast.NewIdent(name.Name())
 	resourceTypeSpec := &ast.TypeSpec{
-		Name: resourceIdentifier,
+		Name: ast.NewIdent(name.Name()),
 		Type: &ast.StructType{
 			Fields: &ast.FieldList{List: fields},
 		},
 	}
 
-	var comments []*ast.Comment
+	var comments ast.Decorations
 
 	astbuilder.AddComment(&comments, "// +kubebuilder:object:root=true")
 	if resource.status != nil {
@@ -283,16 +280,21 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	astbuilder.AddWrappedComments(&comments, description, 200)
 
-	var declarations []ast.Decl
 	resourceDeclaration := &ast.GenDecl{
 		Tok:   token.TYPE,
 		Specs: []ast.Spec{resourceTypeSpec},
-		Doc:   &ast.CommentGroup{List: comments},
+		Decs: ast.GenDeclDecorations{
+			NodeDecs: ast.NodeDecs{
+				Before: ast.EmptyLine,
+				After:  ast.EmptyLine,
+				Start:  comments,
+			},
+		},
 	}
 
+	var declarations []ast.Decl
 	declarations = append(declarations, resourceDeclaration)
 	declarations = append(declarations, resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, name, nil)...)
-
 	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, name, description)...)
 
 	return declarations
@@ -328,20 +330,16 @@ func (resource *ResourceType) resourceListTypeDecls(
 		defineField("Items", items.AsType(codeGenerationContext), "`json:\"items\"`"),
 	}
 
-	resourceIdentifier := ast.NewIdent(typeName.Name())
 	resourceTypeSpec := &ast.TypeSpec{
-		Name: resourceIdentifier,
+		Name: ast.NewIdent(typeName.Name()),
 		Type: &ast.StructType{
 			Fields: &ast.FieldList{List: fields},
 		},
 	}
 
-	comments :=
-		[]*ast.Comment{
-			{
-				Text: "// +kubebuilder:object:root=true\n",
-			},
-		}
+	var comments ast.Decorations = []string{
+		"// +kubebuilder:object:root=true\n",
+	}
 
 	astbuilder.AddWrappedComments(&comments, description, 200)
 
@@ -349,7 +347,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 		&ast.GenDecl{
 			Tok:   token.TYPE,
 			Specs: []ast.Spec{resourceTypeSpec},
-			Doc:   &ast.CommentGroup{List: comments},
+			Decs:  ast.GenDeclDecorations{NodeDecs: ast.NodeDecs{Start: comments}},
 		},
 	}
 }

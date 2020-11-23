@@ -5,7 +5,9 @@
 
 package astmodel
 
-import "go/ast"
+import (
+	ast "github.com/dave/dst"
+)
 
 type FakeFunction struct {
 	name       string

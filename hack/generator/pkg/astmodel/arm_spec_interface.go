@@ -7,9 +7,10 @@ package astmodel
 
 import (
 	"fmt"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	ast "github.com/dave/dst"
 	"github.com/pkg/errors"
-	"go/ast"
 )
 
 const (
@@ -118,12 +119,12 @@ func armSpecInterfaceSimpleGetFunction(
 	propertyName string,
 	castToString bool) *ast.FuncDecl {
 
-	receiverIdent := ast.NewIdent(k.idFactory.CreateIdentifier(receiver.Name(), NotExported))
+	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	var result ast.Expr
 	result = &ast.SelectorExpr{
-		X:   receiverIdent,
+		X:   ast.NewIdent(receiverIdent),
 		Sel: ast.NewIdent(propertyName),
 	}
 
@@ -138,7 +139,7 @@ func armSpecInterfaceSimpleGetFunction(
 	}
 
 	fn := &astbuilder.FuncDetails{
-		Name:          ast.NewIdent(methodName),
+		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		// TODO: We're too loosey-goosey here with ptr vs value receiver.
 		// TODO: We basically need to use a value receiver right now because
@@ -148,6 +149,12 @@ func armSpecInterfaceSimpleGetFunction(
 		ReceiverType: receiverType,
 		Body: []ast.Stmt{
 			&ast.ReturnStmt{
+				Decs: ast.ReturnStmtDecorations{
+					NodeDecs: ast.NodeDecs{
+						Before: ast.NewLine,
+						After:  ast.NewLine,
+					},
+				},
 				Results: []ast.Expr{
 					result,
 				},

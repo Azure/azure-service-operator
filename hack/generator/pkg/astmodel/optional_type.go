@@ -7,7 +7,8 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
+
+	ast "github.com/dave/dst"
 )
 
 // OptionalType is used for items that may or may not be present

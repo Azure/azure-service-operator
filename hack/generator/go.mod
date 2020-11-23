@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/bmatcuk/doublestar v1.3.1
+	github.com/dave/dst v0.26.2
 	github.com/devigned/tab v0.1.1
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-openapi/jsonpointer v0.19.3

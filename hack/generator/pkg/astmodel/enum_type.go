@@ -7,11 +7,11 @@ package astmodel
 
 import (
 	"fmt"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	"go/ast"
 	"go/token"
 	"sort"
 
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	ast "github.com/dave/dst"
 	"k8s.io/klog/v2"
 )
 
@@ -52,7 +52,6 @@ func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContex
 	if len(specs) > 0 {
 		declaration := &ast.GenDecl{
 			Tok:   token.CONST,
-			Doc:   &ast.CommentGroup{},
 			Specs: specs,
 		}
 
@@ -66,34 +65,36 @@ func (enum *EnumType) createBaseDeclaration(
 	codeGenerationContext *CodeGenerationContext,
 	name TypeName,
 	description []string) ast.Decl {
-	identifier := ast.NewIdent(name.Name())
 
 	typeSpecification := &ast.TypeSpec{
-		Name: identifier,
+		Name: ast.NewIdent(name.Name()),
 		Type: enum.baseType.AsType(codeGenerationContext),
 	}
 
 	declaration := &ast.GenDecl{
+		Decs: ast.GenDeclDecorations{
+			NodeDecs: ast.NodeDecs{
+				Before: ast.EmptyLine,
+			},
+		},
 		Tok: token.TYPE,
-		Doc: &ast.CommentGroup{},
 		Specs: []ast.Spec{
 			typeSpecification,
 		},
 	}
 
-	astbuilder.AddWrappedComments(&declaration.Doc.List, description, 120)
+	astbuilder.AddWrappedComments(&declaration.Decs.Start, description, 120)
 
 	validationComment := GenerateKubebuilderComment(enum.CreateValidation())
-	astbuilder.AddComment(&declaration.Doc.List, validationComment)
+	astbuilder.AddComment(&declaration.Decs.Start, validationComment)
 
 	return declaration
 }
 
 func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) ast.Spec {
 
-	valueIdentifier := ast.NewIdent(GetEnumValueId(name, value))
 	valueSpec := &ast.ValueSpec{
-		Names: []*ast.Ident{valueIdentifier},
+		Names: []*ast.Ident{ast.NewIdent(GetEnumValueId(name, value))},
 		Values: []ast.Expr{
 			astbuilder.CallFuncByName(name.Name(), astbuilder.TextLiteral(value.Value)),
 		},

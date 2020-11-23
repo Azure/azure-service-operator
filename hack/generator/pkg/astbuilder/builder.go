@@ -6,8 +6,9 @@
 package astbuilder
 
 import (
-	"go/ast"
 	"go/token"
+
+	ast "github.com/dave/dst"
 )
 
 // CheckErrorAndReturn checks if the err is non-nil, and if it is returns. For example:
@@ -45,16 +46,16 @@ func CheckErrorAndReturn(otherReturns ...ast.Expr) ast.Stmt {
 //     <varName> := <packageRef>.<structName>{}
 //
 // …as that does not work for enum types.
-func NewVariableQualified(varName *ast.Ident, qualifier *ast.Ident, structName *ast.Ident) ast.Stmt {
+func NewVariableQualified(varName string, qualifier string, structName string) ast.Stmt {
 	return &ast.DeclStmt{
 		Decl: &ast.GenDecl{
 			Tok: token.VAR,
 			Specs: []ast.Spec{
 				&ast.TypeSpec{
-					Name: varName,
+					Name: ast.NewIdent(varName),
 					Type: &ast.SelectorExpr{
-						X:   qualifier,
-						Sel: structName,
+						X:   ast.NewIdent(qualifier),
+						Sel: ast.NewIdent(structName),
 					},
 				},
 			},
@@ -72,14 +73,14 @@ func NewVariableQualified(varName *ast.Ident, qualifier *ast.Ident, structName *
 //     <varName> := <structName>{}
 //
 // …as that does not work for enum types.
-func NewVariable(varName *ast.Ident, structName *ast.Ident) ast.Stmt {
+func NewVariable(varName string, structName string) ast.Stmt {
 	return &ast.DeclStmt{
 		Decl: &ast.GenDecl{
 			Tok: token.VAR,
 			Specs: []ast.Spec{
 				&ast.TypeSpec{
-					Name: varName,
-					Type: structName,
+					Name: ast.NewIdent(varName),
+					Type: ast.NewIdent(structName),
 				},
 			},
 		},
@@ -88,7 +89,7 @@ func NewVariable(varName *ast.Ident, structName *ast.Ident) ast.Stmt {
 
 // LocalVariableDeclaration performs a local variable declaration for use within a method like:
 // 	var <ident> <typ>
-func LocalVariableDeclaration(ident *ast.Ident, typ ast.Expr, comment string) ast.Stmt {
+func LocalVariableDeclaration(ident string, typ ast.Expr, comment string) ast.Stmt {
 	return &ast.DeclStmt{
 		Decl: VariableDeclaration(ident, typ, comment),
 	}
@@ -98,21 +99,20 @@ func LocalVariableDeclaration(ident *ast.Ident, typ ast.Expr, comment string) as
 //  // <comment>
 // 	var <ident> <typ>
 // For a LocalVariable within a method, use LocalVariableDeclaration() to create an ast.Stmt instead
-func VariableDeclaration(ident *ast.Ident, typ ast.Expr, comment string) *ast.GenDecl {
+func VariableDeclaration(ident string, typ ast.Expr, comment string) *ast.GenDecl {
 	decl := &ast.GenDecl{
 		Tok: token.VAR,
 		Specs: []ast.Spec{
 			&ast.ValueSpec{
 				Names: []*ast.Ident{
-					ident,
+					ast.NewIdent(ident),
 				},
 				Type: typ,
 			},
 		},
-		Doc: &ast.CommentGroup{},
 	}
 
-	AddWrappedComment(&decl.Doc.List, comment, 80)
+	AddWrappedComment(&decl.Decs.Start, comment, 80)
 
 	return decl
 }
@@ -121,9 +121,9 @@ func VariableDeclaration(ident *ast.Ident, typ ast.Expr, comment string) *ast.Ge
 //     <lhs> = append(<lhs>, <rhs>)
 func AppendList(lhs ast.Expr, rhs ast.Expr) ast.Stmt {
 	return SimpleAssignment(
-		lhs,
+		ast.Clone(lhs).(ast.Expr),
 		token.ASSIGN,
-		CallFuncByName("append", lhs, rhs))
+		CallFuncByName("append", ast.Clone(lhs).(ast.Expr), ast.Clone(rhs).(ast.Expr)))
 }
 
 // InsertMap returns an assignment statement for inserting an item into a map, like:
@@ -131,11 +131,11 @@ func AppendList(lhs ast.Expr, rhs ast.Expr) ast.Stmt {
 func InsertMap(m ast.Expr, key ast.Expr, rhs ast.Expr) *ast.AssignStmt {
 	return SimpleAssignment(
 		&ast.IndexExpr{
-			X:     m,
-			Index: key,
+			X:     ast.Clone(m).(ast.Expr),
+			Index: ast.Clone(key).(ast.Expr),
 		},
 		token.ASSIGN,
-		rhs)
+		ast.Clone(rhs).(ast.Expr))
 }
 
 // MakeMap returns the call expression for making a map, like:
@@ -145,8 +145,8 @@ func MakeMap(key ast.Expr, value ast.Expr) *ast.CallExpr {
 		Fun: ast.NewIdent("make"),
 		Args: []ast.Expr{
 			&ast.MapType{
-				Key:   key,
-				Value: value,
+				Key:   ast.Clone(key).(ast.Expr),
+				Value: ast.Clone(value).(ast.Expr),
 			},
 		},
 	}
@@ -249,7 +249,7 @@ func FormatError(formatString string, args ...ast.Expr) ast.Expr {
 		callArgs,
 		StringLiteral(formatString))
 	callArgs = append(callArgs, args...)
-	return CallQualifiedFuncByName("fmt", "Errorf", callArgs...)
+	return CallQualifiedFunc("fmt", "Errorf", callArgs...)
 }
 
 // AddrOf returns a statement that gets the address of the provided expression.
@@ -263,6 +263,11 @@ func AddrOf(exp ast.Expr) *ast.UnaryExpr {
 
 func Returns(returns ...ast.Expr) ast.Stmt {
 	return &ast.ReturnStmt{
+		Decs: ast.ReturnStmtDecorations{
+			NodeDecs: ast.NodeDecs{
+				Before: ast.NewLine,
+			},
+		},
 		Results: returns,
 	}
 }

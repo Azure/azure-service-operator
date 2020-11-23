@@ -7,7 +7,8 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
+
+	ast "github.com/dave/dst"
 )
 
 // ArrayType is used for properties that contain an array of values

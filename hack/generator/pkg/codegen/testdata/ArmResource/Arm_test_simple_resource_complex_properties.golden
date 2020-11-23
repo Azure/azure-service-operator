@@ -5,9 +5,9 @@
 package v20200101
 
 import (
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"fmt"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -213,6 +213,7 @@ func (foo *Foo) PopulateFromArm(owner genruntime.KnownResourceReference, armInpu
 	}
 	return nil
 }
+
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})
 }

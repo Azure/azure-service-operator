@@ -7,9 +7,10 @@ package astbuilder
 
 import (
 	"fmt"
-	"go/ast"
 	"go/token"
 	"strings"
+
+	ast "github.com/dave/dst"
 )
 
 // TextLiteral() creates the AST node for a literal text value

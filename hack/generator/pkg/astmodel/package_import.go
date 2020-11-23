@@ -7,8 +7,9 @@ package astmodel
 
 import (
 	"fmt"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	"go/ast"
+	ast "github.com/dave/dst"
 )
 
 // PackageImport represents an import of a name from a package

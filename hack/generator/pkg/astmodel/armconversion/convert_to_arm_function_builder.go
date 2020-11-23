@@ -7,11 +7,11 @@ package armconversion
 
 import (
 	"fmt"
-	"go/ast"
 	"go/token"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	ast "github.com/dave/dst"
 )
 
 var KubernetesResourceInterfaceName astmodel.TypeName = astmodel.MakeTypeName(astmodel.MakeGenRuntimePackageReference(), "KubernetesResource")
@@ -20,7 +20,7 @@ const nameParameterString = "name"
 
 type convertToArmBuilder struct {
 	conversionBuilder
-	resultIdent *ast.Ident
+	resultIdent string
 }
 
 func newConvertToArmFunctionBuilder(
@@ -34,14 +34,14 @@ func newConvertToArmFunctionBuilder(
 			methodName:            methodName,
 			armType:               c.armType,
 			kubeType:              getReceiverObjectType(codeGenerationContext, receiver),
-			receiverIdent:         ast.NewIdent(c.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)),
+			receiverIdent:         c.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported),
 			receiverTypeExpr:      receiver.AsType(codeGenerationContext),
-			armTypeIdent:          ast.NewIdent(c.armTypeName.Name()),
+			armTypeIdent:          c.armTypeName.Name(),
 			idFactory:             c.idFactory,
 			isSpecType:            c.isSpecType,
 			codeGenerationContext: codeGenerationContext,
 		},
-		resultIdent: ast.NewIdent("result"),
+		resultIdent: "result",
 	}
 
 	result.propertyConversionHandlers = []propertyConversionHandler{
@@ -56,7 +56,7 @@ func newConvertToArmFunctionBuilder(
 
 func (builder *convertToArmBuilder) functionDeclaration() *ast.FuncDecl {
 	fn := &astbuilder.FuncDetails{
-		Name:          ast.NewIdent(builder.methodName),
+		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
 		ReceiverType: &ast.StarExpr{
 			X: builder.receiverTypeExpr,
@@ -78,7 +78,7 @@ func (builder *convertToArmBuilder) functionBodyStatements() []ast.Stmt {
 	// but saves us some nil-checks
 	result = append(
 		result,
-		astbuilder.ReturnIfNil(builder.receiverIdent, ast.NewIdent("nil"), ast.NewIdent("nil")))
+		astbuilder.ReturnIfNil(ast.NewIdent(builder.receiverIdent), ast.NewIdent("nil"), ast.NewIdent("nil")))
 	result = append(result, astbuilder.NewVariable(builder.resultIdent, builder.armTypeIdent))
 
 	// Each ARM object property needs to be filled out
@@ -91,7 +91,7 @@ func (builder *convertToArmBuilder) functionBodyStatements() []ast.Stmt {
 
 	returnStatement := &ast.ReturnStmt{
 		Results: []ast.Expr{
-			builder.resultIdent,
+			ast.NewIdent(builder.resultIdent),
 			ast.NewIdent("nil"),
 		},
 	}
@@ -117,7 +117,7 @@ func (builder *convertToArmBuilder) namePropertyHandler(
 	// a full ARM ID including any owners, etc
 	result := astbuilder.SimpleAssignment(
 		&ast.SelectorExpr{
-			X:   builder.resultIdent,
+			X:   ast.NewIdent(builder.resultIdent),
 			Sel: ast.NewIdent(string(toProp.PropertyName())),
 		},
 		token.ASSIGN,
@@ -158,7 +158,7 @@ func (builder *convertToArmBuilder) typePropertyHandler(
 
 	result := astbuilder.SimpleAssignment(
 		&ast.SelectorExpr{
-			X:   builder.resultIdent,
+			X:   ast.NewIdent(builder.resultIdent),
 			Sel: ast.NewIdent(string(toProp.PropertyName())),
 		},
 		token.ASSIGN,
@@ -183,13 +183,15 @@ func (builder *convertToArmBuilder) propertiesWithSameNameAndTypeHandler(
 		// it's a reference type. Use the conversion code to copy the
 		// elements.
 		source := &ast.SelectorExpr{
-			X:   builder.receiverIdent,
+			X:   ast.NewIdent(builder.receiverIdent),
 			Sel: ast.NewIdent(string(toProp.PropertyName())),
 		}
+
 		destination := &ast.SelectorExpr{
-			X:   builder.resultIdent,
+			X:   ast.NewIdent(builder.resultIdent),
 			Sel: ast.NewIdent(string(toProp.PropertyName())),
 		}
+
 		return builder.toArmComplexPropertyConversion(
 			complexPropertyConversionParameters{
 				source:            source,
@@ -205,12 +207,12 @@ func (builder *convertToArmBuilder) propertiesWithSameNameAndTypeHandler(
 
 	result := astbuilder.SimpleAssignment(
 		&ast.SelectorExpr{
-			X:   builder.resultIdent,
+			X:   ast.NewIdent(builder.resultIdent),
 			Sel: ast.NewIdent(string(toProp.PropertyName())),
 		},
 		token.ASSIGN,
 		&ast.SelectorExpr{
-			X:   builder.receiverIdent,
+			X:   ast.NewIdent(builder.receiverIdent),
 			Sel: ast.NewIdent(string(fromProp.PropertyName())),
 		})
 
@@ -227,11 +229,12 @@ func (builder *convertToArmBuilder) propertiesWithSameNameButDifferentTypeHandle
 	}
 
 	destination := &ast.SelectorExpr{
-		X:   builder.resultIdent,
+		X:   ast.NewIdent(builder.resultIdent),
 		Sel: ast.NewIdent(string(toProp.PropertyName())),
 	}
+
 	source := &ast.SelectorExpr{
-		X:   builder.receiverIdent,
+		X:   ast.NewIdent(builder.receiverIdent),
 		Sel: ast.NewIdent(string(fromProp.PropertyName())),
 	}
 
@@ -291,7 +294,7 @@ func assignmentHandlerAssign(lhs ast.Expr, rhs ast.Expr) ast.Stmt {
 func (builder *convertToArmBuilder) assignPrimitiveType(
 	params complexPropertyConversionParameters) []ast.Stmt {
 	return []ast.Stmt{
-		params.assignmentHandler(params.destination, params.source),
+		params.assignmentHandler(params.Destination(), params.Source()),
 	}
 }
 
@@ -306,16 +309,16 @@ func (builder *convertToArmBuilder) convertComplexOptionalProperty(
 
 	destinationType := params.destinationType.(*astmodel.OptionalType)
 
-	tempVarIdent := ast.NewIdent(builder.idFactory.CreateIdentifier(params.nameHint+"Typed", astmodel.NotExported))
+	tempVarIdent := builder.idFactory.CreateIdentifier(params.nameHint+"Typed", astmodel.NotExported)
 	tempVarType := destinationType.Element()
 
 	newSource := &ast.UnaryExpr{
-		X:  params.source,
+		X:  params.Source(),
 		Op: token.MUL,
 	}
 
 	innerStatements := builder.toArmComplexPropertyConversion(
-		params.withDestination(tempVarIdent).
+		params.withDestination(ast.NewIdent(tempVarIdent)).
 			withDestinationType(tempVarType).
 			withAdditionalConversionContext(destinationType).
 			withAssignmentHandler(assignmentHandlerDefine).
@@ -325,16 +328,16 @@ func (builder *convertToArmBuilder) convertComplexOptionalProperty(
 	innerStatements = append(
 		innerStatements,
 		astbuilder.SimpleAssignment(
-			params.destination,
+			params.Destination(),
 			token.ASSIGN,
 			&ast.UnaryExpr{
 				Op: token.AND,
-				X:  tempVarIdent,
+				X:  ast.NewIdent(tempVarIdent),
 			}))
 
 	result := &ast.IfStmt{
 		Cond: &ast.BinaryExpr{
-			X:  params.source,
+			X:  params.Source(),
 			Op: token.NEQ,
 			Y:  ast.NewIdent("nil"),
 		},
@@ -359,7 +362,7 @@ func (builder *convertToArmBuilder) convertComplexArrayProperty(
 	destinationType := params.destinationType.(*astmodel.ArrayType)
 
 	depth := params.countArraysAndMapsInConversionContext()
-	typedVarIdent := ast.NewIdent("elemTyped")
+	typedVarIdent := "elemTyped"
 	tempVarType := destinationType.Element()
 	itemIdent := ast.NewIdent("item")
 	elemIdent := ast.NewIdent("elem")
@@ -369,13 +372,13 @@ func (builder *convertToArmBuilder) convertComplexArrayProperty(
 			typedVarIdent,
 			destinationType.AsType(builder.codeGenerationContext),
 			""))
-		typedVarIdent = ast.NewIdent(fmt.Sprintf("elemTyped%d", depth))
+		typedVarIdent = fmt.Sprintf("elemTyped%d", depth)
 	}
 
 	innerStatements := builder.toArmComplexPropertyConversion(
 		complexPropertyConversionParameters{
 			source:            itemIdent,
-			destination:       typedVarIdent,
+			destination:       ast.NewIdent(typedVarIdent),
 			destinationType:   tempVarType,
 			nameHint:          elemIdent.Name,
 			conversionContext: append(params.conversionContext, destinationType),
@@ -384,12 +387,12 @@ func (builder *convertToArmBuilder) convertComplexArrayProperty(
 		})
 
 	// Append the final statement
-	innerStatements = append(innerStatements, astbuilder.AppendList(params.destination, typedVarIdent))
+	innerStatements = append(innerStatements, astbuilder.AppendList(params.Destination(), ast.NewIdent(typedVarIdent)))
 
 	result := &ast.RangeStmt{
 		Key:   ast.NewIdent("_"),
 		Value: itemIdent,
-		X:     params.source,
+		X:     params.Source(),
 		Tok:   token.DEFINE,
 		Body: &ast.BlockStmt{
 			List: innerStatements,
@@ -443,19 +446,19 @@ func (builder *convertToArmBuilder) convertComplexMapProperty(
 		})
 
 	// Append the final statement
-	innerStatements = append(innerStatements, astbuilder.InsertMap(params.destination, keyIdent, typedVarIdent))
+	innerStatements = append(innerStatements, astbuilder.InsertMap(params.Destination(), keyIdent, typedVarIdent))
 
 	keyTypeAst := destinationType.KeyType().AsType(builder.codeGenerationContext)
 	valueTypeAst := destinationType.ValueType().AsType(builder.codeGenerationContext)
 
 	makeMapStatement := astbuilder.SimpleAssignment(
-		params.destination,
+		params.Destination(),
 		makeMapToken,
 		astbuilder.MakeMap(keyTypeAst, valueTypeAst))
 	rangeStatement := &ast.RangeStmt{
 		Key:   keyIdent,
 		Value: valueIdent,
-		X:     params.source,
+		X:     params.Source(),
 		Tok:   token.DEFINE,
 		Body: &ast.BlockStmt{
 			List: innerStatements,
@@ -478,13 +481,13 @@ func (builder *convertToArmBuilder) convertComplexTypeNameProperty(
 	destinationType := params.destinationType.(astmodel.TypeName)
 
 	var results []ast.Stmt
-	propertyLocalVarName := ast.NewIdent(builder.idFactory.CreateIdentifier(params.nameHint, astmodel.NotExported))
+	propertyLocalVarName := builder.idFactory.CreateIdentifier(params.nameHint, astmodel.NotExported)
 
 	// Call ToArm on the property
-	results = append(results, callToArmFunction(params.source, propertyLocalVarName, builder.methodName)...)
+	results = append(results, callToArmFunction(params.Source(), ast.NewIdent(propertyLocalVarName), builder.methodName)...)
 
 	typeAssertExpr := &ast.TypeAssertExpr{
-		X:    propertyLocalVarName,
+		X:    ast.NewIdent(propertyLocalVarName),
 		Type: ast.NewIdent(destinationType.Name()),
 	}
 
@@ -502,7 +505,7 @@ func (builder *convertToArmBuilder) convertComplexTypeNameProperty(
 			}
 	}
 
-	results = append(results, params.assignmentHandler(params.destination, typeAssertExpr))
+	results = append(results, params.assignmentHandler(params.Destination(), typeAssertExpr))
 
 	return results
 }

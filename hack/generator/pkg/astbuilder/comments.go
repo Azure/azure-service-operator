@@ -6,12 +6,13 @@
 package astbuilder
 
 import (
-	"go/ast"
 	"regexp"
 	"strings"
+
+	ast "github.com/dave/dst"
 )
 
-func AddWrappedComments(commentList *[]*ast.Comment, comments []string, width int) {
+func AddWrappedComments(commentList *ast.Decorations, comments []string, width int) {
 	for _, comment := range comments {
 		// Skip empty comments
 		if comment == "" {
@@ -22,13 +23,13 @@ func AddWrappedComments(commentList *[]*ast.Comment, comments []string, width in
 	}
 }
 
-func AddWrappedComment(commentList *[]*ast.Comment, comment string, width int) {
+func AddWrappedComment(commentList *ast.Decorations, comment string, width int) {
 	for _, c := range formatComment(comment, width) {
 		AddComment(commentList, c)
 	}
 }
 
-func AddComments(commentList *[]*ast.Comment, comments []string) {
+func AddComments(commentList *ast.Decorations, comments []string) {
 	for _, comment := range comments {
 		// Skip empty comments
 		if comment == "" {
@@ -39,20 +40,14 @@ func AddComments(commentList *[]*ast.Comment, comments []string) {
 	}
 }
 
-func AddComment(commentList *[]*ast.Comment, comment string) {
+func AddComment(commentList *ast.Decorations, comment string) {
 	line := comment
 
 	if !strings.HasPrefix(line, "//") {
 		line = "//" + line
 	}
 
-	if *commentList == nil {
-		line = "\n" + line
-	}
-
-	*commentList = append(*commentList, &ast.Comment{
-		Text: line,
-	})
+	commentList.Append(line)
 }
 
 // formatComment splits the supplied comment string up ready for use as a documentation comment
@@ -125,10 +120,10 @@ func findBreakPoint(line string, start int, width int) int {
 }
 
 // CommentLength returns the text length of the comments, including EoLN characters
-func CommentLength(comments []*ast.Comment) int {
+func CommentLength(comments ast.Decorations) int {
 	length := 0
 	for _, l := range comments {
-		length += len(l.Text) + 1 // length including EoLN
+		length += len(l) + 1 // length including EoLN
 	}
 
 	return length

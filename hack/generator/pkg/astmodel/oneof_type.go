@@ -7,9 +7,10 @@ package astmodel
 
 import (
 	"fmt"
-	"go/ast"
 	"sort"
 	"strings"
+
+	ast "github.com/dave/dst"
 )
 
 // OneOfType represents something that can be any
