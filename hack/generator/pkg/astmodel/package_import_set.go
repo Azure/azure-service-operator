@@ -225,9 +225,10 @@ func ByNameInGroups(left PackageImport, right PackageImport) bool {
 	return left.packageReference.String() < right.packageReference.String()
 }
 
-// Extract the last part of the name of the service for use to disambiguate imports
+// Extract a name for the service for use to disambiguate imports
 // E.g. for microsoft.batch/v201700401, extract "batch"
-//      for microsoft.storage/v20200101 extract "storage" and so on
+//      for microsoft.storage/v20200101 extract "storage"
+//      for microsoft.storsimple.1200 extract "storsimple1200" and so on
 func (set *PackageImportSet) ServiceNameForImport(imp PackageImport) string {
 	pathBits := strings.Split(imp.packageReference.PackagePath(), "/")
 	index := len(pathBits) - 1
@@ -236,7 +237,8 @@ func (set *PackageImportSet) ServiceNameForImport(imp PackageImport) string {
 	}
 
 	nameBits := strings.Split(pathBits[index], ".")
-	return nameBits[len(nameBits)-1]
+	result := strings.Join(nameBits[1:], "")
+	return result
 }
 
 // Create a versioned name based on the service for use to disambiguate imports
