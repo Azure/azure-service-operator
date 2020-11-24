@@ -289,14 +289,18 @@ func GetMSITokenProviderForResource(resource string) (func() (string, error), er
 		return nil, err
 	}
 
+	return makeTokenProvider(msi), nil
+}
+
+func makeTokenProvider(msi *adal.ServicePrincipalToken) func() (string, error) {
 	return func() (string, error) {
-		err = msi.EnsureFresh()
+		err := msi.EnsureFresh()
 		if err != nil {
 			return "", err
 		}
 		token := msi.OAuthToken()
 		return token, nil
-	}, nil
+	}
 }
 
 func GetMSITokenProviderForResourceByClientID(resource string, clientID string) (func() (string, error), error) {
