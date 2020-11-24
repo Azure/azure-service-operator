@@ -251,13 +251,11 @@ func (file *FileDefinition) AsAst() *ast.File {
 			})
 	}
 
-	var comments []string
-	comments = append(comments, CodeGenerationComments...)
-	comments = append(comments,
-		"Copyright (c) Microsoft Corporation.",
-		"Licensed under the MIT license.")
-
-	header := createComments(comments...)
+	var header []string
+	header = append(header, CodeGenerationComments...)
+	header = append(header,
+		"// Copyright (c) Microsoft Corporation.",
+		"// Licensed under the MIT license.")
 
 	packageName := file.packageReference.PackageName()
 
@@ -270,18 +268,6 @@ func (file *FileDefinition) AsAst() *ast.File {
 		},
 		Name:  ast.NewIdent(packageName),
 		Decls: decls,
-	}
-
-	return result
-}
-
-// createComments converts a series of strings into a series of comments,
-// returning both the comments and their text length
-func createComments(lines ...string) ast.Decorations {
-	var result ast.Decorations
-	for _, l := range lines {
-		line := "// " + l + "\n"
-		result = append(result, line)
 	}
 
 	return result
