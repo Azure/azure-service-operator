@@ -27,6 +27,7 @@ type TypeVisitor struct {
 	VisitResourceType func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
 	VisitArmType      func(this *TypeVisitor, it *ArmType, ctx interface{}) (Type, error)
 	VisitStorageType  func(this *TypeVisitor, it *StorageType, ctx interface{}) (Type, error)
+	VisitFlaggedType  func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error)
 }
 
 // Visit invokes the appropriate VisitX on TypeVisitor
@@ -60,6 +61,8 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 		return tv.VisitArmType(tv, it, ctx)
 	case *StorageType:
 		return tv.VisitStorageType(tv, it, ctx)
+	case *FlaggedType:
+		return tv.VisitFlaggedType(tv, it, ctx)
 	}
 
 	panic(fmt.Sprintf("unhandled type: (%T) %v", t, t))
@@ -127,6 +130,7 @@ func MakeTypeVisitor() TypeVisitor {
 		VisitOneOfType:    IdentityVisitOfOneOfType,
 		VisitAllOfType:    IdentityVisitOfAllOfType,
 		VisitStorageType:  IdentityVisitOfStorageType,
+		VisitFlaggedType:  IdentityVisitOfFlaggedType,
 	}
 }
 
@@ -305,4 +309,22 @@ func IdentityVisitOfStorageType(this *TypeVisitor, st *StorageType, ctx interfac
 	default:
 		return nil, errors.Errorf("expected transformation of Storage type %T to return ObjectType, not %T", st.objectType, newType)
 	}
+}
+
+func IdentityVisitOfFlaggedType(this *TypeVisitor, ft *FlaggedType, ctx interface{}) (Type, error) {
+	nt, err := this.Visit(ft.element, ctx)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to visit flagged type %T", ft.element)
+	}
+
+	if nt == ft.element {
+		return ft, nil
+	}
+
+	var flags []TypeFlag
+	for f := range ft.flags {
+		flags = append(flags, f)
+	}
+
+	return NewFlaggedType(nt, flags...), nil
 }

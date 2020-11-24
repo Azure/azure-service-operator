@@ -84,6 +84,9 @@ func createAsObjectTypeVisitor() *TypeVisitor {
 	result.VisitOptionalType = func(tv *TypeVisitor, ot *OptionalType, ctx interface{}) (Type, error) {
 		return tv.Visit(ot.element, ctx)
 	}
+	result.VisitFlaggedType = func(tv *TypeVisitor, ft *FlaggedType, ctx interface{}) (Type, error) {
+		return tv.Visit(ft.element, ctx)
+	}
 
 	/*
 	 * Not the type we are looking for
@@ -104,7 +107,6 @@ func createAsObjectTypeVisitor() *TypeVisitor {
 	result.VisitTypeName = func(_ *TypeVisitor, _ TypeName, _ interface{}) (Type, error) {
 		return nil, fmt.Errorf("a name is not an object type")
 	}
-
 	result.VisitResourceType = func(_ *TypeVisitor, _ *ResourceType, _ interface{}) (Type, error) {
 		return nil, fmt.Errorf("a resource type contains multiple object types (ambiguous result)")
 	}
