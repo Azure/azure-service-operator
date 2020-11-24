@@ -15,6 +15,10 @@ import (
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 )
 
+// This file was adapted from https://github.com/Azure-Samples/azure-sdk-for-go-samples/blob/master/internal/iam/authorizers.go
+// A possible alternative would be to use NewAuthorizerFromEnvironment from https://github.com/Azure/go-autorest/blob/master/autorest/azure/auth/auth.go,
+// but that may not be doable because of our need to support multiple managed identities and select between them.
+
 var (
 	armAuthorizer      autorest.Authorizer
 	batchAuthorizer    autorest.Authorizer
@@ -247,17 +251,70 @@ func getAuthorizerForResource(resource string, creds config.Credentials) (autore
 	return a, err
 }
 
-// GetMSITokenForResource returns the MSI token for a resource (used in AzureSQLManagedUser)
+// GetMSITokenForResource returns the MSI token for a resource
 func GetMSITokenForResource(resource string) (*adal.ServicePrincipalToken, error) {
-	MIEndpoint, err := adal.GetMSIVMEndpoint()
+	miEndpoint, err := adal.GetMSIVMEndpoint()
 	if err != nil {
 		return nil, err
 	}
 
-	token, err := adal.NewServicePrincipalTokenFromMSI(MIEndpoint, resource)
+	token, err := adal.NewServicePrincipalTokenFromMSI(miEndpoint, resource)
 	if err != nil {
 		return nil, err
 	}
 
 	return token, err
+}
+
+// GetMSITokenForResourceByClientID returns the MSI token for a resource by the client ID
+func GetMSITokenForResourceByClientID(resource string, clientID string) (*adal.ServicePrincipalToken, error) {
+	miEndpoint, err := adal.GetMSIVMEndpoint()
+	if err != nil {
+		return nil, err
+	}
+
+	token, err := adal.NewServicePrincipalTokenFromMSIWithUserAssignedID(miEndpoint, resource, clientID)
+	if err != nil {
+		return nil, err
+	}
+
+	return token, err
+}
+
+// GetMSITokenProviderForResource gets a token provider for the given resource.
+// A token provider is just a function that returns the OAuth token when called
+func GetMSITokenProviderForResource(resource string) (func() (string, error), error) {
+	msi, err := GetMSITokenForResource(resource)
+	if err != nil {
+		return nil, err
+	}
+
+	return makeTokenProvider(msi), nil
+}
+
+func makeTokenProvider(msi *adal.ServicePrincipalToken) func() (string, error) {
+	return func() (string, error) {
+		err := msi.EnsureFresh()
+		if err != nil {
+			return "", err
+		}
+		token := msi.OAuthToken()
+		return token, nil
+	}
+}
+
+func GetMSITokenProviderForResourceByClientID(resource string, clientID string) (func() (string, error), error) {
+	msi, err := GetMSITokenForResourceByClientID(resource, clientID)
+	if err != nil {
+		return nil, err
+	}
+
+	return func() (string, error) {
+		err = msi.EnsureFresh()
+		if err != nil {
+			return "", err
+		}
+		token := msi.OAuthToken()
+		return token, nil
+	}, nil
 }

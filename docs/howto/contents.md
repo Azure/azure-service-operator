@@ -8,7 +8,7 @@
     - Build Azure Service Operator locally and deploy to a Kubernetes cluster.
 - [Provision a resource using Azure Service Operator](resourceprovision.md) Learn to use Azure Service Operator to provision different Azure resources.
 - [Authentication using managed identities](managedidentity.md)
-    - Use a managed identity for authentication of Azure Service Operator instead of a service principal.
+    - Use a managed identity for authentication of Azure Service Operator instead of a Service Principal.
 - [Secret management](secrets.md) Learn how secrets are managed in Azure Service Operator and choose the best option for you.
 - [How it works](controlflow.md) Learn the control flow behind deploying the operator and provision resources through the operator.
 

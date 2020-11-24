@@ -15,9 +15,13 @@ import (
 	"testing"
 	"time"
 
+	"github.com/gobuffalo/envy"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	mysqladmin "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/aadadmin"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqlaaduser"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 
@@ -82,6 +86,10 @@ var tc TestContext
 
 func setup() error {
 	log.Println(fmt.Sprintf("Starting common controller test setup"))
+
+	// Go ahead and assume that we're deployed in the default namespace for
+	// the purpose of these tests
+	envy.Set("POD_NAMESPACE", "azureoperator-system")
 
 	err := resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
@@ -758,6 +766,23 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("MySQLUser"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("MySQLUser-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	identityFinder := helpers.NewAADIdentityFinder(k8sManager.GetClient(), config.PodNamespace())
+	err = (&MySQLAADUserReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: mysqlaaduser.NewMySQLAADUserManager(config.GlobalCredentials(), identityFinder),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLAADUser",
+				ctrl.Log.WithName("controllers").WithName("MySQLAADUser"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLAADUser-controller"),
 			Scheme:   k8sManager.GetScheme(),
 		},
 	}).SetupWithManager(k8sManager)

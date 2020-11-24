@@ -52,24 +52,22 @@ azureClientSecret: 00000000-0000-0000-0000-000000000000
 
 ##### Managed Identity
 
-Follow the instructions [here](../../docs/managedIdentity.md) to create an identity and assign it the correct permissions.
+Follow the instructions [here](./managedidentity.md) to create an identity and assign it the correct permissions.
 
 Set the following Helm Chart values:
 ```yaml
 azureUseMI: True
 installAadPodIdentity: True
+azureClientID: 00000000-0000-0000-0000-000000000000
 aad-pod-identity:
     azureIdentity:
         resourceID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rg>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<identity>"
         clientID: "00000000-0000-0000-0000-000000000000"
 ```
 
-Follow the instructions [here](managedidentity.md) to create an identity and assign it the correct permissions.
-
-
 #### Store secrets in Azure KeyVault (optional)
 
-By default, secrets will be stored as Kubernetes secrets. If you wish to store them in KeyVault instead, follow the instructions [here](../../docs/deploy.md).
+By default, secrets will be stored as Kubernetes secrets. If you wish to store them in KeyVault instead, follow the instructions [here](./deploy.md).
 
 Then, set the following chart value to your KeyVault name:
 ```
@@ -94,7 +92,7 @@ The following table lists the configurable parameters of the azure-service-opera
 | `azureClientID`  | Azure Service Principal Client ID | `` |
 | `azureClientSecret`  | Azure Service Principal Client Secret | `` |
 | `azureUseMI`  | Set to True if using Managed Identity for authentication | `False` |
-| `installAadPodIdentity` | Set to `True` to install [aad-pod-identity](https://github.com/Azure/aad-pod-identity), or leave false if you already have it installed. You will have to create the AzureIdentity and AzureIdentityBinding yourself if you already have it installed | `False` |
+| `installAadPodIdentity` | Set to `True` to install [aad-pod-identity](https://github.com/Azure/aad-pod-identity), or leave false if you already have it installed. You will have to create the `AzureIdentity` and `AzureIdentityBinding` yourself if you already have it installed | `False` |
 | `azureOperatorKeyvault`  | Set this value with the name of your Azure Key Vault resource if you prefer to store secrets in Key Vault rather than as Kubernetes secrets (default) | `` |
 | `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azureserviceoperator:latest` |
 | `cloudEnvironment`  | Set the cloud environment, possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud | `AzurePublicCloud` |
