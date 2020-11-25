@@ -29,11 +29,12 @@ type MySQLAADUserSpec struct {
 	// +kubebuilder:validation:Required
 	Roles []string `json:"roles"`
 
-	// Note: We current do not support arbitrary AAD users (although the MySQL API does).
-
-	// ClientID is the client ID of the identity backing the user.
+	// AAD ID is the ID of the user in Azure Active Directory.
+	// When creating a user for a managed identity this must be the client id (sometimes called app id) of the managed identity.
+	// When creating a user for a "normal" (non-managed identity) user or group, this is the OID of the user or group.
+	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
-	ClientID string `json:"clientId,omitempty"`
+	AADID string `json:"aadId,omitempty"`
 
 	// optional
 	Username string `json:"username,omitempty"`
