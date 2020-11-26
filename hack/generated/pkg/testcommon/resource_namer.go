@@ -35,7 +35,7 @@ func (rnc ResourceNameConfig) NewResourceNamer(testName string) ResourceNamer {
 	seed := hasher.Sum64()
 	return ResourceNamer{
 		ResourceNameConfig: rnc,
-		// nolint: do not want cryptographic randomness here
+		//nolint:gosec // do not want cryptographic randomness here
 		rand: rand.New(rand.NewSource(int64(seed))),
 	}
 }
