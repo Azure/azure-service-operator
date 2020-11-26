@@ -41,27 +41,25 @@ func NewMySQLAADUserManager(creds config.Credentials, identityFinder *helpers.AA
 
 var _ resourcemanager.ARMClient = &MySQLAADUserManager{}
 
-// CreateUser creates aad user
-func (m *MySQLAADUserManager) CreateUser(ctx context.Context, db *sql.DB, username string, clientID string) error {
+// CreateUser creates an aad user
+func (m *MySQLAADUserManager) CreateUser(ctx context.Context, db *sql.DB, username string, aadID string) error {
 	if err := helpers.FindBadChars(username); err != nil {
 		return fmt.Errorf("problem found with username: %v", err)
 	}
-	if err := helpers.FindBadChars(clientID); err != nil {
+	if err := helpers.FindBadChars(aadID); err != nil {
 		return fmt.Errorf("problem found with clientID: %v", err)
 	}
 
-	// TODO: Only need to do this once
-	// TODO: Need to talk to MySQL team to understand why we even need to do this
+	// TODO: Need to talk to MySQL team to understand why we even need to do this, their documentation
+	// TODO: says that we need to do this only for Managed Identities but it seems we need to do it
+	// TODO: for normal users too
 	_, err := db.ExecContext(ctx, "SET aad_auth_validate_oids_in_tenant = OFF")
 	if err != nil {
 		return err
 	}
 
 	tsql := "CREATE AADUSER IF NOT EXISTS ? IDENTIFIED BY ?"
-	_, err = db.ExecContext(ctx, tsql, username, clientID)
-
-	// TODO: If we want to support arbitrary AAD users rather than just managed identity users
-	// TODO: we need to do a standard "CREATE AADUSER IF NOT EXISTS ? as ?" when clientID is empty.
+	_, err = db.ExecContext(ctx, tsql, username, aadID)
 
 	if err != nil {
 		return err
@@ -116,7 +114,7 @@ func (m *MySQLAADUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	instance.Status.SetProvisioning("")
 
-	err = m.CreateUser(ctx, db, instance.Username(), instance.Spec.ClientID)
+	err = m.CreateUser(ctx, db, instance.Username(), instance.Spec.AADID)
 	if err != nil {
 		instance.Status.Message = "failed creating user, err: " + err.Error()
 		return false, err
