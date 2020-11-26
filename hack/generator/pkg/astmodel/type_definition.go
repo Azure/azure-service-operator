@@ -102,6 +102,17 @@ func (def TypeDefinition) RequiredPackageReferences() *PackageReferenceSet {
 	return def.theType.RequiredPackageReferences()
 }
 
+func (def TypeDefinition) HasTestCases() bool {
+	switch d := def.theType.(type) {
+	case *ObjectType:
+		return d.HasTestCases()
+	case *ResourceType:
+		return d.HasTestCases()
+	}
+
+	return false
+}
+
 // FileNameHint returns what a file that contains this name (if any) should be called
 // this is not always used as we often combine multiple definitions into one file
 func FileNameHint(name TypeName) string {

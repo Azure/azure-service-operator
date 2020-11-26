@@ -81,19 +81,40 @@ func TestAddImport_WhenAddingUnnamedImportAndNamedExists_PrefersNamedImport(t *t
  * AddImportOfReference() tests
  */
 
-func TestAddReference_WhenReferenceMissing_IncreasesSizeOfSet(t *testing.T) {
+func TestAddImportOfReference_WhenReferenceMissing_IncreasesSizeOfSet(t *testing.T) {
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImportOfReference(simpleTestRef)
 	g.Expect(set.imports).To(HaveLen(1))
 }
 
-func TestAddImport_WhenReferencePresent_LeavesSetSameSize(t *testing.T) {
+func TestAddImportOfReference_WhenReferencePresent_LeavesSetSameSize(t *testing.T) {
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImportOfReference(simpleTestRef)
 	set.AddImportOfReference(simpleTestRef)
 	g.Expect(set.imports).To(HaveLen(1))
+}
+
+/*
+ * AddImportsOfReferences() Tests
+ */
+
+func TestAddImportsOfReferences_WhenAddingMultipleReferences_AddsExpectedReferences(t *testing.T) {
+	g := NewGomegaWithT(t)
+	set := NewPackageImportSet()
+	set.AddImportsOfReferences(simpleTestRef, pathTestRef)
+	g.Expect(set.imports).To(HaveLen(2))
+}
+
+func TestAddImportsOfReferences_WhenAddingReferencesAlreadyPresent_LeavesSetSameSize(t *testing.T) {
+	g := NewGomegaWithT(t)
+	set := NewPackageImportSet()
+	set.AddImportOfReference(simpleTestRef)
+	set.AddImportOfReference(pathTestRef)
+	size := len(set.imports)
+	set.AddImportsOfReferences(simpleTestRef, pathTestRef)
+	g.Expect(set.imports).To(HaveLen(size))
 }
 
 /*

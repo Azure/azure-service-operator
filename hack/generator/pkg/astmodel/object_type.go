@@ -19,6 +19,7 @@ type ObjectType struct {
 	embedded   map[TypeName]*PropertyDefinition
 	properties map[PropertyName]*PropertyDefinition
 	functions  map[string]Function
+	testcases  map[string]TestCase
 	InterfaceImplementer
 }
 
@@ -34,6 +35,7 @@ func NewObjectType() *ObjectType {
 		embedded:             make(map[TypeName]*PropertyDefinition),
 		properties:           make(map[PropertyName]*PropertyDefinition),
 		functions:            make(map[string]Function),
+		testcases:            make(map[string]TestCase),
 		InterfaceImplementer: MakeInterfaceImplementer(),
 	}
 }
@@ -205,6 +207,7 @@ func (objectType *ObjectType) References() TypeNameSet {
 			results = results.Add(ref)
 		}
 	}
+
 	// Not collecting types from functions deliberately.
 	return results
 }
@@ -262,15 +265,51 @@ func (objectType *ObjectType) Equals(t Type) bool {
 		return false
 	}
 
-	for functionName, function := range other.functions {
-		ourFunction, ok := objectType.functions[functionName]
+	for name, function := range other.functions {
+		ourFunction, ok := objectType.functions[name]
 		if !ok {
 			// Didn't find the func, not equal
 			return false
 		}
 
 		if !ourFunction.Equals(function) {
-			// Different function, even though same name; not-equal
+			// Different testcase, even though same name; not-equal
+			return false
+		}
+	}
+
+	if len(objectType.testcases) != len(other.testcases) {
+		// Different number of test cases, not equal
+		return false
+	}
+
+	for name, testcase := range other.testcases {
+		ourCase, ok := objectType.testcases[name]
+		if !ok {
+			// Didn't find the func, not equal
+			return false
+		}
+
+		if !ourCase.Equals(testcase) {
+			// Different testcase, even though same name; not-equal
+			return false
+		}
+	}
+
+	if len(objectType.testcases) != len(other.testcases) {
+		// Different number of test cases, not equal
+		return false
+	}
+
+	for name, testcase := range other.testcases {
+		ourCase, ok := objectType.testcases[name]
+		if !ok {
+			// Didn't find the func, not equal
+			return false
+		}
+
+		if !ourCase.Equals(testcase) {
+			// Different testcase, even though same name; not-equal
 			return false
 		}
 	}
@@ -288,7 +327,7 @@ func (objectType *ObjectType) WithProperty(property *PropertyDefinition) *Object
 	return result
 }
 
-// WithProperties creates a new ObjectType with additional properties included
+// WithProperties creates a new ObjectType that's a copy with additional properties included
 // Properties are unique by name, so this can be used to both Add and Replace properties.
 func (objectType *ObjectType) WithProperties(properties ...*PropertyDefinition) *ObjectType {
 	// Create a copy of objectType to preserve immutability
@@ -331,7 +370,7 @@ func (objectType *ObjectType) WithoutProperties() *ObjectType {
 	return result
 }
 
-// WithoutProperty creates a new ObjectType without the specified field
+// WithoutProperty creates a new ObjectType that's a copy without the specified property
 func (objectType *ObjectType) WithoutProperty(name PropertyName) *ObjectType {
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
@@ -386,11 +425,19 @@ func (objectType *ObjectType) WithFunction(function Function) *ObjectType {
 	return result
 }
 
-// WithInterface creates a new ObjectType with a function (method) attached to it
+// WithInterface creates a new ObjectType that's a copy with an interface implementation attached
 func (objectType *ObjectType) WithInterface(iface *InterfaceImplementation) *ObjectType {
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
 	result.InterfaceImplementer = result.InterfaceImplementer.WithInterface(iface)
+	return result
+}
+
+// WithTestCase creates a new ObjectType that's a copy with an additional test case included
+func (objectType *ObjectType) WithTestCase(testcase TestCase) *ObjectType {
+	// Create a copy of objectType to preserve immutability
+	result := objectType.copy()
+	result.testcases[testcase.Name()] = testcase
 	return result
 }
 
@@ -409,6 +456,10 @@ func (objectType *ObjectType) copy() *ObjectType {
 		result.functions[key] = value
 	}
 
+	for key, value := range objectType.testcases {
+		result.testcases[key] = value
+	}
+
 	result.InterfaceImplementer = objectType.InterfaceImplementer.copy()
 
 	return result
@@ -417,6 +468,19 @@ func (objectType *ObjectType) copy() *ObjectType {
 // String implements fmt.Stringer
 func (objectType *ObjectType) String() string {
 	return "(object)"
+}
+
+func (objectType *ObjectType) HasTestCases() bool {
+	return len(objectType.testcases) > 0
+}
+
+func (objectType *ObjectType) TestCases() []TestCase {
+	var result []TestCase
+	for _, tc := range objectType.testcases {
+		result = append(result, tc)
+	}
+
+	return result
 }
 
 // IsObjectType returns true if the passed type is an object type OR if it is a wrapper type containing an object type

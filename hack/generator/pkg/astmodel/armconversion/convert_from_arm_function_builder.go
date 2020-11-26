@@ -161,7 +161,7 @@ func (builder *convertFromArmBuilder) namePropertyHandler(
 			token.ASSIGN,
 			astbuilder.CallFunc(
 				// "calling" enum name is equivalent to casting
-				ast.NewIdent(typeName.Name()),
+				typeName.Name(),
 				astbuilder.CallQualifiedFunc(
 					astmodel.GenRuntimePackageName,
 					"ExtractKubernetesResourceNameFromArmName",

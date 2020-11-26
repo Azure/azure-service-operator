@@ -11,6 +11,9 @@ require (
 	github.com/dnaeon/go-vcr v1.1.0
 	github.com/go-logr/logr v0.1.0
 	github.com/google/uuid v1.1.1
+	github.com/kr/pretty v0.2.0
+	github.com/kylelemons/godebug v1.1.0
+	github.com/leanovate/gopter v0.2.8
 	github.com/onsi/gomega v1.10.1
 	github.com/pkg/errors v0.9.1
 	k8s.io/api v0.18.6

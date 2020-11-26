@@ -25,8 +25,3 @@ type PackageReference interface {
 	// String returns the string representation of the package reference
 	String() string
 }
-
-// MakeGenRuntimePackageReference creates a new package reference for the genruntime package
-func MakeGenRuntimePackageReference() PackageReference {
-	return MakeExternalPackageReference(genRuntimePathPrefix)
-}

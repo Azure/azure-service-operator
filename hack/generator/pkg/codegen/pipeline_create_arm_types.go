@@ -468,7 +468,7 @@ func convertPropertiesToArmTypes(t *astmodel.ObjectType, isSpecType bool, defini
 func createOwnerProperty(idFactory astmodel.IdentifierFactory, ownerTypeName *astmodel.TypeName) (*astmodel.PropertyDefinition, error) {
 
 	knownResourceReferenceType := astmodel.MakeTypeName(
-		astmodel.MakeGenRuntimePackageReference(),
+		astmodel.GenRuntimeReference,
 		"KnownResourceReference")
 
 	prop := astmodel.NewPropertyDefinition(

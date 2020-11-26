@@ -123,7 +123,7 @@ func AppendList(lhs ast.Expr, rhs ast.Expr) ast.Stmt {
 	return SimpleAssignment(
 		ast.Clone(lhs).(ast.Expr),
 		token.ASSIGN,
-		CallFuncByName("append", ast.Clone(lhs).(ast.Expr), ast.Clone(rhs).(ast.Expr)))
+		CallFunc("append", ast.Clone(lhs).(ast.Expr), ast.Clone(rhs).(ast.Expr)))
 }
 
 // InsertMap returns an assignment statement for inserting an item into a map, like:
@@ -261,6 +261,9 @@ func AddrOf(exp ast.Expr) *ast.UnaryExpr {
 	}
 }
 
+// Returns creates a return statement with one or more expressions, of the form
+//    return <expr>
+// or return <expr>, <expr>, ...
 func Returns(returns ...ast.Expr) ast.Stmt {
 	return &ast.ReturnStmt{
 		Decs: ast.ReturnStmtDecorations{
@@ -269,5 +272,14 @@ func Returns(returns ...ast.Expr) ast.Stmt {
 			},
 		},
 		Results: returns,
+	}
+}
+
+// QualifiedTypeName generates a reference to a type within an imported package
+// of the form <pkg>.<name>
+func QualifiedTypeName(pkg string, name string) *ast.SelectorExpr {
+	return &ast.SelectorExpr{
+		X:   ast.NewIdent(pkg),
+		Sel: ast.NewIdent(name),
 	}
 }

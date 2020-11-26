@@ -45,7 +45,7 @@ func (c *ArmConversionFunction) RequiredPackageReferences() *astmodel.PackageRef
 	// We need these because we're going to be constructing/casting to the types
 	// of the properties in the ARM object, so we need to import those.
 	result := astmodel.NewPackageReferenceSet(
-		astmodel.MakeGenRuntimePackageReference(),
+		astmodel.GenRuntimeReference,
 		astmodel.MakeExternalPackageReference("fmt"))
 	result.Merge(c.armType.RequiredPackageReferences())
 	return result

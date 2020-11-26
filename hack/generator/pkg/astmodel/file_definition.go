@@ -131,9 +131,7 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 	var requiredImports = NewPackageImportSet()
 
 	for _, s := range file.definitions {
-		for _, r := range s.RequiredPackageReferences().AsSlice() {
-			requiredImports.AddImportOfReference(r)
-		}
+		requiredImports.AddImportsOfReferences(s.RequiredPackageReferences().AsSlice()...)
 	}
 
 	// Don't need to import the current package
@@ -274,10 +272,9 @@ func (file *FileDefinition) AsAst() *ast.File {
 }
 
 // SaveToWriter writes the file to the specifier io.Writer
-func (file FileDefinition) SaveToWriter(filename string, dst io.Writer) error {
-	original := file.AsAst()
-
-	err := decorator.Fprint(dst, original)
+func (file FileDefinition) SaveToWriter(dst io.Writer) error {
+	content := file.AsAst()
+	err := decorator.Fprint(dst, content)
 	return err
 }
 
@@ -291,5 +288,5 @@ func (file FileDefinition) SaveToFile(filePath string) error {
 
 	defer f.Close()
 
-	return file.SaveToWriter(filePath, f)
+	return file.SaveToWriter(f)
 }

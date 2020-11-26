@@ -157,14 +157,14 @@ func NewArmTransformerImpl(
 
 	if convertToArmFunc != nil {
 		return astmodel.NewInterfaceImplementation(
-			astmodel.MakeTypeName(astmodel.MakeGenRuntimePackageReference(), "ArmTransformer"),
+			astmodel.MakeTypeName(astmodel.GenRuntimeReference, "ArmTransformer"),
 			createEmptyArmValueFunc,
 			convertToArmFunc,
 			populateFromArmFunc)
 	} else {
 		// only convert in one direction with the FromArmConverter interface
 		return astmodel.NewInterfaceImplementation(
-			astmodel.MakeTypeName(astmodel.MakeGenRuntimePackageReference(), "FromArmConverter"),
+			astmodel.MakeTypeName(astmodel.GenRuntimeReference, "FromArmConverter"),
 			createEmptyArmValueFunc,
 			populateFromArmFunc)
 	}

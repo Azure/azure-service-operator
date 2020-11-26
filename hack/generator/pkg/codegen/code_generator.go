@@ -85,6 +85,7 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 		applyKubernetesResourceInterface(idFactory),
 		createStorageTypes(),
 		simplifyDefinitions(),
+		injectJsonSerializationTests(idFactory),
 
 		markStorageVersion(),
 

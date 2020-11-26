@@ -13,5 +13,6 @@ var (
 )
 
 const (
-	CodeGeneratedFileSuffix = "_gen.go"
+	// Suffix used to identify generated files (note there is no file extension here)
+	CodeGeneratedFileSuffix = "_gen"
 )

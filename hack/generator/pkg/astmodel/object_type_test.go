@@ -20,8 +20,8 @@ var (
 	familyName           = NewPropertyDefinition("FamilyName", "family-name", StringType)
 	knownAs              = NewPropertyDefinition("KnownAs", "known-as", StringType)
 	gender               = NewPropertyDefinition("Gender", "gender", StringType)
-	embeddedProp         = NewPropertyDefinition("", "-", MakeTypeName(MakeGenRuntimePackageReference(), "DummyType"))
-	optionalEmbeddedProp = NewPropertyDefinition("", "-", MakeTypeName(MakeGenRuntimePackageReference(), "DummyType")).MakeOptional()
+	embeddedProp         = NewPropertyDefinition("", "-", MakeTypeName(GenRuntimeReference, "DummyType"))
+	optionalEmbeddedProp = NewPropertyDefinition("", "-", MakeTypeName(GenRuntimeReference, "DummyType")).MakeOptional()
 )
 
 /*
@@ -86,6 +86,8 @@ func Test_EmbeddedProperties_GivenObjectWithProperties_ReturnsExpectedSortedSlic
 func TestObjectType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 
 	clanName := NewStringPropertyDefinition("Clan")
+	testcaseA := NewFakeTestCase("testcaseA")
+	testcaseB := NewFakeTestCase("testcaseB")
 
 	personType := NewObjectType().WithProperties(fullName, familyName, knownAs)
 	otherPersonType := NewObjectType().WithProperties(fullName, familyName, knownAs)
@@ -93,6 +95,9 @@ func TestObjectType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 	shorterType := NewObjectType().WithProperties(knownAs, fullName)
 	longerType := NewObjectType().WithProperties(fullName, familyName, knownAs, gender)
 	differentType := NewObjectType().WithProperties(fullName, clanName, knownAs, gender)
+	testedType := NewObjectType().WithTestCase(testcaseA)
+	otherTestedType := NewObjectType().WithTestCase(testcaseA)
+	alternativeTestedType := NewObjectType().WithTestCase(testcaseB)
 	mapType := NewMapType(StringType, personType)
 	personWithEmbeddedProperty, _ := personType.WithEmbeddedProperty(embeddedProp)
 	personWithEmbeddedOptionalProperty, _ := personType.WithEmbeddedProperty(optionalEmbeddedProp)
@@ -132,6 +137,12 @@ func TestObjectType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 		// Expect not-equal when embedded properties differ by optionality
 		{"Not-equal when embedded property differs by optionality", personWithEmbeddedProperty, personWithEmbeddedOptionalProperty, false},
 		{"Not-equal when embedded property differs by optionality", personWithEmbeddedOptionalProperty, personWithEmbeddedProperty, false},
+		// Expect equal for same test case
+		{"Equal with same test case", testedType, otherTestedType, true},
+		{"Equal with same test case (reversed)", otherTestedType, testedType, true},
+		// Expect not-equal for different test case
+		{"Not equal with different test case", testedType, alternativeTestedType, false},
+		{"Not equal with different test case (reversed)", alternativeTestedType, testedType, false},
 	}
 
 	for _, c := range cases {
@@ -258,6 +269,7 @@ func Test_WithFunction_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
 /*
  * WithInterface() tests
  */
+
 func Test_WithInterface_ReturnsExpectedObject(t *testing.T) {
 	g := NewGomegaWithT(t)
 	empty := EmptyObjectType
@@ -271,4 +283,21 @@ func Test_WithInterface_ReturnsExpectedObject(t *testing.T) {
 	g.Expect(empty).NotTo(Equal(object)) // Ensure the original wasn't modified
 	g.Expect(object.interfaces).To(HaveLen(1))
 	g.Expect(object.interfaces[ifaceName]).To(Equal(iface))
+}
+
+/*
+ * WithTestCase() tests
+ */
+
+func Test_WithTestCase_ReturnsExpectedObject(t *testing.T) {
+	g := NewGomegaWithT(t)
+	empty := EmptyObjectType
+	name := "example"
+	fake := NewFakeTestCase(name)
+
+	object := empty.WithTestCase(fake)
+
+	g.Expect(empty).NotTo(Equal(object)) // Ensure the original wasn't modified
+	g.Expect(object.testcases).To(HaveLen(1))
+	g.Expect(object.testcases[name]).To(Equal(fake))
 }

@@ -22,7 +22,7 @@ type FuncDetails struct {
 	Body          []ast.Stmt
 }
 
-// NewTestFuncDetails() returns a FuncDetails for a test method
+// NewTestFuncDetails returns a FuncDetails for a test method
 // Tests require a particular signature, so this makes it simpler to create test functions
 func NewTestFuncDetails(testName string, body ...ast.Stmt) *FuncDetails {
 
@@ -147,7 +147,7 @@ func (fn *FuncDetails) AddReturns(types ...string) {
 	}
 }
 
-// AddComments() adds multiple comments to the function declaration
+// AddComments adds multiple comments to the function declaration
 func (fn *FuncDetails) AddComments(comment ...string) {
 	fn.Comments = append(fn.Comments, comment...)
 }

@@ -12,6 +12,8 @@ import (
 	ast "github.com/dave/dst"
 )
 
+// AddWrappedComments adds comments to the specified list, wrapping text to the specified width as
+// it goes. Respects any existing line breaks specified by \n or <br>
 func AddWrappedComments(commentList *ast.Decorations, comments []string, width int) {
 	for _, comment := range comments {
 		// Skip empty comments
@@ -23,12 +25,15 @@ func AddWrappedComments(commentList *ast.Decorations, comments []string, width i
 	}
 }
 
+// AddWrappedComment adds a single comment to the specified list, wrapping text to the specified
+// width as it goes. Respects any existing line breaks specified by \n or <br>
 func AddWrappedComment(commentList *ast.Decorations, comment string, width int) {
 	for _, c := range formatComment(comment, width) {
 		AddComment(commentList, c)
 	}
 }
 
+// AddComments adds preformatted comments to the specified list
 func AddComments(commentList *ast.Decorations, comments []string) {
 	for _, comment := range comments {
 		// Skip empty comments
@@ -40,6 +45,7 @@ func AddComments(commentList *ast.Decorations, comments []string) {
 	}
 }
 
+// AddComment adds a single comment line to the specified list
 func AddComment(commentList *ast.Decorations, comment string) {
 	line := comment
 
@@ -72,6 +78,8 @@ func formatComment(comment string, width int) []string {
 
 var brRegex = regexp.MustCompile("<br[^/>]*/?>")
 
+// docCommentWrap applies word wrapping to the specified width to the slice of strings, returning
+// a new slice
 func docCommentWrap(lines []string, width int) []string {
 	var result []string
 	for _, l := range lines {
@@ -81,6 +89,7 @@ func docCommentWrap(lines []string, width int) []string {
 	return result
 }
 
+// wordWrap applies word wrapping to the specified string, returning a slice containing the lines.
 func wordWrap(text string, width int) []string {
 	var result []string
 

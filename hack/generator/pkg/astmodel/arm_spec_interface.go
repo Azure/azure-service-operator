@@ -73,7 +73,7 @@ func NewArmSpecInterfaceImpl(
 	}
 
 	result := NewInterfaceImplementation(
-		MakeTypeName(MakeGenRuntimePackageReference(), "ArmResourceSpec"),
+		MakeTypeName(GenRuntimeReference, "ArmResourceSpec"),
 		getNameFunc,
 		getTypeFunc,
 		getApiVersionFunc)

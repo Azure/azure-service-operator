@@ -22,6 +22,7 @@ type ResourceType struct {
 	status           Type
 	isStorageVersion bool
 	owner            *TypeName
+	testcases        map[string]TestCase
 	InterfaceImplementer
 }
 
@@ -30,6 +31,7 @@ func NewResourceType(specType Type, statusType Type) *ResourceType {
 	result := &ResourceType{
 		isStorageVersion:     false,
 		owner:                nil,
+		testcases:            make(map[string]TestCase),
 		InterfaceImplementer: MakeInterfaceImplementer(),
 	}
 
@@ -138,9 +140,9 @@ func (resource *ResourceType) WithSpec(specType Type) *ResourceType {
 		return resource.WithSpec(specResource.SpecType())
 	}
 
-	result := *resource
+	result := resource.copy()
 	result.spec = specType
-	return &result
+	return result
 }
 
 // WithStatus returns a new resource that has the specified status type
@@ -152,17 +154,23 @@ func (resource *ResourceType) WithStatus(statusType Type) *ResourceType {
 		return resource.WithStatus(specResource.StatusType())
 	}
 
-	result := *resource
+	result := resource.copy()
 	result.status = statusType
-	return &result
+	return result
 }
 
 // WithInterface creates a new Resource with a function (method) attached to it
 func (resource *ResourceType) WithInterface(iface *InterfaceImplementation) *ResourceType {
-	// Create a copy of objectType to preserve immutability
-	result := *resource
+	result := resource.copy()
 	result.InterfaceImplementer = result.InterfaceImplementer.WithInterface(iface)
-	return &result
+	return result
+}
+
+// WithTestCase creates a new Resource that's a copy with an additional test case included
+func (resource *ResourceType) WithTestCase(testcase TestCase) *ResourceType {
+	result := resource.copy()
+	result.testcases[testcase.Name()] = testcase
+	return result
 }
 
 // AsType converts the ResourceType to go AST Expr
@@ -173,17 +181,38 @@ func (resource *ResourceType) AsType(_ *CodeGenerationContext) ast.Expr {
 // Equals returns true if the other type is also a ResourceType and has Equal fields
 func (resource *ResourceType) Equals(other Type) bool {
 	if resource == other {
+		// Same reference
 		return true
 	}
 
-	if otherResource, ok := other.(*ResourceType); ok {
-		return TypeEquals(resource.spec, otherResource.spec) &&
-			TypeEquals(resource.status, otherResource.status) &&
-			resource.isStorageVersion == otherResource.isStorageVersion &&
-			resource.InterfaceImplementer.Equals(otherResource.InterfaceImplementer)
+	otherResource, ok := other.(*ResourceType)
+	if !ok {
+		return false
 	}
 
-	return false
+	// Do cheap tests earlier
+	if resource.isStorageVersion != otherResource.isStorageVersion ||
+		len(resource.testcases) != len(otherResource.testcases) ||
+		!TypeEquals(resource.spec, otherResource.spec) ||
+		!TypeEquals(resource.status, otherResource.status) ||
+		!resource.InterfaceImplementer.Equals(otherResource.InterfaceImplementer) {
+		return false
+	}
+
+	for name, testcase := range otherResource.testcases {
+		ourCase, ok := resource.testcases[name]
+		if !ok {
+			// Didn't find the func, not equal
+			return false
+		}
+
+		if !ourCase.Equals(testcase) {
+			// Different testcase, even though same name; not-equal
+			return false
+		}
+	}
+
+	return true
 }
 
 // References returns the types referenced by Status or Spec parts of the resource
@@ -205,16 +234,16 @@ func (resource *ResourceType) Owner() *TypeName {
 
 // MarkAsStorageVersion marks the resource as the Kubebuilder storage version
 func (resource *ResourceType) MarkAsStorageVersion() *ResourceType {
-	result := *resource
+	result := resource.copy()
 	result.isStorageVersion = true
-	return &result
+	return result
 }
 
 // WithOwner updates the owner of the resource and returns a copy of the resource
 func (resource *ResourceType) WithOwner(owner *TypeName) *ResourceType {
-	result := *resource
+	result := resource.copy()
 	result.owner = owner
-	return &result
+	return result
 }
 
 // RequiredPackageReferences returns a list of packages required by this
@@ -364,4 +393,25 @@ func (resource *ResourceType) SchemeTypes(name TypeName) []TypeName {
 // String implements fmt.Stringer
 func (*ResourceType) String() string {
 	return "(resource)"
+}
+
+func (resource *ResourceType) copy() *ResourceType {
+	result := &ResourceType{
+		spec:                 resource.spec,
+		status:               resource.status,
+		isStorageVersion:     resource.isStorageVersion,
+		owner:                resource.owner,
+		testcases:            make(map[string]TestCase),
+		InterfaceImplementer: resource.InterfaceImplementer.copy(),
+	}
+
+	for key, value := range resource.testcases {
+		result.testcases[key] = value
+	}
+
+	return result
+}
+
+func (resource *ResourceType) HasTestCases() bool {
+	return len(resource.testcases) > 0
 }

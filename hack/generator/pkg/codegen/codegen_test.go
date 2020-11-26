@@ -162,7 +162,7 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 			fileDef := astmodel.NewFileDefinition(pr, ds, pkgs)
 
 			buf := &bytes.Buffer{}
-			err := fileDef.SaveToWriter(path, buf)
+			err := fileDef.SaveToWriter(buf)
 			if err != nil {
 				t.Fatalf("could not generate file: %v", err)
 			}

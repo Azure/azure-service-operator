@@ -7,7 +7,9 @@ package astmodel
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"path/filepath"
 	"text/template"
 
@@ -52,7 +54,7 @@ func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string, generatedPack
 
 	filesToGenerate := allocateTypesToFiles(pkgDef.definitions)
 
-	err := emitFiles(filesToGenerate, outputDir, generatedPackages)
+	err := pkgDef.emitFiles(filesToGenerate, outputDir, generatedPackages)
 
 	if err != nil {
 		return 0, err
@@ -71,20 +73,78 @@ func (pkgDef *PackageDefinition) DefinitionCount() int {
 	return len(pkgDef.definitions)
 }
 
-func emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string, generatedPackages map[PackageReference]*PackageDefinition) error {
+func (pkgDef *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string, generatedPackages map[PackageReference]*PackageDefinition) error {
+	var errs []error
 	for fileName, defs := range filesToGenerate {
-		fullFileName := fileName + "_types" + CodeGeneratedFileSuffix
+		codeFilePath := filepath.Join(
+			outputDir,
+			fmt.Sprintf("%v_types%v.go", fileName, CodeGeneratedFileSuffix))
 
-		ref := defs[0].Name().PackageReference
-		genFile := NewFileDefinition(ref, defs, generatedPackages)
-		outputFile := filepath.Join(outputDir, fullFileName)
-
-		klog.V(5).Infof("Writing %q\n", outputFile)
-
-		err := genFile.SaveToFile(outputFile)
+		err := pkgDef.writeCodeFile(codeFilePath, defs, generatedPackages)
 		if err != nil {
-			return errors.Wrapf(err, "error saving definitions to file %q", outputFile)
+			errs = append(errs, err)
 		}
+
+		testFilePath := filepath.Join(
+			outputDir,
+			fmt.Sprintf("%v_types%v_test.go", fileName, CodeGeneratedFileSuffix))
+
+		err = pkgDef.writeTestFile(testFilePath, defs, generatedPackages)
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+
+	if len(errs) > 0 {
+		return kerrors.NewAggregate(errs)
+	}
+
+	return nil
+}
+
+func (pkgDef *PackageDefinition) writeCodeFile(
+	outputFile string,
+	defs []TypeDefinition,
+	packages map[PackageReference]*PackageDefinition) error {
+
+	ref := defs[0].Name().PackageReference
+	genFile := NewFileDefinition(ref, defs, packages)
+
+	klog.V(5).Infof("Writing code file %q\n", outputFile)
+	err := genFile.SaveToFile(outputFile)
+	if err != nil {
+		return errors.Wrapf(err, "saving definitions to file %q", outputFile)
+	}
+
+	return nil
+}
+
+func (pkgDef *PackageDefinition) writeTestFile(
+	outputFile string,
+	defs []TypeDefinition,
+	packages map[PackageReference]*PackageDefinition) error {
+
+	// First check to see if we have test cases to write
+	haveTestCases := false
+	for _, def := range defs {
+		if def.HasTestCases() {
+			haveTestCases = true
+			break
+		}
+	}
+
+	if !haveTestCases {
+		// No test
+		return nil
+	}
+
+	ref := defs[0].Name().PackageReference
+	genFile := NewTestFileDefinition(ref, defs, packages)
+
+	klog.V(5).Infof("Writing test case file %q\n", outputFile)
+	err := genFile.SaveToFile(outputFile)
+	if err != nil {
+		return errors.Wrapf(err, "writing test cases to file %q", outputFile)
 	}
 
 	return nil
@@ -175,7 +235,7 @@ func emitGroupVersionFile(pkgDef *PackageDefinition, outputDir string) error {
 		return err
 	}
 
-	gvFile := filepath.Join(outputDir, "groupversion_info"+CodeGeneratedFileSuffix)
+	gvFile := filepath.Join(outputDir, "groupversion_info"+CodeGeneratedFileSuffix+".go")
 
 	err = ioutil.WriteFile(gvFile, buf.Bytes(), 0600)
 	if err != nil {
