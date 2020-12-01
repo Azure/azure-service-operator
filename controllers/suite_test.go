@@ -68,6 +68,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
+	keyvaultsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	// +kubebuilder:scaffold:imports
@@ -160,7 +161,14 @@ func setup() error {
 		return err
 	}
 
-	secretClient := k8sSecrets.New(k8sManager.GetClient(), config.SecretNamingVersion())
+	var secretClient secrets.SecretClient
+	operatorVault := config.GlobalCredentials().OperatorKeyvault()
+	if operatorVault == "" {
+		secretClient = k8sSecrets.New(k8sManager.GetClient(), config.SecretNamingVersion())
+	} else {
+		secretClient = keyvaultsecrets.New(operatorVault, config.GlobalCredentials(), config.SecretNamingVersion())
+	}
+
 	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(config.GlobalCredentials())
 	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(config.GlobalCredentials(), k8sManager.GetScheme())
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme.Scheme)
