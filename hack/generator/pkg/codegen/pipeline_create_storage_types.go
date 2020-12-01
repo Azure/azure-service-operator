@@ -140,7 +140,7 @@ func (factory *StorageTypeFactory) visitObjectType(
 	}
 
 	objectType := astmodel.NewObjectType().WithProperties(properties...)
-	return astmodel.NewStorageType(*objectType), nil
+	return astmodel.StorageFlag.ApplyTo(objectType), nil
 }
 
 // makeStorageProperty applies a conversion to make a variant of the property for use when

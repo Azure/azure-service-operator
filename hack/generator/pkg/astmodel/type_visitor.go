@@ -26,7 +26,6 @@ type TypeVisitor struct {
 	VisitEnumType     func(this *TypeVisitor, it *EnumType, ctx interface{}) (Type, error)
 	VisitResourceType func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
 	VisitArmType      func(this *TypeVisitor, it *ArmType, ctx interface{}) (Type, error)
-	VisitStorageType  func(this *TypeVisitor, it *StorageType, ctx interface{}) (Type, error)
 	VisitFlaggedType  func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error)
 }
 
@@ -59,8 +58,6 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 		return tv.VisitResourceType(tv, it, ctx)
 	case *ArmType:
 		return tv.VisitArmType(tv, it, ctx)
-	case *StorageType:
-		return tv.VisitStorageType(tv, it, ctx)
 	case *FlaggedType:
 		return tv.VisitFlaggedType(tv, it, ctx)
 	}
@@ -129,7 +126,6 @@ func MakeTypeVisitor() TypeVisitor {
 		VisitArmType:      IdentityVisitOfArmType,
 		VisitOneOfType:    IdentityVisitOfOneOfType,
 		VisitAllOfType:    IdentityVisitOfAllOfType,
-		VisitStorageType:  IdentityVisitOfStorageType,
 		VisitFlaggedType:  IdentityVisitOfFlaggedType,
 	}
 }
@@ -291,24 +287,6 @@ func IdentityVisitOfAllOfType(this *TypeVisitor, it AllOfType, ctx interface{}) 
 	}
 
 	return MakeAllOfType(newTypes...), nil
-}
-
-func IdentityVisitOfStorageType(this *TypeVisitor, st *StorageType, ctx interface{}) (Type, error) {
-	nt, err := this.Visit(&st.objectType, ctx)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit storage type %T", st.objectType)
-	}
-
-	switch newType := nt.(type) {
-	case *ObjectType:
-		return NewStorageType(*newType), nil
-
-	case *StorageType:
-		return newType, nil
-
-	default:
-		return nil, errors.Errorf("expected transformation of Storage type %T to return ObjectType, not %T", st.objectType, newType)
-	}
 }
 
 func IdentityVisitOfFlaggedType(this *TypeVisitor, ft *FlaggedType, ctx interface{}) (Type, error) {
