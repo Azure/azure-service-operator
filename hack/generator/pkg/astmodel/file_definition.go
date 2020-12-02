@@ -286,7 +286,16 @@ func (file FileDefinition) SaveToFile(filePath string) error {
 		return err
 	}
 
-	defer f.Close()
+	defer func() {
+		f.Close()
+
+		// if we are panicking, the file will be in a broken
+		// state, so remove it
+		if r := recover(); r != nil {
+			os.Remove(filePath)
+			panic(r)
+		}
+	}()
 
 	return file.SaveToWriter(f)
 }
