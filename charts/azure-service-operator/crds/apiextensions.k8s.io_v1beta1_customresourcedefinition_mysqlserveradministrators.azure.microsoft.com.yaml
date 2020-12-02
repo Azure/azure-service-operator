@@ -4,7 +4,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
-  name: azuresqlusers.azure.microsoft.com
+  name: mysqlserveradministrators.azure.microsoft.com
 spec:
   additionalPrinterColumns:
   - JSONPath: .status.provisioned
@@ -15,18 +15,18 @@ spec:
     type: string
   group: azure.microsoft.com
   names:
-    kind: AzureSQLUser
-    listKind: AzureSQLUserList
-    plural: azuresqlusers
+    kind: MySQLServerAdministrator
+    listKind: MySQLServerAdministratorList
+    plural: mysqlserveradministrators
     shortNames:
-    - asqlu
-    singular: azuresqluser
+    - mysqladmin
+    singular: mysqlserveradministrator
   scope: Namespaced
   subresources:
     status: {}
   validation:
     openAPIV3Schema:
-      description: AzureSQLUser is the Schema for the sqlusers API
+      description: MySQLServerAdministrator is the Schema for the mysqlserveradministrator API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -37,40 +37,33 @@ spec:
         metadata:
           type: object
         spec:
-          description: AzureSQLUserSpec defines the desired state of SqlUser
           properties:
-            adminSecret:
-              description: optional
+            administratorType:
+              description: 'AdministratorType: The type of administrator.'
+              enum:
+              - ActiveDirectory
               type: string
-            adminSecretKeyVault:
-              type: string
-            dbName:
-              type: string
-            keyVaultSecretFormats:
-              items:
-                type: string
-              type: array
-            keyVaultSecretPrefix:
-              type: string
-            keyVaultToStoreSecrets:
+            login:
+              description: 'Login: The server administrator login account name. For example: "myuser@microsoft.com" might be the login if specifying an AAD user. "my-mi" might be the name of a managed identity'
               type: string
             resourceGroup:
               pattern: ^[-\w\._\(\)]+$
               type: string
-            roles:
-              items:
-                type: string
-              type: array
             server:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file'
               type: string
-            username:
+            sid:
+              description: 'Sid: The server administrator Sid (Secure ID). If creating an AAD user, this is the OID of the entity in AAD.'
+              type: string
+            tenantId:
+              description: 'TenantId: The server Active Directory Administrator tenant id.'
               type: string
           required:
-          - dbName
+          - administratorType
+          - login
           - resourceGroup
-          - roles
           - server
+          - sid
+          - tenantId
           type: object
         status:
           description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions

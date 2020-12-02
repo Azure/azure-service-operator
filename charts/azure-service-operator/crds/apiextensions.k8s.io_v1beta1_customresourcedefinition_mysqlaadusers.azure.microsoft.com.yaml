@@ -4,7 +4,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
-  name: azuresqlusers.azure.microsoft.com
+  name: mysqlaadusers.azure.microsoft.com
 spec:
   additionalPrinterColumns:
   - JSONPath: .status.provisioned
@@ -15,18 +15,16 @@ spec:
     type: string
   group: azure.microsoft.com
   names:
-    kind: AzureSQLUser
-    listKind: AzureSQLUserList
-    plural: azuresqlusers
-    shortNames:
-    - asqlu
-    singular: azuresqluser
+    kind: MySQLAADUser
+    listKind: MySQLAADUserList
+    plural: mysqlaadusers
+    singular: mysqlaaduser
   scope: Namespaced
   subresources:
     status: {}
   validation:
     openAPIV3Schema:
-      description: AzureSQLUser is the Schema for the sqlusers API
+      description: MySQLAADUser is the Schema for an AAD user for MySQL
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -37,34 +35,25 @@ spec:
         metadata:
           type: object
         spec:
-          description: AzureSQLUserSpec defines the desired state of SqlUser
+          description: MySQLAADUserSpec defines the desired state of MySQLAADUser
           properties:
-            adminSecret:
-              description: optional
-              type: string
-            adminSecretKeyVault:
+            aadId:
+              description: AAD ID is the ID of the user in Azure Active Directory. When creating a user for a managed identity this must be the client id (sometimes called app id) of the managed identity. When creating a user for a "normal" (non-managed identity) user or group, this is the OID of the user or group.
               type: string
             dbName:
-              type: string
-            keyVaultSecretFormats:
-              items:
-                type: string
-              type: array
-            keyVaultSecretPrefix:
-              type: string
-            keyVaultToStoreSecrets:
               type: string
             resourceGroup:
               pattern: ^[-\w\._\(\)]+$
               type: string
             roles:
+              description: The roles assigned to the user. A user must have at least one role.
               items:
                 type: string
               type: array
             server:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file'
               type: string
             username:
+              description: optional
               type: string
           required:
           - dbName

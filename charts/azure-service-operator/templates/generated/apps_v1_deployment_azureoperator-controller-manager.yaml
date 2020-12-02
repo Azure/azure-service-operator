@@ -63,6 +63,10 @@ spec:
               key: AZURE_CLOUD_ENV
               name: azureoperatorsettings
               optional: true
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         - name: REQUEUE_AFTER
           value: "30"
         image: {{ .Values.image.repository }}
