@@ -5,6 +5,40 @@ metadata:
   name: azureoperator-manager-role-{{ .Release.Namespace }}
 rules:
 - apiGroups:
+  - aadpodidentity.k8s.io
+  resources:
+  - azureassignedidentities
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - aadpodidentity.k8s.io
+  resources:
+  - azureassignedidentities/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - aadpodidentity.k8s.io
+  resources:
+  - azureidentities
+  - azureidentities/status
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - aadpodidentity.k8s.io
+  resources:
+  - azureidentitybindings
+  - azureidentitybindings/status
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - apps
   resources:
   - deployments
@@ -20,27 +54,6 @@ rules:
   - apps
   resources:
   - deployments/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - AzureSQLUsers
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - AzureSQLUsers/finalizers
-  - AzureSQLUsers/status
   verbs:
   - get
   - patch
@@ -333,6 +346,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azuresqlusers/finalizers
   - azuresqlusers/status
   verbs:
   - get
@@ -584,6 +598,27 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - mysqlaadusers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - mysqlaadusers/finalizers
+  - mysqlaadusers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - mysqldatabases
   verbs:
   - create
@@ -626,6 +661,27 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - mysqlserveradministrators
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - mysqlserveradministrators/finalizers
+  - mysqlserveradministrators/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - mysqlservers
   verbs:
   - create
@@ -659,6 +715,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - mysqlusers/finalizers
   - mysqlusers/status
   verbs:
   - get
@@ -763,6 +820,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - postgresqlusers/finalizers
   - postgresqlusers/status
   verbs:
   - get
