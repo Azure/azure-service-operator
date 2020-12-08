@@ -168,7 +168,7 @@ func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 		parametersLocal  = "parameters"
 		propertiesLocal  = "properties"
 		propertyMethod   = "Property"
-		testingRun = "testingRun"
+		testingRunMethod = "TestingRun"
 	)
 
 	t := ast.NewIdent("t")
@@ -194,7 +194,7 @@ func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 		token.DEFINE,
 		astbuilder.CallQualifiedFunc("gopter", "NewProperties", ast.NewIdent(parametersLocal)))
 
-	// partial expression: name of the test
+	// partial expression: description of the test
 	testName := astbuilder.StringLiteralf("Round trip of %v via JSON returns original", o.Subject())
 
 	// partial expression: prop.ForAll(RunTestForX, XGenerator())
