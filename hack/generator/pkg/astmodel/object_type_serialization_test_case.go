@@ -165,7 +165,7 @@ func (o ObjectSerializationTestCase) Equals(_ TestCase) bool {
 func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 
 	const (
-		parameters = "parameters"
+		parametersLocal  = "parameters"
 		properties = "properties"
 		property   = "property"
 		testingRun = "testingRun"
@@ -175,13 +175,14 @@ func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.SimpleAssignment(
-		ast.NewIdent(parameters),
+		ast.NewIdent(parametersLocal),
 		token.DEFINE,
 		astbuilder.CallQualifiedFunc("gopter", "DefaultTestParameters"))
 
+	// parameters.MaxSize = 10
 	configureMaxSize := astbuilder.SimpleAssignment(
 		&ast.SelectorExpr{
-			X:   ast.NewIdent(parameters),
+			X:   ast.NewIdent(parametersLocal),
 			Sel: ast.NewIdent("MaxSize"),
 		},
 		token.ASSIGN,
@@ -191,7 +192,7 @@ func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 	defineProperties := astbuilder.SimpleAssignment(
 		ast.NewIdent(properties),
 		token.DEFINE,
-		astbuilder.CallQualifiedFunc("gopter", "NewProperties", ast.NewIdent(parameters)))
+		astbuilder.CallQualifiedFunc("gopter", "NewProperties", ast.NewIdent(parametersLocal)))
 
 	// partial expression: name of the test
 	testName := astbuilder.StringLiteralf("Round trip of %v via JSON returns original", o.Subject())
