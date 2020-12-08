@@ -153,6 +153,9 @@ func (o ObjectSerializationTestCase) RequiredImports() *PackageImportSet {
 		}
 	}
 
+	// We're not currently creating generators for types in this package, so leave it out
+	result.Remove(NewPackageImport(GenRuntimeReference))
+
 	return result
 }
 
