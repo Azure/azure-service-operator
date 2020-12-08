@@ -147,6 +147,7 @@ func (o ObjectSerializationTestCase) RequiredImports() *PackageImportSet {
 	result.AddImportOfReference(DiffReference)
 	result.AddImportOfReference(PrettyReference)
 
+	// Merge references required for properties
 	for _, prop := range o.objectType.Properties() {
 		for _, ref := range prop.PropertyType().RequiredPackageReferences().AsSlice() {
 			result.AddImportOfReference(ref)
