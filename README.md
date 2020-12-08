@@ -48,6 +48,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
    Client Version: version.Info{Major:"1", Minor:"19", GitVersion:"v1.19.2", GitCommit:"f5743093fd1c663cb0cbc89748f730662345d44d", GitTreeState:"clean", BuildDate:"2020-09-16T13:41:02Z", GoVersion:"go1.15", Compiler:"gc", Platform:"linux/amd64"}
    Server Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.2", GitCommit:"52c56ce7a8272c798dbc29846288d7cd9fbae032", GitTreeState:"clean", BuildDate:"2020-04-30T20:19:45Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}
     ```
+    You'll also need to have the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) installed (>= 2.13.0).
 
 1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
 
@@ -129,7 +130,7 @@ Please see the [FAQ](docs/faq.md) for answers to commonly asked questions about 
 
 Have more questions? Feel free to consult our documentation [here](docs/howto/contents.md).
 
-[Azure Service Operator community calls](https://docs.google.com/document/d/1MEx5W8X_BwxvVJ4NRfgublQJ2sTrw5dSqrJ8Z4YxV94/edit?usp=sharing) are held monthly on the first Wednesday of the month at 4 PM PST. 
+[Azure Service Operator community calls](https://docs.google.com/document/d/1MEx5W8X_BwxvVJ4NRfgublQJ2sTrw5dSqrJ8Z4YxV94/edit?usp=sharing) are held monthly on the first Wednesday of the month at 4 PM PST. Recordings are available on our [Azure Upstream YouTube channel](https://www.youtube.com/channel/UCkbyQgJQfYry4r3zWiUNZwQ).
 
 ## Contributing
 
