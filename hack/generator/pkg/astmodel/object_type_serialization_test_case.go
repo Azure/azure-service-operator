@@ -166,7 +166,7 @@ func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 
 	const (
 		parametersLocal  = "parameters"
-		properties = "properties"
+		propertiesLocal  = "properties"
 		property   = "property"
 		testingRun = "testingRun"
 	)
@@ -190,7 +190,7 @@ func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 
 	// properties := gopter.NewProperties(parameters)
 	defineProperties := astbuilder.SimpleAssignment(
-		ast.NewIdent(properties),
+		ast.NewIdent(propertiesLocal),
 		token.DEFINE,
 		astbuilder.CallQualifiedFunc("gopter", "NewProperties", ast.NewIdent(parametersLocal)))
 
@@ -206,13 +206,13 @@ func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 
 	// properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
 	defineTestCase := astbuilder.InvokeQualifiedFunc(
-		properties,
+		propertiesLocal,
 		property,
 		testName,
 		propForAll)
 
 	// properties.TestingRun(t)
-	runTests := astbuilder.InvokeQualifiedFunc(properties, testingRun, t)
+	runTests := astbuilder.InvokeQualifiedFunc(propertiesLocal, testingRunMethod, t)
 
 	// Define our function
 	fn := astbuilder.NewTestFuncDetails(
