@@ -167,7 +167,7 @@ func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 	const (
 		parametersLocal  = "parameters"
 		propertiesLocal  = "properties"
-		property   = "property"
+		propertyMethod   = "Property"
 		testingRun = "testingRun"
 	)
 
@@ -207,7 +207,7 @@ func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 	// properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
 	defineTestCase := astbuilder.InvokeQualifiedFunc(
 		propertiesLocal,
-		property,
+		propertyMethod,
 		testName,
 		propForAll)
 
