@@ -147,11 +147,15 @@ func (o ObjectSerializationTestCase) RequiredImports() *PackageImportSet {
 	result.AddImportOfReference(DiffReference)
 	result.AddImportOfReference(PrettyReference)
 
+	// Merge references required for properties
 	for _, prop := range o.objectType.Properties() {
 		for _, ref := range prop.PropertyType().RequiredPackageReferences().AsSlice() {
 			result.AddImportOfReference(ref)
 		}
 	}
+
+	// We're not currently creating generators for types in this package, so leave it out
+	result.Remove(NewPackageImport(GenRuntimeReference))
 
 	return result
 }
@@ -165,23 +169,24 @@ func (o ObjectSerializationTestCase) Equals(_ TestCase) bool {
 func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 
 	const (
-		parameters = "parameters"
-		properties = "properties"
-		property   = "property"
-		testingRun = "testingRun"
+		parametersLocal  = "parameters"
+		propertiesLocal  = "properties"
+		propertyMethod   = "Property"
+		testingRunMethod = "TestingRun"
 	)
 
 	t := ast.NewIdent("t")
 
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.SimpleAssignment(
-		ast.NewIdent(parameters),
+		ast.NewIdent(parametersLocal),
 		token.DEFINE,
 		astbuilder.CallQualifiedFunc("gopter", "DefaultTestParameters"))
 
+	// parameters.MaxSize = 10
 	configureMaxSize := astbuilder.SimpleAssignment(
 		&ast.SelectorExpr{
-			X:   ast.NewIdent(parameters),
+			X:   ast.NewIdent(parametersLocal),
 			Sel: ast.NewIdent("MaxSize"),
 		},
 		token.ASSIGN,
@@ -189,11 +194,11 @@ func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 
 	// properties := gopter.NewProperties(parameters)
 	defineProperties := astbuilder.SimpleAssignment(
-		ast.NewIdent(properties),
+		ast.NewIdent(propertiesLocal),
 		token.DEFINE,
-		astbuilder.CallQualifiedFunc("gopter", "NewProperties", ast.NewIdent(parameters)))
+		astbuilder.CallQualifiedFunc("gopter", "NewProperties", ast.NewIdent(parametersLocal)))
 
-	// partial expression: name of the test
+	// partial expression: description of the test
 	testName := astbuilder.StringLiteralf("Round trip of %v via JSON returns original", o.Subject())
 
 	// partial expression: prop.ForAll(RunTestForX, XGenerator())
@@ -205,13 +210,13 @@ func (o ObjectSerializationTestCase) createTestRunner() ast.Decl {
 
 	// properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
 	defineTestCase := astbuilder.InvokeQualifiedFunc(
-		properties,
-		property,
+		propertiesLocal,
+		propertyMethod,
 		testName,
 		propForAll)
 
 	// properties.TestingRun(t)
-	runTests := astbuilder.InvokeQualifiedFunc(properties, testingRun, t)
+	runTests := astbuilder.InvokeQualifiedFunc(propertiesLocal, testingRunMethod, t)
 
 	// Define our function
 	fn := astbuilder.NewTestFuncDetails(
