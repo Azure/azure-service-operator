@@ -19,8 +19,8 @@ pool:
 
 variables:
   tag: '$(Build.BuildId)'
-  MAJOR_VERSION: 0
-  MINOR_VERSION: 1
+  MAJOR_VERSION: 1
+  MINOR_VERSION: 0
   PATCH_VERSION: $(Build.BuildId)
   IMAGE_NAME: 'candidate/k8s/azureserviceoperator'
   ASO_HELM_CHART_NAME: 'candidate/k8s/asohelmchart'
@@ -247,7 +247,7 @@ steps:
         # Apply CRDs as Helm 3 does not install CRDs for Helm upgrade
         kubectl apply -f ./charts/azure-service-operator/crds/
         # Deploy using Helm
-        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz -n $(OPERATOR_NAMESPACE) --create-namespace \
+        helm upgrade --install aso charts/azure-service-operator-$(MAJOR_VERSION).$(MINOR_VERSION).0.tgz -n $(OPERATOR_NAMESPACE) --create-namespace \
             --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
             --set azureTenantID=$(AZURE_TENANT_ID) \
             --set azureClientID=$(AZURE_CLIENT_ID) \
