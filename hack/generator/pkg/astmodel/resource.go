@@ -11,7 +11,6 @@ import (
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	ast "github.com/dave/dst"
-	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 )
 
@@ -264,10 +263,7 @@ func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 // AsDeclarations converts the resource type to a set of go declarations
 func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
 
-	packageName, err := codeGenerationContext.GetImportedPackageName(MetaV1PackageReference)
-	if err != nil {
-		panic(errors.Wrapf(err, "resource resource for %s failed to import package", name))
-	}
+	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1PackageReference)
 
 	typeMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
 	objectMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.ObjectMeta", packageName)), "`json:\"metadata,omitempty\"`")
@@ -342,10 +338,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 
 	typeName := resource.makeResourceListTypeName(resourceTypeName)
 
-	packageName, err := codeGenerationContext.GetImportedPackageName(MetaV1PackageReference)
-	if err != nil {
-		panic(errors.Wrapf(err, "resource list resource for %s failed to import package", typeName))
-	}
+	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1PackageReference)
 
 	typeMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
 	objectMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.ListMeta", packageName)), "`json:\"metadata,omitempty\"`")

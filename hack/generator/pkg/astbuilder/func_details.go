@@ -24,7 +24,7 @@ type FuncDetails struct {
 
 // NewTestFuncDetails returns a FuncDetails for a test method
 // Tests require a particular signature, so this makes it simpler to create test functions
-func NewTestFuncDetails(testName string, body ...ast.Stmt) *FuncDetails {
+func NewTestFuncDetails(testingPackage string, testName string, body ...ast.Stmt) *FuncDetails {
 
 	// Ensure the method name starts with `Test` as required
 	var name string
@@ -42,7 +42,7 @@ func NewTestFuncDetails(testName string, body ...ast.Stmt) *FuncDetails {
 	result.AddParameter("t",
 		&ast.StarExpr{
 			X: &ast.SelectorExpr{
-				X:   ast.NewIdent("testing"),
+				X:   ast.NewIdent(testingPackage),
 				Sel: ast.NewIdent("T"),
 			}},
 	)

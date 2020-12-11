@@ -58,20 +58,11 @@ func (file TestFileDefinition) SaveToFile(filePath string) error {
 // AsAst generates an array of declarations for the content of the file
 func (file *TestFileDefinition) AsAst() *ast.File {
 
-	var decls []ast.Decl
-
-	// Determine imports
-	packageReferences := file.generateImports()
-
 	// Create context from imports
-	codeGenContext := NewCodeGenerationContext(file.packageReference, packageReferences, file.generatedPackages)
-
-	// Create import header if needed
-	if packageReferences.Length() > 0 {
-		decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: file.generateImportSpecs(packageReferences)})
-	}
+	codeGenContext := NewCodeGenerationContext(file.packageReference, file.generateImports(), file.generatedPackages)
 
 	// Emit all test cases:
+	var testcases []ast.Decl
 	for _, s := range file.definitions {
 		definer, ok := s.Type().(TestCaseDefiner)
 		if !ok {
@@ -79,9 +70,19 @@ func (file *TestFileDefinition) AsAst() *ast.File {
 		}
 
 		for _, testcase := range definer.TestCases() {
-			decls = append(decls, testcase.AsFuncs(s.name, codeGenContext)...)
+			testcases = append(testcases, testcase.AsFuncs(s.name, codeGenContext)...)
 		}
 	}
+
+	var decls []ast.Decl
+
+	// Create import header if needed
+	usedImports := codeGenContext.UsedPackageImports()
+	if usedImports.Length() > 0 {
+		decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: file.generateImportSpecs(usedImports)})
+	}
+
+	decls = append(decls, testcases...)
 
 	var header []string
 	header = append(header, CodeGenerationComments...)

@@ -243,13 +243,13 @@ func ReturnIfExpr(cond ast.Expr, returns ...ast.Expr) *ast.IfStmt {
 
 // FormatError produces a call to fmt.Errorf with the given format string and args
 //	fmt.Errorf(<formatString>, <args>)
-func FormatError(formatString string, args ...ast.Expr) ast.Expr {
+func FormatError(fmtPackage string, formatString string, args ...ast.Expr) ast.Expr {
 	var callArgs []ast.Expr
 	callArgs = append(
 		callArgs,
 		StringLiteral(formatString))
 	callArgs = append(callArgs, args...)
-	return CallQualifiedFunc("fmt", "Errorf", callArgs...)
+	return CallQualifiedFunc(fmtPackage, "Errorf", callArgs...)
 }
 
 // AddrOf returns a statement that gets the address of the provided expression.

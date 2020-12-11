@@ -109,6 +109,8 @@ func (builder *convertFromArmBuilder) functionBodyStatements() []ast.Stmt {
 func (builder *convertFromArmBuilder) assertInputTypeIsArm() []ast.Stmt {
 	var result []ast.Stmt
 
+	fmtPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.FmtReference)
+
 	// perform a type assert
 	result = append(
 		result,
@@ -122,6 +124,7 @@ func (builder *convertFromArmBuilder) assertInputTypeIsArm() []ast.Stmt {
 		result,
 		astbuilder.ReturnIfNotOk(
 			astbuilder.FormatError(
+				fmtPackage,
 				fmt.Sprintf("unexpected type supplied for %s() function. Expected %s, got %%T",
 					builder.methodName,
 					builder.armTypeIdent),

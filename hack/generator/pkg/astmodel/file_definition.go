@@ -170,16 +170,20 @@ func (file *FileDefinition) generateImportSpecs(imports *PackageImportSet) []ast
 // AsAst generates an AST node representing this file
 func (file *FileDefinition) AsAst() *ast.File {
 
+	// Create context from imports
+	codeGenContext := NewCodeGenerationContext(file.packageReference, file.generateImports(), file.generatedPackages)
+
+	// Create all definitions:
+	var definitions []ast.Decl
+	for _, s := range file.definitions {
+		definitions = append(definitions, s.AsDeclarations(codeGenContext)...)
+	}
+
 	var decls []ast.Decl
 
-	// Determine imports
-	packageReferences := file.generateImports()
-
-	// Create context from imports
-	codeGenContext := NewCodeGenerationContext(file.packageReference, packageReferences, file.generatedPackages)
-
 	// Create import header if needed
-	if packageReferences.Length() > 0 {
+	usedImports := codeGenContext.UsedPackageImports()
+	if usedImports.Length() > 0 {
 		decls = append(decls, &ast.GenDecl{
 			Decs: ast.GenDeclDecorations{
 				NodeDecs: ast.NodeDecs{
@@ -187,14 +191,12 @@ func (file *FileDefinition) AsAst() *ast.File {
 				},
 			},
 			Tok:   token.IMPORT,
-			Specs: file.generateImportSpecs(packageReferences),
+			Specs: file.generateImportSpecs(usedImports),
 		})
 	}
 
-	// Emit all definitions:
-	for _, s := range file.definitions {
-		decls = append(decls, s.AsDeclarations(codeGenContext)...)
-	}
+	// Add generated definitions
+	decls = append(decls, definitions...)
 
 	// Emit registration for each resource:
 	var exprs []ast.Expr

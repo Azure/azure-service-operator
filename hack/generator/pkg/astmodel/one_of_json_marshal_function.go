@@ -54,6 +54,8 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	codeGenerationContext *CodeGenerationContext,
 	receiver TypeName) *ast.FuncDecl {
 
+	jsonPackage := codeGenerationContext.MustGetImportedPackageName(JsonReference)
+
 	receiverName := f.idFactory.CreateIdentifier(receiver.name, NotExported)
 
 	var statements []ast.Stmt
@@ -75,7 +77,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 						Results: []ast.Expr{
 							&ast.CallExpr{
 								Fun: &ast.SelectorExpr{
-									X:   ast.NewIdent("json"),
+									X:   ast.NewIdent(jsonPackage),
 									Sel: ast.NewIdent("Marshal"),
 								},
 								Args: []ast.Expr{
