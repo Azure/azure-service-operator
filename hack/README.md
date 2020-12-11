@@ -23,7 +23,7 @@ If you want to use this:
 
 ## Without VS Code
 
-### Dockerfile
+### Option 1: Dockerfile
 
 The same `Dockerfile` that the VS Code `devcontainer` extension uses can also be used outside of VS Code; it is stored in the root `.devcontainer` directory and can be used to create a development container with all the tooling preinstalled:
 
@@ -37,7 +37,7 @@ $ docker run -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u $
 
 It is not recommended to mount the source like this on Windows (WSL2) as the cross-VM file operations are very slow.
 
-### ./dev.sh
+### Option 2: ./dev.sh
 
 If you are using Linux, instead of using VS Code you can run the `dev.sh` script in the root of the repository. This will install all required tooling into the `hack/tools` directory and then start a new shell with the `PATH` updated to use it.
 
