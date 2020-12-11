@@ -372,3 +372,52 @@ func TestPackageImportSet_ServiceNameForImport_GivenImport_ReturnsExpectedName(t
 		})
 	}
 }
+
+/*
+ * orderImports() tests
+ */
+
+func Test_PackageSet_OrderImports(t *testing.T) {
+
+	alphaRef := MakeExternalPackageReference("alpha")
+	betaRef := MakeExternalPackageReference("beta")
+
+	alphaImport := NewPackageImport(alphaRef)
+	betaImport := NewPackageImport(betaRef)
+
+	alphaImportWithName := alphaImport.WithName("alpha")
+	betaImportWithName := betaImport.WithName("beta")
+
+	cases := []struct {
+		name  string
+		left  PackageImport
+		right PackageImport
+		less  bool
+	}{
+		{"Anonymous imports are alphabetical (i)", alphaImport, betaImport, true},
+		{"Anonymous imports are alphabetical (ii)", betaImport, alphaImport, false},
+		{"Named imports are alphabetical (i)", alphaImportWithName, betaImportWithName, true},
+		{"Named imports are alphabetical (ii)", betaImportWithName, alphaImportWithName, false},
+		{"Named imports come before anonymous (i)", alphaImportWithName, alphaImport, true},
+		{"Named imports come before anonymous (ii)", betaImportWithName, alphaImport, true},
+		{"Named imports come before anonymous (iii)", alphaImportWithName, betaImport, true},
+		{"Named imports come before anonymous (iv)", betaImportWithName, betaImport, true},
+		{"Anonymous imports come after named (i)", alphaImport, alphaImportWithName, false},
+		{"Anonymous imports come after named (ii)", alphaImport, betaImportWithName, false},
+		{"Anonymous imports come after named (iii)", betaImport, alphaImportWithName, false},
+		{"Anonymous imports come after named (iv)", betaImport, betaImportWithName, false},
+	}
+
+	var set PackageImportSet
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			less := set.orderImports(c.left, c.right)
+			g.Expect(less).To(Equal(c.less))
+		})
+	}
+}

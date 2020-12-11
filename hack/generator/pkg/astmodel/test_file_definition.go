@@ -143,7 +143,7 @@ func (file *TestFileDefinition) generateImports() *PackageImportSet {
 
 func (file *TestFileDefinition) generateImportSpecs(imports *PackageImportSet) []ast.Spec {
 	var importSpecs []ast.Spec
-	for _, requiredImport := range imports.AsSlice() {
+	for _, requiredImport := range imports.AsSortedSlice() {
 		importSpecs = append(importSpecs, requiredImport.AsImportSpec())
 	}
 

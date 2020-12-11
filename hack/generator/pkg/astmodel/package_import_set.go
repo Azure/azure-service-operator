@@ -91,12 +91,11 @@ func (set *PackageImportSet) AsSlice() []PackageImport {
 }
 
 // AsSortedSlice() return a sorted slice containing all the imports
-// less specifies how to order the imports
-func (set *PackageImportSet) AsSortedSlice(less func(i PackageImport, j PackageImport) bool) []PackageImport {
+func (set *PackageImportSet) AsSortedSlice() []PackageImport {
 	result := set.AsSlice()
 
 	sort.Slice(result, func(i int, j int) bool {
-		return less(result[i], result[j])
+		return set.orderImports(result[i], result[j])
 	})
 
 	return result
@@ -255,4 +254,20 @@ func (set *PackageImportSet) ServiceNameForImport(imp PackageImport) string {
 func (set *PackageImportSet) versionedNameForImport(imp PackageImport) string {
 	service := set.ServiceNameForImport(imp)
 	return service + imp.packageReference.PackageName()
+}
+
+func (set *PackageImportSet) orderImports(i PackageImport, j PackageImport) bool {
+	if i.HasExplicitName() && j.HasExplicitName() {
+		return i.name < j.name
+	}
+
+	if i.HasExplicitName() {
+		return true
+	}
+
+	if j.HasExplicitName() {
+		return false
+	}
+
+	return i.packageReference.String() < j.packageReference.String()
 }

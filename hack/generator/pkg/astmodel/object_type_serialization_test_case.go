@@ -9,6 +9,7 @@ import (
 	"fmt"
 	ast "github.com/dave/dst"
 	"go/token"
+	"sort"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"github.com/pkg/errors"
@@ -507,9 +508,19 @@ func (o ObjectSerializationTestCase) createGenerators(
 	var handled []PropertyName
 	var result []ast.Stmt
 
+	// Sort Properties into alphabetical order to ensure we always generate the same code
+	var toGenerate []PropertyName
+	for name := range properties {
+		toGenerate = append(toGenerate, name)
+	}
+	sort.Slice(toGenerate, func(i, j int) bool {
+		return toGenerate[i] < toGenerate[j]
+	})
+
 	// Iterate over all properties, creating generators where possible
 	var errs []error
-	for name, prop := range properties {
+	for _, name := range toGenerate {
+		prop := properties[name]
 		g, err := factory(string(name), prop.PropertyType(), genContext)
 		if err != nil {
 			errs = append(errs, err)

@@ -160,27 +160,11 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 
 func (file *FileDefinition) generateImportSpecs(imports *PackageImportSet) []ast.Spec {
 	var importSpecs []ast.Spec
-	for _, requiredImport := range imports.AsSortedSlice(file.orderImports) {
+	for _, requiredImport := range imports.AsSortedSlice() {
 		importSpecs = append(importSpecs, requiredImport.AsImportSpec())
 	}
 
 	return importSpecs
-}
-
-func (file *FileDefinition) orderImports(i PackageImport, j PackageImport) bool {
-	if i.HasExplicitName() && j.HasExplicitName() {
-		return i.name < j.name
-	}
-
-	if i.HasExplicitName() {
-		return true
-	}
-
-	if j.HasExplicitName() {
-		return false
-	}
-
-	return i.packageReference.String() < j.packageReference.String()
 }
 
 // AsAst generates an AST node representing this file
