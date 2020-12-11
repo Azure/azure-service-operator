@@ -14,7 +14,7 @@ We're generating a large number of CRD definitions based on the JSON schema defi
 - [Other Constraints](#other-constraints)
 - [Case Studies](#case-studies)
 - [Proposed Solution](#proposed-solution)
-  - [Defining a central hub type](#defining-a-central-hub-type)
+  - [Defining Storage Versions](#defining-storage-versions)
   - [Generated conversion methods](#generated-conversion-methods)
   - [External Metadata for common changes](#external-metadata-for-common-changes)
   - [Standard extension points](#standard-extension-points)
@@ -22,6 +22,11 @@ We're generating a large number of CRD definitions based on the JSON schema defi
   - [Round Trip Testing](#round-trip-testing)
   - [Relibility Testing](#relibility-testing)
   - [Golden Tests](#golden-tests)
+- [Conversion Flow](#conversion-flow)
+  - [Direct conversion to storage type](#direct-conversion-to-storage-type)
+  - [Two step conversion to storage type](#two-step-conversion-to-storage-type)
+  - [Multiple step conversion to storage type](#multiple-step-conversion-to-storage-type)
+  - [Two step conversion from storage type](#two-step-conversion-from-storage-type)
 - [Alternative Solutions](#alternative-solutions)
   - [Alternative: Fixed storage version](#alternative-fixed-storage-version)
   - [Alternative: Use the latest API version](#alternative-use-the-latest-api-version)
@@ -36,9 +41,9 @@ We're generating a large number of CRD definitions based on the JSON schema defi
 
 **Auto-generated conversions:** As far as practical, we want to autogenerate the schema for storage use along with the conversions to and from the actual ARM API versions. Hand coding all the required conversions doesn't scale across all the different Azure sevices, especially with the ongoing rate of change. 
 
-**Allow for hand coded conversions:** While we expect to use code generation to handle the vast majority of needed conversions, we anticipate that some breaking API changes will require *part* of the conversion to be hand coded. We need to make it simple for these conversions to be introduced while still autogenerating the majority of the conversion.
+**Allow for hand coded conversions:** While we expect to use code generation to handle the vast majority of needed conversions, we anticipate that some breaking API changes will require *part* of the conversion to be hand coded. We need to make it simple for these conversions to be introduced while still autogenerating the majority of the conversion. We also want to minimize the need for these conversions to be revisited and maintained over time.
 
-**No modification of generated files.** Manual modification of generated files is a known antipattern that greatly increases the complexity and burden of updates. If some files have been manually changed, every difference showing after code generation needs to be manually reviewed before being committed. This is tedious and error prone because the vast majority of auto generated changes will be perfectly fine. 
+**No modification of generated files.** Manual modification of generated files is a known antipattern that greatly increases the complexity and burden of updates. If some files have been manually changed, every difference showing after code generation needs to be manually reviewed before being committed. This is tedious and error prone because the vast majority of auto generated changes will be perfectly fine. Worse, this process would need to be repeated every time we want to update the operator.
 
 **Compliance with Kubernetes versioning.** To quote [Kubebuilder's documentation](https://book.kubebuilder.io/multiversion-tutorial/api-changes.html):
 
@@ -57,15 +62,15 @@ Unlike the typical situation with a hand written service operator, we don't have
 
 ## Case Studies
 
-There are three case studies that accompany this specification, each one walking through one possible solution and showing how it will perform over time.
+There are three case studies that accompany this specification, each one walking through one possible solution and showing how it will perform as a synthetic ARM style API evolves over time.
 
-The [**Rolling Versions**](case-study-rolling-storage-versions.md) case study shows how the preferred solution adapts to changes as the Azure Resources evolve over time.
+The [**Chained Versions**](case-study-chained-storage-versions.md) case study shows how the preferred solution adapts to changes as the API is modified.
 
-The [**Fixed Version**](case-study-fixed-storage-version.md) case study shows how the primary alternative would fare, calling out some specific problems that will occur.
+The [**Rolling Versions**](case-study-rolling-storage-versions.md) case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.
 
-The [**Chained Versions**](case-study-chained-storage-versions.md) case study shows another alternative that maximizes code reuse between versions of the service operator.
+The [**Fixed Version**](case-study-fixed-storage-version.md) case study shows how a popular alternative would fare, calling out some specific problems that will occur.
 
-**TL;DR:** Using a *fixed storage version* appears simpler at first, and works well as long as the changes from version to version are simple. However, when the changes become complex (as they are bound to do over time), this approach starts to break down. The *chained versions* approach is viable, with some nice code-reuse characteristics that go along with its complexity. While there is up front complexity to address with a *rolling storage version*, the approach doesn't break down over time and we can generate useful automated tests for verification.
+**TL;DR:** Using a *fixed storage version* appears simpler at first, and works well as long as the changes from version to version are simple. However, when the changes become complex (as they are bound to do over time), this approach starts to break down. While there is up front complexity to address with *chained storage versions*, the approach doesn't break down over time and we can generate useful automated tests for verification. The *rolling storage version* approach is viable, but requires additional ongoing maintenance when manual conversions are introduced between versions.
 
 Examples shown in this document are drawn from the case studies.
 
@@ -73,9 +78,9 @@ Examples shown in this document are drawn from the case studies.
 
 In summary:
 
-* For each supported Azure Resource Type, we will define a synthetic central hub type that will be used for storage/serialization across all versions of the API.
+* For each supported version of an Azure Resource Type, we will define a synthetic storage type type that will be used for serialization of that versions of the API. The latest non-preview version will be tagged as the canonical storage type for Kubernetes.
 
-* Automatically generated conversions will allow for lossless conversions between the externally exposed API versions of resources and the central (hub) storage version.
+* Automatically generated conversions will allow for lossless conversions between the externally exposed API versions of resources and the related storage versions. Additional conversions will be generated to allow upgrade or downgrade between adjacent storage versions.
 
 * External metadata that we bundle with the code generator will document common changes that occur over time (including property and type name changes), extending the coverage of our automatically generated conversions.
 
@@ -83,17 +88,17 @@ In summary:
 
 Each of these four points is expanded upon in detail below.
 
-### Defining a central hub type
+### Defining Storage Versions
 
-We'll base the schema of the central hub type on the latest GA release of the API for each resource, with the following modifications:
+We'll base the schema of the storage versions on the corresponding API version, with the following modifications:
 
 **All properties will be defined as optional** allowing for back compatibility with prior versions of the API that might not have included specific properties.
 
-**Inclusion of a property bag** to provide for storage for properties present in older versions of the API that are no longer present.
+**Inclusion of a property bag** to provide for storage for properties present in other versions of the API that are not present in this version.
 
 If a resource type is dropped from later releases of the ARM API, we will still generate a storage type based on the latest available release of that type. We need to do this in order to maintain backward compatibility with existing installations of the service operator.
 
-Using a purpose designed hub type for storage avoids a number of version-to-version compatibility issues that can arise if the API version itself is used directly for storage.
+Using a purpose designed types for storage avoids a number of version-to-version compatibility issues that can arise if the API version itself is used directly for storage.
 
 To illustrate, if the API version defined the following `Person` type:
 
@@ -107,7 +112,7 @@ type Person struct {
 }
 ```
 
-Then the generated storage (hub) version will look like this:
+Then the generated storage (hub) version will be:
 
 ``` go
 package v20110101storage
@@ -126,18 +131,20 @@ If a type has been dropped from the ARM API, we will still generate a storage sc
 
 Sequestering additional properties away within a property bag in the storage schema is more robust than using separate annotations as they are less subject to arbitrary modification by users. This allows us to largely avoid situations where well meaning (but uninformed) consumers of the service operator innocently make changes that result in the operator becoming failing. We particularly want to avoid this failure mode because recovery will be difficult - restoration of the modified/deleted information may be impractical or impossible.
 
+The latest non-preview storage version will be selected as the definitive storage version (or *hub* version) for use by the controller.
+
 ### Generated conversion methods
 
 Each of the structs generated for ARM API will have the normal `ConvertTo()` and `ConvertFrom()` methods generated automatically, implementing the required [Convertible](https://book.kubebuilder.io/multiversion-tutorial/conversion.html) interface:
 
 ``` go
-// ConvertTo converts this Person to the Hub storage version.
+// ConvertTo converts this Person to the matching storage version.
 func (person *Person) ConvertTo(raw conversion.Hub) error {
     p := raw.(*storage.Person)
     return ConvertToStorage(p)
 }
 
-// ConvertFrom converts from the Hub storage version
+// ConvertFrom converts from the matching storage version
 func (person *Person) ConvertFrom(raw conversion.Hub) error {
     p := raw.(*storage.Person)
     return ConvertFromStorage(p)
@@ -157,7 +164,7 @@ Each property defined in the API type is considered in turn, and will require di
 * Primitive types are **string**, **int**, **float64**, and **bool**
 * Name comparisons are case-insensitive
 
-**For properties with an enumeration type** a matching property must have the same property name and an enumeration type with the same type name. If found, a simple assignment will copy the value over. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type using the underlying type of the enumeration.
+**For properties with an enumeration type** a matching property must have the same property name and a type matching the underlying type of the enumeration. If found, a simple assignment will copy the value over with a suitable type cast. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type using the underlying type of the enumeration.
 
 * Name comparisons are case-insensitive for both property names and enumeration type names
 * Enumeration types are generated independently for each version, so they will never be identical types
@@ -173,19 +180,17 @@ Each property defined in the API type is considered in turn, and will require di
 
 We'll capture common changes between versions in metadata (likely a YAML file) that we bundle with the code generator, allowing it to handle a wider range of scenarios.
 
-**If a property is renamed** in a particular API version, conversion of API versions *prior* to that point of change will instead match based on the new name of the property on the storage type. 
+**If a property is renamed** in a particular API version, conversion from the prior API version to that point of change will instead match based on the new name of the property on the storage type. 
 
 There are more than 40 cases of properties being renamed across versions of the ARM API.
 
 > ***TODO: Show an example***
 
-**If a type has been renamed** in a particular API version, conversion of API versions *prior* to that point of change will instead match based on the new type of the property on the storage type.
+**If a type has been renamed** in a particular API version, conversion from the API version *prior* to that point of change will instead match based on the new type of the property on the storage type.
 
 There are 160 cases of properties changing type across versions of the ARM API. Many of these can be handled automatically by capturing type renames in metadata.
 
 > ***TODO: Show an example***
-
-
 
 > ***Outstanding Issue:*** Are there other kinds of common change we want to support?  
 Are there other cases of changes between versions that we may be able to handle automatically. 
@@ -193,20 +198,27 @@ Can we find examples? Do we want to support these cases?
 
 ### Standard extension points
 
-Code generation will include interfaces to allow easy injection of manual conversion steps. 
+Code generation will include interfaces to allow easy injection of manual conversion steps.
 
-For each storage type, two interfaces will be generated, one to be called by `ConvertToStorage()` and one to be called by `ConvertFromStorage()`:
+For each storage type, two interfaces will be generated, one for each direction of conversion.
+
+An `AssignableTo*` interface for conversion *to* the storage type will be available for conversions that write to an instance of the storage type.
 
 ``` go
 type AssignableToPerson interface {
     AssignToPerson(person Person) error
 }
+```
 
+Similarly, an `AssignableFrom*` interface for conversion *from* the storage type will be available for conversions that read from an instance of the storage type:
+
+``` go
 type AssignableFromPerson interface {
     AssignFromPerson(person Person) error
 }
 ```
-If an API type implements one (or both) of these interfaces, they will be automatically invoked *after* the standard conversion code has completed.
+
+If a type (whether API or storage) implements one (or both) of these interfaces, they will be automatically invoked *after* the standard conversion code has completed, creating an opportunity to augment the standard conversion process. 
 
 ## Testing
 
@@ -234,11 +246,11 @@ Each test will work as follows:
 
 ### Relibility Testing
 
-We will generate a unit test to ensure that every spoke version can be converted to every other spoke version via the hub version without crashing. We lack the semantic context to verify that the conversion is correct, but we can at least verify that it doesn't crash.
+We will generate unit tests to ensure that every spoke version can be converted to every other spoke version via the hub version without crashing. We lack the semantic context to verify that the conversion is correct, but we can at least verify that it doesn't crash.
 
 This test targets the following failure modes:
 
-* Conversions that fail when information is missing (as will happen when converting from earlier versions)
+* Conversions that fail when information is missing (as may happen when converting from earlier versions)
 
 ### Golden Tests
 
@@ -253,7 +265,7 @@ These tests will be particularly useful when a new version of the ARM API is rel
 
 We'll generate two golden tests for each type in each API type, one to test verify conversion _**to**_ the latest version, and one to test conversion _**from**_ the latest version.
 
-**Testing conversion to the latest version** will check that an instance of a older version of the API can be correctly up-converted to the latest version:
+**Testing conversion to the latest version** will check that an instance of a older version of the API can be up-converted to the latest version:
 
 ![](images/versioning/golden-tests-to-latest.png)
 
@@ -270,7 +282,7 @@ Testing will only occur if one (or both) types implements one of the optional in
 
 If neither rule is satisfied, the test will silently null out.
 
-**Testing conversion from the latest version** will check that an instance of the latest version of the API can be correctly down-converted to an older version.
+**Testing conversion from the latest version** will check that an instance of the latest version of the API can be down-converted to an older version.
 
 ![](images/versioning/golden-tests-from-latest.png)
 
@@ -284,6 +296,43 @@ Testing will only occur if one (or both) types implements one of the optional in
 * The latest API type implements `AssignableTo...()`
 
 If neither rule is satisfied, the test will silently null out.
+
+## Conversion Flow
+
+To illustrate the operation of conversions, consider the following graph of related versions of `Person`:
+
+![](images/versioning/conversions.png)
+
+API versions are shown across the top, with the associated storage versions directly below. The arrows show the direction of references between the packages, with a package at the start of the arrow importing the package at the end. For example, package `v3` imports `v3storage` and can access the types within. 
+
+The highlighted storage version **v4storage** is the currently nominated hub version - all conversions are to or from this type.
+
+### Direct conversion to storage type
+
+The simplest case is a conversion directly between **v4** and **v4storage**, which simply involves copying properties across:
+
+![](images/versioning/direct-conversion.png)
+
+
+### Two step conversion to storage type
+
+There's no direct conversion between a **v3.Person** and a **v4storage.Person**, so an intermediate step is required: we convert first to a **v3storage.Person**, and then to the final type:
+
+![](images/versioning/two-step-conversion.png)
+
+
+### Multiple step conversion to storage type
+
+The approach generalizes - at each stage, an intermediate instance is created, one step closer to the current hub type, and the properties are copied across:
+
+![](images/versioning/multiple-step-conversion.png)
+
+### Two step conversion from storage type
+
+When converting in the other direction, the process is similar - we show here just the two step case to illustrate.
+
+![](images/versioning/two-step-reverse-conversion.png)
+
 
 ## Alternative Solutions
 

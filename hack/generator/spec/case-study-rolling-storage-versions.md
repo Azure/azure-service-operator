@@ -27,6 +27,7 @@ Examples shown are deliberately simplified in order to focus, and therefore minu
   - [Version Map](#version-map-4)
 - [Version 2015-05-05 - Property Rename](#version-2015-05-05---property-rename)
   - [Storage Conversion](#storage-conversion-4)
+  - [Issue: Instability of manual conversions](#issue-instability-of-manual-conversions)
   - [Version Map](#version-map-5)
   - [How often do property renames happen?](#how-often-do-property-renames-happen)
 - [Version 2016-06-06 - Complex Properties](#version-2016-06-06---complex-properties)
@@ -76,7 +77,6 @@ func (*Person) Hub() {}
 Every property is marked as optional. Optionality doesn't matter at this point, as we currently have only single version of the API. However, as we'll see with later versions, forward and backward compatibility issues would arise if they were not optional.
 
 The `PropertyBag` type provides storage for other properties, plus helper methods. It is always included in storage versions, but in this case will be unused. The method `Hub()` marks this version as the storage schema.
-
 
 ## Storage Conversion
 
@@ -148,7 +148,8 @@ type Person struct {
 
 ## Storage Conversion
 
-Conversions with the upgraded storage version will be identical (except for the import statements for referenced types) to those shown above.
+Conversions with the upgraded storage version will need to be trivially modified by changing the import statements for the referenced types.
+
 
 ## Version Map
 
@@ -292,7 +293,7 @@ This provides round-trip support for the preview release, but does not provide b
 
 The storage version of `Person` written by the preview release will have no values for `FirstName`, `LastName`, and `MiddleName`.
 
-These kinds of cross-version conversions cannot be automatically generated as they require more understanding of the semantic changes between versions. 
+These kinds of cross-version conversions cannot be automatically generated as they require more understanding of the semantic changes between versions.
 
 To allow injection of manual conversion steps, interfaces will be generated as follows:
 
@@ -599,6 +600,23 @@ func (person *Person) ConvertFromStorage(source storage.Person) error {
 ```
 
 While `SortKey` appears at the end of the list of assignments in the first method, the mirror assignment of `AlphaKey` appears at the start of the list in the second method.
+
+## Issue: Instability of manual conversions
+
+The earlier manually authored conversions for `AlphaKey` will also need to be modified. While this change looks simple, it's a symptom of an underlying problem: with each release, the map of required conversions is completely new (no reuse of older conversions.
+
+This both requires the introduction of additional conversions to support older versions (as has happened here) and the modification of existing conversions.
+
+To illustrate, consider the manual code (`AssignTo()` and `AssignFrom()`) that was written to augment conversion between `v20110101.Person` and `v20140404storage.Person`.
+
+Now that we've moved to a new release, there is no direct conversion between those two versions (see the version map below) - so the manual conversion just drops off and is ignored. If this is not detected, we may end up corrupting resource definitions as they are converted.
+
+In many cases, updating manual conversion code will only require changing imported package references, but this does introduce risk as it involves modifying the code, even if trivially. 
+
+There will certainly also be cases where the conversion is much harder to convert.
+
+We also have the issue seen above where introduction of a change requires additional conversions to be written for older versions.
+
 
 ## Version Map
 
