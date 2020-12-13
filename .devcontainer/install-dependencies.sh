@@ -39,6 +39,7 @@ echo "Installing tools to $TOOL_DEST"
 # Install Go tools
 TMPDIR=$(mktemp -d)
 clean() { 
+    chmod +w -R "$TMPDIR"
     rm -rf "$TMPDIR"
 }
 trap clean EXIT
