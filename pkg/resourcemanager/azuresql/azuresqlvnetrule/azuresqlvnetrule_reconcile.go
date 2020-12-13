@@ -30,6 +30,7 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 	virtualNetworkRG := instance.Spec.VNetResourceGroup
 	virtualnetworkname := instance.Spec.VNetName
 	subnetName := instance.Spec.SubnetName
+	virtualNetworkSubscription := instance.Spec.VNetSubscriptionID
 	ignoreendpoint := instance.Spec.IgnoreMissingServiceEndpoint
 
 	vnetrule, err := vr.GetSQLVNetRule(ctx, groupName, server, ruleName)
@@ -55,7 +56,7 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 	}
 
 	instance.Status.Provisioning = true
-	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint)
+	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, virtualNetworkSubscription, ignoreendpoint)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureError(err)

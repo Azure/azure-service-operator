@@ -72,8 +72,8 @@ func GetGoVNetRulesClient(creds config.Credentials) (sql.VirtualNetworkRulesClie
 }
 
 // GetNetworkSubnetClient retrieves a Subnetclient
-func GetGoNetworkSubnetClient(creds config.Credentials) (network.SubnetsClient, error) {
-	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+func GetGoNetworkSubnetClient(creds config.Credentials, subscription string) (network.SubnetsClient, error) {
+	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), subscription)
 	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return network.SubnetsClient{}, err
