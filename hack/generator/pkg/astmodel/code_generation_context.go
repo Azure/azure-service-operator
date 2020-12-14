@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"fmt"
 	"github.com/pkg/errors"
 )
 
@@ -107,7 +108,13 @@ func (codeGenContext *CodeGenerationContext) GetImportedDefinition(typeName Type
 }
 
 // GetTypesInPackage returns the actual definitions from a specific package
-func (codeGenContext *CodeGenerationContext) GetTypesInPackage(ref PackageReference) (Types, bool) {
+func (codeGenContext *CodeGenerationContext) GetTypesInPackage(packageRef PackageReference) (Types, bool) {
+	ref := packageRef
+	if local, ok := ref.AsLocalPackage(); ok {
+		// Resolve to a local reference if possible
+		ref = local
+	}
+
 	def, ok := codeGenContext.generatedPackages[ref]
 	if !ok {
 		// Package reference not found
@@ -121,7 +128,8 @@ func (codeGenContext *CodeGenerationContext) GetTypesInPackage(ref PackageRefere
 func (codeGenContext *CodeGenerationContext) GetTypesInCurrentPackage() Types {
 	def, ok := codeGenContext.GetTypesInPackage(codeGenContext.currentPackage)
 	if !ok {
-		panic("Should always have definitions for the current package")
+		msg := fmt.Sprintf("Should always have definitions for the current package %v", codeGenContext.currentPackage)
+		panic(msg)
 	}
 
 	return def

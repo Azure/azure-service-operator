@@ -5,6 +5,8 @@
 
 package astmodel
 
+import "fmt"
+
 const (
 	StoragePackageSuffix = "storage"
 )
@@ -23,6 +25,11 @@ func MakeStoragePackageReference(local LocalPackageReference) StoragePackageRefe
 			version: local.version + StoragePackageSuffix,
 		},
 	}
+}
+
+// String returns the string representation of the package reference
+func (spr StoragePackageReference) String() string {
+	return fmt.Sprintf("storage:%v", spr.PackagePath())
 }
 
 // IsStoragePackageReference returns true if the reference is to a storage package
