@@ -108,7 +108,13 @@ func (codeGenContext *CodeGenerationContext) GetImportedDefinition(typeName Type
 }
 
 // GetTypesInPackage returns the actual definitions from a specific package
-func (codeGenContext *CodeGenerationContext) GetTypesInPackage(ref PackageReference) (Types, bool) {
+func (codeGenContext *CodeGenerationContext) GetTypesInPackage(packageRef PackageReference) (Types, bool) {
+	ref := packageRef
+	if local, ok := ref.AsLocalPackage(); ok {
+		// Resolve to a local reference if possible
+		ref = local
+	}
+
 	def, ok := codeGenContext.generatedPackages[ref]
 	if !ok {
 		// Package reference not found
