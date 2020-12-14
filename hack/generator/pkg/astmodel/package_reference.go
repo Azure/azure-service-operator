@@ -14,7 +14,7 @@ const (
 var MetaV1PackageReference = MakeExternalPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
 
 type PackageReference interface {
-	// IsLocalPackage returns a valud indicating whether this is a local package
+	// AsLocalPackage attempts conversion to a LocalPackageReference
 	AsLocalPackage() (LocalPackageReference, bool)
 	// Package returns the package name of this reference
 	PackageName() string
