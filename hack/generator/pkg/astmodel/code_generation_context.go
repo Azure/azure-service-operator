@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"fmt"
 	"github.com/pkg/errors"
 )
 
@@ -121,7 +122,8 @@ func (codeGenContext *CodeGenerationContext) GetTypesInPackage(ref PackageRefere
 func (codeGenContext *CodeGenerationContext) GetTypesInCurrentPackage() Types {
 	def, ok := codeGenContext.GetTypesInPackage(codeGenContext.currentPackage)
 	if !ok {
-		panic("Should always have definitions for the current package")
+		msg := fmt.Sprintf("Should always have definitions for the current package %v", codeGenContext.currentPackage)
+		panic(msg)
 	}
 
 	return def
