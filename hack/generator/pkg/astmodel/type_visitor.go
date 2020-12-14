@@ -25,7 +25,6 @@ type TypeVisitor struct {
 	VisitOptionalType func(this *TypeVisitor, it *OptionalType, ctx interface{}) (Type, error)
 	VisitEnumType     func(this *TypeVisitor, it *EnumType, ctx interface{}) (Type, error)
 	VisitResourceType func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
-	VisitArmType      func(this *TypeVisitor, it *ArmType, ctx interface{}) (Type, error)
 	VisitFlaggedType  func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error)
 }
 
@@ -56,8 +55,6 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 		return tv.VisitEnumType(tv, it, ctx)
 	case *ResourceType:
 		return tv.VisitResourceType(tv, it, ctx)
-	case *ArmType:
-		return tv.VisitArmType(tv, it, ctx)
 	case *FlaggedType:
 		return tv.VisitFlaggedType(tv, it, ctx)
 	}
@@ -123,7 +120,6 @@ func MakeTypeVisitor() TypeVisitor {
 		VisitEnumType:     IdentityVisitOfEnumType,
 		VisitOptionalType: IdentityVisitOfOptionalType,
 		VisitResourceType: IdentityVisitOfResourceType,
-		VisitArmType:      IdentityVisitOfArmType,
 		VisitOneOfType:    IdentityVisitOfOneOfType,
 		VisitAllOfType:    IdentityVisitOfAllOfType,
 		VisitFlaggedType:  IdentityVisitOfFlaggedType,
@@ -231,24 +227,6 @@ func IdentityVisitOfResourceType(this *TypeVisitor, it *ResourceType, ctx interf
 	}
 
 	return it.WithSpec(visitedSpec).WithStatus(visitedStatus), nil
-}
-
-func IdentityVisitOfArmType(this *TypeVisitor, at *ArmType, ctx interface{}) (Type, error) {
-	nt, err := this.Visit(&at.objectType, ctx)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit ARM underlying type %T", at.objectType)
-	}
-
-	switch newType := nt.(type) {
-	case *ObjectType:
-		return NewArmType(*newType), nil
-
-	case *ArmType:
-		return newType, nil
-
-	default:
-		return nil, errors.Errorf("expected transformation of ARM underlying type %T to return ObjectType or ArmType, not %T", at.objectType, nt)
-	}
 }
 
 func IdentityVisitOfOneOfType(this *TypeVisitor, it OneOfType, ctx interface{}) (Type, error) {
