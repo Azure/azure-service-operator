@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"bufio"
 	"go/token"
 	"io"
 	"os"
@@ -38,7 +39,11 @@ func NewTestFileDefinition(
 // SaveToWriter writes the file to the specifier io.Writer
 func (file TestFileDefinition) SaveToWriter(dst io.Writer) error {
 	content := file.AsAst()
-	err := decorator.Fprint(dst, content)
+
+	buf := bufio.NewWriter(dst)
+	defer buf.Flush()
+
+	err := decorator.Fprint(buf, content)
 	return err
 }
 
