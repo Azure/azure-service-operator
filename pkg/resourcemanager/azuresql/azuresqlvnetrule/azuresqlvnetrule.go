@@ -67,6 +67,7 @@ func (m *AzureSqlVNetRuleManager) CreateOrUpdateSQLVNetRule(ctx context.Context,
 		return sql.VirtualNetworkRule{}, err
 	}
 
+	// Subnet may be in another subscription
 	if subscription == "" {
 		subscription = m.creds.SubscriptionID()
 	}
