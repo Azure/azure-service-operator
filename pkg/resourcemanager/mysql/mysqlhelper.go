@@ -45,7 +45,7 @@ func ConnectToSqlDB(ctx context.Context, driverName string, fullServer string, d
 
 	err = db.PingContext(ctx)
 	if err != nil {
-		return db, fmt.Errorf("error ping the mysql db:  %v", err)
+		return db, fmt.Errorf("error pinging the mysql db (%s:%d/%s): %v", fullServer, port, database, err)
 	}
 
 	return db, err
@@ -84,7 +84,7 @@ func ConnectToSQLDBAsCurrentUser(
 
 	err = db.PingContext(ctx)
 	if err != nil {
-		return db, fmt.Errorf("error ping the mysql db:  %v", err)
+		return db, fmt.Errorf("error pinging the mysql db (%s:%d/%s) as %s: %v", fullServer, port, database, user, err)
 	}
 
 	return db, err

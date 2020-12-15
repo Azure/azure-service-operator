@@ -49,7 +49,10 @@ type MySQLServerAdministratorSpec struct {
 	// +kubebuilder:validation:Required
 	Login string `json:"login"`
 
-	//Sid: The server administrator Sid (Secure ID). If creating an AAD user, this is the OID of the entity in AAD.
+	//Sid: The server administrator Sid (Secure ID). If creating for
+	//an AAD user or group, this is the OID of the entity in AAD. For
+	//a managed identity this should be the Client ID (or app id) of
+	//the identity.
 	// +kubebuilder:validation:Required
 	Sid string `json:"sid"`
 
