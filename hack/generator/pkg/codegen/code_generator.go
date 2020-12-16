@@ -80,6 +80,7 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 		applyExportFilters(configuration),
 		stripUnreferencedTypeDefinitions(),
 		replaceAnyTypeWithJSON(),
+		reportOnTypesAndVersions(configuration),
 
 		createArmTypesAndCleanKubernetesTypes(idFactory),
 		applyKubernetesResourceInterface(idFactory),
