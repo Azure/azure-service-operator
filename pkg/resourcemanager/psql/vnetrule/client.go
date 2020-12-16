@@ -29,8 +29,8 @@ func GetPostgreSQLVNetRulesClient(creds config.Credentials) psql.VirtualNetworkR
 }
 
 // retrieves the Subnetclient
-func GetGoNetworkSubnetClient(creds config.Credentials) network.SubnetsClient {
-	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+func GetGoNetworkSubnetClient(creds config.Credentials, subscription string) network.SubnetsClient {
+	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), subscription)
 	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	SubnetsClient.Authorizer = a
 	SubnetsClient.AddToUserAgent(config.UserAgent())
@@ -83,10 +83,15 @@ func (c *PostgreSQLVNetRuleClient) CreateOrUpdatePostgreSQLVNetRule(
 	VNetRG string,
 	VNetName string,
 	SubnetName string,
+	subscription string,
 	IgnoreServiceEndpoint bool) (vnr psql.VirtualNetworkRule, err error) {
 
 	VNetRulesClient := GetPostgreSQLVNetRulesClient(c.creds)
-	SubnetClient := GetGoNetworkSubnetClient(c.creds)
+	// Subnet may be in another subscription
+	if subscription == "" {
+		subscription = c.creds.SubscriptionID()
+	}
+	SubnetClient := GetGoNetworkSubnetClient(c.creds, subscription)
 
 	// Get ARM Resource ID of Subnet based on the VNET name, Subnet name and Subnet Address Prefix
 	subnet, err := SubnetClient.Get(ctx, VNetRG, VNetName, SubnetName, "")

@@ -29,8 +29,8 @@ func getMySQLVNetRulesClient(creds config.Credentials) mysql.VirtualNetworkRules
 }
 
 // GetNetworkSubnetClient retrieves a Subnetclient
-func GetGoNetworkSubnetClient(creds config.Credentials) network.SubnetsClient {
-	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+func GetGoNetworkSubnetClient(creds config.Credentials, subscription string) network.SubnetsClient {
+	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), subscription)
 	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	SubnetsClient.Authorizer = a
 	SubnetsClient.AddToUserAgent(config.UserAgent())
@@ -71,10 +71,14 @@ func (c *MySQLVNetRuleClient) DeleteSQLVNetRule(ctx context.Context, resourceGro
 
 // CreateOrUpdateSQLVNetRule creates or updates a VNet rule
 // based on code from: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#VirtualNetworkRulesClient.CreateOrUpdate
-func (c *MySQLVNetRuleClient) CreateOrUpdateSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, VNetRG string, VNetName string, SubnetName string, IgnoreServiceEndpoint bool) (vnr mysql.VirtualNetworkRule, err error) {
+func (c *MySQLVNetRuleClient) CreateOrUpdateSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, VNetRG string, VNetName string, SubnetName string, subscription string, IgnoreServiceEndpoint bool) (vnr mysql.VirtualNetworkRule, err error) {
 
 	VNetRulesClient := getMySQLVNetRulesClient(c.creds)
-	SubnetClient := GetGoNetworkSubnetClient(c.creds)
+	// Subnet may be in another subscription
+	if subscription == "" {
+		subscription = c.creds.SubscriptionID()
+	}
+	SubnetClient := GetGoNetworkSubnetClient(c.creds, subscription)
 
 	// Get ARM Resource ID of Subnet based on the VNET name, Subnet name and Subnet Address Prefix
 	subnet, err := SubnetClient.Get(ctx, VNetRG, VNetName, SubnetName, "")

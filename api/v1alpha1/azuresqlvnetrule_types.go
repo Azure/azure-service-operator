@@ -20,6 +20,7 @@ type AzureSQLVNetRuleSpec struct {
 	VNetResourceGroup            string `json:"vNetResourceGroup"`
 	VNetName                     string `json:"vNetName"`
 	SubnetName                   string `json:"subnetName"`
+	VNetSubscriptionID           string `json:"vNetSubscriptionID,omitempty"`
 	IgnoreMissingServiceEndpoint bool   `json:"ignoreMissingServiceEndpoint,omitempty"`
 }
 
