@@ -15,9 +15,8 @@ type MySQLAADUserSpec struct {
 	// +kubebuilder:validation:Required
 	Server string `json:"server"`
 
-	// +kubebuilder:validation:MinLength:1
-	// +kubebuilder:validation:Required
-	DBName string `json:"dbName"`
+	// optional, grants to entire server if omitted.
+	DBName string `json:"dbName,omitempty"`
 
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1

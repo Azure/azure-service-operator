@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -90,38 +91,79 @@ func ConnectToSQLDBAsCurrentUser(
 	return db, err
 }
 
-// ExtractUserRoles extracts the roles the user has. The result is the set of roles the user has for the requested database
-func ExtractUserRoles(ctx context.Context, db *sql.DB, user string, database string) (map[string]struct{}, error) {
-	if err := helpers.FindBadChars(user); err != nil {
-		return nil, errors.Wrapf(err, "problem found with username")
-	}
+// GetAllGrants fetches grants for all DBs.
+func GetAllGrants(ctx context.Context, db *sql.DB, user string) (map[string]string, error) {
 
-	// Note: This works because we only assign permissions at the DB level, not at the table, column, etc levels -- if we assigned
-	// permissions at more levels we would need to do something else here such as join multiple tables or
-	// parse SHOW GRANTS with a regex.
-	formattedUser := fmt.Sprintf("'%s'@'%%'", user)
-	rows, err := db.QueryContext(
-		ctx,
-		"SELECT PRIVILEGE_TYPE FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE GRANTEE = ? and TABLE_SCHEMA = ?",
-		formattedUser,
-		database)
+	result := make(map[string]string)
+	// Get server wide grants.
+	rows, err := db.QueryContext(ctx, "SHOW GRANTS FOR ?", user)
 	if err != nil {
 		return nil, errors.Wrapf(err, "listing grants for user %s", user)
 	}
 	defer rows.Close()
 
-	result := make(map[string]struct{})
+	// Boolean value is true for grants which can only be applied at the server level.
 	for rows.Next() {
 		var row string
 		err := rows.Scan(&row)
 		if err != nil {
-			return nil, errors.Wrapf(err, "iterating returned rows")
+			return result, errors.Wrapf(err, "iterating returned rows")
 		}
-
-		result[row] = struct{}{}
+		r := regexp.MustCompile(`GRANT (.*) ON (.*) TO`)
+		match := r.FindStringSubmatch(row)
+		if match != nil {
+			result[match[2]] = match[1]
+		}
 	}
 
 	return result, nil
+}
+
+// ExtractUserRoles extracts the roles the user has. The result is the set of roles the user has for the requested database
+func ExtractUserRoles(ctx context.Context, db *sql.DB, user string, database string) (map[string]bool, error) {
+	if err := helpers.FindBadChars(user); err != nil {
+		return nil, errors.Wrapf(err, "problem found with username")
+	}
+
+	isServerLevel := false
+	if database == "" {
+		database = "*.*"
+		isServerLevel = true
+	}
+
+	result := make(map[string]bool)
+	// Get server wide grants.
+	rows, err := db.QueryContext(ctx, "SHOW GRANTS FOR ?", user)
+	if err != nil {
+		return nil, errors.Wrapf(err, "listing grants for user %s", user)
+	}
+	defer rows.Close()
+
+	// Boolean value is true for grants which can only be applied at the server level.
+	for rows.Next() {
+		var row string
+		err := rows.Scan(&row)
+		if err != nil {
+			return result, errors.Wrapf(err, "iterating returned rows")
+		}
+		r := regexp.MustCompile(`GRANT (.*) ON (.*) TO`)
+		match := r.FindStringSubmatch(row)
+		if match != nil {
+			// Determine if grant statement is for server level (i.e. *.*), or the specific database of concern.
+			if match[2] == database {
+				// Add list of grants to result map.
+				for _, grant := range strings.Split(match[1], ", ") {
+					result[grant] = isServerLevel
+				}
+			}
+		}
+	}
+
+	return result, nil
+}
+
+func ProcessRows(ctx context.Context, rows *sql.Rows, database string, result map[string]bool) error {
+	return nil
 }
 
 func GrantUserRoles(ctx context.Context, user string, database string, roles []string, db *sql.DB) error {
@@ -130,9 +172,14 @@ func GrantUserRoles(ctx context.Context, user string, database string, roles []s
 		return fmt.Errorf("problem found with username: %v", err)
 	}
 
-	rolesMap := make(map[string]struct{})
+	// Boolean value is true for grants which can only be applied at the server level.
+	isServerLevel := false
+	if database == "" {
+		isServerLevel = true
+	}
+	rolesMap := make(map[string]bool)
 	for _, role := range roles {
-		rolesMap[role] = struct{}{}
+		rolesMap[role] = isServerLevel
 	}
 
 	// Get the current roles
@@ -143,7 +190,10 @@ func GrantUserRoles(ctx context.Context, user string, database string, roles []s
 	// Remove "USAGE" as it's special and we never grant or remove it
 	delete(currentRoles, "USAGE")
 
-	rolesDiff := helpers.DiffCurrentAndExpectedSQLRoles(currentRoles, rolesMap)
+	rolesDiff, err := helpers.DiffCurrentAndExpectedMySQLRoles(currentRoles, rolesMap)
+	if err != nil {
+		return errors.Wrapf(err, "problem with requested roles")
+	}
 
 	// Due to how go-mysql-driver performs parameter replacement, it always wraps
 	// string parameters in ''. That doesn't work for these queries because some of
@@ -168,10 +218,16 @@ func GrantUserRoles(ctx context.Context, user string, database string, roles []s
 	return nil
 }
 
-func addRoles(ctx context.Context, db *sql.DB, database string, user string, roles map[string]struct{}) error {
+func addRoles(ctx context.Context, db *sql.DB, database string, user string, roles map[string]bool) error {
 	if len(roles) == 0 {
 		// Nothing to do
 		return nil
+	}
+
+	if database == "" {
+		database = "*.*"
+	} else {
+		database = fmt.Sprintf("`%s`.*", database)
 	}
 
 	var rolesSlice []string
@@ -180,16 +236,22 @@ func addRoles(ctx context.Context, db *sql.DB, database string, user string, rol
 	}
 
 	toAdd := strings.Join(rolesSlice, ",")
-	tsql := fmt.Sprintf("GRANT %s ON `%s`.* TO ?", toAdd, database)
+	tsql := fmt.Sprintf("GRANT %s ON %s TO ?", toAdd, database)
 	_, err := db.ExecContext(ctx, tsql, user)
 
 	return err
 }
 
-func deleteRoles(ctx context.Context, db *sql.DB, database string, user string, roles map[string]struct{}) error {
+func deleteRoles(ctx context.Context, db *sql.DB, database string, user string, roles map[string]bool) error {
 	if len(roles) == 0 {
 		// Nothing to do
 		return nil
+	}
+
+	if database == "" {
+		database = "*.*"
+	} else {
+		database = fmt.Sprintf("`%s`.*", database)
 	}
 
 	var rolesSlice []string
@@ -198,7 +260,7 @@ func deleteRoles(ctx context.Context, db *sql.DB, database string, user string, 
 	}
 
 	toDelete := strings.Join(rolesSlice, ",")
-	tsql := fmt.Sprintf("REVOKE %s ON `%s`.* FROM ?", toDelete, database)
+	tsql := fmt.Sprintf("REVOKE %s ON %s FROM ?", toDelete, database)
 	_, err := db.ExecContext(ctx, tsql, user)
 
 	return err
@@ -216,12 +278,41 @@ func UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) 
 }
 
 // DropUser drops a user from db
-func DropUser(ctx context.Context, db *sql.DB, user string) error {
+func DropUser(ctx context.Context, db *sql.DB, database string, user string) error {
 
 	if err := helpers.FindBadChars(user); err != nil {
 		return fmt.Errorf("problem found with username: %v", err)
 	}
-	_, err := db.ExecContext(ctx, "DROP USER IF EXISTS ?", user)
+
+	if database == "" {
+		database = "*.*"
+	} else {
+		database = fmt.Sprintf("`%s`.*", database)
+	}
+
+	grants, err := GetAllGrants(ctx, db, user)
+	if err != nil {
+		return err
+	}
+	// Nothing to do If the user has no grants on the database.
+	if _, ok := grants[database]; !ok {
+		return nil
+	}
+
+	tsql := fmt.Sprintf("REVOKE ALL ON %s FROM ?", database)
+	_, err = db.ExecContext(ctx, tsql, user)
+
+	// Put back the grants on specific databases if the revoked privileges were server-wide.
+	if database == "*.*" {
+		delete(grants, "*.*")
+		for database, roles := range grants {
+			tsql := fmt.Sprintf("GRANT %s ON %s TO ?", roles, database)
+			_, err := db.ExecContext(ctx, tsql, user)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	return err
 }
 

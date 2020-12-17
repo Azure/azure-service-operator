@@ -251,7 +251,7 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 
 	user := string(userSecret[MSecretUsernameKey])
 
-	err = mysql.DropUser(ctx, db, user)
+	err = mysql.DropUser(ctx, db, instance.Spec.DbName, user)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Delete MySqlUser failed with %s", err.Error())
 		return false, err

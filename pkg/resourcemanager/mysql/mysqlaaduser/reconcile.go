@@ -74,13 +74,15 @@ func (m *MySQLAADUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	dbClient := mysqldatabase.GetMySQLDatabasesClient(m.Creds)
+	if instance.Spec.DBName != "" {
+		dbClient := mysqldatabase.GetMySQLDatabasesClient(m.Creds)
 
-	_, err = dbClient.Get(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DBName)
-	if err != nil {
-		instance.Status.Message = errhelp.StripErrorIDs(err)
+		_, err = dbClient.Get(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DBName)
+		if err != nil {
+			instance.Status.Message = errhelp.StripErrorIDs(err)
 
-		return false, mysql.IgnoreResourceNotFound(err)
+			return false, mysql.IgnoreResourceNotFound(err)
+		}
 	}
 
 	adminIdentity, err := m.identityFinder.FindIdentity(ctx)
@@ -149,13 +151,15 @@ func (m *MySQLAADUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	// short circuit connection if database doesn't exist
-	dbClient := mysqldatabase.GetMySQLDatabasesClient(m.Creds)
-	_, err = dbClient.Get(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DBName)
+	if instance.Spec.DBName != "" {
+		// short circuit connection if database doesn't exist
+		dbClient := mysqldatabase.GetMySQLDatabasesClient(m.Creds)
+		_, err = dbClient.Get(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DBName)
 
-	if err != nil {
-		instance.Status.Message = err.Error()
-		return false, mysql.IgnoreResourceNotFound(err)
+		if err != nil {
+			instance.Status.Message = err.Error()
+			return false, mysql.IgnoreResourceNotFound(err)
+		}
 	}
 
 	adminIdentity, err := m.identityFinder.FindIdentity(ctx)
@@ -184,7 +188,7 @@ func (m *MySQLAADUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	err = mysql.DropUser(ctx, db, instance.Username())
+	err = mysql.DropUser(ctx, db, instance.Spec.DBName, instance.Username())
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Delete MySqlUser failed with %s", err.Error())
 		return false, err
