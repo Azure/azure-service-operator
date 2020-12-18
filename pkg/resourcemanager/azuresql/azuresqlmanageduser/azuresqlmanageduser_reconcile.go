@@ -81,9 +81,8 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 			return false, nil
 		}
 
-		// Other failures are terminal
 		instance.Status.SetFailedProvisioning(instance.Status.Message)
-		return true, nil
+		return false, nil
 	}
 
 	userExists, err := s.UserExists(ctx, db, requestedUsername)
