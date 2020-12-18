@@ -40,7 +40,7 @@ func NewObjectType() *ObjectType {
 	}
 }
 
-func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
+func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
 	declaration := &ast.GenDecl{
 		Decs: ast.GenDeclDecorations{
 			NodeDecs: ast.NodeDecs{
@@ -51,17 +51,18 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 		Tok: token.TYPE,
 		Specs: []ast.Spec{
 			&ast.TypeSpec{
-				Name: ast.NewIdent(name.Name()),
+				Name: ast.NewIdent(declContext.Name.Name()),
 				Type: objectType.AsType(codeGenerationContext),
 			},
 		},
 	}
 
-	astbuilder.AddWrappedComments(&declaration.Decs.Start, description, 200)
+	astbuilder.AddWrappedComments(&declaration.Decs.Start, declContext.Description, 200)
+	AddValidationComments(&declaration.Decs.Start, declContext.Validations)
 
 	result := []ast.Decl{declaration}
-	result = append(result, objectType.InterfaceImplementer.AsDeclarations(codeGenerationContext, name, nil)...)
-	result = append(result, objectType.generateMethodDecls(codeGenerationContext, name)...)
+	result = append(result, objectType.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
+	result = append(result, objectType.generateMethodDecls(codeGenerationContext, declContext.Name)...)
 	return result
 }
 
@@ -167,6 +168,12 @@ func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContex
 
 	for _, f := range properties {
 		fields = append(fields, f.AsField(codeGenerationContext))
+	}
+
+	if len(fields) > 0 {
+		// if first field has Before:EmptyLine decoration, switch it to NewLine
+		// this makes the output look nicer 🙂
+		fields[0].Decs.Before = ast.NewLine
 	}
 
 	return &ast.StructType{
@@ -430,6 +437,17 @@ func (objectType *ObjectType) WithInterface(iface *InterfaceImplementation) *Obj
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
 	result.InterfaceImplementer = result.InterfaceImplementer.WithInterface(iface)
+	return result
+}
+
+// WithoutInterface removes the specified interface
+func (objectType *ObjectType) WithoutInterface(name TypeName) *ObjectType {
+	if !objectType.InterfaceImplementer.HasInterface(name) {
+		return objectType
+	}
+
+	result := objectType.copy()
+	result.InterfaceImplementer = result.InterfaceImplementer.WithoutInterface(name)
 	return result
 }
 

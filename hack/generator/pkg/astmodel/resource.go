@@ -158,6 +158,16 @@ func (resource *ResourceType) WithStatus(statusType Type) *ResourceType {
 	return result
 }
 
+func (resource *ResourceType) WithoutInterface(name TypeName) *ResourceType {
+	if !resource.InterfaceImplementer.HasInterface(name) {
+		return resource
+	}
+
+	result := *resource
+	result.InterfaceImplementer = result.InterfaceImplementer.WithoutInterface(name)
+	return &result
+}
+
 // WithInterface creates a new Resource with a function (method) attached to it
 func (resource *ResourceType) WithInterface(iface *InterfaceImplementation) *ResourceType {
 	result := resource.copy()
@@ -261,8 +271,7 @@ func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 }
 
 // AsDeclarations converts the resource type to a set of go declarations
-func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
-
+func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
 	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1PackageReference)
 
 	typeMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
@@ -286,7 +295,7 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 	}
 
 	resourceTypeSpec := &ast.TypeSpec{
-		Name: ast.NewIdent(name.Name()),
+		Name: ast.NewIdent(declContext.Name.Name()),
 		Type: &ast.StructType{
 			Fields: &ast.FieldList{List: fields},
 		},
@@ -303,7 +312,8 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 		astbuilder.AddComment(&comments, "// +kubebuilder:storageversion")
 	}
 
-	astbuilder.AddWrappedComments(&comments, description, 200)
+	astbuilder.AddWrappedComments(&comments, declContext.Description, 200)
+	AddValidationComments(&comments, declContext.Validations)
 
 	resourceDeclaration := &ast.GenDecl{
 		Tok:   token.TYPE,
@@ -319,8 +329,8 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	var declarations []ast.Decl
 	declarations = append(declarations, resourceDeclaration)
-	declarations = append(declarations, resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, name, nil)...)
-	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, name, description)...)
+	declarations = append(declarations, resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
+	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)...)
 
 	return declarations
 }

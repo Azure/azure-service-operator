@@ -13,7 +13,6 @@ type Test struct {
 }
 
 type Test_Properties struct {
-
 	//Bar: Mutually exclusive with all other properties
 	Bar *Bar `json:"bar,omitempty"`
 
@@ -34,7 +33,6 @@ func (testProperties Test_Properties) MarshalJSON() ([]byte, error) {
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
-
 	// +kubebuilder:validation:Required
 	Size int `json:"size"`
 }

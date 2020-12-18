@@ -6,6 +6,7 @@
 package jsonast
 
 import (
+	"math/big"
 	"net/url"
 	"regexp"
 	"strings"
@@ -86,6 +87,69 @@ func (schema GoJSONSchema) properties() map[string]Schema {
 	}
 
 	return result
+}
+
+func (schema GoJSONSchema) maxLength() *int64 {
+	return intPointerToInt64Pointer(schema.inner.MaxLength)
+}
+
+func (schema GoJSONSchema) minLength() *int64 {
+	return intPointerToInt64Pointer(schema.inner.MinLength)
+}
+
+func intPointerToInt64Pointer(ptr *int) *int64 {
+	if ptr == nil {
+		return nil
+	}
+
+	value := int64(*ptr)
+	return &value
+}
+
+func (schema GoJSONSchema) pattern() *regexp.Regexp {
+	return schema.inner.Pattern
+}
+
+func (schema GoJSONSchema) maxItems() *int64 {
+	return intPointerToInt64Pointer(schema.inner.MaxItems)
+}
+
+func (schema GoJSONSchema) minItems() *int64 {
+	return intPointerToInt64Pointer(schema.inner.MinItems)
+}
+
+func (schema GoJSONSchema) uniqueItems() bool {
+	return schema.inner.UniqueItems
+}
+
+func (schema GoJSONSchema) minValue() *big.Rat {
+	r := schema.inner.Minimum
+	if r != nil {
+		return r
+	}
+
+	return schema.inner.ExclusiveMinimum
+}
+
+func (schema GoJSONSchema) minValueExclusive() bool {
+	return schema.inner.ExclusiveMinimum != nil
+}
+
+func (schema GoJSONSchema) maxValue() *big.Rat {
+	r := schema.inner.Maximum
+	if r != nil {
+		return r
+	}
+
+	return schema.inner.ExclusiveMaximum
+}
+
+func (schema GoJSONSchema) maxValueExclusive() bool {
+	return schema.inner.ExclusiveMaximum != nil
+}
+
+func (schema GoJSONSchema) multipleOf() *big.Rat {
+	return schema.inner.MultipleOf
 }
 
 func (schema GoJSONSchema) description() *string {

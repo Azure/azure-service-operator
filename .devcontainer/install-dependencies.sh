@@ -54,6 +54,7 @@ echo "Installing Go tools…"
 # go tools for vscode are preinstalled by base image (see first comment in Dockerfile)
 go get \
     github.com/jandelgado/gcov2lcov@v1.0.2 \
+    github.com/mikefarah/yq/v3@3.4.1 \
     github.com/mitchellh/gox@v1.0.1 \
     k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
     sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0 \
@@ -67,11 +68,6 @@ if [ "$1" != "devcontainer" ]; then
     curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" 2>&1 
 fi
 
-echo "Installing kubectl…"
-curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.19.0/bin/linux/amd64/kubectl \
-    && chmod +x ./kubectl \
-    && mv ./kubectl "$TOOL_DEST/kubectl"
-
 # Install go-task (task runner)
 echo "Installing go-task…"
 curl -sL "https://github.com/go-task/task/releases/download/v3.0.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
@@ -84,3 +80,13 @@ curl -L "https://go.kubebuilder.io/dl/2.3.1/${os}/${arch}" | tar -xz -C /tmp/
 mv "/tmp/kubebuilder_2.3.1_${os}_${arch}" "$KUBEBUILDER_DEST"
 
 echo "Installed tools: $(ls "$TOOL_DEST")"
+
+
+if [ "$1" = "devcontainer" ]; then 
+    echo "Setting up k8s webhook certificates"
+
+    mkdir -p /tmp/k8s-webhook-server/serving-certs
+    openssl genrsa 2048 > tls.key
+    openssl req -new -x509 -nodes -sha256 -days 3650 -key tls.key -subj '/' -out tls.crt
+    mv tls.key tls.crt /tmp/k8s-webhook-server/serving-certs
+fi

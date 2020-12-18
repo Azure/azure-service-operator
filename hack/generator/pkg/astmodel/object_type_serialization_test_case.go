@@ -7,13 +7,14 @@ package astmodel
 
 import (
 	"fmt"
-	ast "github.com/dave/dst"
 	"go/token"
 	"sort"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	ast "github.com/dave/dst"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 )
 
 // ObjectSerializationTestCase represents a test that the object can be losslessly serialized to
@@ -531,6 +532,8 @@ func (o ObjectSerializationTestCase) createIndependentGenerator(
 	switch propertyType {
 	case StringType:
 		return astbuilder.CallQualifiedFunc(genPackage, "AlphaString")
+	case UInt32Type:
+		return astbuilder.CallQualifiedFunc(genPackage, "UInt32")
 	case IntType:
 		return astbuilder.CallQualifiedFunc(genPackage, "Int")
 	case FloatType:
@@ -569,6 +572,12 @@ func (o ObjectSerializationTestCase) createIndependentGenerator(
 		if keyGen != nil && valueGen != nil {
 			return astbuilder.CallQualifiedFunc(genPackage, "MapOf", keyGen, valueGen)
 		}
+
+	case ValidatedType:
+		// TODO: we should restrict the values of generated types
+		//       but at the moment this is only used for serialization tests, so doesn't affect
+		//       anything
+		return o.createIndependentGenerator(name, t.ElementType(), genContext)
 	}
 
 	// Not a simple property we can handle here
@@ -620,6 +629,12 @@ func (o ObjectSerializationTestCase) createRelatedGenerator(
 		if keyGen != nil && valueGen != nil {
 			return astbuilder.CallQualifiedFunc(genPackageName, "MapOf", keyGen, valueGen)
 		}
+
+	case ValidatedType:
+		// TODO: we should restrict the values of generated types
+		//       but at the moment this is only used for serialization tests, so doesn't affect
+		//       anything
+		return o.createRelatedGenerator(name, t.ElementType(), genContext)
 	}
 
 	// Not a property we can handle here

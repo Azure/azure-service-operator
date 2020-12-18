@@ -77,7 +77,7 @@ func (oneOf OneOfType) AsType(_ *CodeGenerationContext) ast.Expr {
 
 // AsDeclarations always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (oneOf OneOfType) AsDeclarations(_ *CodeGenerationContext, _ TypeName, _ []string) []ast.Decl {
+func (oneOf OneOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationContext) []ast.Decl {
 	panic("should have been replaced by generation time by 'convertAllOfAndOneOf' phase")
 }
 

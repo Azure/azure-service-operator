@@ -8,12 +8,15 @@ package jsonast
 import (
 	"fmt"
 	"io/ioutil"
+	"math/big"
 	"net/url"
 	"path/filepath"
+	"regexp"
 
 	"github.com/go-openapi/jsonpointer"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
+	"k8s.io/klog/v2"
 )
 
 // OpenAPISchema implements the Schema abstraction for go-openapi
@@ -115,6 +118,82 @@ func (schema *OpenAPISchema) properties() map[string]Schema {
 	}
 
 	return result
+}
+
+func (schema *OpenAPISchema) maxLength() *int64 {
+	return schema.inner.MaxLength
+}
+
+func (schema *OpenAPISchema) minLength() *int64 {
+	return schema.inner.MinLength
+}
+
+func (schema *OpenAPISchema) pattern() *regexp.Regexp {
+	p := schema.inner.Pattern
+	if p == "" {
+		return nil
+	}
+
+	result, err := regexp.Compile(p)
+	if err != nil {
+		klog.Warningf("Unable to compile regexp, ignoring: %s", p) // use %s instead of %q or everything gets re-escaped
+		return nil
+	}
+
+	return result
+}
+
+func (schema *OpenAPISchema) maxItems() *int64 {
+	return schema.inner.MaxItems
+}
+
+func (schema *OpenAPISchema) minItems() *int64 {
+	return schema.inner.MinItems
+}
+
+func (schema *OpenAPISchema) uniqueItems() bool {
+	return schema.inner.UniqueItems
+}
+
+func (schema *OpenAPISchema) minValue() *big.Rat {
+	r := schema.inner.Minimum
+	if r == nil {
+		return nil
+	}
+
+	rat := &big.Rat{}
+	rat.SetFloat64(*r)
+	return rat
+}
+
+func (schema *OpenAPISchema) maxValue() *big.Rat {
+	r := schema.inner.Maximum
+	if r == nil {
+		return nil
+	}
+
+	rat := &big.Rat{}
+	rat.SetFloat64(*r)
+	return rat
+}
+
+func (schema *OpenAPISchema) minValueExclusive() bool {
+	return schema.inner.ExclusiveMinimum
+}
+
+func (schema *OpenAPISchema) maxValueExclusive() bool {
+	return schema.inner.ExclusiveMaximum
+}
+
+func (schema *OpenAPISchema) multipleOf() *big.Rat {
+	r := schema.inner.MultipleOf
+	if r == nil {
+		return nil
+	}
+
+	rat := &big.Rat{}
+	rat.SetFloat64(*r)
+	return rat
 }
 
 func (schema *OpenAPISchema) description() *string {

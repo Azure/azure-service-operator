@@ -8,6 +8,7 @@ package codegen
 import (
 	"context"
 	"fmt"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
@@ -67,8 +68,10 @@ func makeStorageTypesVisitor(types astmodel.Types) astmodel.TypeVisitor {
 	}
 
 	result := astmodel.MakeTypeVisitor()
+	result.VisitValidatedType = factory.visitValidatedType
 	result.VisitTypeName = factory.visitTypeName
 	result.VisitObjectType = factory.visitObjectType
+	result.VisitResourceType = factory.visitResourceType
 	result.VisitFlaggedType = factory.visitFlaggedType
 
 	factory.visitor = result
@@ -90,6 +93,12 @@ type StorageTypeFactory struct {
 // the property suitable for use on a storage type. Conversions return nil if they decline to
 // convert, deferring the conversion to another.
 type propertyConversion = func(property *astmodel.PropertyDefinition, ctx StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error)
+
+func (factory *StorageTypeFactory) visitValidatedType(this *astmodel.TypeVisitor, v astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
+	// strip all type validations from storage types,
+	// act as if they do not exist
+	return this.Visit(v.ElementType(), ctx)
+}
 
 func (factory *StorageTypeFactory) visitTypeName(_ *astmodel.TypeVisitor, name astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 	visitorContext := ctx.(StorageTypesVisitorContext)
@@ -114,6 +123,15 @@ func (factory *StorageTypeFactory) visitTypeName(_ *astmodel.TypeVisitor, name a
 	storageRef := astmodel.MakeStoragePackageReference(localRef)
 	visitedName := astmodel.MakeTypeName(storageRef, name.Name())
 	return visitedName, nil
+}
+
+func (factory *StorageTypeFactory) visitResourceType(
+	this *astmodel.TypeVisitor,
+	resource *astmodel.ResourceType,
+	ctx interface{}) (astmodel.Type, error) {
+
+	// storage resource types do not need defaulter interface, they have no webhooks
+	return resource.WithoutInterface(astmodel.DefaulterInterfaceName), nil
 }
 
 func (factory *StorageTypeFactory) visitObjectType(
@@ -186,7 +204,6 @@ func (factory *StorageTypeFactory) convertPropertiesForStorage(
 
 	p := prop.WithType(propertyType).
 		MakeOptional().
-		WithoutValidation().
 		WithDescription("")
 
 	return p, nil

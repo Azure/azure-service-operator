@@ -17,6 +17,12 @@ type PrimitiveType struct {
 // IntType represents a Go integer type
 var IntType = &PrimitiveType{"int"}
 
+// UInt64Type represents a Go uint64 type
+var UInt64Type = &PrimitiveType{"uint64"}
+
+// UInt32Type represents a Go uint32 type
+var UInt32Type = &PrimitiveType{"uint32"}
+
 // StringType represents the Go string type
 var StringType = &PrimitiveType{"string"}
 
@@ -37,8 +43,8 @@ func (prim *PrimitiveType) AsType(_ *CodeGenerationContext) ast.Expr {
 	return ast.NewIdent(prim.name)
 }
 
-func (prim *PrimitiveType) AsDeclarations(genContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
-	return AsSimpleDeclarations(genContext, name, description, prim)
+func (prim *PrimitiveType) AsDeclarations(genContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
+	return AsSimpleDeclarations(genContext, declContext, prim)
 }
 
 // RequiredPackageReferences returns a list of package required by this

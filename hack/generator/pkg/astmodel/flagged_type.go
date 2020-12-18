@@ -6,9 +6,10 @@
 package astmodel
 
 import (
-	ast "github.com/dave/dst"
 	"sort"
 	"strings"
+
+	ast "github.com/dave/dst"
 )
 
 type FlaggedType struct {
@@ -99,8 +100,8 @@ func (ft *FlaggedType) AsType(ctx *CodeGenerationContext) ast.Expr {
 }
 
 // AsDeclarations renders as a Go abstract syntax tree for a declaration
-func (ft *FlaggedType) AsDeclarations(ctx *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
-	return ft.element.AsDeclarations(ctx, name, description)
+func (ft *FlaggedType) AsDeclarations(ctx *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
+	return ft.element.AsDeclarations(ctx, declContext)
 }
 
 // Equals returns true if the passed type is the same as this one, false otherwise

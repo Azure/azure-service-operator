@@ -8,7 +8,9 @@ package testcommon
 import (
 	"fmt"
 	"log"
+	"net"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/Azure/k8s-infra/hack/generated/controllers"
@@ -26,12 +28,16 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 	log.Printf("Creating envtest for test %s", perTestContext.TestName)
 
 	environment := envtest.Environment{
+		ErrorIfCRDPathMissing: true,
 		CRDDirectoryPaths: []string{
 			"../config/crd/bases/valid", // TODO: remove '/valid' once all CRDs are valid
 		},
+		WebhookInstallOptions: envtest.WebhookInstallOptions{
+			DirectoryPaths: []string{
+				"../config/webhook/valid", // TODO: remove '/valid'
+			},
+		},
 	}
-
-	stopManager := make(chan struct{})
 
 	log.Print("Starting envtest")
 	config, err := environment.Start()
@@ -50,25 +56,14 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 	log.Print("Creating & starting controller-runtime manager")
 	mgr, err := ctrl.NewManager(config, ctrl.Options{
 		Scheme:             CreateScheme(),
+		CertDir:            environment.WebhookInstallOptions.LocalServingCertDir,
+		Port:               environment.WebhookInstallOptions.LocalServingPort,
 		MetricsBindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
 	})
 
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating controller-runtime manager")
 	}
-
-	go func() {
-		// this blocks until the input chan is closed
-		err := mgr.Start(stopManager)
-		if err != nil {
-			log.Fatal(errors.Wrapf(err, "running controller-runtime manager"))
-		}
-	}()
-
-	perTestContext.T.Cleanup(func() {
-		log.Print("Stopping controller-runtime manager")
-		close(stopManager)
-	})
 
 	var requeueDelay time.Duration // defaults to 5s when zero is passed
 	if perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying {
@@ -96,10 +91,47 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		return nil, errors.Wrapf(kerrors.NewAggregate(errs), "registering reconcilers")
 	}
 
+	stopManager := make(chan struct{})
+	go func() {
+		// this blocks until the input chan is closed
+		err := mgr.Start(stopManager)
+		if err != nil {
+			log.Fatal(errors.Wrapf(err, "running controller-runtime manager"))
+		}
+	}()
+
+	perTestContext.T.Cleanup(func() {
+		log.Print("Stopping controller-runtime manager")
+		close(stopManager)
+	})
+
+	waitForWebhooks(environment)
+
+	webhookServer := mgr.GetWebhookServer()
+	log.Printf("Webhook server running at: %s:%d", webhookServer.Host, webhookServer.Port)
+
 	return &KubeBaseTestContext{
 		PerTestContext: perTestContext,
 		KubeConfig:     config,
 	}, nil
+}
+
+func waitForWebhooks(env envtest.Environment) {
+	port := env.WebhookInstallOptions.LocalServingPort
+	address := net.JoinHostPort("127.0.0.1", strconv.Itoa(port))
+
+	log.Printf("Checking for webhooks at: %s", address)
+	timeout := 1 * time.Second
+	for {
+		conn, err := net.DialTimeout("tcp", address, timeout)
+		if err != nil {
+			time.Sleep(time.Second / 2)
+			continue
+		}
+		_ = conn.Close()
+		log.Printf("Webhooks available at: %s", address)
+		return
+	}
 }
 
 // Wraps an inner HTTP roundtripper to add a

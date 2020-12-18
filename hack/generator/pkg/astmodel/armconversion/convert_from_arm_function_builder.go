@@ -145,63 +145,28 @@ func (builder *convertFromArmBuilder) namePropertyHandler(
 		return nil
 	}
 
-	if typeName, ok := toProp.PropertyType().(astmodel.TypeName); ok {
-		// we are assigning to (presumably) an enum-typed AzureName property, (no way to check that here)
-		// we will cast the result of ExtractKubernetesResourceNameFromArmName
-		// to the target type:
-
-		// Check to make sure that the ARM object has a "Name" property (which matches our "AzureName")
-		fromProp, ok := fromType.Property("Name")
-		if !ok {
-			panic("ARM resource missing property 'Name'")
-		}
-
-		result := astbuilder.SimpleAssignment(
-			&ast.SelectorExpr{
-				X:   ast.NewIdent(builder.receiverIdent),
-				Sel: ast.NewIdent(string(toProp.PropertyName())),
-			},
-			token.ASSIGN,
-			astbuilder.CallFunc(
-				// "calling" enum name is equivalent to casting
-				typeName.Name(),
-				astbuilder.CallQualifiedFunc(
-					astmodel.GenRuntimePackageName,
-					"ExtractKubernetesResourceNameFromArmName",
-					&ast.SelectorExpr{
-						X:   ast.NewIdent(builder.typedInputIdent),
-						Sel: ast.NewIdent(string(fromProp.PropertyName())),
-					})))
-
-		return []ast.Stmt{result}
-	}
-
-	// otherwise check if we are writing to a string-typed AzureName property
-	if !toProp.Equals(GetAzureNameProperty(builder.idFactory)) {
-		return nil
-	}
-
 	// Check to make sure that the ARM object has a "Name" property (which matches our "AzureName")
 	fromProp, ok := fromType.Property("Name")
 	if !ok {
 		panic("ARM resource missing property 'Name'")
 	}
 
-	result := astbuilder.SimpleAssignment(
-		&ast.SelectorExpr{
-			X:   ast.NewIdent(builder.receiverIdent),
-			Sel: ast.NewIdent(string(toProp.PropertyName())),
+	// Invoke SetAzureName(ExtractKubernetesResourceNameFromArmName(this.Name)):
+	return []ast.Stmt{
+		&ast.ExprStmt{
+			X: astbuilder.CallQualifiedFunc(
+				builder.receiverIdent,
+				"SetAzureName",
+				astbuilder.CallQualifiedFunc(
+					astmodel.GenRuntimePackageName,
+					"ExtractKubernetesResourceNameFromArmName",
+					&ast.SelectorExpr{
+						X:   ast.NewIdent(builder.typedInputIdent),
+						Sel: ast.NewIdent(string(fromProp.PropertyName())),
+					}),
+			),
 		},
-		token.ASSIGN,
-		astbuilder.CallQualifiedFunc(
-			astmodel.GenRuntimePackageName,
-			"ExtractKubernetesResourceNameFromArmName",
-			&ast.SelectorExpr{
-				X:   ast.NewIdent(builder.typedInputIdent),
-				Sel: ast.NewIdent(string(fromProp.PropertyName())),
-			}))
-
-	return []ast.Stmt{result}
+	}
 }
 
 func (builder *convertFromArmBuilder) ownerPropertyHandler(
@@ -227,12 +192,22 @@ func (builder *convertFromArmBuilder) propertiesWithSameNameAndTypeHandler(
 	fromType *astmodel.ObjectType) []ast.Stmt {
 
 	fromProp, ok := fromType.Property(toProp.PropertyName())
-
-	if !ok || !toProp.PropertyType().Equals(fromProp.PropertyType()) {
+	if !ok {
 		return nil
 	}
 
-	if typeRequiresCopying(toProp.PropertyType()) {
+	// check that we are assigning to the same type or a validated
+	// version of the same type
+	toType := toProp.PropertyType()
+	if toValidated, ok := toType.(astmodel.ValidatedType); ok {
+		toType = toValidated.ElementType()
+	}
+
+	if !toType.Equals(fromProp.PropertyType()) {
+		return nil
+	}
+
+	if typeRequiresCopying(toType) {
 		// We can't get away with just assigning this field, since
 		// it's a reference type. Use the conversion code to copy the
 		// elements.
@@ -247,7 +222,7 @@ func (builder *convertFromArmBuilder) propertiesWithSameNameAndTypeHandler(
 					X:   ast.NewIdent(builder.receiverIdent),
 					Sel: ast.NewIdent(string(toProp.PropertyName())),
 				},
-				destinationType:   toProp.PropertyType(),
+				destinationType:   toType,
 				nameHint:          string(toProp.PropertyName()),
 				conversionContext: nil,
 				assignmentHandler: nil,
@@ -317,7 +292,7 @@ func (builder *convertFromArmBuilder) propertiesWithSameNameButDifferentTypeHand
 func (builder *convertFromArmBuilder) fromArmComplexPropertyConversion(
 	params complexPropertyConversionParameters) []ast.Stmt {
 
-	switch params.destinationType.(type) {
+	switch concrete := params.destinationType.(type) {
 	case *astmodel.OptionalType:
 		return builder.convertComplexOptionalProperty(params)
 	case *astmodel.ArrayType:
@@ -336,8 +311,12 @@ func (builder *convertFromArmBuilder) fromArmComplexPropertyConversion(
 		return builder.convertComplexTypeNameProperty(params)
 	case *astmodel.PrimitiveType:
 		return builder.assignPrimitiveType(params)
+	case astmodel.ValidatedType:
+		// pass through to underlying type
+		params.destinationType = concrete.ElementType()
+		return builder.fromArmComplexPropertyConversion(params)
 	default:
-		panic(fmt.Sprintf("don't know how to perform fromArm conversion for type: %T", params.destinationType))
+		panic(fmt.Sprintf("don't know how to perform fromArm conversion for type: %s", params.destinationType.String()))
 	}
 }
 
@@ -345,6 +324,7 @@ func (builder *convertFromArmBuilder) fromArmComplexPropertyConversion(
 // no conversion needed.
 func (builder *convertFromArmBuilder) assignPrimitiveType(
 	params complexPropertyConversionParameters) []ast.Stmt {
+
 	return []ast.Stmt{
 		params.assignmentHandler(params.Destination(), params.Source()),
 	}

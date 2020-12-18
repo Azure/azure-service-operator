@@ -188,6 +188,11 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
+
+	case astmodel.ValidatedType:
+		// pass-through to inner type
+		return s.getOneOfName(concreteType.ElementType(), propIndex)
+
 	case *astmodel.PrimitiveType:
 		var primitiveTypeName string
 		if concreteType == astmodel.AnyType {
@@ -294,6 +299,7 @@ var intersectHandlers []intersectHandler
 func init() {
 	intersectHandlers = []intersectHandler{
 		synthesizer.handleEqualTypes, // equality is symmetric
+		synthesizer.handleValidatedAndNonValidated, flip(synthesizer.handleValidatedAndNonValidated),
 		synthesizer.handleAnyType, flip(synthesizer.handleAnyType),
 		synthesizer.handleAllOfType, flip(synthesizer.handleAllOfType),
 		synthesizer.handleTypeName, flip(synthesizer.handleTypeName),
@@ -306,6 +312,7 @@ func init() {
 		synthesizer.handleEnum, flip(synthesizer.handleEnum),
 		synthesizer.handleObjectObject, // symmetric
 		synthesizer.handleMapMap,       // symmetric
+		synthesizer.handleArrayArray,   // symmetric
 		synthesizer.handleMapObject, flip(synthesizer.handleMapObject),
 	}
 }
@@ -424,6 +431,26 @@ func (s synthesizer) handleMapMap(left astmodel.Type, right astmodel.Type) (astm
 	}
 
 	return astmodel.NewMapType(keyType, valueType), nil
+}
+
+// intersection of array types is array of intersection of their element types
+func (s synthesizer) handleArrayArray(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
+	leftArray, ok := left.(*astmodel.ArrayType)
+	if !ok {
+		return nil, nil
+	}
+
+	rightArray, ok := right.(*astmodel.ArrayType)
+	if !ok {
+		return nil, nil
+	}
+
+	intersected, err := s.intersectTypes(leftArray.Element(), rightArray.Element())
+	if err != nil {
+		return nil, err
+	}
+
+	return astmodel.NewArrayType(intersected), nil
 }
 
 func (s synthesizer) handleObjectObject(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
@@ -613,6 +640,17 @@ func (synthesizer) handleAnyType(left astmodel.Type, right astmodel.Type) (astmo
 func (synthesizer) handleEqualTypes(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
 	if left.Equals(right) {
 		return left, nil
+	}
+
+	return nil, nil
+}
+
+// a validated and non-validated version of the same type become the valiated version
+func (synthesizer) handleValidatedAndNonValidated(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
+	if validated, ok := left.(astmodel.ValidatedType); ok {
+		if validated.ElementType().Equals(right) {
+			return left, nil
+		}
 	}
 
 	return nil, nil

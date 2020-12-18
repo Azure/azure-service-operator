@@ -57,7 +57,7 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 		// get named with names like Resource_Spec_Spec_Spec:
 		flattenResources(), stripUnreferencedTypeDefinitions(),
 
-		// Name all anonymous object and enum types (required by controller-gen):
+		// Name all anonymous object, enum, and validated types (required by controller-gen):
 		nameTypesForCRD(idFactory),
 
 		// Apply property type rewrites from the config file

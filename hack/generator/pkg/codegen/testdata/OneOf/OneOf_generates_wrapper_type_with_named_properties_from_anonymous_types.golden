@@ -7,7 +7,6 @@ import "encoding/json"
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-
 	//Bool1: Mutually exclusive with all other properties
 	Bool1 *bool `json:"bool1,omitempty"`
 

@@ -7,6 +7,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"fmt"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -16,6 +17,17 @@ type FakeResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              FakeResource_Spec `json:"spec,omitempty"`
+}
+
+// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=fakeresources,verbs=create;update,versions=v20200101,name=default.v20200101.fakeresources.test.infra.azure.com
+
+var _ admission.Defaulter = &FakeResource{}
+
+// Default defaults the Azure name of the resource to the Kubernetes name
+func (fakeResource *FakeResource) Default() {
+	if fakeResource.Spec.AzureName == "" {
+		fakeResource.Spec.AzureName = fakeResource.Name
+	}
 }
 
 var _ genruntime.KubernetesResource = &FakeResource{}
@@ -87,7 +99,6 @@ type FakeResourceSpecType string
 const FakeResourceSpecTypeMicrosoftAzureFakeResource = FakeResourceSpecType("Microsoft.Azure/FakeResource")
 
 type FakeResource_Spec struct {
-
 	// +kubebuilder:validation:Required
 	ApiVersion FakeResourceSpecApiVersion `json:"apiVersion"`
 
@@ -205,9 +216,14 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 			fakeResourceSpec.ArrayOfMaps = append(fakeResourceSpec.ArrayOfMaps, elem)
 		}
 	}
-	fakeResourceSpec.AzureName = genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name)
+	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
 	fakeResourceSpec.Owner = owner
 	return nil
+}
+
+// SetAzureName sets the Azure name of the resource
+func (fakeResourceSpec *FakeResource_Spec) SetAzureName(azureName string) {
+	fakeResourceSpec.AzureName = azureName
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo

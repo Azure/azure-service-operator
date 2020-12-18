@@ -7,6 +7,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"fmt"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -18,11 +19,22 @@ type AResource struct {
 	Spec              AResource_Spec `json:"spec,omitempty"`
 }
 
+// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v20200101-aresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=aresources,verbs=create;update,versions=v20200101,name=default.v20200101.aresources.test.infra.azure.com
+
+var _ admission.Defaulter = &AResource{}
+
+// Default defaults the Azure name of the resource to the Kubernetes name
+func (aResource *AResource) Default() {
+	if aResource.Spec.AzureName == "" {
+		aResource.Spec.AzureName = aResource.Name
+	}
+}
+
 var _ genruntime.KubernetesResource = &AResource{}
 
 // AzureName returns the Azure name of the resource (string representation of github.com/Azure/k8s-infra/hack/generated/apis/test/v20200101/AResourceSpecName)
 func (aResource *AResource) AzureName() string {
-	return string(aResource.AzureName)
+	return string(aResource.Spec.AzureName)
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -73,7 +85,6 @@ type AResourceSpecType string
 const AResourceSpecTypeMicrosoftAzureAResource = AResourceSpecType("Microsoft.Azure/AResource")
 
 type AResource_Spec struct {
-
 	// +kubebuilder:validation:Required
 	ApiVersion AResourceSpecApiVersion `json:"apiVersion"`
 
@@ -111,9 +122,14 @@ func (aResourceSpec *AResource_Spec) PopulateFromArm(owner genruntime.KnownResou
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected AResource_SpecArm, got %T", armInput)
 	}
 	aResourceSpec.ApiVersion = typedInput.ApiVersion
-	aResourceSpec.AzureName = AResourceSpecName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
+	aResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
 	aResourceSpec.Owner = owner
 	return nil
+}
+
+// SetAzureName sets the Azure name from the given github.com/Azure/k8s-infra/hack/generated/apis/test/v20200101/AResourceSpecName value
+func (aResourceSpec *AResource_Spec) SetAzureName(azureName string) {
+	aResourceSpec.AzureName = AResourceSpecName(azureName)
 }
 
 // +kubebuilder:validation:Enum={"one","three","two"}

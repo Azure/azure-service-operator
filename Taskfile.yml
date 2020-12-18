@@ -178,10 +178,35 @@ tasks:
     - cp config/crd/bases/microsoft.storage.infra.azure.com_storageaccountsblobservicescontainers.yaml config/crd/bases/valid
     - cp config/crd/bases/microsoft.resources.infra.azure.com_resourcegroups.yaml config/crd/bases/valid
 
+  controller:copy-valid-webhooks:
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [generate-crds]
+    cmds:
+    # the webhook configuration file, as it stands, is too big to load into k8s 😊
+    # instead, for now, we will pull out the bits we want
+    - mkdir -p config/webhook/valid
+    - yq delete {{.IN}} 'webhooks[*]' > {{.OUT}}
+    - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == batchaccounts)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
+    - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == storageaccounts)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
+    - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == storageaccountsblobservicescontainers)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
+    # need to remove v1 from the manifest as it doesn't work with controller-runtime currently: https://github.com/kubernetes-sigs/controller-runtime/issues/1272
+    - yq delete -i {{.OUT}} 'webhooks[*].admissionReviewVersions(. == v1)' 
+    vars:
+      IN: config/webhook/manifests.yaml 
+      OUT: config/webhook/valid/manifests.yaml
+
+
+  controller:prep-integration-tests:
+    # this just exists to serialize execution of these dependencies,
+    # since go-task won't dedupe _their_ shared dependencies
+    cmds:
+    - task controller:copy-valid-crds
+    - task controller:copy-valid-webhooks
+
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:copy-valid-crds]
+    deps: [controller:prep-integration-tests]
     cmds:
     # -race fails at the moment in controller-runtime
     - ENVTEST=1 RECORD_REPLAY=1 go test -v $({{.GENERATED_DIRS_TO_LINT_CMD}})
@@ -189,7 +214,7 @@ tasks:
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:copy-valid-crds]
+    deps: [controller:prep-integration-tests]
     cmds:
     # -race fails at the moment in controller-runtime
     - ENVTEST=1 RECORD_REPLAY=1 go test -covermode atomic -coverprofile=cover-integration-envtest.out -coverpkg="./..." -v $({{.GENERATED_DIRS_TO_LINT_CMD}})
@@ -198,7 +223,7 @@ tasks:
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:copy-valid-crds, cleanup-azure-resources]
+    deps: [controller:prep-integration-tests, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
     - ENVTEST=1 go test -covermode atomic -coverprofile=cover-integration-envtest.out -coverpkg="./..." -v $({{.GENERATED_DIRS_TO_LINT_CMD}})
@@ -212,8 +237,8 @@ tasks:
     - "apis/**/*_gen.go" # depends on all generated types
     cmds:
     - find ./apis -type f -name "zz_generated.*" -delete
-    - controller-gen object:headerFile=../boilerplate.go.txt paths="./..."
     - if [ -d "./config/crd/bases" ]; then find "./config/crd/bases" -type f -delete; fi
+    - controller-gen object:headerFile=../boilerplate.go.txt paths="./..." || true
     - controller-gen {{.CRD_OPTIONS}} rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
     vars:
       CRD_OPTIONS: "crd:crdVersions=v1,allowDangerousTypes=true"

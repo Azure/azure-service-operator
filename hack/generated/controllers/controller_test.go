@@ -15,7 +15,6 @@ import (
 	storage "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.storage/v20190401"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/testcommon"
-	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 func Test_ResourceGroup_CRUD(t *testing.T) {
@@ -123,10 +122,7 @@ func StorageAccount_BlobServices_CRUD(t *testing.T, testContext testcommon.KubeP
 	g := NewGomegaWithT(t)
 
 	blobService := &storage.StorageAccountsBlobService{
-		ObjectMeta: ctrl.ObjectMeta{
-			Name:      "default", // MUST be 'default'
-			Namespace: testContext.Namespace(),
-		},
+		ObjectMeta: testContext.MakeObjectMeta("blobservice"),
 		Spec: storage.StorageAccountsBlobServices_Spec{
 			ApiVersion: "2019-04-01", // TODO [apiversion]: to be removed eventually
 			Owner:      testcommon.AsOwner(storageAccount),

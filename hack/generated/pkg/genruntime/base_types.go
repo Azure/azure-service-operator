@@ -29,6 +29,10 @@ type KubernetesResource interface {
 	// AzureName returns the Azure name of the resource
 	AzureName() string
 
+	// Some types, but not all, have a corresponding:
+	// 	SetAzureName(name string)
+	// They do not if the name must be a fixed value (like 'default').
+
 	// TODO: GetAPIVersion here?
 
 	// TODO: I think we need this

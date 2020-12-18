@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // +kubebuilder:object:root=true
@@ -17,6 +18,17 @@ type FakeResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              FakeResource_Spec `json:"spec,omitempty"`
+}
+
+// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=fakeresources,verbs=create;update,versions=v20200101,name=default.v20200101.fakeresources.test.infra.azure.com
+
+var _ admission.Defaulter = &FakeResource{}
+
+// Default defaults the Azure name of the resource to the Kubernetes name
+func (fakeResource *FakeResource) Default() {
+	if fakeResource.Spec.AzureName == "" {
+		fakeResource.Spec.AzureName = fakeResource.Name
+	}
 }
 
 var _ genruntime.KubernetesResource = &FakeResource{}
@@ -77,7 +89,6 @@ type FakeResourceSpecType string
 const FakeResourceSpecTypeMicrosoftAzureFakeResource = FakeResourceSpecType("Microsoft.Azure/FakeResource")
 
 type FakeResource_Spec struct {
-
 	// +kubebuilder:validation:Required
 	ApiVersion FakeResourceSpecApiVersion `json:"apiVersion"`
 
@@ -132,7 +143,7 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected FakeResource_SpecArm, got %T", armInput)
 	}
 	fakeResourceSpec.ApiVersion = typedInput.ApiVersion
-	fakeResourceSpec.AzureName = genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name)
+	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
 	if typedInput.JsonObject != nil {
 		fakeResourceSpec.JsonObject = make(map[string]v1.JSON)
 		for key, value := range typedInput.JsonObject {
@@ -146,6 +157,11 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 	}
 	fakeResourceSpec.Owner = owner
 	return nil
+}
+
+// SetAzureName sets the Azure name of the resource
+func (fakeResourceSpec *FakeResource_Spec) SetAzureName(azureName string) {
+	fakeResourceSpec.AzureName = azureName
 }
 
 func init() {

@@ -40,12 +40,12 @@ func NewEnumType(baseType *PrimitiveType, options []EnumValue) *EnumType {
 }
 
 // AsDeclarations converts the EnumType to a series of Go AST Decls
-func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
-	result := []ast.Decl{enum.createBaseDeclaration(codeGenerationContext, name, description)}
+func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
+	result := []ast.Decl{enum.createBaseDeclaration(codeGenerationContext, declContext.Name, declContext.Description, declContext.Validations)}
 
 	var specs []ast.Spec
 	for _, v := range enum.options {
-		s := enum.createValueDeclaration(name, v)
+		s := enum.createValueDeclaration(declContext.Name, v)
 		specs = append(specs, s)
 	}
 
@@ -64,7 +64,8 @@ func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContex
 func (enum *EnumType) createBaseDeclaration(
 	codeGenerationContext *CodeGenerationContext,
 	name TypeName,
-	description []string) ast.Decl {
+	description []string,
+	validations []KubeBuilderValidation) ast.Decl {
 
 	typeSpecification := &ast.TypeSpec{
 		Name: ast.NewIdent(name.Name()),
@@ -84,6 +85,7 @@ func (enum *EnumType) createBaseDeclaration(
 	}
 
 	astbuilder.AddWrappedComments(&declaration.Decs.Start, description, 120)
+	AddValidationComments(&declaration.Decs.Start, validations)
 
 	validationComment := GenerateKubebuilderComment(enum.CreateValidation())
 	astbuilder.AddComment(&declaration.Decs.Start, validationComment)
@@ -152,7 +154,7 @@ func (enum *EnumType) Options() []EnumValue {
 }
 
 // CreateValidation creates the validation annotation for this Enum
-func (enum *EnumType) CreateValidation() Validation {
+func (enum *EnumType) CreateValidation() KubeBuilderValidation {
 	var values []interface{}
 	for _, opt := range enum.Options() {
 		values = append(values, opt.Value)

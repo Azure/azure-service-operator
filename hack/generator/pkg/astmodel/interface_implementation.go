@@ -7,8 +7,9 @@ package astmodel
 
 // Interface defines an interface implementation
 type InterfaceImplementation struct {
-	name      TypeName
-	functions map[string]Function
+	name       TypeName
+	annotation string
+	functions  map[string]Function
 }
 
 // NewInterfaceImplementation creates a new interface implementation with the given name and set of functions
@@ -21,6 +22,12 @@ func NewInterfaceImplementation(name TypeName, functions ...Function) *Interface
 	return result
 }
 
+func (iface *InterfaceImplementation) WithAnnotation(annotation string) *InterfaceImplementation {
+	result := *iface
+	result.annotation = annotation
+	return &result
+}
+
 // Name returns the name of the interface
 func (iface *InterfaceImplementation) Name() TypeName {
 	return iface.name
@@ -29,6 +36,8 @@ func (iface *InterfaceImplementation) Name() TypeName {
 // RequiredPackageReferences returns a list of packages required by this
 func (iface *InterfaceImplementation) RequiredPackageReferences() *PackageReferenceSet {
 	result := NewPackageReferenceSet()
+	result.AddReference(iface.Name().PackageReference)
+
 	for _, f := range iface.functions {
 		result.Merge(f.RequiredPackageReferences())
 	}

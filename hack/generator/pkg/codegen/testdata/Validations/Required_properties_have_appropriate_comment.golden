@@ -5,7 +5,6 @@ package v20200101
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-
 	// +kubebuilder:validation:Required
 	Required string `json:"required"`
 }

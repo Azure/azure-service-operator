@@ -7,7 +7,6 @@ import "encoding/json"
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-
 	//Bar: Mutually exclusive with all other properties
 	Bar *Bar `json:"bar,omitempty"`
 
@@ -34,14 +33,12 @@ func (test Test) MarshalJSON() ([]byte, error) {
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
-
 	// +kubebuilder:validation:Required
 	Size int `json:"size"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
-
 	// +kubebuilder:validation:Required
 	Enabled bool `json:"enabled"`
 }

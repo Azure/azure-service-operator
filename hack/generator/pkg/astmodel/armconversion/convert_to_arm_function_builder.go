@@ -256,7 +256,7 @@ func (builder *convertToArmBuilder) propertiesWithSameNameButDifferentTypeHandle
 func (builder *convertToArmBuilder) toArmComplexPropertyConversion(
 	params complexPropertyConversionParameters) []ast.Stmt {
 
-	switch params.destinationType.(type) {
+	switch concrete := params.destinationType.(type) {
 	case *astmodel.OptionalType:
 		return builder.convertComplexOptionalProperty(params)
 	case *astmodel.ArrayType:
@@ -276,6 +276,10 @@ func (builder *convertToArmBuilder) toArmComplexPropertyConversion(
 	case *astmodel.PrimitiveType:
 		// No conversion needed in this case.
 		return builder.assignPrimitiveType(params)
+	case astmodel.ValidatedType:
+		// pass through to underlying type
+		params.destinationType = concrete.ElementType()
+		return builder.toArmComplexPropertyConversion(params)
 	default:
 		panic(fmt.Sprintf("don't know how to perform toArm conversion for type: %T", params.destinationType))
 	}

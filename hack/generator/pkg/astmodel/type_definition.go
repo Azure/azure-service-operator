@@ -68,33 +68,44 @@ func (def TypeDefinition) WithName(typeName TypeName) TypeDefinition {
 }
 
 func (def TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
-	return def.theType.AsDeclarations(codeGenerationContext, def.name, def.description)
+	declContext := DeclarationContext{
+		Name:        def.name,
+		Description: def.description,
+	}
+
+	return def.theType.AsDeclarations(codeGenerationContext, declContext)
 }
 
 // AsSimpleDeclarations is a helper for types that only require a simple name/alias to be defined
-func AsSimpleDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string, theType Type) []ast.Decl {
+func AsSimpleDeclarations(
+	codeGenerationContext *CodeGenerationContext,
+	declContext DeclarationContext,
+	theType Type) []ast.Decl {
+
 	var docComments ast.Decorations
-	if len(description) > 0 {
-		astbuilder.AddWrappedComments(&docComments, description, 120)
+	if len(declContext.Description) > 0 {
+		astbuilder.AddWrappedComments(&docComments, declContext.Description, 120)
 	}
 
-	return []ast.Decl{
-		&ast.GenDecl{
-			Decs: ast.GenDeclDecorations{
-				NodeDecs: ast.NodeDecs{
-					Start:  docComments,
-					Before: ast.EmptyLine,
-				},
+	AddValidationComments(&docComments, declContext.Validations)
+
+	result := &ast.GenDecl{
+		Decs: ast.GenDeclDecorations{
+			NodeDecs: ast.NodeDecs{
+				Start:  docComments,
+				Before: ast.EmptyLine,
 			},
-			Tok: token.TYPE,
-			Specs: []ast.Spec{
-				&ast.TypeSpec{
-					Name: ast.NewIdent(name.Name()),
-					Type: theType.AsType(codeGenerationContext),
-				},
+		},
+		Tok: token.TYPE,
+		Specs: []ast.Spec{
+			&ast.TypeSpec{
+				Name: ast.NewIdent(declContext.Name.Name()),
+				Type: theType.AsType(codeGenerationContext),
 			},
 		},
 	}
+
+	return []ast.Decl{result}
 }
 
 // RequiredImports returns a list of packages required by this type

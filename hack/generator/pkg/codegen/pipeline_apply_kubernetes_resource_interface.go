@@ -29,7 +29,7 @@ func applyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Pipe
 				}
 
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
-					newResource, err := resource.WithKubernetesResourceInterfaceImpl(idFactory, types)
+					newResource, err := astmodel.AddKubernetesResourceInterfaceImpls(typeName, resource, idFactory, types)
 					if err != nil {
 						return nil, errors.Wrapf(err, "couldn't implement Kubernetes resource interface for %q", typeName)
 					}

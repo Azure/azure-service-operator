@@ -80,7 +80,7 @@ func (h ResourceHierarchy) FullAzureName() string {
 	}
 
 	for _, res := range resources {
-		azureNames = append(azureNames, getAzureName(res))
+		azureNames = append(azureNames, res.AzureName())
 	}
 
 	return strings.Join(azureNames, "/")
@@ -200,14 +200,4 @@ func (r *Resolver) findGVK(owner *genruntime.ResourceReference) (schema.GroupVer
 	}
 
 	return ownerGvk, nil
-}
-
-// TODO: Remove this when we have proper AzureName defaulting on the way in
-// getAzureName returns the specified AzureName, or else the name of the Kubernetes resource
-func getAzureName(r genruntime.MetaObject) string {
-	if r.AzureName() == "" {
-		return r.GetName()
-	}
-
-	return r.AzureName()
 }

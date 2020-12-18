@@ -8,6 +8,8 @@ package jsonast
 import (
 	"context"
 	"fmt"
+	"math"
+	"math/big"
 	"net/url"
 	"strings"
 
@@ -270,11 +272,107 @@ func defaultTypeHandlers() map[SchemaType]TypeHandler {
 		Ref:    refHandler,
 		Object: objectHandler,
 		Enum:   enumHandler,
-		String: fixedTypeHandler(astmodel.StringType, "string"),
-		Int:    fixedTypeHandler(astmodel.IntType, "int"),
-		Number: fixedTypeHandler(astmodel.FloatType, "number"),
-		Bool:   fixedTypeHandler(astmodel.BoolType, "bool"),
+		String: stringHandler,
+		Int:    intHandler,
+		Number: numberHandler,
+		Bool:   boolHandler,
 	}
+}
+
+func stringHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+	t := astmodel.StringType
+
+	maxLength := schema.maxLength()
+	minLength := schema.minLength()
+	pattern := schema.pattern()
+
+	if maxLength != nil || minLength != nil || pattern != nil {
+		return astmodel.MakeValidatedType(t, astmodel.StringValidations{
+			MaxLength: maxLength,
+			MinLength: minLength,
+			Pattern:   pattern,
+		}), nil
+	}
+
+	return t, nil
+}
+
+func numberHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+	t := astmodel.FloatType
+	v := getNumberValidations(schema)
+	if v != nil {
+		// for controller-gen anything with min/max/multipleof must be based on int
+		// double-check that all of these are integral
+		if v.Minimum != nil {
+			if !v.Minimum.IsInt() {
+				return nil, errors.Errorf("'minimum' validation must be an integer")
+			}
+		}
+
+		if v.Maximum != nil {
+			if !v.Maximum.IsInt() {
+				return nil, errors.Errorf("'maximum' validation must be an integer")
+			}
+		}
+
+		if v.MultipleOf != nil {
+			if !v.MultipleOf.IsInt() {
+				return nil, errors.Errorf("'multipleOf' validation must be an integer")
+			}
+		}
+
+		t = astmodel.IntType
+		return astmodel.MakeValidatedType(t, *v), nil
+	}
+
+	return t, nil
+}
+
+var zero *big.Rat = big.NewRat(0, 1)
+var maxUint32 *big.Rat = big.NewRat(1, 1).SetUint64(math.MaxUint32)
+
+func intHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+	t := astmodel.IntType
+	v := getNumberValidations(schema)
+	if v != nil {
+		// special-case some things to return different types
+		if !v.ExclusiveMaximum && v.Maximum != nil &&
+			v.MultipleOf == nil &&
+			!v.ExclusiveMinimum && v.Minimum != nil && v.Minimum.Cmp(zero) == 0 {
+
+			if v.Maximum.Cmp(maxUint32) == 0 {
+				return astmodel.UInt32Type, nil
+			}
+		}
+
+		return astmodel.MakeValidatedType(t, *v), nil
+	}
+
+	return t, nil
+}
+
+func getNumberValidations(schema Schema) *astmodel.NumberValidations {
+	minValue := schema.minValue()
+	minExclusive := schema.minValueExclusive()
+	maxValue := schema.maxValue()
+	maxExclusive := schema.maxValueExclusive()
+	multipleOf := schema.multipleOf()
+
+	if minValue != nil || maxValue != nil || multipleOf != nil {
+		return &astmodel.NumberValidations{
+			Maximum:          maxValue,
+			Minimum:          minValue,
+			ExclusiveMaximum: maxExclusive,
+			ExclusiveMinimum: minExclusive,
+			MultipleOf:       multipleOf,
+		}
+	}
+
+	return nil
+}
+
+func boolHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+	return astmodel.BoolType, nil
 }
 
 func enumHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -314,15 +412,6 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (as
 	enumType := astmodel.NewEnumType(baseType, values)
 
 	return enumType, nil
-}
-
-func fixedTypeHandler(typeToReturn astmodel.Type, handlerName string) TypeHandler {
-	return func(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
-		_, span := tab.StartSpan(ctx, handlerName+"Handler")
-		defer span.End()
-
-		return typeToReturn, nil
-	}
 }
 
 func objectHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -667,7 +756,8 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 		// there is no type to the elements, so we must assume interface{}
 		klog.Warningf("Interface assumption unproven for %v\n", schema.url())
 
-		return astmodel.NewArrayType(astmodel.AnyType), nil
+		result := astmodel.NewArrayType(astmodel.AnyType)
+		return withArrayValidations(schema, result), nil
 	}
 
 	// get the only child type and wrap it up as an array type:
@@ -684,7 +774,25 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 		return nil, nil
 	}
 
-	return astmodel.NewArrayType(astType), nil
+	result := astmodel.NewArrayType(astType)
+	return withArrayValidations(schema, result), nil
+}
+
+func withArrayValidations(schema Schema, t *astmodel.ArrayType) astmodel.Type {
+
+	maxItems := schema.maxItems()
+	minItems := schema.minItems()
+	uniqueItems := schema.uniqueItems()
+
+	if maxItems != nil || minItems != nil || uniqueItems {
+		return astmodel.MakeValidatedType(t, astmodel.ArrayValidations{
+			MaxItems:    maxItems,
+			MinItems:    minItems,
+			UniqueItems: uniqueItems,
+		})
+	}
+
+	return t
 }
 
 func getSubSchemaType(schema Schema) (SchemaType, error) {

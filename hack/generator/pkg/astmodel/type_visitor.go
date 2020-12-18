@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+
 	"github.com/pkg/errors"
 
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -15,17 +16,18 @@ import (
 // TypeVisitor represents a visitor for a tree of types.
 // The `ctx` argument can be used to “smuggle” additional data down the call-chain.
 type TypeVisitor struct {
-	VisitTypeName     func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error)
-	VisitOneOfType    func(this *TypeVisitor, it OneOfType, ctx interface{}) (Type, error)
-	VisitAllOfType    func(this *TypeVisitor, it AllOfType, ctx interface{}) (Type, error)
-	VisitArrayType    func(this *TypeVisitor, it *ArrayType, ctx interface{}) (Type, error)
-	VisitPrimitive    func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) (Type, error)
-	VisitObjectType   func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error)
-	VisitMapType      func(this *TypeVisitor, it *MapType, ctx interface{}) (Type, error)
-	VisitOptionalType func(this *TypeVisitor, it *OptionalType, ctx interface{}) (Type, error)
-	VisitEnumType     func(this *TypeVisitor, it *EnumType, ctx interface{}) (Type, error)
-	VisitResourceType func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
-	VisitFlaggedType  func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error)
+	VisitTypeName      func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error)
+	VisitOneOfType     func(this *TypeVisitor, it OneOfType, ctx interface{}) (Type, error)
+	VisitAllOfType     func(this *TypeVisitor, it AllOfType, ctx interface{}) (Type, error)
+	VisitArrayType     func(this *TypeVisitor, it *ArrayType, ctx interface{}) (Type, error)
+	VisitPrimitive     func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) (Type, error)
+	VisitObjectType    func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error)
+	VisitMapType       func(this *TypeVisitor, it *MapType, ctx interface{}) (Type, error)
+	VisitOptionalType  func(this *TypeVisitor, it *OptionalType, ctx interface{}) (Type, error)
+	VisitEnumType      func(this *TypeVisitor, it *EnumType, ctx interface{}) (Type, error)
+	VisitResourceType  func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
+	VisitFlaggedType   func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error)
+	VisitValidatedType func(this *TypeVisitor, it ValidatedType, ctx interface{}) (Type, error)
 }
 
 // Visit invokes the appropriate VisitX on TypeVisitor
@@ -57,6 +59,8 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 		return tv.VisitResourceType(tv, it, ctx)
 	case *FlaggedType:
 		return tv.VisitFlaggedType(tv, it, ctx)
+	case ValidatedType:
+		return tv.VisitValidatedType(tv, it, ctx)
 	}
 
 	panic(fmt.Sprintf("unhandled type: (%T) %v", t, t))
@@ -80,7 +84,7 @@ func (tv *TypeVisitor) VisitDefinition(td TypeDefinition, ctx interface{}) (*Typ
 		return nil, errors.Wrapf(err, "visit of type of %q failed", td.Name())
 	}
 
-	def := MakeTypeDefinition(name, visitedType).WithDescription(td.description)
+	def := td.WithName(name).WithType(visitedType)
 	return &def, nil
 }
 
@@ -112,17 +116,18 @@ func MakeTypeVisitor() TypeVisitor {
 	// recursive invocations of Visit to avoid having to rebuild the tree if the
 	// leaf nodes do not actually change.
 	return TypeVisitor{
-		VisitTypeName:     IdentityVisitOfTypeName,
-		VisitArrayType:    IdentityVisitOfArrayType,
-		VisitPrimitive:    IdentityVisitOfPrimitiveType,
-		VisitObjectType:   IdentityVisitOfObjectType,
-		VisitMapType:      IdentityVisitOfMapType,
-		VisitEnumType:     IdentityVisitOfEnumType,
-		VisitOptionalType: IdentityVisitOfOptionalType,
-		VisitResourceType: IdentityVisitOfResourceType,
-		VisitOneOfType:    IdentityVisitOfOneOfType,
-		VisitAllOfType:    IdentityVisitOfAllOfType,
-		VisitFlaggedType:  IdentityVisitOfFlaggedType,
+		VisitTypeName:      IdentityVisitOfTypeName,
+		VisitArrayType:     IdentityVisitOfArrayType,
+		VisitPrimitive:     IdentityVisitOfPrimitiveType,
+		VisitObjectType:    IdentityVisitOfObjectType,
+		VisitMapType:       IdentityVisitOfMapType,
+		VisitEnumType:      IdentityVisitOfEnumType,
+		VisitOptionalType:  IdentityVisitOfOptionalType,
+		VisitResourceType:  IdentityVisitOfResourceType,
+		VisitOneOfType:     IdentityVisitOfOneOfType,
+		VisitAllOfType:     IdentityVisitOfAllOfType,
+		VisitFlaggedType:   IdentityVisitOfFlaggedType,
+		VisitValidatedType: IdentityVisitOfValidatedType,
 	}
 }
 
@@ -283,4 +288,13 @@ func IdentityVisitOfFlaggedType(this *TypeVisitor, ft *FlaggedType, ctx interfac
 	}
 
 	return NewFlaggedType(nt, flags...), nil
+}
+
+func IdentityVisitOfValidatedType(this *TypeVisitor, v ValidatedType, ctx interface{}) (Type, error) {
+	nt, err := this.Visit(v.element, ctx)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to visit validated type %T", v.element)
+	}
+
+	return v.WithType(nt), nil
 }

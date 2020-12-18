@@ -6,6 +6,10 @@ package v20200101
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	// +kubebuilder:validation:Required
-	Size                 int             `json:"size"`
-	additionalProperties map[string]bool `json:"additionalProperties"`
+	Ducks []Test_Ducks `json:"ducks"`
 }
+
+// +kubebuilder:validation:MaxLength=20
+// +kubebuilder:validation:MinLength=10
+// +kubebuilder:validation:Pattern="^[a-z]+$"
+type Test_Ducks string

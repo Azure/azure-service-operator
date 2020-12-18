@@ -6,7 +6,9 @@
 package jsonast
 
 import (
+	"math/big"
 	"net/url"
+	"regexp"
 )
 
 // Schema abstracts over the exact implementation of
@@ -25,6 +27,18 @@ type Schema interface {
 
 	hasType(schemaType SchemaType) bool
 
+	// number things
+	maxValue() *big.Rat
+	minValue() *big.Rat
+	maxValueExclusive() bool
+	minValueExclusive() bool
+	multipleOf() *big.Rat
+
+	// string things
+	maxLength() *int64
+	minLength() *int64
+	pattern() *regexp.Regexp
+
 	// complex things
 	hasOneOf() bool
 	oneOf() []Schema
@@ -40,6 +54,9 @@ type Schema interface {
 
 	// array things
 	items() []Schema
+	maxItems() *int64
+	minItems() *int64
+	uniqueItems() bool
 
 	// object things
 	requiredProperties() []string

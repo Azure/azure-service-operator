@@ -10,6 +10,7 @@ require (
 	github.com/devigned/tab v0.1.1
 	github.com/dnaeon/go-vcr v1.1.0
 	github.com/go-logr/logr v0.1.0
+	github.com/google/go-cmp v0.4.0
 	github.com/google/uuid v1.1.1
 	github.com/kr/pretty v0.2.0
 	github.com/kylelemons/godebug v1.1.0

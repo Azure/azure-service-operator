@@ -83,7 +83,7 @@ func TestOneOfAsDeclarationsPanics(t *testing.T) {
 
 	x := OneOfType{}
 	g.Expect(func() {
-		x.AsDeclarations(&CodeGenerationContext{}, TypeName{}, []string{})
+		x.AsDeclarations(&CodeGenerationContext{}, DeclarationContext{})
 	}).To(PanicWith("should have been replaced by generation time by 'convertAllOfAndOneOf' phase"))
 }
 
