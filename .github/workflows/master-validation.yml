@@ -29,24 +29,5 @@ jobs:
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Upload generator coverage to coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          path-to-lcov: ./hack/generator/coverage.lcov
-          flag-name: pr-generator-${{ runner.os }}
-          parallel: true
-
-      - name: Upload generated integration coverage to coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          path-to-lcov: ./hack/generated/coverage-integration-envtest.lcov
-          flag-name: pr-generated-integration-${{ runner.os }}
-          parallel: true
-
-      - name: Coveralls done
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          parallel-finished: true
+      - name: Upload code coverage to Codecov
+        run: bash <(curl -s https://codecov.io/bash)
