@@ -99,7 +99,7 @@ func TestMySQLHappyPath(t *testing.T) {
 	EnsureInstance(ctx, t, tc, ruleInstance)
 
 	// Create user and ensure it can be updated
-	RunMySQLUserHappyPath(ctx, t, mySQLServerName,mySQLDBName, rgName)
+	RunMySQLUserHappyPath(ctx, t, mySQLServerName, mySQLDBName, rgName)
 
 	// Create VNet and VNetRules -----
 	RunMySqlVNetRuleHappyPath(t, mySQLServerName, rgLocation)
