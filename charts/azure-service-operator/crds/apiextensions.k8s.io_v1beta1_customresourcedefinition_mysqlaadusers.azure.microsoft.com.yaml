@@ -41,6 +41,7 @@ spec:
               description: AAD ID is the ID of the user in Azure Active Directory. When creating a user for a managed identity this must be the client id (sometimes called app id) of the managed identity. When creating a user for a "normal" (non-managed identity) user or group, this is the OID of the user or group.
               type: string
             dbName:
+              description: optional, grants to entire server if omitted.
               type: string
             resourceGroup:
               pattern: ^[-\w\._\(\)]+$
@@ -56,7 +57,6 @@ spec:
               description: optional
               type: string
           required:
-          - dbName
           - resourceGroup
           - roles
           - server
