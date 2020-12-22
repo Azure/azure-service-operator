@@ -7,7 +7,7 @@ type SQLRoleDelta struct {
 
 func DiffCurrentAndExpectedSQLRoles(currentRoles map[string]struct{}, expectedRoles map[string]struct{}) SQLRoleDelta {
 	result := SQLRoleDelta{
-		AddedRoles: make(map[string]struct{}),
+		AddedRoles:   make(map[string]struct{}),
 		DeletedRoles: make(map[string]struct{}),
 	}
 
