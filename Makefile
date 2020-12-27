@@ -56,7 +56,7 @@ generate-test-certs:
 test-integration-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
-	./controllers/... 
+	./controllers/...
 	#2>&1 | tee reports/integration-controllers-output.txt
 	#go-junit-report < reports/integration-controllers-output.txt > reports/integration-controllers-report.xml
 
@@ -79,7 +79,7 @@ test-integration-managers: generate fmt vet manifests
 
 # Run all available tests. Note that Controllers are not unit-testable.
 .PHONY: test-unit
-test-unit: generate fmt vet manifests 
+test-unit: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=coverage-unit.txt -covermode count -parallel 4 -timeout 10m \
 	./api/... \
@@ -99,7 +99,7 @@ test-process-coverage:
 
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
 .PHONY: test-cleanup-azure-resources
-test-cleanup-azure-resources: 	
+test-cleanup-azure-resources:
 	# Delete the resource groups that match the pattern
 	for rgname in `az group list --query "[*].[name]" -o table | grep '^${TEST_RESOURCE_PREFIX}' `; do \
 		echo "$$rgname will be deleted"; \
@@ -189,7 +189,7 @@ helm-chart-manifests: generate
 	perl -pi -e s,controller:latest,"{{ .Values.image.repository }}",g ./charts/azure-service-operator/templates/generated/*_deployment_*
 	# replace hard coded namespace with Helm templating
 	find ./charts/azure-service-operator/templates/generated/ -type f -exec perl -pi -e s,azureoperator-system,"{{ .Release.Namespace }}",g {} \;
-	# create unique names so each instance of the operator has its own role binding 
+	# create unique names so each instance of the operator has its own role binding
 	find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec perl -pi -e 's/$$/-{{ .Release.Namespace }}/ if /name: azure/' {} \;
 	# package the necessary files into a tar file
 	helm package ./charts/azure-service-operator -d ./charts
@@ -208,7 +208,7 @@ fmt:
 
 # Run go vet against code
 .PHONY: vet
-vet: 
+vet:
 	go vet ./...
 
 # Generate code
@@ -253,11 +253,11 @@ kind-create: install-kind
 
 .PHONY: set-kindcluster
 set-kindcluster: install-kind kind-create
-ifeq (${shell kind get kubeconfig-path --name="kind"},${KUBECONFIG})
-	@echo "kubeconfig-path points to kind path"
+ifeq (${shell kubectl config current-context},kind-${KIND_CLUSTER_NAME})
+	@echo "kubeconfig points to kind kube context"
 else
 	@echo "please run below command in your shell and then re-run make set-kindcluster"
-	@echo  "\e[31mexport KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")\e[0m"
+	@echo "kubectl config use-context kind-${KIND_CLUSTER_NAME}"
 	@exit 111
 endif
 	@echo "getting value of KUBECONFIG"
