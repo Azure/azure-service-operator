@@ -98,7 +98,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
 4. Install the Azure Service Operator on your cluster using the following helm install command.
 
     ```sh
-    helm upgrade --install aso https://github.com/Azure/azure-service-operator/raw/master/charts/azure-service-operator-0.1.0.tgz \
+    helm upgrade --install aso https://github.com/Azure/azure-service-operator/raw/master/charts/azure-service-operator-1.0.0.tgz \
             --create-namespace \
             --namespace=azureoperator-system \
             --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
