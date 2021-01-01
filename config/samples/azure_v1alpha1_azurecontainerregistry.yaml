@@ -1,0 +1,10 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureContainerRegistry
+metadata:
+  name: azurecontainerregistrysample
+spec:
+  adminUserEnabled: true
+  location: australiaeast
+  resourceGroup: resourcegroup-azure-operators
+  sku:
+    name: Standard

@@ -1,0 +1,24 @@
+# permissions for end users to edit azurecontainerregistries.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: azurecontainerregistry-editor-role
+rules:
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - azurecontainerregistries
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - azurecontainerregistries/status
+  verbs:
+  - get

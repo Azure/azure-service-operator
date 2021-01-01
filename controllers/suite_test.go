@@ -39,6 +39,7 @@ import (
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	resourcemanagercontainerregistry "github.com/Azure/azure-service-operator/pkg/resourcemanager/containerregistry"
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -160,6 +161,7 @@ func setup() error {
 	secretClient := k8sSecrets.New(k8sManager.GetClient())
 	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(config.GlobalCredentials())
 	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(config.GlobalCredentials(), k8sManager.GetScheme())
+	containerRegistryManager := resourcemanagercontainerregistry.NewAzureContainerRegistryManager(config.GlobalCredentials(), scheme.Scheme, secretClient)
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme.Scheme)
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(config.GlobalCredentials())
 	azureSqlDatabaseManager := resourcemanagersqldb.NewAzureSqlDbManager(config.GlobalCredentials())
@@ -909,19 +911,20 @@ func setup() error {
 	}
 
 	tc = TestContext{
-		k8sClient:             k8sClient,
-		secretClient:          secretClient,
-		resourceGroupName:     resourceGroupName,
-		resourceGroupLocation: resourcegroupLocation,
-		keyvaultName:          keyvaultName,
-		eventhubClient:        eventhubClient,
-		resourceGroupManager:  resourceGroupManager,
-		keyVaultManager:       keyVaultManager,
-		sqlDbManager:          azureSqlDatabaseManager,
-		timeout:               timeout,
-		timeoutFast:           time.Minute * 3,
-		retry:                 time.Second * 3,
-		consumerGroupClient:   consumerGroupClient,
+		k8sClient:                k8sClient,
+		secretClient:             secretClient,
+		resourceGroupName:        resourceGroupName,
+		resourceGroupLocation:    resourcegroupLocation,
+		keyvaultName:             keyvaultName,
+		eventhubClient:           eventhubClient,
+		resourceGroupManager:     resourceGroupManager,
+		keyVaultManager:          keyVaultManager,
+		containerRegistryManager: containerRegistryManager,
+		sqlDbManager:             azureSqlDatabaseManager,
+		timeout:                  timeout,
+		timeoutFast:              time.Minute * 3,
+		retry:                    time.Second * 3,
+		consumerGroupClient:      consumerGroupClient,
 	}
 
 	log.Println("Creating KV:", keyvaultName)

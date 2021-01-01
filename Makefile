@@ -116,7 +116,7 @@ test-cleanup-azure-resources:
 docker-build:
 	docker build . -t ${IMG} ${ARGS}
 	@echo "updating kustomize image patch file for manager resource"
-	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
+	sed -i '' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
 
 # Push the docker image
 .PHONY: docker-push
@@ -138,7 +138,7 @@ run: generate fmt vet
 	go run ./main.go
 
 # Install CRDs into a cluster
-.PHONY: generate
+.PHONY: install
 install: generate
 	kubectl apply -f config/crd/bases
 
@@ -150,10 +150,9 @@ deploy: manifests
 .PHONY: update
 update:
 	IMG="docker.io/controllertest:$(timestamp)" make ARGS="${ARGS}" docker-build
-	kind load docker-image docker.io/controllertest:$(timestamp) --loglevel "trace"
+	kind load docker-image docker.io/controllertest:$(timestamp) -v=4 --name ${KIND_CLUSTER_NAME}
 	make install
 	make deploy
-	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
 .PHONY: delete
 delete:
@@ -278,7 +277,7 @@ endif
 	#create image and load it into cluster
 	make install
 	IMG="docker.io/controllertest:1" make docker-build
-	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+	kind load docker-image docker.io/controllertest:1 -v=4 --name ${KIND_CLUSTER_NAME}
 
 	kubectl get namespaces
 	kubectl get pods --namespace cert-manager
@@ -286,7 +285,7 @@ endif
 	kubectl wait pod -n cert-manager --for condition=ready --timeout=60s --all
 	@echo "all the pods should be running"
 	make deploy
-	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
+	sed -i '' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
 .PHONY: install-kind
 install-kind:

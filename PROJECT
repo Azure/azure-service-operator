@@ -135,4 +135,7 @@ resources:
 - group: azure
   kind: AppInsightsApiKey
   version: v1alpha1
+- group: azure
+  kind: AzureContainerRegistry
+  version: v1alpha1
 version: "2"

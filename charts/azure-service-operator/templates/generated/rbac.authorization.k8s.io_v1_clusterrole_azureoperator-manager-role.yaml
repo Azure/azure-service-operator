@@ -145,6 +145,26 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azurecontainerregistries
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - azurecontainerregistries/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - azureloadbalancers
   verbs:
   - create

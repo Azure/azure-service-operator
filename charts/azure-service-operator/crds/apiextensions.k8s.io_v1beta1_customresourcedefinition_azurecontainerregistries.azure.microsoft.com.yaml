@@ -4,7 +4,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.5
   creationTimestamp: null
-  name: mysqlserveradministrators.azure.microsoft.com
+  name: azurecontainerregistries.azure.microsoft.com
 spec:
   additionalPrinterColumns:
   - JSONPath: .status.provisioned
@@ -15,18 +15,18 @@ spec:
     type: string
   group: azure.microsoft.com
   names:
-    kind: MySQLServerAdministrator
-    listKind: MySQLServerAdministratorList
-    plural: mysqlserveradministrators
+    kind: AzureContainerRegistry
+    listKind: AzureContainerRegistryList
+    plural: azurecontainerregistries
     shortNames:
-    - mysqladmin
-    singular: mysqlserveradministrator
+    - acr
+    singular: azurecontainerregistry
   scope: Namespaced
   subresources:
     status: {}
   validation:
     openAPIV3Schema:
-      description: MySQLServerAdministrator is the Schema for the mysqlserveradministrator API
+      description: AzureContainerRegistry is the Schema for the azurecontainerregistries API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -37,33 +37,25 @@ spec:
         metadata:
           type: object
         spec:
+          description: AzureContainerRegistrySpec defines the desired state of AzureContainerRegistry
           properties:
-            administratorType:
-              description: 'AdministratorType: The type of administrator.'
-              enum:
-              - ActiveDirectory
-              type: string
-            login:
-              description: 'Login: The server administrator login account name. For example: "myuser@microsoft.com" might be the login if specifying an AAD user. "my-mi" might be the name of a managed identity'
+            adminUserEnabled:
+              type: boolean
+            location:
               type: string
             resourceGroup:
-              pattern: ^[-\w\._\(\)]+$
               type: string
-            server:
-              type: string
-            sid:
-              description: 'Sid: The server administrator Sid (Secure ID). If creating for an AAD user or group, this is the OID of the entity in AAD. For a managed identity this should be the Client ID (or app id) of the identity.'
-              type: string
-            tenantId:
-              description: 'TenantId: The server Active Directory Administrator tenant id.'
-              type: string
+            sku:
+              description: ContainerRegistrySku the SKU of the Container Registry
+              properties:
+                name:
+                  description: 'Name - The SKU name. Required for account creation; optional for update. Possible values include: ''Basic'', ''Classic'', ''Premium'' or ''Standard'''
+                  type: string
+              type: object
           required:
-          - administratorType
-          - login
+          - adminUserEnabled
+          - location
           - resourceGroup
-          - server
-          - sid
-          - tenantId
           type: object
         status:
           description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions

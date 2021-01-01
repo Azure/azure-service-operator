@@ -35,6 +35,7 @@ import (
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	resourcemanagercontainerregistry "github.com/Azure/azure-service-operator/pkg/resourcemanager/containerregistry"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
@@ -56,25 +57,26 @@ type TestContext struct {
 	//namespaceLocation       string
 	//storageAccountName      string
 	//blobContainerName       string
-	keyvaultName            string
-	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
-	redisCacheManager       resourcemanagerrediscaches.RedisCacheManager
-	eventHubManagers        resourcemanagereventhub.EventHubManagers
-	eventhubClient          resourcemanagereventhub.EventHubManager
-	storageManagers         resourcemanagerstorages.StorageManagers
-	keyVaultManager         resourcemanagerkeyvaults.KeyVaultManager
-	psqlServerManager       resourcemanagerpsqlserver.PostgreSQLServerManager
-	psqlDatabaseManager     resourcemanagerpsqldatabase.PostgreSQLDatabaseManager
-	psqlFirewallRuleManager resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
-	sqlServerManager        resourcemanagersqlserver.SqlServerManager
-	sqlDbManager            resourcemanagersqldb.SqlDbManager
-	sqlFirewallRuleManager  resourcemanagersqlfirewallrule.SqlFirewallRuleManager
-	sqlFailoverGroupManager resourcemanagersqlfailovergroup.SqlFailoverGroupManager
-	sqlUserManager          resourcemanagersqluser.SqlUserManager
-	consumerGroupClient     resourcemanagereventhub.ConsumerGroupManager
-	timeout                 time.Duration
-	timeoutFast             time.Duration
-	retry                   time.Duration
+	keyvaultName             string
+	resourceGroupManager     resourcegroupsresourcemanager.ResourceGroupManager
+	redisCacheManager        resourcemanagerrediscaches.RedisCacheManager
+	eventHubManagers         resourcemanagereventhub.EventHubManagers
+	eventhubClient           resourcemanagereventhub.EventHubManager
+	storageManagers          resourcemanagerstorages.StorageManagers
+	keyVaultManager          resourcemanagerkeyvaults.KeyVaultManager
+	containerRegistryManager resourcemanagercontainerregistry.ContainerRegistryManager
+	psqlServerManager        resourcemanagerpsqlserver.PostgreSQLServerManager
+	psqlDatabaseManager      resourcemanagerpsqldatabase.PostgreSQLDatabaseManager
+	psqlFirewallRuleManager  resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
+	sqlServerManager         resourcemanagersqlserver.SqlServerManager
+	sqlDbManager             resourcemanagersqldb.SqlDbManager
+	sqlFirewallRuleManager   resourcemanagersqlfirewallrule.SqlFirewallRuleManager
+	sqlFailoverGroupManager  resourcemanagersqlfailovergroup.SqlFailoverGroupManager
+	sqlUserManager           resourcemanagersqluser.SqlUserManager
+	consumerGroupClient      resourcemanagereventhub.ConsumerGroupManager
+	timeout                  time.Duration
+	timeoutFast              time.Duration
+	retry                    time.Duration
 }
 
 // Fetch retrieves an object by namespaced name from the API server and puts the contents in the runtime.Object parameter.

@@ -8,6 +8,7 @@ import (
 	"os"
 
 	aadpodv1 "github.com/Azure/aad-pod-identity/pkg/apis/aadpodidentity/v1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/containerregistry"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -940,6 +941,22 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AppInsightsApiKey")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.AzureContainerRegistryReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: containerregistry.NewAzureContainerRegistryManager(config.GlobalCredentials(), scheme, secretClient),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureContainerRegistry",
+				ctrl.Log.WithName("controllers").WithName("AzureContainerRegistry"),
+			),
+			Recorder: mgr.GetEventRecorderFor("AzureNewResourceType-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureNewResourceType")
 		os.Exit(1)
 	}
 
