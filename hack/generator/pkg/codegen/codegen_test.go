@@ -187,7 +187,8 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 			pipeline = append(pipeline, loadTestSchemaIntoTypes(idFactory, cfg, testSchemaLoader))
 		} else if stage.HasId("deleteGenerated") ||
 			stage.HasId("rogueCheck") ||
-			stage.HasId("createStorage") {
+			stage.HasId("createStorage") ||
+			stage.HasId("reportTypesAndVersions") {
 			continue // Skip this
 		} else if stage.HasId("exportPackages") {
 			pipeline = append(pipeline, exportPackagesTestPipelineStage)
