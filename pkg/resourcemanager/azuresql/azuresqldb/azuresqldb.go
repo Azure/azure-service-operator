@@ -10,6 +10,8 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	sql3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
@@ -66,12 +68,16 @@ func (m *AzureSqlDbManager) DeleteDB(
 	// check to see if the server exists, if it doesn't then short-circuit
 	server, err := m.GetServer(ctx, resourceGroupName, serverName)
 	if err != nil || *server.State != "Ready" {
-		return nil, nil
+		return nil, ignoreNotFound(err)
 	}
 
 	// check to see if the db exists, if it doesn't then short-circuit
-	_, err = m.GetDB(ctx, resourceGroupName, serverName, databaseName)
+	db, err := m.GetDB(ctx, resourceGroupName, serverName, databaseName)
 	if err != nil {
+		return nil, ignoreNotFound(err)
+	}
+	if db.Name == nil {
+		// The database doesn't exist, we don't need to delete it.
 		return nil, nil
 	}
 
@@ -195,4 +201,30 @@ func (m *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGr
 	}
 
 	return future.Response(), err
+}
+
+var goneCodes = []string{
+	errhelp.ResourceGroupNotFoundErrorCode,
+	errhelp.ParentNotFoundErrorCode,
+	errhelp.NotFoundErrorCode,
+	errhelp.ResourceNotFound,
+}
+
+func isNotFound(azerr *errhelp.AzureError) bool {
+	return helpers.ContainsString(goneCodes, azerr.Type)
+}
+
+var incompleteCodes = []string{
+	errhelp.AsyncOpIncompleteError,
+}
+
+func isIncompleteOp(azerr *errhelp.AzureError) bool {
+	return helpers.ContainsString(incompleteCodes, azerr.Type)
+}
+
+func ignoreNotFound(err error) error {
+	if isNotFound(errhelp.NewAzureError(err)) {
+		return nil
+	}
+	return err
 }
