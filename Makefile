@@ -172,7 +172,11 @@ validate-cainjection-files:
 
 # Generate manifests for helm and package them up
 .PHONY: helm-chart-manifests
+helm-chart-manifests: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq .tag_name | sed 's/"//g')
 helm-chart-manifests: generate
+	@echo "Latest released tag is $(LATEST_TAG)"
+	# substitute released tag into values file.
+	perl -pi -e 's,repository: mcr.microsoft.com/k8s/azureserviceoperator:\K.*,$(LATEST_TAG),' ./charts/azure-service-operator/values.yaml
 	# remove generated files
 	rm -rf charts/azure-service-operator/templates/generated/
 	rm -rf charts/azure-service-operator/crds

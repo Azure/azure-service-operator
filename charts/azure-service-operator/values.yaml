@@ -20,8 +20,14 @@ azureClientSecret: ""
 azureUseMI: False
 
 # image defines the container image the ASO pod should run
+# Note: This should use the latest released tag number explicitly. If
+# it's ':latest' and someone deploys the chart after a new version has
+# been released but before the the chart is updated, they could get
+# errors, eg. due to types in the operator binary that have no
+# corresponding CRD yaml in the cart (and so no CRD in the k8s
+# repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:latest
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:0.1.16800
 
 # installAadPodIdentity determines if the aad-pod-identity subchart should be installed.
 installAadPodIdentity: False
