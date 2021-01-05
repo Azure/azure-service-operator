@@ -52,7 +52,7 @@ spec:
             server:
               type: string
             sid:
-              description: 'Sid: The server administrator Sid (Secure ID). If creating an AAD user, this is the OID of the entity in AAD.'
+              description: 'Sid: The server administrator Sid (Secure ID). If creating for an AAD user or group, this is the OID of the entity in AAD. For a managed identity this should be the Client ID (or app id) of the identity.'
               type: string
             tenantId:
               description: 'TenantId: The server Active Directory Administrator tenant id.'
