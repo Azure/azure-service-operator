@@ -26,6 +26,8 @@ type PropertyDefinition struct {
 	tags         map[string][]string
 }
 
+var _ fmt.Stringer = &PropertyDefinition{}
+
 // NewPropertyDefinition is a factory method for creating a new PropertyDefinition
 // name is the name for the new property (mandatory)
 // propertyType is the type for the new property (mandatory)
@@ -324,4 +326,8 @@ func (property *PropertyDefinition) copy() *PropertyDefinition {
 	}
 
 	return &result
+}
+
+func (property *PropertyDefinition) String() string {
+	return fmt.Sprintf("%s: %s %s", property.propertyName, property.propertyType, property.renderedTags())
 }

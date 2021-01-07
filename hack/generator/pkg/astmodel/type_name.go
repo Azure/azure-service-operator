@@ -90,11 +90,23 @@ func (typeName TypeName) String() string {
 	return fmt.Sprintf("%s/%s", typeName.PackageReference, typeName.name)
 }
 
+var typeNameSingulars map[string]string = map[string]string{
+	"Services": "Service",
+	"services": "service",
+	"Redis":    "Redis",
+	"redis":    "redis",
+}
+
 // Singular returns a typename with the name singularized
 func (typeName TypeName) Singular() TypeName {
 	// work around bug in flect: https://github.com/Azure/k8s-infra/issues/319
-	if strings.HasSuffix(strings.ToLower(typeName.name), "services") {
-		return MakeTypeName(typeName.PackageReference, typeName.name[0:len(typeName.name)-1])
+	name := typeName.name
+	for plural, single := range typeNameSingulars {
+
+		if strings.HasSuffix(name, plural) {
+			n := name[0:len(name)-len(plural)] + single
+			return MakeTypeName(typeName.PackageReference, n)
+		}
 	}
 
 	return MakeTypeName(typeName.PackageReference, flect.Singularize(typeName.name))
