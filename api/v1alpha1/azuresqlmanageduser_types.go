@@ -26,15 +26,15 @@ type AzureSQLManagedUserSpec struct {
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
-	ResourceGroup           string   `json:"resourceGroup"`
+	ResourceGroup string `json:"resourceGroup"`
 
 	// +kubebuilder:validation:Required
-	Roles                   []string `json:"roles"`
+	Roles []string `json:"roles"`
 
-	ManagedIdentityName     string   `json:"managedIdentityName,omitempty"`
-	ManagedIdentityClientId string   `json:"managedIdentityClientId"`
-	KeyVaultSecretPrefix    string   `json:"keyVaultSecretPrefix,omitempty"`
-	KeyVaultToStoreSecrets  string   `json:"keyVaultToStoreSecrets,omitempty"`
+	ManagedIdentityName     string `json:"managedIdentityName,omitempty"`
+	ManagedIdentityClientId string `json:"managedIdentityClientId"`
+	KeyVaultSecretPrefix    string `json:"keyVaultSecretPrefix,omitempty"`
+	KeyVaultToStoreSecrets  string `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true

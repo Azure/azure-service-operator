@@ -26,10 +26,10 @@ type AzureSQLUserSpec struct {
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
-	ResourceGroup string   `json:"resourceGroup"`
+	ResourceGroup string `json:"resourceGroup"`
 
 	// +kubebuilder:validation:Required
-	Roles         []string `json:"roles"`
+	Roles []string `json:"roles"`
 
 	// optional
 	AdminSecret            string   `json:"adminSecret,omitempty"`

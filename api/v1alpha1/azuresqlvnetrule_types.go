@@ -15,7 +15,9 @@ type AzureSQLVNetRuleSpec struct {
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
-	ResourceGroup                string `json:"resourceGroup"`
+	ResourceGroup string `json:"resourceGroup"`
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
 	Server                       string `json:"server"`
 	VNetResourceGroup            string `json:"vNetResourceGroup"`
 	VNetName                     string `json:"vNetName"`
