@@ -11,28 +11,28 @@ import (
 
 // MySQLAADUserSpec defines the desired state of MySQLAADUser
 type MySQLAADUserSpec struct {
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	Server string `json:"server"`
 
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	DBName string `json:"dbName"`
 
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup string `json:"resourceGroup"`
 
 	// The roles assigned to the user. A user must have at least one role.
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinItems=1
 	// +kubebuilder:validation:Required
 	Roles []string `json:"roles"`
 
 	// AAD ID is the ID of the user in Azure Active Directory.
 	// When creating a user for a managed identity this must be the client id (sometimes called app id) of the managed identity.
 	// When creating a user for a "normal" (non-managed identity) user or group, this is the OID of the user or group.
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	AADID string `json:"aadId,omitempty"`
 

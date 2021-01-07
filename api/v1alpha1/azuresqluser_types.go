@@ -17,7 +17,7 @@ type AzureSQLUserSpec struct {
 	Server string `json:"server"`
 	DbName string `json:"dbName"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup string   `json:"resourceGroup"`
 	Roles         []string `json:"roles"`

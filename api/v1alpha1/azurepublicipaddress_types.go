@@ -17,7 +17,7 @@ type AzurePublicIPAddressSpec struct {
 
 	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup            string `json:"resourceGroup"`
 	PublicIPAllocationMethod string `json:"publicIPAllocationMethod"`

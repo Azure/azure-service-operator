@@ -13,7 +13,7 @@ import (
 // MySQLFirewallRuleSpec defines the desired state of MySQLFirewallRule
 type MySQLFirewallRuleSpec struct {
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup  string `json:"resourceGroup"`
 	Server         string `json:"server"`

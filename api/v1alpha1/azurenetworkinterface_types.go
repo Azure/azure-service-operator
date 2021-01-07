@@ -16,7 +16,7 @@ type AzureNetworkInterfaceSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup       string `json:"resourceGroup"`
 	VNetName            string `json:"vnetName"`
