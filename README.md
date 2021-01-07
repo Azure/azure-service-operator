@@ -58,7 +58,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
 2.  Install [Helm](https://helm.sh/docs/intro/install/), and add the Helm repo for Azure Service Operator. Please note that the instructions here use Helm 3.
 
     ```sh
-    helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
+    helm repo add aso https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
     ```
 3. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
    For more information about other forms of authentication supported by ASO, see [the authentication section of the deployment documentation](./docs/howto/deploy.md#Authentication). 
@@ -95,17 +95,21 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
     ```
 
-4. Install the Azure Service Operator on your cluster using the following helm install command.
+4. Install the Azure Service Operator on your cluster using Helm.
 
     ```sh
-    helm upgrade --install aso https://github.com/Azure/azure-service-operator/raw/master/charts/azure-service-operator-0.1.0.tgz \
+    helm upgrade --install aso aso/azure-service-operator \
             --create-namespace \
             --namespace=azureoperator-system \
             --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
             --set azureTenantID=$AZURE_TENANT_ID \
             --set azureClientID=$AZURE_CLIENT_ID \
-            --set azureClientSecret=$AZURE_CLIENT_SECRET \
-            --set image.repository="mcr.microsoft.com/k8s/azureserviceoperator:latest"
+            --set azureClientSecret=$AZURE_CLIENT_SECRET
+    ```
+
+    If you would like to install an older version you can list the avialable versions:
+    ```sh
+    helm search repo aso --versions
     ```
 
     You should now see the Azure service operator pods running in your cluster, like the below.
