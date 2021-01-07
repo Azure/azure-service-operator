@@ -3,8 +3,6 @@
 // Licensed under the MIT license.
 package v20200101
 
-import "encoding/json"
-
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	//Base: Mutually exclusive with all other properties
@@ -12,17 +10,6 @@ type Test struct {
 
 	//Inherited: Mutually exclusive with all other properties
 	Inherited *Test_Inherited `json:"inherited,omitempty"`
-}
-
-// MarshalJSON defers JSON marshaling to the first non-nil property, because Test represents a discriminated union (JSON OneOf)
-func (test Test) MarshalJSON() ([]byte, error) {
-	if test.Base != nil {
-		return json.Marshal(test.Base)
-	}
-	if test.Inherited != nil {
-		return json.Marshal(test.Inherited)
-	}
-	return nil, nil
 }
 
 type Test_Base struct {

@@ -90,6 +90,34 @@ func nameInnerTypes(
 		return namedType.Name(), nil
 	}
 
+	visitor.VisitFlaggedType = func(this *astmodel.TypeVisitor, it *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
+		// Because we're returning type names here, we need to look up the name returned by visit and wrap that with the correct flags
+		nameHint := ctx.(string)
+
+		name, err := this.Visit(it.Element(), nameHint)
+		if err != nil {
+			return nil, err
+		}
+
+		// The above visit of ObjectType will have mutated resultTypes to include a mapping of the type name
+		// to the object type. Because we need to preserve flag types, we must find the ObjectType and re-wrap
+		// it in the flags it had before. Note that we cannot just bypass the ObjectType visit as it may make mutations
+		// to the Object (to name the types of its properties) which we also need to preserve.
+		// There are no words for how much I want LINQ right here
+		var found astmodel.TypeDefinition
+		for i, item := range resultTypes {
+			if item.Name().Equals(name) {
+				found = item
+				resultTypes[i] = resultTypes[len(resultTypes)-1]
+				resultTypes = resultTypes[:len(resultTypes)-1]
+				break
+			}
+		}
+
+		resultTypes = append(resultTypes, found.WithType(it.WithElement(found.Type())))
+		return name, nil
+	}
+
 	visitor.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		nameHint := ctx.(string)
 

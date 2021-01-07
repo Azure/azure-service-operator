@@ -262,9 +262,11 @@ func (s synthesizer) oneOfObject(oneOf astmodel.OneOfType, propNames []propertyN
 	})
 
 	objectType := astmodel.NewObjectType().WithProperties(properties...)
-	objectType = objectType.WithFunction(astmodel.NewOneOfJSONMarshalFunction(objectType, s.idFactory))
 
-	return objectType
+	// We need this information later so save it as a flag
+	result := astmodel.OneOfFlag.ApplyTo(objectType)
+
+	return result
 }
 
 func (s synthesizer) intersectTypes(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {

@@ -282,12 +282,7 @@ func IdentityVisitOfFlaggedType(this *TypeVisitor, ft *FlaggedType, ctx interfac
 		return ft, nil
 	}
 
-	var flags []TypeFlag
-	for f := range ft.flags {
-		flags = append(flags, f)
-	}
-
-	return NewFlaggedType(nt, flags...), nil
+	return ft.WithElement(nt), nil
 }
 
 func IdentityVisitOfValidatedType(this *TypeVisitor, v ValidatedType, ctx interface{}) (Type, error) {

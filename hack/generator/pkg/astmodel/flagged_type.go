@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	ast "github.com/dave/dst"
+	"github.com/pkg/errors"
 )
 
 type FlaggedType struct {
@@ -82,6 +83,16 @@ func (ft *FlaggedType) WithoutFlag(flag TypeFlag) Type {
 	}
 }
 
+// WithElement returns the flagged type with the same flags but a different element
+func (ft *FlaggedType) WithElement(t Type) *FlaggedType {
+	var flags []TypeFlag
+	for f := range ft.flags {
+		flags = append(flags, f)
+	}
+
+	return NewFlaggedType(t, flags...)
+}
+
 // RequiredPackageReferences returns a set of packages imports required by this type
 func (ft *FlaggedType) RequiredPackageReferences() *PackageReferenceSet {
 	return ft.element.RequiredPackageReferences()
@@ -150,4 +161,22 @@ func (ft *FlaggedType) String() string {
 	}
 
 	return result.String()
+}
+
+// TypeOrFlaggedTypeAsObjectType returns the type as an ObjectType, or unwraps the element of
+// a FlaggedType and returns that as an ObjectType.
+func TypeOrFlaggedTypeAsObjectType(t Type) (*ObjectType, error) {
+	if objectType, ok := t.(*ObjectType); ok {
+		return objectType, nil
+	}
+
+	if flaggedType, ok := t.(*FlaggedType); ok {
+		if objectType, ok := flaggedType.element.(*ObjectType); ok {
+			return objectType, nil
+		}
+
+		return nil, errors.Errorf("type %v is a FlaggedType whose inner type is not Object", t)
+	}
+
+	return nil, errors.Errorf("type %v is not an object or a FlaggedType", t)
 }

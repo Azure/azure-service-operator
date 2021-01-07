@@ -16,6 +16,31 @@
         }
     },
     "resourceDefinitions": {
+        "D": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/D"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        },
         "C": {
             "type": "object",
             "properties": {
@@ -65,6 +90,9 @@
                         "oneOf": [
                             {
                                 "$ref": "#/resourceDefinitions/C"
+                            },
+                            {
+                                "$ref": "#/resourceDefinitions/D"
                             }
                         ]
                     }

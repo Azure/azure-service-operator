@@ -39,7 +39,10 @@ tasks:
 
   # Generator targets:
   generator:quick-checks:
-    deps: [header-check, generator:format-code, generator:lint, generator:test]
+    deps: [header-check, generator:format-code, generator:test]
+    # Lint is forced to the end because it expects the code is formatted
+    cmds:
+    - task: generator:lint
 
   generator:ci:
     deps: [header-check, generator:lint-full, generator:test-cover]
@@ -60,7 +63,7 @@ tasks:
     desc: Ensure all code is correctly formatted.
     dir: "{{.GENERATOR_ROOT}}"
     cmds: 
-    - go fmt .
+    - gofmt -l -s -w .
 
   generator:lint:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
@@ -110,7 +113,10 @@ tasks:
 
   # Controller targets:
   controller:quick-checks:
-    deps: [header-check, controller:format-code, controller:lint, controller:test]
+    deps: [header-check, controller:format-code, controller:test]
+    # Lint is forced to the end because it expects the code is formatted
+    cmds:
+      - task: controller:lint
 
   controller:ci:
     deps: [header-check, controller:lint-full, controller:test-integration-envtest-cover]

@@ -202,6 +202,70 @@ func (cSpecArm C_SpecArm) GetType() string {
 	return string(cSpecArm.Type)
 }
 
+// +kubebuilder:object:root=true
+// +kubebuilder:storageversion
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
+type D struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              D_Spec `json:"spec,omitempty"`
+}
+
+// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v20200101-d,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=ds,verbs=create;update,versions=v20200101,name=default.v20200101.ds.test.infra.azure.com
+
+var _ admission.Defaulter = &D{}
+
+// Default defaults the Azure name of the resource to the Kubernetes name
+func (d *D) Default() {
+	if d.Spec.AzureName == "" {
+		d.Spec.AzureName = d.Name
+	}
+}
+
+var _ genruntime.KubernetesResource = &D{}
+
+// AzureName returns the Azure name of the resource
+func (d *D) AzureName() string {
+	return d.Spec.AzureName
+}
+
+// Owner returns the ResourceReference of the owner, or nil if there is no owner
+func (d *D) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(d.Spec)
+	return &genruntime.ResourceReference{Name: d.Spec.Owner.Name, Group: group, Kind: kind}
+}
+
+// +kubebuilder:object:root=true
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
+type DList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []D `json:"items"`
+}
+
+type D_SpecArm struct {
+	ApiVersion DSpecApiVersion `json:"apiVersion"`
+	Name       string          `json:"name"`
+	Type       DSpecType       `json:"type"`
+}
+
+var _ genruntime.ArmResourceSpec = &D_SpecArm{}
+
+// GetApiVersion returns the ApiVersion of the resource
+func (dSpecArm D_SpecArm) GetApiVersion() string {
+	return string(dSpecArm.ApiVersion)
+}
+
+// GetName returns the Name of the resource
+func (dSpecArm D_SpecArm) GetName() string {
+	return dSpecArm.Name
+}
+
+// GetType returns the Type of the resource
+func (dSpecArm D_SpecArm) GetType() string {
+	return string(dSpecArm.Type)
+}
+
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type ASpecApiVersion string
 
@@ -370,6 +434,62 @@ func (cSpec *C_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, ar
 // SetAzureName sets the Azure name of the resource
 func (cSpec *C_Spec) SetAzureName(azureName string) { cSpec.AzureName = azureName }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type DSpecApiVersion string
+
+const DSpecApiVersion20200601 = DSpecApiVersion("2020-06-01")
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/D"}
+type DSpecType string
+
+const DSpecTypeMicrosoftAzureD = DSpecType("Microsoft.Azure/D")
+
+type D_Spec struct {
+	// +kubebuilder:validation:Required
+	ApiVersion DSpecApiVersion `json:"apiVersion"`
+
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName string `json:"azureName"`
+
+	// +kubebuilder:validation:Required
+	Owner genruntime.KnownResourceReference `group:"test.infra.azure.com" json:"owner" kind:"B"`
+}
+
+var _ genruntime.ArmTransformer = &D_Spec{}
+
+// ConvertToArm converts from a Kubernetes CRD object to an ARM object
+func (dSpec *D_Spec) ConvertToArm(name string) (interface{}, error) {
+	if dSpec == nil {
+		return nil, nil
+	}
+	var result D_SpecArm
+	result.ApiVersion = dSpec.ApiVersion
+	result.Name = name
+	result.Type = DSpecTypeMicrosoftAzureD
+	return result, nil
+}
+
+// CreateEmptyArmValue returns an empty ARM value suitable for deserializing into
+func (dSpec *D_Spec) CreateEmptyArmValue() interface{} {
+	return D_SpecArm{}
+}
+
+// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
+func (dSpec *D_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
+	typedInput, ok := armInput.(D_SpecArm)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected D_SpecArm, got %T", armInput)
+	}
+	dSpec.ApiVersion = typedInput.ApiVersion
+	dSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
+	dSpec.Owner = owner
+	return nil
+}
+
+// SetAzureName sets the Azure name of the resource
+func (dSpec *D_Spec) SetAzureName(azureName string) { dSpec.AzureName = azureName }
+
 func init() {
-	SchemeBuilder.Register(&A{}, &AList{}, &B{}, &BList{}, &C{}, &CList{})
+	SchemeBuilder.Register(&A{}, &AList{}, &B{}, &BList{}, &C{}, &CList{}, &D{}, &DList{})
 }

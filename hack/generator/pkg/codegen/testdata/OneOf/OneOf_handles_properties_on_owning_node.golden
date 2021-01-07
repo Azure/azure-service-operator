@@ -3,8 +3,6 @@
 // Licensed under the MIT license.
 package v20200101
 
-import "encoding/json"
-
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	//Either: Mutually exclusive with all other properties
@@ -12,17 +10,6 @@ type Test struct {
 
 	//Or: Mutually exclusive with all other properties
 	Or *Test_Or `json:"or,omitempty"`
-}
-
-// MarshalJSON defers JSON marshaling to the first non-nil property, because Test represents a discriminated union (JSON OneOf)
-func (test Test) MarshalJSON() ([]byte, error) {
-	if test.Either != nil {
-		return json.Marshal(test.Either)
-	}
-	if test.Or != nil {
-		return json.Marshal(test.Or)
-	}
-	return nil, nil
 }
 
 type Test_Either struct {

@@ -35,7 +35,7 @@ func AddKubernetesResourceInterfaceImpls(
 		return nil, errors.Wrapf(err, "unable to resolve resource spec type")
 	}
 
-	spec, err := TypeAsObjectType(resolvedSpec)
+	spec, err := TypeOrFlaggedTypeAsObjectType(resolvedSpec) // TODO: Safe?
 	if err != nil {
 		return nil, errors.Wrapf(err, "resource spec %q did not contain an object", r.SpecType().String())
 	}

@@ -113,11 +113,10 @@ func TestApplyObjectTransformation_GivenObjectAndTransformationReturningError_Re
 	ref := MakeTypeName(MakeLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
 
-	transformed, err := original.ApplyObjectTransformation(func(objectType *ObjectType) (Type, error) {
+	_, err := original.ApplyObjectTransformation(func(objectType *ObjectType) (Type, error) {
 		return nil, errors.New("failed")
 	})
 
-	g.Expect(transformed).To(BeNil())
 	g.Expect(err).NotTo(BeNil())
 }
 
@@ -128,11 +127,10 @@ func TestApplyObjectTransformation_GivenNonObjectAndTransformation_ReturnsError(
 	original := MakeTypeDefinition(ref, StringType)
 	property := NewStringPropertyDefinition("FullName")
 
-	transformed, err := original.ApplyObjectTransformation(func(objectType *ObjectType) (Type, error) {
+	_, err := original.ApplyObjectTransformation(func(objectType *ObjectType) (Type, error) {
 		return objectType.WithProperty(property), nil
 	})
 
-	g.Expect(transformed).To(BeNil())
 	g.Expect(err).NotTo(BeNil())
 }
 
@@ -186,9 +184,8 @@ func TestApplyObjectTransformations_GivenObjectAndFirstTransformationReturningEr
 	ref := MakeTypeName(MakeLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
 
-	transformed, err := original.ApplyObjectTransformations(failingTransform, injectKnownAs)
+	_, err := original.ApplyObjectTransformations(failingTransform, injectKnownAs)
 
-	g.Expect(transformed).To(BeNil())
 	g.Expect(err).NotTo(BeNil())
 }
 
@@ -198,9 +195,8 @@ func TestApplyObjectTransformations_GivenObjectAndSecondTransformationReturningE
 	ref := MakeTypeName(MakeLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
 
-	transformed, err := original.ApplyObjectTransformations(injectFullName, failingTransform)
+	_, err := original.ApplyObjectTransformations(injectFullName, failingTransform)
 
-	g.Expect(transformed).To(BeNil())
 	g.Expect(err).NotTo(BeNil())
 }
 
@@ -210,8 +206,7 @@ func TestApplyObjectTransformations_GivenNonObjectAndTransformations_ReturnsErro
 	ref := MakeTypeName(MakeLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, StringType)
 
-	transformed, err := original.ApplyObjectTransformations(injectFullName, injectKnownAs)
+	_, err := original.ApplyObjectTransformations(injectFullName, injectKnownAs)
 
-	g.Expect(transformed).To(BeNil())
 	g.Expect(err).NotTo(BeNil())
 }

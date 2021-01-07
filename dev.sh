@@ -11,7 +11,7 @@ if [ ! -f "$TOOL_DEST/task" ]; then # check for local installation
     fi
 fi
 
-export PATH="$PATH:$TOOL_DEST:$TOOL_DEST/kubebuilder/bin"
+export PATH="$TOOL_DEST:$TOOL_DEST/kubebuilder/bin:$PATH"
 
 echo "Entering $SHELL with expanded PATH (use 'exit' to quit):"
 echo "Try running 'task -l' to see possible commands."

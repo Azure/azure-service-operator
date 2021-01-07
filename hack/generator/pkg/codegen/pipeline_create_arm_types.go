@@ -8,10 +8,12 @@ package codegen
 import (
 	"context"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel/armconversion"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/klog/v2"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel/armconversion"
 )
 
 // createArmTypesAndCleanKubernetesTypes walks the type graph and builds new types for communicating
@@ -78,7 +80,8 @@ func createArmTypes(
 			armDef, err := createArmTypeDefinition(
 				definitions,
 				false, // not Spec type
-				def)
+				def,
+				idFactory)
 			if err != nil {
 				return astmodel.TypeDefinition{}, err
 			}
@@ -220,8 +223,12 @@ func iterDefs(
 
 		// Other types can be reused in both the Kube type graph and the ARM type graph, for
 		// example enums which are effectively primitive types, all primitive types, etc.
-		_, ok := def.Type().(*astmodel.ObjectType)
-		if !ok {
+
+		switch def.Type().(type) {
+		case *astmodel.ObjectType:
+		case *astmodel.FlaggedType:
+			// TODO: Do we need to tolerate other types here?
+		default:
 			continue
 		}
 
@@ -266,7 +273,7 @@ func createArmResourceSpecDefinition(
 		return emptyDef, emptyName, err
 	}
 
-	armTypeDef, err := createArmTypeDefinition(definitions, true, resourceSpecDef)
+	armTypeDef, err := createArmTypeDefinition(definitions, true, resourceSpecDef, idFactory)
 	if err != nil {
 		return emptyDef, emptyName, err
 	}
@@ -312,13 +319,22 @@ func removeValidations(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 	return t, nil
 }
 
-func createArmTypeDefinition(definitions astmodel.Types, isSpecType bool, def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+func createArmTypeDefinition(definitions astmodel.Types, isSpecType bool, def astmodel.TypeDefinition, idFactory astmodel.IdentifierFactory) (astmodel.TypeDefinition, error) {
 	convertPropertiesToArmTypesWrapper := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		return convertPropertiesToArmTypes(t, isSpecType, definitions)
 	}
 
+	addOneOfConversionFunctionIfNeeded := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
+		if astmodel.OneOfFlag.IsOn(def.Type()) {
+			klog.V(4).Infof("Type %s is a OneOf type, adding MarshalJSON()", def.Name())
+			return t.WithFunction(astmodel.NewOneOfJSONMarshalFunction(t, idFactory)), nil
+		}
+
+		return t, nil
+	}
+
 	armName := astmodel.CreateArmTypeName(def.Name())
-	armDef, err := def.WithName(armName).ApplyObjectTransformations(removeValidations, convertPropertiesToArmTypesWrapper)
+	armDef, err := def.WithName(armName).ApplyObjectTransformations(removeValidations, convertPropertiesToArmTypesWrapper, addOneOfConversionFunctionIfNeeded)
 	if err != nil {
 		return astmodel.TypeDefinition{},
 			errors.Wrapf(err, "creating ARM prototype %v from Kubernetes definition %v", armName, def.Name())
@@ -332,7 +348,7 @@ func createArmTypeDefinition(definitions astmodel.Types, isSpecType bool, def as
 			errors.Wrapf(err, "creating ARM definition %v from Kubernetes definition %v", armName, def.Name())
 	}
 
-	return *result, nil
+	return result, nil
 }
 
 func modifyKubeResourceSpecDefinition(
@@ -381,7 +397,7 @@ func modifyKubeResourceSpecDefinition(
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "remapping properties of Kubernetes definition")
 	}
 
-	return *kubernetesDef, nil
+	return kubernetesDef, nil
 }
 
 func addArmConversionInterface(
@@ -390,7 +406,7 @@ func addArmConversionInterface(
 	idFactory astmodel.IdentifierFactory,
 	typeType armconversion.TypeKind) (astmodel.TypeDefinition, error) {
 
-	objectType, err := astmodel.TypeAsObjectType(armDef.Type())
+	objectType, err := astmodel.TypeOrFlaggedTypeAsObjectType(armDef.Type())
 	if err != nil {
 		emptyDef := astmodel.TypeDefinition{}
 		return emptyDef, errors.Errorf("ARM definition %q did not define an object type", armDef.Name())
@@ -412,7 +428,7 @@ func addArmConversionInterface(
 			errors.Errorf("Failed to add ARM conversion interface to Kubenetes object definition %v", armDef.Name())
 	}
 
-	return *result, nil
+	return result, nil
 }
 
 func convertArmPropertyTypeIfNeeded(definitions astmodel.Types, t astmodel.Type) (astmodel.Type, error) {

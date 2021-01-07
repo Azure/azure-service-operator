@@ -36,6 +36,8 @@ dist
 
 template.json
 
+hack/tools
+
 .tiltbuild
 
 hack/tools

@@ -3,8 +3,6 @@
 // Licensed under the MIT license.
 package v20200101
 
-import "encoding/json"
-
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	MyBool     *bool            `json:"myBool,omitempty"`
@@ -18,17 +16,6 @@ type Test_Properties struct {
 
 	//Foo: Mutually exclusive with all other properties
 	Foo *Foo `json:"foo,omitempty"`
-}
-
-// MarshalJSON defers JSON marshaling to the first non-nil property, because Test_Properties represents a discriminated union (JSON OneOf)
-func (testProperties Test_Properties) MarshalJSON() ([]byte, error) {
-	if testProperties.Bar != nil {
-		return json.Marshal(testProperties.Bar)
-	}
-	if testProperties.Foo != nil {
-		return json.Marshal(testProperties.Foo)
-	}
-	return nil, nil
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar

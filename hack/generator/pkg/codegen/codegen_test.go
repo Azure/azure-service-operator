@@ -82,7 +82,7 @@ func injectEmbeddedStructType() PipelineStage {
 					if err != nil {
 						return nil, err
 					}
-					results.Add(*result)
+					results.Add(result)
 				} else {
 					results.Add(def)
 				}
