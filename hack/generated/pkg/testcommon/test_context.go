@@ -6,6 +6,8 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	"bytes"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -120,6 +122,21 @@ func createRecorder(testName string, recordReplay bool) (autorest.Authorizer, st
 		subscriptionID = uuid.Nil.String()
 		authorizer = nil
 	}
+
+	// check body as well as URL/Method (copied from go-vcr documentation)
+	r.SetMatcher(func(r *http.Request, i cassette.Request) bool {
+		if r.Body == nil {
+			return cassette.DefaultMatcher(r, i)
+		}
+
+		var b bytes.Buffer
+		if _, err := b.ReadFrom(r.Body); err != nil {
+			return false
+		}
+
+		r.Body = ioutil.NopCloser(&b)
+		return cassette.DefaultMatcher(r, i) && (b.String() == "" || b.String() == i.Body)
+	})
 
 	r.AddSaveFilter(func(i *cassette.Interaction) error {
 		// rewrite all request/response fields to hide the real subscription ID
