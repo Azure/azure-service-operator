@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 )
@@ -18,6 +19,17 @@ type ResourceGroup struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              ResourceGroupSpec   `json:"spec,omitempty"`
 	Status            ResourceGroupStatus `json:"status,omitempty"`
+}
+
+// +kubebuilder:webhook:path=/mutate-microsoft-resources-infra-azure-com-v20200601-resourcegroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=create;update,versions=v20200601,name=default.v20200601.resourcegroups.microsoft.resources.infra.azure.com
+
+var _ admission.Defaulter = &ResourceGroup{}
+
+// Default defaults the Azure name of the resource to the Kubernetes name
+func (rg *ResourceGroup) Default() {
+	if rg.Spec.AzureName == "" {
+		rg.Spec.AzureName = rg.Name
+	}
 }
 
 var _ genruntime.KubernetesResource = &ResourceGroup{}
@@ -185,12 +197,15 @@ func (spec *ResourceGroupSpec) PopulateFromArm(owner genruntime.KnownResourceRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected ResourceGroupSpecArm, got %T", armInput)
 	}
 	// spec.ApiVersion = typedInput.ApiVersion
-	spec.AzureName = genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name)
+	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
 	spec.Location = typedInput.Location
 	spec.ManagedBy = typedInput.ManagedBy
 	spec.Tags = typedInput.Tags
 	return nil
 }
+
+// SetAzureName sets the Azure name of the resource
+func (spec *ResourceGroupSpec) SetAzureName(azureName string) { spec.AzureName = azureName }
 
 func init() {
 	SchemeBuilder.Register(&ResourceGroup{}, &ResourceGroupList{})

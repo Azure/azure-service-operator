@@ -189,8 +189,9 @@ tasks:
     - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == batchaccounts)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
     - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == storageaccounts)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
     - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == storageaccountsblobservicescontainers)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
+    - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == resourcegroups)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
     # need to remove v1 from the manifest as it doesn't work with controller-runtime currently: https://github.com/kubernetes-sigs/controller-runtime/issues/1272
-    - yq delete -i {{.OUT}} 'webhooks[*].admissionReviewVersions(. == v1)' 
+    - yq delete -P -i {{.OUT}} 'webhooks[*].admissionReviewVersions(. == v1)' 
     vars:
       IN: config/webhook/manifests.yaml 
       OUT: config/webhook/valid/manifests.yaml
