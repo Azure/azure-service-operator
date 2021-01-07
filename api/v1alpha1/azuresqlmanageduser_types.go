@@ -14,13 +14,23 @@ import (
 type AzureSQLManagedUserSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
 	Server string `json:"server"`
+
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
 	DbName string `json:"dbName"`
+
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup           string   `json:"resourceGroup"`
+
+	// +kubebuilder:validation:Required
 	Roles                   []string `json:"roles"`
+
 	ManagedIdentityName     string   `json:"managedIdentityName,omitempty"`
 	ManagedIdentityClientId string   `json:"managedIdentityClientId"`
 	KeyVaultSecretPrefix    string   `json:"keyVaultSecretPrefix,omitempty"`
