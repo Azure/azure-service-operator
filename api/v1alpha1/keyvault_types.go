@@ -35,9 +35,9 @@ type AccessPolicyEntry struct {
 	// TenantID - The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
 	TenantID string `json:"tenantID,omitempty"`
 	// ClientID - The client ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The client ID must be unique for the list of access policies.
+	// TODO: Remove this in a future API version, see: https://github.com/Azure/azure-service-operator/issues/1351
 	ClientID string `json:"clientID,omitempty"`
-	// ObjectID is the value to use if the access policy is for a user other than the user creating the Key Vault when the creating user does not have access to the Application API which is used to translate ClientID to Object ID
-	// To get around this, use az-cli or the Azure portal to source the ObjectID from your Service Principal
+	// ObjectID is the AAD object id of the entity to provide access to.
 	ObjectID string `json:"objectID,omitempty"`
 	// ApplicationID -  Application ID of the client making request on behalf of a principal
 	ApplicationID string `json:"applicationID,omitempty"`

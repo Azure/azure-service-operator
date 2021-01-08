@@ -70,7 +70,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 
 		// Create a keyvault
 		_, err = kvManager.CreateVaultWithAccessPolicies(ctx, resourcegroupName, keyVaultName, resourcegroupLocation, userID)
-		//Expect(err).NotTo(HaveOccurred())
+		Expect(err).NotTo(HaveOccurred())
 
 	})
 
