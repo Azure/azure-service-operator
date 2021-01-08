@@ -156,8 +156,6 @@ func setup() error {
 		Scheme: scheme.Scheme,
 		CertDir:            testEnv.WebhookInstallOptions.LocalServingCertDir,
 		Port:               testEnv.WebhookInstallOptions.LocalServingPort,
-		// TODO: Do we need to do the below - we have it in k8s-infra but don't seem to need it here.
-		// MetricsBindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
 	})
 	if err != nil {
 		return err

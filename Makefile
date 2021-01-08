@@ -54,7 +54,7 @@ generate-test-certs:
 # Run Controller tests against the configured cluster
 .PHONY: test-integration-controllers
 test-integration-controllers: generate fmt vet manifests
-	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 \
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
 	./controllers/... 
 	#2>&1 | tee reports/integration-controllers-output.txt
@@ -242,11 +242,11 @@ generate-template:
 # TODO: These kind-delete / kind-create targets were stolen from k8s-infra and
 # TODO: should be merged back together when the projects more closely align
 .PHONY: kind-delete
-kind-delete: install-kind
+kind-delete: install-test-dependencies
 	kind delete cluster --name=$(KIND_CLUSTER_NAME) || true
 
 .PHONY: kind-create
-kind-create: install-kind
+kind-create: install-test-dependencies
 	kind get clusters | grep -E $(KIND_CLUSTER_NAME) > /dev/null;\
 	EXISTS=$$?;\
 	if [ $$EXISTS -eq 0 ]; then \
@@ -256,7 +256,7 @@ kind-create: install-kind
 	fi; \
 
 .PHONY: set-kindcluster
-set-kindcluster: install-kind kind-create
+set-kindcluster: kind-create
 ifeq (${shell kind get kubeconfig-path --name=$(KIND_CLUSTER_NAME)},${KUBECONFIG})
 	@echo "kubeconfig-path points to kind path"
 else
@@ -292,41 +292,18 @@ endif
 	make deploy
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
-.PHONY: install-kind
-install-kind:
-ifeq (,$(shell which kind))
-	@echo "installing kind"
-	GO111MODULE="on" go get sigs.k8s.io/kind@v0.8.1
-else
-	@echo "kind has been installed"
-endif
-
 .PHONY: install-kubebuilder
 install-kubebuilder:
 ifeq (,$(shell which kubebuilder))
 	@echo "installing kubebuilder"
 	# download kubebuilder and extract it to tmp
-	curl -sL https://go.kubebuilder.io/dl/2.0.0/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C $(TMPDIR)
+	curl -sL https://go.kubebuilder.io/dl/2.3.1/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C $(TMPDIR)
 	# move to a long-term location and put it on your path
 	# (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
-	mv $(TMPDIR)/kubebuilder_2.0.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
-	export PATH=$$PATH:/usr/local/kubebuilder/bin
+	mv $(TMPDIR)/kubebuilder_2.3.1_$(shell go env GOOS)_$(shell go env GOARCH) $(shell go env GOPATH)/kubebuilder
+	export PATH=$$PATH:$(shell go env GOPATH)/kubebuilder/bin
 else
 	@echo "kubebuilder has been installed"
-endif
-
-.PHONY: install-kustomize
-install-kustomize:
-ifeq (,$(shell which kustomize))
-	@echo "installing kustomize"
-	mkdir -p /usr/local/kubebuilder/bin
-	# download kustomize
-	curl -o /usr/local/kubebuilder/bin/kustomize -sL "https://go.kubebuilder.io/kustomize/$(shell go env GOOS)/$(shell go env GOARCH)"
-	# set permission
-	chmod a+x /usr/local/kubebuilder/bin/kustomize
-	$(shell which kustomize)
-else
-	@echo "kustomize has been installed"
 endif
 
 .PHONY: install-cert-manager
@@ -344,7 +321,11 @@ install-test-dependencies:
 	go get github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
-	&& go get github.com/wadey/gocovmerge
+	&& go get github.com/wadey/gocovmerge \
+	&& go get k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
+	&& go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0 \
+	&& go get sigs.k8s.io/kind@v0.9.0 \
+	&& go get sigs.k8s.io/kustomize/kustomize/v3@v3.8.6
 
 # Operator-sdk release version
 RELEASE_VERSION ?= v1.0.1
