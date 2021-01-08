@@ -40,8 +40,8 @@ patchesStrategicMerge:
 # [CAINJECTION] Uncomment next line to enable the CA injection in the admission webhooks.
 # Uncomment 'CAINJECTION' in crd/kustomization.yaml to enable the CA injection in the admission webhooks.
 # 'CERTMANAGER' needs to be enabled to use ca injection
-# - webhookcainjection_patch.yaml
-# the following config is for teaching kustomize how to do var substitution
+- webhookcainjection_patch.yaml
+
 # the following config is for teaching kustomize how to do var substitution
 vars:
 # [CERTMANAGER] To enable cert-manager, uncomment all sections with 'CERTMANAGER' prefix.

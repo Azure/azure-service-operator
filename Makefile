@@ -257,11 +257,11 @@ kind-create: install-kind
 
 .PHONY: set-kindcluster
 set-kindcluster: install-kind kind-create
-ifeq (${shell kind get kubeconfig-path --name="kind"},${KUBECONFIG})
+ifeq (${shell kind get kubeconfig-path --name=$(KIND_CLUSTER_NAME)},${KUBECONFIG})
 	@echo "kubeconfig-path points to kind path"
 else
 	@echo "please run below command in your shell and then re-run make set-kindcluster"
-	@echo  "\e[31mexport KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")\e[0m"
+	@echo  "\e[31mexport KUBECONFIG=$(shell kind get kubeconfig-path --name="$(KIND_CLUSTER_NAME)")\e[0m"
 	@exit 111
 endif
 	@echo "getting value of KUBECONFIG"
@@ -282,7 +282,7 @@ endif
 	#create image and load it into cluster
 	make install
 	IMG="docker.io/controllertest:1" make docker-build
-	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+	kind load docker-image docker.io/controllertest:1 --loglevel "trace" --name=$(KIND_CLUSTER_NAME)
 
 	kubectl get namespaces
 	kubectl get pods --namespace cert-manager
@@ -333,7 +333,7 @@ endif
 install-cert-manager:
 	kubectl create namespace cert-manager
 	kubectl label namespace cert-manager cert-manager.io/disable-validation=true
-	kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
 
 .PHONY: install-aad-pod-identity
 install-aad-pod-identity:

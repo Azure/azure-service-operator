@@ -103,10 +103,6 @@ func setup() error {
 
 	var timeout time.Duration
 
-	testEnv = &envtest.Environment{
-		CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
-	}
-
 	var cfg *rest.Config
 	if os.Getenv("TEST_USE_EXISTING_CLUSTER") == "true" {
 		t := true
@@ -120,12 +116,18 @@ func setup() error {
 	} else {
 		testEnv = &envtest.Environment{
 			CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
+			WebhookInstallOptions: envtest.WebhookInstallOptions{
+				DirectoryPaths: []string{
+					"../config/webhook",
+				},
+			},
 		}
 		cfg, err = testEnv.Start()
 		if err != nil {
 			return err
 		}
 	}
+
 	if cfg == nil {
 		return fmt.Errorf("rest config nil")
 	}
@@ -152,6 +154,10 @@ func setup() error {
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
+		CertDir:            testEnv.WebhookInstallOptions.LocalServingCertDir,
+		Port:               testEnv.WebhookInstallOptions.LocalServingPort,
+		// TODO: Do we need to do the below - we have it in k8s-infra but don't seem to need it here.
+		// MetricsBindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
 	})
 	if err != nil {
 		return err
@@ -883,6 +889,14 @@ func setup() error {
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
+		return err
+	}
+
+	// Webhooks
+	if err = (&azurev1alpha1.AzureSQLUser{}).SetupWebhookWithManager(k8sManager); err != nil {
+		return err
+	}
+	if err = (&azurev1alpha1.AzureSQLManagedUser{}).SetupWebhookWithManager(k8sManager); err != nil {
 		return err
 	}
 
