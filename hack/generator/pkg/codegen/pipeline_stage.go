@@ -19,7 +19,9 @@ type PipelineStage struct {
 	// Description of the stage to use when logging
 	description string
 	// Stage implementation
-	Action func(context.Context, astmodel.Types) (astmodel.Types, error)
+	action func(context.Context, astmodel.Types) (astmodel.Types, error)
+	// Tag used for filtering
+	targets []PipelineTarget
 }
 
 // MakePipelineStage creates a new pipeline stage that's ready for execution
@@ -30,11 +32,35 @@ func MakePipelineStage(
 	return PipelineStage{
 		id:          id,
 		description: description,
-		Action:      action,
+		action:      action,
 	}
 }
 
 // HasId returns true if this stage has the specified id, false otherwise
 func (stage *PipelineStage) HasId(id string) bool {
 	return stage.id == id
+}
+
+// UsedFor specifies that this stage should be used for only the specified targets
+func (stage PipelineStage) UsedFor(targets ...PipelineTarget) PipelineStage {
+	stage.targets = targets
+	return stage
+}
+
+// IsUsedFor returns true if this stage should be used for the specified target
+func (stage *PipelineStage) IsUsedFor(target PipelineTarget) bool {
+
+	if len(stage.targets) == 0 {
+		// Stages without specific targeting are always used
+		return true
+	}
+
+	for _, t := range stage.targets {
+		if t == target {
+			// Stage should be used for this target
+			return true
+		}
+	}
+
+	return false
 }

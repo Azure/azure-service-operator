@@ -28,7 +28,7 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
 			configFile := args[0]
 
-			cg, err := codegen.NewCodeGeneratorFromConfigFile(configFile)
+			cg, err := codegen.NewArmCodeGeneratorFromConfigFile(configFile)
 			if err != nil {
 				klog.Errorf("Error creating code generator: %v\n", err)
 				return err

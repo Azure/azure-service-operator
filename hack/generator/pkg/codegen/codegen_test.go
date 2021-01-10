@@ -95,43 +95,84 @@ func injectEmbeddedStructType() PipelineStage {
 func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 	testName := strings.TrimPrefix(t.Name(), "TestGolden/")
 
-	g := goldie.New(t)
-	testSchemaLoader := func(ctx context.Context, source string) (*gojsonschema.Schema, error) {
-		inputFile, err := ioutil.ReadFile(path)
-		if err != nil {
-			return nil, errors.Wrapf(err, "cannot read golden test input file")
-		}
-
-		loader := gojsonschema.NewSchemaLoader()
-		schema, err := loader.Compile(gojsonschema.NewBytesLoader(inputFile))
-
-		if err != nil {
-			return nil, errors.Wrapf(err, "could not compile input")
-		}
-
-		return schema, nil
+	codegen, err := NewTestCodeGenerator(testName, path, t, testConfig)
+	if err != nil {
+		t.Fatalf("failed to create code generator: %v", err)
 	}
 
-	stripUnusedTypesPipelineStage := MakePipelineStage(
-		"stripUnused",
-		"Strip unused types for test",
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
-			// The golden files always generate a top-level Test type - mark
-			// that as the root.
-			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
-				makeTestPackageReference(),
-				"Test",
-			))
-			defs, err := StripUnusedDefinitions(roots, defs)
+	err = codegen.Generate(context.TODO())
+	if err != nil {
+		t.Fatalf("codegen failed: %v", err)
+	}
+}
+
+func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig GoldenTestConfig) (*CodeGenerator, error) {
+	idFactory := astmodel.NewIdentifierFactory()
+	cfg := config.NewConfiguration()
+
+	codegen, err := NewCodeGeneratorFromConfig(cfg, idFactory)
+	if err != nil {
+		t.Fatalf("could not create code generator: %v", err)
+	}
+
+	codegen.RemoveStages("deleteGenerated", "rogueCheck", "createStorage", "reportTypesAndVersions")
+	codegen.ReplaceStage("loadSchema", loadTestSchemaIntoTypes(idFactory, cfg, path))
+	codegen.ReplaceStage("exportPackages", exportPackagesTestPipelineStage(t, testName))
+
+	if testConfig.InjectEmbeddedStruct {
+		codegen.InjectStageAfter("removeAliases", injectEmbeddedStructType())
+	}
+
+	if !testConfig.HasArmResources {
+		codegen.RemoveStages("createArmTypes")
+		codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
+	}
+
+	return codegen, nil
+}
+
+func loadTestSchemaIntoTypes(
+	idFactory astmodel.IdentifierFactory,
+	configuration *config.Configuration,
+	path string) PipelineStage {
+	source := configuration.SchemaURL
+
+	return MakePipelineStage(
+		"loadTestSchema",
+		"Load and walk schema (test)",
+		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+			klog.V(0).Infof("Loading JSON schema %q", source)
+
+			inputFile, err := ioutil.ReadFile(path)
 			if err != nil {
-				return nil, errors.Wrapf(err, "could not strip unused types")
+				return nil, errors.Wrapf(err, "cannot read golden test input file")
 			}
 
-			return defs, nil
-		})
+			loader := gojsonschema.NewSchemaLoader()
+			schema, err := loader.Compile(gojsonschema.NewBytesLoader(inputFile))
 
-	exportPackagesTestPipelineStage := MakePipelineStage(
-		"exportPackages",
+			if err != nil {
+				return nil, errors.Wrapf(err, "could not compile input")
+			}
+
+			scanner := jsonast.NewSchemaScanner(idFactory, configuration)
+
+			klog.V(0).Infof("Walking deployment template")
+
+			_, err = scanner.GenerateAllDefinitions(ctx, jsonast.MakeGoJSONSchema(schema.Root()))
+			if err != nil {
+				return nil, errors.Wrapf(err, "failed to walk JSON schema")
+			}
+
+			return scanner.Definitions(), nil
+		})
+}
+
+func exportPackagesTestPipelineStage(t *testing.T, testName string) PipelineStage {
+	g := goldie.New(t)
+
+	return MakePipelineStage(
+		"exportTestPackages",
 		"Export packages for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			if len(defs) == 0 {
@@ -171,77 +212,25 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 
 			return nil, nil
 		})
-
-	idFactory := astmodel.NewIdentifierFactory()
-	cfg := config.NewConfiguration()
-	codegen, err := NewCodeGeneratorFromConfig(cfg, idFactory)
-
-	if err != nil {
-		t.Fatalf("could not create code generator: %v", err)
-	}
-
-	// Snip out the bits of the code generator we know we need to override
-	var pipeline []PipelineStage
-	for _, stage := range codegen.pipeline {
-		if stage.HasId("loadSchema") {
-			pipeline = append(pipeline, loadTestSchemaIntoTypes(idFactory, cfg, testSchemaLoader))
-		} else if stage.HasId("deleteGenerated") ||
-			stage.HasId("rogueCheck") ||
-			stage.HasId("createStorage") ||
-			stage.HasId("reportTypesAndVersions") {
-			continue // Skip this
-		} else if stage.HasId("exportPackages") {
-			pipeline = append(pipeline, exportPackagesTestPipelineStage)
-		} else if stage.HasId("removeAliases") && testConfig.InjectEmbeddedStruct {
-			// TODO: We should support a better way to inject new pieces of a pipeline, but for
-			// TODO: now this is fine
-			// Add embedded struct injection after removeTypeAliases
-			pipeline = append(pipeline, stage)
-			pipeline = append(pipeline, injectEmbeddedStructType())
-		} else if stage.HasId("stripUnreferenced") && !testConfig.HasArmResources {
-			pipeline = append(pipeline, stripUnusedTypesPipelineStage)
-		} else if stage.HasId("createArmTypes") && !testConfig.HasArmResources {
-			continue
-		} else {
-			pipeline = append(pipeline, stage)
-		}
-	}
-
-	codegen.pipeline = pipeline
-
-	err = codegen.Generate(context.TODO())
-	if err != nil {
-		t.Fatalf("codegen failed: %v", err)
-	}
 }
 
-func loadTestSchemaIntoTypes(
-	idFactory astmodel.IdentifierFactory,
-	configuration *config.Configuration,
-	schemaLoader schemaLoader) PipelineStage {
-	source := configuration.SchemaURL
-
+func stripUnusedTypesPipelineStage() PipelineStage {
 	return MakePipelineStage(
-		"loadSchema",
-		"Load and walk schema (test)",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			klog.V(0).Infof("Loading JSON schema %q", source)
-
-			schema, err := schemaLoader(ctx, source)
+		"stripUnused",
+		"Strip unused types for test",
+		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+			// The golden files always generate a top-level Test type - mark
+			// that as the root.
+			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
+				makeTestPackageReference(),
+				"Test",
+			))
+			defs, err := StripUnusedDefinitions(roots, defs)
 			if err != nil {
-				return nil, err
+				return nil, errors.Wrapf(err, "could not strip unused types")
 			}
 
-			scanner := jsonast.NewSchemaScanner(idFactory, configuration)
-
-			klog.V(0).Infof("Walking deployment template")
-
-			_, err = scanner.GenerateAllDefinitions(ctx, jsonast.MakeGoJSONSchema(schema.Root()))
-			if err != nil {
-				return nil, errors.Wrapf(err, "failed to walk JSON schema")
-			}
-
-			return scanner.Definitions(), nil
+			return defs, nil
 		})
 }
 

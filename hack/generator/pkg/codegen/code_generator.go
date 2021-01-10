@@ -20,33 +20,59 @@ type CodeGenerator struct {
 	pipeline      []PipelineStage
 }
 
-// NewCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
-func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, error) {
+// NewArmCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
+func NewArmCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, error) {
 	configuration, err := config.LoadConfiguration(configurationFile)
 	if err != nil {
 		return nil, err
 	}
 
-	return NewCodeGeneratorFromConfig(configuration, astmodel.NewIdentifierFactory())
+	return NewArmCodeGeneratorFromConfig(configuration, astmodel.NewIdentifierFactory())
 }
 
-// NewCodeGeneratorFromConfig produces a new Generator with the given configuration
-func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) (*CodeGenerator, error) {
-	var pipeline []PipelineStage
-	pipeline = append(pipeline, loadSchemaIntoTypes(idFactory, configuration, defaultSchemaLoader))
-	pipeline = append(pipeline, corePipelineStages(idFactory, configuration)...)
-	pipeline = append(pipeline, deleteGeneratedCode(configuration.OutputPath), exportPackages(configuration.OutputPath))
+// NewArmCodeGeneratorFromConfig produces a new Generator for Arm with the given configuration
+func NewArmCodeGeneratorFromConfig(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) (*CodeGenerator, error) {
+	return NewTargetedCodeGeneratorFromConfig(configuration, idFactory, ArmTarget)
+}
 
+// NewTargetedCodeGeneratorFromConfig produces a new code generator with the given configuration and
+// only the stages appropriate for the specfied target.
+func NewTargetedCodeGeneratorFromConfig(
+	configuration *config.Configuration, idFactory astmodel.IdentifierFactory, target PipelineTarget) (*CodeGenerator, error) {
+
+	result, err := NewCodeGeneratorFromConfig(configuration, idFactory)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating pipeline targeting %v", target)
+	}
+
+	// Filter stages to use only those appropriate for our target
+	var stages []PipelineStage
+	for _, s := range result.pipeline {
+		if s.IsUsedFor(target) {
+			stages = append(stages, s)
+		}
+	}
+
+	result.pipeline = stages
+
+	return result, nil
+}
+
+// NewCodeGeneratorFromConfig produces a new code generator with the given configuration all available stages
+func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) (*CodeGenerator, error) {
 	result := &CodeGenerator{
 		configuration: configuration,
-		pipeline:      pipeline,
+		pipeline:      createAllPipelineStages(idFactory, configuration),
 	}
 
 	return result, nil
 }
 
-func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []PipelineStage {
+func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []PipelineStage {
 	return []PipelineStage{
+
+		loadSchemaIntoTypes(idFactory, configuration, defaultSchemaLoader),
+
 		// Import status info from Swagger:
 		augmentResourcesWithStatus(idFactory, configuration),
 
@@ -55,7 +81,9 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 
 		// Flatten out any nested resources created by allOf, etc. we want to do this before naming types or things
 		// get named with names like Resource_Spec_Spec_Spec:
-		flattenResources(), stripUnreferencedTypeDefinitions(),
+		flattenResources(),
+
+		stripUnreferencedTypeDefinitions(),
 
 		// Name all anonymous object, enum, and validated types (required by controller-gen):
 		nameTypesForCRD(idFactory),
@@ -65,7 +93,7 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 		applyPropertyRewrites(configuration),
 
 		// Figure out ARM resource owners:
-		determineResourceOwnership(),
+		determineResourceOwnership().UsedFor(ArmTarget),
 
 		// Strip out redundant type aliases:
 		removeTypeAliases(),
@@ -78,12 +106,14 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 		// Apply export filters before generating
 		// ARM types for resources etc:
 		applyExportFilters(configuration),
+
 		stripUnreferencedTypeDefinitions(),
+
 		replaceAnyTypeWithJSON(),
 		reportOnTypesAndVersions(configuration),
 
-		createArmTypesAndCleanKubernetesTypes(idFactory),
-		applyKubernetesResourceInterface(idFactory),
+		createArmTypesAndCleanKubernetesTypes(idFactory).UsedFor(ArmTarget),
+		applyKubernetesResourceInterface(idFactory).UsedFor(ArmTarget),
 		createStorageTypes(),
 		simplifyDefinitions(),
 		injectJsonSerializationTests(idFactory),
@@ -93,6 +123,9 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 		// Safety checks at the end:
 		ensureDefinitionsDoNotUseAnyTypes(),
 		checkForMissingStatusInformation(),
+
+		deleteGeneratedCode(configuration.OutputPath),
+		exportPackages(configuration.OutputPath),
 	}
 }
 
@@ -104,7 +137,7 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	for i, stage := range generator.pipeline {
 		klog.V(0).Infof("Pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.description)
 		// Defensive copy (in case the pipeline modifies its inputs) so that we can compare types in vs out
-		defsOut, err := stage.Action(ctx, defs.Copy())
+		defsOut, err := stage.action(ctx, defs.Copy())
 		if err != nil {
 			return errors.Wrapf(err, "Failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.description)
 		}

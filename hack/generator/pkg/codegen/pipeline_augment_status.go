@@ -40,7 +40,7 @@ avoid any conflicts with existing Spec types that have already been defined.
 
 */
 func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *config.Configuration) PipelineStage {
-	return PipelineStage{
+	return MakePipelineStage(
 		"augmentStatus",
 		"Add information from Swagger specs for 'status' fields",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
@@ -93,8 +93,7 @@ func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *co
 			klog.V(1).Infof("Input %v types, output %v types", len(types), len(newTypes))
 
 			return newTypes, nil
-		},
-	}
+		})
 }
 
 type statusTypes struct {

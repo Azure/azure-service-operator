@@ -16,11 +16,10 @@ import (
 const resourcesPropertyName = astmodel.PropertyName("Resources")
 
 func determineResourceOwnership() PipelineStage {
-	return PipelineStage{
-		id:          "determineResourceOwnership",
-		description: "Determine ARM resource relationships",
-		Action:      determineOwnership,
-	}
+	return MakePipelineStage(
+		"determineResourceOwnership",
+		"Determine ARM resource relationships",
+		determineOwnership)
 }
 
 func determineOwnership(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {

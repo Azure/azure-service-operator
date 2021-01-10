@@ -19,10 +19,10 @@ import (
 // createArmTypesAndCleanKubernetesTypes walks the type graph and builds new types for communicating
 // with ARM, as well as removes ARM-only properties from the Kubernetes types.
 func createArmTypesAndCleanKubernetesTypes(idFactory astmodel.IdentifierFactory) PipelineStage {
-	return PipelineStage{
-		id:          "createArmTypes",
-		description: "Create ARM types and remove ARM-only properties from Kubernetes types",
-		Action: func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
+	return MakePipelineStage(
+		"createArmTypes",
+		"Create ARM types and remove ARM-only properties from Kubernetes types",
+		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
 			// 1. Walk types and produce the new ARM types, as well as a mapping of Kubernetes Type -> Arm Type
 			// 2. Walk Kubernetes types, remove ARM-only properties and add conversion interface (use mapping
 			//    from step 1 to determine which ARM resource we need to convert to).
@@ -47,8 +47,7 @@ func createArmTypesAndCleanKubernetesTypes(idFactory astmodel.IdentifierFactory)
 			}
 
 			return result, nil
-		},
-	}
+		})
 }
 
 func createArmTypes(

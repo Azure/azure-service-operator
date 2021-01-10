@@ -17,10 +17,10 @@ import (
 // Storage versions are created for *all* API versions to allow users of older versions of the operator to easily
 // upgrade. This is of course a bit odd for the first release, but defining the approach from day one is useful.
 func createStorageTypes() PipelineStage {
-	return PipelineStage{
-		id:          "createStorage",
-		description: "Create storage versions of CRD types",
-		Action: func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+	return MakePipelineStage(
+		"createStorage",
+		"Create storage versions of CRD types",
+		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
 			storageTypes := make(astmodel.Types)
 			visitor := makeStorageTypesVisitor(types)
@@ -57,8 +57,7 @@ func createStorageTypes() PipelineStage {
 			types.AddTypes(storageTypes)
 
 			return types, nil
-		},
-	}
+		})
 }
 
 // makeStorageTypesVisitor returns a TypeVisitor to do the creation of dedicated storage types
