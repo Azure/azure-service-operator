@@ -29,5 +29,5 @@ jobs:
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Upload code coverage to Codecov
-        run: bash <(curl -s https://codecov.io/bash)
+      # We explicitly do not upload coverage for live tests as it messes with the diffs for PRs,
+      # since they will not exercize the authorization codepaths.
