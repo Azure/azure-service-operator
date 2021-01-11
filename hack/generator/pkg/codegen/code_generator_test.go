@@ -234,3 +234,71 @@ func TestInjectStageAfter_PanicsForUnknownStage(t *testing.T) {
 	},
 	).To(Panic())
 }
+
+/*
+ * verifyPipeline Tests
+ */
+
+func TestVerifyPipeline_GivenNoPrerequisites_ReturnsNoError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	gen := &CodeGenerator{
+		pipeline: []PipelineStage{
+			fooStage,
+			barStage,
+			bazStage,
+		},
+	}
+
+	g.Expect(gen.verifyPipeline()).To(BeNil())
+}
+
+func TestVerifyPipeline_GivenSatisfiedPrerequisites_ReturnsNoError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.id)
+
+	gen := &CodeGenerator{
+		pipeline: []PipelineStage{
+			fooStage,
+			barStage,
+			stage,
+			bazStage,
+		},
+	}
+
+	g.Expect(gen.verifyPipeline()).To(BeNil())
+}
+
+func TestVerifyPipeline_GivenUnsatisfiedPrerequisites_ReturnsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.id)
+
+	gen := &CodeGenerator{
+		pipeline: []PipelineStage{
+			fooStage,
+			stage,
+			bazStage,
+		},
+	}
+
+	g.Expect(gen.verifyPipeline()).NotTo(BeNil())
+}
+
+func TestVerifyPipeline_GivenOutOfOrderPrerequisites_ReturnsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.id)
+
+	gen := &CodeGenerator{
+		pipeline: []PipelineStage{
+			fooStage,
+			stage,
+			barStage,
+			bazStage,
+		},
+	}
+
+	g.Expect(gen.verifyPipeline()).NotTo(BeNil())
+}

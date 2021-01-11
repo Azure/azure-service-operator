@@ -7,6 +7,7 @@ package codegen
 
 import (
 	"context"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
@@ -55,6 +56,11 @@ func NewTargetedCodeGeneratorFromConfig(
 
 	result.pipeline = stages
 
+	err = result.verifyPipeline()
+	if err != nil {
+		return nil, err
+	}
+
 	return result, nil
 }
 
@@ -89,8 +95,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		nameTypesForCRD(idFactory),
 
 		// Apply property type rewrites from the config file
-		// must come after nameTypesForCRD and convertAllOfAndOneOf so that objects are all expanded
-		applyPropertyRewrites(configuration),
+		// Must come after nameTypesForCRD ('nameTypes)' and convertAllOfAndOneOfToObjects ('allof-anyof-objects') so
+		// that objects are all expanded
+		applyPropertyRewrites(configuration).
+			RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects"),
 
 		// Figure out ARM resource owners:
 		determineResourceOwnership().UsedFor(ArmTarget),
@@ -98,8 +106,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Strip out redundant type aliases:
 		removeTypeAliases(),
 
-		// De-pluralize resource types:
-		improveResourcePluralization(),
+		// De-pluralize resource types
+		// (Must come after type aliases are resolved)
+		improveResourcePluralization().
+			RequiresPrerequisiteStages("removeAliases"),
 
 		stripUnreferencedTypeDefinitions(),
 
@@ -125,7 +135,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		checkForMissingStatusInformation(),
 
 		deleteGeneratedCode(configuration.OutputPath),
-		exportPackages(configuration.OutputPath),
+
+		exportPackages(configuration.OutputPath).
+			RequiresPrerequisiteStages("deleteGenerated"),
 	}
 }
 
@@ -139,7 +151,7 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 		// Defensive copy (in case the pipeline modifies its inputs) so that we can compare types in vs out
 		defsOut, err := stage.action(ctx, defs.Copy())
 		if err != nil {
-			return errors.Wrapf(err, "Failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.description)
+			return errors.Wrapf(err, "failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.description)
 		}
 
 		defsAdded := defsOut.Except(defs)
@@ -159,4 +171,21 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.Info("Finished")
 
 	return nil
+}
+
+func (generator *CodeGenerator) verifyPipeline() error {
+	var errs []error
+
+	stagesSeen := make(map[string]struct{})
+	for _, stage := range generator.pipeline {
+		for _, prereq := range stage.prerequisites {
+			if _, ok := stagesSeen[prereq]; !ok {
+				errs = append(errs, errors.Errorf("prerequisite '%s' of stage '%s' not satisfied.", prereq, stage.id))
+			}
+		}
+
+		stagesSeen[stage.id] = struct{}{}
+	}
+
+	return kerrors.NewAggregate(errs)
 }

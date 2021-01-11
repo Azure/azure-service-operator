@@ -7,6 +7,8 @@ package codegen
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
@@ -22,6 +24,8 @@ type PipelineStage struct {
 	action func(context.Context, astmodel.Types) (astmodel.Types, error)
 	// Tag used for filtering
 	targets []PipelineTarget
+	// Identifiers for other stages that must be completed first
+	prerequisites []string
 }
 
 // MakePipelineStage creates a new pipeline stage that's ready for execution
@@ -39,6 +43,20 @@ func MakePipelineStage(
 // HasId returns true if this stage has the specified id, false otherwise
 func (stage *PipelineStage) HasId(id string) bool {
 	return stage.id == id
+}
+
+func (stage PipelineStage) RequiresPrerequisiteStages(prerequisites ...string) PipelineStage {
+	if len(stage.prerequisites) > 0 {
+		panic(fmt.Sprintf(
+			"Prerequisites of stage '%s' already set to '%s'; cannot modify to '%s'.",
+			stage.id,
+			strings.Join(stage.prerequisites, "; "),
+			strings.Join(prerequisites, "; ")))
+	}
+
+	stage.prerequisites = prerequisites
+
+	return stage
 }
 
 // UsedFor specifies that this stage should be used for only the specified targets
