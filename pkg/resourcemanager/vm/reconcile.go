@@ -110,7 +110,7 @@ func (c *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			return false, nil
 		}
 		//change to spec is required
-		if future.Response().StatusCode == 400 {
+		if azerr.Code == 400 {
 			instance.Status.FailedProvisioning = true
 			return false, nil
 		}
