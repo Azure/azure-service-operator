@@ -8,8 +8,11 @@ package controllers
 import (
 	"context"
 	"net/http"
+	"strings"
 	"testing"
 	"time"
+
+	uuid "github.com/satori/go.uuid"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -253,7 +256,7 @@ func TestKeyvaultControllerInvalidName(t *testing.T) {
 		},
 	}
 
-	EnsureInstanceWithResult(ctx, t, tc, keyVaultInstance, errhelp.AccountNameInvalid, false)
+	EnsureInstanceWithResult(ctx, t, tc, keyVaultInstance, "validation failed: parameter=vaultName", false)
 
 	EnsureDelete(ctx, t, tc, keyVaultInstance)
 }
@@ -374,4 +377,52 @@ func TestKeyvaultControllerWithVirtualNetworkRulesAndUpdate(t *testing.T) {
 		result, _ := tc.keyVaultManager.GetVault(ctx, tc.resourceGroupName, keyVaultInstance.Name)
 		return result.Response.StatusCode == http.StatusNotFound
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from azure")
+}
+
+func TestKeyvaultControllerBadAccessPolicy(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+
+	keyVaultName := GenerateTestResourceNameWithRandom("kv", 6)
+	keyVaultLocation := tc.resourceGroupLocation
+
+	// Declare KeyVault object
+	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
+		{
+			TenantID: config.GlobalCredentials().TenantID(),
+			ClientID: uuid.Nil.String(),
+
+			Permissions: &azurev1alpha1.Permissions{
+				Keys: &[]string{
+					"get",
+					"list",
+				},
+			},
+		}}
+
+	keyVaultInstance := &azurev1alpha1.KeyVault{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      keyVaultName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.KeyVaultSpec{
+			Location:      keyVaultLocation,
+			ResourceGroup: tc.resourceGroupName,
+			AccessPolicies: &accessPolicies,
+		},
+	}
+
+	assert := assert.New(t)
+
+	err := tc.k8sClient.Create(ctx, keyVaultInstance)
+	assert.NoError(err)
+	namespacedName := types.NamespacedName{Name: keyVaultInstance.GetName(), Namespace: keyVaultInstance.GetNamespace()}
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, namespacedName, keyVaultInstance)
+		return strings.Contains(keyVaultInstance.Status.Message, "Authorization_RequestDenied")
+	}, tc.timeout, tc.retry, "wait for message to be updated indicating auth error")
+
+	EnsureDelete(ctx, t, tc, keyVaultInstance)
 }

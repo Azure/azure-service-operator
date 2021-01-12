@@ -5,36 +5,24 @@ package keyvault
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
 
-	"encoding/json"
-
-	mgmtclient "github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	keyvaults "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
+	"github.com/Azure/go-autorest/autorest/date"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest/date"
-	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
-
-func getVaultsClient(creds config.Credentials) (mgmtclient.VaultsClient, error) {
-	vaultsClient := mgmtclient.NewVaultsClient(creds.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer(creds)
-	if err != nil {
-		return vaultsClient, err
-	}
-	vaultsClient.Authorizer = a
-	vaultsClient.AddToUserAgent(config.UserAgent())
-	return vaultsClient, nil
-}
 
 // KeyvaultSecretClient struct has the Key vault BaseClient that Azure uses and the KeyVault name
 type KeyvaultSecretClient struct {

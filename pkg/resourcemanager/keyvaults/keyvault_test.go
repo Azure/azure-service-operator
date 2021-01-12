@@ -71,7 +71,6 @@ var _ = Describe("KeyVault Resource Manager test", func() {
 					&kv,
 					sku,
 					tags,
-					false,
 				)
 				if err != nil {
 					fmt.Println(err.Error())

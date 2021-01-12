@@ -17,7 +17,7 @@ type ASOStatus struct {
 	ResourceId         string       `json:"resourceId,omitempty"`
 	PollingURL         string       `json:"pollingUrl,omitempty"`
 	SpecHash           string       `json:"specHash,omitempty"`
-	ContainsUpdate     bool         `json:"containsUpdate,omitempty"`
+	ContainsUpdate     bool         `json:"containsUpdate,omitempty"` // TODO: Unused, remove in future version
 	RequestedAt        *metav1.Time `json:"requested,omitempty"`
 	CompletedAt        *metav1.Time `json:"completed,omitempty"`
 	FailedProvisioning bool         `json:"failedProvisioning,omitempty"`

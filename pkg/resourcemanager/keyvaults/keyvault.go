@@ -13,6 +13,14 @@ import (
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
 	kvops "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/pkg/errors"
+	uuid "github.com/satori/go.uuid"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -20,12 +28,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/to"
-	uuid "github.com/satori/go.uuid"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 type azureKeyVaultManager struct {
@@ -218,7 +220,6 @@ func ParseAccessPolicy(ctx context.Context, creds config.Credentials, policy *v1
 			return keyvault.AccessPolicyEntry{}, err
 		}
 		newEntry.ObjectID = objID
-
 	} else if policy.ObjectID != "" {
 		newEntry.ObjectID = &policy.ObjectID
 	}
@@ -226,47 +227,20 @@ func ParseAccessPolicy(ctx context.Context, creds config.Credentials, policy *v1
 	return newEntry, nil
 }
 
-// InstantiateVault will instantiate VaultsClient
-func InstantiateVault(ctx context.Context, creds config.Credentials, vaultName string, containsUpdate bool) (keyvault.VaultsClient, uuid.UUID, error) {
-	vaultsClient, err := getVaultsClient(creds)
-	if err != nil {
-		return keyvault.VaultsClient{}, uuid.UUID{}, err
-	}
-	id, err := uuid.FromString(creds.TenantID())
-	if err != nil {
-		return keyvault.VaultsClient{}, uuid.UUID{}, err
-	}
-
-	// Check if keyvault name is valid
-	if !containsUpdate {
-		vaultNameCheck := keyvault.VaultCheckNameAvailabilityParameters{
-			Name: to.StringPtr(vaultName),
-			Type: to.StringPtr("Microsoft.KeyVault/vaults"),
-		}
-		result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
-		if err != nil {
-			return keyvault.VaultsClient{}, uuid.UUID{}, err
-		}
-		if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
-			return keyvault.VaultsClient{}, uuid.UUID{}, fmt.Errorf("AccountNameInvalid")
-		} else if result.Reason == keyvault.AlreadyExists {
-			return keyvault.VaultsClient{}, uuid.UUID{}, fmt.Errorf("AlreadyExists")
-		}
-	}
-
-	return vaultsClient, id, nil
-}
-
 // CreateVault creates a new key vault
-func (m *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, sku azurev1alpha1.KeyVaultSku, tags map[string]*string, vaultExists bool) (keyvault.Vault, error) {
+func (m *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, sku azurev1alpha1.KeyVaultSku, tags map[string]*string) (keyvault.Vault, error) {
 	vaultName := instance.Name
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 	enableSoftDelete := instance.Spec.EnableSoftDelete
 
-	vaultsClient, id, err := InstantiateVault(ctx, m.Creds, vaultName, instance.Status.ContainsUpdate)
+	vaultsClient, err := getVaultsClient(m.Creds)
 	if err != nil {
-		return keyvault.Vault{}, err
+		return keyvault.Vault{}, errors.Wrapf(err, "couldn't get vaults client")
+	}
+	id, err := uuid.FromString(m.Creds.TenantID())
+	if err != nil {
+		return keyvault.Vault{}, errors.Wrapf(err, "couldn't convert tenantID to UUID")
 	}
 
 	var accessPolicies []keyvault.AccessPolicyEntry
@@ -280,6 +254,7 @@ func (m *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 			accessPolicies = append(accessPolicies, newEntry)
 		}
 	} else {
+		// Policies must not be nil (API doesn't allow it)
 		accessPolicies = []keyvault.AccessPolicyEntry{}
 	}
 
@@ -299,21 +274,16 @@ func (m *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 		keyVaultSku.Name = keyvault.Premium
 	}
 
-	pols := []keyvault.AccessPolicyEntry{}
 	params := keyvault.VaultCreateOrUpdateParameters{
 		Properties: &keyvault.VaultProperties{
 			TenantID:         &id,
-			AccessPolicies:   &pols,
+			AccessPolicies:   &accessPolicies,
 			Sku:              &keyVaultSku,
 			NetworkAcls:      &networkAcls,
 			EnableSoftDelete: &enableSoftDelete,
 		},
 		Location: to.StringPtr(location),
 		Tags:     tags,
-	}
-
-	if vaultExists {
-		params.Properties.AccessPolicies = &accessPolicies
 	}
 
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
@@ -325,10 +295,15 @@ func (m *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 }
 
 //CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
+// TODO: Nuke all of this because its only for the tests
 func (m *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
-	vaultsClient, id, err := InstantiateVault(ctx, m.Creds, vaultName, false)
+	vaultsClient, err := getVaultsClient(m.Creds)
 	if err != nil {
-		return keyvault.Vault{}, err
+		return keyvault.Vault{}, errors.Wrapf(err, "couldn't get vaults client")
+	}
+	id, err := uuid.FromString(m.Creds.TenantID())
+	if err != nil {
+		return keyvault.Vault{}, errors.Wrapf(err, "couldn't convert tenantID to UUID")
 	}
 
 	apList := []keyvault.AccessPolicyEntry{}
@@ -409,24 +384,19 @@ func (m *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 	// convert kube labels to expected tag format
 	labels := helpers.LabelsToTags(instance.GetLabels())
 
-	instance.Status.Provisioning = true
-	instance.Status.FailedProvisioning = false
+	instance.Status.SetProvisioning("")
 	exists := false
 	// Check if this KeyVault already exists and its state if it does.
 	keyvault, err := m.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
 		exists = true
 		if instance.Status.SpecHash == hash {
-			instance.Status.Message = resourcemanager.SuccessMsg
-			instance.Status.Provisioned = true
-			instance.Status.Provisioning = false
+			instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
 			instance.Status.ResourceId = *keyvault.ID
 			return true, nil
 		}
 
 		instance.Status.SpecHash = hash
-		instance.Status.ContainsUpdate = true
-
 	}
 
 	keyvault, err = m.CreateVault(
@@ -434,7 +404,6 @@ func (m *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance,
 		instance.Spec.Sku,
 		labels,
-		exists,
 	)
 	if err != nil {
 		done, err := HandleCreationError(instance, err)
@@ -450,10 +419,7 @@ func (m *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 	if keyvault.ID != nil {
 		instance.Status.ResourceId = *keyvault.ID
 	}
-	instance.Status.ContainsUpdate = false
-	instance.Status.Provisioned = true
-	instance.Status.Provisioning = false
-	instance.Status.Message = resourcemanager.SuccessMsg
+	instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
 
 	return true, nil
 }
@@ -461,7 +427,6 @@ func (m *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 func HandleCreationError(instance *v1alpha1.KeyVault, err error) (bool, error) {
 	// let the user know what happened
 	instance.Status.Message = errhelp.StripErrorTimes(errhelp.StripErrorIDs(err))
-	instance.Status.Provisioning = false
 	// errors we expect might happen that we are ok with waiting for
 	catch := []string{
 		errhelp.ResourceGroupNotFoundErrorCode,
@@ -476,15 +441,11 @@ func HandleCreationError(instance *v1alpha1.KeyVault, err error) (bool, error) {
 		errhelp.InvalidAccessPolicy,
 		errhelp.BadRequest,
 		errhelp.LocationNotAvailableForResourceType,
+		errhelp.ValidationError,
 	}
 
 	azerr := errhelp.NewAzureError(err)
 	if helpers.ContainsString(catch, azerr.Type) {
-		// most of these error technically mean the resource is actually not provisioning
-		switch azerr.Type {
-		case errhelp.AsyncOpIncompleteError:
-			instance.Status.Provisioning = true
-		}
 		// reconciliation is not done but error is acceptable
 		return false, nil
 	}
@@ -495,7 +456,6 @@ func HandleCreationError(instance *v1alpha1.KeyVault, err error) (bool, error) {
 		case errhelp.AlreadyExists:
 			timeNow := metav1.NewTime(time.Now())
 			if timeNow.Sub(instance.Status.RequestedAt.Time) < (30 * time.Second) {
-				instance.Status.Provisioning = true
 				return false, nil
 			}
 
