@@ -13,11 +13,15 @@ type ReadWriteEndpointFailoverPolicy string
 // AzureSqlFailoverGroupSpec defines the desired state of AzureSqlFailoverGroup
 type AzureSqlFailoverGroupSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
 	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
-	ResourceGroup                string                          `json:"resourceGroup"`
+	ResourceGroup string `json:"resourceGroup"`
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
 	Server                       string                          `json:"server"`
 	FailoverPolicy               ReadWriteEndpointFailoverPolicy `json:"failoverPolicy"`
 	FailoverGracePeriod          int32                           `json:"failoverGracePeriod"`

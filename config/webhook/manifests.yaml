@@ -1,0 +1,44 @@
+
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: validating-webhook-configuration
+webhooks:
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-azure-microsoft-com-v1alpha1-azuresqlmanageduser
+  failurePolicy: Fail
+  name: vazuresqlmanageduser.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - azuresqlmanagedusers
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-azure-microsoft-com-v1alpha1-azuresqluser
+  failurePolicy: Fail
+  name: vazuresqluser.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - azuresqlusers

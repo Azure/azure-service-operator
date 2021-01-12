@@ -973,6 +973,14 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&azurev1alpha1.AzureSQLUser{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSQLUser")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.AzureSQLManagedUser{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSQLManagedUser")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

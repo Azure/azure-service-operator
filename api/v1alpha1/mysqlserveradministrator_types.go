@@ -33,7 +33,7 @@ type MySQLServerAdministratorList struct {
 type MySQLServerAdministratorSpec struct {
 
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup string `json:"resourceGroup"`
 

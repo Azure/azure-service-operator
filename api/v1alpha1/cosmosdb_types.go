@@ -19,7 +19,7 @@ type CosmosDBSpec struct {
 
 	Location string `json:"location,omitempty"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup          string                        `json:"resourceGroup"`
 	Kind                   CosmosDBKind                  `json:"kind,omitempty"`

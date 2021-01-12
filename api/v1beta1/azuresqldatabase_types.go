@@ -27,7 +27,7 @@ const (
 type SqlDatabaseSku struct {
 	// Name - The name of the SKU, typically, a letter + Number code, e.g. P3.
 	// +kubebuilder:validation:Required
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	Name string `json:"name"`
 	// optional
 	// Tier - The tier or edition of the particular SKU, e.g. Basic, Premium.
@@ -44,12 +44,19 @@ type SqlDatabaseSku struct {
 type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
 	Location string `json:"location"`
+
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup string `json:"resourceGroup"`
-	Server        string `json:"server"`
+
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
+	Server string `json:"server"`
 
 	// +kubebuilder:validation:Optional
 	Edition          DBEdition          `json:"edition"`       // TODO: Remove this in v1beta2
