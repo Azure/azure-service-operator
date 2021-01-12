@@ -69,13 +69,15 @@ func TestOneOfsWithDifferentTypesAreNotEqual(t *testing.T) {
 	g.Expect(y.Equals(x)).To(BeFalse())
 }
 
+var expectedOneOfPanic = "OneOfType should have been replaced by generation time by 'convertAllOfAndOneOf' phase"
+
 func TestOneOfAsTypePanics(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	x := OneOfType{}
 	g.Expect(func() {
 		x.AsType(&CodeGenerationContext{})
-	}).To(PanicWith("should have been replaced by generation time by 'convertAllOfAndOneOf' phase"))
+	}).To(PanicWith(MatchError(expectedOneOfPanic)))
 }
 
 func TestOneOfAsDeclarationsPanics(t *testing.T) {
@@ -84,7 +86,7 @@ func TestOneOfAsDeclarationsPanics(t *testing.T) {
 	x := OneOfType{}
 	g.Expect(func() {
 		x.AsDeclarations(&CodeGenerationContext{}, DeclarationContext{})
-	}).To(PanicWith("should have been replaced by generation time by 'convertAllOfAndOneOf' phase"))
+	}).To(PanicWith(MatchError(expectedOneOfPanic)))
 }
 
 func TestOneOfRequiredImportsPanics(t *testing.T) {
@@ -93,5 +95,5 @@ func TestOneOfRequiredImportsPanics(t *testing.T) {
 	x := OneOfType{}
 	g.Expect(func() {
 		x.RequiredPackageReferences()
-	}).To(PanicWith("should have been replaced by generation time by 'convertAllOfAndOneOf' phase"))
+	}).To(PanicWith(MatchError(expectedOneOfPanic)))
 }

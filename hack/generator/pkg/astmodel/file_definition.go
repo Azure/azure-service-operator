@@ -169,13 +169,26 @@ func (file *FileDefinition) generateImportSpecs(imports *PackageImportSet) []ast
 }
 
 // AsAst generates an AST node representing this file
-func (file *FileDefinition) AsAst() *ast.File {
+func (file *FileDefinition) AsAst() (result *ast.File, err error) {
 
 	// Create context from imports
 	codeGenContext := NewCodeGenerationContext(file.packageReference, file.generateImports(), file.generatedPackages)
 
 	// Create all definitions:
 	var definitions []ast.Decl
+
+	// Handle panics coming out of call to AsDeclarations below:
+	defer func() {
+		if r := recover(); r != nil {
+			caught, ok := r.(error)
+			if !ok {
+				panic(r)
+			}
+
+			err = caught
+		}
+	}()
+
 	for _, s := range file.definitions {
 		definitions = append(definitions, s.AsDeclarations(codeGenContext)...)
 	}
@@ -244,7 +257,7 @@ func (file *FileDefinition) AsAst() *ast.File {
 
 	packageName := file.packageReference.PackageName()
 
-	result := &ast.File{
+	result = &ast.File{
 		Decs: ast.FileDecorations{
 			NodeDecs: ast.NodeDecs{
 				Start: header,
@@ -255,17 +268,20 @@ func (file *FileDefinition) AsAst() *ast.File {
 		Decls: decls,
 	}
 
-	return result
+	return
 }
 
 // SaveToWriter writes the file to the specifier io.Writer
 func (file FileDefinition) SaveToWriter(dst io.Writer) error {
-	content := file.AsAst()
+	content, err := file.AsAst()
+	if err != nil {
+		return err
+	}
 
 	buf := bufio.NewWriter(dst)
 	defer buf.Flush()
 
-	err := decorator.Fprint(buf, content)
+	err = decorator.Fprint(buf, content)
 	return err
 }
 

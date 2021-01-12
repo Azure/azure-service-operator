@@ -28,6 +28,7 @@ type TypeVisitor struct {
 	VisitResourceType  func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
 	VisitFlaggedType   func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error)
 	VisitValidatedType func(this *TypeVisitor, it ValidatedType, ctx interface{}) (Type, error)
+	VisitErroredType   func(this *TypeVisitor, it ErroredType, ctx interface{}) (Type, error)
 }
 
 // Visit invokes the appropriate VisitX on TypeVisitor
@@ -61,6 +62,8 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 		return tv.VisitFlaggedType(tv, it, ctx)
 	case ValidatedType:
 		return tv.VisitValidatedType(tv, it, ctx)
+	case ErroredType:
+		return tv.VisitErroredType(tv, it, ctx)
 	}
 
 	panic(fmt.Sprintf("unhandled type: (%T) %v", t, t))
@@ -128,6 +131,7 @@ func MakeTypeVisitor() TypeVisitor {
 		VisitAllOfType:     IdentityVisitOfAllOfType,
 		VisitFlaggedType:   IdentityVisitOfFlaggedType,
 		VisitValidatedType: IdentityVisitOfValidatedType,
+		VisitErroredType:   IdentityVisitOfErroredType,
 	}
 }
 
@@ -292,4 +296,13 @@ func IdentityVisitOfValidatedType(this *TypeVisitor, v ValidatedType, ctx interf
 	}
 
 	return v.WithType(nt), nil
+}
+
+func IdentityVisitOfErroredType(this *TypeVisitor, e ErroredType, ctx interface{}) (Type, error) {
+	nt, err := this.Visit(e.inner, ctx)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to visit errored type %T", e.inner)
+	}
+
+	return e.WithType(nt), nil
 }
