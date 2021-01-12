@@ -61,36 +61,48 @@ func GetGoFirewallClient(creds config.Credentials) (sql.FirewallRulesClient, err
 
 // GetGoVNetRulesClient retrieves a VirtualNetworkRulesClient
 func GetGoVNetRulesClient(creds config.Credentials) (sql.VirtualNetworkRulesClient, error) {
-	VNetRulesClient := sql.NewVirtualNetworkRulesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	vnetRulesClient := sql.NewVirtualNetworkRulesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return sql.VirtualNetworkRulesClient{}, err
 	}
-	VNetRulesClient.Authorizer = a
-	VNetRulesClient.AddToUserAgent(config.UserAgent())
-	return VNetRulesClient, nil
+	vnetRulesClient.Authorizer = a
+	vnetRulesClient.AddToUserAgent(config.UserAgent())
+	return vnetRulesClient, nil
 }
 
 // GetNetworkSubnetClient retrieves a Subnetclient
 func GetGoNetworkSubnetClient(creds config.Credentials, subscription string) (network.SubnetsClient, error) {
-	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), subscription)
+	subnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), subscription)
 	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return network.SubnetsClient{}, err
 	}
-	SubnetsClient.Authorizer = a
-	SubnetsClient.AddToUserAgent(config.UserAgent())
-	return SubnetsClient, nil
+	subnetsClient.Authorizer = a
+	subnetsClient.AddToUserAgent(config.UserAgent())
+	return subnetsClient, nil
 }
 
-// GetBackupLongTermRetentionPoliciesClient retrieves a Subnetclient
+// GetBackupLongTermRetentionPoliciesClient retrieves a BackupLongTermRetentionPoliciesClient
 func GetBackupLongTermRetentionPoliciesClient(creds config.Credentials) (sql3.BackupLongTermRetentionPoliciesClient, error) {
-	BackupClient := sql3.NewBackupLongTermRetentionPoliciesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	backupClient := sql3.NewBackupLongTermRetentionPoliciesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return sql3.BackupLongTermRetentionPoliciesClient{}, err
 	}
-	BackupClient.Authorizer = a
-	BackupClient.AddToUserAgent(config.UserAgent())
-	return BackupClient, nil
+	backupClient.Authorizer = a
+	backupClient.AddToUserAgent(config.UserAgent())
+	return backupClient, nil
+}
+
+// GetBackupShortTermRetentionPoliciesClient retrieves a BackupShortTermRetentionPoliciesClient
+func GetBackupShortTermRetentionPoliciesClient(creds config.Credentials) (sql3.BackupShortTermRetentionPoliciesClient, error) {
+	backupClient := sql3.NewBackupShortTermRetentionPoliciesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
+	if err != nil {
+		return sql3.BackupShortTermRetentionPoliciesClient{}, err
+	}
+	backupClient.Authorizer = a
+	backupClient.AddToUserAgent(config.UserAgent())
+	return backupClient, nil
 }

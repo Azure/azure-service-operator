@@ -28,4 +28,9 @@ spec:
 
   # The week of year to take the yearly backup, valid values [1, 52]
   # weekOfYear: 16
-  
+
+  # The short term retention policy to use
+  # shortTermRetentionPolicy:
+      # RetentionDays is the backup retention period in days. This is how many days
+      #	Point-in-Time Restore will be supported.
+  #   retentionDays: 21

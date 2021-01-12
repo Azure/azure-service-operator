@@ -40,6 +40,13 @@ type SqlDatabaseSku struct {
 	Capacity *int32 `json:"capacity,omitempty"`
 }
 
+type SQLDatabaseShortTermRetentionPolicy struct {
+	// RetentionDays is the backup retention period in days. This is how many days
+	// Point-in-Time Restore will be supported.
+	// +kubebuilder:validation:Required
+	RetentionDays int32 `json:"retentionDays"`
+}
+
 // AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
 type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
@@ -59,14 +66,15 @@ type AzureSqlDatabaseSpec struct {
 	Server string `json:"server"`
 
 	// +kubebuilder:validation:Optional
-	Edition          DBEdition          `json:"edition"`       // TODO: Remove this in v1beta2
-	Sku              *SqlDatabaseSku    `json:"sku,omitempty"` // TODO: make this required in v1beta2
-	MaxSize          *resource.Quantity `json:"maxSize,omitempty"`
-	DbName           string             `json:"dbName,omitempty"`
-	WeeklyRetention  string             `json:"weeklyRetention,omitempty"`
-	MonthlyRetention string             `json:"monthlyRetention,omitempty"`
-	YearlyRetention  string             `json:"yearlyRetention,omitempty"`
-	WeekOfYear       int32              `json:"weekOfYear,omitempty"`
+	Edition                  DBEdition                            `json:"edition"`       // TODO: Remove this in v1beta2
+	Sku                      *SqlDatabaseSku                      `json:"sku,omitempty"` // TODO: make this required in v1beta2
+	MaxSize                  *resource.Quantity                   `json:"maxSize,omitempty"`
+	DbName                   string                               `json:"dbName,omitempty"`
+	WeeklyRetention          string                               `json:"weeklyRetention,omitempty"`
+	MonthlyRetention         string                               `json:"monthlyRetention,omitempty"`
+	YearlyRetention          string                               `json:"yearlyRetention,omitempty"`
+	WeekOfYear               int32                                `json:"weekOfYear,omitempty"`
+	ShortTermRetentionPolicy *SQLDatabaseShortTermRetentionPolicy `json:"shortTermRetentionPolicy,omitempty"`
 }
 
 // AzureSqlDatabase is the Schema for the azuresqldatabases API

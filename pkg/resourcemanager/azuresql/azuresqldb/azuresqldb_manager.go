@@ -5,9 +5,9 @@ package azuresqldb
 
 import (
 	"context"
-	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -42,7 +42,7 @@ type SqlDbManager interface {
 		weeklyRetention string,
 		monthlyRetention string,
 		yearlyRetention string,
-		weekOfYear int32) (*http.Response, error)
+		weekOfYear int32) (*sql.BackupLongTermRetentionPoliciesCreateOrUpdateFuture, error)
 
 	resourcemanager.ARMClient
 }

@@ -133,6 +133,27 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 				}
 			}
 
+			_, err = db.AddShortTermRetention(
+				ctx,
+				groupName,
+				server,
+				dbName,
+				instance.Spec.ShortTermRetentionPolicy)
+			if err != nil {
+				failureErrors := []string{
+					errhelp.BackupRetentionPolicyInvalid,
+				}
+				instance.Status.Message = fmt.Sprintf("Azure DB short-term retention policy error: %s", errhelp.StripErrorIDs(err))
+				azerr := errhelp.NewAzureError(err)
+				if helpers.ContainsString(failureErrors, azerr.Type) {
+					// Leave message the same as above
+					instance.Status.SetFailedProvisioning(instance.Status.Message)
+					return true, nil
+				} else {
+					return false, err
+				}
+			}
+
 			// db exists, we have successfully provisioned everything
 			instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
 			instance.Status.State = string(dbGet.Status)
