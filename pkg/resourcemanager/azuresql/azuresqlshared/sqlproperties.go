@@ -83,6 +83,13 @@ type SQLFailoverGroupProperties struct {
 	DatabaseList []string
 }
 
+type SQLDatabaseBackupLongTermRetentionPolicy struct {
+	WeeklyRetention string
+	MonthlyRetention string
+	YearlyRetention string
+	WeekOfYear int32
+}
+
 // SQLServerPropertiesToServer translates SQLServerProperties to ServerProperties
 func SQLServerPropertiesToServer(properties SQLServerProperties) (result sql.ServerProperties) {
 

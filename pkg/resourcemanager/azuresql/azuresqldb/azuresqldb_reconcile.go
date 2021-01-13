@@ -114,15 +114,38 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 				groupName,
 				server,
 				dbName,
-				instance.Spec.WeeklyRetention,
-				instance.Spec.MonthlyRetention,
-				instance.Spec.YearlyRetention,
-				instance.Spec.WeekOfYear)
+				azuresqlshared.SQLDatabaseBackupLongTermRetentionPolicy{
+					WeeklyRetention: instance.Spec.WeeklyRetention,
+					MonthlyRetention: instance.Spec.MonthlyRetention,
+					YearlyRetention: instance.Spec.YearlyRetention,
+					WeekOfYear: instance.Spec.WeekOfYear,
+				})
 			if err != nil {
 				failureErrors := []string{
 					errhelp.LongTermRetentionPolicyInvalid,
 				}
 				instance.Status.Message = fmt.Sprintf("Azure DB long-term retention policy error: %s", errhelp.StripErrorIDs(err))
+				azerr := errhelp.NewAzureError(err)
+				if helpers.ContainsString(failureErrors, azerr.Type) {
+					// Leave message the same as above
+					instance.Status.SetFailedProvisioning(instance.Status.Message)
+					return true, nil
+				} else {
+					return false, err
+				}
+			}
+
+			_, err = db.AddShortTermRetention(
+				ctx,
+				groupName,
+				server,
+				dbName,
+				instance.Spec.ShortTermRetentionPolicy)
+			if err != nil {
+				failureErrors := []string{
+					errhelp.BackupRetentionPolicyInvalid,
+				}
+				instance.Status.Message = fmt.Sprintf("Azure DB short-term retention policy error: %s", errhelp.StripErrorIDs(err))
 				azerr := errhelp.NewAzureError(err)
 				if helpers.ContainsString(failureErrors, azerr.Type) {
 					// Leave message the same as above

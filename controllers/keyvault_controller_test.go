@@ -407,8 +407,8 @@ func TestKeyvaultControllerBadAccessPolicy(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.KeyVaultSpec{
-			Location:      keyVaultLocation,
-			ResourceGroup: tc.resourceGroupName,
+			Location:       keyVaultLocation,
+			ResourceGroup:  tc.resourceGroupName,
 			AccessPolicies: &accessPolicies,
 		},
 	}

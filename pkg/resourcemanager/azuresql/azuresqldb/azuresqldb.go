@@ -6,10 +6,11 @@ package azuresqldb
 import (
 	"context"
 	"fmt"
-	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
-	sql3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
@@ -139,42 +140,40 @@ func (m *AzureSqlDbManager) CreateOrUpdateDB(
 }
 
 // AddLongTermRetention enables / disables long term retention
-func (m *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGroupName string, serverName string, databaseName string, weeklyRetention string, monthlyRetention string, yearlyRetention string, weekOfYear int32) (*http.Response, error) {
+func (m *AzureSqlDbManager) AddLongTermRetention(
+	ctx context.Context,
+	resourceGroupName string,
+	serverName string,
+	databaseName string,
+	policy azuresqlshared.SQLDatabaseBackupLongTermRetentionPolicy) (*sql.BackupLongTermRetentionPoliciesCreateOrUpdateFuture, error) {
 
 	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient(m.creds)
-	// TODO: Probably shouldn't return a response at all in the err case here (all through this function)
 	if err != nil {
-		return &http.Response{
-			StatusCode: 0,
-		}, err
+		return nil, err
 	}
 
 	// validate the input and exit if nothing needs to happen - this is ok!
-	if weeklyRetention == "" && monthlyRetention == "" && yearlyRetention == "" {
-		return &http.Response{
-			StatusCode: 200,
-		}, nil
+	if policy.WeeklyRetention == "" && policy.MonthlyRetention == "" && policy.YearlyRetention == "" {
+		return nil, nil
 	}
 
 	// validate the pairing of yearly retention and week of year
-	if yearlyRetention != "" && (weekOfYear <= 0 || weekOfYear > 52) {
-		return &http.Response{
-			StatusCode: 500,
-		}, fmt.Errorf("weekOfYear must be greater than 0 and less or equal to 52 when yearlyRetention is used")
+	if policy.YearlyRetention != "" && (policy.WeekOfYear <= 0 || policy.WeekOfYear > 52) {
+		return nil, fmt.Errorf("weekOfYear must be greater than 0 and less or equal to 52 when yearlyRetention is used")
 	}
 
 	// create pointers so that we can pass nils if needed
-	pWeeklyRetention := &weeklyRetention
-	if weeklyRetention == "" {
+	pWeeklyRetention := &policy.WeeklyRetention
+	if policy.WeeklyRetention == "" {
 		pWeeklyRetention = nil
 	}
-	pMonthlyRetention := &monthlyRetention
-	if monthlyRetention == "" {
+	pMonthlyRetention := &policy.MonthlyRetention
+	if policy.MonthlyRetention == "" {
 		pMonthlyRetention = nil
 	}
-	pYearlyRetention := &yearlyRetention
-	pWeekOfYear := &weekOfYear
-	if yearlyRetention == "" {
+	pYearlyRetention := &policy.YearlyRetention
+	pWeekOfYear := &policy.WeekOfYear
+	if policy.YearlyRetention == "" {
 		pYearlyRetention = nil
 		pWeekOfYear = nil
 	}
@@ -184,8 +183,8 @@ func (m *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGr
 		resourceGroupName,
 		serverName,
 		databaseName,
-		sql3.BackupLongTermRetentionPolicy{
-			LongTermRetentionPolicyProperties: &sql3.LongTermRetentionPolicyProperties{
+		sql.BackupLongTermRetentionPolicy{
+			LongTermRetentionPolicyProperties: &sql.LongTermRetentionPolicyProperties{
 				WeeklyRetention:  pWeeklyRetention,
 				MonthlyRetention: pMonthlyRetention,
 				YearlyRetention:  pYearlyRetention,
@@ -195,12 +194,57 @@ func (m *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGr
 	)
 
 	if err != nil {
-		return &http.Response{
-			StatusCode: 500,
-		}, nil
+		return nil, err
 	}
 
-	return future.Response(), err
+	return &future, err
+}
+
+func (m *AzureSqlDbManager) AddShortTermRetention(
+	ctx context.Context,
+	resourceGroupName string,
+	serverName string,
+	databaseName string,
+	policy *v1beta1.SQLDatabaseShortTermRetentionPolicy) (*sql.BackupShortTermRetentionPoliciesCreateOrUpdateFuture, error) {
+
+	client, err := azuresqlshared.GetBackupShortTermRetentionPoliciesClient(m.creds)
+	if err != nil {
+		return nil, errors.Wrapf(err, "couldn't create BackupShortTermRetentionPoliciesClient")
+	}
+
+	var policyProperties *sql.BackupShortTermRetentionPolicyProperties
+	if policy == nil {
+		// If policy is nil we're in a bit of an awkward situation since we cannot know if the customer has mutated
+		// the retention policy in a previous reconciliation loop and then subsequently removed it. If they have,
+		// "doing nothing" here is wrong because that leaves them in the previous modified state (but with no reflection
+		// of that fact in the Spec).
+		// Unfortunately you cannot update the retention policy to nil, nor can you delete it, so we must awkwardly
+		// set it back to its default configuration.
+		// Note: There are risks here, such as if the default on the server and the default in our code drift apart
+		// at some point in the future.
+		policyProperties = &sql.BackupShortTermRetentionPolicyProperties{
+			RetentionDays: to.Int32Ptr(7), // 7 is the magical default as of Jan 2021
+		}
+	} else {
+		policyProperties = &sql.BackupShortTermRetentionPolicyProperties{
+			RetentionDays: to.Int32Ptr(policy.RetentionDays),
+		}
+	}
+
+	future, err := client.CreateOrUpdate(
+		ctx,
+		resourceGroupName,
+		serverName,
+		databaseName,
+		sql.BackupShortTermRetentionPolicy{
+			BackupShortTermRetentionPolicyProperties: policyProperties,
+		})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &future, err
 }
 
 var goneCodes = []string{

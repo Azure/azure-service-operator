@@ -66,6 +66,7 @@ const (
 	FeatureNotSupportedForEdition                  = "FeatureNotSupportedForEdition"
 	VirtualNetworkRuleBadRequest                   = "VirtualNetworkRuleBadRequest"
 	LongTermRetentionPolicyInvalid                 = "LongTermRetentionPolicyInvalid"
+	BackupRetentionPolicyInvalid                   = "InvalidBackupRetentionPeriod"
 	OperationIdNotFound                            = "OperationIdNotFound"
 )
 

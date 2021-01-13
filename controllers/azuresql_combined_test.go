@@ -11,17 +11,18 @@ import (
 	"strings"
 	"testing"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/stretchr/testify/assert"
-
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 )
 
 func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
@@ -65,8 +66,10 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	sqlDatabaseName1 := GenerateTestResourceNameWithRandom("sqldatabase", 10)
 	sqlDatabaseName2 := GenerateTestResourceNameWithRandom("sqldatabase", 10)
+	sqlDatabaseName3 := GenerateTestResourceNameWithRandom("sqldatabase", 10)
 	var sqlDatabaseInstance1 *v1beta1.AzureSqlDatabase
 	var sqlDatabaseInstance2 *v1beta1.AzureSqlDatabase
+	var sqlDatabaseInstance3 *v1beta1.AzureSqlDatabase
 
 	sqlFirewallRuleNamespacedNameLocal := types.NamespacedName{
 		Name:      GenerateTestResourceNameWithRandom("sqlfwr-local", 10),
@@ -188,6 +191,47 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			assert.Equal(false, db.Status.Provisioning)
 			assert.Equal(false, db.Status.FailedProvisioning)
 			assert.Equal(true, db.Status.Provisioned)
+		})
+
+		// Create a database in the new server
+		t.Run("set up database with short and long term retention", func(t *testing.T) {
+			t.Parallel()
+
+			// Create the SqlDatabase object and expect the Reconcile to be created
+			sqlDatabaseInstance3 = &v1beta1.AzureSqlDatabase{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      sqlDatabaseName3,
+					Namespace: "default",
+				},
+				Spec: v1beta1.AzureSqlDatabaseSpec{
+					Location:      rgLocation,
+					ResourceGroup: rgName,
+					Server:        sqlServerName,
+					Sku: &v1beta1.SqlDatabaseSku{
+						Name: "S0",
+						Tier: "Standard",
+					},
+					WeeklyRetention: "P3W",
+					ShortTermRetentionPolicy: &v1beta1.SQLDatabaseShortTermRetentionPolicy{
+						RetentionDays: 3,
+					},
+				},
+			}
+
+			EnsureInstance(ctx, t, tc, sqlDatabaseInstance3)
+
+			// Now update with an invalid retention policy
+			sqlDatabaseInstance3.Spec.ShortTermRetentionPolicy.RetentionDays = -1
+			err = tc.k8sClient.Update(ctx, sqlDatabaseInstance3)
+			assert.Equal(nil, err, "updating sql database in k8s")
+
+			namespacedName := types.NamespacedName{Name: sqlDatabaseName3, Namespace: "default"}
+			assert.Eventually(func() bool {
+				db := &v1beta1.AzureSqlDatabase{}
+				err = tc.k8sClient.Get(ctx, namespacedName, db)
+				assert.Equal(nil, err, "err getting DB from k8s")
+				return db.Status.Provisioned == false && strings.Contains(db.Status.Message, errhelp.BackupRetentionPolicyInvalid)
+			}, tc.timeout, tc.retry, "wait for sql database to be updated in k8s")
 		})
 
 		// Create FirewallRules ---------------------------------------
@@ -494,6 +538,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			t.Parallel()
 			EnsureDelete(ctx, t, tc, sqlDatabaseInstance1)
 			EnsureDelete(ctx, t, tc, sqlDatabaseInstance2)
+			EnsureDelete(ctx, t, tc, sqlDatabaseInstance3)
 		})
 
 	})

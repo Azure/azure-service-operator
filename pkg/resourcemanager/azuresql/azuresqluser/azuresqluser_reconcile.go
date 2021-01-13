@@ -13,12 +13,13 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
+	"github.com/google/uuid"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
-	"github.com/google/uuid"
-	"k8s.io/apimachinery/pkg/runtime"
 
 	_ "github.com/denisenkom/go-mssqldb"
 	"k8s.io/apimachinery/pkg/types"
