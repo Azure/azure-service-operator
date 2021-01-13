@@ -968,6 +968,14 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLServer")
 		os.Exit(1)
 	}
+	if err = (&azurev1alpha1.MySQLUser{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLUser")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.MySQLAADUser{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLAADUser")
+		os.Exit(1)
+	}
 	if err = (&azurev1alpha1.PostgreSQLServer{}).SetupWebhookWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create webhook", "webhook", "PostgreSQLServer")
 		os.Exit(1)
