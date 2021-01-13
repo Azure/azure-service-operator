@@ -87,7 +87,8 @@ patches:
 #- patches/webhook_in_rediscacheactions.yaml
 #- patches/webhook_in_rediscachefirewallrules.yaml
 #- patches/webhook_in_azurevirtualmachineextensions.yaml
-#- patches/webhook_in_mysqlusers.yaml
+- patches/webhook_in_mysqlusers.yaml
+- patches/webhook_in_mysqlaadusers.yaml
 #- patches/webhook_in_appinsightsapikeys.yaml
 #- patches/webhook_in_mysqlserveradministrators.yaml
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
@@ -130,7 +131,8 @@ patches:
 #- patches/cainjection_in_rediscacheactions.yaml
 #- patches/cainjection_in_rediscachefirewallrules.yaml
 #- patches/cainjection_in_azurevirtualmachineextensions.yaml
-#- patches/cainjection_in_mysqlusers.yaml
+- patches/cainjection_in_mysqlusers.yaml
+- patches/cainjection_in_mysqlaadusers.yaml
 #- patches/cainjection_in_appinsightsapikeys.yaml
 #- patches/cainjection_in_mysqlserveradministrators.yaml
 # +kubebuilder:scaffold:crdkustomizecainjectionpatch
