@@ -5,7 +5,7 @@ This information is stored by the operator as secrets after resource creation.
 
 The operator provides two options to store these secrets:
 
-1. **Kubernetes secrets**: This is the default option. If the secretname is not specified in the Spec, a secret with the same name as  ObjectMeta.name is created.
+1. **Kubernetes secrets**: A Kubernetes secret will be created alongside the resource. This is the default option. For details about how the secrets are named, see [Secret naming](#secret-naming).
 
 2. **Azure Key Vault secrets**: You can specify the default Azure Key Vault to store secrets in through via the `AZURE_OPERATOR_KEYVAULT` field in the `azureoperatorsettings` secret.
 This can be set by exporting it as an environment variable and then including it in the secret creation.
@@ -24,15 +24,29 @@ This can be set by exporting it as an environment variable and then including it
             --set azureOperatorKeyvault=$AZURE_OPERATOR_KEYVAULT
     ```
 
-If the secretname is not specified in the Spec, the secret in Key Vault is created with the name `<kubernetes-namespace-of-resource>-<ObjectMeta.name>`.
-If secretname _is_ specified in the Spec, the actual secret name searched for is `<kubernetes-namespace-of-resource>-<spec.secretName>`.
-
+For details about how the secrets are named, see [Secret naming](#secret-naming).
 
 Some things to note about the Key Vault you use with the operator:
 1. The KeyVault should have an access policy added for the identity under which the Operator runs as.
    This access policy should include  at least `get`, `set`, `list` and `delete` Secret permissions.
 2. You can use a Key Vault with "Soft delete" enabled. However, you cannot use a Key Vault with "Purge Protection" enabled, as this prevents the
    secrets from being deleted and causes issues if a resource with the same name is re-deployed.
+
+## Secret naming
+
+There are two versions of secret naming used by the Azure Service Operator. The secret naming version is controlled by the `AZURE_SECRET_NAMING_VERSION` field of the `azureoperatorsettings` secret.
+Valid values are `"1"` and `"2"`. Version `2` is the default when installing the operator via Helm. If no value is specified for `AZURE_SECRET_NAMING_VERSION` the default is version `1` for backwards compatibility.
+
+**We strongly recommend that you use version `2` as it is more consistent in how secrets are named and does a better job of avoiding naming conflicts.**
+
+| AZURE_SECRET_NAMING_VERSION | Destination | Default secret name                                                                                                                                     | Secret name if `secretName` overridden in spec                                                                                                       |
+|-----------------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1                           | Kubernetes  | Namespace: `<resource-namespace>`, Name: `<resource-name>` for most resources. Some resources have a different naming scheme specific to that resource. | Namespace: `<resource-namespace>`, Name: `<secretName>` for most resources. Some resources have a different naming scheme specific to that resource. |
+| 1                           | Key Vault   | `<resource-namespace>-<resource-name>` for most resources. Some resources have a different naming scheme specific to that resource.                     | `<resource-namespace>-<secretName>` for most resources. Some resources have a different naming scheme specific to that resource.                     |
+| 2                           | Kubernetes  | Namespace `<resource-namespace>`, Name: `<resource-kind>-<resource-name>`                                                                               | Namespace `<resource-namespace>`, Name: `<resource-kind>-<secretName>`                                                                               |
+| 2                           | Key Vault   | `<resource-kind>-<resource-namespace>-<resource-name>`                                                                                                  | `<resource-kind>-<resource-namespace>-<secretName>`                                                                                                  |
+
+In the above table, `kind` is the Kind of the resource as specified in the YAML - for example `azuresqldatabase`.
 
 ## Per resource Key Vault
 

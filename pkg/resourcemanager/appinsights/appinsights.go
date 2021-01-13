@@ -11,16 +11,17 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/Azure/azure-sdk-for-go/services/appinsights/mgmt/2015-05-01/insights"
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 // Manager manages Azure Application Insights services
@@ -29,6 +30,8 @@ type Manager struct {
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
+
+var _ ApplicationInsightsManager = &Manager{}
 
 // NewManager creates a new AppInsights Manager
 func NewManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *Manager {
@@ -107,21 +110,18 @@ func (m *Manager) CreateAppInsights(
 }
 
 // StoreSecrets upserts the secret information for this app insight
-func (m *Manager) StoreSecrets(ctx context.Context, resourceGroupName string, appInsightsName string, instrumentationKey string, instance *v1alpha1.AppInsights) error {
+func (m *Manager) StoreSecrets(ctx context.Context, instrumentationKey string, instance *v1alpha1.AppInsights) error {
 
 	// build the connection string
 	data := map[string][]byte{
-		"AppInsightsName": []byte(appInsightsName),
+		"AppInsightsName": []byte(instance.Name),
 	}
 	data["instrumentationKey"] = []byte(instrumentationKey)
 
 	// upsert
-	key := types.NamespacedName{
-		Name:      fmt.Sprintf("appinsights-%s-%s", resourceGroupName, appInsightsName),
-		Namespace: instance.Namespace,
-	}
+	secretKey := m.makeSecretKey(instance)
 	return m.SecretClient.Upsert(ctx,
-		key,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(m.Scheme),
@@ -129,12 +129,9 @@ func (m *Manager) StoreSecrets(ctx context.Context, resourceGroupName string, ap
 }
 
 // DeleteSecret deletes the secret information for this app insight
-func (m *Manager) DeleteSecret(ctx context.Context, resourceGroupName string, appInsightsName string, instance *v1alpha1.AppInsights) error {
-	key := types.NamespacedName{
-		Name:      fmt.Sprintf("appinsights-%s-%s", resourceGroupName, appInsightsName),
-		Namespace: instance.Namespace,
-	}
-	return m.SecretClient.Delete(ctx, key)
+func (m *Manager) DeleteSecret(ctx context.Context, instance *v1alpha1.AppInsights) error {
+	secretKey := m.makeSecretKey(instance)
+	return m.SecretClient.Delete(ctx, secretKey)
 }
 
 // Ensure checks the desired state of the operator
@@ -166,8 +163,6 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 			if comp.ApplicationInsightsComponentProperties != nil {
 				properties := *comp.ApplicationInsightsComponentProperties
 				err = m.StoreSecrets(ctx,
-					instance.Spec.ResourceGroup,
-					instance.Name,
 					*properties.InstrumentationKey,
 					instance,
 				)
@@ -233,12 +228,12 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 		m.SecretClient = options.SecretClient
 	}
 
-	i, err := m.convert(obj)
+	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
 	}
 
-	response, err := m.DeleteAppInsights(ctx, i.Spec.ResourceGroup, i.Name)
+	response, err := m.DeleteAppInsights(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err != nil {
 		catch := []string{
 			errhelp.AsyncOpIncompleteError,
@@ -253,22 +248,16 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {
-			m.DeleteSecret(ctx,
-				i.Spec.ResourceGroup,
-				i.Name,
-				i)
+			m.DeleteSecret(ctx, instance)
 			return false, nil
 		}
 		return true, err
 	}
-	i.Status.State = response.Status
+	instance.Status.State = response.Status
 
 	if err == nil {
 		if response.Status != "InProgress" {
-			m.DeleteSecret(ctx,
-				i.Spec.ResourceGroup,
-				i.Name,
-				i)
+			m.DeleteSecret(ctx, instance)
 			return false, nil
 		}
 	}
@@ -317,4 +306,11 @@ func getComponentsClient(creds config.Credentials) (insights.ComponentsClient, e
 		insightsClient.AddToUserAgent(config.UserAgent())
 	}
 	return insightsClient, err
+}
+
+func (m *Manager) makeSecretKey(instance *v1alpha1.AppInsights) secrets.SecretKey {
+	if m.SecretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+		return secrets.SecretKey{Name: fmt.Sprintf("appinsights-%s-%s", instance.Spec.ResourceGroup, instance.Name), Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	}
+	return secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 }

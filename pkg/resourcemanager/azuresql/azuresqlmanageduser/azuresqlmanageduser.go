@@ -10,17 +10,15 @@ import (
 	"strings"
 
 	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	mssql "github.com/denisenkom/go-mssqldb"
 	uuid "github.com/satori/go.uuid"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-
-	mssql "github.com/denisenkom/go-mssqldb"
 )
 
 type AzureSqlManagedUserManager struct {
@@ -143,28 +141,19 @@ func (s *AzureSqlManagedUserManager) DropUser(ctx context.Context, db *sql.DB, u
 
 // UpdateSecret gets or creates a secret
 func (s *AzureSqlManagedUserManager) UpdateSecret(ctx context.Context, instance *v1alpha1.AzureSQLManagedUser, secretClient secrets.SecretClient) error {
-
-	secretprefix := instance.Name
-	secretnamespace := instance.Namespace
-
-	if len(instance.Spec.KeyVaultSecretPrefix) != 0 { // If KeyVaultSecretPrefix is specified, use that for secrets
-		secretprefix = instance.Spec.KeyVaultSecretPrefix
-		secretnamespace = ""
-	}
-
 	secret := map[string][]byte{
 		"clientid": []byte(instance.Spec.ManagedIdentityClientId),
 		"server":   []byte(instance.Spec.Server),
 		"dbName":   []byte(instance.Spec.DbName),
 	}
 
-	key := types.NamespacedName{Name: secretprefix, Namespace: secretnamespace}
+	secretKey := makeSecretKey(secretClient, instance)
 	// We store the different secret fields as different secrets
 	instance.Status.FlattenedSecrets = true
-	err := secretClient.Upsert(ctx, key, secret, secrets.Flatten(true))
+	err := secretClient.Upsert(ctx, secretKey, secret, secrets.Flatten(true))
 	if err != nil {
 		if strings.Contains(err.Error(), "FlattenedSecretsNotSupported") { // kube client does not support Flatten
-			err = secretClient.Upsert(ctx, key, secret)
+			err = secretClient.Upsert(ctx, secretKey, secret)
 			if err != nil {
 				return fmt.Errorf("Upsert into KubeClient without flatten failed")
 			}
@@ -176,29 +165,9 @@ func (s *AzureSqlManagedUserManager) UpdateSecret(ctx context.Context, instance 
 
 // DeleteSecret deletes a secret
 func (s *AzureSqlManagedUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLManagedUser, secretClient secrets.SecretClient) error {
-	secretprefix := instance.Name
-	secretnamespace := instance.Namespace
-
-	if len(instance.Spec.KeyVaultSecretPrefix) != 0 { // If KeyVaultSecretPrefix is specified, use that for secrets
-		secretprefix = instance.Spec.KeyVaultSecretPrefix
-		secretnamespace = ""
-	}
-
 	suffixes := []string{"clientid", "server", "dbName"}
-	if instance.Status.FlattenedSecrets == false {
-		key := types.NamespacedName{Name: secretprefix, Namespace: secretnamespace}
-		return secretClient.Delete(ctx, key)
-	} else {
-		// Delete the secrets one by one
-		for _, suffix := range suffixes {
-			key := types.NamespacedName{Name: secretprefix + "-" + suffix, Namespace: secretnamespace}
-			err := secretClient.Delete(ctx, key)
-			if err != nil {
-				return err
-			}
-		}
-	}
-	return nil
+	secretKey := makeSecretKey(secretClient, instance)
+	return secretClient.Delete(ctx, secretKey, secrets.Flatten(instance.Status.FlattenedSecrets, suffixes...))
 }
 
 func convertToSid(msiClientId string) string {
@@ -242,4 +211,16 @@ func findBadChars(stack string) error {
 		}
 	}
 	return nil
+}
+
+func makeSecretKey(secretClient secrets.SecretClient, instance *v1alpha1.AzureSQLManagedUser) secrets.SecretKey {
+	if secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+		if len(instance.Spec.KeyVaultSecretPrefix) != 0 { // If KeyVaultSecretPrefix is specified, use that for secrets
+			return secrets.SecretKey{Name: instance.Spec.KeyVaultSecretPrefix, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+		}
+		return secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	}
+
+	// TODO: Ignoring prefix here... we ok with that?
+	return secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 }

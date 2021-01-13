@@ -11,16 +11,16 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemgrconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 const templateForConnectionString = "DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=%s"
@@ -219,14 +219,18 @@ func (m *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupNam
 	}
 
 	// upsert
-	key := types.NamespacedName{
-		Name:      fmt.Sprintf("storageaccount-%s-%s", resourceGroupName, accountName),
-		Namespace: instance.Namespace,
-	}
+	secretKey := m.makeSecretKey(instance)
 	return m.SecretClient.Upsert(ctx,
-		key,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(m.Scheme),
 	)
+}
+
+func (m *azureStorageManager) makeSecretKey(instance *v1alpha1.StorageAccount) secrets.SecretKey {
+	if m.SecretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+		return secrets.SecretKey{Name: fmt.Sprintf("storageaccount-%s-%s", instance.Spec.ResourceGroup, instance.Name), Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	}
+	return secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 }

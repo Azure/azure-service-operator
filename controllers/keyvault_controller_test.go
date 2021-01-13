@@ -18,6 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 
 	"github.com/stretchr/testify/assert"
@@ -125,9 +126,9 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 
 	//Add code to set secret and get secret from this keyvault using secretclient
 
-	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials())
+	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
 	secretName := "test-key"
-	key := types.NamespacedName{Name: secretName, Namespace: "default"}
+	key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "test"}
 	datanew := map[string][]byte{
 		"test1": []byte("test2"),
 		"test2": []byte("test3"),
@@ -185,8 +186,8 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in azure")
 	//Add code to set secret and get secret from this keyvault using secretclient
 
-	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials())
-	key := types.NamespacedName{Name: "test-key", Namespace: "default"}
+	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+	key := secrets.SecretKey{Name: "test-key", Namespace: "default", Kind: "test"}
 	datanew := map[string][]byte{
 		"test1": []byte("test2"),
 		"test2": []byte("test3"),
@@ -332,9 +333,9 @@ func TestKeyvaultControllerWithVirtualNetworkRulesAndUpdate(t *testing.T) {
 		return result.Response.StatusCode == http.StatusOK
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in azure")
 
-	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials())
+	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
 	secretName := "test-key"
-	key := types.NamespacedName{Name: secretName, Namespace: "default"}
+	key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "test"}
 	datanew := map[string][]byte{
 		"test1": []byte("test2"),
 		"test2": []byte("test3"),

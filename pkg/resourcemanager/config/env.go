@@ -14,6 +14,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type ConfigRequirementType int
@@ -63,6 +64,20 @@ func ParseEnvironment() error {
 	podNamespace, err = envy.MustGet("POD_NAMESPACE")
 	if err != nil {
 		return errors.Wrapf(err, "couldn't get POD_NAMESPACE env variable")
+	}
+
+	secretNamingVersionInt, err := ParseIntFromEnvironment("AZURE_SECRET_NAMING_VERSION")
+	if err != nil {
+		return errors.Wrapf(err, "couldn't get AZURE_SECRET_NAMING_VERSION env variable")
+	}
+
+	// If this isn't set, default to the oldest support version
+	if secretNamingVersionInt == 0 || secretNamingVersionInt == 1 {
+		secretNamingVersion = secrets.SecretNamingV1
+	} else if secretNamingVersionInt == 2 {
+		secretNamingVersion = secrets.SecretNamingV2
+	} else {
+		return errors.Errorf("secret naming version must be between 0 and 2 but was %d", secretNamingVersionInt)
 	}
 
 	for _, requirement := range GetExpectedConfigurationVariables() {
@@ -116,4 +131,12 @@ func ParseBoolFromEnvironment(variable string) bool {
 		value = false
 	}
 	return value
+}
+
+func ParseIntFromEnvironment(variable string) (int, error) {
+	value, err := strconv.Atoi(envy.Get(variable, "0"))
+	if err != nil {
+		return 0, errors.Wrapf(err, "invalid input value specified for int %v: \"%v\"", variable, value)
+	}
+	return value, nil
 }

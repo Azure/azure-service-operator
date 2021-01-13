@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"path/filepath"
 	"runtime/debug"
@@ -91,13 +90,18 @@ func setup() error {
 	// the purpose of these tests
 	envy.Set("POD_NAMESPACE", "azureoperator-system")
 
+	// Force the secret naming version to 2 for these tests
+	// Note: This can be removed to run the tests in the old v1 naming scheme (they
+	// should still pass)
+	// envy.Set("AZURE_SECRET_NAMING_VERSION", "2")
+
 	err := resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
 		return err
 	}
 
-	resourceGroupName := GenerateTestResourceName("rg-prime")
-	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
+	resourceGroupName := GenerateTestResourceNameWithRandom(TestResourceGroupPrefix, 6)
+	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
 
 	keyvaultName := GenerateAlphaNumTestResourceName("kv-prime")
 
@@ -161,7 +165,7 @@ func setup() error {
 		return err
 	}
 
-	secretClient := k8sSecrets.New(k8sManager.GetClient())
+	secretClient := k8sSecrets.New(k8sManager.GetClient(), config.SecretNamingVersion())
 	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(config.GlobalCredentials())
 	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(config.GlobalCredentials(), k8sManager.GetScheme())
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme.Scheme)
@@ -914,7 +918,7 @@ func setup() error {
 	// Create the ResourceGroup resource
 	result, _ := resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
 	if result.Response.StatusCode != 204 {
-		_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+		_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)
 		if err != nil {
 			return fmt.Errorf("ResourceGroup creation failed")
 		}
@@ -924,7 +928,7 @@ func setup() error {
 		k8sClient:             k8sClient,
 		secretClient:          secretClient,
 		resourceGroupName:     resourceGroupName,
-		resourceGroupLocation: resourcegroupLocation,
+		resourceGroupLocation: resourceGroupLocation,
 		keyvaultName:          keyvaultName,
 		eventhubClient:        eventhubClient,
 		resourceGroupManager:  resourceGroupManager,
@@ -937,24 +941,16 @@ func setup() error {
 	}
 
 	log.Println("Creating KV:", keyvaultName)
-	kvManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
-	_, err = kvManager.CreateVaultWithAccessPolicies(
+	err = CreateVaultWithAccessPolicies(
 		context.Background(),
+		resourcemanagerconfig.GlobalCredentials(),
 		resourceGroupName,
 		keyvaultName,
-		resourcegroupLocation,
+		resourceGroupLocation,
 		resourcemanagerconfig.GlobalCredentials().ClientID(),
 	)
-	// Key Vault needs to be in "Suceeded" state
-	finish := time.Now().Add(tc.timeout)
-	for {
-		if finish.Before(time.Now()) {
-			return fmt.Errorf("time out waiting for keyvault")
-		}
-		result, _ := tc.keyVaultManager.GetVault(context.Background(), resourceGroupName, keyvaultName)
-		if result.Response.StatusCode == http.StatusOK {
-			break
-		}
+	if err != nil {
+		return err
 	}
 
 	log.Println(fmt.Sprintf("finished common controller test setup"))
