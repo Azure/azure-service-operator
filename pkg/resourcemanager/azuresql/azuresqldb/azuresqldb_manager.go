@@ -8,9 +8,8 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
-
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 )
 
 // SqlDbManager is the client for the resource manager for SQL databases
@@ -39,10 +38,7 @@ type SqlDbManager interface {
 		resourceGroupName string,
 		serverName string,
 		databaseName string,
-		weeklyRetention string,
-		monthlyRetention string,
-		yearlyRetention string,
-		weekOfYear int32) (*sql.BackupLongTermRetentionPoliciesCreateOrUpdateFuture, error)
+		policy azuresqlshared.SQLDatabaseBackupLongTermRetentionPolicy) (*sql.BackupLongTermRetentionPoliciesCreateOrUpdateFuture, error)
 
 	resourcemanager.ARMClient
 }

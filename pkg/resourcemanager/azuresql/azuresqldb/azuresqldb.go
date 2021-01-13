@@ -145,10 +145,7 @@ func (m *AzureSqlDbManager) AddLongTermRetention(
 	resourceGroupName string,
 	serverName string,
 	databaseName string,
-	weeklyRetention string,
-	monthlyRetention string,
-	yearlyRetention string,
-	weekOfYear int32) (*sql.BackupLongTermRetentionPoliciesCreateOrUpdateFuture, error) {
+	policy azuresqlshared.SQLDatabaseBackupLongTermRetentionPolicy) (*sql.BackupLongTermRetentionPoliciesCreateOrUpdateFuture, error) {
 
 	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient(m.creds)
 	if err != nil {
@@ -156,27 +153,27 @@ func (m *AzureSqlDbManager) AddLongTermRetention(
 	}
 
 	// validate the input and exit if nothing needs to happen - this is ok!
-	if weeklyRetention == "" && monthlyRetention == "" && yearlyRetention == "" {
+	if policy.WeeklyRetention == "" && policy.MonthlyRetention == "" && policy.YearlyRetention == "" {
 		return nil, nil
 	}
 
 	// validate the pairing of yearly retention and week of year
-	if yearlyRetention != "" && (weekOfYear <= 0 || weekOfYear > 52) {
+	if policy.YearlyRetention != "" && (policy.WeekOfYear <= 0 || policy.WeekOfYear > 52) {
 		return nil, fmt.Errorf("weekOfYear must be greater than 0 and less or equal to 52 when yearlyRetention is used")
 	}
 
 	// create pointers so that we can pass nils if needed
-	pWeeklyRetention := &weeklyRetention
-	if weeklyRetention == "" {
+	pWeeklyRetention := &policy.WeeklyRetention
+	if policy.WeeklyRetention == "" {
 		pWeeklyRetention = nil
 	}
-	pMonthlyRetention := &monthlyRetention
-	if monthlyRetention == "" {
+	pMonthlyRetention := &policy.MonthlyRetention
+	if policy.MonthlyRetention == "" {
 		pMonthlyRetention = nil
 	}
-	pYearlyRetention := &yearlyRetention
-	pWeekOfYear := &weekOfYear
-	if yearlyRetention == "" {
+	pYearlyRetention := &policy.YearlyRetention
+	pWeekOfYear := &policy.WeekOfYear
+	if policy.YearlyRetention == "" {
 		pYearlyRetention = nil
 		pWeekOfYear = nil
 	}
