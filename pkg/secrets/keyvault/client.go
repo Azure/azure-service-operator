@@ -14,6 +14,7 @@ import (
 	keyvaults "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/Azure/go-autorest/autorest/date"
 	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 
@@ -248,6 +249,10 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 		// If flatten has not been declared, convert the map into a json string for perisstence
 	} else {
 		jsonData, err := json.Marshal(data)
+		if err != nil {
+			return errors.Wrapf(err, "unable to marshal secret")
+		}
+
 		stringSecret := string(jsonData)
 
 		// Initialize secret parameters
@@ -255,14 +260,6 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 			Value:            &stringSecret,
 			SecretAttributes: &secretAttributes,
 		}
-
-		/*if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
-			// If secret exists we delete it and recreate it again
-			_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretBaseName)
-			if err != nil {
-				return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
-			}
-		}*/
 
 		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secretParams)
 
@@ -323,19 +320,15 @@ func (k *KeyvaultSecretClient) Get(ctx context.Context, key types.NamespacedName
 	result, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion)
 
 	if err != nil {
-		return data, fmt.Errorf("secret does not exist" + err.Error())
+		return data, errors.Wrapf(err, "secret does not exist")
 	}
 
 	stringSecret := *result.Value
 
 	// Convert the data from json string to map
-	jsonErr := json.Unmarshal([]byte(stringSecret), &data)
-
-	// If Unmarshal fails on the input data, the secret likely not a json string so we return the string value directly rather than unmarshaling
-	if jsonErr != nil {
-		data = map[string][]byte{
-			secretName: []byte(stringSecret),
-		}
+	err = json.Unmarshal([]byte(stringSecret), &data)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to deserialize secret")
 	}
 
 	return data, err
