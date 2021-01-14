@@ -5,6 +5,7 @@ kind: CustomResourceDefinition
 metadata:
   name: postgresqlvnetrules.azure.microsoft.com
 spec:
+  preserveUnknownFields: false
   conversion:
     strategy: Webhook
     webhookClientConfig:
