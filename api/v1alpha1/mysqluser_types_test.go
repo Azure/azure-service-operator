@@ -110,7 +110,7 @@ var _ = Describe("MySQLUser", func() {
 				},
 			}
 			var v1 MySQLUser
-			Expect(v1.ConvertFrom(&v2)).To(MatchError("can't convert user \"foo\" to v1alpha1 MySQLUser because it has privileges in 2 databases"))
+			Expect(v1.ConvertFrom(&v2)).To(MatchError("can't convert user \"foo\" to *v1alpha1.MySQLUser because it has privileges in 2 databases"))
 		})
 
 		It("can't downgrade with roles for no databases", func() {
@@ -126,7 +126,7 @@ var _ = Describe("MySQLUser", func() {
 				},
 			}
 			var v1 MySQLUser
-			Expect(v1.ConvertFrom(&v2)).To(MatchError("can't convert user \"foo\" to v1alpha1 MySQLUser because it has privileges in 0 databases"))
+			Expect(v1.ConvertFrom(&v2)).To(MatchError("can't convert user \"foo\" to *v1alpha1.MySQLUser because it has privileges in 0 databases"))
 		})
 
 		It("can't downgrade with server roles", func() {
@@ -145,7 +145,7 @@ var _ = Describe("MySQLUser", func() {
 				},
 			}
 			var v1 MySQLUser
-			Expect(v1.ConvertFrom(&v2)).To(MatchError("can't convert user \"foo\" to v1alpha1 MySQLUser because it has server-level roles"))
+			Expect(v1.ConvertFrom(&v2)).To(MatchError("can't convert user \"foo\" to *v1alpha1.MySQLUser because it has server-level roles"))
 		})
 
 	})
