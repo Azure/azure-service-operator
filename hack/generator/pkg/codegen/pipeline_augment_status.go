@@ -9,13 +9,14 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"os"
 	"path"
 	"path/filepath"
 	"regexp"
 	"strings"
 	"sync"
+
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
@@ -70,15 +71,18 @@ func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *co
 			for typeName, typeDef := range types {
 				// for resources, try to find the matching Status type
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
+					var newStatus astmodel.Type
 					if statusDef, ok := statusTypes.resourceTypes.tryFind(typeName); ok {
 						klog.V(4).Infof("Swagger information found for %v", typeName)
-						newTypes.Add(astmodel.MakeTypeDefinition(typeName, resource.WithStatus(statusDef)))
+						newStatus = statusDef
 						found++
 					} else {
-						// missing status is caught later in pipeline (checkForMissingStatusInformation)
-						// as we only want to report this for non-pruned types
-						newTypes.Add(typeDef)
+						klog.V(4).Infof("Swagger information missing for %v", typeName)
+						// add a warning that the status is missing
+						// this will be reported if the type is not pruned
+						newStatus = astmodel.MakeErroredType(nil, nil, []string{fmt.Sprintf("missing status information for %v", typeName)})
 					}
+					newTypes.Add(astmodel.MakeTypeDefinition(typeName, resource.WithStatus(newStatus)))
 				} else {
 					// other types are simply copied
 					newTypes.Add(typeDef)

@@ -18,5 +18,4 @@ applyKubernetesResourceInterface    azure      Ensures that every resource imple
 simplifyDefinitions                            Flatten definitions by removing wrapper types
 jsonTestCases                                  Add test cases to verify JSON serialization
 markStorageVersion                             Marking the latest version of each resource as the storage version
-statusCheck                                    Check for missing status information
 exportTestPackages                             Export packages for test

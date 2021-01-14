@@ -7,6 +7,7 @@ package codegen
 
 import (
 	"context"
+
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
@@ -132,7 +133,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// Safety checks at the end:
 		ensureDefinitionsDoNotUseAnyTypes(),
-		checkForMissingStatusInformation(),
 
 		deleteGeneratedCode(configuration.OutputPath),
 

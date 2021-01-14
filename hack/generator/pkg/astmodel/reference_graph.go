@@ -65,8 +65,9 @@ func CollectArmSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 			}
 			armSpecAndStatus.Add(armSpecName)
 
-			if resourceType.status != nil {
-				armStatusName, err := findArmType(resourceType.status)
+			statusType := IgnoringErrors(resourceType.status)
+			if statusType != nil {
+				armStatusName, err := findArmType(statusType)
 				if err != nil {
 					// This should never happen because every type should have a matching ARM type
 					// So this panic may indicate we have a bug in the stage that generates the ARM types

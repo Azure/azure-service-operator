@@ -291,7 +291,11 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 	}
 
 	if resource.status != nil {
-		fields = append(fields, defineField("Status", resource.status.AsType(codeGenerationContext), "`json:\"status,omitempty\"`"))
+		statusType := resource.status.AsType(codeGenerationContext)
+		// ErroredTypes can be present as status but might not generate an actual status type
+		if statusType != nil {
+			fields = append(fields, defineField("Status", statusType, "`json:\"status,omitempty\"`"))
+		}
 	}
 
 	resourceTypeSpec := &ast.TypeSpec{

@@ -13,6 +13,7 @@ require (
 	github.com/gobuffalo/flect v0.2.1
 	github.com/google/go-cmp v0.5.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
+	github.com/leanovate/gopter v0.2.9
 	github.com/mailru/easyjson v0.7.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/onsi/gomega v1.10.1

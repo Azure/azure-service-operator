@@ -22,6 +22,5 @@ simplifyDefinitions                            Flatten definitions by removing w
 jsonTestCases                                  Add test cases to verify JSON serialization
 markStorageVersion                             Marking the latest version of each resource as the storage version
 rogueCheck                                     Catch rogue definitions using AnyTypes
-statusCheck                                    Check for missing status information
 deleteGenerated                                Delete generated code from 
 exportPackages                                 Export packages to ""

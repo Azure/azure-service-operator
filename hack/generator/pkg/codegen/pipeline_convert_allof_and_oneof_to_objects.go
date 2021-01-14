@@ -316,7 +316,31 @@ func init() {
 		synthesizer.handleMapMap,       // symmetric
 		synthesizer.handleArrayArray,   // symmetric
 		synthesizer.handleMapObject, flip(synthesizer.handleMapObject),
+		synthesizer.handleErrored, flip(synthesizer.handleErrored),
 	}
+}
+
+func (s synthesizer) handleErrored(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
+	// can merge the contents of an ErroredType, if we preserve the errors
+	leftErrored, ok := left.(astmodel.ErroredType)
+	if !ok {
+		return nil, nil
+	}
+
+	if leftErrored.InnerType() == nil {
+		return leftErrored.WithType(right), nil
+	}
+
+	combined, err := s.intersectTypes(leftErrored.InnerType(), right)
+	if combined == nil && err == nil {
+		return nil, nil // unable to combine
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return leftErrored.WithType(combined), nil
 }
 
 func (s synthesizer) handleOptional(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {

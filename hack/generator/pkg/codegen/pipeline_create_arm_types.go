@@ -123,10 +123,11 @@ func modifyKubeTypes(
 			names := []astmodel.TypeName{modifiedSpec.Name()}
 			defs := []astmodel.TypeDefinition{modifiedSpec}
 
-			if resourceType.StatusType() != nil {
-				statusName, ok := resourceType.StatusType().(astmodel.TypeName)
+			statusType := astmodel.IgnoringErrors(resourceType.StatusType())
+			if statusType != nil {
+				statusName, ok := statusType.(astmodel.TypeName)
 				if !ok {
-					return nil, nil, errors.Errorf("expected Status type to be a name, instead was %T", resourceType.StatusType())
+					return nil, nil, errors.Errorf("expected Status type to be a name, instead was %T", statusType)
 				}
 
 				statusDef, ok := definitions[statusName]

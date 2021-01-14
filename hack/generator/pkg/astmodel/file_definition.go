@@ -304,5 +304,12 @@ func (file FileDefinition) SaveToFile(filePath string) error {
 		}
 	}()
 
-	return file.SaveToWriter(f)
+	err = file.SaveToWriter(f)
+	if err != nil {
+		// cleanup in case of errors
+		f.Close()
+		os.Remove(filePath)
+	}
+
+	return err
 }

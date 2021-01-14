@@ -36,6 +36,15 @@ type Type interface {
 	fmt.Stringer
 }
 
+// IgnoringErrors returns the type stripped of any ErroredType wrapper
+func IgnoringErrors(t Type) Type {
+	if errored, ok := t.(ErroredType); ok {
+		return errored.InnerType()
+	}
+
+	return t
+}
+
 // DeclarationContext represents some metadata about a specific declaration
 type DeclarationContext struct {
 	Name        TypeName
