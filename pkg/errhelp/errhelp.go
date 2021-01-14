@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 // ErrIdsRegex is used to find and remove uuids from errors
@@ -39,4 +41,19 @@ func StripErrorTimes(err string) string {
 	}
 	return ErrTimesRegex.ReplaceAllString(err, "")
 
+}
+
+func HandleEnsureError(err error, allowedErrorTypes []string, unrecoverableErrorTypes []string) (bool, error) {
+	azerr := NewAzureError(err)
+	if helpers.ContainsString(allowedErrorTypes, azerr.Type) {
+		return false, nil // false means the resource is not in a terminal state yet, keep trying to reconcile.
+	}
+	if helpers.ContainsString(unrecoverableErrorTypes, azerr.Type) {
+		// Unrecoverable error, so stop reconcilation
+		return true, nil
+	}
+
+	// We don't know how to classify this error, so bubble it up in the operator logs but don't assume it's
+	// unrecoverable/terminal
+	return false, err
 }

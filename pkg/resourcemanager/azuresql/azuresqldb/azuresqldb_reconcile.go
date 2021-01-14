@@ -115,10 +115,10 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 				server,
 				dbName,
 				azuresqlshared.SQLDatabaseBackupLongTermRetentionPolicy{
-					WeeklyRetention: instance.Spec.WeeklyRetention,
+					WeeklyRetention:  instance.Spec.WeeklyRetention,
 					MonthlyRetention: instance.Spec.MonthlyRetention,
-					YearlyRetention: instance.Spec.YearlyRetention,
-					WeekOfYear: instance.Spec.WeekOfYear,
+					YearlyRetention:  instance.Spec.YearlyRetention,
+					WeekOfYear:       instance.Spec.WeekOfYear,
 				})
 			if err != nil {
 				failureErrors := []string{
