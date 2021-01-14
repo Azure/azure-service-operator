@@ -10,6 +10,8 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 )
 
+var _ conversion.Convertible = &MySQLAADUser{}
+
 func (src *MySQLUser) ConvertTo(dstRaw conversion.Hub) error {
 	dst := dstRaw.(*v1alpha2.MySQLUser)
 
@@ -24,7 +26,8 @@ func (src *MySQLUser) ConvertTo(dstRaw conversion.Hub) error {
 	dst.Spec.Username = src.Spec.Username
 	dst.Spec.KeyVaultToStoreSecrets = src.Spec.KeyVaultToStoreSecrets
 
-	// All roles should be interpreted as database roles in v1alpha2
+	// v1alpha1 doesn't support server-level roles, only
+	// database-level ones, so we move them into the new field.
 	dst.Spec.Roles = []string{}
 	dst.Spec.DatabaseRoles = make(map[string][]string)
 	dst.Spec.DatabaseRoles[src.Spec.DbName] = append([]string(nil), src.Spec.Roles...)
@@ -41,11 +44,11 @@ func (dst *MySQLUser) ConvertFrom(srcRaw conversion.Hub) error {
 	// Converting a v1alpha2 user into a v1alpha1 one is only allowed
 	// if it has exactly one database...
 	if len(src.Spec.DatabaseRoles) != 1 {
-		return errors.Errorf("can't convert user %q to v1alpha1 MySQLUser because it has privileges in %d databases", src.ObjectMeta.Name, len(src.Spec.DatabaseRoles))
+		return errors.Errorf("can't convert user %q to %T because it has privileges in %d databases", src.ObjectMeta.Name, dst, len(src.Spec.DatabaseRoles))
 	}
 	// ...and no server-level roles.
 	if len(src.Spec.Roles) != 0 {
-		return errors.Errorf("can't convert user %q to v1alpha1 MySQLUser because it has server-level roles", src.ObjectMeta.Name)
+		return errors.Errorf("can't convert user %q to %T because it has server-level roles", src.ObjectMeta.Name, dst)
 	}
 
 	// ObjectMeta

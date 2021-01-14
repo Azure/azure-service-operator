@@ -14,14 +14,16 @@ import (
 type MySQLUserSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	Server string `json:"server"`
 
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup string `json:"resourceGroup"`
+
+	// optional
 
 	// The server-level roles assigned ot the user.
 	Roles []string `json:"roles,omitempty"`
@@ -30,7 +32,6 @@ type MySQLUserSpec struct {
 	// database name).
 	DatabaseRoles map[string][]string `json:"databaseRoles,omitempty"`
 
-	// optional
 	AdminSecret            string `json:"adminSecret,omitempty"`
 	AdminSecretKeyVault    string `json:"adminSecretKeyVault,omitempty"`
 	Username               string `json:"username,omitempty"`
