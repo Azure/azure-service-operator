@@ -81,8 +81,7 @@ tasks:
     desc: Run {{.GENERATOR_APP}} unit tests and output coverage.
     dir: "{{.GENERATOR_ROOT}}"
     cmds:
-    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=cover.out -coverpkg=./...
-    - gcov2lcov -infile cover.out -outfile coverage.lcov
+    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -coverpkg=./...
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
@@ -156,8 +155,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [generate-crds]
     cmds: 
-    - go test -short -tags=noexit -race -covermode atomic -coverprofile=cover.out -coverpkg="./..." $({{.GENERATED_DIRS_TO_LINT_CMD}})
-    - gcov2lcov -infile cover.out -outfile coverage.lcov
+    - go test -short -tags=noexit -race -covermode atomic -coverprofile=controller-coverage.out -coverpkg="./..." $({{.GENERATED_DIRS_TO_LINT_CMD}})
 
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
@@ -224,8 +222,7 @@ tasks:
     deps: [controller:prep-integration-tests]
     cmds:
     # -race fails at the moment in controller-runtime
-    - ENVTEST=1 RECORD_REPLAY=1 go test -covermode atomic -coverprofile=cover-integration-envtest.out -coverpkg="./..." -v $({{.GENERATED_DIRS_TO_LINT_CMD}})
-    - gcov2lcov -infile cover-integration-envtest.out -outfile coverage-integration-envtest.lcov
+    - ENVTEST=1 RECORD_REPLAY=1 go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -v $({{.GENERATED_DIRS_TO_LINT_CMD}})
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
@@ -233,8 +230,7 @@ tasks:
     deps: [controller:prep-integration-tests, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
-    - ENVTEST=1 go test -covermode atomic -coverprofile=cover-integration-envtest.out -coverpkg="./..." -v $({{.GENERATED_DIRS_TO_LINT_CMD}})
-    - gcov2lcov -infile cover-integration-envtest.out -outfile coverage-integration-envtest.lcov
+    - ENVTEST=1 go test -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v $({{.GENERATED_DIRS_TO_LINT_CMD}})
 
   generate-crds:
     desc: Run controller-gen to generate CRD files.
