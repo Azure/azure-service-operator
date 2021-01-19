@@ -22,9 +22,9 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
-	batch "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.batch/v20170901"
-	resources "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.resources/v20200601"
-	storage "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.storage/v20190401"
+	batch "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.batch/v20170901"
+	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v20200601"
+	storage "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storage/v20190401"
 	"github.com/Azure/k8s-infra/hack/generated/controllers"
 	// +kubebuilder:scaffold:imports
 )

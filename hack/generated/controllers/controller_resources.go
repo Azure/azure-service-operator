@@ -9,9 +9,9 @@ package controllers
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	batch "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.batch/v20170901"
-	resources "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.resources/v20200601"
-	storage "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.storage/v20190401"
+	batch "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.batch/v20170901"
+	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v20200601"
+	storage "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storage/v20190401"
 )
 
 // KnownTypes defines an array of runtime.Objects to be reconciled, where each

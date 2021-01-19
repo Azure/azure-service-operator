@@ -9,12 +9,6 @@ vars:
   CONTROLLER_APP: k8sinfra-controller
   CONTROLLER_ROOT: ./hack/generated/
 
-  # the 'api' dir contains generated code so we want to exclude it
-  # for go-fmt the root dir must be excluded (it recurses)
-  GENERATED_DIRS_TO_FMT_CMD: go list -f '{{"{{.Dir}}"}}' ./...  | grep -vE '/apis(/|$)|/generated$' | tr '\n' ' '
-  # for lint/test the root dir must be included
-  GENERATED_DIRS_TO_LINT_CMD: go list -f '{{"{{.Dir}}"}}' ./...  | grep -vE '/apis(/|$)' | tr '\n' ' '
-
 tasks:
   default:
     desc: Perform all fast local pre-commit tasks.
@@ -128,34 +122,34 @@ tasks:
     deps: [generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
-    - golangci-lint run -v $({{.GENERATED_DIRS_TO_LINT_CMD}})
+    - golangci-lint run -v ./...
 
   controller:lint-full:
     desc: Run all lint checks.
     deps: [generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
-    - golangci-lint run -v --fast=false $({{.GENERATED_DIRS_TO_LINT_CMD}})
+    - golangci-lint run -v --fast=false ./...
 
   controller:format-code:
     desc: Ensure all code is correctly formatted.
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
-    - gofmt -l -s -w $({{.GENERATED_DIRS_TO_FMT_CMD}})
+    - gofmt -l -s -w ./...
 
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [generate-crds]
     cmds:
-    - go test $({{.GENERATED_DIRS_TO_LINT_CMD}}) -short -tags=noexit
+    - go test ./... -short -tags=noexit
 
   controller:test-cover:
     desc: Run {{.CONTROLLER_APP}} unit tests and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [generate-crds]
     cmds: 
-    - go test -short -tags=noexit -race -covermode atomic -coverprofile=controller-coverage.out -coverpkg="./..." $({{.GENERATED_DIRS_TO_LINT_CMD}})
+    - go test -short -tags=noexit -race -covermode atomic -coverprofile=controller-coverage.out -coverpkg="./..." ./...
 
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
@@ -214,7 +208,7 @@ tasks:
     deps: [controller:prep-integration-tests]
     cmds:
     # -race fails at the moment in controller-runtime
-    - ENVTEST=1 RECORD_REPLAY=1 go test -v $({{.GENERATED_DIRS_TO_LINT_CMD}})
+    - ENVTEST=1 RECORD_REPLAY=1 go test -v ./...
 
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
@@ -222,7 +216,7 @@ tasks:
     deps: [controller:prep-integration-tests]
     cmds:
     # -race fails at the moment in controller-runtime
-    - ENVTEST=1 RECORD_REPLAY=1 go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -v $({{.GENERATED_DIRS_TO_LINT_CMD}})
+    - ENVTEST=1 RECORD_REPLAY=1 go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -v ./...
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
@@ -230,19 +224,20 @@ tasks:
     deps: [controller:prep-integration-tests, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
-    - ENVTEST=1 go test -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v $({{.GENERATED_DIRS_TO_LINT_CMD}})
+    - ENVTEST=1 go test -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v ./...
 
   generate-crds:
     desc: Run controller-gen to generate CRD files.
     deps: [generate-types]
     dir: "{{.CONTROLLER_ROOT}}"
     sources:
-    - "apis/**/*_gen.go" # depends on all generated types
+    - "_apis/**/*_gen.go" # depends on all generated types
     cmds:
-    - find ./apis -type f -name "zz_generated.*" -delete
+    - find ./_apis -type f -name "zz_generated.*" -delete
     - if [ -d "./config/crd/bases" ]; then find "./config/crd/bases" -type f -delete; fi
-    - controller-gen object:headerFile=../boilerplate.go.txt paths="./..." || true
-    - controller-gen {{.CRD_OPTIONS}} rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+    # must CD into _apis as it is ignored by default (this is on purpose to not kill gopls!)
+    - cd _apis && controller-gen object:headerFile=../../boilerplate.go.txt paths="./..." || true
+    - cd _apis && controller-gen {{.CRD_OPTIONS}} rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=../config/crd/bases output:webhook:artifacts:config=../config/webhook
     vars:
       CRD_OPTIONS: "crd:crdVersions=v1,allowDangerousTypes=true"
 

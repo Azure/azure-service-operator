@@ -1,3 +1,4 @@
 apis/
+_apis/
 config/crd/bases/
 config/webhook

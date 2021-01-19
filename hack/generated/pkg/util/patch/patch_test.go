@@ -19,7 +19,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	storage "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.storage/v20190401"
+	storage "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storage/v20190401"
 )
 
 func TestHelperUnstructuredPatch(t *testing.T) {

@@ -8,7 +8,7 @@ package astmodel
 import "fmt"
 
 const (
-	LocalPathPrefix = "github.com/Azure/k8s-infra/hack/generated/apis/" // TODO: From config?
+	LocalPathPrefix = "github.com/Azure/k8s-infra/hack/generated/_apis/" // TODO: From config?
 )
 
 // LocalPackageReference specifies a local package name or reference

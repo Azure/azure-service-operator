@@ -1,5 +1,5 @@
 schemaUrl: https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json
-outputPath: ../generated/apis
+outputPath: ../generated/_apis
 typeFilters:
   - action: prune
     group: definitions

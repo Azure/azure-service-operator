@@ -13,13 +13,13 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	resources "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.resources/v20200601"
+	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v20200601"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/armresourceresolver"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/kubeclient"
 
 	// TODO: Do we want to use a sample object rather than a code generated one?
-	batch "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.batch/v20170901"
+	batch "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.batch/v20170901"
 
 	. "github.com/onsi/gomega"
 )
