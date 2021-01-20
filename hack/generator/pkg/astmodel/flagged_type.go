@@ -9,7 +9,7 @@ import (
 	"sort"
 	"strings"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"github.com/pkg/errors"
 )
 
@@ -105,13 +105,13 @@ func (ft *FlaggedType) References() TypeNameSet {
 }
 
 // AsType renders as a Go abstract syntax tree for a type
-// (yes this says ast.Expr but that is what the Go 'ast' package uses for types)
-func (ft *FlaggedType) AsType(ctx *CodeGenerationContext) ast.Expr {
+// (yes this says ast.Expr but that is what the Go 'dst' package uses for types)
+func (ft *FlaggedType) AsType(ctx *CodeGenerationContext) dst.Expr {
 	return ft.element.AsType(ctx)
 }
 
 // AsDeclarations renders as a Go abstract syntax tree for a declaration
-func (ft *FlaggedType) AsDeclarations(ctx *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
+func (ft *FlaggedType) AsDeclarations(ctx *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	return ft.element.AsDeclarations(ctx, declContext)
 }
 

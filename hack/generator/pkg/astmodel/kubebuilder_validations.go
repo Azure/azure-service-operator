@@ -13,7 +13,7 @@ import (
 	"strings"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"k8s.io/klog/v2"
 )
 
@@ -51,7 +51,7 @@ func GenerateKubebuilderComment(validation KubeBuilderValidation) string {
 	return fmt.Sprintf("%s%s", prefix, validation.name)
 }
 
-func AddValidationComments(commentList *ast.Decorations, validations []KubeBuilderValidation) {
+func AddValidationComments(commentList *dst.Decorations, validations []KubeBuilderValidation) {
 	// generate validation comments:
 	for _, validation := range validations {
 		// these are not doc comments but they must go here to be emitted before the property

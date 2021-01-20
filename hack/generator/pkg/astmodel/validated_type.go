@@ -10,7 +10,7 @@ import (
 	"math/big"
 	"regexp"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 type ArrayValidations struct {
@@ -162,12 +162,12 @@ func (v ValidatedType) WithType(newElement Type) ValidatedType {
 
 var _ Type = ValidatedType{}
 
-func (v ValidatedType) AsDeclarations(c *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
+func (v ValidatedType) AsDeclarations(c *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	declContext.Validations = append(declContext.Validations, v.validations.ToKubeBuilderValidations()...)
 	return v.ElementType().AsDeclarations(c, declContext)
 }
 
-func (v ValidatedType) AsType(_ *CodeGenerationContext) ast.Expr {
+func (v ValidatedType) AsType(_ *CodeGenerationContext) dst.Expr {
 	panic("Should never happen: validated types must either be named (handled by 'name types for CRDs' pipeline stage) or be directly under properties (handled by PropertyDefinition.AsField)")
 }
 

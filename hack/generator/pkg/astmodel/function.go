@@ -6,7 +6,7 @@
 package astmodel
 
 import (
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 // Function represents something that is an (unnamed) Go function
@@ -22,7 +22,7 @@ type Function interface {
 	References() TypeNameSet
 
 	// AsFunc renders the current instance as a Go abstract syntax tree
-	AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName) *ast.FuncDecl
+	AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName) *dst.FuncDecl
 
 	// Equals determines if this Function is equal to another one
 	Equals(f Function) bool

@@ -8,7 +8,7 @@ package armconversion
 import (
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 // CreateEmptyArmValueFunc represents a function that creates
@@ -21,16 +21,16 @@ type CreateEmptyArmValueFunc struct {
 
 var _ astmodel.Function = &CreateEmptyArmValueFunc{}
 
-func (f CreateEmptyArmValueFunc) AsFunc(c *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *ast.FuncDecl {
+func (f CreateEmptyArmValueFunc) AsFunc(c *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 	fn := &astbuilder.FuncDetails{
 		Name:          "CreateEmptyArmValue",
 		ReceiverIdent: f.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported),
-		ReceiverType: &ast.StarExpr{
-			X: ast.NewIdent(receiver.Name()),
+		ReceiverType: &dst.StarExpr{
+			X: dst.NewIdent(receiver.Name()),
 		},
-		Body: []ast.Stmt{
-			astbuilder.Returns(&ast.CompositeLit{
-				Type: ast.NewIdent(f.armTypeName.Name()),
+		Body: []dst.Stmt{
+			astbuilder.Returns(&dst.CompositeLit{
+				Type: dst.NewIdent(f.armTypeName.Name()),
 			}),
 		},
 	}

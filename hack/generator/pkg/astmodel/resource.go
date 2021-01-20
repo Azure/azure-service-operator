@@ -10,7 +10,7 @@ import (
 	"go/token"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"k8s.io/klog/v2"
 )
 
@@ -183,7 +183,7 @@ func (resource *ResourceType) WithTestCase(testcase TestCase) *ResourceType {
 }
 
 // AsType converts the ResourceType to go AST Expr
-func (resource *ResourceType) AsType(_ *CodeGenerationContext) ast.Expr {
+func (resource *ResourceType) AsType(_ *CodeGenerationContext) dst.Expr {
 	panic("a resource cannot be used directly as a type")
 }
 
@@ -271,11 +271,11 @@ func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 }
 
 // AsDeclarations converts the resource type to a set of go declarations
-func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
+func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1PackageReference)
 
-	typeMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
-	objectMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.ObjectMeta", packageName)), "`json:\"metadata,omitempty\"`")
+	typeMetaField := defineField("", dst.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
+	objectMetaField := defineField("", dst.NewIdent(fmt.Sprintf("%s.ObjectMeta", packageName)), "`json:\"metadata,omitempty\"`")
 
 	/*
 		start off with:
@@ -284,7 +284,7 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 		then the Spec/Status properties
 	*/
-	fields := []*ast.Field{
+	fields := []*dst.Field{
 		typeMetaField,
 		objectMetaField,
 		defineField("Spec", resource.spec.AsType(codeGenerationContext), "`json:\"spec,omitempty\"`"),
@@ -298,14 +298,14 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 		}
 	}
 
-	resourceTypeSpec := &ast.TypeSpec{
-		Name: ast.NewIdent(declContext.Name.Name()),
-		Type: &ast.StructType{
-			Fields: &ast.FieldList{List: fields},
+	resourceTypeSpec := &dst.TypeSpec{
+		Name: dst.NewIdent(declContext.Name.Name()),
+		Type: &dst.StructType{
+			Fields: &dst.FieldList{List: fields},
 		},
 	}
 
-	var comments ast.Decorations
+	var comments dst.Decorations
 
 	astbuilder.AddComment(&comments, "// +kubebuilder:object:root=true")
 	if resource.status != nil {
@@ -319,19 +319,19 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 	astbuilder.AddWrappedComments(&comments, declContext.Description, 200)
 	AddValidationComments(&comments, declContext.Validations)
 
-	resourceDeclaration := &ast.GenDecl{
+	resourceDeclaration := &dst.GenDecl{
 		Tok:   token.TYPE,
-		Specs: []ast.Spec{resourceTypeSpec},
-		Decs: ast.GenDeclDecorations{
-			NodeDecs: ast.NodeDecs{
-				Before: ast.EmptyLine,
-				After:  ast.EmptyLine,
+		Specs: []dst.Spec{resourceTypeSpec},
+		Decs: dst.GenDeclDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.EmptyLine,
+				After:  dst.EmptyLine,
 				Start:  comments,
 			},
 		},
 	}
 
-	var declarations []ast.Decl
+	var declarations []dst.Decl
 	declarations = append(declarations, resourceDeclaration)
 	declarations = append(declarations, resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
 	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)...)
@@ -348,42 +348,42 @@ func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
 func (resource *ResourceType) resourceListTypeDecls(
 	codeGenerationContext *CodeGenerationContext,
 	resourceTypeName TypeName,
-	description []string) []ast.Decl {
+	description []string) []dst.Decl {
 
 	typeName := resource.makeResourceListTypeName(resourceTypeName)
 
 	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1PackageReference)
 
-	typeMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
-	objectMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.ListMeta", packageName)), "`json:\"metadata,omitempty\"`")
+	typeMetaField := defineField("", dst.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
+	objectMetaField := defineField("", dst.NewIdent(fmt.Sprintf("%s.ListMeta", packageName)), "`json:\"metadata,omitempty\"`")
 
 	// We need an array of items
 	items := NewArrayType(resourceTypeName)
 
-	fields := []*ast.Field{
+	fields := []*dst.Field{
 		typeMetaField,
 		objectMetaField,
 		defineField("Items", items.AsType(codeGenerationContext), "`json:\"items\"`"),
 	}
 
-	resourceTypeSpec := &ast.TypeSpec{
-		Name: ast.NewIdent(typeName.Name()),
-		Type: &ast.StructType{
-			Fields: &ast.FieldList{List: fields},
+	resourceTypeSpec := &dst.TypeSpec{
+		Name: dst.NewIdent(typeName.Name()),
+		Type: &dst.StructType{
+			Fields: &dst.FieldList{List: fields},
 		},
 	}
 
-	var comments ast.Decorations = []string{
+	var comments dst.Decorations = []string{
 		"// +kubebuilder:object:root=true\n",
 	}
 
 	astbuilder.AddWrappedComments(&comments, description, 200)
 
-	return []ast.Decl{
-		&ast.GenDecl{
+	return []dst.Decl{
+		&dst.GenDecl{
 			Tok:   token.TYPE,
-			Specs: []ast.Spec{resourceTypeSpec},
-			Decs:  ast.GenDeclDecorations{NodeDecs: ast.NodeDecs{Start: comments}},
+			Specs: []dst.Spec{resourceTypeSpec},
+			Decs:  dst.GenDeclDecorations{NodeDecs: dst.NodeDecs{Start: comments}},
 		},
 	}
 }

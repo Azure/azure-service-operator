@@ -10,7 +10,7 @@ import (
 	"go/token"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 const JSONMarshalFunctionName string = "MarshalJSON"
@@ -49,41 +49,41 @@ func (f *OneOfJSONMarshalFunction) References() TypeNameSet {
 	return f.oneOfObject.References()
 }
 
-// AsFunc returns the function as a go ast
+// AsFunc returns the function as a go dst
 func (f *OneOfJSONMarshalFunction) AsFunc(
 	codeGenerationContext *CodeGenerationContext,
-	receiver TypeName) *ast.FuncDecl {
+	receiver TypeName) *dst.FuncDecl {
 
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(JsonReference)
 
 	receiverName := f.idFactory.CreateIdentifier(receiver.name, NotExported)
 
-	var statements []ast.Stmt
+	var statements []dst.Stmt
 
 	for _, property := range f.oneOfObject.Properties() {
 
-		ifStatement := ast.IfStmt{
-			Cond: &ast.BinaryExpr{
-				X: &ast.SelectorExpr{
-					X:   ast.NewIdent(receiverName),
-					Sel: ast.NewIdent(string(property.propertyName)),
+		ifStatement := dst.IfStmt{
+			Cond: &dst.BinaryExpr{
+				X: &dst.SelectorExpr{
+					X:   dst.NewIdent(receiverName),
+					Sel: dst.NewIdent(string(property.propertyName)),
 				},
 				Op: token.NEQ,
-				Y:  ast.NewIdent("nil"),
+				Y:  dst.NewIdent("nil"),
 			},
-			Body: &ast.BlockStmt{
-				List: []ast.Stmt{
-					&ast.ReturnStmt{
-						Results: []ast.Expr{
-							&ast.CallExpr{
-								Fun: &ast.SelectorExpr{
-									X:   ast.NewIdent(jsonPackage),
-									Sel: ast.NewIdent("Marshal"),
+			Body: &dst.BlockStmt{
+				List: []dst.Stmt{
+					&dst.ReturnStmt{
+						Results: []dst.Expr{
+							&dst.CallExpr{
+								Fun: &dst.SelectorExpr{
+									X:   dst.NewIdent(jsonPackage),
+									Sel: dst.NewIdent("Marshal"),
 								},
-								Args: []ast.Expr{
-									&ast.SelectorExpr{
-										X:   ast.NewIdent(receiverName),
-										Sel: ast.NewIdent(string(property.propertyName)),
+								Args: []dst.Expr{
+									&dst.SelectorExpr{
+										X:   dst.NewIdent(receiverName),
+										Sel: dst.NewIdent(string(property.propertyName)),
 									},
 								},
 							},
@@ -96,10 +96,10 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 		statements = append(statements, &ifStatement)
 	}
 
-	finalReturnStatement := &ast.ReturnStmt{
-		Results: []ast.Expr{
-			ast.NewIdent("nil"),
-			ast.NewIdent("nil"),
+	finalReturnStatement := &dst.ReturnStmt{
+		Results: []dst.Expr{
+			dst.NewIdent("nil"),
+			dst.NewIdent("nil"),
 		},
 	}
 	statements = append(statements, finalReturnStatement)

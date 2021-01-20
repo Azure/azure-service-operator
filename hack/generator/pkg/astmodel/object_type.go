@@ -10,7 +10,7 @@ import (
 	"sort"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"github.com/pkg/errors"
 )
 
@@ -40,18 +40,18 @@ func NewObjectType() *ObjectType {
 	}
 }
 
-func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
-	declaration := &ast.GenDecl{
-		Decs: ast.GenDeclDecorations{
-			NodeDecs: ast.NodeDecs{
-				Before: ast.EmptyLine,
-				After:  ast.EmptyLine,
+func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
+	declaration := &dst.GenDecl{
+		Decs: dst.GenDeclDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.EmptyLine,
+				After:  dst.EmptyLine,
 			},
 		},
 		Tok: token.TYPE,
-		Specs: []ast.Spec{
-			&ast.TypeSpec{
-				Name: ast.NewIdent(declContext.Name.Name()),
+		Specs: []dst.Spec{
+			&dst.TypeSpec{
+				Name: dst.NewIdent(declContext.Name.Name()),
 				Type: objectType.AsType(codeGenerationContext),
 			},
 		},
@@ -60,14 +60,14 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 	astbuilder.AddWrappedComments(&declaration.Decs.Start, declContext.Description, 200)
 	AddValidationComments(&declaration.Decs.Start, declContext.Validations)
 
-	result := []ast.Decl{declaration}
+	result := []dst.Decl{declaration}
 	result = append(result, objectType.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
 	result = append(result, objectType.generateMethodDecls(codeGenerationContext, declContext.Name)...)
 	return result
 }
 
-func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []ast.Decl {
-	var result []ast.Decl
+func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []dst.Decl {
+	var result []dst.Decl
 
 	// Functions must be ordered by name for deterministic output
 	var functions []Function
@@ -87,15 +87,15 @@ func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGen
 	return result
 }
 
-func defineField(fieldName string, fieldType ast.Expr, tag string) *ast.Field {
+func defineField(fieldName string, fieldType dst.Expr, tag string) *dst.Field {
 
-	result := &ast.Field{
+	result := &dst.Field{
 		Type: fieldType,
 		Tag:  astbuilder.TextLiteral(tag),
 	}
 
 	if fieldName != "" {
-		result.Names = []*ast.Ident{ast.NewIdent(fieldName)}
+		result.Names = []*dst.Ident{dst.NewIdent(fieldName)}
 	}
 
 	return result
@@ -157,10 +157,10 @@ func (objectType *ObjectType) HasFunctionWithName(name string) bool {
 }
 
 // AsType implements Type for ObjectType
-func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
+func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
 	embedded := objectType.EmbeddedProperties()
 	properties := objectType.Properties()
-	var fields []*ast.Field
+	var fields []*dst.Field
 
 	for _, f := range embedded {
 		fields = append(fields, f.AsField(codeGenerationContext))
@@ -173,11 +173,11 @@ func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContex
 	if len(fields) > 0 {
 		// if first field has Before:EmptyLine decoration, switch it to NewLine
 		// this makes the output look nicer 🙂
-		fields[0].Decs.Before = ast.NewLine
+		fields[0].Decs.Before = dst.NewLine
 	}
 
-	return &ast.StructType{
-		Fields: &ast.FieldList{
+	return &dst.StructType{
+		Fields: &dst.FieldList{
 			List: fields,
 		},
 	}

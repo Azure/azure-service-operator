@@ -8,27 +8,27 @@ package astbuilder
 import (
 	"go/token"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 // CheckErrorAndReturn checks if the err is non-nil, and if it is returns. For example:
 // 	if err != nil {
 // 		return <otherReturns...>, err
 //	}
-func CheckErrorAndReturn(otherReturns ...ast.Expr) ast.Stmt {
+func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
 
-	returnValues := append([]ast.Expr{}, otherReturns...)
-	returnValues = append(returnValues, ast.NewIdent("err"))
+	returnValues := append([]dst.Expr{}, otherReturns...)
+	returnValues = append(returnValues, dst.NewIdent("err"))
 
-	return &ast.IfStmt{
-		Cond: &ast.BinaryExpr{
-			X:  ast.NewIdent("err"),
+	return &dst.IfStmt{
+		Cond: &dst.BinaryExpr{
+			X:  dst.NewIdent("err"),
 			Op: token.NEQ,
-			Y:  ast.NewIdent("nil"),
+			Y:  dst.NewIdent("nil"),
 		},
-		Body: &ast.BlockStmt{
-			List: []ast.Stmt{
-				&ast.ReturnStmt{
+		Body: &dst.BlockStmt{
+			List: []dst.Stmt{
+				&dst.ReturnStmt{
 					Results: returnValues,
 				},
 			},
@@ -46,16 +46,16 @@ func CheckErrorAndReturn(otherReturns ...ast.Expr) ast.Stmt {
 //     <varName> := <packageRef>.<structName>{}
 //
 // …as that does not work for enum types.
-func NewVariableQualified(varName string, qualifier string, structName string) ast.Stmt {
-	return &ast.DeclStmt{
-		Decl: &ast.GenDecl{
+func NewVariableQualified(varName string, qualifier string, structName string) dst.Stmt {
+	return &dst.DeclStmt{
+		Decl: &dst.GenDecl{
 			Tok: token.VAR,
-			Specs: []ast.Spec{
-				&ast.TypeSpec{
-					Name: ast.NewIdent(varName),
-					Type: &ast.SelectorExpr{
-						X:   ast.NewIdent(qualifier),
-						Sel: ast.NewIdent(structName),
+			Specs: []dst.Spec{
+				&dst.TypeSpec{
+					Name: dst.NewIdent(varName),
+					Type: &dst.SelectorExpr{
+						X:   dst.NewIdent(qualifier),
+						Sel: dst.NewIdent(structName),
 					},
 				},
 			},
@@ -73,14 +73,14 @@ func NewVariableQualified(varName string, qualifier string, structName string) a
 //     <varName> := <structName>{}
 //
 // …as that does not work for enum types.
-func NewVariable(varName string, structName string) ast.Stmt {
-	return &ast.DeclStmt{
-		Decl: &ast.GenDecl{
+func NewVariable(varName string, structName string) dst.Stmt {
+	return &dst.DeclStmt{
+		Decl: &dst.GenDecl{
 			Tok: token.VAR,
-			Specs: []ast.Spec{
-				&ast.TypeSpec{
-					Name: ast.NewIdent(varName),
-					Type: ast.NewIdent(structName),
+			Specs: []dst.Spec{
+				&dst.TypeSpec{
+					Name: dst.NewIdent(varName),
+					Type: dst.NewIdent(structName),
 				},
 			},
 		},
@@ -89,8 +89,8 @@ func NewVariable(varName string, structName string) ast.Stmt {
 
 // LocalVariableDeclaration performs a local variable declaration for use within a method like:
 // 	var <ident> <typ>
-func LocalVariableDeclaration(ident string, typ ast.Expr, comment string) ast.Stmt {
-	return &ast.DeclStmt{
+func LocalVariableDeclaration(ident string, typ dst.Expr, comment string) dst.Stmt {
+	return &dst.DeclStmt{
 		Decl: VariableDeclaration(ident, typ, comment),
 	}
 }
@@ -99,13 +99,13 @@ func LocalVariableDeclaration(ident string, typ ast.Expr, comment string) ast.St
 //  // <comment>
 // 	var <ident> <typ>
 // For a LocalVariable within a method, use LocalVariableDeclaration() to create an ast.Stmt instead
-func VariableDeclaration(ident string, typ ast.Expr, comment string) *ast.GenDecl {
-	decl := &ast.GenDecl{
+func VariableDeclaration(ident string, typ dst.Expr, comment string) *dst.GenDecl {
+	decl := &dst.GenDecl{
 		Tok: token.VAR,
-		Specs: []ast.Spec{
-			&ast.ValueSpec{
-				Names: []*ast.Ident{
-					ast.NewIdent(ident),
+		Specs: []dst.Spec{
+			&dst.ValueSpec{
+				Names: []*dst.Ident{
+					dst.NewIdent(ident),
 				},
 				Type: typ,
 			},
@@ -119,34 +119,34 @@ func VariableDeclaration(ident string, typ ast.Expr, comment string) *ast.GenDec
 
 // AppendList returns a statement for a list append, like:
 //     <lhs> = append(<lhs>, <rhs>)
-func AppendList(lhs ast.Expr, rhs ast.Expr) ast.Stmt {
+func AppendList(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 	return SimpleAssignment(
-		ast.Clone(lhs).(ast.Expr),
+		dst.Clone(lhs).(dst.Expr),
 		token.ASSIGN,
-		CallFunc("append", ast.Clone(lhs).(ast.Expr), ast.Clone(rhs).(ast.Expr)))
+		CallFunc("append", dst.Clone(lhs).(dst.Expr), dst.Clone(rhs).(dst.Expr)))
 }
 
 // InsertMap returns an assignment statement for inserting an item into a map, like:
 // 	<m>[<key>] = <rhs>
-func InsertMap(m ast.Expr, key ast.Expr, rhs ast.Expr) *ast.AssignStmt {
+func InsertMap(m dst.Expr, key dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 	return SimpleAssignment(
-		&ast.IndexExpr{
-			X:     ast.Clone(m).(ast.Expr),
-			Index: ast.Clone(key).(ast.Expr),
+		&dst.IndexExpr{
+			X:     dst.Clone(m).(dst.Expr),
+			Index: dst.Clone(key).(dst.Expr),
 		},
 		token.ASSIGN,
-		ast.Clone(rhs).(ast.Expr))
+		dst.Clone(rhs).(dst.Expr))
 }
 
 // MakeMap returns the call expression for making a map, like:
 // 	make(map[<key>]<value>)
-func MakeMap(key ast.Expr, value ast.Expr) *ast.CallExpr {
-	return &ast.CallExpr{
-		Fun: ast.NewIdent("make"),
-		Args: []ast.Expr{
-			&ast.MapType{
-				Key:   ast.Clone(key).(ast.Expr),
-				Value: ast.Clone(value).(ast.Expr),
+func MakeMap(key dst.Expr, value dst.Expr) *dst.CallExpr {
+	return &dst.CallExpr{
+		Fun: dst.NewIdent("make"),
+		Args: []dst.Expr{
+			&dst.MapType{
+				Key:   dst.Clone(key).(dst.Expr),
+				Value: dst.Clone(value).(dst.Expr),
 			},
 		},
 	}
@@ -154,16 +154,16 @@ func MakeMap(key ast.Expr, value ast.Expr) *ast.CallExpr {
 
 // TypeAssert returns an assignment statement with a type assertion
 // 	<lhs>, ok := <rhs>.(<type>)
-func TypeAssert(lhs ast.Expr, rhs ast.Expr, typ ast.Expr) *ast.AssignStmt {
+func TypeAssert(lhs dst.Expr, rhs dst.Expr, typ dst.Expr) *dst.AssignStmt {
 
-	return &ast.AssignStmt{
-		Lhs: []ast.Expr{
+	return &dst.AssignStmt{
+		Lhs: []dst.Expr{
 			lhs,
-			ast.NewIdent("ok"),
+			dst.NewIdent("ok"),
 		},
 		Tok: token.DEFINE,
-		Rhs: []ast.Expr{
-			&ast.TypeAssertExpr{
+		Rhs: []dst.Expr{
+			&dst.TypeAssertExpr{
 				X:    rhs,
 				Type: typ,
 			},
@@ -175,19 +175,19 @@ func TypeAssert(lhs ast.Expr, rhs ast.Expr, typ ast.Expr) *ast.AssignStmt {
 //	if ok {
 //		return <returns>
 //	}
-func ReturnIfOk(returns ...ast.Expr) *ast.IfStmt {
-	return ReturnIfExpr(ast.NewIdent("ok"), returns...)
+func ReturnIfOk(returns ...dst.Expr) *dst.IfStmt {
+	return ReturnIfExpr(dst.NewIdent("ok"), returns...)
 }
 
 // ReturnIfNotOk checks a boolean ok variable and if it is not ok returns the specified values
 //	if !ok {
 //		return <returns>
 //	}
-func ReturnIfNotOk(returns ...ast.Expr) *ast.IfStmt {
+func ReturnIfNotOk(returns ...dst.Expr) *dst.IfStmt {
 	return ReturnIfExpr(
-		&ast.UnaryExpr{
+		&dst.UnaryExpr{
 			Op: token.NOT,
-			X:  ast.NewIdent("ok"),
+			X:  dst.NewIdent("ok"),
 		},
 		returns...)
 }
@@ -196,12 +196,12 @@ func ReturnIfNotOk(returns ...ast.Expr) *ast.IfStmt {
 // 	if <toCheck> == nil {
 // 		return <returns...>
 //	}
-func ReturnIfNil(toCheck ast.Expr, returns ...ast.Expr) ast.Stmt {
+func ReturnIfNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 	return ReturnIfExpr(
-		&ast.BinaryExpr{
+		&dst.BinaryExpr{
 			X:  toCheck,
 			Op: token.EQL,
-			Y:  ast.NewIdent("nil"),
+			Y:  dst.NewIdent("nil"),
 		},
 		returns...)
 }
@@ -210,12 +210,12 @@ func ReturnIfNil(toCheck ast.Expr, returns ...ast.Expr) ast.Stmt {
 // 	if <toCheck> != nil {
 // 		return <returns...>
 //	}
-func ReturnIfNotNil(toCheck ast.Expr, returns ...ast.Expr) ast.Stmt {
+func ReturnIfNotNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 	return ReturnIfExpr(
-		&ast.BinaryExpr{
+		&dst.BinaryExpr{
 			X:  toCheck,
 			Op: token.NEQ,
-			Y:  ast.NewIdent("nil"),
+			Y:  dst.NewIdent("nil"),
 		},
 		returns...)
 }
@@ -224,16 +224,16 @@ func ReturnIfNotNil(toCheck ast.Expr, returns ...ast.Expr) ast.Stmt {
 //	if <cond> {
 // 		return <returns...>
 //	}
-func ReturnIfExpr(cond ast.Expr, returns ...ast.Expr) *ast.IfStmt {
+func ReturnIfExpr(cond dst.Expr, returns ...dst.Expr) *dst.IfStmt {
 	if len(returns) == 0 {
 		panic("Expected at least 1 return for ReturnIfOk")
 	}
 
-	return &ast.IfStmt{
+	return &dst.IfStmt{
 		Cond: cond,
-		Body: &ast.BlockStmt{
-			List: []ast.Stmt{
-				&ast.ReturnStmt{
+		Body: &dst.BlockStmt{
+			List: []dst.Stmt{
+				&dst.ReturnStmt{
 					Results: returns,
 				},
 			},
@@ -243,8 +243,8 @@ func ReturnIfExpr(cond ast.Expr, returns ...ast.Expr) *ast.IfStmt {
 
 // FormatError produces a call to fmt.Errorf with the given format string and args
 //	fmt.Errorf(<formatString>, <args>)
-func FormatError(fmtPackage string, formatString string, args ...ast.Expr) ast.Expr {
-	var callArgs []ast.Expr
+func FormatError(fmtPackage string, formatString string, args ...dst.Expr) dst.Expr {
+	var callArgs []dst.Expr
 	callArgs = append(
 		callArgs,
 		StringLiteral(formatString))
@@ -254,8 +254,8 @@ func FormatError(fmtPackage string, formatString string, args ...ast.Expr) ast.E
 
 // AddrOf returns a statement that gets the address of the provided expression.
 //	&<expr>
-func AddrOf(exp ast.Expr) *ast.UnaryExpr {
-	return &ast.UnaryExpr{
+func AddrOf(exp dst.Expr) *dst.UnaryExpr {
+	return &dst.UnaryExpr{
 		Op: token.AND,
 		X:  exp,
 	}
@@ -264,11 +264,11 @@ func AddrOf(exp ast.Expr) *ast.UnaryExpr {
 // Returns creates a return statement with one or more expressions, of the form
 //    return <expr>
 // or return <expr>, <expr>, ...
-func Returns(returns ...ast.Expr) ast.Stmt {
-	return &ast.ReturnStmt{
-		Decs: ast.ReturnStmtDecorations{
-			NodeDecs: ast.NodeDecs{
-				Before: ast.NewLine,
+func Returns(returns ...dst.Expr) dst.Stmt {
+	return &dst.ReturnStmt{
+		Decs: dst.ReturnStmtDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.NewLine,
 			},
 		},
 		Results: returns,
@@ -277,9 +277,9 @@ func Returns(returns ...ast.Expr) ast.Stmt {
 
 // QualifiedTypeName generates a reference to a type within an imported package
 // of the form <pkg>.<name>
-func QualifiedTypeName(pkg string, name string) *ast.SelectorExpr {
-	return &ast.SelectorExpr{
-		X:   ast.NewIdent(pkg),
-		Sel: ast.NewIdent(name),
+func QualifiedTypeName(pkg string, name string) *dst.SelectorExpr {
+	return &dst.SelectorExpr{
+		X:   dst.NewIdent(pkg),
+		Sel: dst.NewIdent(name),
 	}
 }

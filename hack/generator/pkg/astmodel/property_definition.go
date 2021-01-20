@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 // PropertyName is a semantic type
@@ -237,15 +237,15 @@ func (property *PropertyDefinition) renderedTags() string {
 }
 
 // AsField generates a Go AST field node representing this property definition
-func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGenerationContext) *ast.Field {
+func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGenerationContext) *dst.Field {
 	tags := property.renderedTags()
 
-	var names []*ast.Ident
+	var names []*dst.Ident
 	if property.propertyName != "" {
-		names = []*ast.Ident{ast.NewIdent(string(property.propertyName))}
+		names = []*dst.Ident{dst.NewIdent(string(property.propertyName))}
 	}
 
-	var doc ast.Decorations
+	var doc dst.Decorations
 	if property.IsRequired() {
 		AddValidationComments(&doc, []KubeBuilderValidation{ValidateRequired()})
 	}
@@ -257,15 +257,15 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 		AddValidationComments(&doc, validated.Validations().ToKubeBuilderValidations())
 	}
 
-	before := ast.NewLine
+	before := dst.NewLine
 	if len(doc) > 0 {
-		before = ast.EmptyLine
+		before = dst.EmptyLine
 	}
 
 	// We don't use StringLiteral() for the tag as it adds extra quotes
-	result := &ast.Field{
-		Decs: ast.FieldDecorations{
-			NodeDecs: ast.NodeDecs{
+	result := &dst.Field{
+		Decs: dst.FieldDecorations{
+			NodeDecs: dst.NodeDecs{
 				Start:  doc,
 				Before: before,
 			},
@@ -277,7 +277,7 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 
 	// generate comment:
 	if property.description != "" {
-		result.Decs.Before = ast.EmptyLine
+		result.Decs.Before = dst.EmptyLine
 		astbuilder.AddWrappedComment(&result.Decs.Start, fmt.Sprintf("%s: %s", property.propertyName, property.description), 80)
 	}
 

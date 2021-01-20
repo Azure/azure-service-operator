@@ -8,7 +8,7 @@ package astmodel
 import (
 	"fmt"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 // Type represents something that is a Go type
@@ -23,10 +23,10 @@ type Type interface {
 
 	// AsType renders as a Go abstract syntax tree for a type
 	// (yes this says ast.Expr but that is what the Go 'ast' package uses for types)
-	AsType(codeGenerationContext *CodeGenerationContext) ast.Expr
+	AsType(codeGenerationContext *CodeGenerationContext) dst.Expr
 
 	// AsDeclarations renders as a Go abstract syntax tree for a declaration
-	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl
+	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl
 
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type) bool

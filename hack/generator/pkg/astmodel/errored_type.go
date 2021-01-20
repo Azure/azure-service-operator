@@ -8,7 +8,7 @@ package astmodel
 import (
 	"fmt"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
@@ -107,7 +107,7 @@ func (errored ErroredType) handleWarningsAndErrors() {
 	}
 }
 
-func (errored ErroredType) AsDeclarations(cgc *CodeGenerationContext, dc DeclarationContext) []ast.Decl {
+func (errored ErroredType) AsDeclarations(cgc *CodeGenerationContext, dc DeclarationContext) []dst.Decl {
 	errored.handleWarningsAndErrors()
 	if errored.inner == nil {
 		return nil
@@ -116,7 +116,7 @@ func (errored ErroredType) AsDeclarations(cgc *CodeGenerationContext, dc Declara
 	return errored.inner.AsDeclarations(cgc, dc)
 }
 
-func (errored ErroredType) AsType(cgc *CodeGenerationContext) ast.Expr {
+func (errored ErroredType) AsType(cgc *CodeGenerationContext) dst.Expr {
 	errored.handleWarningsAndErrors()
 	if errored.inner == nil {
 		return nil

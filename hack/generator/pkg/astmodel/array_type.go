@@ -8,7 +8,7 @@ package astmodel
 import (
 	"fmt"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 // ArrayType is used for properties that contain an array of values
@@ -29,13 +29,13 @@ func (array *ArrayType) Element() Type {
 // assert we implemented Type correctly
 var _ Type = (*ArrayType)(nil)
 
-func (array *ArrayType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
+func (array *ArrayType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	return AsSimpleDeclarations(codeGenerationContext, declContext, array)
 }
 
 // AsType renders the Go abstract syntax tree for an array type
-func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
-	return &ast.ArrayType{
+func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+	return &dst.ArrayType{
 		Elt: array.element.AsType(codeGenerationContext),
 	}
 }

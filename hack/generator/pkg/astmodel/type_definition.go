@@ -9,7 +9,7 @@ import (
 	"go/token"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"github.com/pkg/errors"
 )
 
@@ -67,7 +67,7 @@ func (def TypeDefinition) WithName(typeName TypeName) TypeDefinition {
 	return result
 }
 
-func (def TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
+func (def TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []dst.Decl {
 	declContext := DeclarationContext{
 		Name:        def.name,
 		Description: def.description,
@@ -80,32 +80,32 @@ func (def TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationCo
 func AsSimpleDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	declContext DeclarationContext,
-	theType Type) []ast.Decl {
+	theType Type) []dst.Decl {
 
-	var docComments ast.Decorations
+	var docComments dst.Decorations
 	if len(declContext.Description) > 0 {
 		astbuilder.AddWrappedComments(&docComments, declContext.Description, 120)
 	}
 
 	AddValidationComments(&docComments, declContext.Validations)
 
-	result := &ast.GenDecl{
-		Decs: ast.GenDeclDecorations{
-			NodeDecs: ast.NodeDecs{
+	result := &dst.GenDecl{
+		Decs: dst.GenDeclDecorations{
+			NodeDecs: dst.NodeDecs{
 				Start:  docComments,
-				Before: ast.EmptyLine,
+				Before: dst.EmptyLine,
 			},
 		},
 		Tok: token.TYPE,
-		Specs: []ast.Spec{
-			&ast.TypeSpec{
-				Name: ast.NewIdent(declContext.Name.Name()),
+		Specs: []dst.Spec{
+			&dst.TypeSpec{
+				Name: dst.NewIdent(declContext.Name.Name()),
 				Type: theType.AsType(codeGenerationContext),
 			},
 		},
 	}
 
-	return []ast.Decl{result}
+	return []dst.Decl{result}
 }
 
 // RequiredImports returns a list of packages required by this type

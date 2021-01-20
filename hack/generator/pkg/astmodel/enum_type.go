@@ -11,7 +11,7 @@ import (
 	"sort"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"k8s.io/klog/v2"
 )
 
@@ -40,17 +40,17 @@ func NewEnumType(baseType *PrimitiveType, options []EnumValue) *EnumType {
 }
 
 // AsDeclarations converts the EnumType to a series of Go AST Decls
-func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
-	result := []ast.Decl{enum.createBaseDeclaration(codeGenerationContext, declContext.Name, declContext.Description, declContext.Validations)}
+func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
+	result := []dst.Decl{enum.createBaseDeclaration(codeGenerationContext, declContext.Name, declContext.Description, declContext.Validations)}
 
-	var specs []ast.Spec
+	var specs []dst.Spec
 	for _, v := range enum.options {
 		s := enum.createValueDeclaration(declContext.Name, v)
 		specs = append(specs, s)
 	}
 
 	if len(specs) > 0 {
-		declaration := &ast.GenDecl{
+		declaration := &dst.GenDecl{
 			Tok:   token.CONST,
 			Specs: specs,
 		}
@@ -65,21 +65,21 @@ func (enum *EnumType) createBaseDeclaration(
 	codeGenerationContext *CodeGenerationContext,
 	name TypeName,
 	description []string,
-	validations []KubeBuilderValidation) ast.Decl {
+	validations []KubeBuilderValidation) dst.Decl {
 
-	typeSpecification := &ast.TypeSpec{
-		Name: ast.NewIdent(name.Name()),
+	typeSpecification := &dst.TypeSpec{
+		Name: dst.NewIdent(name.Name()),
 		Type: enum.baseType.AsType(codeGenerationContext),
 	}
 
-	declaration := &ast.GenDecl{
-		Decs: ast.GenDeclDecorations{
-			NodeDecs: ast.NodeDecs{
-				Before: ast.EmptyLine,
+	declaration := &dst.GenDecl{
+		Decs: dst.GenDeclDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.EmptyLine,
 			},
 		},
 		Tok: token.TYPE,
-		Specs: []ast.Spec{
+		Specs: []dst.Spec{
 			typeSpecification,
 		},
 	}
@@ -93,11 +93,11 @@ func (enum *EnumType) createBaseDeclaration(
 	return declaration
 }
 
-func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) ast.Spec {
+func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) dst.Spec {
 
-	valueSpec := &ast.ValueSpec{
-		Names: []*ast.Ident{ast.NewIdent(GetEnumValueId(name.name, value))},
-		Values: []ast.Expr{
+	valueSpec := &dst.ValueSpec{
+		Names: []*dst.Ident{dst.NewIdent(GetEnumValueId(name.name, value))},
+		Values: []dst.Expr{
 			astbuilder.CallFunc(name.Name(), astbuilder.TextLiteral(value.Value)),
 		},
 	}
@@ -106,7 +106,7 @@ func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) ast
 }
 
 // AsType implements Type for EnumType
-func (enum *EnumType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
+func (enum *EnumType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
 	// this should "never" happen as we name all enums; warn about it if it does
 	klog.Warning("Emitting unnamed enum, something’s awry")
 	return enum.baseType.AsType(codeGenerationContext)

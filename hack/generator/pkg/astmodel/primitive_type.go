@@ -6,7 +6,7 @@
 package astmodel
 
 import (
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 // PrimitiveType represents a Go primitive type
@@ -39,11 +39,11 @@ var AnyType = &PrimitiveType{"interface{}"}
 var _ Type = (*PrimitiveType)(nil)
 
 // AsType implements Type for PrimitiveType returning an abstract syntax tree
-func (prim *PrimitiveType) AsType(_ *CodeGenerationContext) ast.Expr {
-	return ast.NewIdent(prim.name)
+func (prim *PrimitiveType) AsType(_ *CodeGenerationContext) dst.Expr {
+	return dst.NewIdent(prim.name)
 }
 
-func (prim *PrimitiveType) AsDeclarations(genContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
+func (prim *PrimitiveType) AsDeclarations(genContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	return AsSimpleDeclarations(genContext, declContext, prim)
 }
 

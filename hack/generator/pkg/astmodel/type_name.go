@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"github.com/gobuffalo/flect"
 )
 
@@ -40,18 +40,18 @@ func (typeName TypeName) Name() string {
 // it is simply a reference to the name.
 var _ Type = TypeName{}
 
-func (typeName TypeName) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
+func (typeName TypeName) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	return AsSimpleDeclarations(codeGenerationContext, declContext, typeName)
 }
 
 // AsType implements Type for TypeName
-func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
+func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
 	// If our package is being referenced, we need to ensure we include a selector for that reference
 	packageName, err := codeGenerationContext.GetImportedPackageName(typeName.PackageReference)
 	if err == nil {
-		return &ast.SelectorExpr{
-			X:   ast.NewIdent(packageName),
-			Sel: ast.NewIdent(typeName.Name()),
+		return &dst.SelectorExpr{
+			X:   dst.NewIdent(packageName),
+			Sel: dst.NewIdent(typeName.Name()),
 		}
 	}
 
@@ -63,7 +63,7 @@ func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) as
 			codeGenerationContext.currentPackage))
 	}
 
-	return ast.NewIdent(typeName.name)
+	return dst.NewIdent(typeName.name)
 }
 
 // References returns a set containing this type name.

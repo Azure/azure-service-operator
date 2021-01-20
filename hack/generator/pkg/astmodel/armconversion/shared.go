@@ -11,12 +11,12 @@ import (
 	"sync"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 type conversionBuilder struct {
 	receiverIdent              string
-	receiverTypeExpr           ast.Expr
+	receiverTypeExpr           dst.Expr
 	armTypeIdent               string
 	codeGenerationContext      *astmodel.CodeGenerationContext
 	idFactory                  astmodel.IdentifierFactory
@@ -37,7 +37,7 @@ const (
 
 func (builder conversionBuilder) propertyConversionHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) []ast.Stmt {
+	fromType *astmodel.ObjectType) []dst.Stmt {
 
 	for _, conversionHandler := range builder.propertyConversionHandlers {
 		stmts := conversionHandler(toProp, fromType)
@@ -53,14 +53,14 @@ func (builder conversionBuilder) propertyConversionHandler(
 // It generates code that looks like:
 //     <destination> = *<source>.DeepCopy()
 func (builder *conversionBuilder) deepCopyJSON(
-	params complexPropertyConversionParameters) []ast.Stmt {
-	newSource := &ast.UnaryExpr{
-		X: &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
+	params complexPropertyConversionParameters) []dst.Stmt {
+	newSource := &dst.UnaryExpr{
+		X: &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
 				X:   params.Source(),
-				Sel: ast.NewIdent("DeepCopy"),
+				Sel: dst.NewIdent("DeepCopy"),
 			},
-			Args: []ast.Expr{},
+			Args: []dst.Expr{},
 		},
 		Op: token.MUL,
 	}
@@ -68,12 +68,12 @@ func (builder *conversionBuilder) deepCopyJSON(
 	if assignmentHandler == nil {
 		assignmentHandler = assignmentHandlerAssign
 	}
-	return []ast.Stmt{
+	return []dst.Stmt{
 		assignmentHandler(params.Destination(), newSource),
 	}
 }
 
-type propertyConversionHandler = func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []ast.Stmt
+type propertyConversionHandler = func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt
 
 var once sync.Once
 var azureNameProperty *astmodel.PropertyDefinition
@@ -113,9 +113,9 @@ func getReceiverObjectType(codeGenerationContext *astmodel.CodeGenerationContext
 func generateTypeConversionAssignments(
 	fromType *astmodel.ObjectType,
 	toType *astmodel.ObjectType,
-	propertyHandler func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []ast.Stmt) []ast.Stmt {
+	propertyHandler func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt) []dst.Stmt {
 
-	var result []ast.Stmt
+	var result []dst.Stmt
 	for _, toField := range toType.Properties() {
 		fieldConversionStmts := propertyHandler(toField, fromType)
 		result = append(result, fieldConversionStmts...)
@@ -171,12 +171,12 @@ func NewArmTransformerImpl(
 }
 
 type complexPropertyConversionParameters struct {
-	source            ast.Expr
-	destination       ast.Expr
+	source            dst.Expr
+	destination       dst.Expr
 	destinationType   astmodel.Type
 	nameHint          string
 	conversionContext []astmodel.Type
-	assignmentHandler func(destination, source ast.Expr) ast.Stmt
+	assignmentHandler func(destination, source dst.Expr) dst.Stmt
 
 	// sameTypes indicates that the source and destination types are
 	// the same, so no conversion between Arm and non-Arm types is
@@ -184,12 +184,12 @@ type complexPropertyConversionParameters struct {
 	sameTypes bool
 }
 
-func (params complexPropertyConversionParameters) Source() ast.Expr {
-	return ast.Clone(params.source).(ast.Expr)
+func (params complexPropertyConversionParameters) Source() dst.Expr {
+	return dst.Clone(params.source).(dst.Expr)
 }
 
-func (params complexPropertyConversionParameters) Destination() ast.Expr {
-	return ast.Clone(params.destination).(ast.Expr)
+func (params complexPropertyConversionParameters) Destination() dst.Expr {
+	return dst.Clone(params.destination).(dst.Expr)
 }
 
 func (params complexPropertyConversionParameters) copy() complexPropertyConversionParameters {
@@ -207,14 +207,14 @@ func (params complexPropertyConversionParameters) withAdditionalConversionContex
 	return result
 }
 
-func (params complexPropertyConversionParameters) withSource(source ast.Expr) complexPropertyConversionParameters {
+func (params complexPropertyConversionParameters) withSource(source dst.Expr) complexPropertyConversionParameters {
 	result := params.copy()
 	result.source = source
 
 	return result
 }
 
-func (params complexPropertyConversionParameters) withDestination(destination ast.Expr) complexPropertyConversionParameters {
+func (params complexPropertyConversionParameters) withDestination(destination dst.Expr) complexPropertyConversionParameters {
 	result := params.copy()
 	result.destination = destination
 
@@ -229,7 +229,7 @@ func (params complexPropertyConversionParameters) withDestinationType(t astmodel
 }
 
 func (params complexPropertyConversionParameters) withAssignmentHandler(
-	assignmentHandler func(result ast.Expr, destination ast.Expr) ast.Stmt) complexPropertyConversionParameters {
+	assignmentHandler func(result dst.Expr, destination dst.Expr) dst.Stmt) complexPropertyConversionParameters {
 	result := params.copy()
 	result.assignmentHandler = assignmentHandler
 

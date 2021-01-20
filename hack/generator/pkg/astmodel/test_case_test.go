@@ -6,7 +6,7 @@
 package astmodel
 
 import (
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 type FakeTestCase struct {
@@ -33,7 +33,7 @@ func (f FakeTestCase) RequiredImports() *PackageImportSet {
 	panic("implement me")
 }
 
-func (f FakeTestCase) AsFuncs(subject TypeName, codeGenerationContext *CodeGenerationContext) []ast.Decl {
+func (f FakeTestCase) AsFuncs(subject TypeName, codeGenerationContext *CodeGenerationContext) []dst.Decl {
 	panic("implement me")
 }
 

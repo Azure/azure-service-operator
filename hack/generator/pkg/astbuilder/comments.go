@@ -9,12 +9,12 @@ import (
 	"regexp"
 	"strings"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 // AddWrappedComments adds comments to the specified list, wrapping text to the specified width as
 // it goes. Respects any existing line breaks specified by \n or <br>
-func AddWrappedComments(commentList *ast.Decorations, comments []string, width int) {
+func AddWrappedComments(commentList *dst.Decorations, comments []string, width int) {
 	for _, comment := range comments {
 		// Skip empty comments
 		if comment == "" {
@@ -27,14 +27,14 @@ func AddWrappedComments(commentList *ast.Decorations, comments []string, width i
 
 // AddWrappedComment adds a single comment to the specified list, wrapping text to the specified
 // width as it goes. Respects any existing line breaks specified by \n or <br>
-func AddWrappedComment(commentList *ast.Decorations, comment string, width int) {
+func AddWrappedComment(commentList *dst.Decorations, comment string, width int) {
 	for _, c := range formatComment(comment, width) {
 		AddComment(commentList, c)
 	}
 }
 
 // AddComments adds preformatted comments to the specified list
-func AddComments(commentList *ast.Decorations, comments []string) {
+func AddComments(commentList *dst.Decorations, comments []string) {
 	for _, comment := range comments {
 		// Skip empty comments
 		if comment == "" {
@@ -46,7 +46,7 @@ func AddComments(commentList *ast.Decorations, comments []string) {
 }
 
 // AddComment adds a single comment line to the specified list
-func AddComment(commentList *ast.Decorations, comment string) {
+func AddComment(commentList *dst.Decorations, comment string) {
 	line := comment
 
 	if !strings.HasPrefix(line, "//") {
@@ -129,7 +129,7 @@ func findBreakPoint(line string, start int, width int) int {
 }
 
 // CommentLength returns the text length of the comments, including EoLN characters
-func CommentLength(comments ast.Decorations) int {
+func CommentLength(comments dst.Decorations) int {
 	length := 0
 	for _, l := range comments {
 		length += len(l) + 1 // length including EoLN

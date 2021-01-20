@@ -12,7 +12,7 @@ import (
 	"os"
 	"sort"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
 	"k8s.io/klog/v2"
 )
@@ -159,8 +159,8 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 	return requiredImports
 }
 
-func (file *FileDefinition) generateImportSpecs(imports *PackageImportSet) []ast.Spec {
-	var importSpecs []ast.Spec
+func (file *FileDefinition) generateImportSpecs(imports *PackageImportSet) []dst.Spec {
+	var importSpecs []dst.Spec
 	for _, requiredImport := range imports.AsSortedSlice() {
 		importSpecs = append(importSpecs, requiredImport.AsImportSpec())
 	}
@@ -169,13 +169,13 @@ func (file *FileDefinition) generateImportSpecs(imports *PackageImportSet) []ast
 }
 
 // AsAst generates an AST node representing this file
-func (file *FileDefinition) AsAst() (result *ast.File, err error) {
+func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 
 	// Create context from imports
 	codeGenContext := NewCodeGenerationContext(file.packageReference, file.generateImports(), file.generatedPackages)
 
 	// Create all definitions:
-	var definitions []ast.Decl
+	var definitions []dst.Decl
 
 	// Handle panics coming out of call to AsDeclarations below:
 	defer func() {
@@ -193,15 +193,15 @@ func (file *FileDefinition) AsAst() (result *ast.File, err error) {
 		definitions = append(definitions, s.AsDeclarations(codeGenContext)...)
 	}
 
-	var decls []ast.Decl
+	var decls []dst.Decl
 
 	// Create import header if needed
 	usedImports := codeGenContext.UsedPackageImports()
 	if usedImports.Length() > 0 {
-		decls = append(decls, &ast.GenDecl{
-			Decs: ast.GenDeclDecorations{
-				NodeDecs: ast.NodeDecs{
-					After: ast.EmptyLine,
+		decls = append(decls, &dst.GenDecl{
+			Decs: dst.GenDeclDecorations{
+				NodeDecs: dst.NodeDecs{
+					After: dst.EmptyLine,
 				},
 			},
 			Tok:   token.IMPORT,
@@ -213,14 +213,14 @@ func (file *FileDefinition) AsAst() (result *ast.File, err error) {
 	decls = append(decls, definitions...)
 
 	// Emit registration for each resource:
-	var exprs []ast.Expr
+	var exprs []dst.Expr
 	for _, defn := range file.definitions {
 
 		if resource, ok := defn.Type().(*ResourceType); ok {
 			for _, t := range resource.SchemeTypes(defn.Name()) {
-				exprs = append(exprs, &ast.UnaryExpr{
+				exprs = append(exprs, &dst.UnaryExpr{
 					Op: token.AND,
-					X:  &ast.CompositeLit{Type: t.AsType(codeGenContext)},
+					X:  &dst.CompositeLit{Type: t.AsType(codeGenContext)},
 				})
 			}
 		}
@@ -228,19 +228,19 @@ func (file *FileDefinition) AsAst() (result *ast.File, err error) {
 
 	if len(exprs) > 0 {
 		decls = append(decls,
-			&ast.FuncDecl{
-				Type: &ast.FuncType{Params: &ast.FieldList{}},
-				Name: ast.NewIdent("init"),
-				Body: &ast.BlockStmt{
-					List: []ast.Stmt{
-						&ast.ExprStmt{
-							Decs: ast.ExprStmtDecorations{
-								NodeDecs: ast.NodeDecs{
-									Before: ast.NewLine,
+			&dst.FuncDecl{
+				Type: &dst.FuncType{Params: &dst.FieldList{}},
+				Name: dst.NewIdent("init"),
+				Body: &dst.BlockStmt{
+					List: []dst.Stmt{
+						&dst.ExprStmt{
+							Decs: dst.ExprStmtDecorations{
+								NodeDecs: dst.NodeDecs{
+									Before: dst.NewLine,
 								},
 							},
-							X: &ast.CallExpr{
-								Fun:  ast.NewIdent("SchemeBuilder.Register"), // HACK
+							X: &dst.CallExpr{
+								Fun:  dst.NewIdent("SchemeBuilder.Register"), // HACK
 								Args: exprs,
 							},
 						},
@@ -257,14 +257,14 @@ func (file *FileDefinition) AsAst() (result *ast.File, err error) {
 
 	packageName := file.packageReference.PackageName()
 
-	result = &ast.File{
-		Decs: ast.FileDecorations{
-			NodeDecs: ast.NodeDecs{
+	result = &dst.File{
+		Decs: dst.FileDecorations{
+			NodeDecs: dst.NodeDecs{
 				Start: header,
-				After: ast.EmptyLine,
+				After: dst.EmptyLine,
 			},
 		},
-		Name:  ast.NewIdent(packageName),
+		Name:  dst.NewIdent(packageName),
 		Decls: decls,
 	}
 

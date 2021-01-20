@@ -9,7 +9,7 @@ import (
 	"go/token"
 	"sort"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 type InterfaceImplementer struct {
@@ -54,9 +54,9 @@ func (i InterfaceImplementer) References() TypeNameSet {
 func (i InterfaceImplementer) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	typeName TypeName,
-	_ []string) []ast.Decl {
+	_ []string) []dst.Decl {
 
-	var result []ast.Decl
+	var result []dst.Decl
 
 	// interfaces must be ordered by name for deterministic output
 	// (We sort them directly to skip future lookups)
@@ -121,41 +121,41 @@ func (i InterfaceImplementer) RequiredPackageReferences() *PackageReferenceSet {
 func (i InterfaceImplementer) generateInterfaceImplAssertion(
 	codeGenerationContext *CodeGenerationContext,
 	iface *InterfaceImplementation,
-	typeName TypeName) ast.Decl {
+	typeName TypeName) dst.Decl {
 
 	ifacePackageName, err := codeGenerationContext.GetImportedPackageName(iface.name.PackageReference)
 	if err != nil {
 		panic(err)
 	}
 
-	var doc ast.Decorations
+	var doc dst.Decorations
 	if iface.annotation != "" {
 		doc.Append("// " + iface.annotation)
 		doc.Append("\n")
 	}
 
-	typeAssertion := &ast.GenDecl{
+	typeAssertion := &dst.GenDecl{
 		Tok: token.VAR,
-		Decs: ast.GenDeclDecorations{
-			NodeDecs: ast.NodeDecs{
-				Before: ast.EmptyLine,
+		Decs: dst.GenDeclDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.EmptyLine,
 				Start:  doc,
 			},
 		},
-		Specs: []ast.Spec{
-			&ast.ValueSpec{
-				Type: &ast.SelectorExpr{
-					X:   ast.NewIdent(ifacePackageName),
-					Sel: ast.NewIdent(iface.name.name),
+		Specs: []dst.Spec{
+			&dst.ValueSpec{
+				Type: &dst.SelectorExpr{
+					X:   dst.NewIdent(ifacePackageName),
+					Sel: dst.NewIdent(iface.name.name),
 				},
-				Names: []*ast.Ident{
-					ast.NewIdent("_"),
+				Names: []*dst.Ident{
+					dst.NewIdent("_"),
 				},
-				Values: []ast.Expr{
-					&ast.UnaryExpr{
+				Values: []dst.Expr{
+					&dst.UnaryExpr{
 						Op: token.AND,
-						X: &ast.CompositeLit{
-							Type: ast.NewIdent(typeName.name),
+						X: &dst.CompositeLit{
+							Type: dst.NewIdent(typeName.name),
 						},
 					},
 				},

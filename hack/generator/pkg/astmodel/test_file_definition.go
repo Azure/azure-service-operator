@@ -11,7 +11,7 @@ import (
 	"io"
 	"os"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
 	"k8s.io/klog/v2"
 )
@@ -61,13 +61,13 @@ func (file TestFileDefinition) SaveToFile(filePath string) error {
 }
 
 // AsAst generates an array of declarations for the content of the file
-func (file *TestFileDefinition) AsAst() *ast.File {
+func (file *TestFileDefinition) AsAst() *dst.File {
 
 	// Create context from imports
 	codeGenContext := NewCodeGenerationContext(file.packageReference, file.generateImports(), file.generatedPackages)
 
 	// Emit all test cases:
-	var testcases []ast.Decl
+	var testcases []dst.Decl
 	for _, s := range file.definitions {
 		definer, ok := s.Type().(TestCaseDefiner)
 		if !ok {
@@ -79,12 +79,12 @@ func (file *TestFileDefinition) AsAst() *ast.File {
 		}
 	}
 
-	var decls []ast.Decl
+	var decls []dst.Decl
 
 	// Create import header if needed
 	usedImports := codeGenContext.UsedPackageImports()
 	if usedImports.Length() > 0 {
-		decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: file.generateImportSpecs(usedImports)})
+		decls = append(decls, &dst.GenDecl{Tok: token.IMPORT, Specs: file.generateImportSpecs(usedImports)})
 	}
 
 	decls = append(decls, testcases...)
@@ -97,14 +97,14 @@ func (file *TestFileDefinition) AsAst() *ast.File {
 
 	packageName := file.packageReference.PackageName()
 
-	result := &ast.File{
-		Decs: ast.FileDecorations{
-			NodeDecs: ast.NodeDecs{
+	result := &dst.File{
+		Decs: dst.FileDecorations{
+			NodeDecs: dst.NodeDecs{
 				Start: header,
-				After: ast.EmptyLine,
+				After: dst.EmptyLine,
 			},
 		},
-		Name:  ast.NewIdent(packageName),
+		Name:  dst.NewIdent(packageName),
 		Decls: decls,
 	}
 
@@ -147,8 +147,8 @@ func (file *TestFileDefinition) generateImports() *PackageImportSet {
 	return requiredImports
 }
 
-func (file *TestFileDefinition) generateImportSpecs(imports *PackageImportSet) []ast.Spec {
-	var importSpecs []ast.Spec
+func (file *TestFileDefinition) generateImportSpecs(imports *PackageImportSet) []dst.Spec {
+	var importSpecs []dst.Spec
 	for _, requiredImport := range imports.AsSortedSlice() {
 		importSpecs = append(importSpecs, requiredImport.AsImportSpec())
 	}

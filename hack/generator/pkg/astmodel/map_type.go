@@ -8,7 +8,7 @@ package astmodel
 import (
 	"fmt"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 // MapType is used to define properties that contain additional property values
@@ -40,13 +40,13 @@ func NewStringMapType(value Type) *MapType {
 // assert that we implemented Type correctly
 var _ Type = (*MapType)(nil)
 
-func (m *MapType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []ast.Decl {
+func (m *MapType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	return AsSimpleDeclarations(codeGenerationContext, declContext, m)
 }
 
 // AsType implements Type for MapType to create the abstract syntax tree for a map
-func (m *MapType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
-	return &ast.MapType{
+func (m *MapType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+	return &dst.MapType{
 		Key:   m.key.AsType(codeGenerationContext),
 		Value: m.value.AsType(codeGenerationContext),
 	}

@@ -10,7 +10,7 @@ import (
 	"sort"
 	"strings"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 )
@@ -109,13 +109,13 @@ var allOfPanicMsg = "AllOfType should have been replaced by generation time by '
 
 // AsType always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (allOf AllOfType) AsType(_ *CodeGenerationContext) ast.Expr {
+func (allOf AllOfType) AsType(_ *CodeGenerationContext) dst.Expr {
 	panic(errors.New(allOfPanicMsg))
 }
 
 // AsDeclarations always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (allOf AllOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationContext) []ast.Decl {
+func (allOf AllOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationContext) []dst.Decl {
 	panic(errors.New(allOfPanicMsg))
 }
 

@@ -6,7 +6,7 @@
 package astmodel
 
 import (
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 type FakeFunction struct {
@@ -36,7 +36,7 @@ func (fake *FakeFunction) References() TypeNameSet {
 	return fake.Referenced
 }
 
-func (fake *FakeFunction) AsFunc(_ *CodeGenerationContext, _ TypeName) *ast.FuncDecl {
+func (fake *FakeFunction) AsFunc(_ *CodeGenerationContext, _ TypeName) *dst.FuncDecl {
 	panic("implement me")
 }
 

@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 type ConversionDirection string
@@ -57,7 +57,7 @@ func (c *ArmConversionFunction) References() astmodel.TypeNameSet {
 }
 
 // AsFunc returns the function as a Go AST
-func (c *ArmConversionFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *ast.FuncDecl {
+func (c *ArmConversionFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 	switch c.direction {
 	case ConversionDirectionToArm:
 		return c.asConvertToArmFunc(codeGenerationContext, receiver, c.Name())
@@ -71,7 +71,7 @@ func (c *ArmConversionFunction) AsFunc(codeGenerationContext *astmodel.CodeGener
 func (c *ArmConversionFunction) asConvertToArmFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
-	methodName string) *ast.FuncDecl {
+	methodName string) *dst.FuncDecl {
 
 	builder := newConvertToArmFunctionBuilder(
 		c,
@@ -85,7 +85,7 @@ func (c *ArmConversionFunction) asConvertToArmFunc(
 func (c *ArmConversionFunction) asConvertFromArmFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
-	methodName string) *ast.FuncDecl {
+	methodName string) *dst.FuncDecl {
 
 	builder := newConvertFromArmFunctionBuilder(
 		c,

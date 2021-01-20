@@ -5,7 +5,7 @@
 
 package astmodel
 
-import ast "github.com/dave/dst"
+import "github.com/dave/dst"
 
 // TestCase represents a test we generate to ensure the generated code works as expected
 type TestCase interface {
@@ -21,7 +21,7 @@ type TestCase interface {
 	// AsFuncs renders the current test case and any supporting methods as Go abstract syntax trees
 	// subject is the name of the type under test
 	// codeGenerationContext contains reference material to use when generating
-	AsFuncs(subject TypeName, codeGenerationContext *CodeGenerationContext) []ast.Decl
+	AsFuncs(subject TypeName, codeGenerationContext *CodeGenerationContext) []dst.Decl
 
 	// Equals determines if this TestCase is equal to another one
 	Equals(f TestCase) bool

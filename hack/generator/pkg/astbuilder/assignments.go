@@ -8,19 +8,19 @@ package astbuilder
 import (
 	"go/token"
 
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 // SimpleAssignment performs a simple assignment like:
 //     <lhs> := <rhs>       // tok = token.DEFINE
 // or  <lhs> = <rhs>        // tok = token.ASSIGN
-func SimpleAssignment(lhs ast.Expr, tok token.Token, rhs ast.Expr) *ast.AssignStmt {
-	return &ast.AssignStmt{
-		Lhs: []ast.Expr{
+func SimpleAssignment(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
+	return &dst.AssignStmt{
+		Lhs: []dst.Expr{
 			lhs,
 		},
 		Tok: tok,
-		Rhs: []ast.Expr{
+		Rhs: []dst.Expr{
 			rhs,
 		},
 	}
@@ -29,15 +29,15 @@ func SimpleAssignment(lhs ast.Expr, tok token.Token, rhs ast.Expr) *ast.AssignSt
 // SimpleAssignmentWithErr performs a simple assignment like:
 // 	    <lhs>, err := <rhs>       // tok = token.DEFINE
 // 	or  <lhs>, err = <rhs>        // tok = token.ASSIGN
-func SimpleAssignmentWithErr(lhs ast.Expr, tok token.Token, rhs ast.Expr) *ast.AssignStmt {
-	errId := ast.NewIdent("err")
-	return &ast.AssignStmt{
-		Lhs: []ast.Expr{
+func SimpleAssignmentWithErr(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
+	errId := dst.NewIdent("err")
+	return &dst.AssignStmt{
+		Lhs: []dst.Expr{
 			lhs,
 			errId,
 		},
 		Tok: tok,
-		Rhs: []ast.Expr{
+		Rhs: []dst.Expr{
 			rhs,
 		},
 	}

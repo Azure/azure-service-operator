@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 )
 
 // PackageImport represents an import of a name from a package
@@ -33,13 +33,13 @@ func (pi PackageImport) WithName(name string) PackageImport {
 	return pi
 }
 
-func (pi PackageImport) AsImportSpec() *ast.ImportSpec {
-	var name *ast.Ident
+func (pi PackageImport) AsImportSpec() *dst.ImportSpec {
+	var name *dst.Ident
 	if pi.name != "" {
-		name = ast.NewIdent(pi.name)
+		name = dst.NewIdent(pi.name)
 	}
 
-	return &ast.ImportSpec{
+	return &dst.ImportSpec{
 		Name: name,
 		Path: astbuilder.StringLiteral(pi.packageReference.PackagePath()),
 	}

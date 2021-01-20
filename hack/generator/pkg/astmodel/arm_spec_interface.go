@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	ast "github.com/dave/dst"
+	"github.com/dave/dst"
 	"github.com/pkg/errors"
 )
 
@@ -81,7 +81,7 @@ func NewArmSpecInterfaceImpl(
 	return result, nil
 }
 
-func getNameFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
+func getNameFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		k,
 		codeGenerationContext,
@@ -91,7 +91,7 @@ func getNameFunction(k *objectFunction, codeGenerationContext *CodeGenerationCon
 		false)
 }
 
-func getTypeFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
+func getTypeFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		k,
 		codeGenerationContext,
@@ -101,7 +101,7 @@ func getTypeFunction(k *objectFunction, codeGenerationContext *CodeGenerationCon
 		true)
 }
 
-func getApiVersionFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
+func getApiVersionFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		k,
 		codeGenerationContext,
@@ -117,22 +117,22 @@ func armSpecInterfaceSimpleGetFunction(
 	receiver TypeName,
 	methodName string,
 	propertyName string,
-	castToString bool) *ast.FuncDecl {
+	castToString bool) *dst.FuncDecl {
 
 	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
 	receiverType := receiver.AsType(codeGenerationContext)
 
-	var result ast.Expr
-	result = &ast.SelectorExpr{
-		X:   ast.NewIdent(receiverIdent),
-		Sel: ast.NewIdent(propertyName),
+	var result dst.Expr
+	result = &dst.SelectorExpr{
+		X:   dst.NewIdent(receiverIdent),
+		Sel: dst.NewIdent(propertyName),
 	}
 
 	// This is not the most beautiful thing but it saves some code.
 	if castToString {
-		result = &ast.CallExpr{
-			Fun: ast.NewIdent("string"),
-			Args: []ast.Expr{
+		result = &dst.CallExpr{
+			Fun: dst.NewIdent("string"),
+			Args: []dst.Expr{
 				result,
 			},
 		}
@@ -147,15 +147,15 @@ func armSpecInterfaceSimpleGetFunction(
 		// TODO: for example on resource we use ptr receiver... the inconsistency is
 		// TODO: awkward...
 		ReceiverType: receiverType,
-		Body: []ast.Stmt{
-			&ast.ReturnStmt{
-				Decs: ast.ReturnStmtDecorations{
-					NodeDecs: ast.NodeDecs{
-						Before: ast.NewLine,
-						After:  ast.NewLine,
+		Body: []dst.Stmt{
+			&dst.ReturnStmt{
+				Decs: dst.ReturnStmtDecorations{
+					NodeDecs: dst.NodeDecs{
+						Before: dst.NewLine,
+						After:  dst.NewLine,
 					},
 				},
-				Results: []ast.Expr{
+				Results: []dst.Expr{
 					result,
 				},
 			},
