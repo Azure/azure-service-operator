@@ -84,10 +84,10 @@ type SQLFailoverGroupProperties struct {
 }
 
 type SQLDatabaseBackupLongTermRetentionPolicy struct {
-	WeeklyRetention string
+	WeeklyRetention  string
 	MonthlyRetention string
-	YearlyRetention string
-	WeekOfYear int32
+	YearlyRetention  string
+	WeekOfYear       int32
 }
 
 // SQLServerPropertiesToServer translates SQLServerProperties to ServerProperties
