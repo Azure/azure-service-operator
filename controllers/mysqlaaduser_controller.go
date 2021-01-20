@@ -6,7 +6,7 @@ package controllers
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1alpha2 "github.com/Azure/azure-service-operator/api/v1alpha2"
 )
 
 // MySQLAADUserReconciler reconciles a MySQLAADUser object
@@ -18,12 +18,12 @@ type MySQLAADUserReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={mysqlaadusers/status,mysqlaadusers/finalizers},verbs=get;update;patch
 
 func (r *MySQLAADUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.MySQLAADUser{})
+	return r.Reconciler.Reconcile(req, &azurev1alpha2.MySQLAADUser{})
 }
 
 // SetupWithManager runs reconcile loop with manager
 func (r *MySQLAADUserReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.MySQLAADUser{}).
+		For(&azurev1alpha2.MySQLAADUser{}).
 		Complete(r)
 }

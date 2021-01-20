@@ -9,22 +9,23 @@ import (
 	"fmt"
 	"strings"
 
+	mysqlmgmt "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	_ "github.com/go-sql-driver/mysql" //sql drive link
 	"github.com/pkg/errors"
-
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql"
-	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-
-	_ "github.com/go-sql-driver/mysql" //sql drive link
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql"
+	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 )
+
+const mysqlDatabase = "mysql"
 
 type MySQLAADUserManager struct {
 	identityFinder *helpers.AADIdentityFinder
@@ -74,9 +75,7 @@ func (m *MySQLAADUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	dbClient := mysqldatabase.GetMySQLDatabasesClient(m.Creds)
-
-	_, err = dbClient.Get(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DBName)
+	_, err = m.GetServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Server)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 
@@ -97,7 +96,7 @@ func (m *MySQLAADUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		ctx,
 		mysql.MySQLDriverName,
 		fullServerName,
-		instance.Spec.DBName,
+		mysqlDatabase,
 		mysql.MySQLServerPort,
 		fullUsername,
 		adminIdentity.ClientID)
@@ -114,29 +113,33 @@ func (m *MySQLAADUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	instance.Status.SetProvisioning("")
 
-	err = m.CreateUser(ctx, db, instance.Username(), instance.Spec.AADID)
+	username := instance.Username()
+	err = m.CreateUser(ctx, db, username, instance.Spec.AADID)
 	if err != nil {
 		instance.Status.Message = "failed creating user, err: " + err.Error()
 		return false, err
 	}
 
-	// apply roles to user
-	if len(instance.Spec.Roles) == 0 {
-		msg := "no roles specified for database user"
-		instance.Status.SetFailedProvisioning(msg)
-		return true, fmt.Errorf(msg)
+	err = mysql.EnsureUserServerRoles(ctx, db, username, instance.Spec.Roles)
+	if err != nil {
+		err = errors.Wrap(err, "ensuring server roles")
+		instance.Status.Message = err.Error()
+		return false, err
 	}
 
-	// TODO: Need to diff roles
-	err = mysql.GrantUserRoles(ctx, instance.Username(), instance.Spec.DBName, instance.Spec.Roles, db)
+	warnings, err := mysql.EnsureUserDatabaseRoles(ctx, db, username, instance.Spec.DatabaseRoles)
 	if err != nil {
-		err = errors.Wrap(err, "GrantUserRoles failed")
+		err = errors.Wrap(err, "ensuring database roles")
 		instance.Status.Message = err.Error()
 		return false, err
 	}
 
 	instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
-	instance.Status.State = "Succeeded" // TODO: What is this value supposed to be...?
+	instance.Status.State = "Succeeded"
+	if len(warnings) > 0 {
+		instance.Status.Message += "\n" + strings.Join(warnings, "\n")
+		return false, nil
+	}
 
 	return true, nil
 }
@@ -150,8 +153,7 @@ func (m *MySQLAADUserManager) Delete(ctx context.Context, obj runtime.Object, op
 	}
 
 	// short circuit connection if database doesn't exist
-	dbClient := mysqldatabase.GetMySQLDatabasesClient(m.Creds)
-	_, err = dbClient.Get(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DBName)
+	_, err = m.GetServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Server)
 
 	if err != nil {
 		instance.Status.Message = err.Error()
@@ -171,7 +173,7 @@ func (m *MySQLAADUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		ctx,
 		mysql.MySQLDriverName,
 		fullServerName,
-		instance.Spec.DBName,
+		mysqlDatabase,
 		mysql.MySQLServerPort,
 		fullUsername,
 		adminIdentity.ClientID)
@@ -195,6 +197,16 @@ func (m *MySQLAADUserManager) Delete(ctx context.Context, obj runtime.Object, op
 	return false, nil
 }
 
+// GetServer retrieves a server
+func (m *MySQLAADUserManager) GetServer(ctx context.Context, resourceGroupName, serverName string) (mysqlmgmt.Server, error) {
+	// We don't need to pass the secret client and scheme because
+	// they're not used getting the server.
+	// TODO: This feels a bit dodgy, consider taking secret client and
+	// scheme just so we can pass them in here.
+	client := mysqlserver.NewMySQLServerClient(m.Creds, nil, nil)
+	return client.GetServer(ctx, resourceGroupName, serverName)
+}
+
 // GetParents gets the parents of the user
 func (m *MySQLAADUserManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	instance, err := m.convert(obj)
@@ -203,13 +215,6 @@ func (m *MySQLAADUserManager) GetParents(obj runtime.Object) ([]resourcemanager.
 	}
 
 	return []resourcemanager.KubeParent{
-		{
-			Key: types.NamespacedName{
-				Namespace: instance.Namespace,
-				Name:      instance.Spec.DBName,
-			},
-			Target: &v1alpha1.MySQLDatabase{},
-		},
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
@@ -233,11 +238,12 @@ func (m *MySQLAADUserManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := v1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
-func (m *MySQLAADUserManager) convert(obj runtime.Object) (*v1alpha1.MySQLAADUser, error) {
-	local, ok := obj.(*v1alpha1.MySQLAADUser)
+func (m *MySQLAADUserManager) convert(obj runtime.Object) (*v1alpha2.MySQLAADUser, error) {
+	local, ok := obj.(*v1alpha2.MySQLAADUser)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
