@@ -9,17 +9,17 @@ import (
 	"fmt"
 
 	mysqlmgmt "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	_ "github.com/go-sql-driver/mysql" //mysql drive link
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
+	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-
-	_ "github.com/go-sql-driver/mysql" //mysql drive link
-	"k8s.io/apimachinery/pkg/types"
 )
 
 // MSecretUsernameKey is the username key in secret
@@ -55,6 +55,12 @@ func (m *MySqlUserManager) GetDB(ctx context.Context, resourceGroupName string, 
 	)
 }
 
+// GetServer retrieves a server
+func (m *MySqlUserManager) GetServer(ctx context.Context, resourceGroupName, serverName string) (mysqlmgmt.Server, error) {
+	client := mysqlserver.NewMySQLServerClient(m.Creds, m.SecretClient, m.Scheme)
+	return client.GetServer(ctx, resourceGroupName, serverName)
+}
+
 // CreateUser creates user with secret credentials
 func (m *MySqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
 	newUser := string(secret[MSecretUsernameKey])
@@ -77,7 +83,7 @@ func (m *MySqlUserManager) CreateUser(ctx context.Context, secret map[string][]b
 }
 
 // DeleteSecrets deletes the secrets associated with a SQLUser
-func (m *MySqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.MySQLUser, secretClient secrets.SecretClient) (bool, error) {
+func (m *MySqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha2.MySQLUser, secretClient secrets.SecretClient) (bool, error) {
 	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
 	// In keyvault we have some creative freedom to allow more flexibility
 	secretKey := GetNamespacedName(instance, secretClient)
@@ -96,7 +102,7 @@ func (m *MySqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1
 }
 
 // GetOrPrepareSecret gets or creates a secret
-func (m *MySqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.MySQLUser, secretClient secrets.SecretClient) map[string][]byte {
+func (m *MySqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha2.MySQLUser, secretClient secrets.SecretClient) map[string][]byte {
 	key := GetNamespacedName(instance, secretClient)
 
 	secret, err := secretClient.Get(ctx, key)
@@ -108,14 +114,13 @@ func (m *MySqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1a
 			"MySqlServerNamespace":     []byte(instance.Namespace),
 			"MySqlServerName":          []byte(instance.Spec.Server),
 			"fullyQualifiedServerName": []byte(mysql.GetFullSQLServerName(instance.Spec.Server)),
-			"MySqlDatabaseName":        []byte(instance.Spec.DbName),
 		}
 	}
 	return secret
 }
 
 // GetNamespacedName gets the namespaced-name
-func GetNamespacedName(instance *v1alpha1.MySQLUser, secretClient secrets.SecretClient) types.NamespacedName {
+func GetNamespacedName(instance *v1alpha2.MySQLUser, secretClient secrets.SecretClient) types.NamespacedName {
 
 	return types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 }
