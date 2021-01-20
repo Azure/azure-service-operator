@@ -105,6 +105,18 @@ steps:
 
   - script: |
       set -e
+      export PATH=$PATH:$(go env GOPATH)/bin
+      make test-unit
+    displayName: Run unit tests
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    continueOnError: 'false'
+    env:
+      GO111MODULE: on
+      BUILD_ID: $(Build.BuildId)
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+  - script: |
+      set -e
       export PATH=$PATH:$(go env GOPATH)/bin:$(go env GOPATH)/kubebuilder/bin
       export KUBEBUILDER_ASSETS=$(go env GOPATH)/kubebuilder/bin
       export TEST_APIM_RG=$(TEST_APIM_RG)

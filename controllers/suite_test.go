@@ -153,9 +153,9 @@ func setup() error {
 
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
-		Scheme: scheme.Scheme,
-		CertDir:            testEnv.WebhookInstallOptions.LocalServingCertDir,
-		Port:               testEnv.WebhookInstallOptions.LocalServingPort,
+		Scheme:  scheme.Scheme,
+		CertDir: testEnv.WebhookInstallOptions.LocalServingCertDir,
+		Port:    testEnv.WebhookInstallOptions.LocalServingPort,
 	})
 	if err != nil {
 		return err

@@ -7,6 +7,8 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/Azure/azure-service-operator/api/v1beta1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
@@ -124,4 +126,53 @@ func (client PollClient) GetResponder(resp *http.Response) (result PollResponse,
 		autorest.ByClosing())
 	result.Response = autorest.Response{Response: resp}
 	return
+}
+
+type LongRunningOperationPollResult string
+
+const (
+	PollResultNoPollingNeeded       = LongRunningOperationPollResult("noPollingNeeded")
+	PollResultCompletedSuccessfully = LongRunningOperationPollResult("completedSuccessfully")
+	PollResultTryAgainLater         = LongRunningOperationPollResult("tryAgainLater")
+)
+
+func (client PollClient) PollLongRunningOperationIfNeeded(ctx context.Context, status *v1beta1.ASOStatus) (LongRunningOperationPollResult, error) {
+	// Before we attempt to issue a new update, check if there is a previously ongoing update
+	if status.PollingURL == "" {
+		return PollResultNoPollingNeeded, nil
+	}
+
+	res, err := client.Get(ctx, status.PollingURL)
+	pollErr := errhelp.NewAzureError(err)
+	if pollErr != nil {
+		if pollErr.Type == errhelp.OperationIdNotFound {
+			// Something happened to our OperationId, just clear things out and try again
+			status.PollingURL = ""
+		}
+		return PollResultTryAgainLater, err
+	}
+
+	if res.Status == LongRunningOperationPollStatusFailed {
+		status.Message = res.Error.Error()
+		// There can be intermediate errors and various other things that cause requests to fail, so we need to try again.
+		status.PollingURL = "" // Clear URL to force retry
+		return PollResultTryAgainLater, nil
+	}
+
+	// TODO: May need a notion of fatal error here too
+
+	if res.Status == "InProgress" {
+		// We're waiting for an async op... keep waiting
+		return PollResultTryAgainLater, nil
+	}
+
+	// Previous operation was a success, clear polling URL and continue
+	if res.Status == LongRunningOperationPollStatusSucceeded {
+		status.PollingURL = ""
+		return PollResultCompletedSuccessfully, nil
+	}
+
+	// TODO: Unsure if this should be continue or tryagainlater. In th existing code it's continue
+	// TODO: which is why I've made it that here
+	return PollResultCompletedSuccessfully, nil
 }

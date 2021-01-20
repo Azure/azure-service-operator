@@ -8,12 +8,13 @@ import (
 	"testing"
 
 	keyvault "github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
-	v1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	azurekeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/google/go-cmp/cmp"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
+
+	v1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	azurekeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 )
 
 func TestParseAccessPoliciesInvalid(t *testing.T) {

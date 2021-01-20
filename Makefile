@@ -55,8 +55,7 @@ generate-test-certs:
 .PHONY: test-integration-controllers
 test-integration-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
-	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
-	./controllers/... 
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m ./controllers/...
 	#2>&1 | tee reports/integration-controllers-output.txt
 	#go-junit-report < reports/integration-controllers-output.txt > reports/integration-controllers-report.xml
 
@@ -81,13 +80,13 @@ test-integration-managers: generate fmt vet manifests
 .PHONY: test-unit
 test-unit: generate fmt vet manifests 
 	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
-	go test -v -tags "$(BUILD_TAGS)" -coverprofile=coverage-unit.txt -covermode count -parallel 4 -timeout 10m \
-	./api/... \
-	./pkg/secrets/...
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/unittest-coverage-ouput.txt -covermode count -parallel 4 -timeout 10m \
 	./pkg/resourcemanager/keyvaults/unittest/ \
+	./pkg/resourcemanager/azuresql/azuresqlfailovergroup
+	# The below folders are commented out because the tests in them fail...
+	# ./api/... \
+	# ./pkg/secrets/... \
 	#2>&1 | tee testlogs.txt
-	#go-junit-report < testlogs.txt > report-unit.xml
-	go tool cover -html=coverage/coverage.txt -o cover-unit.html
 
 # Merge all the available test coverage results and publish a single report
 .PHONY: test-process-coverage

@@ -11,6 +11,7 @@ import (
 	"strings"
 	"testing"
 
+	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	"github.com/stretchr/testify/assert"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -21,8 +22,10 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
+
 )
 
 func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
@@ -50,6 +53,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	// create and wait
 	RequireInstance(ctx, t, tc, sqlServerInstance)
+	RequireInstance(ctx, t, tc, sqlServerInstance2)
 
 	//verify secret exists in k8s for server 1 ---------------------------------
 	secret := &v1.Secret{}
@@ -83,38 +87,27 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	var sqlFirewallRuleInstanceLocal *v1beta1.AzureSqlFirewallRule
 	var sqlFirewallRuleInstanceRemote *v1beta1.AzureSqlFirewallRule
 
+	// Create the SqlDatabase object and expect the Reconcile to be created
+	sqlDatabaseInstance1 = &v1beta1.AzureSqlDatabase{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      sqlDatabaseName1,
+			Namespace: "default",
+		},
+		Spec: v1beta1.AzureSqlDatabaseSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+			Server:        sqlServerName,
+			Edition:       0,
+		},
+	}
+
+	EnsureInstance(ctx, t, tc, sqlDatabaseInstance1)
+
 	// run sub tests that require 1 sql server ----------------------------------
 	t.Run("group1", func(t *testing.T) {
 		t.Run("sub test for actions", func(t *testing.T) {
 			t.Parallel()
 			RunSQLActionHappy(t, sqlServerName)
-		})
-
-		// Wait for 2nd sql server to resolve
-		t.Run("set up secondary server", func(t *testing.T) {
-			t.Parallel()
-			EnsureInstance(ctx, t, tc, sqlServerInstance2)
-		})
-
-		// Create a database in the new server
-		t.Run("set up database in primary server using edition", func(t *testing.T) {
-			t.Parallel()
-
-			// Create the SqlDatabase object and expect the Reconcile to be created
-			sqlDatabaseInstance1 = &v1beta1.AzureSqlDatabase{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      sqlDatabaseName1,
-					Namespace: "default",
-				},
-				Spec: v1beta1.AzureSqlDatabaseSpec{
-					Location:      rgLocation,
-					ResourceGroup: rgName,
-					Server:        sqlServerName,
-					Edition:       0,
-				},
-			}
-
-			EnsureInstance(ctx, t, tc, sqlDatabaseInstance1)
 		})
 
 		t.Run("set up second database in primary server using sku with maxsizebytes, then update it to use a different SKU", func(t *testing.T) {
@@ -507,7 +500,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 					Location:                     rgLocation,
 					ResourceGroup:                rgName,
 					Server:                       sqlServerName,
-					FailoverPolicy:               "automatic",
+					FailoverPolicy:               v1beta1.FailoverPolicyAutomatic,
 					FailoverGracePeriod:          30,
 					SecondaryServer:              sqlServerTwoName,
 					SecondaryServerResourceGroup: rgName,
@@ -524,6 +517,20 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 				return strings.Contains(string(secrets["azureSqlPrimaryServer"]), sqlServerName)
 			}, tc.timeout, tc.retry, "wait for secret store to show failovergroup server names  ")
 
+			sqlFailoverGroupInstance.Spec.FailoverPolicy = v1beta1.FailoverPolicyManual
+			sqlFailoverGroupInstance.Spec.FailoverGracePeriod = 0 // GracePeriod cannot be set when policy is manual
+
+			err = tc.k8sClient.Update(ctx, sqlFailoverGroupInstance)
+			assert.Equal(nil, err, "updating sql failover group in k8s")
+
+			failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(config.GlobalCredentials())
+			assert.Equal(nil, err, "getting failovergroup client")
+
+			assert.Eventually(func() bool {
+				fog, err := failoverGroupsClient.Get(ctx, rgName, sqlServerName, sqlFailoverGroupName)
+				assert.Equal(nil, err, "err getting failover group from Azure")
+				return fog.ReadWriteEndpoint.FailoverPolicy == sql.Manual
+			}, tc.timeout, tc.retry, "wait for sql failover group failover policy to be updated in Azure")
 		})
 
 	})
