@@ -19,7 +19,7 @@ import (
 
 const (
 	TestNamespace          = "k8s-infra-test-ns"
-	DefaultResourceTimeout = 2 * time.Minute
+	DefaultResourceTimeout = 10 * time.Minute
 )
 
 var testContext testcommon.KubeGlobalContext

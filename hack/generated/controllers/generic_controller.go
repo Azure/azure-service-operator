@@ -44,6 +44,10 @@ const (
 
 // TODO: We need to generate this
 // +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;patch
+// +kubebuilder:rbac:groups=microsoft.batch.infra.azure.com,resources=batchaccounts,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.batch.infra.azure.com,resources=batchaccounts/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.documentdb.infra.azure.com,resources=databaseaccounts,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.documentdb.infra.azure.com,resources=databaseaccounts/status,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=microsoft.storage.infra.azure.com,resources=storageaccounts,verbs=get;list;watch;create;update;patch;delete
@@ -52,8 +56,6 @@ const (
 // +kubebuilder:rbac:groups=microsoft.storage.infra.azure.com,resources=storageaccountsblobservices/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=microsoft.storage.infra.azure.com,resources=storageaccountsblobservicesblobcontainers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=microsoft.storage.infra.azure.com,resources=storageaccountsblobservicesblobcontainers/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=microsoft.batch.infra.azure.com,resources=batchaccounts,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.batch.infra.azure.com,resources=batchaccounts/status,verbs=get;update;patch
 
 // GenericReconciler reconciles resources
 type GenericReconciler struct {

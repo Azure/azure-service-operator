@@ -171,6 +171,7 @@ tasks:
     # copy CRD files that are needed to a different folder, at the moment we cannot load all CRD files
     - mkdir -p config/crd/bases/valid
     - cp config/crd/bases/microsoft.batch.infra.azure.com_batchaccounts.yaml config/crd/bases/valid
+    - cp config/crd/bases/microsoft.documentdb.infra.azure.com_databaseaccounts.yaml config/crd/bases/valid
     - cp config/crd/bases/microsoft.storage.infra.azure.com_storageaccounts.yaml config/crd/bases/valid
     - cp config/crd/bases/microsoft.storage.infra.azure.com_storageaccountsblobservices.yaml config/crd/bases/valid
     - cp config/crd/bases/microsoft.storage.infra.azure.com_storageaccountsblobservicescontainers.yaml config/crd/bases/valid
@@ -185,6 +186,7 @@ tasks:
     - mkdir -p config/webhook/valid
     - yq delete {{.IN}} 'webhooks[*]' > {{.OUT}}
     - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == batchaccounts)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
+    - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == databaseaccounts)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
     - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == storageaccounts)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
     - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == storageaccountsblobservicescontainers)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
     - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == resourcegroups)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}

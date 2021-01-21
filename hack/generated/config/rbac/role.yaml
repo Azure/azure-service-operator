@@ -37,6 +37,30 @@ rules:
   - patch
   - update
 - apiGroups:
+  - microsoft.documentdb.infra.azure.com
+  resources:
+  - databaseaccounts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.documentdb.infra.azure.com
+  resources:
+  - databaseaccounts/status
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
   - microsoft.resources.infra.azure.com
   resources:
   - resourcegroups
