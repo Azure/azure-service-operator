@@ -18,7 +18,7 @@ import (
 func Test_NewPackageImport_GivenValues_InitializesFields(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	pr := MakeLocalPackageReference("group", "ver")
+	pr := makeTestLocalPackageReference("group", "ver")
 	pi := NewPackageImport(pr)
 
 	g.Expect(pi.packageReference).To(Equal(pr))
@@ -33,7 +33,7 @@ func Test_PackageImportWithName_GivenName_SetsField(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	name := "foo"
-	pr := MakeLocalPackageReference("group", "ver")
+	pr := makeTestLocalPackageReference("group", "ver")
 	pi := NewPackageImport(pr).WithName(name)
 	g.Expect(pi.name).To(Equal(name))
 }
@@ -41,7 +41,7 @@ func Test_PackageImportWithName_GivenName_SetsField(t *testing.T) {
 func Test_PackageImportWithName_GivenName_DoesNotModifyOriginal(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	pr := MakeLocalPackageReference("group", "ver")
+	pr := makeTestLocalPackageReference("group", "ver")
 	original := NewPackageImport(pr)
 	modified := original.WithName("foo")
 	g.Expect(original.name).NotTo(Equal(modified.name))
@@ -50,7 +50,7 @@ func Test_PackageImportWithName_GivenName_DoesNotModifyOriginal(t *testing.T) {
 func Test_PackageImportWithName_GivenName_ReturnsDifferentInstance(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	pr := MakeLocalPackageReference("group", "ver")
+	pr := makeTestLocalPackageReference("group", "ver")
 	original := NewPackageImport(pr)
 	modified := original.WithName("foo")
 	g.Expect(original.name).NotTo(Equal(modified.name))
@@ -60,7 +60,7 @@ func Test_PackageImportWithName_GivenExistingName_ReturnsEqualInstance(t *testin
 	g := NewGomegaWithT(t)
 
 	name := "foo"
-	pr := MakeLocalPackageReference("group", "ver")
+	pr := makeTestLocalPackageReference("group", "ver")
 	original := NewPackageImport(pr).WithName(name)
 	modified := original.WithName(name)
 	g.Expect(modified).To(Equal(original))
@@ -72,7 +72,7 @@ func Test_PackageImportWithName_GivenExistingName_ReturnsEqualInstance(t *testin
 
 func TestPackageImport_Equals(t *testing.T) {
 	var zeroPkgRef PackageImport
-	localPkgRef := MakeLocalPackageReference("group", "ver")
+	localPkgRef := makeTestLocalPackageReference("group", "ver")
 	localPkgImport := NewPackageImport(localPkgRef)
 
 	cases := []struct {

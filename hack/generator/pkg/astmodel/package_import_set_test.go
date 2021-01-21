@@ -210,7 +210,7 @@ func TestByNameInGroups_AppliesExpectedOrdering(t *testing.T) {
 	gomegaImport := NewPackageImport(gomegaRef)
 	implicitGomegaImport := gomegaImport.WithName(".")
 
-	localRef := MakeLocalPackageReference("this", "v1")
+	localRef := makeTestLocalPackageReference("this", "v1")
 	localImport := NewPackageImport(localRef)
 
 	cases := []struct {

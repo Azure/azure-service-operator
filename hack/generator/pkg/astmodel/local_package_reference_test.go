@@ -11,6 +11,10 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+func makeTestLocalPackageReference(group string, version string) LocalPackageReference {
+	return MakeLocalPackageReference("github.com/Azure/k8s-infra/hack/generated/_apis", group, version)
+}
+
 func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithProperties(t *testing.T) {
 	cases := []struct {
 		name  string
@@ -27,7 +31,7 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			ref := MakeLocalPackageReference(c.group, c.pkg)
+			ref := makeTestLocalPackageReference(c.group, c.pkg)
 			grp := ref.Group()
 			pkg := ref.PackageName()
 
@@ -69,7 +73,7 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			ref := MakeLocalPackageReference(c.group, c.pkg)
+			ref := makeTestLocalPackageReference(c.group, c.pkg)
 			grp := ref.Group()
 			_, ok := ref.AsLocalPackage()
 
@@ -84,9 +88,9 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 
 func TestLocalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 
-	batchRef := MakeLocalPackageReference("microsoft.batch", "v20200901")
-	olderRef := MakeLocalPackageReference("microsoft.batch", "v20150101")
-	networkingRef := MakeLocalPackageReference("microsoft.networking", "v20200901")
+	batchRef := makeTestLocalPackageReference("microsoft.batch", "v20200901")
+	olderRef := makeTestLocalPackageReference("microsoft.batch", "v20150101")
+	networkingRef := makeTestLocalPackageReference("microsoft.networking", "v20200901")
 	fmtRef := MakeExternalPackageReference("fmt")
 
 	cases := []struct {

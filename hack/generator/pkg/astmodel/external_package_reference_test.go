@@ -61,7 +61,7 @@ func TestExternalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 
 	fmtRef := MakeExternalPackageReference("fmt")
 	astRef := MakeExternalPackageReference("go/ast")
-	otherRef := MakeLocalPackageReference("group", "package")
+	otherRef := makeTestLocalPackageReference("group", "package")
 
 	cases := []struct {
 		name     string

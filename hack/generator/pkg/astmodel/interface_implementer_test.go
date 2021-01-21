@@ -12,7 +12,7 @@ import (
 )
 
 func makeInterfaceImplForTest() *InterfaceImplementation {
-	pr := MakeLocalPackageReference("group", "package")
+	pr := makeTestLocalPackageReference("group", "package")
 
 	return NewInterfaceImplementation(MakeTypeName(pr, "foo"))
 }

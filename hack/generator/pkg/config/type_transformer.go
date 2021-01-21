@@ -48,9 +48,13 @@ type TypeTransformer struct {
 	// type. This is only usable with Property. Target and Remove are
 	// mutually exclusive.
 	Remove bool `yaml:",omitempty"`
+
+	// makeLocalPackageReferenceFunc is a function creating a local package reference
+	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference
 }
 
-func produceTargetType(target TransformTarget, descriptor string) (astmodel.Type, error) {
+// TODO: passing this here is a bit icky
+func produceTargetType(target TransformTarget, descriptor string, makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) (astmodel.Type, error) {
 	if target.Name != "" && target.Map != nil {
 		return nil, errors.Errorf("multiple target types defined")
 	}
@@ -60,7 +64,7 @@ func produceTargetType(target TransformTarget, descriptor string) (astmodel.Type
 	if target.Name != "" {
 		if target.Group != "" && target.Version != "" {
 			result = astmodel.MakeTypeName(
-				astmodel.MakeLocalPackageReference(target.Group, target.Version),
+				makeLocalPackageReferenceFunc(target.Group, target.Version),
 				target.Name)
 		} else {
 			var err error
@@ -72,12 +76,12 @@ func produceTargetType(target TransformTarget, descriptor string) (astmodel.Type
 	}
 
 	if target.Map != nil {
-		keyType, err := produceTargetType(target.Map.Key, descriptor+"/map/key")
+		keyType, err := produceTargetType(target.Map.Key, descriptor+"/map/key", makeLocalPackageReferenceFunc)
 		if err != nil {
 			return nil, err
 		}
 
-		valueType, err := produceTargetType(target.Map.Value, descriptor+"/map/value")
+		valueType, err := produceTargetType(target.Map.Value, descriptor+"/map/value", makeLocalPackageReferenceFunc)
 		if err != nil {
 			return nil, err
 		}
@@ -96,7 +100,8 @@ func produceTargetType(target TransformTarget, descriptor string) (astmodel.Type
 	return result, nil
 }
 
-func (transformer *TypeTransformer) Initialize() error {
+func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) error {
+	transformer.makeLocalPackageReferenceFunc = makeLocalPackageReferenceFunc
 	err := transformer.TypeMatcher.Initialize()
 	if err != nil {
 		return err
@@ -121,7 +126,7 @@ func (transformer *TypeTransformer) Initialize() error {
 			return errors.Errorf("ifType is only usable with property matches (for now)")
 		}
 
-		ifType, err := produceTargetType(*transformer.IfType, "ifType")
+		ifType, err := produceTargetType(*transformer.IfType, "ifType", transformer.makeLocalPackageReferenceFunc)
 		if err != nil {
 			return err
 		}
@@ -130,7 +135,7 @@ func (transformer *TypeTransformer) Initialize() error {
 	}
 
 	if transformer.Target != nil {
-		targetType, err := produceTargetType(*transformer.Target, "target")
+		targetType, err := produceTargetType(*transformer.Target, "target", transformer.makeLocalPackageReferenceFunc)
 		if err != nil {
 			return errors.Wrapf(
 				err,

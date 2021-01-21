@@ -245,7 +245,7 @@ func Test_CalcRanks_GivenDiamondWithReverseBar_AssignRanksInOrder(t *testing.T) 
  */
 
 func NewTestObject(name string, fields ...*PropertyDefinition) TypeDefinition {
-	ref := MakeTypeName(MakeLocalPackageReference("group", "2020-01-01"), name)
+	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), name)
 	return MakeTypeDefinition(ref, NewObjectType().WithProperties(fields...))
 }
 

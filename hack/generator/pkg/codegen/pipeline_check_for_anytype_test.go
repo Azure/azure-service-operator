@@ -17,9 +17,9 @@ import (
 
 func TestFindsAnytypes(t *testing.T) {
 	g := NewGomegaWithT(t)
-	p1 := astmodel.MakeLocalPackageReference("horo.logy", "v20200730")
-	p2 := astmodel.MakeLocalPackageReference("road.train", "v20200730")
-	p3 := astmodel.MakeLocalPackageReference("wah.wah", "v20200730")
+	p1 := makeTestLocalPackageReference("horo.logy", "v20200730")
+	p2 := makeTestLocalPackageReference("road.train", "v20200730")
+	p3 := makeTestLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.Types)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
@@ -44,9 +44,9 @@ func TestFindsAnytypes(t *testing.T) {
 
 func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 	g := NewGomegaWithT(t)
-	p1 := astmodel.MakeLocalPackageReference("horo.logy", "v20200730")
-	p2 := astmodel.MakeLocalPackageReference("road.train", "v20200730")
-	p3 := astmodel.MakeLocalPackageReference("wah.wah", "v20200730")
+	p1 := makeTestLocalPackageReference("horo.logy", "v20200730")
+	p2 := makeTestLocalPackageReference("road.train", "v20200730")
+	p3 := makeTestLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.Types)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
@@ -76,9 +76,9 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 
 func TestComplainsAboutUnneededExclusions(t *testing.T) {
 	g := NewGomegaWithT(t)
-	p1 := astmodel.MakeLocalPackageReference("horo.logy", "v20200730")
-	p2 := astmodel.MakeLocalPackageReference("road.train", "v20200730")
-	p3 := astmodel.MakeLocalPackageReference("wah.wah", "v20200730")
+	p1 := makeTestLocalPackageReference("horo.logy", "v20200730")
+	p2 := makeTestLocalPackageReference("road.train", "v20200730")
+	p3 := makeTestLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.Types)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {

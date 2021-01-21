@@ -10,19 +10,23 @@ import (
 	"strings"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
+
 	"github.com/pkg/errors"
 )
 
 const resourcesPropertyName = astmodel.PropertyName("Resources")
 
-func determineResourceOwnership() PipelineStage {
+func determineResourceOwnership(configuration *config.Configuration) PipelineStage {
 	return MakePipelineStage(
 		"determineResourceOwnership",
 		"Determine ARM resource relationships",
-		determineOwnership)
+		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+			return determineOwnership(types, configuration)
+		})
 }
 
-func determineOwnership(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
+func determineOwnership(definitions astmodel.Types, configuration *config.Configuration) (astmodel.Types, error) {
 
 	updatedDefs := make(astmodel.Types)
 
@@ -67,7 +71,7 @@ func determineOwnership(ctx context.Context, definitions astmodel.Types) (astmod
 		}
 	}
 
-	setResourceGroupOwnerForResourcesWithNoOwner(definitions, updatedDefs)
+	setResourceGroupOwnerForResourcesWithNoOwner(configuration, definitions, updatedDefs)
 
 	return astmodel.TypesDisjointUnion(definitions.Except(updatedDefs), updatedDefs), nil
 }
@@ -223,6 +227,7 @@ func updateChildResourceDefinitionsWithOwner(
 }
 
 func setResourceGroupOwnerForResourcesWithNoOwner(
+	configuration *config.Configuration,
 	definitions astmodel.Types,
 	updatedDefs astmodel.Types) {
 
@@ -242,7 +247,7 @@ func setResourceGroupOwnerForResourcesWithNoOwner(
 			ownerTypeName := astmodel.MakeTypeName(
 				// Note that the version doesn't really matter here -- it's removed later. We just need to refer to the logical
 				// resource group really
-				astmodel.MakeLocalPackageReference("microsoft.resources", "v20191001"),
+				configuration.MakeLocalPackageReference("microsoft.resources", "v20191001"),
 				"ResourceGroup")
 			updatedType := resourceType.WithOwner(&ownerTypeName) // TODO: Note that right now... this type doesn't actually exist...
 			// This can overwrite because a resource with no owner may have had child resources,

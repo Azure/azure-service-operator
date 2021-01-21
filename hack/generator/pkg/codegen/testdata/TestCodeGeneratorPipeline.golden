@@ -7,7 +7,7 @@ flatten-resources                              Flatten nested resource types
 stripUnused                                    Strip unused types for test
 nameTypes                                      Name inner types for CRD
 propertyRewrites                               Applying type transformers to properties
-determineResourceOwnership          azure      Determine ARM resource relationships
+determineResourceOwnership                     Determine ARM resource relationships
 removeAliases                                  Remove type aliases
 pluralizeNames                                 Improve resource pluralization
 stripUnused                                    Strip unused types for test

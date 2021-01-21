@@ -14,7 +14,7 @@ import (
 func Test_ReferenceGraph_Gives_Correct_Depth(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	pr := MakeLocalPackageReference("group", "package")
+	pr := makeTestLocalPackageReference("group", "package")
 
 	name := func(name string) TypeName {
 		return MakeTypeName(pr, name)

@@ -287,7 +287,7 @@ func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(packageName
 		return astmodel.TypeName{}, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
 	}
 
-	packageRef := astmodel.MakeLocalPackageReference(extractor.idFactory.CreateGroupName(extractor.outputGroup), packageName)
+	packageRef := extractor.config.MakeLocalPackageReference(extractor.idFactory.CreateGroupName(extractor.outputGroup), packageName)
 	return astmodel.MakeTypeName(packageRef, name), nil
 }
 

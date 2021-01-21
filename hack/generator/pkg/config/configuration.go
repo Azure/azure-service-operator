@@ -7,9 +7,12 @@ package config
 
 import (
 	"io/ioutil"
+	"path"
 	"path/filepath"
+	"strings"
 
 	"github.com/pkg/errors"
+	"golang.org/x/mod/modfile"
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -22,7 +25,9 @@ type Configuration struct {
 	SchemaURL string `yaml:"schemaUrl"`
 	// Information about where to locate status (Swagger) files
 	Status StatusConfiguration `yaml:"status"`
-	// The folder where the code should be generated
+	// The path to the go.mod file where the code will be generated
+	DestinationGoModuleFile string `yaml:"destinationGoModuleFile"`
+	// The folder relative to the go.mod file path where the code should be generated
 	OutputPath string `yaml:"outputPath"`
 	// AnyTypePackages lists packages which we expect to generate
 	// interface{} fields.
@@ -33,10 +38,21 @@ type Configuration struct {
 	TypeFilters []*TypeFilter `yaml:"typeFilters"`
 	// Transformers used to remap types
 	Transformers []*TypeTransformer `yaml:"typeTransformers"`
+	GoModulePath string             // TODO: Since this isn't yaml annotated it can't be set, right?
 
 	// after init TypeTransformers is split into property and non-property transformers
 	typeTransformers     []*TypeTransformer
 	propertyTransformers []*TypeTransformer
+}
+
+func (config *Configuration) LocalPathPrefix() string {
+	return path.Join(config.GoModulePath, config.OutputPath)
+}
+
+func (config *Configuration) FullOutputPath() string {
+	return filepath.Join(
+		filepath.Dir(config.DestinationGoModuleFile),
+		config.OutputPath)
 }
 
 // NewConfiguration returns a new empty Configuration
@@ -102,11 +118,26 @@ func (config *Configuration) initialize(configPath string) error {
 	}
 
 	if config.OutputPath == "" {
-		// Default to an apis folder in the current directory if not specified
+		// Default to an apis folder if not specified
 		config.OutputPath = "apis"
 	}
 
+	// Trim any trailing slashes on the output path
+	config.OutputPath = strings.TrimSuffix(config.OutputPath, "/")
+
 	var errs []error
+
+	if config.DestinationGoModuleFile == "" {
+		errs = append(errs, errors.Errorf("destination Go module must be specified"))
+	}
+
+	modPath, err := getModulePathFromModFile(config.DestinationGoModuleFile)
+	if err != nil {
+		errs = append(errs, err)
+	} else {
+		config.GoModulePath = modPath
+	}
+
 	for _, filter := range config.ExportFilters {
 		err := filter.Initialize()
 		if err != nil {
@@ -125,7 +156,7 @@ func (config *Configuration) initialize(configPath string) error {
 	var typeTransformers []*TypeTransformer
 	var propertyTransformers []*TypeTransformer
 	for _, transformer := range config.Transformers {
-		err := transformer.Initialize()
+		err := transformer.Initialize(config.MakeLocalPackageReference)
 		if err != nil {
 			errs = append(errs, err)
 		}
@@ -221,6 +252,26 @@ func (config *Configuration) TransformTypeProperties(name astmodel.TypeName, obj
 	}
 
 	return results
+}
+
+// MakeLocalPackageReference creates a local package reference based on the configured destination location
+func (config *Configuration) MakeLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
+	return astmodel.MakeLocalPackageReference(config.LocalPathPrefix(), group, version)
+}
+
+func getModulePathFromModFile(modFilePath string) (string, error) {
+	// Calculate the actual destination
+	modFileData, err := ioutil.ReadFile(modFilePath)
+	if err != nil {
+		return "", err
+	}
+
+	modPath := modfile.ModulePath(modFileData)
+	if modPath == "" {
+		return "", errors.Errorf("couldn't find module path in mod file %s", modFilePath)
+	}
+
+	return modPath, nil
 }
 
 // StatusConfiguration provides configuration options for the

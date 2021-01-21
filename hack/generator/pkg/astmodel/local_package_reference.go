@@ -7,22 +7,19 @@ package astmodel
 
 import "fmt"
 
-const (
-	LocalPathPrefix = "github.com/Azure/k8s-infra/hack/generated/_apis/" // TODO: From config?
-)
-
 // LocalPackageReference specifies a local package name or reference
 type LocalPackageReference struct {
-	group   string
-	version string
+	localPathPrefix string
+	group           string
+	version         string
 }
 
 var _ PackageReference = LocalPackageReference{}
 var _ fmt.Stringer = LocalPackageReference{}
 
 // MakeLocalPackageReference Creates a new local package reference from a group and version
-func MakeLocalPackageReference(group string, version string) LocalPackageReference {
-	return LocalPackageReference{group: group, version: version}
+func MakeLocalPackageReference(prefix string, group string, version string) LocalPackageReference {
+	return LocalPackageReference{localPathPrefix: prefix, group: group, version: version}
 }
 
 // IsLocalPackage returns true
@@ -47,7 +44,7 @@ func (pr LocalPackageReference) PackageName() string {
 
 // PackagePath returns the fully qualified package path
 func (pr LocalPackageReference) PackagePath() string {
-	url := LocalPathPrefix + pr.group + "/" + pr.version
+	url := pr.localPathPrefix + "/" + pr.group + "/" + pr.version
 	return url
 }
 
@@ -58,7 +55,8 @@ func (pr LocalPackageReference) Equals(ref PackageReference) bool {
 	}
 
 	if other, ok := ref.AsLocalPackage(); ok {
-		return pr.version == other.version &&
+		return pr.localPathPrefix == other.localPathPrefix &&
+			pr.version == other.version &&
 			pr.group == other.group
 	}
 

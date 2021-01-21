@@ -21,8 +21,9 @@ var _ PackageReference = StoragePackageReference{}
 func MakeStoragePackageReference(local LocalPackageReference) StoragePackageReference {
 	return StoragePackageReference{
 		LocalPackageReference{
-			group:   local.group,
-			version: local.version + StoragePackageSuffix,
+			localPathPrefix: local.localPathPrefix,
+			group:           local.group,
+			version:         local.version + StoragePackageSuffix,
 		},
 	}
 }

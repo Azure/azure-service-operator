@@ -275,7 +275,7 @@ func Test_WithInterface_ReturnsExpectedObject(t *testing.T) {
 	empty := EmptyObjectType
 
 	// This is just a simple interface which actually has no functions
-	ifaceName := MakeTypeName(MakeLocalPackageReference("group", "2020-01-01"), "SampleInterface")
+	ifaceName := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "SampleInterface")
 	iface := NewInterfaceImplementation(ifaceName)
 
 	object := empty.WithInterface(iface)

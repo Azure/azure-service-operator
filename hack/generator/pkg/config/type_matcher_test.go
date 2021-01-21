@@ -15,10 +15,10 @@ import (
 )
 
 // Shared test values -- note that these are used by type_transformer_test.go too
-var person2020 = astmodel.MakeTypeName(astmodel.MakeLocalPackageReference("party", "2020-01-01"), "person")
-var post2019 = astmodel.MakeTypeName(astmodel.MakeLocalPackageReference("thing", "2019-01-01"), "post")
-var student2019 = astmodel.MakeTypeName(astmodel.MakeLocalPackageReference("role", "2019-01-01"), "student")
-var tutor2019 = astmodel.MakeTypeName(astmodel.MakeLocalPackageReference("role", "2019-01-01"), "tutor")
+var person2020 = astmodel.MakeTypeName(makeTestLocalPackageReference("party", "2020-01-01"), "person")
+var post2019 = astmodel.MakeTypeName(makeTestLocalPackageReference("thing", "2019-01-01"), "post")
+var student2019 = astmodel.MakeTypeName(makeTestLocalPackageReference("role", "2019-01-01"), "student")
+var tutor2019 = astmodel.MakeTypeName(makeTestLocalPackageReference("role", "2019-01-01"), "tutor")
 
 func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {
 	g := NewGomegaWithT(t)

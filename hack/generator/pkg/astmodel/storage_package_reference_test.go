@@ -28,7 +28,7 @@ func TestMakeStoragePackageReference(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			localRef := MakeLocalPackageReference(c.group, c.version)
+			localRef := makeTestLocalPackageReference(c.group, c.version)
 			storageRef := MakeStoragePackageReference(localRef)
 
 			g.Expect(storageRef.PackageName()).To(Equal(c.expectedVersion))
@@ -37,7 +37,7 @@ func TestMakeStoragePackageReference(t *testing.T) {
 }
 
 func TestStoragePackageReferenceEquals(t *testing.T) {
-	localRef := MakeLocalPackageReference("group", "v1")
+	localRef := makeTestLocalPackageReference("group", "v1")
 	storageRef := MakeStoragePackageReference(localRef)
 	otherRef := MakeStoragePackageReference(localRef)
 

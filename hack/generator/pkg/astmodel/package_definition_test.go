@@ -19,7 +19,7 @@ func TestPackageGroupVersion_IncludesGeneratorVersion(t *testing.T) {
 
 	pkg := NewPackageDefinition("longest-johns", "santiana", "latest-version")
 	pkgs := make(map[PackageReference]*PackageDefinition)
-	pkgs[MakeLocalPackageReference(pkg.GroupName, pkg.PackageName)] = pkg
+	pkgs[makeTestLocalPackageReference(pkg.GroupName, pkg.PackageName)] = pkg
 
 	destDir, err := ioutil.TempDir("", "package_definition_test")
 	g.Expect(err).To(BeNil())

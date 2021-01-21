@@ -23,7 +23,7 @@ func Test_TransformByGroup_CorrectlySelectsTypes(t *testing.T) {
 			Name: "int",
 		},
 	}
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(BeNil())
 
 	// Roles should be selected
@@ -44,7 +44,7 @@ func Test_TransformByVersion_CorrectlySelectsTypes(t *testing.T) {
 			Name: "int",
 		},
 	}
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(BeNil())
 
 	// 2019 versions should be transformed
@@ -65,7 +65,7 @@ func Test_TransformByName_CorrectlySelectsTypes(t *testing.T) {
 			Name: "int",
 		},
 	}
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(BeNil())
 
 	// Names starting with p should be transformed
@@ -88,7 +88,7 @@ func Test_TransformCanTransform_ToComplexType(t *testing.T) {
 			Name:    "student",
 		},
 	}
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(BeNil())
 
 	// Tutor should be student
@@ -118,7 +118,7 @@ func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
 			},
 		},
 	}
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(BeNil())
 
 	expected := astmodel.NewMapType(
@@ -150,7 +150,7 @@ func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
 			},
 		},
 	}
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err.Error()).To(ContainSubstring("no target type found in target/map/value/map/key"))
 }
@@ -162,7 +162,7 @@ func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
 	}
 
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err.Error()).To(ContainSubstring("no target type and remove is not set"))
 }
@@ -174,7 +174,7 @@ func Test_TransformWithRemoveButNoProperty_ReportsError(t *testing.T) {
 		Remove: true,
 	}
 
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err).To(MatchError("remove is only usable with property matches"))
 }
@@ -190,7 +190,7 @@ func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
 		Remove: true,
 	}
 
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err).To(MatchError("remove and target can't both be set"))
 }
@@ -213,7 +213,7 @@ func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err.Error()).To(ContainSubstring("multiple target types defined"))
 }
@@ -228,7 +228,7 @@ func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err.Error()).To(ContainSubstring("unknown primitive type transformation target: nemo"))
 }
@@ -246,7 +246,7 @@ func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err.Error()).To(ContainSubstring("ifType is only usable with property matches"))
 }
@@ -262,7 +262,7 @@ func Test_TransformCanTransformProperty(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(BeNil())
 
 	typeName := student2019
@@ -288,7 +288,7 @@ func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(BeNil())
 
 	typeName := student2019
@@ -329,7 +329,7 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(BeNil())
 
 	typeName := student2019
@@ -354,7 +354,7 @@ func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(BeNil())
 
 	typeName := student2019
@@ -381,7 +381,7 @@ func Test_TransformCanRemoveProperty(t *testing.T) {
 		Remove:   true,
 	}
 
-	err := transformer.Initialize()
+	err := transformer.Initialize(makeTestLocalPackageReference)
 	g.Expect(err).To(BeNil())
 
 	typeName := student2019
@@ -403,7 +403,7 @@ func Test_TransformResult_String(t *testing.T) {
 		NewPropertyType: astmodel.StringType,
 		Because:         "string is better",
 	}
-	g.Expect(result.String()).To(Equal(astmodel.LocalPathPrefix + "role/2019-01-01/student.HairColour -> string because string is better"))
+	g.Expect(result.String()).To(Equal(makeTestLocalPackageReference("role", "2019-01-01").PackagePath() + "/student.HairColour -> string because string is better"))
 }
 
 func Test_TransformResult_StringRemove(t *testing.T) {
@@ -414,5 +414,5 @@ func Test_TransformResult_StringRemove(t *testing.T) {
 		Removed:  true,
 		Because:  "it's irrelevant",
 	}
-	g.Expect(result.String()).To(Equal(astmodel.LocalPathPrefix + "role/2019-01-01/student.HairColour removed because it's irrelevant"))
+	g.Expect(result.String()).To(Equal(makeTestLocalPackageReference("role", "2019-01-01").PackagePath() + "/student.HairColour removed because it's irrelevant"))
 }

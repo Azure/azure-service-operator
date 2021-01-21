@@ -7,7 +7,7 @@ flatten-resources                              Flatten nested resource types
 stripUnreferenced                              Strip unreferenced types
 nameTypes                                      Name inner types for CRD
 propertyRewrites                               Applying type transformers to properties
-determineResourceOwnership          azure      Determine ARM resource relationships
+determineResourceOwnership                     Determine ARM resource relationships
 removeAliases                                  Remove type aliases
 pluralizeNames                                 Improve resource pluralization
 stripUnreferenced                              Strip unreferenced types
@@ -22,5 +22,5 @@ simplifyDefinitions                            Flatten definitions by removing w
 jsonTestCases                                  Add test cases to verify JSON serialization
 markStorageVersion                             Marking the latest version of each resource as the storage version
 rogueCheck                                     Catch rogue definitions using AnyTypes
-deleteGenerated                                Delete generated code from 
-exportPackages                                 Export packages to ""
+deleteGenerated                                Delete generated code from .
+exportPackages                                 Export packages to "."

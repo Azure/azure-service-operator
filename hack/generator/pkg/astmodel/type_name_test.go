@@ -25,7 +25,7 @@ func TestSingular_GivesExpectedResults(t *testing.T) {
 		{"AzureRedis", "AzureRedis"},
 	}
 
-	ref := MakeLocalPackageReference("Demo", "v2010")
+	ref := makeTestLocalPackageReference("Demo", "v2010")
 
 	for _, c := range cases {
 		c := c

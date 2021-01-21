@@ -32,7 +32,7 @@ func (aResource *AResource) Default() {
 
 var _ genruntime.KubernetesResource = &AResource{}
 
-// AzureName returns the Azure name of the resource (string representation of github.com/Azure/k8s-infra/hack/generated/_apis/test/v20200101/AResourceSpecName)
+// AzureName returns the Azure name of the resource (string representation of github.com/Azure/k8s-infra/testing/test/v20200101/AResourceSpecName)
 func (aResource *AResource) AzureName() string {
 	return string(aResource.Spec.AzureName)
 }
@@ -127,7 +127,7 @@ func (aResourceSpec *AResource_Spec) PopulateFromArm(owner genruntime.KnownResou
 	return nil
 }
 
-// SetAzureName sets the Azure name from the given github.com/Azure/k8s-infra/hack/generated/_apis/test/v20200101/AResourceSpecName value
+// SetAzureName sets the Azure name from the given github.com/Azure/k8s-infra/testing/test/v20200101/AResourceSpecName value
 func (aResourceSpec *AResource_Spec) SetAzureName(azureName string) {
 	aResourceSpec.AzureName = AResourceSpecName(azureName)
 }
