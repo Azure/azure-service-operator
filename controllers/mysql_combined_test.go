@@ -155,10 +155,10 @@ func RunMySQLUserHappyPath(ctx context.Context, t *testing.T, mySQLServerName st
 
 	db, err := mysql.ConnectToSqlDB(
 		ctx,
-		mysql.MySQLDriverName,
+		mysql.DriverName,
 		fullServerName,
-		"mysql",
-		mysql.MySQLServerPort,
+		mysql.SystemDatabase,
+		mysql.ServerPort,
 		adminUser,
 		adminPassword)
 	assert.NoError(err)

@@ -13,11 +13,16 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
 
-// MSqlServerPort is the default server port for sql server
-const MySQLServerPort = 3306
+// ServerPort is the default server port for sql server
+const ServerPort = 3306
 
-// MDriverName is driver name for psqldb connection
-const MySQLDriverName = "mysql"
+// DriverName is driver name for psqldb connection
+const DriverName = "mysql"
+
+// SystemDatabase is the name of the system database in a MySQL server
+// where users and privileges are stored (and which we can always
+// assume will exist).
+const SystemDatabase = "mysql"
 
 func GetMySQLDatabaseDNSSuffix() string {
 	// TODO: We need an environment specific way of getting the DNS suffix

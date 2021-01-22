@@ -23,8 +23,6 @@ import (
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 )
 
-const mysqlDatabase = "mysql"
-
 // Ensure that user exists
 func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := s.convert(obj)
@@ -92,10 +90,10 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 	db, err := mysql.ConnectToSqlDB(
 		ctx,
-		mysql.MySQLDriverName,
+		mysql.DriverName,
 		fullServerName,
-		mysqlDatabase,
-		mysql.MySQLServerPort,
+		mysql.SystemDatabase,
+		mysql.ServerPort,
 		adminUser,
 		adminPassword)
 	if err != nil {
@@ -232,7 +230,15 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 	adminPassword := string(adminSecret[MSecretPasswordKey])
 	fullServerName := string(adminSecret["fullyQualifiedServerName"])
 
-	db, err := mysql.ConnectToSqlDB(ctx, mysql.MySQLDriverName, fullServerName, mysqlDatabase, mysql.MySQLServerPort, adminUser, adminPassword)
+	db, err := mysql.ConnectToSqlDB(
+		ctx,
+		mysql.DriverName,
+		fullServerName,
+		mysql.SystemDatabase,
+		mysql.ServerPort,
+		adminUser,
+		adminPassword,
+	)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "is not allowed to connect to this MySQL server") {

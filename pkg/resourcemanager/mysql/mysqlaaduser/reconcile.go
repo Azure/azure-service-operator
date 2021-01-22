@@ -25,8 +25,6 @@ import (
 	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 )
 
-const mysqlDatabase = "mysql"
-
 type MySQLAADUserManager struct {
 	identityFinder *helpers.AADIdentityFinder
 	Creds          config.Credentials
@@ -94,10 +92,10 @@ func (m *MySQLAADUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	db, err := mysql.ConnectToSQLDBAsCurrentUser(
 		ctx,
-		mysql.MySQLDriverName,
+		mysql.DriverName,
 		fullServerName,
-		mysqlDatabase,
-		mysql.MySQLServerPort,
+		mysql.SystemDatabase,
+		mysql.ServerPort,
 		fullUsername,
 		adminIdentity.ClientID)
 	if err != nil {
@@ -171,10 +169,10 @@ func (m *MySQLAADUserManager) Delete(ctx context.Context, obj runtime.Object, op
 
 	db, err := mysql.ConnectToSQLDBAsCurrentUser(
 		ctx,
-		mysql.MySQLDriverName,
+		mysql.DriverName,
 		fullServerName,
-		mysqlDatabase,
-		mysql.MySQLServerPort,
+		mysql.SystemDatabase,
+		mysql.ServerPort,
 		fullUsername,
 		adminIdentity.ClientID)
 	if err != nil {
