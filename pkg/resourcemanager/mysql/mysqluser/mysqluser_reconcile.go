@@ -154,20 +154,15 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	warnings, err := mysql.EnsureUserDatabaseRoles(ctx, db, user, instance.Spec.DatabaseRoles)
+	err = mysql.EnsureUserDatabaseRoles(ctx, db, user, instance.Spec.DatabaseRoles)
 	if err != nil {
 		err = errors.Wrap(err, "ensuring database roles")
 		instance.Status.Message = err.Error()
 		return false, err
 	}
 
-	instance.Status.Provisioned = true
+	instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
 	instance.Status.State = "Succeeded"
-	instance.Status.Message = resourcemanager.SuccessMsg
-	if len(warnings) > 0 {
-		instance.Status.Message += "\n" + strings.Join(warnings, "\n")
-		return false, nil
-	}
 
 	return true, nil
 }

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strings"
 
+	multierror "github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -100,7 +101,10 @@ func formatUser(user string) string {
 	return fmt.Sprintf("'%s'@'%%'", user)
 }
 
-// extractUserRoles extracts the roles the user has. The result is the set of roles the user has for the requested database
+// ExtractUserDatabaseRoles extracts the per-database roles that the
+// user has. The user can have different permissions to each
+// database. The details of access are returned in the map, keyed by
+// database name.
 func ExtractUserDatabaseRoles(ctx context.Context, db *sql.DB, user string) (map[string]StringSet, error) {
 	// Note: This works because we only assign permissions at the DB level, not at the table, column, etc levels -- if we assigned
 	// permissions at more levels we would need to do something else here such as join multiple tables or
@@ -140,7 +144,7 @@ func ExtractUserDatabaseRoles(ctx context.Context, db *sql.DB, user string) (map
 	return results, nil
 }
 
-// extractUserServerRoles extracts the server-level privileges the user has as a set.
+// ExtractUserServerRoles extracts the server-level privileges the user has as a set.
 func ExtractUserServerRoles(ctx context.Context, db *sql.DB, user string) (StringSet, error) {
 	// Note: This works because we only assign permissions at the DB level, not at the table, column, etc levels -- if we assigned
 	// permissions at more levels we would need to do something else here such as join multiple tables or
@@ -219,12 +223,12 @@ func EnsureUserServerRoles(ctx context.Context, db *sql.DB, user string, roles [
 }
 
 // EnsureUserDatabaseRoles revokes and grants database roles as needed
-// so they match the ones passed in. It returns warning messages if
-// some databases don't exist.
-func EnsureUserDatabaseRoles(ctx context.Context, conn *sql.DB, user string, dbRoles map[string][]string) ([]string, error) {
-	var warnings []string
+// so they match the ones passed in. If there's an error applying
+// privileges for one database it will still continue to apply
+// privileges for subsequent databases (before reporting all errors).
+func EnsureUserDatabaseRoles(ctx context.Context, conn *sql.DB, user string, dbRoles map[string][]string) error {
 	if err := helpers.FindBadChars(user); err != nil {
-		return nil, fmt.Errorf("problem found with username: %v", err)
+		return errors.Errorf("problem found with username: %v", err)
 	}
 
 	desiredRoles := make(map[string]StringSet)
@@ -234,7 +238,7 @@ func EnsureUserDatabaseRoles(ctx context.Context, conn *sql.DB, user string, dbR
 
 	currentRoles, err := ExtractUserDatabaseRoles(ctx, conn, user)
 	if err != nil {
-		return nil, errors.Wrapf(err, "couldn't get existing database roles for user %s", user)
+		return errors.Wrapf(err, "couldn't get existing database roles for user %s", user)
 	}
 
 	allDatabases := make(StringSet)
@@ -245,6 +249,7 @@ func EnsureUserDatabaseRoles(ctx context.Context, conn *sql.DB, user string, dbR
 		allDatabases.Add(db)
 	}
 
+	var dbErrors error
 	for db := range allDatabases {
 		rolesDiff := helpers.DiffCurrentAndExpectedSQLRoles(
 			currentRoles[db],
@@ -253,15 +258,15 @@ func EnsureUserDatabaseRoles(ctx context.Context, conn *sql.DB, user string, dbR
 
 		err = addRoles(ctx, conn, db, user, rolesDiff.AddedRoles)
 		if err != nil {
-			warnings = append(warnings, err.Error())
+			dbErrors = multierror.Append(dbErrors, errors.Wrap(err, db))
 		}
 		err = deleteRoles(ctx, conn, db, user, rolesDiff.DeletedRoles)
 		if err != nil {
-			warnings = append(warnings, err.Error())
+			dbErrors = multierror.Append(dbErrors, errors.Wrap(err, db))
 		}
 	}
 
-	return warnings, nil
+	return dbErrors
 }
 
 func addRoles(ctx context.Context, db *sql.DB, database string, user string, roles StringSet) error {

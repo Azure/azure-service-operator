@@ -3,9 +3,8 @@ kind: MySQLUser
 metadata:
   name: mysqluser-sample
 spec:
-  server: mysqlserver-sample
-  dbName: mysqldatabase-sample
   resourceGroup: resourcegroup-azure-operators
+  server: mysqlserver-sample
   # Specify a list of server-level privileges with roles. Privileges
   # can be one or more of the following: RELOAD, PROCESS, SHOW
   # DATABASES, REPLICATION SLAVE, REPLICATION CLIENT, CREATE USER

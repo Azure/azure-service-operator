@@ -3,9 +3,8 @@ kind: MySQLAADUser
 metadata:
   name: mysqlaaduser-sample
 spec:
-  server: mysqlserver-sample
-  dbName: mysqldatabase-sample
   resourceGroup: resourcegroup-azure-operators
+  server: mysqlserver-sample
   # AAD ID is the ID of the user in Azure Active Directory.
   # When creating a user for a managed identity this must be the
   # client id (sometimes called app id) of the managed identity.

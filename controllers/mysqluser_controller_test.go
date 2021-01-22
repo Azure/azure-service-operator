@@ -102,5 +102,7 @@ func TestMySQLUserControllerNoResourceGroup(t *testing.T) {
 	EnsureInstanceWithResult(ctx, t, tc, mysqlUser, errhelp.ResourceGroupNotFoundErrorCode, false)
 
 	EnsureDelete(ctx, t, tc, mysqlUser)
-
 }
+
+// TODO: test that roles for a missing database don't prevent other
+// roles from being applied.

@@ -125,7 +125,7 @@ func (m *MySQLAADUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	warnings, err := mysql.EnsureUserDatabaseRoles(ctx, db, username, instance.Spec.DatabaseRoles)
+	err = mysql.EnsureUserDatabaseRoles(ctx, db, username, instance.Spec.DatabaseRoles)
 	if err != nil {
 		err = errors.Wrap(err, "ensuring database roles")
 		instance.Status.Message = err.Error()
@@ -134,10 +134,6 @@ func (m *MySQLAADUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
 	instance.Status.State = "Succeeded"
-	if len(warnings) > 0 {
-		instance.Status.Message += "\n" + strings.Join(warnings, "\n")
-		return false, nil
-	}
 
 	return true, nil
 }
@@ -150,7 +146,7 @@ func (m *MySQLAADUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	// short circuit connection if database doesn't exist
+	// short circuit connection if server doesn't exist
 	_, err = m.GetServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Server)
 
 	if err != nil {
