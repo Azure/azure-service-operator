@@ -19,6 +19,9 @@ azureClientSecret: ""
 # azureUseMI determines if ASO will use a Managed Identity to authenticate.
 azureUseMI: False
 
+# azureSecretNamingVersion allows choosing the algorithm used to derive secret names. Version 2 is recommended.
+azureSecretNamingVersion: "2"
+
 # image defines the container image the ASO pod should run
 # Note: This should use the latest released tag number explicitly. If
 # it's ':latest' and someone deploys the chart after a new version has
