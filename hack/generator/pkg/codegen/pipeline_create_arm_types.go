@@ -379,8 +379,10 @@ func modifyKubeResourceSpecDefinition(
 		// TODO: https://github.com/kubernetes-sigs/controller-tools/issues/461 is fixed
 
 		// drop Type property
-		// TODO: handle this generically so we automatically insert 1-value enums?
 		t = t.WithoutProperty("Type")
+
+		// drop ApiVersion property
+		t = t.WithoutProperty("ApiVersion")
 
 		nameProp, hasName := t.Property("Name")
 		if !hasName {

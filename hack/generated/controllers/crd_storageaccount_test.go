@@ -35,10 +35,9 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 	acct := &storage.StorageAccount{
 		ObjectMeta: testContext.MakeObjectMetaWithName(namer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
-			Location:   testContext.AzureRegion,
-			ApiVersion: "2019-04-01", // TODO [apiversion]: This should be removed from the storage type eventually
-			Owner:      testcommon.AsOwner(rg.ObjectMeta),
-			Kind:       storage.StorageAccountsSpecKindBlobStorage,
+			Location: testContext.AzureRegion,
+			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Kind:     storage.StorageAccountsSpecKindBlobStorage,
 			Sku: storage.Sku{
 				Name: storage.SkuNameStandardLRS,
 			},
@@ -87,8 +86,7 @@ func StorageAccount_BlobServices_CRUD(t *testing.T, testContext testcommon.KubeP
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: testContext.MakeObjectMeta("blobservice"),
 		Spec: storage.StorageAccountsBlobServices_Spec{
-			ApiVersion: "2019-04-01", // TODO [apiversion]: to be removed eventually
-			Owner:      testcommon.AsOwner(storageAccount),
+			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
 
@@ -118,8 +116,7 @@ func StorageAccount_BlobServices_Container_CRUD(t *testing.T, testContext testco
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: testContext.MakeObjectMeta("container"),
 		Spec: storage.StorageAccountsBlobServicesContainers_Spec{
-			ApiVersion: "2019-04-01", // TODO [apiversion]: to be removed eventually
-			Owner:      testcommon.AsOwner(blobService),
+			Owner: testcommon.AsOwner(blobService),
 		},
 	}
 

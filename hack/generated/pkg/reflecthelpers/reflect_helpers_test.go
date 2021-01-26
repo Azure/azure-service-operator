@@ -42,9 +42,8 @@ func createResourceGroup() *resources.ResourceGroup {
 func createDummyResource() *batch.BatchAccount {
 	return &batch.BatchAccount{
 		Spec: batch.BatchAccounts_Spec{
-			ApiVersion: "apiVersion",
-			AzureName:  "azureName",
-			Location:   "westus",
+			AzureName: "azureName",
+			Location:  "westus",
 			Owner: genruntime.KnownResourceReference{
 				Name: "myrg",
 			},
@@ -82,7 +81,7 @@ func Test_ConvertResourceToDeployableResource(t *testing.T) {
 	g.Expect(ok).To(BeTrue())
 	g.Expect("myrg").To(Equal(rgResource.ResourceGroup()))
 	g.Expect("azureName").To(Equal(rgResource.Spec().GetName()))
-	g.Expect("apiVersion").To(Equal(rgResource.Spec().GetApiVersion()))
+	g.Expect("2017-09-01").To(Equal(rgResource.Spec().GetApiVersion()))
 	g.Expect(string(batch.BatchAccountsSpecTypeMicrosoftBatchBatchAccounts)).To(Equal(rgResource.Spec().GetType()))
 
 }

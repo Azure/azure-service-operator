@@ -100,9 +100,6 @@ const FakeResourceSpecTypeMicrosoftAzureFakeResource = FakeResourceSpecType("Mic
 
 type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required
-	ApiVersion FakeResourceSpecApiVersion `json:"apiVersion"`
-
-	// +kubebuilder:validation:Required
 	ArrayFoo      []Foo            `json:"arrayFoo"`
 	ArrayOfArrays [][]Foo          `json:"arrayOfArrays,omitempty"`
 	ArrayOfEnums  []Color          `json:"arrayOfEnums,omitempty"`
@@ -124,7 +121,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{
 		return nil, nil
 	}
 	var result FakeResource_SpecArm
-	result.ApiVersion = fakeResourceSpec.ApiVersion
+	result.ApiVersion = FakeResourceSpecApiVersion20200601
 	for _, item := range fakeResourceSpec.ArrayFoo {
 		elem, err := item.ConvertToArm(name)
 		if err != nil {
@@ -177,7 +174,6 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected FakeResource_SpecArm, got %T", armInput)
 	}
-	fakeResourceSpec.ApiVersion = typedInput.ApiVersion
 	var err error
 	for _, item := range typedInput.ArrayFoo {
 		var elem Foo

@@ -100,9 +100,6 @@ const FakeResourceSpecTypeMicrosoftAzureFakeResource = FakeResourceSpecType("Mic
 type FakeResource_Spec struct {
 	EmbeddedTestType `json:",inline"`
 
-	// +kubebuilder:validation:Required
-	ApiVersion FakeResourceSpecApiVersion `json:"apiVersion"`
-
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string                 `json:"azureName"`
@@ -124,7 +121,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{
 		return nil, nil
 	}
 	var result FakeResource_SpecArm
-	result.ApiVersion = fakeResourceSpec.ApiVersion
+	result.ApiVersion = FakeResourceSpecApiVersion20200601
 	if fakeResourceSpec.Color != nil {
 		colorTyped := *fakeResourceSpec.Color
 		result.Color = &colorTyped
@@ -158,7 +155,6 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected FakeResource_SpecArm, got %T", armInput)
 	}
-	fakeResourceSpec.ApiVersion = typedInput.ApiVersion
 	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
 	if typedInput.Color != nil {
 		colorTyped := *typedInput.Color

@@ -34,10 +34,9 @@ func Test_CosmosDB_CRUD(t *testing.T) {
 	acct := &documentdb.DatabaseAccount{
 		ObjectMeta: testContext.MakeObjectMetaWithName(namer.GenerateName("db")),
 		Spec: documentdb.DatabaseAccounts_Spec{
-			ApiVersion: "2015-04-08", // TODO [apiversion]: This should be removed from the storage type eventually
-			Location:   &testContext.AzureRegion,
-			Owner:      testcommon.AsOwner(rg.ObjectMeta),
-			Kind:       &kind,
+			Location: &testContext.AzureRegion,
+			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Kind:     &kind,
 			Properties: documentdb.DatabaseAccountCreateUpdateProperties{
 				DatabaseAccountOfferType: documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard,
 				Locations: []documentdb.Location{

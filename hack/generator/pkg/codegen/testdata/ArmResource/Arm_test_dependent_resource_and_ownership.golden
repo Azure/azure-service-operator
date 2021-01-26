@@ -277,9 +277,6 @@ type ASpecType string
 const ASpecTypeMicrosoftAzureA = ASpecType("Microsoft.Azure/A")
 
 type A_Spec struct {
-	// +kubebuilder:validation:Required
-	ApiVersion ASpecApiVersion `json:"apiVersion"`
-
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -296,7 +293,7 @@ func (aSpec *A_Spec) ConvertToArm(name string) (interface{}, error) {
 		return nil, nil
 	}
 	var result A_SpecArm
-	result.ApiVersion = aSpec.ApiVersion
+	result.ApiVersion = ASpecApiVersion20200601
 	result.Name = name
 	result.Type = ASpecTypeMicrosoftAzureA
 	return result, nil
@@ -313,7 +310,6 @@ func (aSpec *A_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, ar
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected A_SpecArm, got %T", armInput)
 	}
-	aSpec.ApiVersion = typedInput.ApiVersion
 	aSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
 	aSpec.Owner = owner
 	return nil
@@ -333,9 +329,6 @@ type BSpecType string
 const BSpecTypeMicrosoftAzureB = BSpecType("Microsoft.Azure/B")
 
 type B_Spec struct {
-	// +kubebuilder:validation:Required
-	ApiVersion BSpecApiVersion `json:"apiVersion"`
-
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -352,7 +345,7 @@ func (bSpec *B_Spec) ConvertToArm(name string) (interface{}, error) {
 		return nil, nil
 	}
 	var result B_SpecArm
-	result.ApiVersion = bSpec.ApiVersion
+	result.ApiVersion = BSpecApiVersion20200601
 	result.Name = name
 	result.Type = BSpecTypeMicrosoftAzureB
 	return result, nil
@@ -369,7 +362,6 @@ func (bSpec *B_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, ar
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected B_SpecArm, got %T", armInput)
 	}
-	bSpec.ApiVersion = typedInput.ApiVersion
 	bSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
 	bSpec.Owner = owner
 	return nil
@@ -389,9 +381,6 @@ type CSpecType string
 const CSpecTypeMicrosoftAzureC = CSpecType("Microsoft.Azure/C")
 
 type C_Spec struct {
-	// +kubebuilder:validation:Required
-	ApiVersion CSpecApiVersion `json:"apiVersion"`
-
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -408,7 +397,7 @@ func (cSpec *C_Spec) ConvertToArm(name string) (interface{}, error) {
 		return nil, nil
 	}
 	var result C_SpecArm
-	result.ApiVersion = cSpec.ApiVersion
+	result.ApiVersion = CSpecApiVersion20200601
 	result.Name = name
 	result.Type = CSpecTypeMicrosoftAzureC
 	return result, nil
@@ -425,7 +414,6 @@ func (cSpec *C_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, ar
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected C_SpecArm, got %T", armInput)
 	}
-	cSpec.ApiVersion = typedInput.ApiVersion
 	cSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
 	cSpec.Owner = owner
 	return nil
@@ -445,9 +433,6 @@ type DSpecType string
 const DSpecTypeMicrosoftAzureD = DSpecType("Microsoft.Azure/D")
 
 type D_Spec struct {
-	// +kubebuilder:validation:Required
-	ApiVersion DSpecApiVersion `json:"apiVersion"`
-
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -464,7 +449,7 @@ func (dSpec *D_Spec) ConvertToArm(name string) (interface{}, error) {
 		return nil, nil
 	}
 	var result D_SpecArm
-	result.ApiVersion = dSpec.ApiVersion
+	result.ApiVersion = DSpecApiVersion20200601
 	result.Name = name
 	result.Type = DSpecTypeMicrosoftAzureD
 	return result, nil
@@ -481,7 +466,6 @@ func (dSpec *D_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, ar
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected D_SpecArm, got %T", armInput)
 	}
-	dSpec.ApiVersion = typedInput.ApiVersion
 	dSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
 	dSpec.Owner = owner
 	return nil

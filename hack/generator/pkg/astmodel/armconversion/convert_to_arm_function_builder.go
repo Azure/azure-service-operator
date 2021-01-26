@@ -46,7 +46,8 @@ func newConvertToArmFunctionBuilder(
 
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		result.namePropertyHandler,
-		result.typePropertyHandler,
+		result.fixedValuePropertyHandler("Type"),
+		result.fixedValuePropertyHandler("ApiVersion"),
 		result.propertiesWithSameNameAndTypeHandler,
 		result.propertiesWithSameNameButDifferentTypeHandler,
 	}
@@ -126,46 +127,44 @@ func (builder *convertToArmBuilder) namePropertyHandler(
 	return []dst.Stmt{result}
 }
 
-func (builder *convertToArmBuilder) typePropertyHandler(
-	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) []dst.Stmt {
+func (builder *convertToArmBuilder) fixedValuePropertyHandler(propertyName astmodel.PropertyName) propertyConversionHandler {
+	return func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt {
+		if toProp.PropertyName() != propertyName || !builder.isSpecType {
+			return nil
+		}
 
-	if toProp.PropertyName() != "Type" || !builder.isSpecType {
-		return nil
+		propertyType := toProp.PropertyType()
+		if optionalType, ok := toProp.PropertyType().(*astmodel.OptionalType); ok {
+			propertyType = optionalType.Element()
+		}
+
+		enumTypeName, ok := propertyType.(astmodel.TypeName)
+		if !ok {
+			panic(fmt.Sprintf("'%s' property was not an enum, was %s", propertyName, toProp.PropertyType()))
+		}
+
+		def, err := builder.codeGenerationContext.GetImportedDefinition(enumTypeName)
+		if err != nil {
+			panic(err)
+		}
+
+		enumType, ok := def.Type().(*astmodel.EnumType)
+		if !ok {
+			panic(fmt.Sprintf("Enum %v definition was not of type EnumDefinition", enumTypeName))
+		}
+
+		optionId := astmodel.GetEnumValueId(def.Name().Name(), enumType.Options()[0])
+
+		result := astbuilder.SimpleAssignment(
+			&dst.SelectorExpr{
+				X:   dst.NewIdent(builder.resultIdent),
+				Sel: dst.NewIdent(string(toProp.PropertyName())),
+			},
+			token.ASSIGN,
+			dst.NewIdent(optionId))
+
+		return []dst.Stmt{result}
 	}
-
-	propertyType := toProp.PropertyType()
-	if optionalType, ok := toProp.PropertyType().(*astmodel.OptionalType); ok {
-		propertyType = optionalType.Element()
-	}
-
-	enumTypeName, ok := propertyType.(astmodel.TypeName)
-	if !ok {
-		panic(fmt.Sprintf("'Type' property was not an enum, was %s", toProp.PropertyType()))
-	}
-
-	def, err := builder.codeGenerationContext.GetImportedDefinition(enumTypeName)
-	if err != nil {
-		panic(err)
-	}
-
-	enumType, ok := def.Type().(*astmodel.EnumType)
-	if !ok {
-		panic(fmt.Sprintf("Enum %v definition was not of type EnumDefinition", enumTypeName))
-	}
-
-	optionId := astmodel.GetEnumValueId(def.Name().Name(), enumType.Options()[0])
-
-	result := astbuilder.SimpleAssignment(
-		&dst.SelectorExpr{
-			X:   dst.NewIdent(builder.resultIdent),
-			Sel: dst.NewIdent(string(toProp.PropertyName())),
-		},
-		token.ASSIGN,
-		dst.NewIdent(optionId))
-
-	return []dst.Stmt{result}
-
 }
 
 func (builder *convertToArmBuilder) propertiesWithSameNameAndTypeHandler(

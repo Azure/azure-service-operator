@@ -85,9 +85,6 @@ type FakeResourceSpecType string
 const FakeResourceSpecTypeMicrosoftAzureFakeResource = FakeResourceSpecType("Microsoft.Azure/FakeResource")
 
 type FakeResource_Spec struct {
-	// +kubebuilder:validation:Required
-	ApiVersion FakeResourceSpecApiVersion `json:"apiVersion"`
-
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -104,7 +101,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{
 		return nil, nil
 	}
 	var result FakeResource_SpecArm
-	result.ApiVersion = fakeResourceSpec.ApiVersion
+	result.ApiVersion = FakeResourceSpecApiVersion20200601
 	result.Name = name
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
@@ -121,7 +118,6 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected FakeResource_SpecArm, got %T", armInput)
 	}
-	fakeResourceSpec.ApiVersion = typedInput.ApiVersion
 	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
 	fakeResourceSpec.Owner = owner
 	return nil

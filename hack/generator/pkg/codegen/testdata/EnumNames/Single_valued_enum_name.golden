@@ -79,9 +79,6 @@ const AResourceSpecTypeMicrosoftAzureAResource = AResourceSpecType("Microsoft.Az
 
 type AResource_Spec struct {
 	// +kubebuilder:validation:Required
-	ApiVersion AResourceSpecApiVersion `json:"apiVersion"`
-
-	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources.infra.azure.com" json:"owner" kind:"ResourceGroup"`
 }
 
@@ -93,7 +90,7 @@ func (aResourceSpec *AResource_Spec) ConvertToArm(name string) (interface{}, err
 		return nil, nil
 	}
 	var result AResource_SpecArm
-	result.ApiVersion = aResourceSpec.ApiVersion
+	result.ApiVersion = AResourceSpecApiVersion20200601
 	result.Name = name
 	result.Type = AResourceSpecTypeMicrosoftAzureAResource
 	return result, nil
@@ -110,7 +107,6 @@ func (aResourceSpec *AResource_Spec) PopulateFromArm(owner genruntime.KnownResou
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected AResource_SpecArm, got %T", armInput)
 	}
-	aResourceSpec.ApiVersion = typedInput.ApiVersion
 	aResourceSpec.Owner = owner
 	return nil
 }
