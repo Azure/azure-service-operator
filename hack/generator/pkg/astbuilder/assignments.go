@@ -17,11 +17,11 @@ import (
 func SimpleAssignment(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
-			lhs,
+			dst.Clone(lhs).(dst.Expr),
 		},
 		Tok: tok,
 		Rhs: []dst.Expr{
-			rhs,
+			dst.Clone(rhs).(dst.Expr),
 		},
 	}
 }
@@ -33,12 +33,12 @@ func SimpleAssignmentWithErr(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.A
 	errId := dst.NewIdent("err")
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
-			lhs,
+			dst.Clone(lhs).(dst.Expr),
 			errId,
 		},
 		Tok: tok,
 		Rhs: []dst.Expr{
-			rhs,
+			dst.Clone(rhs).(dst.Expr),
 		},
 	}
 }
