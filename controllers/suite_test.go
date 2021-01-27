@@ -93,7 +93,7 @@ func setup() error {
 	// Force the secret naming version to 2 for these tests
 	// Note: This can be removed to run the tests in the old v1 naming scheme (they
 	// should still pass)
-	// envy.Set("AZURE_SECRET_NAMING_VERSION", "2")
+	envy.Set("AZURE_SECRET_NAMING_VERSION", "2")
 
 	err := resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
