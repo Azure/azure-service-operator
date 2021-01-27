@@ -147,19 +147,15 @@ func (s *AzureSqlManagedUserManager) UpdateSecret(ctx context.Context, instance 
 		"dbName":   []byte(instance.Spec.DbName),
 	}
 
+	var err error
 	secretKey := makeSecretKey(secretClient, instance)
-	// We store the different secret fields as different secrets
-	instance.Status.FlattenedSecrets = true
-	err := secretClient.Upsert(ctx, secretKey, secret, secrets.Flatten(true))
-	if err != nil {
-		if strings.Contains(err.Error(), "FlattenedSecretsNotSupported") { // kube client does not support Flatten
-			err = secretClient.Upsert(ctx, secretKey, secret)
-			if err != nil {
-				return fmt.Errorf("Upsert into KubeClient without flatten failed")
-			}
-			instance.Status.FlattenedSecrets = false
-		}
+	if secretClient.IsKeyVault() { // TODO: Maybe should be SupportsFlatten() at least for this case?
+		instance.Status.FlattenedSecrets = true
+		err = secretClient.Upsert(ctx, secretKey, secret, secrets.Flatten(true))
+	} else {
+		err = secretClient.Upsert(ctx, secretKey, secret)
 	}
+
 	return err
 }
 
@@ -167,7 +163,11 @@ func (s *AzureSqlManagedUserManager) UpdateSecret(ctx context.Context, instance 
 func (s *AzureSqlManagedUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLManagedUser, secretClient secrets.SecretClient) error {
 	suffixes := []string{"clientid", "server", "dbName"}
 	secretKey := makeSecretKey(secretClient, instance)
-	return secretClient.Delete(ctx, secretKey, secrets.Flatten(instance.Status.FlattenedSecrets, suffixes...))
+	if secretClient.IsKeyVault() { // TODO: Maybe should be SupportsFlatten() at least for this case?
+		return secretClient.Delete(ctx, secretKey, secrets.Flatten(instance.Status.FlattenedSecrets, suffixes...))
+	} else {
+		return secretClient.Delete(ctx, secretKey)
+	}
 }
 
 func convertToSid(msiClientId string) string {
