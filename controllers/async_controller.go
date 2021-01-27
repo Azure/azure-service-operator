@@ -209,7 +209,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 		}
 	}
 
-	r.Telemetry.LogInfo("status", "exiting reconciliation")
+	r.Telemetry.LogInfoByInstance("status", "exiting reconciliation", req.String())
 
 	return result, err
 }
