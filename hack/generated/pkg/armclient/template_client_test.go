@@ -59,7 +59,7 @@ func Test_NewResourceGroupDeployment(t *testing.T) {
 	log.Printf("Created resource: %s\n", id)
 
 	// Delete the RG
-	err = testContext.AzureClient.BeginDeleteResource(ctx, id, typedResourceGroupSpec.ApiVersion, nil)
+	_, err = testContext.AzureClient.BeginDeleteResource(ctx, id, typedResourceGroupSpec.ApiVersion, nil)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// Ensure that the resource group is deleted

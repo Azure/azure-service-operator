@@ -28,6 +28,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
@@ -68,9 +69,10 @@ type GenericReconciler struct {
 	GVK                  schema.GroupVersionKind
 	Controller           controller.Controller
 	RequeueDelay         time.Duration
-	RequeueDelayFast     time.Duration
 	CreateDeploymentName func(obj metav1.Object) (string, error)
 }
+
+var _ reconcile.Reconciler = &GenericReconciler{} // GenericReconciler is a reconcile.Reconciler
 
 type ReconcileAction string
 
@@ -90,7 +92,6 @@ type Options struct {
 
 	// options specific to our controller
 	RequeueDelay         time.Duration
-	RequeueDelayFast     time.Duration
 	CreateDeploymentName func(obj metav1.Object) (string, error)
 }
 
@@ -98,10 +99,6 @@ func (options *Options) setDefaults() {
 	// default requeue delay to 5 seconds
 	if options.RequeueDelay == 0 {
 		options.RequeueDelay = 5 * time.Second
-	}
-
-	if options.RequeueDelayFast == 0 {
-		options.RequeueDelayFast = 50 * time.Millisecond
 	}
 
 	// override deployment name generator, if provided
@@ -153,7 +150,6 @@ func register(mgr ctrl.Manager, applier armclient.Applier, obj runtime.Object, l
 		Recorder:             mgr.GetEventRecorderFor(controllerName),
 		GVK:                  gvk,
 		RequeueDelay:         options.RequeueDelay,
-		RequeueDelayFast:     options.RequeueDelayFast,
 		CreateDeploymentName: options.CreateDeploymentName,
 	}
 
@@ -312,16 +308,19 @@ func (gr *GenericReconciler) StartDeleteOfResource(
 		return ctrl.Result{}, errors.Wrapf(err, "couldn't convert to armResourceSpec")
 	}
 
+	var retryAfter time.Duration // ARM can tell us how long to wait for a DELETE
+
 	err = gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
 		emptyStatus, err := reflecthelpers.NewEmptyArmResourceStatus(mutData.metaObj)
 		if err != nil {
 			return errors.Wrapf(err, "creating empty status for %q", resource.GetId())
 		}
 
-		err = gr.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetApiVersion(), emptyStatus)
+		retryAfter, err = gr.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetApiVersion(), emptyStatus)
 		if err != nil {
 			return errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
 		}
+
 		data.SetResourceProvisioningState(armclient.DeletingProvisioningState)
 
 		return nil
@@ -333,9 +332,14 @@ func (gr *GenericReconciler) StartDeleteOfResource(
 	}
 
 	// delete has started, check back to seen when the finalizer can be removed
-	return ctrl.Result{
-		RequeueAfter: gr.RequeueDelay,
-	}, nil
+	requeueDelay := gr.RequeueDelay
+	if retryAfter > requeueDelay {
+		requeueDelay = retryAfter
+	}
+
+	data.log.V(3).Info("Resource deletion started, will check again", "delaySec", requeueDelay/time.Second)
+
+	return ctrl.Result{Requeue: true, RequeueAfter: requeueDelay}, nil
 }
 
 // MonitorDelete will call Azure to check if the resource still exists. If so, it will requeue, else,
@@ -355,14 +359,19 @@ func (gr *GenericReconciler) MonitorDelete(
 	}
 
 	// already deleting, just check to see if it still exists and if it's gone, remove finalizer
-	found, err := gr.ARMClient.HeadResource(ctx, resource.GetId(), resource.Spec().GetApiVersion())
+	found, retryAfter, err := gr.ARMClient.HeadResource(ctx, resource.GetId(), resource.Spec().GetApiVersion())
 	if err != nil {
+		if retryAfter != 0 {
+			data.log.V(3).Info("Error performing HEAD on resource, will retry", "delaySec", retryAfter/time.Second)
+			return ctrl.Result{RequeueAfter: retryAfter}, nil
+		}
+
 		return ctrl.Result{}, errors.Wrap(err, "head resource")
 	}
 
 	if found {
 		data.log.V(0).Info("Found resource: continuing to wait for deletion...")
-		return ctrl.Result{RequeueAfter: gr.RequeueDelay}, nil
+		return ctrl.Result{Requeue: true, RequeueAfter: gr.RequeueDelay}, nil
 	}
 
 	err = gr.deleteResourceSucceeded(ctx, data)
@@ -412,10 +421,9 @@ func (gr *GenericReconciler) CreateDeployment(ctx context.Context, action Reconc
 	result := ctrl.Result{}
 	// TODO: This is going to be common... need a wrapper/helper somehow?
 	if !deployment.IsTerminalProvisioningState() {
-		result = ctrl.Result{
-			RequeueAfter: gr.RequeueDelay,
-		}
+		result = ctrl.Result{RequeueAfter: gr.RequeueDelay}
 	}
+
 	return result, err
 }
 
@@ -426,32 +434,38 @@ func (gr *GenericReconciler) MonitorDeployment(ctx context.Context, action Recon
 		return ctrl.Result{}, err
 	}
 
+	deployment, retryAfter, err := gr.ARMClient.GetDeployment(ctx, deployment.Id)
+	if err != nil {
+		if retryAfter != 0 {
+			data.log.V(3).Info("Error performing GET on deployment, will retry", "delaySec", retryAfter/time.Second)
+			return ctrl.Result{RequeueAfter: retryAfter}, nil
+		}
+
+		return ctrl.Result{}, errors.Wrapf(err, "getting deployment %q from ARM", deployment.Id)
+	}
+
 	var status genruntime.FromArmConverter
-	err = gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
+	if deployment.IsSuccessful() {
+		// TODO: There's some overlap here with what Update does
+		if len(deployment.Properties.OutputResources) == 0 {
+			return ctrl.Result{}, errors.Errorf("template deployment didn't have any output resources")
+		}
 
-		deployment, err = gr.ARMClient.GetDeployment(ctx, deployment.Id)
+		resourceID, err := deployment.ResourceID()
 		if err != nil {
-			return errors.Wrapf(err, "getting deployment %q from ARM", deployment.Id)
+			return ctrl.Result{}, errors.Wrap(err, "getting resource ID from resource")
 		}
 
-		if deployment.IsSuccessful() {
-			// TODO: There's some overlap here with what Update does
-			if len(deployment.Properties.OutputResources) == 0 {
-				return errors.Errorf("template deployment didn't have any output resources")
-			}
-
-			resourceID, err := deployment.ResourceID()
-			if err != nil {
-				return errors.Wrap(err, "getting resource ID from resource")
-			}
-
-			status, err = gr.getStatus(ctx, resourceID, data)
-			if err != nil {
-				return errors.Wrap(err, "getting status from ARM")
-			}
+		s, _, statusErr := gr.getStatus(ctx, resourceID, data)
+		if statusErr != nil {
+			return ctrl.Result{}, errors.Wrap(statusErr, "getting status from ARM")
 		}
 
-		err = mutData.Update(deployment, status)
+		status = s
+	}
+
+	err = gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
+		err := mutData.Update(deployment, status)
 		if err != nil {
 			return errors.Wrap(err, "updating metaObj")
 		}
@@ -473,17 +487,20 @@ func (gr *GenericReconciler) MonitorDeployment(ctx context.Context, action Recon
 	// We do two patches here because if we remove the deployment before we've actually confirmed we persisted
 	// the resource ID, then we will be unable to get the resource ID the next time around. Only once we have
 	// persisted the resource ID can we safely delete the deployment
+
+	retryAfter = time.Duration(0) // ARM can tell us how long to check after issuing DELETE
 	if deployment.IsTerminalProvisioningState() && !data.GetShouldPreserveDeployment() {
 		data.log.Info("Deleting deployment", "ID", deployment.Id)
-		err = gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
-			err := gr.ARMClient.DeleteDeployment(ctx, deployment.Id)
-			if err != nil {
-				return errors.Wrapf(err, "deleting deployment %q", deployment.Id)
-			}
-			deployment.Id = ""
-			deployment.Name = ""
+		retryAfter, err = gr.ARMClient.DeleteDeployment(ctx, deployment.Id)
+		if err != nil {
+			return ctrl.Result{}, errors.Wrapf(err, "deleting deployment %q", deployment.Id)
+		}
 
-			err = mutData.Update(deployment, status)
+		deployment.Id = ""
+		deployment.Name = ""
+
+		err = gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
+			err := mutData.Update(deployment, status)
 			if err != nil {
 				return errors.Wrap(err, "updating metaObj")
 			}
@@ -498,14 +515,20 @@ func (gr *GenericReconciler) MonitorDeployment(ctx context.Context, action Recon
 		}
 	}
 
-	result := ctrl.Result{}
-	// TODO: This is going to be common... need a wrapper/helper somehow?
-	if !deployment.IsTerminalProvisioningState() {
-		result = ctrl.Result{
-			RequeueAfter: gr.RequeueDelay,
-		}
+	if deployment.IsTerminalProvisioningState() {
+		// we are done
+		return ctrl.Result{}, nil
 	}
-	return result, err
+
+	requeueDelay := gr.RequeueDelay
+	if retryAfter > requeueDelay {
+		// use the Retry-After that was returned by Azure when deleting the deployment
+		requeueDelay = retryAfter
+	}
+
+	data.log.V(3).Info("Deployment still running, will check again", "delaySec", requeueDelay/time.Second)
+
+	return ctrl.Result{RequeueAfter: requeueDelay}, err
 }
 
 func (gr *GenericReconciler) ManageOwnership(ctx context.Context, action ReconcileAction, data *ReconcileMetadata) (ctrl.Result, error) {
@@ -530,10 +553,8 @@ func (gr *GenericReconciler) ManageOwnership(ctx context.Context, action Reconci
 			return ctrl.Result{}, errors.Wrap(err, "patching resource error")
 		}
 
-		return ctrl.Result{
-			// TODO: We should consider a scaling backoff here, see: https://github.com/Azure/k8s-infra/issues/263
-			RequeueAfter: gr.RequeueDelay,
-		}, nil
+		// need to try again later
+		return ctrl.Result{Requeue: true}, nil
 	}
 
 	err = gr.applyOwnership(ctx, data)
@@ -541,10 +562,8 @@ func (gr *GenericReconciler) ManageOwnership(ctx context.Context, action Reconci
 		return ctrl.Result{}, err
 	}
 
-	// TODO: Fast requeue as we're moving to the next stage... Do we prefer this or doing it "all at once"?
-	return ctrl.Result{
-		RequeueAfter: gr.RequeueDelayFast,
-	}, nil
+	// Fast requeue as we're moving to the next stage
+	return ctrl.Result{Requeue: true}, nil
 }
 
 //////////////////////////////////////////
@@ -562,36 +581,39 @@ func (gr *GenericReconciler) constructArmResource(ctx context.Context, data *Rec
 	return resource, nil
 }
 
-func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *ReconcileMetadata) (genruntime.FromArmConverter, error) {
+var zeroDuration time.Duration = 0
+
+func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *ReconcileMetadata) (genruntime.FromArmConverter, time.Duration, error) {
 	deployableSpec, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
 	if err != nil {
-		return nil, err
+		return nil, zeroDuration, err
 	}
 
 	// TODO: do we tolerate not exists here?
 	armStatus, err := reflecthelpers.NewEmptyArmResourceStatus(data.metaObj)
 	if err != nil {
-		return nil, errors.Wrapf(err, "constructing ARM status for resource: %q", id)
+		return nil, zeroDuration, errors.Wrapf(err, "constructing ARM status for resource: %q", id)
 	}
 
 	// Get the resource
-	err = gr.ARMClient.GetResource(ctx, id, deployableSpec.Spec().GetApiVersion(), armStatus)
+	retryAfter, err := gr.ARMClient.GetResource(ctx, id, deployableSpec.Spec().GetApiVersion(), armStatus)
 	if data.log.V(4).Enabled() {
-		statusBytes, err := json.Marshal(armStatus)
-		if err != nil {
-			return nil, errors.Wrapf(err, "serializing ARM status to JSON for debugging")
+		statusBytes, marshalErr := json.Marshal(armStatus)
+		if marshalErr != nil {
+			return nil, zeroDuration, errors.Wrapf(err, "serializing ARM status to JSON for debugging")
 		}
+
 		data.log.V(4).Info("Got ARM status", "status", string(statusBytes))
 	}
 
 	if err != nil {
-		return nil, errors.Wrapf(err, "getting resource with ID: %q", id)
+		return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
 	}
 
 	// Convert the ARM shape to the Kube shape
 	status, err := reflecthelpers.NewEmptyStatus(data.metaObj)
 	if err != nil {
-		return nil, errors.Wrapf(err, "constructing Kube status object for resource: %q", id)
+		return nil, zeroDuration, errors.Wrapf(err, "constructing Kube status object for resource: %q", id)
 	}
 
 	owner := data.metaObj.Owner()
@@ -606,10 +628,10 @@ func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *Rec
 	// TODO: The owner parameter here should be optional
 	err = status.PopulateFromArm(knownOwner, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
 	if err != nil {
-		return nil, errors.Wrapf(err, "converting ARM status to Kubernetes status")
+		return nil, zeroDuration, errors.Wrapf(err, "converting ARM status to Kubernetes status")
 	}
 
-	return status, nil
+	return status, zeroDuration, nil
 }
 
 func (gr *GenericReconciler) resourceSpecToDeployment(ctx context.Context, data *ReconcileMetadata) (*armclient.Deployment, error) {

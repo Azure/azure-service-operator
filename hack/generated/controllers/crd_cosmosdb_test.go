@@ -72,7 +72,8 @@ func Test_CosmosDB_CRUD(t *testing.T) {
 	g.Eventually(acct).Should(testContext.Match.BeDeleted(ctx))
 
 	// Ensure that the resource group was really deleted in Azure
-	exists, err := testContext.AzureClient.HeadResource(ctx, armId, "2015-04-08")
+	exists, retryAfter, err := testContext.AzureClient.HeadResource(ctx, armId, "2015-04-08")
 	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())
 }

@@ -44,10 +44,11 @@ func (m *AzureBeProvisionedMatcher) Match(actual interface{}) (bool, error) {
 		return false, err
 	}
 
-	updatedDeployment, err := m.azureClient.GetDeployment(m.ctx, deployment.Id)
+	updatedDeployment, _, err := m.azureClient.GetDeployment(m.ctx, deployment.Id)
 	if err != nil {
 		return false, err
 	}
+
 	*deployment = *updatedDeployment
 
 	log.Printf(

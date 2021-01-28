@@ -47,7 +47,7 @@ func (m *AzureBeDeletedMatcher) Match(actual interface{}) (bool, error) {
 		return false, err
 	}
 
-	exists, err := m.azureClient.HeadResource(m.ctx, args[0], args[1])
+	exists, _, err := m.azureClient.HeadResource(m.ctx, args[0], args[1])
 	if err != nil {
 		return false, err
 	}
