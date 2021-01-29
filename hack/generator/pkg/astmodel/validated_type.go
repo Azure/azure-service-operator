@@ -143,6 +143,10 @@ type ValidatedType struct {
 	element     Type
 }
 
+var _ Type = &ValidatedType{}
+
+var _ MetaType = &ValidatedType{}
+
 func NewValidatedType(element Type, validations Validations) *ValidatedType {
 	return &ValidatedType{element: element, validations: validations}
 }
@@ -160,8 +164,6 @@ func (v *ValidatedType) WithType(newElement Type) *ValidatedType {
 	result.element = newElement
 	return &result
 }
-
-var _ Type = &ValidatedType{}
 
 func (v *ValidatedType) AsDeclarations(c *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	declContext.Validations = append(declContext.Validations, v.validations.ToKubeBuilderValidations()...)
@@ -216,4 +218,9 @@ func equalOptionalRegexps(left *regexp.Regexp, right *regexp.Regexp) bool {
 	}
 
 	return right == nil
+}
+
+// Unwrap returns the type contained within the validated type
+func (v ValidatedType) Unwrap() Type {
+	return v.element
 }

@@ -22,6 +22,8 @@ type ErroredType struct {
 
 var _ Type = &ErroredType{}
 
+var _ MetaType = &ErroredType{}
+
 func NewErroredType(t Type, errors []string, warnings []string) *ErroredType {
 	result := &ErroredType{
 		inner:    nil,
@@ -142,4 +144,9 @@ func (e *ErroredType) String() string {
 	}
 
 	return fmt.Sprintf("%s (has %s)", e.inner.String(), has)
+}
+
+// Unwrap returns the type contained within the error type
+func (e *ErroredType) Unwrap() Type {
+	return e.inner
 }

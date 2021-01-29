@@ -16,6 +16,10 @@ type OptionalType struct {
 	element Type
 }
 
+var _ Type = &OptionalType{}
+
+var _ MetaType = &OptionalType{}
+
 // NewOptionalType creates a new optional type that may or may not have the specified 'element' type
 func NewOptionalType(element Type) Type {
 	if isTypeOptional(element) {
@@ -44,9 +48,6 @@ func isTypeOptional(t Type) bool {
 func (optional *OptionalType) Element() Type {
 	return optional.element
 }
-
-// assert we implemented Type correctly
-var _ Type = (*OptionalType)(nil)
 
 func (optional *OptionalType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	return AsSimpleDeclarations(codeGenerationContext, declContext, optional)
@@ -95,4 +96,9 @@ func (optional *OptionalType) BaseType() Type {
 // String implements fmt.Stringer
 func (optional *OptionalType) String() string {
 	return fmt.Sprintf("(optional: %s)", optional.element.String())
+}
+
+// Unwrap returns the type contained within the wrapper type
+func (optional *OptionalType) Unwrap() Type {
+	return optional.element
 }

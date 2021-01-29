@@ -20,6 +20,8 @@ type FlaggedType struct {
 
 var _ Type = &FlaggedType{}
 
+var _ MetaType = &FlaggedType{}
+
 // NewFlaggedType applies flags to an existing type and returns a wrapper
 func NewFlaggedType(t Type, flags ...TypeFlag) *FlaggedType {
 	result := &FlaggedType{
@@ -179,4 +181,9 @@ func TypeOrFlaggedTypeAsObjectType(t Type) (*ObjectType, error) {
 	}
 
 	return nil, errors.Errorf("type %v is not an object or a FlaggedType", t)
+}
+
+// Unwrap returns the type contained within the wrapper type
+func (ft *FlaggedType) Unwrap() Type {
+	return ft.element
 }
