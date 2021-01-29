@@ -65,7 +65,14 @@ func (m *AzureSqlUserManager) GetDB(ctx context.Context, resourceGroupName strin
 func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, server string, database string, port int, user string, password string) (*sql.DB, error) {
 
 	fullServerAddress := fmt.Sprintf("%s."+config.Environment().SQLDatabaseDNSSuffix, server)
-	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30", fullServerAddress, user, password, port, database)
+	// Make sure to set connection timeout: https://github.com/denisenkom/go-mssqldb/issues/609
+	connString := fmt.Sprintf(
+		"server=%s;user id=%s;password=%s;port=%d;database=%s;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30",
+		fullServerAddress,
+		user,
+		password,
+		port,
+		database)
 
 	db, err := sql.Open(drivername, connString)
 	if err != nil {
