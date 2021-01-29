@@ -61,7 +61,7 @@ func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, type
 		return def.Name(), nil // must remain named so there is somewhere to put validations
 	case *astmodel.ResourceType:
 		return def.Name(), nil // must remain named for controller-gen
-	case astmodel.ValidatedType:
+	case *astmodel.ValidatedType:
 		return def.Name(), nil // must remain named so there is somewhere to put validations
 	case *astmodel.FlaggedType:
 		return def.Name(), nil // must remain named as it is just wrapping objectType (and objectType remains named)

@@ -309,7 +309,7 @@ func removeValidations(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		p = p.SetRequired(false)
 
 		// remove all validation types by promoting inner type
-		if validated, ok := p.PropertyType().(astmodel.ValidatedType); ok {
+		if validated, ok := p.PropertyType().(*astmodel.ValidatedType); ok {
 			p = p.WithType(validated.ElementType())
 		}
 

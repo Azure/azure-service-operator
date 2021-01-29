@@ -143,48 +143,49 @@ type ValidatedType struct {
 	element     Type
 }
 
-func MakeValidatedType(element Type, validations Validations) ValidatedType {
-	return ValidatedType{element: element, validations: validations}
+func NewValidatedType(element Type, validations Validations) *ValidatedType {
+	return &ValidatedType{element: element, validations: validations}
 }
 
-func (v ValidatedType) ElementType() Type {
+func (v *ValidatedType) ElementType() Type {
 	return v.element
 }
 
-func (v ValidatedType) Validations() Validations {
+func (v *ValidatedType) Validations() Validations {
 	return v.validations
 }
 
-func (v ValidatedType) WithType(newElement Type) ValidatedType {
-	v.element = newElement
-	return v
+func (v *ValidatedType) WithType(newElement Type) *ValidatedType {
+	result := *v
+	result.element = newElement
+	return &result
 }
 
-var _ Type = ValidatedType{}
+var _ Type = &ValidatedType{}
 
-func (v ValidatedType) AsDeclarations(c *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
+func (v *ValidatedType) AsDeclarations(c *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	declContext.Validations = append(declContext.Validations, v.validations.ToKubeBuilderValidations()...)
 	return v.ElementType().AsDeclarations(c, declContext)
 }
 
-func (v ValidatedType) AsType(_ *CodeGenerationContext) dst.Expr {
+func (v *ValidatedType) AsType(_ *CodeGenerationContext) dst.Expr {
 	panic("Should never happen: validated types must either be named (handled by 'name types for CRDs' pipeline stage) or be directly under properties (handled by PropertyDefinition.AsField)")
 }
 
-func (v ValidatedType) References() TypeNameSet {
+func (v *ValidatedType) References() TypeNameSet {
 	return v.element.References()
 }
 
-func (v ValidatedType) RequiredPackageReferences() *PackageReferenceSet {
+func (v *ValidatedType) RequiredPackageReferences() *PackageReferenceSet {
 	return v.element.RequiredPackageReferences()
 }
 
-func (v ValidatedType) String() string {
+func (v *ValidatedType) String() string {
 	return fmt.Sprintf("Validated(%s)", v.element.String())
 }
 
-func (v ValidatedType) Equals(t Type) bool {
-	other, ok := t.(ValidatedType)
+func (v *ValidatedType) Equals(t Type) bool {
+	other, ok := t.(*ValidatedType)
 	if !ok {
 		return false
 	}

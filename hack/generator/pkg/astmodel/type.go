@@ -38,7 +38,7 @@ type Type interface {
 
 // IgnoringErrors returns the type stripped of any ErroredType wrapper
 func IgnoringErrors(t Type) Type {
-	if errored, ok := t.(ErroredType); ok {
+	if errored, ok := t.(*ErroredType); ok {
 		return errored.InnerType()
 	}
 

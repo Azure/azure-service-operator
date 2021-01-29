@@ -252,7 +252,7 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 
 	// if we have validations, unwrap them
 	propType := property.propertyType
-	if validated, ok := propType.(ValidatedType); ok {
+	if validated, ok := propType.(*ValidatedType); ok {
 		propType = validated.ElementType()
 		AddValidationComments(&doc, validated.Validations().ToKubeBuilderValidations())
 	}

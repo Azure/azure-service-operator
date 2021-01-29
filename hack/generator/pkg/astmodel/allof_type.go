@@ -27,13 +27,15 @@ type AllOfType struct {
 	types TypeSet
 }
 
-// MakeAllOfType is a smart constructor for AllOfType,
+var _ Type = &AllOfType{}
+
+// BuildAllOfType is a smart constructor for AllOfType,
 // maintaining the invariants. If only one unique type
 // is passed, then the result will be that type, not an AllOf.
-func MakeAllOfType(types ...Type) Type {
+func BuildAllOfType(types ...Type) Type {
 	uniqueTypes := MakeTypeSet()
 	for _, t := range types {
-		if allOf, ok := t.(AllOfType); ok {
+		if allOf, ok := t.(*AllOfType); ok {
 			allOf.types.ForEach(func(t Type, _ int) {
 				uniqueTypes.Add(t)
 			})
@@ -52,10 +54,10 @@ func MakeAllOfType(types ...Type) Type {
 	}
 
 	// see if there are any OneOfs inside
-	var oneOfs []OneOfType
+	var oneOfs []*OneOfType
 	var notOneOfs []Type
 	uniqueTypes.ForEach(func(t Type, _ int) {
-		if oneOf, ok := t.(OneOfType); ok {
+		if oneOf, ok := t.(*OneOfType); ok {
 			oneOfs = append(oneOfs, oneOf)
 		} else {
 			notOneOfs = append(notOneOfs, t)
@@ -73,10 +75,10 @@ func MakeAllOfType(types ...Type) Type {
 
 		var ts []Type
 		oneOfs[0].types.ForEach(func(t Type, _ int) {
-			ts = append(ts, MakeAllOfType(append(notOneOfs, t)...))
+			ts = append(ts, BuildAllOfType(append(notOneOfs, t)...))
 		})
 
-		return MakeOneOfType(ts...)
+		return BuildOneOfType(ts...)
 	} else if len(oneOfs) > 1 {
 		// emit a warning if this ever comes up
 		// (it doesn't at the moment)
@@ -84,19 +86,17 @@ func MakeAllOfType(types ...Type) Type {
 	}
 
 	// 0 oneOf (nothing to do) or >1 oneOf (too hard)
-	return AllOfType{uniqueTypes}
+	return &AllOfType{uniqueTypes}
 }
-
-var _ Type = AllOfType{}
 
 // Types returns what types the AllOf can be.
 // Exposed as ReadonlyTypeSet so caller can't break invariants.
-func (allOf AllOfType) Types() ReadonlyTypeSet {
+func (allOf *AllOfType) Types() ReadonlyTypeSet {
 	return allOf.types
 }
 
 // References returns any type referenced by the AllOf types
-func (allOf AllOfType) References() TypeNameSet {
+func (allOf *AllOfType) References() TypeNameSet {
 	var result TypeNameSet
 	allOf.types.ForEach(func(t Type, _ int) {
 		result = SetUnion(result, t.References())
@@ -127,17 +127,21 @@ func (allOf AllOfType) RequiredPackageReferences() *PackageReferenceSet {
 
 // Equals returns true if the other Type is a AllOf that contains
 // the same set of types
-func (allOf AllOfType) Equals(t Type) bool {
-	other, ok := t.(AllOfType)
+func (allOf *AllOfType) Equals(t Type) bool {
+	other, ok := t.(*AllOfType)
 	if !ok {
 		return false
+	}
+
+	if allOf == other {
+		return true // short-circuit
 	}
 
 	return allOf.types.Equals(other.types)
 }
 
 // String implements fmt.Stringer
-func (allOf AllOfType) String() string {
+func (allOf *AllOfType) String() string {
 	var subStrings []string
 	allOf.types.ForEach(func(t Type, _ int) {
 		subStrings = append(subStrings, t.String())

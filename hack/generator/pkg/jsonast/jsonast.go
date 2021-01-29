@@ -156,13 +156,13 @@ func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx cont
 		return nil, errors.Errorf("expected 'resources' property to be an array")
 	}
 
-	resourcesOneOf, ok := resourcesArray.Element().(astmodel.OneOfType)
+	resourcesOneOf, ok := resourcesArray.Element().(*astmodel.OneOfType)
 	if !ok {
 		return nil, errors.Errorf("expected 'resources' property to be an array containing oneOf")
 	}
 
 	err = resourcesOneOf.Types().ForEachError(func(oneType astmodel.Type, _ int) error {
-		allOf, ok := oneType.(astmodel.AllOfType)
+		allOf, ok := oneType.(*astmodel.AllOfType)
 		if !ok {
 			return errors.Errorf("unexpected resource shape: not an allOf")
 		}
@@ -198,7 +198,7 @@ func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx cont
 
 		// now we will remove the existing resource definition and replace it with a new one that includes the base type
 		// first, reconstruct the allof with an anonymous type instead of the typename
-		specType := astmodel.MakeAllOfType(objectBase, resourceType.SpecType())
+		specType := astmodel.BuildAllOfType(objectBase, resourceType.SpecType())
 		// now replace it
 		scanner.removeTypeDefinition(resourceRef)
 		scanner.addTypeDefinition(resourceDef.WithType(astmodel.NewAzureResourceType(specType, nil, resourceDef.Name())))
@@ -286,7 +286,7 @@ func stringHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 	pattern := schema.pattern()
 
 	if maxLength != nil || minLength != nil || pattern != nil {
-		return astmodel.MakeValidatedType(t, astmodel.StringValidations{
+		return astmodel.NewValidatedType(t, astmodel.StringValidations{
 			MaxLength: maxLength,
 			MinLength: minLength,
 			Pattern:   pattern,
@@ -321,7 +321,7 @@ func numberHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 		}
 
 		t = astmodel.IntType
-		return astmodel.MakeValidatedType(t, *v), nil
+		return astmodel.NewValidatedType(t, *v), nil
 	}
 
 	return t, nil
@@ -344,7 +344,7 @@ func intHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (ast
 			}
 		}
 
-		return astmodel.MakeValidatedType(t, *v), nil
+		return astmodel.NewValidatedType(t, *v), nil
 	}
 
 	return t, nil
@@ -693,7 +693,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 		types = append(types, objectType)
 	}
 
-	return astmodel.MakeAllOfType(types...), nil
+	return astmodel.BuildAllOfType(types...), nil
 }
 
 func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -718,7 +718,7 @@ func generateOneOfUnionType(ctx context.Context, schema Schema, subschemas []Sch
 		}
 	}
 
-	result := astmodel.MakeOneOfType(types...)
+	result := astmodel.BuildOneOfType(types...)
 
 	// if the node that contains the oneOf(/anyOf) defines other properties, create an object type with them inside to merge
 	if len(schema.properties()) > 0 {
@@ -727,7 +727,7 @@ func generateOneOfUnionType(ctx context.Context, schema Schema, subschemas []Sch
 			return nil, err
 		}
 
-		result = astmodel.MakeAllOfType(objectType, result)
+		result = astmodel.BuildAllOfType(objectType, result)
 	}
 
 	return result, nil
@@ -784,7 +784,7 @@ func withArrayValidations(schema Schema, t *astmodel.ArrayType) astmodel.Type {
 	uniqueItems := schema.uniqueItems()
 
 	if maxItems != nil || minItems != nil || uniqueItems {
-		return astmodel.MakeValidatedType(t, astmodel.ArrayValidations{
+		return astmodel.NewValidatedType(t, astmodel.ArrayValidations{
 			MaxItems:    maxItems,
 			MinItems:    minItems,
 			UniqueItems: uniqueItems,

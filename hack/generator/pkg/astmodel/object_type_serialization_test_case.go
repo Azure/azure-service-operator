@@ -573,7 +573,7 @@ func (o ObjectSerializationTestCase) createIndependentGenerator(
 			return astbuilder.CallQualifiedFunc(genPackage, "MapOf", keyGen, valueGen)
 		}
 
-	case ValidatedType:
+	case *ValidatedType:
 		// TODO: we should restrict the values of generated types
 		//       but at the moment this is only used for serialization tests, so doesn't affect
 		//       anything
@@ -630,7 +630,7 @@ func (o ObjectSerializationTestCase) createRelatedGenerator(
 			return astbuilder.CallQualifiedFunc(genPackageName, "MapOf", keyGen, valueGen)
 		}
 
-	case ValidatedType:
+	case *ValidatedType:
 		// TODO: we should restrict the values of generated types
 		//       but at the moment this is only used for serialization tests, so doesn't affect
 		//       anything

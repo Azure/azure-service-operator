@@ -20,42 +20,48 @@ type ErroredType struct {
 	warnings []string
 }
 
-func MakeErroredType(t Type, errors []string, warnings []string) ErroredType {
-	return ErroredType{
+var _ Type = &ErroredType{}
+
+func NewErroredType(t Type, errors []string, warnings []string) *ErroredType {
+	result := &ErroredType{
 		inner:    nil,
 		errors:   errors,
 		warnings: warnings,
-	}.WithType(t) // using WithType ensures warnings and errors get merged if needed
+	}
+
+	return result.WithType(t) // using WithType ensures warnings and errors get merged if needed
 }
 
-func (e ErroredType) InnerType() Type {
+func (e *ErroredType) InnerType() Type {
 	return e.inner
 }
 
-func (errored ErroredType) WithType(t Type) ErroredType {
-	if otherError, ok := t.(ErroredType); ok {
+func (e *ErroredType) WithType(t Type) *ErroredType {
+	if otherError, ok := t.(*ErroredType); ok {
 		// nested errors merge errors & warnings
-		errored.inner = otherError.inner
-		errored.errors = append(errored.errors, otherError.errors...)
-		errored.warnings = append(errored.warnings, otherError.warnings...)
+		e.inner = otherError.inner
+		e.errors = append(e.errors, otherError.errors...)
+		e.warnings = append(e.warnings, otherError.warnings...)
 	} else {
-		errored.inner = t
+		e.inner = t
 	}
 
-	return errored
+	return e
 }
 
-var _ Type = ErroredType{}
-
-func (errored ErroredType) Equals(t Type) bool {
-	other, ok := t.(ErroredType)
+func (e *ErroredType) Equals(t Type) bool {
+	other, ok := t.(*ErroredType)
 	if !ok {
 		return false
 	}
 
-	return ((errored.inner == nil && other.inner == nil) || errored.inner.Equals(other.inner)) &&
-		stringSlicesEqual(errored.warnings, other.warnings) &&
-		stringSlicesEqual(errored.errors, other.errors)
+	if e == other {
+		return true // short-circuit
+	}
+
+	return ((e.inner == nil && other.inner == nil) || e.inner.Equals(other.inner)) &&
+		stringSlicesEqual(e.warnings, other.warnings) &&
+		stringSlicesEqual(e.errors, other.errors)
 }
 
 func stringSlicesEqual(l []string, r []string) bool {
@@ -72,68 +78,68 @@ func stringSlicesEqual(l []string, r []string) bool {
 	return true
 }
 
-func (errored ErroredType) References() TypeNameSet {
-	if errored.inner == nil {
+func (e *ErroredType) References() TypeNameSet {
+	if e.inner == nil {
 		return nil
 	}
 
-	return errored.inner.References()
+	return e.inner.References()
 }
 
-func (errored ErroredType) RequiredPackageReferences() *PackageReferenceSet {
-	if errored.inner == nil {
+func (e *ErroredType) RequiredPackageReferences() *PackageReferenceSet {
+	if e.inner == nil {
 		return NewPackageReferenceSet()
 	}
 
-	return errored.inner.RequiredPackageReferences()
+	return e.inner.RequiredPackageReferences()
 }
 
-func (errored ErroredType) handleWarningsAndErrors() {
-	for _, warning := range errored.warnings {
+func (e *ErroredType) handleWarningsAndErrors() {
+	for _, warning := range e.warnings {
 		klog.Warning(warning)
 	}
 
-	if len(errored.errors) > 0 {
-		var es []error
-		for _, e := range errored.errors {
-			es = append(es, errors.New(e))
+	if len(e.errors) > 0 {
+		var errs []error
+		for _, err := range e.errors {
+			errs = append(errs, errors.New(err))
 		}
 
-		if len(es) == 1 {
-			panic(es[0])
+		if len(errs) == 1 {
+			panic(errs[0])
 		} else {
-			panic(kerrors.NewAggregate(es))
+			panic(kerrors.NewAggregate(errs))
 		}
 	}
 }
 
-func (errored ErroredType) AsDeclarations(cgc *CodeGenerationContext, dc DeclarationContext) []dst.Decl {
-	errored.handleWarningsAndErrors()
-	if errored.inner == nil {
+func (e *ErroredType) AsDeclarations(cgc *CodeGenerationContext, dc DeclarationContext) []dst.Decl {
+	e.handleWarningsAndErrors()
+	if e.inner == nil {
 		return nil
 	}
 
-	return errored.inner.AsDeclarations(cgc, dc)
+	return e.inner.AsDeclarations(cgc, dc)
 }
 
-func (errored ErroredType) AsType(cgc *CodeGenerationContext) dst.Expr {
-	errored.handleWarningsAndErrors()
-	if errored.inner == nil {
+func (e *ErroredType) AsType(cgc *CodeGenerationContext) dst.Expr {
+	e.handleWarningsAndErrors()
+	if e.inner == nil {
 		return nil
 	}
 
-	return errored.inner.AsType(cgc)
+	return e.inner.AsType(cgc)
 }
 
-func (errored ErroredType) String() string {
-	if errored.inner == nil {
+func (e *ErroredType) String() string {
+	if e.inner == nil {
 		return "(error hole)"
 	}
 
 	has := "warnings"
-	if len(errored.errors) > 0 {
+	if len(e.errors) > 0 {
 		has = "errors"
 	}
 
-	return fmt.Sprintf("%s (has %s)", errored.inner.String(), has)
+	return fmt.Sprintf("%s (has %s)", e.inner.String(), has)
 }

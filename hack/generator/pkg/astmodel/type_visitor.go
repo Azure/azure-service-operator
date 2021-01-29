@@ -17,8 +17,8 @@ import (
 // The `ctx` argument can be used to “smuggle” additional data down the call-chain.
 type TypeVisitor struct {
 	VisitTypeName      func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error)
-	VisitOneOfType     func(this *TypeVisitor, it OneOfType, ctx interface{}) (Type, error)
-	VisitAllOfType     func(this *TypeVisitor, it AllOfType, ctx interface{}) (Type, error)
+	VisitOneOfType     func(this *TypeVisitor, it *OneOfType, ctx interface{}) (Type, error)
+	VisitAllOfType     func(this *TypeVisitor, it *AllOfType, ctx interface{}) (Type, error)
 	VisitArrayType     func(this *TypeVisitor, it *ArrayType, ctx interface{}) (Type, error)
 	VisitPrimitive     func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) (Type, error)
 	VisitObjectType    func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error)
@@ -27,8 +27,8 @@ type TypeVisitor struct {
 	VisitEnumType      func(this *TypeVisitor, it *EnumType, ctx interface{}) (Type, error)
 	VisitResourceType  func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
 	VisitFlaggedType   func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error)
-	VisitValidatedType func(this *TypeVisitor, it ValidatedType, ctx interface{}) (Type, error)
-	VisitErroredType   func(this *TypeVisitor, it ErroredType, ctx interface{}) (Type, error)
+	VisitValidatedType func(this *TypeVisitor, it *ValidatedType, ctx interface{}) (Type, error)
+	VisitErroredType   func(this *TypeVisitor, it *ErroredType, ctx interface{}) (Type, error)
 }
 
 // Visit invokes the appropriate VisitX on TypeVisitor
@@ -40,9 +40,9 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 	switch it := t.(type) {
 	case TypeName:
 		return tv.VisitTypeName(tv, it, ctx)
-	case OneOfType:
+	case *OneOfType:
 		return tv.VisitOneOfType(tv, it, ctx)
-	case AllOfType:
+	case *AllOfType:
 		return tv.VisitAllOfType(tv, it, ctx)
 	case *ArrayType:
 		return tv.VisitArrayType(tv, it, ctx)
@@ -60,9 +60,9 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 		return tv.VisitResourceType(tv, it, ctx)
 	case *FlaggedType:
 		return tv.VisitFlaggedType(tv, it, ctx)
-	case ValidatedType:
+	case *ValidatedType:
 		return tv.VisitValidatedType(tv, it, ctx)
-	case ErroredType:
+	case *ErroredType:
 		return tv.VisitErroredType(tv, it, ctx)
 	}
 
@@ -145,6 +145,10 @@ func IdentityVisitOfArrayType(this *TypeVisitor, it *ArrayType, ctx interface{})
 		return nil, errors.Wrap(err, "failed to visit type of array")
 	}
 
+	if newElement == it.element {
+		return it, nil // short-circuit
+	}
+
 	return NewArrayType(newElement), nil
 }
 
@@ -206,6 +210,10 @@ func IdentityVisitOfMapType(this *TypeVisitor, it *MapType, ctx interface{}) (Ty
 		return nil, errors.Wrapf(err, "failed to visit map value type %T", it.value)
 	}
 
+	if visitedKey == it.key && visitedValue == it.value {
+		return it, nil // short-circuit
+	}
+
 	return NewMapType(visitedKey, visitedValue), nil
 }
 
@@ -219,6 +227,10 @@ func IdentityVisitOfOptionalType(this *TypeVisitor, it *OptionalType, ctx interf
 	visitedElement, err := this.Visit(it.element, ctx)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to visit optional element type %T", it.element)
+	}
+
+	if visitedElement == it.element {
+		return it, nil // short-circuit
 	}
 
 	return NewOptionalType(visitedElement), nil
@@ -235,10 +247,14 @@ func IdentityVisitOfResourceType(this *TypeVisitor, it *ResourceType, ctx interf
 		return nil, errors.Wrapf(err, "failed to visit resource status type %T", it.status)
 	}
 
+	if visitedSpec == it.spec && visitedStatus == it.status {
+		return it, nil // short-circuit
+	}
+
 	return it.WithSpec(visitedSpec).WithStatus(visitedStatus), nil
 }
 
-func IdentityVisitOfOneOfType(this *TypeVisitor, it OneOfType, ctx interface{}) (Type, error) {
+func IdentityVisitOfOneOfType(this *TypeVisitor, it *OneOfType, ctx interface{}) (Type, error) {
 	var newTypes []Type
 	err := it.Types().ForEachError(func(oneOf Type, _ int) error {
 		newType, err := this.Visit(oneOf, ctx)
@@ -254,10 +270,14 @@ func IdentityVisitOfOneOfType(this *TypeVisitor, it OneOfType, ctx interface{}) 
 		return nil, err
 	}
 
-	return MakeOneOfType(newTypes...), nil
+	if typeSlicesFastEqual(newTypes, it.types.types) {
+		return it, nil // short-circuit
+	}
+
+	return BuildOneOfType(newTypes...), nil
 }
 
-func IdentityVisitOfAllOfType(this *TypeVisitor, it AllOfType, ctx interface{}) (Type, error) {
+func IdentityVisitOfAllOfType(this *TypeVisitor, it *AllOfType, ctx interface{}) (Type, error) {
 	var newTypes []Type
 	err := it.Types().ForEachError(func(allOf Type, _ int) error {
 		newType, err := this.Visit(allOf, ctx)
@@ -273,7 +293,28 @@ func IdentityVisitOfAllOfType(this *TypeVisitor, it AllOfType, ctx interface{}) 
 		return nil, err
 	}
 
-	return MakeAllOfType(newTypes...), nil
+	if typeSlicesFastEqual(newTypes, it.types.types) {
+		return it, nil // short-circuit
+	}
+
+	return BuildAllOfType(newTypes...), nil
+}
+
+// just checks reference equality of Types
+// this is used to short-circuit when we don't need to make new types,
+// in a fast manner than invoking Equals and walking the whole tree
+func typeSlicesFastEqual(t1 []Type, t2 []Type) bool {
+	if len(t1) != len(t2) {
+		return false
+	}
+
+	for ix := range t1 {
+		if t1[ix] != t2[ix] {
+			return false
+		}
+	}
+
+	return true
 }
 
 func IdentityVisitOfFlaggedType(this *TypeVisitor, ft *FlaggedType, ctx interface{}) (Type, error) {
@@ -283,25 +324,33 @@ func IdentityVisitOfFlaggedType(this *TypeVisitor, ft *FlaggedType, ctx interfac
 	}
 
 	if nt == ft.element {
-		return ft, nil
+		return ft, nil // short-circuit
 	}
 
 	return ft.WithElement(nt), nil
 }
 
-func IdentityVisitOfValidatedType(this *TypeVisitor, v ValidatedType, ctx interface{}) (Type, error) {
+func IdentityVisitOfValidatedType(this *TypeVisitor, v *ValidatedType, ctx interface{}) (Type, error) {
 	nt, err := this.Visit(v.element, ctx)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to visit validated type %T", v.element)
 	}
 
+	if nt == v.element {
+		return v, nil // short-circuit
+	}
+
 	return v.WithType(nt), nil
 }
 
-func IdentityVisitOfErroredType(this *TypeVisitor, e ErroredType, ctx interface{}) (Type, error) {
+func IdentityVisitOfErroredType(this *TypeVisitor, e *ErroredType, ctx interface{}) (Type, error) {
 	nt, err := this.Visit(e.inner, ctx)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to visit errored type %T", e.inner)
+	}
+
+	if nt == e.inner {
+		return e, nil // short-circuit
 	}
 
 	return e.WithType(nt), nil

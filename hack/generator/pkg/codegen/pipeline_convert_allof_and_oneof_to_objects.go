@@ -36,7 +36,7 @@ func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Pipelin
 			visitor := astmodel.MakeTypeVisitor()
 
 			// the context here is whether we are selecting spec or status fields
-			visitor.VisitAllOfType = func(this *astmodel.TypeVisitor, it astmodel.AllOfType, ctx interface{}) (astmodel.Type, error) {
+			visitor.VisitAllOfType = func(this *astmodel.TypeVisitor, it *astmodel.AllOfType, ctx interface{}) (astmodel.Type, error) {
 				synth := synthesizer{
 					specOrStatus: ctx.(resourceFieldSelector),
 					defs:         defs,
@@ -53,7 +53,7 @@ func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Pipelin
 				return this.Visit(object, ctx)
 			}
 
-			visitor.VisitOneOfType = func(this *astmodel.TypeVisitor, it astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
+			visitor.VisitOneOfType = func(this *astmodel.TypeVisitor, it *astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
 				synth := synthesizer{
 					specOrStatus: ctx.(resourceFieldSelector),
 					defs:         defs,
@@ -73,7 +73,7 @@ func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Pipelin
 					return nil, err
 				}
 
-				if resultOneOf, ok := result.(astmodel.OneOfType); ok {
+				if resultOneOf, ok := result.(*astmodel.OneOfType); ok {
 					result = synth.oneOfObject(resultOneOf, propNames)
 				}
 
@@ -146,7 +146,7 @@ func (ns propertyNames) betterThan(other propertyNames) bool {
 	return ns.depth <= other.depth
 }
 
-func (s synthesizer) getOneOfPropNames(oneOf astmodel.OneOfType) ([]propertyNames, error) {
+func (s synthesizer) getOneOfPropNames(oneOf *astmodel.OneOfType) ([]propertyNames, error) {
 
 	var result []propertyNames
 
@@ -189,7 +189,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
 
-	case astmodel.ValidatedType:
+	case *astmodel.ValidatedType:
 		// pass-through to inner type
 		return s.getOneOfName(concreteType.ElementType(), propIndex)
 
@@ -215,7 +215,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
 
-	case astmodel.AllOfType:
+	case *astmodel.AllOfType:
 		var result *propertyNames
 		err := concreteType.Types().ForEachError(func(t astmodel.Type, ix int) error {
 			inner, err := s.getOneOfName(t, ix)
@@ -246,7 +246,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 	}
 }
 
-func (s synthesizer) oneOfObject(oneOf astmodel.OneOfType, propNames []propertyNames) astmodel.Type {
+func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []propertyNames) astmodel.Type {
 	// If there's more than one option, synthesize a type.
 	// Note that this is required because Kubernetes CRDs do not support OneOf the same way
 	// OpenAPI does, see https://github.com/Azure/k8s-infra/issues/71
@@ -322,7 +322,7 @@ func init() {
 
 func (s synthesizer) handleErrored(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
 	// can merge the contents of an ErroredType, if we preserve the errors
-	leftErrored, ok := left.(astmodel.ErroredType)
+	leftErrored, ok := left.(*astmodel.ErroredType)
 	if !ok {
 		return nil, nil
 	}
@@ -573,7 +573,7 @@ func (s synthesizer) handleEnum(left astmodel.Type, right astmodel.Type) (astmod
 }
 
 func (s synthesizer) handleAllOfType(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftAllOf, ok := left.(astmodel.AllOfType)
+	leftAllOf, ok := left.(*astmodel.AllOfType)
 	if !ok {
 		return nil, nil
 	}
@@ -588,7 +588,7 @@ func (s synthesizer) handleAllOfType(left astmodel.Type, right astmodel.Type) (a
 
 // if combining a type with a oneOf that contains that type, the result is that type
 func (s synthesizer) handleOneOf(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftOneOf, ok := left.(astmodel.OneOfType)
+	leftOneOf, ok := left.(*astmodel.OneOfType)
 	if !ok {
 		return nil, nil
 	}
@@ -623,7 +623,7 @@ func (s synthesizer) handleOneOf(left astmodel.Type, right astmodel.Type) (astmo
 		return nil, err
 	}
 
-	return astmodel.MakeOneOfType(newTypes...), nil
+	return astmodel.BuildOneOfType(newTypes...), nil
 }
 
 func (s synthesizer) handleTypeName(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
@@ -673,7 +673,7 @@ func (synthesizer) handleEqualTypes(left astmodel.Type, right astmodel.Type) (as
 
 // a validated and non-validated version of the same type become the valiated version
 func (synthesizer) handleValidatedAndNonValidated(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	if validated, ok := left.(astmodel.ValidatedType); ok {
+	if validated, ok := left.(*astmodel.ValidatedType); ok {
 		if validated.ElementType().Equals(right) {
 			return left, nil
 		}
@@ -703,7 +703,7 @@ func (synthesizer) handleMapObject(left astmodel.Type, right astmodel.Type) (ast
 }
 
 // makes an ObjectType for an AllOf type
-func (s synthesizer) allOfObject(allOf astmodel.AllOfType) (astmodel.Type, error) {
+func (s synthesizer) allOfObject(allOf *astmodel.AllOfType) (astmodel.Type, error) {
 
 	var intersection astmodel.Type = astmodel.AnyType
 	err := allOf.Types().ForEachError(func(t astmodel.Type, _ int) error {

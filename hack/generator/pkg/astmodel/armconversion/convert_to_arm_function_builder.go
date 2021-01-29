@@ -275,7 +275,7 @@ func (builder *convertToArmBuilder) toArmComplexPropertyConversion(
 	case *astmodel.PrimitiveType:
 		// No conversion needed in this case.
 		return builder.assignPrimitiveType(params)
-	case astmodel.ValidatedType:
+	case *astmodel.ValidatedType:
 		// pass through to underlying type
 		params.destinationType = concrete.ElementType()
 		return builder.toArmComplexPropertyConversion(params)

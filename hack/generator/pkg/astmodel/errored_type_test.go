@@ -19,7 +19,7 @@ func TestErroredTypeProperties(t *testing.T) {
 	g.Property("wrapping an ErroredType with another merges its errors and warnings",
 		prop.ForAll(
 			func(e1 []string, e2 []string, w1 []string, w2 []string) bool {
-				t := MakeErroredType(MakeErroredType(StringType, e1, w1), e2, w2)
+				t := NewErroredType(NewErroredType(StringType, e1, w1), e2, w2)
 
 				return stringSlicesEqual(t.errors, append(e2, e1...)) &&
 					stringSlicesEqual(t.warnings, append(w2, w1...)) &&

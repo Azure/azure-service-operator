@@ -80,7 +80,7 @@ func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *co
 						klog.V(4).Infof("Swagger information missing for %v", typeName)
 						// add a warning that the status is missing
 						// this will be reported if the type is not pruned
-						newStatus = astmodel.MakeErroredType(nil, nil, []string{fmt.Sprintf("missing status information for %v", typeName)})
+						newStatus = astmodel.NewErroredType(nil, nil, []string{fmt.Sprintf("missing status information for %v", typeName)})
 					}
 					newTypes.Add(astmodel.MakeTypeDefinition(typeName, resource.WithStatus(newStatus)))
 				} else {

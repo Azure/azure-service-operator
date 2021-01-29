@@ -11,10 +11,12 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"sync"
 	"time"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 )
 
@@ -87,32 +89,76 @@ func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*ast
 	globalProgress := newProgressMeter()
 	groupProgress := newProgressMeter()
 
-	for _, pkg := range pkgs {
-		if ctx.Err() != nil { // check for cancellation
-			return ctx.Err()
-		}
+	var wg sync.WaitGroup
 
-		// create directory if not already there
-		outputDir := filepath.Join(outputPath, pkg.GroupName, pkg.PackageName)
-		if _, err := os.Stat(outputDir); os.IsNotExist(err) {
-			klog.V(5).Infof("Creating directory %q\n", outputDir)
-			err = os.MkdirAll(outputDir, 0700)
-			if err != nil {
-				klog.Fatalf("Unable to create directory %q", outputDir)
+	pkgQueue := make(chan *astmodel.PackageDefinition, 100)
+	errs := make(chan error, 10) // we will buffer up to 10 errors and ignore any leftovers
+
+	// write outputs with 8 workers
+	// this is parallelized mostly due to 'dst' conversion being slow, see: https://github.com/Azure/k8s-infra/pull/376
+	// potentially we could contribute improvements upstream
+	for c := 0; c < 8; c++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for pkg := range pkgQueue {
+				if ctx.Err() != nil { // check for cancellation
+					return
+				}
+
+				// create directory if not already there
+				outputDir := filepath.Join(outputPath, pkg.GroupName, pkg.PackageName)
+				if _, err := os.Stat(outputDir); os.IsNotExist(err) {
+					klog.V(5).Infof("Creating directory %q\n", outputDir)
+					err = os.MkdirAll(outputDir, 0700)
+					if err != nil {
+						select { // try to write to errs, ignore if buffer full
+						case errs <- errors.Wrapf(err, "unable to create directory %q", outputDir):
+						default:
+						}
+						return
+					}
+				}
+
+				count, err := pkg.EmitDefinitions(outputDir, packages)
+				if err != nil {
+					select { // try to write to errs, ignore if buffer full
+					case errs <- errors.Wrapf(err, "error writing definitions into %q", outputDir):
+					default:
+					}
+					return
+				} else {
+					globalProgress.LogProgress("", pkg.DefinitionCount(), count)
+					groupProgress.LogProgress(pkg.GroupName, pkg.DefinitionCount(), count)
+				}
 			}
-		}
-
-		count, err := pkg.EmitDefinitions(outputDir, packages)
-		if err != nil {
-			return errors.Wrapf(err, "error writing definitions into %q", outputDir)
-		}
-
-		globalProgress.LogProgress("", pkg.DefinitionCount(), count)
-		groupProgress.LogProgress(pkg.GroupName, pkg.DefinitionCount(), count)
+		}()
 	}
 
-	globalProgress.Log()
+	// send to workers
+	// and wait for them to finish
+	for _, pkg := range pkgs {
+		pkgQueue <- pkg
+	}
+	close(pkgQueue)
+	wg.Wait()
 
+	// collect all errors, if any
+	close(errs)
+	var totalErrs []error
+	for err := range errs {
+		totalErrs = append(totalErrs, err)
+	}
+
+	err := kerrors.NewAggregate(totalErrs)
+	if err != nil {
+		return err
+	}
+
+	// log anything leftover
+	globalProgress.mutex.Lock()
+	defer globalProgress.mutex.Unlock()
+	globalProgress.Log()
 	return nil
 }
 
@@ -128,6 +174,8 @@ type progressMeter struct {
 	definitions int
 	files       int
 	resetAt     time.Time
+
+	mutex sync.Mutex
 }
 
 // Log() writes a log message for our progress to this point
@@ -151,6 +199,9 @@ func (export *progressMeter) Log() {
 
 // LogProgress() accumulates totals until a new label is supplied, when it will write a log message
 func (export *progressMeter) LogProgress(label string, definitions int, files int) {
+	export.mutex.Lock()
+	defer export.mutex.Unlock()
+
 	if export.label != label {
 		// New group, output our current totals and reset
 		export.Log()

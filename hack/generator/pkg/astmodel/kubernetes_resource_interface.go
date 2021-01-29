@@ -152,7 +152,7 @@ func generateDefaulter(resourceName TypeName, spec *ObjectType, idFactory Identi
 func getAzureNameFunctionsForType(r **ResourceType, spec *ObjectType, t Type, types Types) (asFuncType, asFuncType, error) {
 	// handle different types of AzureName property
 	switch azureNamePropType := t.(type) {
-	case ValidatedType:
+	case *ValidatedType:
 		if !azureNamePropType.ElementType().Equals(StringType) {
 			return nil, nil, errors.Errorf("unable to handle non-string validated types in AzureName property")
 		}

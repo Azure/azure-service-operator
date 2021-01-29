@@ -199,7 +199,7 @@ func (builder *convertFromArmBuilder) propertiesWithSameNameAndTypeHandler(
 	// check that we are assigning to the same type or a validated
 	// version of the same type
 	toType := toProp.PropertyType()
-	if toValidated, ok := toType.(astmodel.ValidatedType); ok {
+	if toValidated, ok := toType.(*astmodel.ValidatedType); ok {
 		toType = toValidated.ElementType()
 	}
 
@@ -311,7 +311,7 @@ func (builder *convertFromArmBuilder) fromArmComplexPropertyConversion(
 		return builder.convertComplexTypeNameProperty(params)
 	case *astmodel.PrimitiveType:
 		return builder.assignPrimitiveType(params)
-	case astmodel.ValidatedType:
+	case *astmodel.ValidatedType:
 		// pass through to underlying type
 		params.destinationType = concrete.ElementType()
 		return builder.fromArmComplexPropertyConversion(params)

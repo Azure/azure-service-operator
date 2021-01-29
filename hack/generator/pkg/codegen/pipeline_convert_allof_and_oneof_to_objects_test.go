@@ -249,7 +249,7 @@ func TestMergeResourceWithOtherDependsOnSpecVsStatus(t *testing.T) {
 func TestMergeOneOf(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	oneOf := astmodel.MakeOneOfType(astmodel.IntType, astmodel.StringType, astmodel.BoolType)
+	oneOf := astmodel.BuildOneOfType(astmodel.IntType, astmodel.StringType, astmodel.BoolType)
 
 	g.Expect(synth.intersectTypes(oneOf, astmodel.BoolType)).To(Equal(astmodel.BoolType))
 	g.Expect(synth.intersectTypes(astmodel.BoolType, oneOf)).To(Equal(astmodel.BoolType))
@@ -276,7 +276,7 @@ func TestMergeOneOfEnum(t *testing.T) {
 
 	g := NewGomegaWithT(t)
 
-	oneOf := astmodel.MakeOneOfType(
+	oneOf := astmodel.BuildOneOfType(
 		astmodel.StringType,
 		defineEnum("a", "b", "c"),
 	)
@@ -293,7 +293,7 @@ func TestOneOfResourceSpec(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	r := astmodel.NewResourceType(astmodel.StringType, astmodel.IntType)
-	oneOf := astmodel.MakeOneOfType(astmodel.BoolType, r).(astmodel.OneOfType)
+	oneOf := astmodel.BuildOneOfType(astmodel.BoolType, r).(*astmodel.OneOfType)
 
 	synth.specOrStatus = chooseSpec
 

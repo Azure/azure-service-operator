@@ -24,13 +24,15 @@ type OneOfType struct {
 	types TypeSet
 }
 
-// MakeOneOfType is a smart constructor for a  OneOfType,
+var _ Type = &OneOfType{}
+
+// BuildOneOfType is a smart constructor for a  OneOfType,
 // maintaining the invariants. If only one unique type
 // is passed, the result will be that type, not a OneOf.
-func MakeOneOfType(types ...Type) Type {
+func BuildOneOfType(types ...Type) Type {
 	uniqueTypes := MakeTypeSet()
 	for _, t := range types {
-		if oneOf, ok := t.(OneOfType); ok {
+		if oneOf, ok := t.(*OneOfType); ok {
 			oneOf.types.ForEach(func(t Type, _ int) {
 				uniqueTypes.Add(t)
 			})
@@ -48,19 +50,17 @@ func MakeOneOfType(types ...Type) Type {
 		return result
 	}
 
-	return OneOfType{uniqueTypes}
+	return &OneOfType{uniqueTypes}
 }
-
-var _ Type = OneOfType{}
 
 // Types returns what types the OneOf can be.
 // Exposed as ReadonlyTypeSet so caller can't break invariants.
-func (oneOf OneOfType) Types() ReadonlyTypeSet {
+func (oneOf *OneOfType) Types() ReadonlyTypeSet {
 	return oneOf.types
 }
 
 // References returns any type referenced by the OneOf types
-func (oneOf OneOfType) References() TypeNameSet {
+func (oneOf *OneOfType) References() TypeNameSet {
 	var result TypeNameSet
 
 	oneOf.types.ForEach(func(t Type, _ int) {
@@ -91,17 +91,21 @@ func (oneOf OneOfType) RequiredPackageReferences() *PackageReferenceSet {
 
 // Equals returns true if the other Type is a OneOfType that contains
 // the same set of types
-func (oneOf OneOfType) Equals(t Type) bool {
-	other, ok := t.(OneOfType)
+func (oneOf *OneOfType) Equals(t Type) bool {
+	other, ok := t.(*OneOfType)
 	if !ok {
 		return false
+	}
+
+	if oneOf == other {
+		return true // short-circuit
 	}
 
 	return oneOf.types.Equals(other.types)
 }
 
 // String implements fmt.Stringer
-func (oneOf OneOfType) String() string {
+func (oneOf *OneOfType) String() string {
 	var subStrings []string
 	oneOf.types.ForEach(func(t Type, _ int) {
 		subStrings = append(subStrings, t.String())

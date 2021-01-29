@@ -93,7 +93,7 @@ type StorageTypeFactory struct {
 // convert, deferring the conversion to another.
 type propertyConversion = func(property *astmodel.PropertyDefinition, ctx StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error)
 
-func (factory *StorageTypeFactory) visitValidatedType(this *astmodel.TypeVisitor, v astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
+func (factory *StorageTypeFactory) visitValidatedType(this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
 	// strip all type validations from storage types,
 	// act as if they do not exist
 	return this.Visit(v.ElementType(), ctx)
