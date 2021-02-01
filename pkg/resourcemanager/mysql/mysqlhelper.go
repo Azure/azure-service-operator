@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strings"
 
+	multierror "github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -13,11 +14,16 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
 
-// MSqlServerPort is the default server port for sql server
-const MySQLServerPort = 3306
+// ServerPort is the default server port for sql server
+const ServerPort = 3306
 
-// MDriverName is driver name for psqldb connection
-const MySQLDriverName = "mysql"
+// DriverName is driver name for psqldb connection
+const DriverName = "mysql"
+
+// SystemDatabase is the name of the system database in a MySQL server
+// where users and privileges are stored (and which we can always
+// assume will exist).
+const SystemDatabase = "mysql"
 
 func GetMySQLDatabaseDNSSuffix() string {
 	// TODO: We need an environment specific way of getting the DNS suffix
@@ -90,74 +96,122 @@ func ConnectToSQLDBAsCurrentUser(
 	return db, err
 }
 
-// ExtractUserRoles extracts the roles the user has. The result is the set of roles the user has for the requested database
-func ExtractUserRoles(ctx context.Context, db *sql.DB, user string, database string) (map[string]struct{}, error) {
-	if err := helpers.FindBadChars(user); err != nil {
-		return nil, errors.Wrapf(err, "problem found with username")
-	}
+func formatUser(user string) string {
+	// Wrap the user name in the weird formatting MySQL uses.
+	return fmt.Sprintf("'%s'@'%%'", user)
+}
 
+// ExtractUserDatabaseRoles extracts the per-database roles that the
+// user has. The user can have different permissions to each
+// database. The details of access are returned in the map, keyed by
+// database name.
+func ExtractUserDatabaseRoles(ctx context.Context, db *sql.DB, user string) (map[string]StringSet, error) {
 	// Note: This works because we only assign permissions at the DB level, not at the table, column, etc levels -- if we assigned
 	// permissions at more levels we would need to do something else here such as join multiple tables or
 	// parse SHOW GRANTS with a regex.
-	formattedUser := fmt.Sprintf("'%s'@'%%'", user)
 	rows, err := db.QueryContext(
 		ctx,
-		"SELECT PRIVILEGE_TYPE FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE GRANTEE = ? and TABLE_SCHEMA = ?",
-		formattedUser,
-		database)
+		"SELECT TABLE_SCHEMA, PRIVILEGE_TYPE FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE GRANTEE = ?",
+		formatUser(user),
+	)
+	if err != nil {
+		return nil, errors.Wrapf(err, "listing database grants for user %s", user)
+	}
+	defer rows.Close()
+
+	results := make(map[string]StringSet)
+	for rows.Next() {
+		var database, privilege string
+		err := rows.Scan(&database, &privilege)
+		if err != nil {
+			return nil, errors.Wrapf(err, "extracting privilege row")
+		}
+
+		var privileges StringSet
+		if existingPrivileges, found := results[database]; found {
+			privileges = existingPrivileges
+		} else {
+			privileges = make(StringSet)
+			results[database] = privileges
+		}
+		privileges.Add(privilege)
+	}
+
+	if rows.Err() != nil {
+		return nil, errors.Wrapf(rows.Err(), "iterating database privileges")
+	}
+
+	return results, nil
+}
+
+// ExtractUserServerRoles extracts the server-level privileges the user has as a set.
+func ExtractUserServerRoles(ctx context.Context, db *sql.DB, user string) (StringSet, error) {
+	// Note: This works because we only assign permissions at the DB level, not at the table, column, etc levels -- if we assigned
+	// permissions at more levels we would need to do something else here such as join multiple tables or
+	// parse SHOW GRANTS with a regex.
+	// Remove "USAGE" as it's special and we never grant or remove it.
+	rows, err := db.QueryContext(
+		ctx,
+		"SELECT PRIVILEGE_TYPE FROM INFORMATION_SCHEMA.USER_PRIVILEGES WHERE GRANTEE = ? AND PRIVILEGE_TYPE != 'USAGE'",
+		formatUser(user),
+	)
 	if err != nil {
 		return nil, errors.Wrapf(err, "listing grants for user %s", user)
 	}
 	defer rows.Close()
 
-	result := make(map[string]struct{})
+	result := make(StringSet)
 	for rows.Next() {
 		var row string
 		err := rows.Scan(&row)
 		if err != nil {
-			return nil, errors.Wrapf(err, "iterating returned rows")
+			return nil, errors.Wrapf(err, "extracting privilege field")
 		}
 
-		result[row] = struct{}{}
+		result.Add(row)
+	}
+	if rows.Err() != nil {
+		return nil, errors.Wrapf(rows.Err(), "iterating privileges")
 	}
 
 	return result, nil
 }
 
-func GrantUserRoles(ctx context.Context, user string, database string, roles []string, db *sql.DB) error {
+type StringSet map[string]struct{}
+
+func SliceToSet(values []string) StringSet {
+	result := make(StringSet)
+	for _, value := range values {
+		result[value] = struct{}{}
+	}
+	return result
+}
+
+func (s StringSet) Add(value string) {
+	s[value] = struct{}{}
+}
+
+// EnsureUserServerRoles revokes and grants server-level roles as
+// needed so the roles for the user match those passed in.
+func EnsureUserServerRoles(ctx context.Context, db *sql.DB, user string, roles []string) error {
 	var errorStrings []string
 	if err := helpers.FindBadChars(user); err != nil {
 		return fmt.Errorf("problem found with username: %v", err)
 	}
 
-	rolesMap := make(map[string]struct{})
-	for _, role := range roles {
-		rolesMap[role] = struct{}{}
-	}
+	desiredRoles := SliceToSet(roles)
 
-	// Get the current roles
-	currentRoles, err := ExtractUserRoles(ctx, db, user, database)
+	currentRoles, err := ExtractUserServerRoles(ctx, db, user)
 	if err != nil {
 		return errors.Wrapf(err, "couldn't get existing roles for user %s", user)
 	}
-	// Remove "USAGE" as it's special and we never grant or remove it
-	delete(currentRoles, "USAGE")
 
-	rolesDiff := helpers.DiffCurrentAndExpectedSQLRoles(currentRoles, rolesMap)
-
-	// Due to how go-mysql-driver performs parameter replacement, it always wraps
-	// string parameters in ''. That doesn't work for these queries because some of
-	// our parameters are actually SQL keywords or identifiers (requiring backticks). Admittedly
-	// protecting against SQL injection here is probably pointless as we're giving the caller
-	// permission to create users, which means there's nothing stopping them from creating
-	// an administrator user and then doing whatever they want without SQL injection.
-	// See https://github.com/go-sql-driver/mysql/blob/3b935426341bc5d229eafd936e4f4240da027ccd/connection.go#L198
-	// for specifics of what go-mysql-driver supports.
-	err = addRoles(ctx, db, database, user, rolesDiff.AddedRoles)
+	rolesDiff := helpers.DiffCurrentAndExpectedSQLRoles(currentRoles, desiredRoles)
+	err = addRoles(ctx, db, "", user, rolesDiff.AddedRoles)
 	if err != nil {
 		errorStrings = append(errorStrings, err.Error())
 	}
-	err = deleteRoles(ctx, db, database, user, rolesDiff.DeletedRoles)
+	err = deleteRoles(ctx, db, "", user, rolesDiff.DeletedRoles)
 	if err != nil {
 		errorStrings = append(errorStrings, err.Error())
 	}
@@ -168,7 +222,54 @@ func GrantUserRoles(ctx context.Context, user string, database string, roles []s
 	return nil
 }
 
-func addRoles(ctx context.Context, db *sql.DB, database string, user string, roles map[string]struct{}) error {
+// EnsureUserDatabaseRoles revokes and grants database roles as needed
+// so they match the ones passed in. If there's an error applying
+// privileges for one database it will still continue to apply
+// privileges for subsequent databases (before reporting all errors).
+func EnsureUserDatabaseRoles(ctx context.Context, conn *sql.DB, user string, dbRoles map[string][]string) error {
+	if err := helpers.FindBadChars(user); err != nil {
+		return errors.Errorf("problem found with username: %v", err)
+	}
+
+	desiredRoles := make(map[string]StringSet)
+	for database, roles := range dbRoles {
+		desiredRoles[database] = SliceToSet(roles)
+	}
+
+	currentRoles, err := ExtractUserDatabaseRoles(ctx, conn, user)
+	if err != nil {
+		return errors.Wrapf(err, "couldn't get existing database roles for user %s", user)
+	}
+
+	allDatabases := make(StringSet)
+	for db := range desiredRoles {
+		allDatabases.Add(db)
+	}
+	for db := range currentRoles {
+		allDatabases.Add(db)
+	}
+
+	var dbErrors error
+	for db := range allDatabases {
+		rolesDiff := helpers.DiffCurrentAndExpectedSQLRoles(
+			currentRoles[db],
+			desiredRoles[db],
+		)
+
+		err = addRoles(ctx, conn, db, user, rolesDiff.AddedRoles)
+		if err != nil {
+			dbErrors = multierror.Append(dbErrors, errors.Wrap(err, db))
+		}
+		err = deleteRoles(ctx, conn, db, user, rolesDiff.DeletedRoles)
+		if err != nil {
+			dbErrors = multierror.Append(dbErrors, errors.Wrap(err, db))
+		}
+	}
+
+	return dbErrors
+}
+
+func addRoles(ctx context.Context, db *sql.DB, database string, user string, roles StringSet) error {
 	if len(roles) == 0 {
 		// Nothing to do
 		return nil
@@ -180,13 +281,13 @@ func addRoles(ctx context.Context, db *sql.DB, database string, user string, rol
 	}
 
 	toAdd := strings.Join(rolesSlice, ",")
-	tsql := fmt.Sprintf("GRANT %s ON `%s`.* TO ?", toAdd, database)
+	tsql := fmt.Sprintf("GRANT %s ON %s TO ?", toAdd, asGrantTarget(database))
 	_, err := db.ExecContext(ctx, tsql, user)
 
 	return err
 }
 
-func deleteRoles(ctx context.Context, db *sql.DB, database string, user string, roles map[string]struct{}) error {
+func deleteRoles(ctx context.Context, db *sql.DB, database string, user string, roles StringSet) error {
 	if len(roles) == 0 {
 		// Nothing to do
 		return nil
@@ -198,10 +299,20 @@ func deleteRoles(ctx context.Context, db *sql.DB, database string, user string, 
 	}
 
 	toDelete := strings.Join(rolesSlice, ",")
-	tsql := fmt.Sprintf("REVOKE %s ON `%s`.* FROM ?", toDelete, database)
+	tsql := fmt.Sprintf("REVOKE %s ON %s FROM ?", toDelete, asGrantTarget(database))
 	_, err := db.ExecContext(ctx, tsql, user)
 
 	return err
+}
+
+// asGrantTarget formats the database name as a target suitable for a
+// grant or revoke statement. If database is empty it returns "*.*"
+// for server-level privileges.
+func asGrantTarget(database string) string {
+	if database == "" {
+		return "*.*"
+	}
+	return fmt.Sprintf("`%s`.*", database)
 }
 
 // UserExists checks if db contains user

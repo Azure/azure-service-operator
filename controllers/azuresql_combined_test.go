@@ -25,7 +25,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
-
 )
 
 func TestAzureSqlServerCombinedHappyPath(t *testing.T) {

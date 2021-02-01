@@ -7,6 +7,7 @@ package controllers
 
 import (
 	"context"
+	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -115,17 +116,19 @@ func RunMySQLUserHappyPath(ctx context.Context, t *testing.T, mySQLServerName st
 
 	// Create a user in the DB
 	username := GenerateTestResourceNameWithRandom("user", 10)
-	user := &azurev1alpha1.MySQLUser{
+	user := &v1alpha2.MySQLUser{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      username,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.MySQLUserSpec{
+		Spec: v1alpha2.MySQLUserSpec{
 			ResourceGroup: rgName,
 			Server:        mySQLServerName,
-			DbName:        mySQLDBName,
-			Username:      username,
-			Roles:         []string{"SELECT"},
+			Roles:         []string{"RELOAD", "PROCESS"},
+			DatabaseRoles: map[string][]string{
+				mySQLDBName: []string{"SELECT", "DELETE"},
+			},
+			Username: username,
 		},
 	}
 	EnsureInstance(ctx, t, tc, user)
@@ -135,8 +138,10 @@ func RunMySQLUserHappyPath(ctx context.Context, t *testing.T, mySQLServerName st
 	err := tc.k8sClient.Get(ctx, namespacedName, user)
 	assert.NoError(err)
 
-	updatedRoles := []string{"UPDATE", "DELETE", "CREATE", "DROP"}
+	updatedRoles := []string{"PROCESS", "REPLICATION CLIENT"}
 	user.Spec.Roles = updatedRoles
+	updatedDbRoles := []string{"CREATE", "UPDATE", "DELETE"}
+	user.Spec.DatabaseRoles[mySQLDBName] = updatedDbRoles
 	err = tc.k8sClient.Update(ctx, user)
 	assert.NoError(err)
 
@@ -150,26 +155,33 @@ func RunMySQLUserHappyPath(ctx context.Context, t *testing.T, mySQLServerName st
 
 	db, err := mysql.ConnectToSqlDB(
 		ctx,
-		mysql.MySQLDriverName,
+		mysql.DriverName,
 		fullServerName,
-		mySQLDBName,
-		mysql.MySQLServerPort,
+		mysql.SystemDatabase,
+		mysql.ServerPort,
 		adminUser,
 		adminPassword)
 	assert.NoError(err)
 
+	expectedRoles := mysql.SliceToSet(updatedRoles)
+	expectedDbRoles := make(map[string]mysql.StringSet)
+	for db, roles := range user.Spec.DatabaseRoles {
+		expectedDbRoles[db] = mysql.SliceToSet(roles)
+	}
+
 	assert.Eventually(func() bool {
-		roles, err := mysql.ExtractUserRoles(ctx, db, username, mySQLDBName)
+		actualRoles, err := mysql.ExtractUserServerRoles(ctx, db, username)
 		assert.NoError(err)
 
-		if len(roles) != len(updatedRoles) {
+		if !reflect.DeepEqual(expectedRoles, actualRoles) {
 			return false
 		}
 
-		for _, role := range updatedRoles {
-			if _, ok := roles[role]; !ok {
-				return false
-			}
+		actualDbRoles, err := mysql.ExtractUserDatabaseRoles(ctx, db, username)
+		assert.NoError(err)
+
+		if !reflect.DeepEqual(expectedDbRoles, actualDbRoles) {
+			return false
 		}
 
 		return true

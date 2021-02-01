@@ -72,12 +72,12 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, nil
 	}
 
-	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
+	_, err = s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Server)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
 
-		if mysql.IsErrorResourceNotFound(err) || mysql.IsErrorDatabaseBusy(err) {
+		if mysql.IsErrorResourceNotFound(err) {
 			return false, nil
 		}
 
@@ -90,10 +90,10 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 	db, err := mysql.ConnectToSqlDB(
 		ctx,
-		mysql.MySQLDriverName,
+		mysql.DriverName,
 		fullServerName,
-		instance.Spec.DbName,
-		mysql.MySQLServerPort,
+		mysql.SystemDatabase,
+		mysql.ServerPort,
 		adminUser,
 		adminPassword)
 	if err != nil {
@@ -147,22 +147,22 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	// apply roles to user
-	if len(instance.Spec.Roles) == 0 {
-		instance.Status.Message = "No roles specified for user"
-		return false, fmt.Errorf("no roles specified for database user")
-	}
-
-	err = mysql.GrantUserRoles(ctx, user, instance.Spec.DbName, instance.Spec.Roles, db)
+	err = mysql.EnsureUserServerRoles(ctx, db, user, instance.Spec.Roles)
 	if err != nil {
-		err = errors.Wrap(err, "GrantUserRoles failed")
+		err = errors.Wrap(err, "ensuring server roles")
 		instance.Status.Message = err.Error()
 		return false, err
 	}
 
-	instance.Status.Provisioned = true
+	err = mysql.EnsureUserDatabaseRoles(ctx, db, user, instance.Spec.DatabaseRoles)
+	if err != nil {
+		err = errors.Wrap(err, "ensuring database roles")
+		instance.Status.Message = err.Error()
+		return false, err
+	}
+
+	instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
 	instance.Status.State = "Succeeded"
-	instance.Status.Message = resourcemanager.SuccessMsg
 
 	return true, nil
 }
@@ -211,7 +211,7 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 	}
 
 	// short circuit connection if database doesn't exist
-	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
+	_, err = s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Server)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		if mysql.IsErrorResourceNotFound(err) {
@@ -225,7 +225,15 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 	adminPassword := string(adminSecret[MSecretPasswordKey])
 	fullServerName := string(adminSecret["fullyQualifiedServerName"])
 
-	db, err := mysql.ConnectToSqlDB(ctx, mysql.MySQLDriverName, fullServerName, instance.Spec.DbName, mysql.MySQLServerPort, adminUser, adminPassword)
+	db, err := mysql.ConnectToSqlDB(
+		ctx,
+		mysql.DriverName,
+		fullServerName,
+		mysql.SystemDatabase,
+		mysql.ServerPort,
+		adminUser,
+		adminPassword,
+	)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "is not allowed to connect to this MySQL server") {
@@ -276,13 +284,6 @@ func (s *MySqlUserManager) GetParents(obj runtime.Object) ([]resourcemanager.Kub
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.DbName,
-			},
-			Target: &v1alpha1.MySQLDatabase{},
-		},
-		{
-			Key: types.NamespacedName{
-				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
 			Target: &v1alpha2.MySQLServer{},
@@ -303,11 +304,12 @@ func (s *MySqlUserManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, e
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := v1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
-func (s *MySqlUserManager) convert(obj runtime.Object) (*v1alpha1.MySQLUser, error) {
-	local, ok := obj.(*v1alpha1.MySQLUser)
+func (s *MySqlUserManager) convert(obj runtime.Object) (*v1alpha2.MySQLUser, error) {
+	local, ok := obj.(*v1alpha2.MySQLUser)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
