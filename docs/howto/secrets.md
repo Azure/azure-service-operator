@@ -35,7 +35,7 @@ Some things to note about the Key Vault you use with the operator:
 ## Secret naming
 
 There are two versions of secret naming used by the Azure Service Operator. The secret naming version is controlled by the `AZURE_SECRET_NAMING_VERSION` field of the `azureoperatorsettings` secret.
-Valid values are `"1"` and `"2"`. Version `2` is the default when installing the operator via Helm. If no value is specified for `AZURE_SECRET_NAMING_VERSION` the default is version `1` for backwards compatibility.
+Valid values are `"1"` and `"2"`. Version `2` is the default.
 
 **We strongly recommend that you use version `2` as it is more consistent in how secrets are named and does a better job of avoiding naming conflicts.**
 

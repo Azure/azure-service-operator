@@ -90,10 +90,8 @@ func setup() error {
 	// the purpose of these tests
 	envy.Set("POD_NAMESPACE", "azureoperator-system")
 
-	// Force the secret naming version to 2 for these tests
-	// Note: This can be removed to run the tests in the old v1 naming scheme (they
-	// should still pass)
-	envy.Set("AZURE_SECRET_NAMING_VERSION", "2")
+	// Uncomment the below to run the tests in the old v1 naming mode
+	// envy.Set("AZURE_SECRET_NAMING_VERSION", "1")
 
 	err := resourcemanagerconfig.ParseEnvironment()
 	if err != nil {

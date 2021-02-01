@@ -30,12 +30,7 @@ func RunSQLActionHappy(t *testing.T, server string) {
 	//Get SQL credentials to compare after rollover
 	secret := &v1.Secret{}
 	assert.Eventually(func() bool {
-		var secretName string
-		if tc.secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
-			secretName = server
-		} else {
-			secretName = "azuresqlserver-" + server
-		}
+		secretName := getSecretName(server)
 
 		err := tc.k8sClient.Get(ctx, types.NamespacedName{Name: secretName, Namespace: "default"}, secret)
 		if err != nil {
@@ -81,4 +76,14 @@ func RunSQLActionHappy(t *testing.T, server string) {
 	assert.NotEqual(string(secret.Data["password"]), string(secretAfter.Data["password"]), "password should have changed")
 
 	EnsureDelete(ctx, t, tc, sqlActionInstance)
+}
+
+func getSecretName(server string) string {
+	var secretName string
+	if tc.secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+		secretName = server
+	} else {
+		secretName = "azuresqlserver-" + server
+	}
+	return secretName
 }

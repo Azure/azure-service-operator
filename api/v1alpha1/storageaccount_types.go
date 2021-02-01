@@ -39,7 +39,8 @@ type StorageAccountSpec struct {
 // StorageAccountSku the SKU of the storage account.
 type StorageAccountSku struct {
 	// Name - The SKU name. Required for account creation; optional for update.
-	// Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS', 'Premium_LRS', 'Premium_ZRS', 'Standard_GZRS', 'Standard_RAGZRS'
+	// Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS', 'Premium_LRS', 'Premium_ZRS', 'Standard_GZRS', 'Standard_RAGZRS'.
+	// For the full list of allowed options, see: https://docs.microsoft.com/en-us/rest/api/storagerp/storageaccounts/create#skuname
 	Name StorageAccountSkuName `json:"name,omitempty"`
 }
 

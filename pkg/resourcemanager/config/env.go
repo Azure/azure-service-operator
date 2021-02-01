@@ -72,9 +72,9 @@ func ParseEnvironment() error {
 	}
 
 	// If this isn't set, default to the oldest support version
-	if secretNamingVersionInt == 0 || secretNamingVersionInt == 1 {
+	if secretNamingVersionInt == 1 {
 		secretNamingVersion = secrets.SecretNamingV1
-	} else if secretNamingVersionInt == 2 {
+	} else if secretNamingVersionInt == 0 || secretNamingVersionInt == 2 {
 		secretNamingVersion = secrets.SecretNamingV2
 	} else {
 		return errors.Errorf("secret naming version must be between 0 and 2 but was %d", secretNamingVersionInt)
