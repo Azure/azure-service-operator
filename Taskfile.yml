@@ -260,4 +260,4 @@ tasks:
 
   header-check:
     desc: Ensure all files have an appropriate license header.
-    cmds: [./scripts/verify_boilerplate.sh]
+    cmds: [python3 ./scripts/check_headers.py]
