@@ -68,7 +68,7 @@ var _ = Describe("Kube Secrets Client", func() {
 				key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"}
 
 				Context("creating secret with secret client", func() {
-					err = client.Create(ctx, key, data)
+					err = client.Upsert(ctx, key, data)
 					Expect(err).To(BeNil())
 				})
 

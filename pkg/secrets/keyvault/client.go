@@ -73,20 +73,22 @@ func New(keyVaultName string, creds config.Credentials, secretNamingVersion secr
 }
 
 // TODO: This method is awkward -- move to interface?
+// TODO: or even better, delete this method entirely
 func IsKeyVaultAccessible(client secrets.SecretClient) bool {
 	ctx := context.Background()
 	key := secrets.SecretKey{Name: "test", Namespace: "default", Kind: "test"}
 
+	// Here we are attempting to get a key which we expect will not exist. If we can
+	// get this key then either somebody has created a secret with the name we're attempting
+	// to use (which would be bad), or we've been able to create a secret with the given
+	// key in the past but for some reason the delete below hasn't been successful.
 	data, err := client.Get(ctx, key)
-	if err == nil {
-		// TODO: It's not expected we ever take this path -- should this be an error?
-		return false
-	}
-
-	if strings.Contains(err.Error(), errhelp.NoSuchHost) { //keyvault unavailable
-		return false
-	} else if strings.Contains(err.Error(), errhelp.Forbidden) { //Access policies missing
-		return false
+	if err != nil {
+		if strings.Contains(err.Error(), errhelp.NoSuchHost) { // keyvault unavailable
+			return false
+		} else if strings.Contains(err.Error(), errhelp.Forbidden) { // Access policies missing
+			return false
+		}
 	}
 
 	data = map[string][]byte{
@@ -105,93 +107,6 @@ func IsKeyVaultAccessible(client secrets.SecretClient) bool {
 	return true
 }
 
-// TODO: This isn't even used except in test, maybe just delete it?
-// Create creates a key in KeyVault if it does not exist already
-func (k *SecretClient) Create(ctx context.Context, key secrets.SecretKey, data map[string][]byte, opts ...secrets.SecretOption) error {
-	options := &secrets.Options{}
-	for _, opt := range opts {
-		opt(options)
-	}
-
-	vaultBaseURL := GetVaultsURL(k.KeyVaultName)
-
-	secretBaseName, err := k.makeSecretName(key)
-	if err != nil {
-		return errors.Wrapf(err, "couldn't make secret name for %+v", key)
-	}
-
-	secretVersion := ""
-	enabled := true
-	var activationDateUTC date.UnixTime
-	var expireDateUTC date.UnixTime
-
-	// Initialize secret attributes
-	secretAttributes := keyvaults.SecretAttributes{
-		Enabled: &enabled,
-	}
-
-	if options.Activates != nil {
-		activationDateUTC = date.UnixTime(*options.Activates)
-		secretAttributes.NotBefore = &activationDateUTC
-	}
-
-	if options.Expires != nil {
-		expireDateUTC = date.UnixTime(*options.Expires)
-		secretAttributes.Expires = &expireDateUTC
-	}
-
-	// if the caller is looking for flat secrets iterate over the array and individually persist each string
-	if options.Flatten {
-		var err error
-
-		for formatName, formatValue := range data {
-			secretName := secretBaseName + "-" + formatName
-			stringSecret := string(formatValue)
-
-			// Initialize secret parameters
-			secretParams := keyvaults.SecretSetParameters{
-				Value:            &stringSecret,
-				SecretAttributes: &secretAttributes,
-			}
-
-			if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
-				return errors.Errorf("secret %q already exists in %q", secretBaseName, vaultBaseURL)
-			}
-
-			_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
-			if err != nil {
-				return errors.Wrapf(err, "error setting secret %q in %q", secretBaseName, vaultBaseURL)
-			}
-		}
-		// If flatten has not been declared, convert the map into a json string for persistence
-	} else {
-		jsonData, err := json.Marshal(data)
-		if err != nil {
-			return err
-		}
-		stringSecret := string(jsonData)
-		contentType := "json"
-
-		// Initialize secret parameters
-		secretParams := keyvaults.SecretSetParameters{
-			Value:            &stringSecret,
-			SecretAttributes: &secretAttributes,
-			ContentType:      &contentType,
-		}
-
-		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
-			return errors.Errorf("secret %q already exists in %q", secretBaseName, vaultBaseURL)
-		}
-
-		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secretParams)
-		if err != nil {
-			return errors.Wrapf(err, "error setting secret %q in %q", secretBaseName, vaultBaseURL)
-		}
-	}
-
-	return nil
-}
-
 // Upsert updates a key in KeyVault even if it exists already, creates if it doesn't exist
 func (k *SecretClient) Upsert(ctx context.Context, key secrets.SecretKey, data map[string][]byte, opts ...secrets.SecretOption) error {
 	options := &secrets.Options{}
@@ -202,7 +117,7 @@ func (k *SecretClient) Upsert(ctx context.Context, key secrets.SecretKey, data m
 	vaultBaseURL := GetVaultsURL(k.KeyVaultName)
 	secretBaseName, err := k.makeSecretName(key)
 	if err != nil {
-		return errors.Wrapf(err, "couldn't make secret name for %+v", key)
+		return err
 	}
 
 	enabled := true
@@ -318,7 +233,7 @@ func (k *SecretClient) Delete(ctx context.Context, key secrets.SecretKey, opts .
 		for _, suffix := range options.FlattenSuffixes {
 			secretName, err := k.makeSecretName(secrets.SecretKey{Name: key.Name + "-" + suffix, Namespace: key.Namespace, Kind: key.Kind})
 			if err != nil {
-				return errors.Wrapf(err, "couldn't make secret name for %+v", key)
+				return err
 			}
 			err = k.deleteKeyVaultSecret(ctx, secretName)
 			if err != nil {
@@ -329,7 +244,7 @@ func (k *SecretClient) Delete(ctx context.Context, key secrets.SecretKey, opts .
 	} else {
 		secretName, err := k.makeSecretName(key)
 		if err != nil {
-			return errors.Wrapf(err, "couldn't make secret name for %+v", key)
+			return err
 		}
 		return k.deleteKeyVaultSecret(ctx, secretName)
 	}
@@ -347,7 +262,7 @@ func (k *SecretClient) Get(ctx context.Context, key secrets.SecretKey, opts ...s
 
 	secretName, err := k.makeSecretName(key)
 	if err != nil {
-		return data, errors.Wrapf(err, "couldn't make secret name for %+v", key)
+		return data, err
 	}
 
 	secretVersion := ""
@@ -375,14 +290,11 @@ func (k *SecretClient) Get(ctx context.Context, key secrets.SecretKey, opts ...s
 }
 
 func (k *SecretClient) makeLegacySecretName(key secrets.SecretKey) (string, error) {
-	// The legacy behavior had differences between different kinds of resources - we need to preserve those differences
-	// for backwards compatibility
-
 	if len(key.Namespace) == 0 {
-		return "", errors.New("namespace is required for creating secret name")
+		return "", errors.Errorf("secret key missing required namespace field, %s", key)
 	}
 	if len(key.Name) == 0 {
-		return "", errors.New("name is required for creating secret name")
+		return "", errors.Errorf("secret key missing required name field, %s", key)
 	}
 
 	var parts []string
@@ -399,13 +311,13 @@ func (k *SecretClient) makeSecretName(key secrets.SecretKey) (string, error) {
 	}
 
 	if len(key.Kind) == 0 {
-		return "", errors.Errorf("kind is required for creating secret name for namespace: %q, name: %q", key.Namespace, key.Name)
+		return "", errors.Errorf("secret key missing required kind field, %s", key)
 	}
 	if len(key.Namespace) == 0 {
-		return "", errors.New("namespace is required for creating secret name")
+		return "", errors.Errorf("secret key missing required namespace field, %s", key)
 	}
 	if len(key.Name) == 0 {
-		return "", errors.New("name is required for creating secret name")
+		return "", errors.Errorf("secret key missing required name field, %s", key)
 	}
 
 	var parts []string

@@ -39,46 +39,6 @@ func (k *SecretClient) GetSecretNamingVersion() secrets.SecretNamingVersion {
 	return k.SecretNamingVersion
 }
 
-func (k *SecretClient) Create(ctx context.Context, key secrets.SecretKey, data map[string][]byte, opts ...secrets.SecretOption) error {
-	options := &secrets.Options{}
-	for _, opt := range opts {
-		opt(options)
-	}
-
-	if options.Flatten {
-		return errors.Errorf("FlattenedSecretsNotSupported")
-	}
-
-	namespacedName, err := k.makeSecretName(key)
-	if err != nil {
-		return err
-	}
-
-	secret := &v1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      namespacedName.Name,
-			Namespace: namespacedName.Namespace,
-		},
-		// Needed to avoid nil map error
-		Data: map[string][]byte{},
-		Type: "Opaque",
-	}
-
-	if err := k.KubeClient.Get(ctx, namespacedName, secret); err == nil {
-		return errors.Errorf("Kubernetes secret %q already exists", namespacedName)
-	}
-
-	secret.Data = data
-
-	if options.Owner != nil && options.Scheme != nil {
-		if err := controllerutil.SetControllerReference(options.Owner, secret, options.Scheme); err != nil {
-			return err
-		}
-	}
-
-	return k.KubeClient.Create(ctx, secret)
-}
-
 func (k *SecretClient) Upsert(ctx context.Context, key secrets.SecretKey, data map[string][]byte, opts ...secrets.SecretOption) error {
 	options := &secrets.Options{}
 	for _, opt := range opts {
@@ -197,14 +157,11 @@ func (k *SecretClient) Delete(ctx context.Context, key secrets.SecretKey, opts .
 }
 
 func (k *SecretClient) makeLegacySecretName(key secrets.SecretKey) (types.NamespacedName, error) {
-	// The legacy behavior had differences between different kinds of resources - we need to preserve those differences
-	// for backwards compatibility
-
 	if len(key.Namespace) == 0 {
-		return types.NamespacedName{}, errors.New("namespace is required for creating secret name")
+		return types.NamespacedName{}, errors.Errorf("secret key missing required namespace field, %s", key)
 	}
 	if len(key.Name) == 0 {
-		return types.NamespacedName{}, errors.New("name is required for creating secret name")
+		return types.NamespacedName{}, errors.Errorf("secret key missing required name field, %s", key)
 	}
 
 	return types.NamespacedName{Namespace: key.Namespace, Name: key.Name}, nil
@@ -216,13 +173,13 @@ func (k *SecretClient) makeSecretName(key secrets.SecretKey) (types.NamespacedNa
 	}
 
 	if len(key.Kind) == 0 {
-		return types.NamespacedName{}, errors.Errorf("kind is required for creating secret name for namespace: %q, name: %q", key.Namespace, key.Name)
+		return types.NamespacedName{}, errors.Errorf("secret key missing required kind field, %s", key)
 	}
 	if len(key.Namespace) == 0 {
-		return types.NamespacedName{}, errors.New("namespace is required for creating secret name")
+		return types.NamespacedName{}, errors.Errorf("secret key missing required namespace field, %s", key)
 	}
 	if len(key.Name) == 0 {
-		return types.NamespacedName{}, errors.New("name is required for creating secret name")
+		return types.NamespacedName{}, errors.Errorf("secret key missing required name field, %s", key)
 	}
 
 	var parts []string

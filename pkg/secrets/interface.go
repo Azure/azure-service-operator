@@ -5,6 +5,7 @@ package secrets
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -19,7 +20,6 @@ const (
 )
 
 type SecretClient interface {
-	Create(ctx context.Context, key SecretKey, data map[string][]byte, opts ...SecretOption) error
 	Upsert(ctx context.Context, key SecretKey, data map[string][]byte, opts ...SecretOption) error
 	Delete(ctx context.Context, key SecretKey, opts ...SecretOption) error
 	Get(ctx context.Context, key SecretKey, opts ...SecretOption) (map[string][]byte, error)
@@ -56,6 +56,12 @@ type SecretKey struct {
 	Namespace string
 	// Kind is the kind of resource - this can be gathered from metav1.TypeMeta.Kind usually
 	Kind string
+}
+
+var _ fmt.Stringer = SecretKey{}
+
+func (s SecretKey) String() string {
+	return fmt.Sprintf("Kind: %q, Namespace: %q, Name: %q", s.Kind, s.Namespace, s.Name)
 }
 
 // SecretOption wraps a function that sets a value in the options struct

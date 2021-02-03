@@ -33,7 +33,7 @@ func GetAdminSecretKey(adminSecretName string, namespace string) secrets.SecretK
 func (s *AzureSqlUserManager) getAdminSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser) (map[string][]byte, error) {
 	adminSecretClient := s.SecretClient
 	adminSecretName := instance.Spec.AdminSecret
-	if len(instance.Spec.AdminSecret) == 0 {
+	if len(adminSecretName) == 0 {
 		adminSecretName = instance.Spec.Server
 	}
 	adminSecretKey := GetAdminSecretKey(adminSecretName, instance.Namespace)

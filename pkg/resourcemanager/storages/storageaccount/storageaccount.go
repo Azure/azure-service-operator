@@ -230,7 +230,10 @@ func (m *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupNam
 
 func (m *azureStorageManager) makeSecretKey(instance *v1alpha1.StorageAccount) secrets.SecretKey {
 	if m.SecretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
-		return secrets.SecretKey{Name: fmt.Sprintf("storageaccount-%s-%s", instance.Spec.ResourceGroup, instance.Name), Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+		return secrets.SecretKey{
+			Name:      fmt.Sprintf("storageaccount-%s-%s", instance.Spec.ResourceGroup, instance.Name),
+			Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind,
+		}
 	}
 	return secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 }

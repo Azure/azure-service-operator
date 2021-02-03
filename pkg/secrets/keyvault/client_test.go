@@ -92,7 +92,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 				key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"}
 
 				Context("creating secret with KeyVault client", func() {
-					err = client.Create(ctx, key, data, secrets.WithActivation(&activationDate), secrets.WithExpiration(&expiryDate))
+					err = client.Upsert(ctx, key, data, secrets.WithActivation(&activationDate), secrets.WithExpiration(&expiryDate))
 					Expect(err).To(BeNil())
 				})
 
@@ -155,7 +155,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 				key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"}
 
 				Context("creating flattened secret with KeyVault client", func() {
-					err = client.Create(ctx, key, data, secrets.Flatten(true))
+					err = client.Upsert(ctx, key, data, secrets.Flatten(true))
 					Expect(err).To(BeNil())
 				})
 
