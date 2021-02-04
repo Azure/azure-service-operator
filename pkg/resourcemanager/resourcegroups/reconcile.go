@@ -30,7 +30,7 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 	group, err := g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// this happens when op isnt complete, just requeue
 		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
@@ -72,11 +72,9 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
 		}
-		err = errhelp.NewAzureError(err)
-		if azerr, ok := err.(*errhelp.AzureError); ok {
-			if helpers.ContainsString(catch, azerr.Type) {
-				return false, nil
-			}
+		azerr := errhelp.NewAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return false, nil
 		}
 
 		return true, fmt.Errorf("ResourceGroup delete error %v", err)

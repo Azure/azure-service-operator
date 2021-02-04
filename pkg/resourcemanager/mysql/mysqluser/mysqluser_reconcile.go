@@ -5,23 +5,22 @@ package mysqluser
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"reflect"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
+	_ "github.com/go-sql-driver/mysql" //sql drive link
+	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
-
-	_ "github.com/go-sql-driver/mysql" //sql drive link
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 // Ensure that user exists
@@ -43,12 +42,12 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 	adminSecretClient := s.SecretClient
 
-	adminsecretName := instance.Spec.AdminSecret
+	adminSecretName := instance.Spec.AdminSecret
 	if len(instance.Spec.AdminSecret) == 0 {
-		adminsecretName = instance.Spec.Server
+		adminSecretName = instance.Spec.Server
 	}
 
-	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
+	key := types.NamespacedName{Name: adminSecretName, Namespace: instance.Namespace}
 
 	var mysqlUserSecretClient secrets.SecretClient
 	if options.SecretClient != nil {
@@ -57,9 +56,9 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		mysqlUserSecretClient = s.SecretClient
 	}
 
-	// if the admin secret keyvault is not specified, fall back to global secretclient
+	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds)
 		if len(instance.Spec.AdminSecret) != 0 {
 			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
 		}
@@ -73,38 +72,30 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, nil
 	}
 
-	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
+	_, err = s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Server)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
 
-		requeuErrors := []string{
-			errhelp.ResourceNotFound,
-			errhelp.ParentNotFoundErrorCode,
-			errhelp.ResourceGroupNotFoundErrorCode,
-		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(requeuErrors, azerr.Type) {
+		if mysql.IsErrorResourceNotFound(err) {
 			return false, nil
 		}
 
-		// if the database is busy, requeue
-		errorString := err.Error()
-		if strings.Contains(errorString, "Please retry the connection later") {
-			return false, nil
-		}
-
-		// if this is an unmarshall error - ignore and continue, otherwise report error and requeue
-		if _, ok := err.(*json.UnmarshalTypeError); ok {
-			return false, err
-		}
+		return false, err
 	}
 
 	adminUser := string(adminSecret["fullyQualifiedUsername"])
 	adminPassword := string(adminSecret[MSecretPasswordKey])
 	fullServerName := string(adminSecret["fullyQualifiedServerName"])
 
-	db, err := s.ConnectToSqlDb(ctx, MDriverName, fullServerName, instance.Spec.DbName, MSqlServerPort, adminUser, adminPassword)
+	db, err := mysql.ConnectToSqlDB(
+		ctx,
+		mysql.DriverName,
+		fullServerName,
+		mysql.SystemDatabase,
+		mysql.ServerPort,
+		adminUser,
+		adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
@@ -128,12 +119,12 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	key = GetNamespacedName(instance, mysqlUserSecretClient)
 
 	// create or get new user secret
-	DBSecret := s.GetOrPrepareSecret(ctx, instance, mysqlUserSecretClient)
+	dbSecret := s.GetOrPrepareSecret(ctx, instance, mysqlUserSecretClient)
 	// reset user from secret in case it was loaded
-	user := string(DBSecret[MSecretUsernameKey])
+	user := string(dbSecret[MSecretUsernameKey])
 	if user == "" {
 		user = fmt.Sprintf(requestedUsername)
-		DBSecret[MSecretUsernameKey] = []byte(user)
+		dbSecret[MSecretUsernameKey] = []byte(user)
 	}
 
 	// Publishing the user secret:
@@ -141,7 +132,7 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	err = mysqlUserSecretClient.Upsert(
 		ctx,
 		key,
-		DBSecret,
+		dbSecret,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(s.Scheme),
 	)
@@ -150,27 +141,28 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	user, err = s.CreateUser(ctx, DBSecret, db)
+	user, err = s.CreateUser(ctx, dbSecret, db)
 	if err != nil {
 		instance.Status.Message = "failed creating user, err: " + err.Error()
 		return false, err
 	}
 
-	// apply roles to user
-	if len(instance.Spec.Roles) == 0 {
-		instance.Status.Message = "No roles specified for user"
-		return false, fmt.Errorf("No roles specified for database user")
-	}
-
-	err = s.GrantUserRoles(ctx, user, string(instance.Spec.DbName), instance.Spec.Roles, db)
+	err = mysql.EnsureUserServerRoles(ctx, db, user, instance.Spec.Roles)
 	if err != nil {
-		instance.Status.Message = "GrantUserRoles failed"
-		return false, fmt.Errorf("GrantUserRoles failed")
+		err = errors.Wrap(err, "ensuring server roles")
+		instance.Status.Message = err.Error()
+		return false, err
 	}
 
-	instance.Status.Provisioned = true
+	err = mysql.EnsureUserDatabaseRoles(ctx, db, user, instance.Spec.DatabaseRoles)
+	if err != nil {
+		err = errors.Wrap(err, "ensuring database roles")
+		instance.Status.Message = err.Error()
+		return false, err
+	}
+
+	instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
 	instance.Status.State = "Succeeded"
-	instance.Status.Message = resourcemanager.SuccessMsg
 
 	return true, nil
 }
@@ -204,9 +196,9 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 		mysqlUserSecretClient = s.SecretClient
 	}
 
-	// if the admin secret keyvault is not specified, fall back to global secretclient
+	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds)
 		if len(instance.Spec.AdminSecret) != 0 {
 			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
 		}
@@ -219,38 +211,35 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 	}
 
 	// short circuit connection if database doesn't exist
-	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
+	_, err = s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Server)
 	if err != nil {
 		instance.Status.Message = err.Error()
-
-		catch := []string{
-			errhelp.ResourceNotFound,
-			errhelp.ParentNotFoundErrorCode,
-			errhelp.ResourceGroupNotFoundErrorCode,
-		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
+		if mysql.IsErrorResourceNotFound(err) {
 			return false, nil
 		}
+
 		return false, err
 	}
 
-	adminuser := string(adminSecret["fullyQualifiedUsername"])
-	adminpassword := string(adminSecret[MSecretPasswordKey])
+	adminUser := string(adminSecret["fullyQualifiedUsername"])
+	adminPassword := string(adminSecret[MSecretPasswordKey])
 	fullServerName := string(adminSecret["fullyQualifiedServerName"])
-	fmt.Println("full server is :" + fullServerName)
 
-	db, err := s.ConnectToSqlDb(ctx, MDriverName, fullServerName, instance.Spec.DbName, MSqlServerPort, adminuser, adminpassword)
+	db, err := mysql.ConnectToSqlDB(
+		ctx,
+		mysql.DriverName,
+		fullServerName,
+		mysql.SystemDatabase,
+		mysql.ServerPort,
+		adminUser,
+		adminPassword,
+	)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "is not allowed to connect to this MySQL server") {
 
 			//for the ip address has no access to server, stop the reconcile and delete the user from controller
 			return false, nil
-		}
-		if strings.Contains(err.Error(), "An internal error has occurred") {
-			// there is nothing much we can do here - cycle forever
-			return true, nil
 		}
 		return false, err
 	}
@@ -265,13 +254,12 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 	userkey := GetNamespacedName(instance, userSecretClient)
 	userSecret, err := userSecretClient.Get(ctx, userkey)
 	if err != nil {
-
 		return false, nil
 	}
 
 	user := string(userSecret[MSecretUsernameKey])
 
-	err = s.DropUser(ctx, db, user)
+	err = mysql.DropUser(ctx, db, user)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Delete MySqlUser failed with %s", err.Error())
 		return false, err
@@ -296,13 +284,6 @@ func (s *MySqlUserManager) GetParents(obj runtime.Object) ([]resourcemanager.Kub
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.DbName,
-			},
-			Target: &v1alpha1.MySQLDatabase{},
-		},
-		{
-			Key: types.NamespacedName{
-				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
 			Target: &v1alpha2.MySQLServer{},
@@ -323,11 +304,12 @@ func (s *MySqlUserManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, e
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := v1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
-func (s *MySqlUserManager) convert(obj runtime.Object) (*v1alpha1.MySQLUser, error) {
-	local, ok := obj.(*v1alpha1.MySQLUser)
+func (s *MySqlUserManager) convert(obj runtime.Object) (*v1alpha2.MySQLUser, error) {
+	local, ok := obj.(*v1alpha2.MySQLUser)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}

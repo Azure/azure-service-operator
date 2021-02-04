@@ -33,6 +33,8 @@ resources:
 - bases/azure.microsoft.com_mysqldatabases.yaml
 - bases/azure.microsoft.com_mysqlfirewallrules.yaml
 - bases/azure.microsoft.com_mysqlusers.yaml
+- bases/azure.microsoft.com_mysqlaadusers.yaml
+- bases/azure.microsoft.com_mysqlserveradministrators.yaml
 - bases/azure.microsoft.com_azurepublicipaddresses.yaml
 - bases/azure.microsoft.com_azurenetworkinterfaces.yaml
 - bases/azure.microsoft.com_mysqlvnetrules.yaml
@@ -85,8 +87,10 @@ patches:
 #- patches/webhook_in_rediscacheactions.yaml
 #- patches/webhook_in_rediscachefirewallrules.yaml
 #- patches/webhook_in_azurevirtualmachineextensions.yaml
-#- patches/webhook_in_mysqlusers.yaml
+- patches/webhook_in_mysqlusers.yaml
+- patches/webhook_in_mysqlaadusers.yaml
 #- patches/webhook_in_appinsightsapikeys.yaml
+#- patches/webhook_in_mysqlserveradministrators.yaml
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
 
 # [CAINJECTION] patches here are for enabling the CA injection for each CRD
@@ -127,8 +131,10 @@ patches:
 #- patches/cainjection_in_rediscacheactions.yaml
 #- patches/cainjection_in_rediscachefirewallrules.yaml
 #- patches/cainjection_in_azurevirtualmachineextensions.yaml
-#- patches/cainjection_in_mysqlusers.yaml
+- patches/cainjection_in_mysqlusers.yaml
+- patches/cainjection_in_mysqlaadusers.yaml
 #- patches/cainjection_in_appinsightsapikeys.yaml
+#- patches/cainjection_in_mysqlserveradministrators.yaml
 # +kubebuilder:scaffold:crdkustomizecainjectionpatch
 
 # the following config is for teaching kustomize how to do kustomization for CRDs.

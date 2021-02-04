@@ -13,37 +13,38 @@ import (
 )
 
 type PostgreSQLVNetRuleClient struct {
+	creds config.Credentials
 }
 
-func NewPostgreSQLVNetRuleClient() *PostgreSQLVNetRuleClient {
-	return &PostgreSQLVNetRuleClient{}
+func NewPostgreSQLVNetRuleClient(creds config.Credentials) *PostgreSQLVNetRuleClient {
+	return &PostgreSQLVNetRuleClient{creds: creds}
 }
 
-func GetPostgreSQLVNetRulesClient() psql.VirtualNetworkRulesClient {
-	VNetRulesClient := psql.NewVirtualNetworkRulesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+func GetPostgreSQLVNetRulesClient(creds config.Credentials) psql.VirtualNetworkRulesClient {
+	VNetRulesClient := psql.NewVirtualNetworkRulesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	VNetRulesClient.Authorizer = a
 	VNetRulesClient.AddToUserAgent(config.UserAgent())
 	return VNetRulesClient
 }
 
 // retrieves the Subnetclient
-func GetGoNetworkSubnetClient() network.SubnetsClient {
-	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+func GetGoNetworkSubnetClient(creds config.Credentials, subscription string) network.SubnetsClient {
+	SubnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), subscription)
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	SubnetsClient.Authorizer = a
 	SubnetsClient.AddToUserAgent(config.UserAgent())
 	return SubnetsClient
 }
 
 // GetPostgreSQLVNetRule returns a VNet rule
-func (vr *PostgreSQLVNetRuleClient) GetPostgreSQLVNetRule(
+func (c *PostgreSQLVNetRuleClient) GetPostgreSQLVNetRule(
 	ctx context.Context,
 	resourceGroupName string,
 	serverName string,
 	ruleName string) (result psql.VirtualNetworkRule, err error) {
 
-	VNetRulesClient := GetPostgreSQLVNetRulesClient()
+	VNetRulesClient := GetPostgreSQLVNetRulesClient(c.creds)
 
 	return VNetRulesClient.Get(
 		ctx,
@@ -54,15 +55,15 @@ func (vr *PostgreSQLVNetRuleClient) GetPostgreSQLVNetRule(
 }
 
 // deletes a VNet rule
-func (vr *PostgreSQLVNetRuleClient) DeletePostgreSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (err error) {
+func (c *PostgreSQLVNetRuleClient) DeletePostgreSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (err error) {
 
 	// check to see if the rule exists, if it doesn't then short-circuit
-	_, err = vr.GetPostgreSQLVNetRule(ctx, resourceGroupName, serverName, ruleName)
+	_, err = c.GetPostgreSQLVNetRule(ctx, resourceGroupName, serverName, ruleName)
 	if err != nil {
 		return nil
 	}
 
-	VNetRulesClient := GetPostgreSQLVNetRulesClient()
+	VNetRulesClient := GetPostgreSQLVNetRulesClient(c.creds)
 	_, err = VNetRulesClient.Delete(
 		ctx,
 		resourceGroupName,
@@ -74,7 +75,7 @@ func (vr *PostgreSQLVNetRuleClient) DeletePostgreSQLVNetRule(ctx context.Context
 }
 
 //  creates or updates a VNet rule
-func (vr *PostgreSQLVNetRuleClient) CreateOrUpdatePostgreSQLVNetRule(
+func (c *PostgreSQLVNetRuleClient) CreateOrUpdatePostgreSQLVNetRule(
 	ctx context.Context,
 	resourceGroupName string,
 	serverName string,
@@ -82,10 +83,15 @@ func (vr *PostgreSQLVNetRuleClient) CreateOrUpdatePostgreSQLVNetRule(
 	VNetRG string,
 	VNetName string,
 	SubnetName string,
+	subscription string,
 	IgnoreServiceEndpoint bool) (vnr psql.VirtualNetworkRule, err error) {
 
-	VNetRulesClient := GetPostgreSQLVNetRulesClient()
-	SubnetClient := GetGoNetworkSubnetClient()
+	VNetRulesClient := GetPostgreSQLVNetRulesClient(c.creds)
+	// Subnet may be in another subscription
+	if subscription == "" {
+		subscription = c.creds.SubscriptionID()
+	}
+	SubnetClient := GetGoNetworkSubnetClient(c.creds, subscription)
 
 	// Get ARM Resource ID of Subnet based on the VNET name, Subnet name and Subnet Address Prefix
 	subnet, err := SubnetClient.Get(ctx, VNetRG, VNetName, SubnetName, "")

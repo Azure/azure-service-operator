@@ -1,0 +1,394 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    capabilities: Deep Insights
+    categories: Cloud Provider
+    certified: "false"
+    description: The Azure Service Operator helps you provision Azure resources and connect your applications to them from within Kubernetes.
+    displayName: Azure Service Operator
+    repository: https://github.com/Azure/azure-service-operator
+    support: https://github.com/Azure/azure-service-operator/issues
+  name: azure-service-operator.X.Y.Z
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - description: Creates an API with the specified properties in the specified API Management service.
+      displayName: APIMgmtAPI
+      kind: APIMgmtAPI
+      name: apimgmtapis.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an API Management instance into a specified Resource Group at the specified location. It also provides the option to link to an Application Insights instance for logging, and to place the API Management instance in a specified Virtual Network.
+      displayName: ApimService
+      kind: ApimService
+      name: apimservices.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Application Insights instance into a specified Resource Group at the specified location.
+      displayName: AppInsights
+      kind: AppInsights
+      name: appinsights.azure.microsoft.com
+      version: v1alpha1
+    - description: Creates an Api Key to access a given Application Insights instance.
+      displayName: AppInsightsApiKey
+      kind: AppInsightsApiKey
+      name: appinsightsapikeys.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Load Balancer (LB) into a specified Resource Group at the specified location.
+      displayName: AzureLoadBalancer
+      kind: AzureLoadBalancer
+      name: azureloadbalancers.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Network Interface (NIC) into a specified Resource Group at the specified location. Users can specify underlying public IP address and virtual network configurations in their NIC setup.
+      displayName: AzureNetworkInterface
+      kind: AzureNetworkInterface
+      name: azurenetworkinterfaces.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Public IP Address (PIP) into a specified Resource Group at the specified location. Users can specify IP allocation method, idle timeout, IP address version, and SKU.
+      displayName: AzurePublicIPAddress
+      kind: AzurePublicIPAddress
+      name: azurepublicipaddresses.azure.microsoft.com
+      version: v1alpha1
+    - description: Allows you to roll the password for the specified SQL server.
+      displayName: AzureSqlAction
+      kind: AzureSqlAction
+      name: azuresqlactions.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an SQL database given the SQL server
+      displayName: AzureSqlDatabase
+      kind: AzureSqlDatabase
+      name: azuresqldatabases.azure.microsoft.com
+      version: v1beta1
+    - description: Deploys an SQL database given the SQL server.
+      displayName: AzureSqlDatabase
+      kind: AzureSqlDatabase
+      name: azuresqldatabases.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys a failover group on a specified Azure SQL server given the secondary server and the databases to failover.
+      displayName: AzureSqlFailoverGroup
+      kind: AzureSqlFailoverGroup
+      name: azuresqlfailovergroups.azure.microsoft.com
+      version: v1beta1
+    - description: Deploys a failover group on a specified Azure SQL server given the secondary server and the databases to failover.
+      displayName: AzureSqlFailoverGroup
+      kind: AzureSqlFailoverGroup
+      name: azuresqlfailovergroups.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys a firewall rule to allow access to the SQL server from specific IPs.
+      displayName: AzureSqlFirewallRule
+      kind: AzureSqlFirewallRule
+      name: azuresqlfirewallrules.azure.microsoft.com
+      version: v1beta1
+    - description: Deploys a firewall rule to allow access to the SQL server from specific IPs.
+      displayName: AzureSqlFirewallRule
+      kind: AzureSqlFirewallRule
+      name: azuresqlfirewallrules.azure.microsoft.com
+      version: v1alpha1
+    - description: Binds a specified Managed Identity as a user on the SQL database
+      displayName: AzureSQLManagedUser
+      kind: AzureSQLManagedUser
+      name: azuresqlmanagedusers.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure SQL server given the location and Resource Group.
+      displayName: AzureSqlServer
+      kind: AzureSqlServer
+      name: azuresqlservers.azure.microsoft.com
+      version: v1beta1
+    - description: Deploys an Azure SQL server given the location and Resource Group.
+      displayName: AzureSqlServer
+      kind: AzureSqlServer
+      name: azuresqlservers.azure.microsoft.com
+      version: v1alpha1
+    - description: Creates an user on the specified Azure SQL database and stores the username/password as secrets.
+      displayName: AzureSQLUser
+      kind: AzureSQLUser
+      name: azuresqlusers.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys a VirtualNetwork rule to allow access to the SQL server from specific VNets.
+      displayName: AzureSQLVNetRule
+      kind: AzureSQLVNetRule
+      name: azuresqlvnetrules.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys Azure Virtual Machine Extensions to provide post-deployment configuration and automation on Azure VMs.
+      displayName: AzureVirtualMachineExtension
+      kind: AzureVirtualMachineExtension
+      name: azurevirtualmachineextensions.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Virtual Machine (VM) into a specified Resource Group at the specified location. Users can specify platform image, size, user name and public SSH key, etc. for the VM.
+      displayName: AzureVirtualMachine
+      kind: AzureVirtualMachine
+      name: azurevirtualmachines.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Virtual Machine Scale Set (VMSS) into a specified Resource Group at the specified location. Users can specify platform image, size, user name and public SSH key, etc. for the VMSS.
+      displayName: AzureVMScaleSet
+      kind: AzureVMScaleSet
+      name: azurevmscalesets.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys a Blob Container into a specified Resource Group at the specified location. A Storage Account must first be created prior to creating a Blob Container.
+      displayName: BlobContainer
+      kind: BlobContainer
+      name: blobcontainers.azure.microsoft.com
+      version: v1alpha2
+    - description: Deploys a Blob Container into a specified Resource Group at the specified location. A Storage Account must first be created prior to creating a Blob Container.
+      displayName: BlobContainer
+      kind: BlobContainer
+      name: blobcontainers.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys a consumer group given the Event Hub, Event Hubs namespace and Resource Group.
+      displayName: ConsumerGroup
+      kind: ConsumerGroup
+      name: consumergroups.azure.microsoft.com
+      version: v1alpha1
+    - description: Provision a CosmosDB instance given the Cosmos DB instance type, location, and Resource Group.
+      displayName: CosmosDB
+      kind: CosmosDB
+      name: cosmosdbs.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Event Hubs namespace given the Resource Group and location. Also has the ability to configure SKU, properties, and network rules.
+      displayName: EventhubNamespace
+      kind: EventhubNamespace
+      name: eventhubnamespaces.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Event Hubs instance given the Event Hubs namespace, Resource Group and Location.
+      displayName: Eventhub
+      kind: Eventhub
+      name: eventhubs.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Key Vault key given the location and Resource Group.
+      displayName: KeyVaultKey
+      kind: KeyVaultKey
+      name: keyvaultkeys.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Key Vault given the location and Resource Group.
+      displayName: KeyVault
+      kind: KeyVault
+      name: keyvaults.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys a database under the given Azure Database for MySQL server
+      displayName: MySQLDatabase
+      kind: MySQLDatabase
+      name: mysqldatabases.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys a firewall rule to allow access to the Azure Database for MySQL server from the specified IP range.
+      displayName: MySQLFirewallRule
+      kind: MySQLFirewallRule
+      name: mysqlfirewallrules.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Database for MySQL server given the Location, Resource Group and other properties. Also helps creating read replicas for MySQL server.
+      displayName: MySQLServer
+      kind: MySQLServer
+      name: mysqlservers.azure.microsoft.com
+      version: v1alpha2
+    - description: Deploys an Azure Database for MySQL server given the Location, Resource Group and other properties. Also helps creating read replicas for MySQL server.
+      displayName: MySQLServer
+      kind: MySQLServer
+      name: mysqlservers.azure.microsoft.com
+      version: v1alpha1
+    - description: Add a new user to an existing MySQL database.
+      displayName: MySQLUser
+      kind: MySQLUser
+      name: mysqlusers.azure.microsoft.com
+      version: v1alpha1
+    - description: Add virtual network rules to the MySQL server.
+      displayName: MySQLVNetRule
+      kind: MySQLVNetRule
+      name: mysqlvnetrules.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys a database under the given Azure Database for PostgreSQL server.
+      displayName: PostgreSQLDatabase
+      kind: PostgreSQLDatabase
+      name: postgresqldatabases.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys a firewall rule to allow access to the Azure Database for PostgreSQL server from the specified IP range.
+      displayName: PostgreSQLFirewallRule
+      kind: PostgreSQLFirewallRule
+      name: postgresqlfirewallrules.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Database for PostgreSQL server given the Location and Resource Group.
+      displayName: PostgreSQLServer
+      kind: PostgreSQLServer
+      name: postgresqlservers.azure.microsoft.com
+      version: v1alpha2
+    - description: Deploys an Azure Database for PostgreSQL server given the Location and Resource Group.
+      displayName: PostgreSQLServer
+      kind: PostgreSQLServer
+      name: postgresqlservers.azure.microsoft.com
+      version: v1alpha1
+    - description: Create and Manage Users for Azure Database for PostgreSQL server.
+      displayName: PostgreSQLUser
+      kind: PostgreSQLUser
+      name: postgresqlusers.azure.microsoft.com
+      version: v1alpha1
+    - description: Create and manage VNet service endpoints and VNet rules in Azure Database for PostgreSQL.
+      displayName: PostgreSQLVNetRule
+      kind: PostgreSQLVNetRule
+      name: postgresqlvnetrules.azure.microsoft.com
+      version: v1alpha1
+    - description: Allows you to regenerate keys and reboot the RedisCache cluster.
+      displayName: RedisCacheAction
+      kind: RedisCacheAction
+      name: rediscacheactions.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys a firewall rule to allow access to the RedisCache from the specified IP range.
+      displayName: RedisCacheFirewallRule
+      kind: RedisCacheFirewallRule
+      name: rediscachefirewallrules.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Cache for Redis into a specified Resource Group at the specified location.
+      displayName: RedisCache
+      kind: RedisCache
+      name: rediscaches.azure.microsoft.com
+      version: v1alpha1
+    - description: Provisions a Resource Group given the location and a name.
+      displayName: ResourceGroup
+      kind: ResourceGroup
+      name: resourcegroups.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Storage Account into a specified Resource Group at the specified location.
+      displayName: StorageAccount
+      kind: StorageAccount
+      name: storageaccounts.azure.microsoft.com
+      version: v1alpha1
+    - description: Deploys an Azure Virtual Network into a specified Resource Group at the specified location, in the address space provided. Users are also able to add subnets to their virtual network through the operator.
+      displayName: VirtualNetwork
+      kind: VirtualNetwork
+      name: virtualnetworks.azure.microsoft.com
+      version: v1alpha1
+  description: "## Overview\n\nThe Azure Service Operator comprises of:\n\n- The Custom Resource Definitions (CRDs) for each of the Azure services a Kubernetes user can provision.\n- The Kubernetes controller that watches for requests to create Custom Resources for each of these CRDs and creates them.\n\nThe project was built using [Kubebuilder](https://book.kubebuilder.io/).\n\nCurious to see how it all works? Check out our [control flow diagrams](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/controlflow.md).\n\n**Note**: The current version of Azure Service Operator only supports watching all namespaces in the cluster.\n\n## Supported Azure Services\n\n- [Resource Group](https://github.com/Azure/azure-service-operator/tree/master/docs/services/resourcegroup/resourcegroup.md)\n- [Event Hubs](https://github.com/Azure/azure-service-operator/tree/master/docs/services/eventhub/eventhub.md)\n- [Azure SQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/azuresql/azuresql.md)\n- [Azure Database for PostgreSQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/postgresql/postgresql.md)\n- [Azure Database for MySQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/mysql/mysql.md)\n- [Azure Key Vault](https://github.com/Azure/azure-service-operator/tree/master/docs/services/keyvault/keyvault.md)\n- [Azure Cache for Redis](https://github.com/Azure/azure-service-operator/tree/master/docs/services/rediscache/rediscache.md)\n- [Storage Account](https://github.com/Azure/azure-service-operator/tree/master/docs/services/storage/storageaccount.md)\n- [Blob Storage](https://github.com/Azure/azure-service-operator/tree/master/docs/services/storage/blobcontainer.md)\n- [Virtual Network](https://github.com/Azure/azure-service-operator/tree/master/docs/services/virtualnetwork/virtualnetwork.md)\n- [Application Insights](https://github.com/Azure/azure-service-operator/tree/master/docs/services/appinsights/appinsights.md)\n- [API Management](https://github.com/Azure/azure-service-operator/tree/master/docs/services/apimgmt/apimgmt.md)\n- [Cosmos DB](https://github.com/Azure/azure-service-operator/tree/master/docs/services/cosmosdb/cosmosdb.md)\n- [Virtual Machine](https://github.com/Azure/azure-service-operator/tree/master/docs/services/virtualmachine/virtualmachine.md)\n- [Virtual Machine Scale Set](https://github.com/Azure/azure-service-operator/tree/master/docs/services/vmscaleset/vmscaleset.md)\n\n## Quickstart\n\nBefore you begin, verify you're running the Azure CLI version 2.0.53 or later. Run `az --version` to find the version. If you need to install or upgrade, see [Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).\n\n1. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.\n\n    First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:\n    ```yaml\n    AZURE_TENANT_ID=<your-tenant-id-goes-here>\n    AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>\n    ```\n\n    You can find these values by using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest):\n    ```sh\n    az account show\n    ```\n\n2. Next, we'll create a Service Principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/managedidentity.md).\n\n    ```sh\n    az ad sp create-for-rbac -n \"azure-service-operator\" --role contributor \\\n        --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID\n    ```\n\n    This should give you output like the following:\n    ```sh\n    \"appId\": \"xxxxxxxxxx\",\n    \"displayName\": \"azure-service-operator\",\n    \"name\": \"http://azure-service-operator\",\n    \"password\": \"xxxxxxxxxxx\",\n    \"tenant\": \"xxxxxxxxxxxxx\"\n    ```\n\n3.  Once you have created a Service Principal, gather the following values:\n    \n    `AZURE_TENANT_ID` is the Tenant ID from Step 1. \n\n    `AZURE_SUBSCRIPTION_ID` is the Subscription ID from Step 1. \n\n    `AZURE_CLIENT_ID` is the appID from the Service Principal created in Step 2. \n\n    `AZURE_CLIENT_SECRET` is the password from the service Principal we created in Step 2. \n\n    `AZURE_CLOUD_ENV` is the Azure Environment you'd like to use, i.e. AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud. \n\n4.  Set those values in a `Secret` called `azureoperatorsettings` within the `openshift-operators` Project/Namespace:\n    ```yaml\n    apiVersion: v1\n    kind: Secret\n    metadata:\n      name: azureoperatorsettings\n      namespace: openshift-operators\n    data:\n      AZURE_TENANT_ID=<your-tenant-id-goes-here>\n      AZURE_SUBSCRIPTION_ID:<your-subscription-id-goes-here>\n      AZURE_CLIENT_ID=<your-client-id>\n      AZURE_CLIENT_SECRET=<your-client-secret>\n      AZURE_CLOUD_ENV=<your-azure-cloud-environment>\n    ```\n\n5. Install the Azure Service Operator to the `openshift-operators` Project/Namespace. You should now see the Azure Service Operator pod running in your cluster:\n\n    ```console\n    $ kubectl get pods -n openshift-operators\n    NAME                                                READY   STATUS    RESTARTS   AGE\n    azureoperator-controller-manager-7dd75bbd97-mk4s9   2/2     Running   0          35s\n    ```\n\n## About the project\n\nThis project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases).\n\nPlease see the [FAQ](https://github.com/Azure/azure-service-operator/blob/master/docs/faq.md) for answers to commonly asked questions about the Azure Service Operator.\n\nHave more questions? Feel free to consult our documentation [here](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/contents.md).\n\n## Contributing\n\nThe [contribution guide](https://github.com/Azure/azure-service-operator/blob/master/CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.\n\n## Support\n\nAzure Service Operator is an open source project that is **not** covered by the [Microsoft Azure support policy](https://support.microsoft.com/en-us/help/2941892/support-for-linux-and-open-source-technology-in-azure). Please search open issues [here](https://github.com/Azure/azure-service-operator/issues). If your issue isn't already represented, please [open a new one](https://github.com/Azure/azure-service-operator/issues/new/choose). The Azure Service Operator project maintainers will respond to the best of their abilities.\n\n## Code of conduct\n\nThis project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.\n"
+  displayName: Azure Service Operator
+  icon:
+  - base64data: 'iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQCAIAAAAP3aGbAAAACXBIWXMAAAsSAAALEgHS3X78AAAFg0lEQVR4nO3bsU0DQRBA0VvkFIkeqAVyYppxM8TkuBZ6QKKAoQMTWfK/e6+C3R3pa5JdM7MBFDyYElAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGaejjer37fkOTrFDj5/f1y91vqyjv9ENnF9md3e6xoYFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpCxZsa0gAQbFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQMbpaKNaHz93cIodmvenfy71tY7+RrfweqyvdTYsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBjzYxpAQk2LCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECGrZt+wNsYxcZUVWjkAAAAABJRU5ErkJggg== '
+    mediatype: image/png
+  install:
+    spec:
+      clusterPermissions:
+      - rules: null
+        serviceAccountName: azure-service-operator
+      deployments:
+      - name: azureoperator-controller-manager
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              control-plane: controller-manager
+          strategy: {}
+          template:
+            metadata:
+              labels:
+                aadpodidbinding: aso_manager_binding
+                control-plane: controller-manager
+            spec:
+              containers:
+              - args:
+                - --metrics-addr=127.0.0.1:8080
+                command:
+                - /manager
+                env:
+                - name: AZURE_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_CLIENT_ID
+                      name: azureoperatorsettings
+                      optional: true
+                - name: AZURE_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_CLIENT_SECRET
+                      name: azureoperatorsettings
+                      optional: true
+                - name: AZURE_TENANT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_TENANT_ID
+                      name: azureoperatorsettings
+                      optional: true
+                - name: AZURE_SUBSCRIPTION_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_SUBSCRIPTION_ID
+                      name: azureoperatorsettings
+                      optional: true
+                - name: AZURE_USE_MI
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_USE_MI
+                      name: azureoperatorsettings
+                      optional: true
+                - name: AZURE_OPERATOR_KEYVAULT
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_OPERATOR_KEYVAULT
+                      name: azureoperatorsettings
+                      optional: true
+                - name: AZURE_CLOUD_ENV
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_CLOUD_ENV
+                      name: azureoperatorsettings
+                      optional: true
+                - name: REQUEUE_AFTER
+                  value: "30"
+                name: manager
+                ports:
+                - containerPort: 9443
+                  name: webhook-server
+                  protocol: TCP
+                - containerPort: 8081
+                  name: liveness-port
+                  protocol: TCP
+                resources:
+                  limits:
+                    cpu: 500m
+                    memory: 512Mi
+                  requests:
+                    cpu: 200m
+                    memory: 256Mi
+                volumeMounts:
+                - mountPath: /tmp/k8s-webhook-server/serving-certs
+                  name: cert
+                  readOnly: true
+              - args:
+                - --secure-listen-address=0.0.0.0:8443
+                - --upstream=http://127.0.0.1:8080/
+                - --logtostderr=true
+                - --v=10
+                name: kube-rbac-proxy
+                ports:
+                - containerPort: 8443
+                  name: https
+                resources: {}
+              serviceAccountName: azure-service-operator
+              terminationGracePeriodSeconds: 10
+              volumes:
+              - name: cert
+                secret:
+                  defaultMode: 420
+                  secretName: webhook-server-cert
+      permissions:
+      - rules: null
+        serviceAccountName: azure-service-operator
+    strategy: deployment
+  installModes:
+  - supported: false
+    type: OwnNamespace
+  - supported: false
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - azure
+  - microsoft
+  - cloud service broker
+  links:
+  - name: Azure Service Operator
+    url: https://github.com/Azure/azure-service-operator
+  maintainers:
+  - email: christian.muirhead@microsoft.com
+    name: Christian Muirhead
+  maturity: stable
+  provider:
+    name: Microsoft
+  version: 0.0.0

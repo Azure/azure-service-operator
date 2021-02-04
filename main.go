@@ -7,9 +7,13 @@ import (
 	"flag"
 	"os"
 
+	aadpodv1 "github.com/Azure/aad-pod-identity/pkg/apis/aadpodidentity/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	"github.com/Azure/azure-service-operator/controllers"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -31,13 +35,16 @@ import (
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	loadbalancer "github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
+	mysqladmin "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/aadadmin"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlfirewall "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
+	mysqlaaduser "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqlaaduser"
 	mysqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
 	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	mysqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/vnetrule"
@@ -81,17 +88,24 @@ func init() {
 	_ = azurev1beta1.AddToScheme(scheme)
 	_ = azurev1alpha2.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
+
+	// We need to query AAD identity types, so add them to the scheme
+	aadPodIdentityGroupVersion := schema.GroupVersion{Group: aadpodv1.CRDGroup, Version: aadpodv1.CRDVersion}
+	scheme.AddKnownTypes(aadPodIdentityGroupVersion,
+		&aadpodv1.AzureIdentity{},
+		&aadpodv1.AzureIdentityList{},
+		&aadpodv1.AzureIdentityBinding{},
+		&aadpodv1.AzureIdentityBindingList{},
+		&aadpodv1.AzureAssignedIdentity{},
+		&aadpodv1.AzureAssignedIdentityList{},
+		&aadpodv1.AzurePodIdentityException{},
+		&aadpodv1.AzurePodIdentityExceptionList{})
+	metav1.AddToGroupVersion(scheme, aadPodIdentityGroupVersion)
 }
 
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlusers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlusers/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqlusers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqlusers/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlusers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlusers/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
 
@@ -112,6 +126,7 @@ func main() {
 		MetricsBindAddress:   metricsAddr,
 		LeaderElection:       enableLeaderElection,
 		LivenessEndpointName: "/healthz",
+		Port:                 9443,
 	})
 
 	if err != nil {
@@ -125,77 +140,89 @@ func main() {
 		os.Exit(1)
 	}
 
-	keyvaultName := resourcemanagerconfig.OperatorKeyvault()
+	setupLog.V(0).Info("Configuration details", "Configuration", resourcemanagerconfig.ConfigString())
+
+	keyvaultName := resourcemanagerconfig.GlobalCredentials().OperatorKeyvault()
 
 	if keyvaultName == "" {
 		setupLog.Info("Keyvault name is empty")
 		secretClient = k8sSecrets.New(mgr.GetClient())
 	} else {
 		setupLog.Info("Instantiating secrets client for keyvault " + keyvaultName)
-		secretClient = keyvaultSecrets.New(keyvaultName)
+		secretClient = keyvaultSecrets.New(keyvaultName, config.GlobalCredentials())
 	}
 
-	apimManager := resourceapimanagement.NewManager()
-	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager()
-	vnetManager := vnet.NewAzureVNetManager()
-	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
+	// TODO(creds-refactor): construction of these managers will need
+	// to move into the AsyncReconciler.Reconcile so that it can use the correct
+	// creds based on the namespace of the specific resource being reconciled.
+	apimManager := resourceapimanagement.NewManager(config.GlobalCredentials())
+	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager(config.GlobalCredentials())
+	vnetManager := vnet.NewAzureVNetManager(config.GlobalCredentials())
+	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager(config.GlobalCredentials())
 
 	redisCacheManager := rediscache.NewAzureRedisCacheManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
 	redisCacheActionManager := rediscacheactions.NewAzureRedisCacheActionManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
 
-	redisCacheFirewallRuleManager := rcfwr.NewAzureRedisCacheFirewallRuleManager()
+	redisCacheFirewallRuleManager := rcfwr.NewAzureRedisCacheFirewallRuleManager(config.GlobalCredentials())
 	appInsightsManager := resourcemanagerappinsights.NewManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
-	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient()
-	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient()
+	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(config.GlobalCredentials())
+	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(config.GlobalCredentials())
 	cosmosDBClient := resourcemanagercosmosdb.NewAzureCosmosDBManager(
+		config.GlobalCredentials(),
 		secretClient,
 	)
-	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(mgr.GetScheme())
-	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
-		KeyvaultClient: keyVaultManager,
-	}
-	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
+	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(config.GlobalCredentials(), mgr.GetScheme())
+	keyVaultKeyManager := resourcemanagerkeyvault.NewKeyvaultKeyClient(config.GlobalCredentials(), keyVaultManager)
+	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme)
 	sqlServerManager := resourcemanagersqlserver.NewAzureSqlServerManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
-	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager()
-	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager()
-	sqlVNetRuleManager := resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager()
+	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager(config.GlobalCredentials())
+	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(config.GlobalCredentials())
+	sqlVNetRuleManager := resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager(config.GlobalCredentials())
 	sqlFailoverGroupManager := resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
-	psqlserverclient := psqlserver.NewPSQLServerClient(secretClient, mgr.GetScheme())
-	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient()
-	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient()
+	psqlserverclient := psqlserver.NewPSQLServerClient(config.GlobalCredentials(), secretClient, mgr.GetScheme())
+	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient(config.GlobalCredentials())
+	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient(config.GlobalCredentials())
 	psqlusermanager := psqluser.NewPostgreSqlUserManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
 	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
 	sqlManagedUserManager := resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
+		config.GlobalCredentials(),
 		secretClient,
 		scheme,
 	)
-	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
+	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(config.GlobalCredentials(), secretClient, scheme)
 
 	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: storageaccountManager.New(secretClient, scheme),
+			AzureClient: storageaccountManager.New(config.GlobalCredentials(), secretClient, scheme),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
@@ -492,7 +519,7 @@ func main() {
 	if err = (&controllers.BlobContainerReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: blobContainerManager.New(),
+			AzureClient: blobContainerManager.New(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"BlobContainer",
 				ctrl.Log.WithName("controllers").WithName("BlobContainer"),
@@ -653,6 +680,7 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
 			AzureClient: mysqlserver.NewMySQLServerClient(
+				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
 			),
@@ -670,7 +698,7 @@ func main() {
 	if err = (&controllers.MySQLDatabaseReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: mysqldatabase.NewMySQLDatabaseClient(),
+			AzureClient: mysqldatabase.NewMySQLDatabaseClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
@@ -685,7 +713,7 @@ func main() {
 	if err = (&controllers.MySQLFirewallRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: mysqlfirewall.NewMySQLFirewallRuleClient(),
+			AzureClient: mysqlfirewall.NewMySQLFirewallRuleClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
@@ -701,7 +729,7 @@ func main() {
 	if err = (&controllers.MySQLUserReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: mysqluser.NewMySqlUserManager(secretClient, scheme),
+			AzureClient: mysqluser.NewMySqlUserManager(config.GlobalCredentials(), secretClient, scheme),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLUser",
 				ctrl.Log.WithName("controllers").WithName("MySQLUser"),
@@ -714,10 +742,44 @@ func main() {
 		os.Exit(1)
 	}
 
+	identityFinder := helpers.NewAADIdentityFinder(mgr.GetClient(), config.PodNamespace())
+	if err = (&controllers.MySQLAADUserReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: mysqlaaduser.NewMySQLAADUserManager(config.GlobalCredentials(), identityFinder),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLAADUser",
+				ctrl.Log.WithName("controllers").WithName("MySQLAADUser"),
+			),
+			Recorder: mgr.GetEventRecorderFor("MySQLAADUser-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MySQLAADUser")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.MySQLServerAdministratorReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: mysqladmin.NewMySQLServerAdministratorManager(config.GlobalCredentials()),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLServerAdministrator",
+				ctrl.Log.WithName("controllers").WithName("MySQLServerAdministrator"),
+			),
+			Recorder: mgr.GetEventRecorderFor("MySQLServerAdministrator-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MySQLServerAdministrator")
+		os.Exit(1)
+	}
+
 	if err = (&controllers.AzurePublicIPAddressReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
 			AzureClient: pip.NewAzurePublicIPAddressClient(
+				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
 			),
@@ -737,6 +799,7 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
 			AzureClient: nic.NewAzureNetworkInterfaceClient(
+				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
 			),
@@ -755,7 +818,7 @@ func main() {
 	if err = (&controllers.MySQLVNetRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(),
+			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLVNetRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
@@ -772,6 +835,7 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
 			AzureClient: vm.NewAzureVirtualMachineClient(
+				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
 			),
@@ -791,6 +855,7 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
 			AzureClient: vmext.NewAzureVirtualMachineExtensionClient(
+				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
 			),
@@ -809,7 +874,7 @@ func main() {
 	if err = (&controllers.PostgreSQLVNetRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: psqlvnetrule.NewPostgreSQLVNetRuleClient(),
+			AzureClient: psqlvnetrule.NewPostgreSQLVNetRuleClient(config.GlobalCredentials()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLVNetRule",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLVNetRule"),
@@ -826,6 +891,7 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
 			AzureClient: loadbalancer.NewAzureLoadBalancerClient(
+				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
 			),
@@ -845,6 +911,7 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
 			AzureClient: vmss.NewAzureVMScaleSetClient(
+				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
 			),
@@ -863,7 +930,7 @@ func main() {
 	if err = (&controllers.AppInsightsApiKeyReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: resourcemanagerappinsights.NewAPIKeyClient(secretClient, scheme),
+			AzureClient: resourcemanagerappinsights.NewAPIKeyClient(config.GlobalCredentials(), secretClient, scheme),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AppInsightsApiKey",
 				ctrl.Log.WithName("controllers").WithName("AppInsightsApiKey"),
@@ -901,11 +968,27 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLServer")
 		os.Exit(1)
 	}
+	if err = (&azurev1alpha1.MySQLUser{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLUser")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.MySQLAADUser{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLAADUser")
+		os.Exit(1)
+	}
 	if err = (&azurev1alpha1.PostgreSQLServer{}).SetupWebhookWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create webhook", "webhook", "PostgreSQLServer")
 		os.Exit(1)
 	}
 
+	if err = (&azurev1alpha1.AzureSQLUser{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSQLUser")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.AzureSQLManagedUser{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSQLManagedUser")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -30,11 +30,12 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 	virtualNetworkRG := instance.Spec.VNetResourceGroup
 	virtualnetworkname := instance.Spec.VNetName
 	subnetName := instance.Spec.SubnetName
+	virtualNetworkSubscription := instance.Spec.VNetSubscriptionID
 	ignoreendpoint := instance.Spec.IgnoreMissingServiceEndpoint
 
 	vnetrule, err := vr.GetSQLVNetRule(ctx, groupName, server, ruleName)
 	if err == nil {
-		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == sql.Ready {
+		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == sql.VirtualNetworkRuleStateReady {
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = true
 			instance.Status.Message = resourcemanager.SuccessMsg
@@ -48,17 +49,17 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 		errhelp.ResourceGroupNotFoundErrorCode,
 		errhelp.ParentNotFoundErrorCode,
 	}
-	azerr := errhelp.NewAzureErrorAzureError(err)
+	azerr := errhelp.NewAzureError(err)
 	if helpers.ContainsString(requeuErrors, azerr.Type) {
 		instance.Status.Provisioning = false
 		return false, nil
 	}
 
 	instance.Status.Provisioning = true
-	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint)
+	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, virtualNetworkSubscription, ignoreendpoint)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
 			instance.Status.Provisioning = true
@@ -104,7 +105,7 @@ func (vr *AzureSqlVNetRuleManager) Delete(ctx context.Context, obj runtime.Objec
 	if err != nil {
 		instance.Status.Message = err.Error()
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		// these errors are expected
 		ignore := []string{
 			errhelp.AsyncOpIncompleteError,

@@ -9,34 +9,29 @@ import (
 	"fmt"
 	"strings"
 
-	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	uuid "github.com/satori/go.uuid"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	uuid "github.com/satori/go.uuid"
 
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
-
-	_ "github.com/denisenkom/go-mssqldb"
 	mssql "github.com/denisenkom/go-mssqldb"
 )
 
-// SqlServerPort is the default server port for sql server
-const SqlServerPort = 1433
-
-// DriverName is driver name for db connection
-const DriverName = "sqlserver"
-
 type AzureSqlManagedUserManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlManagedUserManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlManagedUserManager {
+func NewAzureSqlManagedUserManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlManagedUserManager {
 	return &AzureSqlManagedUserManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
@@ -44,7 +39,7 @@ func NewAzureSqlManagedUserManager(secretClient secrets.SecretClient, scheme *ru
 
 // GetDB retrieves a database
 func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (azuresql.Database, error) {
-	dbClient, err := azuresqlshared.GetGoDbClient()
+	dbClient, err := azuresqlshared.GetGoDbClient(s.Creds)
 	if err != nil {
 		return azuresql.Database{}, err
 	}
@@ -54,19 +49,18 @@ func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupNam
 		resourceGroupName,
 		serverName,
 		databaseName,
-		"serviceTierAdvisors, transparentDataEncryption",
 	)
 }
 
 // ConnectToSqlDb connects to the SQL db using the current identity of operator (should be MI)
-func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Context, drivername string, server string, database string) (db *sql.DB, err error) {
+func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Context, server string, database string) (db *sql.DB, err error) {
 
 	fullServerAddress := fmt.Sprintf("%s."+config.Environment().SQLDatabaseDNSSuffix, server)
 	connString := fmt.Sprintf("Server=%s;Database=%s", fullServerAddress, database)
 
-	tokenProvider, err := getMSITokenProvider()
+	tokenProvider, err := iam.GetMSITokenProviderForResource("https://database.windows.net/")
 	if err != nil {
-		return db, fmt.Errorf("getMSITokenProvider failed: %v", err)
+		return db, fmt.Errorf("GetMSITokenProviderForResource failed: %v", err)
 	}
 
 	connector, err := mssql.NewAccessTokenConnector(connString, tokenProvider)
@@ -205,22 +199,6 @@ func (s *AzureSqlManagedUserManager) DeleteSecrets(ctx context.Context, instance
 		}
 	}
 	return nil
-}
-
-func getMSITokenProvider() (func() (string, error), error) {
-	msi, err := iam.GetMSITokenForResource("https://database.windows.net/")
-	if err != nil {
-		return nil, err
-	}
-
-	return func() (string, error) {
-		err = msi.EnsureFresh()
-		if err != nil {
-			return "", err
-		}
-		token := msi.OAuthToken()
-		return token, nil
-	}, nil
 }
 
 func convertToSid(msiClientId string) string {

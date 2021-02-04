@@ -15,14 +15,14 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func (g *AzureVirtualMachineExtensionClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (c *AzureVirtualMachineExtensionClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
-	instance, err := g.convert(obj)
+	instance, err := c.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	client := getVirtualMachineExtensionClient()
+	client := getVirtualMachineExtensionClient(c.Creds)
 
 	location := instance.Spec.Location
 	resourceGroup := instance.Spec.ResourceGroup
@@ -37,12 +37,12 @@ func (g *AzureVirtualMachineExtensionClient) Ensure(ctx context.Context, obj run
 	protectedSettings := instance.Spec.ProtectedSettings
 
 	// Check to see if secret exists and if yes retrieve the admin login and password
-	secret, err := g.GetOrPrepareSecret(ctx, instance)
+	secret, err := c.GetOrPrepareSecret(ctx, instance)
 	if err != nil {
 		return false, err
 	}
 	// Update secret
-	err = g.AddVirtualMachineExtensionCredsToSecrets(ctx, instance.Name, secret, instance)
+	err = c.AddVirtualMachineExtensionCredsToSecrets(ctx, instance.Name, secret, instance)
 	if err != nil {
 		return false, err
 	}
@@ -56,7 +56,7 @@ func (g *AzureVirtualMachineExtensionClient) Ensure(ctx context.Context, obj run
 	instance.Status.Provisioning = true
 	// Check if this item already exists. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
-	item, err := g.GetVirtualMachineExtension(ctx, resourceGroup, vmName, extName)
+	item, err := c.GetVirtualMachineExtension(ctx, resourceGroup, vmName, extName)
 	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
@@ -64,7 +64,7 @@ func (g *AzureVirtualMachineExtensionClient) Ensure(ctx context.Context, obj run
 		instance.Status.ResourceId = *item.ID
 		return true, nil
 	}
-	future, err := g.CreateVirtualMachineExtension(
+	future, err := c.CreateVirtualMachineExtension(
 		ctx,
 		location,
 		resourceGroup,
@@ -92,7 +92,7 @@ func (g *AzureVirtualMachineExtensionClient) Ensure(ctx context.Context, obj run
 			errhelp.InvalidResourceReference,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -120,7 +120,7 @@ func (g *AzureVirtualMachineExtensionClient) Ensure(ctx context.Context, obj run
 			errhelp.SubscriptionDoesNotHaveServer,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -172,7 +172,7 @@ func (g *AzureVirtualMachineExtensionClient) Delete(ctx context.Context, obj run
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

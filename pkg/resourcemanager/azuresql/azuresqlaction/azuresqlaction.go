@@ -14,6 +14,7 @@ import (
 	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	azuresqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -22,12 +23,14 @@ import (
 )
 
 type AzureSqlActionManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlActionManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlActionManager {
+func NewAzureSqlActionManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlActionManager {
 	return &AzureSqlActionManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
@@ -40,7 +43,7 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 		return err
 	}
 
-	azuresqluserManager := azuresqluser.NewAzureSqlUserManager(userSecretClient, s.Scheme)
+	azuresqluserManager := azuresqluser.NewAzureSqlUserManager(s.Creds, userSecretClient, s.Scheme)
 	db, err := azuresqluserManager.ConnectToSqlDb(ctx, "sqlserver", serverName, dbName, 1433, string(data["username"]), string(data["password"]))
 	if err != nil {
 		return err
@@ -96,7 +99,7 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 // for the server and stores the new password in the secret
 func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupName string, serverName string, secretKey types.NamespacedName, secretClient secrets.SecretClient) error {
 
-	azuresqlserverManager := azuresqlserver.NewAzureSqlServerManager(secretClient, s.Scheme)
+	azuresqlserverManager := azuresqlserver.NewAzureSqlServerManager(s.Creds, secretClient, s.Scheme)
 	// Get the SQL server instance
 	server, err := azuresqlserverManager.GetServer(ctx, groupName, serverName)
 	if err != nil {
@@ -123,7 +126,7 @@ func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupNa
 	_, _, err = azuresqlserverManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, server.Tags, azureSqlServerProperties, true)
 
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if !strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
 			return err
 		}

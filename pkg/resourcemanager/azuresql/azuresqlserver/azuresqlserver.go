@@ -8,8 +8,9 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -19,19 +20,21 @@ import (
 const typeOfService = "Microsoft.Sql/servers"
 
 type AzureSqlServerManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlServerManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlServerManager {
+func NewAzureSqlServerManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlServerManager {
 	return &AzureSqlServerManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
 }
 
 // DeleteSQLServer deletes a SQL server
-func (sdk *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceGroupName string, serverName string) (result autorest.Response, err error) {
+func (m *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceGroupName string, serverName string) (result autorest.Response, err error) {
 	result = autorest.Response{
 		Response: &http.Response{
 			StatusCode: 200,
@@ -39,12 +42,12 @@ func (sdk *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceG
 	}
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	_, err = sdk.GetServer(ctx, resourceGroupName, serverName)
+	_, err = m.GetServer(ctx, resourceGroupName, serverName)
 	if err != nil {
 		return result, nil
 	}
 
-	serversClient, err := azuresqlshared.GetGoServersClient()
+	serversClient, err := azuresqlshared.GetGoServersClient(m.Creds)
 	if err != nil {
 		return result, err
 	}
@@ -62,8 +65,8 @@ func (sdk *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceG
 }
 
 // GetServer returns a SQL server
-func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient()
+func (m *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClient(m.Creds)
 	if err != nil {
 		return sql.Server{}, err
 	}
@@ -76,8 +79,8 @@ func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (pollingURL string, result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient()
+func (m *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (pollingURL string, result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClient(m.Creds)
 	if err != nil {
 		return "", sql.Server{}, err
 	}
@@ -85,7 +88,7 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 	serverProp := azuresqlshared.SQLServerPropertiesToServer(properties)
 
 	if forceUpdate == false {
-		checkNameResult, _ := CheckNameAvailability(ctx, serverName)
+		checkNameResult, _ := CheckNameAvailability(ctx, m.Creds, serverName)
 		if checkNameResult.Reason == sql.AlreadyExists {
 			err = errors.New("AlreadyExists")
 			return
@@ -115,8 +118,8 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 	return future.PollingURL(), result, err
 }
 
-func CheckNameAvailability(ctx context.Context, serverName string) (result sql.CheckNameAvailabilityResponse, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient()
+func CheckNameAvailability(ctx context.Context, creds config.Credentials, serverName string) (result sql.CheckNameAvailabilityResponse, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClient(creds)
 	if err != nil {
 		return sql.CheckNameAvailabilityResponse{}, err
 	}

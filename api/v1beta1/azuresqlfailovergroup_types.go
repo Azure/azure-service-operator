@@ -8,23 +8,38 @@ import (
 )
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
+
+// ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#ReadWriteEndpointFailoverPolicy
 type ReadWriteEndpointFailoverPolicy string
+
+const (
+	// Automatic ...
+	FailoverPolicyAutomatic ReadWriteEndpointFailoverPolicy = "Automatic"
+	// Manual ...
+	FailoverPolicyManual ReadWriteEndpointFailoverPolicy = "Manual"
+)
 
 // AzureSqlFailoverGroupSpec defines the desired state of AzureSqlFailoverGroup
 type AzureSqlFailoverGroupSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
 	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
-	ResourceGroup                string                          `json:"resourceGroup"`
-	Server                       string                          `json:"server"`
-	FailoverPolicy               ReadWriteEndpointFailoverPolicy `json:"failoverPolicy"`
-	FailoverGracePeriod          int32                           `json:"failoverGracePeriod"`
-	SecondaryServer              string                          `json:"secondaryServer"`
-	SecondaryServerResourceGroup string                          `json:"secondaryServerResourceGroup"`
-	DatabaseList                 []string                        `json:"databaseList"`
-	KeyVaultToStoreSecrets       string                          `json:"keyVaultToStoreSecrets,omitempty"`
+	ResourceGroup string `json:"resourceGroup"`
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
+	Server         string                          `json:"server"`
+	FailoverPolicy ReadWriteEndpointFailoverPolicy `json:"failoverPolicy"`
+	// TODO: This field should be a ptr as it must not be specified if the failover policy is Manual,
+	// TODO: but is required when the policy is Automatic
+	FailoverGracePeriod          int32    `json:"failoverGracePeriod"`
+	SecondaryServer              string   `json:"secondaryServer"`
+	SecondaryServerResourceGroup string   `json:"secondaryServerResourceGroup"`
+	DatabaseList                 []string `json:"databaseList"`
+	KeyVaultToStoreSecrets       string   `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true

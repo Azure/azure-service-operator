@@ -19,7 +19,7 @@ type EventhubSpec struct {
 	Namespace  string             `json:"namespace,omitempty"`
 	Properties EventhubProperties `json:"properties,omitempty"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup     string                    `json:"resourceGroup"`
 	AuthorizationRule EventhubAuthorizationRule `json:"authorizationRule,omitempty"`
@@ -40,7 +40,7 @@ type EventhubAuthorizationRule struct {
 type EventHubStorageAccount struct {
 	// ResourceGroup - Name of the storage account resource group
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	ResourceGroup string `json:"resourceGroup,omitempty"`
 	// AccountName - Name of the storage account
 	// +kubebuilder:validation:MaxLength=24

@@ -9,9 +9,11 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/gobuffalo/envy"
+	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 type ConfigRequirementType int
@@ -21,6 +23,7 @@ const (
 	RequireClientSecret
 	RequireTenantID
 	RequireSubscriptionID
+	OptionalClientID
 )
 
 // ParseEnvironment loads a sibling `.env` file then looks through all environment
@@ -44,6 +47,7 @@ func ParseEnvironment() error {
 		return fmt.Errorf("Invalid Cloud chosen: AZURE_CLOUD_ENV set to '%s'", azcloud)
 	}
 
+	var err error
 	cloudName = azcloud
 
 	azureEnv, _ := azure.EnvironmentFromName(azcloud) // shouldn't fail
@@ -52,51 +56,56 @@ func ParseEnvironment() error {
 
 	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "westus2")          // DefaultLocation()
 	useDeviceFlow = ParseBoolFromEnvironment("AZURE_USE_DEVICEFLOW")         // UseDeviceFlow()
-	useMI = ParseBoolFromEnvironment("AZURE_USE_MI")                         // UseMI()
+	creds.useManagedIdentity = ParseBoolFromEnvironment("AZURE_USE_MI")      // UseManagedIdentity()
 	keepResources = ParseBoolFromEnvironment("AZURE_SAMPLES_KEEP_RESOURCES") // KeepResources()
-	operatorKeyvault = envy.Get("AZURE_OPERATOR_KEYVAULT", "")               // operatorKeyvault()
+	creds.operatorKeyvault = envy.Get("AZURE_OPERATOR_KEYVAULT", "")         // operatorKeyvault()
 	testResourcePrefix = envy.Get("TEST_RESOURCE_PREFIX", "t-"+helpers.RandomString(6))
+	podNamespace, err = envy.MustGet("POD_NAMESPACE")
+	if err != nil {
+		return errors.Wrapf(err, "couldn't get POD_NAMESPACE env variable")
+	}
 
-	var err error
-
-	for _, requirement := range GetRequiredConfigs() {
+	for _, requirement := range GetExpectedConfigurationVariables() {
 		switch requirement {
 		case RequireClientID:
-			clientID, err = envy.MustGet("AZURE_CLIENT_ID") // ClientID()
+			creds.clientID, err = envy.MustGet("AZURE_CLIENT_ID") // ClientID()
 			if err != nil {
 				return fmt.Errorf("expected env vars not provided (AZURE_CLIENT_ID): %s\n", err)
 			}
+		case OptionalClientID:
+			creds.clientID = envy.Get("AZURE_CLIENT_ID", "")
 		case RequireClientSecret:
-			clientSecret, err = envy.MustGet("AZURE_CLIENT_SECRET") // ClientSecret()
+			creds.clientSecret, err = envy.MustGet("AZURE_CLIENT_SECRET") // ClientSecret()
 			if err != nil {
 				return fmt.Errorf("expected env vars not provided (AZURE_CLIENT_SECRET): %s\n", err)
 			}
 		case RequireTenantID:
-			tenantID, err = envy.MustGet("AZURE_TENANT_ID") // TenantID()
+			creds.tenantID, err = envy.MustGet("AZURE_TENANT_ID") // TenantID()
 			if err != nil {
 				return fmt.Errorf("expected env vars not provided (AZURE_TENANT_ID): %s\n", err)
 			}
 		case RequireSubscriptionID:
-			subscriptionID, err = envy.MustGet("AZURE_SUBSCRIPTION_ID") // SubscriptionID()
+			creds.subscriptionID, err = envy.MustGet("AZURE_SUBSCRIPTION_ID") // SubscriptionID()
 			if err != nil {
 				return fmt.Errorf("expected env vars not provided (AZURE_SUBSCRIPTION_ID): %s\n", err)
 			}
 		}
+
 	}
 
 	return nil
 }
 
-func GetRequiredConfigs() []ConfigRequirementType {
+func GetExpectedConfigurationVariables() []ConfigRequirementType {
 	if useDeviceFlow {
 		// Device flow required Configs
 		return []ConfigRequirementType{RequireClientID, RequireTenantID, RequireSubscriptionID}
 	}
-	if useMI {
+	if creds.useManagedIdentity {
 		// Managed Service Identity required Configs
-		return []ConfigRequirementType{RequireTenantID, RequireSubscriptionID}
+		return []ConfigRequirementType{RequireTenantID, RequireSubscriptionID, OptionalClientID}
 	}
-	// Default required Configs
+	// Default required Configs (service principal)
 	return []ConfigRequirementType{RequireClientID, RequireClientSecret, RequireTenantID, RequireSubscriptionID}
 }
 

@@ -22,11 +22,10 @@ func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 	defer PanicRecover(t)
 	ctx := context.Background()
 
-	var sqlServerName string
-	var sqlDatabaseName string
 	var sqlUser *azurev1alpha1.AzureSQLUser
 
-	sqlServerName = GenerateTestResourceNameWithRandom("sqlusr-test", 10)
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlusr-test", 10)
+	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldb-test", 10)
 	resourceGroup := GenerateTestResourceNameWithRandom("myrg", 10)
 
 	username := "sql-test-user" + helpers.RandomString(10)
@@ -57,11 +56,10 @@ func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 	var err error
-	var sqlServerName string
-	var sqlDatabaseName string
 	var sqlUser *azurev1alpha1.AzureSQLUser
 
-	sqlServerName = GenerateTestResourceNameWithRandom("sqlusr-test", 10)
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlusr-test", 10)
+	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldb-test", 10)
 
 	username := "sql-test-user" + helpers.RandomString(10)
 	roles := []string{"db_owner"}
@@ -100,5 +98,37 @@ func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
 	EnsureInstanceWithResult(ctx, t, tc, sqlUser, errhelp.ResourceGroupNotFoundErrorCode, false)
 
 	EnsureDelete(ctx, t, tc, sqlUser)
+}
 
+func TestAzureSQLUserValidatesDatabaseName(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+	var sqlUser *azurev1alpha1.AzureSQLUser
+
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlusr-test", 10)
+	sqlDatabaseName := "master"
+
+	username := "sql-test-user" + helpers.RandomString(10)
+	roles := []string{"db_owner"}
+
+	sqlUser = &azurev1alpha1.AzureSQLUser{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      username,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.AzureSQLUserSpec{
+			Server:        sqlServerName,
+			DbName:        sqlDatabaseName,
+			AdminSecret:   "",
+			Roles:         roles,
+			ResourceGroup: "fakerg" + helpers.RandomString(10),
+		},
+	}
+
+	assert := assert.New(t)
+
+	err := tc.k8sClient.Create(ctx, sqlUser)
+	assert.Error(err)
+	assert.Contains(err.Error(), "'master' is a reserved database name and cannot be used")
 }

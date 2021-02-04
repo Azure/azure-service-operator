@@ -15,13 +15,13 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func (g *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
-	instance, err := g.convert(obj)
+func (m *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	instance, err := m.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	client := getPublicIPAddressClient()
+	client := getPublicIPAddressClient(m.Creds)
 
 	location := instance.Spec.Location
 	resourceGroup := instance.Spec.ResourceGroup
@@ -30,11 +30,12 @@ func (g *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Obj
 	idleTimeoutInMinutes := instance.Spec.IdleTimeoutInMinutes
 	publicIPAddressVersion := instance.Spec.PublicIPAddressVersion
 	skuName := instance.Spec.SkuName
+	ipTags := instance.Spec.IPTags
 
 	instance.Status.Provisioning = true
 	// Check if this item already exists. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
-	item, err := g.GetPublicIPAddress(ctx, resourceGroup, resourceName)
+	item, err := m.GetPublicIPAddress(ctx, resourceGroup, resourceName)
 	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
@@ -42,7 +43,7 @@ func (g *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Obj
 		instance.Status.ResourceId = *item.ID
 		return true, nil
 	}
-	future, err := g.CreatePublicIPAddress(
+	future, err := m.CreatePublicIPAddress(
 		ctx,
 		location,
 		resourceGroup,
@@ -51,6 +52,7 @@ func (g *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Obj
 		idleTimeoutInMinutes,
 		publicIPAddressVersion,
 		skuName,
+		ipTags,
 	)
 	if err != nil {
 		// let the user know what happened
@@ -66,7 +68,7 @@ func (g *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Obj
 			errhelp.PublicIPIdleTimeoutIsOutOfRange,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			isReconcilationDone := false
@@ -98,7 +100,7 @@ func (g *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Obj
 			errhelp.SubscriptionDoesNotHaveServer,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -149,7 +151,7 @@ func (g *AzurePublicIPAddressClient) Delete(ctx context.Context, obj runtime.Obj
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

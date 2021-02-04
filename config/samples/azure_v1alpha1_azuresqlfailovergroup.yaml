@@ -11,7 +11,7 @@ spec:
   secondaryserver: sqlserver-samplesec
   secondaryserverresourcegroup: resourcegroup-azure-operators
   databaselist:
-    - "azuresqldatabase-sample"
+    - "azuresqldatabase-sample1"
     - "azuresqldatabase-sample2"
   # Use the field below to optionally specify a different keyvault 
   # to store the listener endpoint secrets in

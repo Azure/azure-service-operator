@@ -48,7 +48,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.ServerSecretKeyVault) == 0 {
 				adminSecretClient = s.SecretClient
 			} else {
-				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault)
+				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, s.Creds)
 				if !keyvaultsecretlib.IsKeyVaultAccessible(adminSecretClient) {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
 					return false, nil
@@ -63,7 +63,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 					errhelp.ResourceGroupNotFoundErrorCode, // RG not present yet
 					errhelp.ResourceNotFound,               // server not present yet
 				}
-				azerr := errhelp.NewAzureErrorAzureError(err)
+				azerr := errhelp.NewAzureError(err)
 				if helpers.ContainsString(catch, azerr.Type) {
 					return false, nil //requeue until server/RG ready
 				}
@@ -96,7 +96,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.ServerSecretKeyVault) == 0 {
 				adminSecretClient = s.SecretClient
 			} else {
-				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault)
+				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, s.Creds)
 				if !keyvaultsecretlib.IsKeyVaultAccessible(adminSecretClient) {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
 					return false, nil
@@ -108,7 +108,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.UserSecretKeyVault) == 0 {
 				userSecretClient = s.SecretClient
 			} else {
-				userSecretClient = keyvaultsecretlib.New(instance.Spec.UserSecretKeyVault)
+				userSecretClient = keyvaultsecretlib.New(instance.Spec.UserSecretKeyVault, s.Creds)
 				if !keyvaultsecretlib.IsKeyVaultAccessible(userSecretClient) {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
 					return false, nil

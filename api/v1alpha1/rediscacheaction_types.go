@@ -22,7 +22,7 @@ const (
 // RedisCacheActionSpec defines the desired state of RedisCacheAction
 type RedisCacheActionSpec struct {
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup          string               `json:"resourceGroup"`
 	CacheName              string               `json:"cacheName"`

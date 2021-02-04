@@ -44,7 +44,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	instance.Status.Provisioned = false
 
 	if instance.Status.PollingURL != "" {
-		pollClient := pollclient.NewPollClient()
+		pollClient := pollclient.NewPollClient(m.Creds)
 		pollResponse, err := pollClient.Get(ctx, instance.Status.PollingURL)
 		if err != nil {
 			instance.Status.Provisioning = false
@@ -58,7 +58,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 		instance.Status.PollingURL = ""
 
-		if pollResponse.Status == "Failed" {
+		if pollResponse.Status == pollclient.LongRunningOperationPollStatusFailed {
 			instance.Status.Provisioning = false
 			instance.Status.Message = pollResponse.Error.Error()
 			return true, nil
@@ -68,7 +68,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	// get the instance and update status
 	db, err := m.GetCosmosDB(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		instance.Status.Message = err.Error()
 
@@ -117,7 +117,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	accountName := instance.ObjectMeta.Name
 	db, pollingUrl, err := m.CreateOrUpdateCosmosDB(ctx, accountName, instance.Spec, tags)
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		instance.Status.Message = err.Error()
 
 		switch azerr.Type {
@@ -184,7 +184,7 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 	// try to delete the cosmosdb instance & secrets
 	_, err = m.DeleteCosmosDB(ctx, groupName, accountName)
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// request submitted or already in progress
 		if azerr.Type == errhelp.AsyncOpIncompleteError || (azerr.Type == errhelp.PreconditionFailed && strings.Contains(azerr.Reason, "operation in progress")) {

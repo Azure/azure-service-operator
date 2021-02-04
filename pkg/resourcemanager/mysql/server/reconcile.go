@@ -23,7 +23,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-// Ensure idempotently instantiates the requested server (ig possible) in Azure
+// Ensure idempotently instantiates the requested server (if possible) in Azure
 func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	options := &resourcemanager.Options{}
 	for _, opt := range opts {
@@ -82,14 +82,14 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		if err != nil {
 			// handle failures in the async operation
 			if instance.Status.PollingURL != "" {
-				pClient := pollclient.NewPollClient()
+				pClient := pollclient.NewPollClient(m.Creds)
 				res, err := pClient.Get(ctx, instance.Status.PollingURL)
 				if err != nil {
 					instance.Status.Provisioning = false
 					return false, err
 				}
 
-				if res.Status == "Failed" {
+				if res.Status == pollclient.LongRunningOperationPollStatusFailed {
 					instance.Status.Provisioning = false
 					instance.Status.RequestedAt = nil
 					ignore := []string{
@@ -154,7 +154,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 			instance.Status.Message = errhelp.StripErrorIDs(err)
 			instance.Status.Provisioning = false
 
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 
 			catchInProgress := []string{
 				errhelp.AsyncOpIncompleteError,
@@ -223,7 +223,7 @@ func (m *MySQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

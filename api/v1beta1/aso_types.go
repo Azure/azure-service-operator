@@ -17,12 +17,33 @@ type ASOStatus struct {
 	ResourceId         string       `json:"resourceId,omitempty"`
 	PollingURL         string       `json:"pollingUrl,omitempty"`
 	SpecHash           string       `json:"specHash,omitempty"`
-	ContainsUpdate     bool         `json:"containsUpdate,omitempty"`
+	ContainsUpdate     bool         `json:"containsUpdate,omitempty"` // TODO: Unused, remove in future version
 	RequestedAt        *metav1.Time `json:"requested,omitempty"`
 	CompletedAt        *metav1.Time `json:"completed,omitempty"`
 	FailedProvisioning bool         `json:"failedProvisioning,omitempty"`
 	FlattenedSecrets   bool         `json:"flattenedSecrets,omitempty"`
 	Output             string       `json:"output,omitempty"`
+}
+
+func (s *ASOStatus) SetProvisioned(msg string) {
+	s.Provisioned = true
+	s.Provisioning = false
+	s.FailedProvisioning = false
+	s.Message = msg
+}
+
+func (s *ASOStatus) SetProvisioning(msg string) {
+	s.Provisioned = false
+	s.Provisioning = true
+	s.FailedProvisioning = false
+	s.Message = msg
+}
+
+func (s *ASOStatus) SetFailedProvisioning(msg string) {
+	s.Provisioned = false
+	s.Provisioning = false
+	s.FailedProvisioning = true
+	s.Message = msg
 }
 
 // GenericSpec is a struct to help get the KeyVaultName from the Spec

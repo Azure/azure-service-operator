@@ -16,28 +16,30 @@ import (
 )
 
 type AzureLoadBalancerClient struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureLoadBalancerClient(secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzureLoadBalancerClient {
+func NewAzureLoadBalancerClient(creds config.Credentials, secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzureLoadBalancerClient {
 	return &AzureLoadBalancerClient{
+		Creds:        creds,
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
 }
 
-func getLoadBalancerClient() vnetwork.LoadBalancersClient {
-	lbClient := vnetwork.NewLoadBalancersClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+func getLoadBalancerClient(creds config.Credentials) vnetwork.LoadBalancersClient {
+	lbClient := vnetwork.NewLoadBalancersClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	lbClient.Authorizer = a
 	lbClient.AddToUserAgent(config.UserAgent())
 	return lbClient
 }
 
-func (m *AzureLoadBalancerClient) CreateLoadBalancer(ctx context.Context, location string, resourceGroupName string, resourceName string, publicIPAddressName string, backendAddressPoolName string, inboundNatPoolName string, frontendPortRangeStart int, frontendPortRangeEnd int, backendPort int) (future vnetwork.LoadBalancersCreateOrUpdateFuture, err error) {
+func (c *AzureLoadBalancerClient) CreateLoadBalancer(ctx context.Context, location string, resourceGroupName string, resourceName string, publicIPAddressName string, backendAddressPoolName string, inboundNatPoolName string, frontendPortRangeStart int, frontendPortRangeEnd int, backendPort int) (future vnetwork.LoadBalancersCreateOrUpdateFuture, err error) {
 
-	client := getLoadBalancerClient()
+	client := getLoadBalancerClient(c.Creds)
 
 	publicIPAddressIDInput := helpers.MakeResourceID(
 		client.SubscriptionID,
@@ -125,9 +127,9 @@ func (m *AzureLoadBalancerClient) CreateLoadBalancer(ctx context.Context, locati
 	return future, err
 }
 
-func (m *AzureLoadBalancerClient) DeleteLoadBalancer(ctx context.Context, loadBalancerName string, resourcegroup string) (status string, err error) {
+func (c *AzureLoadBalancerClient) DeleteLoadBalancer(ctx context.Context, loadBalancerName string, resourcegroup string) (status string, err error) {
 
-	client := getLoadBalancerClient()
+	client := getLoadBalancerClient(c.Creds)
 
 	_, err = client.Get(ctx, resourcegroup, loadBalancerName, "")
 	if err == nil { // load balancer present, so go ahead and delete
@@ -139,9 +141,9 @@ func (m *AzureLoadBalancerClient) DeleteLoadBalancer(ctx context.Context, loadBa
 
 }
 
-func (m *AzureLoadBalancerClient) GetLoadBalancer(ctx context.Context, resourcegroup string, loadBalancerName string) (lb vnetwork.LoadBalancer, err error) {
+func (c *AzureLoadBalancerClient) GetLoadBalancer(ctx context.Context, resourcegroup string, loadBalancerName string) (lb vnetwork.LoadBalancer, err error) {
 
-	client := getLoadBalancerClient()
+	client := getLoadBalancerClient(c.Creds)
 
 	return client.Get(ctx, resourcegroup, loadBalancerName, "")
 }

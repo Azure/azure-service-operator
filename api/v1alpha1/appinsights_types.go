@@ -16,7 +16,7 @@ type AppInsightsSpec struct {
 	Location        string `json:"location"`
 	ApplicationType string `json:"applicationType"` // Possible values include 'web' or 'other'
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup          string `json:"resourceGroup"`
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`

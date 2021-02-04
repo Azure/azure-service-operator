@@ -16,43 +16,27 @@ var (
 	// each has corresponding public accessors below.
 	// if anything requires a `Set` accessor, that indicates it perhaps
 	// shouldn't be set here, because mutable vars shouldn't be global.
-	clientID               string
-	clientSecret           string
-	tenantID               string
-	subscriptionID         string
+
+	// TODO: eliminate this!
+	creds                  credentials
 	locationDefault        string
 	authorizationServerURL string
 	cloudName              string
 	useDeviceFlow          bool
-	useMI                  bool
 	buildID                string
 	keepResources          bool
-	operatorKeyvault       string
 	userAgent              string
 	baseURI                string
 	environment            *azure.Environment
+	podNamespace           string
 
 	testResourcePrefix string // used to generate resource names in tests, should probably exist in a test only package
 )
 
-// ClientID is the OAuth client ID.
-func ClientID() string {
-	return clientID
-}
-
-// ClientSecret is the OAuth client secret.
-func ClientSecret() string {
-	return clientSecret
-}
-
-// TenantID is the AAD tenant to which this client belongs.
-func TenantID() string {
-	return tenantID
-}
-
-// SubscriptionID is a target subscription for Azure resources.
-func SubscriptionID() string {
-	return subscriptionID
+// GlobalCredentials returns the configured credentials.
+// TODO: get rid of all uses of this.
+func GlobalCredentials() Credentials {
+	return creds
 }
 
 // deprecated: use DefaultLocation() instead
@@ -74,21 +58,10 @@ func AuthorizationServerURL() string {
 	return authorizationServerURL
 }
 
-// OperatorKeyvault() specifies the keyvault the operator should use to store secrets
-func OperatorKeyvault() string {
-	return operatorKeyvault
-}
-
 // UseDeviceFlow() specifies if interactive auth should be used. Interactive
 // auth uses the OAuth Device Flow grant type.
 func UseDeviceFlow() bool {
 	return useDeviceFlow
-}
-
-// UseMI() specifies if managed service identity auth should be used. Used for
-// aad-pod-identity
-func UseMI() bool {
-	return useMI
 }
 
 // KeepResources() specifies whether to keep resources created by samples.
@@ -125,6 +98,11 @@ func Environment() *azure.Environment {
 	return environment
 }
 
+// PodNamespace returns the namespace the manager pod is running in
+func PodNamespace() string {
+	return podNamespace
+}
+
 // AppendRandomSuffix will append a suffix of five random characters to the specified prefix.
 func AppendRandomSuffix(prefix string) string {
 	return randname.GenerateWithPrefix(prefix, 5)
@@ -133,4 +111,18 @@ func AppendRandomSuffix(prefix string) string {
 // Base URI for provisioning
 func BaseURI() string {
 	return baseURI
+}
+
+// ConfigString returns the parts of the configuration file with are not secrets as a string for easy logging
+func ConfigString() string {
+	creds := GlobalCredentials()
+	return fmt.Sprintf(
+		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %v, useManagedIdentity: %v, podNamespace: %q",
+		creds.ClientID(),
+		creds.TenantID(),
+		creds.SubscriptionID(),
+		cloudName,
+		UseDeviceFlow(),
+		creds.UseManagedIdentity(),
+		podNamespace)
 }

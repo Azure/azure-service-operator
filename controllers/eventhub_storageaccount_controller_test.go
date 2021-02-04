@@ -15,6 +15,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 
@@ -127,7 +128,8 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	keyVaultNameForSecrets := tc.keyvaultName
 
 	// Instantiate a KV client for the Keyvault that was created during test suite setup
-	_, err := kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
+	kvManager := kvhelper.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
+	_, err := kvManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
 	assert.Equal(nil, err, "wait for keyvault to be available")
 
 	// Create EventhubNamespace instance as prereq
@@ -170,7 +172,7 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	EnsureInstance(ctx, t, tc, eventhubInstance)
 
 	// Check that the secret is added to KeyVault
-	keyvaultSecretClient := kvsecrets.New(keyVaultNameForSecrets)
+	keyvaultSecretClient := kvsecrets.New(keyVaultNameForSecrets, config.GlobalCredentials())
 
 	EnsureSecrets(ctx, t, tc, eventhubInstance, keyvaultSecretClient, eventhubName, eventhubInstance.Namespace)
 

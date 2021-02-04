@@ -55,7 +55,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		}
 
 		// Assure that the requested name is available and assume the secret exists
-		checkNameResult, err := CheckNameAvailability(ctx, instance.Name)
+		checkNameResult, err := CheckNameAvailability(ctx, s.Creds, instance.Name)
 
 		if err != nil {
 			instance.Status.Provisioning = false
@@ -124,17 +124,17 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 		serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 		if err != nil {
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 
 			// handle failures in the async operation
 			if instance.Status.PollingURL != "" {
-				pClient := pollclient.NewPollClient()
+				pClient := pollclient.NewPollClient(s.Creds)
 				res, err := pClient.Get(ctx, instance.Status.PollingURL)
 				if err != nil {
 					return false, err
 				}
 
-				if res.Status == "Failed" {
+				if res.Status == pollclient.LongRunningOperationPollStatusFailed {
 					instance.Status.Message = res.Error.Error()
 					instance.Status.Provisioning = false
 					return true, nil
@@ -178,7 +178,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		instance.Status.Message = err.Error()
 
 		// check for our known errors
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		switch azerr.Type {
 		case errhelp.AsyncOpIncompleteError:
@@ -275,7 +275,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 	_, err = s.DeleteSQLServer(ctx, groupName, name)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// these errors are expected
 		ignore := []string{

@@ -15,14 +15,14 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (c *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
-	instance, err := g.convert(obj)
+	instance, err := c.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	client := getVirtualMachineClient()
+	client := getVirtualMachineClient(c.Creds)
 
 	location := instance.Spec.Location
 	resourceGroup := instance.Spec.ResourceGroup
@@ -37,12 +37,12 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 	const SucceededProvisioningState = "Succeeded"
 
 	// Check to see if secret exists and if yes retrieve the admin login and password
-	secret, err := g.GetOrPrepareSecret(ctx, instance)
+	secret, err := c.GetOrPrepareSecret(ctx, instance)
 	if err != nil {
 		return false, err
 	}
 	// Update secret
-	err = g.AddVirtualMachineCredsToSecrets(ctx, instance.Name, secret, instance)
+	err = c.AddVirtualMachineCredsToSecrets(ctx, instance.Name, secret, instance)
 	if err != nil {
 		return false, err
 	}
@@ -52,7 +52,7 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 	instance.Status.Provisioning = true
 	// Check if this item already exists. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
-	item, err := g.GetVirtualMachine(ctx, resourceGroup, resourceName)
+	item, err := c.GetVirtualMachine(ctx, resourceGroup, resourceName)
 	if err == nil {
 
 		if *item.ProvisioningState == SucceededProvisioningState {
@@ -71,7 +71,7 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 		return false, nil
 
 	}
-	future, err := g.CreateVirtualMachine(
+	future, err := c.CreateVirtualMachine(
 		ctx,
 		location,
 		resourceGroup,
@@ -98,7 +98,7 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			errhelp.InvalidResourceReference,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -110,7 +110,7 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			return false, nil
 		}
 		//change to spec is required
-		if future.Response().StatusCode == 400 {
+		if azerr.Code == 400 {
 			instance.Status.FailedProvisioning = true
 			return false, nil
 		}
@@ -133,7 +133,7 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			errhelp.SubscriptionDoesNotHaveServer,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -150,9 +150,9 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 	return false, nil
 }
 
-func (g *AzureVirtualMachineClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (c *AzureVirtualMachineClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
-	instance, err := g.convert(obj)
+	instance, err := c.convert(obj)
 	if err != nil {
 		return true, err
 	}
@@ -160,7 +160,7 @@ func (g *AzureVirtualMachineClient) Delete(ctx context.Context, obj runtime.Obje
 	resourceGroup := instance.Spec.ResourceGroup
 	resourceName := instance.Name
 
-	status, err := g.DeleteVirtualMachine(
+	status, err := c.DeleteVirtualMachine(
 		ctx,
 		resourceName,
 		resourceGroup,
@@ -175,7 +175,7 @@ func (g *AzureVirtualMachineClient) Delete(ctx context.Context, obj runtime.Obje
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

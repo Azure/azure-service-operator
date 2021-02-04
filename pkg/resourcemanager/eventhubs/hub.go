@@ -27,13 +27,14 @@ import (
 )
 
 type azureEventHubManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func getHubsClient() (eventhub.EventHubsClient, error) {
-	hubClient := eventhub.NewEventHubsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	auth, err := iam.GetResourceManagementAuthorizer()
+func getHubsClient(creds config.Credentials) (eventhub.EventHubsClient, error) {
+	hubClient := eventhub.NewEventHubsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	auth, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return eventhub.EventHubsClient{}, err
 	}
@@ -42,15 +43,16 @@ func getHubsClient() (eventhub.EventHubsClient, error) {
 	return hubClient, nil
 }
 
-func NewEventhubClient(secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureEventHubManager {
+func NewEventhubClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureEventHubManager {
 	return &azureEventHubManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
 }
 
-func (_ *azureEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
-	hubClient, err := getHubsClient()
+func (m *azureEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
+	hubClient, err := getHubsClient(m.Creds)
 	if err != nil {
 		return autorest.Response{
 			Response: &http.Response{
@@ -66,8 +68,8 @@ func (_ *azureEventHubManager) DeleteHub(ctx context.Context, resourceGroupName 
 
 }
 
-func (_ *azureEventHubManager) CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, MessageRetentionInDays int32, PartitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
-	hubClient, err := getHubsClient()
+func (m *azureEventHubManager) CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, MessageRetentionInDays int32, PartitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
+	hubClient, err := getHubsClient(m.Creds)
 	if err != nil {
 		return eventhub.Model{}, err
 	}
@@ -99,8 +101,8 @@ func (_ *azureEventHubManager) CreateHub(ctx context.Context, resourceGroupName 
 	)
 }
 
-func (_ *azureEventHubManager) GetHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (eventhub.Model, error) {
-	hubClient, err := getHubsClient()
+func (m *azureEventHubManager) GetHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (eventhub.Model, error) {
+	hubClient, err := getHubsClient(m.Creds)
 	if err != nil {
 		return eventhub.Model{}, err
 	}
@@ -108,8 +110,8 @@ func (_ *azureEventHubManager) GetHub(ctx context.Context, resourceGroupName str
 	return hubClient.Get(ctx, resourceGroupName, namespaceName, eventHubName)
 }
 
-func (_ *azureEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string, parameters eventhub.AuthorizationRule) (result eventhub.AuthorizationRule, err error) {
-	hubClient, err := getHubsClient()
+func (m *azureEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string, parameters eventhub.AuthorizationRule) (result eventhub.AuthorizationRule, err error) {
+	hubClient, err := getHubsClient(m.Creds)
 	if err != nil {
 		return eventhub.AuthorizationRule{}, err
 	}
@@ -117,8 +119,8 @@ func (_ *azureEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.Conte
 	return hubClient.CreateOrUpdateAuthorizationRule(ctx, resourceGroupName, namespaceName, eventHubName, authorizationRuleName, parameters)
 }
 
-func (_ *azureEventHubManager) ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (result eventhub.AccessKeys, err error) {
-	hubClient, err := getHubsClient()
+func (m *azureEventHubManager) ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (result eventhub.AccessKeys, err error) {
+	hubClient, err := getHubsClient(m.Creds)
 	if err != nil {
 		return eventhub.AccessKeys{}, err
 	}
@@ -214,13 +216,13 @@ func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup stri
 
 }
 
-func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (m *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	options := &resourcemanager.Options{}
 	for _, opt := range opts {
 		opt(options)
 	}
 
-	instance, err := e.convert(obj)
+	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
 	}
@@ -234,7 +236,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 	secretName := instance.Spec.SecretName
 
 	if options.SecretClient != nil {
-		e.SecretClient = options.SecretClient
+		m.SecretClient = options.SecretClient
 	}
 
 	if len(secretName) == 0 {
@@ -245,12 +247,12 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 	// write information back to instance
 	instance.Status.Provisioning = true
 
-	capturePtr := getCaptureDescriptionPtr(captureDescription)
+	capturePtr := getCaptureDescriptionPtr(m.Creds, captureDescription)
 
-	hub, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+	hub, err := m.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// this happens when op isnt complete, just requeue
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
@@ -279,13 +281,13 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	err = e.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
+	err = m.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		return false, err
 	}
 
-	err = e.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
+	err = m.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
 	if err != nil {
 
 		// catch secret existing and fail reconciliation
@@ -349,7 +351,7 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object, o
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			instance.Status.Message = err.Error()
 			return false, nil
@@ -409,12 +411,12 @@ func (e *azureEventHubManager) convert(obj runtime.Object) (*azurev1alpha1.Event
 
 const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
 
-func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescription) *model.CaptureDescription {
+func getCaptureDescriptionPtr(creds config.Credentials, captureDescription azurev1alpha1.CaptureDescription) *model.CaptureDescription {
 	// add capture details
 	var capturePtr *model.CaptureDescription
 
 	storage := captureDescription.Destination.StorageAccount
-	storageAccountResourceID := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
+	storageAccountResourceID := fmt.Sprintf(storageAccountResourceFmt, creds.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
 
 	if captureDescription.Enabled {
 		capturePtr = &model.CaptureDescription{

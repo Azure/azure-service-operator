@@ -16,17 +16,19 @@ import (
 )
 
 // AzureRedisCacheFirewallRuleManager creates a new AzureRedisCacheFirewallRuleManager
-type AzureRedisCacheFirewallRuleManager struct{}
+type AzureRedisCacheFirewallRuleManager struct {
+	creds config.Credentials
+}
 
 // NewAzureRedisCacheFirewallRuleManager creates a new AzureRedisCacheFirewallRuleManager
-func NewAzureRedisCacheFirewallRuleManager() *AzureRedisCacheFirewallRuleManager {
-	return &AzureRedisCacheFirewallRuleManager{}
+func NewAzureRedisCacheFirewallRuleManager(creds config.Credentials) *AzureRedisCacheFirewallRuleManager {
+	return &AzureRedisCacheFirewallRuleManager{creds: creds}
 }
 
 // getRedisCacheFirewallRuleClient retrieves a firewallrules client
-func getRedisCacheFirewallRuleClient() (redis.FirewallRulesClient, error) {
-	firewallRulesClient := redis.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
+func getRedisCacheFirewallRuleClient(creds config.Credentials) (redis.FirewallRulesClient, error) {
+	firewallRulesClient := redis.NewFirewallRulesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return redis.FirewallRulesClient{}, err
 	}
@@ -36,9 +38,9 @@ func getRedisCacheFirewallRuleClient() (redis.FirewallRulesClient, error) {
 }
 
 // CreateRedisCacheFirewallRule creates a new RedisCacheFirewallRule
-func (r *AzureRedisCacheFirewallRuleManager) CreateRedisCacheFirewallRule(ctx context.Context, instance azurev1alpha1.RedisCacheFirewallRule) (result redis.FirewallRule, err error) {
+func (m *AzureRedisCacheFirewallRuleManager) CreateRedisCacheFirewallRule(ctx context.Context, instance azurev1alpha1.RedisCacheFirewallRule) (result redis.FirewallRule, err error) {
 
-	firewallRuleClient, err := getRedisCacheFirewallRuleClient()
+	firewallRuleClient, err := getRedisCacheFirewallRuleClient(m.creds)
 	if err != nil {
 		return redis.FirewallRule{}, err
 	}
@@ -68,9 +70,9 @@ func (r *AzureRedisCacheFirewallRuleManager) CreateRedisCacheFirewallRule(ctx co
 }
 
 // Get gets a single firewall rule in a specified redis cache
-func (r *AzureRedisCacheFirewallRuleManager) Get(ctx context.Context, resourceGroup string, redisCacheName string, firewallRuleName string) (result redis.FirewallRule, err error) {
+func (m *AzureRedisCacheFirewallRuleManager) Get(ctx context.Context, resourceGroup string, redisCacheName string, firewallRuleName string) (result redis.FirewallRule, err error) {
 
-	firewallRuleClient, err := getRedisCacheFirewallRuleClient()
+	firewallRuleClient, err := getRedisCacheFirewallRuleClient(m.creds)
 	if err != nil {
 		return redis.FirewallRule{}, err
 	}
@@ -79,13 +81,13 @@ func (r *AzureRedisCacheFirewallRuleManager) Get(ctx context.Context, resourceGr
 }
 
 // DeleteRedisCacheFirewallRule deletes a redis firewall rule
-func (r *AzureRedisCacheFirewallRuleManager) DeleteRedisCacheFirewallRule(ctx context.Context, resourceGroup string, redisCacheName string, firewallRuleName string) (result autorest.Response, err error) {
+func (m *AzureRedisCacheFirewallRuleManager) DeleteRedisCacheFirewallRule(ctx context.Context, resourceGroup string, redisCacheName string, firewallRuleName string) (result autorest.Response, err error) {
 	result = autorest.Response{
 		Response: &http.Response{
 			StatusCode: 200,
 		},
 	}
-	firewallRuleClient, err := getRedisCacheFirewallRuleClient()
+	firewallRuleClient, err := getRedisCacheFirewallRuleClient(m.creds)
 	if err != nil {
 		return result, err
 	}

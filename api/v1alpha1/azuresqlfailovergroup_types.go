@@ -14,7 +14,7 @@ type AzureSqlFailoverGroupSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup                string                          `json:"resourcegroup"`
 	Server                       string                          `json:"server"`
@@ -50,7 +50,7 @@ type AzureSqlFailoverGroupList struct {
 	Items           []AzureSqlFailoverGroup `json:"items"`
 }
 
-// ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ReadWriteEndpointFailoverPolicy
+// ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#ReadWriteEndpointFailoverPolicy
 type ReadWriteEndpointFailoverPolicy string
 
 const (

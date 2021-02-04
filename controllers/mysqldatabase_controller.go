@@ -15,7 +15,7 @@ type MySQLDatabaseReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqldatabases,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqldatabases/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={mysqldatabases/status,mysqldatabases/finalizers},verbs=get;update;patch
 
 func (r *MySQLDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.MySQLDatabase{})

@@ -13,12 +13,13 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
+	"github.com/google/uuid"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
-	"github.com/google/uuid"
-	"k8s.io/apimachinery/pkg/runtime"
 
 	_ "github.com/denisenkom/go-mssqldb"
 	"k8s.io/apimachinery/pkg/types"
@@ -59,7 +60,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	// if the admin secret keyvault is not specified, fall back to global secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds)
 		if len(instance.Spec.AdminSecret) != 0 {
 			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
 		}
@@ -86,7 +87,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(requeuErrors, azerr.Type) {
 			return false, nil
 		}
@@ -312,7 +313,7 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 
 	// if the admin secret keyvault is not specified, fall back to global secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds)
 		if len(instance.Spec.AdminSecret) != 0 {
 			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
 		}
@@ -334,7 +335,7 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}

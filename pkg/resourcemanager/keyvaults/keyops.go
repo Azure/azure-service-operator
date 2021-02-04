@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -21,7 +22,15 @@ import (
 
 // KeyvaultKeyClient emcompasses the methods needed for the keyops client to fulfill the ARMClient interface
 type KeyvaultKeyClient struct {
+	Creds          config.Credentials
 	KeyvaultClient *azureKeyVaultManager
+}
+
+func NewKeyvaultKeyClient(creds config.Credentials, client *azureKeyVaultManager) *KeyvaultKeyClient {
+	return &KeyvaultKeyClient{
+		Creds:          creds,
+		KeyvaultClient: client,
+	}
 }
 
 // Ensure idempotently implements the user's requested state
@@ -35,7 +44,7 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object, opts
 
 	// Check if this KeyVault already exists and its state if it does.
 
-	kvopsclient := NewOpsClient(instance.Name)
+	kvopsclient := NewOpsClient(k.Creds, instance.Name)
 
 	keyvault, err := k.KeyvaultClient.GetVault(ctx, instance.Spec.ResourceGroup, instance.Spec.KeyVault)
 	if err != nil {
@@ -47,7 +56,7 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object, opts
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
@@ -139,7 +148,7 @@ func (k *KeyvaultKeyClient) Delete(ctx context.Context, obj runtime.Object, opts
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
@@ -148,7 +157,7 @@ func (k *KeyvaultKeyClient) Delete(ctx context.Context, obj runtime.Object, opts
 	}
 
 	vaultBaseURL := *keyv.Properties.VaultURI
-	kvopsclient := NewOpsClient(instance.Spec.KeyVault)
+	kvopsclient := NewOpsClient(k.Creds, instance.Spec.KeyVault)
 
 	req, err := kvopsclient.DeleteKey(ctx, vaultBaseURL, instance.Name)
 	if err != nil {

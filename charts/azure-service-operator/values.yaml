@@ -1,21 +1,36 @@
+# azureTenantID is the AAD tenant that the subscription is in
 azureTenantID: ""
+# azureSubscriptionID is the Azure Subscription the operator will act against.
 azureSubscriptionID: ""
 
-# Optional, if using KeyVault to store secrets
+# azureOperatorKeyvault is the Azure Key Vault to store secrets in. This field is optional.
 azureOperatorKeyvault: ""
 
-# Set the cloud environment, possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
+# cloudEnvironment is the cloud environment. Possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
 cloudEnvironment: AzurePublicCloud
 
-# Authentication - Service Principal
+# azureClientID is the client ID of the Azure Service Principal or Managed Identity to use to authenticate with Azure.
 azureClientID: ""
+
+# azureClientSecret is the client secret of the Azure Service Principal used to authenticate with Azure.
+# This is required when using Service Principal authentication.
 azureClientSecret: ""
 
-# Authentication - Managed Identity
+# azureUseMI determines if ASO will use a Managed Identity to authenticate.
 azureUseMI: False
 
+# image defines the container image the ASO pod should run
+# Note: This should use the latest released tag number explicitly. If
+# it's ':latest' and someone deploys the chart after a new version has
+# been released but before the the chart is updated, they could get
+# errors, eg. due to types in the operator binary that have no
+# corresponding CRD yaml in the cart (and so no CRD in the k8s
+# repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:latest
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:0.1.16800
+
+# installAadPodIdentity determines if the aad-pod-identity subchart should be installed.
+installAadPodIdentity: False
 
 aad-pod-identity:
   azureIdentityBinding:
@@ -25,7 +40,6 @@ aad-pod-identity:
     enabled: True
     name: aso-identity
     type: 0
-
-    # Update values for Managed Identity 
+    # Update values for Managed Identity
     resourceID: ""
     clientID: ""

@@ -26,6 +26,7 @@ import (
 const templateForConnectionString = "DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=%s"
 
 type azureStorageManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
@@ -80,19 +81,19 @@ func ParseNetworkPolicy(ruleSet *v1alpha1.StorageNetworkRuleSet) storage.Network
 	}
 }
 
-func getStoragesClient() (storage.AccountsClient, error) {
-	storagesClient := storage.NewAccountsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
+func getStorageClient(creds config.Credentials) (storage.AccountsClient, error) {
+	storageClient := storage.NewAccountsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return storage.AccountsClient{}, err
 	}
-	storagesClient.Authorizer = a
-	storagesClient.AddToUserAgent(config.UserAgent())
-	return storagesClient, nil
+	storageClient.Authorizer = a
+	storageClient.AddToUserAgent(config.UserAgent())
+	return storageClient, nil
 }
 
 // CreateStorage creates a new storage account
-func (_ *azureStorageManager) CreateStorage(ctx context.Context,
+func (m *azureStorageManager) CreateStorage(ctx context.Context,
 	groupName string,
 	storageAccountName string,
 	location string,
@@ -102,7 +103,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 	accessTier azurev1alpha1.StorageAccountAccessTier,
 	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool, networkRule *storage.NetworkRuleSet) (pollingURL string, result storage.Account, err error) {
 
-	storagesClient, err := getStoragesClient()
+	storageClient, err := getStorageClient(m.Creds)
 	if err != nil {
 		return "", storage.Account{}, err
 	}
@@ -110,7 +111,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 	//Check if name is available
 	storageType := "Microsoft.Storage/storageAccounts"
 	checkAccountParams := storage.AccountCheckNameAvailabilityParameters{Name: &storageAccountName, Type: &storageType}
-	checkNameResult, err := storagesClient.CheckNameAvailability(ctx, checkAccountParams)
+	checkNameResult, err := storageClient.CheckNameAvailability(ctx, checkAccountParams)
 	if err != nil {
 		return "", result, err
 	}
@@ -147,12 +148,12 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 	}
 
 	//log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
-	future, err := storagesClient.Create(ctx, groupName, storageAccountName, params)
+	future, err := storageClient.Create(ctx, groupName, storageAccountName, params)
 	if err != nil {
 		return "", result, err
 	}
 
-	result, err = future.Result(storagesClient)
+	result, err = future.Result(storageClient)
 
 	return future.PollingURL(), result, err
 
@@ -162,18 +163,18 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
 // storageAccountName - the name of the storage account
-func (_ *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName string, storageAccountName string) (result storage.Account, err error) {
-	storagesClient, err := getStoragesClient()
+func (m *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName string, storageAccountName string) (result storage.Account, err error) {
+	storageClient, err := getStorageClient(m.Creds)
 	if err != nil {
 		return storage.Account{}, err
 	}
 
-	return storagesClient.GetProperties(ctx, resourceGroupName, storageAccountName, "")
+	return storageClient.GetProperties(ctx, resourceGroupName, storageAccountName, "")
 }
 
 // DeleteStorage removes the resource group named by env var
-func (_ *azureStorageManager) DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
-	storagesClient, err := getStoragesClient()
+func (m *azureStorageManager) DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
+	storageClient, err := getStorageClient(m.Creds)
 	if err != nil {
 		return autorest.Response{
 			Response: &http.Response{
@@ -182,23 +183,23 @@ func (_ *azureStorageManager) DeleteStorage(ctx context.Context, groupName strin
 		}, err
 	}
 
-	return storagesClient.Delete(ctx, groupName, storageAccountName)
+	return storageClient.Delete(ctx, groupName, storageAccountName)
 }
 
-func (_ *azureStorageManager) ListKeys(ctx context.Context, resourceGroupName string, accountName string) (result storage.AccountListKeysResult, err error) {
-	storagesClient, err := getStoragesClient()
+func (m *azureStorageManager) ListKeys(ctx context.Context, resourceGroupName string, accountName string) (result storage.AccountListKeysResult, err error) {
+	storageClient, err := getStorageClient(m.Creds)
 	if err != nil {
 		return storage.AccountListKeysResult{}, err
 	}
 
-	return storagesClient.ListKeys(ctx, resourceGroupName, accountName, storage.Kerb)
+	return storageClient.ListKeys(ctx, resourceGroupName, accountName, storage.Kerb)
 }
 
 // StoreSecrets upserts the secret information for this storage account
-func (s *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupName string, accountName string, instance *v1alpha1.StorageAccount) error {
+func (m *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupName string, accountName string, instance *v1alpha1.StorageAccount) error {
 
 	// get the keys
-	keyResult, err := s.ListKeys(ctx, resourceGroupName, accountName)
+	keyResult, err := m.ListKeys(ctx, resourceGroupName, accountName)
 	if err != nil {
 		return err
 	}
@@ -222,10 +223,10 @@ func (s *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupNam
 		Name:      fmt.Sprintf("storageaccount-%s-%s", resourceGroupName, accountName),
 		Namespace: instance.Namespace,
 	}
-	return s.SecretClient.Upsert(ctx,
+	return m.SecretClient.Upsert(ctx,
 		key,
 		data,
 		secrets.WithOwner(instance),
-		secrets.WithScheme(s.Scheme),
+		secrets.WithScheme(m.Scheme),
 	)
 }

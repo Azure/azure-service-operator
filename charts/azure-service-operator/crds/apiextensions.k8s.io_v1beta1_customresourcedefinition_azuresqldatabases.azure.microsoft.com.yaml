@@ -4,7 +4,6 @@ metadata:
   annotations:
     cert-manager.io/inject-ca-from: azureoperator-system/azureoperator-serving-cert
     controller-gen.kubebuilder.io/version: v0.2.5
-  creationTimestamp: null
   name: azuresqldatabases.azure.microsoft.com
 spec:
   additionalPrinterColumns:
@@ -17,7 +16,6 @@ spec:
   conversion:
     strategy: Webhook
     webhookClientConfig:
-      caBundle: Cg==
       service:
         name: azureoperator-webhook-service
         namespace: azureoperator-system
@@ -42,14 +40,10 @@ spec:
         description: AzureSqlDatabase is the Schema for the azuresqldatabases API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
           metadata:
             type: object
@@ -60,11 +54,10 @@ spec:
                 description: optional
                 type: string
               edition:
-                description: 'DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition'
+                description: 'DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#DatabaseEdition'
                 type: integer
               location:
-                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                  Important: Run "make" to regenerate code after modifying this file'
+                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file'
                 type: string
               resourcegroup:
                 pattern: ^[-\w\._\(\)]+$
@@ -78,8 +71,7 @@ spec:
             - server
             type: object
           status:
-            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
-              state of resource actions
+            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
             properties:
               completed:
                 format: date-time
@@ -119,14 +111,10 @@ spec:
         description: AzureSqlDatabase is the Schema for the azuresqldatabases API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
           metadata:
             type: object
@@ -134,14 +122,18 @@ spec:
             description: AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
             properties:
               dbName:
-                description: optional
                 type: string
               edition:
                 type: integer
               location:
-                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                  Important: Run "make" to regenerate code after modifying this file'
+                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file'
                 type: string
+              maxSize:
+                anyOf:
+                - type: integer
+                - type: string
+                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                x-kubernetes-int-or-string: true
               monthlyRetention:
                 type: string
               resourceGroup:
@@ -149,6 +141,27 @@ spec:
                 type: string
               server:
                 type: string
+              sku:
+                properties:
+                  capacity:
+                    description: Capacity - Capacity of the particular SKU.
+                    format: int32
+                    type: integer
+                  family:
+                    description: Family - If the service has different generations of hardware, for the same SKU, then that can be captured here.
+                    type: string
+                  name:
+                    description: Name - The name of the SKU, typically, a letter + Number code, e.g. P3.
+                    type: string
+                  size:
+                    description: Size - Size of the particular SKU
+                    type: string
+                  tier:
+                    description: optional Tier - The tier or edition of the particular SKU, e.g. Basic, Premium.
+                    type: string
+                required:
+                - name
+                type: object
               weekOfYear:
                 format: int32
                 type: integer
@@ -157,14 +170,12 @@ spec:
               yearlyRetention:
                 type: string
             required:
-            - edition
             - location
             - resourceGroup
             - server
             type: object
           status:
-            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
-              state of resource actions
+            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
             properties:
               completed:
                 format: date-time

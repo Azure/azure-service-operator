@@ -68,10 +68,11 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 	// actually provision the redis cache
 	instance.Status.Provisioning = true
+	instance.Status.FailedProvisioning = false
 	_, err = rc.CreateRedisCache(ctx, *instance)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		catchInProgress := []string{
 			errhelp.AsyncOpIncompleteError,
@@ -149,7 +150,7 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 	_, err = rc.DeleteRedisCache(ctx, groupName, name)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		ignorableErr := []string{
 			errhelp.AsyncOpIncompleteError,

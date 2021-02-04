@@ -15,7 +15,7 @@ type AzurePublicIPAddressReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azurepublicipaddresses,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azurepublicipaddresses/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={azurepublicipaddresses/status,azurepublicipaddresses/finalizers},verbs=get;update;patch
 
 func (r *AzurePublicIPAddressReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzurePublicIPAddress{})

@@ -19,28 +19,30 @@ import (
 )
 
 type AzureVMScaleSetClient struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureVMScaleSetClient(secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzureVMScaleSetClient {
+func NewAzureVMScaleSetClient(creds config.Credentials, secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzureVMScaleSetClient {
 	return &AzureVMScaleSetClient{
+		Creds:        creds,
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
 }
 
-func getVMScaleSetClient() compute.VirtualMachineScaleSetsClient {
-	computeClient := compute.NewVirtualMachineScaleSetsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+func getVMScaleSetClient(creds config.Credentials) compute.VirtualMachineScaleSetsClient {
+	computeClient := compute.NewVirtualMachineScaleSetsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	computeClient.Authorizer = a
 	computeClient.AddToUserAgent(config.UserAgent())
 	return computeClient
 }
 
-func (m *AzureVMScaleSetClient) CreateVMScaleSet(ctx context.Context, location string, resourceGroupName string, resourceName string, vmSize string, capacity int64, osType string, adminUserName string, adminPassword string, sshPublicKeyData string, platformImageURN string, vnetName string, subnetName string, loadBalancerName string, backendAddressPoolName string, inboundNatPoolName string) (future compute.VirtualMachineScaleSetsCreateOrUpdateFuture, err error) {
+func (c *AzureVMScaleSetClient) CreateVMScaleSet(ctx context.Context, location string, resourceGroupName string, resourceName string, vmSize string, capacity int64, osType string, adminUserName string, adminPassword string, sshPublicKeyData string, platformImageURN string, vnetName string, subnetName string, loadBalancerName string, backendAddressPoolName string, inboundNatPoolName string) (future compute.VirtualMachineScaleSetsCreateOrUpdateFuture, err error) {
 
-	client := getVMScaleSetClient()
+	client := getVMScaleSetClient(c.Creds)
 
 	// Construct OS Profile
 	provisionVMAgent := true
@@ -193,9 +195,9 @@ func (m *AzureVMScaleSetClient) CreateVMScaleSet(ctx context.Context, location s
 	return future, err
 }
 
-func (m *AzureVMScaleSetClient) DeleteVMScaleSet(ctx context.Context, vmssName string, resourcegroup string) (status string, err error) {
+func (c *AzureVMScaleSetClient) DeleteVMScaleSet(ctx context.Context, vmssName string, resourcegroup string) (status string, err error) {
 
-	client := getVMScaleSetClient()
+	client := getVMScaleSetClient(c.Creds)
 
 	_, err = client.Get(ctx, resourcegroup, vmssName)
 	if err == nil { // vmss present, so go ahead and delete
@@ -207,9 +209,9 @@ func (m *AzureVMScaleSetClient) DeleteVMScaleSet(ctx context.Context, vmssName s
 
 }
 
-func (m *AzureVMScaleSetClient) GetVMScaleSet(ctx context.Context, resourcegroup string, vmssName string) (vmss compute.VirtualMachineScaleSet, err error) {
+func (c *AzureVMScaleSetClient) GetVMScaleSet(ctx context.Context, resourcegroup string, vmssName string) (vmss compute.VirtualMachineScaleSet, err error) {
 
-	client := getVMScaleSetClient()
+	client := getVMScaleSetClient(c.Creds)
 	return client.Get(ctx, resourcegroup, vmssName)
 }
 

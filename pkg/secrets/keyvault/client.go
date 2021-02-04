@@ -5,36 +5,24 @@ package keyvault
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
 
-	"encoding/json"
-
-	mgmtclient "github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	keyvaults "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
+	"github.com/Azure/go-autorest/autorest/date"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest/date"
-	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
-
-func getVaultsClient() (mgmtclient.VaultsClient, error) {
-	vaultsClient := mgmtclient.NewVaultsClient(config.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
-	if err != nil {
-		return vaultsClient, err
-	}
-	vaultsClient.Authorizer = a
-	vaultsClient.AddToUserAgent(config.UserAgent())
-	return vaultsClient, nil
-}
 
 // KeyvaultSecretClient struct has the Key vault BaseClient that Azure uses and the KeyVault name
 type KeyvaultSecretClient struct {
@@ -59,10 +47,14 @@ func getVaultsURL(ctx context.Context, vaultName string) string {
 	return vaultURL
 }
 
-// New instantiates a new KeyVaultSecretClient instance
-func New(keyvaultName string) *KeyvaultSecretClient {
+// New instantiates a new KeyVaultSecretClient instance.
+// TODO(creds-refactor): The keyvaultName argument seems seems
+// redundant since that's in the credentials, but it's used to
+// override the one specified in credentials so it might be right to
+// keep it. Confirm this.
+func New(keyvaultName string, creds config.Credentials) *KeyvaultSecretClient {
 	keyvaultClient := keyvaults.New()
-	a, _ := iam.GetKeyvaultAuthorizer()
+	a, _ := iam.GetKeyvaultAuthorizer(creds)
 	keyvaultClient.Authorizer = a
 	keyvaultClient.AddToUserAgent(config.UserAgent())
 	return &KeyvaultSecretClient{
@@ -292,7 +284,7 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 	_, err := k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
 
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if azerr.Type != errhelp.SecretNotFound { // If not found still need to purge
 			return err
 		}
@@ -301,7 +293,7 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 	// If Keyvault has softdelete enabled, we will need to purge the secret in addition to deleting it
 	_, err = k.KeyVaultClient.PurgeDeletedSecret(ctx, vaultBaseURL, secretName)
 	for err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if azerr.Type == errhelp.NotSupported { // Keyvault not softdelete enabled; ignore error
 			return nil
 		}

@@ -23,15 +23,16 @@ import (
 )
 
 type azureConsumerGroupManager struct {
+	creds config.Credentials
 }
 
-func NewConsumerGroupClient() *azureConsumerGroupManager {
-	return &azureConsumerGroupManager{}
+func NewConsumerGroupClient(creds config.Credentials) *azureConsumerGroupManager {
+	return &azureConsumerGroupManager{creds: creds}
 }
 
-func getConsumerGroupsClient() (eventhub.ConsumerGroupsClient, error) {
-	consumerGroupClient := eventhub.NewConsumerGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	auth, err := iam.GetResourceManagementAuthorizer()
+func getConsumerGroupsClient(creds config.Credentials) (eventhub.ConsumerGroupsClient, error) {
+	consumerGroupClient := eventhub.NewConsumerGroupsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	auth, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return eventhub.ConsumerGroupsClient{}, err
 	}
@@ -47,8 +48,8 @@ func getConsumerGroupsClient() (eventhub.ConsumerGroupsClient, error) {
 // eventHubName - the Event Hub name
 // consumerGroupName - the consumer group name
 // parameters - parameters supplied to create or update a consumer group resource.
-func (_ *azureConsumerGroupManager) CreateConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
-	consumerGroupClient, err := getConsumerGroupsClient()
+func (m *azureConsumerGroupManager) CreateConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
+	consumerGroupClient, err := getConsumerGroupsClient(m.creds)
 	if err != nil {
 		return eventhub.ConsumerGroup{}, err
 	}
@@ -71,8 +72,8 @@ func (_ *azureConsumerGroupManager) CreateConsumerGroup(ctx context.Context, res
 // namespaceName - the Namespace name
 // eventHubName - the Event Hub name
 // consumerGroupName - the consumer group name
-func (_ *azureConsumerGroupManager) DeleteConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (result autorest.Response, err error) {
-	consumerGroupClient, err := getConsumerGroupsClient()
+func (m *azureConsumerGroupManager) DeleteConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (result autorest.Response, err error) {
+	consumerGroupClient, err := getConsumerGroupsClient(m.creds)
 	if err != nil {
 		return autorest.Response{
 			Response: &http.Response{
@@ -91,8 +92,8 @@ func (_ *azureConsumerGroupManager) DeleteConsumerGroup(ctx context.Context, res
 }
 
 //GetConsumerGroup gets consumer group description for the specified Consumer Group.
-func (_ *azureConsumerGroupManager) GetConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
-	consumerGroupClient, err := getConsumerGroupsClient()
+func (m *azureConsumerGroupManager) GetConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
+	consumerGroupClient, err := getConsumerGroupsClient(m.creds)
 	if err != nil {
 		return eventhub.ConsumerGroup{}, err
 	}
@@ -124,7 +125,7 @@ func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obj
 	newCg, err := cg.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// this happens when op isnt complete, just requeue
 		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
@@ -175,7 +176,7 @@ func (cg *azureConsumerGroupManager) Delete(ctx context.Context, obj runtime.Obj
 	// deletions to non existing groups lead to 'conflicting operation' errors so we GET it here
 	_, err = cg.GetConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,

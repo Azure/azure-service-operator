@@ -9,8 +9,13 @@ spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
   server:  sqlserver-sample-777
-  edition: 0
+  sku:
+    name: Basic
+    tier: Basic
   # the following fields are optional:
+
+  # The maximum size of the database specified as a quantity (for example: 500Mi for 500 MiB, 1Gi for 1 GiB)
+  # maxSize
 
   # The weekly retention policy for an LTR backup in an ISO 8601 duration format (https://en.wikipedia.org/wiki/ISO_8601#Durations)
   # weeklyRetention: P12W
@@ -23,4 +28,9 @@ spec:
 
   # The week of year to take the yearly backup, valid values [1, 52]
   # weekOfYear: 16
-  
+
+  # The short term retention policy to use
+  # shortTermRetentionPolicy:
+      # RetentionDays is the backup retention period in days. This is how many days
+      #	Point-in-Time Restore will be supported.
+  #   retentionDays: 21

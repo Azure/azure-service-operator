@@ -76,7 +76,7 @@ func TestEventHubNamespaceControllerNetworkRules(t *testing.T) {
 	EnsureInstance(ctx, t, tc, VNetInstance)
 
 	// Create EventhubNamespace network rule using the above VNET
-	subnetID := "/subscriptions/" + config.SubscriptionID() + "/resourceGroups/" + rgName + "/providers/Microsoft.Network/virtualNetworks/" + VNetName + "/subnets/" + subnetName
+	subnetID := "/subscriptions/" + config.GlobalCredentials().SubscriptionID() + "/resourceGroups/" + rgName + "/providers/Microsoft.Network/virtualNetworks/" + VNetName + "/subnets/" + subnetName
 	vnetRules := []azurev1alpha1.VirtualNetworkRules{
 		{
 			SubnetID:                     subnetID,
