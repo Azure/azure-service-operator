@@ -7,24 +7,19 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	v1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 func TestStorageAccountController(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-
-	assert := assert.New(t)
 
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
@@ -48,23 +43,6 @@ func TestStorageAccountController(t *testing.T) {
 	}
 
 	EnsureInstance(ctx, t, tc, instance)
-
-	// Make sure the secret is created
-	var keyName string
-	if tc.secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
-		keyName = fmt.Sprintf("storageaccount-%s-%s", instance.Spec.ResourceGroup, instance.Name)
-	} else {
-		keyName = instance.Name
-	}
-	secretKey := secrets.SecretKey{Name: keyName, Namespace: instance.Namespace, Kind: "storageaccount"}
-	secret, err := tc.secretClient.Get(ctx, secretKey)
-	assert.NoError(err)
-
-	assert.NotEmpty(string(secret["StorageAccountName"]))
-	assert.NotEmpty(string(secret["connectionString0"]))
-	assert.NotEmpty(string(secret["key0"]))
-	assert.NotEmpty(string(secret["connectionString1"]))
-	assert.NotEmpty(string(secret["key1"]))
 
 	EnsureDelete(ctx, t, tc, instance)
 }

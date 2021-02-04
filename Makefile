@@ -60,6 +60,12 @@ test-integration-controllers: generate fmt vet manifests
 		./pkg/secrets/...
 		# TODO: Note that the above test (secrets/keyvault) is not an integration-controller test... but it's not a unit test either and unfortunately the test-integration-managers target isn't run in CI either?
 
+# Run subset of tests with v1 secret naming enabled to ensure no regression in old secret naming
+.PHONY: test-v1-secret-naming
+test-v1-secret-naming: generate fmt vet manifests
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 AZURE_SECRET_NAMING_VERSION=1 \
+	go test -v -run "^.*_SecretNamedCorrectly$$" -tags "$(BUILD_TAGS)" -coverprofile=reports/v1-secret-naming-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 10m \
+		./controllers/...
 
 # Run Resource Manager tests against the configured cluster
 .PHONY: test-integration-managers
