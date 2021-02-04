@@ -206,7 +206,8 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) PipelineStag
 			fileDef := astmodel.NewFileDefinition(pr, ds, pkgs)
 
 			buf := &bytes.Buffer{}
-			err := fileDef.SaveToWriter(buf)
+			fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
+			err := fileWriter.SaveToWriter(buf)
 			if err != nil {
 				t.Fatalf("could not generate file: %v", err)
 			}

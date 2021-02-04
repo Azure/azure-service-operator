@@ -6,10 +6,12 @@
 package astmodel
 
 import (
-	"github.com/pkg/errors"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
 	"strings"
+
+	"github.com/dave/dst"
+	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // PackageImportSet represents a set of distinct PackageImport references
@@ -99,6 +101,16 @@ func (set *PackageImportSet) AsSortedSlice() []PackageImport {
 	})
 
 	return result
+}
+
+// AsImportSpecs returns the abstract syntax tree representation for importing the packages in this set
+func (set *PackageImportSet) AsImportSpecs() []dst.Spec {
+	var importSpecs []dst.Spec
+	for _, requiredImport := range set.AsSortedSlice() {
+		importSpecs = append(importSpecs, requiredImport.AsImportSpec())
+	}
+
+	return importSpecs
 }
 
 // Length returns the number of unique imports in this set

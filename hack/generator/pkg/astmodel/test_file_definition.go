@@ -6,13 +6,9 @@
 package astmodel
 
 import (
-	"bufio"
 	"go/token"
-	"io"
-	"os"
 
 	"github.com/dave/dst"
-	"github.com/dave/dst/decorator"
 	"k8s.io/klog/v2"
 )
 
@@ -26,6 +22,8 @@ type TestFileDefinition struct {
 	generatedPackages map[PackageReference]*PackageDefinition
 }
 
+var _ GoSourceFile = &TestFileDefinition{}
+
 // NewFileDefinition creates a file definition containing test cases from the specified definitions
 func NewTestFileDefinition(
 	packageRef PackageReference,
@@ -36,32 +34,8 @@ func NewTestFileDefinition(
 	return &TestFileDefinition{packageRef, definitions, generatedPackages}
 }
 
-// SaveToWriter writes the file to the specifier io.Writer
-func (file TestFileDefinition) SaveToWriter(dst io.Writer) error {
-	content := file.AsAst()
-
-	buf := bufio.NewWriter(dst)
-	defer buf.Flush()
-
-	err := decorator.Fprint(buf, content)
-	return err
-}
-
-// SaveToFile writes this generated file to disk
-func (file TestFileDefinition) SaveToFile(filePath string) error {
-
-	f, err := os.Create(filePath)
-	if err != nil {
-		return err
-	}
-
-	defer f.Close()
-
-	return file.SaveToWriter(f)
-}
-
 // AsAst generates an array of declarations for the content of the file
-func (file *TestFileDefinition) AsAst() *dst.File {
+func (file *TestFileDefinition) AsAst() (*dst.File, error) {
 
 	// Create context from imports
 	codeGenContext := NewCodeGenerationContext(file.packageReference, file.generateImports(), file.generatedPackages)
@@ -108,7 +82,7 @@ func (file *TestFileDefinition) AsAst() *dst.File {
 		Decls: decls,
 	}
 
-	return result
+	return result, nil
 }
 
 // disambiguates any conflicts

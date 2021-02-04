@@ -6,14 +6,10 @@
 package astmodel
 
 import (
-	"bufio"
 	"go/token"
-	"io"
-	"os"
 	"sort"
 
 	"github.com/dave/dst"
-	"github.com/dave/dst/decorator"
 	"k8s.io/klog/v2"
 )
 
@@ -27,6 +23,8 @@ type FileDefinition struct {
 	// other packages whose references may be needed for code generation
 	generatedPackages map[PackageReference]*PackageDefinition
 }
+
+var _ GoSourceFile = &FileDefinition{}
 
 // NewFileDefinition creates a file definition containing specified definitions
 func NewFileDefinition(
@@ -159,15 +157,6 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 	return requiredImports
 }
 
-func (file *FileDefinition) generateImportSpecs(imports *PackageImportSet) []dst.Spec {
-	var importSpecs []dst.Spec
-	for _, requiredImport := range imports.AsSortedSlice() {
-		importSpecs = append(importSpecs, requiredImport.AsImportSpec())
-	}
-
-	return importSpecs
-}
-
 // AsAst generates an AST node representing this file
 func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 
@@ -205,7 +194,7 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 				},
 			},
 			Tok:   token.IMPORT,
-			Specs: file.generateImportSpecs(usedImports),
+			Specs: usedImports.AsImportSpecs(),
 		})
 	}
 
@@ -269,47 +258,4 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 	}
 
 	return
-}
-
-// SaveToWriter writes the file to the specifier io.Writer
-func (file FileDefinition) SaveToWriter(dst io.Writer) error {
-	content, err := file.AsAst()
-	if err != nil {
-		return err
-	}
-
-	buf := bufio.NewWriter(dst)
-	defer buf.Flush()
-
-	err = decorator.Fprint(buf, content)
-	return err
-}
-
-// SaveToFile writes this generated file to disk
-func (file FileDefinition) SaveToFile(filePath string) error {
-
-	f, err := os.Create(filePath)
-	if err != nil {
-		return err
-	}
-
-	defer func() {
-		f.Close()
-
-		// if we are panicking, the file will be in a broken
-		// state, so remove it
-		if r := recover(); r != nil {
-			os.Remove(filePath)
-			panic(r)
-		}
-	}()
-
-	err = file.SaveToWriter(f)
-	if err != nil {
-		// cleanup in case of errors
-		f.Close()
-		os.Remove(filePath)
-	}
-
-	return err
 }

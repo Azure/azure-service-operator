@@ -30,12 +30,12 @@ func NewPackageDefinition(groupName string, packageName string, genVersion strin
 	return &PackageDefinition{groupName, packageName, genVersion, make(Types)}
 }
 
-func (pkgDef *PackageDefinition) Definitions() Types {
-	return pkgDef.definitions
+func (p *PackageDefinition) Definitions() Types {
+	return p.definitions
 }
 
-func (pkgDef *PackageDefinition) GetDefinition(typeName TypeName) (TypeDefinition, error) {
-	for _, def := range pkgDef.definitions {
+func (p *PackageDefinition) GetDefinition(typeName TypeName) (TypeDefinition, error) {
+	for _, def := range p.definitions {
 		if def.Name().Equals(typeName) {
 			return def, nil
 		}
@@ -45,22 +45,22 @@ func (pkgDef *PackageDefinition) GetDefinition(typeName TypeName) (TypeDefinitio
 }
 
 // AddDefinition adds a Definition to the PackageDefinition
-func (pkgDef *PackageDefinition) AddDefinition(def TypeDefinition) {
-	pkgDef.definitions.Add(def)
+func (p *PackageDefinition) AddDefinition(def TypeDefinition) {
+	p.definitions.Add(def)
 }
 
 // EmitDefinitions emits the PackageDefinition to an output directory
-func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages map[PackageReference]*PackageDefinition) (int, error) {
+func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages map[PackageReference]*PackageDefinition) (int, error) {
 
-	filesToGenerate := allocateTypesToFiles(pkgDef.definitions)
+	filesToGenerate := allocateTypesToFiles(p.definitions)
 
-	err := pkgDef.emitFiles(filesToGenerate, outputDir, generatedPackages)
+	err := p.emitFiles(filesToGenerate, outputDir, generatedPackages)
 
 	if err != nil {
 		return 0, err
 	}
 
-	err = emitGroupVersionFile(pkgDef, outputDir)
+	err = emitGroupVersionFile(p, outputDir)
 	if err != nil {
 		return 0, err
 	}
@@ -69,18 +69,18 @@ func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string, generatedPack
 }
 
 // DefinitionCount returns the count of definitions that have been sorted into this package
-func (pkgDef *PackageDefinition) DefinitionCount() int {
-	return len(pkgDef.definitions)
+func (p *PackageDefinition) DefinitionCount() int {
+	return len(p.definitions)
 }
 
-func (pkgDef *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string, generatedPackages map[PackageReference]*PackageDefinition) error {
+func (p *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string, generatedPackages map[PackageReference]*PackageDefinition) error {
 	var errs []error
 	for fileName, defs := range filesToGenerate {
 		codeFilePath := filepath.Join(
 			outputDir,
 			fmt.Sprintf("%v_types%v.go", fileName, CodeGeneratedFileSuffix))
 
-		err := pkgDef.writeCodeFile(codeFilePath, defs, generatedPackages)
+		err := p.writeCodeFile(codeFilePath, defs, generatedPackages)
 		if err != nil {
 			errs = append(errs, err)
 		}
@@ -89,7 +89,7 @@ func (pkgDef *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefi
 			outputDir,
 			fmt.Sprintf("%v_types%v_test.go", fileName, CodeGeneratedFileSuffix))
 
-		err = pkgDef.writeTestFile(testFilePath, defs, generatedPackages)
+		err = p.writeTestFile(testFilePath, defs, generatedPackages)
 		if err != nil {
 			errs = append(errs, err)
 		}
@@ -102,7 +102,7 @@ func (pkgDef *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefi
 	return nil
 }
 
-func (pkgDef *PackageDefinition) writeCodeFile(
+func (p *PackageDefinition) writeCodeFile(
 	outputFile string,
 	defs []TypeDefinition,
 	packages map[PackageReference]*PackageDefinition) error {
@@ -111,7 +111,8 @@ func (pkgDef *PackageDefinition) writeCodeFile(
 	genFile := NewFileDefinition(ref, defs, packages)
 
 	klog.V(5).Infof("Writing code file %q\n", outputFile)
-	err := genFile.SaveToFile(outputFile)
+	fileWriter := NewGoSourceFileWriter(genFile)
+	err := fileWriter.SaveToFile(outputFile)
 	if err != nil {
 		return errors.Wrapf(err, "saving definitions to file %q", outputFile)
 	}
@@ -119,7 +120,7 @@ func (pkgDef *PackageDefinition) writeCodeFile(
 	return nil
 }
 
-func (pkgDef *PackageDefinition) writeTestFile(
+func (p *PackageDefinition) writeTestFile(
 	outputFile string,
 	defs []TypeDefinition,
 	packages map[PackageReference]*PackageDefinition) error {
@@ -142,7 +143,8 @@ func (pkgDef *PackageDefinition) writeTestFile(
 	genFile := NewTestFileDefinition(ref, defs, packages)
 
 	klog.V(5).Infof("Writing test case file %q\n", outputFile)
-	err := genFile.SaveToFile(outputFile)
+	fileWriter := NewGoSourceFileWriter(genFile)
+	err := fileWriter.SaveToFile(outputFile)
 	if err != nil {
 		return errors.Wrapf(err, "writing test cases to file %q", outputFile)
 	}
