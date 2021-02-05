@@ -36,7 +36,7 @@ type AzureSQLUserSpec struct {
 	AdminSecretKeyVault    string   `json:"adminSecretKeyVault,omitempty"`
 	Username               string   `json:"username,omitempty"`
 	KeyVaultToStoreSecrets string   `json:"keyVaultToStoreSecrets,omitempty"`
-	KeyVaultSecretPrefix   string   `json:"keyVaultSecretPrefix,omitempty"`
+	KeyVaultSecretPrefix   string   `json:"keyVaultSecretPrefix,omitempty"` // TODO: Remove this in a future version?
 	KeyVaultSecretFormats  []string `json:"keyVaultSecretFormats,omitempty"`
 }
 

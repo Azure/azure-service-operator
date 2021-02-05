@@ -10,6 +10,8 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
@@ -43,12 +45,13 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	adminSecretClient := m.SecretClient
 
-	adminsecretName := instance.Spec.AdminSecret
+	adminSecretName := instance.Spec.AdminSecret
 	if len(instance.Spec.AdminSecret) == 0 {
-		adminsecretName = instance.Spec.Server
+		adminSecretName = instance.Spec.Server
 	}
 
-	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
+	// TODO: Is there a better way to get TypeMeta here?
+	adminSecretKey := secrets.SecretKey{Name: adminSecretName, Namespace: instance.Namespace, Kind: reflect.TypeOf(v1alpha2.PostgreSQLServer{}).Name()}
 
 	var sqlUserSecretClient secrets.SecretClient
 	if options.SecretClient != nil {
@@ -59,17 +62,15 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, m.Creds)
-		if len(instance.Spec.AdminSecret) != 0 {
-			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
-		}
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, m.Creds, m.SecretClient.GetSecretNamingVersion())
 	}
 
 	// get admin creds for server
-	adminSecret, err := adminSecretClient.Get(ctx, key)
+	adminSecret, err := adminSecretClient.Get(ctx, adminSecretKey)
 	if err != nil {
+		err = errors.Wrap(err, "PostgreSQLServer admin secret not found")
 		instance.Status.Provisioning = false
-		instance.Status.Message = fmt.Sprintf("admin secret : %s, not found in %s", key.String(), reflect.TypeOf(adminSecretClient).Elem().Name())
+		instance.Status.Message = err.Error()
 		return false, nil
 	}
 
@@ -124,25 +125,23 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
-	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
-	// In keyvault we have to avoid collisions with other secrets so we create a custom namespace with the user's parameters
-	key = GetNamespacedName(instance, sqlUserSecretClient)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	// create or get new user secret
-	DBSecret := m.GetOrPrepareSecret(ctx, instance, sqlUserSecretClient)
+	userSecret := m.GetOrPrepareSecret(ctx, instance, sqlUserSecretClient)
 	// reset user from secret in case it was loaded
-	user := string(DBSecret[PSecretUsernameKey])
+	user := string(userSecret[PSecretUsernameKey])
 	if user == "" {
 		user = fmt.Sprintf(requestedUsername)
-		DBSecret[PSecretUsernameKey] = []byte(user)
+		userSecret[PSecretUsernameKey] = []byte(user)
 	}
 
 	// Publishing the user secret:
 	// We do this first so if the keyvault does not have right permissions we will not proceed to creating the user
 	err = sqlUserSecretClient.Upsert(
 		ctx,
-		key,
-		DBSecret,
+		secretKey,
+		userSecret,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(m.Scheme),
 	)
@@ -151,14 +150,14 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
-	userExists, err := m.UserExists(ctx, db, string(DBSecret[PSecretUsernameKey]))
+	userExists, err := m.UserExists(ctx, db, string(userSecret[PSecretUsernameKey]))
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
 		return false, nil
 	}
 
 	if !userExists {
-		user, err = m.CreateUser(ctx, DBSecret, db)
+		user, err = m.CreateUser(ctx, userSecret, db)
 		if err != nil {
 			instance.Status.Message = "failed creating user, err: " + err.Error()
 			return false, err
@@ -199,22 +198,20 @@ func (m *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 
 	adminSecretClient := m.SecretClient
 
-	adminsecretName := instance.Spec.AdminSecret
+	adminSecretName := instance.Spec.AdminSecret
 
 	if len(instance.Spec.AdminSecret) == 0 {
-		adminsecretName = instance.Spec.Server
+		adminSecretName = instance.Spec.Server
 	}
-	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
+
+	adminSecretKey := secrets.SecretKey{Name: adminSecretName, Namespace: instance.Namespace, Kind: reflect.TypeOf(v1alpha2.PostgreSQLServer{}).Name()}
 
 	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, m.Creds)
-		if len(instance.Spec.AdminSecret) != 0 {
-			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
-		}
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, m.Creds, m.SecretClient.GetSecretNamingVersion())
 	}
 
-	adminSecret, err := adminSecretClient.Get(ctx, key)
+	adminSecret, err := adminSecretClient.Get(ctx, adminSecretKey)
 	if err != nil {
 		// assuming if the admin secret is gone the sql server is too
 		return false, nil
@@ -237,11 +234,11 @@ func (m *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
-	adminuser := string(adminSecret["fullyQualifiedUsername"])
-	adminpassword := string(adminSecret[PSecretPasswordKey])
-	fullservername := string(adminSecret["fullyQualifiedServerName"])
+	adminUser := string(adminSecret["fullyQualifiedUsername"])
+	adminPassword := string(adminSecret[PSecretPasswordKey])
+	fullServerName := string(adminSecret["fullyQualifiedServerName"])
 
-	db, err := m.ConnectToSqlDb(ctx, PDriverName, fullservername, instance.Spec.DbName, PSqlServerPort, adminuser, adminpassword)
+	db, err := m.ConnectToSqlDb(ctx, PDriverName, fullServerName, instance.Spec.DbName, PSqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "no pg_hba.conf entry for host") {
@@ -261,8 +258,8 @@ func (m *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		psqlUserSecretClient = m.SecretClient
 	}
 
-	userkey := GetNamespacedName(instance, psqlUserSecretClient)
-	userSecret, err := psqlUserSecretClient.Get(ctx, userkey)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	userSecret, err := psqlUserSecretClient.Get(ctx, secretKey)
 	if err != nil {
 
 		return false, nil

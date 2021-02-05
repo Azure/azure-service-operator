@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -258,10 +259,7 @@ func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, instanc
 		return err
 	}
 
-	secretKey := types.NamespacedName{
-		Name:      instance.Name,
-		Namespace: instance.Namespace,
-	}
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 	secretData := map[string][]byte{
 		"primaryEndpoint":            []byte(*db.DocumentEndpoint),
 		"primaryMasterKey":           []byte(*keysResult.PrimaryMasterKey),
@@ -289,9 +287,6 @@ func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, instanc
 }
 
 func (m *AzureCosmosDBManager) deleteSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
-	secretKey := types.NamespacedName{
-		Name:      instance.Name,
-		Namespace: instance.Namespace,
-	}
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 	return m.SecretClient.Delete(ctx, secretKey)
 }

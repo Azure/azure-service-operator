@@ -9,6 +9,8 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/marstr/randname"
+
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 var (
@@ -29,6 +31,7 @@ var (
 	baseURI                string
 	environment            *azure.Environment
 	podNamespace           string
+	secretNamingVersion    secrets.SecretNamingVersion
 
 	testResourcePrefix string // used to generate resource names in tests, should probably exist in a test only package
 )
@@ -113,16 +116,22 @@ func BaseURI() string {
 	return baseURI
 }
 
+// SecretNamingVersion is the version of secret naming that the operator uses
+func SecretNamingVersion() secrets.SecretNamingVersion {
+	return secretNamingVersion
+}
+
 // ConfigString returns the parts of the configuration file with are not secrets as a string for easy logging
 func ConfigString() string {
 	creds := GlobalCredentials()
 	return fmt.Sprintf(
-		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %v, useManagedIdentity: %v, podNamespace: %q",
+		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %v, useManagedIdentity: %v, podNamespace: %q, secretNamingVersion: %q",
 		creds.ClientID(),
 		creds.TenantID(),
 		creds.SubscriptionID(),
 		cloudName,
 		UseDeviceFlow(),
 		creds.UseManagedIdentity(),
-		podNamespace)
+		podNamespace,
+		SecretNamingVersion())
 }

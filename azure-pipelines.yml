@@ -135,6 +135,26 @@ steps:
       BUILD_ID: $(Build.BuildId)
     workingDirectory: '$(System.DefaultWorkingDirectory)'
 
+  # TODO: There is no way to run steps in parallel in Azure pipelines but ideally this step would run in parallel
+  # TODO: with the above testing step to reduce overall runtime
+  - script: |
+      set -e
+      export PATH=$PATH:$(go env GOPATH)/bin:$(go env GOPATH)/kubebuilder/bin
+      export KUBEBUILDER_ASSETS=$(go env GOPATH)/kubebuilder/bin
+      make test-v1-secret-naming
+    displayName: Run legacy v1 secret naming tests
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    continueOnError: 'false'
+    env:
+      GO111MODULE: on
+      AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+      AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+      AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+      AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+      REQUEUE_AFTER: $(REQUEUE_AFTER)
+      BUILD_ID: $(Build.BuildId)
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+
   - script: |
       set -e
       export PATH=$PATH:$(go env GOPATH)/bin

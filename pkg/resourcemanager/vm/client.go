@@ -9,13 +9,13 @@ import (
 	"strings"
 
 	compute "github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2018-10-01/compute"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 type AzureVirtualMachineClient struct {
@@ -157,14 +157,11 @@ func (c *AzureVirtualMachineClient) GetVirtualMachine(ctx context.Context, resou
 	return client.Get(ctx, resourcegroup, vmName, "")
 }
 
-func (c *AzureVirtualMachineClient) AddVirtualMachineCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.AzureVirtualMachine) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
+func (c *AzureVirtualMachineClient) AddVirtualMachineCredsToSecrets(ctx context.Context, data map[string][]byte, instance *azurev1alpha1.AzureVirtualMachine) error {
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	err := c.SecretClient.Upsert(ctx,
-		key,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(c.Scheme),
@@ -177,12 +174,10 @@ func (c *AzureVirtualMachineClient) AddVirtualMachineCredsToSecrets(ctx context.
 }
 
 func (c *AzureVirtualMachineClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureVirtualMachine) (map[string][]byte, error) {
-	name := instance.Name
-
 	secret := map[string][]byte{}
 
-	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
-	if stored, err := c.SecretClient.Get(ctx, key); err == nil {
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	if stored, err := c.SecretClient.Get(ctx, secretKey); err == nil {
 		return stored, nil
 	}
 

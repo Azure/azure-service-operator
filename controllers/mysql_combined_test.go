@@ -18,6 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 func TestMySQLHappyPath(t *testing.T) {
@@ -147,8 +148,10 @@ func RunMySQLUserHappyPath(ctx context.Context, t *testing.T, mySQLServerName st
 
 	// TODO: Ugh this is fragile, the path to the secret should probably be set on the status?
 	// See issue here: https://github.com/Azure/azure-service-operator/issues/1318
-	secretNamespacedName := types.NamespacedName{Name: mySQLServerName, Namespace: "default"}
-	adminSecret, err := tc.secretClient.Get(ctx, secretNamespacedName)
+	adminSecretKey := secrets.SecretKey{Name: mySQLServerName, Namespace: "default", Kind: "mysqlserver"}
+	adminSecret, err := tc.secretClient.Get(ctx, adminSecretKey)
+	assert.NoError(err)
+
 	adminUser := string(adminSecret["fullyQualifiedUsername"])
 	adminPassword := string(adminSecret[mysqluser.MSecretPasswordKey])
 	fullServerName := string(adminSecret["fullyQualifiedServerName"])
@@ -162,6 +165,13 @@ func RunMySQLUserHappyPath(ctx context.Context, t *testing.T, mySQLServerName st
 		adminUser,
 		adminPassword)
 	assert.NoError(err)
+
+	// Ensure the user secret was created
+	secretKey := secrets.SecretKey{Name: username, Namespace: "default", Kind: "mysqluser"}
+	userSecret, err := tc.secretClient.Get(ctx, secretKey)
+	assert.NoError(err)
+	assert.True(len(userSecret[mysqluser.MSecretUsernameKey]) > 0)
+	assert.True(len(userSecret[mysqluser.MSecretPasswordKey]) > 0)
 
 	expectedRoles := mysql.SliceToSet(updatedRoles)
 	expectedDbRoles := make(map[string]mysql.StringSet)

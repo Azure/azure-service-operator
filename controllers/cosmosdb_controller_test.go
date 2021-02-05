@@ -11,11 +11,11 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/stretchr/testify/assert"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestCosmosDBHappyPath(t *testing.T) {
@@ -42,10 +42,9 @@ func TestCosmosDBHappyPath(t *testing.T) {
 		},
 	}
 
-	key := types.NamespacedName{Name: name, Namespace: namespace}
-
 	EnsureInstance(ctx, t, tc, dbInstance)
 
+	key := secrets.SecretKey{Name: name, Namespace: namespace, Kind: "CosmosDB"}
 	assert.Eventually(func() bool {
 		secret, err := tc.secretClient.Get(ctx, key)
 		return err == nil && len(secret) > 0

@@ -15,7 +15,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
 
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 // AzureRedisManager
@@ -53,11 +52,10 @@ func (m *AzureRedisManager) CreateSecrets(ctx context.Context, instance *v1alpha
 		secretName = instance.Name
 	}
 
-	key := types.NamespacedName{Name: secretName, Namespace: instance.Namespace}
-
+	secretKey := secrets.SecretKey{Name: secretName, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 	err := m.SecretClient.Upsert(
 		ctx,
-		key,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(m.Scheme),

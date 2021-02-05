@@ -7,20 +7,17 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"reflect"
 	"strings"
 
 	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
-
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	_ "github.com/denisenkom/go-mssqldb"
 	"k8s.io/apimachinery/pkg/runtime"
 
-	_ "github.com/denisenkom/go-mssqldb"
-	"k8s.io/apimachinery/pkg/types"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 // SqlServerPort is the default server port for sql server
@@ -173,9 +170,7 @@ func (m *AzureSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user str
 
 // DeleteSecrets deletes the secrets associated with a SQLUser
 func (m *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) (bool, error) {
-	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
-	// In keyvault we have some creative freedom to allow more flexibility
-	secretKey := GetNamespacedName(instance, secretClient)
+	secretKey := MakeSecretKey(secretClient, instance)
 
 	// delete standard user secret
 	err := secretClient.Delete(
@@ -188,8 +183,7 @@ func (m *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alp
 	}
 
 	// delete all the custom formatted secrets if keyvault is in use
-	keyVaultEnabled := reflect.TypeOf(secretClient).Elem().Name() == "KeyvaultSecretClient"
-	if keyVaultEnabled {
+	if secretClient.IsKeyVault() {
 		customFormatNames := []string{
 			"adonet",
 			"adonet-urlonly",
@@ -203,17 +197,14 @@ func (m *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alp
 			"password",
 		}
 
-		for _, formatName := range customFormatNames {
-			key := types.NamespacedName{Namespace: secretKey.Namespace, Name: instance.Name + "-" + formatName}
-
-			err = secretClient.Delete(
-				ctx,
-				key,
-			)
-			if err != nil {
-				instance.Status.Message = "failed to delete secret, err: " + err.Error()
-				return false, err
-			}
+		err = secretClient.Delete(
+			ctx,
+			secretKey,
+			secrets.Flatten(true, customFormatNames...),
+		)
+		if err != nil {
+			instance.Status.Message = "failed to delete secret, err: " + err.Error()
+			return false, err
 		}
 	}
 
@@ -222,9 +213,9 @@ func (m *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alp
 
 // GetOrPrepareSecret gets or creates a secret
 func (m *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) map[string][]byte {
-	key := GetNamespacedName(instance, secretClient)
+	secretKey := MakeSecretKey(secretClient, instance)
 
-	secret, err := secretClient.Get(ctx, key)
+	secret, err := secretClient.Get(ctx, secretKey)
 	if err != nil {
 		// @todo: find out whether this is an error due to non existing key or failed conn
 		pw := helpers.NewPassword()
@@ -240,24 +231,24 @@ func (m *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *
 	return secret
 }
 
-// GetNamespacedName gets the namespaced-name
-func GetNamespacedName(instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) types.NamespacedName {
-	var namespacedName types.NamespacedName
-	keyVaultEnabled := reflect.TypeOf(secretClient).Elem().Name() == "KeyvaultSecretClient"
-
-	if keyVaultEnabled {
-		// For a keyvault secret store, check for supplied namespace parameters
-		var dbUserCustomNamespace string
-		if instance.Spec.KeyVaultSecretPrefix != "" {
-			dbUserCustomNamespace = instance.Spec.KeyVaultSecretPrefix
-		} else {
-			dbUserCustomNamespace = "azuresqluser-" + instance.Spec.Server + "-" + instance.Spec.DbName
+func MakeSecretKey(secretClient secrets.SecretClient, instance *v1alpha1.AzureSQLUser) secrets.SecretKey {
+	if secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+		// TODO: It's awkward that we have to have IsKeyVault on our interface which should be abstracting
+		// TODO: away KeyVault vs Kubernetes... but we need it for legacy reasons (ick).
+		if !secretClient.IsKeyVault() {
+			// The fact that this path doesn't take into account secret prefix is for legacy reasons... (although it feels like a bug)
+			return secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 		}
 
-		namespacedName = types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name}
-	} else {
-		namespacedName = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+		var namespace string
+		if instance.Spec.KeyVaultSecretPrefix != "" {
+			namespace = instance.Spec.KeyVaultSecretPrefix
+		} else {
+			namespace = "azuresqluser-" + instance.Spec.Server + "-" + instance.Spec.DbName
+		}
+		return secrets.SecretKey{Name: instance.Name, Namespace: namespace, Kind: instance.TypeMeta.Kind}
 	}
 
-	return namespacedName
+	// TODO: Ignoring prefix here... we ok with that?
+	return secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 }

@@ -26,9 +26,9 @@ import (
 )
 
 const (
-	finalizerName string        = "azure.microsoft.com/finalizer"
-	requeDuration time.Duration = time.Second * 20
-	successMsg    string        = "successfully provisioned"
+	finalizerName   string        = "azure.microsoft.com/finalizer"
+	requeueDuration time.Duration = time.Second * 20
+	successMsg      string        = "successfully provisioned"
 )
 
 // AsyncReconciler is a generic reconciler for Azure resources.
@@ -72,20 +72,21 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 	var keyvaultSecretClient secrets.SecretClient
 
 	// Determine if we need to check KeyVault for secrets
-	KeyVaultName := keyvaultsecretlib.GetKeyVaultName(obj)
+	keyVaultName := keyvaultsecretlib.GetKeyVaultName(obj)
 
-	if len(KeyVaultName) != 0 {
+	if len(keyVaultName) != 0 {
 		// Instantiate the KeyVault Secret Client
-		keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName, config.GlobalCredentials())
+		keyvaultSecretClient = keyvaultsecretlib.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
 
 		r.Telemetry.LogInfoByInstance("status", "ensuring vault", req.String())
 
+		// TODO: It's really awkward that we do this so often?
 		if !keyvaultsecretlib.IsKeyVaultAccessible(keyvaultSecretClient) {
 			r.Telemetry.LogInfoByInstance("requeuing", "awaiting vault verification", req.String())
 
 			// update the status of the resource in kubernetes
 			status.Message = "Waiting for secretclient keyvault to be available"
-			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, obj)
+			return ctrl.Result{RequeueAfter: requeueDuration}, r.Status().Update(ctx, obj)
 		}
 	}
 
@@ -118,7 +119,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 		}
 	} else {
 		if HasFinalizer(res, finalizerName) {
-			if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
+			if len(keyVaultName) != 0 { // keyVault was specified in Spec, so use that for secrets
 				configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
 			}
 			found, deleteErr := r.AzureClient.Delete(ctx, obj, configOptions...)
@@ -134,7 +135,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 				return ctrl.Result{}, r.Update(ctx, obj)
 			}
 			r.Telemetry.LogInfoByInstance("requeuing", "deletion unfinished", req.String())
-			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, obj)
+			return ctrl.Result{RequeueAfter: requeueDuration}, r.Status().Update(ctx, obj)
 		}
 		return ctrl.Result{}, nil
 	}
@@ -158,7 +159,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 
 	r.Telemetry.LogInfoByInstance("status", "reconciling object", req.String())
 
-	if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
+	if len(keyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
 		configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
 	}
 
@@ -191,7 +192,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 	result = ctrl.Result{}
 	if !done {
 		r.Telemetry.LogInfoByInstance("status", "reconciling object not finished", req.String())
-		result.RequeueAfter = requeDuration
+		result.RequeueAfter = requeueDuration
 	} else {
 		r.Telemetry.LogInfoByInstance("reconciling", "success", req.String())
 

@@ -10,16 +10,14 @@ import (
 	"strings"
 
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
+	_ "github.com/lib/pq" //the pg lib
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	psdatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"k8s.io/apimachinery/pkg/runtime"
-
-	_ "github.com/lib/pq" //the pg lib
-	"k8s.io/apimachinery/pkg/types"
 )
 
 // PSqlServerPort is the default server port for sql server
@@ -177,7 +175,7 @@ func (m *PostgreSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user s
 // DeleteSecrets deletes the secrets associated with a SQLUser
 func (m *PostgreSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) (bool, error) {
 
-	secretKey := GetNamespacedName(instance, secretClient)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	// delete standard user secret
 	err := secretClient.Delete(
@@ -194,9 +192,9 @@ func (m *PostgreSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1a
 
 // GetOrPrepareSecret gets or creates a secret
 func (m *PostgreSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) map[string][]byte {
-	key := GetNamespacedName(instance, secretClient)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	secret, err := secretClient.Get(ctx, key)
+	secret, err := secretClient.Get(ctx, secretKey)
 
 	psqldbdnssuffix := "postgres.database.azure.com"
 	if config.Environment().Name != "AzurePublicCloud" {
@@ -217,9 +215,4 @@ func (m *PostgreSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance
 	}
 
 	return secret
-}
-
-// GetNamespacedName gets the namespaced-name
-func GetNamespacedName(instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) types.NamespacedName {
-	return types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 }

@@ -8,14 +8,16 @@ import (
 	"fmt"
 	"strings"
 
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultsecretlib "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 const usernameLength = 8
@@ -27,7 +29,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 	if err != nil {
 		return false, err
 	}
-	var adminKey types.NamespacedName
+	var adminSecretKey secrets.SecretKey
 	var adminSecretClient secrets.SecretClient
 	var userSecretClient secrets.SecretClient
 	serverName := instance.Spec.ServerName
@@ -38,9 +40,9 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 			// Determine the secret key based on the spec
 			if len(instance.Spec.ServerAdminSecretName) == 0 {
-				adminKey = types.NamespacedName{Name: instance.Spec.ServerName, Namespace: instance.Namespace}
+				adminSecretKey = azuresqluser.GetAdminSecretKey(instance.Spec.ServerName, instance.Namespace)
 			} else {
-				adminKey = types.NamespacedName{Name: instance.Spec.ServerAdminSecretName}
+				adminSecretKey = azuresqluser.GetAdminSecretKey(instance.Spec.ServerAdminSecretName, instance.Namespace)
 			}
 
 			// Determine secretclient based on Spec. If Keyvault name isn't specified, fall back to
@@ -48,7 +50,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.ServerSecretKeyVault) == 0 {
 				adminSecretClient = s.SecretClient
 			} else {
-				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, s.Creds)
+				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
 				if !keyvaultsecretlib.IsKeyVaultAccessible(adminSecretClient) {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
 					return false, nil
@@ -56,7 +58,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			}
 
 			// Roll SQL server's admin password
-			err := s.UpdateAdminPassword(ctx, groupName, serverName, adminKey, adminSecretClient)
+			err := s.UpdateAdminPassword(ctx, groupName, serverName, adminSecretKey, adminSecretClient)
 			if err != nil {
 				instance.Status.Message = err.Error()
 				catch := []string{
@@ -86,9 +88,9 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 			// Determine the admin secret key based on the spec
 			if len(instance.Spec.ServerAdminSecretName) == 0 {
-				adminKey = types.NamespacedName{Name: instance.Spec.ServerName, Namespace: instance.Namespace}
+				adminSecretKey = azuresqluser.GetAdminSecretKey(instance.Spec.ServerName, instance.Namespace)
 			} else {
-				adminKey = types.NamespacedName{Name: instance.Spec.ServerAdminSecretName}
+				adminSecretKey = azuresqluser.GetAdminSecretKey(instance.Spec.ServerAdminSecretName, instance.Namespace)
 			}
 
 			// Determine secretclient based on Spec. If Keyvault name isn't specified, fall back to
@@ -96,7 +98,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.ServerSecretKeyVault) == 0 {
 				adminSecretClient = s.SecretClient
 			} else {
-				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, s.Creds)
+				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
 				if !keyvaultsecretlib.IsKeyVaultAccessible(adminSecretClient) {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
 					return false, nil
@@ -108,14 +110,14 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.UserSecretKeyVault) == 0 {
 				userSecretClient = s.SecretClient
 			} else {
-				userSecretClient = keyvaultsecretlib.New(instance.Spec.UserSecretKeyVault, s.Creds)
+				userSecretClient = keyvaultsecretlib.New(instance.Spec.UserSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
 				if !keyvaultsecretlib.IsKeyVaultAccessible(userSecretClient) {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
 					return false, nil
 				}
 			}
 
-			err := s.UpdateUserPassword(ctx, groupName, serverName, instance.Spec.DbUser, instance.Spec.DbName, adminKey, adminSecretClient, userSecretClient)
+			err := s.UpdateUserPassword(ctx, groupName, serverName, instance.Spec.DbUser, instance.Spec.DbName, adminSecretKey, adminSecretClient, userSecretClient)
 			if err != nil {
 				instance.Status.Message = errhelp.StripErrorIDs(err)
 
