@@ -1,4 +1,4 @@
-# ASO troubleshooting
+# Azure service operator (ASO) troubleshooting
 
 This document is written with a point of view of help newbies like me to understand gotchas and as the knowledge will grow across, this docuemnt will evolve and not needed one day. Learning with mistakes is sometimes to good to learn and this document will try to cover points of gotchas.
 
@@ -20,13 +20,14 @@ ASO tool is growing currently all these intermediate steps to set up ASO in user
 
 It is ok to learn by experiment and backward engineering. Kubernetes eco-system to provide that flexibility but only needs bit of tinkering around to get the ASO running. Let me take you through a scenario:
 
-Lets assume that that as an end user Tats povided wrong service-principle which was incorrect for the ASO to be correctly set-up.
+Lets assume that that as an end user Tats povided wrong service principal which was incorrect for the ASO to be correctly set-up.
 
-Sample scenario: Lets take a user sceanrio example where `user-A` mistakenly used an out-dated or wrong service principle secret for `azure-service-operator` which will result in unsuccessful result, how can we rectify now:
+**Sample scenario**: Lets take a user sceanrio example where `user-A` mistakenly used an out-dated or wrong service principal secret for `azure-service-operator` which will result in unsuccessful result, how can we rectify now:
 
-* ToDo: I plan to add specific user-case scenario here: (possibly with screenshot)
+* ~~ToDo: I plan to add specific user-case scenario here: (possibly with screenshot)~~ (Do we need screenshot mockup here?) 
 
-* So at this point the issue happend in step-4 mentioned [here](https://operatorhub.io/operator/azure-service-operator), essentially all user need to do is re-new or refresh their service-principle credentials.
+* So at this point the issue happend in step-4 mentioned [here](https://operatorhub.io/operator/azure-service-operator), essentially all user need to do is re-new or refresh their service-principal credentials.
+    * Re-new the service principal, helpful command mentioned ins step-4 [here](https://operatorhub.io/operator/azure-service-operator). 
 
     * Then after re-generating that user need to make sure that the only steps they need to manually run are step-5 onwards mentioned here: https://operatorhub.io/operator/azure-service-operator , But we can simplify a little more here as most of these command will be available. use command : `az account show` to get `AZURE_TENANT_ID` is the `Tenant ID`, `AZURE_SUBSCRIPTION_ID`, `AZURE_CLIENT_ID`. (This is just indicative, you can follow how to get these variable from Step-5 here https://operatorhub.io/operator/azure-service-operator)
 
@@ -36,7 +37,7 @@ Sample scenario: Lets take a user sceanrio example where `user-A` mistakenly use
 
     * User should be able to see `azureoperator-controller-manager-***` pods running in there cluster. helpful command to see the pod: `kubectl get pods -n operators` 
 
-## I have already installed `azureserviceoperator` but unsure what service principle ceret is in use?
+## I have already installed `azureserviceoperator` but unsure what service principal ceret is in use?
 this command might be able to help you for some recon for your secret locally. `kubectl get secret azureoperatorsettings -n operators -o go-template='{{range $k,$v := .data}}{{printf \"%s: \" $k}}{{if not $v}}{{$v}}{{else}}{{$v | base64decode}}{{end}}{{\"\n\"}}{{end}}'` [SO thread for reference](https://stackoverflow.com/questions/56909180/decoding-kubernetes-secret/58117444#58117444)
 
 ## What if I see operator-namespace already exit for the cluster?
@@ -49,7 +50,7 @@ Minor detail of when steps are done out of sync and user see:
 
 * `namespace already exist` - This means that azure-service-operator (ASO) is already been run for the cluster before.
 
-* `service-principle` issues, silent failures with service principle in use is expired or re-set in those case you can follow the as mentioned here https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli#create-a-service-principalor in step-4 here in official service operator page. https://operatorhub.io/operator/azure-service-operator
+* `service-principal` issues, silent failures with service principal in use is expired or re-set in those case you can follow the as mentioned here https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli#create-a-service-principalor in step-4 here in official service operator page. https://operatorhub.io/operator/azure-service-operator
 
 * `kubectl api-resource` failure with `error: unable to retirve the com0plete list of server APIs: metcs.k8s.io/vabeta=1: the server is currently unable to handle the request.` - This error is a big indicaiton of network error within cluster and this is jsut the causal occurrence and not something ASO needs handles.
 
@@ -60,8 +61,14 @@ Minor detail of when steps are done out of sync and user see:
 
 `kubectl describe  pod operators`
 
-To get Logs in case aso operator is crashlooping : `kubectl logs -n  operators pod/azureoperator-controller-manager-7cd684745f-dvqtq --conatiner manager`
+To get Logs in case aso operator is crashlooping : `kubectl logs -n  operators pod/azureoperator-controller-manager-****** --conatiner manager`
 
 
 ## What if I see cert-manager-webhook timeout errors?
 This is network related again, and possible check is there is any on-going network issue. Common error message like: `Post https://cert-manager-webhook.cert-manager.svc:443/mutate?timeout=30s: connection refused` 
+
+## What if I am seeing APIS server error like `metrics.k8s.io/v1beta1: the server is currently unable to handle reqest`?
+This could possibly due to k8s inetrnal error like contlplane & dataplane cannot communicate. Not directly associated with azure service operator.
+
+## How do I create service principal?
+This link might come handy: https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal 
