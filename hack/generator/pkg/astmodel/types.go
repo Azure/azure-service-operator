@@ -157,7 +157,7 @@ func (types Types) ResolveResourceStatusDefinition(
 
 	statusName, ok := resourceType.StatusType().(TypeName)
 	if !ok {
-		return TypeDefinition{}, errors.Errorf("status was not of type TypeName, instead: %T", resourceType.SpecType())
+		return TypeDefinition{}, errors.Errorf("status was not of type TypeName, instead: %T", resourceType.StatusType())
 	}
 
 	resourceStatusDef, ok := types[statusName]
