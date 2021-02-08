@@ -26,9 +26,10 @@ import (
 )
 
 const (
-	finalizerName   string        = "azure.microsoft.com/finalizer"
-	requeueDuration time.Duration = time.Second * 20
-	successMsg      string        = "successfully provisioned"
+	finalizerName    string        = "azure.microsoft.com/finalizer"
+	requeueDuration  time.Duration = time.Second * 20
+	successMsg       string        = "successfully provisioned"
+	reconcileTimeout time.Duration = time.Minute * 5
 )
 
 // AsyncReconciler is a generic reconciler for Azure resources.
@@ -43,7 +44,8 @@ type AsyncReconciler struct {
 
 // Reconcile reconciles the change request
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (result ctrl.Result, err error) {
-	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(context.Background(), reconcileTimeout)
+	defer cancel()
 
 	if err := r.Get(ctx, req.NamespacedName, obj); err != nil {
 		r.Telemetry.LogInfoByInstance("ignorable error", "error during fetch from api server", req.String())
@@ -209,7 +211,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 		}
 	}
 
-	r.Telemetry.LogInfo("status", "exiting reconciliation")
+	r.Telemetry.LogInfoByInstance("status", "exiting reconciliation", req.String())
 
 	return result, err
 }

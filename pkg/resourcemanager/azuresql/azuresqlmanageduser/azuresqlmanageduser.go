@@ -54,7 +54,8 @@ func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupNam
 func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Context, server string, database string) (db *sql.DB, err error) {
 
 	fullServerAddress := fmt.Sprintf("%s."+config.Environment().SQLDatabaseDNSSuffix, server)
-	connString := fmt.Sprintf("Server=%s;Database=%s", fullServerAddress, database)
+	// Make sure to set connection timeout: https://github.com/denisenkom/go-mssqldb/issues/609
+	connString := fmt.Sprintf("Server=%s;Database=%s;Connection Timeout=30", fullServerAddress, database)
 
 	tokenProvider, err := iam.GetMSITokenProviderForResource("https://database.windows.net/")
 	if err != nil {

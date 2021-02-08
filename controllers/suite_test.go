@@ -101,7 +101,7 @@ func setup() error {
 	resourceGroupName := GenerateTestResourceNameWithRandom(TestResourceGroupPrefix, 6)
 	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
 
-	keyvaultName := GenerateAlphaNumTestResourceName("kv-prime")
+	keyvaultName := GenerateAlphaNumTestResourceNameWithRandom("kv-prime", 5)
 
 	var timeout time.Duration
 
