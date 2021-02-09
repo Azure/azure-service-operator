@@ -6,7 +6,7 @@ This document is written from a beginner perspective to help those new to projec
 
 ## What are Operators and OLM?
 
-To learn more about operators, Red Hat OpenShift has a good article on what they are conceptually and how valuable they can be. You can also find details on the Operator Lifecycle Manager (OLM) [here]](https://docs.openshift.com/container-platform/4.6/operators/understanding/olm-what-operators-are.html)
+To learn more about operators, Red Hat OpenShift has a good article on what they are conceptually and how valuable they can be. You can also find details on the Operator Lifecycle Manager (OLM) [here](https://docs.openshift.com/container-platform/4.6/operators/understanding/olm-what-operators-are.html)
 
 ## Is Az-CLI version is important?
 
