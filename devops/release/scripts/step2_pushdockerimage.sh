@@ -1,4 +1,4 @@
-ACR_NAME='azureserviceoperator'
+ACR_NAME='asorelease'
 
 echo "ACR_NAME", $ACR_NAME
 echo  "azureserviceoperator_image", $(azureserviceoperator_image)

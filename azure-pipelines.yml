@@ -365,9 +365,10 @@ steps:
       kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
       set -x
       echo $img > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
-      cp charts/azure-service-operator-0.1.0.tgz $(Build.ArtifactStagingDirectory)
+      mkdir $(Build.ArtifactStagingDirectory)/scripts
+      cp devops/release/scripts/*.sh $(Build.ArtifactStagingDirectory)/scripts
     continueOnError: 'false'
-    displayName: Package artifacts (image, setup.yaml and helm charts) for release
+    displayName: Package artifacts (image, setup.yaml) for release
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
 
