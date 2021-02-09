@@ -146,10 +146,10 @@ func main() {
 
 	if keyvaultName == "" {
 		setupLog.Info("Keyvault name is empty")
-		secretClient = k8sSecrets.New(mgr.GetClient())
+		secretClient = k8sSecrets.New(mgr.GetClient(), config.SecretNamingVersion())
 	} else {
 		setupLog.Info("Instantiating secrets client for keyvault " + keyvaultName)
-		secretClient = keyvaultSecrets.New(keyvaultName, config.GlobalCredentials())
+		secretClient = keyvaultSecrets.New(keyvaultName, config.GlobalCredentials(), config.SecretNamingVersion())
 	}
 
 	// TODO(creds-refactor): construction of these managers will need

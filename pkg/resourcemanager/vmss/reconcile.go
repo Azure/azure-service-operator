@@ -45,7 +45,7 @@ func (c *AzureVMScaleSetClient) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 	// Update secret
-	err = c.AddVMScaleSetCredsToSecrets(ctx, instance.Name, secret, instance)
+	err = c.AddVMScaleSetCredsToSecrets(ctx, secret, instance)
 	if err != nil {
 		return false, err
 	}

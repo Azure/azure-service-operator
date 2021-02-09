@@ -107,7 +107,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
             --set azureClientSecret=$AZURE_CLIENT_SECRET
     ```
 
-    If you would like to install an older version you can list the avialable versions:
+    If you would like to install an older version you can list the available versions:
     ```sh
     helm search repo aso --versions
     ```

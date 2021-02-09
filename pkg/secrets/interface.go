@@ -5,18 +5,29 @@ package secrets
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
+)
+
+type SecretNamingVersion string
+
+const (
+	SecretNamingV1 = SecretNamingVersion("secretnamingv1")
+	SecretNamingV2 = SecretNamingVersion("secretnamingv2")
 )
 
 type SecretClient interface {
-	Create(ctx context.Context, key types.NamespacedName, data map[string][]byte, opts ...SecretOption) error
-	Upsert(ctx context.Context, key types.NamespacedName, data map[string][]byte, opts ...SecretOption) error
-	Delete(ctx context.Context, key types.NamespacedName) error
-	Get(ctx context.Context, key types.NamespacedName) (map[string][]byte, error)
+	Upsert(ctx context.Context, key SecretKey, data map[string][]byte, opts ...SecretOption) error
+	Delete(ctx context.Context, key SecretKey, opts ...SecretOption) error
+	Get(ctx context.Context, key SecretKey, opts ...SecretOption) (map[string][]byte, error)
+	GetSecretNamingVersion() SecretNamingVersion
+
+	// We really shouldn't want/need such a method but unfortunately some resources have specific KeyVault handling for how
+	// they name things so our abstraction breaks down
+	IsKeyVault() bool
 }
 
 type SecretOwner interface {
@@ -26,11 +37,31 @@ type SecretOwner interface {
 
 // Options contains the inputs available for passing to some methods of the secret clients
 type Options struct {
-	Owner     SecretOwner
-	Scheme    *runtime.Scheme
-	Activates *time.Time
-	Expires   *time.Time
-	Flatten   bool
+	Owner           SecretOwner
+	Scheme          *runtime.Scheme
+	Activates       *time.Time
+	Expires         *time.Time
+	Flatten         bool
+	FlattenSuffixes []string
+}
+
+// SecretKey contains the details required to generate a unique key used for identifying a secret
+type SecretKey struct {
+	// Name is the name of the resource the secret is for.
+	// We don't need the full "path" to the Azure resource because those relationships are all flattened in Kubernetes
+	// and since Kubernetes forbids conflicting resources of the same kind in the same namespace + name we only need the
+	// 3-tuple of kind, namespace, name.
+	Name string
+	// Namespace is the namespace of the resource the secret is for
+	Namespace string
+	// Kind is the kind of resource - this can be gathered from metav1.TypeMeta.Kind usually
+	Kind string
+}
+
+var _ fmt.Stringer = SecretKey{}
+
+func (s SecretKey) String() string {
+	return fmt.Sprintf("Kind: %q, Namespace: %q, Name: %q", s.Kind, s.Namespace, s.Name)
 }
 
 // SecretOption wraps a function that sets a value in the options struct
@@ -65,8 +96,9 @@ func WithScheme(scheme *runtime.Scheme) SecretOption {
 }
 
 // Flatten can be used to create individual string secrets
-func Flatten(flatten bool) SecretOption {
+func Flatten(flatten bool, suffixes ...string) SecretOption {
 	return func(op *Options) {
 		op.Flatten = flatten
+		op.FlattenSuffixes = suffixes
 	}
 }

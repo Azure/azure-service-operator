@@ -23,10 +23,10 @@ import (
 // KeyvaultKeyClient emcompasses the methods needed for the keyops client to fulfill the ARMClient interface
 type KeyvaultKeyClient struct {
 	Creds          config.Credentials
-	KeyvaultClient *azureKeyVaultManager
+	KeyvaultClient *AzureKeyVaultManager
 }
 
-func NewKeyvaultKeyClient(creds config.Credentials, client *azureKeyVaultManager) *KeyvaultKeyClient {
+func NewKeyvaultKeyClient(creds config.Credentials, client *AzureKeyVaultManager) *KeyvaultKeyClient {
 	return &KeyvaultKeyClient{
 		Creds:          creds,
 		KeyvaultClient: client,

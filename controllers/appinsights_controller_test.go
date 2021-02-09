@@ -9,8 +9,9 @@ import (
 	"context"
 	"testing"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
 func TestAppInsightsController(t *testing.T) {
@@ -23,7 +24,7 @@ func TestAppInsightsController(t *testing.T) {
 	appInsightsName := GenerateTestResourceName("appinsights")
 
 	// Create an instance of Azure AppInsights
-	appInsightsInstance := &azurev1alpha1.AppInsights{
+	instance := &azurev1alpha1.AppInsights{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      appInsightsName,
 			Namespace: "default",
@@ -36,7 +37,7 @@ func TestAppInsightsController(t *testing.T) {
 		},
 	}
 
-	EnsureInstance(ctx, t, tc, appInsightsInstance)
+	EnsureInstance(ctx, t, tc, instance)
 
-	EnsureDelete(ctx, t, tc, appInsightsInstance)
+	EnsureDelete(ctx, t, tc, instance)
 }

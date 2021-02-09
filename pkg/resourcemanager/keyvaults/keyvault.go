@@ -30,19 +30,19 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
 
-type azureKeyVaultManager struct {
+type AzureKeyVaultManager struct {
 	Creds  config.Credentials
 	Scheme *runtime.Scheme
 }
 
-func NewAzureKeyVaultManager(creds config.Credentials, scheme *runtime.Scheme) *azureKeyVaultManager {
-	return &azureKeyVaultManager{
+func NewAzureKeyVaultManager(creds config.Credentials, scheme *runtime.Scheme) *AzureKeyVaultManager {
+	return &AzureKeyVaultManager{
 		Creds:  creds,
 		Scheme: scheme,
 	}
 }
 
-func getVaultsClient(creds config.Credentials) (keyvault.VaultsClient, error) {
+func GetKeyVaultClient(creds config.Credentials) (keyvault.VaultsClient, error) {
 	vaultsClient := keyvault.NewVaultsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
@@ -53,7 +53,7 @@ func getVaultsClient(creds config.Credentials) (keyvault.VaultsClient, error) {
 	return vaultsClient, nil
 }
 
-func getObjectID(ctx context.Context, creds config.Credentials, tenantID string, clientID string) (*string, error) {
+func GetObjectID(ctx context.Context, creds config.Credentials, tenantID string, clientID string) (*string, error) {
 	appclient := auth.NewApplicationsClient(tenantID)
 	a, err := iam.GetGraphAuthorizer(creds)
 	if err != nil {
@@ -215,7 +215,7 @@ func ParseAccessPolicy(ctx context.Context, creds config.Credentials, policy *v1
 	}
 
 	if policy.ClientID != "" {
-		objID, err := getObjectID(ctx, creds, policy.TenantID, policy.ClientID)
+		objID, err := GetObjectID(ctx, creds, policy.TenantID, policy.ClientID)
 		if err != nil {
 			return keyvault.AccessPolicyEntry{}, err
 		}
@@ -228,13 +228,13 @@ func ParseAccessPolicy(ctx context.Context, creds config.Credentials, policy *v1
 }
 
 // CreateVault creates a new key vault
-func (m *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, sku azurev1alpha1.KeyVaultSku, tags map[string]*string) (keyvault.Vault, error) {
+func (m *AzureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, sku azurev1alpha1.KeyVaultSku, tags map[string]*string) (keyvault.Vault, error) {
 	vaultName := instance.Name
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 	enableSoftDelete := instance.Spec.EnableSoftDelete
 
-	vaultsClient, err := getVaultsClient(m.Creds)
+	vaultsClient, err := GetKeyVaultClient(m.Creds)
 	if err != nil {
 		return keyvault.Vault{}, errors.Wrapf(err, "couldn't get vaults client")
 	}
@@ -294,68 +294,9 @@ func (m *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	return future.Result(vaultsClient)
 }
 
-//CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
-// TODO: Nuke all of this because its only for the tests
-func (m *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
-	vaultsClient, err := getVaultsClient(m.Creds)
-	if err != nil {
-		return keyvault.Vault{}, errors.Wrapf(err, "couldn't get vaults client")
-	}
-	id, err := uuid.FromString(m.Creds.TenantID())
-	if err != nil {
-		return keyvault.Vault{}, errors.Wrapf(err, "couldn't convert tenantID to UUID")
-	}
-
-	apList := []keyvault.AccessPolicyEntry{}
-	ap := keyvault.AccessPolicyEntry{
-		TenantID: &id,
-		Permissions: &keyvault.Permissions{
-			Keys: &[]keyvault.KeyPermissions{
-				keyvault.KeyPermissionsCreate,
-			},
-			Secrets: &[]keyvault.SecretPermissions{
-				keyvault.SecretPermissionsSet,
-				keyvault.SecretPermissionsGet,
-				keyvault.SecretPermissionsDelete,
-				keyvault.SecretPermissionsList,
-			},
-		},
-	}
-	if clientID != "" {
-		objID, err := getObjectID(ctx, m.Creds, m.Creds.TenantID(), clientID)
-		if err != nil {
-			return keyvault.Vault{}, err
-		}
-		if objID != nil {
-			ap.ObjectID = objID
-			apList = append(apList, ap)
-		}
-
-	}
-
-	params := keyvault.VaultCreateOrUpdateParameters{
-		Properties: &keyvault.VaultProperties{
-			TenantID:       &id,
-			AccessPolicies: &apList,
-			Sku: &keyvault.Sku{
-				Family: to.StringPtr("A"),
-				Name:   keyvault.Standard,
-			},
-		},
-		Location: to.StringPtr(location),
-	}
-
-	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
-	if err != nil {
-		return keyvault.Vault{}, err
-	}
-
-	return future.Result(vaultsClient)
-}
-
 // DeleteVault removes the resource group named by env var
-func (m *azureKeyVaultManager) DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error) {
-	vaultsClient, err := getVaultsClient(m.Creds)
+func (m *AzureKeyVaultManager) DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error) {
+	vaultsClient, err := GetKeyVaultClient(m.Creds)
 	if err != nil {
 		return autorest.Response{}, err
 	}
@@ -363,8 +304,8 @@ func (m *azureKeyVaultManager) DeleteVault(ctx context.Context, groupName string
 }
 
 // CheckExistence checks for the presence of a keyvault instance on Azure
-func (m *azureKeyVaultManager) GetVault(ctx context.Context, groupName string, vaultName string) (result keyvault.Vault, err error) {
-	vaultsClient, err := getVaultsClient(m.Creds)
+func (m *AzureKeyVaultManager) GetVault(ctx context.Context, groupName string, vaultName string) (result keyvault.Vault, err error) {
+	vaultsClient, err := GetKeyVaultClient(m.Creds)
 	if err != nil {
 		return keyvault.Vault{}, err
 	}
@@ -372,7 +313,7 @@ func (m *azureKeyVaultManager) GetVault(ctx context.Context, groupName string, v
 
 }
 
-func (m *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (m *AzureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := m.convert(obj)
 	if err != nil {
 		return true, err
@@ -473,7 +414,7 @@ func HandleCreationError(instance *v1alpha1.KeyVault, err error) (bool, error) {
 	return false, err
 }
 
-func (m *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (m *AzureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := m.convert(obj)
 	if err != nil {
 		return true, err
@@ -506,7 +447,7 @@ func (m *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object, o
 	return false, nil
 }
 
-func (m *azureKeyVaultManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+func (m *AzureKeyVaultManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
 	instance, err := m.convert(obj)
 	if err != nil {
@@ -524,7 +465,7 @@ func (m *azureKeyVaultManager) GetParents(obj runtime.Object) ([]resourcemanager
 	}, nil
 }
 
-func (g *azureKeyVaultManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+func (g *AzureKeyVaultManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
 	instance, err := g.convert(obj)
 	if err != nil {
 		return nil, err
@@ -532,7 +473,7 @@ func (g *azureKeyVaultManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatu
 	return &instance.Status, nil
 }
 
-func (m *azureKeyVaultManager) convert(obj runtime.Object) (*v1alpha1.KeyVault, error) {
+func (m *AzureKeyVaultManager) convert(obj runtime.Object) (*v1alpha1.KeyVault, error) {
 	local, ok := obj.(*v1alpha1.KeyVault)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
