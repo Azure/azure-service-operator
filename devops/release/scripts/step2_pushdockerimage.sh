@@ -1,17 +1,17 @@
 ACR_NAME='asorelease'
 
 echo "ACR_NAME: $ACR_NAME"
-echo "azureserviceoperator_image: $azureserviceoperator_image"
-echo "azureserviceoperator_image_base: $azureserviceoperator_image_base"
-echo "azureserviceoperator_image_latest: $azureserviceoperator_image_latest"
-echo "azureserviceoperator_image_public: $azureserviceoperator_image_public"
-echo "azureserviceoperator_image_version: $azureserviceoperator_image_version"
+echo "AZURESERVICEOPERATOR_IMAGE: $AZURESERVICEOPERATOR_IMAGE"
+echo "AZURESERVICEOPERATOR_IMAGE_BASE: $AZURESERVICEOPERATOR_IMAGE_BASE"
+echo "AZURESERVICEOPERATOR_IMAGE_LATEST: $AZURESERVICEOPERATOR_IMAGE_LATEST"
+echo "AZURESERVICEOPERATOR_IMAGE_PUBLIC: $AZURESERVICEOPERATOR_IMAGE_PUBLIC"
+echo "AZURESERVICEOPERATOR_IMAGE_VERSION: $AZURESERVICEOPERATOR_IMAGE_VERSION"
 
 
 az acr login --name $ACR_NAME
-docker pull $ACR_NAME.azurecr.io/$azureserviceoperator_image
-docker tag $ACR_NAME.azurecr.io/$azureserviceoperator_image  $ACR_NAME.azurecr.io/$azureserviceoperator_image_latest
-docker tag $ACR_NAME.azurecr.io/$azureserviceoperator_image  $ACR_NAME.azurecr.io/$azureserviceoperator_image_public
+docker pull $ACR_NAME.azurecr.io/$AZURESERVICEOPERATOR_IMAGE
+docker tag $ACR_NAME.azurecr.io/$AZURESERVICEOPERATOR_IMAGE $ACR_NAME.azurecr.io/$AZURESERVICEOPERATOR_IMAGE_LATEST
+docker tag $ACR_NAME.azurecr.io/$AZURESERVICEOPERATOR_IMAGE $ACR_NAME.azurecr.io/$AZURESERVICEOPERATOR_IMAGE_PUBLIC
 docker image ls
-docker push $ACR_NAME.azurecr.io/$azureserviceoperator_image_public
-docker push $ACR_NAME.azurecr.io/$azureserviceoperator_image_latest
+docker push $ACR_NAME.azurecr.io/$AZURESERVICEOPERATOR_IMAGE_PUBLIC
+docker push $ACR_NAME.azurecr.io/$AZURESERVICEOPERATOR_IMAGE_LATEST
