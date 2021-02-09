@@ -242,24 +242,6 @@ func iterDefs(
 	return newDefs, nil
 }
 
-func getResourceSpecDefinition(
-	definitions astmodel.Types,
-	resourceType *astmodel.ResourceType) (astmodel.TypeDefinition, error) {
-
-	// The expectation is that the spec type is just a name
-	specName, ok := resourceType.SpecType().(astmodel.TypeName)
-	if !ok {
-		return astmodel.TypeDefinition{}, errors.Errorf("spec was not of type TypeName, instead: %T", resourceType.SpecType())
-	}
-
-	resourceSpecDef, ok := definitions[specName]
-	if !ok {
-		return astmodel.TypeDefinition{}, errors.Errorf("couldn't find spec %v", specName)
-	}
-
-	return resourceSpecDef, nil
-}
-
 func createArmResourceSpecDefinition(
 	definitions astmodel.Types,
 	resourceType *astmodel.ResourceType,
@@ -268,7 +250,7 @@ func createArmResourceSpecDefinition(
 	emptyName := astmodel.TypeName{}
 	emptyDef := astmodel.TypeDefinition{}
 
-	resourceSpecDef, err := getResourceSpecDefinition(definitions, resourceType)
+	resourceSpecDef, err := definitions.ResolveResourceSpecDefinition(resourceType)
 	if err != nil {
 		return emptyDef, emptyName, err
 	}
@@ -356,7 +338,7 @@ func modifyKubeResourceSpecDefinition(
 	idFactory astmodel.IdentifierFactory,
 	resourceType *astmodel.ResourceType) (astmodel.TypeDefinition, error) {
 
-	resourceSpecDef, err := getResourceSpecDefinition(definitions, resourceType)
+	resourceSpecDef, err := definitions.ResolveResourceSpecDefinition(resourceType)
 	if err != nil {
 		return astmodel.TypeDefinition{}, err
 	}

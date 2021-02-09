@@ -133,3 +133,38 @@ func (types Types) ResolveEnumType(aType Type) (EnumType, bool) {
 func (types Types) ResolveEnumDefinition(definition *TypeDefinition) (EnumType, bool) {
 	return types.ResolveEnumType(definition.Type())
 }
+
+// ResolveResourceSpecDefinition finds the TypeDefinition associated with the resource Spec.
+func (types Types) ResolveResourceSpecDefinition(
+	resourceType *ResourceType) (TypeDefinition, error) {
+
+	// The expectation is that the spec type is just a name
+	specName, ok := resourceType.SpecType().(TypeName)
+	if !ok {
+		return TypeDefinition{}, errors.Errorf("spec was not of type TypeName, instead: %T", resourceType.SpecType())
+	}
+
+	resourceSpecDef, ok := types[specName]
+	if !ok {
+		return TypeDefinition{}, errors.Errorf("couldn't find spec %v", specName)
+	}
+
+	return resourceSpecDef, nil
+}
+
+func (types Types) ResolveResourceStatusDefinition(
+	resourceType *ResourceType) (TypeDefinition, error) {
+
+	statusName, ok := resourceType.StatusType().(TypeName)
+	if !ok {
+		return TypeDefinition{}, errors.Errorf("status was not of type TypeName, instead: %T", resourceType.SpecType())
+	}
+
+	resourceStatusDef, ok := types[statusName]
+	if !ok {
+		return TypeDefinition{}, errors.Errorf("couldn't find status %v", statusName)
+	}
+
+	// preserve outer spec name
+	return resourceStatusDef.WithName(statusName), nil
+}

@@ -16,6 +16,7 @@ stripUnused                                    Strip unused types for test
 replaceAnyTypeWithJSON                         Replacing interface{}s with arbitrary JSON
 applyKubernetesResourceInterface    azure      Ensures that every resource implements the KubernetesResource interface
 simplifyDefinitions                            Flatten definitions by removing wrapper types
-jsonTestCases                                  Add test cases to verify JSON serialization
+jsonTestCases                       azure      Add test cases to verify JSON serialization
 markStorageVersion                             Marking the latest version of each resource as the storage version
+ensureArmTypeExistsForEveryType     azure      Ensure that an ARM type for every top level resource spec/status exists
 exportTestPackages                             Export packages for test

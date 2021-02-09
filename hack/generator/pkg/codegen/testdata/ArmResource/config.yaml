@@ -1,1 +1,4 @@
 hasArmResources: true
+pipelines:
+  - azure
+  - crossplane

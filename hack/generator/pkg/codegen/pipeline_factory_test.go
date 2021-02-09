@@ -23,7 +23,9 @@ func TestNewArmCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
 
 	idFactory := astmodel.NewIdentifierFactory()
 	configuration := config.NewConfiguration()
-	codegen, err := NewArmCodeGeneratorFromConfig(configuration, idFactory)
+	configuration.Pipeline = config.GenerationPipelineAzure
+
+	codegen, err := NewCodeGeneratorFromConfig(configuration, idFactory)
 	g.Expect(err).To(BeNil())
 
 	result := writePipeline("Expected Pipeline Stages for ARM Code Generation", codegen)
@@ -36,7 +38,7 @@ func TestNewTestCodeGeneratorCreatesRightPipeline(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	cfg := makeDefaultTestConfig()
-	codegen, err := NewTestCodeGenerator("Sample", "path", t, cfg)
+	codegen, err := NewTestCodeGenerator("Sample", "path", t, cfg, config.GenerationPipelineAzure)
 	g.Expect(err).To(BeNil())
 
 	result := writePipeline("Expected Pipeline Stages for Test Code Generation", codegen)

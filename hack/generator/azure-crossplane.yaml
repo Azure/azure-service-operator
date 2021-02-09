@@ -1,64 +1,35 @@
 schemaUrl: https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json
-destinationGoModuleFile: ../generated/go.mod
 outputPath: _apis
-pipeline: azure
+destinationGoModuleFile: ../crossplane/go.mod
+pipeline: crossplane
 typeFilters:
   - action: prune
     group: definitions
     name: Expression
     because: expression is an ARM template construct which doesn't belong in CRDs
   - action: include
-    version: 2020-*
-    because: all 2020 API versions are included
+    version: v20200501
+    group: microsoft.network
+    because: Including microsoft.network for Crossplane
+  - action: include
+    version: v20171001
+    group: microsoft.cache
+    because: Including microsoft.cache for Crossplane
+  - action: include
+    version: v20150501preview
+    group: microsoft.sql
+    because: Including microsoft.sql
+#  - action: include
+#    version: v20170301preview
+#    group: microsoft.sql
+#    because: Including microsoft.sql
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default
   - action: prune
-    group: microsoft.apimanagement
-    name: ServicePortalsettingsChildResource
-    because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
-  - action: prune
-    group: microsoft.documentdb
-    name: DatabaseAccountsApisDatabasesSettingsChildResource
-    because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
-  - action: prune
-    group: microsoft.web
-    name: SitesAppsettingsChildResource;SitesConnectionstringsChildResource;SitesSlotsConnectionstringsChildResource;SitesSlotsAppsettingsChildResource
-    because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
-  - action: prune
-    group: microsoft.compute
-    name: VirtualMachineScaleSetsExtensionsChildResource;VirtualMachinesExtensionsChildResource
-    because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
-  - action: prune
-    group: microsoft.automation
-    name: AutomationAccountsRunbooksDraftChildResource
-    because: Uses OneOf in a weird way that makes detecting actual resource difficult, skipping for now.
-  - action: prune
-    group: microsoft.web
-    version: '*2018*'
-    because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle.
-  - action: prune
-    group: microsoft.kusto
-    because: Some types use OneOf in a way we don't currently handle correctly.
-  - action: prune
-    group: microsoft.timeseriesinsights
-    version: v20171115
-    because: Some types use OneOf in a way we don't currently handle.
-  - action: prune
-    group: microsoft.storage
-    version: v20190401
-    name: StorageAccountsFileServices*
-    because: _childResource type which was added to API version later and not included in the 2015-01-01 rollup spec.
-  - action: prune
-    group: microsoft.datafactory
-    version: v20180601
-    name: FactoriesManagedVirtualNetworks*
-    because: _childResource type which was added to API version later and not included in the 2015-01-01 rollup spec.
-  - action: prune
-    group: microsoft.aad
-    version: v20170601
-    name: DomainServicesOuContainer*
-    because: _childResource type which was added to API version later and not included in the 2015-01-01 rollup spec.
+    group: 'microsoft.*'
+    version: '*'
+    because: Prune everything else
 exportFilters:
   - action: exclude
     group: definitions
@@ -72,25 +43,28 @@ exportFilters:
     group: deploymenttemplate
     name: '*ResourceBase*'
     because: Not actually a resource, used for inheritance only.
-  - action: exclude
-    group: microsoft.machinelearning
-    version: v20170101
-    because: ExampleRequest.Inputs is a map[string][][]map[string]v1.JSON, which controller-gen doesn't know how to handle.
-  - action: exclude
-    group: microsoft.web
-    version: v20150801
-    because: ARM conversion is generating bad code for handling SitesSpecResourcesAppsettingsSpec.Name - should be casting to the right type
-  - action: exclude
-    group: microsoft.datafactory
-    version: v20180601
-    because: ExecuteSSISPackageActivityTypeProperties.PackageConnectionManagers is a map[string]map[string]SSISExecutionParameter, which controller-gen doesn't know how to handle
+#  - action: include
+#    version: v20200501
+#    group: microsoft.network
+#    because: Including microsoft.network for Crossplane
   - action: include
-    group: microsoft.storage
-    version: v20190401
-    because: There are lots of storage types, we just want one
+    version: v20171001
+    group: microsoft.cache
+    because: Including microsoft.cache for Crossplane
+  - action: include
+    version: v20150501preview
+    group: microsoft.sql
+    because: Including microsoft.sql
+  - action: include
+    version: v20170301preview
+    group: microsoft.sql
+    because: Including microsoft.sql
+  - action: include
+    group: deploymenttemplate
+    because: We need this too
   - action: exclude
-    group: microsoft.storage
-    because: There are lots of storage types, we just want one
+    group: '*'
+    because: Excluding everything else
 
 # Exclusions for packages that currently produce types including AnyType.
 # TODO: get rid of these, either by chasing the teams generating

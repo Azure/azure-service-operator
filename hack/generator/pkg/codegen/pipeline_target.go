@@ -31,6 +31,6 @@ func MakePipelineTarget(tag string) PipelineTarget {
 	}
 }
 
-func (tag PipelineTarget) String() string {
-	return tag.name
+func (t PipelineTarget) String() string {
+	return t.name
 }

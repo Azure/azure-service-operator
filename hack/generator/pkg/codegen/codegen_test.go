@@ -27,14 +27,16 @@ import (
 )
 
 type GoldenTestConfig struct {
-	HasArmResources      bool `yaml:"hasArmResources"`
-	InjectEmbeddedStruct bool `yaml:"injectEmbeddedStruct"`
+	HasArmResources      bool                        `yaml:"hasArmResources"`
+	InjectEmbeddedStruct bool                        `yaml:"injectEmbeddedStruct"`
+	Pipelines            []config.GenerationPipeline `yaml:"pipelines"`
 }
 
 func makeDefaultTestConfig() GoldenTestConfig {
 	return GoldenTestConfig{
 		HasArmResources:      false,
 		InjectEmbeddedStruct: false,
+		Pipelines:            []config.GenerationPipeline{config.GenerationPipelineAzure},
 	}
 }
 
@@ -95,30 +97,59 @@ func injectEmbeddedStructType() PipelineStage {
 }
 
 func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
-	testName := strings.TrimPrefix(t.Name(), "TestGolden/")
+	for _, pipeline := range testConfig.Pipelines {
+		testName := strings.TrimPrefix(t.Name(), "TestGolden/")
 
-	codegen, err := NewTestCodeGenerator(testName, path, t, testConfig)
-	if err != nil {
-		t.Fatalf("failed to create code generator: %v", err)
-	}
+		// Append pipeline name at the end of file name if there is more than one pipeline under test
+		if len(testConfig.Pipelines) > 1 {
+			testName = filepath.Join(filepath.Dir(testName), fmt.Sprintf("%s_%s", filepath.Base(testName), string(pipeline)))
+		}
 
-	err = codegen.Generate(context.TODO())
-	if err != nil {
-		t.Fatalf("codegen failed: %v", err)
+		t.Run(string(pipeline), func(t *testing.T) {
+			codegen, err := NewTestCodeGenerator(testName, path, t, testConfig, pipeline)
+			if err != nil {
+				t.Fatalf("failed to create code generator: %v", err)
+			}
+
+			err = codegen.Generate(context.TODO())
+			if err != nil {
+				t.Fatalf("codegen failed: %v", err)
+			}
+		})
 	}
 }
 
-func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig GoldenTestConfig) (*CodeGenerator, error) {
+func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig GoldenTestConfig, pipeline config.GenerationPipeline) (*CodeGenerator, error) {
 	idFactory := astmodel.NewIdentifierFactory()
 	cfg := config.NewConfiguration()
 	cfg.GoModulePath = goModulePrefix
 
-	codegen, err := NewCodeGeneratorFromConfig(cfg, idFactory)
+	pipelineTarget, err := translatePipelineToTarget(pipeline)
 	if err != nil {
-		t.Fatalf("could not create code generator: %v", err)
+		return nil, err
 	}
 
-	codegen.RemoveStages("deleteGenerated", "rogueCheck", "createStorage", "reportTypesAndVersions")
+	codegen, err := NewTargetedCodeGeneratorFromConfig(cfg, idFactory, pipelineTarget)
+	if err != nil {
+		return nil, err
+	}
+
+	// TODO: This isn't as clean as would be liked -- should we remove panic from RemoveStages?
+	switch pipeline {
+	case config.GenerationPipelineAzure:
+		codegen.RemoveStages("deleteGenerated", "rogueCheck", "createStorage", "reportTypesAndVersions")
+		if !testConfig.HasArmResources {
+			codegen.RemoveStages("createArmTypes")
+			codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
+		}
+	case config.GenerationPipelineCrossplane:
+		codegen.RemoveStages("deleteGenerated", "rogueCheck")
+		codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
+
+	default:
+		return nil, errors.Errorf("unknown pipeline kind %q", string(pipeline))
+	}
+
 	codegen.ReplaceStage("loadSchema", loadTestSchemaIntoTypes(idFactory, cfg, path))
 	codegen.ReplaceStage("exportPackages", exportPackagesTestPipelineStage(t, testName))
 
@@ -126,10 +157,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		codegen.InjectStageAfter("removeAliases", injectEmbeddedStructType())
 	}
 
-	if !testConfig.HasArmResources {
-		codegen.RemoveStages("createArmTypes")
-		codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
-	}
+	codegen.RemoveStages()
 
 	return codegen, nil
 }

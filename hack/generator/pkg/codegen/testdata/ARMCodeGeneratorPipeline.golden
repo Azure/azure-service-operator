@@ -14,13 +14,19 @@ stripUnreferenced                              Strip unreferenced types
 filterTypes                                    Filter generated types
 stripUnreferenced                              Strip unreferenced types
 replaceAnyTypeWithJSON                         Replacing interface{}s with arbitrary JSON
-reportTypesAndVersions                         Generate reports on types and versions in each package
+reportTypesAndVersions              azure      Generate reports on types and versions in each package
 createArmTypes                      azure      Create ARM types and remove ARM-only properties from Kubernetes types
 applyKubernetesResourceInterface    azure      Ensures that every resource implements the KubernetesResource interface
-createStorage                                  Create storage versions of CRD types
+addCrossplaneOwnerProperties        crossplane Adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
+addCrossplaneForProviderProperty    crossplane Adds a 'ForProvider' property on every spec
+addCrossplaneAtProviderProperty     crossplane Adds an 'AtProvider' property on every status
+addCrossplaneEmbeddedResourceSpec   crossplane Adds an embedded runtimev1alpha1.ResourceSpec to every spec type
+addCrossplaneEmbeddedResourceStatus crossplane Adds an embedded runtimev1alpha1.ResourceStatus to every status type
+createStorage                       azure      Create storage versions of CRD types
 simplifyDefinitions                            Flatten definitions by removing wrapper types
-jsonTestCases                                  Add test cases to verify JSON serialization
+jsonTestCases                       azure      Add test cases to verify JSON serialization
 markStorageVersion                             Marking the latest version of each resource as the storage version
 rogueCheck                                     Catch rogue definitions using AnyTypes
+ensureArmTypeExistsForEveryType     azure      Ensure that an ARM type for every top level resource spec/status exists
 deleteGenerated                                Delete generated code from .
 exportPackages                                 Export packages to "."

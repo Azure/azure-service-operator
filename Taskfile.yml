@@ -9,29 +9,38 @@ vars:
   CONTROLLER_APP: k8sinfra-controller
   CONTROLLER_ROOT: ./hack/generated/
 
+  CROSSPLANE_APP: crossplane-gen
+  CROSSPLANE_ROOT: ./hack/crossplane/
+
+  # the 'api' dir contains generated code so we want to exclude it
+  # for go-fmt the root dir must be excluded (it recurses)
+  GENERATED_DIRS_TO_FMT_CMD: go list -f '{{"{{.Dir}}"}}' ./...  | grep -vE '/_apis(/|$)|/generated$' | tr '\n' ' '
+
 tasks:
   default:
     desc: Perform all fast local pre-commit tasks.
     cmds: 
     - task: generator:quick-checks
-    - task: generate-crds # required here to prevent it running twice in controller:quick-checks, remove once go-task dedupes dependencies
+    - task: controller:generate-crds # required here to prevent it running twice in controller:quick-checks, remove once go-task dedupes dependencies
     - task: controller:quick-checks
+    - task: crossplane:generate-crds
+    - task: crossplane:quick-checks
 
   ci:
     desc: Run all CI checks.
     cmds: 
     - task: generator:ci
-    - task: generate-crds # required here to prevent it running twice in controller:ci, remove once go-task dedupes dependencies
+    - task: controller:generate-crds # required here to prevent it running twice in controller:ci, remove once go-task dedupes dependencies
     - task: controller:ci
 
   ci-live:
     desc: Run all CI checks with live Azure resources. Requires that auth environment variables are set.
     cmds: 
     - task: generator:ci
-    - task: generate-crds # required here to prevent it running twice in controller:ci-live, remove once go-task dedupes dependencies
+    - task: controller:generate-crds # required here to prevent it running twice in controller:ci-live, remove once go-task dedupes dependencies
     - task: controller:ci-live
 
-  # Generator targets:
+  ############### Generator targets ###############
   generator:quick-checks:
     deps: [header-check, generator:format-code, generator:test]
     # Lint is forced to the end because it expects the code is formatted
@@ -94,17 +103,7 @@ tasks:
       VERSION:
         sh: git rev-list -1 HEAD
 
-  generate-types:
-    desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen.
-    dir: "{{.GENERATOR_ROOT}}"
-    deps: [generator:build]
-    sources:
-    - ./bin/{{.GENERATOR_APP}}
-    - azure-arm.yaml
-    cmds:
-    - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml
-
-  # Controller targets:
+  ############### Controller targets ###############
   controller:quick-checks:
     deps: [header-check, controller:format-code, controller:test]
     # Lint is forced to the end because it expects the code is formatted
@@ -119,14 +118,14 @@ tasks:
 
   controller:lint:
     desc: Run fast lint checks.
-    deps: [generate-crds]
+    deps: [controller:generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
     - golangci-lint run -v ./...
 
   controller:lint-full:
     desc: Run all lint checks.
-    deps: [generate-crds]
+    deps: [controller:generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
     - golangci-lint run -v --fast=false ./...
@@ -135,19 +134,19 @@ tasks:
     desc: Ensure all code is correctly formatted.
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
-    - gofmt -l -s -w ./...
+    - gofmt -l -s -w $({{.GENERATED_DIRS_TO_FMT_CMD}})
 
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [generate-crds]
+    deps: [controller:generate-crds]
     cmds:
     - go test ./... -short -tags=noexit
 
   controller:test-cover:
     desc: Run {{.CONTROLLER_APP}} unit tests and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [generate-crds]
+    deps: [controller:generate-crds]
     cmds: 
     - go test -short -tags=noexit -race -covermode atomic -coverprofile=controller-coverage.out -coverpkg="./..." ./...
 
@@ -166,7 +165,7 @@ tasks:
 
   controller:copy-valid-crds:
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [generate-crds]
+    deps: [controller:generate-crds]
     cmds:
     # copy CRD files that are needed to a different folder, at the moment we cannot load all CRD files
     - mkdir -p config/crd/bases/valid
@@ -179,7 +178,7 @@ tasks:
 
   controller:copy-valid-webhooks:
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [generate-crds]
+    deps: [controller:generate-crds]
     cmds:
     # the webhook configuration file, as it stands, is too big to load into k8s 😊
     # instead, for now, we will pull out the bits we want
@@ -195,7 +194,6 @@ tasks:
     vars:
       IN: config/webhook/manifests.yaml 
       OUT: config/webhook/valid/manifests.yaml
-
 
   controller:prep-integration-tests:
     # this just exists to serialize execution of these dependencies,
@@ -228,13 +226,24 @@ tasks:
     # -race fails at the moment in controller-runtime
     - ENVTEST=1 go test -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v ./...
 
-  generate-crds:
-    desc: Run controller-gen to generate CRD files.
-    deps: [generate-types]
+  controller:generate-types:
+    desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
+    dir: "{{.GENERATOR_ROOT}}"
+    deps: [generator:build]
+    sources:
+      - ./bin/{{.GENERATOR_APP}}
+      - azure-arm.yaml
+    cmds:
+      - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml
+
+  controller:generate-crds:
+    desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
+    deps: [controller:generate-types]
     dir: "{{.CONTROLLER_ROOT}}"
     sources:
     - "_apis/**/*_gen.go" # depends on all generated types
     cmds:
+    - mkdir -p ./_apis
     - find ./_apis -type f -name "zz_generated.*" -delete
     - if [ -d "./config/crd/bases" ]; then find "./config/crd/bases" -type f -delete; fi
     # must CD into _apis as it is ignored by default (this is on purpose to not kill gopls!)
@@ -243,7 +252,66 @@ tasks:
     vars:
       CRD_OPTIONS: "crd:crdVersions=v1,allowDangerousTypes=true"
 
-  # Shared targets:
+  ############### Crossplane targets ###############
+  crossplane:quick-checks:
+    deps: [header-check, crossplane:format-code]
+    # Lint is forced to the end because it expects the code is formatted
+    cmds:
+      # - task: crossplane:lint
+
+# TODO: We currently have no tests
+#  crossplane:test:
+#    desc: Run {{.CROSSPLANE_APP}} unit tests.
+#    dir: "{{.CROSSPLANE_ROOT}}"
+#    cmds:
+#      - go test ./... -tags=noexit
+
+#  crossplane:update-golden-tests:
+#    desc: Update {{.CROSSPLANE_APP}} golden test outputs.
+#    dir: "{{.CROSSPLANE_ROOT}}"
+#    cmds:
+#      - go test ./pkg/codegen -run ^TestGolden$ -update
+
+  crossplane:format-code:
+    desc: Ensure all code is correctly formatted.
+    dir: "{{.CROSSPLANE_ROOT}}"
+    cmds:
+      - gofmt -l -s -w .
+
+  # TODO: No non-generated code in this directory at the moment
+  # crossplane:lint:
+  #   desc: Run {{.CROSSPLANE_APP}} fast lint checks.
+  #   dir: "{{.CROSSPLANE_ROOT}}"
+  #   cmds:
+  #     - golangci-lint run -v
+
+  crossplane:generate-crds:
+    desc: Run controller-gen to generate {{.CROSSPLANE_APP}} CRD files.
+    deps: [crossplane:generate-types]
+    dir: "{{.CROSSPLANE_ROOT}}"
+    sources:
+      - "_apis/**/*_gen.go" # depends on all generated types
+    cmds:
+      - mkdir -p ./_apis
+      - find ./_apis -type f -name "zz_generated.*" -delete
+      - if [ -d "./config/crd/bases" ]; then find "./config/crd/bases" -type f -delete; fi
+      # must CD into _apis as it is ignored by default (this is on purpose to not kill gopls!)
+      - cd _apis && controller-gen object:headerFile=../../boilerplate.go.txt paths="./..." || true
+      - cd _apis && controller-gen {{.CRD_OPTIONS}} rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=../config/crd/bases output:webhook:artifacts:config=../config/webhook
+    vars:
+      CRD_OPTIONS: "crd:crdVersions=v1,allowDangerousTypes=true"
+
+  crossplane:generate-types:
+    desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CROSSPLANE_APP}}.
+    dir: "{{.GENERATOR_ROOT}}"
+    deps: [generator:build]
+    sources:
+      - ./bin/{{.GENERATOR_APP}}
+      - azure-crossplane.yaml
+    cmds:
+      - ./bin/{{.GENERATOR_APP}} gen-types azure-crossplane.yaml
+
+  ############### Shared targets ###############
 
   cleanup-azure-resources:
     desc: Removes any old resources created by integration tests.

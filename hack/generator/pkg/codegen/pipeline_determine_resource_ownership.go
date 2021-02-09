@@ -32,7 +32,7 @@ func determineOwnership(definitions astmodel.Types, configuration *config.Config
 
 	for _, def := range definitions {
 		if resourceType, ok := def.Type().(*astmodel.ResourceType); ok {
-			specDef, err := getResourceSpecDefinition(definitions, resourceType)
+			specDef, err := definitions.ResolveResourceSpecDefinition(resourceType)
 			if err != nil {
 				return nil, errors.Wrapf(err, "couldn't get spec definition for resource %s", def.Name())
 			}

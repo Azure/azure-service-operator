@@ -106,3 +106,16 @@ func AsTypeName(aType Type) (TypeName, bool) {
 
 	return TypeName{}, false
 }
+
+// AsResourceType unwraps any wrappers around the provided type and returns either the underlying ResourceType and true, or a nil and false.
+func AsResourceType(aType Type) (*ResourceType, bool) {
+	if name, ok := aType.(*ResourceType); ok {
+		return name, true
+	}
+
+	if wrapper, ok := aType.(MetaType); ok {
+		return AsResourceType(wrapper.Unwrap())
+	}
+
+	return nil, false
+}

@@ -8,12 +8,12 @@ package codegen
 import (
 	"context"
 
+	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
-	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 )
 
 // CodeGenerator is a generator of code
@@ -22,19 +22,30 @@ type CodeGenerator struct {
 	pipeline      []PipelineStage
 }
 
-// NewArmCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
-func NewArmCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, error) {
+func translatePipelineToTarget(pipeline config.GenerationPipeline) (PipelineTarget, error) {
+	switch pipeline {
+	case config.GenerationPipelineAzure:
+		return ArmTarget, nil
+	case config.GenerationPipelineCrossplane:
+		return CrossplaneTarget, nil
+	default:
+		return PipelineTarget{}, errors.Errorf("unknown pipeline target kind %s", pipeline)
+	}
+}
+
+// NewCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
+func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, error) {
 	configuration, err := config.LoadConfiguration(configurationFile)
 	if err != nil {
 		return nil, err
 	}
 
-	return NewArmCodeGeneratorFromConfig(configuration, astmodel.NewIdentifierFactory())
-}
+	target, err := translatePipelineToTarget(configuration.Pipeline)
+	if err != nil {
+		return nil, err
+	}
 
-// NewArmCodeGeneratorFromConfig produces a new Generator for Arm with the given configuration
-func NewArmCodeGeneratorFromConfig(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) (*CodeGenerator, error) {
-	return NewTargetedCodeGeneratorFromConfig(configuration, idFactory, ArmTarget)
+	return NewTargetedCodeGeneratorFromConfig(configuration, astmodel.NewIdentifierFactory(), target)
 }
 
 // NewTargetedCodeGeneratorFromConfig produces a new code generator with the given configuration and
@@ -121,18 +132,26 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		stripUnreferencedTypeDefinitions(),
 
 		replaceAnyTypeWithJSON(),
-		reportOnTypesAndVersions(configuration),
+		reportOnTypesAndVersions(configuration).UsedFor(ArmTarget), // TODO: For now only used for ARM
 
 		createArmTypesAndCleanKubernetesTypes(idFactory).UsedFor(ArmTarget),
 		applyKubernetesResourceInterface(idFactory).UsedFor(ArmTarget),
-		createStorageTypes(),
+
+		addCrossplaneOwnerProperties(idFactory).UsedFor(CrossplaneTarget),
+		addCrossplaneForProvider(idFactory).UsedFor(CrossplaneTarget),
+		addCrossplaneAtProvider(idFactory).UsedFor(CrossplaneTarget),
+		addCrossplaneEmbeddedResourceSpec(idFactory).UsedFor(CrossplaneTarget),
+		addCrossplaneEmbeddedResourceStatus(idFactory).UsedFor(CrossplaneTarget),
+
+		createStorageTypes().UsedFor(ArmTarget), // TODO: For now only used for ARM
 		simplifyDefinitions(),
-		injectJsonSerializationTests(idFactory),
+		injectJsonSerializationTests(idFactory).UsedFor(ArmTarget),
 
 		markStorageVersion(),
 
 		// Safety checks at the end:
 		ensureDefinitionsDoNotUseAnyTypes(),
+		ensureArmTypeExistsForEveryResource().UsedFor(ArmTarget),
 
 		deleteGeneratedCode(configuration.FullOutputPath()),
 

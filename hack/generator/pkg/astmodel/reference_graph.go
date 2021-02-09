@@ -48,20 +48,11 @@ func CollectArmSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 	armSpecAndStatus := make(TypeNameSet)
 	for _, def := range definitions {
 
-		if IsStoragePackageReference(def.Name().PackageReference) {
-			// We need to explicitly skip storage packages because the code below expects to find
-			// a related ARM type for each resource spec type, but those don't exist in our
-			// storage packages and the code triggers a panic() based on the error from findArmType
-			continue
-		}
-
 		if resourceType, ok := definitions.ResolveResourceType(def.Type()); ok {
 
 			armSpecName, err := findArmType(resourceType.spec)
 			if err != nil {
-				// This should never happen because every type should have a matching ARM type
-				// So this panic may indicate we have a bug in the stage that generates the ARM types
-				panic(errors.Wrapf(err, "Error getting ARM spec for resource %q", def.Name()))
+				continue // No ARM type here - skip
 			}
 			armSpecAndStatus.Add(armSpecName)
 
@@ -69,9 +60,7 @@ func CollectArmSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 			if statusType != nil {
 				armStatusName, err := findArmType(statusType)
 				if err != nil {
-					// This should never happen because every type should have a matching ARM type
-					// So this panic may indicate we have a bug in the stage that generates the ARM types
-					panic(errors.Wrapf(err, "Error getting ARM status for resource %q", def.Name()))
+					continue // No ARM type here - skip
 				}
 				armSpecAndStatus.Add(armStatusName)
 			}
