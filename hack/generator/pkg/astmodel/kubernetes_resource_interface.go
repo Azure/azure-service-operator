@@ -35,14 +35,14 @@ func AddKubernetesResourceInterfaceImpls(
 		return nil, errors.Wrapf(err, "unable to resolve resource spec type")
 	}
 
-	spec := AsObjectType(resolvedSpec)
-	if spec == nil {
-		return nil, errors.Wrapf(err, "resource spec %q did not contain an object", r.SpecType().String())
+	spec, ok := AsObjectType(resolvedSpec)
+	if !ok {
+		return nil, errors.Errorf("resource spec %q did not contain an object", r.SpecType().String())
 	}
 
 	// Check the spec first to ensure it looks how we expect
 	ownerProperty := idFactory.CreatePropertyName(OwnerProperty, Exported)
-	_, ok := spec.Property(ownerProperty)
+	_, ok = spec.Property(ownerProperty)
 	if !ok {
 		return nil, errors.Errorf("resource spec doesn't have %q property", ownerProperty)
 	}

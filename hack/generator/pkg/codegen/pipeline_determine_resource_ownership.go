@@ -7,7 +7,6 @@ package codegen
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
@@ -165,16 +164,16 @@ func extractChildResourceTypeNames(resourcesPropertyTypeDef astmodel.TypeDefinit
 	// This type should be ResourceType, or ObjectType if modelling a OneOf/AllOf
 	_, isResource := resourcesPropertyTypeDef.Type().(*astmodel.ResourceType)
 
-	resourcesPropertyTypeAsObject := astmodel.AsObjectType(resourcesPropertyTypeDef.Type())
-	if !isResource && resourcesPropertyTypeAsObject == nil {
-		return nil, fmt.Errorf(
+	resourcesPropertyTypeAsObject, ok := astmodel.AsObjectType(resourcesPropertyTypeDef.Type())
+	if !isResource && !ok {
+		return nil, errors.Errorf(
 			"Resources property type %s was not of type *astmodel.ResourceType and didn't wrap *astmodel.ObjectType, instead %T",
 			resourcesPropertyTypeDef.Name(),
 			resourcesPropertyTypeDef.Type())
 	}
 
 	// Determine if this is a OneOf/AllOf
-	if astmodel.OneOfFlag.IsOn(resourcesPropertyTypeDef.Type()) {
+	if ok && astmodel.OneOfFlag.IsOn(resourcesPropertyTypeDef.Type()) {
 		return resolveResourcesTypeNames(resourcesPropertyTypeDef.Name(), resourcesPropertyTypeAsObject)
 	} else {
 		return []astmodel.TypeName{resourcesPropertyTypeDef.Name()}, nil

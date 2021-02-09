@@ -501,27 +501,17 @@ func (objectType *ObjectType) TestCases() []TestCase {
 	return result
 }
 
-// IsObjectType returns true if the passed type is an object type OR if it is a wrapper type containing an object type
-func IsObjectType(t Type) bool {
-	_, ok := t.(*ObjectType)
+// IsObjectDefinition returns true if the passed definition is for a Arm type; false otherwise.
+func IsObjectDefinition(definition TypeDefinition) bool {
+	_, ok := AsObjectType(definition.theType)
 	return ok
 }
 
-// IsObjectDefinition returns true if the passed definition is for a Arm type; false otherwise.
-func IsObjectDefinition(definition TypeDefinition) bool {
-	return IsObjectType(definition.theType)
-}
-
 func extractEmbeddedTypeName(t Type) (TypeName, error) {
-	typeName, isTypeName := t.(TypeName)
-	optionalType, isOptionalType := t.(*OptionalType)
-	if isOptionalType {
-		typeName, isTypeName = optionalType.Element().(TypeName)
+	typeName, isTypeName := AsTypeName(t)
+	if isTypeName {
+		return typeName, nil
 	}
 
-	if !isTypeName {
-		return TypeName{}, errors.Errorf("embedded property type must be TypeName or Optional[TypeName], was: %T", t)
-	}
-
-	return typeName, nil
+	return TypeName{}, errors.Errorf("embedded property type must be TypeName, was: %T", t)
 }

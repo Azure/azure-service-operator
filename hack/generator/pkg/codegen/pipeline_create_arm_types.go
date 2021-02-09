@@ -408,8 +408,8 @@ func addArmConversionInterface(
 	idFactory astmodel.IdentifierFactory,
 	typeType armconversion.TypeKind) (astmodel.TypeDefinition, error) {
 
-	objectType := astmodel.AsObjectType(armDef.Type())
-	if objectType == nil {
+	objectType, ok := astmodel.AsObjectType(armDef.Type())
+	if !ok {
 		emptyDef := astmodel.TypeDefinition{}
 		return emptyDef, errors.Errorf("ARM definition %q did not define an object type", armDef.Name())
 	}

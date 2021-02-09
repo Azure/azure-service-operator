@@ -373,12 +373,22 @@ func (fn *StorageConversionFunction) generateAssignments(
 // createConversions iterates through the properties on our receiver type, matching them up with
 // our other type and generating conversions where possible
 func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition) error {
-	receiverObject := AsObjectType(receiver.Type())
+	receiverObject, ok := AsObjectType(receiver.Type())
+	if !ok {
+		return errors.Errorf("expected TypeDefinition %q to wrap receiver object type, but none found", receiver.name.String())
+	}
+
 	var otherObject *ObjectType
 	if fn.intermediateType == nil {
-		otherObject = AsObjectType(fn.hubType.Type())
+		otherObject, ok = AsObjectType(fn.hubType.Type())
+		if !ok {
+			return errors.Errorf("expected TypeDefinition %q to wrap hub object type, but none found", fn.hubType.Name().String())
+		}
 	} else {
-		otherObject = AsObjectType(fn.intermediateType.Type())
+		otherObject, ok = AsObjectType(fn.intermediateType.Type())
+		if !ok {
+			return errors.Errorf("expected TypeDefinition %q to wrap intermediate object type, but none found", fn.intermediateType.Name().String())
+		}
 	}
 
 	var errs []error

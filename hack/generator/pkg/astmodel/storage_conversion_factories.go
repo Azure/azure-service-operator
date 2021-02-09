@@ -33,6 +33,7 @@ func init() {
 		assignPrimitiveTypeFromPrimitiveType,
 		assignOptionalPrimitiveTypeFromPrimitiveType,
 		assignPrimitiveTypeFromOptionalPrimitiveType,
+		assignOptionalPrimitiveTypeFromOptionalPrimitiveType,
 		assignArrayFromArray,
 		assignMapFromMap,
 	}
@@ -59,7 +60,7 @@ func createTypeConversion(
 }
 
 // assignPrimitiveTypeFromPrimitiveType will generate a direct assignment if both types have the
-// same underlying primitive type and have the same optionality
+// same underlying primitive type and are not optional
 //
 // <destination> = <source>
 //
@@ -67,20 +68,30 @@ func assignPrimitiveTypeFromPrimitiveType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint) StorageTypeConversion {
 
-	srcOpt := AsOptionalType(sourceEndpoint.Type())
-	dstOpt := AsOptionalType(destinationEndpoint.Type())
-
-	if srcOpt != dstOpt {
-		// Different optionality, handled elsewhere
+	if _, srcOpt := AsOptionalType(sourceEndpoint.Type()); srcOpt {
+		// Source is optional, which we handle elsewhere
 		return nil
 	}
 
-	// Don't start from srcOpt or dstOpt in case they're nil
-	srcPrim := AsPrimitiveType(sourceEndpoint.Type())
-	dstPrim := AsPrimitiveType(destinationEndpoint.Type())
+	if _, dstOpt := AsOptionalType(destinationEndpoint.Type()); dstOpt {
+		// Destination is optional, which we handle elsewhere
+		return nil
+	}
 
-	if srcPrim == nil || dstPrim == nil || !srcPrim.Equals(dstPrim) {
-		// Either or both sides are not primitive types, or not the same primitive type
+	srcPrim, srcOk := AsPrimitiveType(sourceEndpoint.Type())
+	if !srcOk {
+		// Source is not a primitive type
+		return nil
+	}
+
+	dstPrim, dstOk := AsPrimitiveType(destinationEndpoint.Type())
+	if !dstOk {
+		// Destination is not a primitive type
+		return nil
+	}
+
+	if !srcPrim.Equals(dstPrim) {
+		// Not the same primitive type
 		return nil
 	}
 
@@ -95,23 +106,36 @@ func assignPrimitiveTypeFromPrimitiveType(
 // have the same underlying primitive type and only the destination is optional.
 //
 // <destination> = &<source>
+//
 func assignOptionalPrimitiveTypeFromPrimitiveType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint) StorageTypeConversion {
 
-	srcOpt := AsOptionalType(sourceEndpoint.Type())
-	dstOpt := AsOptionalType(destinationEndpoint.Type())
-
-	if srcOpt != nil || dstOpt == nil {
-		// Require source to be non-optional and destination to be optional
+	if _, srcOpt := AsOptionalType(sourceEndpoint.Type()); srcOpt {
+		// Source is optional
 		return nil
 	}
 
-	srcPrim := AsPrimitiveType(sourceEndpoint.Type())
-	dstPrim := AsPrimitiveType(dstOpt)
+	srcPrim, srcOk := AsPrimitiveType(sourceEndpoint.Type())
+	if !srcOk {
+		// Source is not a primitive type
+		return nil
+	}
 
-	if srcPrim == nil || dstPrim == nil || !srcPrim.Equals(dstPrim) {
-		// Either or both sides are not primitive types, or not the same primitive type
+	_, dstOpt := AsOptionalType(destinationEndpoint.Type())
+	if !dstOpt {
+		// Destination is not optional
+		return nil
+	}
+
+	dstPrim, dstOk := AsPrimitiveType(destinationEndpoint.Type())
+	if !dstOk {
+		// Destination is not a primitive type
+		return nil
+	}
+
+	if !srcPrim.Equals(dstPrim) {
+		// Not the same primitive type
 		return nil
 	}
 
@@ -134,19 +158,30 @@ func assignPrimitiveTypeFromOptionalPrimitiveType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint) StorageTypeConversion {
 
-	srcOpt := AsOptionalType(sourceEndpoint.Type())
-	dstOpt := AsOptionalType(destinationEndpoint.Type())
-
-	if srcOpt == nil || dstOpt != nil {
-		// Require source to be optional and destination to be non-optional
+	if _, srcOpt := AsOptionalType(sourceEndpoint.Type()); !srcOpt {
+		// Source is not optional
 		return nil
 	}
 
-	srcPrim := AsPrimitiveType(srcOpt)
-	dstPrim := AsPrimitiveType(destinationEndpoint.Type())
+	srcPrim, srcOk := AsPrimitiveType(sourceEndpoint.Type())
+	if !srcOk {
+		// Source is not a primitive type
+		return nil
+	}
 
-	if srcPrim == nil || dstPrim == nil || !srcPrim.Equals(dstPrim) {
-		// Either or both sides are not primitive types, or not the same primitive type
+	if _, dstOpt := AsOptionalType(destinationEndpoint.Type()); dstOpt {
+		// Destination is optional
+		return nil
+	}
+
+	dstPrim, dstOk := AsPrimitiveType(destinationEndpoint.Type())
+	if !dstOk {
+		// Destination is not a primitive type
+		return nil
+	}
+
+	if !srcPrim.Equals(dstPrim) {
+		// Not the same primitive type
 		return nil
 	}
 
@@ -181,6 +216,49 @@ func assignPrimitiveTypeFromOptionalPrimitiveType(
 	}
 }
 
+// assignOptionalPrimitiveTypeFromOptionalPrimitiveType will generate a direct assignment if both types have the
+// same underlying primitive type and both are optional
+//
+// <destination> = <source>
+//
+func assignOptionalPrimitiveTypeFromOptionalPrimitiveType(
+	sourceEndpoint *StorageConversionEndpoint,
+	destinationEndpoint *StorageConversionEndpoint) StorageTypeConversion {
+
+	if _, srcOpt := AsOptionalType(sourceEndpoint.Type()); !srcOpt {
+		// Source is not optional
+		return nil
+	}
+
+	srcPrim, srcOk := AsPrimitiveType(sourceEndpoint.Type())
+	if !srcOk {
+		// Source is not a primitive type
+		return nil
+	}
+
+	if _, dstOpt := AsOptionalType(destinationEndpoint.Type()); !dstOpt {
+		// Destination is not optional
+		return nil
+	}
+
+	dstPrim, dstOk := AsPrimitiveType(destinationEndpoint.Type())
+	if !dstOk {
+		// Destination is not a primitive type
+		return nil
+	}
+
+	if !srcPrim.Equals(dstPrim) {
+		// Not the same primitive type
+		return nil
+	}
+
+	return func(reader dst.Expr, writer dst.Expr, ctx *CodeGenerationContext) []dst.Stmt {
+		return []dst.Stmt{
+			astbuilder.SimpleAssignment(writer, token.ASSIGN, reader),
+		}
+	}
+}
+
 // assignArrayFromArray will generate a code fragment to populate an array, assuming the
 // underlying types of the two arrays are compatible
 //
@@ -193,19 +271,21 @@ func assignPrimitiveTypeFromOptionalPrimitiveType(
 func assignArrayFromArray(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint) StorageTypeConversion {
-	st := AsArrayType(sourceEndpoint.Type())
-	dt := AsArrayType(destinationEndpoint.Type())
 
-	if st == nil || dt == nil {
-		// One or other type is not an array
+	srcArray, srcOk := AsArrayType(sourceEndpoint.Type())
+	if !srcOk {
+		// Source is not an array
 		return nil
 	}
 
-	// Try to create a conversion between the elements of the arrays
-	// We're not interested in the specifics of any error encountered trying to create the
-	// conversion, only whether it succeeds or not.
-	srcEp := sourceEndpoint.WithType(st.element)
-	dstEp := destinationEndpoint.WithType(dt.element)
+	dstArray, dstOk := AsArrayType(destinationEndpoint.Type())
+	if !dstOk {
+		// Destination is not an array
+		return nil
+	}
+
+	srcEp := sourceEndpoint.WithType(srcArray.element)
+	dstEp := destinationEndpoint.WithType(dstArray.element)
 	conversion, _ := createTypeConversion(srcEp, dstEp)
 
 	if conversion == nil {
@@ -221,7 +301,7 @@ func assignArrayFromArray(
 		declaration := astbuilder.SimpleAssignment(
 			dst.NewIdent(tempId),
 			token.DEFINE,
-			astbuilder.MakeList(dt.AsType(generationContext), astbuilder.CallFunc("len", reader)))
+			astbuilder.MakeList(dstArray.AsType(generationContext), astbuilder.CallFunc("len", reader)))
 
 		body := conversion(
 			dst.NewIdent(itemId),
@@ -257,21 +337,25 @@ func assignArrayFromArray(
 func assignMapFromMap(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint) StorageTypeConversion {
-	st := AsMapType(sourceEndpoint.Type())
-	dt := AsMapType(destinationEndpoint.Type())
-
-	if st == nil || dt == nil {
-		// One or other type is not a map
+	srcMap, ok := AsMapType(sourceEndpoint.Type())
+	if !ok {
+		// Source is not a map
 		return nil
 	}
 
-	if !st.key.Equals(dt.key) {
+	dstMap, ok := AsMapType(destinationEndpoint.Type())
+	if !ok {
+		// Destination is not a map
+		return nil
+	}
+
+	if !srcMap.key.Equals(dstMap.key) {
 		// Keys are different types
 		return nil
 	}
 
-	srcEp := sourceEndpoint.WithType(st.value)
-	dstEp := destinationEndpoint.WithType(dt.value)
+	srcEp := sourceEndpoint.WithType(srcMap.value)
+	dstEp := destinationEndpoint.WithType(dstMap.value)
 	conversion, _ := createTypeConversion(srcEp, dstEp)
 
 	if conversion == nil {
@@ -287,7 +371,7 @@ func assignMapFromMap(
 		declaration := astbuilder.SimpleAssignment(
 			dst.NewIdent(tempId),
 			token.DEFINE,
-			astbuilder.MakeMap(dt.key.AsType(generationContext), dt.value.AsType(generationContext)))
+			astbuilder.MakeMap(dstMap.key.AsType(generationContext), dstMap.value.AsType(generationContext)))
 
 		body := conversion(
 			dst.NewIdent(itemId),

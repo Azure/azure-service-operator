@@ -73,7 +73,7 @@ func injectEmbeddedStructType() PipelineStage {
 
 			results := make(astmodel.Types)
 			for _, def := range defs {
-				if astmodel.IsObjectType(def.Type()) {
+				if astmodel.IsObjectDefinition(def) {
 					result, err := def.ApplyObjectTransformation(func(objectType *astmodel.ObjectType) (astmodel.Type, error) {
 						prop := astmodel.NewPropertyDefinition(
 							"",
