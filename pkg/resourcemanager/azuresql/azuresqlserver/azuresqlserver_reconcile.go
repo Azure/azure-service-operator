@@ -8,18 +8,20 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 const usernameLength = 8
@@ -46,12 +48,12 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// Check to see if secret already exists for admin username/password
 	// create or update the secret
-	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	secret, err := s.SecretClient.Get(ctx, key)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	secret, err := s.SecretClient.Get(ctx, secretKey)
 	if err != nil {
 		if instance.Status.Provisioned {
 			instance.Status.Message = err.Error()
-			return false, fmt.Errorf("Secret missing for provisioned server: %s", key.String())
+			return false, fmt.Errorf("secret missing for provisioned server: %+v", secretKey)
 		}
 
 		// Assure that the requested name is available and assume the secret exists
@@ -68,12 +70,8 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 				return true, nil
 			}
 
-			instance.Status.Message = fmt.Sprintf(
-				`SQL server already exists and the credentials could not be found. 
-			If using kube secrets a secret should exist at '%s' for keyvault it should be '%s'`,
-				key.String(),
-				fmt.Sprintf("%s-%s", key.Namespace, key.Name),
-			)
+			err = errors.Wrapf(err, "SQL server already exists and the credentials could not be found")
+			instance.Status.Message = err.Error()
 			return false, nil
 		}
 
@@ -83,7 +81,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		}
 		err = s.SecretClient.Upsert(
 			ctx,
-			key,
+			secretKey,
 			secret,
 			secrets.WithOwner(instance),
 			secrets.WithScheme(s.Scheme),
@@ -264,7 +262,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
-	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	// if the resource is in a failed state it was never created or could never be verified
 	// so we skip attempting to delete the resrouce from Azure
@@ -294,7 +292,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 
 		if helpers.ContainsString(finished, azerr.Type) {
 			//Best effort deletion of secrets
-			s.SecretClient.Delete(ctx, key)
+			s.SecretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 
@@ -302,7 +300,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 	}
 
 	//Best effort deletion of secrets
-	s.SecretClient.Delete(ctx, key)
+	s.SecretClient.Delete(ctx, secretKey)
 	return false, nil
 }
 

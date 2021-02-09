@@ -9,12 +9,13 @@ import (
 	"context"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/stretchr/testify/assert"
-	v1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 func TestMySQLUserControllerNoAdminSecret(t *testing.T) {
@@ -67,22 +68,13 @@ func TestMySQLUserControllerNoResourceGroup(t *testing.T) {
 	mysqlUsername := "mysql-test-user" + helpers.RandomString(10)
 	roles := []string{"select on *.*"}
 
-	secret := &v1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      mysqlServerName,
-			Namespace: "default",
-		},
-		// Needed to avoid nil map error
-		Data: map[string][]byte{
-			"username": []byte("username"),
-			"password": []byte("password"),
-		},
-		Type: "Opaque",
+	adminSecretKey := secrets.SecretKey{Name: mysqlServerName, Namespace: "default", Kind: "MySQLServer"}
+	data := map[string][]byte{
+		"username": []byte("username"),
+		"password": []byte("password"),
 	}
-
-	// Create the sqlUser
-	err = tc.k8sClient.Create(ctx, secret)
-	assert.Equal(nil, err, "create admin secret in k8s")
+	err = tc.secretClient.Upsert(ctx, adminSecretKey, data)
+	assert.NoError(err)
 
 	mysqlUser = &v1alpha2.MySQLUser{
 		ObjectMeta: metav1.ObjectMeta{

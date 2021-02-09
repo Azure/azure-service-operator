@@ -69,7 +69,7 @@ var _ = BeforeSuite(func() {
 	tc = TestContext{
 		ResourceGroupName:     resourceGroupName,
 		ResourceGroupLocation: resourceGroupLocation,
-		keyvaultManager: &azureKeyVaultManager{
+		keyvaultManager: &AzureKeyVaultManager{
 			Scheme: scheme.Scheme,
 		},
 		ResourceGroupManager: resourceGroupManager,

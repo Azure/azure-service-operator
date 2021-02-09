@@ -13,18 +13,19 @@ require (
 	github.com/Azure/go-autorest/autorest/to v0.4.0
 	github.com/Azure/go-autorest/autorest/validation v0.3.0
 	github.com/Azure/go-autorest/tracing v0.6.0
+	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/denisenkom/go-mssqldb v0.0.0-20200206145737-bbfc9a55622e
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-logr/logr v0.1.0
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gobuffalo/envy v1.7.0
-	github.com/google/go-cmp v0.4.0
-	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
+	github.com/google/go-cmp v0.5.2
+	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 // indirect
 	github.com/google/uuid v1.1.1
 	github.com/hashicorp/go-multierror v1.0.0
 	github.com/lib/pq v1.6.0
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
-	github.com/mitchellh/go-homedir v1.1.0
+	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.3.0 // indirect
 	github.com/onsi/ginkgo v1.12.1
 	github.com/onsi/gomega v1.10.1
@@ -34,17 +35,19 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/sethvargo/go-password v0.1.2
 	github.com/spf13/cast v1.3.1 // indirect
-	github.com/spf13/cobra v1.0.0
+	github.com/spf13/cobra v1.0.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
-	github.com/spf13/viper v1.6.3
+	github.com/spf13/viper v1.6.3 // indirect
 	github.com/stretchr/testify v1.5.1
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 	golang.org/x/net v0.0.0-20200520004742-59133d7f0dd7
 	golang.org/x/sys v0.0.0-20200501145240-bc7a7d42d5c3 // indirect
+	gonum.org/v1/netlib v0.0.0-20190331212654-76723241ea4e // indirect
 	gopkg.in/ini.v1 v1.55.0 // indirect
 	k8s.io/api v0.18.6
 	k8s.io/apimachinery v0.18.6
 	k8s.io/client-go v0.18.6
-	sigs.k8s.io/controller-runtime v0.6.2
-	sigs.k8s.io/controller-tools v0.2.5 // indirect
+	sigs.k8s.io/controller-runtime v0.6.5
+	sigs.k8s.io/controller-tools v0.4.0 // indirect
+	sigs.k8s.io/structured-merge-diff v1.0.1-0.20191108220359-b1b620dd3f06 // indirect
 )

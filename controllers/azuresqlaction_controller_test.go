@@ -13,6 +13,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -29,7 +30,9 @@ func RunSQLActionHappy(t *testing.T, server string) {
 	//Get SQL credentials to compare after rollover
 	secret := &v1.Secret{}
 	assert.Eventually(func() bool {
-		err := tc.k8sClient.Get(ctx, types.NamespacedName{Name: server, Namespace: "default"}, secret)
+		secretName := getSecretName(server)
+
+		err := tc.k8sClient.Get(ctx, types.NamespacedName{Name: secretName, Namespace: "default"}, secret)
 		if err != nil {
 			return false
 		}
@@ -56,7 +59,13 @@ func RunSQLActionHappy(t *testing.T, server string) {
 	// makre sure credentials are not the same as previous
 	secretAfter := &v1.Secret{}
 	assert.Eventually(func() bool {
-		err := tc.k8sClient.Get(ctx, types.NamespacedName{Name: server, Namespace: "default"}, secretAfter)
+		var secretName string
+		if tc.secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+			secretName = server
+		} else {
+			secretName = "azuresqlserver-" + server
+		}
+		err := tc.k8sClient.Get(ctx, types.NamespacedName{Name: secretName, Namespace: "default"}, secretAfter)
 		if err != nil {
 			return false
 		}
@@ -67,4 +76,14 @@ func RunSQLActionHappy(t *testing.T, server string) {
 	assert.NotEqual(string(secret.Data["password"]), string(secretAfter.Data["password"]), "password should have changed")
 
 	EnsureDelete(ctx, t, tc, sqlActionInstance)
+}
+
+func getSecretName(server string) string {
+	var secretName string
+	if tc.secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+		secretName = server
+	} else {
+		secretName = "azuresqlserver-" + server
+	}
+	return secretName
 }

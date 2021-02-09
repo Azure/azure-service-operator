@@ -63,6 +63,8 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 		instance.Spec.WriteAnnotations,
 		instance.Spec.AuthSDKControlChannel,
 	)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureError(err)
@@ -72,8 +74,7 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 		case http.StatusBadRequest:
 			// if the key already exists it is fine only if the secret exists
 			if strings.Contains(azerr.Type, "already exists") {
-				sKey := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-				if _, err := c.SecretClient.Get(ctx, sKey); err != nil {
+				if _, err := c.SecretClient.Get(ctx, secretKey); err != nil {
 					instance.Status.Message = "api key exists but no key could be recovered"
 					instance.Status.FailedProvisioning = true
 				}
@@ -89,8 +90,9 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 	}
 
 	// when create is successful we have to store the apikey somewhere
-	err = c.SecretClient.Upsert(ctx,
-		types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace},
+	err = c.SecretClient.Upsert(
+		ctx,
+		secretKey,
 		map[string][]byte{"apiKey": []byte(*apiKey.APIKey)},
 		secrets.WithOwner(instance),
 		secrets.WithScheme(c.Scheme),
@@ -148,8 +150,8 @@ func (c *InsightsAPIKeysClient) Delete(ctx context.Context, obj runtime.Object, 
 
 	}
 
-	sKey := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	err = c.SecretClient.Delete(ctx, sKey)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	err = c.SecretClient.Delete(ctx, secretKey)
 	if err != nil {
 		return true, err
 	}

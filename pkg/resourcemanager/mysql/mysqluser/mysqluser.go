@@ -11,7 +11,6 @@ import (
 	mysqlmgmt "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	_ "github.com/go-sql-driver/mysql" //mysql drive link
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -86,7 +85,7 @@ func (m *MySqlUserManager) CreateUser(ctx context.Context, secret map[string][]b
 func (m *MySqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha2.MySQLUser, secretClient secrets.SecretClient) (bool, error) {
 	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
 	// In keyvault we have some creative freedom to allow more flexibility
-	secretKey := GetNamespacedName(instance, secretClient)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	// delete standard user secret
 	err := secretClient.Delete(
@@ -103,9 +102,9 @@ func (m *MySqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha2
 
 // GetOrPrepareSecret gets or creates a secret
 func (m *MySqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha2.MySQLUser, secretClient secrets.SecretClient) map[string][]byte {
-	key := GetNamespacedName(instance, secretClient)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	secret, err := secretClient.Get(ctx, key)
+	secret, err := secretClient.Get(ctx, secretKey)
 	if err != nil {
 		pw := helpers.NewPassword()
 		return map[string][]byte{
@@ -117,10 +116,4 @@ func (m *MySqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1a
 		}
 	}
 	return secret
-}
-
-// GetNamespacedName gets the namespaced-name
-func GetNamespacedName(instance *v1alpha2.MySQLUser, secretClient secrets.SecretClient) types.NamespacedName {
-
-	return types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 }

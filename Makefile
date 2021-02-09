@@ -9,7 +9,7 @@ GOBIN=$(shell go env GOBIN)
 endif
 
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
-CRD_OPTIONS ?= "crd"
+CRD_OPTIONS ?= "crd:crdVersions=v1beta1"
 
 BUILD_ID ?= $(shell git rev-parse --short HEAD)
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
@@ -55,9 +55,17 @@ generate-test-certs:
 .PHONY: test-integration-controllers
 test-integration-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
-	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m ./controllers/...
-	#2>&1 | tee reports/integration-controllers-output.txt
-	#go-junit-report < reports/integration-controllers-output.txt > reports/integration-controllers-report.xml
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
+		./controllers/... \
+		./pkg/secrets/...
+		# TODO: Note that the above test (secrets/keyvault) is not an integration-controller test... but it's not a unit test either and unfortunately the test-integration-managers target isn't run in CI either?
+
+# Run subset of tests with v1 secret naming enabled to ensure no regression in old secret naming
+.PHONY: test-v1-secret-naming
+test-v1-secret-naming: generate fmt vet manifests
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 AZURE_SECRET_NAMING_VERSION=1 \
+	go test -v -run "^.*_SecretNamedCorrectly$$" -tags "$(BUILD_TAGS)" -coverprofile=reports/v1-secret-naming-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 10m \
+		./controllers/...
 
 # Run Resource Manager tests against the configured cluster
 .PHONY: test-integration-managers
@@ -73,10 +81,8 @@ test-integration-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/... \
 	./pkg/resourcemanager/vnet/...
-	#2>&1 | tee reports/integration-managers-output.txt
-	#go-junit-report < reports/integration-managers-output.txt > reports/integration-managers-report.xml
 
-# Run all available tests. Note that Controllers are not unit-testable.
+# Run all available unit tests.
 .PHONY: test-unit
 test-unit: generate fmt vet manifests 
 	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
@@ -85,8 +91,6 @@ test-unit: generate fmt vet manifests
 	./pkg/resourcemanager/azuresql/azuresqlfailovergroup
 	# The below folders are commented out because the tests in them fail...
 	# ./api/... \
-	# ./pkg/secrets/... \
-	#2>&1 | tee testlogs.txt
 
 # Merge all the available test coverage results and publish a single report
 .PHONY: test-process-coverage
@@ -223,12 +227,9 @@ generate: manifests
 # download controller-gen if necessary
 .PHONY: controller-gen
 controller-gen:
-ifeq (, $(shell which controller-gen))
-	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.5
-CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
-else
-CONTROLLER_GEN=$(shell which controller-gen)
-endif
+	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0
+    CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
+
 
 .PHONY: install-bindata
 install-bindata:
@@ -316,13 +317,12 @@ install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 
 .PHONY: install-test-dependencies
-install-test-dependencies:
+install-test-dependencies: controller-gen
 	go get github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge \
 	&& go get k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
-	&& go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0 \
 	&& go get sigs.k8s.io/kind@v0.9.0 \
 	&& go get sigs.k8s.io/kustomize/kustomize/v3@v3.8.6
 

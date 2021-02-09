@@ -152,13 +152,9 @@ func (e *azureEventHubManager) createOrUpdateAccessPolicyEventHub(resourcegroup 
 }
 
 func (e *azureEventHubManager) createEventhubSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.Eventhub, data map[string][]byte) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
-
+	secretKey := secrets.SecretKey{Name: secretName, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 	return e.SecretClient.Upsert(ctx,
-		key,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(e.Scheme),
@@ -166,14 +162,9 @@ func (e *azureEventHubManager) createEventhubSecrets(ctx context.Context, secret
 }
 
 func (e *azureEventHubManager) deleteEventhubSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.Eventhub) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
+	secretKey := secrets.SecretKey{Name: secretName, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	err := e.SecretClient.Delete(ctx,
-		key,
-	)
+	err := e.SecretClient.Delete(ctx, secretKey)
 	if err != nil {
 		return err
 	}
@@ -241,7 +232,7 @@ func (m *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	if len(secretName) == 0 {
 		secretName = eventhubName
-		instance.Spec.SecretName = eventhubName
+		instance.Spec.SecretName = eventhubName // TODO: Ideally this would be done in a mutating admission webhook
 	}
 
 	// write information back to instance

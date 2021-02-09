@@ -1,41 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package keyvault
+package keyvault_test
 
 import (
 	"context"
-	"log"
-	"net/http"
+	"fmt"
 	"strconv"
 	"time"
 
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
-	rghelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"k8s.io/apimachinery/pkg/types"
+
+	"github.com/Azure/azure-service-operator/controllers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+	"github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 )
+
+func getExpectedSecretName(secretKey secrets.SecretKey, namingScheme secrets.SecretNamingVersion) string {
+	switch namingScheme {
+	case secrets.SecretNamingV1:
+		return secretKey.Namespace + "-" + secretKey.Name
+	case secrets.SecretNamingV2:
+		return secretKey.Kind + "-" + secretKey.Namespace + "-" + secretKey.Name
+	default:
+		panic("unknown secret naming scheme")
+	}
+}
 
 var _ = Describe("Keyvault Secrets Client", func() {
 
 	var ctx context.Context
-	var err error
-	var timeout time.Duration
-	var retry time.Duration
 
 	// Define resource group & keyvault constants
 	var keyVaultName string
-	var resourcegroupName string
-	var resourcegroupLocation string
-	var userID string
-
-	resourceGroupManager := rghelper.NewAzureResourceGroupManager(config.GlobalCredentials())
-	kvManager := kvhelper.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
+	var kvManager *kvhelper.AzureKeyVaultManager
+	var vaultBaseUrl string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -43,202 +45,185 @@ var _ = Describe("Keyvault Secrets Client", func() {
 		// Create a context to use in the tests
 		ctx = context.Background()
 
-		// Set timeout to 300 seconds
-		timeout = 300 * time.Second
-
-		// Set retryinterval to 1 second
-		retry = 1 * time.Second
-
 		// Initialize service principal ID to give access to the keyvault
-		userID = config.GlobalCredentials().ClientID()
+		userID := config.GlobalCredentials().ClientID()
 
-		// Initialize resource names
-		keyVaultName = "t-kvtest-kv" + strconv.FormatInt(GinkgoRandomSeed(), 10)
-		resourcegroupName = "t-kvtest-rg" + helpers.RandomString(10)
-		resourcegroupLocation = config.DefaultLocation()
-
-		// Create a resource group
-		log.Println("Creating resource group with name " + resourcegroupName + " in location " + resourcegroupLocation)
-		_, err = resourceGroupManager.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
-		Expect(err).NotTo(HaveOccurred())
-
-		Eventually(func() bool {
-			result, _ := resourceGroupManager.CheckExistence(ctx, resourcegroupName)
-			return result.Response.StatusCode == http.StatusNoContent
-		}, timeout, retry,
-		).Should(BeTrue())
+		kvManager = kvhelper.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
+		keyVaultName = controllers.GenerateTestResourceNameWithRandom("keyvault", 5)
+		vaultBaseUrl = keyvault.GetVaultsURL(keyVaultName)
 
 		// Create a keyvault
-		_, err = kvManager.CreateVaultWithAccessPolicies(ctx, resourcegroupName, keyVaultName, resourcegroupLocation, userID)
+		err := controllers.CreateVaultWithAccessPolicies(ctx, config.GlobalCredentials(), resourceGroupName, keyVaultName, config.DefaultLocation(), userID)
 		Expect(err).NotTo(HaveOccurred())
-
 	})
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
 		// Delete the keyvault
-		kvManager.DeleteVault(ctx, resourcegroupName, keyVaultName)
-		//Expect(err).NotTo(HaveOccurred())
-
-		// Delete the resource group
-		_, err = resourceGroupManager.DeleteGroup(context.Background(), resourcegroupName)
-		if err != nil {
-			azerr := errhelp.NewAzureError(err)
-			if azerr.Type == errhelp.AsyncOpIncompleteError {
-				err = nil
-			}
-		}
+		_, err := kvManager.DeleteVault(ctx, resourceGroupName, keyVaultName)
 		Expect(err).NotTo(HaveOccurred())
-
-		Eventually(func() bool {
-			result, _ := resourceGroupManager.CheckExistence(ctx, resourcegroupName)
-			return result.Response.StatusCode == http.StatusNoContent
-		}, timeout, retry,
-		).Should(BeFalse())
 	})
 
-	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
-	// your API definition.
+	supportedSecretNamingSchemes := []secrets.SecretNamingVersion{
+		secrets.SecretNamingV1,
+		secrets.SecretNamingV2,
+	}
+
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
-		It("should create and delete secret in Keyvault", func() {
-			secretName := "kvsecret" + strconv.FormatInt(GinkgoRandomSeed(), 10)
-			activationDate := time.Date(2018, time.January, 22, 15, 34, 0, 0, time.UTC)
-			expiryDate := time.Date(2030, time.February, 1, 12, 22, 0, 0, time.UTC)
 
-			var err error
+		for _, secretNamingScheme := range supportedSecretNamingSchemes {
+			secretNamingScheme := secretNamingScheme
+			It(fmt.Sprintf("should create and delete secret in KeyVault with naming scheme %q", secretNamingScheme), func() {
+				secretName := "kvsecret" + strconv.FormatInt(GinkgoRandomSeed(), 10)
+				activationDate := time.Date(2018, time.January, 22, 15, 34, 0, 0, time.UTC)
+				expiryDate := time.Date(2030, time.February, 1, 12, 22, 0, 0, time.UTC)
 
-			data := map[string][]byte{
-				"test":  []byte("data"),
-				"sweet": []byte("potato"),
-			}
+				var err error
 
-			client := New(keyVaultName, config.GlobalCredentials())
-
-			key := types.NamespacedName{Name: secretName, Namespace: "default"}
-
-			Context("creating secret with KeyVault client", func() {
-				err = client.Create(ctx, key, data, secrets.WithActivation(&activationDate), secrets.WithExpiration(&expiryDate))
-				Expect(err).To(BeNil())
-			})
-
-			Context("ensuring secret exists using keyvault client", func() {
-				d, err := client.Get(ctx, key)
-				Expect(err).To(BeNil())
-
-				for k, v := range d {
-					Expect(data[k]).To(Equal(v))
+				data := map[string][]byte{
+					"test":  []byte("data"),
+					"sweet": []byte("potato"),
 				}
-			})
 
-			datanew := map[string][]byte{
-				"french": []byte("fries"),
-				"hot":    []byte("dogs"),
-			}
+				client := keyvault.New(keyVaultName, config.GlobalCredentials(), secretNamingScheme)
+				key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"}
 
-			Context("upserting the secret to make sure it can be written", func() {
-				err = client.Upsert(ctx, key, datanew, secrets.WithActivation(&activationDate), secrets.WithExpiration(&expiryDate))
-				Expect(err).To(BeNil())
-			})
+				Context("creating secret with KeyVault client", func() {
+					err = client.Upsert(ctx, key, data, secrets.WithActivation(&activationDate), secrets.WithExpiration(&expiryDate))
+					Expect(err).To(BeNil())
+				})
 
-			Context("ensuring secret exists using keyvault client", func() {
-				d, err := client.Get(ctx, key)
-				Expect(err).To(BeNil())
-
-				for k, v := range d {
-					Expect(datanew[k]).To(Equal(v))
-				}
-				Expect(datanew["french"]).To(Equal([]byte("fries")))
-			})
-
-			Context("delete secret and ensure it is gone", func() {
-				err = client.Delete(ctx, key)
-				Expect(err).To(BeNil())
-
-				d, err := client.Get(ctx, key)
-				Expect(err).ToNot(BeNil())
-				for k, v := range d {
-					Expect(data[k]).To(Equal(v))
-				}
-			})
-		})
-
-		It("should create and delete secrets in Keyvault with Flatten enabled", func() {
-			secretName := "kvsecret" + strconv.FormatInt(GinkgoRandomSeed(), 10)
-
-			var err error
-
-			data := map[string][]byte{
-				"test":  []byte("data"),
-				"sweet": []byte("potato"),
-			}
-
-			client := New(keyVaultName, config.GlobalCredentials())
-
-			key := types.NamespacedName{Name: secretName, Namespace: "default"}
-
-			Context("creating flattened secret with KeyVault client", func() {
-				err = client.Create(ctx, key, data, secrets.Flatten(true))
-				Expect(err).To(BeNil())
-			})
-
-			Context("ensuring flattened secrets exist using keyvault client", func() {
-				// Look for each originally passed secret item in the keyvault
-				for testKey, testValue := range data {
-					returnedValue, err := client.Get(
-						ctx,
-						types.NamespacedName{Namespace: "default", Name: secretName + "-" + testKey},
-					)
-
+				Context("ensuring secret exists using keyvault client", func() {
+					d, err := client.Get(ctx, key)
 					Expect(err).To(BeNil())
 
-					expectedReturnSecretKey := "default-" + secretName + "-" + testKey
+					for k, v := range d {
+						Expect(data[k]).To(Equal(v))
+					}
 
-					Expect(testValue).To(Equal(returnedValue[expectedReturnSecretKey]))
+					// Also ensure that the raw secret is named the expected value
+					_, err = client.KeyVaultClient.GetSecret(ctx, vaultBaseUrl, getExpectedSecretName(key, secretNamingScheme), "")
+					Expect(err).To(BeNil())
+				})
+
+				dataNew := map[string][]byte{
+					"french": []byte("fries"),
+					"hot":    []byte("dogs"),
 				}
-			})
 
-			datanew := map[string][]byte{
-				"french": []byte("fries"),
-				"hot":    []byte("dogs"),
-			}
+				Context("upserting the secret to make sure it can be written", func() {
+					err = client.Upsert(ctx, key, dataNew, secrets.WithActivation(&activationDate), secrets.WithExpiration(&expiryDate))
+					Expect(err).To(BeNil())
+				})
 
-			Context("upserting the flattened secret to make sure it can be overwritten", func() {
-				err = client.Upsert(ctx, key, datanew, secrets.Flatten(true))
-				Expect(err).To(BeNil())
-			})
-
-			Context("ensuring updated flattened secret exists using keyvault client", func() {
-				// Look for each originally passed secret item in the keyvault
-				for testKey, testValue := range datanew {
-					returnedValue, err := client.Get(
-						ctx,
-						types.NamespacedName{Namespace: "default", Name: secretName + "-" + testKey},
-					)
-
+				Context("ensuring secret exists using keyvault client", func() {
+					d, err := client.Get(ctx, key)
 					Expect(err).To(BeNil())
 
-					expectedReturnSecretKey := "default-" + secretName + "-" + testKey
+					for k, v := range d {
+						Expect(dataNew[k]).To(Equal(v))
+					}
+					Expect(dataNew["french"]).To(Equal([]byte("fries")))
+				})
 
-					Expect(testValue).To(Equal(returnedValue[expectedReturnSecretKey]))
-				}
+				Context("delete secret and ensure it is gone", func() {
+					err = client.Delete(ctx, key)
+					Expect(err).To(BeNil())
+
+					d, err := client.Get(ctx, key)
+					Expect(err).ToNot(BeNil())
+					for k, v := range d {
+						Expect(data[k]).To(Equal(v))
+					}
+				})
 			})
 
-			Context("delete flattened secrets and ensure they're gone", func() {
-				for testKey, _ := range datanew {
+			It(fmt.Sprintf("should create and delete secrets in KeyVault with Flatten enabled with secret naming scheme %q", secretNamingScheme), func() {
+				secretName := "kvsecret" + strconv.FormatInt(GinkgoRandomSeed(), 10)
+
+				var err error
+
+				data := map[string][]byte{
+					"test":  []byte("data"),
+					"sweet": []byte("potato"),
+				}
+
+				client := keyvault.New(keyVaultName, config.GlobalCredentials(), secretNamingScheme)
+				key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"}
+
+				Context("creating flattened secret with KeyVault client", func() {
+					err = client.Upsert(ctx, key, data, secrets.Flatten(true))
+					Expect(err).To(BeNil())
+				})
+
+				Context("ensuring flattened secrets exist using keyvault client", func() {
+					// Look for each originally passed secret item in the keyvault
+					for testKey, testValue := range data {
+						flattenedKey := secrets.SecretKey{Name: secretName + "-" + testKey, Namespace: "default", Kind: "Test"}
+						returnedValue, err := client.Get(
+							ctx,
+							flattenedKey,
+							secrets.Flatten(true),
+						)
+						Expect(err).To(BeNil())
+
+						Expect(testValue).To(Equal(returnedValue["secret"]))
+
+						// Also ensure that the raw secret is named the expected value
+						_, err = client.KeyVaultClient.GetSecret(ctx, vaultBaseUrl, getExpectedSecretName(flattenedKey, secretNamingScheme), "")
+						Expect(err).To(BeNil())
+					}
+				})
+
+				dataNew := map[string][]byte{
+					"french": []byte("fries"),
+					"hot":    []byte("dogs"),
+				}
+
+				Context("upserting the flattened secret to make sure it can be overwritten", func() {
+					err = client.Upsert(ctx, key, dataNew, secrets.Flatten(true))
+					Expect(err).To(BeNil())
+				})
+
+				Context("ensuring updated flattened secret exists using keyvault client", func() {
+					// Look for each originally passed secret item in the keyvault
+					for testKey, testValue := range dataNew {
+						flattenedKey := secrets.SecretKey{Name: secretName + "-" + testKey, Namespace: "default", Kind: "Test"}
+						returnedValue, err := client.Get(
+							ctx,
+							flattenedKey,
+							secrets.Flatten(true),
+						)
+
+						Expect(err).To(BeNil())
+						Expect(testValue).To(Equal(returnedValue["secret"]))
+
+						// Also ensure that the raw secret is named the expected value
+						_, err = client.KeyVaultClient.GetSecret(ctx, vaultBaseUrl, getExpectedSecretName(flattenedKey, secretNamingScheme), "")
+						Expect(err).To(BeNil())
+					}
+				})
+
+				Context("delete flattened secrets and ensure they're gone", func() {
+					var keys []string
+					for testKey, _ := range dataNew {
+						keys = append(keys, testKey)
+					}
 					err := client.Delete(
 						ctx,
-						types.NamespacedName{Namespace: "default", Name: secretName + "-" + testKey},
-					)
-
+						secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"},
+						secrets.Flatten(true, keys...))
 					Expect(err).To(BeNil())
-
-					_, err = client.Get(ctx, key)
-					Expect(err).ToNot(BeNil())
-				}
+					for testKey, _ := range dataNew {
+						key := secrets.SecretKey{Name: secretName + "-" + testKey, Namespace: "default", Kind: "Test"}
+						_, err = client.Get(ctx, key, secrets.Flatten(true))
+						Expect(err).ToNot(BeNil())
+					}
+				})
 			})
-		})
+		}
 	})
 })

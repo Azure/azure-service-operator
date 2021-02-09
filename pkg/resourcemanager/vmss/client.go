@@ -9,13 +9,13 @@ import (
 	"strings"
 
 	compute "github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2018-10-01/compute"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 type AzureVMScaleSetClient struct {
@@ -215,14 +215,11 @@ func (c *AzureVMScaleSetClient) GetVMScaleSet(ctx context.Context, resourcegroup
 	return client.Get(ctx, resourcegroup, vmssName)
 }
 
-func (p *AzureVMScaleSetClient) AddVMScaleSetCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.AzureVMScaleSet) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
+func (p *AzureVMScaleSetClient) AddVMScaleSetCredsToSecrets(ctx context.Context, data map[string][]byte, instance *azurev1alpha1.AzureVMScaleSet) error {
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	err := p.SecretClient.Upsert(ctx,
-		key,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(p.Scheme),
@@ -235,12 +232,10 @@ func (p *AzureVMScaleSetClient) AddVMScaleSetCredsToSecrets(ctx context.Context,
 }
 
 func (p *AzureVMScaleSetClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureVMScaleSet) (map[string][]byte, error) {
-	name := instance.Name
-
 	secret := map[string][]byte{}
 
-	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
-	if stored, err := p.SecretClient.Get(ctx, key); err == nil {
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	if stored, err := p.SecretClient.Get(ctx, secretKey); err == nil {
 		return stored, nil
 	}
 

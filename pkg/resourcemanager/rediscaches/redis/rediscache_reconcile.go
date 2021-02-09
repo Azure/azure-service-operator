@@ -13,6 +13,8 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -130,13 +132,13 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 	}
 
 	// key for SecretClient to delete secrets on successful deletion
-	key := types.NamespacedName{Name: instance.Spec.SecretName, Namespace: instance.Namespace}
+	secretKey := secrets.SecretKey{Name: instance.Spec.SecretName, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	resp, err := rc.GetRedisCache(ctx, groupName, name)
 	if err != nil {
 		if resp.StatusCode == http.StatusNotFound {
 			// Best case deletion of secrets
-			rc.SecretClient.Delete(ctx, key)
+			rc.SecretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 		return false, err
@@ -164,7 +166,7 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 		}
 		if helpers.ContainsString(finished, azerr.Type) {
 			// Best case deletion of secrets
-			rc.SecretClient.Delete(ctx, key)
+			rc.SecretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 		return true, err
