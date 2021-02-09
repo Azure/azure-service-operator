@@ -27,7 +27,8 @@ echo "##vso[task.setvariable variable=azureserviceoperator_image_version]$azures
 
 mkdir release/config -p
 cp -r _Azure.azure-service-operator/drop/setup.yaml ./release/config
-cp -r _Azure.azure-service-operator/drop/*.tgz ./release/config
+# Not currently including Helm charts as part of release so skip this
+# cp -r _Azure.azure-service-operator/drop/*.tgz ./release/config
 IMG=${azureserviceoperator_image_public/"public/"/"mcr.microsoft.com/"}
 echo "updating the manager image "
 echo $IMG
