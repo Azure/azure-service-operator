@@ -167,6 +167,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 					instance,
 				)
 				if err != nil {
+					instance.Status.Message = err.Error()
 					return false, err
 				}
 			}

@@ -56,6 +56,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 	// Check to see if secret exists and if yes retrieve the admin login and password
 	secret, err := m.GetOrPrepareSecret(ctx, instance)
 	if err != nil {
+		instance.Status.Message = fmt.Sprintf("Failed to get or prepare secret: %s", err.Error())
 		return false, err
 	}
 
