@@ -208,24 +208,77 @@ func (config *Configuration) initialize(configPath string) error {
 	return kerrors.NewAggregate(errs)
 }
 
-// ShouldExport tests for whether a given type should be exported as Go code
-// Returns a result indicating whether export should occur as well as a reason for logging
-func (config *Configuration) ShouldExport(typeName astmodel.TypeName) (result ShouldExportResult, because string) {
-	for _, f := range config.ExportFilters {
-		if f.AppliesToType(typeName) {
-			switch f.Action {
-			case ExportFilterExclude:
+type ExportFilterFunc func(astmodel.TypeName) (result ShouldExportResult, because string)
+
+func buildExportFilterFunc(f *ExportFilter, allTypes astmodel.Types) ExportFilterFunc {
+	switch f.Action {
+	case ExportFilterExclude:
+		return func(typeName astmodel.TypeName) (ShouldExportResult, string) {
+			if f.AppliesToType(typeName) {
 				return Skip, f.Because
-			case ExportFilterInclude:
+			}
+
+			return "", ""
+		}
+
+	case ExportFilterInclude:
+		return func(typeName astmodel.TypeName) (ShouldExportResult, string) {
+			if f.AppliesToType(typeName) {
 				return Export, f.Because
-			default:
-				panic(errors.Errorf("unknown exportfilter directive: %s", f.Action))
+			}
+
+			return "", ""
+		}
+
+	case ExportFilterIncludeTransitive:
+		applicableTypes := make(astmodel.TypeNameSet)
+		for tn := range allTypes {
+			if f.AppliesToType(tn) {
+				collectAllReferencedTypes(allTypes, tn, applicableTypes)
 			}
 		}
+
+		return func(typeName astmodel.TypeName) (ShouldExportResult, string) {
+			if applicableTypes.Contains(typeName) {
+				return Export, f.Because
+			}
+
+			return "", ""
+		}
+
+	default:
+		panic(errors.Errorf("unknown exportfilter directive: %s", f.Action))
+	}
+}
+
+func collectAllReferencedTypes(allTypes astmodel.Types, root astmodel.TypeName, output astmodel.TypeNameSet) {
+	output.Add(root)
+	for referenced := range allTypes[root].Type().References() {
+		if !output.Contains(referenced) {
+			collectAllReferencedTypes(allTypes, referenced, output)
+		}
+	}
+}
+
+// BuildExportFilterer tests for whether a given type should be exported as Go code
+// Returns a result indicating whether export should occur as well as a reason for logging
+func (config *Configuration) BuildExportFilterer(allTypes astmodel.Types) ExportFilterFunc {
+	var filters []ExportFilterFunc
+	for _, f := range config.ExportFilters {
+		filters = append(filters, buildExportFilterFunc(f, allTypes))
 	}
 
-	// By default we export all types
-	return Export, ""
+	return func(typeName astmodel.TypeName) (result ShouldExportResult, because string) {
+		for _, filter := range filters {
+			result, because := filter(typeName)
+			if result != "" {
+				return result, because
+			}
+		}
+
+		// By default we export all types
+		return Export, ""
+	}
 }
 
 // ShouldPrune tests for whether a given type should be extracted from the JSON schema or pruned

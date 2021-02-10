@@ -7,6 +7,7 @@ package codegen
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
@@ -30,9 +31,11 @@ func filterTypes(
 
 	newDefinitions := make(astmodel.Types)
 
+	filterer := configuration.BuildExportFilterer(definitions)
+
 	for _, def := range definitions {
 		defName := def.Name()
-		shouldExport, reason := configuration.ShouldExport(defName)
+		shouldExport, reason := filterer(defName)
 
 		switch shouldExport {
 		case config.Skip:
@@ -46,6 +49,8 @@ func filterTypes(
 			}
 
 			newDefinitions[def.Name()] = def
+		default:
+			panic(fmt.Sprintf("unhandled shouldExport case %q", shouldExport))
 		}
 	}
 

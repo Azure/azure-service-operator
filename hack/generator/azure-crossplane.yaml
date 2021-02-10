@@ -47,23 +47,22 @@ exportFilters:
 #    version: v20200501
 #    group: microsoft.network
 #    because: Including microsoft.network for Crossplane
-  - action: include
+  - action: include-transitive
     version: v20171001
     group: microsoft.cache
     because: Including microsoft.cache for Crossplane
-  - action: include
+  - action: include-transitive
     version: v20150501preview
     group: microsoft.sql
     because: Including microsoft.sql
-  - action: include
+  - action: include-transitive
     version: v20170301preview
     group: microsoft.sql
     because: Including microsoft.sql
-  - action: include
+  - action: include-transitive
     group: deploymenttemplate
     because: We need this too
   - action: exclude
-    group: '*'
     because: Excluding everything else
 
 # Exclusions for packages that currently produce types including AnyType.

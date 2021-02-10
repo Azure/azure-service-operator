@@ -42,9 +42,11 @@ func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
 	c := config.NewConfiguration()
 	c = c.WithExportFilters(&filter)
 
-	g.Expect(c.ShouldExport(person)).To(Equal(config.Export))
-	g.Expect(c.ShouldExport(post)).To(Equal(config.Export))
-	g.Expect(c.ShouldExport(student)).To(Equal(config.Export))
+	f := c.BuildExportFilterer(make(astmodel.Types))
+
+	g.Expect(f(person)).To(Equal(config.Export))
+	g.Expect(f(post)).To(Equal(config.Export))
+	g.Expect(f(student)).To(Equal(config.Export))
 }
 
 func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
@@ -65,10 +67,12 @@ func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
 	c := config.NewConfiguration()
 	c = c.WithExportFilters(&versionFilter, &nameFilter)
 
-	g.Expect(c.ShouldExport(person)).To(Equal(config.Export))
-	g.Expect(c.ShouldExport(post)).To(Equal(config.Export))
-	g.Expect(c.ShouldExport(student)).To(Equal(config.Export))
-	g.Expect(c.ShouldExport(address)).To(Equal(config.Export))
+	f := c.BuildExportFilterer(make(astmodel.Types))
+
+	g.Expect(f(person)).To(Equal(config.Export))
+	g.Expect(f(post)).To(Equal(config.Export))
+	g.Expect(f(student)).To(Equal(config.Export))
+	g.Expect(f(address)).To(Equal(config.Export))
 }
 
 func Test_WithMultipleFilters_GivesPrecedenceToEarlierFilters(t *testing.T) {
@@ -83,11 +87,41 @@ func Test_WithMultipleFilters_GivesPrecedenceToEarlierFilters(t *testing.T) {
 	c := config.NewConfiguration()
 	c = c.WithExportFilters(&alwaysExportPerson, &exclude2019)
 
-	g.Expect(c.ShouldExport(person2019TypeName)).To(Equal(config.Export))
-	g.Expect(c.ShouldExport(student2019TypeName)).To(Equal(config.Skip))
+	f := c.BuildExportFilterer(make(astmodel.Types))
 
-	g.Expect(c.ShouldExport(person2020TypeName)).To(Equal(config.Export))
-	g.Expect(c.ShouldExport(professor2020TypeName)).To(Equal(config.Export))
-	g.Expect(c.ShouldExport(tutor2020TypeName)).To(Equal(config.Export))
-	g.Expect(c.ShouldExport(student2020TypeName)).To(Equal(config.Export))
+	g.Expect(f(person2019TypeName)).To(Equal(config.Export))
+	g.Expect(f(student2019TypeName)).To(Equal(config.Skip))
+
+	g.Expect(f(person2020TypeName)).To(Equal(config.Export))
+	g.Expect(f(professor2020TypeName)).To(Equal(config.Export))
+	g.Expect(f(tutor2020TypeName)).To(Equal(config.Export))
+	g.Expect(f(student2020TypeName)).To(Equal(config.Export))
+}
+
+func Test_IncludeTransitive(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	exportPersonTransitive := config.ExportFilter{
+		Action:      config.ExportFilterIncludeTransitive,
+		TypeMatcher: config.TypeMatcher{Name: "person"}}
+
+	excludeEverything := config.ExportFilter{Action: config.ExportFilterExclude}
+
+	c := config.NewConfiguration()
+	c = c.WithExportFilters(&exportPersonTransitive, &excludeEverything)
+
+	types := make(astmodel.Types)
+	// person is an array of students¯\_(ツ)_/¯
+	types.Add(astmodel.MakeTypeDefinition(person2019TypeName, astmodel.NewArrayType(student2019TypeName)))
+	types.Add(astmodel.MakeTypeDefinition(student2019TypeName, astmodel.StringType))
+
+	f := c.BuildExportFilterer(types)
+
+	// Person is top-level:
+	g.Expect(f(person2019TypeName)).To(Equal(config.Export))
+	// Student should also be exported:
+	g.Expect(f(student2019TypeName)).To(Equal(config.Export))
+
+	g.Expect(f(professor2020TypeName)).To(Equal(config.Skip))
+	g.Expect(f(tutor2020TypeName)).To(Equal(config.Skip))
 }

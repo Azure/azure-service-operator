@@ -60,6 +60,7 @@ typeFilters:
     name: DomainServicesOuContainer*
     because: _childResource type which was added to API version later and not included in the 2015-01-01 rollup spec.
 exportFilters:
+  # First some always-applicable exclusions:
   - action: exclude
     group: definitions
     name: NumberOrExpression
@@ -72,6 +73,8 @@ exportFilters:
     group: deploymenttemplate
     name: '*ResourceBase*'
     because: Not actually a resource, used for inheritance only.
+
+  # Exclude some problematic types that need fixing:
   - action: exclude
     group: microsoft.machinelearning
     version: v20170101
@@ -84,13 +87,28 @@ exportFilters:
     group: microsoft.datafactory
     version: v20180601
     because: ExecuteSSISPackageActivityTypeProperties.PackageConnectionManagers is a map[string]map[string]SSISExecutionParameter, which controller-gen doesn't know how to handle
-  - action: include
+
+  # Include just the types we want to generate.
+  # 'include-transitive' includes their dependencies recursively and makes sure everything that is needed is included:
+  - action: include-transitive
     group: microsoft.storage
     version: v20190401
-    because: There are lots of storage types, we just want one
+    name: 'StorageAccount*'
+    because: "including StorageAccount resource"
+  - action: include-transitive
+    group: microsoft.batch
+    version: v20170901
+    name: 'BatchAccount*'
+    because: "including BatchAccount resource"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v20150408
+    name: DatabaseAccount
+    because: "including Cosmos DB resource"
+
+  # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
-    group: microsoft.storage
-    because: There are lots of storage types, we just want one
+    because: We don't want to generate anything else, at the moment.
 
 # Exclusions for packages that currently produce types including AnyType.
 # TODO: get rid of these, either by chasing the teams generating
