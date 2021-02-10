@@ -18,19 +18,25 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 	var personTemp vNext.Person
 
 	// Populate personTemp from source
-	personTemp.ConvertFrom(source)
+	err := personTemp.ConvertFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "for person, calling personTemp.ConvertFrom(source)")
+	}
 
 	// ratings
-	ratingsMap := make(map[string]int)
+	ratingMap := make(map[string]int)
 	for ratingKey, rating := range personTemp.ratings {
 		if rating != nil {
-			ratingsMap[ratingKey] = *rating
+			ratingMap[ratingKey] = *rating
 		} else {
-			ratingsMap[ratingKey] = 0
+			ratingMap[ratingKey] = 0
 		}
 	}
 
-	person.ratings = ratingsMap
+	person.ratings = ratingMap
+
+	// No error
+	return nil
 }
 
 // ConvertTo populates the provided destination Person from our Person
@@ -39,13 +45,19 @@ func (person Person) ConvertTo(destination *vHub.Person) error {
 	var personTemp vNext.Person
 
 	// ratings
-	ratingsMap := make(map[string]*int)
+	ratingMap := make(map[string]*int)
 	for ratingKey, rating := range person.ratings {
-		ratingsMap[ratingKey] = &rating
+		ratingMap[ratingKey] = &rating
 	}
 
-	personTemp.ratings = ratingsMap
+	personTemp.ratings = ratingMap
 
 	// Populate destination from personTemp
-	personTemp.ConvertTo(destination)
+	err := personTemp.ConvertTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "for person, calling personTemp.ConvertTo(destination)")
+	}
+
+	// No error
+	return nil
 }

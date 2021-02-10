@@ -13,42 +13,48 @@ type Person struct {
 func (person Person) ConvertFrom(source *vHub.Person) error {
 
 	// nasty
-	nastiesMap := make(map[string][]map[string]bool)
+	nastyMap := make(map[string][]map[string]bool)
 	for nastyKey, nasty := range source.nasty {
-		nastiesList := make([]map[string]bool, len(nasty))
+		nastyList := make([]map[string]bool, len(nasty))
 		for nasty1Index, nasty1 := range nasty {
-			nastiesMap1 := make(map[string]bool)
+			nastyMap1 := make(map[string]bool)
 			for nasty2Key, nasty2 := range nasty1 {
-				nastiesMap1[nasty2Key] = nasty2
+				nastyMap1[nasty2Key] = nasty2
 			}
 
-			nastiesList[nasty1Index] = nastiesMap1
+			nastyList[nasty1Index] = nastyMap1
 		}
 
-		nastiesMap[nastyKey] = nastiesList
+		nastyMap[nastyKey] = nastyList
 	}
 
-	person.nasty = nastiesMap
+	person.nasty = nastyMap
+
+	// No error
+	return nil
 }
 
 // ConvertTo populates the provided destination Person from our Person
 func (person Person) ConvertTo(destination *vHub.Person) error {
 
 	// nasty
-	nastiesMap := make(map[string][]map[string]bool)
+	nastyMap := make(map[string][]map[string]bool)
 	for nastyKey, nasty := range person.nasty {
-		nastiesList := make([]map[string]bool, len(nasty))
+		nastyList := make([]map[string]bool, len(nasty))
 		for nasty1Index, nasty1 := range nasty {
-			nastiesMap1 := make(map[string]bool)
+			nastyMap1 := make(map[string]bool)
 			for nasty2Key, nasty2 := range nasty1 {
-				nastiesMap1[nasty2Key] = nasty2
+				nastyMap1[nasty2Key] = nasty2
 			}
 
-			nastiesList[nasty1Index] = nastiesMap1
+			nastyList[nasty1Index] = nastyMap1
 		}
 
-		nastiesMap[nastyKey] = nastiesList
+		nastyMap[nastyKey] = nastyList
 	}
 
-	destination.nasty = nastiesMap
+	destination.nasty = nastyMap
+
+	// No error
+	return nil
 }

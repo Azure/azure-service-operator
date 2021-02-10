@@ -274,6 +274,14 @@ func Returns(returns ...dst.Expr) dst.Stmt {
 	}
 }
 
+// ReturnNoError creates a return nil statement for when no error occurs
+func ReturnNoError() dst.Stmt {
+	result := Returns(dst.NewIdent("nil"))
+	result.Decorations().Before = dst.EmptyLine
+	result.Decorations().Start.Append("// No error")
+	return result
+}
+
 // QualifiedTypeName generates a reference to a type within an imported package
 //
 // <pkg>.<name>

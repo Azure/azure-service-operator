@@ -18,15 +18,21 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 	var personTemp vNext.Person
 
 	// Populate personTemp from source
-	personTemp.ConvertFrom(source)
-
-	// scores
-	scoresList := make([]*int, len(personTemp.scores))
-	for scoreIndex, score := range personTemp.scores {
-		scoresList[scoreIndex] = &score
+	err := personTemp.ConvertFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "for person, calling personTemp.ConvertFrom(source)")
 	}
 
-	person.scores = scoresList
+	// scores
+	scoreList := make([]*int, len(personTemp.scores))
+	for scoreIndex, score := range personTemp.scores {
+		scoreList[scoreIndex] = &score
+	}
+
+	person.scores = scoreList
+
+	// No error
+	return nil
 }
 
 // ConvertTo populates the provided destination Person from our Person
@@ -35,17 +41,23 @@ func (person Person) ConvertTo(destination *vHub.Person) error {
 	var personTemp vNext.Person
 
 	// scores
-	scoresList := make([]int, len(person.scores))
+	scoreList := make([]int, len(person.scores))
 	for scoreIndex, score := range person.scores {
 		if score != nil {
-			scoresList[scoreIndex] = *score
+			scoreList[scoreIndex] = *score
 		} else {
-			scoresList[scoreIndex] = 0
+			scoreList[scoreIndex] = 0
 		}
 	}
 
-	personTemp.scores = scoresList
+	personTemp.scores = scoreList
 
 	// Populate destination from personTemp
-	personTemp.ConvertTo(destination)
+	err := personTemp.ConvertTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "for person, calling personTemp.ConvertTo(destination)")
+	}
+
+	// No error
+	return nil
 }

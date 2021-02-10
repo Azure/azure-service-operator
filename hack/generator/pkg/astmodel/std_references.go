@@ -7,6 +7,7 @@ package astmodel
 
 var (
 	// References to standard Go Libraries
+	ErrorsReference  PackageReference = MakeExternalPackageReference("errors")
 	FmtReference     PackageReference = MakeExternalPackageReference("fmt")
 	JsonReference    PackageReference = MakeExternalPackageReference("encoding/json")
 	ReflectReference PackageReference = MakeExternalPackageReference("reflect")

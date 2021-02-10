@@ -13,22 +13,28 @@ type Person struct {
 func (person Person) ConvertFrom(source *vHub.Person) error {
 
 	// ratings
-	ratingsMap := make(map[string]int)
+	ratingMap := make(map[string]int)
 	for ratingKey, rating := range source.ratings {
-		ratingsMap[ratingKey] = rating
+		ratingMap[ratingKey] = rating
 	}
 
-	person.ratings = ratingsMap
+	person.ratings = ratingMap
+
+	// No error
+	return nil
 }
 
 // ConvertTo populates the provided destination Person from our Person
 func (person Person) ConvertTo(destination *vHub.Person) error {
 
 	// ratings
-	ratingsMap := make(map[string]int)
+	ratingMap := make(map[string]int)
 	for ratingKey, rating := range person.ratings {
-		ratingsMap[ratingKey] = rating
+		ratingMap[ratingKey] = rating
 	}
 
-	destination.ratings = ratingsMap
+	destination.ratings = ratingMap
+
+	// No error
+	return nil
 }

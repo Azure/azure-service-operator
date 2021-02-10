@@ -13,22 +13,28 @@ type Person struct {
 func (person Person) ConvertFrom(source *vHub.Person) error {
 
 	// scores
-	scoresList := make([]int, len(source.scores))
+	scoreList := make([]int, len(source.scores))
 	for scoreIndex, score := range source.scores {
-		scoresList[scoreIndex] = score
+		scoreList[scoreIndex] = score
 	}
 
-	person.scores = scoresList
+	person.scores = scoreList
+
+	// No error
+	return nil
 }
 
 // ConvertTo populates the provided destination Person from our Person
 func (person Person) ConvertTo(destination *vHub.Person) error {
 
 	// scores
-	scoresList := make([]int, len(person.scores))
+	scoreList := make([]int, len(person.scores))
 	for scoreIndex, score := range person.scores {
-		scoresList[scoreIndex] = score
+		scoreList[scoreIndex] = score
 	}
 
-	destination.scores = scoresList
+	destination.scores = scoreList
+
+	// No error
+	return nil
 }

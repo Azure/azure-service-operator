@@ -7,9 +7,10 @@ package astmodel
 
 import (
 	"bytes"
-	"github.com/sebdah/goldie/v2"
 	"strings"
 	"testing"
+
+	"github.com/sebdah/goldie/v2"
 
 	. "github.com/onsi/gomega"
 )

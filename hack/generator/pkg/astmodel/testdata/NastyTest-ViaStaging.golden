@@ -18,25 +18,31 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 	var personTemp vNext.Person
 
 	// Populate personTemp from source
-	personTemp.ConvertFrom(source)
-
-	// nasty
-	nastiesMap := make(map[string][]map[string]bool)
-	for nastyKey, nasty := range personTemp.nasty {
-		nastiesList := make([]map[string]bool, len(nasty))
-		for nasty1Index, nasty1 := range nasty {
-			nastiesMap1 := make(map[string]bool)
-			for nasty2Key, nasty2 := range nasty1 {
-				nastiesMap1[nasty2Key] = nasty2
-			}
-
-			nastiesList[nasty1Index] = nastiesMap1
-		}
-
-		nastiesMap[nastyKey] = nastiesList
+	err := personTemp.ConvertFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "for person, calling personTemp.ConvertFrom(source)")
 	}
 
-	person.nasty = nastiesMap
+	// nasty
+	nastyMap := make(map[string][]map[string]bool)
+	for nastyKey, nasty := range personTemp.nasty {
+		nastyList := make([]map[string]bool, len(nasty))
+		for nasty1Index, nasty1 := range nasty {
+			nastyMap1 := make(map[string]bool)
+			for nasty2Key, nasty2 := range nasty1 {
+				nastyMap1[nasty2Key] = nasty2
+			}
+
+			nastyList[nasty1Index] = nastyMap1
+		}
+
+		nastyMap[nastyKey] = nastyList
+	}
+
+	person.nasty = nastyMap
+
+	// No error
+	return nil
 }
 
 // ConvertTo populates the provided destination Person from our Person
@@ -45,23 +51,29 @@ func (person Person) ConvertTo(destination *vHub.Person) error {
 	var personTemp vNext.Person
 
 	// nasty
-	nastiesMap := make(map[string][]map[string]bool)
+	nastyMap := make(map[string][]map[string]bool)
 	for nastyKey, nasty := range person.nasty {
-		nastiesList := make([]map[string]bool, len(nasty))
+		nastyList := make([]map[string]bool, len(nasty))
 		for nasty1Index, nasty1 := range nasty {
-			nastiesMap1 := make(map[string]bool)
+			nastyMap1 := make(map[string]bool)
 			for nasty2Key, nasty2 := range nasty1 {
-				nastiesMap1[nasty2Key] = nasty2
+				nastyMap1[nasty2Key] = nasty2
 			}
 
-			nastiesList[nasty1Index] = nastiesMap1
+			nastyList[nasty1Index] = nastyMap1
 		}
 
-		nastiesMap[nastyKey] = nastiesList
+		nastyMap[nastyKey] = nastyList
 	}
 
-	personTemp.nasty = nastiesMap
+	personTemp.nasty = nastyMap
 
 	// Populate destination from personTemp
-	personTemp.ConvertTo(destination)
+	err := personTemp.ConvertTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "for person, calling personTemp.ConvertTo(destination)")
+	}
+
+	// No error
+	return nil
 }

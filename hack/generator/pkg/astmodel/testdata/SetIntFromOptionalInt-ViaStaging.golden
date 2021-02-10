@@ -18,7 +18,10 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 	var personTemp vNext.Person
 
 	// Populate personTemp from source
-	personTemp.ConvertFrom(source)
+	err := personTemp.ConvertFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "for person, calling personTemp.ConvertFrom(source)")
+	}
 
 	// age
 	if personTemp.age != nil {
@@ -26,6 +29,9 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 	} else {
 		person.age = 0
 	}
+
+	// No error
+	return nil
 }
 
 // ConvertTo populates the provided destination Person from our Person
@@ -37,5 +43,11 @@ func (person Person) ConvertTo(destination *vHub.Person) error {
 	personTemp.age = &person.age
 
 	// Populate destination from personTemp
-	personTemp.ConvertTo(destination)
+	err := personTemp.ConvertTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "for person, calling personTemp.ConvertTo(destination)")
+	}
+
+	// No error
+	return nil
 }

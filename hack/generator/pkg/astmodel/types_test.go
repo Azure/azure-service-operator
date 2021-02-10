@@ -6,8 +6,9 @@
 package astmodel
 
 import (
-	. "github.com/onsi/gomega"
 	"testing"
+
+	. "github.com/onsi/gomega"
 )
 
 var (

@@ -7,11 +7,13 @@ package astmodel
 
 import (
 	"fmt"
+	"go/token"
+	"sort"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"sort"
 )
 
 // StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
@@ -105,7 +107,9 @@ func (fn *StorageConversionFunction) Name() string {
 
 // RequiredPackageReferences returns the set of package references required by this function
 func (fn *StorageConversionFunction) RequiredPackageReferences() *PackageReferenceSet {
-	result := NewPackageReferenceSet(fn.hubType.Name().PackageReference)
+	result := NewPackageReferenceSet(
+		ErrorsReference,
+		fn.hubType.Name().PackageReference)
 
 	if fn.intermediateType != nil {
 		result.AddReference(fn.intermediateType.Name().PackageReference)
@@ -233,7 +237,9 @@ func (fn *StorageConversionFunction) generateDirectConversionFrom(
 	parameter string,
 	generationContext *CodeGenerationContext,
 ) []dst.Stmt {
-	return fn.generateAssignments(dst.NewIdent(parameter), dst.NewIdent(receiver), generationContext)
+	result := fn.generateAssignments(dst.NewIdent(parameter), dst.NewIdent(receiver), generationContext)
+	result = append(result, astbuilder.ReturnNoError())
+	return result
 }
 
 // generateDirectConversionTo returns the method body required to directly copy information from
@@ -243,7 +249,9 @@ func (fn *StorageConversionFunction) generateDirectConversionTo(
 	parameter string,
 	generationContext *CodeGenerationContext,
 ) []dst.Stmt {
-	return fn.generateAssignments(dst.NewIdent(receiver), dst.NewIdent(parameter), generationContext)
+	result := fn.generateAssignments(dst.NewIdent(receiver), dst.NewIdent(parameter), generationContext)
+	result = append(result, astbuilder.ReturnNoError())
+	return result
 }
 
 // generateIndirectConversionFrom returns the method body required to populate our receiver when
@@ -261,6 +269,7 @@ func (fn *StorageConversionFunction) generateIndirectConversionFrom(
 ) []dst.Stmt {
 
 	local := fn.knownLocals.createLocal(receiver + "Temp")
+	errLocal := dst.NewIdent("err")
 
 	intermediateName := fn.intermediateType.Name()
 	parameterPackage := generationContext.MustGetImportedPackageName(intermediateName.PackageReference)
@@ -273,11 +282,21 @@ func (fn *StorageConversionFunction) generateIndirectConversionFrom(
 		fmt.Sprintf("// %s is our intermediate for conversion", local))
 	localDeclaration.Decorations().Before = dst.NewLine
 
-	callConvertFrom := astbuilder.InvokeQualifiedFunc(
-		local, fn.name, dst.NewIdent(parameter))
+	callConvertFrom := astbuilder.SimpleAssignment(
+		errLocal,
+		token.DEFINE,
+		astbuilder.CallQualifiedFunc(local, fn.name, dst.NewIdent(parameter)))
 	callConvertFrom.Decorations().Before = dst.EmptyLine
 	callConvertFrom.Decorations().Start.Append(
 		fmt.Sprintf("// Populate %s from %s", local, parameter))
+
+	checkForError := astbuilder.ReturnIfNotNil(
+		errLocal,
+		astbuilder.CallQualifiedFunc(
+			"errors",
+			"Wrap",
+			errLocal,
+			astbuilder.StringLiteralf("for %s, calling %s.%s(%s)", receiver, local, fn.name, parameter)))
 
 	assignments := fn.generateAssignments(
 		dst.NewIdent(local),
@@ -287,7 +306,10 @@ func (fn *StorageConversionFunction) generateIndirectConversionFrom(
 	var result []dst.Stmt
 	result = append(result, localDeclaration)
 	result = append(result, callConvertFrom)
+	result = append(result, checkForError)
 	result = append(result, assignments...)
+	result = append(result, astbuilder.ReturnNoError())
+
 	return result
 }
 
@@ -306,6 +328,7 @@ func (fn *StorageConversionFunction) generateIndirectConversionTo(
 ) []dst.Stmt {
 
 	local := fn.knownLocals.createLocal(receiver + "Temp")
+	errLocal := dst.NewIdent("err")
 
 	intermediateName := fn.intermediateType.Name()
 	parameterPackage := generationContext.MustGetImportedPackageName(intermediateName.PackageReference)
@@ -318,11 +341,21 @@ func (fn *StorageConversionFunction) generateIndirectConversionTo(
 		fmt.Sprintf("// %s is our intermediate for conversion", local))
 	localDeclaration.Decorations().Before = dst.NewLine
 
-	callConvertTo := astbuilder.InvokeQualifiedFunc(
-		local, fn.name, dst.NewIdent(parameter))
+	callConvertTo := astbuilder.SimpleAssignment(
+		errLocal,
+		token.DEFINE,
+		astbuilder.CallQualifiedFunc(local, fn.name, dst.NewIdent(parameter)))
 	callConvertTo.Decorations().Before = dst.EmptyLine
 	callConvertTo.Decorations().Start.Append(
 		fmt.Sprintf("// Populate %s from %s", parameter, local))
+
+	checkForError := astbuilder.ReturnIfNotNil(
+		errLocal,
+		astbuilder.CallQualifiedFunc(
+			"errors",
+			"Wrap",
+			errLocal,
+			astbuilder.StringLiteralf("for %s, calling %s.%s(%s)", receiver, local, fn.name, parameter)))
 
 	assignments := fn.generateAssignments(
 		dst.NewIdent(receiver),
@@ -333,6 +366,9 @@ func (fn *StorageConversionFunction) generateIndirectConversionTo(
 	result = append(result, localDeclaration)
 	result = append(result, assignments...)
 	result = append(result, callConvertTo)
+	result = append(result, checkForError)
+	result = append(result, astbuilder.ReturnNoError())
+
 	return result
 }
 

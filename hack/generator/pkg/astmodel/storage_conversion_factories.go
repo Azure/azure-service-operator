@@ -7,10 +7,11 @@ package astmodel
 
 import (
 	"fmt"
+	"go/token"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
-	"go/token"
 )
 
 // StorageTypeConversion generates the AST for a given conversion.

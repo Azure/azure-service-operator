@@ -9,9 +9,10 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"path/filepath"
 	"text/template"
+
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"

@@ -6,9 +6,10 @@
 package astmodel
 
 import (
-	"github.com/gobuffalo/flect"
 	"strconv"
 	"strings"
+
+	"github.com/gobuffalo/flect"
 )
 
 // StorageConversionEndpoint represents either a source or a destination target for a storage conversion
@@ -48,7 +49,7 @@ func (endpoint *StorageConversionEndpoint) CreateSingularLocal() string {
 // CreatePluralLocal creates an identifier for a local variable that represents multiple items
 // Each call will return a unique identifier
 func (endpoint *StorageConversionEndpoint) CreatePluralLocal(suffix string) string {
-	plural := flect.Pluralize(endpoint.name)
+	plural := flect.Singularize(endpoint.name)
 	return endpoint.knownLocals.createLocal(plural + suffix)
 }
 
