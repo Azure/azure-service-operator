@@ -14,7 +14,6 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 func RunSQLActionHappy(t *testing.T, server string) {
@@ -30,7 +29,7 @@ func RunSQLActionHappy(t *testing.T, server string) {
 	assert.Eventually(func() bool {
 		secretName := getSecretName(server)
 		var err error
-		secret, err = tc.secretClient.Get(ctx, types.NamespacedName{Name: secretName, Namespace: "default"})
+		secret, err = tc.secretClient.Get(ctx, secrets.SecretKey{Name: secretName, Namespace: "default"})
 		if err != nil {
 			return false
 		}
@@ -64,7 +63,7 @@ func RunSQLActionHappy(t *testing.T, server string) {
 			secretName = "azuresqlserver-" + server
 		}
 		var err error
-		secretAfter, err = tc.secretClient.Get(ctx, types.NamespacedName{Name: secretName, Namespace: "default"})
+		secretAfter, err = tc.secretClient.Get(ctx, secrets.SecretKey{Name: secretName, Namespace: "default"})
 		if err != nil {
 			return false
 		}

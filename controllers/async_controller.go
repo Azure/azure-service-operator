@@ -60,10 +60,10 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 	var secretClient secrets.SecretClient
 	if keyvaultName == "" {
 		r.Telemetry.LogInfoByInstance("status", "keyvault name is empty", req.String())
-		secretClient = kubesecrets.New(r.Client)
+		secretClient = kubesecrets.New(r.Client, config.SecretNamingVersion())
 	} else {
 		r.Telemetry.LogInfoByInstance("status", "Instantiating secrets client for keyvault "+keyvaultName, req.String())
-		secretClient = keyvaultsecrets.New(keyvaultName, creds)
+		secretClient = keyvaultsecrets.New(keyvaultName, creds, config.SecretNamingVersion())
 	}
 
 	armClient := r.ARMFactory(creds, secretClient, r.Scheme)
