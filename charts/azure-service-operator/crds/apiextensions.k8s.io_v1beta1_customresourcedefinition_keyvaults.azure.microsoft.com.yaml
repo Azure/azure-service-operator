@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.2.5
+    controller-gen.kubebuilder.io/version: v0.4.0
   creationTimestamp: null
   name: keyvaults.azure.microsoft.com
 spec:
@@ -46,10 +46,10 @@ spec:
                     description: ApplicationID -  Application ID of the client making request on behalf of a principal
                     type: string
                   clientID:
-                    description: ClientID - The client ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The client ID must be unique for the list of access policies.
+                    description: 'ClientID - The client ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The client ID must be unique for the list of access policies. TODO: Remove this in a future API version, see: https://github.com/Azure/azure-service-operator/issues/1351'
                     type: string
                   objectID:
-                    description: ObjectID is the value to use if the access policy is for a user other than the user creating the Key Vault when the creating user does not have access to the Application API which is used to translate ClientID to Object ID To get around this, use az-cli or the Azure portal to source the ObjectID from your Service Principal
+                    description: ObjectID is the AAD object id of the entity to provide access to.
                     type: string
                   permissions:
                     description: Permissions - Permissions the identity has for keys, secrets, and certificates.
@@ -100,6 +100,7 @@ spec:
                   type: array
               type: object
             resourceGroup:
+              minLength: 1
               pattern: ^[-\w\._\(\)]+$
               type: string
             sku:

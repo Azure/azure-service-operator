@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.2.5
+    controller-gen.kubebuilder.io/version: v0.4.0
   creationTimestamp: null
   name: azuresqlmanagedusers.azure.microsoft.com
 spec:
@@ -40,6 +40,7 @@ spec:
           description: AzureSQLManagedUserSpec defines the desired state of AzureSQLManagedUser
           properties:
             dbName:
+              minLength: 1
               type: string
             keyVaultSecretPrefix:
               type: string
@@ -50,6 +51,7 @@ spec:
             managedIdentityName:
               type: string
             resourceGroup:
+              minLength: 1
               pattern: ^[-\w\._\(\)]+$
               type: string
             roles:
@@ -57,7 +59,7 @@ spec:
                 type: string
               type: array
             server:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file'
+              minLength: 1
               type: string
           required:
           - dbName

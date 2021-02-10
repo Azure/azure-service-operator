@@ -63,6 +63,12 @@ spec:
               key: AZURE_CLOUD_ENV
               name: azureoperatorsettings
               optional: true
+        - name: AZURE_SECRET_NAMING_VERSION
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_SECRET_NAMING_VERSION
+              name: azureoperatorsettings
+              optional: true
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:

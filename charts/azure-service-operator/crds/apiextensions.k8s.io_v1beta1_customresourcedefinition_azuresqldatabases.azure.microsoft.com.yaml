@@ -3,7 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     cert-manager.io/inject-ca-from: azureoperator-system/azureoperator-serving-cert
-    controller-gen.kubebuilder.io/version: v0.2.5
+    controller-gen.kubebuilder.io/version: v0.4.0
   name: azuresqldatabases.azure.microsoft.com
 spec:
   additionalPrinterColumns:
@@ -60,6 +60,7 @@ spec:
                 description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file'
                 type: string
               resourcegroup:
+                minLength: 1
                 pattern: ^[-\w\._\(\)]+$
                 type: string
               server:
@@ -126,7 +127,7 @@ spec:
               edition:
                 type: integer
               location:
-                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file'
+                minLength: 1
                 type: string
               maxSize:
                 anyOf:
@@ -137,10 +138,21 @@ spec:
               monthlyRetention:
                 type: string
               resourceGroup:
+                minLength: 1
                 pattern: ^[-\w\._\(\)]+$
                 type: string
               server:
+                minLength: 1
                 type: string
+              shortTermRetentionPolicy:
+                properties:
+                  retentionDays:
+                    description: RetentionDays is the backup retention period in days. This is how many days Point-in-Time Restore will be supported.
+                    format: int32
+                    type: integer
+                required:
+                - retentionDays
+                type: object
               sku:
                 properties:
                   capacity:
@@ -152,6 +164,7 @@ spec:
                     type: string
                   name:
                     description: Name - The name of the SKU, typically, a letter + Number code, e.g. P3.
+                    minLength: 1
                     type: string
                   size:
                     description: Size - Size of the particular SKU
