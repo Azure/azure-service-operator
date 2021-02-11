@@ -74,8 +74,7 @@ func New(keyVaultName string, creds config.Credentials, secretNamingVersion secr
 
 // TODO: This method is awkward -- move to interface?
 // TODO: or even better, delete this method entirely
-func IsKeyVaultAccessible(client secrets.SecretClient) bool {
-	ctx := context.Background()
+func CheckKeyVaultAccessibility(ctx context.Context, client secrets.SecretClient) error {
 	key := secrets.SecretKey{Name: "test", Namespace: "default", Kind: "test"}
 
 	// Here we are attempting to get a key which we expect will not exist. If we can
@@ -85,9 +84,9 @@ func IsKeyVaultAccessible(client secrets.SecretClient) bool {
 	data, err := client.Get(ctx, key)
 	if err != nil {
 		if strings.Contains(err.Error(), errhelp.NoSuchHost) { // keyvault unavailable
-			return false
+			return err
 		} else if strings.Contains(err.Error(), errhelp.Forbidden) { // Access policies missing
-			return false
+			return err
 		}
 	}
 
@@ -96,15 +95,15 @@ func IsKeyVaultAccessible(client secrets.SecretClient) bool {
 	}
 	err = client.Upsert(ctx, key, data)
 	if err != nil && strings.Contains(err.Error(), errhelp.Forbidden) {
-		return false
+		return err
 	}
 
 	err = client.Delete(ctx, key)
 	if err != nil && strings.Contains(err.Error(), errhelp.Forbidden) {
-		return false
+		return err
 	}
 
-	return true
+	return nil
 }
 
 // Upsert updates a key in KeyVault even if it exists already, creates if it doesn't exist

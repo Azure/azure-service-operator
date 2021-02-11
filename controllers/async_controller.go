@@ -72,24 +72,11 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 	}
 
 	var keyvaultSecretClient secrets.SecretClient
-
 	// Determine if we need to check KeyVault for secrets
 	keyVaultName := keyvaultsecretlib.GetKeyVaultName(obj)
-
 	if len(keyVaultName) != 0 {
 		// Instantiate the KeyVault Secret Client
 		keyvaultSecretClient = keyvaultsecretlib.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
-
-		r.Telemetry.LogInfoByInstance("status", "ensuring vault", req.String())
-
-		// TODO: It's really awkward that we do this so often?
-		if !keyvaultsecretlib.IsKeyVaultAccessible(keyvaultSecretClient) {
-			r.Telemetry.LogInfoByInstance("requeuing", "awaiting vault verification", req.String())
-
-			// update the status of the resource in kubernetes
-			status.Message = "Waiting for secretclient keyvault to be available"
-			return ctrl.Result{RequeueAfter: requeueDuration}, r.Status().Update(ctx, obj)
-		}
 	}
 
 	// Check to see if the skipreconcile annotation is on
