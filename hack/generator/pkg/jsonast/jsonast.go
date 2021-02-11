@@ -302,26 +302,33 @@ func numberHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 	if v != nil {
 		// for controller-gen anything with min/max/multipleof must be based on int
 		// double-check that all of these are integral
+		var errs []string
+
 		if v.Minimum != nil {
 			if !v.Minimum.IsInt() {
-				return nil, errors.Errorf("'minimum' validation must be an integer")
+				errs = append(errs, "'minimum' validation must be an integer")
 			}
 		}
 
 		if v.Maximum != nil {
 			if !v.Maximum.IsInt() {
-				return nil, errors.Errorf("'maximum' validation must be an integer")
+				errs = append(errs, "'maximum' validation must be an integer")
 			}
 		}
 
 		if v.MultipleOf != nil {
 			if !v.MultipleOf.IsInt() {
-				return nil, errors.Errorf("'multipleOf' validation must be an integer")
+				errs = append(errs, "'multipleOf' validation must be an integer")
 			}
 		}
 
-		t = astmodel.IntType
-		return astmodel.NewValidatedType(t, *v), nil
+		if len(errs) > 0 {
+			result := astmodel.NewValidatedType(t, *v)
+			return astmodel.NewErroredType(result, errs, nil), nil
+		}
+
+		// we have checked they are all integers:
+		return astmodel.NewValidatedType(astmodel.IntType, *v), nil
 	}
 
 	return t, nil
