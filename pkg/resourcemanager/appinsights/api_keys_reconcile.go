@@ -98,7 +98,7 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 		secrets.WithScheme(c.Scheme),
 	)
 	if err != nil {
-		instance.Status.Message = "api key created but key was lost before storage"
+		instance.Status.Message = fmt.Sprintf("api key created but key was lost before storage. err: %v", err)
 		instance.Status.FailedProvisioning = true
 		return false, err
 	}

@@ -87,6 +87,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			secrets.WithScheme(s.Scheme),
 		)
 		if err != nil {
+			instance.Status.Message = err.Error()
 			return false, err
 		}
 	}

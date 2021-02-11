@@ -60,6 +60,7 @@ func (c *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 	// Update secret with the fully qualified server name
 	err = c.AddServerCredsToSecrets(ctx, secret, instance)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		return false, err
 	}
 

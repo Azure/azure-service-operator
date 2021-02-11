@@ -86,6 +86,7 @@ func (m *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, op
 		// upsert
 		err = m.StoreSecrets(ctx, groupName, name, instance)
 		if err != nil {
+			instance.Status.Message = err.Error()
 			return false, err
 		}
 
