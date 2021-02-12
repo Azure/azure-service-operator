@@ -27,7 +27,8 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 func (person Person) ConvertTo(destination *vHub.Person) error {
 
 	// name
-	destination.name = &person.name
+	name := person.name
+	destination.name = &name
 
 	// No error
 	return nil

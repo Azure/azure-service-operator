@@ -7,7 +7,6 @@ package astmodel
 
 import (
 	"bytes"
-	"strings"
 	"testing"
 
 	"github.com/sebdah/goldie/v2"
@@ -16,12 +15,26 @@ import (
 )
 
 type StorageConversionPropertyTestCase struct {
-	name             string
-	receiverProperty *PropertyDefinition
-	otherProperty    *PropertyDefinition
+	name          string
+	currentObject TypeDefinition
+	nextObject    *TypeDefinition
+	hubObject     TypeDefinition
+	types         Types
 }
 
-func CreateStorageConversionFunctionTestCases() []StorageConversionPropertyTestCase {
+func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTestCase {
+
+	vCurrent := makeTestLocalPackageReference("Verification", "vCurrent")
+	vNext := makeTestLocalPackageReference("Verification", "vNext")
+	vHub := makeTestLocalPackageReference("Verification", "vHub")
+
+	alpha := EnumValue{Identifier: "Alpha", Value: "alpha"}
+	beta := EnumValue{Identifier: "Beta", Value: "beta"}
+
+	enumType := NewEnumType(StringType, alpha, beta)
+	currentEnum := MakeTypeDefinition(MakeTypeName(vCurrent, "Bucket"), enumType)
+	nextEnum := MakeTypeDefinition(MakeTypeName(vNext, "Container"), enumType)
+
 	requiredStringProperty := NewPropertyDefinition("name", "name", StringType)
 	optionalStringProperty := NewPropertyDefinition("name", "name", NewOptionalType(StringType))
 	requiredIntProperty := NewPropertyDefinition("age", "age", IntType)
@@ -33,6 +46,11 @@ func CreateStorageConversionFunctionTestCases() []StorageConversionPropertyTestC
 	mapOfRequiredIntsProperty := NewPropertyDefinition("ratings", "ratings", NewMapType(StringType, IntType))
 	mapOfOptionalIntsProperty := NewPropertyDefinition("ratings", "ratings", NewMapType(StringType, NewOptionalType(IntType)))
 
+	requiredCurrentEnumProperty := NewPropertyDefinition("release", "release", currentEnum.name)
+	requiredNextEnumProperty := NewPropertyDefinition("release", "release", nextEnum.name)
+	optionalCurrentEnumProperty := NewPropertyDefinition("release", "release", NewOptionalType(currentEnum.name))
+	optionalNextEnumProperty := NewPropertyDefinition("release", "release", NewOptionalType(nextEnum.name))
+
 	nastyProperty := NewPropertyDefinition(
 		"nasty",
 		"nasty",
@@ -41,93 +59,144 @@ func CreateStorageConversionFunctionTestCases() []StorageConversionPropertyTestC
 			NewArrayType(
 				NewMapType(StringType, BoolType))))
 
-	return []StorageConversionPropertyTestCase{
-		{"SetStringFromString", requiredStringProperty, requiredStringProperty},
-		{"SetStringFromOptionalString", requiredStringProperty, optionalStringProperty},
-		{"SetOptionalStringFromString", optionalStringProperty, requiredStringProperty},
-		{"SetOptionalStringFromOptionalString", optionalStringProperty, optionalStringProperty},
+	testDirect := func(
+		name string,
+		currentProperty *PropertyDefinition,
+		hubProperty *PropertyDefinition,
+		otherDefinitions ...TypeDefinition) *StorageConversionPropertyTestCase {
 
-		{"SetIntFromInt", requiredIntProperty, requiredIntProperty},
-		{"SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty},
+		currentType := NewObjectType().WithProperty(currentProperty)
+		currentDefinition := MakeTypeDefinition(
+			MakeTypeName(vCurrent, "Person"),
+			currentType)
 
-		{"SetArrayOfRequiredFromArrayOfRequired", arrayOfRequiredIntProperty, arrayOfRequiredIntProperty},
-		{"SetArrayOfRequiredFromArrayOfOptional", arrayOfRequiredIntProperty, arrayOfOptionalIntProperty},
-		{"SetArrayOfOptionalFromArrayOfRequired", arrayOfOptionalIntProperty, arrayOfRequiredIntProperty},
+		hubType := NewObjectType().WithProperty(hubProperty)
+		hubDefinition := MakeTypeDefinition(
+			MakeTypeName(vHub, "Person"),
+			hubType)
 
-		{"SetMapOfRequiredFromMapOfRequired", mapOfRequiredIntsProperty, mapOfRequiredIntsProperty},
-		{"SetMapOfRequiredFromMapOfOptional", mapOfRequiredIntsProperty, mapOfOptionalIntsProperty},
-		{"SetMapOfOptionalFromMapOfRequired", mapOfOptionalIntsProperty, mapOfRequiredIntsProperty},
+		types := make(Types)
+		types.Add(currentDefinition)
+		types.Add(hubDefinition)
+		types.AddAll(otherDefinitions)
 
-		{"NastyTest", nastyProperty, nastyProperty},
+		return &StorageConversionPropertyTestCase{
+			name:          name + "-Direct",
+			currentObject: currentDefinition,
+			hubObject:     hubDefinition,
+			types:         types,
+		}
+	}
+
+	testIndirect := func(name string,
+		currentProperty *PropertyDefinition,
+		nextProperty *PropertyDefinition,
+		otherDefinitions ...TypeDefinition) *StorageConversionPropertyTestCase {
+
+		result := testDirect(name, currentProperty, nextProperty, otherDefinitions...)
+
+		nextType := NewObjectType().WithProperty(nextProperty)
+		nextDefinition := MakeTypeDefinition(
+			MakeTypeName(vNext, "Person"),
+			nextType)
+
+		result.name = name + "-ViaStaging"
+		result.nextObject = &nextDefinition
+		result.types.Add(nextDefinition)
+
+		return result
+	}
+
+	return []*StorageConversionPropertyTestCase{
+		testDirect("SetStringFromString", requiredStringProperty, requiredStringProperty),
+		testDirect("SetStringFromOptionalString", requiredStringProperty, optionalStringProperty),
+		testDirect("SetOptionalStringFromString", optionalStringProperty, requiredStringProperty),
+		testDirect("SetOptionalStringFromOptionalString", optionalStringProperty, optionalStringProperty),
+
+		testIndirect("SetStringFromString", requiredStringProperty, requiredStringProperty),
+		testIndirect("SetStringFromOptionalString", requiredStringProperty, optionalStringProperty),
+		testIndirect("SetOptionalStringFromString", optionalStringProperty, requiredStringProperty),
+		testIndirect("SetOptionalStringFromOptionalString", optionalStringProperty, optionalStringProperty),
+
+		testDirect("SetIntFromInt", requiredIntProperty, requiredIntProperty),
+		testDirect("SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty),
+
+		testIndirect("SetIntFromInt", requiredIntProperty, requiredIntProperty),
+		testIndirect("SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty),
+
+		testDirect("SetArrayOfRequiredFromArrayOfRequired", arrayOfRequiredIntProperty, arrayOfRequiredIntProperty),
+		testDirect("SetArrayOfRequiredFromArrayOfOptional", arrayOfRequiredIntProperty, arrayOfOptionalIntProperty),
+		testDirect("SetArrayOfOptionalFromArrayOfRequired", arrayOfOptionalIntProperty, arrayOfRequiredIntProperty),
+
+		testIndirect("SetArrayOfRequiredFromArrayOfRequired", arrayOfRequiredIntProperty, arrayOfRequiredIntProperty),
+		testIndirect("SetArrayOfRequiredFromArrayOfOptional", arrayOfRequiredIntProperty, arrayOfOptionalIntProperty),
+		testIndirect("SetArrayOfOptionalFromArrayOfRequired", arrayOfOptionalIntProperty, arrayOfRequiredIntProperty),
+
+		testDirect("SetMapOfRequiredFromMapOfRequired", mapOfRequiredIntsProperty, mapOfRequiredIntsProperty),
+		testDirect("SetMapOfRequiredFromMapOfOptional", mapOfRequiredIntsProperty, mapOfOptionalIntsProperty),
+		testDirect("SetMapOfOptionalFromMapOfRequired", mapOfOptionalIntsProperty, mapOfRequiredIntsProperty),
+
+		testIndirect("SetMapOfRequiredFromMapOfRequired", mapOfRequiredIntsProperty, mapOfRequiredIntsProperty),
+		testIndirect("SetMapOfRequiredFromMapOfOptional", mapOfRequiredIntsProperty, mapOfOptionalIntsProperty),
+		testIndirect("SetMapOfOptionalFromMapOfRequired", mapOfOptionalIntsProperty, mapOfRequiredIntsProperty),
+
+		testDirect("NastyTest", nastyProperty, nastyProperty),
+		testIndirect("NastyTest", nastyProperty, nastyProperty),
+
+		testDirect("SetRequiredEnumFromRequiredEnum", requiredCurrentEnumProperty, requiredNextEnumProperty, currentEnum, nextEnum),
+		testDirect("SetRequiredEnumFromOptionalEnum", requiredCurrentEnumProperty, optionalNextEnumProperty, currentEnum, nextEnum),
+		testDirect("SetOptionalEnumFromRequiredEnum", optionalCurrentEnumProperty, requiredNextEnumProperty, currentEnum, nextEnum),
+		testDirect("SetOptionalEnumFromOptionalEnum", optionalCurrentEnumProperty, optionalNextEnumProperty, currentEnum, nextEnum),
 	}
 }
 
-func TestStorageConversionFunction_AsFuncForDirectConversions(t *testing.T) {
+func TestStorageConversionFunction_AsFunc(t *testing.T) {
 	for _, c := range CreateStorageConversionFunctionTestCases() {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			RunTestStorageConversionFunction_AsFunc(c, true, t)
+			RunTestStorageConversionFunction_AsFunc(c, t)
 		})
 	}
 }
 
-func TestStorageConversionFunction_AsFuncForIndirectConversions(t *testing.T) {
-	for _, c := range CreateStorageConversionFunctionTestCases() {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
-			t.Parallel()
-			RunTestStorageConversionFunction_AsFunc(c, false, t)
-		})
-	}
-}
-
-func RunTestStorageConversionFunction_AsFunc(c StorageConversionPropertyTestCase, direct bool, t *testing.T) {
-	gm := NewGomegaWithT(t)
+func RunTestStorageConversionFunction_AsFunc(c *StorageConversionPropertyTestCase, t *testing.T) {
+	g := NewGomegaWithT(t)
 
 	idFactory := NewIdentifierFactory()
-	vCurrent := makeTestLocalPackageReference("Verification", "vCurrent")
-	vNext := makeTestLocalPackageReference("Verification", "vNext")
-	vHub := makeTestLocalPackageReference("Verification", "vHub")
 
-	receiverType := NewObjectType().WithProperty(c.receiverProperty)
-	receiverDefinition := MakeTypeDefinition(
-		MakeTypeName(vCurrent, "Person"),
-		receiverType)
+	conversionContext := NewStorageConversionContext(c.types)
 
-	hubTypeDefinition := MakeTypeDefinition(
-		MakeTypeName(vHub, "Person"),
-		NewObjectType().WithProperty(c.otherProperty))
+	currentType, ok := AsObjectType(c.currentObject.Type())
+	g.Expect(ok).To(BeTrue())
 
-	var intermediateTypeDefinition *TypeDefinition = nil
-	if !direct {
-		def := MakeTypeDefinition(
-			MakeTypeName(vNext, "Person"),
-			NewObjectType().WithProperty(c.otherProperty))
-		intermediateTypeDefinition = &def
-	}
+	convertFrom, errs := NewStorageConversionFromFunction(c.currentObject, c.hubObject, c.nextObject, idFactory, conversionContext)
+	g.Expect(errs).To(BeNil())
 
-	convertFrom, errs := NewStorageConversionFromFunction(receiverDefinition, hubTypeDefinition, intermediateTypeDefinition, idFactory)
-	gm.Expect(errs).To(BeNil())
+	convertTo, errs := NewStorageConversionToFunction(c.currentObject, c.hubObject, c.nextObject, idFactory, conversionContext)
+	g.Expect(errs).To(BeNil())
 
-	convertTo, errs := NewStorageConversionToFunction(receiverDefinition, hubTypeDefinition, intermediateTypeDefinition, idFactory)
-	gm.Expect(errs).To(BeNil())
-
-	receiverDefinition = receiverDefinition.WithType(receiverType.WithFunction(convertFrom).WithFunction(convertTo))
+	receiverDefinition := c.currentObject.WithType(currentType.WithFunction(convertFrom).WithFunction(convertTo))
 
 	defs := []TypeDefinition{receiverDefinition}
 	packages := make(map[PackageReference]*PackageDefinition)
 
-	g := goldie.New(t)
+	currentPackage := receiverDefinition.Name().PackageReference.(LocalPackageReference)
 
-	packageDefinition := NewPackageDefinition(vCurrent.Group(), vCurrent.PackageName(), "1")
+	packageDefinition := NewPackageDefinition(currentPackage.Group(), currentPackage.PackageName(), "1")
 	packageDefinition.AddDefinition(receiverDefinition)
 
-	packages[vCurrent] = packageDefinition
+	packages[currentPackage] = packageDefinition
 
 	// put all definitions in one file, regardless.
 	// the package reference isn't really used here.
-	fileDef := NewFileDefinition(vCurrent, defs, packages)
+	fileDef := NewFileDefinition(currentPackage, defs, packages)
+
+	assertFileGeneratesExpectedCode(t, fileDef, c.name)
+}
+
+func assertFileGeneratesExpectedCode(t *testing.T, fileDef *FileDefinition, testName string) {
+	g := goldie.New(t)
 
 	buf := &bytes.Buffer{}
 	fileWriter := NewGoSourceFileWriter(fileDef)
@@ -136,14 +205,5 @@ func RunTestStorageConversionFunction_AsFunc(c StorageConversionPropertyTestCase
 		t.Fatalf("could not generate file: %v", err)
 	}
 
-	var testName strings.Builder
-	testName.WriteString(c.name)
-
-	if direct {
-		testName.WriteString("-Direct")
-	} else {
-		testName.WriteString("-ViaStaging")
-	}
-
-	g.Assert(t, testName.String(), buf.Bytes())
+	g.Assert(t, testName, buf.Bytes())
 }

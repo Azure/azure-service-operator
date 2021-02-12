@@ -549,7 +549,7 @@ func (s synthesizer) handleEnumEnum(left astmodel.Type, right astmodel.Type) (as
 		}
 	}
 
-	return astmodel.NewEnumType(leftEnum.BaseType(), inBoth), nil
+	return astmodel.NewEnumType(leftEnum.BaseType(), inBoth...), nil
 }
 
 func (s synthesizer) handleEnum(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {

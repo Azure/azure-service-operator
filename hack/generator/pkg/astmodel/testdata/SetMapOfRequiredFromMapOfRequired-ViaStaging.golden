@@ -25,8 +25,8 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 
 	// ratings
 	ratingMap := make(map[string]int)
-	for ratingKey, rating := range personTemp.ratings {
-		ratingMap[ratingKey] = rating
+	for ratingKey, ratingValue := range personTemp.ratings {
+		ratingMap[ratingKey] = ratingValue
 	}
 
 	person.ratings = ratingMap
@@ -42,8 +42,8 @@ func (person Person) ConvertTo(destination *vHub.Person) error {
 
 	// ratings
 	ratingMap := make(map[string]int)
-	for ratingKey, rating := range person.ratings {
-		ratingMap[ratingKey] = rating
+	for ratingKey, ratingValue := range person.ratings {
+		ratingMap[ratingKey] = ratingValue
 	}
 
 	personTemp.ratings = ratingMap

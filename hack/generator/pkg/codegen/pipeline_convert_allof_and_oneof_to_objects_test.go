@@ -35,7 +35,7 @@ func defineEnum(strings ...string) astmodel.Type {
 
 	return astmodel.NewEnumType(
 		astmodel.StringType,
-		values)
+		values...)
 }
 
 // any type merged with AnyType is just the type
@@ -115,7 +115,7 @@ func TestMergeBadEnums(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	enum := defineEnum("a", "b")
-	enumInt := astmodel.NewEnumType(astmodel.IntType, []astmodel.EnumValue{})
+	enumInt := astmodel.NewEnumType(astmodel.IntType)
 
 	var err error
 

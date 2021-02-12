@@ -6,17 +6,18 @@ package vCurrent
 import "github.com/Azure/k8s-infra/hack/generated/_apis/Verification/vHub"
 
 type Person struct {
-	age int `json:"age"`
+	release Bucket `json:"release"`
 }
 
 // ConvertFrom populates our Person from the provided source Person
 func (person Person) ConvertFrom(source *vHub.Person) error {
 
-	// age
-	if source.age != nil {
-		person.age = *source.age
+	// release
+	if source.release != nil {
+		release := Bucket(*source.release)
+		person.release = release
 	} else {
-		person.age = 0
+		person.release = Bucket("")
 	}
 
 	// No error
@@ -26,9 +27,9 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 // ConvertTo populates the provided destination Person from our Person
 func (person Person) ConvertTo(destination *vHub.Person) error {
 
-	// age
-	age := person.age
-	destination.age = &age
+	// release
+	release := Container(person.release)
+	destination.release = &release
 
 	// No error
 	return nil

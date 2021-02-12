@@ -40,7 +40,8 @@ func (person Person) ConvertTo(destination *vHub.Person) error {
 	var personTemp vNext.Person
 
 	// name
-	personTemp.name = &person.name
+	name := person.name
+	personTemp.name = &name
 
 	// Populate destination from personTemp
 	err := personTemp.ConvertTo(destination)

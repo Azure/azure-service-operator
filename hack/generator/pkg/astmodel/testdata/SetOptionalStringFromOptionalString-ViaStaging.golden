@@ -24,7 +24,13 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 	}
 
 	// name
-	person.name = personTemp.name
+	if personTemp.name != nil {
+		// Copy to a local to avoid aliasing
+		name := *personTemp.name
+		person.name = &name
+	} else {
+		person.name = nil
+	}
 
 	// No error
 	return nil
@@ -36,7 +42,13 @@ func (person Person) ConvertTo(destination *vHub.Person) error {
 	var personTemp vNext.Person
 
 	// name
-	personTemp.name = person.name
+	if person.name != nil {
+		// Copy to a local to avoid aliasing
+		name := *person.name
+		personTemp.name = &name
+	} else {
+		personTemp.name = nil
+	}
 
 	// Populate destination from personTemp
 	err := personTemp.ConvertTo(destination)

@@ -17,9 +17,15 @@ func TestKnownLocalsSetCreateLocal(t *testing.T) {
 	idFactory := NewIdentifierFactory()
 	knownLocals := NewKnownLocalsSet(idFactory)
 
-	g.Expect(knownLocals.createLocal("person")).To(Equal("person"))
-	g.Expect(knownLocals.createLocal("person")).To(Equal("person1"))
-	g.Expect(knownLocals.createLocal("person")).To(Equal("person2"))
+	g.Expect(knownLocals.createLocal("person", "Item", "Map", "List")).To(Equal("personItem"))
+	g.Expect(knownLocals.createLocal("person", "Item", "Map", "List")).To(Equal("personMap"))
+	g.Expect(knownLocals.createLocal("person", "Item", "Map", "List")).To(Equal("personList"))
+	g.Expect(knownLocals.createLocal("person", "Item", "Map", "List")).To(Equal("personItem1"))
+	g.Expect(knownLocals.createLocal("person", "Item", "Map", "List")).To(Equal("personMap1"))
+	g.Expect(knownLocals.createLocal("person", "Item", "Map", "List")).To(Equal("personList1"))
+	g.Expect(knownLocals.createLocal("person", "Item", "Map", "List")).To(Equal("personItem2"))
+	g.Expect(knownLocals.createLocal("person", "Item", "Map", "List")).To(Equal("personMap2"))
+	g.Expect(knownLocals.createLocal("person", "Item", "Map", "List")).To(Equal("personList2"))
 
 	// Case insensitivity
 	g.Expect(knownLocals.createLocal("Student")).To(Equal("student"))

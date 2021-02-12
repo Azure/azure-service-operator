@@ -27,7 +27,7 @@ type EnumType struct {
 var _ Type = (*EnumType)(nil)
 
 // NewEnumType defines a new enumeration including the legal values
-func NewEnumType(baseType *PrimitiveType, options []EnumValue) *EnumType {
+func NewEnumType(baseType *PrimitiveType, options ...EnumValue) *EnumType {
 	if baseType == nil {
 		panic("baseType must be provided")
 	}

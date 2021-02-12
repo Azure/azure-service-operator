@@ -14,8 +14,8 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 
 	// scores
 	scoreList := make([]int, len(source.scores))
-	for scoreIndex, score := range source.scores {
-		scoreList[scoreIndex] = score
+	for scoreIndex, scoreItem := range source.scores {
+		scoreList[scoreIndex] = scoreItem
 	}
 
 	person.scores = scoreList
@@ -29,8 +29,8 @@ func (person Person) ConvertTo(destination *vHub.Person) error {
 
 	// scores
 	scoreList := make([]int, len(person.scores))
-	for scoreIndex, score := range person.scores {
-		scoreList[scoreIndex] = score
+	for scoreIndex, scoreItem := range person.scores {
+		scoreList[scoreIndex] = scoreItem
 	}
 
 	destination.scores = scoreList

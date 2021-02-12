@@ -13,7 +13,8 @@ type Person struct {
 func (person Person) ConvertFrom(source *vHub.Person) error {
 
 	// name
-	person.name = &source.name
+	name := source.name
+	person.name = &name
 
 	// No error
 	return nil

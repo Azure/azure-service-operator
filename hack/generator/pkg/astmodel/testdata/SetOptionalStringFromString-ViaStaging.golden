@@ -24,7 +24,8 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 	}
 
 	// name
-	person.name = &personTemp.name
+	name := personTemp.name
+	person.name = &name
 
 	// No error
 	return nil

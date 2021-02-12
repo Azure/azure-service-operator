@@ -6,7 +6,7 @@
 package astmodel
 
 import (
-	"strconv"
+	"fmt"
 	"strings"
 
 	"github.com/gobuffalo/flect"
@@ -39,26 +39,21 @@ func (endpoint *StorageConversionEndpoint) Type() Type {
 	return endpoint.theType
 }
 
-// CreateSingularLocal creates an identifier for a local variable that represents a single item
+// CreateLocal creates an identifier for a local variable using one of the supplied suffixes if
+// possible. If all of those suffixes have been used, integer suffixes will be used
 // Each call will return a unique identifier
-func (endpoint *StorageConversionEndpoint) CreateSingularLocal() string {
+func (endpoint *StorageConversionEndpoint) CreateLocal(suffix ...string) string {
 	singular := flect.Singularize(endpoint.name)
 	return endpoint.knownLocals.createLocal(singular)
 }
 
-// CreatePluralLocal creates an identifier for a local variable that represents multiple items
-// Each call will return a unique identifier
-func (endpoint *StorageConversionEndpoint) CreatePluralLocal(suffix string) string {
-	plural := flect.Singularize(endpoint.name)
-	return endpoint.knownLocals.createLocal(plural + suffix)
-}
-
 // WithType creates a new endpoint with a different type
 func (endpoint *StorageConversionEndpoint) WithType(theType Type) *StorageConversionEndpoint {
-	return NewStorageConversionEndpoint(
-		theType,
-		endpoint.name,
-		endpoint.knownLocals)
+	return &StorageConversionEndpoint{
+		theType:     theType,
+		name:        endpoint.name,
+		knownLocals: endpoint.knownLocals,
+	}
 }
 
 type KnownLocalsSet struct {
@@ -75,25 +70,46 @@ func NewKnownLocalsSet(idFactory IdentifierFactory) *KnownLocalsSet {
 	}
 }
 
-// createLocal creates a new unique Go local variable with the specified suffix
-// Has to be deterministic, so we use an incrementing number to make them unique
-func (locals KnownLocalsSet) createLocal(nameHint string) string {
-	baseName := locals.idFactory.CreateIdentifier(nameHint, NotExported)
-	id := baseName
-	index := 0
+// createLocal creates a new unique Go local variable with one of the specified suffixes.
+// Has to be deterministic, so we use an incrementing number to make them unique if necessary.
+func (locals KnownLocalsSet) createLocal(nameHint string, suffixes ...string) string {
+
+	// Ensure we have a safe base case
+	if len(suffixes) == 0 {
+		suffixes = []string{""}
+	}
+
+	// Try to use the suffixes as supplied if we can
+	for _, s := range suffixes {
+		if id, ok := locals.tryCreateLocal(nameHint + s); ok {
+			return id
+		}
+	}
+
+	// Use numeric suffixes if we must
+	index := 1
 	for {
-		_, found := locals.names[id]
-		if !found {
-			break
+		for _, s := range suffixes {
+			if id, ok := locals.tryCreateLocal(fmt.Sprintf("%s%s%d", nameHint, s, index)); ok {
+				return id
+			}
 		}
 
 		index++
-		id = baseName + strconv.Itoa(index)
+	}
+}
+
+// tryCreateLocal attempts to create a new local, returning the new identifier and true if
+// successful (local hasn't been used before) or "" and false if not (local already exists)
+func (locals KnownLocalsSet) tryCreateLocal(name string) (string, bool) {
+	id := locals.idFactory.CreateIdentifier(name, NotExported)
+	if _, found := locals.names[id]; found {
+		// Failed to create the name
+		return "", false
 	}
 
 	locals.names[id] = struct{}{}
-
-	return id
+	return id, true
 }
 
 // Add allows identifiers that have already been used to be registered, avoiding duplicates

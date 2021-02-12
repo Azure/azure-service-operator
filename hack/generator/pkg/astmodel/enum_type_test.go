@@ -40,7 +40,7 @@ var (
 func Test_NewEnumType_GivenValues_InitializesFields(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	e := NewEnumType(StringType, []EnumValue{aboveValue, underValue})
+	e := NewEnumType(StringType, aboveValue, underValue)
 	g.Expect(e.baseType).To(Equal(StringType))
 	g.Expect(e.options).To(ContainElements(aboveValue, underValue))
 }
@@ -52,7 +52,7 @@ func Test_NewEnumType_GivenValues_InitializesFields(t *testing.T) {
 func Test_EnumTypeBaseType_AfterConstruction_ReturnsExpectedType(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	e := NewEnumType(StringType, []EnumValue{aboveValue, underValue})
+	e := NewEnumType(StringType, aboveValue, underValue)
 	g.Expect(e.BaseType()).To(Equal(StringType))
 }
 
@@ -62,14 +62,14 @@ func Test_EnumTypeBaseType_AfterConstruction_ReturnsExpectedType(t *testing.T) {
 
 func Test_EnumTypeEquals_GivenEnums_ReturnsExpectedResult(t *testing.T) {
 
-	enum := NewEnumType(StringType, []EnumValue{aboveValue, underValue})
+	enum := NewEnumType(StringType, aboveValue, underValue)
 
-	other := NewEnumType(StringType, []EnumValue{aboveValue, underValue})
-	differentBase := NewEnumType(IntType, []EnumValue{aboveValue, underValue})
-	differentValueOrder := NewEnumType(StringType, []EnumValue{underValue, aboveValue})
-	supersetOfValues := NewEnumType(StringType, []EnumValue{underValue, aboveValue, leftValue, rightValue})
-	subsetOfValues := NewEnumType(StringType, []EnumValue{underValue})
-	differentValues := NewEnumType(StringType, []EnumValue{leftValue, rightValue})
+	other := NewEnumType(StringType, aboveValue, underValue)
+	differentBase := NewEnumType(IntType, aboveValue, underValue)
+	differentValueOrder := NewEnumType(StringType, underValue, aboveValue)
+	supersetOfValues := NewEnumType(StringType, underValue, aboveValue, leftValue, rightValue)
+	subsetOfValues := NewEnumType(StringType, underValue)
+	differentValues := NewEnumType(StringType, leftValue, rightValue)
 
 	cases := []struct {
 		name      string
