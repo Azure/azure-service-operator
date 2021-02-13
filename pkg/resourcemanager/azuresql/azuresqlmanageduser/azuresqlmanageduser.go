@@ -216,8 +216,8 @@ func findBadChars(stack string) error {
 
 func makeSecretKey(secretClient secrets.SecretClient, instance *v1alpha1.AzureSQLManagedUser) secrets.SecretKey {
 	if secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
-		if len(instance.Spec.KeyVaultSecretPrefix) != 0 { // If KeyVaultSecretPrefix is specified, use that for secrets
-			return secrets.SecretKey{Name: instance.Spec.KeyVaultSecretPrefix, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+		if len(instance.Spec.KeyVaultSecretPrefix) != 0 { // If KeyVaultSecretPrefix is specified, use that for secrets. Namespace is ignored in this case
+			return secrets.SecretKey{Name: instance.Spec.KeyVaultSecretPrefix, Namespace: "", Kind: instance.TypeMeta.Kind}
 		}
 		return secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 	}

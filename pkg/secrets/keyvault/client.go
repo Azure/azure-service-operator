@@ -289,16 +289,16 @@ func (k *SecretClient) Get(ctx context.Context, key secrets.SecretKey, opts ...s
 }
 
 func (k *SecretClient) makeLegacySecretName(key secrets.SecretKey) (string, error) {
-	if len(key.Namespace) == 0 {
-		return "", errors.Errorf("secret key missing required namespace field, %s", key)
-	}
 	if len(key.Name) == 0 {
 		return "", errors.Errorf("secret key missing required name field, %s", key)
 	}
 
 	var parts []string
 
-	parts = append(parts, key.Namespace)
+	// A few secrets allow empty namespace
+	if len(key.Namespace) != 0 {
+		parts = append(parts, key.Namespace)
+	}
 	parts = append(parts, key.Name)
 
 	return strings.Join(parts, "-"), nil

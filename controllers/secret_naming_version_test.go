@@ -138,20 +138,36 @@ func TestStorageAccount_SecretNamedCorrectly(t *testing.T) {
 }
 
 func assertSQLServerAdminSecretCreated(ctx context.Context, t *testing.T, sqlServerInstance *v1beta1.AzureSqlServer) {
-	secret := &v1.Secret{}
-	assert.Eventually(t, func() bool {
-		var expectedServerSecretName string
-		if tc.secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
-			expectedServerSecretName = sqlServerInstance.Name
-		} else {
-			expectedServerSecretName = fmt.Sprintf("%s-%s", "azuresqlserver", sqlServerInstance.Name)
-		}
-		err := tc.k8sClient.Get(ctx, types.NamespacedName{Namespace: sqlServerInstance.Namespace, Name: expectedServerSecretName}, secret)
-		if err != nil {
-			return false
-		}
-		return secret.Name == expectedServerSecretName && secret.Namespace == sqlServerInstance.Namespace
-	}, tc.timeoutFast, tc.retry, "wait for server to have secret")
+	if len(sqlServerInstance.Spec.KeyVaultToStoreSecrets) == 0 {
+		secret := &v1.Secret{}
+		assert.Eventually(t, func() bool {
+			var expectedServerSecretName string
+			if tc.secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+				expectedServerSecretName = sqlServerInstance.Name
+			} else {
+				expectedServerSecretName = fmt.Sprintf("%s-%s", "azuresqlserver", sqlServerInstance.Name)
+			}
+			err := tc.k8sClient.Get(ctx, types.NamespacedName{Namespace: sqlServerInstance.Namespace, Name: expectedServerSecretName}, secret)
+			if err != nil {
+				return false
+			}
+			return secret.Name == expectedServerSecretName && secret.Namespace == sqlServerInstance.Namespace
+		}, tc.timeoutFast, tc.retry, "wait for server to have secret")
+	} else {
+		// Check that the user's secret is in the keyvault
+		keyVaultSecretClient := kvsecrets.New(sqlServerInstance.Spec.KeyVaultToStoreSecrets, config.GlobalCredentials(), config.SecretNamingVersion())
+
+		assert.Eventually(t, func() bool {
+			expectedSecretName := makeSQLServerKeyVaultSecretName(sqlServerInstance)
+			result, err := keyVaultSecretClient.KeyVaultClient.GetSecret(ctx, kvsecrets.GetVaultsURL(sqlServerInstance.Spec.KeyVaultToStoreSecrets), expectedSecretName, "")
+			if err != nil {
+				return false
+			}
+			secrets := *result.Value
+
+			return len(string(secrets)) > 0
+		}, tc.timeoutFast, tc.retry, "wait for keyvault to have secret for server")
+	}
 }
 
 func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
@@ -162,7 +178,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
-	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver", 10)
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver1", 10)
 	rgLocation := "westus2"
 
 	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
@@ -193,7 +209,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 
 	// Create firewall rule
 	sqlFirewallRuleNamespacedName := types.NamespacedName{
-		Name:      GenerateTestResourceNameWithRandom("sqlfwr-local", 10),
+		Name:      GenerateTestResourceNameWithRandom("sqlfwr-local1", 10),
 		Namespace: "default",
 	}
 	sqlFirewallRule := v1beta1.NewAzureSQLFirewallRule(
@@ -216,11 +232,11 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 	// Run user subtests
 	t.Run("group2", func(t *testing.T) {
 
-		t.Run("set up user in first db", func(t *testing.T) {
+		t.Run("set up user in db", func(t *testing.T) {
 			t.Parallel()
 
 			// create a sql user and verify it provisions
-			username := "sql-test-user" + helpers.RandomString(10)
+			username := "user1" + helpers.RandomString(10)
 			roles := []string{"db_owner"}
 			keyVaultSecretFormats := []string{"adonet"}
 
@@ -257,12 +273,10 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 			t.Parallel()
 
 			// create a sql user and verify it provisions
-			username := "sql-test-user" + helpers.RandomString(10)
+			username := "user2" + helpers.RandomString(10)
 			roles := []string{"db_owner"}
 
 			// This test will attempt to persist secrets to the KV that was instantiated as part of the test suite
-			keyVaultName := tc.keyvaultName
-
 			kvSqlUser1 = &v1alpha1.AzureSQLUser{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      username,
@@ -273,14 +287,14 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 					DbName:                 sqlDatabaseName,
 					ResourceGroup:          rgName,
 					Roles:                  roles,
-					KeyVaultToStoreSecrets: keyVaultName,
+					KeyVaultToStoreSecrets: tc.keyvaultName,
 				},
 			}
 
 			EnsureInstance(ctx, t, tc, kvSqlUser1)
 
 			// Check that the user's secret is in the keyvault
-			keyVaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+			keyVaultSecretClient := kvsecrets.New(tc.keyvaultName, config.GlobalCredentials(), config.SecretNamingVersion())
 
 			assert.Eventually(func() bool {
 				key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser1)
@@ -296,13 +310,11 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 			t.Parallel()
 
 			// create a sql user and verify it provisions
-			username := "sql-test-user" + helpers.RandomString(10)
+			username := "user3" + helpers.RandomString(10)
 			roles := []string{"db_owner"}
 			formats := []string{"adonet"}
 
 			// This test will attempt to persist secrets to the KV that was instantiated as part of the test suite
-			keyVaultName := tc.keyvaultName
-
 			kvSqlUser2 = &v1alpha1.AzureSQLUser{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      username,
@@ -313,7 +325,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 					DbName:                 sqlDatabaseName,
 					ResourceGroup:          rgName,
 					Roles:                  roles,
-					KeyVaultToStoreSecrets: keyVaultName,
+					KeyVaultToStoreSecrets: tc.keyvaultName,
 					KeyVaultSecretFormats:  formats,
 				},
 			}
@@ -321,7 +333,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 			EnsureInstance(ctx, t, tc, kvSqlUser2)
 
 			// Check that the user's secret is in the keyvault
-			keyVaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+			keyVaultSecretClient := kvsecrets.New(tc.keyvaultName, config.GlobalCredentials(), config.SecretNamingVersion())
 
 			assert.Eventually(func() bool {
 				key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser2)
@@ -416,6 +428,116 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 	EnsureDelete(ctx, t, tc, sqlServerInstance)
 }
 
+func TestAzureSqlServerKVSecretAndUser_SecretNamedCorrectly(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+	assert := assert.New(t)
+
+	// Add any setup steps that needs to be executed before each test
+	rgName := tc.resourceGroupName
+	sqlServerName := GenerateTestResourceNameWithRandom("kvsqlserv", 10)
+	rgLocation := "westus2"
+
+	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
+	sqlServerInstance := v1beta1.NewAzureSQLServer(sqlServerNamespacedName, rgName, rgLocation)
+	sqlServerInstance.Spec.KeyVaultToStoreSecrets = tc.keyvaultName
+
+	// create and wait
+	RequireInstance(ctx, t, tc, sqlServerInstance)
+
+	//verify secret exists in k8s for server 1
+	assertSQLServerAdminSecretCreated(ctx, t, sqlServerInstance)
+
+	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase", 10)
+	// Create the SqlDatabase object and expect the Reconcile to be created
+	sqlDatabaseInstance := &v1beta1.AzureSqlDatabase{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      sqlDatabaseName,
+			Namespace: "default",
+		},
+		Spec: v1beta1.AzureSqlDatabaseSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+			Server:        sqlServerName,
+			Edition:       0,
+		},
+	}
+
+	EnsureInstance(ctx, t, tc, sqlDatabaseInstance)
+
+	// Create firewall rule
+	sqlFirewallRuleNamespacedName := types.NamespacedName{
+		Name:      GenerateTestResourceNameWithRandom("sqlfwr-local2", 10),
+		Namespace: "default",
+	}
+	sqlFirewallRule := v1beta1.NewAzureSQLFirewallRule(
+		sqlFirewallRuleNamespacedName,
+		rgName,
+		sqlServerName,
+		"1.1.1.1",
+		"255.255.255.255",
+	)
+	EnsureInstance(ctx, t, tc, sqlFirewallRule)
+
+	var kvSqlUser1 *v1alpha1.AzureSQLUser
+
+	// Run user subtests
+	t.Run("group2", func(t *testing.T) {
+
+		t.Run("set up user in db, specifying adminSecretName", func(t *testing.T) {
+			t.Parallel()
+
+			// create a sql user and verify it provisions
+			username := "user4" + helpers.RandomString(10)
+			roles := []string{"db_owner"}
+
+			var adminSecret string
+			if tc.secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+				adminSecret = fmt.Sprintf("%s-%s", sqlServerInstance.Namespace, sqlServerInstance.Name)
+			} else {
+				adminSecret = sqlServerInstance.Name
+			}
+
+			// This test will attempt to persist secrets to the KV that was instantiated as part of the test suite
+			kvSqlUser1 = &v1alpha1.AzureSQLUser{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      username,
+					Namespace: "default",
+				},
+				Spec: v1alpha1.AzureSQLUserSpec{
+					Server:                 sqlServerName,
+					DbName:                 sqlDatabaseName,
+					ResourceGroup:          rgName,
+					Roles:                  roles,
+					KeyVaultToStoreSecrets: tc.keyvaultName,
+					AdminSecretKeyVault:    tc.keyvaultName,
+					AdminSecret:            adminSecret,
+				},
+			}
+
+			EnsureInstance(ctx, t, tc, kvSqlUser1)
+
+			// Check that the user's secret is in the keyvault
+			keyVaultSecretClient := kvsecrets.New(tc.keyvaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+
+			assert.Eventually(func() bool {
+				key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser1)
+				key.Name = key.Name
+				var secrets, err = keyVaultSecretClient.Get(ctx, key, secrets.Flatten(true))
+				assert.NoError(err)
+
+				return len(string(secrets["secret"])) > 0
+			}, tc.timeoutFast, tc.retry, "wait for keyvault to show azure sql user credentials with custom formats")
+
+			t.Log(kvSqlUser1.Status)
+		})
+	})
+
+	// Delete the SQL server
+	EnsureDelete(ctx, t, tc, sqlServerInstance)
+}
+
 func makeSQLUserSecretKey(secretClient *kvsecrets.SecretClient, instance *v1alpha1.AzureSQLUser) secrets.SecretKey {
 	var keyNamespace string
 	if secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
@@ -424,4 +546,12 @@ func makeSQLUserSecretKey(secretClient *kvsecrets.SecretClient, instance *v1alph
 		keyNamespace = instance.Namespace
 	}
 	return secrets.SecretKey{Name: instance.Name, Namespace: keyNamespace, Kind: "azuresqluser"}
+}
+
+func makeSQLServerKeyVaultSecretName(instance *v1beta1.AzureSqlServer) string {
+	if tc.secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+		return fmt.Sprintf("%s-%s", instance.Namespace, instance.Name)
+	} else {
+		return fmt.Sprintf("%s-%s-%s", "azuresqlserver", instance.Namespace, instance.Name)
+	}
 }
