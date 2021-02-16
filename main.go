@@ -18,6 +18,7 @@ import (
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -122,9 +123,25 @@ func main() {
 
 	ctrl.SetLogger(zap.Logger(true))
 
+	err := resourcemanagerconfig.ParseEnvironment()
+	if err != nil {
+		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
+		os.Exit(1)
+	}
+
+	setupLog.V(0).Info("Configuration details", "Configuration", resourcemanagerconfig.ConfigString())
+
+	targetNamespaces := resourcemanagerconfig.TargetNamespaces()
+	var cacheFunc cache.NewCacheFunc
+	if targetNamespaces != nil {
+		setupLog.V(0).Info("Restricting operator cache", "namespaces", targetNamespaces)
+		cacheFunc = cache.MultiNamespacedCacheBuilder(targetNamespaces)
+	}
+
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:               scheme,
 		MetricsBindAddress:   metricsAddr,
+		NewCache:             cacheFunc,
 		LeaderElection:       enableLeaderElection,
 		LivenessEndpointName: "/healthz",
 		Port:                 9443,
@@ -134,14 +151,6 @@ func main() {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
 	}
-
-	err = resourcemanagerconfig.ParseEnvironment()
-	if err != nil {
-		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
-		os.Exit(1)
-	}
-
-	setupLog.V(0).Info("Configuration details", "Configuration", resourcemanagerconfig.ConfigString())
 
 	keyvaultName := resourcemanagerconfig.GlobalCredentials().OperatorKeyvault()
 
