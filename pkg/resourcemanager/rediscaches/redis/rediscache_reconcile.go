@@ -26,8 +26,9 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		opt(options)
 	}
 
+	secretClient := rc.SecretClient
 	if options.SecretClient != nil {
-		rc.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := rc.convert(obj)
@@ -44,7 +45,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 		// succeeded! so end reconcilliation successfully
 		if newRc.ProvisioningState == "Succeeded" {
-			err = rc.ListKeysAndCreateSecrets(ctx, instance)
+			err = rc.ListKeysAndCreateSecrets(ctx, secretClient, instance)
 			if err != nil {
 				instance.Status.Message = err.Error()
 				return false, err
@@ -115,8 +116,9 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 		opt(options)
 	}
 
+	secretClient := rc.SecretClient
 	if options.SecretClient != nil {
-		rc.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := rc.convert(obj)
@@ -138,7 +140,7 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 	if err != nil {
 		if resp.StatusCode == http.StatusNotFound {
 			// Best case deletion of secrets
-			rc.SecretClient.Delete(ctx, secretKey)
+			secretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 		return false, err
@@ -166,7 +168,7 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 		}
 		if helpers.ContainsString(finished, azerr.Type) {
 			// Best case deletion of secrets
-			rc.SecretClient.Delete(ctx, secretKey)
+			secretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 		return true, err
