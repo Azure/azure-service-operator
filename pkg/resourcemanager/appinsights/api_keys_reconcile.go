@@ -31,8 +31,9 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 		opt(options)
 	}
 
+	secretClient := c.SecretClient
 	if options.SecretClient != nil {
-		c.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance.Status.Provisioning = true
@@ -74,7 +75,7 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 		case http.StatusBadRequest:
 			// if the key already exists it is fine only if the secret exists
 			if strings.Contains(azerr.Type, "already exists") {
-				if _, err := c.SecretClient.Get(ctx, secretKey); err != nil {
+				if _, err := secretClient.Get(ctx, secretKey); err != nil {
 					instance.Status.Message = "api key exists but no key could be recovered"
 					instance.Status.FailedProvisioning = true
 				}
@@ -90,7 +91,7 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 	}
 
 	// when create is successful we have to store the apikey somewhere
-	err = c.SecretClient.Upsert(
+	err = secretClient.Upsert(
 		ctx,
 		secretKey,
 		map[string][]byte{"apiKey": []byte(*apiKey.APIKey)},
@@ -114,9 +115,19 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 }
 
 func (c *InsightsAPIKeysClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
 	instance, err := c.convert(obj)
 	if err != nil {
 		return false, err
+	}
+
+	secretClient := c.SecretClient
+	if options.SecretClient != nil {
+		secretClient = options.SecretClient
 	}
 
 	// can't delete without an id and it probably wasn't provisioned by us if it's missing
@@ -151,7 +162,7 @@ func (c *InsightsAPIKeysClient) Delete(ctx context.Context, obj runtime.Object, 
 	}
 
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
-	err = c.SecretClient.Delete(ctx, secretKey)
+	err = secretClient.Delete(ctx, secretKey)
 	if err != nil {
 		return true, err
 	}

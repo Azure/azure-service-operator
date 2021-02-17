@@ -31,8 +31,9 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		opt(options)
 	}
 
+	secretClient := m.SecretClient
 	if options.SecretClient != nil {
-		m.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := m.convert(obj)
@@ -54,13 +55,13 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 	}
 
 	// Check to see if secret exists and if yes retrieve the admin login and password
-	secret, err := m.GetOrPrepareSecret(ctx, instance)
+	secret, err := m.GetOrPrepareSecret(ctx, secretClient, instance)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Failed to get or prepare secret: %s", err.Error())
 		return false, err
 	}
 
-	err = m.AddServerCredsToSecrets(ctx, secret, instance)
+	err = m.AddServerCredsToSecrets(ctx, secretClient, secret, instance)
 	if err != nil {
 		return false, err
 	}
@@ -114,7 +115,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 			}
 			if server.UserVisibleState == mysql.ServerStateReady {
 				// Update secret with FQ name of the server. We ignore the error.
-				m.UpdateServerNameInSecret(ctx, secret, *server.FullyQualifiedDomainName, instance)
+				m.UpdateServerNameInSecret(ctx, secretClient, secret, *server.FullyQualifiedDomainName, instance)
 
 				instance.Status.Provisioned = true
 				instance.Status.Provisioning = false
@@ -205,8 +206,9 @@ func (m *MySQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts
 		opt(options)
 	}
 
+	secretClient := m.SecretClient
 	if options.SecretClient != nil {
-		m.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := m.convert(obj)
@@ -239,7 +241,7 @@ func (m *MySQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts
 		if status != "InProgress" {
 			// Best case deletion of secrets
 			secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
-			m.SecretClient.Delete(ctx, secretKey)
+			secretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 	}
@@ -286,10 +288,10 @@ func (m *MySQLServerClient) convert(obj runtime.Object) (*v1alpha2.MySQLServer, 
 }
 
 // AddServerCredsToSecrets saves the server's admin credentials in the secret store
-func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, data map[string][]byte, instance *azurev1alpha2.MySQLServer) error {
+func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretClient secrets.SecretClient, data map[string][]byte, instance *azurev1alpha2.MySQLServer) error {
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	err := m.SecretClient.Upsert(ctx,
+	err := secretClient.Upsert(ctx,
 		secretKey,
 		data,
 		secrets.WithOwner(instance),
@@ -303,12 +305,12 @@ func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, data ma
 }
 
 // UpdateSecretWithFullServerName updates the secret with the fully qualified server name
-func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, data map[string][]byte, fullservername string, instance *azurev1alpha2.MySQLServer) error {
+func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secretClient secrets.SecretClient, data map[string][]byte, fullservername string, instance *azurev1alpha2.MySQLServer) error {
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	data["fullyQualifiedServerName"] = []byte(fullservername)
 
-	err := m.SecretClient.Upsert(ctx,
+	err := secretClient.Upsert(ctx,
 		secretKey,
 		data,
 		secrets.WithOwner(instance),
@@ -322,7 +324,7 @@ func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, data m
 }
 
 // GetOrPrepareSecret gets tje admin credentials if they are stored or generates some if not
-func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha2.MySQLServer) (map[string][]byte, error) {
+func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, secretClient secrets.SecretClient, instance *azurev1alpha2.MySQLServer) (map[string][]byte, error) {
 	createmode := instance.Spec.CreateMode
 
 	// If createmode == default, then this is a new server creation, so generate username/password
@@ -336,7 +338,7 @@ func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *az
 	if strings.EqualFold(createmode, "default") { // new Mysql server creation
 		// See if secret already exists and return if it does
 		key = secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
-		if stored, err := m.SecretClient.Get(ctx, key); err == nil {
+		if stored, err := secretClient.Get(ctx, key); err == nil {
 			return stored, nil
 		}
 		// Generate random username password if secret does not exist already
@@ -351,7 +353,7 @@ func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *az
 
 			// Get the username and password from the source server's secret
 			key = secrets.SecretKey{Name: sourceServer, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
-			if sourceSecret, err := m.SecretClient.Get(ctx, key); err == nil {
+			if sourceSecret, err := secretClient.Get(ctx, key); err == nil {
 				username = string(sourceSecret["username"])
 				password = string(sourceSecret["password"])
 			}

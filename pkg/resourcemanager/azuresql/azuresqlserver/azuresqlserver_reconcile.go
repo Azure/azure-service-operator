@@ -34,8 +34,9 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		opt(options)
 	}
 
+	secretClient := s.SecretClient
 	if options.SecretClient != nil {
-		s.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := s.convert(obj)
@@ -49,7 +50,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	// Check to see if secret already exists for admin username/password
 	// create or update the secret
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
-	secret, err := s.SecretClient.Get(ctx, secretKey)
+	secret, err := secretClient.Get(ctx, secretKey)
 	if err != nil {
 		if instance.Status.Provisioned {
 			instance.Status.Message = err.Error()
@@ -79,7 +80,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		if err != nil {
 			return false, err
 		}
-		err = s.SecretClient.Upsert(
+		err = secretClient.Upsert(
 			ctx,
 			secretKey,
 			secret,
@@ -252,8 +253,9 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 		opt(options)
 	}
 
+	secretClient := s.SecretClient
 	if options.SecretClient != nil {
-		s.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := s.convert(obj)
@@ -293,7 +295,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 
 		if helpers.ContainsString(finished, azerr.Type) {
 			//Best effort deletion of secrets
-			s.SecretClient.Delete(ctx, secretKey)
+			secretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 
@@ -301,7 +303,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 	}
 
 	//Best effort deletion of secrets
-	s.SecretClient.Delete(ctx, secretKey)
+	secretClient.Delete(ctx, secretKey)
 	return false, nil
 }
 

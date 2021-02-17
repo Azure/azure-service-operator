@@ -15,7 +15,8 @@ resources:
 - repo: self
 
 pool:
-   vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-latest'
+  timeoutInMinutes: 80
 
 variables:
   tag: '$(Build.BuildId)'
