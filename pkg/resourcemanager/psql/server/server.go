@@ -193,10 +193,10 @@ func (c *PSQLServerClient) GetServer(ctx context.Context, resourcegroup string, 
 	return client.Get(ctx, resourcegroup, servername)
 }
 
-func (c *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, data map[string][]byte, instance *v1alpha2.PostgreSQLServer) error {
+func (c *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretClient secrets.SecretClient, data map[string][]byte, instance *v1alpha2.PostgreSQLServer) error {
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	err := c.SecretClient.Upsert(ctx,
+	err := secretClient.Upsert(ctx,
 		secretKey,
 		data,
 		secrets.WithOwner(instance),
@@ -209,12 +209,12 @@ func (c *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, data map
 	return nil
 }
 
-func (c *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, data map[string][]byte, instance *v1alpha2.PostgreSQLServer, fullServerName string) error {
+func (c *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, secretClient secrets.SecretClient, data map[string][]byte, instance *v1alpha2.PostgreSQLServer, fullServerName string) error {
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	data["fullyQualifiedServerName"] = []byte(fullServerName)
 
-	err := c.SecretClient.Upsert(ctx,
+	err := secretClient.Upsert(ctx,
 		secretKey,
 		data,
 		secrets.WithOwner(instance),
@@ -227,13 +227,13 @@ func (c *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, d
 	return nil
 }
 
-func (c *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *v1alpha2.PostgreSQLServer) (map[string][]byte, error) {
+func (c *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, secretClient secrets.SecretClient, instance *v1alpha2.PostgreSQLServer) (map[string][]byte, error) {
 	usernameLength := 8
 
 	secret := map[string][]byte{}
 
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
-	if stored, err := c.SecretClient.Get(ctx, secretKey); err == nil {
+	if stored, err := secretClient.Get(ctx, secretKey); err == nil {
 		return stored, nil
 	}
 

@@ -36,8 +36,9 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 		opt(options)
 	}
 
+	secretClient := s.SecretClient
 	if options.SecretClient != nil {
-		s.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
@@ -117,7 +118,7 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 		return false, fmt.Errorf("GrantUserRoles failed: %v", err)
 	}
 
-	err = s.UpdateSecret(ctx, instance, s.SecretClient)
+	err = s.UpdateSecret(ctx, instance, secretClient)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Updating secret failed: %v", err)
 		return false, fmt.Errorf("updating secret failed")
@@ -141,6 +142,11 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 		return false, err
 	}
 
+	secretClient := s.SecretClient
+	if options.SecretClient != nil {
+		secretClient = options.SecretClient
+	}
+
 	requestedUsername := instance.Spec.ManagedIdentityName
 	if len(requestedUsername) == 0 {
 		requestedUsername = instance.Name
@@ -159,7 +165,7 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// Best case deletion of secrets
-			s.DeleteSecrets(ctx, instance, s.SecretClient)
+			s.DeleteSecrets(ctx, instance, secretClient)
 
 			return false, nil
 		}
@@ -199,7 +205,7 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 	}
 
 	// Best case deletion of secrets
-	s.DeleteSecrets(ctx, instance, s.SecretClient)
+	s.DeleteSecrets(ctx, instance, secretClient)
 
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlManagedUser succeeded")
 

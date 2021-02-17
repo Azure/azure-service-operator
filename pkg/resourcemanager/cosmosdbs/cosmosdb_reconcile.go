@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -27,8 +28,9 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		opt(options)
 	}
 
+	secretClient := m.SecretClient
 	if options.SecretClient != nil {
-		m.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := m.convert(obj)
@@ -92,7 +94,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	if instance.Status.State == "Succeeded" {
 		// provisioning is complete, update the secrets
-		if err = m.createOrUpdateSecret(ctx, instance, db); err != nil {
+		if err = m.createOrUpdateSecret(ctx, secretClient, instance, db); err != nil {
 			instance.Status.Message = err.Error()
 			return false, err
 		}
@@ -149,7 +151,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	if err = m.createOrUpdateSecret(ctx, instance, db); err != nil {
+	if err = m.createOrUpdateSecret(ctx, secretClient, instance, db); err != nil {
 		instance.Status.Message = err.Error()
 		return false, err
 	}
@@ -170,8 +172,9 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 		opt(options)
 	}
 
+	secretClient := m.SecretClient
 	if options.SecretClient != nil {
-		m.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := m.convert(obj)
@@ -200,7 +203,7 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		if helpers.ContainsString(notFound, azerr.Type) {
-			_ = m.deleteSecret(ctx, instance)
+			_ = m.deleteSecret(ctx, secretClient, instance)
 			return false, nil
 		}
 
@@ -209,7 +212,7 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	_ = m.deleteSecret(ctx, instance)
+	_ = m.deleteSecret(ctx, secretClient, instance)
 	return false, nil
 }
 
@@ -248,7 +251,7 @@ func (m *AzureCosmosDBManager) convert(obj runtime.Object) (*v1alpha1.CosmosDB, 
 	return db, nil
 }
 
-func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, instance *v1alpha1.CosmosDB, db *documentdb.DatabaseAccount) error {
+func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, secretClient secrets.SecretClient, instance *v1alpha1.CosmosDB, db *documentdb.DatabaseAccount) error {
 	connStrResult, err := m.ListConnectionStrings(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
 	if err != nil {
 		return err
@@ -283,10 +286,10 @@ func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, instanc
 		}
 	}
 
-	return m.SecretClient.Upsert(ctx, secretKey, secretData)
+	return secretClient.Upsert(ctx, secretKey, secretData)
 }
 
-func (m *AzureCosmosDBManager) deleteSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
+func (m *AzureCosmosDBManager) deleteSecret(ctx context.Context, secretClient secrets.SecretClient, instance *v1alpha1.CosmosDB) error {
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
-	return m.SecretClient.Delete(ctx, secretKey)
+	return secretClient.Delete(ctx, secretKey)
 }

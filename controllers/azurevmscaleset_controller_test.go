@@ -66,6 +66,9 @@ func TestVMScaleSetHappyPathWithLbPipVNetAndSubnet(t *testing.T) {
 	defer PanicRecover(t)
 	ctx := context.Background()
 
+	// location := tc.resourceGroupLocation
+	location := "australiaeast"
+
 	// Create a vnet with a subnet
 	vnetName := GenerateTestResourceNameWithRandom("vnt", 10)
 	subnetName := GenerateTestResourceNameWithRandom("snt", 10)
@@ -80,7 +83,7 @@ func TestVMScaleSetHappyPathWithLbPipVNetAndSubnet(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.VirtualNetworkSpec{
-			Location:      tc.resourceGroupLocation,
+			Location:      location,
 			ResourceGroup: tc.resourceGroupName,
 			AddressSpace:  "110.0.0.0/8",
 			Subnets:       []azurev1alpha1.VNetSubnets{vnetSubNetInstance},
@@ -100,7 +103,7 @@ func TestVMScaleSetHappyPathWithLbPipVNetAndSubnet(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzurePublicIPAddressSpec{
-			Location:                 tc.resourceGroupLocation,
+			Location:                 location,
 			ResourceGroup:            tc.resourceGroupName,
 			PublicIPAllocationMethod: publicIPAllocationMethod,
 			IdleTimeoutInMinutes:     idleTimeoutInMinutes,
@@ -124,7 +127,7 @@ func TestVMScaleSetHappyPathWithLbPipVNetAndSubnet(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzureLoadBalancerSpec{
-			Location:               tc.resourceGroupLocation,
+			Location:               location,
 			ResourceGroup:          tc.resourceGroupName,
 			PublicIPAddressName:    pipName,
 			BackendAddressPoolName: bpName,
@@ -152,7 +155,7 @@ func TestVMScaleSetHappyPathWithLbPipVNetAndSubnet(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzureVMScaleSetSpec{
-			Location:               tc.resourceGroupLocation,
+			Location:               location,
 			ResourceGroup:          tc.resourceGroupName,
 			VMSize:                 vmSize,
 			Capacity:               capacity,

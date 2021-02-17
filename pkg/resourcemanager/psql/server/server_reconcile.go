@@ -29,8 +29,9 @@ func (c *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		opt(options)
 	}
 
+	secretClient := c.SecretClient
 	if options.SecretClient != nil {
-		c.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := c.convert(obj)
@@ -52,13 +53,13 @@ func (c *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 	}
 
 	// Check to see if secret exists and if yes retrieve the admin login and password
-	secret, err := c.GetOrPrepareSecret(ctx, instance)
+	secret, err := c.GetOrPrepareSecret(ctx, secretClient, instance)
 	if err != nil {
 		return false, err
 	}
 
 	// Update secret with the fully qualified server name
-	err = c.AddServerCredsToSecrets(ctx, secret, instance)
+	err = c.AddServerCredsToSecrets(ctx, secretClient, secret, instance)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		return false, err
@@ -82,7 +83,7 @@ func (c *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			if getServer.UserVisibleState == psql.ServerStateReady {
 
 				// Update the secret with fully qualified server name. Ignore error as we have the admin creds which is critical.
-				c.UpdateSecretWithFullServerName(ctx, secret, instance, *getServer.FullyQualifiedDomainName)
+				c.UpdateSecretWithFullServerName(ctx, secretClient, secret, instance, *getServer.FullyQualifiedDomainName)
 
 				instance.Status.Message = resourcemanager.SuccessMsg
 				instance.Status.ResourceId = *getServer.ID
@@ -204,8 +205,9 @@ func (c *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 		opt(options)
 	}
 
+	secretClient := c.SecretClient
 	if options.SecretClient != nil {
-		c.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := c.convert(obj)
@@ -238,7 +240,7 @@ func (c *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 		if status != "InProgress" {
 			// Best case deletion of secrets
 			secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
-			c.SecretClient.Delete(ctx, secretKey)
+			secretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 	}

@@ -12,9 +12,9 @@ The release process for Azure Service Operator has two steps:
    - Click "create release" and choose the build from step 1 for "Artifacts".
    - Click "Create".
 3. Wait for the DevOps release created in step #2 to finish. The result of a successful run of the DevOps release is:
-  - The creation of a GitHub release you can access at https://github.com/Azure/azure-service-operator/releases. This release contains:
-    - A `setup.yaml` file complete with all of the Azure Service Operator CRDs and deployment configuration which can easily be applied directly to a cluster.
-    - `notes.txt` with a link to the Azure Service Operator manager docker image.
+   - The creation of a GitHub release you can access at https://github.com/Azure/azure-service-operator/releases. This release contains:
+     - A `setup.yaml` file complete with all of the Azure Service Operator CRDs and deployment configuration which can easily be applied directly to a cluster.
+     - `notes.txt` with a link to the Azure Service Operator manager docker image.
 
 
 ## Releasing an updated Helm chart

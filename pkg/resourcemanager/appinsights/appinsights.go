@@ -110,7 +110,7 @@ func (m *Manager) CreateAppInsights(
 }
 
 // StoreSecrets upserts the secret information for this app insight
-func (m *Manager) StoreSecrets(ctx context.Context, instrumentationKey string, instance *v1alpha1.AppInsights) error {
+func (m *Manager) StoreSecrets(ctx context.Context, secretClient secrets.SecretClient, instrumentationKey string, instance *v1alpha1.AppInsights) error {
 
 	// build the connection string
 	data := map[string][]byte{
@@ -120,7 +120,7 @@ func (m *Manager) StoreSecrets(ctx context.Context, instrumentationKey string, i
 
 	// upsert
 	secretKey := m.makeSecretKey(instance)
-	return m.SecretClient.Upsert(ctx,
+	return secretClient.Upsert(ctx,
 		secretKey,
 		data,
 		secrets.WithOwner(instance),
@@ -129,9 +129,9 @@ func (m *Manager) StoreSecrets(ctx context.Context, instrumentationKey string, i
 }
 
 // DeleteSecret deletes the secret information for this app insight
-func (m *Manager) DeleteSecret(ctx context.Context, instance *v1alpha1.AppInsights) error {
+func (m *Manager) DeleteSecret(ctx context.Context, secretClient secrets.SecretClient, instance *v1alpha1.AppInsights) error {
 	secretKey := m.makeSecretKey(instance)
-	return m.SecretClient.Delete(ctx, secretKey)
+	return secretClient.Delete(ctx, secretKey)
 }
 
 // Ensure checks the desired state of the operator
@@ -141,8 +141,9 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 		opt(options)
 	}
 
+	secretClient := m.SecretClient
 	if options.SecretClient != nil {
-		m.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := m.convert(obj)
@@ -163,6 +164,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 			if comp.ApplicationInsightsComponentProperties != nil {
 				properties := *comp.ApplicationInsightsComponentProperties
 				err = m.StoreSecrets(ctx,
+					secretClient,
 					*properties.InstrumentationKey,
 					instance,
 				)
@@ -225,8 +227,9 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 		opt(options)
 	}
 
+	secretClient := m.SecretClient
 	if options.SecretClient != nil {
-		m.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := m.convert(obj)
@@ -249,7 +252,7 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {
-			m.DeleteSecret(ctx, instance)
+			m.DeleteSecret(ctx, secretClient, instance)
 			return false, nil
 		}
 		return true, err
@@ -258,7 +261,7 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 
 	if err == nil {
 		if response.Status != "InProgress" {
-			m.DeleteSecret(ctx, instance)
+			m.DeleteSecret(ctx, secretClient, instance)
 			return false, nil
 		}
 	}
