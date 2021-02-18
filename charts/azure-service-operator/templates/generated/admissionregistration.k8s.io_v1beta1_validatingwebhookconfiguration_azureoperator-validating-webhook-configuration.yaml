@@ -2,7 +2,7 @@ apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: $(NAMESPACE)/$(CERTIFICATENAME)
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/azureoperator-serving-cert
   name: azureoperator-validating-webhook-configuration
 webhooks:
 - clientConfig:
