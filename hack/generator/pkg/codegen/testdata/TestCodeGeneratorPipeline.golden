@@ -20,3 +20,4 @@ jsonTestCases                       azure      Add test cases to verify JSON ser
 markStorageVersion                             Marking the latest version of each resource as the storage version
 ensureArmTypeExistsForEveryType     azure      Ensure that an ARM type for every top level resource spec/status exists
 exportTestPackages                             Export packages for test
+exportControllerResourceRegistrations azure      Export resource registrations to ""

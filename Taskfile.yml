@@ -21,7 +21,7 @@ tasks:
     desc: Perform all fast local pre-commit tasks.
     cmds: 
     - task: generator:quick-checks
-    - task: controller:generate-crds # required here to prevent it running twice in controller:quick-checks, remove once go-task dedupes dependencies
+    - task: controller:generate-kustomize # required here to prevent it running twice in controller:quick-checks, remove once go-task dedupes dependencies
     - task: controller:quick-checks
     - task: crossplane:generate-crds
     - task: crossplane:quick-checks
@@ -163,49 +163,19 @@ tasks:
     cmds:
     - go build -o ./bin/{{.CONTROLLER_APP}}
 
-  controller:copy-valid-crds:
+  controller:fixup-webhooks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:generate-crds]
     cmds:
-    # copy CRD files that are needed to a different folder, at the moment we cannot load all CRD files
-    - mkdir -p config/crd/bases/valid
-    - cp config/crd/bases/microsoft.batch.infra.azure.com_batchaccounts.yaml config/crd/bases/valid
-    - cp config/crd/bases/microsoft.documentdb.infra.azure.com_databaseaccounts.yaml config/crd/bases/valid
-    - cp config/crd/bases/microsoft.storage.infra.azure.com_storageaccounts.yaml config/crd/bases/valid
-    - cp config/crd/bases/microsoft.storage.infra.azure.com_storageaccountsblobservices.yaml config/crd/bases/valid
-    - cp config/crd/bases/microsoft.storage.infra.azure.com_storageaccountsblobservicescontainers.yaml config/crd/bases/valid
-    - cp config/crd/bases/microsoft.resources.infra.azure.com_resourcegroups.yaml config/crd/bases/valid
-
-  controller:copy-valid-webhooks:
-    dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-crds]
-    cmds:
-    # the webhook configuration file, as it stands, is too big to load into k8s 😊
-    # instead, for now, we will pull out the bits we want
-    - mkdir -p config/webhook/valid
-    - yq delete {{.IN}} 'webhooks[*]' > {{.OUT}}
-    - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == batchaccounts)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
-    - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == databaseaccounts)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
-    - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == storageaccounts)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
-    - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == storageaccountsblobservicescontainers)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
-    - yq read -c {{.IN}} 'webhooks.(rules[*].resources[*]. == resourcegroups)' | yq prefix - webhooks | yq merge -a append - {{.OUT}} > {{.OUT}}_2 && mv {{.OUT}}_2 {{.OUT}}
     # need to remove v1 from the manifest as it doesn't work with controller-runtime currently: https://github.com/kubernetes-sigs/controller-runtime/issues/1272
-    - yq delete -P -i {{.OUT}} 'webhooks[*].admissionReviewVersions(. == v1)' 
+    - yq delete -P -i {{.IN}} 'webhooks[*].admissionReviewVersions(. == v1)' 
     vars:
-      IN: config/webhook/manifests.yaml 
-      OUT: config/webhook/valid/manifests.yaml
-
-  controller:prep-integration-tests:
-    # this just exists to serialize execution of these dependencies,
-    # since go-task won't dedupe _their_ shared dependencies
-    cmds:
-    - task controller:copy-valid-crds
-    - task controller:copy-valid-webhooks
+      IN: config/webhook/manifests.yaml
 
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:prep-integration-tests]
+    deps: [controller:fixup-webhooks]
     cmds:
     # -race fails at the moment in controller-runtime
     - ENVTEST=1 RECORD_REPLAY=1 go test -v ./...
@@ -213,7 +183,7 @@ tasks:
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:prep-integration-tests]
+    deps: [controller:fixup-webhooks]
     cmds:
     # -race fails at the moment in controller-runtime
     - ENVTEST=1 RECORD_REPLAY=1 go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -v ./...
@@ -221,7 +191,7 @@ tasks:
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:prep-integration-tests, cleanup-azure-resources]
+    deps: [controller:fixup-webhooks, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
     - ENVTEST=1 go test -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v ./...
@@ -251,6 +221,17 @@ tasks:
     - cd _apis && controller-gen {{.CRD_OPTIONS}} rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=../config/crd/bases output:webhook:artifacts:config=../config/webhook
     vars:
       CRD_OPTIONS: "crd:crdVersions=v1,allowDangerousTypes=true"
+
+  controller:generate-kustomize:
+    desc: Run {{.GENERATOR_APP}} to generate the Kustomize file for registering CRDs.
+    deps: [generator:build, controller:generate-crds]
+    sources:
+      - "{{.GENERATOR_ROOT}}bin/{{.GENERATOR_APP}}"
+      - "{{.CONTROLLER_ROOT}}config/crd/bases/**/*.yaml"
+    generates:
+      - "{{.CONTROLLER_ROOT}}config/crd/kustomization.yaml"
+    cmds:
+      - "{{.GENERATOR_ROOT}}bin/{{.GENERATOR_APP}} gen-kustomize {{.CONTROLLER_ROOT}}config/crd"
 
   ############### Crossplane targets ###############
   crossplane:quick-checks:

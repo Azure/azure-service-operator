@@ -76,6 +76,7 @@ func (p *PackageDefinition) DefinitionCount() int {
 
 func (p *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string, generatedPackages map[PackageReference]*PackageDefinition) error {
 	var errs []error
+
 	for fileName, defs := range filesToGenerate {
 		codeFilePath := filepath.Join(
 			outputDir,

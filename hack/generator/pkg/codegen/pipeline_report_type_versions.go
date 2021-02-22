@@ -27,7 +27,7 @@ func reportOnTypesAndVersions(configuration *config.Configuration) PipelineStage
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			report := NewPackagesMatrixReport()
 			report.Summarize(types)
-			err := report.WriteTo(configuration.FullOutputPath())
+			err := report.WriteTo(configuration.FullTypesOutputPath())
 			return types, err
 		})
 }

@@ -37,8 +37,9 @@ type Configuration struct {
 	// The path to the go.mod file where the code will be generated
 	DestinationGoModuleFile string `yaml:"destinationGoModuleFile"`
 	// The folder relative to the go.mod file path where the code should be generated
-	OutputPath string `yaml:"outputPath"`
-
+	TypesOutputPath string `yaml:"typesOutputPath"`
+	// The file relative to the go.mod file path where registration of the Go types should be generated. If omitted, this step is skipped.
+	TypeRegistrationOutputFile string `yaml:"typeRegistrationOutputFile"`
 	// AnyTypePackages lists packages which we expect to generate
 	// interface{} fields.
 	AnyTypePackages []string `yaml:"anyTypePackages"`
@@ -56,13 +57,23 @@ type Configuration struct {
 }
 
 func (config *Configuration) LocalPathPrefix() string {
-	return path.Join(config.GoModulePath, config.OutputPath)
+	return path.Join(config.GoModulePath, config.TypesOutputPath)
 }
 
-func (config *Configuration) FullOutputPath() string {
+func (config *Configuration) FullTypesOutputPath() string {
 	return filepath.Join(
 		filepath.Dir(config.DestinationGoModuleFile),
-		config.OutputPath)
+		config.TypesOutputPath)
+}
+
+func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
+	if config.TypeRegistrationOutputFile == "" {
+		return ""
+	}
+
+	return filepath.Join(
+		filepath.Dir(config.DestinationGoModuleFile),
+		config.TypeRegistrationOutputFile)
 }
 
 // NewConfiguration returns a new empty Configuration
@@ -127,13 +138,13 @@ func (config *Configuration) initialize(configPath string) error {
 		return errors.New("SchemaURL missing")
 	}
 
-	if config.OutputPath == "" {
+	if config.TypesOutputPath == "" {
 		// Default to an apis folder if not specified
-		config.OutputPath = "apis"
+		config.TypesOutputPath = "apis"
 	}
 
 	// Trim any trailing slashes on the output path
-	config.OutputPath = strings.TrimSuffix(config.OutputPath, "/")
+	config.TypesOutputPath = strings.TrimSuffix(config.TypesOutputPath, "/")
 
 	var errs []error
 

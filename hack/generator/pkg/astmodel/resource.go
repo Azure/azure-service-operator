@@ -130,6 +130,11 @@ func (resource *ResourceType) StatusType() Type {
 	return resource.status
 }
 
+// IsStorageVersion returns true if the resource is a storage version
+func (resource *ResourceType) IsStorageVersion() bool {
+	return resource.isStorageVersion
+}
+
 // WithSpec returns a new resource that has the specified spec type
 func (resource *ResourceType) WithSpec(specType Type) *ResourceType {
 

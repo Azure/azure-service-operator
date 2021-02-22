@@ -1,6 +1,6 @@
 schemaUrl: https://raw.githubusercontent.com/matthchr/azure-resource-manager-schemas/feature/fix-refs/schemas/2015-01-01/deploymentTemplate.json
-outputPath: _apis
 destinationGoModuleFile: ../crossplane/go.mod
+typesOutputPath: _apis
 pipeline: crossplane
 typeFilters:
   - action: prune

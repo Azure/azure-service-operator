@@ -1,6 +1,7 @@
 schemaUrl: https://raw.githubusercontent.com/matthchr/azure-resource-manager-schemas/feature/fix-refs/schemas/2015-01-01/deploymentTemplate.json
 destinationGoModuleFile: ../generated/go.mod
-outputPath: _apis
+typesOutputPath: _apis
+typeRegistrationOutputFile: controllers/controller_resources_gen.go
 pipeline: azure
 typeFilters:
   - action: prune
@@ -98,7 +99,7 @@ exportFilters:
   - action: include-transitive
     group: microsoft.batch
     version: v20170901
-    name: 'BatchAccount*'
+    name: 'BatchAccount'
     because: "including BatchAccount resource"
   - action: include-transitive
     group: microsoft.documentdb

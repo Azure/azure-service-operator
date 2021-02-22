@@ -36,12 +36,7 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 
 			err = cg.Generate(ctx)
 			if err != nil {
-				klog.Errorf("Error during code generation:\n%v\n", err)
-				stackTrace := findDeepestTrace(err)
-				if stackTrace != nil {
-					klog.V(4).Infof("%+v", stackTrace)
-				}
-				return err
+				return logAndExtractStack("Error during code generation", err)
 			}
 
 			return nil

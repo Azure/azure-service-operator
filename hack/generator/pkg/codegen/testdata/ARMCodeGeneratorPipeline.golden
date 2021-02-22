@@ -30,3 +30,4 @@ rogueCheck                                     Catch rogue definitions using Any
 ensureArmTypeExistsForEveryType     azure      Ensure that an ARM type for every top level resource spec/status exists
 deleteGenerated                                Delete generated code from .
 exportPackages                                 Export packages to "."
+exportControllerResourceRegistrations azure      Export resource registrations to ""

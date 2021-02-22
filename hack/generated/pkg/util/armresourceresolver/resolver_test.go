@@ -68,11 +68,11 @@ func createResourceGroupRootedResource(rgName string, name string) (genruntime.M
 func createDeeplyNestedResource(rgName string, parentName string, name string) ResourceHierarchy {
 	a := createResourceGroup(rgName)
 
-	b := &batch.BatchAccount{
+	b := &storage.StorageAccount{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: parentName,
 		},
-		Spec: batch.BatchAccounts_Spec{
+		Spec: storage.StorageAccounts_Spec{
 			Owner: genruntime.KnownResourceReference{
 				Name: rgName,
 			},
@@ -80,11 +80,11 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) R
 		},
 	}
 
-	c := &batch.BatchAccountsPool{
+	c := &storage.StorageAccountsBlobService{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: name,
 		},
-		Spec: batch.BatchAccountsPools_Spec{
+		Spec: storage.StorageAccountsBlobServices_Spec{
 			Owner: genruntime.KnownResourceReference{
 				Name: parentName,
 			},
@@ -146,7 +146,7 @@ func Test_ResolveResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 	ctx := context.TODO()
 
 	s := runtime.NewScheme()
-	_ = batch.AddToScheme(s)
+	_ = storage.AddToScheme(s)
 	_ = resources.AddToScheme(s)
 
 	resolver := NewTestResolver(s)

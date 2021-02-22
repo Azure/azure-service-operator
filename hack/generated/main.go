@@ -12,50 +12,32 @@ import (
 	"time"
 
 	"github.com/Azure/go-autorest/autorest/azure/auth"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
-
-	"k8s.io/apimachinery/pkg/runtime"
-	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/klog/v2"
 	"k8s.io/klog/v2/klogr"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
-	batch "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.batch/v20170901"
-	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v20200601"
-	storage "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storage/v20190401"
 	"github.com/Azure/k8s-infra/hack/generated/controllers"
-	// +kubebuilder:scaffold:imports
+	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
 )
-
-var (
-	scheme   = runtime.NewScheme()
-	setupLog = ctrl.Log.WithName("setup")
-)
-
-func init() {
-	klog.InitFlags(nil)
-
-	// TODO: Need to generate this
-	_ = clientgoscheme.AddToScheme(scheme)
-	_ = batch.AddToScheme(scheme)
-	_ = storage.AddToScheme(scheme)
-	_ = resources.AddToScheme(scheme)
-	// +kubebuilder:scaffold:scheme
-}
 
 func main() {
+	flagSet := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+	klog.InitFlags(flagSet)
+	setupLog := ctrl.Log.WithName("setup")
+
 	var metricsAddr string
 	var enableLeaderElection bool
-	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
-	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
+	flagSet.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
+	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
-	flag.Parse()
+	flagSet.Parse(os.Args[1:]) //nolint:errcheck
+
+	scheme := controllers.CreateScheme()
 
 	ctrl.SetLogger(klogr.New())
 
-	// syncPeriod := 30 * time.Second
 	syncPeriod := 30 * time.Minute
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
@@ -89,7 +71,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if errs := controllers.RegisterAll(mgr, armApplier, controllers.KnownTypes, ctrl.Log.WithName("controllers"), concurrency(1)); errs != nil {
+	if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownTypes(), ctrl.Log.WithName("controllers"), concurrency(1)); errs != nil {
 		for _, err := range errs {
 			setupLog.Error(err, "failed to register gvk: %v")
 		}

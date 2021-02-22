@@ -1,4 +1,6 @@
 apis/
 _apis/
 config/crd/bases/
+config/crd/kustomization.yaml
 config/webhook
+controllers/controller_resources_gen.go

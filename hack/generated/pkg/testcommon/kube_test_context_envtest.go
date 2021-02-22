@@ -30,11 +30,11 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 	environment := envtest.Environment{
 		ErrorIfCRDPathMissing: true,
 		CRDDirectoryPaths: []string{
-			"../config/crd/bases/valid", // TODO: remove '/valid' once all CRDs are valid
+			"../config/crd/bases",
 		},
 		WebhookInstallOptions: envtest.WebhookInstallOptions{
 			DirectoryPaths: []string{
-				"../config/webhook/valid", // TODO: remove '/valid'
+				"../config/webhook",
 			},
 		},
 	}
@@ -55,7 +55,7 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 
 	log.Print("Creating & starting controller-runtime manager")
 	mgr, err := ctrl.NewManager(config, ctrl.Options{
-		Scheme:             CreateScheme(),
+		Scheme:             controllers.CreateScheme(),
 		CertDir:            environment.WebhookInstallOptions.LocalServingCertDir,
 		Port:               environment.WebhookInstallOptions.LocalServingPort,
 		MetricsBindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
@@ -76,7 +76,7 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 	errs := controllers.RegisterAll(
 		mgr,
 		perTestContext.AzureClient,
-		controllers.KnownTypes,
+		controllers.GetKnownTypes(),
 		klogr.New(),
 		controllers.Options{
 			CreateDeploymentName: func(obj metav1.Object) (string, error) {

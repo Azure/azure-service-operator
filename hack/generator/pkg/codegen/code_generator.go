@@ -153,10 +153,12 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		ensureDefinitionsDoNotUseAnyTypes(),
 		ensureArmTypeExistsForEveryResource().UsedFor(ArmTarget),
 
-		deleteGeneratedCode(configuration.FullOutputPath()),
+		deleteGeneratedCode(configuration.FullTypesOutputPath()),
 
-		exportPackages(configuration.FullOutputPath()).
+		exportPackages(configuration.FullTypesOutputPath()).
 			RequiresPrerequisiteStages("deleteGenerated"),
+
+		exportControllerResourceRegistrations(configuration.FullTypesRegistrationOutputFilePath()).UsedFor(ArmTarget),
 	}
 }
 

@@ -33,6 +33,7 @@ func newRootCommand() (*cobra.Command, error) {
 
 	cmdFuncs := []func() (*cobra.Command, error){
 		NewGenTypesCommand,
+		NewGenKustomizeCommand,
 	}
 
 	for _, f := range cmdFuncs {
