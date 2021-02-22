@@ -4,8 +4,8 @@
 package v20200101
 
 import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // +kubebuilder:object:root=true

@@ -196,8 +196,7 @@ func allocateTypesToFiles(types Types) map[string][]TypeDefinition {
 	return filesToGenerate
 }
 
-var groupVersionFileTemplate = template.Must(template.New("groupVersionFile").Parse(`
-/*
+var groupVersionFileTemplate = template.Must(template.New("groupVersionFile").Parse(`/*
 Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */

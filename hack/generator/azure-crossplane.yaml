@@ -1,4 +1,4 @@
-schemaUrl: https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json
+schemaUrl: https://raw.githubusercontent.com/matthchr/azure-resource-manager-schemas/feature/fix-refs/schemas/2015-01-01/deploymentTemplate.json
 outputPath: _apis
 destinationGoModuleFile: ../crossplane/go.mod
 pipeline: crossplane

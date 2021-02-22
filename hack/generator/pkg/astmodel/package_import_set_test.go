@@ -399,14 +399,14 @@ func Test_PackageSet_OrderImports(t *testing.T) {
 		{"Anonymous imports are alphabetical (ii)", betaImport, alphaImport, false},
 		{"Named imports are alphabetical (i)", alphaImportWithName, betaImportWithName, true},
 		{"Named imports are alphabetical (ii)", betaImportWithName, alphaImportWithName, false},
-		{"Named imports come before anonymous (i)", alphaImportWithName, alphaImport, true},
-		{"Named imports come before anonymous (ii)", betaImportWithName, alphaImport, true},
-		{"Named imports come before anonymous (iii)", alphaImportWithName, betaImport, true},
-		{"Named imports come before anonymous (iv)", betaImportWithName, betaImport, true},
-		{"Anonymous imports come after named (i)", alphaImport, alphaImportWithName, false},
-		{"Anonymous imports come after named (ii)", alphaImport, betaImportWithName, false},
-		{"Anonymous imports come after named (iii)", betaImport, alphaImportWithName, false},
-		{"Anonymous imports come after named (iv)", betaImport, betaImportWithName, false},
+		{"Named imports come after anonymous of the same name (i)", alphaImportWithName, alphaImport, false},
+		{"Named imports come after anonymous of the same name (ii)", betaImportWithName, betaImport, false},
+		{"Named imports are alphabetical with anonymous imports (i)", betaImportWithName, alphaImport, false},
+		{"Named imports are alphabetical with anonymous imports (ii)", alphaImportWithName, betaImport, true},
+		{"Anonymous imports come before named import of same package (i)", alphaImport, alphaImportWithName, true},
+		{"Anonymous imports come before named import of same package (ii)", betaImport, betaImportWithName, true},
+		{"Anonymous imports are alphabetical with named imports (i)", alphaImport, betaImportWithName, true},
+		{"Anonymous imports are alphabetical with named imports (i)", betaImport, alphaImportWithName, false},
 	}
 
 	var set PackageImportSet

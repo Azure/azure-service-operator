@@ -269,16 +269,19 @@ func (set *PackageImportSet) versionedNameForImport(imp PackageImport) string {
 }
 
 func (set *PackageImportSet) orderImports(i PackageImport, j PackageImport) bool {
-	if i.HasExplicitName() && j.HasExplicitName() {
-		return i.name < j.name
-	}
+	// This ordering is what go fmt uses
+	if i.packageReference.Equals(j.packageReference) {
+		if i.HasExplicitName() && j.HasExplicitName() {
+			return i.name < j.name
+		}
 
-	if i.HasExplicitName() {
-		return true
-	}
+		if i.HasExplicitName() {
+			return false
+		}
 
-	if j.HasExplicitName() {
-		return false
+		if j.HasExplicitName() {
+			return true
+		}
 	}
 
 	return i.packageReference.String() < j.packageReference.String()
