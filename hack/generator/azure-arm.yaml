@@ -11,6 +11,10 @@ typeFilters:
   - action: include
     version: 2020-*
     because: all 2020 API versions are included
+  - action: include
+    group: microsoft.servicebus
+    version: v20180101preview
+    because: We want to export this particular preview version
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default
@@ -106,6 +110,16 @@ exportFilters:
     version: v20150408
     name: DatabaseAccount
     because: "including Cosmos DB resource"
+  - action: include-transitive
+    group: microsoft.servicebus
+    version: v20180101preview
+    name: Namespace
+    because: "including Service Bus namespace"
+  - action: include-transitive
+    group: microsoft.servicebus
+    version: v20180101preview
+    name: NamespacesQueue
+    because: "including Service Bus queue"
 
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
