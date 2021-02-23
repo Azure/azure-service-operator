@@ -100,7 +100,7 @@ func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Pipelin
 			for _, def := range defs {
 				resourceUpdater := chooseSpec
 				// TODO: we need flags
-				if strings.HasSuffix(def.Name().Name(), "_Status") {
+				if strings.Contains(def.Name().Name(), "_Status") {
 					resourceUpdater = chooseStatus
 				}
 

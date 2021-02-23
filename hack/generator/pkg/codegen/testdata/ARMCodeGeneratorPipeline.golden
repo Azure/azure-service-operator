@@ -15,7 +15,8 @@ filterTypes                                    Filter generated types
 stripUnreferenced                              Strip unreferenced types
 replaceAnyTypeWithJSON                         Replacing interface{}s with arbitrary JSON
 reportTypesAndVersions              azure      Generate reports on types and versions in each package
-createArmTypes                      azure      Create ARM types and remove ARM-only properties from Kubernetes types
+createArmTypes                      azure      Creates ARM types
+applyArmConversionInterface         azure      Apply the ARM conversion interface to Kubernetes types
 applyKubernetesResourceInterface    azure      Ensures that every resource implements the KubernetesResource interface
 addCrossplaneOwnerProperties        crossplane Adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
 addCrossplaneForProviderProperty    crossplane Adds a 'ForProvider' property on every spec
