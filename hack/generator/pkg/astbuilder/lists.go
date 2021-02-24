@@ -48,9 +48,7 @@ func IterateOverList(item string, list dst.Expr, statements ...dst.Stmt) *dst.Ra
 		Value: dst.NewIdent(item),
 		Tok:   token.DEFINE,
 		X:     list,
-		Body: &dst.BlockStmt{
-			List: statements,
-		},
+		Body:  StatementBlock(statements...),
 	}
 }
 
@@ -67,8 +65,6 @@ func IterateOverListWithIndex(index string, item string, list dst.Expr, statemen
 		Value: dst.NewIdent(item),
 		Tok:   token.DEFINE,
 		X:     list,
-		Body: &dst.BlockStmt{
-			List: cloneStmtSlice(statements),
-		},
+		Body:  StatementBlock(statements...),
 	}
 }

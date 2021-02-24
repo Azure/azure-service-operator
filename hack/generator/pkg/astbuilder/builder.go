@@ -275,11 +275,27 @@ func Returns(returns ...dst.Expr) dst.Stmt {
 }
 
 // ReturnNoError creates a return nil statement for when no error occurs
+//
+//    // No error
+//    return nil
+//
 func ReturnNoError() dst.Stmt {
 	result := Returns(dst.NewIdent("nil"))
 	result.Decorations().Before = dst.EmptyLine
 	result.Decorations().Start.Append("// No error")
 	return result
+}
+
+// WrappedErrorf returns the err local, wrapped with additional information
+//
+// errors.Wrap(err, <message>)
+//
+func WrappedErrorf(template string, args ...interface{}) dst.Expr {
+	return CallQualifiedFunc(
+		"errors",
+		"Wrap",
+		dst.NewIdent("err"),
+		StringLiteralf(template, args...))
 }
 
 // QualifiedTypeName generates a reference to a type within an imported package
@@ -314,6 +330,23 @@ func NotEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 		Op: token.NEQ,
 		Y:  dst.Clone(rhs).(dst.Expr),
 	}
+}
+
+// StatementBlock generates a block containing the supplied statements
+func StatementBlock(statements ...dst.Stmt) *dst.BlockStmt {
+	return &dst.BlockStmt{
+		List: cloneStmtSlice(statements),
+	}
+}
+
+// EnsureStatementBlock wraps any statement into a block safely
+// (without double wrapping an existing block)
+func EnsureStatementBlock(statement dst.Stmt) *dst.BlockStmt {
+	if block, ok := statement.(*dst.BlockStmt); ok {
+		return block
+	}
+
+	return StatementBlock(statement)
 }
 
 // cloneExprSlice is a utility method to clone a slice of expressions

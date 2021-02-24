@@ -53,8 +53,6 @@ func IterateOverMapWithValue(key string, item string, mapExpr dst.Expr, statemen
 		Value: dst.NewIdent(item),
 		Tok:   token.DEFINE,
 		X:     mapExpr,
-		Body: &dst.BlockStmt{
-			List: cloneStmtSlice(statements),
-		},
+		Body:  StatementBlock(statements...),
 	}
 }

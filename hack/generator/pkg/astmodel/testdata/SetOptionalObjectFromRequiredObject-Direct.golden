@@ -6,19 +6,19 @@ package vCurrent
 import "github.com/Azure/k8s-infra/hack/generated/_apis/Verification/vHub"
 
 type Person struct {
-	scores []*int `json:"scores"`
+	role *Release `json:"role"`
 }
 
 // ConvertFrom populates our Person from the provided source Person
 func (person Person) ConvertFrom(source *vHub.Person) error {
 
-	// scores
-	score1List := make([]*int, len(source.scores))
-	for score1Index, score1Item := range source.scores {
-		score := score1Item
-		score1List[score1Index] = &score
+	// role
+	var role Release
+	err := role.ConvertFrom(&source.role)
+	if err != nil {
+		return errors.Wrap(err, "populating role from role, calling ConvertFrom()")
 	}
-	person.scores = score1List
+	person.role = &role
 
 	// No error
 	return nil
@@ -27,16 +27,15 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 // ConvertTo populates the provided destination Person from our Person
 func (person Person) ConvertTo(destination *vHub.Person) error {
 
-	// scores
-	scoreList := make([]int, len(person.scores))
-	for scoreIndex, scoreItem := range person.scores {
-		if scoreItem != nil {
-			scoreList[scoreIndex] = *scoreItem
-		} else {
-			scoreList[scoreIndex] = 0
+	// role
+	var role vHub.Release
+	if person.role != nil {
+		err := person.role.ConvertTo(role)
+		if err != nil {
+			return errors.Wrap(err, "populating role from role, calling ConvertTo()")
 		}
 	}
-	destination.scores = scoreList
+	destination.role = role
 
 	// No error
 	return nil

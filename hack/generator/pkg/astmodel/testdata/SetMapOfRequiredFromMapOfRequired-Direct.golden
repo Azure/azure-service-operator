@@ -17,7 +17,6 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 	for ratingKey, ratingValue := range source.ratings {
 		ratingMap[ratingKey] = ratingValue
 	}
-
 	person.ratings = ratingMap
 
 	// No error
@@ -32,7 +31,6 @@ func (person Person) ConvertTo(destination *vHub.Person) error {
 	for ratingKey, ratingValue := range person.ratings {
 		ratingMap[ratingKey] = ratingValue
 	}
-
 	destination.ratings = ratingMap
 
 	// No error

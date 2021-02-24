@@ -35,6 +35,20 @@ func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr)
 	}
 }
 
+// CallExpr creates an expression to call the named function with the specified arguments
+//
+// <expr>.<funcName>(arguments...)
+//
+func CallExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) dst.Expr {
+	return &dst.CallExpr{
+		Fun: &dst.SelectorExpr{
+			X:   expr,
+			Sel: dst.NewIdent(funcName),
+		},
+		Args: cloneExprSlice(arguments),
+	}
+}
+
 // InvokeFunc creates a statement to invoke a function with specified arguments
 //
 // <funcName>(arguments...)

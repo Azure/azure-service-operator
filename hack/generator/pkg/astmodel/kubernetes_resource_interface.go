@@ -527,14 +527,11 @@ func defaultAzureNameFunction(k *objectFunction, codeGenerationContext *CodeGene
 					Op: token.EQL,
 					Y:  &dst.BasicLit{Kind: token.STRING, Value: "\"\""},
 				},
-				Body: &dst.BlockStmt{
-					List: []dst.Stmt{
-						astbuilder.SimpleAssignment(
-							azureNameProp,
-							token.ASSIGN,
-							nameProp),
-					},
-				},
+				Body: astbuilder.StatementBlock(
+					astbuilder.SimpleAssignment(
+						azureNameProp,
+						token.ASSIGN,
+						nameProp)),
 			},
 		},
 	}

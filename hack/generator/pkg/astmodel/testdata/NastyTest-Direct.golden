@@ -21,13 +21,10 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 			for nasty2Key, nasty2Value := range nasty1Item {
 				nasty2Map[nasty2Key] = nasty2Value
 			}
-
 			nasty1List[nasty1Index] = nasty2Map
 		}
-
 		nastyMap[nastyKey] = nasty1List
 	}
-
 	person.nasty = nastyMap
 
 	// No error
@@ -46,13 +43,10 @@ func (person Person) ConvertTo(destination *vHub.Person) error {
 			for nasty2Key, nasty2Value := range nasty1Item {
 				nasty2Map[nasty2Key] = nasty2Value
 			}
-
 			nasty1List[nasty1Index] = nasty2Map
 		}
-
 		nastyMap[nastyKey] = nasty1List
 	}
-
 	destination.nasty = nastyMap
 
 	// No error

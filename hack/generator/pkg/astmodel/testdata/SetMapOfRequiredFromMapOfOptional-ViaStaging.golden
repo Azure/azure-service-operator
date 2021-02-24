@@ -32,7 +32,6 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 			ratingMap[ratingKey] = 0
 		}
 	}
-
 	person.ratings = ratingMap
 
 	// No error
@@ -50,7 +49,6 @@ func (person Person) ConvertTo(destination *vHub.Person) error {
 		rating := rating1Value
 		rating1Map[rating1Key] = &rating
 	}
-
 	personTemp.ratings = rating1Map
 
 	// Populate destination from personTemp
