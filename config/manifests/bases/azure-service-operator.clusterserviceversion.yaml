@@ -255,7 +255,160 @@ spec:
       kind: VirtualNetwork
       name: virtualnetworks.azure.microsoft.com
       version: v1alpha1
-  description: "## Overview\n\nThe Azure Service Operator comprises of:\n\n- The Custom Resource Definitions (CRDs) for each of the Azure services a Kubernetes user can provision.\n- The Kubernetes controller that watches for requests to create Custom Resources for each of these CRDs and creates them.\n\nThe project was built using [Kubebuilder](https://book.kubebuilder.io/).\n\nCurious to see how it all works? Check out our [control flow diagrams](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/controlflow.md).\n\n**Note**: The current version of Azure Service Operator only supports watching all namespaces in the cluster.\n\n## Supported Azure Services\n\n- [Resource Group](https://github.com/Azure/azure-service-operator/tree/master/docs/services/resourcegroup/resourcegroup.md)\n- [Event Hubs](https://github.com/Azure/azure-service-operator/tree/master/docs/services/eventhub/eventhub.md)\n- [Azure SQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/azuresql/azuresql.md)\n- [Azure Database for PostgreSQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/postgresql/postgresql.md)\n- [Azure Database for MySQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/mysql/mysql.md)\n- [Azure Key Vault](https://github.com/Azure/azure-service-operator/tree/master/docs/services/keyvault/keyvault.md)\n- [Azure Cache for Redis](https://github.com/Azure/azure-service-operator/tree/master/docs/services/rediscache/rediscache.md)\n- [Storage Account](https://github.com/Azure/azure-service-operator/tree/master/docs/services/storage/storageaccount.md)\n- [Blob Storage](https://github.com/Azure/azure-service-operator/tree/master/docs/services/storage/blobcontainer.md)\n- [Virtual Network](https://github.com/Azure/azure-service-operator/tree/master/docs/services/virtualnetwork/virtualnetwork.md)\n- [Application Insights](https://github.com/Azure/azure-service-operator/tree/master/docs/services/appinsights/appinsights.md)\n- [API Management](https://github.com/Azure/azure-service-operator/tree/master/docs/services/apimgmt/apimgmt.md)\n- [Cosmos DB](https://github.com/Azure/azure-service-operator/tree/master/docs/services/cosmosdb/cosmosdb.md)\n- [Virtual Machine](https://github.com/Azure/azure-service-operator/tree/master/docs/services/virtualmachine/virtualmachine.md)\n- [Virtual Machine Scale Set](https://github.com/Azure/azure-service-operator/tree/master/docs/services/vmscaleset/vmscaleset.md)\n\n## Quickstart\n\nBefore you begin, verify you're running the Azure CLI version 2.0.53 or later. Run `az --version` to find the version. If you need to install or upgrade, see [Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).\n\n1. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.\n\n    First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:\n    ```yaml\n    AZURE_TENANT_ID=<your-tenant-id-goes-here>\n    AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>\n    ```\n\n    You can find these values by using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest):\n    ```sh\n    az account show\n    ```\n\n2. Next, we'll create a Service Principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/managedidentity.md).\n\n    ```sh\n    az ad sp create-for-rbac -n \"azure-service-operator\" --role contributor \\\n        --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID\n    ```\n\n    This should give you output like the following:\n    ```sh\n    \"appId\": \"xxxxxxxxxx\",\n    \"displayName\": \"azure-service-operator\",\n    \"name\": \"http://azure-service-operator\",\n    \"password\": \"xxxxxxxxxxx\",\n    \"tenant\": \"xxxxxxxxxxxxx\"\n    ```\n\n3.  Once you have created a Service Principal, gather the following values:\n    \n    `AZURE_TENANT_ID` is the Tenant ID from Step 1. \n\n    `AZURE_SUBSCRIPTION_ID` is the Subscription ID from Step 1. \n\n    `AZURE_CLIENT_ID` is the appID from the Service Principal created in Step 2. \n\n    `AZURE_CLIENT_SECRET` is the password from the service Principal we created in Step 2. \n\n    `AZURE_CLOUD_ENV` is the Azure Environment you'd like to use, i.e. AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud. \n\n4.  Set those values in a `Secret` called `azureoperatorsettings` within the `openshift-operators` Project/Namespace:\n    ```yaml\n    apiVersion: v1\n    kind: Secret\n    metadata:\n      name: azureoperatorsettings\n      namespace: openshift-operators\n    data:\n      AZURE_TENANT_ID=<your-tenant-id-goes-here>\n      AZURE_SUBSCRIPTION_ID:<your-subscription-id-goes-here>\n      AZURE_CLIENT_ID=<your-client-id>\n      AZURE_CLIENT_SECRET=<your-client-secret>\n      AZURE_CLOUD_ENV=<your-azure-cloud-environment>\n    ```\n\n5. Install the Azure Service Operator to the `openshift-operators` Project/Namespace. You should now see the Azure Service Operator pod running in your cluster:\n\n    ```console\n    $ kubectl get pods -n openshift-operators\n    NAME                                                READY   STATUS    RESTARTS   AGE\n    azureoperator-controller-manager-7dd75bbd97-mk4s9   2/2     Running   0          35s\n    ```\n\n## About the project\n\nThis project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases).\n\nPlease see the [FAQ](https://github.com/Azure/azure-service-operator/blob/master/docs/faq.md) for answers to commonly asked questions about the Azure Service Operator.\n\nHave more questions? Feel free to consult our documentation [here](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/contents.md).\n\n## Contributing\n\nThe [contribution guide](https://github.com/Azure/azure-service-operator/blob/master/CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.\n\n## Support\n\nAzure Service Operator is an open source project that is **not** covered by the [Microsoft Azure support policy](https://support.microsoft.com/en-us/help/2941892/support-for-linux-and-open-source-technology-in-azure). Please search open issues [here](https://github.com/Azure/azure-service-operator/issues). If your issue isn't already represented, please [open a new one](https://github.com/Azure/azure-service-operator/issues/new/choose). The Azure Service Operator project maintainers will respond to the best of their abilities.\n\n## Code of conduct\n\nThis project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.\n"
+  description: |
+    ## Overview
+
+    The Azure Service Operator comprises of:
+
+    - The Custom Resource Definitions (CRDs) for each of the Azure services a Kubernetes user can provision.
+    - The Kubernetes controller that watches for requests to create Custom Resources for each of these CRDs and creates them.
+
+    The project was built using [Kubebuilder](https://book.kubebuilder.io/).
+
+    Curious to see how it all works? Check out our [control flow diagrams](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/controlflow.md).
+
+    **Note**: The current version of Azure Service Operator only supports watching all namespaces in the cluster.
+
+    ## Supported Azure Services
+
+    - [Resource Group](https://github.com/Azure/azure-service-operator/tree/master/docs/services/resourcegroup/resourcegroup.md)
+    - [Event Hubs](https://github.com/Azure/azure-service-operator/tree/master/docs/services/eventhub/eventhub.md)
+    - [Azure SQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/azuresql/azuresql.md)
+    - [Azure Database for PostgreSQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/postgresql/postgresql.md)
+    - [Azure Database for MySQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/mysql/mysql.md)
+    - [Azure Key Vault](https://github.com/Azure/azure-service-operator/tree/master/docs/services/keyvault/keyvault.md)
+    - [Azure Cache for Redis](https://github.com/Azure/azure-service-operator/tree/master/docs/services/rediscache/rediscache.md)
+    - [Storage Account](https://github.com/Azure/azure-service-operator/tree/master/docs/services/storage/storageaccount.md)
+    - [Blob Storage](https://github.com/Azure/azure-service-operator/tree/master/docs/services/storage/blobcontainer.md)
+    - [Virtual Network](https://github.com/Azure/azure-service-operator/tree/master/docs/services/virtualnetwork/virtualnetwork.md)
+    - [Application Insights](https://github.com/Azure/azure-service-operator/tree/master/docs/services/appinsights/appinsights.md)
+    - [API Management](https://github.com/Azure/azure-service-operator/tree/master/docs/services/apimgmt/apimgmt.md)
+    - [Cosmos DB](https://github.com/Azure/azure-service-operator/tree/master/docs/services/cosmosdb/cosmosdb.md)
+    - [Virtual Machine](https://github.com/Azure/azure-service-operator/tree/master/docs/services/virtualmachine/virtualmachine.md)
+    - [Virtual Machine Scale Set](https://github.com/Azure/azure-service-operator/tree/master/docs/services/vmscaleset/vmscaleset.md)
+
+    ## Instructions - Please read before installing
+
+    Before you begin, verify you're running the Azure CLI version 2.0.53 or later. Run `az --version` to find the version. If you need to install or upgrade, see [Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
+
+    1. Azure Service Operator requires self-signed certificates for CRD Conversion Webhooks. We can generate these self-signed certificates by installing the [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) project into our cluster by running the following command:
+        ```sh
+        kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+        ```
+        You can use the below command to check if the cert-manager pods are ready. The cert-manager pods should be running before proceeding to the next step.
+        ```sh
+        kubectl rollout status -n cert-manager deploy/cert-manager-webhook
+        ```
+
+    2. After cert-manager has been successfully installed, create the `Issuer` and `Certificate` cert-manager resources:
+
+        ```yaml
+        apiVersion: cert-manager.io/v1alpha2
+        kind: Issuer
+        metadata:
+          name: azureoperator-selfsigned-issuer
+          namespace: operators
+        spec:
+          selfSigned: {}
+        ---
+        apiVersion: cert-manager.io/v1alpha2
+        kind: Certificate
+        metadata:
+          name: azureoperator-serving-cert
+          namespace: operators
+        spec:
+          dnsNames:
+          - azureoperator-webhook-service.operators.svc
+          - azureoperator-webhook-service.operators.svc.cluster.local
+          issuerRef:
+            kind: Issuer
+            name: azureoperator-selfsigned-issuer
+          secretName: webhook-server-cert
+        ```
+    3. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
+
+        First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
+        ```yaml
+        AZURE_TENANT_ID=<your-tenant-id-goes-here>
+        AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
+        ```
+
+        You can find these values by using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest):
+        ```sh
+        az account show
+        ```
+
+    4. Next, we'll create a Service Principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/managedidentity.md).
+
+        ```sh
+        az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
+            --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
+        ```
+
+        This should give you output like the following:
+        ```sh
+        "appId": "xxxxxxxxxx",
+        "displayName": "azure-service-operator",
+        "name": "http://azure-service-operator",
+        "password": "xxxxxxxxxxx",
+        "tenant": "xxxxxxxxxxxxx"
+        ```
+
+    5.  Once you have created a Service Principal, gather the following values:
+
+        `AZURE_TENANT_ID` is the Tenant ID from Step 1.
+
+        `AZURE_SUBSCRIPTION_ID` is the Subscription ID from Step 1.
+
+        `AZURE_CLIENT_ID` is the appID from the Service Principal created in Step 2.
+
+        `AZURE_CLIENT_SECRET` is the password from the service Principal we created in Step 2.
+
+        `AZURE_CLOUD_ENV` is the Azure Environment you'd like to use, i.e. AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud.
+
+    6.  Set those values in a `Secret` called `azureoperatorsettings` within the `operators` Namespace:
+        ```yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: azureoperatorsettings
+          namespace: operators
+        stringData:
+          AZURE_TENANT_ID: <your-tenant-id-goes-here>
+          AZURE_SUBSCRIPTION_ID: <your-subscription-id-goes-here>
+          AZURE_CLIENT_ID: <your-client-id>
+          AZURE_CLIENT_SECRET: <your-client-secret>
+          AZURE_CLOUD_ENV: <your-azure-cloud-environment>
+        ```
+
+    7. Now you can proceed to install the Azure Service Operator to the `operators` Namespace via the Install button on the top right of this page. After the operator is installed, you will then see the Azure Service Operator pod running in your cluster:
+
+        ```console
+        $ kubectl get pods -n operators
+        NAME                                                READY   STATUS    RESTARTS   AGE
+        azureoperator-controller-manager-7dd75bbd97-mk4s9   2/2     Running   0          35s
+        ```
+
+    ## About the project
+
+    This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases).
+
+    Please see the [FAQ](https://github.com/Azure/azure-service-operator/blob/master/docs/faq.md) for answers to commonly asked questions about the Azure Service Operator.
+
+    Have more questions? Feel free to consult our documentation [here](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/contents.md).
+
+    ## Contributing
+
+    The [contribution guide](https://github.com/Azure/azure-service-operator/blob/master/CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
+
+    ## Support
+
+    Azure Service Operator is an open source project that is **not** covered by the [Microsoft Azure support policy](https://support.microsoft.com/en-us/help/2941892/support-for-linux-and-open-source-technology-in-azure). Please search open issues [here](https://github.com/Azure/azure-service-operator/issues). If your issue isn't already represented, please [open a new one](https://github.com/Azure/azure-service-operator/issues/new/choose). The Azure Service Operator project maintainers will respond to the best of their abilities.
+
+    ## Code of conduct
+
+    This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
   displayName: Azure Service Operator
   icon:
   - base64data: 'iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQCAIAAAAP3aGbAAAACXBIWXMAAAsSAAALEgHS3X78AAAFg0lEQVR4nO3bsU0DQRBA0VvkFIkeqAVyYppxM8TkuBZ6QKKAoQMTWfK/e6+C3R3pa5JdM7MBFDyYElAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGaejjer37fkOTrFDj5/f1y91vqyjv9ENnF9md3e6xoYFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpCxZsa0gAQbFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQMbpaKNaHz93cIodmvenfy71tY7+RrfweqyvdTYsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBjzYxpAQk2LCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECGrZt+wNsYxcZUVWjkAAAAABJRU5ErkJggg== '
@@ -366,7 +519,27 @@ spec:
                   defaultMode: 420
                   secretName: webhook-server-cert
       permissions:
-      - rules: null
+      - rules:
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps/status
+          verbs:
+          - get
+          - update
+          - patch
         serviceAccountName: azure-service-operator
     strategy: deployment
   installModes:
@@ -379,9 +552,7 @@ spec:
   - supported: true
     type: AllNamespaces
   keywords:
-  - azure
-  - microsoft
-  - cloud service broker
+  - azure, microsoft, cloud service broker
   links:
   - name: Azure Service Operator
     url: https://github.com/Azure/azure-service-operator
