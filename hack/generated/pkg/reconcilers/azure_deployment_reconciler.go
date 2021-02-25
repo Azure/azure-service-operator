@@ -465,6 +465,9 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 			// but is either running or has run to completion
 			return ctrl.Result{}, errors.Wrap(err, "received conflict when trying to create deployment")
 		} else {
+			// TODO: The above call can fail due to a 4xx error code - this may mean the resource we're attempting to create is bad and we need to handle the error. See:
+			// TODO: "Error during reconcile" "error"="autorest/azure: Service returned an error. Status=400 Code=\"InvalidTemplateDeployment\" Message=\"The template deployment failed because of policy violation. Please see details for more information."
+			// TODO: you can repro the above by attempting to create a Linux VMSS without setting DisablePasswordAuthentication to true, or by using an invalid image reference
 			return ctrl.Result{}, err
 		}
 	} else {
