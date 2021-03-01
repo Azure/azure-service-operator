@@ -8,6 +8,7 @@ package storage
 import (
 	"fmt"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
@@ -18,11 +19,12 @@ type StorageTypeFactory struct {
 }
 
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
-func NewStorageTypeFactory() *StorageTypeFactory {
+func NewStorageTypeFactory(types astmodel.Types) *StorageTypeFactory {
 	result := &StorageTypeFactory{
 		types: make(astmodel.Types),
 	}
 
+	result.types.AddTypes(types)
 	result.propertyConversions = []propertyConversion{
 		result.preserveKubernetesResourceStorageProperties,
 		result.convertPropertiesForStorage,
@@ -31,16 +33,46 @@ func NewStorageTypeFactory() *StorageTypeFactory {
 	return result
 }
 
-func (f *StorageTypeFactory) Add(def astmodel.TypeDefinition) {
-	f.types[def.Name()] = def
-}
+// StorageTypes returns all the storage types created by the factory, also returning any errors
+// that occurred during construction
+func (f *StorageTypeFactory) StorageTypes() (astmodel.Types, error) {
+	visitor := f.makeStorageTypesVisitor()
+	vc := MakeStorageTypesVisitorContext()
+	types := make(astmodel.Types)
+	var errs []error
+	for _, d := range types {
+		d := d
 
-func (f *StorageTypeFactory) Types() astmodel.Types {
-	return f.types
+		if astmodel.ArmFlag.IsOn(d.Type()) {
+			// Skip ARM definitions, we don't need to create storage variants of those
+			continue
+		}
+
+		if _, ok := types.ResolveEnumDefinition(&d); ok {
+			// Skip Enum definitions as we use the base type for storage
+			continue
+		}
+
+		def, err := visitor.VisitDefinition(d, vc)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
+		finalDef := def.WithDescription(f.descriptionForStorageVariant(d))
+		types.Add(finalDef)
+	}
+
+	if len(errs) > 0 {
+		err := kerrors.NewAggregate(errs)
+		return nil, err
+	}
+
+	return types, nil
 }
 
 // makeStorageTypesVisitor returns a TypeVisitor to do the creation of dedicated storage types
-func (f *StorageTypeFactory) MakeStorageTypesVisitor() astmodel.TypeVisitor {
+func (f *StorageTypeFactory) makeStorageTypesVisitor() astmodel.TypeVisitor {
 
 	result := astmodel.MakeTypeVisitor()
 	result.VisitValidatedType = f.visitValidatedType
@@ -189,7 +221,7 @@ func (f *StorageTypeFactory) visitFlaggedType(
 	return astmodel.IdentityVisitOfFlaggedType(tv, flaggedType, ctx)
 }
 
-func DescriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
+func (f *StorageTypeFactory) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
 	pkg := definition.Name().PackageReference.PackageName()
 
 	result := []string{

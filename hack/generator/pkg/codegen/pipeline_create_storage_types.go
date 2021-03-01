@@ -22,20 +22,12 @@ func createStorageTypes() PipelineStage {
 		"Create storage versions of CRD types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
-			storageFactory := storage.NewStorageTypeFactory()
-			visitor := storageFactory.MakeStorageTypesVisitor()
-			vc := storage.MakeStorageTypesVisitorContext()
-			var errs []error
-			for _, d := range types {
-				d := d
+			storageFactory := storage.NewStorageTypeFactory(types)
 
-				if astmodel.ARMFlag.IsOn(d.Type()) {
-					// Skip ARM definitions, we don't need to create storage variants of those
-					continue
-				}
-
-				if _, ok := types.ResolveEnumDefinition(&d); ok {
-					// Skip Enum definitions as we use the base type for storage
+				ref, ok := name.PackageReference.AsLocalPackage()
+				if !ok {
+					// Skip definitions from non-local packages
+					// (should never happen)
 					continue
 				}
 
@@ -54,8 +46,8 @@ func createStorageTypes() PipelineStage {
 				return nil, err
 			}
 
-			types.AddTypes(storageFactory.Types())
-
-			return types, nil
+			unmodified := types.Except(result)
+			result.AddTypes(unmodified)
+			return result, nil
 		})
 }
