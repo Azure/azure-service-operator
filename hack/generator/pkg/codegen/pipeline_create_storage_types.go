@@ -22,8 +22,8 @@ func createStorageTypes() PipelineStage {
 		"Create storage versions of CRD types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
-			storageTypes := make(astmodel.Types)
-			visitor := storage.MakeStorageTypesVisitor(types)
+			storageFactory := storage.NewStorageTypeFactory()
+			visitor := storageFactory.MakeStorageTypesVisitor()
 			vc := storage.MakeStorageTypesVisitorContext()
 			var errs []error
 			for _, d := range types {
@@ -46,7 +46,7 @@ func createStorageTypes() PipelineStage {
 				}
 
 				finalDef := def.WithDescription(storage.DescriptionForStorageVariant(d))
-				storageTypes[finalDef.Name()] = finalDef
+				storageFactory.Add(finalDef)
 			}
 
 			if len(errs) > 0 {
@@ -54,7 +54,7 @@ func createStorageTypes() PipelineStage {
 				return nil, err
 			}
 
-			types.AddTypes(storageTypes)
+			types.AddTypes(storageFactory.Types())
 
 			return types, nil
 		})

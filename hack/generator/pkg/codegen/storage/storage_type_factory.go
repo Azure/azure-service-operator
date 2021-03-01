@@ -11,32 +11,47 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
-// makeStorageTypesVisitor returns a TypeVisitor to do the creation of dedicated storage types
-func MakeStorageTypesVisitor(types astmodel.Types) astmodel.TypeVisitor {
-	factory := &StorageTypeFactory{
-		types: types,
+type StorageTypeFactory struct {
+	types               astmodel.Types
+	propertyConversions []propertyConversion
+	visitor             astmodel.TypeVisitor
+}
+
+// NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
+func NewStorageTypeFactory() *StorageTypeFactory {
+	result := &StorageTypeFactory{
+		types: make(astmodel.Types),
 	}
 
-	result := astmodel.MakeTypeVisitor()
-	result.VisitValidatedType = factory.visitValidatedType
-	result.VisitTypeName = factory.visitTypeName
-	result.VisitObjectType = factory.visitObjectType
-	result.VisitResourceType = factory.visitResourceType
-	result.VisitFlaggedType = factory.visitFlaggedType
-
-	factory.visitor = result
-	factory.propertyConversions = []propertyConversion{
-		factory.preserveKubernetesResourceStorageProperties,
-		factory.convertPropertiesForStorage,
+	result.propertyConversions = []propertyConversion{
+		result.preserveKubernetesResourceStorageProperties,
+		result.convertPropertiesForStorage,
 	}
 
 	return result
 }
 
-type StorageTypeFactory struct {
-	types               astmodel.Types
-	propertyConversions []propertyConversion
-	visitor             astmodel.TypeVisitor
+func (f *StorageTypeFactory) Add(def astmodel.TypeDefinition) {
+	f.types[def.Name()] = def
+}
+
+func (f *StorageTypeFactory) Types() astmodel.Types {
+	return f.types
+}
+
+// makeStorageTypesVisitor returns a TypeVisitor to do the creation of dedicated storage types
+func (f *StorageTypeFactory) MakeStorageTypesVisitor() astmodel.TypeVisitor {
+
+	result := astmodel.MakeTypeVisitor()
+	result.VisitValidatedType = f.visitValidatedType
+	result.VisitTypeName = f.visitTypeName
+	result.VisitObjectType = f.visitObjectType
+	result.VisitResourceType = f.visitResourceType
+	result.VisitFlaggedType = f.visitFlaggedType
+
+	f.visitor = result
+
+	return result
 }
 
 // A property conversion accepts a property definition and optionally applies a conversion to make
@@ -76,9 +91,9 @@ func (factory *StorageTypeFactory) visitTypeName(_ *astmodel.TypeVisitor, name a
 }
 
 func (factory *StorageTypeFactory) visitResourceType(
-	this *astmodel.TypeVisitor,
+	_ *astmodel.TypeVisitor,
 	resource *astmodel.ResourceType,
-	ctx interface{}) (astmodel.Type, error) {
+	_ interface{}) (astmodel.Type, error) {
 
 	// storage resource types do not need defaulter interface, they have no webhooks
 	return resource.WithoutInterface(astmodel.DefaulterInterfaceName), nil
