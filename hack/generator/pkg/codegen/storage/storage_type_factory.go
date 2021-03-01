@@ -69,11 +69,14 @@ func (f *StorageTypeFactory) visitTypeName(_ *astmodel.TypeVisitor, name astmode
 	visitorContext := ctx.(StorageTypesVisitorContext)
 
 	// Resolve the type name to the actual referenced type
-	actualDefinition, actualDefinitionFound := f.types[name]
+	actualType, err := f.types.FullyResolve(name)
+	if err != nil {
+		return nil, errors.Wrapf(err, "visiting type name %q", name)
+	}
 
 	// Check for property specific handling
-	if visitorContext.property != nil && actualDefinitionFound {
-		if et, ok := actualDefinition.Type().(*astmodel.EnumType); ok {
+	if visitorContext.property != nil {
+		if et, ok := astmodel.AsEnumType(actualType); ok {
 			// Property type refers to an enum, so we use the base type instead
 			return et.BaseType(), nil
 		}
