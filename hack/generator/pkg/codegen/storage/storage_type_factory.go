@@ -59,17 +59,17 @@ func (f *StorageTypeFactory) MakeStorageTypesVisitor() astmodel.TypeVisitor {
 // convert, deferring the conversion to another.
 type propertyConversion = func(property *astmodel.PropertyDefinition, ctx StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error)
 
-func (factory *StorageTypeFactory) visitValidatedType(this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
+func (f *StorageTypeFactory) visitValidatedType(this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
 	// strip all type validations from storage types,
 	// act as if they do not exist
 	return this.Visit(v.ElementType(), ctx)
 }
 
-func (factory *StorageTypeFactory) visitTypeName(_ *astmodel.TypeVisitor, name astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+func (f *StorageTypeFactory) visitTypeName(_ *astmodel.TypeVisitor, name astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 	visitorContext := ctx.(StorageTypesVisitorContext)
 
 	// Resolve the type name to the actual referenced type
-	actualDefinition, actualDefinitionFound := factory.types[name]
+	actualDefinition, actualDefinitionFound := f.types[name]
 
 	// Check for property specific handling
 	if visitorContext.property != nil && actualDefinitionFound {
@@ -90,7 +90,7 @@ func (factory *StorageTypeFactory) visitTypeName(_ *astmodel.TypeVisitor, name a
 	return visitedName, nil
 }
 
-func (factory *StorageTypeFactory) visitResourceType(
+func (f *StorageTypeFactory) visitResourceType(
 	_ *astmodel.TypeVisitor,
 	resource *astmodel.ResourceType,
 	_ interface{}) (astmodel.Type, error) {
@@ -99,7 +99,7 @@ func (factory *StorageTypeFactory) visitResourceType(
 	return resource.WithoutInterface(astmodel.DefaulterInterfaceName), nil
 }
 
-func (factory *StorageTypeFactory) visitObjectType(
+func (f *StorageTypeFactory) visitObjectType(
 	_ *astmodel.TypeVisitor,
 	object *astmodel.ObjectType,
 	ctx interface{}) (astmodel.Type, error) {
@@ -109,7 +109,7 @@ func (factory *StorageTypeFactory) visitObjectType(
 	var errs []error
 	properties := object.Properties()
 	for i, prop := range properties {
-		p, err := factory.makeStorageProperty(prop, objectContext)
+		p, err := f.makeStorageProperty(prop, objectContext)
 		if err != nil {
 			errs = append(errs, err)
 		} else {
@@ -128,10 +128,10 @@ func (factory *StorageTypeFactory) visitObjectType(
 
 // makeStorageProperty applies a conversion to make a variant of the property for use when
 // serializing to storage
-func (factory *StorageTypeFactory) makeStorageProperty(
+func (f *StorageTypeFactory) makeStorageProperty(
 	prop *astmodel.PropertyDefinition,
 	objectContext StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error) {
-	for _, conv := range factory.propertyConversions {
+	for _, conv := range f.propertyConversions {
 		p, err := conv(prop, objectContext.forProperty(prop))
 		if err != nil {
 			// Something went wrong, return the error
@@ -147,7 +147,7 @@ func (factory *StorageTypeFactory) makeStorageProperty(
 }
 
 // preserveKubernetesResourceStorageProperties preserves properties required by the KubernetesResource interface as they're always required
-func (factory *StorageTypeFactory) preserveKubernetesResourceStorageProperties(
+func (f *StorageTypeFactory) preserveKubernetesResourceStorageProperties(
 	prop *astmodel.PropertyDefinition,
 	_ StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error) {
 	if astmodel.IsKubernetesResourceProperty(prop.PropertyName()) {
@@ -159,7 +159,7 @@ func (factory *StorageTypeFactory) preserveKubernetesResourceStorageProperties(
 	return nil, nil
 }
 
-func (factory *StorageTypeFactory) convertPropertiesForStorage(
+func (f *StorageTypeFactory) convertPropertiesForStorage(
 	prop *astmodel.PropertyDefinition,
 	objectContext StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error) {
 	propertyType, err := factory.visitor.Visit(prop.PropertyType(), objectContext)
@@ -174,7 +174,7 @@ func (factory *StorageTypeFactory) convertPropertiesForStorage(
 	return p, nil
 }
 
-func (factory *StorageTypeFactory) visitFlaggedType(
+func (f *StorageTypeFactory) visitFlaggedType(
 	tv *astmodel.TypeVisitor,
 	flaggedType *astmodel.FlaggedType,
 	ctx interface{}) (astmodel.Type, error) {
