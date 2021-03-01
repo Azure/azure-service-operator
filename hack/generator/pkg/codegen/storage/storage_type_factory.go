@@ -196,23 +196,3 @@ func DescriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
 
 	return result
 }
-
-type StorageTypesVisitorContext struct {
-	object   *astmodel.ObjectType
-	property *astmodel.PropertyDefinition
-}
-
-func MakeStorageTypesVisitorContext() StorageTypesVisitorContext {
-	return StorageTypesVisitorContext{}
-}
-
-func (context StorageTypesVisitorContext) forObject(object *astmodel.ObjectType) StorageTypesVisitorContext {
-	context.object = object
-	context.property = nil
-	return context
-}
-
-func (context StorageTypesVisitorContext) forProperty(property *astmodel.PropertyDefinition) StorageTypesVisitorContext {
-	context.property = property
-	return context
-}
