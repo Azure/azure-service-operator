@@ -8,6 +8,7 @@ package codegen
 import (
 	"context"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/codegen/storage"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -22,7 +23,9 @@ func createStorageTypes() PipelineStage {
 		"Create storage versions of CRD types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
-			storageFactory := storage.NewStorageTypeFactory(types)
+			// Create a factory for each group (aka service) and divvy up the types
+			factories := make(map[string]*storage.StorageTypeFactory)
+			for name, def := range types {
 
 				ref, ok := name.PackageReference.AsLocalPackage()
 				if !ok {
@@ -39,6 +42,19 @@ func createStorageTypes() PipelineStage {
 
 				finalDef := def.WithDescription(storage.DescriptionForStorageVariant(d))
 				storageFactory.Add(finalDef)
+			}
+
+			// Collect up all the results
+			result := make(astmodel.Types)
+			var errs []error
+			for _, factory := range factories {
+				stypes, err := factory.StorageTypes()
+				if err != nil {
+					errs = append(errs, err)
+					continue
+				}
+
+				result.AddTypes(stypes)
 			}
 
 			if len(errs) > 0 {

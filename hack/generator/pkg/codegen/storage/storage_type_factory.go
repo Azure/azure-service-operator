@@ -12,6 +12,7 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
+// Each StorageTypeFactory is used to create storage types for a specific service
 type StorageTypeFactory struct {
 	types               astmodel.Types
 	propertyConversions []propertyConversion
@@ -19,18 +20,21 @@ type StorageTypeFactory struct {
 }
 
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
-func NewStorageTypeFactory(types astmodel.Types) *StorageTypeFactory {
+func NewStorageTypeFactory() *StorageTypeFactory {
 	result := &StorageTypeFactory{
 		types: make(astmodel.Types),
 	}
 
-	result.types.AddTypes(types)
 	result.propertyConversions = []propertyConversion{
 		result.preserveKubernetesResourceStorageProperties,
 		result.convertPropertiesForStorage,
 	}
 
 	return result
+}
+
+func (f *StorageTypeFactory) Add(d astmodel.TypeDefinition) {
+	f.types.Add(d)
 }
 
 // StorageTypes returns all the storage types created by the factory, also returning any errors
@@ -40,7 +44,7 @@ func (f *StorageTypeFactory) StorageTypes() (astmodel.Types, error) {
 	vc := MakeStorageTypesVisitorContext()
 	types := make(astmodel.Types)
 	var errs []error
-	for _, d := range types {
+	for _, d := range f.types {
 		d := d
 
 		if astmodel.ArmFlag.IsOn(d.Type()) {
