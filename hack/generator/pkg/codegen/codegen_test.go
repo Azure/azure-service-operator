@@ -67,6 +67,14 @@ func makeTestLocalPackageReference(group string, version string) astmodel.LocalP
 	return astmodel.MakeLocalPackageReference(goModulePrefix, group, version)
 }
 
+func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
+	name := astmodel.MakeTypeName(makeTestLocalPackageReference("test", "v20200101"), "EmbeddedTestType")
+	t := astmodel.NewObjectType()
+	t = t.WithProperty(astmodel.NewPropertyDefinition("FancyProp", "fancyProp", astmodel.IntType))
+
+	return astmodel.MakeTypeDefinition(name, t)
+}
+
 func injectEmbeddedStructType() PipelineStage {
 	return MakePipelineStage(
 		"injectEmbeddedStructType",
@@ -74,13 +82,14 @@ func injectEmbeddedStructType() PipelineStage {
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 
 			results := make(astmodel.Types)
+			embeddedTypeDef := makeEmbeddedTestTypeDefinition()
 			for _, def := range defs {
 				if astmodel.IsObjectDefinition(def) {
 					result, err := def.ApplyObjectTransformation(func(objectType *astmodel.ObjectType) (astmodel.Type, error) {
 						prop := astmodel.NewPropertyDefinition(
 							"",
 							",inline",
-							astmodel.MakeTypeName(makeTestLocalPackageReference("test", "v20200101"), "EmbeddedTestType"))
+							embeddedTypeDef.Name())
 						return objectType.WithEmbeddedProperty(prop)
 					})
 					if err != nil {
@@ -91,6 +100,8 @@ func injectEmbeddedStructType() PipelineStage {
 					results.Add(def)
 				}
 			}
+
+			results.Add(embeddedTypeDef)
 
 			return results, nil
 		})

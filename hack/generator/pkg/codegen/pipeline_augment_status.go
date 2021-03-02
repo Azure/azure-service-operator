@@ -144,7 +144,7 @@ func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			otherTypes = append(otherTypes, *renamedDef)
+			otherTypes = append(otherTypes, renamedDef)
 		}
 	}
 

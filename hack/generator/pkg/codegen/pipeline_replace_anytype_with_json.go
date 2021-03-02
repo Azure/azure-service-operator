@@ -58,7 +58,7 @@ func replaceAnyTypeWithJSON() PipelineStage {
 				if err != nil {
 					return nil, errors.Wrapf(err, "visiting %q", def.Name())
 				}
-				results.Add(*d)
+				results.Add(d)
 			}
 
 			return results, nil

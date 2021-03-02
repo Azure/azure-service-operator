@@ -27,7 +27,7 @@ func simplifyDefinitions() PipelineStage {
 				if err != nil {
 					errs = append(errs, err)
 				} else {
-					result.Add(*d)
+					result.Add(d)
 					if !def.Type().Equals(d.Type()) {
 						klog.V(3).Infof("Simplified %v from %v to %v", def.Name(), def.Type(), d.Type())
 					}

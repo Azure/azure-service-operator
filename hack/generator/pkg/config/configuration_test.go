@@ -42,7 +42,8 @@ func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
 	c := config.NewConfiguration()
 	c = c.WithExportFilters(&filter)
 
-	f := c.BuildExportFilterer(make(astmodel.Types))
+	f, err := c.BuildExportFilterer(make(astmodel.Types))
+	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(f(person)).To(Equal(config.Export))
 	g.Expect(f(post)).To(Equal(config.Export))
@@ -67,7 +68,8 @@ func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
 	c := config.NewConfiguration()
 	c = c.WithExportFilters(&versionFilter, &nameFilter)
 
-	f := c.BuildExportFilterer(make(astmodel.Types))
+	f, err := c.BuildExportFilterer(make(astmodel.Types))
+	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(f(person)).To(Equal(config.Export))
 	g.Expect(f(post)).To(Equal(config.Export))
@@ -87,7 +89,8 @@ func Test_WithMultipleFilters_GivesPrecedenceToEarlierFilters(t *testing.T) {
 	c := config.NewConfiguration()
 	c = c.WithExportFilters(&alwaysExportPerson, &exclude2019)
 
-	f := c.BuildExportFilterer(make(astmodel.Types))
+	f, err := c.BuildExportFilterer(make(astmodel.Types))
+	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(f(person2019TypeName)).To(Equal(config.Export))
 	g.Expect(f(student2019TypeName)).To(Equal(config.Skip))
@@ -115,7 +118,8 @@ func Test_IncludeTransitive(t *testing.T) {
 	types.Add(astmodel.MakeTypeDefinition(person2019TypeName, astmodel.NewArrayType(student2019TypeName)))
 	types.Add(astmodel.MakeTypeDefinition(student2019TypeName, astmodel.StringType))
 
-	f := c.BuildExportFilterer(types)
+	f, err := c.BuildExportFilterer(types)
+	g.Expect(err).ToNot(HaveOccurred())
 
 	// Person is top-level:
 	g.Expect(f(person2019TypeName)).To(Equal(config.Export))

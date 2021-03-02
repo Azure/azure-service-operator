@@ -71,24 +71,24 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 
 // VisitDefinition invokes the TypeVisitor on both the name and type of the definition
 // NB: this is only valid if VisitTypeName returns a TypeName and not generally a Type
-func (tv *TypeVisitor) VisitDefinition(td TypeDefinition, ctx interface{}) (*TypeDefinition, error) {
+func (tv *TypeVisitor) VisitDefinition(td TypeDefinition, ctx interface{}) (TypeDefinition, error) {
 	visitedName, err := tv.VisitTypeName(tv, td.Name(), ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "visit of %q failed", td.Name())
+		return TypeDefinition{}, errors.Wrapf(err, "visit of %q failed", td.Name())
 	}
 
 	name, ok := visitedName.(TypeName)
 	if !ok {
-		return nil, errors.Errorf("expected visit of %q to return TypeName, not %T", td.Name(), visitedName)
+		return TypeDefinition{}, errors.Errorf("expected visit of %q to return TypeName, not %T", td.Name(), visitedName)
 	}
 
 	visitedType, err := tv.Visit(td.Type(), ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "visit of type of %q failed", td.Name())
+		return TypeDefinition{}, errors.Wrapf(err, "visit of type of %q failed", td.Name())
 	}
 
 	def := td.WithName(name).WithType(visitedType)
-	return &def, nil
+	return def, nil
 }
 
 func (tv *TypeVisitor) VisitDefinitions(definitions Types, ctx interface{}) (Types, error) {
@@ -99,7 +99,7 @@ func (tv *TypeVisitor) VisitDefinitions(definitions Types, ctx interface{}) (Typ
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			result[def.Name()] = *def
+			result[def.Name()] = def
 		}
 	}
 

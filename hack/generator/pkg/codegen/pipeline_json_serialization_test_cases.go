@@ -25,7 +25,7 @@ func injectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Pipeline
 				if err != nil {
 					errs = append(errs, err)
 				} else {
-					result[updated.Name()] = *updated
+					result[updated.Name()] = updated
 				}
 			}
 
@@ -55,7 +55,7 @@ func makeObjectSerializationTestCaseFactory(idFactory astmodel.IdentifierFactory
 	return result
 }
 
-func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
+func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 	return s.visitor.VisitDefinition(def, def.Name())
 }
 

@@ -208,11 +208,13 @@ func (objectType *ObjectType) RequiredPackageReferences() *PackageReferenceSet {
 
 // References returns the set of all the types referred to by any property.
 func (objectType *ObjectType) References() TypeNameSet {
-	var results TypeNameSet
+	results := NewTypeNameSet()
 	for _, property := range objectType.properties {
-		for ref := range property.PropertyType().References() {
-			results = results.Add(ref)
-		}
+		results = results.AddAll(property.PropertyType().References())
+	}
+
+	for _, property := range objectType.embedded {
+		results = results.AddAll(property.PropertyType().References())
 	}
 
 	// Not collecting types from functions deliberately.

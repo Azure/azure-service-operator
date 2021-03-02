@@ -57,6 +57,19 @@ func (ts TypeNameSet) Equals(set TypeNameSet) bool {
 	return true
 }
 
+// AddAll adds the provided TypeNameSet to the set
+func (ts TypeNameSet) AddAll(other TypeNameSet) TypeNameSet {
+	if ts == nil {
+		ts = make(TypeNameSet)
+	}
+
+	for val := range other {
+		ts[val] = struct{}{}
+	}
+
+	return ts
+}
+
 // SetUnion returns a new set with all of the names in s1 or s2.
 func SetUnion(s1, s2 TypeNameSet) TypeNameSet {
 	var result TypeNameSet

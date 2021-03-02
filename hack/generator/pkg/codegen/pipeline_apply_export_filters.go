@@ -31,7 +31,10 @@ func filterTypes(
 
 	newDefinitions := make(astmodel.Types)
 
-	filterer := configuration.BuildExportFilterer(definitions)
+	filterer, err := configuration.BuildExportFilterer(definitions)
+	if err != nil {
+		return nil, err
+	}
 
 	for _, def := range definitions {
 		defName := def.Name()

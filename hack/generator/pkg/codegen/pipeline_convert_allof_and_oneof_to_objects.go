@@ -109,7 +109,7 @@ func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Pipelin
 					return nil, errors.Wrapf(err, "error processing type %v", def.Name())
 				}
 
-				result.Add(*transformed)
+				result.Add(transformed)
 			}
 
 			return result, nil

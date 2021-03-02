@@ -45,7 +45,7 @@ func flattenResources() PipelineStage {
 					return nil, errors.Wrapf(err, "error processing type %v", def.Name())
 				}
 
-				results.Add(*result)
+				results.Add(result)
 			}
 
 			return results, nil
