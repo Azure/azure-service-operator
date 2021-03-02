@@ -130,12 +130,14 @@ func (f *StorageTypeFactory) visitTypeName(_ *astmodel.TypeVisitor, name astmode
 }
 
 func (f *StorageTypeFactory) visitResourceType(
-	_ *astmodel.TypeVisitor,
+	tv *astmodel.TypeVisitor,
 	resource *astmodel.ResourceType,
-	_ interface{}) (astmodel.Type, error) {
+	ctx interface{}) (astmodel.Type, error) {
 
 	// storage resource types do not need defaulter interface, they have no webhooks
-	return resource.WithoutInterface(astmodel.DefaulterInterfaceName), nil
+	rsrc := resource.WithoutInterface(astmodel.DefaulterInterfaceName)
+
+	return astmodel.IdentityVisitOfResourceType(tv, rsrc, ctx)
 }
 
 func (f *StorageTypeFactory) visitObjectType(

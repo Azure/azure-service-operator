@@ -45,7 +45,13 @@ func validateAllTypesHaveARMType(definitions astmodel.Types) error {
 
 	var errs []error
 
-	for _, def := range definitions {
+	for name, def := range definitions {
+
+		if astmodel.IsStoragePackageReference(name.PackageReference) {
+			// Don't need ARM types within Storage Packages
+			continue
+		}
+
 		if resourceType, ok := definitions.ResolveResourceType(def.Type()); ok {
 
 			err := findARMType(resourceType.SpecType())
