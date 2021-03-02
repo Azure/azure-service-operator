@@ -1,6 +1,7 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.137.0/containers/go/.devcontainer/base.Dockerfile
-ARG VARIANT="1.15"
-FROM mcr.microsoft.com/vscode/devcontainers/go:0-${VARIANT}
+
+# This is pinned to a particular version of go:
+FROM mcr.microsoft.com/vscode/devcontainers/go:0-1.16
 
 # APT dependencies
 ENV DEBIAN_FRONTEND=noninteractive
@@ -22,13 +23,15 @@ ENV PATH=$PATH:/usr/local/kubebuilder/bin
 
 # Add further bash customizations
 # note that the base image includes oh-my-bash, we are enabling plugins here
-RUN sed -i '/^plugins=/a kubectl\ngolang' "/home/vscode/.bashrc"
-RUN sed -i '/^completions=/a kubectl\ngo\ntask' "/home/vscode/.bashrc"
+# TODO: restore oh-my-bash? it was removed in base image.
+# RUN sed -i '/^plugins=/a kubectl\ngolang' "/home/vscode/.bashrc"
+# RUN sed -i '/^completions=/a kubectl\ngo\ntask' "/home/vscode/.bashrc"
 
 # Make kubectl completions work with 'k' alias
 RUN echo 'complete -F __start_kubectl k' >> "/home/vscode/.bashrc"
 
 # Setup go-task completions
-RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.0.0/completion/bash/task.bash" > "/home/vscode/.oh-my-bash/completions/task.completion.sh"
+RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.0.0/completion/bash/task.bash" > "/home/vscode/.task.completion.sh" \
+    && echo 'source /home/vscode/.task.completion.sh' >> /home/vscode/.bashrc
 
 ENV KIND_CLUSTER_NAME=k8sinfra

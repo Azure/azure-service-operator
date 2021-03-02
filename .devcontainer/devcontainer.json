@@ -8,7 +8,6 @@
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
 		"terminal.integrated.shell.linux": "/bin/bash",
-		"go.useGoProxyToCheckForToolUpdates": false,
 		"go.gopath": "/go",
 		"go.useLanguageServer": true,
 		"go.lintTool": "golangci-lint",
@@ -35,6 +34,5 @@
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "go version",
 
-	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"
 }
