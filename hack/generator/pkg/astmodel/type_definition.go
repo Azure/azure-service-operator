@@ -108,7 +108,7 @@ func AsSimpleDeclarations(
 	return []dst.Decl{result}
 }
 
-// RequiredImports returns a list of packages required by this type
+// RequiredPackageReferences returns a list of packages required by this type
 func (def TypeDefinition) RequiredPackageReferences() *PackageReferenceSet {
 	return def.theType.RequiredPackageReferences()
 }

@@ -22,7 +22,7 @@ func MakeLocalPackageReference(prefix string, group string, version string) Loca
 	return LocalPackageReference{localPathPrefix: prefix, group: group, version: version}
 }
 
-// IsLocalPackage returns true
+// AsLocalPackage returns this instance and true
 func (pr LocalPackageReference) AsLocalPackage() (LocalPackageReference, bool) {
 	return pr, true
 }
@@ -37,7 +37,7 @@ func (pr LocalPackageReference) Version() string {
 	return pr.version
 }
 
-// Package returns the package name of this reference
+// PackageName returns the package name of this reference
 func (pr LocalPackageReference) PackageName() string {
 	return pr.version
 }
@@ -68,7 +68,7 @@ func (pr LocalPackageReference) String() string {
 	return pr.PackagePath()
 }
 
-// IsLocalPackageReference() returns true if the supplied reference is a local one
+// IsLocalPackageReference returns true if the supplied reference is a local one
 func IsLocalPackageReference(ref PackageReference) bool {
 	_, ok := ref.(LocalPackageReference)
 	return ok

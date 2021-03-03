@@ -36,7 +36,7 @@ func (c *ArmConversionFunction) Name() string {
 	return c.name
 }
 
-// RequiredImports returns the imports required for this conversion function
+// RequiredPackageReferences returns the imports required for this conversion function
 func (c *ArmConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	// Because this interface is attached to an object, by definition that object will specify
 	// its own required imports. We don't want to call the objects required imports here

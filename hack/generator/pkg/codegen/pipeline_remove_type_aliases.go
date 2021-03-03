@@ -12,6 +12,7 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 )
 
@@ -49,7 +50,7 @@ func removeTypeAliases() PipelineStage {
 func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, types astmodel.Types) (astmodel.Type, error) {
 	def, ok := types[name]
 	if !ok {
-		panic(fmt.Sprintf("Couldn't find type for type name %s", name))
+		return nil, errors.Errorf("couldn't find definition for type name %s", name)
 	}
 
 	// If this typeName definition has a type of object, enum, validated, flagged, resource, or resourceList

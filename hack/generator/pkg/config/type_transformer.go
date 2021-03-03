@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
-// A transformation target
+// A TransformTarget represents the target of a transformation
 type TransformTarget struct {
 	Group    string `yaml:",omitempty"`
 	Version  string `yaml:"version,omitempty"`

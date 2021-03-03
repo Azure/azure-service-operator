@@ -118,7 +118,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	return fn.DefineFunc()
 }
 
-// RequiredImports returns a list of packages required by this
+// RequiredPackageReferences returns a set of references to packages required by this
 func (f *OneOfJSONMarshalFunction) RequiredPackageReferences() *PackageReferenceSet {
 	return NewPackageReferenceSet(MakeExternalPackageReference("encoding/json"))
 }

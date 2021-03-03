@@ -5,7 +5,7 @@
 
 package astmodel
 
-// Interface defines an interface implementation
+// InterfaceImplementation specifies how a type will satisfy an interface implementation
 type InterfaceImplementation struct {
 	name       TypeName
 	annotation string

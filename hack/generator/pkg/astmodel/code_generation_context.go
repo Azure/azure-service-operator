@@ -52,7 +52,7 @@ func (codeGenContext *CodeGenerationContext) PackageImports() *PackageImportSet 
 	return result
 }
 
-// UsedImports returns the set of package imports that have been used by the generated code
+// UsedPackageImports returns the set of package imports that have been used by the generated code
 func (codeGenContext *CodeGenerationContext) UsedPackageImports() *PackageImportSet {
 	// return a copy to ensure immutability
 	result := NewPackageImportSet()

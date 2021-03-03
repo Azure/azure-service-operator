@@ -45,7 +45,7 @@ func StringLiteralf(format string, a ...interface{}) *dst.BasicLit {
 	return StringLiteral(fmt.Sprintf(format, a...))
 }
 
-// IntLiteral() create the AST node for a literal integer value
+// IntLiteral create the AST node for a literal integer value
 func IntLiteral(value int) *dst.BasicLit {
 	return &dst.BasicLit{
 		Value: fmt.Sprint(value),

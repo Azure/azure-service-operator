@@ -49,7 +49,7 @@ func (set *PackageReferenceSet) Contains(ref PackageReference) bool {
 	return ok
 }
 
-// AsSlice() returns a slice containing all the imports
+// AsSlice returns a slice containing all the imports
 func (set *PackageReferenceSet) AsSlice() []PackageReference {
 	var result []PackageReference
 	for ref := range set.references {
@@ -59,7 +59,7 @@ func (set *PackageReferenceSet) AsSlice() []PackageReference {
 	return result
 }
 
-// AsSortedSlice() return a sorted slice containing all the references
+// AsSortedSlice return a sorted slice containing all the references
 // less specifies how to order the imports
 func (set *PackageReferenceSet) AsSortedSlice(less func(i PackageReference, j PackageReference) bool) []PackageReference {
 	result := set.AsSlice()

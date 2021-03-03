@@ -136,7 +136,8 @@ func (ft *FlaggedType) Equals(t Type) bool {
 	return ft.element.Equals(other.element)
 }
 
-// Make sure all Types have a printable version for debugging/user info.
+// String returns the underlying flagged type plus the flags present
+// For this to be useful, make sure all Types have a printable version for debugging/user info.
 // This doesn't need to be a full representation of the type.
 func (ft *FlaggedType) String() string {
 	var result strings.Builder

@@ -54,7 +54,7 @@ func (pi PackageImport) PackageName() string {
 	return pi.packageReference.PackageName()
 }
 
-// HasExplicitName() returns true if this package import has an explicitly defined name
+// HasExplicitName returns true if this package import has an explicitly defined name
 func (pi PackageImport) HasExplicitName() bool {
 	return pi.name != ""
 }

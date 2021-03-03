@@ -24,7 +24,7 @@ type TestFileDefinition struct {
 
 var _ GoSourceFile = &TestFileDefinition{}
 
-// NewFileDefinition creates a file definition containing test cases from the specified definitions
+// NewTestFileDefinition creates a file definition containing test cases from the specified definitions
 func NewTestFileDefinition(
 	packageRef PackageReference,
 	definitions []TypeDefinition,
