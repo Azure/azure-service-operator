@@ -44,7 +44,7 @@ func (schema GoJSONSchema) title() *string {
 	return schema.inner.Title
 }
 
-func (schema GoJSONSchema) extensions() map[string]interface{} {
+func (schema GoJSONSchema) extensions(key string) interface{} {
 	return nil
 }
 
