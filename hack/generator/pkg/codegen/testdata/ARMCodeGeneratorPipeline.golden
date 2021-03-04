@@ -1,7 +1,7 @@
 Expected Pipeline Stages for ARM Code Generation
 ------------------------------------------------
 loadSchema                                     Load and walk schema
-augmentStatus                                  Add information from Swagger specs for 'status' fields
+augmentWithSwagger                             Add information from Swagger specs for 'status' fields
 allof-anyof-objects                            Convert allOf and oneOf to object types
 flatten-resources                              Flatten nested resource types
 stripUnreferenced                              Strip unreferenced types

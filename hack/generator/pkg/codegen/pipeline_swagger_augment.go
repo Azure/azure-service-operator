@@ -27,7 +27,7 @@ import (
 	"k8s.io/klog/v2"
 )
 
-/* augmentResourcesWithStatus creates a PipelineStage to add status information into the generated resources.
+/* augmentResourcesWithSwaggerInformation creates a PipelineStage to add status information into the generated resources.
 
 This information is derived from the Azure Swagger specifications. We parse the Swagger specs and look for
 any actions that appear to be ARM resources (have PUT methods with types we can use and appropriate names in the
@@ -40,9 +40,9 @@ added to the Status field of the Resource type, after we have renamed all the st
 avoid any conflicts with existing Spec types that have already been defined.
 
 */
-func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *config.Configuration) PipelineStage {
+func augmentResourcesWithSwaggerInformation(idFactory astmodel.IdentifierFactory, config *config.Configuration) PipelineStage {
 	return MakePipelineStage(
-		"augmentStatus",
+		"augmentWithSwagger",
 		"Add information from Swagger specs for 'status' fields",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
