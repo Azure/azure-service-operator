@@ -24,6 +24,7 @@ type PropertyDefinition struct {
 	propertyType                     Type
 	description                      string
 	hasKubebuilderRequiredValidation bool
+	flatten                          bool // maps to x-ms-flatten: should the propertyType be flattened into the parent
 	tags                             map[string][]string
 }
 
@@ -58,8 +59,23 @@ func (property *PropertyDefinition) PropertyType() Type {
 // Note that this does not in any way change the underlying type that this PropertyDefinition points to, unlike
 // MakeRequired and MakeOptional.
 func (property *PropertyDefinition) WithKubebuilderRequiredValidation(required bool) *PropertyDefinition {
+	if required == property.hasKubebuilderRequiredValidation {
+		return property
+	}
+
 	result := *property
 	result.hasKubebuilderRequiredValidation = required
+	return &result
+}
+
+// SetFlatten sets if the property should be flattened or not
+func (property *PropertyDefinition) SetFlatten(flatten bool) *PropertyDefinition {
+	if flatten == property.flatten {
+		return property
+	}
+
+	result := *property
+	result.flatten = flatten
 	return &result
 }
 
