@@ -7,6 +7,7 @@ package config
 
 import (
 	"io/ioutil"
+	"net/url"
 	"path"
 	"path/filepath"
 	"strings"
@@ -30,6 +31,8 @@ const (
 type Configuration struct {
 	// Base URL for the JSON schema to generate
 	SchemaURL string `yaml:"schemaUrl"`
+	// Part of the schema URL to rewrite, allows repointing to local files
+	SchemaURLRewrite *RewriteRule `yaml:"schemaUrlRewrite"`
 	// Information about where to locate status (Swagger) files
 	Status StatusConfiguration `yaml:"status"`
 	// The pipeline that should be used for code generation
@@ -54,6 +57,11 @@ type Configuration struct {
 	// after init TypeTransformers is split into property and non-property transformers
 	typeTransformers     []*TypeTransformer
 	propertyTransformers []*TypeTransformer
+}
+
+type RewriteRule struct {
+	From string `yaml:"from"`
+	To   string `yaml:"to"`
 }
 
 func (config *Configuration) LocalPathPrefix() string {
@@ -134,9 +142,45 @@ func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Config
 // initialize checks for common errors and initializes structures inside the configuration
 // which need additional setup after json deserialization
 func (config *Configuration) initialize(configPath string) error {
+
 	if config.SchemaURL == "" {
 		return errors.New("SchemaURL missing")
 	}
+
+	absConfigLocation, err := filepath.Abs(configPath)
+	if err != nil {
+		return errors.Wrapf(err, "unable to find absolute config file location")
+	}
+
+	configDirectory := filepath.Dir(absConfigLocation)
+
+	schemaURL, err := url.Parse(config.SchemaURL)
+	if err != nil {
+		return errors.Wrapf(err, "SchemaURL invalid")
+	}
+
+	configDirectoryURL, err := url.Parse("file://" + configDirectory + "/")
+	if err != nil {
+		// TODO: this should be a panic, really
+		return errors.Wrapf(err, "unable to construct URL for config file directory")
+	}
+
+	// resolve URLs relative to config directory (if needed)
+	config.SchemaURL = configDirectoryURL.ResolveReference(schemaURL).String()
+
+	if config.SchemaURLRewrite != nil {
+		rewrite := config.SchemaURLRewrite
+
+		toURL, err := url.Parse(rewrite.To)
+		if err != nil {
+			return errors.Wrapf(err, "unable to parse rewriteSchemaUrl.to as URL")
+		}
+
+		rewrite.To = configDirectoryURL.ResolveReference(toURL).String()
+	}
+
+	// resolve Status.SchemaRoot relative to config file directory
+	config.Status.SchemaRoot = filepath.Join(configDirectory, config.Status.SchemaRoot)
 
 	if config.TypesOutputPath == "" {
 		// Default to an apis folder if not specified
@@ -206,15 +250,6 @@ func (config *Configuration) initialize(configPath string) error {
 	config.Transformers = nil
 	config.typeTransformers = typeTransformers
 	config.propertyTransformers = propertyTransformers
-
-	// make Status.SchemaRoot an absolute path
-	absLocation, err := filepath.Abs(configPath)
-	if err != nil {
-		errs = append(errs, err)
-	} else {
-		parentDir := filepath.Dir(absLocation)
-		config.Status.SchemaRoot = filepath.Join(parentDir, config.Status.SchemaRoot)
-	}
 
 	return kerrors.NewAggregate(errs)
 }

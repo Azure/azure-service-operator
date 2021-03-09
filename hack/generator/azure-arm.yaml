@@ -1,4 +1,7 @@
-schemaUrl: https://raw.githubusercontent.com/matthchr/azure-resource-manager-schemas/feature/fix-refs/schemas/2015-01-01/deploymentTemplate.json
+schemaUrl: 'https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json'
+schemaUrlRewrite:
+  from: 'https://schema.management.azure.com/schemas/'
+  to: 'specs/azure-resource-manager-schemas/schemas/'
 destinationGoModuleFile: ../generated/go.mod
 typesOutputPath: _apis
 typeRegistrationOutputFile: controllers/controller_resources_gen.go
@@ -212,7 +215,7 @@ typeTransformers:
     because: It exists on ARMResource but doesn't make sense in the context of a CRD
 
 status:
-  schemaRoot: "./azure-rest-api-specs/specification"
+  schemaRoot: "./specs/azure-rest-api-specs/specification"
 
   # the configuration below is copied from the ARM schema repo:
   # https://github.com/Azure/azure-resource-manager-schemas/blob/master/generator/autogenlist.ts

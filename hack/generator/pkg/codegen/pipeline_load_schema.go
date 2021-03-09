@@ -9,6 +9,7 @@ import (
 	"context"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
@@ -45,6 +46,40 @@ func (factory *cancellableJSONLoaderFactory) New(source string) gojsonschema.JSO
 	return &cancellableJSONLoader{factory.ctx, factory.inner.New(source)}
 }
 
+type rewritingJSONLoader struct {
+	from, to string
+	inner    gojsonschema.JSONLoader
+}
+
+var _ gojsonschema.JSONLoader = &rewritingJSONLoader{}
+
+func (loader *rewritingJSONLoader) LoadJSON() (interface{}, error) {
+	return loader.inner.LoadJSON()
+}
+
+func (loader *rewritingJSONLoader) JsonSource() interface{} {
+	return loader.inner.JsonSource()
+}
+
+func (loader *rewritingJSONLoader) JsonReference() (gojsonreference.JsonReference, error) {
+	return loader.inner.JsonReference()
+}
+
+func (loader *rewritingJSONLoader) LoaderFactory() gojsonschema.JSONLoaderFactory {
+	return &rewritingJSONLoaderFactory{loader.from, loader.to, loader.inner.LoaderFactory()}
+}
+
+type rewritingJSONLoaderFactory struct {
+	from, to string
+	inner    gojsonschema.JSONLoaderFactory
+}
+
+var _ gojsonschema.JSONLoaderFactory = &rewritingJSONLoaderFactory{}
+
+func (factory *rewritingJSONLoaderFactory) New(source string) gojsonschema.JSONLoader {
+	return factory.inner.New(strings.Replace(source, factory.from, factory.to, 1))
+}
+
 type cancellableJSONLoader struct {
 	ctx   context.Context
 	inner gojsonschema.JSONLoader
@@ -76,18 +111,23 @@ func (loader *cancellableJSONLoader) LoaderFactory() gojsonschema.JSONLoaderFact
 	return &cancellableJSONLoaderFactory{loader.ctx, loader.inner.LoaderFactory()}
 }
 
-type schemaLoader func(ctx context.Context, source string) (*gojsonschema.Schema, error)
+type schemaLoader func(ctx context.Context, rewrite *config.RewriteRule, source string) (*gojsonschema.Schema, error)
 
-func defaultSchemaLoader(ctx context.Context, source string) (*gojsonschema.Schema, error) {
+func defaultSchemaLoader(ctx context.Context, rewrite *config.RewriteRule, source string) (*gojsonschema.Schema, error) {
 	sl := gojsonschema.NewSchemaLoader()
-	loader := &cancellableJSONLoader{
-		ctx,
-		gojsonschema.NewReferenceLoaderFileSystem(source, &cancellableFileSystem{ctx}),
+	var loader gojsonschema.JSONLoader = &cancellableJSONLoader{ctx, gojsonschema.NewReferenceLoaderFileSystem(source, &cancellableFileSystem{ctx})}
+
+	if rewrite != nil {
+		loader = &rewritingJSONLoader{
+			from:  rewrite.From,
+			to:    rewrite.To,
+			inner: loader,
+		}
 	}
 
 	schema, err := sl.Compile(loader)
 	if err != nil {
-		return nil, errors.Wrapf(err, "error loading schema from %q", source)
+		return nil, errors.Wrapf(err, "error loading schema from root %q (error might be in another schema)", source)
 	}
 
 	return schema, nil
@@ -105,7 +145,7 @@ func loadSchemaIntoTypes(
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			klog.V(0).Infof("Loading JSON schema %q", source)
 
-			schema, err := schemaLoader(ctx, source)
+			schema, err := schemaLoader(ctx, configuration.SchemaURLRewrite, source)
 			if err != nil {
 				return nil, err
 			}
