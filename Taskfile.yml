@@ -194,7 +194,7 @@ tasks:
     deps: [controller:fixup-webhooks, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
-    - ENVTEST=1 go test -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v ./...
+    - ENVTEST=1 go test -timeout 30m -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v ./...
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
