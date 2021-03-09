@@ -163,19 +163,10 @@ tasks:
     cmds:
     - go build -o ./bin/{{.CONTROLLER_APP}}
 
-  controller:fixup-webhooks:
-    dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-crds]
-    cmds:
-    # need to remove v1 from the manifest as it doesn't work with controller-runtime currently: https://github.com/kubernetes-sigs/controller-runtime/issues/1272
-    - yq delete -P -i {{.IN}} 'webhooks[*].admissionReviewVersions(. == v1)' 
-    vars:
-      IN: config/webhook/manifests.yaml
-
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:fixup-webhooks]
+    deps: [controller:generate-crds]
     cmds:
     # -race fails at the moment in controller-runtime
     - ENVTEST=1 RECORD_REPLAY=1 go test -v ./...
@@ -183,7 +174,7 @@ tasks:
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:fixup-webhooks]
+    deps: [controller:generate-crds]
     cmds:
     # -race fails at the moment in controller-runtime
     - ENVTEST=1 RECORD_REPLAY=1 go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -v ./...
@@ -191,7 +182,7 @@ tasks:
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:fixup-webhooks, cleanup-azure-resources]
+    deps: [controller:generate-crds, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
     - ENVTEST=1 go test -timeout 30m -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v ./...

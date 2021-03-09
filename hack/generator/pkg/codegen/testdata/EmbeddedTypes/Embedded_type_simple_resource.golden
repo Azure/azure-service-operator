@@ -23,7 +23,7 @@ type FakeResource struct {
 	Spec              FakeResource_Spec `json:"spec,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=fakeresources,verbs=create;update,versions=v20200101,name=default.v20200101.fakeresources.test.infra.azure.com
+// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=fakeresources,verbs=create;update,versions=v20200101,name=default.v20200101.fakeresources.test.infra.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Defaulter = &FakeResource{}
 

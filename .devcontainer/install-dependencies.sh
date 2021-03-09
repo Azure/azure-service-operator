@@ -53,10 +53,8 @@ echo "Installing Go tools…"
 
 # go tools for vscode are preinstalled by base image (see first comment in Dockerfile)
 go get \
-    github.com/mikefarah/yq/v3@3.4.1 \
-    github.com/mitchellh/gox@v1.0.1 \
     k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
-    sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0 \
+    sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.1 \
     sigs.k8s.io/kind@v0.9.0 \
     sigs.k8s.io/kustomize/kustomize/v3@v3.8.6 
 

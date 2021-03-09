@@ -130,7 +130,7 @@ func generateDefaulter(resourceName TypeName, spec *ObjectType, idFactory Identi
 	annotation := fmt.Sprintf(
 		"+kubebuilder:webhook:path=%s,mutating=true,sideEffects=None,"+
 			"matchPolicy=Exact,failurePolicy=fail,groups=%s,resources=%s,"+
-			"verbs=create;update,versions=%s,name=%s",
+			"verbs=create;update,versions=%s,name=%s,admissionReviewVersions=v1beta1", // admission review version v1 is not yet supported by controller-runtime
 		path,
 		group,
 		resource,
