@@ -6,8 +6,8 @@
 package config
 
 import (
-	"io/ioutil"
 	"net/url"
+	"os"
 	"path"
 	"path/filepath"
 	"strings"
@@ -91,7 +91,7 @@ func NewConfiguration() *Configuration {
 
 // LoadConfiguration loads a `Configuration` from the specified file
 func LoadConfiguration(configurationFile string) (*Configuration, error) {
-	data, err := ioutil.ReadFile(configurationFile)
+	data, err := os.ReadFile(configurationFile)
 	if err != nil {
 		return nil, err
 	}
@@ -159,11 +159,7 @@ func (config *Configuration) initialize(configPath string) error {
 		return errors.Wrapf(err, "SchemaURL invalid")
 	}
 
-	configDirectoryURL, err := url.Parse("file://" + configDirectory + "/")
-	if err != nil {
-		// TODO: this should be a panic, really
-		return errors.Wrapf(err, "unable to construct URL for config file directory")
-	}
+	configDirectoryURL := absDirectoryPathToURL(configDirectory)
 
 	// resolve URLs relative to config directory (if needed)
 	config.SchemaURL = configDirectoryURL.ResolveReference(schemaURL).String()
@@ -252,6 +248,22 @@ func (config *Configuration) initialize(configPath string) error {
 	config.propertyTransformers = propertyTransformers
 
 	return kerrors.NewAggregate(errs)
+}
+
+func absDirectoryPathToURL(path string) *url.URL {
+
+	if strings.Contains(path, "\\") {
+		// assume it's a Windows path:
+		// fixup  to work in URI
+		path = "/" + strings.ReplaceAll(path, "\\", "/")
+	}
+
+	result, err := url.Parse("file://" + path + "/")
+	if err != nil {
+		panic(err)
+	}
+
+	return result
 }
 
 type ExportFilterFunc func(astmodel.TypeName) (result ShouldExportResult, because string)
@@ -394,7 +406,7 @@ func (config *Configuration) MakeLocalPackageReference(group string, version str
 
 func getModulePathFromModFile(modFilePath string) (string, error) {
 	// Calculate the actual destination
-	modFileData, err := ioutil.ReadFile(modFilePath)
+	modFileData, err := os.ReadFile(modFilePath)
 	if err != nil {
 		return "", err
 	}
