@@ -32,6 +32,7 @@ tasks:
     - task: generator:ci
     - task: controller:generate-crds # required here to prevent it running twice in controller:ci, remove once go-task dedupes dependencies
     - task: controller:ci
+    - task: crossplane:ci
 
   ci-live:
     desc: Run all CI checks with live Azure resources. Requires that auth environment variables are set.
@@ -282,6 +283,9 @@ tasks:
       - azure-crossplane.yaml
     cmds:
       - ./bin/{{.GENERATOR_APP}} gen-types azure-crossplane.yaml
+
+  crossplane:ci:
+    deps: [header-check, crossplane:generate-crds]
 
   ############### Shared targets ###############
 
