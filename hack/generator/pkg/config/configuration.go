@@ -299,7 +299,7 @@ func buildExportFilterFunc(f *ExportFilter, allTypes astmodel.Types) (ExportFilt
 		}
 
 		if !foundMatch {
-			return nil, errors.Errorf("no types matched for include-transitive filter on group: %q, name: %q", f.Group, f.Name)
+			return nil, errors.Errorf("no types matched for include-transitive filter: %v", f)
 		}
 
 		return func(typeName astmodel.TypeName) (ShouldExportResult, string) {

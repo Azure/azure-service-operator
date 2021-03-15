@@ -6,6 +6,7 @@
 package config
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 
@@ -26,6 +27,8 @@ type TypeMatcher struct {
 	// Because is used to articulate why the filter applied to a type (used to generate explanatory logs in debug mode)
 	Because string
 }
+
+var _ fmt.Stringer = &TypeMatcher{}
 
 // Initialize initializes the type matcher
 func (typeMatcher *TypeMatcher) Initialize() error {
@@ -75,6 +78,27 @@ func (typeMatcher *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 
 	// Never match external references
 	return false
+}
+
+// String returns a description of this filter
+func (t *TypeMatcher) String() string {
+	var result strings.Builder
+	var spacer string
+	if t.Group != "" {
+		result.WriteString(fmt.Sprintf("Group: %q", t.Group))
+		spacer = "; "
+	}
+
+	if t.Name != "" {
+		result.WriteString(fmt.Sprintf("%sName: %q", spacer, t.Name))
+		spacer = "; "
+	}
+
+	if t.Version != "" {
+		result.WriteString(fmt.Sprintf("%sVersion: %q", spacer, t.Version))
+	}
+
+	return result.String()
 }
 
 // createGlobbingRegex creates a regex that does globbing of names
