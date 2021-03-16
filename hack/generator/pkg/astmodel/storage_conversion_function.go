@@ -7,7 +7,6 @@ package astmodel
 
 import (
 	"fmt"
-	"go/token"
 	"sort"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
@@ -27,13 +26,9 @@ type StoragePropertyConversion func(
 type StorageConversionFunction struct {
 	// name of this conversion function
 	name string
-	// hubType is the ultimate hub type to which (or from which) we are converting, passed as a
-	// parameter to our function
-	hubType TypeDefinition
-	// intermediateType optionally identifies a type which is "closer" to the hubType through which
-	// we can achieve our conversion. Will be nil if we are converting to/from the hub type
-	// directly, otherwise we use this as an intermediate form.
-	intermediateType *TypeDefinition
+	// otherType is the type we are converting to (or from). This will be a type which is "closer"
+	// to the hub storage type, making this a building block of the final conversion.
+	otherType TypeDefinition
 	// conversions is a map of all property conversions we are going to use, keyed by name of the
 	// receiver property
 	conversions map[string]StoragePropertyConversion
@@ -63,21 +58,21 @@ var _ Function = &StorageConversionFunction{}
 // NewStorageConversionFromFunction creates a new StorageConversionFunction to convert from the specified source
 func NewStorageConversionFromFunction(
 	receiver TypeDefinition,
-	sourceHubType TypeDefinition,
-	intermediateType *TypeDefinition,
+	otherType TypeDefinition,
 	idFactory IdentifierFactory,
 	conversionContext *StorageConversionContext,
 ) (*StorageConversionFunction, error) {
 	result := &StorageConversionFunction{
-		name:                "ConvertFrom",
-		hubType:             sourceHubType,
-		intermediateType:    intermediateType,
+		otherType:           otherType,
 		idFactory:           idFactory,
 		conversionDirection: ConvertFrom,
 		conversions:         make(map[string]StoragePropertyConversion),
 		knownLocals:         NewKnownLocalsSet(idFactory),
-		conversionContext:   conversionContext.WithFunctionName("ConvertFrom"),
 	}
+
+	version := idFactory.CreateIdentifier(otherType.Name().PackageReference.PackageName(), Exported)
+	result.name = "ConvertFrom" + version
+	result.conversionContext = conversionContext.WithFunctionName(result.name)
 
 	err := result.createConversions(receiver)
 	if err != nil {
@@ -90,21 +85,21 @@ func NewStorageConversionFromFunction(
 // NewStorageConversionToFunction creates a new StorageConversionFunction to convert to the specified destination
 func NewStorageConversionToFunction(
 	receiver TypeDefinition,
-	destinationHubType TypeDefinition,
-	intermediateType *TypeDefinition,
+	otherType TypeDefinition,
 	idFactory IdentifierFactory,
 	conversionContext *StorageConversionContext,
 ) (*StorageConversionFunction, error) {
 	result := &StorageConversionFunction{
-		name:                "ConvertTo",
-		hubType:             destinationHubType,
-		intermediateType:    intermediateType,
+		otherType:           otherType,
 		idFactory:           idFactory,
 		conversionDirection: ConvertTo,
 		conversions:         make(map[string]StoragePropertyConversion),
 		knownLocals:         NewKnownLocalsSet(idFactory),
-		conversionContext:   conversionContext.WithFunctionName("ConvertTo"),
 	}
+
+	version := idFactory.CreateIdentifier(otherType.Name().PackageReference.PackageName(), Exported)
+	result.name = "ConvertTo" + version
+	result.conversionContext = conversionContext.WithFunctionName(result.name)
 
 	err := result.createConversions(receiver)
 	if err != nil {
@@ -123,24 +118,14 @@ func (fn *StorageConversionFunction) Name() string {
 func (fn *StorageConversionFunction) RequiredPackageReferences() *PackageReferenceSet {
 	result := NewPackageReferenceSet(
 		ErrorsReference,
-		fn.hubType.Name().PackageReference)
-
-	if fn.intermediateType != nil {
-		result.AddReference(fn.intermediateType.Name().PackageReference)
-	}
+		fn.otherType.Name().PackageReference)
 
 	return result
 }
 
 // References returns the set of types referenced by this function
 func (fn *StorageConversionFunction) References() TypeNameSet {
-	result := NewTypeNameSet(fn.hubType.Name())
-
-	if fn.intermediateType != nil {
-		result.Add(fn.intermediateType.Name())
-	}
-
-	return result
+	return NewTypeNameSet(fn.otherType.Name())
 }
 
 // Equals checks to see if the supplied function is the same as this one
@@ -177,10 +162,10 @@ func (fn *StorageConversionFunction) AsFunc(generationContext *CodeGenerationCon
 	switch fn.conversionDirection {
 	case ConvertFrom:
 		parameterName = "source"
-		description = fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.hubType.Name().Name())
+		description = fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.otherType.Name().Name())
 	case ConvertTo:
 		parameterName = "destination"
-		description = fmt.Sprintf("populates the provided destination %s from our %s", fn.hubType.Name().Name(), receiver.Name())
+		description = fmt.Sprintf("populates the provided destination %s from our %s", fn.otherType.Name().Name(), receiver.Name())
 	default:
 		panic(fmt.Sprintf("unexpected conversion direction %q", fn.conversionDirection))
 	}
@@ -194,14 +179,14 @@ func (fn *StorageConversionFunction) AsFunc(generationContext *CodeGenerationCon
 		Body:          fn.generateBody(receiverName, parameterName, generationContext),
 	}
 
-	parameterPackage := generationContext.MustGetImportedPackageName(fn.hubType.Name().PackageReference)
+	parameterPackage := generationContext.MustGetImportedPackageName(fn.otherType.Name().PackageReference)
 
 	funcDetails.AddParameter(
 		parameterName,
 		&dst.StarExpr{
 			X: &dst.SelectorExpr{
 				X:   dst.NewIdent(parameterPackage),
-				Sel: dst.NewIdent(fn.hubType.Name().Name()),
+				Sel: dst.NewIdent(fn.otherType.Name().Name()),
 			},
 		})
 
@@ -220,25 +205,11 @@ func (fn *StorageConversionFunction) generateBody(
 	parameter string,
 	generationContext *CodeGenerationContext,
 ) []dst.Stmt {
-	if fn.intermediateType == nil {
-		// Last step of conversion, directly working with the hubType type we've been given
-		switch fn.conversionDirection {
-		case ConvertFrom:
-			return fn.generateDirectConversionFrom(receiver, parameter, generationContext)
-		case ConvertTo:
-			return fn.generateDirectConversionTo(receiver, parameter, generationContext)
-		default:
-			panic(fmt.Sprintf("unexpected conversion direction %q", fn.conversionDirection))
-		}
-	}
-
-	// Intermediate step of conversion, not working directly with the hubType type we've been given
-	// Instead we convert to/from our intermediate type (which is one step closer to the hub type in our conversion graph)
 	switch fn.conversionDirection {
 	case ConvertFrom:
-		return fn.generateIndirectConversionFrom(receiver, parameter, generationContext)
+		return fn.generateDirectConversionFrom(receiver, parameter, generationContext)
 	case ConvertTo:
-		return fn.generateIndirectConversionTo(receiver, parameter, generationContext)
+		return fn.generateDirectConversionTo(receiver, parameter, generationContext)
 	default:
 		panic(fmt.Sprintf("unexpected conversion direction %q", fn.conversionDirection))
 	}
@@ -265,120 +236,6 @@ func (fn *StorageConversionFunction) generateDirectConversionTo(
 ) []dst.Stmt {
 	result := fn.generateAssignments(dst.NewIdent(receiver), dst.NewIdent(parameter), generationContext)
 	result = append(result, astbuilder.ReturnNoError())
-	return result
-}
-
-// generateIndirectConversionFrom returns the method body required to populate our receiver when
-// we don't directly understand the structure of the parameter value.
-// To accommodate this, we first convert to an intermediate form:
-//
-// var staging IntermediateType
-// staging.ConvertFrom(parameter)
-// [copy values from staging]
-//
-func (fn *StorageConversionFunction) generateIndirectConversionFrom(
-	receiver string,
-	parameter string,
-	generationContext *CodeGenerationContext,
-) []dst.Stmt {
-
-	local := fn.knownLocals.createLocal(receiver + "Temp")
-	errLocal := dst.NewIdent("err")
-
-	intermediateName := fn.intermediateType.Name()
-	parameterPackage := generationContext.MustGetImportedPackageName(intermediateName.PackageReference)
-	localDeclaration := astbuilder.LocalVariableDeclaration(
-		local,
-		&dst.SelectorExpr{
-			X:   dst.NewIdent(parameterPackage),
-			Sel: dst.NewIdent(intermediateName.Name()),
-		},
-		fmt.Sprintf("// %s is our intermediate for conversion", local))
-	localDeclaration.Decorations().Before = dst.NewLine
-
-	callConvertFrom := astbuilder.SimpleAssignment(
-		errLocal,
-		token.DEFINE,
-		astbuilder.CallQualifiedFunc(local, fn.name, dst.NewIdent(parameter)))
-	callConvertFrom.Decorations().Before = dst.EmptyLine
-	callConvertFrom.Decorations().Start.Append(
-		fmt.Sprintf("// Populate %s from %s", local, parameter))
-
-	checkForError := astbuilder.ReturnIfNotNil(
-		errLocal,
-		astbuilder.WrappedErrorf(
-			"for %s, calling %s.%s(%s)",
-			receiver, local, fn.name, parameter))
-
-	assignments := fn.generateAssignments(
-		dst.NewIdent(local),
-		dst.NewIdent(receiver),
-		generationContext)
-
-	var result []dst.Stmt
-	result = append(result, localDeclaration)
-	result = append(result, callConvertFrom)
-	result = append(result, checkForError)
-	result = append(result, assignments...)
-	result = append(result, astbuilder.ReturnNoError())
-
-	return result
-}
-
-// generateIndirectConversionTo returns the method body required to populate our parameter
-// instance when we don't directly understand the structure of the parameter value.
-// To accommodate this, we first populate an intermediate form that is then converted.
-//
-// var staging IntermediateType
-// [copy values to staging]
-// staging.ConvertTo(parameter)
-//
-func (fn *StorageConversionFunction) generateIndirectConversionTo(
-	receiver string,
-	parameter string,
-	generationContext *CodeGenerationContext,
-) []dst.Stmt {
-
-	local := fn.knownLocals.createLocal(receiver + "Temp")
-	errLocal := dst.NewIdent("err")
-
-	intermediateName := fn.intermediateType.Name()
-	parameterPackage := generationContext.MustGetImportedPackageName(intermediateName.PackageReference)
-	localDeclaration := astbuilder.LocalVariableDeclaration(
-		local,
-		&dst.SelectorExpr{
-			X:   dst.NewIdent(parameterPackage),
-			Sel: dst.NewIdent(intermediateName.Name()),
-		},
-		fmt.Sprintf("// %s is our intermediate for conversion", local))
-	localDeclaration.Decorations().Before = dst.NewLine
-
-	callConvertTo := astbuilder.SimpleAssignment(
-		errLocal,
-		token.DEFINE,
-		astbuilder.CallQualifiedFunc(local, fn.name, dst.NewIdent(parameter)))
-	callConvertTo.Decorations().Before = dst.EmptyLine
-	callConvertTo.Decorations().Start.Append(
-		fmt.Sprintf("// Populate %s from %s", parameter, local))
-
-	checkForError := astbuilder.ReturnIfNotNil(
-		errLocal,
-		astbuilder.WrappedErrorf(
-			"for %s, calling %s.%s(%s)",
-			receiver, local, fn.name, parameter))
-
-	assignments := fn.generateAssignments(
-		dst.NewIdent(receiver),
-		dst.NewIdent(local),
-		generationContext)
-
-	var result []dst.Stmt
-	result = append(result, localDeclaration)
-	result = append(result, assignments...)
-	result = append(result, callConvertTo)
-	result = append(result, checkForError)
-	result = append(result, astbuilder.ReturnNoError())
-
 	return result
 }
 
@@ -426,16 +283,9 @@ func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition) 
 	}
 
 	var otherObject *ObjectType
-	if fn.intermediateType == nil {
-		otherObject, ok = AsObjectType(fn.hubType.Type())
-		if !ok {
-			return errors.Errorf("expected TypeDefinition %q to wrap hub object type, but none found", fn.hubType.Name().String())
-		}
-	} else {
-		otherObject, ok = AsObjectType(fn.intermediateType.Type())
-		if !ok {
-			return errors.Errorf("expected TypeDefinition %q to wrap intermediate object type, but none found", fn.intermediateType.Name().String())
-		}
+	otherObject, ok = AsObjectType(fn.otherType.Type())
+	if !ok {
+		return errors.Errorf("expected TypeDefinition %q to wrap hub object type, but none found", fn.otherType.Name().String())
 	}
 
 	var errs []error

@@ -3,14 +3,14 @@
 // Licensed under the MIT license.
 package vCurrent
 
-import "github.com/Azure/k8s-infra/hack/generated/_apis/Verification/vHub"
+import "github.com/Azure/k8s-infra/hack/generated/_apis/Verification/vNext"
 
 type Person struct {
 	scores []int `json:"scores"`
 }
 
-// ConvertFrom populates our Person from the provided source Person
-func (person Person) ConvertFrom(source *vHub.Person) error {
+// ConvertFromVNext populates our Person from the provided source Person
+func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// scores
 	scoreList := make([]int, len(source.scores))
@@ -23,8 +23,8 @@ func (person Person) ConvertFrom(source *vHub.Person) error {
 	return nil
 }
 
-// ConvertTo populates the provided destination Person from our Person
-func (person Person) ConvertTo(destination *vHub.Person) error {
+// ConvertToVNext populates the provided destination Person from our Person
+func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// scores
 	scoreList := make([]int, len(person.scores))
