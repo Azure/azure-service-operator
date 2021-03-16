@@ -27,6 +27,16 @@ func (f TypeFlag) ApplyTo(t Type) *FlaggedType {
 	return NewFlaggedType(t, f)
 }
 
+// ApplyTo applies the tag to the provided type
+func (f TypeFlag) RemoveFrom(t Type) (Type, error) {
+	visitor := MakeTypeVisitor()
+	visitor.VisitFlaggedType = func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error) {
+		return it.WithoutFlag(f), nil
+	}
+
+	return visitor.Visit(t, nil)
+}
+
 // IsOn returns true if t is a flagged type that has this flag
 func (f TypeFlag) IsOn(t Type) bool {
 	if ft, ok := t.(*FlaggedType); ok {

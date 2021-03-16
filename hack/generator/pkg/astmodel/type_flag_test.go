@@ -51,3 +51,37 @@ func TestTypeFlag_IsOn_GivenType_ReturnsExpectedValue(t *testing.T) {
 		})
 	}
 }
+
+/*
+ * RemoveFrom() tests
+ */
+
+func TestTypeFlag_RemoveFrom_ReturnsExpectedValue(t *testing.T) {
+
+	armString := ArmFlag.ApplyTo(StringType)
+	armStorageString := StorageFlag.ApplyTo(armString)
+
+	cases := []struct {
+		name     string
+		subject  Type
+		flag     TypeFlag
+		expected Type
+	}{
+		{"RemoveFrom Type with no flags returns the type unmodified", StringType, ArmFlag, StringType},
+		{"RemoveFrom flag type for flag that isn't present returns the type unmodified", armString, StorageFlag, armString},
+		{"RemoveFrom flag type with multiple flags returns flag type without specified flag", armStorageString, StorageFlag, armString},
+		{"RemoveFrom flag type with only that flag returns element type", armString, ArmFlag, StringType},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			removed, err := c.flag.RemoveFrom(c.subject)
+			g.Expect(err).ToNot(HaveOccurred())
+			g.Expect(removed.Equals(c.expected)).To(BeTrue())
+		})
+	}
+}
