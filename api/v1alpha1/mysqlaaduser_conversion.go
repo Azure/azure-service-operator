@@ -4,11 +4,8 @@
 package v1alpha1
 
 import (
-	"encoding/json"
 	"sort"
 
-	"github.com/pkg/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
@@ -31,20 +28,17 @@ func (src *MySQLAADUser) ConvertTo(dstRaw conversion.Hub) error {
 
 	// If there are stashed values in the annotations then we need to
 	// retrieve them first.
-	if encoded, found := src.getStashedAnnotation(src.ObjectMeta); found {
-		var stashedValues stashedMySQLAADUserFields
-		err := json.Unmarshal([]byte(encoded), &stashedValues)
-		if err != nil {
-			return errors.Wrap(err, "decoding stashed fields")
-		}
+	var stashedValues stashedMySQLAADUserFields
+	found, err := getStashedAnnotation(src.ObjectMeta, &stashedValues)
+	if err != nil {
+		return err
+	}
+	if found {
 		dst.Spec.Roles = stashedValues.Roles
 		dst.Spec.DatabaseRoles = stashedValues.DatabaseRoles
 
 		// Clear out the annotation to avoid confusion.
-		delete(dst.ObjectMeta.Annotations, conversionStashAnnotation)
-		if len(dst.ObjectMeta.Annotations) == 0 {
-			dst.ObjectMeta.Annotations = nil
-		}
+		clearStashedAnnotation(&dst.ObjectMeta)
 	}
 
 	// Spec
@@ -67,14 +61,6 @@ func (src *MySQLAADUser) ConvertTo(dstRaw conversion.Hub) error {
 	return nil
 }
 
-func (dst *MySQLAADUser) getStashedAnnotation(meta metav1.ObjectMeta) (string, bool) {
-	if meta.Annotations == nil {
-		return "", false
-	}
-	value, found := meta.Annotations[conversionStashAnnotation]
-	return value, found
-}
-
 func (dst *MySQLAADUser) ConvertFrom(srcRaw conversion.Hub) error {
 	src := srcRaw.(*v1alpha2.MySQLAADUser)
 
@@ -85,18 +71,13 @@ func (dst *MySQLAADUser) ConvertFrom(srcRaw conversion.Hub) error {
 		// If this can't be represented exactly as a v1alpha1, store
 		// the original server-level and database roles in an
 		// annotation.
-		if dst.ObjectMeta.Annotations == nil {
-			dst.ObjectMeta.Annotations = make(map[string]string)
-		}
-		stashValues := stashedMySQLAADUserFields{
+		err := setStashedAnnotation(&dst.ObjectMeta, stashedMySQLAADUserFields{
 			DatabaseRoles: src.Spec.DatabaseRoles,
 			Roles:         src.Spec.Roles,
-		}
-		encoded, err := json.Marshal(stashValues)
+		})
 		if err != nil {
-			return errors.Wrap(err, "encoding stashed fields")
+			return err
 		}
-		dst.ObjectMeta.Annotations[conversionStashAnnotation] = string(encoded)
 	}
 
 	// Spec
@@ -125,12 +106,8 @@ func (dst *MySQLAADUser) ConvertFrom(srcRaw conversion.Hub) error {
 
 	// Status
 	dst.Status = ASOStatus(src.Status)
-
 	return nil
-
 }
-
-const conversionStashAnnotation = "azure.microsoft.com/convert-stash"
 
 // stashedMySQLAADUserFields stores values that can't be represented
 // directly on a v1alpha1 spec struct, so that they can be stored in
