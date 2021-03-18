@@ -50,7 +50,6 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 				instance.Status.Message = err.Error()
 				return false, err
 			}
-			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.State = string(newRc.ProvisioningState)
 
 			if newRc.StaticIP != nil {
@@ -58,8 +57,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 			}
 
 			instance.Status.ResourceId = *newRc.ID
-			instance.Status.Provisioned = true
-			instance.Status.Provisioning = false
+			instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
 			return true, nil
 		}
 
@@ -70,8 +68,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	}
 
 	// actually provision the redis cache
-	instance.Status.Provisioning = true
-	instance.Status.FailedProvisioning = false
+	instance.Status.SetProvisioning("")
 	_, err = rc.CreateRedisCache(ctx, *instance)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
@@ -90,18 +87,15 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 		// handle the error
 		if helpers.ContainsString(catchInProgress, azerr.Type) {
-			instance.Status.Message = "RedisCache exists but may not be ready"
+			instance.Status.SetProvisioning("RedisCache exists but may not be ready")
 			return false, nil
 		} else if helpers.ContainsString(catchKnownError, azerr.Type) {
+			// TODO: Not sure why we want this to be provisioning=false?
 			instance.Status.Provisioning = false
 			return false, nil
 		} else {
-
 			// serious error occured, end reconcilliation and mark it as failed
-			instance.Status.Message = fmt.Sprintf("Error occurred creating the RedisCache: %s", errhelp.StripErrorIDs(err))
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = false
-			instance.Status.FailedProvisioning = true
+			instance.Status.SetFailedProvisioning(fmt.Sprintf("Error occurred creating the RedisCache: %s", errhelp.StripErrorIDs(err)))
 			return true, nil
 		}
 	}
