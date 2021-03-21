@@ -88,3 +88,28 @@ func TestExternalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 		})
 	}
 }
+
+func TestExternalPackageReferenceIsPreview(t *testing.T) {
+	fmtRef := MakeExternalPackageReference("fmt")
+	astRef := MakeExternalPackageReference("go/ast")
+	otherRef := makeTestLocalPackageReference("group", "package")
+
+	cases := []struct {
+		name string
+		ref  PackageReference
+	}{
+		{"fmt is not preview", fmtRef},
+		{"go/ast is not preview", astRef},
+		{"group/package is not preview", otherRef},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			g.Expect(c.ref.IsPreview()).To(BeFalse())
+		})
+	}
+}

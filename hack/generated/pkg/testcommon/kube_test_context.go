@@ -19,7 +19,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v20200601"
+	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/k8s-infra/hack/generated/controllers"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 )

@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	documentdb "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.documentdb/v20150408"
+	documentdb "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.documentdb/v1alpha1api20150408"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/testcommon"
 )
 

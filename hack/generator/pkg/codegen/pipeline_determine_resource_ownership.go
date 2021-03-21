@@ -80,7 +80,7 @@ func resourceSpecTypeAsObject(resourceSpecDef astmodel.TypeDefinition) (*astmode
 	// There's an expectation here that the spec is a typename pointing to an object. Even if the resource
 	// uses AnyOf/OneOf to model some sort of inheritance at this point that will be rendered
 	// as an object (with properties, etc)
-	specType, ok := resourceSpecDef.Type().(*astmodel.ObjectType)
+	specType, ok := astmodel.AsObjectType(resourceSpecDef.Type())
 	if !ok {
 		return nil, errors.Errorf(
 			"spec (%s) type is %T, not *astmodel.ObjectType",

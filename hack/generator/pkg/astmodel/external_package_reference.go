@@ -49,6 +49,11 @@ func (pr ExternalPackageReference) Equals(ref PackageReference) bool {
 	return false
 }
 
+// IsPreview returns false because external references are never previews
+func (pr ExternalPackageReference) IsPreview() bool {
+	return false
+}
+
 // String returns the string representation of the package reference
 func (pr ExternalPackageReference) String() string {
 	return pr.packagePath

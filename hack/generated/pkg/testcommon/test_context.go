@@ -16,7 +16,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/Azure/go-autorest/autorest"
-	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v20200601"
+	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"

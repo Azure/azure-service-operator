@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-package v20200601
+package v1alpha1api20200601
 
 import "github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 

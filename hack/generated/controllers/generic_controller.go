@@ -434,14 +434,15 @@ func (gr *GenericReconciler) MonitorDeployment(ctx context.Context, action Recon
 		return ctrl.Result{}, err
 	}
 
-	deployment, retryAfter, err := gr.ARMClient.GetDeployment(ctx, deployment.Id)
+	id := deployment.Id // Preserve the ID in case it's overwritten
+	deployment, retryAfter, err := gr.ARMClient.GetDeployment(ctx, id)
 	if err != nil {
 		if retryAfter != 0 {
 			data.log.V(3).Info("Error performing GET on deployment, will retry", "delaySec", retryAfter/time.Second)
 			return ctrl.Result{RequeueAfter: retryAfter}, nil
 		}
 
-		return ctrl.Result{}, errors.Wrapf(err, "getting deployment %q from ARM", deployment.Id)
+		return ctrl.Result{}, errors.Wrapf(err, "getting deployment %q from ARM", id)
 	}
 
 	var status genruntime.FromArmConverter

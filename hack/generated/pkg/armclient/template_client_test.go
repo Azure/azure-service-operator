@@ -16,7 +16,7 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v20200601"
+	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/testcommon"
 )

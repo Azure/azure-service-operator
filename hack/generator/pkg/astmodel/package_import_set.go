@@ -269,7 +269,8 @@ func (set *PackageImportSet) ServiceNameForImport(imp PackageImport) string {
 //      for microsoft.storage/v20200101 extract "storagev20200101" and so on
 func (set *PackageImportSet) versionedNameForImport(imp PackageImport) string {
 	service := set.ServiceNameForImport(imp)
-	return service + imp.packageReference.PackageName()
+	version := imp.packageReference.PackageName()
+	return service + version
 }
 
 func (set *PackageImportSet) orderImports(i PackageImport, j PackageImport) bool {

@@ -12,7 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	servicebus "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.servicebus/v20180101preview"
+	servicebus "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.servicebus/v1alpha1api20180101preview"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/testcommon"
 )
 

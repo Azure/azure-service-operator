@@ -68,7 +68,7 @@ func makeTestLocalPackageReference(group string, version string) astmodel.LocalP
 }
 
 func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
-	name := astmodel.MakeTypeName(makeTestLocalPackageReference("test", "v20200101"), "EmbeddedTestType")
+	name := astmodel.MakeTypeName(makeTestLocalPackageReference("test", "v1alpha1api20200101"), "EmbeddedTestType")
 	t := astmodel.NewObjectType()
 	t = t.WithProperty(astmodel.NewPropertyDefinition("FancyProp", "fancyProp", astmodel.IntType))
 
@@ -265,7 +265,7 @@ func stripUnusedTypesPipelineStage() PipelineStage {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
 			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
-				makeTestLocalPackageReference("test", "v20200101"),
+				makeTestLocalPackageReference("test", "v1alpha1api20200101"),
 				"Test",
 			))
 			defs, err := StripUnusedDefinitions(roots, defs)

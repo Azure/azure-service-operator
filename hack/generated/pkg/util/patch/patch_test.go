@@ -21,7 +21,7 @@ import (
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	storage "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storage/v20190401"
+	storage "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storage/v1alpha1api20190401"
 )
 
 func TestHelperUnstructuredPatch(t *testing.T) {

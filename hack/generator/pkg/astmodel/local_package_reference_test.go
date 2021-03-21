@@ -120,3 +120,33 @@ func TestLocalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 		})
 	}
 }
+
+func TestLocalPackageReferenceIsPreview(t *testing.T) {
+	batchRef := makeTestLocalPackageReference("microsoft.batch", "v20200901")
+	previewRef := makeTestLocalPackageReference("microsoft.batch", "v20200901preview")
+	preview2Ref := makeTestLocalPackageReference("microsoft.batch", "v20200901preview2")
+	alphaRef := makeTestLocalPackageReference("microsoft.batch", "v20200901alpha")
+	betaRef := makeTestLocalPackageReference("microsoft.batch", "v20200901beta")
+
+	cases := []struct {
+		name      string
+		ref       PackageReference
+		isPreview bool
+	}{
+		{"GA Release is not preview", batchRef, false},
+		{"Preview release is preview", previewRef, true},
+		{"Preview rerelease is preview", preview2Ref, true},
+		{"Alpha release is preview", alphaRef, true},
+		{"Beta release is preview", betaRef, true},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			g.Expect(c.ref.IsPreview()).To(Equal(c.isPreview))
+		})
+	}
+}

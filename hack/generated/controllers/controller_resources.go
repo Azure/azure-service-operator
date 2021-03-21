@@ -8,7 +8,7 @@ package controllers
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v20200601"
+	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 )
 
 func GetKnownTypes() []runtime.Object {

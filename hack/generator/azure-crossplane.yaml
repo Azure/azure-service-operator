@@ -11,19 +11,19 @@ typeFilters:
     name: Expression
     because: expression is an ARM template construct which doesn't belong in CRDs
   - action: include
-    version: v20200501
+    version: v*api20200501
     group: microsoft.network
     because: Including microsoft.network for Crossplane
   - action: include
-    version: v20171001
+    version: v*api20171001
     group: microsoft.cache
     because: Including microsoft.cache for Crossplane
   - action: include
-    version: v20150501preview
+    version: v*api20150501preview
     group: microsoft.sql
     because: Including microsoft.sql
 #  - action: include
-#    version: v20170301preview
+#    version: v*api20170301preview
 #    group: microsoft.sql
 #    because: Including microsoft.sql
   - action: prune
@@ -47,15 +47,15 @@ exportFilters:
     name: '*ResourceBase*'
     because: Not actually a resource, used for inheritance only.
 #  - action: include
-#    version: v20200501
+#    version: v*api20200501
 #    group: microsoft.network
 #    because: Including microsoft.network for Crossplane
   - action: include-transitive
-    version: v20171001
+    version: v*api20171001
     group: microsoft.cache
     because: Including microsoft.cache for Crossplane
   - action: include-transitive
-    version: v20150501preview
+    version: v*api20150501preview
     group: microsoft.sql
     because: Including microsoft.sql
   - action: include-transitive
@@ -102,7 +102,7 @@ typeTransformers:
     because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
 
   - group: microsoft.eventgrid
-    version: v20190601
+    version: v*api20190601
     name: Domains_Spec
     property: Properties
     remove: true
@@ -126,7 +126,7 @@ typeTransformers:
     property: Copy
     ifType:
       group: deploymenttemplate
-      version: v20150101
+      version: v*api20150101
       name: ResourceCopy
       optional: true
     remove: true

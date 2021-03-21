@@ -16,7 +16,7 @@ typeFilters:
     because: all 2020 API versions are included
   - action: include
     group: microsoft.servicebus
-    version: v20180101preview
+    version: v*api20180101preview
     because: We want to export this particular preview version
   - action: prune
     version: '*preview'
@@ -85,42 +85,42 @@ exportFilters:
   # Exclude some problematic types that need fixing:
   - action: exclude
     group: microsoft.machinelearning
-    version: v20170101
+    version: v*api20170101
     because: ExampleRequest.Inputs is a map[string][][]map[string]v1.JSON, which controller-gen doesn't know how to handle.
   - action: exclude
     group: microsoft.web
-    version: v20150801
+    version: v*api20150801
     because: ARM conversion is generating bad code for handling SitesSpecResourcesAppsettingsSpec.Name - should be casting to the right type
   - action: exclude
     group: microsoft.datafactory
-    version: v20180601
+    version: v*api20180601
     because: ExecuteSSISPackageActivityTypeProperties.PackageConnectionManagers is a map[string]map[string]SSISExecutionParameter, which controller-gen doesn't know how to handle
 
   # Include just the types we want to generate.
   # 'include-transitive' includes their dependencies recursively and makes sure everything that is needed is included:
   - action: include-transitive
     group: microsoft.storage
-    version: v20190401
+    version: v*api20190401
     name: 'StorageAccount*'
     because: "including StorageAccount resource"
   - action: include-transitive
     group: microsoft.batch
-    version: v20170901
+    version: v*api20170901
     name: 'BatchAccount'
     because: "including BatchAccount resource"
   - action: include-transitive
     group: microsoft.documentdb
-    version: v20150408
+    version: v*api20150408
     name: DatabaseAccount
     because: "including Cosmos DB resource"
   - action: include-transitive
     group: microsoft.servicebus
-    version: v20180101preview
+    version: v*api20180101preview
     name: Namespace
     because: "including Service Bus namespace"
   - action: include-transitive
     group: microsoft.servicebus
-    version: v20180101preview
+    version: v*api20180101preview
     name: NamespacesQueue
     because: "including Service Bus queue"
 

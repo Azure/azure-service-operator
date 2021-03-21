@@ -158,7 +158,7 @@ func createReservedWords() map[string]string {
 }
 
 func (factory *identifierFactory) CreatePackageNameFromVersion(version string) string {
-	return "v" + sanitizePackageName(version)
+	return "v1alpha1api" + sanitizePackageName(version)
 }
 
 func (factory *identifierFactory) CreateGroupName(group string) string {
@@ -171,7 +171,7 @@ func (factory *identifierFactory) CreateEnumIdentifier(namehint string) string {
 
 // sanitizePackageName removes all non-alphanum characters and converts to lower case
 func sanitizePackageName(input string) string {
-	var builder []rune
+	var builder []rune = make([]rune, 0, len(input))
 
 	for _, r := range input {
 		if unicode.IsLetter(r) || unicode.IsNumber(r) {
