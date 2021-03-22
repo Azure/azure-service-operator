@@ -13,15 +13,15 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Azure/k8s-infra/hack/generated/controllers"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2/klogr"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
+
+	"github.com/Azure/k8s-infra/hack/generated/controllers"
 )
 
 func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, error) {
@@ -73,10 +73,10 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 	}
 
 	log.Print("Registering custom controllers")
-	errs := controllers.RegisterAll(
+	err = controllers.RegisterAll(
 		mgr,
 		perTestContext.AzureClient,
-		controllers.GetKnownTypes(),
+		controllers.GetKnownStorageTypes(),
 		klogr.New(),
 		controllers.Options{
 			CreateDeploymentName: func(obj metav1.Object) (string, error) {
@@ -86,9 +86,13 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 			},
 			RequeueDelay: requeueDelay,
 		})
+	if err != nil {
+		return nil, errors.Wrapf(err, "registering reconcilers")
+	}
 
-	if errs != nil {
-		return nil, errors.Wrapf(kerrors.NewAggregate(errs), "registering reconcilers")
+	err = controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes())
+	if err != nil {
+		return nil, errors.Wrapf(err, "registering webhooks")
 	}
 
 	stopManager := make(chan struct{})

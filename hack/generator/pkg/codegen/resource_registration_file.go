@@ -8,7 +8,6 @@ package codegen
 import (
 	"go/token"
 	"sort"
-	"strings"
 
 	"github.com/dave/dst"
 
@@ -19,16 +18,18 @@ import (
 // ResourceRegistrationFile is a file containing functions that assist in registering resources
 // with a Kubernetes scheme.
 type ResourceRegistrationFile struct {
-	resources []astmodel.TypeName
+	resources               []astmodel.TypeName
+	storageVersionResources []astmodel.TypeName
 }
 
 var _ astmodel.GoSourceFile = &ResourceRegistrationFile{}
 
 // NewResourceRegistrationFile returns a ResourceRegistrationFile for registering all of the specified resources
 // with a controller
-func NewResourceRegistrationFile(resources []astmodel.TypeName) *ResourceRegistrationFile {
+func NewResourceRegistrationFile(resources []astmodel.TypeName, storageVersionResources []astmodel.TypeName) *ResourceRegistrationFile {
 	return &ResourceRegistrationFile{
-		resources: resources,
+		resources:               resources,
+		storageVersionResources: storageVersionResources,
 	}
 }
 
@@ -37,17 +38,15 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	var decls []dst.Decl
 
 	// Determine imports
-	packageReferences, err := r.generateImports()
-	if err != nil {
-		return nil, err
-	}
+	packageReferences := r.generateImports()
 
 	codeGenContext := astmodel.NewCodeGenerationContext(
-		astmodel.MakeExternalPackageReference("controllers"), // TODO: This some come from a config
+		astmodel.MakeExternalPackageReference("controllers"), // TODO: This should come from a config
 		packageReferences,
 		nil)
 
 	// Create import header if needed
+	thing := packageReferences.AsImportSpecs()
 	if packageReferences.Length() > 0 {
 		decls = append(decls, &dst.GenDecl{
 			Decs: dst.GenDeclDecorations{
@@ -56,9 +55,15 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 				},
 			},
 			Tok:   token.IMPORT,
-			Specs: packageReferences.AsImportSpecs(),
+			Specs: thing,
 		})
 	}
+
+	knownStorageTypes, err := r.createGetKnownStorageTypesFunc(codeGenContext)
+	if err != nil {
+		return nil, err
+	}
+	decls = append(decls, knownStorageTypes)
 
 	// Create KnownTypes collection
 	knownTypes, err := r.createGetKnownTypesFunc(codeGenContext)
@@ -96,21 +101,15 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 
 // generateImports generates the a PackageImportSet containing the imports required for the resources
 // in the ResourceRegistrationFile.
-func (r *ResourceRegistrationFile) generateImports() (*astmodel.PackageImportSet, error) {
+func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet {
 	requiredImports := astmodel.NewPackageImportSet()
 
-	for _, typeName := range r.resources {
+	for _, typeName := range append(r.resources, r.storageVersionResources...) {
 		// Because versions always end in a date specifier such as "v20180801"
 		// they are not unique. We must build a unique name for each package so that
 		// there are no import conflicts.
-		// This also helps improve code readability.
-
-		localPkg, err := astmodel.PackageAsLocalPackage(typeName.PackageReference)
-		if err != nil {
-			return nil, err
-		}
-
-		imp := astmodel.NewPackageImport(typeName.PackageReference).WithName(r.makeUniquePackageName(localPkg.Group(), localPkg.Version()))
+		imp := astmodel.NewPackageImport(typeName.PackageReference)
+		imp = imp.WithName(imp.VersionedNameForImport())
 		requiredImports.AddImport(imp)
 	}
 
@@ -122,16 +121,7 @@ func (r *ResourceRegistrationFile) generateImports() (*astmodel.PackageImportSet
 	runtimeImport := astmodel.NewPackageImport(makeApiMachineryRuntimePackageReference())
 	requiredImports.AddImport(runtimeImport)
 
-	return requiredImports, nil
-}
-
-func (r *ResourceRegistrationFile) makeUniquePackageName(group string, version string) string {
-	// Strip "microsoft" prefix
-	result := strings.TrimPrefix(group, "microsoft")
-	result = strings.ReplaceAll(result, ".", "")
-	result = result + version
-
-	return result
+	return requiredImports
 }
 
 func makeApiMachineryRuntimePackageReference() astmodel.PackageReference {
@@ -142,7 +132,24 @@ func makeClientGoKubernetesSchemePackageReference() astmodel.PackageReference {
 	return astmodel.MakeExternalPackageReference("k8s.io/client-go/kubernetes/scheme")
 }
 
-// createGetKnownTypesFunc creates a getKnownTypes function:
+// createGetKnownStorageTypesFunc creates a getKnownStorageTypes function that returns all storage types:
+//		func getKnownStorageTypes() []runtime.Object {
+//			var result []runtime.Object
+//			result = append(result, new(<package>.<resource>))
+//			result = append(result, new(<package>.<resource>))
+//			result = append(result, new(<package>.<resource>))
+//			...
+//			return result
+//		}
+func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(codeGenerationContext *astmodel.CodeGenerationContext) (dst.Decl, error) {
+	return createKnownTypesFuncImpl(
+		codeGenerationContext,
+		r.storageVersionResources,
+		"getKnownStorageTypes",
+		"returns the list of storage types which can be reconciled.")
+}
+
+// createGetKnownTypesFunc creates a getKnownTypes function that returns all known types:
 //		func getKnownTypes() []runtime.Object {
 //			var result []runtime.Object
 //			result = append(result, new(<package>.<resource>))
@@ -152,6 +159,14 @@ func makeClientGoKubernetesSchemePackageReference() astmodel.PackageReference {
 //			return result
 //		}
 func (r *ResourceRegistrationFile) createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationContext) (dst.Decl, error) {
+	return createKnownTypesFuncImpl(
+		codeGenerationContext,
+		r.resources,
+		"getKnownTypes",
+		"returns the list of all types.")
+}
+
+func createKnownTypesFuncImpl(codeGenerationContext *astmodel.CodeGenerationContext, resources []astmodel.TypeName, funcName string, funcComment string) (dst.Decl, error) {
 	runtime, err := codeGenerationContext.GetImportedPackageName(makeApiMachineryRuntimePackageReference())
 	if err != nil {
 		return nil, err
@@ -169,9 +184,9 @@ func (r *ResourceRegistrationFile) createGetKnownTypesFunc(codeGenerationContext
 		"")
 
 	// Sort the resources for a deterministic file layout
-	sort.Slice(r.resources, func(i, j int) bool {
-		iVal := r.resources[i]
-		jVal := r.resources[j]
+	sort.Slice(resources, func(i, j int) bool {
+		iVal := resources[i]
+		jVal := resources[j]
 
 		iPkgName, err := codeGenerationContext.GetImportedPackageName(iVal.PackageReference)
 		if err != nil {
@@ -186,7 +201,7 @@ func (r *ResourceRegistrationFile) createGetKnownTypesFunc(codeGenerationContext
 	})
 
 	var resourceAppendStatements []dst.Stmt
-	for _, typeName := range r.resources {
+	for _, typeName := range resources {
 		appendStmt := astbuilder.AppendList(
 			resultIdent,
 			&dst.CallExpr{
@@ -210,7 +225,7 @@ func (r *ResourceRegistrationFile) createGetKnownTypesFunc(codeGenerationContext
 	body = append(body, returnStmt)
 
 	f := &astbuilder.FuncDetails{
-		Name:   "getKnownTypes",
+		Name:   funcName,
 		Body:   body,
 		Params: []*dst.Field{},
 		Returns: []*dst.Field{
@@ -224,7 +239,7 @@ func (r *ResourceRegistrationFile) createGetKnownTypesFunc(codeGenerationContext
 			},
 		},
 	}
-	f.AddComments("returns the list of known types which can be reconciled")
+	f.AddComments(funcComment)
 
 	return f.DefineFunc(), nil
 }

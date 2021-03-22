@@ -107,12 +107,14 @@ func (h ResourceHierarchy) RootKind() ResourceHierarchyRoot {
 }
 
 type Resolver struct {
-	client *kubeclient.Client
+	client                   *kubeclient.Client
+	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind
 }
 
-func NewResolver(client *kubeclient.Client) *Resolver {
+func NewResolver(client *kubeclient.Client, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind) *Resolver {
 	return &Resolver{
-		client: client,
+		client:                   client,
+		reconciledResourceLookup: reconciledResourceLookup,
 	}
 }
 
@@ -181,23 +183,12 @@ func (r *Resolver) GetOwner(ctx context.Context, obj genruntime.MetaObject) (gen
 
 func (r *Resolver) findGVK(owner *genruntime.ResourceReference) (schema.GroupVersionKind, error) {
 	var ownerGvk schema.GroupVersionKind
-	found := false
-	// TODO: We need to find the specific storage version GVK...
-	for gvk := range r.client.Scheme.AllKnownTypes() {
-		if gvk.Group == owner.Group && gvk.Kind == owner.Kind {
-			if !found {
-				ownerGvk = gvk
-				found = true
-			} else {
-				return ownerGvk, errors.Errorf("owner group: %s, kind: %s has multiple possible schemes registered", owner.Group, owner.Kind)
-			}
-		}
+
+	groupKind := schema.GroupKind{Group: owner.Group, Kind: owner.Kind}
+	gvk, ok := r.reconciledResourceLookup[groupKind]
+	if !ok {
+		return ownerGvk, errors.Errorf("group: %q, kind: %q was not in reconciledResourceLookup", owner.Group, owner.Kind)
 	}
 
-	// TODO: We should do this on process launch probably since we can check based on the AllKnownTypes() collection
-	if !found {
-		return ownerGvk, errors.Errorf("couldn't find owner %+v in scheme", owner)
-	}
-
-	return ownerGvk, nil
+	return gvk, nil
 }

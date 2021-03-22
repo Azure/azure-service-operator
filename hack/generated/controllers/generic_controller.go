@@ -22,6 +22,7 @@ import (
 	"k8s.io/apimachinery/pkg/conversion"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -107,20 +108,48 @@ func (options *Options) setDefaults() {
 	}
 }
 
-func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []runtime.Object, log logr.Logger, options Options) []error {
-	options.setDefaults()
-
+func RegisterWebhooks(mgr ctrl.Manager, objs []runtime.Object) error {
 	var errs []error
+
 	for _, obj := range objs {
-		if err := register(mgr, applier, obj, log, options); err != nil {
+		if err := registerWebhook(mgr, obj); err != nil {
 			errs = append(errs, err)
 		}
 	}
 
-	return errs
+	return kerrors.NewAggregate(errs)
 }
 
-func register(mgr ctrl.Manager, applier armclient.Applier, obj runtime.Object, log logr.Logger, options Options) error {
+func registerWebhook(mgr ctrl.Manager, obj runtime.Object) error {
+	_, err := conversion.EnforcePtr(obj)
+	if err != nil {
+		return errors.Wrap(err, "obj was expected to be ptr but was not")
+	}
+
+	return ctrl.NewWebhookManagedBy(mgr).
+		For(obj).
+		Complete()
+}
+
+func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []runtime.Object, log logr.Logger, options Options) error {
+	options.setDefaults()
+
+	reconciledResourceLookup, err := MakeResourceGVKLookup(mgr, objs)
+	if err != nil {
+		return err
+	}
+
+	var errs []error
+	for _, obj := range objs {
+		if err := register(mgr, reconciledResourceLookup, applier, obj, log, options); err != nil {
+			errs = append(errs, err)
+		}
+	}
+
+	return kerrors.NewAggregate(errs)
+}
+
+func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind, applier armclient.Applier, obj runtime.Object, log logr.Logger, options Options) error {
 	v, err := conversion.EnforcePtr(obj)
 	if err != nil {
 		return errors.Wrap(err, "obj was expected to be ptr but was not")
@@ -144,7 +173,7 @@ func register(mgr ctrl.Manager, applier armclient.Applier, obj runtime.Object, l
 	reconciler := &GenericReconciler{
 		ARMClient:            applier,
 		KubeClient:           kubeClient,
-		ResourceResolver:     armresourceresolver.NewResolver(kubeClient),
+		ResourceResolver:     armresourceresolver.NewResolver(kubeClient, reconciledResourceLookup),
 		Name:                 t.Name(),
 		Log:                  log.WithName(controllerName),
 		Recorder:             mgr.GetEventRecorderFor(controllerName),
@@ -164,9 +193,27 @@ func register(mgr ctrl.Manager, applier armclient.Applier, obj runtime.Object, l
 
 	reconciler.Controller = c
 
-	return ctrl.NewWebhookManagedBy(mgr).
-		For(obj).
-		Complete()
+	return nil
+}
+
+// MakeResourceGVKLookup creates a map of schema.GroupKind to schema.GroupVersionKind. This can be used to look up
+// the version of a GroupKind that is being reconciled.
+func MakeResourceGVKLookup(mgr ctrl.Manager, objs []runtime.Object) (map[schema.GroupKind]schema.GroupVersionKind, error) {
+	result := make(map[schema.GroupKind]schema.GroupVersionKind)
+
+	for _, obj := range objs {
+		gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating GVK for obj %T", obj)
+		}
+		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
+		if existing, ok := result[groupKind]; ok {
+			return nil, errors.Errorf("somehow group: %q, kind: %q was already registered with version %q", gvk.Group, gvk.Kind, existing.Version)
+		}
+		result[groupKind] = gvk
+	}
+
+	return result, nil
 }
 
 // Reconcile will take state in K8s and apply it to Azure

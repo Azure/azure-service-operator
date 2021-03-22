@@ -101,3 +101,42 @@ func TestPackageImport_Equals(t *testing.T) {
 		})
 	}
 }
+
+/*
+ * ServiceNameForImport() tests
+ */
+
+func TestPackageImport_ServiceNameForImport_GivenImport_ReturnsExpectedName(t *testing.T) {
+	cases := []struct {
+		name     string
+		ref      PackageReference
+		expected string
+	}{
+		{
+			"Batch",
+			MakeExternalPackageReference("github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.batch/v201700401"),
+			"batch",
+		},
+		{
+			"Storage",
+			MakeExternalPackageReference("github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storage/v20200101"),
+			"storage",
+		},
+		{
+			"StorSimple",
+			MakeExternalPackageReference("github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storsimple.1200/v20161001"),
+			"storsimple1200",
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			imp := NewPackageImport(c.ref)
+			name := imp.ServiceNameForImport()
+			g.Expect(name).To(Equal(c.expected))
+		})
+	}
+}

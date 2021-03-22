@@ -10,7 +10,6 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
@@ -30,9 +29,7 @@ func exportControllerResourceRegistrations(outputPath string) PipelineStage {
 			}
 
 			var resources []astmodel.TypeName
-
-			// This is a bit hacky but it's just for logging
-			excludedGroupVersions := make(map[string]struct{})
+			var storageVersionResources []astmodel.TypeName
 
 			// We need to register each version
 			for _, def := range types {
@@ -40,24 +37,15 @@ func exportControllerResourceRegistrations(outputPath string) PipelineStage {
 				if !ok {
 					continue
 				}
-				// TODO: Stop excluding storage versions when they're ready for prime time
+
 				if resource.IsStorageVersion() {
-					localPkg, err := astmodel.PackageAsLocalPackage(def.Name().PackageReference)
-					if err != nil {
-						return nil, err
-					}
-					excludedGroupVersions[localPkg.Group()+localPkg.Version()] = struct{}{}
-					continue
+					storageVersionResources = append(storageVersionResources, def.Name())
 				}
 
 				resources = append(resources, def.Name())
 			}
 
-			for excluded := range excludedGroupVersions {
-				klog.Warningf("Excluded package %s from registration in %s", excluded, outputPath)
-			}
-
-			file := NewResourceRegistrationFile(resources)
+			file := NewResourceRegistrationFile(resources, storageVersionResources)
 			fileWriter := astmodel.NewGoSourceFileWriter(file)
 
 			err := fileWriter.SaveToFile(outputPath)

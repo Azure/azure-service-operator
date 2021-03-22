@@ -9,8 +9,11 @@ import (
 	"context"
 	"testing"
 
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
@@ -58,23 +61,50 @@ func createDummyResource() *batch.BatchAccount {
 	}
 }
 
+func MakeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.GroupVersionKind, error) {
+	result := make(map[schema.GroupKind]schema.GroupVersionKind)
+
+	// Register all types used in these tests
+	objs := []runtime.Object{
+		new(resources.ResourceGroup),
+		new(batch.BatchAccount),
+	}
+
+	for _, obj := range objs {
+		gvk, err := apiutil.GVKForObject(obj, scheme)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating GVK for obj %T", obj)
+		}
+		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
+		if existing, ok := result[groupKind]; ok {
+			return nil, errors.Errorf("somehow group: %q, kind: %q was already registered with version %q", gvk.Group, gvk.Kind, existing.Version)
+		}
+		result[groupKind] = gvk
+	}
+
+	return result, nil
+}
+
 type DummyStruct struct{}
 
 func Test_ConvertResourceToDeployableResource(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
-	s := runtime.NewScheme()
-	g.Expect(batch.AddToScheme(s)).To(Succeed())
-	g.Expect(resources.AddToScheme(s)).To(Succeed())
+	scheme := runtime.NewScheme()
+	g.Expect(batch.AddToScheme(scheme)).To(Succeed())
+	g.Expect(resources.AddToScheme(scheme)).To(Succeed())
 
-	fakeClient := fake.NewFakeClientWithScheme(s)
+	groupToVersionMap, err := MakeResourceGVKLookup(scheme)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	fakeClient := fake.NewFakeClientWithScheme(scheme)
 
 	rg := createResourceGroup()
 	g.Expect(fakeClient.Create(ctx, rg)).To(Succeed())
 	account := createDummyResource()
 	g.Expect(fakeClient.Create(ctx, account)).To(Succeed())
-	resolver := armresourceresolver.NewResolver(kubeclient.NewClient(fakeClient, s))
+	resolver := armresourceresolver.NewResolver(kubeclient.NewClient(fakeClient, scheme), groupToVersionMap)
 
 	resource, err := ConvertResourceToDeployableResource(ctx, resolver, account)
 	g.Expect(err).ToNot(HaveOccurred())

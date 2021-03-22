@@ -11,6 +11,14 @@ import (
 	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 )
 
+func GetKnownStorageTypes() []runtime.Object {
+	knownTypes := getKnownStorageTypes()
+
+	knownTypes = append(knownTypes, new(resources.ResourceGroup))
+
+	return knownTypes
+}
+
 func GetKnownTypes() []runtime.Object {
 	knownTypes := getKnownTypes()
 

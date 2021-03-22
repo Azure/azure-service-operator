@@ -143,7 +143,7 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 	// Force local imports to have explicit names based on the service
 	for _, imp := range requiredImports.AsSlice() {
 		if IsLocalPackageReference(imp.packageReference) && !imp.HasExplicitName() {
-			name := requiredImports.ServiceNameForImport(imp)
+			name := imp.ServiceNameForImport()
 			requiredImports.AddImport(imp.WithName(name))
 		}
 	}

@@ -71,10 +71,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownTypes(), ctrl.Log.WithName("controllers"), concurrency(1)); errs != nil {
-		for _, err := range errs {
-			setupLog.Error(err, "failed to register gvk: %v")
-		}
+	if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), ctrl.Log.WithName("controllers"), concurrency(1)); errs != nil {
+		setupLog.Error(err, "failed to register gvks")
+		os.Exit(1)
+	}
+
+	if errs := controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes()); errs != nil {
+		setupLog.Error(err, "failed to register webhook for gvks")
 		os.Exit(1)
 	}
 

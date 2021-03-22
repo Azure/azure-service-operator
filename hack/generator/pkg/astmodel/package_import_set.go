@@ -7,7 +7,6 @@ package astmodel
 
 import (
 	"sort"
-	"strings"
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
@@ -143,7 +142,7 @@ func (set *PackageImportSet) ResolveConflicts() error {
 	// For our first pass, we use a simple naming scheme based on the service type (e.g. email,
 	// service, batch)
 	set.foreachConflict(func(imp PackageImport) PackageImport {
-		name := set.ServiceNameForImport(imp)
+		name := imp.ServiceNameForImport()
 		if imp.HasExplicitName() && imp.name != name {
 			// Don't change any custom names that have already been set
 			return imp
@@ -159,7 +158,7 @@ func (set *PackageImportSet) ResolveConflicts() error {
 	set.foreachConflict(func(imp PackageImport) PackageImport {
 		// Only rename imports we already renamed above
 		if _, ok := remappedImports[imp.packageReference]; ok {
-			name := set.versionedNameForImport(imp)
+			name := imp.VersionedNameForImport()
 			klog.Warningf("Remapped %v to %v", imp.packageReference, name)
 			return imp.WithName(name)
 		}
@@ -248,31 +247,6 @@ func ByNameInGroups(left PackageImport, right PackageImport) bool {
 	return left.packageReference.String() < right.packageReference.String()
 }
 
-// ServiceNameForImport extracts a name for the service for use to disambiguate imports
-// E.g. for microsoft.batch/v201700401, extract "batch"
-//      for microsoft.storage/v20200101 extract "storage"
-//      for microsoft.storsimple.1200 extract "storsimple1200" and so on
-func (set *PackageImportSet) ServiceNameForImport(imp PackageImport) string {
-	pathBits := strings.Split(imp.packageReference.PackagePath(), "/")
-	index := len(pathBits) - 1
-	if index > 0 {
-		index--
-	}
-
-	nameBits := strings.Split(pathBits[index], ".")
-	result := strings.Join(nameBits[1:], "")
-	return result
-}
-
-// Create a versioned name based on the service for use to disambiguate imports
-// E.g. for microsoft.batch/v201700401, extract "batchv201700401"
-//      for microsoft.storage/v20200101 extract "storagev20200101" and so on
-func (set *PackageImportSet) versionedNameForImport(imp PackageImport) string {
-	service := set.ServiceNameForImport(imp)
-	version := imp.packageReference.PackageName()
-	return service + version
-}
-
 func (set *PackageImportSet) orderImports(i PackageImport, j PackageImport) bool {
 	// This ordering is what go fmt uses
 	if i.packageReference.Equals(j.packageReference) {
@@ -289,5 +263,5 @@ func (set *PackageImportSet) orderImports(i PackageImport, j PackageImport) bool
 		}
 	}
 
-	return i.packageReference.String() < j.packageReference.String()
+	return i.packageReference.PackagePath() < j.packageReference.PackagePath()
 }

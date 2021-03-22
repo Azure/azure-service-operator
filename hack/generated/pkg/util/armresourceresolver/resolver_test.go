@@ -14,21 +14,48 @@ import (
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
-
-	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/util/kubeclient"
 
 	batch "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.batch/v1alpha1api20170901"
 	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	storage "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storage/v1alpha1api20190401"
+	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
+	"github.com/Azure/k8s-infra/hack/generated/pkg/util/kubeclient"
 )
 
-func NewTestResolver(s *runtime.Scheme) *Resolver {
+func NewTestResolver(s *runtime.Scheme, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind) *Resolver {
 	fakeClient := fake.NewFakeClientWithScheme(s)
-	return NewResolver(kubeclient.NewClient(fakeClient, s))
+
+	return NewResolver(kubeclient.NewClient(fakeClient, s), reconciledResourceLookup)
+}
+
+func MakeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.GroupVersionKind, error) {
+	result := make(map[schema.GroupKind]schema.GroupVersionKind)
+
+	// Register all types used in these tests
+	objs := []runtime.Object{
+		new(resources.ResourceGroup),
+		new(batch.BatchAccount),
+		new(storage.StorageAccount),
+		new(storage.StorageAccountsBlobService),
+	}
+
+	for _, obj := range objs {
+		gvk, err := apiutil.GVKForObject(obj, scheme)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating GVK for obj %T", obj)
+		}
+		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
+		if existing, ok := result[groupKind]; ok {
+			return nil, errors.Errorf("somehow group: %q, kind: %q was already registered with version %q", gvk.Group, gvk.Kind, existing.Version)
+		}
+		result[groupKind] = gvk
+	}
+
+	return result, nil
 }
 
 func createResourceGroup(name string) *resources.ResourceGroup {
@@ -102,9 +129,11 @@ func Test_ResolveResourceHierarchy_ResourceGroupOnly(t *testing.T) {
 	g := NewWithT(t)
 	ctx := context.TODO()
 
-	s := runtime.NewScheme()
-	_ = resources.AddToScheme(s)
-	resolver := NewTestResolver(s)
+	s := createTestScheme()
+
+	reconciledResourceLookup, err := MakeResourceGVKLookup(s)
+	g.Expect(err).ToNot(HaveOccurred())
+	resolver := NewTestResolver(s, reconciledResourceLookup)
 
 	resourceGroupName := "myrg"
 	a := createResourceGroup(resourceGroupName)
@@ -120,18 +149,18 @@ func Test_ResolveResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) 
 	g := NewWithT(t)
 	ctx := context.TODO()
 
-	s := runtime.NewScheme()
-	_ = storage.AddToScheme(s)
-	_ = resources.AddToScheme(s)
+	s := createTestScheme()
 
-	resolver := NewTestResolver(s)
+	reconciledResourceLookup, err := MakeResourceGVKLookup(s)
+	g.Expect(err).ToNot(HaveOccurred())
+	resolver := NewTestResolver(s, reconciledResourceLookup)
 
 	resourceGroupName := "myrg"
 	resourceName := "myresource"
 
 	a, b := createResourceGroupRootedResource(resourceGroupName, resourceName)
 
-	err := resolver.client.Client.Create(ctx, a)
+	err = resolver.client.Client.Create(ctx, a)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	hierarchy, err := resolver.ResolveResourceHierarchy(ctx, b)
@@ -147,11 +176,11 @@ func Test_ResolveResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 	g := NewWithT(t)
 	ctx := context.TODO()
 
-	s := runtime.NewScheme()
-	_ = storage.AddToScheme(s)
-	_ = resources.AddToScheme(s)
+	s := createTestScheme()
 
-	resolver := NewTestResolver(s)
+	reconciledResourceLookup, err := MakeResourceGVKLookup(s)
+	g.Expect(err).ToNot(HaveOccurred())
+	resolver := NewTestResolver(s, reconciledResourceLookup)
 
 	resourceGroupName := "myrg"
 	resourceName := "myresource"
@@ -181,11 +210,11 @@ func Test_ResolveResourceHierarchy_ReturnsOwnerNotFoundError(t *testing.T) {
 	g := NewWithT(t)
 	ctx := context.TODO()
 
-	s := runtime.NewScheme()
-	_ = storage.AddToScheme(s)
-	_ = resources.AddToScheme(s)
+	s := createTestScheme()
 
-	resolver := NewTestResolver(s)
+	reconciledResourceLookup, err := MakeResourceGVKLookup(s)
+	g.Expect(err).ToNot(HaveOccurred())
+	resolver := NewTestResolver(s, reconciledResourceLookup)
 
 	resourceGroupName := "myrg"
 	resourceName := "myresource"
@@ -194,7 +223,7 @@ func Test_ResolveResourceHierarchy_ReturnsOwnerNotFoundError(t *testing.T) {
 
 	// Purposefully skipping creating the RG
 
-	_, err := resolver.ResolveResourceHierarchy(ctx, b)
+	_, err = resolver.ResolveResourceHierarchy(ctx, b)
 	g.Expect(err).To(HaveOccurred())
 
 	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&OwnerNotFound{}))
@@ -248,4 +277,13 @@ func Test_ResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(rg).To(Equal(resourceGroupName))
 	g.Expect(hierarchy.FullAzureName()).To(Equal(fmt.Sprintf("%s/%s", hierarchy[1].AzureName(), hierarchy[2].AzureName())))
+}
+
+func createTestScheme() *runtime.Scheme {
+	s := runtime.NewScheme()
+	_ = resources.AddToScheme(s)
+	_ = batch.AddToScheme(s)
+	_ = storage.AddToScheme(s)
+
+	return s
 }
