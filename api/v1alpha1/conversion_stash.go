@@ -8,11 +8,18 @@ import (
 
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/conversion"
 )
 
 const conversionStashAnnotation = "azure.microsoft.com/convert-stash"
 
+// getStashedAnnotation unmarshals the convert-stash annotation value
+// into the target pointer, if the annotation is present. It returns
+// whether the annotation was present, and any error from unmarshalling.
 func getStashedAnnotation(meta metav1.ObjectMeta, target interface{}) (bool, error) {
+	if _, err := conversion.EnforcePtr(target); err != nil {
+		return false, errors.Errorf("getStashedAnnotation target must be a pointer, not %T", target)
+	}
 	if meta.Annotations == nil {
 		return false, nil
 	}

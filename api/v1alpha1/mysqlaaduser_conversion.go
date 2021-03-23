@@ -91,6 +91,8 @@ func (dst *MySQLAADUser) ConvertFrom(srcRaw conversion.Hub) error {
 	for dbName := range src.Spec.DatabaseRoles {
 		dbNames = append(dbNames, dbName)
 	}
+	// Sorting the list of names for testing (and so that a client
+	// gets a consistent value back for a resource).
 	sort.Strings(dbNames)
 	var (
 		dbName string
