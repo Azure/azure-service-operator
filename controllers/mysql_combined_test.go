@@ -30,19 +30,24 @@ func TestMySQLHappyPath(t *testing.T) {
 	rgLocation := "eastus2"
 	rgName := tc.resourceGroupName
 	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
-	mySQLReplicaName := GenerateTestResourceNameWithRandom("mysql-rep", 10)
+	// mySQLReplicaName := GenerateTestResourceNameWithRandom("mysql-rep", 10)
 
 	// Create the mySQLServer object and expect the Reconcile to be created
 	mySQLServerInstance := v1alpha2.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
 
 	RequireInstance(ctx, t, tc, mySQLServerInstance)
 
-	// Create a mySQL replica
+	// Commenting the replica creation out for now - the time to
+	// provision the replica has blown out to more than an hour in
+	// some cases?
+	// TODO (babbageclunk): raise a bug with the Azure MySQL team about this.
 
-	mySQLReplicaInstance := v1alpha2.NewReplicaMySQLServer(mySQLReplicaName, rgName, rgLocation, mySQLServerInstance.Status.ResourceId)
-	mySQLReplicaInstance.Spec.StorageProfile = nil
+	// // Create a mySQL replica
 
-	EnsureInstance(ctx, t, tc, mySQLReplicaInstance)
+	// mySQLReplicaInstance := v1alpha2.NewReplicaMySQLServer(mySQLReplicaName, rgName, rgLocation, mySQLServerInstance.Status.ResourceId)
+	// mySQLReplicaInstance.Spec.StorageProfile = nil
+
+	// EnsureInstance(ctx, t, tc, mySQLReplicaInstance)
 
 	mySQLDBName := GenerateTestResourceNameWithRandom("mysql-db", 10)
 
@@ -109,7 +114,7 @@ func TestMySQLHappyPath(t *testing.T) {
 	EnsureDelete(ctx, t, tc, ruleInstance)
 	EnsureDelete(ctx, t, tc, mySQLDBInstance)
 	EnsureDelete(ctx, t, tc, mySQLServerInstance)
-	EnsureDelete(ctx, t, tc, mySQLReplicaInstance)
+	// EnsureDelete(ctx, t, tc, mySQLReplicaInstance)
 }
 
 func RunMySQLUserHappyPath(ctx context.Context, t *testing.T, mySQLServerName string, mySQLDBName string, rgName string) {
