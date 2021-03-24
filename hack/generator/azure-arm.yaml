@@ -50,21 +50,21 @@ typeFilters:
     because: Some types use OneOf in a way we don't currently handle correctly.
   - action: prune
     group: microsoft.timeseriesinsights
-    version: v20171115
+    version: v*api20171115
     because: Some types use OneOf in a way we don't currently handle.
   - action: prune
     group: microsoft.storage
-    version: v20190401
+    version: v*api20190401
     name: StorageAccountsFileServices*
     because: _childResource type which was added to API version later and not included in the 2015-01-01 rollup spec.
   - action: prune
     group: microsoft.datafactory
-    version: v20180601
+    version: v*api20180601
     name: FactoriesManagedVirtualNetworks*
     because: _childResource type which was added to API version later and not included in the 2015-01-01 rollup spec.
   - action: prune
     group: microsoft.aad
-    version: v20170601
+    version: v*api20170601
     name: DomainServicesOuContainer*
     because: _childResource type which was added to API version later and not included in the 2015-01-01 rollup spec.
 exportFilters:
