@@ -166,7 +166,7 @@ typeTransformers:
     because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
 
   - group: microsoft.eventgrid
-    version: v20190601
+    version: v*api20190601
     name: Domains_Spec
     property: Properties
     remove: true
@@ -190,7 +190,7 @@ typeTransformers:
     property: Copy
     ifType:
       group: deploymenttemplate
-      version: v20150101
+      version: v*api20150101
       name: ResourceCopy
       optional: true
     remove: true

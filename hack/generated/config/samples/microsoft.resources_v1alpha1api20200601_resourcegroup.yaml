@@ -1,4 +1,4 @@
-apiVersion: microsoft.resources.infra.azure.com/v20200601
+apiVersion: microsoft.resources.infra.azure.com/v1alpha1api20200601
 kind: ResourceGroup
 metadata:
   name: k8sinfra-sample-rg
