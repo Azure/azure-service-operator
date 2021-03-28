@@ -117,7 +117,7 @@ func generateDefaulter(resourceName TypeName, spec *ObjectType, idFactory Identi
 
 	group = strings.ToLower(group + GroupSuffix)
 	nonPluralResource := strings.ToLower(resource)
-	resource = strings.ToLower(resource) + "s" // TODO: this should come from resource?
+	resource = strings.ToLower(resourceName.Plural().Name())
 
 	// e.g. "mutate-microsoft-network-infra-azure-com-v1-backendaddresspool"
 	// note that this must match _exactly_ how controller-runtime generates the path

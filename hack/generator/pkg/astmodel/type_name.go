@@ -90,19 +90,22 @@ func (typeName TypeName) String() string {
 	return fmt.Sprintf("%s/%s", typeName.PackageReference, typeName.name)
 }
 
-var typeNameSingulars map[string]string = map[string]string{
-	"Services": "Service",
-	"services": "service",
-	"Redis":    "Redis",
-	"redis":    "redis",
+var typeNamePluralToSingularOverrides = map[string]string{
+	"Services":  "Service",
+	"services":  "service",
+	"Redis":     "Redis",
+	"redis":     "redis",
+	"Addresses": "Address",
+	"addresses": "address",
 }
 
-// Singular returns a typename with the name singularized
+var typeNameSingularToPluralOverrides map[string]string
+
+// Singular returns a TypeName with the name singularized.
 func (typeName TypeName) Singular() TypeName {
 	// work around bug in flect: https://github.com/Azure/k8s-infra/issues/319
 	name := typeName.name
-	for plural, single := range typeNameSingulars {
-
+	for plural, single := range typeNamePluralToSingularOverrides {
 		if strings.HasSuffix(name, plural) {
 			n := name[0:len(name)-len(plural)] + single
 			return MakeTypeName(typeName.PackageReference, n)
@@ -110,4 +113,25 @@ func (typeName TypeName) Singular() TypeName {
 	}
 
 	return MakeTypeName(typeName.PackageReference, flect.Singularize(typeName.name))
+}
+
+// Plural returns a TypeName with the name pluralized.
+func (typeName TypeName) Plural() TypeName {
+	name := typeName.name
+
+	if typeNamePluralToSingularOverrides == nil {
+		typeNameSingularToPluralOverrides = make(map[string]string, len(typeNamePluralToSingularOverrides))
+		for plural, single := range typeNamePluralToSingularOverrides {
+			typeNameSingularToPluralOverrides[single] = plural
+		}
+	}
+
+	for single, plural := range typeNameSingularToPluralOverrides {
+		if strings.HasSuffix(name, single) {
+			n := name[0:len(name)-len(single)] + plural
+			return MakeTypeName(typeName.PackageReference, n)
+		}
+	}
+
+	return MakeTypeName(typeName.PackageReference, flect.Pluralize(typeName.name))
 }
