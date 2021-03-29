@@ -9,6 +9,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources=aresources,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources={aresources/status,aresources/finalizers},verbs=get;update;patch
+
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/AResource

@@ -8,6 +8,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
+
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
@@ -25,6 +28,9 @@ type AList struct {
 	Items           []A `json:"items"`
 }
 
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources=bs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources={bs/status,bs/finalizers},verbs=get;update;patch
+
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
@@ -41,6 +47,9 @@ type BList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []B `json:"items"`
 }
+
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources=cs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources={cs/status,cs/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion

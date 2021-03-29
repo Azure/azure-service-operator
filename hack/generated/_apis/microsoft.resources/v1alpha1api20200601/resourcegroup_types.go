@@ -11,6 +11,9 @@ import (
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 )
 
+// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources={resourcegroups/status,resourcegroups/finalizers},verbs=get;update;patch
+
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion

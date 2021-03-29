@@ -14,6 +14,9 @@ type EmbeddedTestTypeArm struct {
 	FancyProp int `json:"fancyProp"`
 }
 
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources=fakeresources,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources={fakeresources/status,fakeresources/finalizers},verbs=get;update;patch
+
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource

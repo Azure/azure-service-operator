@@ -8,10 +8,12 @@ package astmodel
 import (
 	"fmt"
 	"go/token"
+	"strings"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 )
 
 // ResourceType represents a Kubernetes CRD resource which has both
@@ -311,6 +313,23 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 	}
 
 	var comments dst.Decorations
+
+	// Add required RBAC annotations, only on storage version
+	if resource.isStorageVersion {
+		lpr, ok := declContext.Name.PackageReference.AsLocalPackage()
+		if !ok {
+			panic(fmt.Sprintf("expected resource package reference to be local: %q", declContext.Name))
+		}
+		group := strings.ToLower(lpr.Group() + GroupSuffix)
+		resourceName := strings.ToLower(declContext.Name.Plural().Name())
+
+		astbuilder.AddComment(&comments, fmt.Sprintf("// +kubebuilder:rbac:groups=%s,resources=%s,verbs=get;list;watch;create;update;patch;delete", group, resourceName))
+		astbuilder.AddComment(&comments, fmt.Sprintf("// +kubebuilder:rbac:groups=%s,resources={%s/status,%s/finalizers},verbs=get;update;patch", group, resourceName, resourceName))
+
+		// This newline is REQUIRED for controller-gen to realize these comments are here. Without it they are silently ignored, see:
+		// https://github.com/kubernetes-sigs/controller-tools/issues/436
+		comments = append(comments, "\n")
+	}
 
 	astbuilder.AddComment(&comments, "// +kubebuilder:object:root=true")
 	if resource.status != nil {

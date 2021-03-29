@@ -210,7 +210,7 @@ tasks:
     - if [ -d "./config/crd/bases" ]; then find "./config/crd/bases" -type f -delete; fi
     # must CD into _apis as it is ignored by default (this is on purpose to not kill gopls!)
     - cd _apis && controller-gen object:headerFile=../../boilerplate.go.txt paths="./..." || true
-    - cd _apis && controller-gen {{.CRD_OPTIONS}} rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=../config/crd/bases output:webhook:artifacts:config=../config/webhook
+    - cd _apis && controller-gen {{.CRD_OPTIONS}} rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=../config/crd/bases output:webhook:artifacts:config=../config/webhook output:rbac:artifacts:config=../config/rbac
     vars:
       CRD_OPTIONS: "crd:crdVersions=v1,allowDangerousTypes=true"
 
