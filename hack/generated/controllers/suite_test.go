@@ -63,7 +63,7 @@ type Options struct {
 
 func getOptions() Options {
 	return Options{
-		useEnvTest:   os.Getenv("ENVTEST") != "",
-		recordReplay: os.Getenv("RECORD_REPLAY") != "",
+		useEnvTest:   os.Getenv("ENVTEST") != "0",
+		recordReplay: os.Getenv("RECORD_REPLAY") != "0",
 	}
 }

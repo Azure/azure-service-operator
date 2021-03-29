@@ -170,7 +170,7 @@ tasks:
     deps: [controller:generate-crds]
     cmds:
     # -race fails at the moment in controller-runtime
-    - ENVTEST=1 RECORD_REPLAY=1 go test -v ./...
+    - go test -v ./...
 
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
@@ -178,7 +178,7 @@ tasks:
     deps: [controller:generate-crds]
     cmds:
     # -race fails at the moment in controller-runtime
-    - ENVTEST=1 RECORD_REPLAY=1 go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -v ./...
+    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -v ./...
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
@@ -186,7 +186,7 @@ tasks:
     deps: [controller:generate-crds, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
-    - ENVTEST=1 go test -timeout 30m -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v ./...
+    - RECORD_REPLAY=0 go test -timeout 30m -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v ./...
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.

@@ -41,7 +41,7 @@ func teardown() error {
 }
 
 func TestMain(m *testing.M) {
-	recordReplay := os.Getenv("RECORD_REPLAY") != ""
+	recordReplay := os.Getenv("RECORD_REPLAY") != "0"
 	os.Exit(testcommon.SetupTeardownTestMain(
 		m,
 		true,
