@@ -160,7 +160,7 @@ func IdentityVisitOfObjectType(this *TypeVisitor, it *ObjectType, ctx interface{
 	// just map the property types
 	var errs []error
 	var newProps []*PropertyDefinition
-	for _, prop := range it.properties {
+	for _, prop := range it.Properties() {
 		p, err := this.Visit(prop.propertyType, ctx)
 		if err != nil {
 			errs = append(errs, err)
@@ -175,7 +175,7 @@ func IdentityVisitOfObjectType(this *TypeVisitor, it *ObjectType, ctx interface{
 
 	// map the embedded types too
 	var newEmbeddedProps []*PropertyDefinition
-	for _, prop := range it.embedded {
+	for _, prop := range it.EmbeddedProperties() {
 		p, err := this.Visit(prop.propertyType, ctx)
 		if err != nil {
 			errs = append(errs, err)

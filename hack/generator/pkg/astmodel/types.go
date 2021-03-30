@@ -54,6 +54,24 @@ func (types Types) AddTypes(otherTypes Types) {
 	}
 }
 
+// AddWithEqualityCheck attempts to add the specified definition to the types collection.
+// Multiple adds of a type with the same shape are allowed, but attempting to add two
+// types with the same name but different shape will trigger an error.
+func (types Types) AddWithEqualityCheck(def TypeDefinition) error {
+	if !types.Contains(def.Name()) {
+		types.Add(def)
+		return nil
+	}
+
+	existing := types[def.Name()]
+	if !def.Type().Equals(existing.Type()) {
+		return errors.Errorf("type definition for %q has two shapes", existing.Name())
+	}
+
+	// Can safely skip this add
+	return nil
+}
+
 // Where returns a new set of types including only those that satisfy the predicate
 func (types Types) Where(predicate func(definition TypeDefinition) bool) Types {
 	result := make(Types)
