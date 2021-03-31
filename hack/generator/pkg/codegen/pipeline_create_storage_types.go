@@ -33,27 +33,27 @@ func createStorageTypes(idFactory astmodel.IdentifierFactory) PipelineStage {
 					continue
 				}
 
-				def, err := visitor.VisitDefinition(d, vc)
-				if err != nil {
-					errs = append(errs, err)
-					continue
+				factory, ok := factories[ref.Group()]
+				if !ok {
+					klog.V(3).Infof("Creating storage factory for %s", ref.Group())
+					factory = storage.NewStorageTypeFactory(idFactory)
+					factories[ref.Group()] = factory
 				}
 
-				finalDef := def.WithDescription(storage.DescriptionForStorageVariant(d))
-				storageFactory.Add(finalDef)
+				factory.Add(def)
 			}
 
 			// Collect up all the results
 			result := make(astmodel.Types)
 			var errs []error
 			for _, factory := range factories {
-				stypes, err := factory.StorageTypes()
+				types, err := factory.Types()
 				if err != nil {
 					errs = append(errs, err)
 					continue
 				}
 
-				result.AddTypes(stypes)
+				result.AddTypes(types)
 			}
 
 			if len(errs) > 0 {
