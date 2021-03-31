@@ -190,7 +190,7 @@ typeTransformers:
     property: Copy
     ifType:
       group: deploymenttemplate
-      version: v*api20150101
+      version: v1alpha1api20150101
       name: ResourceCopy
       optional: true
     remove: true
