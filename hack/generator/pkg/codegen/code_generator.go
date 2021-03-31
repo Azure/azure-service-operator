@@ -152,7 +152,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		addCrossplaneEmbeddedResourceSpec(idFactory).UsedFor(CrossplaneTarget),
 		addCrossplaneEmbeddedResourceStatus(idFactory).UsedFor(CrossplaneTarget),
 
-		createStorageTypes().UsedFor(ARMTarget), // TODO: For now only used for ARM
+		createStorageTypes(idFactory).UsedFor(ARMTarget), // TODO: For now only used for ARM
 		simplifyDefinitions(),
 		injectJsonSerializationTests(idFactory).UsedFor(ARMTarget),
 

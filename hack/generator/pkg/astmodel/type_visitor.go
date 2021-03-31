@@ -178,12 +178,12 @@ func IdentityVisitOfObjectType(this *TypeVisitor, it *ObjectType, ctx interface{
 func IdentityVisitOfMapType(this *TypeVisitor, it *MapType, ctx interface{}) (Type, error) {
 	visitedKey, err := this.Visit(it.key, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit map key type %T", it.key)
+		return nil, errors.Wrapf(err, "failed to visit map key type %q", it.key.String())
 	}
 
 	visitedValue, err := this.Visit(it.value, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit map value type %T", it.value)
+		return nil, errors.Wrapf(err, "failed to visit map value type %q", it.value.String())
 	}
 
 	if visitedKey == it.key && visitedValue == it.value {
@@ -202,7 +202,7 @@ func IdentityVisitOfEnumType(_ *TypeVisitor, it *EnumType, _ interface{}) (Type,
 func IdentityVisitOfOptionalType(this *TypeVisitor, it *OptionalType, ctx interface{}) (Type, error) {
 	visitedElement, err := this.Visit(it.element, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit optional element type %T", it.element)
+		return nil, errors.Wrapf(err, "failed to visit optional element type %q", it.element.String())
 	}
 
 	if visitedElement == it.element {
@@ -215,12 +215,12 @@ func IdentityVisitOfOptionalType(this *TypeVisitor, it *OptionalType, ctx interf
 func IdentityVisitOfResourceType(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error) {
 	visitedSpec, err := this.Visit(it.spec, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit resource spec type %T", it.spec)
+		return nil, errors.Wrapf(err, "failed to visit resource spec type %q", it.spec.String())
 	}
 
 	visitedStatus, err := this.Visit(it.status, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit resource status type %T", it.status)
+		return nil, errors.Wrapf(err, "failed to visit resource status type %q", it.status.String())
 	}
 
 	if visitedSpec == it.spec && visitedStatus == it.status {
@@ -296,7 +296,7 @@ func typeSlicesFastEqual(t1 []Type, t2 []Type) bool {
 func IdentityVisitOfFlaggedType(this *TypeVisitor, ft *FlaggedType, ctx interface{}) (Type, error) {
 	nt, err := this.Visit(ft.element, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit flagged type %T", ft.element)
+		return nil, errors.Wrapf(err, "failed to visit flagged type %q", ft.element.String())
 	}
 
 	if nt == ft.element {
@@ -309,7 +309,7 @@ func IdentityVisitOfFlaggedType(this *TypeVisitor, ft *FlaggedType, ctx interfac
 func IdentityVisitOfValidatedType(this *TypeVisitor, v *ValidatedType, ctx interface{}) (Type, error) {
 	nt, err := this.Visit(v.element, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit validated type %T", v.element)
+		return nil, errors.Wrapf(err, "failed to visit validated type %q", v.element.String())
 	}
 
 	if nt == v.element {
@@ -322,7 +322,7 @@ func IdentityVisitOfValidatedType(this *TypeVisitor, v *ValidatedType, ctx inter
 func IdentityVisitOfErroredType(this *TypeVisitor, e *ErroredType, ctx interface{}) (Type, error) {
 	nt, err := this.Visit(e.inner, ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to visit errored type %T", e.inner)
+		return nil, errors.Wrapf(err, "failed to visit errored type %q", e.inner.String())
 	}
 
 	if nt == e.inner {

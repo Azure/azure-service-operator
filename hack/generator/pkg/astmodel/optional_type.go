@@ -104,7 +104,7 @@ func (optional *OptionalType) BaseType() Type {
 
 // String implements fmt.Stringer
 func (optional *OptionalType) String() string {
-	return fmt.Sprintf("(optional: %s)", optional.element.String())
+	return fmt.Sprintf("Optional(%s)", optional.element.String())
 }
 
 // Unwrap returns the type contained within the wrapper type

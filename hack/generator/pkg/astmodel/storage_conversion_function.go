@@ -9,11 +9,12 @@ import (
 	"fmt"
 	"go/token"
 	"sort"
+	"strings"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/klog/v2"
 )
 
 // StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
@@ -292,7 +293,8 @@ func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition) 
 		return errors.Errorf("expected TypeDefinition %q to wrap object type, but none found", fn.otherType.Name().String())
 	}
 
-	var errs []error
+	var properties []string
+	first := true
 
 	// Flag receiver name as used
 	fn.knownLocals.Add(receiver.Name().Name())
@@ -314,7 +316,14 @@ func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition) 
 
 			if err != nil {
 				// An error was returned; this can happen even if a conversion was created as well.
-				errs = append(errs, err)
+				if first {
+					klog.V(2).Infof("Generating conversion function %s() for %s", fn.name, receiver.name)
+					first = false
+				}
+
+				// err will include the details of which property, don't need to log here
+				klog.V(2).Infof("Error: %s", err)
+				properties = append(properties, string(receiverProperty.propertyName))
 				continue
 			}
 
@@ -325,7 +334,16 @@ func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition) 
 		}
 	}
 
-	return kerrors.NewAggregate(errs)
+	if len(properties) > 0 {
+		label := "properties"
+		if len(properties) == 1 {
+			label = "property"
+		}
+		klog.V(2).Infof("Errors with %d %s", len(properties), label)
+		return errors.Errorf("Errors with %d %s: %s", len(properties), label, strings.Join(properties, "; "))
+	}
+
+	return nil
 }
 
 // createPropertyConversion tries to create a property conversion between the two provided properties, using all of the
@@ -344,7 +362,7 @@ func (fn *StorageConversionFunction) createPropertyConversion(
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
-			"trying to assign %q (%s) from %q (%s)",
+			"trying to assign %q [%s] by converting from from %q [%s]",
 			destinationProperty.PropertyName(),
 			destinationProperty.PropertyType(),
 			sourceProperty.PropertyName(),

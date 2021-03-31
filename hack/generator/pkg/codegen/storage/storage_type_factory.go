@@ -10,6 +10,7 @@ import (
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/klog/v2"
 )
 
 // Each StorageTypeFactory is used to create storage types for a specific service
@@ -90,7 +91,7 @@ func (f *StorageTypeFactory) processQueue() error {
 		// Create our storage variant
 		sv, err := f.createStorageVariant(def, visitor)
 		if err != nil {
-			errs = append(errs, err)
+			klog.Warningf("Error creating storage variant of %s: %s", def.Name(), err)
 			continue
 		}
 
@@ -141,7 +142,7 @@ func (f *StorageTypeFactory) createApiVariant(apiDef astmodel.TypeDefinition, st
 
 	convertTo, err := astmodel.NewStorageConversionToFunction(apiDef, storageDef, f.idFactory, conversionContext)
 	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating ConvertFrom() function for %q", apiDef.Name())
+		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating ConvertTo() function for %q", apiDef.Name())
 	}
 
 	objectType = objectType.WithFunction(convertFrom).WithFunction(convertTo)
