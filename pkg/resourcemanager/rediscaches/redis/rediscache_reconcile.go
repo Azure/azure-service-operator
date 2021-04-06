@@ -50,13 +50,13 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 				instance.Status.Message = err.Error()
 				return false, err
 			}
-			instance.Status.State = string(newRc.ProvisioningState)
 
 			if newRc.StaticIP != nil {
 				instance.Status.Output = *newRc.StaticIP
 			}
 
 			instance.Status.ResourceId = *newRc.ID
+			instance.Status.State = string(newRc.ProvisioningState)
 			instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
 			return true, nil
 		}
@@ -90,8 +90,6 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 			instance.Status.SetProvisioning("RedisCache exists but may not be ready")
 			return false, nil
 		} else if helpers.ContainsString(catchKnownError, azerr.Type) {
-			// TODO: Not sure why we want this to be provisioning=false?
-			instance.Status.Provisioning = false
 			return false, nil
 		} else {
 			// serious error occured, end reconcilliation and mark it as failed
