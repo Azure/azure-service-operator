@@ -54,10 +54,10 @@ func (types Types) AddTypes(otherTypes Types) {
 	}
 }
 
-// AddWithEqualityCheck attempts to add the specified definition to the types collection.
+// AddAllowDuplicates attempts to add the specified definition to the types collection.
 // Multiple adds of a type with the same shape are allowed, but attempting to add two
 // types with the same name but different shape will trigger an error.
-func (types Types) AddWithEqualityCheck(def TypeDefinition) error {
+func (types Types) AddAllowDuplicates(def TypeDefinition) error {
 	if !types.Contains(def.Name()) {
 		types.Add(def)
 		return nil

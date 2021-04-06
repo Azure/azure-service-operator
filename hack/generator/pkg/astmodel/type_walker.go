@@ -110,7 +110,7 @@ func (t *TypeWalker) visitTypeName(this *TypeVisitor, it TypeName, ctx interface
 
 	delete(t.state.processing, def.Name())
 
-	err = t.state.result.AddWithEqualityCheck(updatedDef)
+	err = t.state.result.AddAllowDuplicates(updatedDef)
 	if err != nil {
 		return nil, err
 	}
