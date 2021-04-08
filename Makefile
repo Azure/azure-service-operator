@@ -346,5 +346,3 @@ generate-operator-bundle: manifests
 	kustomize build config/manifests | operator-sdk generate bundle --version $(VERSION) --channels stable --default-channel stable --overwrite
 	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh
-	# Rather than modify config/rbac manifests, replace CSV's default serviceAccount with azure-service-operator
-	sed -i 's/serviceAccountName: default/serviceAccountName: azure-service-operator/g' bundle/manifests/azure-service-operator.clusterserviceversion.yaml
