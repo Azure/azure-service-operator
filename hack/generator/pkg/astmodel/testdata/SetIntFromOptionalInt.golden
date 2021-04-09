@@ -13,11 +13,13 @@ type Person struct {
 func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// age
+	var age int
 	if source.age != nil {
-		person.age = *source.age
+		age = *source.age
 	} else {
-		person.age = 0
+		age = 0
 	}
+	person.age = age
 
 	// No error
 	return nil

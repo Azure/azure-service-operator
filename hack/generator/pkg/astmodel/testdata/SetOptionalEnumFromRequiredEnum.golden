@@ -24,12 +24,13 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// release
+	var release Container
 	if person.release != nil {
-		release := Container(*person.release)
-		destination.release = release
+		release = Container(*person.release)
 	} else {
-		destination.release = Container("")
+		release = Container("")
 	}
+	destination.release = release
 
 	// No error
 	return nil

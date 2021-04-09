@@ -13,13 +13,13 @@ type Person struct {
 func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// name
+	var name string
 	if source.name != nil {
-		// Copy to a local to avoid aliasing
-		name := *source.name
-		person.name = &name
+		name = *source.name
 	} else {
-		person.name = nil
+		name = ""
 	}
+	person.name = &name
 
 	// No error
 	return nil
@@ -29,13 +29,13 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// name
+	var name string
 	if person.name != nil {
-		// Copy to a local to avoid aliasing
-		name := *person.name
-		destination.name = &name
+		name = *person.name
 	} else {
-		destination.name = nil
+		name = ""
 	}
+	destination.name = &name
 
 	// No error
 	return nil

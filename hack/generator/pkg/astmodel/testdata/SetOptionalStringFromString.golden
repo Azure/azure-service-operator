@@ -24,11 +24,13 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// name
+	var name string
 	if person.name != nil {
-		destination.name = *person.name
+		name = *person.name
 	} else {
-		destination.name = ""
+		name = ""
 	}
+	destination.name = name
 
 	// No error
 	return nil

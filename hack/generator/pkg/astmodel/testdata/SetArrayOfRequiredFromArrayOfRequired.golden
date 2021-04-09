@@ -15,7 +15,10 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 	// scores
 	scoreList := make([]int, len(source.scores))
 	for scoreIndex, scoreItem := range source.scores {
-		scoreList[scoreIndex] = scoreItem
+		// Shadow the loop variable to avoid aliasing
+		scoreItem := scoreItem
+		score := scoreItem
+		scoreList[scoreIndex] = score
 	}
 	person.scores = scoreList
 
@@ -29,7 +32,10 @@ func (person Person) ConvertToVNext(destination *vNext.Person) error {
 	// scores
 	scoreList := make([]int, len(person.scores))
 	for scoreIndex, scoreItem := range person.scores {
-		scoreList[scoreIndex] = scoreItem
+		// Shadow the loop variable to avoid aliasing
+		scoreItem := scoreItem
+		score := scoreItem
+		scoreList[scoreIndex] = score
 	}
 	destination.scores = scoreList
 

@@ -13,12 +13,14 @@ type Person struct {
 func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// scores
-	score1List := make([]*int, len(source.scores))
-	for score1Index, score1Item := range source.scores {
-		score := score1Item
-		score1List[score1Index] = &score
+	scoreList := make([]*int, len(source.scores))
+	for scoreIndex, scoreItem := range source.scores {
+		// Shadow the loop variable to avoid aliasing
+		scoreItem := scoreItem
+		score := scoreItem
+		scoreList[scoreIndex] = &score
 	}
-	person.scores = score1List
+	person.scores = scoreList
 
 	// No error
 	return nil
@@ -30,11 +32,15 @@ func (person Person) ConvertToVNext(destination *vNext.Person) error {
 	// scores
 	scoreList := make([]int, len(person.scores))
 	for scoreIndex, scoreItem := range person.scores {
+		// Shadow the loop variable to avoid aliasing
+		scoreItem := scoreItem
+		var score int
 		if scoreItem != nil {
-			scoreList[scoreIndex] = *scoreItem
+			score = *scoreItem
 		} else {
-			scoreList[scoreIndex] = 0
+			score = 0
 		}
+		scoreList[scoreIndex] = score
 	}
 	destination.scores = scoreList
 

@@ -44,7 +44,7 @@ func (endpoint *StorageConversionEndpoint) Type() Type {
 // Each call will return a unique identifier
 func (endpoint *StorageConversionEndpoint) CreateLocal(suffix ...string) string {
 	singular := flect.Singularize(endpoint.name)
-	return endpoint.knownLocals.createLocal(singular)
+	return endpoint.knownLocals.createLocal(singular, suffix...)
 }
 
 // WithType creates a new endpoint with a different type

@@ -6,6 +6,7 @@
 package astbuilder
 
 import (
+	"fmt"
 	"go/token"
 
 	"github.com/dave/dst"
@@ -347,6 +348,23 @@ func EnsureStatementBlock(statement dst.Stmt) *dst.BlockStmt {
 	}
 
 	return StatementBlock(statement)
+}
+
+// Statements creates a sequence of statements from the provided values, each of which may be a
+// single dst.Stmt or a slice of multiple []dst.Stmts
+func Statements(statements ...interface{}) []dst.Stmt {
+	var result []dst.Stmt
+	for _, s := range statements {
+		if stmt, ok := s.(dst.Stmt); ok {
+			result = append(result, stmt)
+		} else if stmts, ok := s.([]dst.Stmt); ok {
+			result = append(result, stmts...)
+		} else {
+			panic(fmt.Sprintf("expected dst.Stmt or []dst.Stmt, but found %T", s))
+		}
+	}
+
+	return result
 }
 
 // cloneExprSlice is a utility method to clone a slice of expressions

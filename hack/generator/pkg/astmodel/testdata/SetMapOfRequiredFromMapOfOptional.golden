@@ -15,11 +15,15 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 	// ratings
 	ratingMap := make(map[string]int)
 	for ratingKey, ratingValue := range source.ratings {
+		// Shadow the loop variable to avoid aliasing
+		ratingValue := ratingValue
+		var rating int
 		if ratingValue != nil {
-			ratingMap[ratingKey] = *ratingValue
+			rating = *ratingValue
 		} else {
-			ratingMap[ratingKey] = 0
+			rating = 0
 		}
+		ratingMap[ratingKey] = rating
 	}
 	person.ratings = ratingMap
 
@@ -31,12 +35,14 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// ratings
-	rating1Map := make(map[string]*int)
-	for rating1Key, rating1Value := range person.ratings {
-		rating := rating1Value
-		rating1Map[rating1Key] = &rating
+	ratingMap := make(map[string]*int)
+	for ratingKey, ratingValue := range person.ratings {
+		// Shadow the loop variable to avoid aliasing
+		ratingValue := ratingValue
+		rating := ratingValue
+		ratingMap[ratingKey] = &rating
 	}
-	destination.ratings = rating1Map
+	destination.ratings = ratingMap
 
 	// No error
 	return nil

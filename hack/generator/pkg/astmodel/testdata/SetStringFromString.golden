@@ -13,7 +13,8 @@ type Person struct {
 func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// name
-	person.name = source.name
+	name := source.name
+	person.name = name
 
 	// No error
 	return nil
@@ -23,7 +24,8 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// name
-	destination.name = person.name
+	name := person.name
+	destination.name = name
 
 	// No error
 	return nil

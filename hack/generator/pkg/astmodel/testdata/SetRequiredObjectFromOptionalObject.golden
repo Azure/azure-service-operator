@@ -15,7 +15,7 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 	// role
 	var role Release
 	if source.role != nil {
-		err := role.ConvertFromVNext(source.role)
+		err := role.ConvertFromVNext(&source.role)
 		if err != nil {
 			return errors.Wrap(err, "populating role from role, calling ConvertFromVNext()")
 		}
@@ -31,7 +31,7 @@ func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// role
 	var role vNext.Release
-	err := person.role.ConvertToVNext(&role)
+	err := person.role.ConvertToVNext(role)
 	if err != nil {
 		return errors.Wrap(err, "populating role from role, calling ConvertToVNext()")
 	}

@@ -15,15 +15,22 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 	// nasty
 	nastyMap := make(map[string][]map[string]bool)
 	for nastyKey, nastyValue := range source.nasty {
-		nasty1List := make([]map[string]bool, len(nastyValue))
-		for nasty1Index, nasty1Item := range nastyValue {
-			nasty2Map := make(map[string]bool)
-			for nasty2Key, nasty2Value := range nasty1Item {
-				nasty2Map[nasty2Key] = nasty2Value
+		// Shadow the loop variable to avoid aliasing
+		nastyValue := nastyValue
+		nastyList := make([]map[string]bool, len(nastyValue))
+		for nastyIndex, nastyItem := range nastyValue {
+			// Shadow the loop variable to avoid aliasing
+			nastyItem := nastyItem
+			nastyMap1 := make(map[string]bool)
+			for nastyKey1, nastyValue1 := range nastyItem {
+				// Shadow the loop variable to avoid aliasing
+				nastyValue1 := nastyValue1
+				nasty := nastyValue1
+				nastyMap1[nastyKey1] = nasty
 			}
-			nasty1List[nasty1Index] = nasty2Map
+			nastyList[nastyIndex] = nastyMap1
 		}
-		nastyMap[nastyKey] = nasty1List
+		nastyMap[nastyKey] = nastyList
 	}
 	person.nasty = nastyMap
 
@@ -37,15 +44,22 @@ func (person Person) ConvertToVNext(destination *vNext.Person) error {
 	// nasty
 	nastyMap := make(map[string][]map[string]bool)
 	for nastyKey, nastyValue := range person.nasty {
-		nasty1List := make([]map[string]bool, len(nastyValue))
-		for nasty1Index, nasty1Item := range nastyValue {
-			nasty2Map := make(map[string]bool)
-			for nasty2Key, nasty2Value := range nasty1Item {
-				nasty2Map[nasty2Key] = nasty2Value
+		// Shadow the loop variable to avoid aliasing
+		nastyValue := nastyValue
+		nastyList := make([]map[string]bool, len(nastyValue))
+		for nastyIndex, nastyItem := range nastyValue {
+			// Shadow the loop variable to avoid aliasing
+			nastyItem := nastyItem
+			nastyMap1 := make(map[string]bool)
+			for nastyKey1, nastyValue1 := range nastyItem {
+				// Shadow the loop variable to avoid aliasing
+				nastyValue1 := nastyValue1
+				nasty := nastyValue1
+				nastyMap1[nastyKey1] = nasty
 			}
-			nasty1List[nasty1Index] = nasty2Map
+			nastyList[nastyIndex] = nastyMap1
 		}
-		nastyMap[nastyKey] = nasty1List
+		nastyMap[nastyKey] = nastyList
 	}
 	destination.nasty = nastyMap
 

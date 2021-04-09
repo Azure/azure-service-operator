@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"go/token"
 	"sort"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
@@ -265,7 +266,7 @@ func (fn *StorageConversionFunction) generateAssignments(
 		if len(block) > 0 {
 			firstStatement := block[0]
 			firstStatement.Decorations().Before = dst.EmptyLine
-			firstStatement.Decorations().Start.Append("// " + prop)
+			firstStatement.Decorations().Start.Prepend("// " + prop)
 			result = append(result, block...)
 		}
 	}
@@ -347,8 +348,15 @@ func (fn *StorageConversionFunction) createPropertyConversion(
 
 	return func(source dst.Expr, destination dst.Expr, generationContext *CodeGenerationContext) []dst.Stmt {
 
-		var reader = astbuilder.Selector(source, string(sourceProperty.PropertyName()))
-		var writer = astbuilder.Selector(destination, string(destinationProperty.PropertyName()))
+		reader := astbuilder.Selector(source, string(sourceProperty.PropertyName()))
+		writer := func(expr dst.Expr) []dst.Stmt {
+			return []dst.Stmt{
+				astbuilder.SimpleAssignment(
+					astbuilder.Selector(destination, string(destinationProperty.PropertyName())),
+					token.ASSIGN,
+					expr),
+			}
+		}
 
 		return conversion(reader, writer, generationContext)
 	}, nil

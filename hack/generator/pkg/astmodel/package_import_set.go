@@ -149,7 +149,7 @@ func (set *PackageImportSet) ResolveConflicts() error {
 		}
 
 		remappedImports[imp.packageReference] = imp
-		klog.Warningf("Remapped %v to %v", imp.packageReference, name)
+		klog.V(3).Infof("Remapped %v to %v", imp.packageReference, name)
 		return imp.WithName(name)
 	})
 
@@ -159,7 +159,7 @@ func (set *PackageImportSet) ResolveConflicts() error {
 		// Only rename imports we already renamed above
 		if _, ok := remappedImports[imp.packageReference]; ok {
 			name := imp.VersionedNameForImport()
-			klog.Warningf("Remapped %v to %v", imp.packageReference, name)
+			klog.V(3).Infof("Remapped %v to %v", imp.packageReference, name)
 			return imp.WithName(name)
 		}
 

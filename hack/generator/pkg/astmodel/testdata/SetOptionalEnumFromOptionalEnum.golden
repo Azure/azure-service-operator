@@ -13,13 +13,13 @@ type Person struct {
 func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// release
+	var release Bucket
 	if source.release != nil {
-		// Copy to a local to avoid aliasing
-		release := Bucket(*source.release)
-		person.release = &release
+		release = Bucket(*source.release)
 	} else {
-		person.release = Bucket("")
+		release = Bucket("")
 	}
+	person.release = &release
 
 	// No error
 	return nil
@@ -29,13 +29,13 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// release
+	var release Container
 	if person.release != nil {
-		// Copy to a local to avoid aliasing
-		release := Container(*person.release)
-		destination.release = &release
+		release = Container(*person.release)
 	} else {
-		destination.release = Container("")
+		release = Container("")
 	}
+	destination.release = &release
 
 	// No error
 	return nil
