@@ -42,7 +42,7 @@ func TestMySQLHappyPath(t *testing.T) {
 	mySQLReplicaInstance := v1alpha2.NewReplicaMySQLServer(mySQLReplicaName, rgName, rgLocation, mySQLServerInstance.Status.ResourceId)
 	mySQLReplicaInstance.Spec.StorageProfile = nil
 
-	// EnsureInstance(ctx, t, tc, mySQLReplicaInstance)
+	EnsureInstance(ctx, t, tc, mySQLReplicaInstance)
 
 	mySQLDBName := GenerateTestResourceNameWithRandom("mysql-db", 10)
 

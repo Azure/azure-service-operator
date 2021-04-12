@@ -123,6 +123,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 				instance.Status.ResourceId = *server.ID
 				instance.Status.State = string(server.UserVisibleState)
 				instance.Status.SpecHash = hash
+				instance.Status.PollingURL = ""
 				return true, nil
 			}
 		}
@@ -176,7 +177,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 				if azerr.Type == errhelp.AsyncOpIncompleteError {
 					instance.Status.PollingURL = pollURL
 				}
-				instance.Status.Message = "Postgres server exists but may not be ready"
+				instance.Status.Message = "MySQL server exists but may not be ready"
 				instance.Status.Provisioning = true
 				return false, nil
 			}
@@ -185,7 +186,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 				return false, nil
 			}
 
-			// serious error occured, end reconcilliation and mark it as failed
+			// serious error occurred, end reconciliation and mark it as failed
 			instance.Status.Message = errhelp.StripErrorIDs(err)
 			instance.Status.Provisioned = false
 			instance.Status.FailedProvisioning = true
