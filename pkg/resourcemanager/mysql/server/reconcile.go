@@ -190,9 +190,9 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 			instance.Status.Provisioned = false
 			instance.Status.FailedProvisioning = true
 			return true, nil
-
 		}
 
+		instance.Status.PollingURL = pollURL
 		instance.Status.Message = "request submitted to Azure"
 	}
 	return false, nil
