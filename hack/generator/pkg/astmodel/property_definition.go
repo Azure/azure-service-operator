@@ -240,6 +240,11 @@ func (property *PropertyDefinition) HasKubebuilderRequiredValidation() bool {
 	return property.hasKubebuilderRequiredValidation
 }
 
+// Flatten returns true iff the property is marked with 'flatten'.
+func (property *PropertyDefinition) Flatten() bool {
+	return property.flatten
+}
+
 // hasOptionalType returns true if the type of this property is an optional reference to a value
 // (and might therefore be nil).
 func (property *PropertyDefinition) hasOptionalType() bool {

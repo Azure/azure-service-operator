@@ -7,23 +7,10 @@ package codegen
 
 import (
 	"context"
-	"fmt"
-	"io/ioutil"
-	"os"
-	"path"
-	"path/filepath"
-	"regexp"
-	"strings"
-	"sync"
-
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
-	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
-	"golang.org/x/sync/errgroup"
 	"k8s.io/klog/v2"
 )
 
@@ -71,17 +58,11 @@ func augmentResourcesWithSwaggerInformation(idFactory astmodel.IdentifierFactory
 			for typeName, typeDef := range types {
 				// for resources, try to find the matching Status type
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
-					var newStatus astmodel.Type
-					if statusDef, ok := statusTypes.resourceTypes.tryFind(typeName); ok {
-						klog.V(4).Infof("Swagger information found for %v", typeName)
-						newStatus = statusDef
+					newStatus, located := statusTypes.findResourceType(typeName)
+					if located {
 						found++
-					} else {
-						klog.V(4).Infof("Swagger information missing for %v", typeName)
-						// add a warning that the status is missing
-						// this will be reported if the type is not pruned
-						newStatus = astmodel.NewErroredType(nil, nil, []string{fmt.Sprintf("missing status information for %v", typeName)})
 					}
+
 					newTypes.Add(astmodel.MakeTypeDefinition(typeName, resource.WithStatus(newStatus)))
 				} else {
 					// other types are simply copied
@@ -89,8 +70,9 @@ func augmentResourcesWithSwaggerInformation(idFactory astmodel.IdentifierFactory
 				}
 			}
 
-			// all non-resources are added regardless of whether they are used
+			// all non-resources from Swagger are added regardless of whether they are used
 			// if they are not used they will be pruned off by a later pipeline stage
+			// (there will be no name clashes here due to suffixing with "_Status")
 			newTypes.AddAll(statusTypes.otherTypes)
 
 			klog.V(1).Infof("Found status information for %v resources", found)
@@ -100,222 +82,56 @@ func augmentResourcesWithSwaggerInformation(idFactory astmodel.IdentifierFactory
 		})
 }
 
-type statusTypes struct {
-	// resourceTypes maps Spec name to corresponding Status type
-	// the typeName is lowercased to be case-insensitive
-	resourceTypes resourceLookup
+// an augment adds information from the Swagger-derived type to
+// the main JSON schema-derived type, and returns the new type
+type augment func(main astmodel.Type, swagger astmodel.Type) (astmodel.Type, error)
 
-	// otherTypes has all other Status types renamed to avoid clashes with Spec Types
-	otherTypes []astmodel.TypeDefinition
-}
+// fuseAugments merges multiple augments into one by applying each
+// augment in order to the result of the previous
+func fuseAugments(augments ...augment) augment {
+	return func(main astmodel.Type, swagger astmodel.Type) (astmodel.Type, error) {
+		for _, augment := range augments {
+			newMain, err := augment(main, swagger)
+			if err != nil {
+				return nil, err
+			}
 
-type resourceLookup map[astmodel.TypeName]astmodel.Type
-
-func lowerCase(name astmodel.TypeName) astmodel.TypeName {
-	return astmodel.MakeTypeName(name.PackageReference, strings.ToLower(name.Name()))
-}
-
-func (resourceLookup resourceLookup) tryFind(name astmodel.TypeName) (astmodel.Type, bool) {
-	result, ok := resourceLookup[lowerCase(name)]
-	return result, ok
-}
-
-func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmodel.Type) {
-	lower := lowerCase(name)
-	if _, ok := resourceLookup[lower]; ok {
-		panic(fmt.Sprintf("lowercase name collision: %v", name))
-	}
-
-	resourceLookup[lower] = theType
-}
-
-// generateStatusTypes returns the statusTypes for the input swaggerTypes
-func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
-	appendStatusToName := func(typeName astmodel.TypeName) astmodel.TypeName {
-		return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+"_Status")
-	}
-
-	renamer := makeRenamingVisitor(appendStatusToName)
-
-	var errs []error
-	var otherTypes []astmodel.TypeDefinition
-	for _, typeDef := range swaggerTypes.otherTypes {
-		renamedDef, err := renamer.VisitDefinition(typeDef, nil)
-		if err != nil {
-			errs = append(errs, err)
-		} else {
-			otherTypes = append(otherTypes, renamedDef)
+			main = newMain
 		}
-	}
 
-	lookup := make(resourceLookup)
-	for resourceName, resourceDef := range swaggerTypes.resources {
-		// resourceName is not renamed as this is a lookup for the Spec type
-		renamedDef, err := renamer.Visit(resourceDef.Type(), nil)
-		if err != nil {
-			errs = append(errs, err)
-		} else {
-			lookup.add(resourceName, renamedDef)
-		}
+		return main, nil
 	}
-
-	if len(errs) > 0 {
-		return statusTypes{}, kerrors.NewAggregate(errs)
-	}
-
-	return statusTypes{lookup, otherTypes}, nil
 }
 
-func makeRenamingVisitor(rename func(astmodel.TypeName) astmodel.TypeName) astmodel.TypeVisitor {
-	builder := astmodel.TypeVisitorBuilder{
-		VisitTypeName: func(it astmodel.TypeName) (astmodel.Type, error) {
-			return rename(it), nil
-		},
-	}
+// the overall augmenter we will use
+var augmenter augment = fuseAugments(flattenAugment)
 
-	return builder.Build()
-}
+// the flattenAugment
+func flattenAugment(main astmodel.Type, swagger astmodel.Type) (astmodel.Type, error) {
+	var merger = astmodel.NewTypeMerger(func(ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
+		// return left (= main) if the two sides are not ObjectTypes
+		return left, nil
+	})
 
-var swaggerVersionRegex = regexp.MustCompile(`\d{4}-\d{2}-\d{2}(-preview)?`)
+	merger.Add(func(main, swagger *astmodel.ObjectType) (astmodel.Type, error) {
+		props := main.Properties()
+		for ix, mainProp := range props {
+			if swaggerProp, ok := swagger.Property(mainProp.PropertyName()); ok {
+				// first copy over flatten property
+				mainProp = mainProp.SetFlatten(swaggerProp.Flatten())
 
-type swaggerTypes struct {
-	resources  astmodel.Types
-	otherTypes astmodel.Types
-}
-
-func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, config *config.Configuration) (swaggerTypes, error) {
-
-	result := swaggerTypes{
-		resources:  make(astmodel.Types),
-		otherTypes: make(astmodel.Types),
-	}
-
-	schemas, err := loadAllSchemas(ctx, config.Status.SchemaRoot)
-	if err != nil {
-		return swaggerTypes{}, err
-	}
-
-	cache := jsonast.NewOpenAPISchemaCache(schemas)
-
-	for schemaPath, schema := range schemas {
-		// these have already been tested in the loadAllSchemas function so are guaranteed to match
-		outputGroup := jsonast.SwaggerGroupRegex.FindString(schemaPath)
-		outputVersion := swaggerVersionRegex.FindString(schemaPath)
-
-		// see if there is a config override for this file
-		for _, schemaOverride := range config.Status.Overrides {
-			configSchemaPath := path.Join(config.Status.SchemaRoot, schemaOverride.BasePath)
-			if strings.HasPrefix(schemaPath, configSchemaPath) {
-				// found an override: apply it
-				if schemaOverride.Suffix != "" {
-					outputGroup += "." + schemaOverride.Suffix
+				// now recursively merge property types
+				newType, err := merger.Merge(mainProp.PropertyType(), swaggerProp.PropertyType())
+				if err != nil {
+					return nil, err
 				}
 
-				break
+				props[ix] = mainProp.WithType(newType)
 			}
 		}
 
-		extractor := jsonast.NewSwaggerTypeExtractor(
-			config,
-			idFactory,
-			outputGroup,
-			outputVersion,
-			cache)
-
-		err := extractor.ExtractTypes(ctx, schemaPath, schema, result.resources, result.otherTypes)
-		if err != nil {
-			return swaggerTypes{}, errors.Wrapf(err, "error processing %q", schemaPath)
-		}
-	}
-
-	return result, nil
-}
-
-// TODO: is there, perhaps, a way to detect these without hardcoding these paths?
-var skipDirectories = []string{
-	"/examples/",
-	"/quickstart-templates/",
-	"/control-plane/",
-	"/data-plane/",
-}
-
-func shouldSkipDir(filePath string) bool {
-	p := filepath.ToSlash(filePath)
-
-	for _, skipDir := range skipDirectories {
-		if strings.Contains(p, skipDir) {
-			return true
-		}
-	}
-
-	return false
-}
-
-// loadAllSchemas walks all .json files in the given rootPath in directories
-// of the form "Microsoft.GroupName/…/2000-01-01/…" (excluding those matching
-// shouldSkipDir), and returns those files in a map of path→swagger spec.
-func loadAllSchemas(
-	ctx context.Context,
-	rootPath string) (map[string]spec.Swagger, error) {
-
-	var eg errgroup.Group
-
-	var mutex sync.Mutex
-	schemas := make(map[string]spec.Swagger)
-
-	err := filepath.Walk(rootPath, func(filePath string, fileInfo os.FileInfo, err error) error {
-
-		if err != nil {
-			return err
-		}
-
-		if ctx.Err() != nil {
-			return ctx.Err()
-		}
-
-		if shouldSkipDir(filePath) {
-			return filepath.SkipDir // this is a magic error
-		}
-
-		if !fileInfo.IsDir() &&
-			filepath.Ext(filePath) == ".json" &&
-			jsonast.SwaggerGroupRegex.MatchString(filePath) &&
-			swaggerVersionRegex.MatchString(filePath) {
-
-			// all files are loaded in parallel to speed this up
-			eg.Go(func() error {
-				var swagger spec.Swagger
-
-				fileContent, err := ioutil.ReadFile(filePath)
-				if err != nil {
-					return errors.Wrapf(err, "unable to read swagger file %q", filePath)
-				}
-
-				err = swagger.UnmarshalJSON(fileContent)
-				if err != nil {
-					return errors.Wrapf(err, "unable to parse swagger file %q", filePath)
-				}
-
-				mutex.Lock()
-				schemas[filePath] = swagger
-				mutex.Unlock()
-
-				return nil
-			})
-		}
-
-		return nil
+		return main.WithProperties(props...), nil
 	})
 
-	egErr := eg.Wait() // for files to finish loading
-
-	if err != nil {
-		return nil, err
-	}
-
-	if egErr != nil {
-		return nil, egErr
-	}
-
-	return schemas, nil
+	return merger.Merge(main, swagger)
 }
