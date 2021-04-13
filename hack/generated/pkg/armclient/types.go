@@ -18,7 +18,7 @@ type (
 	ARMMeta struct {
 		Name           string `json:"name,omitempty"`
 		Type           string `json:"type,omitempty"`
-		Id             string `json:"id,omitempty"` // TODO: This is filled out on response to us after PUT
+		ID             string `json:"id,omitempty"` // TODO: This is filled out on response to us after PUT
 		Location       string `json:"location,omitempty"`
 		ResourceGroup  string `json:"-"` // TODO: I feel like these should be being serialized?
 		SubscriptionId string `json:"-"`

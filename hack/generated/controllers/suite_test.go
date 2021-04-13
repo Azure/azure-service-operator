@@ -13,7 +13,7 @@ import (
 
 	"github.com/onsi/gomega"
 
-	"github.com/Azure/k8s-infra/hack/generated/controllers"
+	"github.com/Azure/k8s-infra/hack/generated/pkg/reconcilers"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/testcommon"
 )
 
@@ -36,8 +36,8 @@ func setup(options Options) {
 		options.recordReplay,
 		TestNamespace,
 		testcommon.DefaultTestRegion,
-		controllers.ResourceStateAnnotation,
-		controllers.ResourceErrorAnnotation)
+		reconcilers.ResourceStateAnnotation,
+		reconcilers.ResourceErrorAnnotation)
 
 	log.Print("Done with test setup")
 }

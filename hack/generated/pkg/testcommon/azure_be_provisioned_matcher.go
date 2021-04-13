@@ -44,7 +44,7 @@ func (m *AzureBeProvisionedMatcher) Match(actual interface{}) (bool, error) {
 		return false, err
 	}
 
-	updatedDeployment, _, err := m.azureClient.GetDeployment(m.ctx, deployment.Id)
+	updatedDeployment, _, err := m.azureClient.GetDeployment(m.ctx, deployment.ID)
 	if err != nil {
 		return false, err
 	}
@@ -53,7 +53,7 @@ func (m *AzureBeProvisionedMatcher) Match(actual interface{}) (bool, error) {
 
 	log.Printf(
 		"Ongoing deployment %s is in state: %s\n",
-		deployment.Id,
+		deployment.ID,
 		deployment.Properties.ProvisioningState)
 
 	return deployment.IsSuccessful(), nil
@@ -80,7 +80,7 @@ func (m *AzureBeProvisionedMatcher) message(actual interface{}, expectedMatch bo
 
 	return gomegaformat.Message(
 		stateStr,
-		fmt.Sprintf("deployment %s state to %sbe %s.", deployment.Id, notStr, string(armclient.SucceededProvisioningState)))
+		fmt.Sprintf("deployment %s state to %sbe %s.", deployment.ID, notStr, string(armclient.SucceededProvisioningState)))
 }
 
 func (m *AzureBeProvisionedMatcher) FailureMessage(actual interface{}) string {
