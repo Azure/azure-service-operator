@@ -6,15 +6,14 @@ package vCurrent
 import "github.com/Azure/k8s-infra/hack/generated/_apis/Verification/vNext"
 
 type Person struct {
-	release Bucket `json:"release"`
+	sku string `json:"sku"`
 }
 
 // ConvertFromVNext populates our Person from the provided source Person
 func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
-	// release
-	release := Bucket(source.release)
-	person.release = release
+	// sku
+	person.sku = string(source.sku)
 
 	// No error
 	return nil
@@ -23,9 +22,8 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 // ConvertToVNext populates the provided destination Person from our Person
 func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
-	// release
-	release := Container(person.release)
-	destination.release = release
+	// sku
+	destination.sku = vNext.Bucket(person.sku)
 
 	// No error
 	return nil

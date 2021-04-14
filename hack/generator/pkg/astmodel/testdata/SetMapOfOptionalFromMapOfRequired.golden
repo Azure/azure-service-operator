@@ -17,8 +17,7 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 	for ratingKey, ratingValue := range source.ratings {
 		// Shadow the loop variable to avoid aliasing
 		ratingValue := ratingValue
-		rating := ratingValue
-		ratingMap[ratingKey] = &rating
+		ratingMap[ratingKey] = &ratingValue
 	}
 	person.ratings = ratingMap
 

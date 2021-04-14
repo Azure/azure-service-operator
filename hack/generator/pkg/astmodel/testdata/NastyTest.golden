@@ -25,8 +25,7 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 			for nastyKey1, nastyValue1 := range nastyItem {
 				// Shadow the loop variable to avoid aliasing
 				nastyValue1 := nastyValue1
-				nasty := nastyValue1
-				nastyMap1[nastyKey1] = nasty
+				nastyMap1[nastyKey1] = nastyValue1
 			}
 			nastyList[nastyIndex] = nastyMap1
 		}
@@ -54,8 +53,7 @@ func (person Person) ConvertToVNext(destination *vNext.Person) error {
 			for nastyKey1, nastyValue1 := range nastyItem {
 				// Shadow the loop variable to avoid aliasing
 				nastyValue1 := nastyValue1
-				nasty := nastyValue1
-				nastyMap1[nastyKey1] = nasty
+				nastyMap1[nastyKey1] = nastyValue1
 			}
 			nastyList[nastyIndex] = nastyMap1
 		}

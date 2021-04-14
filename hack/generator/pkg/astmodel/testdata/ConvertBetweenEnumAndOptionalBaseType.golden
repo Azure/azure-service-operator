@@ -6,19 +6,15 @@ package vCurrent
 import "github.com/Azure/k8s-infra/hack/generated/_apis/Verification/vNext"
 
 type Person struct {
-	role *Release `json:"role"`
+	sku *string `json:"sku"`
 }
 
 // ConvertFromVNext populates our Person from the provided source Person
 func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
-	// role
-	var role Release
-	err := role.ConvertFromVNext(&source.role)
-	if err != nil {
-		return errors.Wrap(err, "populating role from role, calling ConvertFromVNext()")
-	}
-	person.role = &role
+	// sku
+	sku := string(source.sku)
+	person.sku = &sku
 
 	// No error
 	return nil
@@ -27,15 +23,14 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 // ConvertToVNext populates the provided destination Person from our Person
 func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
-	// role
-	var role vNext.Release
-	if person.role != nil {
-		err := person.role.ConvertToVNext(role)
-		if err != nil {
-			return errors.Wrap(err, "populating role from role, calling ConvertToVNext()")
-		}
+	// sku
+	var sku string
+	if person.sku != nil {
+		sku = *person.sku
+	} else {
+		sku = ""
 	}
-	destination.role = role
+	destination.sku = vNext.Bucket(person.sku)
 
 	// No error
 	return nil

@@ -31,7 +31,7 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 
 	enumType := NewEnumType(StringType, alpha, beta)
 	currentEnum := MakeTypeDefinition(MakeTypeName(vCurrent, "Bucket"), enumType)
-	hubEnum := MakeTypeDefinition(MakeTypeName(vNext, "Container"), enumType)
+	hubEnum := MakeTypeDefinition(MakeTypeName(vNext, "Bucket"), enumType)
 
 	requiredStringProperty := NewPropertyDefinition("name", "name", StringType)
 	optionalStringProperty := NewPropertyDefinition("name", "name", NewOptionalType(StringType))
@@ -58,6 +58,11 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 	optionalCurrentRoleProperty := NewPropertyDefinition("role", "role", NewOptionalType(currentRole.Name()))
 	optionalNextRoleProperty := NewPropertyDefinition("role", "role", NewOptionalType(hubRole.Name()))
 
+	requiredSkuStringProperty := NewPropertyDefinition("sku", "sku", StringType)
+	requiredNextSkuEnumProperty := NewPropertyDefinition("sku", "sku", hubEnum.name)
+	optionalSkuStringProperty := NewPropertyDefinition("sku", "sku", NewOptionalType(StringType))
+	optionalNextSkuEnumProperty := NewPropertyDefinition("sku", "sku", NewOptionalType(hubEnum.name))
+
 	nastyProperty := NewPropertyDefinition(
 		"nasty",
 		"nasty",
@@ -66,7 +71,7 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 			NewArrayType(
 				NewMapType(StringType, BoolType))))
 
-	testDirect := func(
+	createTest := func(
 		name string,
 		currentProperty *PropertyDefinition,
 		hubProperty *PropertyDefinition,
@@ -96,33 +101,36 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 	}
 
 	return []*StorageConversionPropertyTestCase{
-		testDirect("SetStringFromString", requiredStringProperty, requiredStringProperty),
-		testDirect("SetStringFromOptionalString", requiredStringProperty, optionalStringProperty),
-		testDirect("SetOptionalStringFromString", optionalStringProperty, requiredStringProperty),
-		testDirect("SetOptionalStringFromOptionalString", optionalStringProperty, optionalStringProperty),
+		createTest("SetStringFromString", requiredStringProperty, requiredStringProperty),
+		createTest("SetStringFromOptionalString", requiredStringProperty, optionalStringProperty),
+		createTest("SetOptionalStringFromString", optionalStringProperty, requiredStringProperty),
+		createTest("SetOptionalStringFromOptionalString", optionalStringProperty, optionalStringProperty),
 
-		testDirect("SetIntFromInt", requiredIntProperty, requiredIntProperty),
-		testDirect("SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty),
+		createTest("SetIntFromInt", requiredIntProperty, requiredIntProperty),
+		createTest("SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty),
 
-		testDirect("SetArrayOfRequiredFromArrayOfRequired", arrayOfRequiredIntProperty, arrayOfRequiredIntProperty),
-		testDirect("SetArrayOfRequiredFromArrayOfOptional", arrayOfRequiredIntProperty, arrayOfOptionalIntProperty),
-		testDirect("SetArrayOfOptionalFromArrayOfRequired", arrayOfOptionalIntProperty, arrayOfRequiredIntProperty),
+		createTest("SetArrayOfRequiredFromArrayOfRequired", arrayOfRequiredIntProperty, arrayOfRequiredIntProperty),
+		createTest("SetArrayOfRequiredFromArrayOfOptional", arrayOfRequiredIntProperty, arrayOfOptionalIntProperty),
+		createTest("SetArrayOfOptionalFromArrayOfRequired", arrayOfOptionalIntProperty, arrayOfRequiredIntProperty),
 
-		testDirect("SetMapOfRequiredFromMapOfRequired", mapOfRequiredIntsProperty, mapOfRequiredIntsProperty),
-		testDirect("SetMapOfRequiredFromMapOfOptional", mapOfRequiredIntsProperty, mapOfOptionalIntsProperty),
-		testDirect("SetMapOfOptionalFromMapOfRequired", mapOfOptionalIntsProperty, mapOfRequiredIntsProperty),
+		createTest("SetMapOfRequiredFromMapOfRequired", mapOfRequiredIntsProperty, mapOfRequiredIntsProperty),
+		createTest("SetMapOfRequiredFromMapOfOptional", mapOfRequiredIntsProperty, mapOfOptionalIntsProperty),
+		createTest("SetMapOfOptionalFromMapOfRequired", mapOfOptionalIntsProperty, mapOfRequiredIntsProperty),
 
-		testDirect("NastyTest", nastyProperty, nastyProperty),
+		createTest("NastyTest", nastyProperty, nastyProperty),
 
-		testDirect("SetRequiredEnumFromRequiredEnum", requiredCurrentEnumProperty, requiredHubEnumProperty, currentEnum, hubEnum),
-		testDirect("SetRequiredEnumFromOptionalEnum", requiredCurrentEnumProperty, optionalHubEnumProperty, currentEnum, hubEnum),
-		testDirect("SetOptionalEnumFromRequiredEnum", optionalCurrentEnumProperty, requiredHubEnumProperty, currentEnum, hubEnum),
-		testDirect("SetOptionalEnumFromOptionalEnum", optionalCurrentEnumProperty, optionalHubEnumProperty, currentEnum, hubEnum),
+		createTest("ConvertBetweenRequiredEnumAndRequiredEnum", requiredCurrentEnumProperty, requiredHubEnumProperty, currentEnum, hubEnum),
+		createTest("ConvertBetweenRequiredEnumAndOptionalEnum", requiredCurrentEnumProperty, optionalHubEnumProperty, currentEnum, hubEnum),
+		createTest("ConvertBetweenOptionalEnumAndOptionalEnum", optionalCurrentEnumProperty, optionalHubEnumProperty, currentEnum, hubEnum),
 
-		testDirect("SetRequiredObjectFromRequiredObject", requiredCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole),
-		testDirect("SetRequiredObjectFromOptionalObject", requiredCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
-		testDirect("SetOptionalObjectFromRequiredObject", optionalCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole),
-		testDirect("SetOptionalObjectFromOptionalObject", optionalCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
+		createTest("ConvertBetweenRequiredObjectAndRequiredObject", requiredCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole),
+		createTest("ConvertBetweenRequiredObjectAndOptionalObject", requiredCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
+		createTest("ConvertBetweenOptionalObjectAndOptionalObject", optionalCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
+
+		createTest("ConvertBetweenEnumAndBaseType", requiredSkuStringProperty, requiredNextSkuEnumProperty, currentEnum, hubEnum),
+		createTest("ConvertBetweenEnumAndOptionalBaseType", optionalSkuStringProperty, requiredNextSkuEnumProperty, currentEnum, hubEnum),
+		createTest("ConvertBetweenOptionalEnumAndBaseType", requiredSkuStringProperty, optionalNextSkuEnumProperty, currentEnum, hubEnum),
+		createTest("ConvertBetweenOptionalEnumAndOptionalBaseType", optionalSkuStringProperty, optionalNextSkuEnumProperty, currentEnum, hubEnum),
 	}
 }
 

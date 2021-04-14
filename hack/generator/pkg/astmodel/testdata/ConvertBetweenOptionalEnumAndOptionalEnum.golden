@@ -13,7 +13,12 @@ type Person struct {
 func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// release
-	release := Bucket(source.release)
+	var release Bucket
+	if source.release != nil {
+		release = Bucket(*source.release)
+	} else {
+		release = Bucket("")
+	}
 	person.release = &release
 
 	// No error
@@ -24,13 +29,13 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// release
-	var release Container
+	var release Bucket
 	if person.release != nil {
-		release = Container(*person.release)
+		release = Bucket(*person.release)
 	} else {
-		release = Container("")
+		release = Bucket("")
 	}
-	destination.release = release
+	destination.release = &release
 
 	// No error
 	return nil

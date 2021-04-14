@@ -17,8 +17,7 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 	for scoreIndex, scoreItem := range source.scores {
 		// Shadow the loop variable to avoid aliasing
 		scoreItem := scoreItem
-		score := scoreItem
-		scoreList[scoreIndex] = &score
+		scoreList[scoreIndex] = &scoreItem
 	}
 	person.scores = scoreList
 

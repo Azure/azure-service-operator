@@ -341,9 +341,11 @@ func (fn *StorageConversionFunction) createPropertyConversion(
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
-			"trying to assign %q from %q",
-			destinationProperty.propertyName,
-			sourceProperty.propertyName)
+			"trying to assign %q (%s) from %q (%s)",
+			destinationProperty.PropertyName(),
+			destinationProperty.PropertyType(),
+			sourceProperty.PropertyName(),
+			sourceProperty.PropertyType())
 	}
 
 	return func(source dst.Expr, destination dst.Expr, generationContext *CodeGenerationContext) []dst.Stmt {
