@@ -1,3 +1,6 @@
+PUBLIC_REPO=mcr.microsoft.com/k8s/azureserviceoperator
+PLACEHOLDER_IMAGE=controller:latest
+
 # Image URL to use all building/pushing image targets
 IMG ?= controller:latest
 
@@ -175,11 +178,11 @@ validate-cainjection-files:
 
 # Generate manifests for helm and package them up
 .PHONY: helm-chart-manifests
-helm-chart-manifests: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq .tag_name | sed 's/"//g')
+helm-chart-manifests: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
 helm-chart-manifests: generate
 	@echo "Latest released tag is $(LATEST_TAG)"
 	# substitute released tag into values file.
-	perl -pi -e 's,repository: mcr.microsoft.com/k8s/azureserviceoperator:\K.*,$(LATEST_TAG),' ./charts/azure-service-operator/values.yaml
+	perl -pi -e 's,repository: $(PUBLIC_REPO):\K.*,$(LATEST_TAG),' ./charts/azure-service-operator/values.yaml
 	# remove generated files
 	rm -rf charts/azure-service-operator/templates/generated/
 	rm -rf charts/azure-service-operator/crds
@@ -342,7 +345,13 @@ endif
 # Current operator version
 VERSION ?= 0.37.0
 
+.PHONY: generate-operator-bundle
+generate-operator-bundle: LATEST_VERSION := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
+generate-operator-bundle: LATEST_TAG := $(PUBLIC_REPO):$(LATEST_VERSION)
+generate-operator-bundle: LATEST_SHA := $(shell docker pull $(LATEST_TAG) > /dev/null && docker image inspect $(LATEST_TAG) | jq --raw-output '.[0].Id' )
 generate-operator-bundle: manifests
 	kustomize build config/manifests | operator-sdk generate bundle --version $(VERSION) --channels stable --default-channel stable --overwrite
 	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh
+	# Inject the SHA-based container reference into the bundle.
+	scripts/inject-container-reference.sh "$(PUBLIC_REPO)@$(LATEST_SHA)"
