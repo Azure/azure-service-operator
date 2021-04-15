@@ -26,7 +26,7 @@ In a multitenant configuration installing and managing the CRDs and webhooks wil
 The conversion webhooks in the CRDs and the validating and mutating webhook configurations that are defined for different ASO resources will all point to the `azureoperator-webhook-service` service deployed in the `azureoperator-system` namespace (by default).
 The service will be backed by a deployment of the normal ASO operator running in a restricted webhook-only mode - it won't be watching any namespaces for Azure resources and won't have access to any Azure credentials.
 This mode will be triggered by the configuration setting `AZURE_WEBHOOK_ONLY=1`.
-With this set no other configuration values will be required, and no resource watches will be started - the operator will just respond to webhook requests from the API server.
+With this setting no other configuration values will be required, and no resource watches will be started - the operator will just respond to webhook requests from the API server.
 
 ### RBAC
 
