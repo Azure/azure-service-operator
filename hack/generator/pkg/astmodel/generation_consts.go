@@ -13,6 +13,9 @@ var (
 )
 
 const (
-	// Suffix used to identify generated files (note there is no file extension here)
+	// CodeGeneratedFileSuffix is used to identify generated files (note there is no file extension here)
 	CodeGeneratedFileSuffix = "_gen"
+
+	// ARMReferenceTag is the tag ID used for specifying references to other ARM resources on properties.
+	ARMReferenceTag = "armReference"
 )

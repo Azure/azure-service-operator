@@ -57,6 +57,29 @@ func Test_PropertyDefinition_TagsAdded_TagsAreRenderedAsExpected(t *testing.T) {
 	g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s\" key:\"value\"", propertyJsonName)))
 }
 
+func Test_PropertyDefinition_TagsAdded_TagsCanBeRetrieved(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+	updated := original.WithTag("key", "value")
+
+	g.Expect(updated).NotTo(Equal(original))
+
+	tags, ok := updated.Tag("key")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(tags).To(HaveLen(1))
+	g.Expect(tags[0]).To(Equal("value"))
+}
+
+func Test_PropertyDefinition_TagDoesntExist_TagsReturnsFalse(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
+
+	_, ok := original.Tag("key")
+	g.Expect(ok).To(BeFalse())
+}
+
 func Test_PropertyDefinition_MultipleTagsAdded_TagsAreRenderedCommaSeparated(t *testing.T) {
 	g := NewGomegaWithT(t)
 

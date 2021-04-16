@@ -628,7 +628,7 @@ type CResourceARM struct {
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BResource
 type BResource struct {
-	Id *string `json:"id,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BResource{}
@@ -639,9 +639,13 @@ func (bResource *BResource) ConvertToARM(name string, resolvedReferences genrunt
 		return nil, nil
 	}
 	var result BResourceARM
-	if bResource.Id != nil {
-		id := *bResource.Id
-		result.Id = &id
+	if bResource.Reference != nil {
+		referenceARMID, err := resolvedReferences.ARMIDOrErr(*bResource.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 	return result, nil
 }
@@ -657,16 +661,12 @@ func (bResource *BResource) PopulateFromARM(owner genruntime.KnownResourceRefere
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BResourceARM, got %T", armInput)
 	}
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		bResource.Id = &id
-	}
 	return nil
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CResource
 type CResource struct {
-	Id *string `json:"id,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CResource{}
@@ -677,9 +677,13 @@ func (cResource *CResource) ConvertToARM(name string, resolvedReferences genrunt
 		return nil, nil
 	}
 	var result CResourceARM
-	if cResource.Id != nil {
-		id := *cResource.Id
-		result.Id = &id
+	if cResource.Reference != nil {
+		referenceARMID, err := resolvedReferences.ARMIDOrErr(*cResource.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 	return result, nil
 }
@@ -694,10 +698,6 @@ func (cResource *CResource) PopulateFromARM(owner genruntime.KnownResourceRefere
 	typedInput, ok := armInput.(CResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CResourceARM, got %T", armInput)
-	}
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		cResource.Id = &id
 	}
 	return nil
 }

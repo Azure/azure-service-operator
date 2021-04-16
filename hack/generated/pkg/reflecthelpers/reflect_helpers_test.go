@@ -13,6 +13,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
@@ -60,6 +61,48 @@ func createDummyResource() *batch.BatchAccount {
 	}
 }
 
+func setupScheme() (*runtime.Scheme, error) {
+	scheme := runtime.NewScheme()
+	err := batch.AddToScheme(scheme)
+	if err != nil {
+		return nil, err
+	}
+
+	err = resources.AddToScheme(scheme)
+	if err != nil {
+		return nil, err
+	}
+
+	return scheme, nil
+}
+
+type testResolverAndFriends struct {
+	scheme   *runtime.Scheme
+	resolver *genruntime.Resolver
+	client   client.Client
+}
+
+func makeTestResolver() (testResolverAndFriends, error) {
+	scheme, err := setupScheme()
+	if err != nil {
+		return testResolverAndFriends{}, err
+	}
+
+	groupToVersionMap, err := MakeResourceGVKLookup(scheme)
+	if err != nil {
+		return testResolverAndFriends{}, err
+	}
+
+	fakeClient := fake.NewFakeClientWithScheme(scheme)
+	resolver := genruntime.NewResolver(kubeclient.NewClient(fakeClient, scheme), groupToVersionMap)
+
+	return testResolverAndFriends{
+		scheme:   scheme,
+		resolver: resolver,
+		client:   fakeClient,
+	}, nil
+}
+
 func MakeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.GroupVersionKind, error) {
 	result := make(map[schema.GroupKind]schema.GroupVersionKind)
 
@@ -90,22 +133,15 @@ func Test_ConvertResourceToDeployableResource(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
-	scheme := runtime.NewScheme()
-	g.Expect(batch.AddToScheme(scheme)).To(Succeed())
-	g.Expect(resources.AddToScheme(scheme)).To(Succeed())
-
-	groupToVersionMap, err := MakeResourceGVKLookup(scheme)
+	test, err := makeTestResolver()
 	g.Expect(err).ToNot(HaveOccurred())
 
-	fakeClient := fake.NewFakeClientWithScheme(scheme)
-
 	rg := createResourceGroup()
-	g.Expect(fakeClient.Create(ctx, rg)).To(Succeed())
+	g.Expect(test.client.Create(ctx, rg)).To(Succeed())
 	account := createDummyResource()
-	g.Expect(fakeClient.Create(ctx, account)).To(Succeed())
-	resolver := genruntime.NewResolver(kubeclient.NewClient(fakeClient, scheme), groupToVersionMap)
+	g.Expect(test.client.Create(ctx, account)).To(Succeed())
 
-	resource, err := ConvertResourceToDeployableResource(ctx, resolver, account)
+	resource, err := ConvertResourceToDeployableResource(ctx, test.resolver, account)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rgResource, ok := resource.(*genruntime.ResourceGroupResource)
@@ -114,7 +150,28 @@ func Test_ConvertResourceToDeployableResource(t *testing.T) {
 	g.Expect("azureName").To(Equal(rgResource.Spec().GetName()))
 	g.Expect("2017-09-01").To(Equal(rgResource.Spec().GetApiVersion()))
 	g.Expect(string(batch.BatchAccountsSpecTypeMicrosoftBatchBatchAccounts)).To(Equal(rgResource.Spec().GetType()))
+}
 
+func Test_FindReferences(t *testing.T) {
+	g := NewGomegaWithT(t)
+	ctx := context.Background()
+
+	test, err := makeTestResolver()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := createResourceGroup()
+	g.Expect(test.client.Create(ctx, rg)).To(Succeed())
+	account := createDummyResource()
+	ref := genruntime.ResourceReference{ARMID: "test"}
+	account.Spec.Properties.KeyVaultReference = &batch.KeyVaultReference{
+		Reference: ref,
+	}
+	g.Expect(test.client.Create(ctx, account)).To(Succeed())
+
+	refs, err := FindResourceReferences(&account.Spec)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(refs).To(HaveLen(1))
+	g.Expect(refs).To(HaveKey(ref))
 }
 
 func Test_NewStatus(t *testing.T) {

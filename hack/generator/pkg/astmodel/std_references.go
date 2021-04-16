@@ -32,4 +32,7 @@ var (
 
 	// Imports with specified names
 	GomegaImport PackageImport = NewPackageImport(GomegaReference).WithName(".")
+
+	// Type names
+	ResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "ResourceReference")
 )
