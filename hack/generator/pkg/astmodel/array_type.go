@@ -7,7 +7,6 @@ package astmodel
 
 import (
 	"fmt"
-
 	"github.com/dave/dst"
 )
 
@@ -38,6 +37,11 @@ func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) dst
 	return &dst.ArrayType{
 		Elt: array.element.AsType(codeGenerationContext),
 	}
+}
+
+// AsZero renders an expression for the "zero" value of the array by calling make()
+func (array *ArrayType) AsZero(_ Types, ctx *CodeGenerationContext) dst.Expr {
+	return dst.NewIdent("nil")
 }
 
 // RequiredPackageReferences returns a list of packages required by this

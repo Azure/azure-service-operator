@@ -17,13 +17,11 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 	for ratingKey, ratingValue := range source.ratings {
 		// Shadow the loop variable to avoid aliasing
 		ratingValue := ratingValue
-		var rating int
 		if ratingValue != nil {
-			rating = *ratingValue
+			ratingMap[ratingKey] = *ratingValue
 		} else {
-			rating = 0
+			ratingMap[ratingKey] = 0
 		}
-		ratingMap[ratingKey] = rating
 	}
 	person.ratings = ratingMap
 

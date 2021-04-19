@@ -170,7 +170,13 @@ func (v *ValidatedType) AsDeclarations(c *CodeGenerationContext, declContext Dec
 	return v.ElementType().AsDeclarations(c, declContext)
 }
 
+// AsType panics because validated types should always be named
 func (v *ValidatedType) AsType(_ *CodeGenerationContext) dst.Expr {
+	panic("Should never happen: validated types must either be named (handled by 'name types for CRDs' pipeline stage) or be directly under properties (handled by PropertyDefinition.AsField)")
+}
+
+// AsZero panics because validated types should always be named
+func (v *ValidatedType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
 	panic("Should never happen: validated types must either be named (handled by 'name types for CRDs' pipeline stage) or be directly under properties (handled by PropertyDefinition.AsField)")
 }
 

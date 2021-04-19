@@ -84,6 +84,12 @@ func (oneOf OneOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationCon
 	panic(errors.New(oneOfPanicMsg))
 }
 
+// AsZero always panics; OneOf cannot be represented by the Go AST and must be
+// lowered to an object type
+func (oneOf OneOfType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+	panic(errors.New(oneOfPanicMsg))
+}
+
 // RequiredPackageReferences returns the union of the required imports of all the oneOf types
 func (oneOf OneOfType) RequiredPackageReferences() *PackageReferenceSet {
 	panic(errors.New(oneOfPanicMsg))

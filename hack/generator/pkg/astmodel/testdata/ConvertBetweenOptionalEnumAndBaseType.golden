@@ -13,13 +13,11 @@ type Person struct {
 func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// sku
-	var sku string
 	if source.sku != nil {
-		sku = string(*source.sku)
+		person.sku = string(*source.sku)
 	} else {
-		sku = ""
+		person.sku = ""
 	}
-	person.sku = sku
 
 	// No error
 	return nil

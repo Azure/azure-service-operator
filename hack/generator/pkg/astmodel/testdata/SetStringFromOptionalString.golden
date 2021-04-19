@@ -13,13 +13,11 @@ type Person struct {
 func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// name
-	var name string
 	if source.name != nil {
-		name = *source.name
+		person.name = *source.name
 	} else {
-		name = ""
+		person.name = ""
 	}
-	person.name = name
 
 	// No error
 	return nil

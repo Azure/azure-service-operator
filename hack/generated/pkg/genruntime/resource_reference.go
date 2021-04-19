@@ -50,3 +50,13 @@ func LookupOwnerGroupKind(v interface{}) (string, string) {
 
 	return group, kind
 }
+
+// Copy makes an independent copy of the KnownResourceReference
+func (ref KnownResourceReference) Copy() KnownResourceReference {
+	return ref
+}
+
+// Copy makes an independent copy of the ResourceReference
+func (ref ResourceReference) Copy() ResourceReference {
+	return ref
+}

@@ -112,6 +112,12 @@ func (enum *EnumType) AsType(codeGenerationContext *CodeGenerationContext) dst.E
 	return enum.baseType.AsType(codeGenerationContext)
 }
 
+// AsZero renders an expression for the "zero" value of the type,
+// based on the underlying type of the enumeration
+func (enum *EnumType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+	return enum.baseType.AsZero(types, ctx)
+}
+
 // References returns any types the underlying type refers to.
 func (enum *EnumType) References() TypeNameSet {
 	return enum.baseType.References()

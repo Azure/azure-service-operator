@@ -66,6 +66,37 @@ func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) ds
 	return dst.NewIdent(typeName.name)
 }
 
+// AsZero renders an expression for the "zero" value of the type.
+// The exact thing we need to generate depends on the actual type we reference
+func (typeName TypeName) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+	actualType, err := types.FullyResolve(typeName)
+	if err != nil {
+		// This should never happen
+		panic(err)
+	}
+
+	if _, isObject := AsObjectType(actualType); isObject {
+		// We reference an object type, so our zero value is an empty struct
+		// But, we need to qualify it if it is from another package
+		if typeName.PackageReference.Equals(ctx.CurrentPackage()) {
+			// Current package, no qualification needed
+			return &dst.BasicLit{
+				Value: fmt.Sprintf("%s{}", typeName.Name()),
+			}
+		}
+
+		packageName := ctx.MustGetImportedPackageName(typeName.PackageReference)
+
+		return &dst.SelectorExpr{
+			X:   dst.NewIdent(packageName),
+			Sel: dst.NewIdent(fmt.Sprintf("%s{}", typeName.Name())),
+		}
+	}
+
+	// Otherwise we need the underlying type (e.g. enums, primitive type, etc)
+	return actualType.AsZero(types, ctx)
+}
+
 // References returns a set containing this type name.
 func (typeName TypeName) References() TypeNameSet {
 	return NewTypeNameSet(typeName)

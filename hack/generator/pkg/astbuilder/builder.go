@@ -355,11 +355,17 @@ func EnsureStatementBlock(statement dst.Stmt) *dst.BlockStmt {
 func Statements(statements ...interface{}) []dst.Stmt {
 	var result []dst.Stmt
 	for _, s := range statements {
-		if stmt, ok := s.(dst.Stmt); ok {
-			result = append(result, stmt)
-		} else if stmts, ok := s.([]dst.Stmt); ok {
-			result = append(result, stmts...)
-		} else {
+		switch s := s.(type) {
+		case nil:
+			// Skip nils
+			continue
+		case dst.Stmt:
+			// Add a single statement
+			result = append(result, s)
+		case []dst.Stmt:
+			// Add many statements
+			result = append(result, s...)
+		default:
 			panic(fmt.Sprintf("expected dst.Stmt or []dst.Stmt, but found %T", s))
 		}
 	}

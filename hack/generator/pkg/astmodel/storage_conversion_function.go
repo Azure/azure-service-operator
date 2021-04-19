@@ -280,13 +280,16 @@ func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition) 
 
 	receiverObject, ok := AsObjectType(receiver.Type())
 	if !ok {
-		return errors.Errorf("expected TypeDefinition %q to wrap receiver object type, but none found", receiver.name.String())
+		return errors.Errorf(
+			"expected TypeDefinition %q to wrap receiver object type, but found %q",
+			receiver.name.String(),
+			receiver.Type())
 	}
 
 	var otherObject *ObjectType
 	otherObject, ok = AsObjectType(fn.otherType.Type())
 	if !ok {
-		return errors.Errorf("expected TypeDefinition %q to wrap hub object type, but none found", fn.otherType.Name().String())
+		return errors.Errorf("expected TypeDefinition %q to wrap object type, but none found", fn.otherType.Name().String())
 	}
 
 	var errs []error

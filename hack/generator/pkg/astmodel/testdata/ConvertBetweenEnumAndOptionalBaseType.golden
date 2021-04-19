@@ -24,13 +24,11 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// sku
-	var sku string
 	if person.sku != nil {
-		sku = *person.sku
+		destination.sku = vNext.Bucket(*person.sku)
 	} else {
-		sku = ""
+		destination.sku = ""
 	}
-	destination.sku = vNext.Bucket(person.sku)
 
 	// No error
 	return nil

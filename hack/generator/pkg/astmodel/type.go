@@ -22,11 +22,16 @@ type Type interface {
 	References() TypeNameSet
 
 	// AsType renders as a Go abstract syntax tree for a type
-	// (yes this says ast.Expr but that is what the Go 'ast' package uses for types)
+	// (yes this says dst.Expr but that is what the Go 'dst' package uses for types)
 	AsType(codeGenerationContext *CodeGenerationContext) dst.Expr
 
 	// AsDeclarations renders as a Go abstract syntax tree for a declaration
 	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl
+
+	// AsZero renders an expression for the "zero" value of the type
+	// types allows TypeName to resolve to the underlying type
+	// ctx allows current imports to be correctly identified where needed
+	AsZero(types Types, ctx *CodeGenerationContext) dst.Expr
 
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type) bool

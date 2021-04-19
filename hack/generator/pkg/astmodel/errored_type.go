@@ -133,6 +133,12 @@ func (e *ErroredType) AsType(cgc *CodeGenerationContext) dst.Expr {
 	return e.inner.AsType(cgc)
 }
 
+// AsZero renders an expression for the "zero" value of the type
+// by delegating to the inner type
+func (e *ErroredType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+	return e.inner.AsZero(types, ctx)
+}
+
 func (e *ErroredType) String() string {
 	if e.inner == nil {
 		return "(error hole)"

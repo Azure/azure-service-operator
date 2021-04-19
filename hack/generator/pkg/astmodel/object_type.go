@@ -183,6 +183,15 @@ func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContex
 	}
 }
 
+// AsZero renders an expression for the "zero" value of the type
+// types allows TypeName to resolve to the underlying type
+// ctx allows current imports to be correctly identified where needed
+// We can only generate a zero value for a named object type (and that's handled by TypeName, so
+// we'll only end up here if it is an anonymous type.)
+func (objectType *ObjectType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+	panic("cannot create a zero value for an object type")
+}
+
 // RequiredPackageReferences returns a list of packages required by this
 func (objectType *ObjectType) RequiredPackageReferences() *PackageReferenceSet {
 	result := NewPackageReferenceSet()

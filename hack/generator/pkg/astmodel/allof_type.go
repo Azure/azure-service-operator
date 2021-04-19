@@ -119,6 +119,12 @@ func (allOf AllOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationCon
 	panic(errors.New(allOfPanicMsg))
 }
 
+// AsZero always panics; AllOf cannot be represented by the Go AST and must be
+// lowered to an object type
+func (allOf AllOfType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+	panic(errors.New(allOfPanicMsg))
+}
+
 // RequiredPackageReferences always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
 func (allOf AllOfType) RequiredPackageReferences() *PackageReferenceSet {

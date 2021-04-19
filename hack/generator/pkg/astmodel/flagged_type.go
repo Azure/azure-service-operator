@@ -116,6 +116,12 @@ func (ft *FlaggedType) AsDeclarations(ctx *CodeGenerationContext, declContext De
 	return ft.element.AsDeclarations(ctx, declContext)
 }
 
+// AsZero renders an expression for the "zero" value of the type
+// by delegating to the wrapped type
+func (ft *FlaggedType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+	return ft.element.AsZero(types, ctx)
+}
+
 // Equals returns true if the passed type is the same as this one, false otherwise
 func (ft *FlaggedType) Equals(t Type) bool {
 	other, ok := t.(*FlaggedType)

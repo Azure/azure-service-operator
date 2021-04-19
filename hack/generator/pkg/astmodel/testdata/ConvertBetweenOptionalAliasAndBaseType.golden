@@ -6,19 +6,15 @@ package vCurrent
 import "github.com/Azure/k8s-infra/hack/generated/_apis/Verification/vNext"
 
 type Person struct {
-	sku *string `json:"sku"`
+	age *Age `json:"age"`
 }
 
 // ConvertFromVNext populates our Person from the provided source Person
 func (person Person) ConvertFromVNext(source *vNext.Person) error {
 
-	// sku
-	if source.sku != nil {
-		sku := string(*source.sku)
-		person.sku = &sku
-	} else {
-		person.sku = nil
-	}
+	// age
+	age := Age(source.age)
+	person.age = &age
 
 	// No error
 	return nil
@@ -27,12 +23,11 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 // ConvertToVNext populates the provided destination Person from our Person
 func (person Person) ConvertToVNext(destination *vNext.Person) error {
 
-	// sku
-	if person.sku != nil {
-		sku := vNext.Bucket(*person.sku)
-		destination.sku = &sku
+	// age
+	if person.age != nil {
+		destination.age = int(*person.age)
 	} else {
-		destination.sku = nil
+		destination.age = 0
 	}
 
 	// No error

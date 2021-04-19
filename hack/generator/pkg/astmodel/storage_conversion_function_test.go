@@ -31,7 +31,11 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 
 	enumType := NewEnumType(StringType, alpha, beta)
 	currentEnum := MakeTypeDefinition(MakeTypeName(vCurrent, "Bucket"), enumType)
-	hubEnum := MakeTypeDefinition(MakeTypeName(vNext, "Bucket"), enumType)
+	nextEnum := MakeTypeDefinition(MakeTypeName(vNext, "Bucket"), enumType)
+
+	// These are aliases of primitive types
+	currentAge := MakeTypeDefinition(MakeTypeName(vCurrent, "Age"), IntType)
+	nextAge := MakeTypeDefinition(MakeTypeName(vNext, "Age"), IntType)
 
 	requiredStringProperty := NewPropertyDefinition("name", "name", StringType)
 	optionalStringProperty := NewPropertyDefinition("name", "name", NewOptionalType(StringType))
@@ -45,9 +49,9 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 	mapOfOptionalIntsProperty := NewPropertyDefinition("ratings", "ratings", NewMapType(StringType, NewOptionalType(IntType)))
 
 	requiredCurrentEnumProperty := NewPropertyDefinition("release", "release", currentEnum.name)
-	requiredHubEnumProperty := NewPropertyDefinition("release", "release", hubEnum.name)
+	requiredHubEnumProperty := NewPropertyDefinition("release", "release", nextEnum.name)
 	optionalCurrentEnumProperty := NewPropertyDefinition("release", "release", NewOptionalType(currentEnum.name))
-	optionalHubEnumProperty := NewPropertyDefinition("release", "release", NewOptionalType(hubEnum.name))
+	optionalHubEnumProperty := NewPropertyDefinition("release", "release", NewOptionalType(nextEnum.name))
 
 	roleType := NewObjectType().WithProperty(requiredStringProperty).WithProperty(arrayOfRequiredIntProperty)
 	currentRole := MakeTypeDefinition(MakeTypeName(vCurrent, "Release"), roleType)
@@ -59,9 +63,16 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 	optionalNextRoleProperty := NewPropertyDefinition("role", "role", NewOptionalType(hubRole.Name()))
 
 	requiredSkuStringProperty := NewPropertyDefinition("sku", "sku", StringType)
-	requiredNextSkuEnumProperty := NewPropertyDefinition("sku", "sku", hubEnum.name)
+	requiredNextSkuEnumProperty := NewPropertyDefinition("sku", "sku", nextEnum.name)
 	optionalSkuStringProperty := NewPropertyDefinition("sku", "sku", NewOptionalType(StringType))
-	optionalNextSkuEnumProperty := NewPropertyDefinition("sku", "sku", NewOptionalType(hubEnum.name))
+	optionalNextSkuEnumProperty := NewPropertyDefinition("sku", "sku", NewOptionalType(nextEnum.name))
+
+	requiredPrimitiveAgeProperty := NewPropertyDefinition("age", "age", IntType)
+	optionalPrimitiveAgeProperty := NewPropertyDefinition("age", "age", NewOptionalType(IntType))
+	requiredCurrentAgeProperty := NewPropertyDefinition("age", "age", currentAge.name)
+	requiredNextAgeProperty := NewPropertyDefinition("age", "age", nextAge.name)
+	optionalCurrentAgeProperty := NewPropertyDefinition("age", "age", NewOptionalType(currentAge.name))
+	optionalNextAgeProperty := NewPropertyDefinition("age", "age", NewOptionalType(nextAge.name))
 
 	nastyProperty := NewPropertyDefinition(
 		"nasty",
@@ -119,18 +130,25 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 
 		createTest("NastyTest", nastyProperty, nastyProperty),
 
-		createTest("ConvertBetweenRequiredEnumAndRequiredEnum", requiredCurrentEnumProperty, requiredHubEnumProperty, currentEnum, hubEnum),
-		createTest("ConvertBetweenRequiredEnumAndOptionalEnum", requiredCurrentEnumProperty, optionalHubEnumProperty, currentEnum, hubEnum),
-		createTest("ConvertBetweenOptionalEnumAndOptionalEnum", optionalCurrentEnumProperty, optionalHubEnumProperty, currentEnum, hubEnum),
+		createTest("ConvertBetweenRequiredEnumAndRequiredEnum", requiredCurrentEnumProperty, requiredHubEnumProperty, currentEnum, nextEnum),
+		createTest("ConvertBetweenRequiredEnumAndOptionalEnum", requiredCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum),
+		createTest("ConvertBetweenOptionalEnumAndOptionalEnum", optionalCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum),
 
 		createTest("ConvertBetweenRequiredObjectAndRequiredObject", requiredCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole),
 		createTest("ConvertBetweenRequiredObjectAndOptionalObject", requiredCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
 		createTest("ConvertBetweenOptionalObjectAndOptionalObject", optionalCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
 
-		createTest("ConvertBetweenEnumAndBaseType", requiredSkuStringProperty, requiredNextSkuEnumProperty, currentEnum, hubEnum),
-		createTest("ConvertBetweenEnumAndOptionalBaseType", optionalSkuStringProperty, requiredNextSkuEnumProperty, currentEnum, hubEnum),
-		createTest("ConvertBetweenOptionalEnumAndBaseType", requiredSkuStringProperty, optionalNextSkuEnumProperty, currentEnum, hubEnum),
-		createTest("ConvertBetweenOptionalEnumAndOptionalBaseType", optionalSkuStringProperty, optionalNextSkuEnumProperty, currentEnum, hubEnum),
+		createTest("ConvertBetweenEnumAndBaseType", requiredSkuStringProperty, requiredNextSkuEnumProperty, nextEnum),
+		createTest("ConvertBetweenEnumAndOptionalBaseType", optionalSkuStringProperty, requiredNextSkuEnumProperty, nextEnum),
+		createTest("ConvertBetweenOptionalEnumAndBaseType", requiredSkuStringProperty, optionalNextSkuEnumProperty, nextEnum),
+		createTest("ConvertBetweenOptionalEnumAndOptionalBaseType", optionalSkuStringProperty, optionalNextSkuEnumProperty, nextEnum),
+
+		createTest("ConvertBetweenAliasAndAliasType", requiredCurrentAgeProperty, requiredNextAgeProperty, currentAge, nextAge),
+		createTest("ConvertBetweenAliasAndOptionalAliasType", requiredCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge),
+		createTest("ConvertBetweenOptionalAliasAndOptionalAliasType", optionalCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge),
+		createTest("ConvertBetweenAliasAndBaseType", requiredCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge, nextAge),
+		createTest("ConvertBetweenOptionalAliasAndBaseType", optionalCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge),
+		createTest("ConvertBetweenOptionalAliasAndOptionalBaseType", optionalCurrentAgeProperty, optionalPrimitiveAgeProperty, currentAge),
 	}
 }
 

@@ -6,7 +6,6 @@
 package astmodel
 
 import (
-	"fmt"
 	"go/token"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
@@ -36,23 +35,25 @@ var typeConversionFactories []StorageTypeConversionFactory
 
 func init() {
 	typeConversionFactories = []StorageTypeConversionFactory{
-		// Primitive types
+		// Primitive types and aliases
 		assignPrimitiveTypeFromPrimitiveType,
-		assignPrimitiveTypeFromOptionalPrimitiveType,
+		assignAliasedPrimitiveTypeFromAliasedPrimitiveType,
 		// Collection Types
 		assignArrayFromArray,
 		assignMapFromMap,
 		// Enumerations
 		assignEnumTypeFromEnumType,
 		assignPrimitiveTypeFromEnumType,
-		assignEnumTypeFromOptionalEnumType,
-		assignPrimitiveTypeFromOptionalEnumType,
 		// Complex object types
 		assignObjectTypeFromObjectType,
-		assignObjectTypeFromOptionalObjectType,
+		// Known types
+		assignKnownReferenceFromKnownReference,
 		// Meta-conversions
+		assignFromOptionalType, // Must go before assignToOptionalType so we generate the right zero values
 		assignToOptionalType,
 		assignToEnumerationType,
+		assignFromAliasedPrimitiveType,
+		assignToAliasedPrimitiveType,
 	}
 }
 
@@ -147,7 +148,7 @@ func assignToOptionalType(
 		return nil
 	}
 
-	// Require a conversion between the wrapped type and our source
+	// Require a conversion between the unwrapped type and our source
 	unwrappedEndpoint := destinationEndpoint.WithType(destinationOptional.element)
 	conversion, _ := createTypeConversion(sourceEndpoint, unwrappedEndpoint, conversionContext)
 	if conversion == nil {
@@ -159,6 +160,7 @@ func assignToOptionalType(
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *CodeGenerationContext) []dst.Stmt {
 		// Create a writer that uses the address of the passed expression
 		// If expr isn't a plain identifier (implying a local variable), we introduce one
+		// This both allows us to avoid aliasing and complies with Go language semantics
 		addrOfWriter := func(expr dst.Expr) []dst.Stmt {
 			if _, ok := expr.(*dst.Ident); ok {
 				return writer(astbuilder.AddrOf(expr))
@@ -175,6 +177,78 @@ func assignToOptionalType(
 		}
 
 		return conversion(reader, addrOfWriter, generationContext)
+	}
+}
+
+// assignFromOptionalType will handle the case where the source type may be missing (nil)
+//
+// <original> := <source>
+// if <original> != nil {
+//    <destination> = *<original>
+// } else {
+//    <destination> = <zero>
+// }
+func assignFromOptionalType(
+	sourceEndpoint *StorageConversionEndpoint,
+	destinationEndpoint *StorageConversionEndpoint,
+	conversionContext *StorageConversionContext) StorageTypeConversion {
+
+	// Require source to be optional
+	sourceOptional, sourceIsOptional := AsOptionalType(sourceEndpoint.Type())
+	if !sourceIsOptional {
+		return nil
+	}
+
+	// Require a conversion between the unwrapped type and our source
+	unwrappedEndpoint := sourceEndpoint.WithType(sourceOptional.element)
+	conversion, _ := createTypeConversion(unwrappedEndpoint, destinationEndpoint, conversionContext)
+	if conversion == nil {
+		return nil
+	}
+
+	local := sourceEndpoint.CreateLocal("", "Read")
+
+	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *CodeGenerationContext) []dst.Stmt {
+
+		var cacheOriginal dst.Stmt
+		var actualReader dst.Expr
+
+		// If the value we're reading is a local or a field, it's cheap to read and we can skip
+		// using a local (which makes the generated code easier to read). In other cases, we want
+		// to cache the value in a local to avoid repeating any expensive conversion.
+
+		switch reader.(type) {
+		case *dst.Ident, *dst.SelectorExpr:
+			// reading a local variable or a field
+			cacheOriginal = nil
+			actualReader = reader
+		default:
+			// Something else, so we cache the original
+			cacheOriginal = astbuilder.SimpleAssignment(
+				dst.NewIdent(local),
+				token.DEFINE,
+				reader)
+			actualReader = dst.NewIdent(local)
+		}
+
+		checkForNil := astbuilder.NotEqual(actualReader, dst.NewIdent("nil"))
+
+		// If we have a value, need to convert it to our destination type
+		writeActualValue := conversion(
+			astbuilder.Dereference(actualReader),
+			writer,
+			generationContext)
+
+		writeZeroValue := writer(
+			destinationEndpoint.Type().AsZero(conversionContext.types, generationContext))
+
+		stmt := &dst.IfStmt{
+			Cond: checkForNil,
+			Body: astbuilder.StatementBlock(writeActualValue...),
+			Else: astbuilder.StatementBlock(writeZeroValue...),
+		}
+
+		return astbuilder.Statements(cacheOriginal, stmt)
 	}
 }
 
@@ -216,7 +290,7 @@ func assignToEnumerationType(
 		convertingWriter := func(expr dst.Expr) []dst.Stmt {
 			cast := &dst.CallExpr{
 				Fun:  dstName.AsType(generationContext),
-				Args: []dst.Expr{reader},
+				Args: []dst.Expr{expr},
 			}
 			return writer(cast)
 		}
@@ -229,7 +303,7 @@ func assignToEnumerationType(
 }
 
 // assignPrimitiveTypeFromPrimitiveType will generate a direct assignment if both types have the
-// same underlying primitive type and are not optional
+// same primitive type and are not optional
 //
 // <destination> = <source>
 //
@@ -270,27 +344,18 @@ func assignPrimitiveTypeFromPrimitiveType(
 	}
 }
 
-// assignPrimitiveTypeFromOptionalPrimitiveType will generate a direct assignment if both types
-// have the same underlying primitive type and only the source is optional
+// assignAliasedPrimitiveTypeFromAliasedPrimitiveType will generate a direct assignment if both
+// types have the same underlying primitive type and are not optional
 //
-// if <source> != nil {
-//    <destination> = *<source>
-// } else {
-//    <destination> = <zero>
-// }
-func assignPrimitiveTypeFromOptionalPrimitiveType(
+// <destination> = <cast>(<source>)
+//
+func assignAliasedPrimitiveTypeFromAliasedPrimitiveType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	_ *StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
-	// Require source to be optional
-	if _, sourceIsOptional := AsOptionalType(sourceEndpoint.Type()); !sourceIsOptional {
-		return nil
-	}
-
-	// Require source to be a primitive type
-	sourcePrimitive, sourceIsPrimitive := AsPrimitiveType(sourceEndpoint.Type())
-	if !sourceIsPrimitive {
+	// Require source to be non-optional
+	if _, sourceIsOptional := AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
 		return nil
 	}
 
@@ -299,8 +364,22 @@ func assignPrimitiveTypeFromOptionalPrimitiveType(
 		return nil
 	}
 
-	// Require destination to be a primitive type
-	destinationPrimitive, destinationIsPrimitive := AsPrimitiveType(destinationEndpoint.Type())
+	// Require source to be a name that resolves to a primitive type
+	_, sourceType, ok := conversionContext.ResolveType(sourceEndpoint.Type())
+	if !ok {
+		return nil
+	}
+	sourcePrimitive, sourceIsPrimitive := AsPrimitiveType(sourceType)
+	if !sourceIsPrimitive {
+		return nil
+	}
+
+	// Require destination to be a name the resolves to a primitive type
+	destinationName, destinationType, ok := conversionContext.ResolveType(destinationEndpoint.Type())
+	if !ok {
+		return nil
+	}
+	destinationPrimitive, destinationIsPrimitive := AsPrimitiveType(destinationType)
 	if !destinationIsPrimitive {
 		return nil
 	}
@@ -310,37 +389,98 @@ func assignPrimitiveTypeFromOptionalPrimitiveType(
 		return nil
 	}
 
-	local := destinationEndpoint.CreateLocal("", "Value")
+	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *CodeGenerationContext) []dst.Stmt {
+		return writer(&dst.CallExpr{
+			Fun:  destinationName.AsType(generationContext),
+			Args: []dst.Expr{reader},
+		})
+	}
+}
+
+// assignFromAliasedPrimitiveType will convert an alias of a primitive type into that primitive
+// type as long as it is not optional and we can find a conversion to consume that primitive value
+func assignFromAliasedPrimitiveType(
+	sourceEndpoint *StorageConversionEndpoint,
+	destinationEndpoint *StorageConversionEndpoint,
+	conversionContext *StorageConversionContext) StorageTypeConversion {
+
+	// Require source to be non-optional
+	if _, sourceIsOptional := AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
+		return nil
+	}
+
+	// Require source to be a name that resolves to a primitive type
+	_, sourceType, ok := conversionContext.ResolveType(sourceEndpoint.Type())
+	if !ok {
+		return nil
+	}
+	sourcePrimitive, sourceIsPrimitive := AsPrimitiveType(sourceType)
+	if !sourceIsPrimitive {
+		return nil
+	}
+
+	// Require a conversion for the underlying type
+	primitiveEndpoint := sourceEndpoint.WithType(sourcePrimitive)
+	conversion, _ := createTypeConversion(primitiveEndpoint, destinationEndpoint, conversionContext)
+	if conversion == nil {
+		return nil
+	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *CodeGenerationContext) []dst.Stmt {
 
-		declaration := astbuilder.LocalVariableDeclaration(local, destinationPrimitive.AsType(generationContext), "")
-
-		// Need to check for null and only assign if we have a value
-		cond := astbuilder.NotEqual(reader, dst.NewIdent("nil"))
-
-		writeLocal := func(expr dst.Expr) []dst.Stmt {
-			return []dst.Stmt{
-				astbuilder.SimpleAssignment(
-					dst.NewIdent(local),
-					token.ASSIGN,
-					expr),
-			}
+		actualReader := &dst.CallExpr{
+			Fun:  sourcePrimitive.AsType(generationContext),
+			Args: []dst.Expr{reader},
 		}
 
-		updateLocalFromReader := writeLocal(astbuilder.Dereference(reader))
+		return conversion(actualReader, writer, generationContext)
+	}
+}
 
-		updateLocalWithZero := writeLocal(&dst.BasicLit{
-			Value: zeroValue(sourcePrimitive),
-		})
+// assignToAliasedPrimitiveType will convert a primitive value into the aliased type as long as it
+// is not optional and we can find a conversion to give us the primitive type.
+//
+// <destination> = <cast>(<source>)
+//
+func assignToAliasedPrimitiveType(
+	sourceEndpoint *StorageConversionEndpoint,
+	destinationEndpoint *StorageConversionEndpoint,
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
-		convert := astbuilder.SimpleIfElse(
-			cond,
-			astbuilder.StatementBlock(updateLocalFromReader...),
-			astbuilder.StatementBlock(updateLocalWithZero...))
+	// Require destination to be non-optional
+	if _, destinationIsOptional := AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+		return nil
+	}
 
-		assignValue := writer(dst.NewIdent(local))
-		return astbuilder.Statements(declaration, convert, assignValue)
+	// Require destination to be a name the resolves to a primitive type
+	destinationName, destinationType, ok := conversionContext.ResolveType(destinationEndpoint.Type())
+	if !ok {
+		return nil
+	}
+	destinationPrimitive, destinationIsPrimitive := AsPrimitiveType(destinationType)
+	if !destinationIsPrimitive {
+		return nil
+	}
+
+	// Require a conversion for the underlying type
+	primitiveEndpoint := sourceEndpoint.WithType(destinationPrimitive)
+	conversion, _ := createTypeConversion(sourceEndpoint, primitiveEndpoint, conversionContext)
+	if conversion == nil {
+		return nil
+	}
+
+	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *CodeGenerationContext) []dst.Stmt {
+
+		actualWriter := func(expr dst.Expr) []dst.Stmt {
+			castToAlias := &dst.CallExpr{
+				Fun:  destinationName.AsType(generationContext),
+				Args: []dst.Expr{expr},
+			}
+
+			return writer(castToAlias)
+		}
+
+		return conversion(reader, actualWriter, generationContext)
 	}
 }
 
@@ -605,176 +745,6 @@ func assignPrimitiveTypeFromEnumType(
 	}
 }
 
-// assignEnumTypeFromOptionalEnumType will generate a direct assignment if both types have the same
-// underlying primitive type and only the source is optional
-//
-// if <source> != nil {
-//    <destination> = <enum>(*<source>)
-// } else {
-//    <destination> = <zero>
-// }
-//
-func assignEnumTypeFromOptionalEnumType(
-	sourceEndpoint *StorageConversionEndpoint,
-	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *StorageConversionContext) StorageTypeConversion {
-
-	// Require source to be optional
-	if _, sourceIsOptional := AsOptionalType(sourceEndpoint.Type()); !sourceIsOptional {
-		return nil
-	}
-
-	// Require destination to be non-optional
-	if _, destinationIsOptional := AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
-		return nil
-	}
-
-	// Require source to be an enumeration
-	sourceName, sourceType, sourceFound := conversionContext.ResolveType(sourceEndpoint.Type())
-	if !sourceFound {
-		return nil
-	}
-	sourceEnum, sourceIsEnum := AsEnumType(sourceType)
-	if !sourceIsEnum {
-		return nil
-	}
-
-	// Require destination to be an enumeration
-	destinationName, destinationType, destinationFound := conversionContext.ResolveType(destinationEndpoint.Type())
-	if !destinationFound {
-		return nil
-	}
-	destinationEnum, destinationIsEnum := AsEnumType(destinationType)
-	if !destinationIsEnum {
-		return nil
-	}
-
-	// Require enumerations to have the same base types
-	if !sourceEnum.baseType.Equals(destinationEnum.baseType) {
-		return nil
-	}
-
-	local := destinationEndpoint.CreateLocal("", "As"+sourceName.Name(), "Enum")
-
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, ctx *CodeGenerationContext) []dst.Stmt {
-
-		declaration := astbuilder.LocalVariableDeclaration(local, dst.NewIdent(destinationName.Name()), "")
-
-		// Need to check for null and only assign if we have a value
-		cond := astbuilder.NotEqual(reader, dst.NewIdent("nil"))
-
-		writeLocal := func(expr dst.Expr) []dst.Stmt {
-			return []dst.Stmt{
-				astbuilder.SimpleAssignment(
-					dst.NewIdent(local),
-					token.ASSIGN,
-					expr),
-			}
-		}
-
-		updateLocalFromReader := writeLocal(
-			astbuilder.CallFunc(destinationName.name, astbuilder.Dereference(reader)))
-
-		updateLocalWithZero := writeLocal(
-			astbuilder.CallFunc(destinationName.name,
-				&dst.BasicLit{
-					Value: zeroValue(sourceEnum.baseType),
-				}))
-
-		stmt := &dst.IfStmt{
-			Cond: cond,
-			Body: astbuilder.StatementBlock(updateLocalFromReader...),
-			Else: astbuilder.StatementBlock(updateLocalWithZero...),
-		}
-
-		assignValue := writer(dst.NewIdent(local))
-		return astbuilder.Statements(declaration, stmt, assignValue)
-	}
-}
-
-// assignPrimitiveTypeFromOptionalEnumType will generate a conversion from an optional enumeration if
-// the destination has the underlying base type of the enumeration and the destination is not
-// optional
-//
-// if <source> != nil {
-//    <destination> = <enum>(*<source>)
-// } else {
-//    <destination> = <zero>
-// }
-//
-func assignPrimitiveTypeFromOptionalEnumType(
-	sourceEndpoint *StorageConversionEndpoint,
-	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *StorageConversionContext) StorageTypeConversion {
-
-	// Require source to be optional
-	if _, srcOpt := AsOptionalType(sourceEndpoint.Type()); !srcOpt {
-		return nil
-	}
-
-	// Require destination to be non-optional
-	if _, dstOpt := AsOptionalType(destinationEndpoint.Type()); dstOpt {
-		return nil
-	}
-
-	// Require source to be an enumeration
-	srcName, srcType, ok := conversionContext.ResolveType(sourceEndpoint.Type())
-	if !ok {
-		return nil
-	}
-	srcEnum, srcIsEnum := AsEnumType(srcType)
-	if !srcIsEnum {
-		return nil
-	}
-
-	// Require destination to be a primitive type
-	dstPrim, ok := AsPrimitiveType(destinationEndpoint.Type())
-	if !ok {
-		return nil
-	}
-
-	// Require source enumeration to have the destination as base type
-	if !srcEnum.baseType.Equals(dstPrim) {
-		return nil
-	}
-
-	local := destinationEndpoint.CreateLocal("", "As"+srcName.Name(), "Enum")
-
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, ctx *CodeGenerationContext) []dst.Stmt {
-
-		declaration := astbuilder.LocalVariableDeclaration(local, dstPrim.AsType(ctx), "")
-
-		// Need to check for null and only assign if we have a value
-		cond := astbuilder.NotEqual(reader, dst.NewIdent("nil"))
-
-		writeLocal := func(expr dst.Expr) []dst.Stmt {
-			return []dst.Stmt{
-				astbuilder.SimpleAssignment(
-					dst.NewIdent(local),
-					token.ASSIGN,
-					expr),
-			}
-		}
-
-		updateLocalFromReader := writeLocal(
-			astbuilder.CallFunc(dstPrim.Name(), astbuilder.Dereference(reader)))
-
-		updateLocalWithZero := writeLocal(
-			&dst.BasicLit{
-				Value: zeroValue(dstPrim),
-			})
-
-		stmt := &dst.IfStmt{
-			Cond: cond,
-			Body: astbuilder.StatementBlock(updateLocalFromReader...),
-			Else: astbuilder.StatementBlock(updateLocalWithZero...),
-		}
-
-		assignValue := writer(dst.NewIdent(local))
-		return astbuilder.Statements(declaration, stmt, assignValue)
-	}
-}
-
 // assignObjectTypeFromObjectType will generate a conversion if both properties are TypeNames
 // referencing ObjectType definitions and neither property is optional
 //
@@ -839,12 +809,21 @@ func assignObjectTypeFromObjectType(
 
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
+		// If our reader is a dereference, we strip that off (because we need a pointer), else we
+		// take the address of it
+		var actualReader dst.Expr
+		if deref, ok := reader.(*dst.UnaryExpr); ok && deref.Op == token.MUL {
+			actualReader = deref.X
+		} else {
+			actualReader = astbuilder.AddrOf(reader)
+		}
+
 		var conversion dst.Stmt
 		if destinationName.PackageReference.Equals(generationContext.CurrentPackage()) {
 			conversion = astbuilder.SimpleAssignment(
 				errLocal,
 				token.DEFINE,
-				astbuilder.CallExpr(localId, conversionContext.functionName, astbuilder.AddrOf(reader)))
+				astbuilder.CallExpr(localId, conversionContext.functionName, actualReader))
 		} else {
 			conversion = astbuilder.SimpleAssignment(
 				errLocal,
@@ -863,38 +842,17 @@ func assignObjectTypeFromObjectType(
 	}
 }
 
-// assignObjectTypeFromOptionalObjectType will generate a conversion if both properties are
-// TypeNames referencing ObjectType definitions and only the source is optional
+// assignKnownReferenceFromKnownReference will generate a direct assignment if both types are genruntime.KnownResourceReference
 //
-// For ConvertFrom:
+// <destination> = <source>.Copy()
 //
-// var <local> <destinationType>
-// if <source> != nil {
-//     err := <local>.ConvertFrom(<source>)
-//     if err != nil {
-//         return errors.Wrap(err, "while calling <local>.ConvertTo(<source>)")
-//     }
-// }
-// <destination> = <local>
-//
-// For ConvertTo:
-//
-// var <local> <destinationType>
-// if <source> != nil {
-//     err := <source>.ConvertTo(&<local>)
-//     if err != nil {
-//         return errors.Wrap(err, "while calling <local>.ConvertTo(<source>)")
-//     }
-// }
-// <destination> = <local>
-//
-func assignObjectTypeFromOptionalObjectType(
+func assignKnownReferenceFromKnownReference(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *StorageConversionContext) StorageTypeConversion {
+	_ *StorageConversionContext) StorageTypeConversion {
 
-	// Require source to be optional
-	if _, sourceIsOptional := AsOptionalType(sourceEndpoint.Type()); !sourceIsOptional {
+	// Require source to be non-optional
+	if _, sourceIsOptional := AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
 		return nil
 	}
 
@@ -903,57 +861,30 @@ func assignObjectTypeFromOptionalObjectType(
 		return nil
 	}
 
-	// Require source to be an object
-	_, sourceType, sourceFound := conversionContext.ResolveType(sourceEndpoint.Type())
-	if !sourceFound {
-		return nil
-	}
-	if _, sourceIsObject := AsObjectType(sourceType); !sourceIsObject {
+	// Require source to be a named type
+	sourceName, sourceIsName := AsTypeName(sourceEndpoint.Type())
+	if !sourceIsName {
 		return nil
 	}
 
-	// Require destination to be an object
-	destinationName, destinationType, destinationFound := conversionContext.ResolveType(destinationEndpoint.Type())
-	if !destinationFound {
-		return nil
-	}
-	_, destinationIsObject := AsObjectType(destinationType)
-	if !destinationIsObject {
+	// Require destination to be a named type
+	destinationName, destinationIsName := AsTypeName(destinationEndpoint.Type())
+	if !destinationIsName {
 		return nil
 	}
 
-	copyVar := destinationEndpoint.CreateLocal()
+	// Require source to be a KnownResourceReference
+	if sourceName.Name() != "KnownResourceReference" {
+		return nil
+	}
+
+	// Require destination to be a KnownResourceReference
+	if destinationName.Name() != "KnownResourceReference" {
+		return nil
+	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *CodeGenerationContext) []dst.Stmt {
-
-		localId := dst.NewIdent(copyVar)
-		errLocal := dst.NewIdent("err")
-
-		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
-
-		var conversion dst.Stmt
-		if destinationName.PackageReference.Equals(generationContext.CurrentPackage()) {
-			conversion = astbuilder.SimpleAssignment(
-				errLocal,
-				token.DEFINE,
-				astbuilder.CallExpr(localId, conversionContext.functionName, astbuilder.AddrOf(reader)))
-		} else {
-			conversion = astbuilder.SimpleAssignment(
-				errLocal,
-				token.DEFINE,
-				astbuilder.CallExpr(reader, conversionContext.functionName, localId))
-		}
-
-		checkForError := astbuilder.ReturnIfNotNil(
-			errLocal,
-			astbuilder.WrappedErrorf(
-				"populating %s from %s, calling %s()",
-				destinationEndpoint.name, sourceEndpoint.name, conversionContext.functionName))
-
-		safeConversion := astbuilder.IfNotNil(reader, conversion, checkForError)
-
-		assignment := writer(dst.NewIdent(copyVar))
-		return astbuilder.Statements(declaration, safeConversion, assignment)
+		return writer(astbuilder.CallExpr(reader, "Copy"))
 	}
 }
 
@@ -964,23 +895,4 @@ func createTypeDeclaration(name TypeName, generationContext *CodeGenerationConte
 
 	packageName := generationContext.MustGetImportedPackageName(name.PackageReference)
 	return astbuilder.Selector(dst.NewIdent(packageName), name.Name())
-}
-
-func zeroValue(p *PrimitiveType) string {
-	switch p {
-	case StringType:
-		return "\"\""
-	case IntType:
-		return "0"
-	case FloatType:
-		return "0"
-	case UInt32Type:
-		return "0"
-	case UInt64Type:
-		return "0"
-	case BoolType:
-		return "false"
-	default:
-		panic(fmt.Sprintf("unexpected primitive type %q", p.String()))
-	}
 }

@@ -33,13 +33,11 @@ func (person Person) ConvertToVNext(destination *vNext.Person) error {
 	for scoreIndex, scoreItem := range person.scores {
 		// Shadow the loop variable to avoid aliasing
 		scoreItem := scoreItem
-		var score int
 		if scoreItem != nil {
-			score = *scoreItem
+			scoreList[scoreIndex] = *scoreItem
 		} else {
-			score = 0
+			scoreList[scoreIndex] = 0
 		}
-		scoreList[scoreIndex] = score
 	}
 	destination.scores = scoreList
 

@@ -7,7 +7,6 @@ package astmodel
 
 import (
 	"fmt"
-
 	"github.com/dave/dst"
 )
 
@@ -50,6 +49,11 @@ func (m *MapType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr 
 		Key:   m.key.AsType(codeGenerationContext),
 		Value: m.value.AsType(codeGenerationContext),
 	}
+}
+
+// AsZero renders an expression for the "zero" value of a map by calling make()
+func (m *MapType) AsZero(_ Types, ctx *CodeGenerationContext) dst.Expr {
+	return dst.NewIdent("nil")
 }
 
 // RequiredPackageReferences returns a list of packages required by this
