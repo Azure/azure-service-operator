@@ -58,6 +58,59 @@ func init() {
 
 // createTypeConversion tries to create a type conversion between the two provided types, using
 // all of the available type conversion functions in priority order to do so.
+//
+// The method works by considering the conversion requested by sourceEndpoint & destinationEndpoint,
+// with recursive calls breaking the conversion down into multiple steps that are then combined.
+//
+// Example:
+//
+// createTypeConversion() is called to create a conversion from an optional string to an optional
+// Sku, where Sku is a new type based on string:
+//
+// source *string => destination *Sku
+//
+// assuming
+//     type Sku string
+//
+// assignFromOptionalType can handle the optionality of sourceEndpoint and makes a recursive call
+// to createTypeConversion() with the simpler target:
+//
+// source string => destination *Sku
+//
+//     assignToOptionalType can handle the optionality of destinationEndpoint and makes a recursive
+//     call to createTypeConversion() with a simpler target:
+//
+//     source string => destination Sku
+//
+//         assignToAliasedPrimitiveType can handle the type conversion of string to Sku, and makes
+//         a recursive call to createTypeConversion() with a simpler target:
+//
+//         source string => destination string
+//
+//             assignPrimitiveTypeFromPrimitiveType can handle primitive values, and generates a
+//             conversion that does a simple assignment:
+//
+//             destination = source
+//
+//         assignToAliasedPrimitiveType injects the necessary type conversion:
+//
+//         destination = Sku(source)
+//
+//     assignToOptionalType injects a local variable and takes it's address
+//
+//     sku := Sku(source)
+//     destination = &sku
+//
+// finally, assignFromOptionalType injects the check to see if we have a value to assign in the
+// first place, assigning a suitable zero value if we don't:
+//
+// if source != nil {
+//     sku := Sku(source)
+//     destination := &sku
+// } else {
+//     destination := ""
+// }
+//
 func createTypeConversion(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
