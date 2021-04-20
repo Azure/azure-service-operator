@@ -76,7 +76,7 @@ func NewStorageConversionFromFunction(
 	result.name = "ConvertFrom" + version
 	result.conversionContext = conversionContext.WithFunctionName(result.name)
 
-	err := result.createConversions(receiver)
+	err := result.createConversions(receiver, conversionContext.types)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating '%s()'", result.name)
 	}
@@ -103,7 +103,7 @@ func NewStorageConversionToFunction(
 	result.name = "ConvertTo" + version
 	result.conversionContext = conversionContext.WithFunctionName(result.name)
 
-	err := result.createConversions(receiver)
+	err := result.createConversions(receiver, conversionContext.types)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating '%s()'", result.name)
 	}
@@ -277,14 +277,17 @@ func (fn *StorageConversionFunction) generateAssignments(
 
 // createConversions iterates through the properties on our receiver type, matching them up with
 // our other type and generating conversions where possible
-func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition) error {
+func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition, types Types) error {
 
 	receiverObject, ok := AsObjectType(receiver.Type())
 	if !ok {
+		var typeDescription strings.Builder
+		receiver.Type().WriteDebugDescription(&typeDescription, types)
+
 		return errors.Errorf(
 			"expected TypeDefinition %q to wrap receiver object type, but found %q",
 			receiver.name.String(),
-			receiver.Type())
+			typeDescription.String())
 	}
 
 	var otherObject *ObjectType

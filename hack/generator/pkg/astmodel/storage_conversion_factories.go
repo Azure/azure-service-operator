@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"go/token"
+	"strings"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
@@ -123,10 +124,16 @@ func createTypeConversion(
 		}
 	}
 
+	var debugDescriptionOfDestination strings.Builder
+	destinationEndpoint.Type().WriteDebugDescription(&debugDescriptionOfDestination, conversionContext.types)
+
+	var debugDescriptionOfSource strings.Builder
+	sourceEndpoint.Type().WriteDebugDescription(&debugDescriptionOfSource, conversionContext.types)
+
 	err := errors.Errorf(
 		"no conversion found to assign %q from %q",
-		destinationEndpoint.name,
-		sourceEndpoint.name)
+		debugDescriptionOfDestination.String(),
+		debugDescriptionOfSource.String())
 
 	return nil, err
 }
