@@ -15,12 +15,17 @@ import (
 
 // Each StorageTypeFactory is used to create storage types for a specific service
 type StorageTypeFactory struct {
-	service                  string                     // Name of the service we're handling (used mostly for logging)
-	types                    astmodel.Types             // All the types for this service
-	propertyConversions      []propertyConversion       // Conversion rules to use for properties when creating storage variants
-	pendingStorageConversion astmodel.TypeNameQueue     // Queue of types that need storage variants created for them
-	idFactory                astmodel.IdentifierFactory // Factory for creating identifiers
-	storageTypesVisitor      *astmodel.TypeVisitor      // A cached type visitor used to create storage variants
+	service                    string                     // Name of the service we're handling (used mostly for logging)
+	types                      astmodel.Types             // All the types for this service
+	propertyConversions        []propertyConversion       // Conversion rules to use for properties when creating storage variants
+	pendingStorageConversion   astmodel.TypeNameQueue     // Queue of types that need storage variants created for them
+	pendingConversionInjection astmodel.TypeNameQueue     // Queue of types that need conversion functions injected
+	idFactory                  astmodel.IdentifierFactory // Factory for creating identifiers
+	storageTypesVisitor        *astmodel.TypeVisitor      // A cached type visitor used to create storage variants
+
+	// Map of conversion links for creating our conversion graph
+	// (Can't use PackageReferences as keys, so keyed by the full package path)
+	conversionMap map[string]astmodel.PackageReference
 }
 
 /*
@@ -31,9 +36,11 @@ type StorageTypeFactory struct {
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
 func NewStorageTypeFactory(idFactory astmodel.IdentifierFactory) *StorageTypeFactory {
 	result := &StorageTypeFactory{
-		types:                    make(astmodel.Types),
-		pendingStorageConversion: astmodel.MakeTypeNameQueue(),
-		idFactory:                idFactory,
+		types:                      make(astmodel.Types),
+		pendingStorageConversion:   astmodel.MakeTypeNameQueue(),
+		pendingConversionInjection: astmodel.MakeTypeNameQueue(),
+		idFactory:                  idFactory,
+		conversionMap:              make(map[string]astmodel.PackageReference),
 	}
 
 	result.propertyConversions = []propertyConversion{
@@ -81,6 +88,11 @@ func (f *StorageTypeFactory) process() error {
 		return err
 	}
 
+	err = f.pendingConversionInjection.Process(f.injectConversions)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -107,7 +119,64 @@ func (f *StorageTypeFactory) createStorageVariant(name astmodel.TypeName) error 
 	storageDef = storageDef.WithDescription(desc)
 
 	f.types.Add(storageDef)
-	//TODO: Queue for injection of conversion functions
+
+	// Add API-Package -> Storage-Package link into the conversion map
+	f.conversionMap[name.PackageReference.PackagePath()] = storageDef.Name().PackageReference
+
+	// Queue for injection of conversion functions
+	f.pendingConversionInjection.Enqueue(name)
+
+	//TODO: Queue storage type for injection of conversion too
+
+	return nil
+}
+
+// injectConversions modifies the named type by injecting the required conversion methods using
+// the conversionMap we've previously established
+func (f *StorageTypeFactory) injectConversions(name astmodel.TypeName) error {
+	klog.V(3).Infof("Injecting conversion functions into %s", name)
+
+	// Find the definition to modify
+	def, ok := f.types[name]
+	if !ok {
+		return errors.Errorf("failed to find definition for %q", name)
+	}
+
+	// Find the definition we want to convert to/from
+	nextPackage, ok := f.conversionMap[name.PackageReference.PackagePath()]
+	nextName := astmodel.MakeTypeName(nextPackage, name.Name())
+	nextDef, ok := f.types[nextName]
+	if !ok {
+		// No next type so nothing to do
+		// (this is expected if the type is discontinued)
+		return nil
+	}
+
+	// Create conversion functions
+	conversionContext := astmodel.NewStorageConversionContext(f.types)
+
+	convertFrom, err := astmodel.NewStorageConversionFromFunction(def, nextDef, f.idFactory, conversionContext)
+	if err != nil {
+		return errors.Wrapf(err, "creating ConvertFrom() function for %q", name)
+	}
+
+	convertTo, err := astmodel.NewStorageConversionToFunction(def, nextDef, f.idFactory, conversionContext)
+	if err != nil {
+		return errors.Wrapf(err, "creating ConvertTo() function for %q", name)
+	}
+
+	// Update the object underlying our definition to include these functions
+	objectType, isObjectType := astmodel.AsObjectType(def.Type())
+	if !isObjectType {
+		// This shouldn't happen because only objects should be added to the
+		// pendingConversionInjection queue
+		return errors.Errorf("expected %q to be an object definition", def.Name())
+	}
+	objectType = objectType.WithFunction(convertFrom).WithFunction(convertTo)
+	def = def.WithType(objectType)
+
+	// Update our map
+	f.types[name] = def
 
 	return nil
 }
@@ -115,25 +184,7 @@ func (f *StorageTypeFactory) createStorageVariant(name astmodel.TypeName) error 
 /*
 // createApiVariant modifies an existing object definition by adding the required conversion functions
 func (f *StorageTypeFactory) createApiVariant(apiDef astmodel.TypeDefinition, storageDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-	objectType, isObjectType := astmodel.AsObjectType(apiDef.Type())
-	if !isObjectType {
-		return astmodel.TypeDefinition{}, errors.Errorf("Expected %q to be an object definition", apiDef.Name())
-	}
 
-	// Create conversion functions
-	conversionContext := astmodel.NewStorageConversionContext(f.types)
-	convertFrom, err := astmodel.NewStorageConversionFromFunction(apiDef, storageDef, f.idFactory, conversionContext)
-	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating ConvertFrom() function for %q", apiDef.Name())
-	}
-
-	convertTo, err := astmodel.NewStorageConversionToFunction(apiDef, storageDef, f.idFactory, conversionContext)
-	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating ConvertTo() function for %q", apiDef.Name())
-	}
-
-	objectType = objectType.WithFunction(convertFrom).WithFunction(convertTo)
-	return apiDef.WithType(objectType), nil
 }
 
 */
