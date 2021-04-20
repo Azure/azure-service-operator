@@ -94,7 +94,7 @@ func (pr LocalPackageReference) Equals(ref PackageReference) bool {
 
 // String returns the string representation of the package reference
 func (pr LocalPackageReference) String() string {
-	return "local/" + pr.group + "/" + pr.version
+	return fmt.Sprintf("local:%s/%s", pr.group, pr.version)
 }
 
 // IsPreview returns true if this package reference is a preview

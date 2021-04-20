@@ -48,9 +48,9 @@ type StorageConversionFunction struct {
 type StorageConversionDirection int
 
 const (
-	// Indicates the conversion is from the passed other instance, populating the receiver
+	// ConvertFrom indicates the conversion is from the passed other instance, populating the receiver
 	ConvertFrom = StorageConversionDirection(1)
-	// Indicate the conversion is to the passed other type, populating other
+	// ConvertTo indicates the conversion is to the passed other type, populating other
 	ConvertTo = StorageConversionDirection(2)
 )
 

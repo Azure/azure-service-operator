@@ -41,7 +41,13 @@ func NewStorageTypeFactory(idFactory astmodel.IdentifierFactory) *StorageTypeFac
 		result.convertPropertiesForStorage,
 	}
 
-	result.storageTypesVisitor = result.newStorageTypesVisitor()
+	result.storageConverter = astmodel.TypeVisitorBuilder{
+		VisitResourceType:  result.convertResourceType,
+		VisitObjectType:    result.convertObjectType,
+		VisitTypeName:      result.redirectTypeNamesToStoragePackage,
+		VisitValidatedType: result.stripAllValidations,
+		VisitFlaggedType:   result.stripAllFlags,
+	}.Build()
 
 	return result
 }
@@ -76,42 +82,6 @@ func (f *StorageTypeFactory) process() error {
 	}
 
 	return nil
-	/*
-		var errs []error
-
-
-		visitor := f.newStorageTypesVisitor()
-
-		for len(f.queued) > 0 {
-			def := f.queued[0]
-			f.queued = f.queued[1:]
-
-			if _, isObjectType := astmodel.AsObjectType(def.Type()); !isObjectType {
-				// Not an object type, just skip it
-				continue
-			}
-
-			// Create our storage variant
-			sv, err := f.createStorageVariant(def, visitor)
-			if err != nil {
-				klog.Warningf("Error creating storage variant of %s: %s", def.Name(), err)
-				continue
-			}
-
-			// Create an API variant with the necessary conversion functions
-			av, err := f.createApiVariant(def, sv)
-			if err != nil {
-				errs = append(errs, err)
-				continue
-			}
-
-			f.apiTypes.Add(av)
-			f.storageTypes.Add(sv)
-		}
-
-		return kerrors.NewAggregate(errs)
-	*/
-
 }
 
 // createStorageVariant takes an existing object definition and creates a storage variant in a
