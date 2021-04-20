@@ -251,13 +251,11 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 			}
 		}
 
-		err = userSecretClient.Delete(
+		// Purposefully ignoring error here for now
+		userSecretClient.Delete(
 			ctx,
 			userSecretKey,
 			secrets.Flatten(true, toDelete...))
-		if err != nil {
-			return false, err
-		}
 
 		err = userSecretClient.Upsert(
 			ctx,
