@@ -21,17 +21,13 @@ type StorageTypeFactory struct {
 	pendingStorageConversion   astmodel.TypeNameQueue     // Queue of types that need storage variants created for them
 	pendingConversionInjection astmodel.TypeNameQueue     // Queue of types that need conversion functions injected
 	idFactory                  astmodel.IdentifierFactory // Factory for creating identifiers
-	storageTypesVisitor        *astmodel.TypeVisitor      // A cached type visitor used to create storage variants
+	storageConverter           astmodel.TypeVisitor       // a cached type visitor used to create storage variants
+	propertyConverter          astmodel.TypeVisitor       // a cached type visitor used to simplify property types
 
 	// Map of conversion links for creating our conversion graph
 	// (Can't use PackageReferences as keys, so keyed by the full package path)
 	conversionMap map[string]astmodel.PackageReference
 }
-
-/*
-	apiTypes            astmodel.Types             // Modified types
-	storageTypes        astmodel.Types             // Storage variants of apiTypes
-*/
 
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
 func NewStorageTypeFactory(idFactory astmodel.IdentifierFactory) *StorageTypeFactory {
@@ -45,15 +41,21 @@ func NewStorageTypeFactory(idFactory astmodel.IdentifierFactory) *StorageTypeFac
 
 	result.propertyConversions = []propertyConversion{
 		result.preserveKubernetesResourceStorageProperties,
-		result.convertPropertiesForStorage,
+		result.defaultPropertyConversion,
 	}
 
 	result.storageConverter = astmodel.TypeVisitorBuilder{
-		VisitResourceType:  result.convertResourceType,
 		VisitObjectType:    result.convertObjectType,
+		VisitResourceType:  result.convertResourceType,
 		VisitTypeName:      result.redirectTypeNamesToStoragePackage,
 		VisitValidatedType: result.stripAllValidations,
 		VisitFlaggedType:   result.stripAllFlags,
+	}.Build()
+
+	result.propertyConverter = astmodel.TypeVisitorBuilder{
+		VisitEnumType:      result.useBaseTypeForEnumerations,
+		VisitValidatedType: result.stripAllValidations,
+		VisitTypeName:      result.shortCircuitNamesOfSimpleTypes,
 	}.Build()
 
 	return result
@@ -109,8 +111,7 @@ func (f *StorageTypeFactory) createStorageVariant(name astmodel.TypeName) error 
 		return errors.Errorf("failed to find definition for %q", name)
 	}
 
-	vc := MakeStorageTypesVisitorContext()
-	storageDef, err := f.storageTypesVisitor.VisitDefinition(def, vc)
+	storageDef, err := f.storageConverter.VisitDefinition(def, nil)
 	if err != nil {
 		return errors.Wrapf(err, "creating storage variant for %q", name)
 	}
@@ -189,58 +190,22 @@ func (f *StorageTypeFactory) createApiVariant(apiDef astmodel.TypeDefinition, st
 
 */
 
-// newStorageTypesVisitor returns a TypeVisitor to do the creation of dedicated storage types
-func (f *StorageTypeFactory) newStorageTypesVisitor() *astmodel.TypeVisitor {
-	result := astmodel.MakeTypeVisitor()
-	result.VisitValidatedType = f.visitValidatedType
-	result.VisitTypeName = f.visitTypeName
-	result.VisitObjectType = f.visitObjectType
-	result.VisitResourceType = f.visitResourceType
-	result.VisitFlaggedType = f.visitFlaggedType
-	return &result
-}
-
-// A property conversion accepts a property definition and optionally applies a conversion to make
-// the property suitable for use on a storage type. Conversions return nil if they decline to
-// convert, deferring the conversion to another.
-type propertyConversion = func(property *astmodel.PropertyDefinition, tv *astmodel.TypeVisitor, ctx StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error)
-
-func (f *StorageTypeFactory) visitValidatedType(this *astmodel.TypeVisitor,
-	v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
+func (f *StorageTypeFactory) stripAllValidations(
+	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
 	// strip all type validations from storage types,
 	// act as if they do not exist
 	return this.Visit(v.ElementType(), ctx)
 }
 
-func (f *StorageTypeFactory) visitTypeName(_ *astmodel.TypeVisitor, name astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
-	visitorContext := ctx.(StorageTypesVisitorContext)
-
-	// Resolve the type name to the actual referenced type
-	actualType, err := f.types.FullyResolve(name)
-	if err != nil {
-		return nil, errors.Wrapf(err, "visiting type name %q", name)
+func (f *StorageTypeFactory) redirectTypeNamesToStoragePackage(_ *astmodel.TypeVisitor, name astmodel.TypeName, _ interface{}) (astmodel.Type, error) {
+	if result, ok := f.tryConvertToStorageNamespace(name); ok {
+		return result, nil
 	}
 
-	// Check for property specific handling
-	if visitorContext.property != nil {
-		if et, ok := astmodel.AsEnumType(actualType); ok {
-			// Property type refers to an enum, so we use the base type instead
-			return et.BaseType(), nil
-		}
-	}
-
-	// Map the type name into our storage namespace
-	localRef, ok := name.PackageReference.AsLocalPackage()
-	if !ok {
-		return name, nil
-	}
-
-	storageRef := astmodel.MakeStoragePackageReference(localRef)
-	visitedName := astmodel.MakeTypeName(storageRef, name.Name())
-	return visitedName, nil
+	return name, nil
 }
 
-func (f *StorageTypeFactory) visitResourceType(
+func (f *StorageTypeFactory) convertResourceType(
 	tv *astmodel.TypeVisitor,
 	resource *astmodel.ResourceType,
 	ctx interface{}) (astmodel.Type, error) {
@@ -251,17 +216,15 @@ func (f *StorageTypeFactory) visitResourceType(
 	return astmodel.IdentityVisitOfResourceType(tv, rsrc, ctx)
 }
 
-func (f *StorageTypeFactory) visitObjectType(
-	tv *astmodel.TypeVisitor,
+func (f *StorageTypeFactory) convertObjectType(
+	_ *astmodel.TypeVisitor,
 	object *astmodel.ObjectType,
-	ctx interface{}) (astmodel.Type, error) {
-	visitorContext := ctx.(StorageTypesVisitorContext)
-	objectContext := visitorContext.forObject(object)
+	_ interface{}) (astmodel.Type, error) {
 
 	var errs []error
 	properties := object.Properties()
 	for i, prop := range properties {
-		p, err := f.makeStorageProperty(prop, tv, objectContext)
+		p, err := f.makeStorageProperty(prop)
 		if err != nil {
 			errs = append(errs, errors.Wrapf(err, "property %s", prop.PropertyName()))
 		} else {
@@ -278,14 +241,24 @@ func (f *StorageTypeFactory) visitObjectType(
 	return astmodel.StorageFlag.ApplyTo(objectType), nil
 }
 
+func (f *StorageTypeFactory) stripAllFlags(
+	tv *astmodel.TypeVisitor,
+	flaggedType *astmodel.FlaggedType,
+	ctx interface{}) (astmodel.Type, error) {
+	if flaggedType.HasFlag(astmodel.ARMFlag) {
+		// We don't want to do anything with ARM types
+		return flaggedType, nil
+	}
+
+	return astmodel.IdentityVisitOfFlaggedType(tv, flaggedType, ctx)
+}
+
 // makeStorageProperty applies a conversion to make a variant of the property for use when
 // serializing to storage
 func (f *StorageTypeFactory) makeStorageProperty(
-	prop *astmodel.PropertyDefinition,
-	tv *astmodel.TypeVisitor,
-	objectContext StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error) {
+	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
 	for _, conv := range f.propertyConversions {
-		p, err := conv(prop, tv, objectContext.forProperty(prop))
+		p, err := conv(prop)
 		if err != nil {
 			// Something went wrong, return the error
 			return nil, err
@@ -299,26 +272,59 @@ func (f *StorageTypeFactory) makeStorageProperty(
 	return nil, fmt.Errorf("failed to find a conversion for property %v", prop.PropertyName())
 }
 
+// A property conversion accepts a property definition and optionally applies a conversion to make
+// the property suitable for use on a storage type. Conversions return nil if they decline to
+// convert, deferring the conversion to another.
+type propertyConversion = func(property *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error)
+
+func (f *StorageTypeFactory) useBaseTypeForEnumerations(
+	tv *astmodel.TypeVisitor, et *astmodel.EnumType, ctx interface{}) (astmodel.Type, error) {
+	return tv.Visit(et.BaseType(), ctx)
+}
+
+func (f *StorageTypeFactory) shortCircuitNamesOfSimpleTypes(
+	tv *astmodel.TypeVisitor, tn astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+
+	actualType, err := f.types.FullyResolve(tn)
+	if err != nil {
+		// Can't resolve to underlying type, give up
+		return nil, err
+	}
+
+	_, isObject := astmodel.AsObjectType(actualType)
+	_, isResource := astmodel.AsResourceType(actualType)
+
+	if isObject || isResource {
+		// We have an object or a resource, redirect to our storage namespace if we can
+		if storageName, ok := f.tryConvertToStorageNamespace(tn); ok {
+			return storageName, nil
+		}
+
+		// Otherwise just keep the name
+		return tn, nil
+	}
+
+	// Replace the name with the underlying type
+	return tv.Visit(actualType, ctx)
+}
+
 // preserveKubernetesResourceStorageProperties preserves properties required by the
-// KubernetesResource interface as they're always required
+// KubernetesResource interface as they're always required exactly as declared
 func (f *StorageTypeFactory) preserveKubernetesResourceStorageProperties(
-	prop *astmodel.PropertyDefinition,
-	_ *astmodel.TypeVisitor,
-	_ StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error) {
+	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
+
 	if astmodel.IsKubernetesResourceProperty(prop.PropertyName()) {
 		// Keep these unchanged
 		return prop, nil
 	}
 
-	// No opinion, defer to another conversion
+	// Not a kubernetes type, defer to another conversion
 	return nil, nil
 }
 
-func (f *StorageTypeFactory) convertPropertiesForStorage(
-	prop *astmodel.PropertyDefinition,
-	tv *astmodel.TypeVisitor,
-	objectContext StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error) {
-	propertyType, err := tv.Visit(prop.PropertyType(), objectContext)
+func (f *StorageTypeFactory) defaultPropertyConversion(
+	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
+	propertyType, err := f.propertyConverter.Visit(prop.PropertyType(), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -328,18 +334,6 @@ func (f *StorageTypeFactory) convertPropertiesForStorage(
 		WithDescription("")
 
 	return p, nil
-}
-
-func (f *StorageTypeFactory) visitFlaggedType(
-	tv *astmodel.TypeVisitor,
-	flaggedType *astmodel.FlaggedType,
-	ctx interface{}) (astmodel.Type, error) {
-	if flaggedType.HasFlag(astmodel.ArmFlag) {
-		// We don't want to do anything with ARM types
-		return flaggedType, nil
-	}
-
-	return astmodel.IdentityVisitOfFlaggedType(tv, flaggedType, ctx)
 }
 
 // descriptionForStorageVariant creates a description for a storage variant, indicating which
@@ -353,4 +347,16 @@ func (f *StorageTypeFactory) descriptionForStorageVariant(definition astmodel.Ty
 	result = append(result, definition.Description()...)
 
 	return result
+}
+
+func (f *StorageTypeFactory) tryConvertToStorageNamespace(name astmodel.TypeName) (astmodel.TypeName, bool) {
+	// Map the type name into our storage namespace
+	localRef, ok := name.PackageReference.AsLocalPackage()
+	if !ok {
+		return astmodel.TypeName{}, false
+	}
+
+	storageRef := astmodel.MakeStoragePackageReference(localRef)
+	visitedName := astmodel.MakeTypeName(storageRef, name.Name())
+	return visitedName, true
 }
