@@ -11,6 +11,7 @@ determineResourceOwnership                     Determine ARM resource relationsh
 removeAliases                                  Remove type aliases
 pluralizeNames                                 Improve resource pluralization
 stripUnreferenced                              Strip unreferenced types
+assertTypesStructureValid                      Asserts that the types collection is valid
 filterTypes                                    Filter generated types
 stripUnreferenced                              Strip unreferenced types
 replaceAnyTypeWithJSON                         Replacing interface{}s with arbitrary JSON
