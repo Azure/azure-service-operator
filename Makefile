@@ -345,9 +345,13 @@ endif
 .PHONY: generate-operator-bundle
 generate-operator-bundle: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
 generate-operator-bundle: manifests
+	rm -r bundle
 	@echo "Latest released tag is $(LATEST_TAG)"
 	kustomize build config/operator-bundle | operator-sdk generate bundle --version $(LATEST_TAG) --channels stable --default-channel stable --overwrite --kustomize-dir config/operator-bundle
 	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh
 	# Inject the SHA-based container reference into the bundle.
 	scripts/inject-container-reference.sh "$(PUBLIC_REPO)@$(LATEST_TAG)"
+	# Rename files so they're easy to add to the community-operators repo for a PR
+	mv bundle/manifests bundle/$(LATEST_TAG)
+	mv bundle/$(LATEST_TAG)/azure-service-operator.clusterserviceversion.yaml bundle/$(LATEST_TAG)/azure-service-operator.v$(LATEST_TAG).clusterserviceversion.yaml

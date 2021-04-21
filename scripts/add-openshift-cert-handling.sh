@@ -7,7 +7,7 @@ set -euo pipefail
 for fname in $(grep cert-manager.io bundle/manifests/* -l); do
     sed -i '/cert-manager.io\/inject-ca-from/a\    service.beta.openshift.io/inject-cabundle: "true"' $fname
 done
-cat <<EOF > bundle/manifests/service.yaml
+cat <<EOF > bundle/manifests/azureoperator-webhook-service.yaml
 kind: Service
 metadata:
   name: azureoperator-webhook-service
