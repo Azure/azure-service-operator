@@ -2,7 +2,7 @@ PUBLIC_REPO=mcr.microsoft.com/k8s/azureserviceoperator
 PLACEHOLDER_IMAGE=controller:latest
 
 # Image URL to use all building/pushing image targets
-IMG ?= controller:latest
+IMG ?= $(PLACEHOLDER_IMAGE)
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
@@ -342,16 +342,12 @@ else
 	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
 endif
 
-# Current operator version
-VERSION ?= 0.37.0
-
 .PHONY: generate-operator-bundle
-generate-operator-bundle: LATEST_VERSION := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
-generate-operator-bundle: LATEST_TAG := $(PUBLIC_REPO):$(LATEST_VERSION)
-generate-operator-bundle: LATEST_SHA := $(shell docker pull $(LATEST_TAG) > /dev/null && docker image inspect $(LATEST_TAG) | jq --raw-output '.[0].Id' )
+generate-operator-bundle: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
 generate-operator-bundle: manifests
-	kustomize build config/manifests | operator-sdk generate bundle --version $(VERSION) --channels stable --default-channel stable --overwrite
+	@echo "Latest released tag is $(LATEST_TAG)"
+	kustomize build config/operator-bundle | operator-sdk generate bundle --version $(LATEST_TAG) --channels stable --default-channel stable --overwrite --kustomize-dir config/operator-bundle
 	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh
 	# Inject the SHA-based container reference into the bundle.
-	scripts/inject-container-reference.sh "$(PUBLIC_REPO)@$(LATEST_SHA)"
+	scripts/inject-container-reference.sh "$(PUBLIC_REPO)@$(LATEST_TAG)"
