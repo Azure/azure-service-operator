@@ -1,5 +1,8 @@
+PUBLIC_REPO=mcr.microsoft.com/k8s/azureserviceoperator
+PLACEHOLDER_IMAGE=controller:latest
+
 # Image URL to use all building/pushing image targets
-IMG ?= controller:latest
+IMG ?= $(PLACEHOLDER_IMAGE)
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
@@ -175,11 +178,11 @@ validate-cainjection-files:
 
 # Generate manifests for helm and package them up
 .PHONY: helm-chart-manifests
-helm-chart-manifests: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq .tag_name | sed 's/"//g')
+helm-chart-manifests: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
 helm-chart-manifests: generate
 	@echo "Latest released tag is $(LATEST_TAG)"
 	# substitute released tag into values file.
-	perl -pi -e 's,repository: mcr.microsoft.com/k8s/azureserviceoperator:\K.*,$(LATEST_TAG),' ./charts/azure-service-operator/values.yaml
+	perl -pi -e 's,repository: $(PUBLIC_REPO):\K.*,$(LATEST_TAG),' ./charts/azure-service-operator/values.yaml
 	# remove generated files
 	rm -rf charts/azure-service-operator/templates/generated/
 	rm -rf charts/azure-service-operator/crds
@@ -339,12 +342,16 @@ else
 	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
 endif
 
-# Current operator version
-VERSION ?= 0.37.0
-
+.PHONY: generate-operator-bundle
+generate-operator-bundle: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
 generate-operator-bundle: manifests
-	kustomize build config/manifests | operator-sdk generate bundle --version $(VERSION) --channels stable --default-channel stable --overwrite
+	rm -r bundle
+	@echo "Latest released tag is $(LATEST_TAG)"
+	kustomize build config/operator-bundle | operator-sdk generate bundle --version $(LATEST_TAG) --channels stable --default-channel stable --overwrite --kustomize-dir config/operator-bundle
 	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh
-	# Rather than modify config/rbac manifests, replace CSV's default serviceAccount with azure-service-operator
-	sed -i 's/serviceAccountName: default/serviceAccountName: azure-service-operator/g' bundle/manifests/azure-service-operator.clusterserviceversion.yaml
+	# Inject the container reference into the bundle.
+	scripts/inject-container-reference.sh "$(PUBLIC_REPO)@$(LATEST_TAG)"
+	# Rename files so they're easy to add to the community-operators repo for a PR
+	mv bundle/manifests bundle/$(LATEST_TAG)
+	mv bundle/$(LATEST_TAG)/azure-service-operator.clusterserviceversion.yaml bundle/$(LATEST_TAG)/azure-service-operator.v$(LATEST_TAG).clusterserviceversion.yaml
