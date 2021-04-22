@@ -13,6 +13,11 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
+// TODO: These should become Status properties at some point.
+const (
+	ResourceIDAnnotation = "resource-id.infra.azure.com"
+)
+
 // MetaObject represents an arbitrary k8s-infra custom resource
 type MetaObject interface {
 	runtime.Object
@@ -48,6 +53,34 @@ type KubernetesResource interface {
 
 	// TODO: I think we need this
 	// SetStatus(status interface{})
+}
+
+// TODO: We really want these methods to be on MetaObject itself -- should update code generator to make them at some point
+func GetResourceID(obj MetaObject) (string, bool) {
+	result, ok := obj.GetAnnotations()[ResourceIDAnnotation]
+	return result, ok
+}
+
+func GetResourceIDOrDefault(obj MetaObject) string {
+	return obj.GetAnnotations()[ResourceIDAnnotation]
+}
+
+func SetResourceID(obj MetaObject, id string) {
+	AddAnnotation(obj, ResourceIDAnnotation, id)
+}
+
+func AddAnnotation(obj MetaObject, k string, v string) {
+	annotations := obj.GetAnnotations()
+	if annotations == nil {
+		annotations = map[string]string{}
+	}
+	// I think this is the behavior we want...
+	if v == "" {
+		delete(annotations, k)
+	} else {
+		annotations[k] = v
+	}
+	obj.SetAnnotations(annotations)
 }
 
 // ArmResourceSpec is an ARM resource specification. This interface contains

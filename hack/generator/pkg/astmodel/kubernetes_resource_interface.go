@@ -419,10 +419,7 @@ func ownerFunction(k *objectFunction, codeGenerationContext *CodeGenerationConte
 					createResourceReference(
 						"group",
 						"kind",
-						&dst.SelectorExpr{
-							X:   dst.NewIdent(receiverIdent),
-							Sel: dst.NewIdent("Spec"),
-						},
+						receiverIdent,
 					),
 				},
 			},
@@ -462,7 +459,12 @@ func lookupGroupAndKindStmt(
 func createResourceReference(
 	groupIdent string,
 	kindIdent string,
-	specSelector *dst.SelectorExpr) dst.Expr {
+	receiverIdent string) dst.Expr {
+
+	specSelector := &dst.SelectorExpr{
+		X:   dst.NewIdent(receiverIdent),
+		Sel: dst.NewIdent("Spec"),
+	}
 
 	return astbuilder.AddrOf(
 		&dst.CompositeLit{
@@ -472,6 +474,21 @@ func createResourceReference(
 			},
 			Elts: []dst.Expr{
 				&dst.KeyValueExpr{
+					Key:   dst.NewIdent("Group"),
+					Value: dst.NewIdent(groupIdent),
+				},
+				&dst.KeyValueExpr{
+					Key:   dst.NewIdent("Kind"),
+					Value: dst.NewIdent(kindIdent),
+				},
+				&dst.KeyValueExpr{
+					Key: dst.NewIdent("Namespace"),
+					Value: &dst.SelectorExpr{
+						X:   dst.NewIdent(receiverIdent),
+						Sel: dst.NewIdent("Namespace"),
+					},
+				},
+				&dst.KeyValueExpr{
 					Key: dst.NewIdent("Name"),
 					Value: &dst.SelectorExpr{
 						X: &dst.SelectorExpr{
@@ -480,14 +497,6 @@ func createResourceReference(
 						},
 						Sel: dst.NewIdent("Name"),
 					},
-				},
-				&dst.KeyValueExpr{
-					Key:   dst.NewIdent("Group"),
-					Value: dst.NewIdent(groupIdent),
-				},
-				&dst.KeyValueExpr{
-					Key:   dst.NewIdent("Kind"),
-					Value: dst.NewIdent(kindIdent),
 				},
 			},
 		})

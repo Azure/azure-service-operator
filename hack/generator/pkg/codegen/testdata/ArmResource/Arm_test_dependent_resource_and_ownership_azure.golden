@@ -43,7 +43,7 @@ func (a *A) AzureName() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (a *A) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(a.Spec)
-	return &genruntime.ResourceReference{Name: a.Spec.Owner.Name, Group: group, Kind: kind}
+	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: a.Namespace, Name: a.Spec.Owner.Name}
 }
 
 // +kubebuilder:object:root=true
@@ -110,7 +110,7 @@ func (b *B) AzureName() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (b *B) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(b.Spec)
-	return &genruntime.ResourceReference{Name: b.Spec.Owner.Name, Group: group, Kind: kind}
+	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: b.Namespace, Name: b.Spec.Owner.Name}
 }
 
 // +kubebuilder:object:root=true
@@ -177,7 +177,7 @@ func (c *C) AzureName() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (c *C) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(c.Spec)
-	return &genruntime.ResourceReference{Name: c.Spec.Owner.Name, Group: group, Kind: kind}
+	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: c.Namespace, Name: c.Spec.Owner.Name}
 }
 
 // +kubebuilder:object:root=true
@@ -244,7 +244,7 @@ func (d *D) AzureName() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (d *D) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(d.Spec)
-	return &genruntime.ResourceReference{Name: d.Spec.Owner.Name, Group: group, Kind: kind}
+	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: d.Namespace, Name: d.Spec.Owner.Name}
 }
 
 // +kubebuilder:object:root=true

@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package armresourceresolver
+package genruntime
 
 import (
 	"fmt"
@@ -37,25 +37,25 @@ func TestOwnerNotFound_Is(t *testing.T) {
 	}{
 		{
 			name:     "is equal to copy",
-			expected: NewOwnerNotFoundError(fooName, nil),
-			actual:   NewOwnerNotFoundError(fooName, nil),
+			expected: NewReferenceNotFoundError(fooName, nil),
+			actual:   NewReferenceNotFoundError(fooName, nil),
 			is:       true,
 		},
 		{
 			name:     "is equal to correct type with different NamespacedName instance",
-			expected: NewOwnerNotFoundError(fooName, nil),
-			actual:   NewOwnerNotFoundError(fooName2, nil),
+			expected: NewReferenceNotFoundError(fooName, nil),
+			actual:   NewReferenceNotFoundError(fooName2, nil),
 			is:       true,
 		},
 		{
 			name:     "is not equal to correct type with different NamespacedName",
-			expected: NewOwnerNotFoundError(fooName, nil),
-			actual:   NewOwnerNotFoundError(barName, nil),
+			expected: NewReferenceNotFoundError(fooName, nil),
+			actual:   NewReferenceNotFoundError(barName, nil),
 			is:       false,
 		},
 		{
 			name:     "is not equal to incorrect type",
-			expected: NewOwnerNotFoundError(fooName, nil),
+			expected: NewReferenceNotFoundError(fooName, nil),
 			actual:   errors.New("this is a test"),
 			is:       false,
 		},
@@ -78,9 +78,9 @@ func TestOwnerNotFound_AsCorrectType_Works(t *testing.T) {
 		Name:      "foo",
 	}
 
-	err := NewOwnerNotFoundError(fooName, nil)
+	err := NewReferenceNotFoundError(fooName, nil)
 
-	var e *OwnerNotFound
+	var e *ReferenceNotFound
 	g.Expect(errors.As(err, &e)).To(BeTrue())
 	g.Expect(e).To(Equal(err))
 }
@@ -93,7 +93,7 @@ func TestOwnerNotFound_AsIncorrectType_Fails(t *testing.T) {
 		Name:      "foo",
 	}
 
-	err := NewOwnerNotFoundError(fooName, nil)
+	err := NewReferenceNotFoundError(fooName, nil)
 
 	var e *apierrors.StatusError
 	g.Expect(errors.As(err, &e)).To(BeFalse())
@@ -108,7 +108,7 @@ func TestOwnerNotFound_RemembersCause(t *testing.T) {
 	}
 
 	cause := errors.New("I caused the problem")
-	err := errors.WithStack(NewOwnerNotFoundError(fooName, cause))
+	err := errors.WithStack(NewReferenceNotFoundError(fooName, cause))
 
 	g.Expect(errors.Cause(err)).To(Equal(cause))
 

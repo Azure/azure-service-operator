@@ -5,7 +5,10 @@
 
 package genruntime
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+)
 
 // KnownResourceReference is a resource reference to a known type.
 type KnownResourceReference struct {
@@ -19,17 +22,47 @@ type KnownResourceReference struct {
 	// disallowing cross-namespace references for now
 }
 
+var _ fmt.Stringer = ResourceReference{}
+
+// TODO: Need to fix up construction of this to include namespace in generated code
 type ResourceReference struct {
-	// The group of the referenced resource.
+	// Group is the Kubernetes group of the resource.
 	Group string `json:"group"`
-	// The kind of the referenced resource.
+	// Kind is the Kubernetes kind of the resource.
 	Kind string `json:"kind"`
-	// The name of the referenced resource.
+	// Namespace is the Kubernetes namespace of the resource.
+	Namespace string `json:"namespace"`
+	// Name is the Kubernetes name of the resource.
 	Name string `json:"name"`
 
 	// Note: Version is not required here because references are all about linking one Kubernetes
 	// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and
 	// name - the versions are just giving a different view on the same resource
+
+	// ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+	// ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+	ARMID string `json:"armId"`
+}
+
+func (ref ResourceReference) IsDirectARMReference() bool {
+	return ref.ARMID != "" && ref.Namespace == "" && ref.Name == "" && ref.Group == "" && ref.Kind == ""
+}
+
+func (ref ResourceReference) IsKubernetesReference() bool {
+	return ref.ARMID == "" && ref.Namespace != "" && ref.Name != "" && ref.Group != "" && ref.Kind != ""
+}
+
+func (ref ResourceReference) String() string {
+	if ref.IsDirectARMReference() {
+		return ref.ARMID
+	}
+
+	if ref.IsKubernetesReference() {
+		return fmt.Sprintf("Group: %q, Kind: %q, Namespace: %q, Name: %q", ref.Group, ref.Kind, ref.Namespace, ref.Name)
+	}
+
+	// Printing all the fields here just in case something weird happens and we have an ARMID and also Kubernetes reference stuff
+	return fmt.Sprintf("Group: %q, Kind: %q, Namespace: %q, Name: %q, ARMID: %q", ref.Group, ref.Kind, ref.Namespace, ref.Name, ref.ARMID)
 }
 
 // LookupOwnerGroupKind looks up an owners group and kind annotations using reflection.

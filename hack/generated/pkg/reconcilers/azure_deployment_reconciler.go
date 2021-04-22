@@ -32,7 +32,6 @@ import (
 	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/reflecthelpers"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/util/armresourceresolver"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/kubeclient"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/patch"
 )
@@ -45,7 +44,6 @@ const (
 	DeploymentIDAnnotation   = "deployment-id.infra.azure.com"
 	DeploymentNameAnnotation = "deployment-name.infra.azure.com"
 	ResourceStateAnnotation  = "resource-state.infra.azure.com"
-	ResourceIDAnnotation     = "resource-id.infra.azure.com"
 	ResourceErrorAnnotation  = "resource-error.infra.azure.com"
 	ResourceSigAnnotationKey = "resource-sig.infra.azure.com"
 	// PreserveDeploymentAnnotation is the key which tells the applier to keep or delete the deployment
@@ -82,17 +80,19 @@ type AzureDeploymentReconciler struct {
 	recorder             record.EventRecorder
 	ARMClient            armclient.Applier
 	KubeClient           *kubeclient.Client
-	ResourceResolver     *armresourceresolver.Resolver
+	ResourceResolver     *genruntime.Resolver
 	CreateDeploymentName func(obj metav1.Object) (string, error)
 }
 
+// TODO: It's a bit weird that this is a "reconciler" that operates only on a specific genruntime.MetaObject.
+// TODO: We probably want to refactor this to make metaObj a parameter?
 func NewAzureDeploymentReconciler(
 	metaObj genruntime.MetaObject,
 	log logr.Logger,
 	armClient armclient.Applier,
 	eventRecorder record.EventRecorder,
 	kubeClient *kubeclient.Client,
-	resourceResolver *armresourceresolver.Resolver,
+	resourceResolver *genruntime.Resolver,
 	createDeploymentName func(obj metav1.Object) (string, error)) genruntime.Reconciler {
 
 	return &AzureDeploymentReconciler{
@@ -159,7 +159,7 @@ func (r *AzureDeploymentReconciler) GetDeploymentID() (string, bool) {
 }
 
 func (r *AzureDeploymentReconciler) SetDeploymentID(id string) {
-	r.addAnnotation(DeploymentIDAnnotation, id)
+	genruntime.AddAnnotation(r.obj, DeploymentIDAnnotation, id)
 }
 
 func (r *AzureDeploymentReconciler) GetDeploymentName() (string, bool) {
@@ -173,7 +173,7 @@ func (r *AzureDeploymentReconciler) GetDeploymentNameOrDefault() string {
 }
 
 func (r *AzureDeploymentReconciler) SetDeploymentName(name string) {
-	r.addAnnotation(DeploymentNameAnnotation, name)
+	genruntime.AddAnnotation(r.obj, DeploymentNameAnnotation, name)
 }
 
 func (r *AzureDeploymentReconciler) GetShouldPreserveDeployment() bool {
@@ -193,25 +193,17 @@ func (r *AzureDeploymentReconciler) GetShouldPreserveDeployment() bool {
 	return preserveDeployment
 }
 
-func (r *AzureDeploymentReconciler) GetResourceIDOrDefault() string {
-	return r.obj.GetAnnotations()[ResourceIDAnnotation]
-}
-
-func (r *AzureDeploymentReconciler) SetResourceID(id string) {
-	r.addAnnotation(ResourceIDAnnotation, id)
-}
-
 func (r *AzureDeploymentReconciler) SetResourceProvisioningState(state armclient.ProvisioningState) {
 	// TODO: It's almost certainly not safe to use this as our serialized format as it's not guaranteed backwards compatible?
-	r.addAnnotation(ResourceStateAnnotation, string(state))
+	genruntime.AddAnnotation(r.obj, ResourceStateAnnotation, string(state))
 }
 
 func (r *AzureDeploymentReconciler) SetResourceError(error string) {
-	r.addAnnotation(ResourceErrorAnnotation, error)
+	genruntime.AddAnnotation(r.obj, ResourceErrorAnnotation, error)
 }
 
 func (r *AzureDeploymentReconciler) SetResourceSignature(sig string) {
-	r.addAnnotation(ResourceSigAnnotationKey, sig)
+	genruntime.AddAnnotation(r.obj, ResourceSigAnnotationKey, sig)
 }
 
 func (r *AzureDeploymentReconciler) HasResourceSpecHashChanged() (bool, error) {
@@ -227,20 +219,6 @@ func (r *AzureDeploymentReconciler) HasResourceSpecHashChanged() (bool, error) {
 	}
 	// check if the last signature matches the new signature
 	return oldSig != newSig, nil
-}
-
-func (r *AzureDeploymentReconciler) addAnnotation(k string, v string) {
-	annotations := r.obj.GetAnnotations()
-	if annotations == nil {
-		annotations = map[string]string{}
-	}
-	// I think this is the behavior we want...
-	if v == "" {
-		delete(annotations, k)
-	} else {
-		annotations[k] = v
-	}
-	r.obj.SetAnnotations(annotations)
 }
 
 // SpecSignature calculates the hash of a spec. This can be used to compare specs and determine
@@ -293,7 +271,7 @@ func (r *AzureDeploymentReconciler) Update(
 			r.SetResourceError(deployment.Properties.Error.String())
 		} else if len(deployment.Properties.OutputResources) > 0 {
 			resourceID := deployment.Properties.OutputResources[0].ID
-			r.SetResourceID(resourceID)
+			genruntime.SetResourceID(r.obj, resourceID)
 
 			if status != nil {
 				err = reflecthelpers.SetStatus(r.obj, status)
@@ -374,7 +352,7 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
 	// If we have no resourceID to begin with, the Azure resource was never created
-	if r.GetResourceIDOrDefault() == "" {
+	if genruntime.GetResourceIDOrDefault(r.obj) == "" {
 		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 	}
 
@@ -388,7 +366,7 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 		// means that the owner was deleted in Kubernetes. The current
 		// assumption is that that deletion has been propagated to Azure
 		// and so the child resource is already deleted.
-		var typedErr *armresourceresolver.OwnerNotFound
+		var typedErr *genruntime.ReferenceNotFound
 		if errors.As(err, &typedErr) {
 			// TODO: We should confirm the above assumption by performing a HEAD on
 			// TODO: the resource in Azure. This requires GetApiVersion() on  metaObj which
@@ -656,7 +634,7 @@ func (r *AzureDeploymentReconciler) constructArmResource(ctx context.Context) (g
 		return nil, errors.Wrapf(err, "converting to armResourceSpec")
 	}
 	// TODO: Do we need to set status here - right now it's nil
-	resource := genruntime.NewArmResource(deployableSpec.Spec(), nil, r.GetResourceIDOrDefault())
+	resource := genruntime.NewArmResource(deployableSpec.Spec(), nil, genruntime.GetResourceIDOrDefault(r.obj))
 
 	return resource, nil
 }
@@ -797,11 +775,11 @@ func (r *AzureDeploymentReconciler) Patch(
 
 // isOwnerReady returns true if the owner is ready or if there is no owner required
 func (r *AzureDeploymentReconciler) isOwnerReady(ctx context.Context) (bool, error) {
-	_, err := r.ResourceResolver.GetOwner(ctx, r.obj)
+	_, err := r.ResourceResolver.ResolveOwner(ctx, r.obj)
 	if err != nil {
-		var typedErr *armresourceresolver.OwnerNotFound
+		var typedErr *genruntime.ReferenceNotFound
 		if errors.As(err, &typedErr) {
-			r.log.V(4).Info("Owner does not yet exist", "NamespacedName", typedErr.OwnerName)
+			r.log.V(4).Info("Owner does not yet exist", "NamespacedName", typedErr.NamespacedName)
 			return false, nil
 		}
 
@@ -812,7 +790,7 @@ func (r *AzureDeploymentReconciler) isOwnerReady(ctx context.Context) (bool, err
 }
 
 func (r *AzureDeploymentReconciler) applyOwnership(ctx context.Context) error {
-	owner, err := r.ResourceResolver.GetOwner(ctx, r.obj)
+	owner, err := r.ResourceResolver.ResolveOwner(ctx, r.obj)
 	if err != nil {
 		return errors.Wrap(err, "failed to get owner")
 	}

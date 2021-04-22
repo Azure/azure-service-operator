@@ -10,9 +10,8 @@ import (
 )
 
 type ToArmConverter interface {
-	// name is the "a/b/c" name for the owner. For example this would be "VNet1" when deploying subnet1
-	// or myaccount when creating Batch pool1
-	ConvertToArm(name string) (interface{}, error)
+	// ConvertToArm converts this to an ARM resource. The name parameter is the fully qualified name of the resource in Azure ("a/b/c").
+	ConvertToArm(name string) (interface{}, error) // TODO: Should be ConvertToARM (same below)
 }
 
 type FromArmConverter interface {
@@ -26,14 +25,6 @@ type FromArmConverter interface {
 type ArmTransformer interface {
 	ToArmConverter
 	FromArmConverter
-}
-
-// CombineArmNames creates a "fully qualified" resource name for use
-// in an Azure template deployment.
-// See https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/child-resource-name-type#outside-parent-resource
-// for details on the format of the name field in ARM templates.
-func CombineArmNames(names ...string) string {
-	return strings.Join(names, "/")
 }
 
 // ExtractKubernetesResourceNameFromArmName extracts the Kubernetes resource name from an ARM name.

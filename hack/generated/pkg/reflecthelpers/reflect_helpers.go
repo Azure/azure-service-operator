@@ -13,14 +13,13 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/util/armresourceresolver"
 )
 
 // ResourceSpecToArmResourceSpec converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
 // a genruntime.ArmResourceSpec - a specification which can be submitted to Azure for deployment
 func ConvertResourceToDeployableResource(
 	ctx context.Context,
-	resolver *armresourceresolver.Resolver,
+	resolver *genruntime.Resolver,
 	metaObject genruntime.MetaObject) (genruntime.DeployableResource, error) {
 
 	metaObjReflector := reflect.Indirect(reflect.ValueOf(metaObject))
@@ -61,13 +60,13 @@ func ConvertResourceToDeployableResource(
 
 	// We have different deployment models for Subscription rooted vs ResourceGroup rooted resources
 	rootKind := resourceHierarchy.RootKind()
-	if rootKind == armresourceresolver.ResourceHierarchyRootResourceGroup {
+	if rootKind == genruntime.ResourceHierarchyRootResourceGroup {
 		rg, err := resourceHierarchy.ResourceGroup()
 		if err != nil {
 			return nil, errors.Wrapf(err, "getting resource group")
 		}
 		return genruntime.NewDeployableResourceGroupResource(rg, typedArmSpec), nil
-	} else if rootKind == armresourceresolver.ResourceHierarchyRootSubscription {
+	} else if rootKind == genruntime.ResourceHierarchyRootSubscription {
 		location, err := resourceHierarchy.Location()
 		if err != nil {
 			return nil, errors.Wrapf(err, "getting location")

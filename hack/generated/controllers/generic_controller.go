@@ -26,7 +26,6 @@ import (
 	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/reconcilers"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/util/armresourceresolver"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/kubeclient"
 )
 
@@ -37,7 +36,7 @@ type GenericReconciler struct {
 	Log                  logr.Logger
 	ARMClient            armclient.Applier
 	KubeClient           *kubeclient.Client
-	ResourceResolver     *armresourceresolver.Resolver
+	ResourceResolver     *genruntime.Resolver
 	Recorder             record.EventRecorder
 	Name                 string
 	GVK                  schema.GroupVersionKind
@@ -133,7 +132,7 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 	reconciler := &GenericReconciler{
 		ARMClient:            applier,
 		KubeClient:           kubeClient,
-		ResourceResolver:     armresourceresolver.NewResolver(kubeClient, reconciledResourceLookup),
+		ResourceResolver:     genruntime.NewResolver(kubeClient, reconciledResourceLookup),
 		Name:                 t.Name(),
 		Log:                  log.WithName(controllerName),
 		Recorder:             mgr.GetEventRecorderFor(controllerName),

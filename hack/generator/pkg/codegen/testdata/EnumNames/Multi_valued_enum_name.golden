@@ -43,7 +43,7 @@ func (aResource *AResource) AzureName() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (aResource *AResource) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(aResource.Spec)
-	return &genruntime.ResourceReference{Name: aResource.Spec.Owner.Name, Group: group, Kind: kind}
+	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: aResource.Namespace, Name: aResource.Spec.Owner.Name}
 }
 
 // +kubebuilder:object:root=true

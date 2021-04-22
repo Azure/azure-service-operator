@@ -20,7 +20,6 @@ import (
 
 	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/util/armresourceresolver"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/kubeclient"
 
 	// TODO: Do we want to use a sample object rather than a code generated one?
@@ -104,7 +103,7 @@ func Test_ConvertResourceToDeployableResource(t *testing.T) {
 	g.Expect(fakeClient.Create(ctx, rg)).To(Succeed())
 	account := createDummyResource()
 	g.Expect(fakeClient.Create(ctx, account)).To(Succeed())
-	resolver := armresourceresolver.NewResolver(kubeclient.NewClient(fakeClient, scheme), groupToVersionMap)
+	resolver := genruntime.NewResolver(kubeclient.NewClient(fakeClient, scheme), groupToVersionMap)
 
 	resource, err := ConvertResourceToDeployableResource(ctx, resolver, account)
 	g.Expect(err).ToNot(HaveOccurred())
