@@ -134,7 +134,7 @@ func Test_EmptyArmResourceStatus(t *testing.T) {
 
 	status, err := NewEmptyArmResourceStatus(account)
 	g.Expect(err).To(BeNil())
-	g.Expect(status).To(BeAssignableToTypeOf(&batch.BatchAccount_StatusArm{}))
+	g.Expect(status).To(BeAssignableToTypeOf(&batch.BatchAccount_StatusARM{}))
 }
 
 func Test_HasStatus(t *testing.T) {

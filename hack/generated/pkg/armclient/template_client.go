@@ -26,15 +26,15 @@ type Applier interface {
 	CreateDeployment(ctx context.Context, deployment *Deployment) error
 	DeleteDeployment(ctx context.Context, deploymentId string) (time.Duration, error)
 	GetDeployment(ctx context.Context, deploymentId string) (*Deployment, time.Duration, error)
-	NewResourceGroupDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
-	NewSubscriptionDeployment(location string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
+	NewResourceGroupDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ARMResourceSpec) *Deployment
+	NewSubscriptionDeployment(location string, deploymentName string, resourceSpec genruntime.ARMResourceSpec) *Deployment
 
 	SubscriptionID() string
 
 	// TODO: These functions take an empty status and fill it out with the response from Azure (rather than as
 	// TODO: the return type. I don't love that pattern but don't have a better one either.
-	BeginDeleteResource(ctx context.Context, id string, apiVersion string, status genruntime.ArmResourceStatus) (time.Duration, error)
-	GetResource(ctx context.Context, id string, apiVersion string, status genruntime.ArmResourceStatus) (time.Duration, error)
+	BeginDeleteResource(ctx context.Context, id string, apiVersion string, status genruntime.ARMResourceStatus) (time.Duration, error)
+	GetResource(ctx context.Context, id string, apiVersion string, status genruntime.ARMResourceStatus) (time.Duration, error)
 	HeadResource(ctx context.Context, id string, apiVersion string) (bool, time.Duration, error)
 }
 
@@ -200,7 +200,7 @@ func (atc *AzureTemplateClient) GetResource(
 	ctx context.Context,
 	id string,
 	apiVersion string,
-	status genruntime.ArmResourceStatus) (time.Duration, error) {
+	status genruntime.ARMResourceStatus) (time.Duration, error) {
 
 	if id == "" {
 		return zeroDuration, errors.Errorf("resource ID cannot be empty")
@@ -238,7 +238,7 @@ func (atc *AzureTemplateClient) GetDeployment(ctx context.Context, deploymentId 
 	return &deployment, retryAfter, nil
 }
 
-func createResourceIdTemplate(resourceSpec genruntime.ArmResourceSpec) map[string]Output {
+func createResourceIdTemplate(resourceSpec genruntime.ARMResourceSpec) map[string]Output {
 	resourceName := resourceSpec.GetName()
 	names := strings.Split(resourceName, "/")
 	formattedNames := make([]string, len(names))
@@ -257,13 +257,13 @@ func createResourceIdTemplate(resourceSpec genruntime.ArmResourceSpec) map[strin
 	return result
 }
 
-func (atc *AzureTemplateClient) NewResourceGroupDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment {
+func (atc *AzureTemplateClient) NewResourceGroupDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ARMResourceSpec) *Deployment {
 	deployment := NewResourceGroupDeployment(atc.subscriptionID, resourceGroup, deploymentName, resourceSpec)
 	deployment.Properties.Template.Outputs = createResourceIdTemplate(resourceSpec)
 	return deployment
 }
 
-func (atc *AzureTemplateClient) NewSubscriptionDeployment(location string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment {
+func (atc *AzureTemplateClient) NewSubscriptionDeployment(location string, deploymentName string, resourceSpec genruntime.ARMResourceSpec) *Deployment {
 	deployment := NewSubscriptionDeployment(atc.subscriptionID, location, deploymentName, resourceSpec)
 	deployment.Properties.Template.Outputs = createResourceIdTemplate(resourceSpec)
 	return deployment
@@ -273,7 +273,7 @@ func (atc *AzureTemplateClient) BeginDeleteResource(
 	ctx context.Context,
 	id string,
 	apiVersion string,
-	status genruntime.ArmResourceStatus) (time.Duration, error) {
+	status genruntime.ARMResourceStatus) (time.Duration, error) {
 
 	if id == "" {
 		return zeroDuration, errors.Errorf("resource ID cannot be empty")

@@ -104,7 +104,7 @@ func getReceiverObjectType(codeGenerationContext *astmodel.CodeGenerationContext
 	receiverType, ok := rt.Type().(*astmodel.ObjectType)
 	if !ok {
 		// Don't expect to have any wrapper types left at this point
-		panic(fmt.Sprintf("receiver for ArmConversionFunction is not of expected type. TypeName: %v, Type %T", receiver, rt.Type()))
+		panic(fmt.Sprintf("receiver for ARMConversionFunction is not of expected type. TypeName: %v, Type %T", receiver, rt.Type()))
 	}
 
 	return receiverType
@@ -124,49 +124,49 @@ func generateTypeConversionAssignments(
 	return result
 }
 
-// NewArmTransformerImpl creates a new interface with the specified ARM conversion functions
-func NewArmTransformerImpl(
+// NewARMTransformerImpl creates a new interface with the specified ARM conversion functions
+func NewARMTransformerImpl(
 	armTypeName astmodel.TypeName,
 	armType *astmodel.ObjectType,
 	idFactory astmodel.IdentifierFactory,
 	typeType TypeKind) *astmodel.InterfaceImplementation {
 
-	var convertToArmFunc *ArmConversionFunction
+	var convertToARMFunc *ARMConversionFunction
 	if typeType != StatusType {
 		// status type should not have ConvertToARM
-		convertToArmFunc = &ArmConversionFunction{
-			name:        "ConvertToArm",
+		convertToARMFunc = &ARMConversionFunction{
+			name:        "ConvertToARM",
 			armTypeName: armTypeName,
 			armType:     armType,
 			idFactory:   idFactory,
-			direction:   ConversionDirectionToArm,
+			direction:   ConversionDirectionToARM,
 			isSpecType:  typeType == SpecType,
 		}
 	}
 
-	populateFromArmFunc := &ArmConversionFunction{
-		name:        "PopulateFromArm",
+	populateFromARMFunc := &ARMConversionFunction{
+		name:        "PopulateFromARM",
 		armTypeName: armTypeName,
 		armType:     armType,
 		idFactory:   idFactory,
-		direction:   ConversionDirectionFromArm,
+		direction:   ConversionDirectionFromARM,
 		isSpecType:  typeType == SpecType,
 	}
 
-	createEmptyArmValueFunc := CreateEmptyArmValueFunc{idFactory: idFactory, armTypeName: armTypeName}
+	createEmptyARMValueFunc := CreateEmptyARMValueFunc{idFactory: idFactory, armTypeName: armTypeName}
 
-	if convertToArmFunc != nil {
+	if convertToARMFunc != nil {
 		return astmodel.NewInterfaceImplementation(
-			astmodel.MakeTypeName(astmodel.GenRuntimeReference, "ArmTransformer"),
-			createEmptyArmValueFunc,
-			convertToArmFunc,
-			populateFromArmFunc)
+			astmodel.MakeTypeName(astmodel.GenRuntimeReference, "ARMTransformer"),
+			createEmptyARMValueFunc,
+			convertToARMFunc,
+			populateFromARMFunc)
 	} else {
-		// only convert in one direction with the FromArmConverter interface
+		// only convert in one direction with the FromARMConverter interface
 		return astmodel.NewInterfaceImplementation(
-			astmodel.MakeTypeName(astmodel.GenRuntimeReference, "FromArmConverter"),
-			createEmptyArmValueFunc,
-			populateFromArmFunc)
+			astmodel.MakeTypeName(astmodel.GenRuntimeReference, "FromARMConverter"),
+			createEmptyARMValueFunc,
+			populateFromARMFunc)
 	}
 }
 
@@ -179,7 +179,7 @@ type complexPropertyConversionParameters struct {
 	assignmentHandler func(destination, source dst.Expr) dst.Stmt
 
 	// sameTypes indicates that the source and destination types are
-	// the same, so no conversion between Arm and non-Arm types is
+	// the same, so no conversion between ARM and non-ARM types is
 	// required (although structure copying is).
 	sameTypes bool
 }

@@ -26,7 +26,7 @@ type CodeGenerator struct {
 func translatePipelineToTarget(pipeline config.GenerationPipeline) (PipelineTarget, error) {
 	switch pipeline {
 	case config.GenerationPipelineAzure:
-		return ArmTarget, nil
+		return ARMTarget, nil
 	case config.GenerationPipelineCrossplane:
 		return CrossplaneTarget, nil
 	default:
@@ -135,11 +135,11 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		stripUnreferencedTypeDefinitions(),
 
 		replaceAnyTypeWithJSON(),
-		reportOnTypesAndVersions(configuration).UsedFor(ArmTarget), // TODO: For now only used for ARM
+		reportOnTypesAndVersions(configuration).UsedFor(ARMTarget), // TODO: For now only used for ARM
 
-		createARMTypes(idFactory).UsedFor(ArmTarget),
-		applyArmConversionInterface(idFactory).UsedFor(ArmTarget),
-		applyKubernetesResourceInterface(idFactory).UsedFor(ArmTarget),
+		createARMTypes(idFactory).UsedFor(ARMTarget),
+		applyARMConversionInterface(idFactory).UsedFor(ARMTarget),
+		applyKubernetesResourceInterface(idFactory).UsedFor(ARMTarget),
 
 		addCrossplaneOwnerProperties(idFactory).UsedFor(CrossplaneTarget),
 		addCrossplaneForProvider(idFactory).UsedFor(CrossplaneTarget),
@@ -147,22 +147,22 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		addCrossplaneEmbeddedResourceSpec(idFactory).UsedFor(CrossplaneTarget),
 		addCrossplaneEmbeddedResourceStatus(idFactory).UsedFor(CrossplaneTarget),
 
-		createStorageTypes().UsedFor(ArmTarget), // TODO: For now only used for ARM
+		createStorageTypes().UsedFor(ARMTarget), // TODO: For now only used for ARM
 		simplifyDefinitions(),
-		injectJsonSerializationTests(idFactory).UsedFor(ArmTarget),
+		injectJsonSerializationTests(idFactory).UsedFor(ARMTarget),
 
 		markStorageVersion(),
 
 		// Safety checks at the end:
 		ensureDefinitionsDoNotUseAnyTypes(),
-		ensureArmTypeExistsForEveryResource().UsedFor(ArmTarget),
+		ensureARMTypeExistsForEveryResource().UsedFor(ARMTarget),
 
 		deleteGeneratedCode(configuration.FullTypesOutputPath()),
 
 		exportPackages(configuration.FullTypesOutputPath()).
 			RequiresPrerequisiteStages("deleteGenerated"),
 
-		exportControllerResourceRegistrations(configuration.FullTypesRegistrationOutputFilePath()).UsedFor(ArmTarget),
+		exportControllerResourceRegistrations(configuration.FullTypesRegistrationOutputFilePath()).UsedFor(ARMTarget),
 	}
 }
 

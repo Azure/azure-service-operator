@@ -27,14 +27,14 @@ import (
 )
 
 type GoldenTestConfig struct {
-	HasArmResources      bool                        `yaml:"hasArmResources"`
+	HasARMResources      bool                        `yaml:"hasArmResources"`
 	InjectEmbeddedStruct bool                        `yaml:"injectEmbeddedStruct"`
 	Pipelines            []config.GenerationPipeline `yaml:"pipelines"`
 }
 
 func makeDefaultTestConfig() GoldenTestConfig {
 	return GoldenTestConfig{
-		HasArmResources:      false,
+		HasARMResources:      false,
 		InjectEmbeddedStruct: false,
 		Pipelines:            []config.GenerationPipeline{config.GenerationPipelineAzure},
 	}
@@ -149,7 +149,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 	switch pipeline {
 	case config.GenerationPipelineAzure:
 		codegen.RemoveStages("deleteGenerated", "rogueCheck", "createStorage", "reportTypesAndVersions")
-		if !testConfig.HasArmResources {
+		if !testConfig.HasARMResources {
 			codegen.RemoveStages("createArmTypes", "applyArmConversionInterface")
 			codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
 		}

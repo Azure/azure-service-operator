@@ -17,7 +17,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestNewArmCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
+func TestNewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
 	gold := goldie.New(t)
 	g := NewGomegaWithT(t)
 

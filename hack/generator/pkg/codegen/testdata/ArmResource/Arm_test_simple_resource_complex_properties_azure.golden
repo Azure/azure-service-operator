@@ -54,30 +54,30 @@ type FakeResourceList struct {
 	Items           []FakeResource `json:"items"`
 }
 
-type FakeResource_SpecArm struct {
+type FakeResource_SpecARM struct {
 	ApiVersion  FakeResourceSpecApiVersion `json:"apiVersion"`
 	Color       *FakeResourceSpecColor     `json:"color,omitempty"`
-	Foo         FooArm                     `json:"foo"`
+	Foo         FooARM                     `json:"foo"`
 	Name        string                     `json:"name"`
-	OptionalFoo *FooArm                    `json:"optionalFoo,omitempty"`
+	OptionalFoo *FooARM                    `json:"optionalFoo,omitempty"`
 	Type        FakeResourceSpecType       `json:"type"`
 }
 
-var _ genruntime.ArmResourceSpec = &FakeResource_SpecArm{}
+var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
 // GetApiVersion returns the ApiVersion of the resource
-func (fakeResourceSpecArm FakeResource_SpecArm) GetApiVersion() string {
-	return string(fakeResourceSpecArm.ApiVersion)
+func (fakeResourceSpecARM FakeResource_SpecARM) GetApiVersion() string {
+	return string(fakeResourceSpecARM.ApiVersion)
 }
 
 // GetName returns the Name of the resource
-func (fakeResourceSpecArm FakeResource_SpecArm) GetName() string {
-	return fakeResourceSpecArm.Name
+func (fakeResourceSpecARM FakeResource_SpecARM) GetName() string {
+	return fakeResourceSpecARM.Name
 }
 
 // GetType returns the Type of the resource
-func (fakeResourceSpecArm FakeResource_SpecArm) GetType() string {
-	return string(fakeResourceSpecArm.Type)
+func (fakeResourceSpecARM FakeResource_SpecARM) GetType() string {
+	return string(fakeResourceSpecARM.Type)
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
@@ -113,63 +113,63 @@ type FakeResource_Spec struct {
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources.infra.azure.com" json:"owner" kind:"ResourceGroup"`
 }
 
-var _ genruntime.ArmTransformer = &FakeResource_Spec{}
+var _ genruntime.ARMTransformer = &FakeResource_Spec{}
 
-// ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{}, error) {
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string) (interface{}, error) {
 	if fakeResourceSpec == nil {
 		return nil, nil
 	}
-	var result FakeResource_SpecArm
+	var result FakeResource_SpecARM
 	result.ApiVersion = FakeResourceSpecApiVersion20200601
 	if fakeResourceSpec.Color != nil {
 		colorTyped := *fakeResourceSpec.Color
 		result.Color = &colorTyped
 	}
-	foo, err := fakeResourceSpec.Foo.ConvertToArm(name)
+	foo, err := fakeResourceSpec.Foo.ConvertToARM(name)
 	if err != nil {
 		return nil, err
 	}
-	result.Foo = foo.(FooArm)
+	result.Foo = foo.(FooARM)
 	result.Name = name
 	if fakeResourceSpec.OptionalFoo != nil {
-		optionalFoo, err := (*fakeResourceSpec.OptionalFoo).ConvertToArm(name)
+		optionalFoo, err := (*fakeResourceSpec.OptionalFoo).ConvertToARM(name)
 		if err != nil {
 			return nil, err
 		}
-		optionalFooTyped := optionalFoo.(FooArm)
+		optionalFooTyped := optionalFoo.(FooARM)
 		result.OptionalFoo = &optionalFooTyped
 	}
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
 }
 
-// CreateEmptyArmValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceSpec *FakeResource_Spec) CreateEmptyArmValue() interface{} {
-	return FakeResource_SpecArm{}
+// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (fakeResourceSpec *FakeResource_Spec) CreateEmptyARMValue() interface{} {
+	return FakeResource_SpecARM{}
 }
 
-// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
-func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FakeResource_SpecArm)
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FakeResource_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected FakeResource_SpecArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
 	}
-	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
+	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 	if typedInput.Color != nil {
 		colorTyped := *typedInput.Color
 		fakeResourceSpec.Color = &colorTyped
 	}
 	var err error
 	var foo Foo
-	err = foo.PopulateFromArm(owner, typedInput.Foo)
+	err = foo.PopulateFromARM(owner, typedInput.Foo)
 	if err != nil {
 		return err
 	}
 	fakeResourceSpec.Foo = foo
 	if typedInput.OptionalFoo != nil {
 		var optionalFoo Foo
-		err = optionalFoo.PopulateFromArm(owner, *typedInput.OptionalFoo)
+		err = optionalFoo.PopulateFromARM(owner, *typedInput.OptionalFoo)
 		if err != nil {
 			return err
 		}
@@ -186,7 +186,7 @@ func (fakeResourceSpec *FakeResource_Spec) SetAzureName(azureName string) {
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
-type FooArm struct {
+type FooARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
@@ -195,14 +195,14 @@ type Foo struct {
 	Name *string `json:"name,omitempty"`
 }
 
-var _ genruntime.ArmTransformer = &Foo{}
+var _ genruntime.ARMTransformer = &Foo{}
 
-// ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (foo *Foo) ConvertToArm(name string) (interface{}, error) {
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (foo *Foo) ConvertToARM(name string) (interface{}, error) {
 	if foo == nil {
 		return nil, nil
 	}
-	var result FooArm
+	var result FooARM
 	if foo.Name != nil {
 		nameTyped := *foo.Name
 		result.Name = &nameTyped
@@ -210,16 +210,16 @@ func (foo *Foo) ConvertToArm(name string) (interface{}, error) {
 	return result, nil
 }
 
-// CreateEmptyArmValue returns an empty ARM value suitable for deserializing into
-func (foo *Foo) CreateEmptyArmValue() interface{} {
-	return FooArm{}
+// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (foo *Foo) CreateEmptyARMValue() interface{} {
+	return FooARM{}
 }
 
-// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
-func (foo *Foo) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FooArm)
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (foo *Foo) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FooARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected FooArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FooARM, got %T", armInput)
 	}
 	if typedInput.Name != nil {
 		nameTyped := *typedInput.Name

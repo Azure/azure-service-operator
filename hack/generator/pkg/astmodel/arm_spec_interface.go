@@ -8,9 +8,10 @@ package astmodel
 import (
 	"fmt"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 )
 
 const (
@@ -28,9 +29,9 @@ func checkPropertyPresence(o *ObjectType, name PropertyName) error {
 	return nil
 }
 
-// NewArmSpecInterfaceImpl creates a new interface implementation with the functions required to implement the
-// genruntime.ArmResourceSpec interface
-func NewArmSpecInterfaceImpl(
+// NewARMSpecInterfaceImpl creates a new interface implementation with the functions required to implement the
+// genruntime.ARMResourceSpec interface
+func NewARMSpecInterfaceImpl(
 	idFactory IdentifierFactory,
 	spec *ObjectType) (*InterfaceImplementation, error) {
 
@@ -73,7 +74,7 @@ func NewArmSpecInterfaceImpl(
 	}
 
 	result := NewInterfaceImplementation(
-		MakeTypeName(GenRuntimeReference, "ArmResourceSpec"),
+		MakeTypeName(GenRuntimeReference, "ARMResourceSpec"),
 		getNameFunc,
 		getTypeFunc,
 		getApiVersionFunc)
@@ -143,7 +144,7 @@ func armSpecInterfaceSimpleGetFunction(
 		ReceiverIdent: receiverIdent,
 		// TODO: We're too loosey-goosey here with ptr vs value receiver.
 		// TODO: We basically need to use a value receiver right now because
-		// TODO: ConvertToArm always returns a value, but for other interface impls
+		// TODO: ConvertToARM always returns a value, but for other interface impls
 		// TODO: for example on resource we use ptr receiver... the inconsistency is
 		// TODO: awkward...
 		ReceiverType: receiverType,

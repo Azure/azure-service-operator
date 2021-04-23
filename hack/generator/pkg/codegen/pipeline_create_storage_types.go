@@ -29,7 +29,7 @@ func createStorageTypes() PipelineStage {
 			for _, d := range types {
 				d := d
 
-				if astmodel.ArmFlag.IsOn(d.Type()) {
+				if astmodel.ARMFlag.IsOn(d.Type()) {
 					// Skip ARM definitions, we don't need to create storage variants of those
 					continue
 				}
@@ -212,7 +212,7 @@ func (factory *StorageTypeFactory) visitFlaggedType(
 	tv *astmodel.TypeVisitor,
 	flaggedType *astmodel.FlaggedType,
 	ctx interface{}) (astmodel.Type, error) {
-	if flaggedType.HasFlag(astmodel.ArmFlag) {
+	if flaggedType.HasFlag(astmodel.ARMFlag) {
 		// We don't want to do anything with ARM types
 		return flaggedType, nil
 	}

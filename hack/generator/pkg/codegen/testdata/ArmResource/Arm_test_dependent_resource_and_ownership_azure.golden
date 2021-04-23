@@ -54,27 +54,27 @@ type AList struct {
 	Items           []A `json:"items"`
 }
 
-type A_SpecArm struct {
+type A_SpecARM struct {
 	ApiVersion ASpecApiVersion `json:"apiVersion"`
 	Name       string          `json:"name"`
 	Type       ASpecType       `json:"type"`
 }
 
-var _ genruntime.ArmResourceSpec = &A_SpecArm{}
+var _ genruntime.ARMResourceSpec = &A_SpecARM{}
 
 // GetApiVersion returns the ApiVersion of the resource
-func (aSpecArm A_SpecArm) GetApiVersion() string {
-	return string(aSpecArm.ApiVersion)
+func (aSpecARM A_SpecARM) GetApiVersion() string {
+	return string(aSpecARM.ApiVersion)
 }
 
 // GetName returns the Name of the resource
-func (aSpecArm A_SpecArm) GetName() string {
-	return aSpecArm.Name
+func (aSpecARM A_SpecARM) GetName() string {
+	return aSpecARM.Name
 }
 
 // GetType returns the Type of the resource
-func (aSpecArm A_SpecArm) GetType() string {
-	return string(aSpecArm.Type)
+func (aSpecARM A_SpecARM) GetType() string {
+	return string(aSpecARM.Type)
 }
 
 // +kubebuilder:rbac:groups=test.infra.azure.com,resources=bs,verbs=get;list;watch;create;update;patch;delete
@@ -121,27 +121,27 @@ type BList struct {
 	Items           []B `json:"items"`
 }
 
-type B_SpecArm struct {
+type B_SpecARM struct {
 	ApiVersion BSpecApiVersion `json:"apiVersion"`
 	Name       string          `json:"name"`
 	Type       BSpecType       `json:"type"`
 }
 
-var _ genruntime.ArmResourceSpec = &B_SpecArm{}
+var _ genruntime.ARMResourceSpec = &B_SpecARM{}
 
 // GetApiVersion returns the ApiVersion of the resource
-func (bSpecArm B_SpecArm) GetApiVersion() string {
-	return string(bSpecArm.ApiVersion)
+func (bSpecARM B_SpecARM) GetApiVersion() string {
+	return string(bSpecARM.ApiVersion)
 }
 
 // GetName returns the Name of the resource
-func (bSpecArm B_SpecArm) GetName() string {
-	return bSpecArm.Name
+func (bSpecARM B_SpecARM) GetName() string {
+	return bSpecARM.Name
 }
 
 // GetType returns the Type of the resource
-func (bSpecArm B_SpecArm) GetType() string {
-	return string(bSpecArm.Type)
+func (bSpecARM B_SpecARM) GetType() string {
+	return string(bSpecARM.Type)
 }
 
 // +kubebuilder:rbac:groups=test.infra.azure.com,resources=cs,verbs=get;list;watch;create;update;patch;delete
@@ -188,27 +188,27 @@ type CList struct {
 	Items           []C `json:"items"`
 }
 
-type C_SpecArm struct {
+type C_SpecARM struct {
 	ApiVersion CSpecApiVersion `json:"apiVersion"`
 	Name       string          `json:"name"`
 	Type       CSpecType       `json:"type"`
 }
 
-var _ genruntime.ArmResourceSpec = &C_SpecArm{}
+var _ genruntime.ARMResourceSpec = &C_SpecARM{}
 
 // GetApiVersion returns the ApiVersion of the resource
-func (cSpecArm C_SpecArm) GetApiVersion() string {
-	return string(cSpecArm.ApiVersion)
+func (cSpecARM C_SpecARM) GetApiVersion() string {
+	return string(cSpecARM.ApiVersion)
 }
 
 // GetName returns the Name of the resource
-func (cSpecArm C_SpecArm) GetName() string {
-	return cSpecArm.Name
+func (cSpecARM C_SpecARM) GetName() string {
+	return cSpecARM.Name
 }
 
 // GetType returns the Type of the resource
-func (cSpecArm C_SpecArm) GetType() string {
-	return string(cSpecArm.Type)
+func (cSpecARM C_SpecARM) GetType() string {
+	return string(cSpecARM.Type)
 }
 
 // +kubebuilder:rbac:groups=test.infra.azure.com,resources=ds,verbs=get;list;watch;create;update;patch;delete
@@ -255,27 +255,27 @@ type DList struct {
 	Items           []D `json:"items"`
 }
 
-type D_SpecArm struct {
+type D_SpecARM struct {
 	ApiVersion DSpecApiVersion `json:"apiVersion"`
 	Name       string          `json:"name"`
 	Type       DSpecType       `json:"type"`
 }
 
-var _ genruntime.ArmResourceSpec = &D_SpecArm{}
+var _ genruntime.ARMResourceSpec = &D_SpecARM{}
 
 // GetApiVersion returns the ApiVersion of the resource
-func (dSpecArm D_SpecArm) GetApiVersion() string {
-	return string(dSpecArm.ApiVersion)
+func (dSpecARM D_SpecARM) GetApiVersion() string {
+	return string(dSpecARM.ApiVersion)
 }
 
 // GetName returns the Name of the resource
-func (dSpecArm D_SpecArm) GetName() string {
-	return dSpecArm.Name
+func (dSpecARM D_SpecARM) GetName() string {
+	return dSpecARM.Name
 }
 
 // GetType returns the Type of the resource
-func (dSpecArm D_SpecArm) GetType() string {
-	return string(dSpecArm.Type)
+func (dSpecARM D_SpecARM) GetType() string {
+	return string(dSpecARM.Type)
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
@@ -297,32 +297,32 @@ type A_Spec struct {
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources.infra.azure.com" json:"owner" kind:"ResourceGroup"`
 }
 
-var _ genruntime.ArmTransformer = &A_Spec{}
+var _ genruntime.ARMTransformer = &A_Spec{}
 
-// ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (aSpec *A_Spec) ConvertToArm(name string) (interface{}, error) {
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (aSpec *A_Spec) ConvertToARM(name string) (interface{}, error) {
 	if aSpec == nil {
 		return nil, nil
 	}
-	var result A_SpecArm
+	var result A_SpecARM
 	result.ApiVersion = ASpecApiVersion20200601
 	result.Name = name
 	result.Type = ASpecTypeMicrosoftAzureA
 	return result, nil
 }
 
-// CreateEmptyArmValue returns an empty ARM value suitable for deserializing into
-func (aSpec *A_Spec) CreateEmptyArmValue() interface{} {
-	return A_SpecArm{}
+// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (aSpec *A_Spec) CreateEmptyARMValue() interface{} {
+	return A_SpecARM{}
 }
 
-// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
-func (aSpec *A_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(A_SpecArm)
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (aSpec *A_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+	typedInput, ok := armInput.(A_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected A_SpecArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_SpecARM, got %T", armInput)
 	}
-	aSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
+	aSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 	aSpec.Owner = owner
 	return nil
 }
@@ -349,32 +349,32 @@ type B_Spec struct {
 	Owner genruntime.KnownResourceReference `group:"test.infra.azure.com" json:"owner" kind:"A"`
 }
 
-var _ genruntime.ArmTransformer = &B_Spec{}
+var _ genruntime.ARMTransformer = &B_Spec{}
 
-// ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (bSpec *B_Spec) ConvertToArm(name string) (interface{}, error) {
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (bSpec *B_Spec) ConvertToARM(name string) (interface{}, error) {
 	if bSpec == nil {
 		return nil, nil
 	}
-	var result B_SpecArm
+	var result B_SpecARM
 	result.ApiVersion = BSpecApiVersion20200601
 	result.Name = name
 	result.Type = BSpecTypeMicrosoftAzureB
 	return result, nil
 }
 
-// CreateEmptyArmValue returns an empty ARM value suitable for deserializing into
-func (bSpec *B_Spec) CreateEmptyArmValue() interface{} {
-	return B_SpecArm{}
+// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (bSpec *B_Spec) CreateEmptyARMValue() interface{} {
+	return B_SpecARM{}
 }
 
-// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
-func (bSpec *B_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(B_SpecArm)
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (bSpec *B_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+	typedInput, ok := armInput.(B_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected B_SpecArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_SpecARM, got %T", armInput)
 	}
-	bSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
+	bSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 	bSpec.Owner = owner
 	return nil
 }
@@ -401,32 +401,32 @@ type C_Spec struct {
 	Owner genruntime.KnownResourceReference `group:"test.infra.azure.com" json:"owner" kind:"B"`
 }
 
-var _ genruntime.ArmTransformer = &C_Spec{}
+var _ genruntime.ARMTransformer = &C_Spec{}
 
-// ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (cSpec *C_Spec) ConvertToArm(name string) (interface{}, error) {
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (cSpec *C_Spec) ConvertToARM(name string) (interface{}, error) {
 	if cSpec == nil {
 		return nil, nil
 	}
-	var result C_SpecArm
+	var result C_SpecARM
 	result.ApiVersion = CSpecApiVersion20200601
 	result.Name = name
 	result.Type = CSpecTypeMicrosoftAzureC
 	return result, nil
 }
 
-// CreateEmptyArmValue returns an empty ARM value suitable for deserializing into
-func (cSpec *C_Spec) CreateEmptyArmValue() interface{} {
-	return C_SpecArm{}
+// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (cSpec *C_Spec) CreateEmptyARMValue() interface{} {
+	return C_SpecARM{}
 }
 
-// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
-func (cSpec *C_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(C_SpecArm)
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (cSpec *C_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+	typedInput, ok := armInput.(C_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected C_SpecArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected C_SpecARM, got %T", armInput)
 	}
-	cSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
+	cSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 	cSpec.Owner = owner
 	return nil
 }
@@ -453,32 +453,32 @@ type D_Spec struct {
 	Owner genruntime.KnownResourceReference `group:"test.infra.azure.com" json:"owner" kind:"B"`
 }
 
-var _ genruntime.ArmTransformer = &D_Spec{}
+var _ genruntime.ARMTransformer = &D_Spec{}
 
-// ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (dSpec *D_Spec) ConvertToArm(name string) (interface{}, error) {
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (dSpec *D_Spec) ConvertToARM(name string) (interface{}, error) {
 	if dSpec == nil {
 		return nil, nil
 	}
-	var result D_SpecArm
+	var result D_SpecARM
 	result.ApiVersion = DSpecApiVersion20200601
 	result.Name = name
 	result.Type = DSpecTypeMicrosoftAzureD
 	return result, nil
 }
 
-// CreateEmptyArmValue returns an empty ARM value suitable for deserializing into
-func (dSpec *D_Spec) CreateEmptyArmValue() interface{} {
-	return D_SpecArm{}
+// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (dSpec *D_Spec) CreateEmptyARMValue() interface{} {
+	return D_SpecARM{}
 }
 
-// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
-func (dSpec *D_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(D_SpecArm)
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (dSpec *D_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+	typedInput, ok := armInput.(D_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected D_SpecArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected D_SpecARM, got %T", armInput)
 	}
-	dSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
+	dSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 	dSpec.Owner = owner
 	return nil
 }

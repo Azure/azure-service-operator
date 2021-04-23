@@ -18,18 +18,18 @@ var KubernetesResourceInterfaceName astmodel.TypeName = astmodel.MakeTypeName(as
 
 const nameParameterString = "name"
 
-type convertToArmBuilder struct {
+type convertToARMBuilder struct {
 	conversionBuilder
 	resultIdent string
 }
 
-func newConvertToArmFunctionBuilder(
-	c *ArmConversionFunction,
+func newConvertToARMFunctionBuilder(
+	c *ARMConversionFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
-	methodName string) *convertToArmBuilder {
+	methodName string) *convertToARMBuilder {
 
-	result := &convertToArmBuilder{
+	result := &convertToARMBuilder{
 		conversionBuilder: conversionBuilder{
 			methodName:            methodName,
 			armType:               c.armType,
@@ -55,7 +55,7 @@ func newConvertToArmFunctionBuilder(
 	return result
 }
 
-func (builder *convertToArmBuilder) functionDeclaration() *dst.FuncDecl {
+func (builder *convertToARMBuilder) functionDeclaration() *dst.FuncDecl {
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
@@ -72,7 +72,7 @@ func (builder *convertToArmBuilder) functionDeclaration() *dst.FuncDecl {
 	return fn.DefineFunc()
 }
 
-func (builder *convertToArmBuilder) functionBodyStatements() []dst.Stmt {
+func (builder *convertToARMBuilder) functionBodyStatements() []dst.Stmt {
 	var result []dst.Stmt
 
 	// If we are passed a nil receiver just return nil - this is a bit weird
@@ -105,7 +105,7 @@ func (builder *convertToArmBuilder) functionBodyStatements() []dst.Stmt {
 // Conversion handlers
 //////////////////////
 
-func (builder *convertToArmBuilder) namePropertyHandler(
+func (builder *convertToARMBuilder) namePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType) []dst.Stmt {
 
@@ -127,7 +127,7 @@ func (builder *convertToArmBuilder) namePropertyHandler(
 	return []dst.Stmt{result}
 }
 
-func (builder *convertToArmBuilder) fixedValuePropertyHandler(propertyName astmodel.PropertyName) propertyConversionHandler {
+func (builder *convertToARMBuilder) fixedValuePropertyHandler(propertyName astmodel.PropertyName) propertyConversionHandler {
 	return func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt {
 		if toProp.PropertyName() != propertyName || !builder.isSpecType {
 			return nil
@@ -167,7 +167,7 @@ func (builder *convertToArmBuilder) fixedValuePropertyHandler(propertyName astmo
 	}
 }
 
-func (builder *convertToArmBuilder) propertiesWithSameNameAndTypeHandler(
+func (builder *convertToARMBuilder) propertiesWithSameNameAndTypeHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType) []dst.Stmt {
 
@@ -191,7 +191,7 @@ func (builder *convertToArmBuilder) propertiesWithSameNameAndTypeHandler(
 			Sel: dst.NewIdent(string(toProp.PropertyName())),
 		}
 
-		return builder.toArmComplexPropertyConversion(
+		return builder.toARMComplexPropertyConversion(
 			complexPropertyConversionParameters{
 				source:            source,
 				destination:       destination,
@@ -218,7 +218,7 @@ func (builder *convertToArmBuilder) propertiesWithSameNameAndTypeHandler(
 	return []dst.Stmt{result}
 }
 
-func (builder *convertToArmBuilder) propertiesWithSameNameButDifferentTypeHandler(
+func (builder *convertToARMBuilder) propertiesWithSameNameButDifferentTypeHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType) []dst.Stmt {
 
@@ -237,7 +237,7 @@ func (builder *convertToArmBuilder) propertiesWithSameNameButDifferentTypeHandle
 		Sel: dst.NewIdent(string(fromProp.PropertyName())),
 	}
 
-	return builder.toArmComplexPropertyConversion(
+	return builder.toARMComplexPropertyConversion(
 		complexPropertyConversionParameters{
 			source:            source,
 			destination:       destination,
@@ -252,7 +252,7 @@ func (builder *convertToArmBuilder) propertiesWithSameNameButDifferentTypeHandle
 // Complex property conversion (for when properties aren't simple primitive types)
 //////////////////////////////////////////////////////////////////////////////////
 
-func (builder *convertToArmBuilder) toArmComplexPropertyConversion(
+func (builder *convertToARMBuilder) toARMComplexPropertyConversion(
 	params complexPropertyConversionParameters) []dst.Stmt {
 
 	switch concrete := params.destinationType.(type) {
@@ -278,9 +278,9 @@ func (builder *convertToArmBuilder) toArmComplexPropertyConversion(
 	case *astmodel.ValidatedType:
 		// pass through to underlying type
 		params.destinationType = concrete.ElementType()
-		return builder.toArmComplexPropertyConversion(params)
+		return builder.toARMComplexPropertyConversion(params)
 	default:
-		panic(fmt.Sprintf("don't know how to perform toArm conversion for type: %T", params.destinationType))
+		panic(fmt.Sprintf("don't know how to perform toARM conversion for type: %T", params.destinationType))
 	}
 }
 
@@ -294,7 +294,7 @@ func assignmentHandlerAssign(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 
 // assignPrimitiveType just assigns source to destination directly,
 // no conversion needed.
-func (builder *convertToArmBuilder) assignPrimitiveType(
+func (builder *convertToARMBuilder) assignPrimitiveType(
 	params complexPropertyConversionParameters) []dst.Stmt {
 	return []dst.Stmt{
 		params.assignmentHandler(params.Destination(), params.Source()),
@@ -307,7 +307,7 @@ func (builder *convertToArmBuilder) assignPrimitiveType(
 //		<code for producing result from destinationType.Element()>
 //		<destination> = &<result>
 //	}
-func (builder *convertToArmBuilder) convertComplexOptionalProperty(
+func (builder *convertToARMBuilder) convertComplexOptionalProperty(
 	params complexPropertyConversionParameters) []dst.Stmt {
 
 	destinationType := params.destinationType.(*astmodel.OptionalType)
@@ -320,7 +320,7 @@ func (builder *convertToArmBuilder) convertComplexOptionalProperty(
 		Op: token.MUL,
 	}
 
-	innerStatements := builder.toArmComplexPropertyConversion(
+	innerStatements := builder.toARMComplexPropertyConversion(
 		params.withDestination(dst.NewIdent(tempVarIdent)).
 			withDestinationType(tempVarType).
 			withAdditionalConversionContext(destinationType).
@@ -357,7 +357,7 @@ func (builder *convertToArmBuilder) convertComplexOptionalProperty(
 //		<code for producing result from destinationType.Element()>
 //		<destination> = append(<destination>, <result>)
 //	}
-func (builder *convertToArmBuilder) convertComplexArrayProperty(
+func (builder *convertToARMBuilder) convertComplexArrayProperty(
 	params complexPropertyConversionParameters) []dst.Stmt {
 
 	var results []dst.Stmt
@@ -378,7 +378,7 @@ func (builder *convertToArmBuilder) convertComplexArrayProperty(
 		typedVarIdent = fmt.Sprintf("elemTyped%d", depth)
 	}
 
-	innerStatements := builder.toArmComplexPropertyConversion(
+	innerStatements := builder.toARMComplexPropertyConversion(
 		complexPropertyConversionParameters{
 			source:            itemIdent,
 			destination:       dst.NewIdent(typedVarIdent),
@@ -416,7 +416,7 @@ func (builder *convertToArmBuilder) convertComplexArrayProperty(
 //			<destination>[key] = <result>
 //		}
 //	}
-func (builder *convertToArmBuilder) convertComplexMapProperty(
+func (builder *convertToARMBuilder) convertComplexMapProperty(
 	params complexPropertyConversionParameters) []dst.Stmt {
 
 	destinationType := params.destinationType.(*astmodel.MapType)
@@ -437,7 +437,7 @@ func (builder *convertToArmBuilder) convertComplexMapProperty(
 		makeMapToken = token.DEFINE
 	}
 
-	innerStatements := builder.toArmComplexPropertyConversion(
+	innerStatements := builder.toARMComplexPropertyConversion(
 		complexPropertyConversionParameters{
 			source:            valueIdent,
 			destination:       typedVarIdent,
@@ -473,12 +473,12 @@ func (builder *convertToArmBuilder) convertComplexMapProperty(
 
 // convertComplexTypeNameProperty handles conversion of complex TypeName properties.
 // This function generates code that looks like this:
-// 	<nameHint>, err := <source>.ToArm(name)
+// 	<nameHint>, err := <source>.ToARM(name)
 //	if err != nil {
 //		return nil, err
 //	}
-//	<destination> = <nameHint>.(FooArm)
-func (builder *convertToArmBuilder) convertComplexTypeNameProperty(
+//	<destination> = <nameHint>.(FooARM)
+func (builder *convertToARMBuilder) convertComplexTypeNameProperty(
 	params complexPropertyConversionParameters) []dst.Stmt {
 
 	destinationType := params.destinationType.(astmodel.TypeName)
@@ -486,8 +486,8 @@ func (builder *convertToArmBuilder) convertComplexTypeNameProperty(
 	var results []dst.Stmt
 	propertyLocalVarName := builder.idFactory.CreateIdentifier(params.nameHint, astmodel.NotExported)
 
-	// Call ToArm on the property
-	results = append(results, callToArmFunction(params.Source(), dst.NewIdent(propertyLocalVarName), builder.methodName)...)
+	// Call ToARM on the property
+	results = append(results, callToARMFunction(params.Source(), dst.NewIdent(propertyLocalVarName), builder.methodName)...)
 
 	typeAssertExpr := &dst.TypeAssertExpr{
 		X:    dst.NewIdent(propertyLocalVarName),
@@ -513,11 +513,11 @@ func (builder *convertToArmBuilder) convertComplexTypeNameProperty(
 	return results
 }
 
-func callToArmFunction(source dst.Expr, destination dst.Expr, methodName string) []dst.Stmt {
+func callToARMFunction(source dst.Expr, destination dst.Expr, methodName string) []dst.Stmt {
 	var results []dst.Stmt
 
-	// Call ToArm on the property
-	propertyToArmInvocation := &dst.AssignStmt{
+	// Call ToARM on the property
+	propertyToARMInvocation := &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			destination,
 			dst.NewIdent("err"),
@@ -535,7 +535,7 @@ func callToArmFunction(source dst.Expr, destination dst.Expr, methodName string)
 			},
 		},
 	}
-	results = append(results, propertyToArmInvocation)
+	results = append(results, propertyToARMInvocation)
 	results = append(results, astbuilder.CheckErrorAndReturn(dst.NewIdent("nil")))
 
 	return results

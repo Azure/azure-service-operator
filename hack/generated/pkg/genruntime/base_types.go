@@ -83,10 +83,10 @@ func AddAnnotation(obj MetaObject, k string, v string) {
 	obj.SetAnnotations(annotations)
 }
 
-// ArmResourceSpec is an ARM resource specification. This interface contains
+// ARMResourceSpec is an ARM resource specification. This interface contains
 // methods to access properties common to all ARM Resource Specs. An Azure
 // Deployment is made of these.
-type ArmResourceSpec interface {
+type ARMResourceSpec interface {
 	GetApiVersion() string
 
 	GetType() string
@@ -94,23 +94,23 @@ type ArmResourceSpec interface {
 	GetName() string
 }
 
-// ArmResourceStatus is an ARM resource status
-type ArmResourceStatus interface {
+// ARMResourceStatus is an ARM resource status
+type ARMResourceStatus interface {
 	// TODO: Unsure what the actual content of this interface needs to be.
 	// TODO: We need to define it and generate the code for it
 
 	// GetId() string
 }
 
-type ArmResource interface {
-	Spec() ArmResourceSpec
-	Status() ArmResourceStatus
+type ARMResource interface {
+	Spec() ARMResourceSpec
+	Status() ARMResourceStatus
 
 	// TODO: Golang wants this to be GetID
 	GetId() string // TODO: Should this be on Status instead?
 }
 
-func NewArmResource(spec ArmResourceSpec, status ArmResourceStatus, id string) ArmResource {
+func NewArmResource(spec ARMResourceSpec, status ARMResourceStatus, id string) ARMResource {
 	return &armResourceImpl{
 		spec:   spec,
 		status: status,
@@ -119,18 +119,18 @@ func NewArmResource(spec ArmResourceSpec, status ArmResourceStatus, id string) A
 }
 
 type armResourceImpl struct {
-	spec   ArmResourceSpec
-	status ArmResourceStatus
+	spec   ARMResourceSpec
+	status ARMResourceStatus
 	Id     string
 }
 
-var _ ArmResource = &armResourceImpl{}
+var _ ARMResource = &armResourceImpl{}
 
-func (resource *armResourceImpl) Spec() ArmResourceSpec {
+func (resource *armResourceImpl) Spec() ARMResourceSpec {
 	return resource.spec
 }
 
-func (resource *armResourceImpl) Status() ArmResourceStatus {
+func (resource *armResourceImpl) Status() ARMResourceStatus {
 	return resource.status
 }
 
@@ -139,17 +139,17 @@ func (resource *armResourceImpl) GetId() string {
 }
 
 type DeployableResource interface {
-	Spec() ArmResourceSpec
+	Spec() ARMResourceSpec
 }
 
-func NewDeployableResourceGroupResource(resourceGroup string, spec ArmResourceSpec) *ResourceGroupResource {
+func NewDeployableResourceGroupResource(resourceGroup string, spec ARMResourceSpec) *ResourceGroupResource {
 	return &ResourceGroupResource{
 		resourceGroup: resourceGroup,
 		spec:          spec,
 	}
 }
 
-func NewDeployableSubscriptionResource(location string, spec ArmResourceSpec) *SubscriptionResource {
+func NewDeployableSubscriptionResource(location string, spec ARMResourceSpec) *SubscriptionResource {
 	return &SubscriptionResource{
 		location: location,
 		spec:     spec,
@@ -160,7 +160,7 @@ func NewDeployableSubscriptionResource(location string, spec ArmResourceSpec) *S
 // resource group.
 type ResourceGroupResource struct {
 	resourceGroup string
-	spec          ArmResourceSpec
+	spec          ARMResourceSpec
 }
 
 var _ DeployableResource = &ResourceGroupResource{}
@@ -169,7 +169,7 @@ func (r *ResourceGroupResource) ResourceGroup() string {
 	return r.resourceGroup
 }
 
-func (r *ResourceGroupResource) Spec() ArmResourceSpec {
+func (r *ResourceGroupResource) Spec() ARMResourceSpec {
 	return r.spec
 }
 
@@ -177,7 +177,7 @@ func (r *ResourceGroupResource) Spec() ArmResourceSpec {
 // in a subscription (not inside of a resource group).
 type SubscriptionResource struct {
 	location string
-	spec     ArmResourceSpec
+	spec     ARMResourceSpec
 }
 
 var _ DeployableResource = &SubscriptionResource{}
@@ -186,6 +186,6 @@ func (r *SubscriptionResource) Location() string {
 	return r.location
 }
 
-func (r *SubscriptionResource) Spec() ArmResourceSpec {
+func (r *SubscriptionResource) Spec() ARMResourceSpec {
 	return r.spec
 }

@@ -21,7 +21,7 @@ func Test_SimplifyDefinitionsPipelineStage_GivenTypes_FlattensToExpectedTypes(t 
 	obj := astmodel.NewObjectType().
 		WithProperties(fullName, familyName, knownAs)
 
-	flagged := astmodel.ArmFlag.ApplyTo(obj)
+	flagged := astmodel.ARMFlag.ApplyTo(obj)
 
 	cases := []struct {
 		name     string

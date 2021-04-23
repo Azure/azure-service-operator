@@ -8,20 +8,21 @@ package armconversion
 import (
 	"fmt"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/dave/dst"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
 type ConversionDirection string
 
 const (
-	ConversionDirectionToArm   = ConversionDirection("ToArm")
-	ConversionDirectionFromArm = ConversionDirection("FromArm")
+	ConversionDirectionToARM   = ConversionDirection("ToARM")
+	ConversionDirectionFromARM = ConversionDirection("FromARM")
 )
 
-// ArmConversionFunction represents an ARM conversion function for converting between a Kubernetes resource
+// ARMConversionFunction represents an ARM conversion function for converting between a Kubernetes resource
 // and an ARM resource.
-type ArmConversionFunction struct {
+type ARMConversionFunction struct {
 	name        string
 	armTypeName astmodel.TypeName
 	armType     *astmodel.ObjectType
@@ -30,14 +31,14 @@ type ArmConversionFunction struct {
 	isSpecType  bool
 }
 
-var _ astmodel.Function = &ArmConversionFunction{}
+var _ astmodel.Function = &ARMConversionFunction{}
 
-func (c *ArmConversionFunction) Name() string {
+func (c *ARMConversionFunction) Name() string {
 	return c.name
 }
 
 // RequiredPackageReferences returns the imports required for this conversion function
-func (c *ArmConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
+func (c *ARMConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	// Because this interface is attached to an object, by definition that object will specify
 	// its own required imports. We don't want to call the objects required imports here
 	// because then we're in infinite recursion (object delegates to us, we delegate back to it)
@@ -52,28 +53,28 @@ func (c *ArmConversionFunction) RequiredPackageReferences() *astmodel.PackageRef
 }
 
 // References this type has to the given type
-func (c *ArmConversionFunction) References() astmodel.TypeNameSet {
+func (c *ARMConversionFunction) References() astmodel.TypeNameSet {
 	return c.armType.References()
 }
 
 // AsFunc returns the function as a Go AST
-func (c *ArmConversionFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (c *ARMConversionFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 	switch c.direction {
-	case ConversionDirectionToArm:
-		return c.asConvertToArmFunc(codeGenerationContext, receiver, c.Name())
-	case ConversionDirectionFromArm:
-		return c.asConvertFromArmFunc(codeGenerationContext, receiver, c.Name())
+	case ConversionDirectionToARM:
+		return c.asConvertToARMFunc(codeGenerationContext, receiver, c.Name())
+	case ConversionDirectionFromARM:
+		return c.asConvertFromARMFunc(codeGenerationContext, receiver, c.Name())
 	default:
 		panic(fmt.Sprintf("Unknown conversion direction %s", c.direction))
 	}
 }
 
-func (c *ArmConversionFunction) asConvertToArmFunc(
+func (c *ARMConversionFunction) asConvertToARMFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	methodName string) *dst.FuncDecl {
 
-	builder := newConvertToArmFunctionBuilder(
+	builder := newConvertToARMFunctionBuilder(
 		c,
 		codeGenerationContext,
 		receiver,
@@ -82,12 +83,12 @@ func (c *ArmConversionFunction) asConvertToArmFunc(
 	return builder.functionDeclaration()
 }
 
-func (c *ArmConversionFunction) asConvertFromArmFunc(
+func (c *ARMConversionFunction) asConvertFromARMFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	methodName string) *dst.FuncDecl {
 
-	builder := newConvertFromArmFunctionBuilder(
+	builder := newConvertFromARMFunctionBuilder(
 		c,
 		codeGenerationContext,
 		receiver,
@@ -96,7 +97,7 @@ func (c *ArmConversionFunction) asConvertFromArmFunc(
 }
 
 // Equals determines if this function is equal to the passed in function
-func (c *ArmConversionFunction) Equals(other astmodel.Function) bool {
+func (c *ARMConversionFunction) Equals(other astmodel.Function) bool {
 	// TODO: Equality on functions is currently awkward because we can't easily pass
 	// TODO: a reference to the object the function is on to the function (since both
 	// TODO: are immutable and it's impossible to have two immutable objects with
@@ -105,7 +106,7 @@ func (c *ArmConversionFunction) Equals(other astmodel.Function) bool {
 	// TODO: with a receiver), and as such we just need to compare things that aren't
 	// TODO: the receiver type.
 
-	if o, ok := other.(*ArmConversionFunction); ok {
+	if o, ok := other.(*ARMConversionFunction); ok {
 		return c.armType.Equals(o.armType) &&
 			c.armTypeName.Equals(o.armTypeName) &&
 			c.direction == o.direction

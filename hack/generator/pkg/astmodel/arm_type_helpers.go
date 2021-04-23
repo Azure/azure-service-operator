@@ -5,7 +5,7 @@
 
 package astmodel
 
-// CreateArmTypeName creates an ARM object type name
-func CreateArmTypeName(name TypeName) TypeName {
-	return MakeTypeName(name.PackageReference, name.Name()+"Arm")
+// CreateARMTypeName creates an ARM object type name
+func CreateARMTypeName(name TypeName) TypeName {
+	return MakeTypeName(name.PackageReference, name.Name()+"ARM")
 }

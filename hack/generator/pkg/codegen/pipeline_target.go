@@ -18,8 +18,8 @@ type PipelineTarget struct {
 var _ fmt.Stringer = PipelineTarget{}
 
 var (
-	// ArmTarget is used to tag stages that are required when generating types for working directly with Azure
-	ArmTarget PipelineTarget = MakePipelineTarget("azure")
+	// ARMTarget is used to tag stages that are required when generating types for working directly with Azure
+	ARMTarget PipelineTarget = MakePipelineTarget("azure")
 
 	// CrossplaneTarget is used to tag stages that are required when generating types for working with Crossplane
 	CrossplaneTarget PipelineTarget = MakePipelineTarget("crossplane")

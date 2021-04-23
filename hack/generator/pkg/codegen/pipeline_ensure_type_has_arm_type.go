@@ -15,26 +15,26 @@ import (
 )
 
 // TODO: Wondering if we should have an even stronger version of this that asserts it for all types rather than just the top level?
-// ensureArmTypeExistsForEveryResource performs a check ensuring that every Kubernetes resource spec/status has a corresponding ARM type
-func ensureArmTypeExistsForEveryResource() PipelineStage {
+// ensureARMTypeExistsForEveryResource performs a check ensuring that every Kubernetes resource spec/status has a corresponding ARM type
+func ensureARMTypeExistsForEveryResource() PipelineStage {
 	return MakePipelineStage(
 		"ensureArmTypeExistsForEveryType",
 		"Ensure that an ARM type for every top level resource spec/status exists",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			return types, validateAllTypesHaveArmType(types)
+			return types, validateAllTypesHaveARMType(types)
 		})
 }
 
-// validateAllTypesHaveArmType returns an error containing details about all
+// validateAllTypesHaveARMType returns an error containing details about all
 // types which do not have a matching ARM type.
-func validateAllTypesHaveArmType(definitions astmodel.Types) error {
-	findArmType := func(t astmodel.Type) error {
+func validateAllTypesHaveARMType(definitions astmodel.Types) error {
+	findARMType := func(t astmodel.Type) error {
 		name, ok := astmodel.AsTypeName(t)
 		if !ok {
 			return errors.Errorf("type was not of type TypeName, instead %T", t)
 		}
 
-		armName := astmodel.CreateArmTypeName(name)
+		armName := astmodel.CreateARMTypeName(name)
 
 		if _, ok = definitions[armName]; !ok {
 			return errors.Errorf("couldn't find ARM type %q", armName)
@@ -48,14 +48,14 @@ func validateAllTypesHaveArmType(definitions astmodel.Types) error {
 	for _, def := range definitions {
 		if resourceType, ok := definitions.ResolveResourceType(def.Type()); ok {
 
-			err := findArmType(resourceType.SpecType())
+			err := findARMType(resourceType.SpecType())
 			if err != nil {
 				errs = append(errs, err)
 			}
 
 			statusType := astmodel.IgnoringErrors(resourceType.StatusType())
 			if statusType != nil {
-				err := findArmType(statusType)
+				err := findARMType(statusType)
 				if err != nil {
 					errs = append(errs, err)
 				}

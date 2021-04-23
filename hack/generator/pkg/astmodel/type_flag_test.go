@@ -17,9 +17,9 @@ import (
 
 func TestTypeFlag_Wrap_GivenType_ReturnsWrappedType(t *testing.T) {
 	g := NewGomegaWithT(t)
-	ft := ArmFlag.ApplyTo(StringType)
+	ft := ARMFlag.ApplyTo(StringType)
 	g.Expect(ft.element).To(Equal(StringType))
-	g.Expect(ft.HasFlag(ArmFlag)).To(BeTrue())
+	g.Expect(ft.HasFlag(ARMFlag)).To(BeTrue())
 }
 
 /*
@@ -28,7 +28,7 @@ func TestTypeFlag_Wrap_GivenType_ReturnsWrappedType(t *testing.T) {
 
 func TestTypeFlag_IsOn_GivenType_ReturnsExpectedValue(t *testing.T) {
 
-	armString := ArmFlag.ApplyTo(StringType)
+	armString := ARMFlag.ApplyTo(StringType)
 
 	cases := []struct {
 		name     string
@@ -36,9 +36,9 @@ func TestTypeFlag_IsOn_GivenType_ReturnsExpectedValue(t *testing.T) {
 		flag     TypeFlag
 		expected bool
 	}{
-		{"String does not have ArmFlag", StringType, ArmFlag, false},
+		{"String does not have ArmFlag", StringType, ARMFlag, false},
 		{"String does not have StorageFlag", StringType, StorageFlag, false},
-		{"ArmString does have ArmFlag", armString, ArmFlag, true},
+		{"ArmString does have ArmFlag", armString, ARMFlag, true},
 		{"ArmString does not have StorageFlag", armString, StorageFlag, false},
 	}
 
@@ -58,7 +58,7 @@ func TestTypeFlag_IsOn_GivenType_ReturnsExpectedValue(t *testing.T) {
 
 func TestTypeFlag_RemoveFrom_ReturnsExpectedValue(t *testing.T) {
 
-	armString := ArmFlag.ApplyTo(StringType)
+	armString := ARMFlag.ApplyTo(StringType)
 	armStorageString := StorageFlag.ApplyTo(armString)
 
 	cases := []struct {
@@ -67,10 +67,10 @@ func TestTypeFlag_RemoveFrom_ReturnsExpectedValue(t *testing.T) {
 		flag     TypeFlag
 		expected Type
 	}{
-		{"RemoveFrom Type with no flags returns the type unmodified", StringType, ArmFlag, StringType},
+		{"RemoveFrom Type with no flags returns the type unmodified", StringType, ARMFlag, StringType},
 		{"RemoveFrom flag type for flag that isn't present returns the type unmodified", armString, StorageFlag, armString},
 		{"RemoveFrom flag type with multiple flags returns flag type without specified flag", armStorageString, StorageFlag, armString},
-		{"RemoveFrom flag type with only that flag returns element type", armString, ArmFlag, StringType},
+		{"RemoveFrom flag type with only that flag returns element type", armString, ARMFlag, StringType},
 	}
 
 	for _, c := range cases {

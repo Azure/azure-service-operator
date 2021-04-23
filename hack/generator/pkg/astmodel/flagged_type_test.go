@@ -17,19 +17,19 @@ import (
 
 func TestNewFlaggedType_GivenTypeAndFlag_ReturnsFlaggedTypeWithFlag(t *testing.T) {
 	g := NewGomegaWithT(t)
-	ft := NewFlaggedType(StringType, ArmFlag)
+	ft := NewFlaggedType(StringType, ARMFlag)
 
 	g.Expect(ft).ToNot(BeNil())
-	g.Expect(ft.HasFlag(ArmFlag)).To(BeTrue())
+	g.Expect(ft.HasFlag(ARMFlag)).To(BeTrue())
 	g.Expect(ft.HasFlag(StorageFlag)).To(BeFalse())
 }
 
 func TestNewFlaggedType_GivenFlaggedType_DoesNotWrapTypeFurther(t *testing.T) {
 	g := NewGomegaWithT(t)
-	inner := NewFlaggedType(StringType, ArmFlag)
+	inner := NewFlaggedType(StringType, ARMFlag)
 	outer := NewFlaggedType(inner, StorageFlag)
 	g.Expect(outer).ToNot(BeNil())
-	g.Expect(outer.HasFlag(ArmFlag)).To(BeTrue())
+	g.Expect(outer.HasFlag(ARMFlag)).To(BeTrue())
 	g.Expect(outer.HasFlag(StorageFlag)).To(BeTrue())
 }
 
@@ -39,10 +39,10 @@ func TestNewFlaggedType_GivenFlaggedType_DoesNotWrapTypeFurther(t *testing.T) {
 
 func TestFlaggedType_WithFlag_GivenFlag_ReturnsFlaggedTypeWithExpectedFlags(t *testing.T) {
 	g := NewGomegaWithT(t)
-	inner := NewFlaggedType(StringType, ArmFlag)
+	inner := NewFlaggedType(StringType, ARMFlag)
 	outer := inner.WithFlag(StorageFlag)
 	g.Expect(outer).ToNot(BeNil())
-	g.Expect(outer.HasFlag(ArmFlag)).To(BeTrue())
+	g.Expect(outer.HasFlag(ARMFlag)).To(BeTrue())
 	g.Expect(outer.HasFlag(StorageFlag)).To(BeTrue())
 }
 
@@ -52,24 +52,24 @@ func TestFlaggedType_WithFlag_GivenFlag_ReturnsFlaggedTypeWithExpectedFlags(t *t
 
 func TestFlaggedType_WithoutFlag_GivenOnlyFlag_ReturnsWrappedType(t *testing.T) {
 	g := NewGomegaWithT(t)
-	inner := NewFlaggedType(StringType, ArmFlag)
-	final := inner.WithoutFlag(ArmFlag)
+	inner := NewFlaggedType(StringType, ARMFlag)
+	final := inner.WithoutFlag(ARMFlag)
 	g.Expect(final).To(Equal(StringType))
 }
 
 func TestFlaggedType_WithoutFlag_GivenExistingFlag_ReturnsFlaggedTypeWithExpectedFlags(t *testing.T) {
 	g := NewGomegaWithT(t)
-	inner := NewFlaggedType(StringType, ArmFlag, StorageFlag)
-	final := inner.WithoutFlag(ArmFlag).(*FlaggedType)
-	g.Expect(final.HasFlag(ArmFlag)).To(BeFalse())
+	inner := NewFlaggedType(StringType, ARMFlag, StorageFlag)
+	final := inner.WithoutFlag(ARMFlag).(*FlaggedType)
+	g.Expect(final.HasFlag(ARMFlag)).To(BeFalse())
 	g.Expect(final.HasFlag(StorageFlag)).To(BeTrue())
 }
 
 func TestFlaggedType_WithoutFlag_GivenUnusedFlag_ReturnsSameInstance(t *testing.T) {
 	g := NewGomegaWithT(t)
 	inner := NewFlaggedType(StringType, StorageFlag)
-	final := inner.WithoutFlag(ArmFlag).(*FlaggedType)
-	g.Expect(final.HasFlag(ArmFlag)).To(BeFalse())
+	final := inner.WithoutFlag(ARMFlag).(*FlaggedType)
+	g.Expect(final.HasFlag(ARMFlag)).To(BeFalse())
 	g.Expect(final.HasFlag(StorageFlag)).To(BeTrue())
 	g.Expect(final).To(Equal(inner))
 }
@@ -79,10 +79,10 @@ func TestFlaggedType_WithoutFlag_GivenUnusedFlag_ReturnsSameInstance(t *testing.
  */
 
 func TestFlaggedType_Equals_GivenOther_HasExpectedResult(t *testing.T) {
-	armString := NewFlaggedType(StringType, ArmFlag)
-	armInt := NewFlaggedType(IntType, ArmFlag)
+	armString := NewFlaggedType(StringType, ARMFlag)
+	armInt := NewFlaggedType(IntType, ARMFlag)
 	storageString := NewFlaggedType(StringType, StorageFlag)
-	manyFlagsString := NewFlaggedType(StringType, ArmFlag, StorageFlag, OneOfFlag)
+	manyFlagsString := NewFlaggedType(StringType, ARMFlag, StorageFlag, OneOfFlag)
 
 	cases := []struct {
 		name          string
@@ -127,7 +127,7 @@ func TestFlaggedType_String_GivenTypeAndTag_ReturnsExpectedString(t *testing.T) 
 		flag       TypeFlag
 		expected   string
 	}{
-		{"String with tag ARM", StringType, ArmFlag, "string[arm]"},
+		{"String with tag ARM", StringType, ARMFlag, "string[arm]"},
 		{"Bool with tag Storage", BoolType, StorageFlag, "bool[storage]"},
 		{"String with multiple tags", flaggedString, StorageFlag, "string[oneof|storage]"},
 	}

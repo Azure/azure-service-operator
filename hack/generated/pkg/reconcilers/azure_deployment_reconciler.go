@@ -250,7 +250,7 @@ func (r *AzureDeploymentReconciler) SpecSignature() (string, error) {
 
 func (r *AzureDeploymentReconciler) Update(
 	deployment *armclient.Deployment,
-	status genruntime.FromArmConverter) error {
+	status genruntime.FromARMConverter) error {
 
 	// TODO: Does this happen in the controller?
 	controllerutil.AddFinalizer(r.obj, GenericControllerFinalizer)
@@ -509,7 +509,7 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 		return ctrl.Result{}, errors.Wrapf(err, "getting deployment %q from ARM", id)
 	}
 
-	var status genruntime.FromArmConverter
+	var status genruntime.FromARMConverter
 	if deployment.IsSuccessful() {
 		// TODO: There's some overlap here with what Update does
 		if len(deployment.Properties.OutputResources) == 0 {
@@ -627,7 +627,7 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 // Other helpers
 //////////////////////////////////////////
 
-func (r *AzureDeploymentReconciler) constructArmResource(ctx context.Context) (genruntime.ArmResource, error) {
+func (r *AzureDeploymentReconciler) constructArmResource(ctx context.Context) (genruntime.ARMResource, error) {
 	// TODO: Do we pass in details about this objects hierarchy, or what
 	deployableSpec, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, r.ResourceResolver, r.obj)
 	if err != nil {
@@ -641,7 +641,7 @@ func (r *AzureDeploymentReconciler) constructArmResource(ctx context.Context) (g
 
 var zeroDuration time.Duration = 0
 
-func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (genruntime.FromArmConverter, time.Duration, error) {
+func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (genruntime.FromARMConverter, time.Duration, error) {
 	deployableSpec, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, r.ResourceResolver, r.obj)
 	if err != nil {
 		return nil, zeroDuration, err
@@ -684,7 +684,7 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 
 	// Fill the kube status with the results from the arm status
 	// TODO: The owner parameter here should be optional
-	err = status.PopulateFromArm(knownOwner, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
+	err = status.PopulateFromARM(knownOwner, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
 	if err != nil {
 		return nil, zeroDuration, errors.Wrapf(err, "converting ARM status to Kubernetes status")
 	}

@@ -11,19 +11,19 @@ import (
 	"github.com/dave/dst"
 )
 
-// CreateEmptyArmValueFunc represents a function that creates
+// CreateEmptyARMValueFunc represents a function that creates
 // an empty value suitable for calling PopulateFromARM against.
 // It should be equivalent to ConvertToARM("") on a default struct value.
-type CreateEmptyArmValueFunc struct {
+type CreateEmptyARMValueFunc struct {
 	idFactory   astmodel.IdentifierFactory
 	armTypeName astmodel.TypeName
 }
 
-var _ astmodel.Function = &CreateEmptyArmValueFunc{}
+var _ astmodel.Function = &CreateEmptyARMValueFunc{}
 
-func (f CreateEmptyArmValueFunc) AsFunc(c *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (f CreateEmptyARMValueFunc) AsFunc(c *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 	fn := &astbuilder.FuncDetails{
-		Name:          "CreateEmptyArmValue",
+		Name:          "CreateEmptyARMValue",
 		ReceiverIdent: f.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported),
 		ReceiverType: &dst.StarExpr{
 			X: dst.NewIdent(receiver.Name()),
@@ -41,19 +41,19 @@ func (f CreateEmptyArmValueFunc) AsFunc(c *astmodel.CodeGenerationContext, recei
 	return fn.DefineFunc()
 }
 
-func (f CreateEmptyArmValueFunc) Equals(other astmodel.Function) bool {
-	otherFunc, ok := other.(CreateEmptyArmValueFunc)
+func (f CreateEmptyARMValueFunc) Equals(other astmodel.Function) bool {
+	otherFunc, ok := other.(CreateEmptyARMValueFunc)
 	return ok && f.armTypeName == otherFunc.armTypeName
 }
 
-func (f CreateEmptyArmValueFunc) Name() string {
-	return "CreateEmptyArmValue"
+func (f CreateEmptyARMValueFunc) Name() string {
+	return "CreateEmptyARMValue"
 }
 
-func (f CreateEmptyArmValueFunc) References() astmodel.TypeNameSet {
+func (f CreateEmptyARMValueFunc) References() astmodel.TypeNameSet {
 	return nil
 }
 
-func (f CreateEmptyArmValueFunc) RequiredPackageReferences() *astmodel.PackageReferenceSet {
+func (f CreateEmptyARMValueFunc) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	return astmodel.NewPackageReferenceSet()
 }

@@ -9,28 +9,28 @@ import (
 	"strings"
 )
 
-type ToArmConverter interface {
+type ToARMConverter interface {
 	// ConvertToArm converts this to an ARM resource. The name parameter is the fully qualified name of the resource in Azure ("a/b/c").
-	ConvertToArm(name string) (interface{}, error) // TODO: Should be ConvertToARM (same below)
+	ConvertToARM(name string) (interface{}, error)
 }
 
-type FromArmConverter interface {
-	CreateEmptyArmValue() interface{}
-	PopulateFromArm(owner KnownResourceReference, input interface{}) error
+type FromARMConverter interface {
+	CreateEmptyARMValue() interface{}
+	PopulateFromARM(owner KnownResourceReference, input interface{}) error
 }
 
-// TODO: Consider ArmSpecTransformer and ArmTransformer, so we don't have to pass owningName/name through all the calls
-// ArmTransformer is a type which can be converted to/from an Arm object shape.
+// TODO: Consider ArmSpecTransformer and ARMTransformer, so we don't have to pass owningName/name through all the calls
+// ARMTransformer is a type which can be converted to/from an Arm object shape.
 // Each CRD resource must implement these methods.
-type ArmTransformer interface {
-	ToArmConverter
-	FromArmConverter
+type ARMTransformer interface {
+	ToARMConverter
+	FromARMConverter
 }
 
-// ExtractKubernetesResourceNameFromArmName extracts the Kubernetes resource name from an ARM name.
+// ExtractKubernetesResourceNameFromARMName extracts the Kubernetes resource name from an ARM name.
 // See https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/child-resource-name-type#outside-parent-resource
 // for details on the format of the name field in ARM templates.
-func ExtractKubernetesResourceNameFromArmName(armName string) string {
+func ExtractKubernetesResourceNameFromARMName(armName string) string {
 	if len(armName) == 0 {
 		return ""
 	}

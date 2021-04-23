@@ -54,27 +54,27 @@ type AResourceList struct {
 	Items           []AResource `json:"items"`
 }
 
-type AResource_SpecArm struct {
+type AResource_SpecARM struct {
 	ApiVersion AResourceSpecApiVersion `json:"apiVersion"`
 	Name       string                  `json:"name"`
 	Type       AResourceSpecType       `json:"type"`
 }
 
-var _ genruntime.ArmResourceSpec = &AResource_SpecArm{}
+var _ genruntime.ARMResourceSpec = &AResource_SpecARM{}
 
 // GetApiVersion returns the ApiVersion of the resource
-func (aResourceSpecArm AResource_SpecArm) GetApiVersion() string {
-	return string(aResourceSpecArm.ApiVersion)
+func (aResourceSpecARM AResource_SpecARM) GetApiVersion() string {
+	return string(aResourceSpecARM.ApiVersion)
 }
 
 // GetName returns the Name of the resource
-func (aResourceSpecArm AResource_SpecArm) GetName() string {
-	return aResourceSpecArm.Name
+func (aResourceSpecARM AResource_SpecARM) GetName() string {
+	return aResourceSpecARM.Name
 }
 
 // GetType returns the Type of the resource
-func (aResourceSpecArm AResource_SpecArm) GetType() string {
-	return string(aResourceSpecArm.Type)
+func (aResourceSpecARM AResource_SpecARM) GetType() string {
+	return string(aResourceSpecARM.Type)
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
@@ -96,32 +96,32 @@ type AResource_Spec struct {
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources.infra.azure.com" json:"owner" kind:"ResourceGroup"`
 }
 
-var _ genruntime.ArmTransformer = &AResource_Spec{}
+var _ genruntime.ARMTransformer = &AResource_Spec{}
 
-// ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (aResourceSpec *AResource_Spec) ConvertToArm(name string) (interface{}, error) {
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (aResourceSpec *AResource_Spec) ConvertToARM(name string) (interface{}, error) {
 	if aResourceSpec == nil {
 		return nil, nil
 	}
-	var result AResource_SpecArm
+	var result AResource_SpecARM
 	result.ApiVersion = AResourceSpecApiVersion20200601
 	result.Name = name
 	result.Type = AResourceSpecTypeMicrosoftAzureAResource
 	return result, nil
 }
 
-// CreateEmptyArmValue returns an empty ARM value suitable for deserializing into
-func (aResourceSpec *AResource_Spec) CreateEmptyArmValue() interface{} {
-	return AResource_SpecArm{}
+// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (aResourceSpec *AResource_Spec) CreateEmptyARMValue() interface{} {
+	return AResource_SpecARM{}
 }
 
-// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
-func (aResourceSpec *AResource_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AResource_SpecArm)
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (aResourceSpec *AResource_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AResource_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected AResource_SpecArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AResource_SpecARM, got %T", armInput)
 	}
-	aResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name))
+	aResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 	aResourceSpec.Owner = owner
 	return nil
 }

@@ -24,7 +24,7 @@ func createARMTypes(idFactory astmodel.IdentifierFactory) PipelineStage {
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
 
 			armTypeCreator := &armTypeCreator{definitions: definitions, idFactory: idFactory}
-			armTypes, err := armTypeCreator.createArmTypes()
+			armTypes, err := armTypeCreator.createARMTypes()
 
 			if err != nil {
 				return nil, err
@@ -56,7 +56,7 @@ func getAllSpecDefinitions(definitions astmodel.Types) (astmodel.Types, error) {
 	return result, nil
 }
 
-func (c *armTypeCreator) createArmTypes() (astmodel.Types, error) {
+func (c *armTypeCreator) createARMTypes() (astmodel.Types, error) {
 
 	result := make(astmodel.Types)
 	resourceSpecDefs, err := getAllSpecDefinitions(c.definitions)
@@ -65,7 +65,7 @@ func (c *armTypeCreator) createArmTypes() (astmodel.Types, error) {
 	}
 
 	for _, def := range resourceSpecDefs {
-		armSpecDef, err := c.createArmResourceSpecDefinition(def)
+		armSpecDef, err := c.createARMResourceSpecDefinition(def)
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to create arm resource spec definition for resource %s", def.Name())
 		}
@@ -79,7 +79,7 @@ func (c *armTypeCreator) createArmTypes() (astmodel.Types, error) {
 	})
 
 	for _, def := range otherDefs {
-		armDef, err := c.createArmTypeDefinition(
+		armDef, err := c.createARMTypeDefinition(
 			false, // not Spec type
 			def)
 		if err != nil {
@@ -92,18 +92,18 @@ func (c *armTypeCreator) createArmTypes() (astmodel.Types, error) {
 	return result, nil
 }
 
-func (c *armTypeCreator) createArmResourceSpecDefinition(
+func (c *armTypeCreator) createARMResourceSpecDefinition(
 	resourceSpecDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 
 	emptyDef := astmodel.TypeDefinition{}
 
-	armTypeDef, err := c.createArmTypeDefinition(true, resourceSpecDef)
+	armTypeDef, err := c.createARMTypeDefinition(true, resourceSpecDef)
 	if err != nil {
 		return emptyDef, err
 	}
 
 	// ARM specs have a special interface that they need to implement, go ahead and create that here
-	if !astmodel.ArmFlag.IsOn(armTypeDef.Type()) {
+	if !astmodel.ARMFlag.IsOn(armTypeDef.Type()) {
 		return emptyDef, errors.Errorf("arm spec %q isn't a flagged object, instead: %T", armTypeDef.Name(), armTypeDef.Type())
 	}
 
@@ -115,13 +115,13 @@ func (c *armTypeCreator) createArmResourceSpecDefinition(
 		return emptyDef, errors.Errorf("arm spec %q isn't an object, instead: %T", armTypeDef.Name(), armTypeDef.Type())
 	}
 
-	iface, err := astmodel.NewArmSpecInterfaceImpl(c.idFactory, specObj)
+	iface, err := astmodel.NewARMSpecInterfaceImpl(c.idFactory, specObj)
 	if err != nil {
 		return emptyDef, err
 	}
 
 	updatedSpec := specObj.WithInterface(iface)
-	armTypeDef = armTypeDef.WithType(astmodel.ArmFlag.ApplyTo(updatedSpec))
+	armTypeDef = armTypeDef.WithType(astmodel.ARMFlag.ApplyTo(updatedSpec))
 
 	return armTypeDef, nil
 }
@@ -143,9 +143,9 @@ func removeValidations(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 	return t, nil
 }
 
-func (c *armTypeCreator) createArmTypeDefinition(isSpecType bool, def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-	convertPropertiesToArmTypesWrapper := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
-		return c.convertPropertiesToArmTypes(t, isSpecType)
+func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	convertPropertiesToARMTypesWrapper := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
+		return c.convertPropertiesToARMTypes(t, isSpecType)
 	}
 
 	addOneOfConversionFunctionIfNeeded := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
@@ -157,15 +157,15 @@ func (c *armTypeCreator) createArmTypeDefinition(isSpecType bool, def astmodel.T
 		return t, nil
 	}
 
-	armName := astmodel.CreateArmTypeName(def.Name())
-	armDef, err := def.WithName(armName).ApplyObjectTransformations(removeValidations, convertPropertiesToArmTypesWrapper, addOneOfConversionFunctionIfNeeded)
+	armName := astmodel.CreateARMTypeName(def.Name())
+	armDef, err := def.WithName(armName).ApplyObjectTransformations(removeValidations, convertPropertiesToARMTypesWrapper, addOneOfConversionFunctionIfNeeded)
 	if err != nil {
 		return astmodel.TypeDefinition{},
 			errors.Wrapf(err, "creating ARM prototype %v from Kubernetes definition %v", armName, def.Name())
 	}
 
 	result, err := armDef.ApplyObjectTransformation(func(objectType *astmodel.ObjectType) (astmodel.Type, error) {
-		return astmodel.ArmFlag.ApplyTo(objectType), nil
+		return astmodel.ARMFlag.ApplyTo(objectType), nil
 	})
 	if err != nil {
 		return astmodel.TypeDefinition{},
@@ -175,7 +175,7 @@ func (c *armTypeCreator) createArmTypeDefinition(isSpecType bool, def astmodel.T
 	return result, nil
 }
 
-func (c *armTypeCreator) convertArmPropertyTypeIfNeeded(t astmodel.Type) (astmodel.Type, error) {
+func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmodel.Type, error) {
 
 	visitor := astmodel.MakeTypeVisitor()
 	visitor.VisitTypeName = func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
@@ -190,7 +190,7 @@ func (c *armTypeCreator) convertArmPropertyTypeIfNeeded(t astmodel.Type) (astmod
 		}
 
 		if _, ok := def.Type().(*astmodel.ObjectType); ok {
-			return astmodel.CreateArmTypeName(def.Name()), nil
+			return astmodel.CreateARMTypeName(def.Name()), nil
 		}
 
 		// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
@@ -204,13 +204,13 @@ func (c *armTypeCreator) convertArmPropertyTypeIfNeeded(t astmodel.Type) (astmod
 			return it, nil
 		}
 
-		return astmodel.CreateArmTypeName(def.Name()), nil
+		return astmodel.CreateARMTypeName(def.Name()), nil
 	}
 
 	return visitor.Visit(t, nil)
 }
 
-func (c *armTypeCreator) convertPropertiesToArmTypes(t *astmodel.ObjectType, isSpecType bool) (*astmodel.ObjectType, error) {
+func (c *armTypeCreator) convertPropertiesToARMTypes(t *astmodel.ObjectType, isSpecType bool) (*astmodel.ObjectType, error) {
 	result := t
 
 	var errs []error
@@ -221,7 +221,7 @@ func (c *armTypeCreator) convertPropertiesToArmTypes(t *astmodel.ObjectType, isS
 			result = result.WithProperty(prop.WithType(astmodel.StringType))
 		} else {
 			propType := prop.PropertyType()
-			newType, err := c.convertArmPropertyTypeIfNeeded(propType)
+			newType, err := c.convertARMPropertyTypeIfNeeded(propType)
 			if err != nil {
 				errs = append(errs, err)
 			} else if newType != propType {

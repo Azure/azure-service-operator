@@ -11,7 +11,7 @@ type TypeFlag string
 
 const (
 	StorageFlag = TypeFlag("storage")
-	ArmFlag     = TypeFlag("arm")
+	ARMFlag     = TypeFlag("arm")
 	OneOfFlag   = TypeFlag("oneof")
 )
 

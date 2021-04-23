@@ -27,16 +27,16 @@ func CollectResourceDefinitions(definitions Types) TypeNameSet {
 	return resources
 }
 
-// CollectArmSpecAndStatusDefinitions returns a TypeNameSet of all of the ARM spec definitions
+// CollectARMSpecAndStatusDefinitions returns a TypeNameSet of all of the ARM spec definitions
 // passed in.
-func CollectArmSpecAndStatusDefinitions(definitions Types) TypeNameSet {
-	findArmType := func(t Type) (TypeName, error) {
+func CollectARMSpecAndStatusDefinitions(definitions Types) TypeNameSet {
+	findARMType := func(t Type) (TypeName, error) {
 		name, ok := t.(TypeName)
 		if !ok {
 			return TypeName{}, errors.Errorf("Type was not of type TypeName, instead %T", t)
 		}
 
-		armName := CreateArmTypeName(name)
+		armName := CreateARMTypeName(name)
 
 		if _, ok = definitions[armName]; !ok {
 			return TypeName{}, errors.Errorf("Couldn't find ARM type %q", armName)
@@ -50,7 +50,7 @@ func CollectArmSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 
 		if resourceType, ok := definitions.ResolveResourceType(def.Type()); ok {
 
-			armSpecName, err := findArmType(resourceType.spec)
+			armSpecName, err := findARMType(resourceType.spec)
 			if err != nil {
 				continue // No ARM type here - skip
 			}
@@ -58,7 +58,7 @@ func CollectArmSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 
 			statusType := IgnoringErrors(resourceType.status)
 			if statusType != nil {
-				armStatusName, err := findArmType(statusType)
+				armStatusName, err := findARMType(statusType)
 				if err != nil {
 					continue // No ARM type here - skip
 				}
@@ -81,7 +81,7 @@ func NewReferenceGraph(roots TypeNameSet, references map[TypeName]TypeNameSet) R
 // types, where the Resource types (and their ARM spec/status) are the roots.
 func NewReferenceGraphWithResourcesAsRoots(types Types) ReferenceGraph {
 	resources := CollectResourceDefinitions(types)
-	armSpecAndStatus := CollectArmSpecAndStatusDefinitions(types)
+	armSpecAndStatus := CollectARMSpecAndStatusDefinitions(types)
 
 	roots := SetUnion(resources, armSpecAndStatus)
 

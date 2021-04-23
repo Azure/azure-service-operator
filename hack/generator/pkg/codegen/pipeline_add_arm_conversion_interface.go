@@ -15,10 +15,10 @@ import (
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel/armconversion"
 )
 
-// applyArmConversionInterface adds the genruntime.ArmTransformer interface and the Owner property
+// applyARMConversionInterface adds the genruntime.ARMTransformer interface and the Owner property
 // to all Kubernetes types.
-// The ArmTransformer interface is used to convert from the Kubernetes type to the corresponding ARM type and back.
-func applyArmConversionInterface(idFactory astmodel.IdentifierFactory) PipelineStage {
+// The genruntime.ARMTransformer interface is used to convert from the Kubernetes type to the corresponding ARM type and back.
+func applyARMConversionInterface(idFactory astmodel.IdentifierFactory) PipelineStage {
 	return MakePipelineStage(
 		"applyArmConversionInterface",
 		"Apply the ARM conversion interface to Kubernetes types",
@@ -40,7 +40,7 @@ type armConversionApplier struct {
 // getARMTypeDefinition gets the ARM type definition for a given Kubernetes type name.
 // If no matching definition can be found an error is returned.
 func (c *armConversionApplier) getARMTypeDefinition(name astmodel.TypeName) (astmodel.TypeDefinition, error) {
-	armDefinition, ok := c.definitions[astmodel.CreateArmTypeName(name)]
+	armDefinition, ok := c.definitions[astmodel.CreateARMTypeName(name)]
 	if !ok {
 		return astmodel.TypeDefinition{}, errors.Errorf("couldn't find arm definition matching kube name %q", name)
 	}
@@ -48,7 +48,7 @@ func (c *armConversionApplier) getARMTypeDefinition(name astmodel.TypeName) (ast
 	return armDefinition, nil
 }
 
-// transformResourceSpecs applies the genruntime.ArmTransformer interface to all of the resource Spec types.
+// transformResourceSpecs applies the genruntime.ARMTransformer interface to all of the resource Spec types.
 // It also adds the Owner property.
 func (c *armConversionApplier) transformResourceSpecs() (astmodel.Types, error) {
 	result := make(astmodel.Types)
@@ -74,7 +74,7 @@ func (c *armConversionApplier) transformResourceSpecs() (astmodel.Types, error) 
 			return nil, err
 		}
 
-		specDefinition, err = c.addArmConversionInterface(specDefinition, armSpecDefinition, armconversion.SpecType)
+		specDefinition, err = c.addARMConversionInterface(specDefinition, armSpecDefinition, armconversion.SpecType)
 		if err != nil {
 			return nil, err
 		}
@@ -85,7 +85,7 @@ func (c *armConversionApplier) transformResourceSpecs() (astmodel.Types, error) 
 	return result, nil
 }
 
-// transformResourceStatuses applies the genruntime.ArmTransformer interface to all of the resource Status types.
+// transformResourceStatuses applies the genruntime.ARMTransformer interface to all of the resource Status types.
 func (c *armConversionApplier) transformResourceStatuses() (astmodel.Types, error) {
 	result := make(astmodel.Types)
 
@@ -93,7 +93,7 @@ func (c *armConversionApplier) transformResourceStatuses() (astmodel.Types, erro
 		_, ok := astmodel.AsObjectType(def.Type())
 		// TODO: We need labels
 		// Some status types are initially anonymous and then get named later (so end with a _Status_Xyz suffix)
-		return ok && strings.Contains(def.Name().Name(), "_Status") && !astmodel.ArmFlag.IsOn(def.Type())
+		return ok && strings.Contains(def.Name().Name(), "_Status") && !astmodel.ARMFlag.IsOn(def.Type())
 	})
 
 	for _, td := range statusDefs {
@@ -104,7 +104,7 @@ func (c *armConversionApplier) transformResourceStatuses() (astmodel.Types, erro
 				return nil, err
 			}
 
-			statusDefinition, err := c.addArmConversionInterface(td, armStatusDefinition, armconversion.StatusType)
+			statusDefinition, err := c.addARMConversionInterface(td, armStatusDefinition, armconversion.StatusType)
 			if err != nil {
 				return nil, err
 			}
@@ -141,7 +141,7 @@ func (c *armConversionApplier) transformTypes() (astmodel.Types, error) {
 	for _, td := range otherDefs {
 
 		_, isObjectType := astmodel.AsObjectType(td.Type())
-		hasARMFlag := astmodel.ArmFlag.IsOn(td.Type())
+		hasARMFlag := astmodel.ARMFlag.IsOn(td.Type())
 		if !isObjectType || hasARMFlag {
 			// No special handling needed just add the existing type and continue
 			result.Add(td)
@@ -153,7 +153,7 @@ func (c *armConversionApplier) transformTypes() (astmodel.Types, error) {
 			return nil, err
 		}
 
-		modifiedDef, err := c.addArmConversionInterface(td, armDefinition, armconversion.OrdinaryType)
+		modifiedDef, err := c.addARMConversionInterface(td, armDefinition, armconversion.OrdinaryType)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to add ARM conversion interface to %q", td.Name())
 		}
@@ -214,7 +214,7 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 	return kubernetesDef, nil
 }
 
-func (c *armConversionApplier) addArmConversionInterface(
+func (c *armConversionApplier) addARMConversionInterface(
 	kubeDef astmodel.TypeDefinition,
 	armDef astmodel.TypeDefinition,
 	typeType armconversion.TypeKind) (astmodel.TypeDefinition, error) {
@@ -226,7 +226,7 @@ func (c *armConversionApplier) addArmConversionInterface(
 	}
 
 	addInterfaceHandler := func(t *astmodel.ObjectType) (astmodel.Type, error) {
-		result := t.WithInterface(armconversion.NewArmTransformerImpl(
+		result := t.WithInterface(armconversion.NewARMTransformerImpl(
 			armDef.Name(),
 			objectType,
 			c.idFactory,

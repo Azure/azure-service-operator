@@ -45,7 +45,7 @@ type ResourceGroupSpecArm struct {
 	Type ResourceGroupType `json:"type"`
 }
 
-var _ genruntime.ArmResourceSpec = &ResourceGroupSpecArm{}
+var _ genruntime.ARMResourceSpec = &ResourceGroupSpecArm{}
 
 // GetApiVersion returns the ApiVersion of the resource
 func (spec ResourceGroupSpecArm) GetApiVersion() string {

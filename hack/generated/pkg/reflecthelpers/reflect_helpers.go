@@ -16,7 +16,7 @@ import (
 )
 
 // ResourceSpecToArmResourceSpec converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
-// a genruntime.ArmResourceSpec - a specification which can be submitted to Azure for deployment
+// a genruntime.ARMResourceSpec - a specification which can be submitted to Azure for deployment
 func ConvertResourceToDeployableResource(
 	ctx context.Context,
 	resolver *genruntime.Resolver,
@@ -38,7 +38,7 @@ func ConvertResourceToDeployableResource(
 
 	spec := specFieldPtr.Interface()
 
-	armTransformer, ok := spec.(genruntime.ArmTransformer)
+	armTransformer, ok := spec.(genruntime.ARMTransformer)
 	if !ok {
 		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
 	}
@@ -48,12 +48,12 @@ func ConvertResourceToDeployableResource(
 		return nil, err
 	}
 
-	armSpec, err := armTransformer.ConvertToArm(resourceHierarchy.FullAzureName())
+	armSpec, err := armTransformer.ConvertToARM(resourceHierarchy.FullAzureName())
 	if err != nil {
 		return nil, errors.Wrapf(err, "transforming resource %s to ARM", metaObject.GetName())
 	}
 
-	typedArmSpec, ok := armSpec.(genruntime.ArmResourceSpec)
+	typedArmSpec, ok := armSpec.(genruntime.ARMResourceSpec)
 	if !ok {
 		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ArmResourceSpec", armSpec)
 	}
@@ -77,20 +77,20 @@ func ConvertResourceToDeployableResource(
 	}
 }
 
-// NewEmptyArmResourceStatus creates an empty genruntime.ArmResourceStatus from a genruntime.MetaObject
+// NewEmptyArmResourceStatus creates an empty genruntime.ARMResourceStatus from a genruntime.MetaObject
 // (a Kubernetes representation of a resource), which can be filled by a call to Azure
-func NewEmptyArmResourceStatus(metaObject genruntime.MetaObject) (genruntime.ArmResourceStatus, error) {
+func NewEmptyArmResourceStatus(metaObject genruntime.MetaObject) (genruntime.ARMResourceStatus, error) {
 	kubeStatus, err := NewEmptyStatus(metaObject)
 	if err != nil {
 		return nil, err
 	}
 
 	// TODO: Do we actually want to return a ptr here, not a value?
-	armStatus := kubeStatus.CreateEmptyArmValue()
+	armStatus := kubeStatus.CreateEmptyARMValue()
 
 	// TODO: Some reflect hackery here to make sure that this is a ptr not a value
 	armStatusPtr := NewPtrFromValue(armStatus)
-	castArmStatus, ok := armStatusPtr.(genruntime.ArmResourceStatus)
+	castArmStatus, ok := armStatusPtr.(genruntime.ARMResourceStatus)
 	if !ok {
 		// TODO: Should these be panics instead - they aren't really recoverable?
 		return nil, errors.Errorf("resource status %T did not implement genruntime.ArmResourceStatus", armStatus)
@@ -101,7 +101,7 @@ func NewEmptyArmResourceStatus(metaObject genruntime.MetaObject) (genruntime.Arm
 
 // NewEmptyStatus creates a new empty Status object (which implements FromArmConverter) from
 // a genruntime.MetaObject.
-func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.FromArmConverter, error) {
+func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.FromARMConverter, error) {
 	t := reflect.TypeOf(metaObject).Elem()
 
 	statusField, ok := t.FieldByName("Status")
@@ -110,7 +110,7 @@ func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.FromArmConvert
 	}
 
 	statusPtr := reflect.New(statusField.Type)
-	status, ok := statusPtr.Interface().(genruntime.FromArmConverter)
+	status, ok := statusPtr.Interface().(genruntime.FromARMConverter)
 	if !ok {
 		return nil, errors.Errorf("status did not implement genruntime.ArmTransformer")
 	}
