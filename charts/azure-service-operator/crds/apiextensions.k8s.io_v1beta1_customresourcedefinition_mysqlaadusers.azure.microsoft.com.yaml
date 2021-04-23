@@ -38,10 +38,14 @@ spec:
         description: MySQLAADUser is the Schema for an AAD user for MySQL
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
           metadata:
             type: object
@@ -49,7 +53,11 @@ spec:
             description: MySQLAADUserSpec defines the desired state of MySQLAADUser
             properties:
               aadId:
-                description: AAD ID is the ID of the user in Azure Active Directory. When creating a user for a managed identity this must be the client id (sometimes called app id) of the managed identity. When creating a user for a "normal" (non-managed identity) user or group, this is the OID of the user or group.
+                description: AAD ID is the ID of the user in Azure Active Directory.
+                  When creating a user for a managed identity this must be the client
+                  id (sometimes called app id) of the managed identity. When creating
+                  a user for a "normal" (non-managed identity) user or group, this
+                  is the OID of the user or group.
                 minLength: 1
                 type: string
               dbName:
@@ -60,7 +68,8 @@ spec:
                 pattern: ^[-\w\._\(\)]+$
                 type: string
               roles:
-                description: The roles assigned to the user. A user must have at least one role.
+                description: The roles assigned to the user. A user must have at least
+                  one role.
                 items:
                   type: string
                 minItems: 1
@@ -78,7 +87,8 @@ spec:
             - server
             type: object
           status:
-            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
+            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
+              state of resource actions
             properties:
               completed:
                 format: date-time
@@ -118,10 +128,14 @@ spec:
         description: MySQLAADUser is the Schema for an AAD user for MySQL
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
           metadata:
             type: object
@@ -129,7 +143,11 @@ spec:
             description: MySQLAADUserSpec defines the desired state of MySQLAADUser
             properties:
               aadId:
-                description: AAD ID is the ID of the user in Azure Active Directory. When creating a user for a managed identity this must be the client id (sometimes called app id) of the managed identity. When creating a user for a "normal" (non-managed identity) user or group, this is the OID of the user or group.
+                description: AAD ID is the ID of the user in Azure Active Directory.
+                  When creating a user for a managed identity this must be the client
+                  id (sometimes called app id) of the managed identity. When creating
+                  a user for a "normal" (non-managed identity) user or group, this
+                  is the OID of the user or group.
                 minLength: 1
                 type: string
               databaseRoles:
@@ -137,7 +155,8 @@ spec:
                   items:
                     type: string
                   type: array
-                description: The database-level roles assigned to the user (keyed by database name).
+                description: The database-level roles assigned to the user (keyed
+                  by database name).
                 type: object
               resourceGroup:
                 minLength: 1
@@ -159,7 +178,8 @@ spec:
             - server
             type: object
           status:
-            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
+            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
+              state of resource actions
             properties:
               completed:
                 format: date-time
