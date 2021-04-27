@@ -6,35 +6,36 @@
 package armconversion
 
 import (
-	"fmt"
-
-	"github.com/dave/dst"
-
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-)
-
-type ConversionDirection string
-
-const (
-	ConversionDirectionToARM   = ConversionDirection("ToARM")
-	ConversionDirectionFromARM = ConversionDirection("FromARM")
+	"github.com/dave/dst"
 )
 
 // ARMConversionFunction represents an ARM conversion function for converting between a Kubernetes resource
 // and an ARM resource.
 type ARMConversionFunction struct {
-	name        string
 	armTypeName astmodel.TypeName
 	armType     *astmodel.ObjectType
 	idFactory   astmodel.IdentifierFactory
-	direction   ConversionDirection
 	isSpecType  bool
 }
 
-var _ astmodel.Function = &ARMConversionFunction{}
+type ConvertToARMFunction struct {
+	ARMConversionFunction
+}
 
-func (c *ARMConversionFunction) Name() string {
-	return c.name
+type PopulateFromARMFunction struct {
+	ARMConversionFunction
+}
+
+var _ astmodel.Function = &ConvertToARMFunction{}
+var _ astmodel.Function = &PopulateFromARMFunction{}
+
+func (c *ConvertToARMFunction) Name() string {
+	return "ConvertToARM"
+}
+
+func (c *PopulateFromARMFunction) Name() string {
+	return "PopulateFromARM"
 }
 
 // RequiredPackageReferences returns the imports required for this conversion function
@@ -58,46 +59,28 @@ func (c *ARMConversionFunction) References() astmodel.TypeNameSet {
 }
 
 // AsFunc returns the function as a Go AST
-func (c *ARMConversionFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-	switch c.direction {
-	case ConversionDirectionToARM:
-		return c.asConvertToARMFunc(codeGenerationContext, receiver, c.Name())
-	case ConversionDirectionFromARM:
-		return c.asConvertFromARMFunc(codeGenerationContext, receiver, c.Name())
-	default:
-		panic(fmt.Sprintf("Unknown conversion direction %s", c.direction))
-	}
-}
-
-func (c *ARMConversionFunction) asConvertToARMFunc(
-	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
-	methodName string) *dst.FuncDecl {
-
+func (c *ConvertToARMFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 	builder := newConvertToARMFunctionBuilder(
-		c,
+		&c.ARMConversionFunction,
 		codeGenerationContext,
 		receiver,
-		methodName)
+		c.Name())
 
 	return builder.functionDeclaration()
 }
 
-func (c *ARMConversionFunction) asConvertFromARMFunc(
-	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
-	methodName string) *dst.FuncDecl {
-
+func (c *PopulateFromARMFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 	builder := newConvertFromARMFunctionBuilder(
-		c,
+		&c.ARMConversionFunction,
 		codeGenerationContext,
 		receiver,
-		methodName)
+		c.Name())
+
 	return builder.functionDeclaration()
 }
 
 // Equals determines if this function is equal to the passed in function
-func (c *ARMConversionFunction) Equals(other astmodel.Function) bool {
+func (c *ConvertToARMFunction) Equals(other astmodel.Function) bool {
 	// TODO: Equality on functions is currently awkward because we can't easily pass
 	// TODO: a reference to the object the function is on to the function (since both
 	// TODO: are immutable and it's impossible to have two immutable objects with
@@ -106,10 +89,25 @@ func (c *ARMConversionFunction) Equals(other astmodel.Function) bool {
 	// TODO: with a receiver), and as such we just need to compare things that aren't
 	// TODO: the receiver type.
 
-	if o, ok := other.(*ARMConversionFunction); ok {
-		return c.armType.Equals(o.armType) &&
-			c.armTypeName.Equals(o.armTypeName) &&
-			c.direction == o.direction
+	if o, ok := other.(*ConvertToARMFunction); ok {
+		return c.armType.Equals(o.armType) && c.armTypeName.Equals(o.armTypeName)
+	}
+
+	return false
+}
+
+// Equals determines if this function is equal to the passed in function
+func (c *PopulateFromARMFunction) Equals(other astmodel.Function) bool {
+	// TODO: Equality on functions is currently awkward because we can't easily pass
+	// TODO: a reference to the object the function is on to the function (since both
+	// TODO: are immutable and it's impossible to have two immutable objects with
+	// TODO: references to each other). Really this equality is always in the context
+	// TODO: of comparing objects (since you can't have a free-floating function
+	// TODO: with a receiver), and as such we just need to compare things that aren't
+	// TODO: the receiver type.
+
+	if o, ok := other.(*PopulateFromARMFunction); ok {
+		return c.armType.Equals(o.armType) && c.armTypeName.Equals(o.armTypeName)
 	}
 
 	return false

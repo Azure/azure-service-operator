@@ -129,33 +129,34 @@ func NewARMTransformerImpl(
 	armTypeName astmodel.TypeName,
 	armType *astmodel.ObjectType,
 	idFactory astmodel.IdentifierFactory,
-	typeType TypeKind) *astmodel.InterfaceImplementation {
+	typeKind TypeKind) *astmodel.InterfaceImplementation {
 
-	var convertToARMFunc *ARMConversionFunction
-	if typeType != StatusType {
+	var convertToARMFunc *ConvertToARMFunction
+	if typeKind != StatusType {
 		// status type should not have ConvertToARM
-		convertToARMFunc = &ARMConversionFunction{
-			name:        "ConvertToARM",
-			armTypeName: armTypeName,
-			armType:     armType,
-			idFactory:   idFactory,
-			direction:   ConversionDirectionToARM,
-			isSpecType:  typeType == SpecType,
+		convertToARMFunc = &ConvertToARMFunction{
+			ARMConversionFunction: ARMConversionFunction{
+				armTypeName: armTypeName,
+				armType:     armType,
+				idFactory:   idFactory,
+				isSpecType:  typeKind == SpecType,
+			},
 		}
 	}
 
-	populateFromARMFunc := &ARMConversionFunction{
-		name:        "PopulateFromARM",
-		armTypeName: armTypeName,
-		armType:     armType,
-		idFactory:   idFactory,
-		direction:   ConversionDirectionFromARM,
-		isSpecType:  typeType == SpecType,
+	populateFromARMFunc := &PopulateFromARMFunction{
+		ARMConversionFunction: ARMConversionFunction{
+			armTypeName: armTypeName,
+			armType:     armType,
+			idFactory:   idFactory,
+			isSpecType:  typeKind == SpecType,
+		},
 	}
 
 	createEmptyARMValueFunc := CreateEmptyARMValueFunc{idFactory: idFactory, armTypeName: armTypeName}
 
 	if convertToARMFunc != nil {
+		// can convert both to and from ARM = the ARMTransformer interface
 		return astmodel.NewInterfaceImplementation(
 			astmodel.MakeTypeName(astmodel.GenRuntimeReference, "ARMTransformer"),
 			createEmptyARMValueFunc,
