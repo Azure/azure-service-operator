@@ -5,12 +5,13 @@ This document presents our proposed approach for implementing multitenancy suppo
 ## Overview
 
 The operator needs to support creating Azure resources using multiple credentials, managed by different groups, within one cluster. There are (at least) two ways we could handle multiple credentials in ASO:
+
 1. Allow running multiple operators in one cluster each with its own credentials and set of namespaces to watch for Azure resources.
-1. Keep the operator cluster-global but add a credential lookup when reconciling so that the identity used to communicate with Azure can be picked on a per-namespace (or per-resource) basis. A proof of concept of this approach can be seen in [PR #1206](https://github.com/Azure/azure-service-operator/pull/1206).
+2. Keep the operator cluster-global but add a credential lookup when reconciling so that the identity used to communicate with Azure can be picked on a per-namespace (or per-resource) basis. A proof of concept of this approach can be seen in [PR #1206](https://github.com/Azure/azure-service-operator/pull/1206).
 
 Initially we'll be working on option 1, but in the long term we expect to support both options for different use cases.
 
-This will be enabled by changing the operator configuration to allow specifying a set of the cluster's namespaces to watch for resources to manage, and then running a deployment of the ASO operator per tenant.
+Option 1 will be enabled by changing the operator configuration to allow specifying a set of the cluster's namespaces to watch for resources to manage, and then running a deployment of the ASO operator per tenant.
 Each deployment of the operator will run in a separate namespace (rather than the current default `azureoperator-system`) and read its configuration from a secret named `azureoperatorsettings` in that namespace.
 If the operator is configured to use managed identity (`AZURE_USE_MI=1`), then the `AzureIdentity` and `AzureIdentityBinding` will be found in that namespace as well.
 Each instance of the operator will use the service account defined in its namespace.
@@ -50,10 +51,11 @@ The [storage-version-migrator operator](https://github.com/kubernetes-sigs/kube-
 
 ### Alternatives
 
-An earlier plan for implementing multitenancy in ASO was to keep the operator deployment as it is now (one per cluster) but add flexibility in how the credentials would be looked up.
+An earlier plan for implementing multitenancy in ASO was to keep the operator deployment as it is now (one per cluster) but add flexibility in how the credentials would be looked up - this is option 2 above.
 A proof of concept to find credentials based on a resource's namespace can be seen in [PR #1206](https://github.com/Azure/azure-service-operator/pull/1206).
-This would be simpler in terms of deployments, but a global operator with access to different tenants' credentials carries the risk of applying the wrong credentials when reconciling an Azure resource.
-The operator-per-tenant architecture has been chosen to reduce that risk, since any given operator will only have access to the credentials it's configured with.
+This would be simpler in terms of deployments, but a global operator with access to different tenants' credentials carries the risk of applying the wrong credentials when reconciling an Azure resource, a risk that may be unacceptable for users who are very security conscious.
+We have chosen to implement the operator-per-tenant architecture first to enable the most security conscious customers.
+Along the way we will hopefully be able to lay the foundation for other multitenancy configurations as well.
 
 Once that's ready we'll come back to implementing more flexible credential matching.
 There are also potential ASO users who would benefit from being able to assign credentials directly to resources, which can be implemented as an extension of the per-namespace credential handling.
