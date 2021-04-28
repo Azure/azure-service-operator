@@ -13,7 +13,7 @@ import (
 	"k8s.io/klog/v2"
 )
 
-// Each StorageTypeFactory is used to create storage types for a specific service
+// StorageTypeFactory is used to create storage types for a specific service
 type StorageTypeFactory struct {
 	service                    string                     // Name of the service we're handling (used mostly for logging)
 	types                      astmodel.Types             // All the types for this service
