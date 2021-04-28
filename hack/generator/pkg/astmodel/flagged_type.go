@@ -175,3 +175,15 @@ func (ft *FlaggedType) String() string {
 func (ft *FlaggedType) Unwrap() Type {
 	return ft.element
 }
+
+// WriteDebugDescription adds a description of the current type to the passed builder
+// builder receives the full description, including nested types
+// types is a dictionary for resolving named types
+func (ft *FlaggedType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	ft.element.WriteDebugDescription(builder, types)
+	for f := range ft.flags {
+		builder.WriteString("[#")
+		builder.WriteString(f.String())
+		builder.WriteString("]")
+	}
+}

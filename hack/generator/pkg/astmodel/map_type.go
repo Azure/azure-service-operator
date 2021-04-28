@@ -7,6 +7,8 @@ package astmodel
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/dave/dst"
 )
 
@@ -85,4 +87,14 @@ func (m *MapType) Equals(t Type) bool {
 // String implements fmt.Stringer
 func (m *MapType) String() string {
 	return fmt.Sprintf("map[%s]%s", m.key.String(), m.value.String())
+}
+
+// WriteDebugDescription adds a description of the current type to the passed builder
+// builder receives the full description, including nested types
+// types is a dictionary for resolving named types
+func (m *MapType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	builder.WriteString("Map[")
+	m.key.WriteDebugDescription(builder, types)
+	builder.WriteString("]")
+	m.value.WriteDebugDescription(builder, types)
 }

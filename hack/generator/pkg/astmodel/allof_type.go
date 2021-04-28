@@ -159,3 +159,17 @@ func (allOf *AllOfType) String() string {
 
 	return fmt.Sprintf("(allOf: %s)", strings.Join(subStrings, ", "))
 }
+
+// WriteDebugDescription adds a description of the current AnyOf type to the passed builder
+// builder receives the full description, including nested types
+// types is a dictionary for resolving named types
+func (allOf *AllOfType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	builder.WriteString("AllOf[")
+	allOf.types.ForEach(func(t Type, ix int) {
+		if ix > 0 {
+			builder.WriteString("|")
+		}
+		t.WriteDebugDescription(builder, types)
+	})
+	builder.WriteString("]")
+}

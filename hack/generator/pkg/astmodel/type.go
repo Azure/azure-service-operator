@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/dave/dst"
 )
@@ -39,6 +40,11 @@ type Type interface {
 	// Make sure all Types have a printable version for debugging/user info.
 	// This doesn't need to be a full representation of the type.
 	fmt.Stringer
+
+	// WriteDebugDescription adds a description of the current type to the passed builder
+	// builder receives the full description, including nested types
+	// types is a dictionary for resolving named types
+	WriteDebugDescription(builder *strings.Builder, types Types)
 }
 
 // IgnoringErrors returns the type stripped of any ErroredType wrapper

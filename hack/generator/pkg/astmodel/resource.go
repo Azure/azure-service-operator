@@ -451,3 +451,14 @@ func (resource *ResourceType) copy() *ResourceType {
 func (resource *ResourceType) HasTestCases() bool {
 	return len(resource.testcases) > 0
 }
+
+// WriteDebugDescription adds a description of the current type to the passed builder
+// builder receives the full description, including nested types
+// types is a dictionary for resolving named types
+func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	builder.WriteString("Resource[spec:")
+	resource.spec.WriteDebugDescription(builder, types)
+	builder.WriteString("|status:")
+	resource.status.WriteDebugDescription(builder, types)
+	builder.WriteString("]")
+}

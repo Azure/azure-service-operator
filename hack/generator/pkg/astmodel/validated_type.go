@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"math/big"
 	"regexp"
+	"strings"
 
 	"github.com/dave/dst"
 )
@@ -229,4 +230,13 @@ func equalOptionalRegexps(left *regexp.Regexp, right *regexp.Regexp) bool {
 // Unwrap returns the type contained within the validated type
 func (v ValidatedType) Unwrap() Type {
 	return v.element
+}
+
+// WriteDebugDescription adds a description of the current type to the passed builder
+// builder receives the full description, including nested types
+// types is a dictionary for resolving named types
+func (v ValidatedType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	builder.WriteString("Validated[")
+	v.element.WriteDebugDescription(builder, types)
+	builder.WriteString("]")
 }

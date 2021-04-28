@@ -8,6 +8,7 @@ package astmodel
 import (
 	"go/token"
 	"sort"
+	"strings"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
@@ -525,4 +526,11 @@ func extractEmbeddedTypeName(t Type) (TypeName, error) {
 	}
 
 	return TypeName{}, errors.Errorf("embedded property type must be TypeName, was: %T", t)
+}
+
+// WriteDebugDescription adds a description of the current type to the passed builder
+// builder receives the full description, including nested types
+// types is a dictionary for resolving named types
+func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	builder.WriteString("Object")
 }

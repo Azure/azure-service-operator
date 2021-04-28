@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
@@ -155,4 +156,24 @@ func (e *ErroredType) String() string {
 // Unwrap returns the type contained within the error type
 func (e *ErroredType) Unwrap() Type {
 	return e.inner
+}
+
+// WriteDebugDescription adds a description of the current errored type to the passed builder,
+// builder receives the full description, including the nested type, errors and warnings
+// types is a dictionary for resolving named types
+func (e *ErroredType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	builder.WriteString("Error[")
+	e.inner.WriteDebugDescription(builder, types)
+
+	for _, e := range e.errors {
+		builder.WriteString("|")
+		builder.WriteString(e)
+	}
+
+	for _, w := range e.warnings {
+		builder.WriteString("|")
+		builder.WriteString(w)
+	}
+
+	builder.WriteString("]")
 }

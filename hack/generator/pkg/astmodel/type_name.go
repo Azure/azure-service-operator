@@ -166,3 +166,21 @@ func (typeName TypeName) Plural() TypeName {
 
 	return MakeTypeName(typeName.PackageReference, flect.Pluralize(typeName.name))
 }
+
+// WriteDebugDescription adds a description of the current type to the passed builder
+// builder receives the full description, including nested types
+// types is a dictionary for resolving named types
+func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, types Types) {
+	builder.WriteString(typeName.PackageReference.String())
+	builder.WriteString("/")
+	builder.WriteString(typeName.name)
+
+	if _, ok := typeName.PackageReference.AsLocalPackage(); ok {
+		builder.WriteString(":")
+		if definition, ok := types[typeName]; ok {
+			definition.Type().WriteDebugDescription(builder, types)
+		} else {
+			builder.WriteString("NOTDEFINED")
+		}
+	}
+}

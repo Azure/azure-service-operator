@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/dave/dst"
 )
@@ -109,4 +110,13 @@ func (optional *OptionalType) String() string {
 // Unwrap returns the type contained within the wrapper type
 func (optional *OptionalType) Unwrap() Type {
 	return optional.element
+}
+
+// WriteDebugDescription adds a description of the current type to the passed builder
+// builder receives the full description, including nested types
+// types is a dictionary for resolving named types
+func (optional *OptionalType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	builder.WriteString("Optional[")
+	optional.element.WriteDebugDescription(builder, types)
+	builder.WriteString("]")
 }

@@ -123,3 +123,17 @@ func (oneOf *OneOfType) String() string {
 
 	return fmt.Sprintf("(oneOf: %s)", strings.Join(subStrings, ", "))
 }
+
+// WriteDebugDescription adds a description of the current type to the passed builder
+// builder receives the full description, including nested types
+// types is a dictionary for resolving named types
+func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	builder.WriteString("OneOf[")
+	oneOf.types.ForEach(func(t Type, ix int) {
+		if ix > 0 {
+			builder.WriteString("|")
+		}
+		t.WriteDebugDescription(builder, types)
+	})
+	builder.WriteString("]")
+}
