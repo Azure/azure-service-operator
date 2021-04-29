@@ -70,9 +70,9 @@ echo "Installing go-task…"
 curl -sL "https://github.com/go-task/task/releases/download/v3.0.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
 
 # Install kubebuilder
-echo "Installing kubebuilder…"
 os=$(go env GOOS)
 arch=$(go env GOARCH)
+echo "Installing kubebuilder ($os $arch)…"
 curl -L "https://go.kubebuilder.io/dl/2.3.1/${os}/${arch}" | tar -xz -C /tmp/
 mv "/tmp/kubebuilder_2.3.1_${os}_${arch}" "$KUBEBUILDER_DEST"
 
