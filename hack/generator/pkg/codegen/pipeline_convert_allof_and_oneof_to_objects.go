@@ -270,63 +270,44 @@ func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []property
 }
 
 func (s synthesizer) intersectTypes(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	for _, handler := range intersectHandlers {
-		result, err := handler(s, left, right)
-		if err != nil {
-			return nil, errors.Wrapf(err, "error intersecting types")
-		}
-
-		if result != nil {
-			return result, nil
-		}
-	}
-
-	return nil, errors.Errorf("don't know how to intersect types: %s and %s", left, right)
+	return intersector.MergeWithContext(s, left, right)
 }
 
-// intersectHandler knows how to do intersection for one case only. It is biased to examine
-// the LHS type (but some are symmetric and handle both sides at once). The handler can return
-// nil,nil which indicates it doesn't apply to this combination of types.
-type intersectHandler = func(synthesizer, astmodel.Type, astmodel.Type) (astmodel.Type, error)
-
-// handles the same case for the right hand side
-func flip(f intersectHandler) intersectHandler {
-	return func(s synthesizer, left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-		return f(s, right, left)
-	}
-}
-
-var intersectHandlers []intersectHandler
+var intersector astmodel.TypeMerger
 
 func init() {
-	intersectHandlers = []intersectHandler{
-		synthesizer.handleEqualTypes, // equality is symmetric
-		synthesizer.handleValidatedAndNonValidated, flip(synthesizer.handleValidatedAndNonValidated),
-		synthesizer.handleAnyType, flip(synthesizer.handleAnyType),
-		synthesizer.handleAllOfType, flip(synthesizer.handleAllOfType),
-		synthesizer.handleTypeName, flip(synthesizer.handleTypeName),
-		synthesizer.handleOneOf, flip(synthesizer.handleOneOf),
-		synthesizer.handleOptionalOptional,                           // symmetric
-		synthesizer.handleOptional, flip(synthesizer.handleOptional), // needs to be before Enum
-		synthesizer.handleResourceResource, // symmetric
-		synthesizer.handleResourceType, flip(synthesizer.handleResourceType),
-		synthesizer.handleEnumEnum, // symmetric
-		synthesizer.handleEnum, flip(synthesizer.handleEnum),
-		synthesizer.handleObjectObject, // symmetric
-		synthesizer.handleMapMap,       // symmetric
-		synthesizer.handleArrayArray,   // symmetric
-		synthesizer.handleMapObject, flip(synthesizer.handleMapObject),
-		synthesizer.handleErrored, flip(synthesizer.handleErrored),
-	}
+	i := astmodel.NewTypeMerger(func(_ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
+		return nil, errors.Errorf("don't know how to intersect types: %s and %s", left, right)
+	})
+
+	i.Add(synthesizer.handleEqualTypes)
+	i.AddUnordered(synthesizer.handleValidatedAndNonValidated)
+	i.AddUnordered(synthesizer.handleAnyType)
+	i.AddUnordered(synthesizer.handleAllOfType)
+	i.AddUnordered(synthesizer.handleTypeName)
+	i.AddUnordered(synthesizer.handleOneOf)
+
+	i.Add(synthesizer.handleOptionalOptional)
+	i.AddUnordered(synthesizer.handleOptional)
+
+	i.Add(synthesizer.handleResourceResource)
+	i.AddUnordered(synthesizer.handleResourceType)
+
+	i.Add(synthesizer.handleEnumEnum)
+	i.AddUnordered(synthesizer.handleEnum)
+
+	i.Add(synthesizer.handleObjectObject)
+	i.Add(synthesizer.handleMapMap)
+	i.Add(synthesizer.handleArrayArray)
+
+	i.AddUnordered(synthesizer.handleMapObject)
+	i.AddUnordered(synthesizer.handleErrored)
+
+	intersector = i
 }
 
-func (s synthesizer) handleErrored(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
+func (s synthesizer) handleErrored(leftErrored *astmodel.ErroredType, right astmodel.Type) (astmodel.Type, error) {
 	// can merge the contents of an ErroredType, if we preserve the errors
-	leftErrored, ok := left.(*astmodel.ErroredType)
-	if !ok {
-		return nil, nil
-	}
-
 	if leftErrored.InnerType() == nil {
 		return leftErrored.WithType(right), nil
 	}
@@ -343,27 +324,12 @@ func (s synthesizer) handleErrored(left astmodel.Type, right astmodel.Type) (ast
 	return leftErrored.WithType(combined), nil
 }
 
-func (s synthesizer) handleOptional(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftOptional, ok := left.(*astmodel.OptionalType)
-	if !ok {
-		return nil, nil
-	}
-
+func (s synthesizer) handleOptional(leftOptional *astmodel.OptionalType, right astmodel.Type) (astmodel.Type, error) {
 	// is this wrong? it feels wrong, but needed for {optional{enum}, string}
 	return s.intersectTypes(leftOptional.Element(), right)
 }
 
-func (s synthesizer) handleResourceResource(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftResource, ok := left.(*astmodel.ResourceType)
-	if !ok {
-		return nil, nil
-	}
-
-	rightResource, ok := right.(*astmodel.ResourceType)
-	if !ok {
-		return nil, nil
-	}
-
+func (s synthesizer) handleResourceResource(leftResource *astmodel.ResourceType, rightResource *astmodel.ResourceType) (astmodel.Type, error) {
 	// merge two resources: merge spec/status
 	spec, err := s.intersectTypes(leftResource.SpecType(), rightResource.SpecType())
 	if err != nil {
@@ -386,12 +352,7 @@ func (s synthesizer) handleResourceResource(left astmodel.Type, right astmodel.T
 	return leftResource.WithSpec(spec).WithStatus(status), nil
 }
 
-func (s synthesizer) handleResourceType(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftResource, ok := left.(*astmodel.ResourceType)
-	if !ok {
-		return nil, nil
-	}
-
+func (s synthesizer) handleResourceType(leftResource *astmodel.ResourceType, right astmodel.Type) (astmodel.Type, error) {
 	if s.specOrStatus == chooseStatus {
 		if leftResource.StatusType() != nil {
 			newT, err := s.intersectTypes(leftResource.StatusType(), right)
@@ -415,18 +376,8 @@ func (s synthesizer) handleResourceType(left astmodel.Type, right astmodel.Type)
 	}
 }
 
-func (s synthesizer) handleOptionalOptional(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
+func (s synthesizer) handleOptionalOptional(leftOptional *astmodel.OptionalType, rightOptional *astmodel.OptionalType) (astmodel.Type, error) {
 	// if both optional merge their contents and put back in an optional
-	leftOptional, ok := left.(*astmodel.OptionalType)
-	if !ok {
-		return nil, nil
-	}
-
-	rightOptional, ok := right.(*astmodel.OptionalType)
-	if !ok {
-		return nil, nil
-	}
-
 	result, err := s.intersectTypes(leftOptional.Element(), rightOptional.Element())
 	if err != nil {
 		return nil, err
@@ -435,17 +386,7 @@ func (s synthesizer) handleOptionalOptional(left astmodel.Type, right astmodel.T
 	return astmodel.NewOptionalType(result), nil
 }
 
-func (s synthesizer) handleMapMap(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftMap, ok := left.(*astmodel.MapType)
-	if !ok {
-		return nil, nil
-	}
-
-	rightMap, ok := right.(*astmodel.MapType)
-	if !ok {
-		return nil, nil
-	}
-
+func (s synthesizer) handleMapMap(leftMap *astmodel.MapType, rightMap *astmodel.MapType) (astmodel.Type, error) {
 	keyType, err := s.intersectTypes(leftMap.KeyType(), rightMap.KeyType())
 	if err != nil {
 		return nil, err
@@ -460,17 +401,7 @@ func (s synthesizer) handleMapMap(left astmodel.Type, right astmodel.Type) (astm
 }
 
 // intersection of array types is array of intersection of their element types
-func (s synthesizer) handleArrayArray(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftArray, ok := left.(*astmodel.ArrayType)
-	if !ok {
-		return nil, nil
-	}
-
-	rightArray, ok := right.(*astmodel.ArrayType)
-	if !ok {
-		return nil, nil
-	}
-
+func (s synthesizer) handleArrayArray(leftArray *astmodel.ArrayType, rightArray *astmodel.ArrayType) (astmodel.Type, error) {
 	intersected, err := s.intersectTypes(leftArray.Element(), rightArray.Element())
 	if err != nil {
 		return nil, err
@@ -479,17 +410,7 @@ func (s synthesizer) handleArrayArray(left astmodel.Type, right astmodel.Type) (
 	return astmodel.NewArrayType(intersected), nil
 }
 
-func (s synthesizer) handleObjectObject(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftObj, ok := left.(*astmodel.ObjectType)
-	if !ok {
-		return nil, nil
-	}
-
-	rightObj, ok := right.(*astmodel.ObjectType)
-	if !ok {
-		return nil, nil
-	}
-
+func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
 	mergedProps := make(map[astmodel.PropertyName]*astmodel.PropertyDefinition)
 
 	for _, p := range leftObj.Properties() {
@@ -522,18 +443,7 @@ func (s synthesizer) handleObjectObject(left astmodel.Type, right astmodel.Type)
 	return leftObj.WithProperties(properties...), nil
 }
 
-func (s synthesizer) handleEnumEnum(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftEnum, ok := left.(*astmodel.EnumType)
-	if !ok {
-		return nil, nil
-	}
-
-	// if both are enums then the elements must be common
-	rightEnum, ok := right.(*astmodel.EnumType)
-	if !ok {
-		return nil, nil
-	}
-
+func (s synthesizer) handleEnumEnum(leftEnum *astmodel.EnumType, rightEnum *astmodel.EnumType) (astmodel.Type, error) {
 	if !leftEnum.BaseType().Equals(rightEnum.BaseType()) {
 		return nil, errors.Errorf("cannot merge enums with differing base types")
 	}
@@ -552,12 +462,7 @@ func (s synthesizer) handleEnumEnum(left astmodel.Type, right astmodel.Type) (as
 	return astmodel.NewEnumType(leftEnum.BaseType(), inBoth...), nil
 }
 
-func (s synthesizer) handleEnum(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftEnum, ok := left.(*astmodel.EnumType)
-	if !ok {
-		return nil, nil
-	}
-
+func (s synthesizer) handleEnum(leftEnum *astmodel.EnumType, right astmodel.Type) (astmodel.Type, error) {
 	// we can restrict from a (maybe optional) base type to an enum type
 	if leftEnum.BaseType().Equals(right) ||
 		astmodel.NewOptionalType(leftEnum.BaseType()).Equals(right) {
@@ -572,12 +477,7 @@ func (s synthesizer) handleEnum(left astmodel.Type, right astmodel.Type) (astmod
 	return nil, errors.Errorf("don't know how to merge enum type (%s) with %s", strings.Join(strs, ", "), right)
 }
 
-func (s synthesizer) handleAllOfType(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftAllOf, ok := left.(*astmodel.AllOfType)
-	if !ok {
-		return nil, nil
-	}
-
+func (s synthesizer) handleAllOfType(leftAllOf *astmodel.AllOfType, right astmodel.Type) (astmodel.Type, error) {
 	result, err := s.allOfObject(leftAllOf)
 	if err != nil {
 		return nil, err
@@ -587,12 +487,7 @@ func (s synthesizer) handleAllOfType(left astmodel.Type, right astmodel.Type) (a
 }
 
 // if combining a type with a oneOf that contains that type, the result is that type
-func (s synthesizer) handleOneOf(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftOneOf, ok := left.(*astmodel.OneOfType)
-	if !ok {
-		return nil, nil
-	}
-
+func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.Type) (astmodel.Type, error) {
 	// if there is an equal case, use that:
 	{
 		var result astmodel.Type
@@ -626,12 +521,7 @@ func (s synthesizer) handleOneOf(left astmodel.Type, right astmodel.Type) (astmo
 	return astmodel.BuildOneOfType(newTypes...), nil
 }
 
-func (s synthesizer) handleTypeName(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	leftName, ok := left.(astmodel.TypeName)
-	if !ok {
-		return nil, nil
-	}
-
+func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.Type) (astmodel.Type, error) {
 	if found, ok := s.defs[leftName]; !ok {
 		return nil, errors.Errorf("couldn't find type %s", leftName)
 	} else {
@@ -654,7 +544,7 @@ func (s synthesizer) handleTypeName(left astmodel.Type, right astmodel.Type) (as
 }
 
 // any type always disappears when intersected with another type
-func (synthesizer) handleAnyType(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
+func (synthesizer) handleAnyType(left *astmodel.PrimitiveType, right astmodel.Type) (astmodel.Type, error) {
 	if left.Equals(astmodel.AnyType) {
 		return right, nil
 	}
@@ -672,31 +562,25 @@ func (synthesizer) handleEqualTypes(left astmodel.Type, right astmodel.Type) (as
 }
 
 // a validated and non-validated version of the same type become the valiated version
-func (synthesizer) handleValidatedAndNonValidated(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	if validated, ok := left.(*astmodel.ValidatedType); ok {
-		if validated.ElementType().Equals(right) {
-			return left, nil
-		}
+func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedType, right astmodel.Type) (astmodel.Type, error) {
+	if validated.ElementType().Equals(right) {
+		return validated, nil
 	}
 
 	return nil, nil
 }
 
 // a string map and object can be combined with the map type becoming additionalProperties
-func (synthesizer) handleMapObject(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	if leftMap, ok := left.(*astmodel.MapType); ok {
-		if leftMap.KeyType().Equals(astmodel.StringType) {
-			if rightObj, ok := right.(*astmodel.ObjectType); ok {
-				if len(rightObj.Properties()) == 0 {
-					// no properties, treat as map
-					// TODO: there could be other things in the object to check?
-					return leftMap, nil
-				}
-
-				additionalProps := astmodel.NewPropertyDefinition("additionalProperties", "additionalProperties", leftMap)
-				return rightObj.WithProperties(additionalProps), nil
-			}
+func (synthesizer) handleMapObject(leftMap *astmodel.MapType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
+	if leftMap.KeyType().Equals(astmodel.StringType) {
+		if len(rightObj.Properties()) == 0 {
+			// no properties, treat as map
+			// TODO: there could be other things in the object to check?
+			return leftMap, nil
 		}
+
+		additionalProps := astmodel.NewPropertyDefinition("additionalProperties", "additionalProperties", leftMap)
+		return rightObj.WithProperties(additionalProps), nil
 	}
 
 	return nil, nil

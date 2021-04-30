@@ -135,9 +135,9 @@ func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
 		return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+"_Status")
 	}
 
-	var errs []error
 	renamer := makeRenamingVisitor(appendStatusToName)
 
+	var errs []error
 	var otherTypes []astmodel.TypeDefinition
 	for _, typeDef := range swaggerTypes.otherTypes {
 		renamedDef, err := renamer.VisitDefinition(typeDef, nil)
