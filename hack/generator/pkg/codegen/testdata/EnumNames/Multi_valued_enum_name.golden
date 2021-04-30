@@ -99,7 +99,7 @@ type AResource_Spec struct {
 var _ genruntime.ARMTransformer = &AResource_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (aResourceSpec *AResource_Spec) ConvertToARM(name string) (interface{}, error) {
+func (aResourceSpec *AResource_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if aResourceSpec == nil {
 		return nil, nil
 	}

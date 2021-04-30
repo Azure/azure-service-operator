@@ -28,9 +28,9 @@ func NewResolver(client *kubeclient.Client, reconciledResourceLookup map[schema.
 	}
 }
 
-// GetReferenceARMID gets a references ARM ID. If the reference is just pointing to an ARM resource then the ARMID is returned.
+// ResolveReferenceToARMID gets a references ARM ID. If the reference is just pointing to an ARM resource then the ARMID is returned.
 // If the reference is pointing to a Kubernetes resource, that resource is looked up and its ARM ID is computed.
-func (r *Resolver) GetReferenceARMID(ctx context.Context, ref ResourceReference) (string, error) {
+func (r *Resolver) ResolveReferenceToARMID(ctx context.Context, ref ResourceReference) (string, error) {
 	if ref.IsDirectARMReference() {
 		return ref.ARMID, nil
 	}
@@ -51,6 +51,21 @@ func (r *Resolver) GetReferenceARMID(ctx context.Context, ref ResourceReference)
 	}
 
 	return id, nil
+}
+
+// ResolveReferencesToARMIDs resolves all provided references to their ARM IDs.
+func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[ResourceReference]struct{}) (map[ResourceReference]string, error) {
+	result := make(map[ResourceReference]string)
+
+	for ref := range refs {
+		armID, err := r.ResolveReferenceToARMID(ctx, ref)
+		if err != nil {
+			return nil, err
+		}
+		result[ref] = armID
+	}
+
+	return result, nil
 }
 
 // ResolveResourceHierarchy gets the resource hierarchy for a given resource. The result is a slice of

@@ -18,6 +18,7 @@ import (
 
 	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
+	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/testcommon"
 )
 
@@ -29,7 +30,7 @@ func Test_NewResourceGroupDeployment(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	resourceGroup := testContext.NewTestResourceGroup()
-	resourceGroupSpec, err := resourceGroup.Spec.ConvertToARM(resourceGroup.Name)
+	resourceGroupSpec, err := resourceGroup.Spec.ConvertToARM(resourceGroup.Name, genruntime.MakeResolvedReferences(nil))
 	g.Expect(err).ToNot(HaveOccurred())
 
 	typedResourceGroupSpec := resourceGroupSpec.(resources.ResourceGroupSpecArm)
@@ -86,7 +87,7 @@ func Test_NewResourceGroupDeployment_Error(t *testing.T) {
 		},
 	}
 
-	resourceGroupSpec, err := resourceGroup.Spec.ConvertToARM(rgName)
+	resourceGroupSpec, err := resourceGroup.Spec.ConvertToARM(resourceGroup.Name, genruntime.MakeResolvedReferences(nil))
 	g.Expect(err).ToNot(HaveOccurred())
 
 	deployment := armclient.NewSubscriptionDeployment(

@@ -288,7 +288,7 @@ func Test_ResolveReference_ReturnsErrorIfReferenceIsNotAKubernetesReference(t *t
 	g.Expect(err).To(MatchError("reference abcd is not pointing to a Kubernetes resource"))
 }
 
-func Test_GetReferenceARMID_KubernetesResource_ReturnsExpectedID(t *testing.T) {
+func Test_ResolveReferenceToARMID_KubernetesResource_ReturnsExpectedID(t *testing.T) {
 	g := NewWithT(t)
 	ctx := context.TODO()
 
@@ -309,12 +309,12 @@ func Test_GetReferenceARMID_KubernetesResource_ReturnsExpectedID(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	ref := genruntime.ResourceReference{Group: genruntime.ResourceGroupGroup, Kind: genruntime.ResourceGroupKind, Namespace: testNamespace, Name: resourceGroupName}
-	id, err := resolver.GetReferenceARMID(ctx, ref)
+	id, err := resolver.ResolveReferenceToARMID(ctx, ref)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(id).To(Equal(armID))
 }
 
-func Test_GetReferenceARMID_ARMResource_ReturnsExpectedID(t *testing.T) {
+func Test_ResolveReferenceToARMID_ARMResource_ReturnsExpectedID(t *testing.T) {
 	g := NewWithT(t)
 	ctx := context.TODO()
 
@@ -327,7 +327,7 @@ func Test_GetReferenceARMID_ARMResource_ReturnsExpectedID(t *testing.T) {
 
 	armID := "/subscriptions/00000000-0000-0000-000000000000/resources/resourceGroups/myrg"
 	ref := genruntime.ResourceReference{ARMID: armID}
-	id, err := resolver.GetReferenceARMID(ctx, ref)
+	id, err := resolver.ResolveReferenceToARMID(ctx, ref)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(id).To(Equal(armID))
 }

@@ -116,7 +116,7 @@ type FakeResource_Spec struct {
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string) (interface{}, error) {
+func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if fakeResourceSpec == nil {
 		return nil, nil
 	}
@@ -126,14 +126,14 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string) (interface{
 		colorTyped := *fakeResourceSpec.Color
 		result.Color = &colorTyped
 	}
-	foo, err := fakeResourceSpec.Foo.ConvertToARM(name)
+	foo, err := fakeResourceSpec.Foo.ConvertToARM(name, resolvedReferences)
 	if err != nil {
 		return nil, err
 	}
 	result.Foo = foo.(FooARM)
 	result.Name = name
 	if fakeResourceSpec.OptionalFoo != nil {
-		optionalFoo, err := (*fakeResourceSpec.OptionalFoo).ConvertToARM(name)
+		optionalFoo, err := (*fakeResourceSpec.OptionalFoo).ConvertToARM(name, resolvedReferences)
 		if err != nil {
 			return nil, err
 		}
@@ -198,7 +198,7 @@ type Foo struct {
 var _ genruntime.ARMTransformer = &Foo{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (foo *Foo) ConvertToARM(name string) (interface{}, error) {
+func (foo *Foo) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if foo == nil {
 		return nil, nil
 	}

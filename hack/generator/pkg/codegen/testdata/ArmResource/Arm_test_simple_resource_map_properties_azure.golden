@@ -121,7 +121,7 @@ type FakeResource_Spec struct {
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string) (interface{}, error) {
+func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if fakeResourceSpec == nil {
 		return nil, nil
 	}
@@ -129,7 +129,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string) (interface{
 	result.ApiVersion = FakeResourceSpecApiVersion20200601
 	result.MapFoo = make(map[string]FooARM)
 	for key, value := range fakeResourceSpec.MapFoo {
-		elem, err := value.ConvertToARM(name)
+		elem, err := value.ConvertToARM(name, resolvedReferences)
 		if err != nil {
 			return nil, err
 		}
@@ -140,7 +140,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string) (interface{
 	for key, value := range fakeResourceSpec.MapOfArrays {
 		var elemTyped []FooARM
 		for _, item := range value {
-			elem, err := item.ConvertToARM(name)
+			elem, err := item.ConvertToARM(name, resolvedReferences)
 			if err != nil {
 				return nil, err
 			}
@@ -158,7 +158,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string) (interface{
 	for key, value := range fakeResourceSpec.MapOfMaps {
 		elemTyped := make(map[string]FooARM)
 		for key, value := range value {
-			elem, err := value.ConvertToARM(name)
+			elem, err := value.ConvertToARM(name, resolvedReferences)
 			if err != nil {
 				return nil, err
 			}
@@ -267,7 +267,7 @@ type Foo struct {
 var _ genruntime.ARMTransformer = &Foo{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (foo *Foo) ConvertToARM(name string) (interface{}, error) {
+func (foo *Foo) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if foo == nil {
 		return nil, nil
 	}

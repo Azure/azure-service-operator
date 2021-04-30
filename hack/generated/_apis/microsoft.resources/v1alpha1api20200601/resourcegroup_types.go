@@ -82,7 +82,7 @@ func (status *ResourceGroupStatus) CreateEmptyARMValue() interface{} {
 }
 
 // ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (status *ResourceGroupStatus) ConvertToARM(name string) (interface{}, error) {
+func (status *ResourceGroupStatus) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if status == nil {
 		return nil, nil
 	}
@@ -93,7 +93,7 @@ func (status *ResourceGroupStatus) ConvertToARM(name string) (interface{}, error
 	result.Name = status.Name
 	result.Tags = status.Tags
 	if status.Properties != nil {
-		properties, err := status.Properties.ConvertToARM(name)
+		properties, err := status.Properties.ConvertToARM(name, resolvedReferences)
 		if err != nil {
 			return nil, err
 		}
@@ -137,7 +137,7 @@ func (p *ResourceGroupStatusProperties) CreateEmptyARMValue() interface{} {
 }
 
 // ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (p *ResourceGroupStatusProperties) ConvertToARM(name string) (interface{}, error) {
+func (p *ResourceGroupStatusProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if p == nil {
 		return nil, nil
 	}
@@ -179,7 +179,7 @@ func (spec *ResourceGroupSpec) CreateEmptyARMValue() interface{} {
 }
 
 // ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (spec *ResourceGroupSpec) ConvertToARM(name string) (interface{}, error) {
+func (spec *ResourceGroupSpec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if spec == nil {
 		return nil, nil
 	}

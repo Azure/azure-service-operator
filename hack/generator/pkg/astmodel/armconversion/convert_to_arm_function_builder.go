@@ -9,14 +9,14 @@ import (
 	"fmt"
 	"go/token"
 
+	"github.com/dave/dst"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	"github.com/dave/dst"
 )
 
-var KubernetesResourceInterfaceName astmodel.TypeName = astmodel.MakeTypeName(astmodel.GenRuntimeReference, "KubernetesResource")
-
 const nameParameterString = "name"
+const resolvedReferencesParameterString = "resolvedReferences"
 
 type convertToARMBuilder struct {
 	conversionBuilder
@@ -66,6 +66,12 @@ func (builder *convertToARMBuilder) functionDeclaration() *dst.FuncDecl {
 	}
 
 	fn.AddParameter(nameParameterString, dst.NewIdent("string"))
+	fn.AddParameter(
+		resolvedReferencesParameterString,
+		&dst.SelectorExpr{
+			X:   dst.NewIdent(astmodel.GenRuntimePackageName),
+			Sel: dst.NewIdent("ResolvedReferences"),
+		})
 	fn.AddReturns("interface{}", "error")
 	fn.AddComments("converts from a Kubernetes CRD object to an ARM object")
 
@@ -115,7 +121,7 @@ func (builder *convertToARMBuilder) namePropertyHandler(
 
 	// we do not read from AzureName() but instead use
 	// the passed-in 'name' parameter which contains
-	// a full ARM ID including any owners, etc
+	// a full name including any owners, etc
 	result := astbuilder.SimpleAssignment(
 		&dst.SelectorExpr{
 			X:   dst.NewIdent(builder.resultIdent),
@@ -531,6 +537,7 @@ func callToARMFunction(source dst.Expr, destination dst.Expr, methodName string)
 				},
 				Args: []dst.Expr{
 					dst.NewIdent(nameParameterString),
+					dst.NewIdent(resolvedReferencesParameterString),
 				},
 			},
 		},

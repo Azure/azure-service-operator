@@ -48,7 +48,19 @@ func ConvertResourceToDeployableResource(
 		return nil, err
 	}
 
-	armSpec, err := armTransformer.ConvertToARM(resourceHierarchy.FullAzureName())
+	// Find all of the references
+	refs, err := FindResourceReferences(armTransformer)
+	if err != nil {
+		return nil, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
+	}
+
+	// resolve them
+	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, refs)
+	if err != nil {
+		return nil, err
+	}
+
+	armSpec, err := armTransformer.ConvertToARM(resourceHierarchy.FullAzureName(), genruntime.MakeResolvedReferences(resolvedRefs))
 	if err != nil {
 		return nil, errors.Wrapf(err, "transforming resource %s to ARM", metaObject.GetName())
 	}
@@ -171,4 +183,29 @@ func ValueOfPtr(ptr interface{}) interface{} {
 	val := reflect.Indirect(v)
 
 	return val.Interface()
+}
+
+// FindResourceReferences finds all ResourceReferences specified by a given genruntime.ARMTransformer (resource spec)
+func FindResourceReferences(transformer genruntime.ARMTransformer) (map[genruntime.ResourceReference]struct{}, error) {
+	result := make(map[genruntime.ResourceReference]struct{})
+
+	visitor := NewReflectVisitor()
+	visitor.VisitStruct = func(this *ReflectVisitor, it interface{}, ctx interface{}) error {
+		if reflect.TypeOf(it) == reflect.TypeOf(genruntime.ResourceReference{}) {
+			val := reflect.ValueOf(it)
+			if val.CanInterface() {
+				result[val.Interface().(genruntime.ResourceReference)] = struct{}{}
+			}
+			return nil
+		}
+
+		return IdentityVisitStruct(this, it, ctx)
+	}
+
+	err := visitor.Visit(transformer, nil)
+	if err != nil {
+		return nil, errors.Wrap(err, "scanning for genruntime.ResourceReference")
+	}
+
+	return result, nil
 }

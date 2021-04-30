@@ -300,7 +300,7 @@ type A_Spec struct {
 var _ genruntime.ARMTransformer = &A_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (aSpec *A_Spec) ConvertToARM(name string) (interface{}, error) {
+func (aSpec *A_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if aSpec == nil {
 		return nil, nil
 	}
@@ -352,7 +352,7 @@ type B_Spec struct {
 var _ genruntime.ARMTransformer = &B_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (bSpec *B_Spec) ConvertToARM(name string) (interface{}, error) {
+func (bSpec *B_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if bSpec == nil {
 		return nil, nil
 	}
@@ -404,7 +404,7 @@ type C_Spec struct {
 var _ genruntime.ARMTransformer = &C_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (cSpec *C_Spec) ConvertToARM(name string) (interface{}, error) {
+func (cSpec *C_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if cSpec == nil {
 		return nil, nil
 	}
@@ -456,7 +456,7 @@ type D_Spec struct {
 var _ genruntime.ARMTransformer = &D_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (dSpec *D_Spec) ConvertToARM(name string) (interface{}, error) {
+func (dSpec *D_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if dSpec == nil {
 		return nil, nil
 	}
