@@ -342,16 +342,21 @@ else
 	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
 endif
 
+PREVIOUS_BUNDLE_VERSION ?= 0.37.0
+
 .PHONY: generate-operator-bundle
 generate-operator-bundle: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
 generate-operator-bundle: manifests
-	rm -r bundle
 	@echo "Latest released tag is $(LATEST_TAG)"
+	@echo "Previous bundle version is $(PREVIOUS_BUNDLE_VERSION)"
+	rm -rf "bundle/$(LATEST_TAG)"
 	kustomize build config/operator-bundle | operator-sdk generate bundle --version $(LATEST_TAG) --channels stable --default-channel stable --overwrite --kustomize-dir config/operator-bundle
 	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh
 	# Inject the container reference into the bundle.
 	scripts/inject-container-reference.sh "$(PUBLIC_REPO)@$(LATEST_TAG)"
+	# Include the replaces field with the old version.
+	yq eval -i ".spec.replaces = \"azure-service-operator.v$(PREVIOUS_BUNDLE_VERSION)\"" bundle/manifests/azure-service-operator.clusterserviceversion.yaml
 	# Rename files so they're easy to add to the community-operators repo for a PR
 	mv bundle/manifests bundle/$(LATEST_TAG)
 	mv bundle/$(LATEST_TAG)/azure-service-operator.clusterserviceversion.yaml bundle/$(LATEST_TAG)/azure-service-operator.v$(LATEST_TAG).clusterserviceversion.yaml
