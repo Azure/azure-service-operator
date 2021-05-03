@@ -151,6 +151,10 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		codegen.RemoveStages("deleteGenerated", "rogueCheck", "createStorage", "reportTypesAndVersions")
 		if !testConfig.HasARMResources {
 			codegen.RemoveStages("createArmTypes", "applyArmConversionInterface")
+			// removeEmbeddedResources treats the collection of types as a graph of types rooted by a resource type.
+			// In the degenerate case where there are no resources it behaves the same as stripUnreferenced - removing
+			// all types. Remove it in phases that have no resources to avoid this.
+			codegen.RemoveStages("removeEmbeddedResources")
 			codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
 		}
 	case config.GenerationPipelineCrossplane:

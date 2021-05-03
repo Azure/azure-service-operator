@@ -1,0 +1,124 @@
+{
+    "$comment": "Test that an ARM resource that has a child resource as one of its properties property removes the reference to that child resource property",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "a": {
+            "$ref": "#/resourceDefinitions/A"
+        },
+        "b": {
+            "$ref": "#/resourceDefinitions/B"
+        }
+    },
+    "resourceDefinitions": {
+        "B": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/B"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                },
+                "properties": {
+                    "$ref": "#/definitions/BProperties"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        },
+        "A": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/A"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                },
+                "properties": {
+                    "$ref": "#/definitions/AProperties"
+                },
+                "resources": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/resourceDefinitions/B"
+                            }
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        }
+    },
+    "definitions": {
+        "AProperties": {
+            "type": "object",
+            "properties": {
+                "stringField": {
+                    "type": "string"
+                },
+                "intField": {
+                    "type": "integer"
+                },
+                "refField": {
+                    "$ref": "#/definitions/BResource"
+                }
+            }
+        },
+        "BProperties": {
+            "type": "object",
+            "properties": {
+                "enumField": {
+                    "type": "string",
+                    "enum": [
+                        "Qux"
+                    ]
+                }
+            }
+        },
+        "BResource": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "properties": {
+                    "$ref": "#/definitions/BProperties"
+                }
+            }
+        }
+    }
+}

@@ -147,6 +147,24 @@ func (types Types) ResolveEnumType(aType Type) (EnumType, bool) {
 	}
 }
 
+// ResolveObjectType returns the underlying resource type if the definition contains one or names one
+func (types Types) ResolveObjectType(aType Type) (*ObjectType, bool) {
+	switch t := aType.(type) {
+
+	case *ObjectType:
+		return t, true
+
+	case TypeName:
+		if def, ok := types[t]; ok {
+			return types.ResolveObjectType(def.theType)
+		}
+		return nil, false
+
+	default:
+		return nil, false
+	}
+}
+
 // ResolveEnumDefinition returns true if the passed definition is for an Enum type or names an Enum type; false otherwise.
 func (types Types) ResolveEnumDefinition(definition *TypeDefinition) (EnumType, bool) {
 	return types.ResolveEnumType(definition.Type())

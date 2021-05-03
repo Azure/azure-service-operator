@@ -5,6 +5,8 @@
 
 package astmodel
 
+import "fmt"
+
 // TypeNameSet stores type names in no particular order without
 // duplicates.
 type TypeNameSet map[TypeName]struct{}
@@ -41,6 +43,18 @@ func (ts TypeNameSet) Contains(val TypeName) bool {
 	return found
 }
 
+// Remove removes the specified item if it is in the set. If it is not in
+// the set this is a no-op.
+func (ts TypeNameSet) Remove(val TypeName) TypeNameSet {
+	if ts == nil {
+		return ts
+	}
+
+	delete(ts, val)
+
+	return ts
+}
+
 func (ts TypeNameSet) Equals(set TypeNameSet) bool {
 	if len(ts) != len(set) {
 		// Different sizes, not equal
@@ -68,6 +82,19 @@ func (ts TypeNameSet) AddAll(other TypeNameSet) TypeNameSet {
 	}
 
 	return ts
+}
+
+// Single returns the single TypeName in the set. This panics if there is not a single item in the set.
+func (ts TypeNameSet) Single() TypeName {
+	if len(ts) != 1 {
+		panic(fmt.Sprintf("Single() cannot be called with %d types in the set", len(ts)))
+	}
+
+	for name := range ts {
+		return name
+	}
+
+	panic("Reached unreachable code")
 }
 
 // SetUnion returns a new set with all of the names in s1 or s2.

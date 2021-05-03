@@ -398,6 +398,15 @@ func (objectType *ObjectType) WithoutProperty(name PropertyName) *ObjectType {
 	return result
 }
 
+// WithoutEmbeddedProperty creates a new ObjectType that's a copy without the specified typeName embedded
+func (objectType *ObjectType) WithoutEmbeddedProperty(name TypeName) *ObjectType {
+	// Create a copy of objectType to preserve immutability
+	result := objectType.copy()
+	delete(result.embedded, name)
+
+	return result
+}
+
 // WithoutEmbeddedProperties creates a new ObjectType from this one but
 // without any embedded properties.
 func (objectType *ObjectType) WithoutEmbeddedProperties() *ObjectType {
