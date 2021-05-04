@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"github.com/pkg/errors"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -65,49 +66,58 @@ type CountingTypeVisitor struct {
 }
 
 func MakeCountingTypeVisitor() *CountingTypeVisitor {
-	v := MakeTypeVisitor()
-
 	result := &CountingTypeVisitor{}
 
-	result.VisitTypeName = func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error) {
+	countEachName := func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error) {
 		result.VisitCount++
-		return v.VisitTypeName(this, it, ctx)
+		return IdentityVisitOfTypeName(this, it, ctx)
 	}
 
-	result.VisitArrayType = func(this *TypeVisitor, it *ArrayType, ctx interface{}) (Type, error) {
+	countEachArray := func(this *TypeVisitor, it *ArrayType, ctx interface{}) (Type, error) {
 		result.VisitCount++
-		return v.VisitArrayType(this, it, ctx)
+		return IdentityVisitOfArrayType(this, it, ctx)
 	}
 
-	result.VisitPrimitive = func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) (Type, error) {
+	countEachPrimitive := func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) (Type, error) {
 		result.VisitCount++
-		return v.VisitPrimitive(this, it, ctx)
+		return IdentityVisitOfPrimitiveType(this, it, ctx)
 	}
 
-	result.VisitObjectType = func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+	countEachObject := func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
 		result.VisitCount++
-		return v.VisitObjectType(this, it, ctx)
+		return IdentityVisitOfObjectType(this, it, ctx)
 	}
 
-	result.VisitMapType = func(this *TypeVisitor, it *MapType, ctx interface{}) (Type, error) {
+	countEachMap := func(this *TypeVisitor, it *MapType, ctx interface{}) (Type, error) {
 		result.VisitCount++
-		return v.VisitMapType(this, it, ctx)
+		return IdentityVisitOfMapType(this, it, ctx)
 	}
 
-	result.VisitEnumType = func(this *TypeVisitor, it *EnumType, ctx interface{}) (Type, error) {
+	countEachEnum := func(this *TypeVisitor, it *EnumType, ctx interface{}) (Type, error) {
 		result.VisitCount++
-		return v.VisitEnumType(this, it, ctx)
+		return IdentityVisitOfEnumType(this, it, ctx)
 	}
 
-	result.VisitOptionalType = func(this *TypeVisitor, it *OptionalType, ctx interface{}) (Type, error) {
+	countEachOptional := func(this *TypeVisitor, it *OptionalType, ctx interface{}) (Type, error) {
 		result.VisitCount++
-		return v.VisitOptionalType(this, it, ctx)
+		return IdentityVisitOfOptionalType(this, it, ctx)
 	}
 
-	result.VisitResourceType = func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error) {
+	countEachResource := func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error) {
 		result.VisitCount++
-		return v.VisitResourceType(this, it, ctx)
+		return IdentityVisitOfResourceType(this, it, ctx)
 	}
+
+	result.TypeVisitor = TypeVisitorBuilder{
+		VisitTypeName:     countEachName,
+		VisitArrayType:    countEachArray,
+		VisitPrimitive:    countEachPrimitive,
+		VisitObjectType:   countEachObject,
+		VisitMapType:      countEachMap,
+		VisitEnumType:     countEachEnum,
+		VisitOptionalType: countEachOptional,
+		VisitResourceType: countEachResource,
+	}.Build()
 
 	return result
 }
@@ -153,7 +163,7 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			v := MakeTypeVisitor()
+			v := TypeVisitorBuilder{}.Build()
 			result, err := v.Visit(c.subject, nil)
 
 			g.Expect(err).To(BeNil())
@@ -162,6 +172,153 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 			// Test both ways to be paranoid
 			// If this test fails while the previous line passes, there's likely a bug in .Equals()
 			g.Expect(c.subject.Equals(result)).To(BeTrue())
+		})
+	}
+}
+
+func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
+
+	cases := []struct {
+		name          string
+		subject       Type
+		configure     func(builder *TypeVisitorBuilder)
+		expectedType  Type
+		expectedError string
+	}{
+		{
+			"PrimitiveTypeHandler",
+			StringType,
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitPrimitive = func(tv *TypeVisitor, p *PrimitiveType, _ interface{}) (Type, error) {
+					return p, errors.New(p.name)
+				}
+			},
+			StringType,
+			"string",
+		},
+		{
+			"PrimitiveTypeSimplified",
+			StringType,
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitPrimitive = func(p *PrimitiveType) (Type, error) {
+					return p, errors.New(p.name)
+				}
+			},
+			StringType,
+			"string",
+		},
+		{
+			"OptionalTypeHandler",
+			NewOptionalType(IntType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitOptionalType = func(tv *TypeVisitor, ot *OptionalType, _ interface{}) (Type, error) {
+					return ot, errors.New(ot.String())
+				}
+			},
+			NewOptionalType(IntType),
+			"optional",
+		},
+		{
+			"OptionalTypeSimplified",
+			NewOptionalType(IntType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitOptionalType = func(ot *OptionalType) (Type, error) {
+					return ot, errors.New(ot.String())
+				}
+			},
+			NewOptionalType(IntType),
+			"optional",
+		},
+		{
+			"MapTypeHandler",
+			NewMapType(StringType, IntType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitMapType = func(tv *TypeVisitor, mt *MapType, _ interface{}) (Type, error) {
+					return mt, errors.New(mt.String())
+				}
+			},
+			NewMapType(StringType, IntType),
+			"map",
+		},
+		{
+			"MapTypeSimplified",
+			NewMapType(StringType, IntType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitMapType = func(mt *MapType) (Type, error) {
+					return mt, errors.New(mt.String())
+				}
+			},
+			NewMapType(StringType, IntType),
+			"map",
+		},
+		{
+			"ArrayTypeHandler",
+			NewArrayType(StringType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitArrayType = func(tv *TypeVisitor, at *ArrayType, _ interface{}) (Type, error) {
+					return at, errors.New(at.String())
+				}
+			},
+			NewArrayType(StringType),
+			"[]string",
+		},
+		{
+			"ArrayTypeSimplified",
+			NewArrayType(StringType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitArrayType = func(at *ArrayType) (Type, error) {
+					return at, errors.New(at.String())
+				}
+			},
+			NewArrayType(StringType),
+			"[]string",
+		},
+		{
+			"FlaggedTypeHandler",
+			StorageFlag.ApplyTo(StringType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitFlaggedType = func(tv *TypeVisitor, ft *FlaggedType, _ interface{}) (Type, error) {
+					return ft, errors.New(ft.String())
+				}
+			},
+			StorageFlag.ApplyTo(StringType),
+			"storage",
+		},
+		{
+			"FlaggedTypeSimplified",
+			StorageFlag.ApplyTo(StringType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitFlaggedType = func(ft *FlaggedType) (Type, error) {
+					return ft, errors.New(ft.String())
+				}
+			},
+			StorageFlag.ApplyTo(StringType),
+			"storage",
+		},
+	}
+
+	// TODO: Pending tests for
+	// visitTypeName:
+	// visitObjectType:
+	// visitEnumType:
+	// visitResourceType:
+	// visitOneOfType:
+	// visitAllOfType:
+	// visitValidatedType:
+	// visitErroredType:
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			var builder TypeVisitorBuilder
+			c.configure(&builder)
+			v := builder.Build()
+			typ, err := v.Visit(c.subject, nil)
+			g.Expect(typ.Equals(c.expectedType)).To(BeTrue())
+			g.Expect(err.Error()).To(ContainSubstring(c.expectedError))
 		})
 	}
 }

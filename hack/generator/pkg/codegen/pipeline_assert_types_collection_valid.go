@@ -19,7 +19,7 @@ func assertTypesCollectionValid() PipelineStage {
 		"assertTypesStructureValid",
 		"Asserts that the types collection is valid",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			visitor := astmodel.MakeTypeVisitor()
+			visitor := astmodel.TypeVisitorBuilder{}.Build()
 			typeWalker := astmodel.NewTypeWalker(types, visitor)
 
 			for _, def := range types {

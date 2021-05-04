@@ -66,20 +66,21 @@ func makeStorageTypesVisitor(types astmodel.Types) astmodel.TypeVisitor {
 		types: types,
 	}
 
-	result := astmodel.MakeTypeVisitor()
-	result.VisitValidatedType = factory.visitValidatedType
-	result.VisitTypeName = factory.visitTypeName
-	result.VisitObjectType = factory.visitObjectType
-	result.VisitResourceType = factory.visitResourceType
-	result.VisitFlaggedType = factory.visitFlaggedType
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitValidatedType: factory.stripValidations,
+		VisitTypeName:      factory.remapNames,
+		VisitObjectType:    factory.convertObjects,
+		VisitResourceType:  factory.convertResources,
+		VisitFlaggedType:   factory.skipArmTypes,
+	}.Build()
 
-	factory.visitor = result
+	factory.visitor = visitor
 	factory.propertyConversions = []propertyConversion{
 		factory.preserveKubernetesResourceStorageProperties,
 		factory.convertPropertiesForStorage,
 	}
 
-	return result
+	return visitor
 }
 
 type StorageTypeFactory struct {
@@ -93,13 +94,13 @@ type StorageTypeFactory struct {
 // convert, deferring the conversion to another.
 type propertyConversion = func(property *astmodel.PropertyDefinition, ctx StorageTypesVisitorContext) (*astmodel.PropertyDefinition, error)
 
-func (factory *StorageTypeFactory) visitValidatedType(this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
+func (factory *StorageTypeFactory) stripValidations(this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
 	// strip all type validations from storage types,
 	// act as if they do not exist
 	return this.Visit(v.ElementType(), ctx)
 }
 
-func (factory *StorageTypeFactory) visitTypeName(_ *astmodel.TypeVisitor, name astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+func (factory *StorageTypeFactory) remapNames(_ *astmodel.TypeVisitor, name astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 	visitorContext := ctx.(StorageTypesVisitorContext)
 
 	// Resolve the type name to the actual referenced type
@@ -124,7 +125,7 @@ func (factory *StorageTypeFactory) visitTypeName(_ *astmodel.TypeVisitor, name a
 	return visitedName, nil
 }
 
-func (factory *StorageTypeFactory) visitResourceType(
+func (factory *StorageTypeFactory) convertResources(
 	this *astmodel.TypeVisitor,
 	resource *astmodel.ResourceType,
 	ctx interface{}) (astmodel.Type, error) {
@@ -133,7 +134,7 @@ func (factory *StorageTypeFactory) visitResourceType(
 	return resource.WithoutInterface(astmodel.DefaulterInterfaceName), nil
 }
 
-func (factory *StorageTypeFactory) visitObjectType(
+func (factory *StorageTypeFactory) convertObjects(
 	_ *astmodel.TypeVisitor,
 	object *astmodel.ObjectType,
 	ctx interface{}) (astmodel.Type, error) {
@@ -208,7 +209,7 @@ func (factory *StorageTypeFactory) convertPropertiesForStorage(
 	return p, nil
 }
 
-func (factory *StorageTypeFactory) visitFlaggedType(
+func (factory *StorageTypeFactory) skipArmTypes(
 	tv *astmodel.TypeVisitor,
 	flaggedType *astmodel.FlaggedType,
 	ctx interface{}) (astmodel.Type, error) {

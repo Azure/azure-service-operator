@@ -43,24 +43,19 @@ func simplifyDefinitions() PipelineStage {
 }
 
 func createSimplifyingVisitor() astmodel.TypeVisitor {
-	result := astmodel.MakeTypeVisitor()
-
-	// Unwrap FlaggedTypes, promoting the object within
-	result.VisitFlaggedType = func(tv *astmodel.TypeVisitor, ft *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
+	removeFlags := func(tv *astmodel.TypeVisitor, ft *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
 		element := ft.Element()
 		return tv.Visit(element, ctx)
 	}
 
-	// Unwrap flagged types, promoting the object within.
-	result.VisitFlaggedType = func(tv *astmodel.TypeVisitor, ft *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
-		e := ft.Element()
-		return tv.Visit(e, ctx)
+	skipComplexTypes := func(ot *astmodel.ObjectType) astmodel.Type {
+		return ot
 	}
 
-	// Don't need to waste time iterating within complex objects
-	result.VisitObjectType = func(_ *astmodel.TypeVisitor, ot *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
-		return ot, nil
-	}
+	result := astmodel.TypeVisitorBuilder{
+		VisitFlaggedType: removeFlags,
+		VisitObjectType:  skipComplexTypes,
+	}.Build()
 
 	return result
 }

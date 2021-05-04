@@ -76,15 +76,19 @@ func checkForAnyType(description string, packages []string) PipelineStage {
 }
 
 func containsAnyType(theType astmodel.Type) bool {
+
 	var found bool
-	visitor := astmodel.MakeTypeVisitor()
-	visitor.VisitPrimitive = func(_ *astmodel.TypeVisitor, it *astmodel.PrimitiveType, _ interface{}) (astmodel.Type, error) {
+	detectAnyType := func(it *astmodel.PrimitiveType) astmodel.Type {
 		if it == astmodel.AnyType {
 			found = true
 		}
 
-		return it, nil
+		return it
 	}
+
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitPrimitive: detectAnyType,
+	}.Build()
 
 	_, _ = visitor.Visit(theType, nil)
 	return found

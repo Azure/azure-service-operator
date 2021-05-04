@@ -100,7 +100,7 @@ func TestTypeWalker_IdentityWalkReturnsIdenticalTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeSimpleTestTypeGraph()
-	visitor := MakeTypeVisitor()
+	visitor := TypeVisitorBuilder{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	var walked []string
@@ -130,7 +130,7 @@ func TestTypeWalker_DuplicateTypesAreWalkedOnceEach_ReturnedOnce(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeDuplicateReferencesTypeGraph()
-	visitor := MakeTypeVisitor()
+	visitor := TypeVisitorBuilder{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	var walked []TypeDefinition
@@ -160,7 +160,7 @@ func TestTypeWalker_CyclesAllowed_AreNotWalked(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeCycleTypeGraph()
-	visitor := MakeTypeVisitor()
+	visitor := TypeVisitorBuilder{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	var walked []string
@@ -190,7 +190,7 @@ func TestTypeWalker_CanPruneCycles(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeCycleTypeGraph()
-	visitor := MakeTypeVisitor()
+	visitor := TypeVisitorBuilder{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	var walked []string
@@ -233,7 +233,7 @@ func TestTypeWalker_ContextPropagated(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeSimpleTestTypeGraph()
-	visitor := MakeTypeVisitor()
+	visitor := TypeVisitorBuilder{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	walked := make(map[TypeName]int)
@@ -273,19 +273,21 @@ func TestTypeWalker_VisitorApplied(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeSimpleTestTypeGraph()
-	visitor := MakeTypeVisitor()
-	visitor.VisitObjectType = func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
-		_ = ctx.(int) // Ensure context is the right shape
+	visitor := TypeVisitorBuilder{
+		VisitObjectType: func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+			_ = ctx.(int) // Ensure context is the right shape
 
-		// Find any properties of type string and remove them
-		for _, prop := range it.Properties() {
-			if prop.PropertyType() == StringType {
-				it = it.WithoutProperty(prop.PropertyName())
+			// Find any properties of type string and remove them
+			for _, prop := range it.Properties() {
+				if prop.PropertyType() == StringType {
+					it = it.WithoutProperty(prop.PropertyName())
+				}
 			}
-		}
 
-		return IdentityVisitOfObjectType(this, it, ctx)
-	}
+			return IdentityVisitOfObjectType(this, it, ctx)
+		},
+	}.Build()
+
 	walker := NewTypeWalker(types, visitor)
 	walker.MakeContext = func(_ TypeName, _ interface{}) (interface{}, error) {
 		return 0, nil
@@ -315,7 +317,7 @@ func TestTypeWalker_CanChangeNameInOnlyCertainPlaces(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeDuplicateReferencesTypeGraph()
-	visitor := MakeTypeVisitor()
+	visitor := TypeVisitorBuilder{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	left2TypeName := MakeTypeName(leftTypeName.PackageReference, "Left2")

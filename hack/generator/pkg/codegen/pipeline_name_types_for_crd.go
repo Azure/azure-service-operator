@@ -61,8 +61,8 @@ func nameInnerTypes(
 
 	var resultTypes []astmodel.TypeDefinition
 
-	visitor := astmodel.MakeTypeVisitor()
-	visitor.VisitEnumType = func(this *astmodel.TypeVisitor, it *astmodel.EnumType, ctx interface{}) (astmodel.Type, error) {
+	builder := astmodel.TypeVisitorBuilder{}
+	builder.VisitEnumType = func(this *astmodel.TypeVisitor, it *astmodel.EnumType, ctx interface{}) (astmodel.Type, error) {
 		nameHint := ctx.(string)
 
 		enumName := astmodel.MakeTypeName(def.Name().PackageReference, idFactory.CreateEnumIdentifier(nameHint))
@@ -75,7 +75,7 @@ func nameInnerTypes(
 		return namedEnum.Name(), nil
 	}
 
-	visitor.VisitValidatedType = func(this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
+	builder.VisitValidatedType = func(this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
 		// a validated type anywhere except directly under a property
 		// must be named so that we can put the validations on it
 		nameHint := ctx.(string)
@@ -90,7 +90,7 @@ func nameInnerTypes(
 		return namedType.Name(), nil
 	}
 
-	visitor.VisitFlaggedType = func(this *astmodel.TypeVisitor, it *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
+	builder.VisitFlaggedType = func(this *astmodel.TypeVisitor, it *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
 		// Because we're returning type names here, we need to look up the name returned by visit and wrap that with the correct flags
 		nameHint := ctx.(string)
 
@@ -118,7 +118,7 @@ func nameInnerTypes(
 		return name, nil
 	}
 
-	visitor.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	builder.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		nameHint := ctx.(string)
 
 		var errs []error
@@ -160,7 +160,7 @@ func nameInnerTypes(
 		return namedObjectType.Name(), nil
 	}
 
-	visitor.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+	builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 		nameHint := ctx.(string)
 
 		spec, err := this.Visit(it.SpecType(), nameHint+"_Spec")
@@ -187,6 +187,8 @@ func nameInnerTypes(
 
 		return resource.Name(), nil
 	}
+
+	visitor := builder.Build()
 
 	_, err := visitor.Visit(def.Type(), def.Name().Name())
 	if err != nil {

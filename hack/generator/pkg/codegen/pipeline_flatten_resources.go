@@ -19,11 +19,9 @@ func flattenResources() PipelineStage {
 		"Flatten nested resource types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 
-			v := astmodel.MakeTypeVisitor()
-			originalVisitResource := v.VisitResourceType
-			v.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+			flattenEachResource := func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 				// visit inner types:
-				visited, err := originalVisitResource(this, it, ctx)
+				visited, err := astmodel.IdentityVisitOfResourceType(this, it, ctx)
 				if err != nil {
 					return nil, err
 				}
@@ -35,6 +33,10 @@ func flattenResources() PipelineStage {
 
 				return newResource, nil
 			}
+
+			v := astmodel.TypeVisitorBuilder{
+				VisitResourceType: flattenEachResource,
+			}.Build()
 
 			results := make(astmodel.Types)
 

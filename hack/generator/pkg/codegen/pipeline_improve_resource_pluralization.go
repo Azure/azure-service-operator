@@ -55,14 +55,17 @@ func fixNameReferences(types astmodel.Types, renames map[astmodel.TypeName]astmo
 	result := make(astmodel.Types)
 
 	// On the off chance that something is referring to a top level resource type which was renamed (rare but possible) go fix up the references
-	visitor := astmodel.MakeTypeVisitor()
-	visitor.VisitTypeName = func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+	fixName := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 		if newName, ok := renames[it]; ok {
 			return astmodel.IdentityVisitOfTypeName(this, newName, ctx)
 		}
 
 		return astmodel.IdentityVisitOfTypeName(this, it, ctx)
 	}
+
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitTypeName: fixName,
+	}.Build()
 
 	for _, def := range types {
 		updated, err := visitor.VisitDefinition(def, nil)

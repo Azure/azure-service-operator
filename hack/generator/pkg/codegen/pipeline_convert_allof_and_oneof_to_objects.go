@@ -33,10 +33,10 @@ func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Pipelin
 		"allof-anyof-objects",
 		"Convert allOf and oneOf to object types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
-			visitor := astmodel.MakeTypeVisitor()
+			builder := astmodel.TypeVisitorBuilder{}
 
 			// the context here is whether we are selecting spec or status fields
-			visitor.VisitAllOfType = func(this *astmodel.TypeVisitor, it *astmodel.AllOfType, ctx interface{}) (astmodel.Type, error) {
+			builder.VisitAllOfType = func(this *astmodel.TypeVisitor, it *astmodel.AllOfType, ctx interface{}) (astmodel.Type, error) {
 				synth := synthesizer{
 					specOrStatus: ctx.(resourceFieldSelector),
 					defs:         defs,
@@ -53,7 +53,7 @@ func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Pipelin
 				return this.Visit(object, ctx)
 			}
 
-			visitor.VisitOneOfType = func(this *astmodel.TypeVisitor, it *astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
+			builder.VisitOneOfType = func(this *astmodel.TypeVisitor, it *astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
 				synth := synthesizer{
 					specOrStatus: ctx.(resourceFieldSelector),
 					defs:         defs,
@@ -81,7 +81,7 @@ func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Pipelin
 				return this.Visit(result, ctx)
 			}
 
-			visitor.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+			builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 				spec, err := this.Visit(it.SpecType(), chooseSpec)
 				if err != nil {
 					return nil, errors.Wrapf(err, "unable to visit resource spec type")
@@ -95,6 +95,7 @@ func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Pipelin
 				return it.WithSpec(spec).WithStatus(status), nil
 			}
 
+			visitor := builder.Build()
 			result := make(astmodel.Types)
 
 			for _, def := range defs {

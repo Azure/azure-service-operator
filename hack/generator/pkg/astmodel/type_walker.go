@@ -43,21 +43,21 @@ type typeWalkerState struct {
 }
 
 // NewTypeWalker returns a TypeWalker.
-// The provided visitor VisitTypeName function must return a TypeName and VisitObjectType must return an ObjectType or calls to
+// The provided visitor visitTypeName function must return a TypeName and visitObjectType must return an ObjectType or calls to
 // Walk will panic.
 func NewTypeWalker(allTypes Types, visitor TypeVisitor) *TypeWalker {
 	typeWalker := TypeWalker{
 		allTypes:                allTypes,
-		originalVisitTypeName:   visitor.VisitTypeName,
-		originalVisitObjectType: visitor.VisitObjectType,
+		originalVisitTypeName:   visitor.visitTypeName,
+		originalVisitObjectType: visitor.visitObjectType,
 		AfterVisit:              IdentityAfterVisit,
 		MakeContext:             IdentityMakeContext,
 		ShouldRemoveCycle:       IdentityShouldRemoveCycle,
 	}
 
 	// visitor is a copy - modifications won't impact passed visitor
-	visitor.VisitTypeName = typeWalker.visitTypeName
-	visitor.VisitObjectType = typeWalker.visitObjectType
+	visitor.visitTypeName = typeWalker.visitTypeName
+	visitor.visitObjectType = typeWalker.visitObjectType
 
 	typeWalker.visitor = visitor
 
@@ -72,11 +72,11 @@ func (t *TypeWalker) visitTypeName(this *TypeVisitor, it TypeName, ctx interface
 
 	visitedTypeName, err := t.originalVisitTypeName(this, it, updatedCtx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "VisitTypeName failed for name %q", it)
+		return nil, errors.Wrapf(err, "visitTypeName failed for name %q", it)
 	}
 	it, ok := visitedTypeName.(TypeName)
 	if !ok {
-		panic(fmt.Sprintf("TypeWalker visitor VisitTypeName must return a TypeName, instead returned %T", visitedTypeName))
+		panic(fmt.Sprintf("TypeWalker visitor visitTypeName must return a TypeName, instead returned %T", visitedTypeName))
 	}
 
 	def, ok := t.allTypes[it]
@@ -126,7 +126,7 @@ func (t *TypeWalker) visitObjectType(this *TypeVisitor, it *ObjectType, ctx inte
 
 	ot, ok := result.(*ObjectType)
 	if !ok {
-		panic(fmt.Sprintf("TypeWalker visitor VisitObjectType must return a *ObjectType, instead returned %T", result))
+		panic(fmt.Sprintf("TypeWalker visitor visitObjectType must return a *ObjectType, instead returned %T", result))
 	}
 
 	for _, prop := range ot.Properties() {

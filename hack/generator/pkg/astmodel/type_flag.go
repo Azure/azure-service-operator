@@ -27,12 +27,15 @@ func (f TypeFlag) ApplyTo(t Type) *FlaggedType {
 	return NewFlaggedType(t, f)
 }
 
-// ApplyTo applies the tag to the provided type
+// RemoveFrom applies the tag to the provided type
 func (f TypeFlag) RemoveFrom(t Type) (Type, error) {
-	visitor := MakeTypeVisitor()
-	visitor.VisitFlaggedType = func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error) {
-		return it.WithoutFlag(f), nil
+	removeFlag := func(it *FlaggedType) Type {
+		return it.WithoutFlag(f)
 	}
+
+	visitor := TypeVisitorBuilder{
+		VisitFlaggedType: removeFlag,
+	}.Build()
 
 	return visitor.Visit(t, nil)
 }

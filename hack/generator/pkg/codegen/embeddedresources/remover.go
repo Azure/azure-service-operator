@@ -121,43 +121,44 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.Types, erro
 }
 
 func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmodel.TypeVisitor {
-	visitor := astmodel.MakeTypeVisitor()
-	visitor.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-		typedCtx := ctx.(resourceRemovalVisitorContext)
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+			typedCtx := ctx.(resourceRemovalVisitorContext)
 
-		if typedCtx.depth <= 2 {
-			// Avoid removing top level "Properties", which we never want to do. This is needed because
-			// there are some resources (such as Microsoft.Web v20160801 Sites) where the resource
-			// and some child resources reuse the same "Properties" type. This causes
-			// the logic below to think that a resource is its own subresource. Without this
-			// check the entire resource would be removed, leaving nothing.
+			if typedCtx.depth <= 2 {
+				// Avoid removing top level "Properties", which we never want to do. This is needed because
+				// there are some resources (such as Microsoft.Web v20160801 Sites) where the resource
+				// and some child resources reuse the same "Properties" type. This causes
+				// the logic below to think that a resource is its own subresource. Without this
+				// check the entire resource would be removed, leaving nothing.
+				return astmodel.IdentityVisitOfObjectType(this, it, ctx)
+			}
+
+			// TODO: This is confusing...?
+			// Before visiting, check if any properties are just referring to one of our sub-resources and remove them
+			subResources := e.resourceToSubresourceMap[typedCtx.resource]
+			for _, prop := range it.Properties() {
+				propTypeName, ok := astmodel.AsTypeName(prop.PropertyType())
+				if !ok {
+					continue
+				}
+
+				// TODO: This is currently no different than the below, but it likely will evolve to be different over time
+				if subResources.Contains(propTypeName) {
+					klog.V(5).Infof("Removing resource %q reference to subresource %q on property %q", typedCtx.resource, propTypeName, prop.PropertyName())
+					it = removeResourceLikeProperties(it)
+					continue
+				}
+
+				if e.resourcePropertiesTypes.Contains(propTypeName) {
+					klog.V(5).Infof("Removing reference to resource %q on property %q", propTypeName, prop.PropertyName())
+					it = removeResourceLikeProperties(it)
+				}
+			}
+
 			return astmodel.IdentityVisitOfObjectType(this, it, ctx)
-		}
-
-		// TODO: This is confusing...?
-		// Before visiting, check if any properties are just referring to one of our sub-resources and remove them
-		subResources := e.resourceToSubresourceMap[typedCtx.resource]
-		for _, prop := range it.Properties() {
-			propTypeName, ok := astmodel.AsTypeName(prop.PropertyType())
-			if !ok {
-				continue
-			}
-
-			// TODO: This is currently no different than the below, but it likely will evolve to be different over time
-			if subResources.Contains(propTypeName) {
-				klog.V(5).Infof("Removing resource %q reference to subresource %q on property %q", typedCtx.resource, propTypeName, prop.PropertyName())
-				it = removeResourceLikeProperties(it)
-				continue
-			}
-
-			if e.resourcePropertiesTypes.Contains(propTypeName) {
-				klog.V(5).Infof("Removing reference to resource %q on property %q", propTypeName, prop.PropertyName())
-				it = removeResourceLikeProperties(it)
-			}
-		}
-
-		return astmodel.IdentityVisitOfObjectType(this, it, ctx)
-	}
+		},
+	}.Build()
 
 	return visitor
 }

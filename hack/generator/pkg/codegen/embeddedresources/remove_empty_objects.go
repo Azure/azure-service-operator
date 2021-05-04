@@ -76,10 +76,9 @@ type visitorCtx struct {
 }
 
 func makeRemovedTypeVisitor(toRemove astmodel.TypeNameSet) astmodel.TypeVisitor {
-	visitor := astmodel.MakeTypeVisitor()
 
 	// This is basically copied from IdentityVisitOfObjectType, but since it has/needs a per-property context we can't use that
-	visitor.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	removeReferencesToEmptyTypes := func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		// just map the property types
 		var errs []error
 		var newProps []*astmodel.PropertyDefinition
@@ -125,7 +124,8 @@ func makeRemovedTypeVisitor(toRemove astmodel.TypeNameSet) astmodel.TypeVisitor 
 
 		return result, nil
 	}
-	visitor.VisitTypeName = func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+
+	typeNameVisitWithSafetyCheck := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 		typedCtx, ok := ctx.(*visitorCtx)
 		if ok {
 			// Safety check that we're not overwriting typeName
@@ -136,6 +136,11 @@ func makeRemovedTypeVisitor(toRemove astmodel.TypeNameSet) astmodel.TypeVisitor 
 		}
 		return astmodel.IdentityVisitOfTypeName(this, it, ctx)
 	}
+
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitObjectType: removeReferencesToEmptyTypes,
+		VisitTypeName:   typeNameVisitWithSafetyCheck,
+	}.Build()
 
 	return visitor
 }

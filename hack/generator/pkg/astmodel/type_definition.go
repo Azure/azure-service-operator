@@ -136,15 +136,20 @@ func FileNameHint(name TypeName) string {
 func (def TypeDefinition) ApplyObjectTransformation(transform func(*ObjectType) (Type, error)) (TypeDefinition, error) {
 	// We use a TypeVisitor to allow automatic handling of wrapper types (such as ArmType and StorageType)
 	visited := false
-	visitor := MakeTypeVisitor()
-	visitor.VisitObjectType = func(_ *TypeVisitor, ot *ObjectType, _ interface{}) (Type, error) {
+
+	transformObject := func(ot *ObjectType) (Type, error) {
 		rt, err := transform(ot)
 		if err != nil {
 			return nil, err
 		}
+
 		visited = true
 		return rt, nil
 	}
+
+	visitor := TypeVisitorBuilder{
+		VisitObjectType: transformObject,
+	}.Build()
 
 	newType, err := visitor.Visit(def.theType, nil)
 	if err != nil {

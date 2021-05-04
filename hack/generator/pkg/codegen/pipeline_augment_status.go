@@ -167,13 +167,13 @@ func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
 }
 
 func makeRenamingVisitor(rename func(astmodel.TypeName) astmodel.TypeName) astmodel.TypeVisitor {
-	visitor := astmodel.MakeTypeVisitor()
-
-	visitor.VisitTypeName = func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
-		return rename(it), nil
+	builder := astmodel.TypeVisitorBuilder{
+		VisitTypeName: func(it astmodel.TypeName) (astmodel.Type, error) {
+			return rename(it), nil
+		},
 	}
 
-	return visitor
+	return builder.Build()
 }
 
 var swaggerVersionRegex = regexp.MustCompile(`\d{4}-\d{2}-\d{2}(-preview)?`)

@@ -35,22 +35,26 @@ func replaceAnyTypeWithJSON() PipelineStage {
 		"replaceAnyTypeWithJSON",
 		"Replacing interface{}s with arbitrary JSON",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			visitor := astmodel.MakeTypeVisitor()
 
-			visitor.VisitPrimitive = func(_ *astmodel.TypeVisitor, it *astmodel.PrimitiveType, _ interface{}) (astmodel.Type, error) {
+			replaceAnyWithJson := func(it *astmodel.PrimitiveType) astmodel.Type {
 				if it == astmodel.AnyType {
-					return astmodel.JSONType, nil
+					return astmodel.JSONType
 				}
-				return it, nil
+
+				return it
 			}
 
-			originalVisitMapType := visitor.VisitMapType
-			visitor.VisitMapType = func(v *astmodel.TypeVisitor, it *astmodel.MapType, ctx interface{}) (astmodel.Type, error) {
+			replaceMapOfMapOfAnyWithJSON := func(v *astmodel.TypeVisitor, it *astmodel.MapType, ctx interface{}) (astmodel.Type, error) {
 				if it.Equals(mapOfMapOfAnyType) {
 					return mapOfJSON, nil
 				}
-				return originalVisitMapType(v, it, ctx)
+				return astmodel.IdentityVisitOfMapType(v, it, ctx)
 			}
+
+			visitor := astmodel.TypeVisitorBuilder{
+				VisitPrimitive: replaceAnyWithJson,
+				VisitMapType:   replaceMapOfMapOfAnyWithJSON,
+			}.Build()
 
 			results := make(astmodel.Types)
 			for _, def := range types {

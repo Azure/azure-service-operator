@@ -16,19 +16,19 @@ import (
 // TypeVisitor represents a visitor for a tree of types.
 // The `ctx` argument can be used to “smuggle” additional data down the call-chain.
 type TypeVisitor struct {
-	VisitTypeName      func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error)
-	VisitOneOfType     func(this *TypeVisitor, it *OneOfType, ctx interface{}) (Type, error)
-	VisitAllOfType     func(this *TypeVisitor, it *AllOfType, ctx interface{}) (Type, error)
-	VisitArrayType     func(this *TypeVisitor, it *ArrayType, ctx interface{}) (Type, error)
-	VisitPrimitive     func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) (Type, error)
-	VisitObjectType    func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error)
-	VisitMapType       func(this *TypeVisitor, it *MapType, ctx interface{}) (Type, error)
-	VisitOptionalType  func(this *TypeVisitor, it *OptionalType, ctx interface{}) (Type, error)
-	VisitEnumType      func(this *TypeVisitor, it *EnumType, ctx interface{}) (Type, error)
-	VisitResourceType  func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
-	VisitFlaggedType   func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error)
-	VisitValidatedType func(this *TypeVisitor, it *ValidatedType, ctx interface{}) (Type, error)
-	VisitErroredType   func(this *TypeVisitor, it *ErroredType, ctx interface{}) (Type, error)
+	visitTypeName      func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error)
+	visitOneOfType     func(this *TypeVisitor, it *OneOfType, ctx interface{}) (Type, error)
+	visitAllOfType     func(this *TypeVisitor, it *AllOfType, ctx interface{}) (Type, error)
+	visitArrayType     func(this *TypeVisitor, it *ArrayType, ctx interface{}) (Type, error)
+	visitPrimitive     func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) (Type, error)
+	visitObjectType    func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error)
+	visitMapType       func(this *TypeVisitor, it *MapType, ctx interface{}) (Type, error)
+	visitOptionalType  func(this *TypeVisitor, it *OptionalType, ctx interface{}) (Type, error)
+	visitEnumType      func(this *TypeVisitor, it *EnumType, ctx interface{}) (Type, error)
+	visitResourceType  func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
+	visitFlaggedType   func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error)
+	visitValidatedType func(this *TypeVisitor, it *ValidatedType, ctx interface{}) (Type, error)
+	visitErroredType   func(this *TypeVisitor, it *ErroredType, ctx interface{}) (Type, error)
 }
 
 // Visit invokes the appropriate VisitX on TypeVisitor
@@ -39,40 +39,40 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 
 	switch it := t.(type) {
 	case TypeName:
-		return tv.VisitTypeName(tv, it, ctx)
+		return tv.visitTypeName(tv, it, ctx)
 	case *OneOfType:
-		return tv.VisitOneOfType(tv, it, ctx)
+		return tv.visitOneOfType(tv, it, ctx)
 	case *AllOfType:
-		return tv.VisitAllOfType(tv, it, ctx)
+		return tv.visitAllOfType(tv, it, ctx)
 	case *ArrayType:
-		return tv.VisitArrayType(tv, it, ctx)
+		return tv.visitArrayType(tv, it, ctx)
 	case *PrimitiveType:
-		return tv.VisitPrimitive(tv, it, ctx)
+		return tv.visitPrimitive(tv, it, ctx)
 	case *ObjectType:
-		return tv.VisitObjectType(tv, it, ctx)
+		return tv.visitObjectType(tv, it, ctx)
 	case *MapType:
-		return tv.VisitMapType(tv, it, ctx)
+		return tv.visitMapType(tv, it, ctx)
 	case *OptionalType:
-		return tv.VisitOptionalType(tv, it, ctx)
+		return tv.visitOptionalType(tv, it, ctx)
 	case *EnumType:
-		return tv.VisitEnumType(tv, it, ctx)
+		return tv.visitEnumType(tv, it, ctx)
 	case *ResourceType:
-		return tv.VisitResourceType(tv, it, ctx)
+		return tv.visitResourceType(tv, it, ctx)
 	case *FlaggedType:
-		return tv.VisitFlaggedType(tv, it, ctx)
+		return tv.visitFlaggedType(tv, it, ctx)
 	case *ValidatedType:
-		return tv.VisitValidatedType(tv, it, ctx)
+		return tv.visitValidatedType(tv, it, ctx)
 	case *ErroredType:
-		return tv.VisitErroredType(tv, it, ctx)
+		return tv.visitErroredType(tv, it, ctx)
 	}
 
 	panic(fmt.Sprintf("unhandled type: (%T) %v", t, t))
 }
 
 // VisitDefinition invokes the TypeVisitor on both the name and type of the definition
-// NB: this is only valid if VisitTypeName returns a TypeName and not generally a Type
+// NB: this is only valid if visitTypeName returns a TypeName and not generally a Type
 func (tv *TypeVisitor) VisitDefinition(td TypeDefinition, ctx interface{}) (TypeDefinition, error) {
-	visitedName, err := tv.VisitTypeName(tv, td.Name(), ctx)
+	visitedName, err := tv.visitTypeName(tv, td.Name(), ctx)
 	if err != nil {
 		return TypeDefinition{}, errors.Wrapf(err, "visit of %q failed", td.Name())
 	}
@@ -109,30 +109,6 @@ func (tv *TypeVisitor) VisitDefinitions(definitions Types, ctx interface{}) (Typ
 	}
 
 	return result, nil
-}
-
-// MakeTypeVisitor returns a default (identity transform) visitor, which
-// visits every type in the tree. If you want to actually do something you will
-// need to override the properties on the returned TypeVisitor.
-func MakeTypeVisitor() TypeVisitor {
-	// TODO [performance]: we can do reference comparisons on the results of
-	// recursive invocations of Visit to avoid having to rebuild the tree if the
-	// leaf nodes do not actually change.
-	return TypeVisitor{
-		VisitTypeName:      IdentityVisitOfTypeName,
-		VisitArrayType:     IdentityVisitOfArrayType,
-		VisitPrimitive:     IdentityVisitOfPrimitiveType,
-		VisitObjectType:    IdentityVisitOfObjectType,
-		VisitMapType:       IdentityVisitOfMapType,
-		VisitEnumType:      IdentityVisitOfEnumType,
-		VisitOptionalType:  IdentityVisitOfOptionalType,
-		VisitResourceType:  IdentityVisitOfResourceType,
-		VisitOneOfType:     IdentityVisitOfOneOfType,
-		VisitAllOfType:     IdentityVisitOfAllOfType,
-		VisitFlaggedType:   IdentityVisitOfFlaggedType,
-		VisitValidatedType: IdentityVisitOfValidatedType,
-		VisitErroredType:   IdentityVisitOfErroredType,
-	}
 }
 
 func IdentityVisitOfTypeName(_ *TypeVisitor, it TypeName, _ interface{}) (Type, error) {
