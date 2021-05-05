@@ -14,9 +14,11 @@ import (
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/rest"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
@@ -73,7 +75,8 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) (KubePerTestContext, error) {
 		return KubePerTestContext{}, err
 	}
 
-	clientOptions := client.Options{Scheme: controllers.CreateScheme()}
+	scheme := controllers.CreateScheme()
+	clientOptions := client.Options{Scheme: scheme}
 	kubeClient, err := client.New(baseCtx.KubeConfig, clientOptions)
 	if err != nil {
 		return KubePerTestContext{}, err
@@ -92,6 +95,7 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) (KubePerTestContext, error) {
 		KubeClient:          kubeClient,
 		Ensure:              ensure,
 		Match:               match,
+		scheme:              scheme,
 	}
 
 	err = result.createTestNamespace()
@@ -115,6 +119,8 @@ type KubePerTestContext struct {
 	KubeClient client.Client
 	Ensure     *Ensure
 	Match      *KubeMatcher
+
+	scheme *runtime.Scheme
 }
 
 func (tc KubePerTestContext) createTestNamespace() error {
@@ -146,6 +152,20 @@ func (tc KubePerTestContext) MakeObjectMetaWithName(name string) ctrl.ObjectMeta
 	return ctrl.ObjectMeta{
 		Name:      name,
 		Namespace: tc.namespace,
+	}
+}
+
+func (tc KubePerTestContext) MakeReferenceFromResource(resource controllerutil.Object) genruntime.ResourceReference {
+	gvk, err := apiutil.GVKForObject(resource, tc.scheme)
+	if err != nil {
+		tc.T.Fatal(err)
+	}
+
+	return genruntime.ResourceReference{
+		Group:     gvk.Group,
+		Kind:      gvk.Kind,
+		Namespace: resource.GetNamespace(),
+		Name:      resource.GetName(),
 	}
 }
 

@@ -14,15 +14,15 @@ import (
 	"strings"
 	"testing"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
-	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 )
 
 var (

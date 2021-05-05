@@ -31,22 +31,23 @@ var _ fmt.Stringer = ResourceReference{}
 // ResourceReference represents a resource reference, either to a Kubernetes resource or directly to an Azure resource via ARMID
 type ResourceReference struct {
 	// Group is the Kubernetes group of the resource.
-	Group string `json:"group"`
+	Group string `json:"group,omitempty"`
 	// Kind is the Kubernetes kind of the resource.
-	Kind string `json:"kind"`
+	Kind string `json:"kind,omitempty"`
 	// Namespace is the Kubernetes namespace of the resource.
-	Namespace string `json:"namespace"`
+	Namespace string `json:"namespace,omitempty"`
 	// Name is the Kubernetes name of the resource.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	// Note: Version is not required here because references are all about linking one Kubernetes
 	// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and
 	// name - the versions are just giving a different view on the same resource
 
-	// +kubebuilder:validation:Pattern="(?i)^/subscriptions/(.+?)/resourcegroups/(.+?)/providers/(.+?)/((.+?)/(.+?))+$"
+	// TODO: The below regex may be overly restrictive
+	// +kubebuilder:validation:Pattern="(?i)^/subscriptions/([^/]+)/resourcegroups/([^/]+)/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))+$"
 	// ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
 	// ARMID is mutually exclusive with Group, Kind, Namespace and Name.
-	ARMID string `json:"armId"`
+	ARMID string `json:"armId,omitempty"`
 }
 
 func (ref ResourceReference) IsDirectARMReference() bool {
