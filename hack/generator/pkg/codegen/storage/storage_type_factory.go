@@ -224,6 +224,35 @@ func (f *StorageTypeFactory) makeStorageProperty(
 // convert, deferring the conversion to another.
 type propertyConversion = func(property *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error)
 
+// descriptionForStorageVariant creates a description for a storage variant, indicating which
+// original type it is based upon
+func (f *StorageTypeFactory) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
+	pkg := definition.Name().PackageReference.PackageName()
+
+	result := []string{
+		fmt.Sprintf("Storage version of %v.%v", pkg, definition.Name().Name()),
+	}
+	result = append(result, definition.Description()...)
+
+	return result
+}
+
+func (f *StorageTypeFactory) tryConvertToStorageNamespace(name astmodel.TypeName) (astmodel.TypeName, bool) {
+	// Map the type name into our storage namespace
+	localRef, ok := name.PackageReference.AsLocalPackage()
+	if !ok {
+		return astmodel.TypeName{}, false
+	}
+
+	storageRef := astmodel.MakeStoragePackageReference(localRef)
+	visitedName := astmodel.MakeTypeName(storageRef, name.Name())
+	return visitedName, true
+}
+
+/*
+ * Functions used as propertyConversions
+ */
+
 // preserveKubernetesResourceStorageProperties preserves properties required by the
 // KubernetesResource interface as they're always required exactly as declared
 func (f *StorageTypeFactory) preserveKubernetesResourceStorageProperties(
@@ -250,31 +279,6 @@ func (f *StorageTypeFactory) defaultPropertyConversion(
 		WithDescription("")
 
 	return p, nil
-}
-
-// descriptionForStorageVariant creates a description for a storage variant, indicating which
-// original type it is based upon
-func (f *StorageTypeFactory) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
-	pkg := definition.Name().PackageReference.PackageName()
-
-	result := []string{
-		fmt.Sprintf("Storage version of %v.%v", pkg, definition.Name().Name()),
-	}
-	result = append(result, definition.Description()...)
-
-	return result
-}
-
-func (f *StorageTypeFactory) tryConvertToStorageNamespace(name astmodel.TypeName) (astmodel.TypeName, bool) {
-	// Map the type name into our storage namespace
-	localRef, ok := name.PackageReference.AsLocalPackage()
-	if !ok {
-		return astmodel.TypeName{}, false
-	}
-
-	storageRef := astmodel.MakeStoragePackageReference(localRef)
-	visitedName := astmodel.MakeTypeName(storageRef, name.Name())
-	return visitedName, true
 }
 
 /*
