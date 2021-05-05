@@ -41,11 +41,15 @@ func (f TypeFlag) RemoveFrom(t Type) (Type, error) {
 	return visitor.Visit(t, nil)
 }
 
-// IsOn returns true if t is a flagged type that has this flag
-func (f TypeFlag) IsOn(t Type) bool {
-	if ft, ok := t.(*FlaggedType); ok {
-		return ft.HasFlag(f)
-	}
+// IsOn returns true if t is or contains a flagged type that has this flag
+func (f TypeFlag) IsOn(theType Type) bool {
+	switch t := theType.(type) {
+	case *FlaggedType:
+		return t.HasFlag(f)
 
-	return false
+	case MetaType:
+		return f.IsOn(t.Unwrap())
+	default:
+		return false
+	}
 }
