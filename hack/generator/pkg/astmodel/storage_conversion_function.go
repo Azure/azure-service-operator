@@ -17,13 +17,6 @@ import (
 	"k8s.io/klog/v2"
 )
 
-// StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
-// Different functions will be used, depending on the types of the properties to be converted.
-// source is an expression for the source value that will be read.
-// destination is an expression the target value that will be written.
-type StoragePropertyConversion func(
-	source dst.Expr, destination dst.Expr, generationContext *CodeGenerationContext) []dst.Stmt
-
 // StorageConversionFunction represents a function that performs conversions for storage versions
 type StorageConversionFunction struct {
 	// name of this conversion function
@@ -43,6 +36,13 @@ type StorageConversionFunction struct {
 	// conversionContext is additional information about the context in which this conversion was made
 	conversionContext *StorageConversionContext
 }
+
+// StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
+// Different functions will be used, depending on the types of the properties to be converted.
+// source is an expression for the source value that will be read.
+// destination is an expression the target value that will be written.
+type StoragePropertyConversion func(
+	source dst.Expr, destination dst.Expr, generationContext *CodeGenerationContext) []dst.Stmt
 
 // StorageConversionDirection specifies the direction of conversion we're implementing with this function
 type StorageConversionDirection int
