@@ -70,13 +70,8 @@ func NewStorageTypeFactory(idFactory astmodel.IdentifierFactory) *StorageTypeFac
 func (f *StorageTypeFactory) Add(def astmodel.TypeDefinition) {
 	f.types.Add(def)
 
-	isArm := astmodel.ARMFlag.IsOn(def.Type())
-	_, isEnum := astmodel.AsEnumType(def.Type())
-
-	if !isArm && !isEnum {
-		// Add to our queue of types requiring storage variants
-		f.pendingStorageConversion.Enqueue(def.Name())
-	}
+	// Add to our queue of types requiring storage variants
+	f.pendingStorageConversion.Enqueue(def.Name())
 }
 
 // Types returns types contained by the factory, including all new storage variants and modified
@@ -110,7 +105,23 @@ func (f *StorageTypeFactory) process() error {
 // visitor is a type visitor that will do the creation
 func (f *StorageTypeFactory) createStorageVariant(name astmodel.TypeName) error {
 
-	klog.V(0).Infof("Creating storage variant of %s", name)
+	// Only need to create storage variants of resources and objects
+	underlyingType, err := f.types.FullyResolve(name)
+	if err != nil {
+		return errors.Wrapf(err,
+			"expected to find underlying type for %d",
+			name)
+	}
+
+	_, isObject := astmodel.AsObjectType(underlyingType)
+	_, isResource := astmodel.AsResourceType(underlyingType)
+	if !isObject && !isResource {
+		// just skip it
+		klog.V(4).Infof("Skipping %s as no storage variant needed", name)
+		return nil
+	}
+
+	klog.V(3).Infof("Creating storage variant of %s", name)
 
 	def, ok := f.types[name]
 	if !ok {
