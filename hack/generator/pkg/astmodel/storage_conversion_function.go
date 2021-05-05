@@ -28,9 +28,9 @@ type StoragePropertyConversion func(
 type StorageConversionFunction struct {
 	// name of this conversion function
 	name string
-	// otherType is the type we are converting to (or from). This will be a type which is "closer"
+	// otherDefinition is the type we are converting to (or from). This will be a type which is "closer"
 	// to the hub storage type, making this a building block of the final conversion.
-	otherType TypeDefinition
+	otherDefinition TypeDefinition
 	// conversions is a map of all property conversions we are going to use, keyed by name of the
 	// receiver property
 	conversions map[string]StoragePropertyConversion
@@ -65,7 +65,7 @@ func NewStorageConversionFromFunction(
 	conversionContext *StorageConversionContext,
 ) (*StorageConversionFunction, error) {
 	result := &StorageConversionFunction{
-		otherType:           otherType,
+		otherDefinition:     otherType,
 		idFactory:           idFactory,
 		conversionDirection: ConvertFrom,
 		conversions:         make(map[string]StoragePropertyConversion),
@@ -92,7 +92,7 @@ func NewStorageConversionToFunction(
 	conversionContext *StorageConversionContext,
 ) (*StorageConversionFunction, error) {
 	result := &StorageConversionFunction{
-		otherType:           otherType,
+		otherDefinition:     otherType,
 		idFactory:           idFactory,
 		conversionDirection: ConvertTo,
 		conversions:         make(map[string]StoragePropertyConversion),
@@ -120,14 +120,14 @@ func (fn *StorageConversionFunction) Name() string {
 func (fn *StorageConversionFunction) RequiredPackageReferences() *PackageReferenceSet {
 	result := NewPackageReferenceSet(
 		ErrorsReference,
-		fn.otherType.Name().PackageReference)
+		fn.otherDefinition.Name().PackageReference)
 
 	return result
 }
 
 // References returns the set of types referenced by this function
 func (fn *StorageConversionFunction) References() TypeNameSet {
-	return NewTypeNameSet(fn.otherType.Name())
+	return NewTypeNameSet(fn.otherDefinition.Name())
 }
 
 // Equals checks to see if the supplied function is the same as this one
@@ -164,10 +164,10 @@ func (fn *StorageConversionFunction) AsFunc(generationContext *CodeGenerationCon
 	switch fn.conversionDirection {
 	case ConvertFrom:
 		parameterName = "source"
-		description = fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.otherType.Name().Name())
+		description = fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.otherDefinition.Name().Name())
 	case ConvertTo:
 		parameterName = "destination"
-		description = fmt.Sprintf("populates the provided destination %s from our %s", fn.otherType.Name().Name(), receiver.Name())
+		description = fmt.Sprintf("populates the provided destination %s from our %s", fn.otherDefinition.Name().Name(), receiver.Name())
 	default:
 		panic(fmt.Sprintf("unexpected conversion direction %q", fn.conversionDirection))
 	}
@@ -181,14 +181,14 @@ func (fn *StorageConversionFunction) AsFunc(generationContext *CodeGenerationCon
 		Body:          fn.generateBody(receiverName, parameterName, generationContext),
 	}
 
-	parameterPackage := generationContext.MustGetImportedPackageName(fn.otherType.Name().PackageReference)
+	parameterPackage := generationContext.MustGetImportedPackageName(fn.otherDefinition.Name().PackageReference)
 
 	funcDetails.AddParameter(
 		parameterName,
 		&dst.StarExpr{
 			X: &dst.SelectorExpr{
 				X:   dst.NewIdent(parameterPackage),
-				Sel: dst.NewIdent(fn.otherType.Name().Name()),
+				Sel: dst.NewIdent(fn.otherDefinition.Name().Name()),
 			},
 		})
 
