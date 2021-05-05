@@ -270,6 +270,7 @@ func (f *StorageTypeFactory) tryConvertToStorageNamespace(name astmodel.TypeName
  * Functions used by the storageConverter TypeVisitor
  */
 
+// convertResourceType creates a storage variation of a resource type
 func (f *StorageTypeFactory) convertResourceType(
 	tv *astmodel.TypeVisitor,
 	resource *astmodel.ResourceType,
@@ -281,10 +282,9 @@ func (f *StorageTypeFactory) convertResourceType(
 	return astmodel.IdentityVisitOfResourceType(tv, rsrc, ctx)
 }
 
+// convertObjectType creates a storage variation of an object type
 func (f *StorageTypeFactory) convertObjectType(
-	_ *astmodel.TypeVisitor,
-	object *astmodel.ObjectType,
-	_ interface{}) (astmodel.Type, error) {
+	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
 
 	var errs []error
 	properties := object.Properties()
@@ -306,7 +306,9 @@ func (f *StorageTypeFactory) convertObjectType(
 	return astmodel.StorageFlag.ApplyTo(objectType), nil
 }
 
-func (f *StorageTypeFactory) redirectTypeNamesToStoragePackage(_ *astmodel.TypeVisitor, name astmodel.TypeName, _ interface{}) (astmodel.Type, error) {
+// redirectTypeNamesToStoragePackage modifies TypeNames to reference the current storage package
+func (f *StorageTypeFactory) redirectTypeNamesToStoragePackage(
+	_ *astmodel.TypeVisitor, name astmodel.TypeName, _ interface{}) (astmodel.Type, error) {
 	if result, ok := f.tryConvertToStorageNamespace(name); ok {
 		return result, nil
 	}
@@ -314,6 +316,7 @@ func (f *StorageTypeFactory) redirectTypeNamesToStoragePackage(_ *astmodel.TypeV
 	return name, nil
 }
 
+// stripAllValidations removes all validations
 func (f *StorageTypeFactory) stripAllValidations(
 	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
 	// strip all type validations from storage types,
@@ -321,6 +324,7 @@ func (f *StorageTypeFactory) stripAllValidations(
 	return this.Visit(v.ElementType(), ctx)
 }
 
+// stripAllFlags removes all flags
 func (f *StorageTypeFactory) stripAllFlags(
 	tv *astmodel.TypeVisitor,
 	flaggedType *astmodel.FlaggedType,
@@ -337,11 +341,15 @@ func (f *StorageTypeFactory) stripAllFlags(
  * Functions used by the propertyConverter TypeVisitor
  */
 
+// useBaseTypeForEnumerations replaces an enumeration with its underlying base type
 func (f *StorageTypeFactory) useBaseTypeForEnumerations(
 	tv *astmodel.TypeVisitor, et *astmodel.EnumType, ctx interface{}) (astmodel.Type, error) {
 	return tv.Visit(et.BaseType(), ctx)
 }
 
+// shortCircuitNamesOfSimpleTypes redirects TypeNames that reference resources or objects into our
+// storage namespace, and replaces TypeNames that point to simple types (enumerations or
+// primitives) with their underlying type.
 func (f *StorageTypeFactory) shortCircuitNamesOfSimpleTypes(
 	tv *astmodel.TypeVisitor, tn astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 
@@ -372,14 +380,18 @@ func (f *StorageTypeFactory) shortCircuitNamesOfSimpleTypes(
  * Functions used by the functionInjector TypeVisitor
  */
 
+// injectFunctionIntoObject takes the function provided as a context and includes it on the
+// provided object type
 func (f *StorageTypeFactory) injectFunctionIntoObject(
-	tv *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	_ *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	fn := ctx.(astmodel.Function)
 	return ot.WithFunction(fn), nil
 }
 
+// injectFunctionIntoResource takes the function provided as a context and includes it on the
+// provided resource type
 func (f *StorageTypeFactory) injectFunctionIntoResource(
-	tv *astmodel.TypeVisitor, rt *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 	fn := ctx.(astmodel.Function)
 	return rt.WithFunction(fn), nil
 }
