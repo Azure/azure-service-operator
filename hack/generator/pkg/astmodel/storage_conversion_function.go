@@ -279,22 +279,30 @@ func (fn *StorageConversionFunction) generateAssignments(
 // our other type and generating conversions where possible
 func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition, types Types) error {
 
-	receiverObject, ok := AsObjectType(receiver.Type())
+	receiverContainer, ok := fn.asPropertyContainer(receiver.theType)
 	if !ok {
 		var typeDescription strings.Builder
 		receiver.Type().WriteDebugDescription(&typeDescription, types)
 
 		return errors.Errorf(
-			"expected TypeDefinition %q to wrap receiver object type, but found %q",
+			"expected receiver TypeDefinition %q to be either resource or object type, but found %q",
 			receiver.name.String(),
 			typeDescription.String())
 	}
 
-	var otherObject *ObjectType
-	otherObject, ok = AsObjectType(fn.otherType.Type())
+	otherContainer, ok := fn.asPropertyContainer(fn.otherDefinition.theType)
 	if !ok {
-		return errors.Errorf("expected TypeDefinition %q to wrap object type, but none found", fn.otherType.Name().String())
+		var typeDescription strings.Builder
+		fn.otherDefinition.Type().WriteDebugDescription(&typeDescription, types)
+
+		return errors.Errorf(
+			"expected other TypeDefinition %q to be either resource or object type, but found %q",
+			fn.otherDefinition.Name().String(),
+			typeDescription.String())
 	}
+
+	receiverProperties := fn.createPropertyMap(receiverContainer)
+	otherProperties := fn.createPropertyMap(otherContainer)
 
 	var properties []string
 	first := true
@@ -302,8 +310,8 @@ func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition, 
 	// Flag receiver name as used
 	fn.knownLocals.Add(receiver.Name().Name())
 
-	for _, receiverProperty := range receiverObject.Properties() {
-		otherProperty, ok := otherObject.Property(receiverProperty.propertyName)
+	for _, receiverProperty := range receiverProperties {
+		otherProperty, ok := otherProperties[receiverProperty.propertyName]
 		//TODO: Handle renames
 		if ok {
 			var conv StoragePropertyConversion
@@ -347,6 +355,28 @@ func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition, 
 	}
 
 	return nil
+}
+
+// AsPropertyContainer converts a type into a property container
+func (fn *StorageConversionFunction) asPropertyContainer(theType Type) (PropertyContainer, bool) {
+	switch t := theType.(type) {
+	case PropertyContainer:
+		return t, true
+	case MetaType:
+		return fn.asPropertyContainer(t.Unwrap())
+	default:
+		return nil, false
+	}
+}
+
+// createPropertyMap extracts the properties from a PropertyContainer and returns them as a map
+func (fn *StorageConversionFunction) createPropertyMap(container PropertyContainer) map[PropertyName]*PropertyDefinition {
+	result := make(map[PropertyName]*PropertyDefinition)
+	for _, p := range container.Properties() {
+		result[p.PropertyName()] = p
+	}
+
+	return result
 }
 
 // createPropertyConversion tries to create a property conversion between the two provided properties, using all of the
