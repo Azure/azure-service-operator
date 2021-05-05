@@ -23,6 +23,7 @@ type StorageTypeFactory struct {
 	idFactory                  astmodel.IdentifierFactory // Factory for creating identifiers
 	storageConverter           astmodel.TypeVisitor       // a cached type visitor used to create storage variants
 	propertyConverter          astmodel.TypeVisitor       // a cached type visitor used to simplify property types
+	functionInjector           astmodel.TypeVisitor       // a cached type visitor used to inject functions into definitions
 
 	// Map of conversion links for creating our conversion graph
 	// (Can't use PackageReferences as keys, so keyed by the full package path)
@@ -56,6 +57,11 @@ func NewStorageTypeFactory(idFactory astmodel.IdentifierFactory) *StorageTypeFac
 		VisitEnumType:      result.useBaseTypeForEnumerations,
 		VisitValidatedType: result.stripAllValidations,
 		VisitTypeName:      result.shortCircuitNamesOfSimpleTypes,
+	}.Build()
+
+	result.functionInjector = astmodel.TypeVisitorBuilder{
+		VisitObjectType:   result.injectFunctionIntoObject,
+		VisitResourceType: result.injectFunctionIntoResource,
 	}.Build()
 
 	return result
@@ -166,15 +172,16 @@ func (f *StorageTypeFactory) injectConversions(name astmodel.TypeName) error {
 		return errors.Wrapf(err, "creating ConvertTo() function for %q", name)
 	}
 
-	// Update the object underlying our definition to include these functions
-	objectType, isObjectType := astmodel.AsObjectType(def.Type())
-	if !isObjectType {
-		// This shouldn't happen because only objects should be added to the
-		// pendingConversionInjection queue
-		return errors.Errorf("expected %q to be an object definition", def.Name())
+	// Inject the functions into our type definition
+	def, err = f.functionInjector.VisitDefinition(def, convertFrom)
+	if err != nil {
+		return errors.Wrapf(err, "failed to inject ConvertFrom function into %q", name)
 	}
-	objectType = objectType.WithFunction(convertFrom).WithFunction(convertTo)
-	def = def.WithType(objectType)
+
+	def, err = f.functionInjector.VisitDefinition(def, convertTo)
+	if err != nil {
+		return errors.Wrapf(err, "failed to inject ConvertFrom function into %q", name)
+	}
 
 	// Update our map
 	f.types[name] = def
@@ -182,27 +189,81 @@ func (f *StorageTypeFactory) injectConversions(name astmodel.TypeName) error {
 	return nil
 }
 
-/*
-// createApiVariant modifies an existing object definition by adding the required conversion functions
-func (f *StorageTypeFactory) createApiVariant(apiDef astmodel.TypeDefinition, storageDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-
-}
-
-*/
-
-func (f *StorageTypeFactory) stripAllValidations(
-	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
-	// strip all type validations from storage types,
-	// act as if they do not exist
-	return this.Visit(v.ElementType(), ctx)
-}
-
-func (f *StorageTypeFactory) redirectTypeNamesToStoragePackage(_ *astmodel.TypeVisitor, name astmodel.TypeName, _ interface{}) (astmodel.Type, error) {
-	if result, ok := f.tryConvertToStorageNamespace(name); ok {
-		return result, nil
+// makeStorageProperty applies a conversion to make a variant of the property for use when
+// serializing to storage
+func (f *StorageTypeFactory) makeStorageProperty(
+	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
+	for _, conv := range f.propertyConversions {
+		p, err := conv(prop)
+		if err != nil {
+			// Something went wrong, return the error
+			return nil, err
+		}
+		if p != nil {
+			// We have the conversion we need, return it promptly
+			return p, nil
+		}
 	}
 
-	return name, nil
+	return nil, fmt.Errorf("failed to find a conversion for property %v", prop.PropertyName())
+}
+
+// A property conversion accepts a property definition and optionally applies a conversion to make
+// the property suitable for use on a storage type. Conversions return nil if they decline to
+// convert, deferring the conversion to another.
+type propertyConversion = func(property *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error)
+
+// preserveKubernetesResourceStorageProperties preserves properties required by the
+// KubernetesResource interface as they're always required exactly as declared
+func (f *StorageTypeFactory) preserveKubernetesResourceStorageProperties(
+	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
+
+	if astmodel.IsKubernetesResourceProperty(prop.PropertyName()) {
+		// Keep these unchanged
+		return prop, nil
+	}
+
+	// Not a kubernetes type, defer to another conversion
+	return nil, nil
+}
+
+func (f *StorageTypeFactory) defaultPropertyConversion(
+	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
+	propertyType, err := f.propertyConverter.Visit(prop.PropertyType(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	p := prop.WithType(propertyType).
+		MakeOptional().
+		WithDescription("")
+
+	return p, nil
+}
+
+// descriptionForStorageVariant creates a description for a storage variant, indicating which
+// original type it is based upon
+func (f *StorageTypeFactory) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
+	pkg := definition.Name().PackageReference.PackageName()
+
+	result := []string{
+		fmt.Sprintf("Storage version of %v.%v", pkg, definition.Name().Name()),
+	}
+	result = append(result, definition.Description()...)
+
+	return result
+}
+
+func (f *StorageTypeFactory) tryConvertToStorageNamespace(name astmodel.TypeName) (astmodel.TypeName, bool) {
+	// Map the type name into our storage namespace
+	localRef, ok := name.PackageReference.AsLocalPackage()
+	if !ok {
+		return astmodel.TypeName{}, false
+	}
+
+	storageRef := astmodel.MakeStoragePackageReference(localRef)
+	visitedName := astmodel.MakeTypeName(storageRef, name.Name())
+	return visitedName, true
 }
 
 /*
@@ -305,4 +366,20 @@ func (f *StorageTypeFactory) shortCircuitNamesOfSimpleTypes(
 
 	// Replace the name with the underlying type
 	return tv.Visit(actualType, ctx)
+}
+
+/*
+ * Functions used by the functionInjector TypeVisitor
+ */
+
+func (f *StorageTypeFactory) injectFunctionIntoObject(
+	tv *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	fn := ctx.(astmodel.Function)
+	return ot.WithFunction(fn), nil
+}
+
+func (f *StorageTypeFactory) injectFunctionIntoResource(
+	tv *astmodel.TypeVisitor, rt *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+	fn := ctx.(astmodel.Function)
+	return rt.WithFunction(fn), nil
 }
