@@ -205,6 +205,10 @@ func (f *StorageTypeFactory) redirectTypeNamesToStoragePackage(_ *astmodel.TypeV
 	return name, nil
 }
 
+/*
+ * Functions used by the storageConverter TypeVisitor
+ */
+
 func (f *StorageTypeFactory) convertResourceType(
 	tv *astmodel.TypeVisitor,
 	resource *astmodel.ResourceType,
@@ -241,6 +245,21 @@ func (f *StorageTypeFactory) convertObjectType(
 	return astmodel.StorageFlag.ApplyTo(objectType), nil
 }
 
+func (f *StorageTypeFactory) redirectTypeNamesToStoragePackage(_ *astmodel.TypeVisitor, name astmodel.TypeName, _ interface{}) (astmodel.Type, error) {
+	if result, ok := f.tryConvertToStorageNamespace(name); ok {
+		return result, nil
+	}
+
+	return name, nil
+}
+
+func (f *StorageTypeFactory) stripAllValidations(
+	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
+	// strip all type validations from storage types,
+	// act as if they do not exist
+	return this.Visit(v.ElementType(), ctx)
+}
+
 func (f *StorageTypeFactory) stripAllFlags(
 	tv *astmodel.TypeVisitor,
 	flaggedType *astmodel.FlaggedType,
@@ -253,29 +272,9 @@ func (f *StorageTypeFactory) stripAllFlags(
 	return astmodel.IdentityVisitOfFlaggedType(tv, flaggedType, ctx)
 }
 
-// makeStorageProperty applies a conversion to make a variant of the property for use when
-// serializing to storage
-func (f *StorageTypeFactory) makeStorageProperty(
-	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
-	for _, conv := range f.propertyConversions {
-		p, err := conv(prop)
-		if err != nil {
-			// Something went wrong, return the error
-			return nil, err
-		}
-		if p != nil {
-			// We have the conversion we need, return it promptly
-			return p, nil
-		}
-	}
-
-	return nil, fmt.Errorf("failed to find a conversion for property %v", prop.PropertyName())
-}
-
-// A property conversion accepts a property definition and optionally applies a conversion to make
-// the property suitable for use on a storage type. Conversions return nil if they decline to
-// convert, deferring the conversion to another.
-type propertyConversion = func(property *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error)
+/*
+ * Functions used by the propertyConverter TypeVisitor
+ */
 
 func (f *StorageTypeFactory) useBaseTypeForEnumerations(
 	tv *astmodel.TypeVisitor, et *astmodel.EnumType, ctx interface{}) (astmodel.Type, error) {
@@ -306,57 +305,4 @@ func (f *StorageTypeFactory) shortCircuitNamesOfSimpleTypes(
 
 	// Replace the name with the underlying type
 	return tv.Visit(actualType, ctx)
-}
-
-// preserveKubernetesResourceStorageProperties preserves properties required by the
-// KubernetesResource interface as they're always required exactly as declared
-func (f *StorageTypeFactory) preserveKubernetesResourceStorageProperties(
-	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
-
-	if astmodel.IsKubernetesResourceProperty(prop.PropertyName()) {
-		// Keep these unchanged
-		return prop, nil
-	}
-
-	// Not a kubernetes type, defer to another conversion
-	return nil, nil
-}
-
-func (f *StorageTypeFactory) defaultPropertyConversion(
-	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
-	propertyType, err := f.propertyConverter.Visit(prop.PropertyType(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	p := prop.WithType(propertyType).
-		MakeOptional().
-		WithDescription("")
-
-	return p, nil
-}
-
-// descriptionForStorageVariant creates a description for a storage variant, indicating which
-// original type it is based upon
-func (f *StorageTypeFactory) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
-	pkg := definition.Name().PackageReference.PackageName()
-
-	result := []string{
-		fmt.Sprintf("Storage version of %v.%v", pkg, definition.Name().Name()),
-	}
-	result = append(result, definition.Description()...)
-
-	return result
-}
-
-func (f *StorageTypeFactory) tryConvertToStorageNamespace(name astmodel.TypeName) (astmodel.TypeName, bool) {
-	// Map the type name into our storage namespace
-	localRef, ok := name.PackageReference.AsLocalPackage()
-	if !ok {
-		return astmodel.TypeName{}, false
-	}
-
-	storageRef := astmodel.MakeStoragePackageReference(localRef)
-	visitedName := astmodel.MakeTypeName(storageRef, name.Name())
-	return visitedName, true
 }
