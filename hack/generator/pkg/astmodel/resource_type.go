@@ -8,6 +8,7 @@ package astmodel
 import (
 	"fmt"
 	"go/token"
+	"sort"
 	"strings"
 
 	"github.com/dave/dst"
@@ -23,6 +24,7 @@ type ResourceType struct {
 	status           Type
 	isStorageVersion bool
 	owner            *TypeName
+	functions        map[string]Function
 	testcases        map[string]TestCase
 	InterfaceImplementer
 }
@@ -32,6 +34,7 @@ func NewResourceType(specType Type, statusType Type) *ResourceType {
 	result := &ResourceType{
 		isStorageVersion:     false,
 		owner:                nil,
+		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		InterfaceImplementer: MakeInterfaceImplementer(),
 	}
@@ -86,7 +89,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *Re
 		if nameProperty == nil {
 			klog.V(1).Infof("resource %s is missing field 'Name', fabricating one...", typeName)
 
-			nameProperty = NewPropertyDefinition(PropertyName("Name"), "name", StringType)
+			nameProperty = NewPropertyDefinition("Name", "name", StringType)
 			nameProperty.WithDescription("The name of the resource")
 			isNameOptional = true
 		}
@@ -119,8 +122,14 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *Re
 	return NewResourceType(specType, statusType)
 }
 
-// assert that ResourceType implements Type
+// Ensure ResourceType implements the Type interface correctly
 var _ Type = &ResourceType{}
+
+// Ensure ResourceType implements the PropertyContainer interface correctly
+var _ PropertyContainer = &ResourceType{}
+
+// Ensure ResourceType implements the FunctionContainer interface correctly
+var _ FunctionContainer = &ResourceType{}
 
 // SpecType returns the type used for specification
 func (resource *ResourceType) SpecType() Type {
@@ -182,6 +191,15 @@ func (resource *ResourceType) WithInterface(iface *InterfaceImplementation) *Res
 	return result
 }
 
+// WithFunction creates a new Resource with a function (method) attached to it
+func (resource *ResourceType) WithFunction(function Function) *ResourceType {
+	// Create a copy to preserve immutability
+	result := resource.copy()
+	result.functions[function.Name()] = function
+
+	return result
+}
+
 // WithTestCase creates a new Resource that's a copy with an additional test case included
 func (resource *ResourceType) WithTestCase(testcase TestCase) *ResourceType {
 	result := resource.copy()
@@ -195,7 +213,7 @@ func (resource *ResourceType) AsType(_ *CodeGenerationContext) dst.Expr {
 }
 
 // AsZero always panics because a resource has no direct AST representation
-func (resource *ResourceType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (resource *ResourceType) AsZero(_ Types, _ *CodeGenerationContext) dst.Expr {
 	panic("a resource cannot be used directly as a type")
 }
 
@@ -214,12 +232,26 @@ func (resource *ResourceType) Equals(other Type) bool {
 	// Do cheap tests earlier
 	if resource.isStorageVersion != otherResource.isStorageVersion ||
 		len(resource.testcases) != len(otherResource.testcases) ||
+		len(resource.functions) != len(otherResource.functions) ||
 		!TypeEquals(resource.spec, otherResource.spec) ||
 		!TypeEquals(resource.status, otherResource.status) ||
 		!resource.InterfaceImplementer.Equals(otherResource.InterfaceImplementer) {
 		return false
 	}
 
+	// Check same functions present
+	for name, fn := range otherResource.functions {
+		ourFn, ok := resource.functions[name]
+		if !ok {
+			return false
+		}
+
+		if !ourFn.Equals(fn) {
+			return false
+		}
+	}
+
+	// Check same test cases present
 	for name, testcase := range otherResource.testcases {
 		ourCase, ok := resource.testcases[name]
 		if !ok {
@@ -234,6 +266,60 @@ func (resource *ResourceType) Equals(other Type) bool {
 	}
 
 	return true
+}
+
+// EmbeddedProperties returns all the embedded properties for this resource type
+// An ordered slice is returned to preserve immutability and provide determinism
+func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
+
+	typeMetaType := MakeTypeName(MetaV1PackageReference, "TypeMeta")
+	typeMetaProperty := NewPropertyDefinition("", "", typeMetaType).
+		WithTag("json", "inline")
+
+	objectMetaType := MakeTypeName(MetaV1PackageReference, "ObjectMeta")
+	objectMetaProperty := NewPropertyDefinition("", "metadata", objectMetaType).
+		WithTag("json", "omitempty")
+
+	return []*PropertyDefinition{
+		typeMetaProperty,
+		objectMetaProperty,
+	}
+}
+
+// Properties returns all the properties from this resource type
+// An ordered slice is returned to preserve immutability and provide determinism
+func (resource *ResourceType) Properties() []*PropertyDefinition {
+
+	specProperty := NewPropertyDefinition("Spec", "spec", resource.spec).
+		WithTag("json", "omitempty")
+
+	result := []*PropertyDefinition{
+		specProperty,
+	}
+
+	if resource.status != nil {
+		statusProperty := NewPropertyDefinition("Status", "status", resource.status).
+			WithTag("json", "omitempty")
+		result = append(result, statusProperty)
+	}
+
+	return result
+}
+
+// Functions returns all the function implementations
+// A sorted slice is returned to preserve immutability and provide determinism
+func (resource *ResourceType) Functions() []Function {
+
+	var functions []Function
+	for _, f := range resource.functions {
+		functions = append(functions, f)
+	}
+
+	sort.Slice(functions, func(i int, j int) bool {
+		return functions[i].Name() < functions[j].Name()
+	})
+
+	return functions
 }
 
 // References returns the types referenced by Status or Spec parts of the resource
@@ -284,11 +370,6 @@ func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 
 // AsDeclarations converts the resource type to a set of go declarations
 func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
-	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1PackageReference)
-
-	typeMetaField := defineField("", dst.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
-	objectMetaField := defineField("", dst.NewIdent(fmt.Sprintf("%s.ObjectMeta", packageName)), "`json:\"metadata,omitempty\"`")
-
 	/*
 		start off with:
 			metav1.TypeMeta   `json:",inline"`
@@ -296,18 +377,25 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 		then the Spec/Status properties
 	*/
-	fields := []*dst.Field{
-		typeMetaField,
-		objectMetaField,
-		defineField("Spec", resource.spec.AsType(codeGenerationContext), "`json:\"spec,omitempty\"`"),
+	var fields []*dst.Field
+	for _, property := range resource.EmbeddedProperties() {
+		f := property.AsField(codeGenerationContext)
+		if f != nil {
+			fields = append(fields, f)
+		}
 	}
 
-	if resource.status != nil {
-		statusType := resource.status.AsType(codeGenerationContext)
-		// ErroredTypes can be present as status but might not generate an actual status type
-		if statusType != nil {
-			fields = append(fields, defineField("Status", statusType, "`json:\"status,omitempty\"`"))
+	for _, property := range resource.Properties() {
+		f := property.AsField(codeGenerationContext)
+		if f != nil {
+			fields = append(fields, f)
 		}
+	}
+
+	if len(fields) > 0 {
+		// A Before:EmptyLine decoration on the first field looks odd, so we force it to Before:NewLine
+		// This makes the output look nicer 🙂
+		fields[0].Decs.Before = dst.NewLine
 	}
 
 	resourceTypeSpec := &dst.TypeSpec{
@@ -363,9 +451,21 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 	var declarations []dst.Decl
 	declarations = append(declarations, resourceDeclaration)
 	declarations = append(declarations, resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
+	declarations = append(declarations, resource.generateMethodDecls(codeGenerationContext, declContext.Name)...)
 	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)...)
 
 	return declarations
+}
+
+func (resource *ResourceType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []dst.Decl {
+	var result []dst.Decl
+
+	for _, f := range resource.Functions() {
+		funcDef := f.AsFunc(codeGenerationContext, typeName)
+		result = append(result, funcDef)
+	}
+
+	return result
 }
 
 func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
@@ -437,12 +537,17 @@ func (resource *ResourceType) copy() *ResourceType {
 		status:               resource.status,
 		isStorageVersion:     resource.isStorageVersion,
 		owner:                resource.owner,
+		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		InterfaceImplementer: resource.InterfaceImplementer.copy(),
 	}
 
-	for key, value := range resource.testcases {
-		result.testcases[key] = value
+	for key, testcase := range resource.testcases {
+		result.testcases[key] = testcase
+	}
+
+	for key, fn := range resource.functions {
+		result.functions[key] = fn
 	}
 
 	return result

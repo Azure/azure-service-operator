@@ -30,6 +30,12 @@ var EmptyObjectType = NewObjectType()
 // Ensure ObjectType implements the Type interface correctly
 var _ Type = &ObjectType{}
 
+// Ensure ObjectType implements the PropertyContainer interface correctly
+var _ PropertyContainer = &ObjectType{}
+
+// Ensure ObjectType implements the FunctionContainer interface correctly
+var _ FunctionContainer = &ObjectType{}
+
 // NewObjectType is a factory method for creating a new ObjectType
 func NewObjectType() *ObjectType {
 	return &ObjectType{
@@ -70,17 +76,7 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []dst.Decl {
 	var result []dst.Decl
 
-	// Functions must be ordered by name for deterministic output
-	var functions []Function
-	for _, f := range objectType.functions {
-		functions = append(functions, f)
-	}
-
-	sort.Slice(functions, func(i int, j int) bool {
-		return functions[i].Name() < functions[j].Name()
-	})
-
-	for _, f := range functions {
+	for _, f := range objectType.Functions() {
 		funcDef := f.AsFunc(codeGenerationContext, typeName)
 		result = append(result, funcDef)
 	}
@@ -151,6 +147,22 @@ func (objectType *ObjectType) EmbeddedProperties() []*PropertyDefinition {
 	return result
 }
 
+// Functions returns all the function implementations
+// A sorted slice is returned to preserve immutability and provide determinism
+func (objectType *ObjectType) Functions() []Function {
+
+	var functions []Function
+	for _, f := range objectType.functions {
+		functions = append(functions, f)
+	}
+
+	sort.Slice(functions, func(i int, j int) bool {
+		return functions[i].Name() < functions[j].Name()
+	})
+
+	return functions
+}
+
 // HasFunctionWithName determines if this object has a function with the given name
 func (objectType *ObjectType) HasFunctionWithName(name string) bool {
 	_, ok := objectType.functions[name]
@@ -159,21 +171,18 @@ func (objectType *ObjectType) HasFunctionWithName(name string) bool {
 
 // AsType implements Type for ObjectType
 func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
-	embedded := objectType.EmbeddedProperties()
-	properties := objectType.Properties()
 	var fields []*dst.Field
-
-	for _, f := range embedded {
+	for _, f := range objectType.EmbeddedProperties() {
 		fields = append(fields, f.AsField(codeGenerationContext))
 	}
 
-	for _, f := range properties {
+	for _, f := range objectType.Properties() {
 		fields = append(fields, f.AsField(codeGenerationContext))
 	}
 
 	if len(fields) > 0 {
-		// if first field has Before:EmptyLine decoration, switch it to NewLine
-		// this makes the output look nicer 🙂
+		// A Before:EmptyLine decoration on the first field looks odd, so we force it to Before:NewLine
+		// This makes the output look nicer 🙂
 		fields[0].Decs.Before = dst.NewLine
 	}
 
@@ -189,7 +198,7 @@ func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContex
 // ctx allows current imports to be correctly identified where needed
 // We can only generate a zero value for a named object type (and that's handled by TypeName, so
 // we'll only end up here if it is an anonymous type.)
-func (objectType *ObjectType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (objectType *ObjectType) AsZero(_ Types, _ *CodeGenerationContext) dst.Expr {
 	panic("cannot create a zero value for an object type")
 }
 
@@ -540,6 +549,6 @@ func extractEmbeddedTypeName(t Type) (TypeName, error) {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, types Types) {
+func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, _ Types) {
 	builder.WriteString("Object")
 }

@@ -257,6 +257,12 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 		AddValidationComments(&doc, validated.Validations().ToKubeBuilderValidations())
 	}
 
+	// Some types opt out of codegen by returning nil
+	typeDeclaration := propType.AsType(codeGenerationContext)
+	if typeDeclaration == nil {
+		return nil
+	}
+
 	before := dst.NewLine
 	if len(doc) > 0 {
 		before = dst.EmptyLine
