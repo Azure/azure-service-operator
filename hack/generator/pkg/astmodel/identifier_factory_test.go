@@ -35,6 +35,13 @@ func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
 		{"this id has spaces", NotExported, "thisIdHasSpaces"},
 		{"this, id, has, spaces", NotExported, "thisIdHasSpaces"},
 		{"package", NotExported, "pkg"},
+		{"item1ARM", NotExported, "item1ARM"},
+		{"itemARM", NotExported, "itemARM"},
+		{"XML1Document", NotExported, "xml1Document"},
+		{"book12was2good", NotExported, "book12Was2Good"},
+		{"12monkeys", NotExported, "12Monkeys"},
+		{"version20210201", NotExported, "version20210201"},
+		{"version2021 02 01", NotExported, "version20210201"},
 	}
 
 	idfactory := NewIdentifierFactory()

@@ -221,6 +221,13 @@ func simplifyName(context string, name string) string {
 	return strings.Join(result, "")
 }
 
+// sliceIntoWords splits the provided identifier into a slice of individual words.
+// A word is defined by one of the following:
+//   1. A space ("a test" becomes "a" and "test")
+//   2. A transition between lowercase and uppercase ("aWord" becomes "a" and "Word")
+//   3. A transition between multiple uppercase letters and a lowercase letter ("XMLDocument" becomes "XML" and "Document")
+//   4. A transition between a letter and a digit ("book12" becomes "book" and "12")
+//   5. A transition between a digit and a letter ("12monkeys" becomes "12" and "monkeys")
 func sliceIntoWords(identifier string) []string {
 	// Trim any leading and trailing spaces to make our life easier later
 	identifier = strings.Trim(identifier, " ")
@@ -230,13 +237,14 @@ func sliceIntoWords(identifier string) []string {
 	lastStart := 0
 	for i := range chars {
 		preceedingLower := i > 0 && unicode.IsLower(chars[i-1])
-		succeedingLower := i+1 < len(chars) && unicode.IsLower(chars[i+1])
+		preceedingDigit := i > 0 && unicode.IsDigit(chars[i-1])
+		succeedingLower := i+1 < len(chars) && unicode.IsLower(chars[i+1]) // This case is for handling acronyms like XMLDocument
 		isSpace := unicode.IsSpace(chars[i])
 		foundUpper := unicode.IsUpper(chars[i])
-		if i > lastStart && foundUpper && (preceedingLower || succeedingLower) {
-			result = append(result, string(chars[lastStart:i]))
-			lastStart = i
-		} else if isSpace {
+		foundDigit := unicode.IsDigit(chars[i])
+		caseTransition := foundUpper && (preceedingLower || succeedingLower)
+		digitTransition := (foundDigit && !preceedingDigit) || (!foundDigit && preceedingDigit)
+		if isSpace {
 			r := string(chars[lastStart:i])
 			r = strings.Trim(r, " ")
 			// If r is entirely spaces... just don't append anything
@@ -244,6 +252,9 @@ func sliceIntoWords(identifier string) []string {
 				result = append(result, r)
 			}
 			lastStart = i + 1 // skip the space
+		} else if i > lastStart && (caseTransition || digitTransition) {
+			result = append(result, string(chars[lastStart:i]))
+			lastStart = i
 		}
 	}
 
