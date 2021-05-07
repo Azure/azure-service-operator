@@ -116,10 +116,11 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 	}
 	var result FakeResource_SpecARM
 	result.ApiVersion = FakeResourceSpecApiVersion20200601
-	result.JsonObject = make(map[string]v1.JSON)
-	for key, value := range fakeResourceSpec.JsonObject {
-		elemTyped := *value.DeepCopy()
-		result.JsonObject[key] = elemTyped
+	if fakeResourceSpec.JsonObject != nil {
+		result.JsonObject = make(map[string]v1.JSON)
+		for key, value := range fakeResourceSpec.JsonObject {
+			result.JsonObject[key] = *value.DeepCopy()
+		}
 	}
 	result.MandatoryJson = *fakeResourceSpec.MandatoryJson.DeepCopy()
 	result.Name = name

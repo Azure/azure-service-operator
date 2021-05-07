@@ -1,0 +1,483 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
+package astmodel
+
+import (
+	"fmt"
+	"go/token"
+	"strings"
+
+	"github.com/dave/dst"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+)
+
+// ConversionParameters are parameters for converting between a source type and a destination type.
+type ConversionParameters struct {
+	Source            dst.Expr
+	Destination       dst.Expr
+	SourceType        Type
+	DestinationType   Type
+	NameHint          string
+	ConversionContext []Type
+	AssignmentHandler func(destination, source dst.Expr) dst.Stmt
+}
+
+// GetSource gets the Source field.
+func (params ConversionParameters) GetSource() dst.Expr {
+	return dst.Clone(params.Source).(dst.Expr)
+}
+
+// GetDestination gets the Destination field.
+func (params ConversionParameters) GetDestination() dst.Expr {
+	return dst.Clone(params.Destination).(dst.Expr)
+}
+
+// WithSource returns a new ConversionParameters with the updated Source.
+func (params ConversionParameters) WithSource(source dst.Expr) ConversionParameters {
+	result := params.copy()
+	result.Source = source
+
+	return result
+}
+
+// WithSourceType returns a new ConversionParameters with the updated SourceType.
+func (params ConversionParameters) WithSourceType(t Type) ConversionParameters {
+	result := params.copy()
+	result.SourceType = t
+
+	return result
+}
+
+// WithDestination returns a new ConversionParameters with the updated Destination.
+func (params ConversionParameters) WithDestination(destination dst.Expr) ConversionParameters {
+	result := params.copy()
+	result.Destination = destination
+
+	return result
+}
+
+// WithDestinationType returns a new ConversionParameters with the updated DestinationType.
+func (params ConversionParameters) WithDestinationType(t Type) ConversionParameters {
+	result := params.copy()
+	result.DestinationType = t
+
+	return result
+}
+
+// WithAssignmentHandler returns a new ConversionParameters with the updated AssignmentHandler.
+func (params ConversionParameters) WithAssignmentHandler(
+	assignmentHandler func(result dst.Expr, destination dst.Expr) dst.Stmt) ConversionParameters {
+	result := params.copy()
+	result.AssignmentHandler = assignmentHandler
+
+	return result
+}
+
+// AssignmentHandlerOrDefault returns the AssignmentHandler or a default assignment handler if AssignmentHandler was nil.
+func (params ConversionParameters) AssignmentHandlerOrDefault() func(destination, source dst.Expr) dst.Stmt {
+	if params.AssignmentHandler == nil {
+		return AssignmentHandlerAssign
+	}
+	return params.AssignmentHandler
+}
+
+// TODO: Consider a better way to do this, using KnownLocalsSet?
+// CountArraysAndMapsInConversionContext returns the number of arrays/maps which are in the conversion context.
+// This is to aid in situations where there are deeply nested conversions (i.e. array of map of maps). In these contexts,
+// just using a simple assignment such as "elem := ..." isn't sufficient because elem my already have been defined above by
+// an enclosing map/array conversion context. We use the depth to do "elem1 := ..." or "elem7 := ...".
+func (params ConversionParameters) CountArraysAndMapsInConversionContext() int {
+	result := 0
+	for _, t := range params.ConversionContext {
+		switch t.(type) {
+		case *MapType:
+			result += 1
+		case *ArrayType:
+			result += 1
+		}
+	}
+
+	return result
+}
+
+func (params ConversionParameters) copy() ConversionParameters {
+	result := params
+	result.ConversionContext = append([]Type(nil), params.ConversionContext...)
+
+	return result
+}
+
+type ConversionHandler func(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt
+
+// TODO: There feels like overlap between this and the Storage Conversion Factories? Need further thinking to combine them?
+// ConversionFunctionBuilder is used to build a function converting between two similar types.
+// It has a set of built-in conversions and can be configured with additional conversions.
+type ConversionFunctionBuilder struct {
+	// TODO: Better way to let you fuss with this? How can you pick out what I've already put in here to overwrite it?
+	conversions []ConversionHandler
+
+	IdFactory             IdentifierFactory
+	CodeGenerationContext *CodeGenerationContext
+}
+
+// NewConversionFunctionBuilder creates a new ConversionFunctionBuilder with the default conversions already added.
+func NewConversionFunctionBuilder(idFactory IdentifierFactory, codeGenerationContext *CodeGenerationContext) *ConversionFunctionBuilder {
+	return &ConversionFunctionBuilder{
+		IdFactory:             idFactory,
+		CodeGenerationContext: codeGenerationContext,
+		conversions: []ConversionHandler{
+			// Complex wrapper types checked first
+			IdentityConvertComplexOptionalProperty,
+			IdentityConvertComplexArrayProperty,
+			IdentityConvertComplexMapProperty,
+
+			// TODO: a flip function of some kind would be kinda nice (for source vs dest)
+			IdentityAssignValidatedTypeDestination,
+			IdentityAssignValidatedTypeSource,
+			IdentityAssignPrimitiveType,
+			IdentityDeepCopyJSON,
+			IdentityAssignTypeName,
+		},
+	}
+}
+
+// AddConversionHandlers adds the specified conversion handlers to the end of the conversion list.
+func (builder *ConversionFunctionBuilder) AddConversionHandlers(conversionHandlers ...ConversionHandler) {
+	builder.conversions = append(builder.conversions, conversionHandlers...)
+}
+
+// PrependConversionHandlers adds the specified conversion handlers to the beginning of the conversion list.
+func (builder *ConversionFunctionBuilder) PrependConversionHandlers(conversionHandlers ...ConversionHandler) {
+	builder.conversions = append(conversionHandlers, builder.conversions...)
+}
+
+// BuildConversion creates a conversion between the source and destination defined by params.
+func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParameters) []dst.Stmt {
+	for _, conversion := range builder.conversions {
+		result := conversion(builder, params)
+		if len(result) > 0 {
+			return result
+		}
+	}
+
+	types := builder.CodeGenerationContext.GetAllReachableTypes()
+	var sourceSB strings.Builder
+	params.SourceType.WriteDebugDescription(&sourceSB, types)
+	var destinationSB strings.Builder
+	params.SourceType.WriteDebugDescription(&destinationSB, types)
+	panic(fmt.Sprintf("don't know how to perform conversion for %T -> %T", sourceSB.String(), destinationSB.String()))
+}
+
+// IdentityConvertComplexOptionalProperty handles conversion for optional properties with complex elements
+// This function generates code that looks like this:
+// 	if <source> != nil {
+//		<code for producing result from destinationType.Element()>
+//		<destination> = &<result>
+//	}
+func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	destinationType, ok := params.DestinationType.(*OptionalType)
+	if !ok {
+		return nil
+	}
+
+	sourceType, ok := params.SourceType.(*OptionalType)
+	if !ok {
+		return nil
+	}
+
+	// TODO: Dislike Typed suffix here -- change
+	tempVarIdent := builder.IdFactory.CreateIdentifier(params.NameHint+"Typed", NotExported)
+
+	innerStatements := builder.BuildConversion(
+		ConversionParameters{
+			Source:            astbuilder.Dereference(params.GetSource()),
+			SourceType:        sourceType.Element(),
+			Destination:       dst.NewIdent(tempVarIdent),
+			DestinationType:   destinationType.Element(),
+			NameHint:          params.NameHint,
+			ConversionContext: append(params.ConversionContext, destinationType),
+			AssignmentHandler: AssignmentHandlerDefine,
+		})
+
+	// Tack on the final assignment
+	innerStatements = append(
+		innerStatements,
+		astbuilder.SimpleAssignment(
+			params.GetDestination(),
+			token.ASSIGN,
+			astbuilder.AddrOf(dst.NewIdent(tempVarIdent))))
+
+	result := &dst.IfStmt{
+		Cond: &dst.BinaryExpr{
+			X:  params.GetSource(),
+			Op: token.NEQ,
+			Y:  dst.NewIdent("nil"),
+		},
+		Body: &dst.BlockStmt{
+			List: innerStatements,
+		},
+	}
+	return []dst.Stmt{result}
+}
+
+// IdentityConvertComplexArrayProperty handles conversion for array properties with complex elements
+// This function generates code that looks like this:
+// 	for _, item := range <source> {
+//		<code for producing result from destinationType.Element()>
+//		<destination> = append(<destination>, <result>)
+//	}
+func IdentityConvertComplexArrayProperty(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+
+	destinationType, ok := params.DestinationType.(*ArrayType)
+	if !ok {
+		return nil
+	}
+
+	sourceType, ok := params.SourceType.(*ArrayType)
+	if !ok {
+		return nil
+	}
+
+	var results []dst.Stmt
+
+	itemIdent := "item"
+	elemIdent := "elem"
+
+	depth := params.CountArraysAndMapsInConversionContext()
+
+	elemType := destinationType.Element()
+	actualDestination := params.GetDestination() // TODO: improve name
+	if depth > 0 {
+		actualDestination = dst.NewIdent(elemIdent)
+		results = append(
+			results,
+			astbuilder.LocalVariableDeclaration(
+				elemIdent,
+				destinationType.AsType(builder.CodeGenerationContext),
+				""))
+		elemIdent = fmt.Sprintf("elem%d", depth)
+	}
+
+	result := &dst.RangeStmt{
+		Key:   dst.NewIdent("_"),
+		Value: dst.NewIdent(itemIdent),
+		X:     params.GetSource(),
+		Tok:   token.DEFINE,
+		Body: &dst.BlockStmt{
+			List: builder.BuildConversion(
+				ConversionParameters{
+					Source:            dst.NewIdent(itemIdent),
+					SourceType:        sourceType.Element(),
+					Destination:       dst.Clone(actualDestination).(dst.Expr),
+					DestinationType:   elemType,
+					NameHint:          elemIdent,
+					ConversionContext: append(params.ConversionContext, destinationType),
+					AssignmentHandler: astbuilder.AppendList,
+				}),
+		},
+	}
+	results = append(results, result)
+
+	// If we have an assignment handler, we need to make sure to call it. This only happens in the case of nested
+	// maps/arrays, where we need to make sure we generate the map assignment/array append before returning (otherwise
+	// the "actual" assignment will just end up being to an empty array/map).
+	if params.AssignmentHandler != nil {
+		results = append(results, params.AssignmentHandler(params.GetDestination(), dst.Clone(actualDestination).(dst.Expr)))
+	}
+
+	return results
+}
+
+// IdentityConvertComplexMapProperty handles conversion for map properties with complex values.
+// This function panics if the map keys are not primitive types.
+// This function generates code that looks like this:
+// 	if <source> != nil {
+//		<destination> = make(map[<destinationType.KeyType()]<destinationType.ValueType()>)
+//		for key, value := range <source> {
+// 			<code for producing result from destinationType.ValueType()>
+//			<destination>[key] = <result>
+//		}
+//	}
+func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	destinationType, ok := params.DestinationType.(*MapType)
+	if !ok {
+		return nil
+	}
+
+	sourceType, ok := params.SourceType.(*MapType)
+	if !ok {
+		return nil
+	}
+
+	if _, ok := destinationType.KeyType().(*PrimitiveType); !ok {
+		panic(fmt.Sprintf("map had non-primitive key type: %v", destinationType.KeyType()))
+	}
+
+	depth := params.CountArraysAndMapsInConversionContext()
+
+	keyIdent := "key"
+	valueIdent := "value"
+	elemIdent := "elem"
+
+	actualDestination := params.GetDestination() // TODO: improve name
+	makeMapToken := token.ASSIGN
+	if depth > 0 {
+		actualDestination = dst.NewIdent(elemIdent)
+		elemIdent = fmt.Sprintf("elem%d", depth)
+		makeMapToken = token.DEFINE
+	}
+
+	handler := func(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
+		return astbuilder.InsertMap(lhs, dst.NewIdent(keyIdent), rhs)
+	}
+
+	keyTypeAst := destinationType.KeyType().AsType(builder.CodeGenerationContext)
+	valueTypeAst := destinationType.ValueType().AsType(builder.CodeGenerationContext)
+
+	makeMapStatement := astbuilder.SimpleAssignment(
+		dst.Clone(actualDestination).(dst.Expr),
+		makeMapToken,
+		astbuilder.MakeMap(keyTypeAst, valueTypeAst))
+	rangeStatement := &dst.RangeStmt{
+		Key:   dst.NewIdent(keyIdent),
+		Value: dst.NewIdent(valueIdent),
+		X:     params.GetSource(),
+		Tok:   token.DEFINE,
+		Body: &dst.BlockStmt{
+			List: builder.BuildConversion(
+				ConversionParameters{
+					Source:            dst.NewIdent(valueIdent),
+					SourceType:        sourceType.ValueType(),
+					Destination:       dst.Clone(actualDestination).(dst.Expr),
+					DestinationType:   destinationType.ValueType(),
+					NameHint:          elemIdent,
+					ConversionContext: append(params.ConversionContext, destinationType),
+					AssignmentHandler: handler,
+				}),
+		},
+	}
+
+	result := &dst.IfStmt{
+		Cond: &dst.BinaryExpr{
+			X:  params.GetSource(),
+			Op: token.NEQ,
+			Y:  dst.NewIdent("nil"),
+		},
+		Body: &dst.BlockStmt{
+			List: []dst.Stmt{
+				makeMapStatement,
+				rangeStatement,
+			},
+		},
+	}
+
+	// If we have an assignment handler, we need to make sure to call it. This only happens in the case of nested
+	// maps/arrays, where we need to make sure we generate the map assignment/array append before returning (otherwise
+	// the "actual" assignment will just end up being to an empty array/map).
+	if params.AssignmentHandler != nil {
+		result.Body.List = append(result.Body.List, params.AssignmentHandler(params.GetDestination(), dst.Clone(actualDestination).(dst.Expr)))
+	}
+
+	return []dst.Stmt{result}
+}
+
+// IdentityAssignTypeName handles conversion for TypeName's that are the same
+// Note that because this handler is dealing with TypeName's and not Optional<TypeName>, it is safe to
+// perform a simple assignment rather than a copy.
+// This function generates code that looks like this:
+//	<destination> <assignmentHandler> <source>
+func IdentityAssignTypeName(_ *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	destinationType, ok := params.DestinationType.(TypeName)
+	if !ok {
+		return nil
+	}
+
+	sourceType, ok := params.SourceType.(TypeName)
+	if !ok {
+		return nil
+	}
+
+	// Can only apply basic assignment for typeNames that are the same
+	if !sourceType.Equals(destinationType) {
+		return nil
+	}
+
+	return []dst.Stmt{
+		params.AssignmentHandlerOrDefault()(params.GetDestination(), params.GetSource()),
+	}
+}
+
+// IdentityAssignPrimitiveType just assigns source to destination directly, no conversion needed.
+// This function generates code that looks like this:
+// <destination> <assignmentHandler> <source>
+func IdentityAssignPrimitiveType(_ *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	if _, ok := params.DestinationType.(*PrimitiveType); !ok {
+		return nil
+	}
+
+	if _, ok := params.SourceType.(*PrimitiveType); !ok {
+		return nil
+	}
+
+	return []dst.Stmt{
+		params.AssignmentHandlerOrDefault()(params.GetDestination(), params.GetSource()),
+	}
+}
+
+// IdentityAssignValidatedTypeDestination generates an assignment to the underlying validated type Element
+func IdentityAssignValidatedTypeDestination(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	validatedType, ok := params.DestinationType.(*ValidatedType)
+	if !ok {
+		return nil
+	}
+
+	// pass through to underlying type
+	params = params.WithDestinationType(validatedType.ElementType())
+	return builder.BuildConversion(params)
+}
+
+// IdentityAssignValidatedTypeSource generates an assignment to the underlying validated type Element
+func IdentityAssignValidatedTypeSource(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	validatedType, ok := params.SourceType.(*ValidatedType)
+	if !ok {
+		return nil
+	}
+
+	// pass through to underlying type
+	params = params.WithSourceType(validatedType.ElementType())
+	return builder.BuildConversion(params)
+}
+
+// IdentityDeepCopyJSON special cases copying JSON-type fields to call the DeepCopy method.
+// It generates code that looks like:
+//     <destination> = *<source>.DeepCopy()
+func IdentityDeepCopyJSON(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+
+	if !params.DestinationType.Equals(JSONType) {
+		return nil
+	}
+
+	newSource := astbuilder.Dereference(
+		&dst.CallExpr{
+			Fun:  astbuilder.Selector(params.GetSource(), "DeepCopy"),
+			Args: []dst.Expr{},
+		})
+
+	return []dst.Stmt{
+		params.AssignmentHandlerOrDefault()(params.GetDestination(), newSource),
+	}
+}
+
+// AssignmentHandlerDefine is an assignment handler for definitions, using :=
+func AssignmentHandlerDefine(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
+	return astbuilder.SimpleAssignment(lhs, token.DEFINE, rhs)
+}
+
+// AssignmentHandlerAssign is an assignment handler for standard assignments to existing variables, using =
+func AssignmentHandlerAssign(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
+	return astbuilder.SimpleAssignment(lhs, token.ASSIGN, rhs)
+}

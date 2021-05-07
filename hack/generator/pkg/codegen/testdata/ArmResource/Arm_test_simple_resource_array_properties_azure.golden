@@ -130,36 +130,34 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 		if err != nil {
 			return nil, err
 		}
-		elemTyped := elem.(FooARM)
-		result.ArrayFoo = append(result.ArrayFoo, elemTyped)
+		result.ArrayFoo = append(result.ArrayFoo, elem.(FooARM))
 	}
 	for _, item := range fakeResourceSpec.ArrayOfArrays {
-		var elemTyped []FooARM
+		var elem []FooARM
 		for _, item := range item {
-			elem, err := item.ConvertToARM(name, resolvedReferences)
+			elem1, err := item.ConvertToARM(name, resolvedReferences)
 			if err != nil {
 				return nil, err
 			}
-			elemTyped1 := elem.(FooARM)
-			elemTyped = append(elemTyped, elemTyped1)
+			elem = append(elem, elem1.(FooARM))
 		}
-		result.ArrayOfArrays = append(result.ArrayOfArrays, elemTyped)
+		result.ArrayOfArrays = append(result.ArrayOfArrays, elem)
 	}
 	for _, item := range fakeResourceSpec.ArrayOfEnums {
-		elemTyped := item
-		result.ArrayOfEnums = append(result.ArrayOfEnums, elemTyped)
+		result.ArrayOfEnums = append(result.ArrayOfEnums, item)
 	}
 	for _, item := range fakeResourceSpec.ArrayOfMaps {
-		elemTyped := make(map[string]FooARM)
-		for key, value := range item {
-			elem, err := value.ConvertToARM(name, resolvedReferences)
-			if err != nil {
-				return nil, err
+		if item != nil {
+			elem := make(map[string]FooARM)
+			for key, value := range item {
+				elem1, err := value.ConvertToARM(name, resolvedReferences)
+				if err != nil {
+					return nil, err
+				}
+				elem[key] = elem1.(FooARM)
 			}
-			elemTyped1 := elem.(FooARM)
-			elemTyped[key] = elemTyped1
+			result.ArrayOfMaps = append(result.ArrayOfMaps, elem)
 		}
-		result.ArrayOfMaps = append(result.ArrayOfMaps, elemTyped)
 	}
 	result.Name = name
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource

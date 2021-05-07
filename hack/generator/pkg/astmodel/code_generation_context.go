@@ -135,3 +135,16 @@ func (codeGenContext *CodeGenerationContext) GetTypesInCurrentPackage() Types {
 
 	return def
 }
+
+// GetTypesInCurrentPackage returns the actual definitions from a specific package
+func (codeGenContext *CodeGenerationContext) GetAllReachableTypes() Types {
+	result := codeGenContext.GetTypesInCurrentPackage()
+	for _, pkgImport := range codeGenContext.packageImports.AsSlice() {
+		types, found := codeGenContext.GetTypesInPackage(pkgImport.packageReference)
+		if found {
+			result.AddTypes(types)
+		}
+	}
+
+	return result
+}

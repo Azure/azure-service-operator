@@ -127,50 +127,57 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 	}
 	var result FakeResource_SpecARM
 	result.ApiVersion = FakeResourceSpecApiVersion20200601
-	result.MapFoo = make(map[string]FooARM)
-	for key, value := range fakeResourceSpec.MapFoo {
-		elem, err := value.ConvertToARM(name, resolvedReferences)
-		if err != nil {
-			return nil, err
-		}
-		elemTyped := elem.(FooARM)
-		result.MapFoo[key] = elemTyped
-	}
-	result.MapOfArrays = make(map[string][]FooARM)
-	for key, value := range fakeResourceSpec.MapOfArrays {
-		var elemTyped []FooARM
-		for _, item := range value {
-			elem, err := item.ConvertToARM(name, resolvedReferences)
-			if err != nil {
-				return nil, err
-			}
-			elemTyped1 := elem.(FooARM)
-			elemTyped = append(elemTyped, elemTyped1)
-		}
-		result.MapOfArrays[key] = elemTyped
-	}
-	result.MapOfEnums = make(map[string]Color)
-	for key, value := range fakeResourceSpec.MapOfEnums {
-		elemTyped := value
-		result.MapOfEnums[key] = elemTyped
-	}
-	result.MapOfMaps = make(map[string]map[string]FooARM)
-	for key, value := range fakeResourceSpec.MapOfMaps {
-		elemTyped := make(map[string]FooARM)
-		for key, value := range value {
+	if fakeResourceSpec.MapFoo != nil {
+		result.MapFoo = make(map[string]FooARM)
+		for key, value := range fakeResourceSpec.MapFoo {
 			elem, err := value.ConvertToARM(name, resolvedReferences)
 			if err != nil {
 				return nil, err
 			}
-			elemTyped1 := elem.(FooARM)
-			elemTyped[key] = elemTyped1
+			result.MapFoo[key] = elem.(FooARM)
 		}
-		result.MapOfMaps[key] = elemTyped
 	}
-	result.MapOfStrings = make(map[string]string)
-	for key, value := range fakeResourceSpec.MapOfStrings {
-		elemTyped := value
-		result.MapOfStrings[key] = elemTyped
+	if fakeResourceSpec.MapOfArrays != nil {
+		result.MapOfArrays = make(map[string][]FooARM)
+		for key, value := range fakeResourceSpec.MapOfArrays {
+			var elem []FooARM
+			for _, item := range value {
+				elem1, err := item.ConvertToARM(name, resolvedReferences)
+				if err != nil {
+					return nil, err
+				}
+				elem = append(elem, elem1.(FooARM))
+			}
+			result.MapOfArrays[key] = elem
+		}
+	}
+	if fakeResourceSpec.MapOfEnums != nil {
+		result.MapOfEnums = make(map[string]Color)
+		for key, value := range fakeResourceSpec.MapOfEnums {
+			result.MapOfEnums[key] = value
+		}
+	}
+	if fakeResourceSpec.MapOfMaps != nil {
+		result.MapOfMaps = make(map[string]map[string]FooARM)
+		for key, value := range fakeResourceSpec.MapOfMaps {
+			if value != nil {
+				elem := make(map[string]FooARM)
+				for key, value := range value {
+					elem1, err := value.ConvertToARM(name, resolvedReferences)
+					if err != nil {
+						return nil, err
+					}
+					elem[key] = elem1.(FooARM)
+				}
+				result.MapOfMaps[key] = elem
+			}
+		}
+	}
+	if fakeResourceSpec.MapOfStrings != nil {
+		result.MapOfStrings = make(map[string]string)
+		for key, value := range fakeResourceSpec.MapOfStrings {
+			result.MapOfStrings[key] = value
+		}
 	}
 	result.Name = name
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource

@@ -7,11 +7,11 @@ package armconversion
 
 import (
 	"fmt"
-	"go/token"
 	"sync"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/dave/dst"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
 type conversionBuilder struct {
@@ -47,30 +47,6 @@ func (builder conversionBuilder) propertyConversionHandler(
 	}
 
 	panic(fmt.Sprintf("No property found for %s in method %s\nFrom: %+v\nTo: %+v", toProp.PropertyName(), builder.methodName, *builder.kubeType, *builder.armType))
-}
-
-// deepCopyJSON special cases copying JSON-type fields to call the DeepCopy method.
-// It generates code that looks like:
-//     <destination> = *<source>.DeepCopy()
-func (builder *conversionBuilder) deepCopyJSON(
-	params complexPropertyConversionParameters) []dst.Stmt {
-	newSource := &dst.UnaryExpr{
-		X: &dst.CallExpr{
-			Fun: &dst.SelectorExpr{
-				X:   params.Source(),
-				Sel: dst.NewIdent("DeepCopy"),
-			},
-			Args: []dst.Expr{},
-		},
-		Op: token.MUL,
-	}
-	assignmentHandler := params.assignmentHandler
-	if assignmentHandler == nil {
-		assignmentHandler = assignmentHandlerAssign
-	}
-	return []dst.Stmt{
-		assignmentHandler(params.Destination(), newSource),
-	}
 }
 
 type propertyConversionHandler = func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt
@@ -169,88 +145,4 @@ func NewARMTransformerImpl(
 			createEmptyARMValueFunc,
 			populateFromARMFunc)
 	}
-}
-
-type complexPropertyConversionParameters struct {
-	source            dst.Expr
-	destination       dst.Expr
-	destinationType   astmodel.Type
-	nameHint          string
-	conversionContext []astmodel.Type
-	assignmentHandler func(destination, source dst.Expr) dst.Stmt
-
-	// sameTypes indicates that the source and destination types are
-	// the same, so no conversion between ARM and non-ARM types is
-	// required (although structure copying is).
-	sameTypes bool
-}
-
-func (params complexPropertyConversionParameters) Source() dst.Expr {
-	return dst.Clone(params.source).(dst.Expr)
-}
-
-func (params complexPropertyConversionParameters) Destination() dst.Expr {
-	return dst.Clone(params.destination).(dst.Expr)
-}
-
-func (params complexPropertyConversionParameters) copy() complexPropertyConversionParameters {
-	result := params
-	result.conversionContext = nil
-	result.conversionContext = append(result.conversionContext, params.conversionContext...)
-
-	return result
-}
-
-func (params complexPropertyConversionParameters) withAdditionalConversionContext(t astmodel.Type) complexPropertyConversionParameters {
-	result := params.copy()
-	result.conversionContext = append(result.conversionContext, t)
-
-	return result
-}
-
-func (params complexPropertyConversionParameters) withSource(source dst.Expr) complexPropertyConversionParameters {
-	result := params.copy()
-	result.source = source
-
-	return result
-}
-
-func (params complexPropertyConversionParameters) withDestination(destination dst.Expr) complexPropertyConversionParameters {
-	result := params.copy()
-	result.destination = destination
-
-	return result
-}
-
-func (params complexPropertyConversionParameters) withDestinationType(t astmodel.Type) complexPropertyConversionParameters {
-	result := params.copy()
-	result.destinationType = t
-
-	return result
-}
-
-func (params complexPropertyConversionParameters) withAssignmentHandler(
-	assignmentHandler func(result dst.Expr, destination dst.Expr) dst.Stmt) complexPropertyConversionParameters {
-	result := params.copy()
-	result.assignmentHandler = assignmentHandler
-
-	return result
-}
-
-// countArraysAndMapsInConversionContext returns the number of arrays/maps which are in the conversion context.
-// This is to aid in situations where there are deeply nested conversions (i.e. array of map of maps). In these contexts,
-// just using a simple assignment such as "elem := ..." isn't sufficient because elem my already have been defined above by
-// an enclosing map/array conversion context. We use the depth to do "elem1 := ..." or "elem7 := ...".
-func (params complexPropertyConversionParameters) countArraysAndMapsInConversionContext() int {
-	result := 0
-	for _, t := range params.conversionContext {
-		switch t.(type) {
-		case *astmodel.MapType:
-			result += 1
-		case *astmodel.ArrayType:
-			result += 1
-		}
-	}
-
-	return result
 }
