@@ -55,7 +55,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 	resources astmodel.Types,
 	otherTypes astmodel.Types) error {
 
-	packageName := extractor.idFactory.CreatePackageNameFromVersion(extractor.outputVersion)
+	packageName := astmodel.CreateLocalPackageNameFromVersion(extractor.outputVersion)
 
 	scanner := NewSchemaScanner(extractor.idFactory, extractor.config)
 

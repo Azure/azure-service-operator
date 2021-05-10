@@ -67,22 +67,16 @@ func TestStoragePackageReferenceEquals(t *testing.T) {
 }
 
 func TestStoragePackageReferenceIsPreview(t *testing.T) {
-	batchRef := MakeStoragePackageReference(makeTestLocalPackageReference("microsoft.batch", "v20200901"))
-	previewRef := MakeStoragePackageReference(makeTestLocalPackageReference("microsoft.batch", "v20200901preview"))
-	preview2Ref := MakeStoragePackageReference(makeTestLocalPackageReference("microsoft.batch", "v20200901preview2"))
-	alphaRef := MakeStoragePackageReference(makeTestLocalPackageReference("microsoft.batch", "v20200901alpha"))
-	betaRef := MakeStoragePackageReference(makeTestLocalPackageReference("microsoft.batch", "v20200901beta"))
-
 	cases := []struct {
 		name      string
-		ref       PackageReference
+		version   string
 		isPreview bool
 	}{
-		{"GA storage Release is not preview", batchRef, false},
-		{"Preview storage release is preview", previewRef, true},
-		{"Preview storage re-release is preview", preview2Ref, true},
-		{"Alpha storage release is preview", alphaRef, true},
-		{"Beta storage release is preview", betaRef, true},
+		{"GA storage Release is not preview", "v20200901", false},
+		{"Preview storage release is preview", "v20200901preview", true},
+		{"Preview storage re-release is preview", "v20200901preview2", true},
+		{"Alpha storage release is preview", "v20200901alpha", true},
+		{"Beta storage release is preview", "v20200901betas", true},
 	}
 
 	for _, c := range cases {
@@ -91,7 +85,12 @@ func TestStoragePackageReferenceIsPreview(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			g.Expect(c.ref.IsPreview()).To(Equal(c.isPreview))
+			ref := MakeStoragePackageReference(
+				makeTestLocalPackageReference(
+					"microsoft.storage",
+					CreateLocalPackageNameFromVersion(c.version)))
+
+			g.Expect(ref.IsPreview()).To(Equal(c.isPreview))
 		})
 	}
 }

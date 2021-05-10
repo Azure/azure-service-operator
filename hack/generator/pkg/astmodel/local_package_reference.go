@@ -8,6 +8,7 @@ package astmodel
 import (
 	"fmt"
 	"strings"
+	"unicode"
 )
 
 // LocalPackageReference specifies a local package name or reference
@@ -20,9 +21,34 @@ type LocalPackageReference struct {
 var _ PackageReference = LocalPackageReference{}
 var _ fmt.Stringer = LocalPackageReference{}
 
+const generatorVersionPrefix string = "v1alpha1api"
+
 // MakeLocalPackageReference Creates a new local package reference from a group and version
 func MakeLocalPackageReference(prefix string, group string, version string) LocalPackageReference {
-	return LocalPackageReference{localPathPrefix: prefix, group: group, version: version}
+	return LocalPackageReference{
+		localPathPrefix: prefix,
+		group:           group,
+		version:         version,
+	}
+}
+
+// CreateLocalPackageNameFromVersion transforms a version string (2018-06-01) into a package
+// name (v1alpha1api20180601)
+func CreateLocalPackageNameFromVersion(version string) string {
+	return generatorVersionPrefix + sanitizePackageName(version)
+}
+
+// sanitizePackageName removes all non-alphanum characters and converts to lower case
+func sanitizePackageName(input string) string {
+	var builder []rune = make([]rune, 0, len(input))
+
+	for _, r := range input {
+		if unicode.IsLetter(r) || unicode.IsNumber(r) {
+			builder = append(builder, unicode.ToLower(rune(r)))
+		}
+	}
+
+	return string(builder)
 }
 
 // AsLocalPackage returns this instance and true

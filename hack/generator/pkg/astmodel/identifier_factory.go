@@ -26,7 +26,6 @@ const (
 type IdentifierFactory interface {
 	CreateIdentifier(name string, visibility Visibility) string
 	CreatePropertyName(propertyName string, visibility Visibility) PropertyName
-	CreatePackageNameFromVersion(version string) string
 	CreateGroupName(name string) string
 	// CreateEnumIdentifier generates the canonical name for an enumeration
 	CreateEnumIdentifier(namehint string) string
@@ -157,29 +156,12 @@ func createReservedWords() map[string]string {
 	}
 }
 
-func (factory *identifierFactory) CreatePackageNameFromVersion(version string) string {
-	return "v1alpha1api" + sanitizePackageName(version)
-}
-
 func (factory *identifierFactory) CreateGroupName(group string) string {
 	return strings.ToLower(group)
 }
 
 func (factory *identifierFactory) CreateEnumIdentifier(namehint string) string {
 	return factory.CreateIdentifier(namehint, Exported)
-}
-
-// sanitizePackageName removes all non-alphanum characters and converts to lower case
-func sanitizePackageName(input string) string {
-	var builder []rune = make([]rune, 0, len(input))
-
-	for _, r := range input {
-		if unicode.IsLetter(r) || unicode.IsNumber(r) {
-			builder = append(builder, unicode.ToLower(rune(r)))
-		}
-	}
-
-	return string(builder)
 }
 
 // transformToSnakeCase transforms a string LikeThis to a snake-case string like_this

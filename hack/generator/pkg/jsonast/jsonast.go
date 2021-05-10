@@ -229,7 +229,7 @@ func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema
 
 	rootPackage := scanner.configuration.MakeLocalPackageReference(
 		scanner.idFactory.CreateGroupName(rootGroup),
-		scanner.idFactory.CreatePackageNameFromVersion(rootVersion))
+		astmodel.CreateLocalPackageNameFromVersion(rootVersion))
 	rootTypeName := astmodel.MakeTypeName(rootPackage, rootName)
 
 	_, err = generateDefinitionsFor(ctx, scanner, rootTypeName, schema)
@@ -597,7 +597,7 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (ast
 	typeName := astmodel.MakeTypeName(
 		scanner.configuration.MakeLocalPackageReference(
 			scanner.idFactory.CreateGroupName(group),
-			scanner.idFactory.CreatePackageNameFromVersion(version)),
+			astmodel.CreateLocalPackageNameFromVersion(version)),
 		scanner.idFactory.CreateIdentifier(name, astmodel.Exported))
 
 	// Prune the graph according to the configuration

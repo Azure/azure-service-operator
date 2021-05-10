@@ -270,7 +270,7 @@ func (v *versionComparer) isPreviewVersionLabel(identifier string) (int, bool) {
 // returns false.
 func containsPreviewVersionLabel(identifier string) bool {
 	for _, id := range previewVersionLabels {
-		if strings.Contains(identifier, id) {
+		if strings.LastIndex(identifier, id) > len(generatorVersionPrefix) {
 			return true
 		}
 	}
