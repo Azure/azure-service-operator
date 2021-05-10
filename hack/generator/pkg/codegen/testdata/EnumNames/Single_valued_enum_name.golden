@@ -6,6 +6,7 @@ package v1alpha1api20200101
 import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -110,7 +111,7 @@ func (aResource *AResource) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (aResource *AResource) createValidations() []func() error {
-	return nil
+	return []func() error{aResource.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -120,7 +121,20 @@ func (aResource *AResource) deleteValidations() []func() error {
 
 // updateValidations validates the update of the resource
 func (aResource *AResource) updateValidations() []func(old runtime.Object) error {
-	return nil
+	return []func(old runtime.Object) error{
+		func(old runtime.Object) error {
+			return aResource.validateResourceReferences()
+		},
+	}
+}
+
+// validateResourceReferences validates all resource references
+func (aResource *AResource) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&aResource.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateResourceReferences(refs)
 }
 
 // +kubebuilder:object:root=true

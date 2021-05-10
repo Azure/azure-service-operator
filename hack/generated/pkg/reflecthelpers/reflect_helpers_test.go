@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package reflecthelpers
+package reflecthelpers_test
 
 import (
 	"context"
@@ -15,14 +15,13 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
-
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
-
 	// TODO: Do we want to use a sample object rather than a code generated one?
 	batch "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.batch/v1alpha1api20170901"
 
@@ -141,7 +140,7 @@ func Test_ConvertResourceToDeployableResource(t *testing.T) {
 	account := createDummyResource()
 	g.Expect(test.client.Create(ctx, account)).To(Succeed())
 
-	resource, err := ConvertResourceToDeployableResource(ctx, test.resolver, account)
+	resource, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, test.resolver, account)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rgResource, ok := resource.(*genruntime.ResourceGroupResource)
@@ -168,7 +167,7 @@ func Test_FindReferences(t *testing.T) {
 	}
 	g.Expect(test.client.Create(ctx, account)).To(Succeed())
 
-	refs, err := FindResourceReferences(&account.Spec)
+	refs, err := reflecthelpers.FindResourceReferences(&account.Spec)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(refs).To(HaveLen(1))
 	g.Expect(refs).To(HaveKey(ref))
@@ -179,7 +178,7 @@ func Test_NewStatus(t *testing.T) {
 
 	account := createDummyResource()
 
-	status, err := NewEmptyStatus(account)
+	status, err := reflecthelpers.NewEmptyStatus(account)
 	g.Expect(err).To(BeNil())
 	g.Expect(status).To(BeAssignableToTypeOf(&batch.BatchAccount_Status{}))
 }
@@ -189,7 +188,7 @@ func Test_EmptyArmResourceStatus(t *testing.T) {
 
 	account := createDummyResource()
 
-	status, err := NewEmptyArmResourceStatus(account)
+	status, err := reflecthelpers.NewEmptyArmResourceStatus(account)
 	g.Expect(err).To(BeNil())
 	g.Expect(status).To(BeAssignableToTypeOf(&batch.BatchAccount_StatusARM{}))
 }
@@ -198,7 +197,7 @@ func Test_HasStatus(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	account := createDummyResource()
-	result, err := HasStatus(account)
+	result, err := reflecthelpers.HasStatus(account)
 	g.Expect(err).To(BeNil())
 	g.Expect(result).To(BeFalse())
 }
@@ -207,7 +206,7 @@ func Test_NewPtrFromStruct_ReturnsPtr(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	v := DummyStruct{}
-	ptr := NewPtrFromValue(v)
+	ptr := reflecthelpers.NewPtrFromValue(v)
 	g.Expect(ptr).To(BeAssignableToTypeOf(&DummyStruct{}))
 }
 
@@ -215,7 +214,7 @@ func Test_NewPtrFromPrimitive_ReturnsPtr(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	v := 5
-	ptr := NewPtrFromValue(v)
+	ptr := reflecthelpers.NewPtrFromValue(v)
 
 	expectedValue := &v
 
@@ -226,6 +225,6 @@ func Test_NewPtrFromPtr_ReturnsPtrPtr(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	ptr := &DummyStruct{}
-	ptrPtr := NewPtrFromValue(ptr)
+	ptrPtr := reflecthelpers.NewPtrFromValue(ptr)
 	g.Expect(ptrPtr).To(BeAssignableToTypeOf(&ptr))
 }

@@ -109,6 +109,9 @@ func AddKubernetesResourceInterfaceImpls(
 
 	// Add validations
 	validatorBuilder := NewValidatorBuilder(resourceName, r, idFactory)
+	validatorBuilder.AddValidation(ValidationKindCreate, NewValidateResourceReferencesFunction(r, idFactory))
+	validatorBuilder.AddValidation(ValidationKindUpdate, NewValidateResourceReferencesFunction(r, idFactory))
+
 	r = r.WithInterface(validatorBuilder.ToInterfaceImplementation())
 
 	return r, nil
