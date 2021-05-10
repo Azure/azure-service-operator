@@ -36,7 +36,7 @@ func createStorageTypes(idFactory astmodel.IdentifierFactory) PipelineStage {
 				factory, ok := factories[ref.Group()]
 				if !ok {
 					klog.V(3).Infof("Creating storage factory for %s", ref.Group())
-					factory = storage.NewStorageTypeFactory(idFactory)
+					factory = storage.NewStorageTypeFactory(ref.Group(), idFactory)
 					factories[ref.Group()] = factory
 				}
 

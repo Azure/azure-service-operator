@@ -7,6 +7,7 @@ package storage
 
 import (
 	"fmt"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -31,8 +32,9 @@ type StorageTypeFactory struct {
 }
 
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
-func NewStorageTypeFactory(idFactory astmodel.IdentifierFactory) *StorageTypeFactory {
+func NewStorageTypeFactory(service string, idFactory astmodel.IdentifierFactory) *StorageTypeFactory {
 	result := &StorageTypeFactory{
+		service:                    service,
 		types:                      make(astmodel.Types),
 		pendingStorageConversion:   astmodel.MakeTypeNameQueue(),
 		pendingConversionInjection: astmodel.MakeTypeNameQueue(),
@@ -109,7 +111,7 @@ func (f *StorageTypeFactory) createStorageVariant(name astmodel.TypeName) error 
 	underlyingType, err := f.types.FullyResolve(name)
 	if err != nil {
 		return errors.Wrapf(err,
-			"expected to find underlying type for %d",
+			"expected to find underlying type for %q",
 			name)
 	}
 
@@ -162,6 +164,12 @@ func (f *StorageTypeFactory) injectConversions(name astmodel.TypeName) error {
 
 	// Find the definition we want to convert to/from
 	nextPackage, ok := f.conversionMap[name.PackageReference.PackagePath()]
+	if !ok {
+		// No next package, so nothing to do
+		// (this is expected if we have the hub storage package)
+		return nil
+	}
+
 	nextName := astmodel.MakeTypeName(nextPackage, name.Name())
 	nextDef, ok := f.types[nextName]
 	if !ok {
