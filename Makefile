@@ -207,7 +207,7 @@ helm-chart-manifests: generate
 
 # Generate manifests e.g. CRD, RBAC etc.
 .PHONY: manifests
-manifests: controller-gen
+manifests: install-dependencies
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
 	# update manifests to force preserveUnknownFields to false. We can't use controller-gen to set this to false because it has a bug...
 	# see: https://github.com/kubernetes-sigs/controller-tools/issues/476
@@ -229,14 +229,6 @@ vet:
 .PHONY: generate
 generate: manifests
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
-
-# find or download controller-gen
-# download controller-gen if necessary
-.PHONY: controller-gen
-controller-gen:
-	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0
-    CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
-
 
 .PHONY: install-bindata
 install-bindata:
@@ -324,14 +316,20 @@ install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 
 .PHONY: install-test-dependencies
-install-test-dependencies: controller-gen
+install-test-dependencies: install-dependencies
 	go get github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge \
-	&& go get k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
 	&& go get sigs.k8s.io/kind@v0.9.0 \
-	&& go get sigs.k8s.io/kustomize/kustomize/v3@v3.8.6
+
+.PHONY: install-dependencies
+install-dependencies:
+	go get github.com/mikefarah/yq/v4 \
+	&& go get k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
+	&& go get sigs.k8s.io/kustomize/kustomize/v3@v3.8.6 \
+	&& go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0
+    CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 
 # Operator-sdk release version
 RELEASE_VERSION ?= v1.0.1
