@@ -110,12 +110,12 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 	result.ApiVersion = FakeResourceSpecApiVersion20200601
 	result.Name = name
 	if fakeResourceSpec.Properties != nil {
-		properties, err := (*fakeResourceSpec.Properties).ConvertToARM(name, resolvedReferences)
+		propertiesARM, err := (*fakeResourceSpec.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
 			return nil, err
 		}
-		propertiesTyped := properties.(PropertiesARM)
-		result.Properties = &propertiesTyped
+		properties := propertiesARM.(PropertiesARM)
+		result.Properties = &properties
 	}
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
@@ -134,15 +134,14 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	}
 	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 	fakeResourceSpec.Owner = owner
-	var err error
 	if typedInput.Properties != nil {
-		var properties Properties
-		err = properties.PopulateFromARM(owner, *typedInput.Properties)
+		var properties1 Properties
+		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
 		if err != nil {
 			return err
 		}
-		propertiesTyped := properties
-		fakeResourceSpec.Properties = &propertiesTyped
+		properties := properties1
+		fakeResourceSpec.Properties = &properties
 	}
 	return nil
 }
@@ -214,28 +213,28 @@ func (properties *Properties) ConvertToARM(name string, resolvedReferences genru
 	}
 	var result PropertiesARM
 	if properties.Bar != nil {
-		bar, err := (*properties.Bar).ConvertToARM(name, resolvedReferences)
+		barARM, err := (*properties.Bar).ConvertToARM(name, resolvedReferences)
 		if err != nil {
 			return nil, err
 		}
-		barTyped := bar.(BarARM)
-		result.Bar = &barTyped
+		bar := barARM.(BarARM)
+		result.Bar = &bar
 	}
 	if properties.Baz != nil {
-		baz, err := (*properties.Baz).ConvertToARM(name, resolvedReferences)
+		bazARM, err := (*properties.Baz).ConvertToARM(name, resolvedReferences)
 		if err != nil {
 			return nil, err
 		}
-		bazTyped := baz.(BazARM)
-		result.Baz = &bazTyped
+		baz := bazARM.(BazARM)
+		result.Baz = &baz
 	}
 	if properties.Foo != nil {
-		foo, err := (*properties.Foo).ConvertToARM(name, resolvedReferences)
+		fooARM, err := (*properties.Foo).ConvertToARM(name, resolvedReferences)
 		if err != nil {
 			return nil, err
 		}
-		fooTyped := foo.(FooARM)
-		result.Foo = &fooTyped
+		foo := fooARM.(FooARM)
+		result.Foo = &foo
 	}
 	return result, nil
 }
@@ -251,33 +250,32 @@ func (properties *Properties) PopulateFromARM(owner genruntime.KnownResourceRefe
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PropertiesARM, got %T", armInput)
 	}
-	var err error
 	if typedInput.Bar != nil {
-		var bar Bar
-		err = bar.PopulateFromARM(owner, *typedInput.Bar)
+		var bar1 Bar
+		err := bar1.PopulateFromARM(owner, *typedInput.Bar)
 		if err != nil {
 			return err
 		}
-		barTyped := bar
-		properties.Bar = &barTyped
+		bar := bar1
+		properties.Bar = &bar
 	}
 	if typedInput.Baz != nil {
-		var baz Baz
-		err = baz.PopulateFromARM(owner, *typedInput.Baz)
+		var baz1 Baz
+		err := baz1.PopulateFromARM(owner, *typedInput.Baz)
 		if err != nil {
 			return err
 		}
-		bazTyped := baz
-		properties.Baz = &bazTyped
+		baz := baz1
+		properties.Baz = &baz
 	}
 	if typedInput.Foo != nil {
-		var foo Foo
-		err = foo.PopulateFromARM(owner, *typedInput.Foo)
+		var foo1 Foo
+		err := foo1.PopulateFromARM(owner, *typedInput.Foo)
 		if err != nil {
 			return err
 		}
-		fooTyped := foo
-		properties.Foo = &fooTyped
+		foo := foo1
+		properties.Foo = &foo
 	}
 	return nil
 }
@@ -362,8 +360,8 @@ func (foo *Foo) ConvertToARM(name string, resolvedReferences genruntime.Resolved
 	}
 	var result FooARM
 	if foo.Name != nil {
-		nameTyped := *foo.Name
-		result.Name = &nameTyped
+		name := *foo.Name
+		result.Name = &name
 	}
 	return result, nil
 }
@@ -380,8 +378,8 @@ func (foo *Foo) PopulateFromARM(owner genruntime.KnownResourceReference, armInpu
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FooARM, got %T", armInput)
 	}
 	if typedInput.Name != nil {
-		nameTyped := *typedInput.Name
-		foo.Name = &nameTyped
+		name := *typedInput.Name
+		foo.Name = &name
 	}
 	return nil
 }

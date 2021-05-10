@@ -24,6 +24,7 @@ type ConversionParameters struct {
 	NameHint          string
 	ConversionContext []Type
 	AssignmentHandler func(destination, source dst.Expr) dst.Stmt
+	Locals            *KnownLocalsSet
 }
 
 // GetSource gets the Source field.
@@ -85,11 +86,9 @@ func (params ConversionParameters) AssignmentHandlerOrDefault() func(destination
 	return params.AssignmentHandler
 }
 
-// TODO: Consider a better way to do this, using KnownLocalsSet?
 // CountArraysAndMapsInConversionContext returns the number of arrays/maps which are in the conversion context.
 // This is to aid in situations where there are deeply nested conversions (i.e. array of map of maps). In these contexts,
-// just using a simple assignment such as "elem := ..." isn't sufficient because elem my already have been defined above by
-// an enclosing map/array conversion context. We use the depth to do "elem1 := ..." or "elem7 := ...".
+// temporary variables need to be declared to store intermediate conversion results.
 func (params ConversionParameters) CountArraysAndMapsInConversionContext() int {
 	result := 0
 	for _, t := range params.ConversionContext {
@@ -107,6 +106,7 @@ func (params ConversionParameters) CountArraysAndMapsInConversionContext() int {
 func (params ConversionParameters) copy() ConversionParameters {
 	result := params
 	result.ConversionContext = append([]Type(nil), params.ConversionContext...)
+	result.Locals = result.Locals.Clone()
 
 	return result
 }
@@ -189,8 +189,7 @@ func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, 
 		return nil
 	}
 
-	// TODO: Dislike Typed suffix here -- change
-	tempVarIdent := builder.IdFactory.CreateIdentifier(params.NameHint+"Typed", NotExported)
+	tempVarIdent := params.Locals.CreateLocal(params.NameHint)
 
 	innerStatements := builder.BuildConversion(
 		ConversionParameters{
@@ -201,6 +200,7 @@ func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, 
 			NameHint:          params.NameHint,
 			ConversionContext: append(params.ConversionContext, destinationType),
 			AssignmentHandler: AssignmentHandlerDefine,
+			Locals:            params.Locals.Clone(),
 		})
 
 	// Tack on the final assignment
@@ -244,22 +244,24 @@ func IdentityConvertComplexArrayProperty(builder *ConversionFunctionBuilder, par
 
 	var results []dst.Stmt
 
-	itemIdent := "item"
-	elemIdent := "elem"
+	locals := params.Locals.Clone() // Loop variables are scoped inside the loop
+	itemIdent := builder.CreateLocal(locals, "item", params.NameHint)
 
 	depth := params.CountArraysAndMapsInConversionContext()
+	destination := params.GetDestination()
 
-	elemType := destinationType.Element()
-	actualDestination := params.GetDestination() // TODO: improve name
+	// Check what depth we're at to determine if we need to define an intermediate variable to hold the result
+	// or if we'll be able to use the final destination directly.
 	if depth > 0 {
-		actualDestination = dst.NewIdent(elemIdent)
+		// TODO: The suffix here should maybe be configurable on the function builder?
+		innerDestinationIdent := locals.CreateLocal(params.NameHint, "Temp")
+		destination = dst.NewIdent(innerDestinationIdent)
 		results = append(
 			results,
 			astbuilder.LocalVariableDeclaration(
-				elemIdent,
+				innerDestinationIdent,
 				destinationType.AsType(builder.CodeGenerationContext),
 				""))
-		elemIdent = fmt.Sprintf("elem%d", depth)
 	}
 
 	result := &dst.RangeStmt{
@@ -272,11 +274,12 @@ func IdentityConvertComplexArrayProperty(builder *ConversionFunctionBuilder, par
 				ConversionParameters{
 					Source:            dst.NewIdent(itemIdent),
 					SourceType:        sourceType.Element(),
-					Destination:       dst.Clone(actualDestination).(dst.Expr),
-					DestinationType:   elemType,
-					NameHint:          elemIdent,
+					Destination:       dst.Clone(destination).(dst.Expr),
+					DestinationType:   destinationType.Element(),
+					NameHint:          itemIdent,
 					ConversionContext: append(params.ConversionContext, destinationType),
 					AssignmentHandler: astbuilder.AppendList,
+					Locals:            locals,
 				}),
 		},
 	}
@@ -286,7 +289,7 @@ func IdentityConvertComplexArrayProperty(builder *ConversionFunctionBuilder, par
 	// maps/arrays, where we need to make sure we generate the map assignment/array append before returning (otherwise
 	// the "actual" assignment will just end up being to an empty array/map).
 	if params.AssignmentHandler != nil {
-		results = append(results, params.AssignmentHandler(params.GetDestination(), dst.Clone(actualDestination).(dst.Expr)))
+		results = append(results, params.AssignmentHandler(params.GetDestination(), dst.Clone(destination).(dst.Expr)))
 	}
 
 	return results
@@ -319,15 +322,20 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 
 	depth := params.CountArraysAndMapsInConversionContext()
 
-	keyIdent := "key"
-	valueIdent := "value"
-	elemIdent := "elem"
+	locals := params.Locals.Clone() // Loop variables are scoped inside the loop
 
-	actualDestination := params.GetDestination() // TODO: improve name
+	keyIdent := builder.CreateLocal(locals, "key", params.NameHint)
+	valueIdent := builder.CreateLocal(locals, "value", params.NameHint)
+
+	nameHint := valueIdent
+	destination := params.GetDestination()
 	makeMapToken := token.ASSIGN
+
+	// Check what depth we're at to determine if we need to define an intermediate variable to hold the result
+	// or if we'll be able to use the final destination directly.
 	if depth > 0 {
-		actualDestination = dst.NewIdent(elemIdent)
-		elemIdent = fmt.Sprintf("elem%d", depth)
+		innerDestinationIdent := locals.CreateLocal(params.NameHint, "Temp")
+		destination = dst.NewIdent(innerDestinationIdent)
 		makeMapToken = token.DEFINE
 	}
 
@@ -339,7 +347,7 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 	valueTypeAst := destinationType.ValueType().AsType(builder.CodeGenerationContext)
 
 	makeMapStatement := astbuilder.SimpleAssignment(
-		dst.Clone(actualDestination).(dst.Expr),
+		dst.Clone(destination).(dst.Expr),
 		makeMapToken,
 		astbuilder.MakeMap(keyTypeAst, valueTypeAst))
 	rangeStatement := &dst.RangeStmt{
@@ -352,11 +360,12 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 				ConversionParameters{
 					Source:            dst.NewIdent(valueIdent),
 					SourceType:        sourceType.ValueType(),
-					Destination:       dst.Clone(actualDestination).(dst.Expr),
+					Destination:       dst.Clone(destination).(dst.Expr),
 					DestinationType:   destinationType.ValueType(),
-					NameHint:          elemIdent,
+					NameHint:          nameHint,
 					ConversionContext: append(params.ConversionContext, destinationType),
 					AssignmentHandler: handler,
+					Locals:            locals,
 				}),
 		},
 	}
@@ -379,7 +388,7 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 	// maps/arrays, where we need to make sure we generate the map assignment/array append before returning (otherwise
 	// the "actual" assignment will just end up being to an empty array/map).
 	if params.AssignmentHandler != nil {
-		result.Body.List = append(result.Body.List, params.AssignmentHandler(params.GetDestination(), dst.Clone(actualDestination).(dst.Expr)))
+		result.Body.List = append(result.Body.List, params.AssignmentHandler(params.GetDestination(), dst.Clone(destination).(dst.Expr)))
 	}
 
 	return []dst.Stmt{result}
@@ -480,4 +489,26 @@ func AssignmentHandlerDefine(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 // AssignmentHandlerAssign is an assignment handler for standard assignments to existing variables, using =
 func AssignmentHandlerAssign(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 	return astbuilder.SimpleAssignment(lhs, token.ASSIGN, rhs)
+}
+
+// CreateLocal creates an unused local variable name.
+// Names are chosen according to the following rules:
+//   1. If there is no local variable with the <suffix> name, use that.
+//   2. If there is a local variable with the <suffix> name, create a variable name <nameHint><suffix>.
+// In the case that <nameHint><suffix> is also taken append numbers to the end in standard KnownLocalsSet fashion.
+// Note that this function trims numbers on the right hand side of nameHint, so a nameHint of "item1" will get a local
+// variable named item<suffix>.
+func (builder *ConversionFunctionBuilder) CreateLocal(locals *KnownLocalsSet, suffix string, nameHint string) string {
+	ident := suffix
+	if locals.HasName(ident) || ident == "" {
+		// Trim any trailing numbers so that we don't end up with ident1111
+		// Note that this can end up trimming trailing digits on fields that have them (i.e. "loop1" might become "loop").
+		// This is ok as it doesn't hurt anything and helps avoid "loop12" (for loop1 number 2).
+		trimmedNameHint := strings.TrimRight(nameHint, "0123456789")
+		ident = locals.CreateLocal(trimmedNameHint, suffix)
+	} else {
+		locals.Add(ident)
+	}
+
+	return ident
 }

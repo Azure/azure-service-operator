@@ -125,8 +125,8 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 	result.MandatoryJson = *fakeResourceSpec.MandatoryJson.DeepCopy()
 	result.Name = name
 	if fakeResourceSpec.OptionalJson != nil {
-		optionalJsonTyped := *(*fakeResourceSpec.OptionalJson).DeepCopy()
-		result.OptionalJson = &optionalJsonTyped
+		optionalJson := *(*fakeResourceSpec.OptionalJson).DeepCopy()
+		result.OptionalJson = &optionalJson
 	}
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
@@ -152,8 +152,8 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	}
 	fakeResourceSpec.MandatoryJson = *typedInput.MandatoryJson.DeepCopy()
 	if typedInput.OptionalJson != nil {
-		optionalJsonTyped := *(*typedInput.OptionalJson).DeepCopy()
-		fakeResourceSpec.OptionalJson = &optionalJsonTyped
+		optionalJson := *(*typedInput.OptionalJson).DeepCopy()
+		fakeResourceSpec.OptionalJson = &optionalJson
 	}
 	fakeResourceSpec.Owner = owner
 	return nil

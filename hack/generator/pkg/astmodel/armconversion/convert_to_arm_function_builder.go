@@ -22,6 +22,7 @@ type convertToARMBuilder struct {
 	conversionBuilder
 	resultIdent           string
 	typeConversionBuilder *astmodel.ConversionFunctionBuilder
+	locals                *astmodel.KnownLocalsSet
 }
 
 func newConvertToARMFunctionBuilder(
@@ -44,7 +45,10 @@ func newConvertToARMFunctionBuilder(
 		},
 		resultIdent:           "result",
 		typeConversionBuilder: astmodel.NewConversionFunctionBuilder(c.idFactory, codeGenerationContext),
+		locals:                astmodel.NewKnownLocalsSet(c.idFactory),
 	}
+	// Add the receiver ident into the known locals
+	result.locals.Add(result.receiverIdent)
 
 	// It's a bit awkward that there are two levels of "handler" here, but they serve different purposes:
 	// The top level propertyConversionHandlers is about determining which properties are involved: given a property on the destination type it
@@ -192,6 +196,7 @@ func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 			DestinationType:   toProp.PropertyType(),
 			NameHint:          string(toProp.PropertyName()),
 			ConversionContext: nil,
+			Locals:            builder.locals,
 		},
 	)
 }
@@ -220,7 +225,7 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(conversionBui
 	}
 
 	var results []dst.Stmt
-	propertyLocalVarName := conversionBuilder.IdFactory.CreateIdentifier(params.NameHint, astmodel.NotExported)
+	propertyLocalVarName := params.Locals.CreateLocal(params.NameHint, "ARM")
 
 	// Call ToARM on the property
 	results = append(results, callToARMFunction(params.GetSource(), dst.NewIdent(propertyLocalVarName), builder.methodName)...)

@@ -20,6 +20,7 @@ type convertFromARMBuilder struct {
 	typedInputIdent       string
 	inputIdent            string
 	typeConversionBuilder *astmodel.ConversionFunctionBuilder
+	locals                *astmodel.KnownLocalsSet
 }
 
 func newConvertFromARMFunctionBuilder(
@@ -47,7 +48,10 @@ func newConvertFromARMFunctionBuilder(
 			codeGenerationContext: codeGenerationContext,
 		},
 		typeConversionBuilder: astmodel.NewConversionFunctionBuilder(c.idFactory, codeGenerationContext),
+		locals:                astmodel.NewKnownLocalsSet(c.idFactory),
 	}
+	// Add the receiver ident into the known locals
+	result.locals.Add(result.receiverIdent)
 
 	// It's a bit awkward that there are two levels of "handler" here, but they serve different purposes:
 	// The top level propertyConversionHandlers is about determining which properties are involved: given a property on the destination type it
@@ -59,8 +63,7 @@ func newConvertFromARMFunctionBuilder(
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		result.namePropertyHandler,
 		result.ownerPropertyHandler,
-		result.propertiesWithSameNameAndTypeHandler,
-		result.propertiesWithSameNameButDifferentTypeHandler(),
+		result.propertiesWithSameNameHandler,
 	}
 
 	return result
@@ -188,23 +191,12 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 	return []dst.Stmt{result}
 }
 
-func (builder *convertFromARMBuilder) propertiesWithSameNameAndTypeHandler(
+func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType) []dst.Stmt {
 
 	fromProp, ok := fromType.Property(toProp.PropertyName())
 	if !ok {
-		return nil
-	}
-
-	// check that we are assigning to the same type or a validated
-	// version of the same type
-	toType := toProp.PropertyType()
-	if toValidated, ok := toType.(*astmodel.ValidatedType); ok {
-		toType = toValidated.ElementType()
-	}
-
-	if !toType.Equals(fromProp.PropertyType()) {
 		return nil
 	}
 
@@ -217,43 +209,8 @@ func (builder *convertFromARMBuilder) propertiesWithSameNameAndTypeHandler(
 			NameHint:          string(toProp.PropertyName()),
 			ConversionContext: nil,
 			AssignmentHandler: nil,
-		},
-	)
-}
-
-func (builder *convertFromARMBuilder) propertiesWithSameNameButDifferentTypeHandler() propertyConversionHandler {
-	definedErrVar := false
-
-	return func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt {
-		fromProp, ok := fromType.Property(toProp.PropertyName())
-
-		if !ok || toProp.PropertyType().Equals(fromProp.PropertyType()) {
-			return nil
-		}
-
-		var result []dst.Stmt
-
-		if !definedErrVar {
-			result = append(
-				result,
-				astbuilder.LocalVariableDeclaration("err", dst.NewIdent("error"), ""))
-			definedErrVar = true
-		}
-
-		complexConversion := builder.typeConversionBuilder.BuildConversion(
-			astmodel.ConversionParameters{
-				Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName())),
-				SourceType:        fromProp.PropertyType(),
-				Destination:       astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toProp.PropertyName())),
-				DestinationType:   toProp.PropertyType(),
-				NameHint:          string(toProp.PropertyName()),
-				ConversionContext: nil,
-				AssignmentHandler: nil,
-			})
-
-		result = append(result, complexConversion...)
-		return result
-	}
+			Locals:            builder.locals,
+		})
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -262,8 +219,8 @@ func (builder *convertFromARMBuilder) propertiesWithSameNameButDifferentTypeHand
 
 // convertComplexTypeNameProperty handles conversion of complex TypeName properties.
 // This function generates code that looks like this:
-//	<nameHint> := <destinationType>{}
-//	err = <nameHint>.FromARM(owner, <source>)
+//	<nameHint>Converted := <destinationType>{}
+//	err = <nameHint>Converted.FromARM(owner, <source>)
 //	if err != nil {
 //		return err
 //	}
@@ -285,7 +242,7 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(conversionB
 		return nil
 	}
 
-	propertyLocalVar := builder.idFactory.CreateIdentifier(params.NameHint, astmodel.NotExported)
+	propertyLocalVar := builder.typeConversionBuilder.CreateLocal(params.Locals, "", params.NameHint)
 	ownerName := builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)
 
 	newVariable := astbuilder.NewVariable(propertyLocalVar, destinationType.Name())
@@ -302,13 +259,19 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(conversionB
 			destinationType.Name())
 	}
 
+	tok := token.ASSIGN
+	if !params.Locals.HasName("err") {
+		tok = token.DEFINE
+		params.Locals.Add("err")
+	}
+
 	var results []dst.Stmt
 	results = append(results, newVariable)
 	results = append(
 		results,
 		astbuilder.SimpleAssignment(
 			dst.NewIdent("err"),
-			token.ASSIGN,
+			tok,
 			astbuilder.CallQualifiedFunc(
 				propertyLocalVar, builder.methodName, dst.NewIdent(ownerName), params.GetSource())))
 	results = append(results, astbuilder.CheckErrorAndReturn())

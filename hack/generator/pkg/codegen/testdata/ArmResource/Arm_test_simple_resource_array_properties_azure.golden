@@ -126,37 +126,37 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 	var result FakeResource_SpecARM
 	result.ApiVersion = FakeResourceSpecApiVersion20200601
 	for _, item := range fakeResourceSpec.ArrayFoo {
-		elem, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(name, resolvedReferences)
 		if err != nil {
 			return nil, err
 		}
-		result.ArrayFoo = append(result.ArrayFoo, elem.(FooARM))
+		result.ArrayFoo = append(result.ArrayFoo, itemARM.(FooARM))
 	}
 	for _, item := range fakeResourceSpec.ArrayOfArrays {
-		var elem []FooARM
-		for _, item := range item {
-			elem1, err := item.ConvertToARM(name, resolvedReferences)
+		var itemTemp []FooARM
+		for _, item1 := range item {
+			item1ARM, err := item1.ConvertToARM(name, resolvedReferences)
 			if err != nil {
 				return nil, err
 			}
-			elem = append(elem, elem1.(FooARM))
+			itemTemp = append(itemTemp, item1ARM.(FooARM))
 		}
-		result.ArrayOfArrays = append(result.ArrayOfArrays, elem)
+		result.ArrayOfArrays = append(result.ArrayOfArrays, itemTemp)
 	}
 	for _, item := range fakeResourceSpec.ArrayOfEnums {
 		result.ArrayOfEnums = append(result.ArrayOfEnums, item)
 	}
 	for _, item := range fakeResourceSpec.ArrayOfMaps {
 		if item != nil {
-			elem := make(map[string]FooARM)
+			itemTemp := make(map[string]FooARM)
 			for key, value := range item {
-				elem1, err := value.ConvertToARM(name, resolvedReferences)
+				valueARM, err := value.ConvertToARM(name, resolvedReferences)
 				if err != nil {
 					return nil, err
 				}
-				elem[key] = elem1.(FooARM)
+				itemTemp[key] = valueARM.(FooARM)
 			}
-			result.ArrayOfMaps = append(result.ArrayOfMaps, elem)
+			result.ArrayOfMaps = append(result.ArrayOfMaps, itemTemp)
 		}
 	}
 	result.Name = name
@@ -175,42 +175,41 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
 	}
-	var err error
 	for _, item := range typedInput.ArrayFoo {
-		var elem Foo
-		err = elem.PopulateFromARM(owner, item)
+		var item1 Foo
+		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
 		}
-		fakeResourceSpec.ArrayFoo = append(fakeResourceSpec.ArrayFoo, elem)
+		fakeResourceSpec.ArrayFoo = append(fakeResourceSpec.ArrayFoo, item1)
 	}
 	for _, item := range typedInput.ArrayOfArrays {
-		var elem []Foo
-		for _, item := range item {
-			var elem1 Foo
-			err = elem1.PopulateFromARM(owner, item)
+		var itemTemp []Foo
+		for _, item1 := range item {
+			var item2 Foo
+			err := item2.PopulateFromARM(owner, item1)
 			if err != nil {
 				return err
 			}
-			elem = append(elem, elem1)
+			itemTemp = append(itemTemp, item2)
 		}
-		fakeResourceSpec.ArrayOfArrays = append(fakeResourceSpec.ArrayOfArrays, elem)
+		fakeResourceSpec.ArrayOfArrays = append(fakeResourceSpec.ArrayOfArrays, itemTemp)
 	}
 	for _, item := range typedInput.ArrayOfEnums {
 		fakeResourceSpec.ArrayOfEnums = append(fakeResourceSpec.ArrayOfEnums, item)
 	}
 	for _, item := range typedInput.ArrayOfMaps {
 		if item != nil {
-			elem := make(map[string]Foo)
+			itemTemp := make(map[string]Foo)
 			for key, value := range item {
-				var elem1 Foo
-				err = elem1.PopulateFromARM(owner, value)
+				var value1 Foo
+				err := value1.PopulateFromARM(owner, value)
 				if err != nil {
 					return err
 				}
-				elem[key] = elem1
+				itemTemp[key] = value1
 			}
-			fakeResourceSpec.ArrayOfMaps = append(fakeResourceSpec.ArrayOfMaps, elem)
+			fakeResourceSpec.ArrayOfMaps = append(fakeResourceSpec.ArrayOfMaps, itemTemp)
 		}
 	}
 	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
@@ -242,8 +241,8 @@ func (foo *Foo) ConvertToARM(name string, resolvedReferences genruntime.Resolved
 	}
 	var result FooARM
 	if foo.Name != nil {
-		nameTyped := *foo.Name
-		result.Name = &nameTyped
+		name := *foo.Name
+		result.Name = &name
 	}
 	return result, nil
 }
@@ -260,8 +259,8 @@ func (foo *Foo) PopulateFromARM(owner genruntime.KnownResourceReference, armInpu
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FooARM, got %T", armInput)
 	}
 	if typedInput.Name != nil {
-		nameTyped := *typedInput.Name
-		foo.Name = &nameTyped
+		name := *typedInput.Name
+		foo.Name = &name
 	}
 	return nil
 }
