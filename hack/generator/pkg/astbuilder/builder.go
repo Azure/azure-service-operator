@@ -22,6 +22,20 @@ func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
 	returnValues := append([]dst.Expr{}, cloneExprSlice(otherReturns)...)
 	returnValues = append(returnValues, dst.NewIdent("err"))
 
+	retStmt := &dst.ReturnStmt{
+		Results: returnValues,
+	}
+
+	return CheckErrorAndSingleStatement(retStmt)
+}
+
+// CheckErrorAndSingleStatement checks if the err is non-nil, and if it is executes the provided statement.
+//
+// 	if err != nil {
+// 		<stmt>
+//	}
+func CheckErrorAndSingleStatement(stmt dst.Stmt) dst.Stmt {
+
 	return &dst.IfStmt{
 		Cond: &dst.BinaryExpr{
 			X:  dst.NewIdent("err"),
@@ -30,9 +44,7 @@ func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
 		},
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
-				&dst.ReturnStmt{
-					Results: returnValues,
-				},
+				stmt,
 			},
 		},
 	}
