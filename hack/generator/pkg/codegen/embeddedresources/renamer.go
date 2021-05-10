@@ -149,12 +149,12 @@ func simplifyTypeNames(types astmodel.Types, flag astmodel.TypeFlag) (astmodel.T
 		}
 	}
 
-	renamer := renamer{types: types}
+	r := renamer{types: types}
 	renameActions := []renameAction{
-		renamer.simplifyEmbeddedNameToOriginalName,
-		renamer.simplifyEmbeddedNameRemoveContextAndCount,
-		renamer.simplifyEmbeddedNameRemoveContext,
-		renamer.simplifyEmbeddedName,
+		r.simplifyEmbeddedNameToOriginalName,
+		r.simplifyEmbeddedNameRemoveContextAndCount,
+		r.simplifyEmbeddedNameRemoveContext,
+		r.simplifyEmbeddedName,
 	}
 
 	renames := make(astmodel.TypeAssociation)
@@ -175,7 +175,7 @@ func simplifyTypeNames(types astmodel.Types, flag astmodel.TypeFlag) (astmodel.T
 		}
 	}
 
-	return renamer.performRenames(renames, flag)
+	return r.performRenames(renames, flag)
 }
 
 type embeddedResourceTypeName struct {

@@ -381,14 +381,14 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 	var retryAfter time.Duration // ARM can tell us how long to wait for a DELETE
 
 	err = r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
-		emptyStatus, err := reflecthelpers.NewEmptyArmResourceStatus(mutData.obj)
-		if err != nil {
-			return errors.Wrapf(err, "creating empty status for %q", resource.GetId())
+		emptyStatus, deleteErr := reflecthelpers.NewEmptyArmResourceStatus(mutData.obj)
+		if deleteErr != nil {
+			return errors.Wrapf(deleteErr, "creating empty status for %q", resource.GetId())
 		}
 
-		retryAfter, err = r.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetApiVersion(), emptyStatus)
-		if err != nil {
-			return errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
+		retryAfter, deleteErr = r.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetApiVersion(), emptyStatus)
+		if deleteErr != nil {
+			return errors.Wrapf(deleteErr, "deleting resource %q", resource.Spec().GetType())
 		}
 
 		r.SetResourceProvisioningState(armclient.DeletingProvisioningState)
@@ -457,8 +457,8 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 	if err != nil {
 		var reqErr *autorestAzure.RequestError
 		if errors.As(err, &reqErr) && reqErr.StatusCode == http.StatusConflict {
-			deployID, err := deployment.GetEntityPath()
-			if err != nil {
+			deployID, pathErr := deployment.GetEntityPath()
+			if pathErr != nil {
 				// TODO: what if GetEntityPath doesn't work due to malformed deployment?
 				r.log.Info("Deployment already exists", "id", deployID)
 			}
@@ -516,9 +516,9 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 			return ctrl.Result{}, errors.Errorf("template deployment didn't have any output resources")
 		}
 
-		resourceID, err := deployment.ResourceID()
-		if err != nil {
-			return ctrl.Result{}, errors.Wrap(err, "getting resource ID from resource")
+		resourceID, idErr := deployment.ResourceID()
+		if idErr != nil {
+			return ctrl.Result{}, errors.Wrap(idErr, "getting resource ID from resource")
 		}
 
 		s, _, statusErr := r.getStatus(ctx, resourceID)
@@ -530,9 +530,9 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 	}
 
 	err = r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
-		err := mutData.Update(deployment, status)
-		if err != nil {
-			return errors.Wrap(err, "updating obj")
+		updateErr := mutData.Update(deployment, status)
+		if updateErr != nil {
+			return errors.Wrap(updateErr, "updating obj")
 		}
 
 		return nil
@@ -564,9 +564,9 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 		deployment.Name = ""
 
 		err = r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
-			err := mutData.Update(deployment, status)
-			if err != nil {
-				return errors.Wrap(err, "updating obj")
+			updateErr := mutData.Update(deployment, status)
+			if updateErr != nil {
+				return errors.Wrap(updateErr, "updating obj")
 			}
 
 			return nil
@@ -600,7 +600,7 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 		// TODO: We need to figure out how we're handing these sorts of errors.
 		// TODO: See https://github.com/Azure/k8s-infra/issues/274.
 		// TODO: For now just set an error so we at least see something
-		err := r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
+		err = r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
 			mutData.SetResourceError(fmt.Sprintf("owner %s is not ready", r.obj.Owner().Name))
 			return nil
 		})

@@ -67,8 +67,7 @@ func deleteGeneratedCodeFromFolder(ctx context.Context, outputFolder string) err
 		}
 	}
 
-	err = deleteEmptyDirectories(ctx, outputFolder)
-	if err != nil {
+	if err := deleteEmptyDirectories(ctx, outputFolder); err != nil {
 		errs = append(errs, err)
 	}
 

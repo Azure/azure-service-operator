@@ -171,7 +171,7 @@ func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx cont
 		var objectBase astmodel.TypeName
 		found := 0
 		allOf.Types().ForEach(func(t astmodel.Type, _ int) {
-			if typeName, ok := t.(astmodel.TypeName); ok {
+			if typeName, match := t.(astmodel.TypeName); match {
 				if !strings.Contains(strings.ToLower(typeName.Name()), "resourcebase") {
 					resourceRef = typeName
 				} else {

@@ -11,3 +11,7 @@ linters:
     - unused
   disable: 
     - scopelint # obsoleted by exportloopref
+
+linters-settings:
+  govet:
+    check-shadowing: true

@@ -50,7 +50,7 @@ func RunWithCtx(run func(ctx context.Context, cmd *cobra.Command, args []string)
 	}()
 
 	return func(cmd *cobra.Command, args []string) {
-		ctx, span := tab.StartSpan(ctx, cmd.Name()+".Run")
+		spanCtx, span := tab.StartSpan(ctx, cmd.Name()+".Run")
 		defer span.End()
 		defer cancel()
 
@@ -60,6 +60,6 @@ func RunWithCtx(run func(ctx context.Context, cmd *cobra.Command, args []string)
 			return err
 		}
 
-		err = run(ctx, cmd, args)
+		err = run(spanCtx, cmd, args)
 	}
 }

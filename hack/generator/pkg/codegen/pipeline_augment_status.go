@@ -148,14 +148,14 @@ func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
 		}
 	}
 
-	resourceLookup := make(resourceLookup)
+	lookup := make(resourceLookup)
 	for resourceName, resourceDef := range swaggerTypes.resources {
 		// resourceName is not renamed as this is a lookup for the Spec type
 		renamedDef, err := renamer.Visit(resourceDef.Type(), nil)
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			resourceLookup.add(resourceName, renamedDef)
+			lookup.add(resourceName, renamedDef)
 		}
 	}
 
@@ -163,7 +163,7 @@ func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
 		return statusTypes{}, kerrors.NewAggregate(errs)
 	}
 
-	return statusTypes{resourceLookup, otherTypes}, nil
+	return statusTypes{lookup, otherTypes}, nil
 }
 
 func makeRenamingVisitor(rename func(astmodel.TypeName) astmodel.TypeName) astmodel.TypeVisitor {

@@ -15,6 +15,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
+
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
@@ -207,7 +208,7 @@ func Test_ResolveResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 	originalHierarchy := createDeeplyNestedResource(resourceGroupName, resourceName, childResourceName)
 
 	for _, item := range originalHierarchy {
-		err := client.Client.Create(ctx, item)
+		err = client.Client.Create(ctx, item)
 		g.Expect(err).ToNot(HaveOccurred())
 	}
 

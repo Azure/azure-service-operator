@@ -188,12 +188,12 @@ func (tc KubePerTestContext) CreateNewTestResourceGroup(wait WaitCondition) (*re
 	// important to do this before waiting for it, so that
 	// we delete it even if we time out
 	tc.T.Cleanup(func() {
-		ctx := context.Background()
+		cleanupCtx := context.Background()
 		log.Printf("Deleting test resource group %q", rg.Name)
-		err := tc.KubeClient.Delete(ctx, rg)
-		if err != nil {
+		cleanupErr := tc.KubeClient.Delete(cleanupCtx, rg)
+		if cleanupErr != nil {
 			// don't error out, just warn
-			log.Printf("Unable to delete resource group: %s", err.Error())
+			log.Printf("Unable to delete resource group: %s", cleanupErr.Error())
 		}
 	})
 

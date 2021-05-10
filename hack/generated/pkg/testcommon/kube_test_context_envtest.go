@@ -47,9 +47,9 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 
 	perTestContext.T.Cleanup(func() {
 		log.Print("Stopping envtest")
-		err := environment.Stop()
-		if err != nil {
-			log.Printf("unable to stop envtest environment: %s", err.Error())
+		stopErr := environment.Stop()
+		if stopErr != nil {
+			log.Printf("unable to stop envtest environment: %s", stopErr.Error())
 		}
 	})
 

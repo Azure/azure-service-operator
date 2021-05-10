@@ -159,11 +159,11 @@ func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(filePath
 	} else if response.Ref.GetURL() != nil {
 		// or it can be under a $ref
 
-		filePath, swagger, refSchema := loadRefSchema(swagger, response.Ref, filePath, extractor.cache)
+		refFilePath, refSwagger, refSchema := loadRefSchema(swagger, response.Ref, filePath, extractor.cache)
 		schema := MakeOpenAPISchema(
 			refSchema,
-			swagger,
-			filePath,
+			refSwagger,
+			refFilePath,
 			extractor.outputGroup,
 			extractor.outputVersion,
 			extractor.cache)

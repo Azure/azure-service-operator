@@ -206,8 +206,7 @@ func (config *Configuration) initialize(configPath string) error {
 		errs = append(errs, errors.Errorf("destination Go module must be specified"))
 	}
 
-	modPath, err := getModulePathFromModFile(config.DestinationGoModuleFile)
-	if err != nil {
+	if modPath, err := getModulePathFromModFile(config.DestinationGoModuleFile); err != nil {
 		errs = append(errs, err)
 	} else {
 		config.GoModulePath = modPath

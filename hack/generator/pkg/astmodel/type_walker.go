@@ -86,9 +86,9 @@ func (t *TypeWalker) visitTypeName(this *TypeVisitor, it TypeName, ctx interface
 
 	// Prevent loops by bypassing this type if it's currently being processed.
 	if _, ok := t.state.processing[def.Name()]; ok {
-		remove, err := t.ShouldRemoveCycle(def, updatedCtx)
-		if err != nil {
-			return nil, errors.Wrapf(err, "ShouldRemoveCycle failed for def %q", def.Name())
+		remove, cycleErr := t.ShouldRemoveCycle(def, updatedCtx)
+		if cycleErr != nil {
+			return nil, errors.Wrapf(cycleErr, "ShouldRemoveCycle failed for def %q", def.Name())
 		}
 		if remove {
 			return typeWalkerRemoveType, nil

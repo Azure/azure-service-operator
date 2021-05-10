@@ -175,9 +175,9 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 
 	injectOwnerProperty := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		if resourceType.Owner() != nil {
-			ownerField, err := c.createOwnerProperty(resourceType.Owner())
-			if err != nil {
-				return nil, err
+			ownerField, propErr := c.createOwnerProperty(resourceType.Owner())
+			if propErr != nil {
+				return nil, propErr
 			}
 			t = t.WithProperty(ownerField)
 		}

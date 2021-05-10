@@ -126,18 +126,18 @@ func nameInnerTypes(
 		// first map the inner types:
 		for _, prop := range it.Properties() {
 			propType := prop.PropertyType()
-			nameHint := nameHint + "_" + string(prop.PropertyName())
+			propHint := nameHint + "_" + string(prop.PropertyName())
 			if validated, ok := propType.(*astmodel.ValidatedType); ok {
 				// handle validated types in properties specially,
 				// they don't need to be named, so skip directly to element type
-				newElementType, err := this.Visit(validated.ElementType(), nameHint)
+				newElementType, err := this.Visit(validated.ElementType(), propHint)
 				if err != nil {
 					errs = append(errs, err)
 				} else {
 					props = append(props, prop.WithType(validated.WithType(newElementType)))
 				}
 			} else {
-				newPropType, err := this.Visit(propType, nameHint)
+				newPropType, err := this.Visit(propType, propHint)
 				if err != nil {
 					errs = append(errs, err)
 				} else {
