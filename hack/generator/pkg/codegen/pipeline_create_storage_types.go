@@ -53,13 +53,13 @@ func createStorageTypes(idFactory astmodel.IdentifierFactory) PipelineStage {
 			result := make(astmodel.Types)
 			var errs []error
 			for _, factory := range factories {
-				types, err := factory.Types()
+				t, err := factory.Types()
 				if err != nil {
 					errs = append(errs, err)
 					continue
 				}
 
-				result.AddTypes(types)
+				result.AddTypes(t)
 			}
 
 			if len(errs) > 0 {
