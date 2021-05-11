@@ -38,6 +38,14 @@ func (c *StorageConversionContext) WithKnownLocals(knownLocals *KnownLocalsSet) 
 	return result
 }
 
+// NestedContext returns a nested context with independent knownLocals so that independent blocks
+// can declare and reuse locals independently
+func (c *StorageConversionContext) NestedContext() *StorageConversionContext {
+	result := c.clone()
+	result.knownLocals = c.knownLocals.Clone()
+	return result
+}
+
 // ResolveType resolves a type that might be a type name into both the name and the actual
 // type it references, returning true iff it was a TypeName that could be resolved
 func (c *StorageConversionContext) ResolveType(t Type) (TypeName, Type, bool) {
