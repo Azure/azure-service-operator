@@ -1,0 +1,7 @@
+apiVersion: microsoft.network.infra.azure.com/v20191101
+kind: LoadBalancingRule
+metadata:
+  name: loadbalancingrule-sample
+spec:
+  # Add fields here
+  foo: bar

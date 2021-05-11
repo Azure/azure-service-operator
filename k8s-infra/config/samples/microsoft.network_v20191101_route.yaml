@@ -1,0 +1,9 @@
+apiVersion: microsoft.network.infra.azure.com/v20191101
+kind: Route
+metadata:
+  name: route-sample
+spec:
+  properties:
+    addressPrefix: 10.0.3.0/24
+    nextHopType: VnetLocal
+

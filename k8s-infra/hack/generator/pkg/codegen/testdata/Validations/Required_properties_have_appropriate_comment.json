@@ -1,0 +1,14 @@
+{
+    "$comment": "Here we check that generating validation comments for required properties works as expected",
+
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "required": {
+            "type": "string"
+        }
+    },
+    "required": ["required"]
+}

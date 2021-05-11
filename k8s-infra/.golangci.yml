@@ -1,0 +1,17 @@
+run:
+  deadline: 5m
+  allow-parallel-runners: true
+
+linters:
+  enable:
+    - gofmt
+    - megacheck
+  presets:
+    - bugs
+    - unused
+  disable: 
+    - scopelint # obsoleted by exportloopref
+
+linters-settings:
+  govet:
+    check-shadowing: true

@@ -1,0 +1,104 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - watch
+- apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachines
+  - virtualmachinescalesets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachines/status
+  - virtualmachinescalesets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - backendaddresspools
+  - frontendipconfigurations
+  - inboundnatrules
+  - loadbalancers
+  - loadbalancingrules
+  - networkinterfaces
+  - networksecuritygroups
+  - outboundrules
+  - routes
+  - routetables
+  - securityrules
+  - subnets
+  - virtualnetworks
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - backendaddresspools/status
+  - frontendipconfigurations/status
+  - inboundnatrules/status
+  - loadbalancers/status
+  - loadbalancingrules/status
+  - networkinterfaces/status
+  - networksecuritygroups/status
+  - outboundrules/status
+  - routes/status
+  - routetables/status
+  - securityrules/status
+  - subnets/status
+  - virtualnetworks/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - microsoft.resources.infra.azure.com
+  resources:
+  - resourcegroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.resources.infra.azure.com
+  resources:
+  - resourcegroups/status
+  verbs:
+  - get
+  - patch
+  - update

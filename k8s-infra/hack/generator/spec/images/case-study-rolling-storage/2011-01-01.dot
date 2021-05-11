@@ -1,0 +1,10 @@
+graph {
+    node [shape=ellipse]
+    v20110101
+
+    node [shape=ellipse, penwidth=3]
+    v20110101storage
+
+    edge [arrowhead=vee, arrowtail=vee, dir=both]
+    v20110101 -- v20110101storage
+}

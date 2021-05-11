@@ -1,0 +1,11 @@
+# Ignore everything
+**
+
+# Allow only these
+!/apis/**
+!/controllers/**
+!/internal/**
+!/pkg/**
+!/main.go
+!/go.mod
+!/go.sum

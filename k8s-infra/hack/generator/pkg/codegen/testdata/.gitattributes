@@ -1,0 +1,2 @@
+# golden files must not have the platform’s line endings:
+*.golden -text

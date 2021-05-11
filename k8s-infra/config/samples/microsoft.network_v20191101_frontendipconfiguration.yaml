@@ -1,0 +1,7 @@
+apiVersion: microsoft.network.infra.azure.com/v20191101
+kind: FrontendIPConfiguration
+metadata:
+  name: frontendipconfiguration-sample
+spec:
+  # Add fields here
+  foo: bar

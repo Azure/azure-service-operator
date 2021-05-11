@@ -1,0 +1,20 @@
+# permissions for end users to view routes.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: route-viewer-role
+rules:
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - routes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - routes/status
+  verbs:
+  - get
