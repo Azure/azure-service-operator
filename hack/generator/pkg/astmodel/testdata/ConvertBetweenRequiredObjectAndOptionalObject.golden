@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package vCurrent
 
-import "github.com/Azure/azure-service-operator/hack/generated/_apis/Verification/vNext"
+import (
+    "github.com/Azure/azure-service-operator/hack/generated/_apis/Verification/vNext"
+	"github.com/pkg/errors"
+)
 
 type Person struct {
 	role Release `json:"role"`

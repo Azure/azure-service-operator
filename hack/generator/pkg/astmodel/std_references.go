@@ -7,31 +7,31 @@ package astmodel
 
 var (
 	// References to standard Go Libraries
-	ErrorsReference  PackageReference = MakeExternalPackageReference("errors")
-	FmtReference     PackageReference = MakeExternalPackageReference("fmt")
-	JsonReference    PackageReference = MakeExternalPackageReference("encoding/json")
-	ReflectReference PackageReference = MakeExternalPackageReference("reflect")
-	TestingReference PackageReference = MakeExternalPackageReference("testing")
+	FmtReference     = MakeExternalPackageReference("fmt")
+	JsonReference    = MakeExternalPackageReference("encoding/json")
+	ReflectReference = MakeExternalPackageReference("reflect")
+	TestingReference = MakeExternalPackageReference("testing")
 
 	// References to our Libraries
 	GenRuntimeReference PackageReference = MakeExternalPackageReference(genRuntimePathPrefix)
 
 	// References to other libraries
+	ErrorsReference            = MakeExternalPackageReference("github.com/pkg/errors")
 	ApiExtensionsReference     = MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1")
 	ApiExtensionsJsonReference = MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1/JSON")
 
 	// References to libraries used for testing
-	CmpReference        PackageReference = MakeExternalPackageReference("github.com/google/go-cmp/cmp")
-	CmpOptsReference    PackageReference = MakeExternalPackageReference("github.com/google/go-cmp/cmp/cmpopts")
-	DiffReference       PackageReference = MakeExternalPackageReference("github.com/kylelemons/godebug/diff")
-	GopterReference     PackageReference = MakeExternalPackageReference("github.com/leanovate/gopter")
-	GopterGenReference  PackageReference = MakeExternalPackageReference("github.com/leanovate/gopter/gen")
-	GopterPropReference PackageReference = MakeExternalPackageReference("github.com/leanovate/gopter/prop")
-	GomegaReference     PackageReference = MakeExternalPackageReference("github.com/onsi/gomega")
-	PrettyReference     PackageReference = MakeExternalPackageReference("github.com/kr/pretty")
+	CmpReference        = MakeExternalPackageReference("github.com/google/go-cmp/cmp")
+	CmpOptsReference    = MakeExternalPackageReference("github.com/google/go-cmp/cmp/cmpopts")
+	DiffReference       = MakeExternalPackageReference("github.com/kylelemons/godebug/diff")
+	GopterReference     = MakeExternalPackageReference("github.com/leanovate/gopter")
+	GopterGenReference  = MakeExternalPackageReference("github.com/leanovate/gopter/gen")
+	GopterPropReference = MakeExternalPackageReference("github.com/leanovate/gopter/prop")
+	GomegaReference     = MakeExternalPackageReference("github.com/onsi/gomega")
+	PrettyReference     = MakeExternalPackageReference("github.com/kr/pretty")
 
 	// Imports with specified names
-	GomegaImport PackageImport = NewPackageImport(GomegaReference).WithName(".")
+	GomegaImport = NewPackageImport(GomegaReference).WithName(".")
 
 	// Type names
 	ResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "ResourceReference")

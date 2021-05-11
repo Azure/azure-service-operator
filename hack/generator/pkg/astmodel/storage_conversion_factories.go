@@ -819,6 +819,8 @@ func assignObjectTypeFromObjectType(
 		localId := dst.NewIdent(copyVar)
 		errLocal := dst.NewIdent("err")
 
+		errorsPackageName := generationContext.MustGetImportedPackageName(ErrorsReference)
+
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
 		// If our reader is a dereference, we strip that off (because we need a pointer), else we
@@ -846,6 +848,7 @@ func assignObjectTypeFromObjectType(
 		checkForError := astbuilder.ReturnIfNotNil(
 			errLocal,
 			astbuilder.WrappedErrorf(
+				errorsPackageName,
 				"populating %s from %s, calling %s()",
 				destinationEndpoint.name, sourceEndpoint.name, conversionContext.functionName))
 
