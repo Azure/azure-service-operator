@@ -176,7 +176,7 @@ func (fn *StorageConversionFunction) AsFunc(generationContext *CodeGenerationCon
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  receiver.AsType(generationContext),
+		ReceiverType:  NewOptionalType(receiver).AsType(generationContext),
 		Name:          fn.Name(),
 		Body:          fn.generateBody(receiverName, parameterName, generationContext),
 	}
