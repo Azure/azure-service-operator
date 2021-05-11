@@ -851,15 +851,18 @@ func assignObjectTypeFromObjectType(
 
 		var conversion dst.Stmt
 		if destinationName.PackageReference.Equals(generationContext.CurrentPackage()) {
+			// Destination is our current type
 			conversion = astbuilder.SimpleAssignment(
 				errLocal,
 				tok,
 				astbuilder.CallExpr(localId, conversionContext.functionName, actualReader))
+
 		} else {
+			// Destination is another type
 			conversion = astbuilder.SimpleAssignment(
 				errLocal,
 				tok,
-				astbuilder.CallExpr(reader, conversionContext.functionName, localId))
+				astbuilder.CallExpr(reader, conversionContext.functionName, astbuilder.AddrOf(localId)))
 		}
 
 		checkForError := astbuilder.ReturnIfNotNil(
