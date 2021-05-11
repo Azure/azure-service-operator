@@ -74,7 +74,7 @@ func NewStorageConversionFromFunction(
 
 	version := idFactory.CreateIdentifier(otherType.Name().PackageReference.PackageName(), Exported)
 	result.name = "ConvertFrom" + version
-	result.conversionContext = conversionContext.WithFunctionName(result.name)
+	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
 	err := result.createConversions(receiver, conversionContext.types)
 	if err != nil {
@@ -101,7 +101,7 @@ func NewStorageConversionToFunction(
 
 	version := idFactory.CreateIdentifier(otherType.Name().PackageReference.PackageName(), Exported)
 	result.name = "ConvertTo" + version
-	result.conversionContext = conversionContext.WithFunctionName(result.name)
+	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
 	err := result.createConversions(receiver, conversionContext.types)
 	if err != nil {

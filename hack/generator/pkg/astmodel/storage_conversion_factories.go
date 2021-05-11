@@ -811,6 +811,11 @@ func assignObjectTypeFromObjectType(
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *CodeGenerationContext) []dst.Stmt {
 
+		tok := token.ASSIGN
+		if conversionContext.TryCreateLocal("err") {
+			tok = token.DEFINE
+		}
+
 		localId := dst.NewIdent(copyVar)
 		errLocal := dst.NewIdent("err")
 
@@ -829,12 +834,12 @@ func assignObjectTypeFromObjectType(
 		if destinationName.PackageReference.Equals(generationContext.CurrentPackage()) {
 			conversion = astbuilder.SimpleAssignment(
 				errLocal,
-				token.DEFINE,
+				tok,
 				astbuilder.CallExpr(localId, conversionContext.functionName, actualReader))
 		} else {
 			conversion = astbuilder.SimpleAssignment(
 				errLocal,
-				token.DEFINE,
+				tok,
 				astbuilder.CallExpr(reader, conversionContext.functionName, localId))
 		}
 
