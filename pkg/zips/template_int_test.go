@@ -15,9 +15,9 @@ import (
 
 	"github.com/onsi/gomega"
 
-	microsoftnetworkv1 "github.com/Azure/k8s-infra/apis/microsoft.network/v1"
-	"github.com/Azure/k8s-infra/internal/test"
-	"github.com/Azure/k8s-infra/pkg/zips"
+	microsoftnetworkv1 "github.com/Azure/azure-service-operator/apis/microsoft.network/v1"
+	"github.com/Azure/azure-service-operator/internal/test"
+	"github.com/Azure/azure-service-operator/pkg/zips"
 )
 
 func TestAzureTemplateClient_ApplyResourceGroup(t *testing.T) {
