@@ -72,6 +72,15 @@ func groupResourcesByVersion(types astmodel.Types) (map[unversionedName][]astmod
 	result := make(map[unversionedName][]astmodel.TypeDefinition)
 
 	for _, def := range types {
+
+		// TODO: Remove this
+		// We want to explicitly avoid storage types for now, as we want to tag the latest API version to avoid a bug
+		// Once we get the full conversion functions in place, and a mapping that allows us to find correct API version
+		// within the controller, we can delete this
+		if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
+			continue
+		}
+
 		if astmodel.IsResourceDefinition(def) {
 			name, err := getUnversionedName(def.Name())
 			if err != nil {
@@ -86,7 +95,9 @@ func groupResourcesByVersion(types astmodel.Types) (map[unversionedName][]astmod
 	// order each set of resources by package name (== by version as these are sortable dates)
 	for _, slice := range result {
 		sort.Slice(slice, func(i, j int) bool {
-			return slice[i].Name().PackageReference.PackageName() < slice[j].Name().PackageReference.PackageName()
+			return astmodel.ComparePathAndVersion(
+				slice[i].Name().PackageReference.PackagePath(),
+				slice[j].Name().PackageReference.PackagePath())
 		})
 	}
 

@@ -21,10 +21,12 @@ type StorageTypeFactory struct {
 	propertyConversions        []propertyConversion       // Conversion rules to use for properties when creating storage variants
 	pendingStorageConversion   astmodel.TypeNameQueue     // Queue of types that need storage variants created for them
 	pendingConversionInjection astmodel.TypeNameQueue     // Queue of types that need conversion functions injected
+	pendingMarkAsHubVersion    astmodel.TypeNameQueue     // Queue of types that need to be flagged as the hub storage version
 	idFactory                  astmodel.IdentifierFactory // Factory for creating identifiers
 	storageConverter           astmodel.TypeVisitor       // a cached type visitor used to create storage variants
 	propertyConverter          astmodel.TypeVisitor       // a cached type visitor used to simplify property types
 	functionInjector           astmodel.TypeVisitor       // a cached type visitor used to inject functions into definitions
+	resourceHubMarker          astmodel.TypeVisitor       // a cached type visitor used to mark resources as Storage Versions
 
 	// Map of conversion links for creating our conversion graph
 	// (Can't use PackageReferences as keys, so keyed by the full package path)
@@ -38,6 +40,7 @@ func NewStorageTypeFactory(service string, idFactory astmodel.IdentifierFactory)
 		types:                      make(astmodel.Types),
 		pendingStorageConversion:   astmodel.MakeTypeNameQueue(),
 		pendingConversionInjection: astmodel.MakeTypeNameQueue(),
+		pendingMarkAsHubVersion:    astmodel.MakeTypeNameQueue(),
 		idFactory:                  idFactory,
 		conversionMap:              make(map[string]astmodel.PackageReference),
 	}
@@ -64,6 +67,10 @@ func NewStorageTypeFactory(service string, idFactory astmodel.IdentifierFactory)
 	result.functionInjector = astmodel.TypeVisitorBuilder{
 		VisitObjectType:   result.injectFunctionIntoObject,
 		VisitResourceType: result.injectFunctionIntoResource,
+	}.Build()
+
+	result.resourceHubMarker = astmodel.TypeVisitorBuilder{
+		VisitResourceType: result.markResourceAsStorageVersion,
 	}.Build()
 
 	return result
@@ -94,6 +101,11 @@ func (f *StorageTypeFactory) process() error {
 	}
 
 	err = f.pendingConversionInjection.Process(f.injectConversions)
+	if err != nil {
+		return err
+	}
+
+	err = f.pendingMarkAsHubVersion.Process(f.markAsHubVersion)
 	if err != nil {
 		return err
 	}
@@ -167,6 +179,9 @@ func (f *StorageTypeFactory) injectConversions(name astmodel.TypeName) error {
 	if !ok {
 		// No next package, so nothing to do
 		// (this is expected if we have the hub storage package)
+		// Flag the type as needing to be flagged as the storage version
+		//TODO: Restore this - currently disabled until we get all the conversion functions injected
+		//!! f.pendingMarkAsHubVersion.Enqueue(name)
 		return nil
 	}
 
@@ -204,6 +219,25 @@ func (f *StorageTypeFactory) injectConversions(name astmodel.TypeName) error {
 
 	// Update our map
 	f.types[name] = def
+
+	return nil
+}
+
+func (f *StorageTypeFactory) markAsHubVersion(name astmodel.TypeName) error {
+	// Find the definition to modify
+	def, ok := f.types[name]
+	if !ok {
+		return errors.Errorf("failed to find definition for %q", name)
+	}
+
+	// Mark the resource as the hub storage version
+	updated, err := f.resourceHubMarker.VisitDefinition(def, nil)
+	if err != nil {
+		return errors.Wrapf(err, "marking %q as hub storage version", name)
+	}
+
+	// Update our map
+	f.types[name] = updated
 
 	return nil
 }
@@ -417,4 +451,15 @@ func (f *StorageTypeFactory) injectFunctionIntoResource(
 	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 	fn := ctx.(astmodel.Function)
 	return rt.WithFunction(fn), nil
+}
+
+/*
+ * Functions used by the resourceHubMarker TypeVisitor
+ */
+
+// injectFunctionIntoResource takes the function provided as a context and includes it on the
+// provided resource type
+func (f *StorageTypeFactory) markResourceAsStorageVersion(
+	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+	return rt.MarkAsStorageVersion(), nil
 }
