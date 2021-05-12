@@ -19,9 +19,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	resources "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
-	"github.com/Azure/k8s-infra/hack/generated/controllers"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
+	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/hack/generated/controllers"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 )
 
 // TODO: State Annotation parameter should be removed once the interface for Status determined and promoted

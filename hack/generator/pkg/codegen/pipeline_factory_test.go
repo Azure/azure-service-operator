@@ -8,11 +8,12 @@ package codegen
 import (
 	"bytes"
 	"fmt"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
-	"github.com/sebdah/goldie/v2"
 	"strings"
 	"testing"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
+	"github.com/sebdah/goldie/v2"
 
 	. "github.com/onsi/gomega"
 )

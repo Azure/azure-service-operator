@@ -10,7 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // jsonType is the type of fields storing arbitrary JSON content in

@@ -21,9 +21,9 @@ import (
 	"gopkg.in/yaml.v3"
 	"k8s.io/klog/v2"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
 )
 
 type GoldenTestConfig struct {
@@ -61,7 +61,7 @@ func loadTestConfig(path string) (GoldenTestConfig, error) {
 	return result, nil
 }
 
-var goModulePrefix = "github.com/Azure/k8s-infra/testing"
+var goModulePrefix = "github.com/Azure/azure-service-operator/testing"
 
 func makeTestLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
 	return astmodel.MakeLocalPackageReference(goModulePrefix, group, version)

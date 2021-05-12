@@ -12,7 +12,7 @@ import (
 	flag "github.com/spf13/pflag"
 	"k8s.io/klog/v2"
 
-	"github.com/Azure/k8s-infra/hack/generator/cmd"
+	"github.com/Azure/azure-service-operator/hack/generator/cmd"
 )
 
 func main() {

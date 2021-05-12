@@ -18,8 +18,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
-	"github.com/Azure/k8s-infra/hack/generated/controllers"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
+	"github.com/Azure/azure-service-operator/hack/generated/controllers"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 )
 
 func main() {

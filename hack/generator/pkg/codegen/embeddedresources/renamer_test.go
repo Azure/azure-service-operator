@@ -8,7 +8,7 @@ package embeddedresources
 import (
 	"testing"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 
 	. "github.com/onsi/gomega"
 )
@@ -17,7 +17,7 @@ var exampleTypeFlag = astmodel.TypeFlag("flag")
 var resourceTypeName = newTestName("Resource")
 var resourceTypeName2 = newTestName("Resource2")
 
-var goModulePrefix = "github.com/Azure/k8s-infra/testing"
+var goModulePrefix = "github.com/Azure/azure-service-operator/testing"
 
 func makeTestLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
 	return astmodel.MakeLocalPackageReference(goModulePrefix, group, version)

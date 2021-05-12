@@ -1,4 +1,4 @@
-module github.com/Azure/k8s-infra/hack/generator
+module github.com/Azure/azure-service-operator/hack/generator
 
 go 1.13
 

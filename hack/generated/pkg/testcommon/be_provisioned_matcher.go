@@ -12,7 +12,7 @@ import (
 	gomegaformat "github.com/onsi/gomega/format"
 	"github.com/onsi/gomega/types"
 
-	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 )
 
 type BeProvisionedMatcher struct {

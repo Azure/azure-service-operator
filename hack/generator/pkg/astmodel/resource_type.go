@@ -14,7 +14,7 @@ import (
 	"github.com/dave/dst"
 	"k8s.io/klog/v2"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // ResourceType represents a Kubernetes CRD resource which has both

@@ -1,4 +1,4 @@
-module github.com/Azure/k8s-infra/hack/generated
+module github.com/Azure/azure-service-operator/hack/generated
 
 go 1.13
 
@@ -6,7 +6,7 @@ require (
 	github.com/Azure/go-autorest/autorest v0.10.2
 	github.com/Azure/go-autorest/autorest/azure/auth v0.4.2
 	github.com/Azure/go-autorest/autorest/date v0.2.0
-	github.com/Azure/k8s-infra v0.2.0
+	github.com/Azure/azure-service-operator v0.2.0
 	github.com/devigned/tab v0.1.1
 	github.com/dnaeon/go-vcr v1.1.0
 	github.com/go-logr/logr v0.1.0

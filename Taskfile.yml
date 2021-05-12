@@ -94,7 +94,7 @@ tasks:
     cmds:
     - go build -ldflags "-X {{.GENERATOR_PACKAGE}}/pkg/codegen.GitCommit={{.SHORT_VERSION}} -X {{.GENERATOR_PACKAGE}}/pkg/codegen.GitTreeState={{.TREE_STATE}}" -o ./bin/{{.GENERATOR_APP}}
     vars:
-      GENERATOR_PACKAGE: github.com/Azure/k8s-infra/hack/generator
+      GENERATOR_PACKAGE: github.com/Azure/azure-service-operator/hack/generator
       DATE:
         sh: date +%FT%T%z
       TREE_STATE:

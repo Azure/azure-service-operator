@@ -1,5 +1,5 @@
 SHELL             = /bin/bash
-PACKAGE           = github.com/Azure/k8s-infra/hack/generated
+PACKAGE           = github.com/Azure/azure-service-operator/hack/generated
 APP               = k8sinfra-controller
 
 CONFIG_REGISTRY = kind-registry:5000/fake/k8s-infra-controller:latest

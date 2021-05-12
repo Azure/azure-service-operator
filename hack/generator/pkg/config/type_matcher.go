@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // TypeMatcher contains basic functionality for a filter

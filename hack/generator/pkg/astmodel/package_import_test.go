@@ -114,17 +114,17 @@ func TestPackageImport_ServiceNameForImport_GivenImport_ReturnsExpectedName(t *t
 	}{
 		{
 			"Batch",
-			MakeExternalPackageReference("github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.batch/v201700401"),
+			MakeExternalPackageReference("github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.batch/v201700401"),
 			"batch",
 		},
 		{
 			"Storage",
-			MakeExternalPackageReference("github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storage/v20200101"),
+			MakeExternalPackageReference("github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.storage/v20200101"),
 			"storage",
 		},
 		{
 			"StorSimple",
-			MakeExternalPackageReference("github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storsimple.1200/v20161001"),
+			MakeExternalPackageReference("github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.storsimple.1200/v20161001"),
 			"storsimple1200",
 		},
 	}

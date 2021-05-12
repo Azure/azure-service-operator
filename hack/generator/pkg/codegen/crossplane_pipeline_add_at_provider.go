@@ -10,7 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // addCrossplaneAtProvider adds an "AtProvider" property as the sole property in every resource status

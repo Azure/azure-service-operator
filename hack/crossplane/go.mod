@@ -1,4 +1,4 @@
-module github.com/Azure/k8s-infra/hack/crossplane
+module github.com/Azure/azure-service-operator/hack/crossplane
 
 go 1.14
 

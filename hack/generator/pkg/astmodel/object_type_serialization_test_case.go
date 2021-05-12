@@ -14,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // ObjectSerializationTestCase represents a test that the object can be losslessly serialized to

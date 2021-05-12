@@ -13,8 +13,8 @@ import (
 
 	"github.com/onsi/gomega"
 
-	"github.com/Azure/k8s-infra/hack/generated/pkg/reconcilers"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/testcommon"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/reconcilers"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
 const (

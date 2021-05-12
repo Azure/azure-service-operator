@@ -17,7 +17,7 @@ import (
 	"time"
 
 	autorestAzure "github.com/Azure/go-autorest/autorest/azure"
-	"github.com/Azure/k8s-infra/pkg/util/ownerutil"
+	"github.com/Azure/azure-service-operator/pkg/util/ownerutil"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
@@ -29,11 +29,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/reflecthelpers"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/util/kubeclient"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/util/patch"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/patch"
 )
 
 // TODO: I think we will want to pull some of this back into the Generic Controller so that it happens

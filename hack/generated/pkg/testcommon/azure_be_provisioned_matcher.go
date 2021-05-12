@@ -14,7 +14,7 @@ import (
 	"github.com/onsi/gomega/types"
 	"github.com/pkg/errors"
 
-	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 )
 
 type AzureBeProvisionedMatcher struct {

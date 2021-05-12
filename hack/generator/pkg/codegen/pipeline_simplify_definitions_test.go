@@ -8,8 +8,9 @@ package codegen
 import (
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"testing"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 func Test_SimplifyDefinitionsPipelineStage_GivenTypes_FlattensToExpectedTypes(t *testing.T) {

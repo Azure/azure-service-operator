@@ -11,7 +11,7 @@ import (
 
 	"github.com/dave/dst"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 type conversionBuilder struct {

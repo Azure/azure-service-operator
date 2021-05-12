@@ -12,8 +12,8 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	storage "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.storage/v1alpha1api20190401"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/testcommon"
+	storage "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.storage/v1alpha1api20190401"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
 func Test_StorageAccount_CRUD(t *testing.T) {

@@ -13,7 +13,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 
-	"github.com/Azure/k8s-infra/hack/generated/pkg/util/kubeclient"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
 )
 
 type Resolver struct {

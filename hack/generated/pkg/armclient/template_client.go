@@ -15,9 +15,9 @@ import (
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 

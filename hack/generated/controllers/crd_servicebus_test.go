@@ -12,8 +12,8 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	servicebus "github.com/Azure/k8s-infra/hack/generated/_apis/microsoft.servicebus/v1alpha1api20180101preview"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/testcommon"
+	servicebus "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.servicebus/v1alpha1api20180101preview"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
 func Test_ServiceBus_Namespace_CRUD(t *testing.T) {

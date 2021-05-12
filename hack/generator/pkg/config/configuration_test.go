@@ -8,15 +8,15 @@ package config_test
 import (
 	"testing"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 
 	. "github.com/onsi/gomega"
 )
 
 // TODO: in a common test function rather than in a bunch of test modules?
 func makeTestLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
-	return astmodel.MakeLocalPackageReference("github.com/Azure/k8s-infra/hack/generated", group, version)
+	return astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/hack/generated", group, version)
 }
 
 // Shared test values:

@@ -8,9 +8,9 @@ package testcommon
 import (
 	"os"
 
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
-	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
 	"github.com/pkg/errors"
 )
 

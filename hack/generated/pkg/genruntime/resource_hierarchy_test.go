@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 )
 
 func Test_ResourceHierarchy_ResourceGroupOnly(t *testing.T) {

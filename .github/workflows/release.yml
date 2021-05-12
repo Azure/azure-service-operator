@@ -71,7 +71,7 @@ jobs:
               client-secret: $(echo "${AZURE_CLIENT_SECRET}" | tr -d '\n' | base64 | tr -d '\n')
             EOF
 
-            kubectl apply -f https://github.com/Azure/k8s-infra/releases/download/${{ env.RELEASE_VERSION }}/manifest.yaml
+            kubectl apply -f https://github.com/Azure/azure-service-operator/releases/download/${{ env.RELEASE_VERSION }}/manifest.yaml
             ```
 
             To delete these components, just run the script replacing `apply` with `delete`.

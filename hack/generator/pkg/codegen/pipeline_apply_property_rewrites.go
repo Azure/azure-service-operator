@@ -10,8 +10,8 @@ import (
 
 	"k8s.io/klog/v2"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
 // applyPropertyRewrites applies any typeTransformers for properties.

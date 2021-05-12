@@ -26,7 +26,7 @@ This project is experimental and is not supported.
 To get started you are going to need a cluster to deploy k8s-infra. You can use any 1.16.0+ K8s 
 cluster. To get going quicker, just spin up a local cluster using [Kind](https://kind.sigs.k8s.io).
 
-To get started using the Azure k8s-infra infrastructure provider, visit our [releases](https://github.com/Azure/k8s-infra/releases),
+To get started using the Azure k8s-infra infrastructure provider, visit our [releases](https://github.com/Azure/azure-service-operator/releases),
 and follow the instructions for the latest release.
 
 Once the controller has been installed in your cluster, you should be able to run the following:

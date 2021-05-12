@@ -13,7 +13,7 @@ import (
 
 	"github.com/onsi/gomega"
 
-	"github.com/Azure/k8s-infra/hack/generated/pkg/testcommon"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
 const DefaultEventuallyTimeout = 3 * time.Minute
