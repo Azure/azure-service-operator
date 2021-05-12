@@ -21,7 +21,6 @@ cover.html
 coverage.json
 coverage.xml
 testlogs.txt
-.DS_Store
 
 # Generated CRDS
 config/crd/bases/*
@@ -52,3 +51,25 @@ terraform.tfstate*
 # operator bundle artifacts
 bundle.Dockerfile
 bundle/
+
+# Test binary, built with `go test -c`
+*.test
+
+# go-task file hashes
+.task/
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+*.lcov
+
+# built from the makefile
+.k8sinfra.cluster
+.env
+
+pki/certs
+
+dist
+
+template.json
+
+hack/tools

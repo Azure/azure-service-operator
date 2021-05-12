@@ -1,6 +1,0 @@
-apiVersion: microsoft.resources.infra.azure.com/v20191001
-kind: ResourceGroup
-metadata:
-  name: resourcegroup-sample
-spec:
-  location: westus2
