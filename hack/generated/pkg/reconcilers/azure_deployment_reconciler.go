@@ -16,8 +16,8 @@ import (
 	"strings"
 	"time"
 
-	autorestAzure "github.com/Azure/go-autorest/autorest/azure"
 	"github.com/Azure/azure-service-operator/pkg/util/ownerutil"
+	autorestAzure "github.com/Azure/go-autorest/autorest/azure"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
