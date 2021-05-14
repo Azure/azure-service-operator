@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-IGNORE_FILTERS=("docs/" "README.md")
+IGNORE_FILTERS=("docs/" "README.md" "hack/")
 CHANGED_FILES=$(git diff HEAD HEAD~ --name-only)
 IGNORED_COUNT=0
 NON_IGNORED_COUNT=0
