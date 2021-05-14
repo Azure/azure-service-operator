@@ -1,0 +1,20 @@
+{
+    "$comment": "Here we check that nested types with validations are properly pulled out and named",
+
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "ducks": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "maxLength": 20,
+                "minLength": 10,
+                "pattern": "^[a-z]+$"
+            }
+        }
+    },
+    "required": ["ducks"]
+}

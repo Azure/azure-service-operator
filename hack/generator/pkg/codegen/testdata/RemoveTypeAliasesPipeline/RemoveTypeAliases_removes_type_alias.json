@@ -1,0 +1,43 @@
+{
+    "$comment": "Check that the remove type aliases pipeline stage correctly removes type aliases.",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "foo" : {
+            "$ref": "#/definitions/Foo"
+        },
+        "fooAlias": {
+            "$ref": "#/definitions/FooAlias"
+        },
+        "stringAlias": {
+            "$ref": "#/definitions/StringAlias"
+        },
+        "stringArrayAlias": {
+            "$ref": "#/definitions/StringArrayAlias"
+        }
+    },
+    "definitions": {
+        "FooAlias": {
+            "$ref": "#/definitions/Foo"
+        },
+        "StringAlias": {
+            "type": "string"
+        },
+        "StringArrayAlias": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "Foo": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

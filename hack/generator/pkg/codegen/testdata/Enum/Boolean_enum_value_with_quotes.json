@@ -1,0 +1,15 @@
+{
+    "$comment": "Check that an enum with base type of Boolean is correctly generated",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "myEnum": {
+            "type": "boolean",
+            "enum": [
+                "true"
+            ]
+        }
+    }
+}
