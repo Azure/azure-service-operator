@@ -1,6 +1,6 @@
 module github.com/Azure/azure-service-operator/hack/generator
 
-go 1.13
+go 1.16
 
 require (
 	github.com/bmatcuk/doublestar v1.3.1

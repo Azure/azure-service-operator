@@ -16,7 +16,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Azure/azure-service-operator/pkg/util/ownerutil"
 	autorestAzure "github.com/Azure/go-autorest/autorest/azure"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -28,6 +27,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/ownerutil"
 
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
