@@ -1,6 +1,6 @@
 module github.com/Azure/azure-service-operator/hack/generated
 
-go 1.13
+go 1.16
 
 require (
 	github.com/Azure/azure-service-operator v0.0.0 // version here doesn't matter

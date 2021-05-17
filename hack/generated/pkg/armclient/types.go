@@ -9,9 +9,10 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/Azure/azure-service-operator/pkg/zips/duration"
 	"github.com/Azure/go-autorest/autorest/date"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/duration"
 )
 
 type (
