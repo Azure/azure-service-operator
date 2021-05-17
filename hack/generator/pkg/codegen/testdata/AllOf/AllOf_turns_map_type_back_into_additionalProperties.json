@@ -1,0 +1,34 @@
+{
+    "$comment": "Check that the AllOf handler converts a map type back into an additionalProperties field.",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "#/definitions/MapType"
+        },
+        {
+            "$ref": "#/definitions/OtherObject"
+        }
+    ],
+    "definitions": {
+        "MapType": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "boolean"
+            }
+        },
+        "OtherObject": {
+            "type": "object",
+            "properties": {
+                "size": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "size"
+            ]
+        }
+    }
+}

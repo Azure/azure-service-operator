@@ -1,0 +1,20 @@
+# permissions for end users to view resourcegroups.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: resourcegroup-viewer-role
+rules:
+- apiGroups:
+  - microsoft.resources.infra.azure.com
+  resources:
+  - resourcegroups
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - microsoft.resources.infra.azure.com
+  resources:
+  - resourcegroups/status
+  verbs:
+  - get

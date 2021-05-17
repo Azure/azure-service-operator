@@ -1,0 +1,28 @@
+
+{
+    "$comment": "Check that the AllOf handler correctly handles properties on the “owning” schema node" ,
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "#/definitions/Base"
+        }
+    ],
+    "properties": {
+        "width": {
+            "type": "integer"
+        }
+    },
+    "definitions": {
+        "Base": {
+            "type": "object",
+            "properties": {
+                "length": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
