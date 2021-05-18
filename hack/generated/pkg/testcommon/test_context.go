@@ -7,7 +7,7 @@ package testcommon
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"strings"
@@ -56,7 +56,8 @@ func NewTestContext(region string, recordReplay bool) TestContext {
 }
 
 func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
-	authorizer, subscriptionID, recorder, err := createRecorder(t.Name(), tc.RecordReplay)
+	cassetteName := "recordings/" + t.Name()
+	authorizer, subscriptionID, recorder, err := createRecorder(cassetteName, tc.RecordReplay)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}
@@ -68,7 +69,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 
 	// replace the ARM client transport (a bit hacky)
 	httpClient := armClient.RawClient.Sender.(*http.Client)
-	httpClient.Transport = recorder
+	httpClient.Transport = translateErrors(recorder, cassetteName)
 
 	t.Cleanup(func() {
 		if !t.Failed() {
@@ -92,9 +93,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	}, nil
 }
 
-func createRecorder(testName string, recordReplay bool) (autorest.Authorizer, string, *recorder.Recorder, error) {
-	cassetteName := "recordings/" + testName
-
+func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer, string, *recorder.Recorder, error) {
 	var err error
 	var r *recorder.Recorder
 	if recordReplay {
@@ -134,7 +133,7 @@ func createRecorder(testName string, recordReplay bool) (autorest.Authorizer, st
 			return false
 		}
 
-		r.Body = ioutil.NopCloser(&b)
+		r.Body = io.NopCloser(&b)
 		return cassette.DefaultMatcher(r, i) && (b.String() == "" || b.String() == i.Body)
 	})
 
