@@ -71,24 +71,16 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	}
 
 	// find all request bodies for the specified method/URL combination
-	urlString := req.URL.String()
-	var bodiesForMethodAndURL []string
-	for _, interaction := range w.ensureCassette().Interactions {
-		if urlString == interaction.URL && req.Method == interaction.Request.Method &&
-			req.Header.Get(COUNT_HEADER) == interaction.Request.Headers.Get(COUNT_HEADER) {
-			bodiesForMethodAndURL = append(bodiesForMethodAndURL, interaction.Request.Body)
-			break
-		}
-	}
+	matchingBodies := w.findMatchingBodies(req)
 
-	if len(bodiesForMethodAndURL) == 0 {
+	if len(matchingBodies) == 0 {
 		fmt.Printf("\n*** Cannot find go-vcr recording for request (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n", req.Method, req.URL.String(), req.Header.Get(COUNT_HEADER))
 		return nil, originalErr
 	}
 
 	// locate the request body with the shortest diff from the sent body
 	shortestDiff := ""
-	for i, bodyString := range bodiesForMethodAndURL {
+	for i, bodyString := range matchingBodies {
 		diff := cmp.Diff(sentBodyString, bodyString)
 		if i == 0 || len(diff) < len(shortestDiff) {
 			shortestDiff = diff
@@ -97,4 +89,18 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 	fmt.Printf("\n*** Cannot find go-vcr recording for request (body mismatch): %s %s\nShortest body diff: %s\n\n", req.Method, req.URL.String(), shortestDiff)
 	return nil, originalErr
+}
+
+// finds bodies for interactions where request method, URL, and COUNT_HEADER match
+func (w errorTranslation) findMatchingBodies(r *http.Request) []string {
+	urlString := r.URL.String()
+	var result []string
+	for _, interaction := range w.ensureCassette().Interactions {
+		if urlString == interaction.URL && r.Method == interaction.Request.Method &&
+			r.Header.Get(COUNT_HEADER) == interaction.Request.Headers.Get(COUNT_HEADER) {
+			result = append(result, interaction.Request.Body)
+		}
+	}
+
+	return result
 }
