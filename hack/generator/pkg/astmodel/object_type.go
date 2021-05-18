@@ -550,5 +550,5 @@ func extractEmbeddedTypeName(t Type) (TypeName, error) {
 // wreiter receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (objectType *ObjectType) WriteDebugDescription(writer io.StringWriter, _ Types) {
-	_ = writer.WriteString("Object")
+	_, _ = writer.WriteString("Object")
 }

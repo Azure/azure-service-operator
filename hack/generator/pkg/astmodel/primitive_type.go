@@ -91,5 +91,5 @@ func (prim *PrimitiveType) String() string {
 
 // WriteDebugDescription adds a description of this primitive type to the passed builder
 func (prim *PrimitiveType) WriteDebugDescription(writer io.StringWriter, _ Types) {
-	_ = writer.WriteString(prim.name)
+	_, _ = writer.WriteString(prim.name)
 }

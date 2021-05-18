@@ -116,7 +116,7 @@ func (optional *OptionalType) Unwrap() Type {
 // writer receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (optional *OptionalType) WriteDebugDescription(writer io.StringWriter, types Types) {
-	_ = writer.WriteString("Optional[")
+	_, _ = writer.WriteString("Optional[")
 	optional.element.WriteDebugDescription(writer, types)
-	_ = writer.WriteString("]")
+	_, _ = writer.WriteString("]")
 }

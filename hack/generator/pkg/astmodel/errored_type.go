@@ -162,18 +162,18 @@ func (e *ErroredType) Unwrap() Type {
 // builder receives the full description, including the nested type, errors and warnings
 // types is a dictionary for resolving named types
 func (e *ErroredType) WriteDebugDescription(writer io.StringWriter, types Types) {
-	_ = writer.WriteString("Error[")
+	_, _ = writer.WriteString("Error[")
 	e.inner.WriteDebugDescription(writer, types)
 
 	for _, e := range e.errors {
-		_ = writer.WriteString("|")
-		_ = writer.WriteString(e)
+		_, _ = writer.WriteString("|")
+		_, _ = writer.WriteString(e)
 	}
 
 	for _, w := range e.warnings {
-		_ = writer.WriteString("|")
-		_ = writer.WriteString(w)
+		_, _ = writer.WriteString("|")
+		_, _ = writer.WriteString(w)
 	}
 
-	_ = writer.WriteString("]")
+	_, _ = writer.WriteString("]")
 }

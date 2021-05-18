@@ -236,7 +236,7 @@ func (v ValidatedType) Unwrap() Type {
 // writer receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (v ValidatedType) WriteDebugDescription(writer io.StringWriter, types Types) {
-	_ = writer.WriteString("Validated[")
+	_, _ = writer.WriteString("Validated[")
 	v.element.WriteDebugDescription(writer, types)
-	_ = writer.WriteString("]")
+	_, _ = writer.WriteString("]")
 }

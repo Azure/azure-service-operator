@@ -183,8 +183,8 @@ func (ft *FlaggedType) Unwrap() Type {
 func (ft *FlaggedType) WriteDebugDescription(writer io.StringWriter, types Types) {
 	ft.element.WriteDebugDescription(writer, types)
 	for f := range ft.flags {
-		_ = writer.WriteString("[#")
-		_ = writer.WriteString(f.String())
-		_ = writer.WriteString("]")
+		_, _ = writer.WriteString("[#")
+		_, _ = writer.WriteString(f.String())
+		_, _ = writer.WriteString("]")
 	}
 }

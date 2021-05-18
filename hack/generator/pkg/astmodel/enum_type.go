@@ -189,14 +189,14 @@ func (enum *EnumType) String() string {
 // builder receives the full description
 // types is a dictionary for resolving named types
 func (enum *EnumType) WriteDebugDescription(writer io.StringWriter, types Types) {
-	_ = writer.WriteString("Enum[")
+	_, _ = writer.WriteString("Enum[")
 	enum.baseType.WriteDebugDescription(writer, types)
-	_ = writer.WriteString(":")
+	_, _ = writer.WriteString(":")
 	for i, v := range enum.options {
 		if i > 0 {
-			_ = writer.WriteString("|")
+			_, _ = writer.WriteString("|")
 		}
-		_ = writer.WriteString(v.Identifier)
+		_, _ = writer.WriteString(v.Identifier)
 	}
-	_ = writer.WriteString("]")
+	_, _ = writer.WriteString("]")
 }
