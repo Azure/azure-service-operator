@@ -5,9 +5,9 @@ go 1.13
 require (
 	cloud.google.com/go v0.46.3 // indirect
 	github.com/Azure/aad-pod-identity v1.6.3
-	github.com/Azure/azure-sdk-for-go v44.0.0+incompatible
-	github.com/Azure/go-autorest/autorest v0.11.0
-	github.com/Azure/go-autorest/autorest/adal v0.9.0
+	github.com/Azure/azure-sdk-for-go v54.2.0+incompatible
+	github.com/Azure/go-autorest/autorest v0.11.18
+	github.com/Azure/go-autorest/autorest/adal v0.9.13
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.0
 	github.com/Azure/go-autorest/autorest/date v0.3.0
 	github.com/Azure/go-autorest/autorest/to v0.4.0
@@ -19,6 +19,7 @@ require (
 	github.com/go-logr/logr v0.1.0
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gobuffalo/envy v1.7.0
+	github.com/gofrs/uuid v4.0.0+incompatible
 	github.com/google/go-cmp v0.5.2
 	github.com/google/uuid v1.1.1
 	github.com/hashicorp/go-multierror v1.0.0
@@ -34,10 +35,9 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.0.0
 	github.com/prometheus/procfs v0.0.11 // indirect
-	github.com/satori/go.uuid v1.2.0
 	github.com/sethvargo/go-password v0.1.2
 	github.com/stretchr/testify v1.7.0
-	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
+	golang.org/x/crypto v0.0.0-20201002170205-7f63de1d35b0
 	golang.org/x/net v0.0.0-20200625001655-4c5254603344
 	golang.org/x/sys v0.0.0-20210317225723-c4fcb01b228e // indirect
 	golang.org/x/text v0.3.3 // indirect
