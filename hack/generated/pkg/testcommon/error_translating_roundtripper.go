@@ -39,7 +39,7 @@ type errorTranslation struct {
 	cassette *cassette.Cassette
 }
 
-func (w errorTranslation) ensure_cassette() *cassette.Cassette {
+func (w errorTranslation) ensureCassette() *cassette.Cassette {
 	if w.cassette == nil {
 		cassette, err := cassette.Load(w.cassetteName)
 		if err != nil {
@@ -73,7 +73,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	// find all request bodies for the specified method/URL combination
 	urlString := req.URL.String()
 	var bodiesForMethodAndURL []string
-	for _, interaction := range w.ensure_cassette().Interactions {
+	for _, interaction := range w.ensureCassette().Interactions {
 		if urlString == interaction.URL && req.Method == interaction.Request.Method &&
 			req.Header.Get(COUNT_HEADER) == interaction.Request.Headers.Get(COUNT_HEADER) {
 			bodiesForMethodAndURL = append(bodiesForMethodAndURL, interaction.Request.Body)
