@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"io"
 	"sort"
 	"strings"
 
@@ -125,15 +126,15 @@ func (oneOf *OneOfType) String() string {
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
+// writer receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, types Types) {
-	builder.WriteString("OneOf[")
+func (oneOf *OneOfType) WriteDebugDescription(writer io.StringWriter, types Types) {
+	writer.WriteString("OneOf[")
 	oneOf.types.ForEach(func(t Type, ix int) {
 		if ix > 0 {
-			builder.WriteString("|")
+			writer.WriteString("|")
 		}
-		t.WriteDebugDescription(builder, types)
+		t.WriteDebugDescription(writer, types)
 	})
-	builder.WriteString("]")
+	writer.WriteString("]")
 }

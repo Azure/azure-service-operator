@@ -8,9 +8,9 @@ package astmodel
 import (
 	"fmt"
 	"go/token"
+	"io"
 	"sort"
-	"strings"
-
+	
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"k8s.io/klog/v2"
@@ -188,15 +188,15 @@ func (enum *EnumType) String() string {
 // passed builder
 // builder receives the full description
 // types is a dictionary for resolving named types
-func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, types Types) {
-	builder.WriteString("Enum[")
-	enum.baseType.WriteDebugDescription(builder, types)
-	builder.WriteString(":")
+func (enum *EnumType) WriteDebugDescription(writer io.StringWriter, types Types) {
+	writer.WriteString("Enum[")
+	enum.baseType.WriteDebugDescription(writer, types)
+	writer.WriteString(":")
 	for i, v := range enum.options {
 		if i > 0 {
-			builder.WriteString("|")
+			writer.WriteString("|")
 		}
-		builder.WriteString(v.Identifier)
+		writer.WriteString(v.Identifier)
 	}
-	builder.WriteString("]")
+	writer.WriteString("]")
 }

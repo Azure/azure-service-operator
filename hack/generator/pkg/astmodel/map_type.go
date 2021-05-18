@@ -7,9 +7,8 @@ package astmodel
 
 import (
 	"fmt"
-	"strings"
-
 	"github.com/dave/dst"
+	"io"
 )
 
 // MapType is used to define properties that contain additional property values
@@ -90,11 +89,11 @@ func (m *MapType) String() string {
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
+// writer receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (m *MapType) WriteDebugDescription(builder *strings.Builder, types Types) {
-	builder.WriteString("Map[")
-	m.key.WriteDebugDescription(builder, types)
-	builder.WriteString("]")
-	m.value.WriteDebugDescription(builder, types)
+func (m *MapType) WriteDebugDescription(writer io.StringWriter, types Types) {
+	writer.WriteString("Map[")
+	m.key.WriteDebugDescription(writer, types)
+	writer.WriteString("]")
+	m.value.WriteDebugDescription(writer, types)
 }

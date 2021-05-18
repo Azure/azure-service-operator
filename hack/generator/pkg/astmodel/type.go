@@ -7,9 +7,8 @@ package astmodel
 
 import (
 	"fmt"
-	"strings"
-
 	"github.com/dave/dst"
+	"io"
 )
 
 // Type represents something that is a Go type
@@ -42,9 +41,9 @@ type Type interface {
 	fmt.Stringer
 
 	// WriteDebugDescription adds a description of the current type to the passed builder
-	// builder receives the full description, including nested types
+	// writer receives the full description, including nested types
 	// types is a dictionary for resolving named types
-	WriteDebugDescription(builder *strings.Builder, types Types)
+	WriteDebugDescription(writer io.StringWriter, types Types)
 }
 
 // IgnoringErrors returns the type stripped of any ErroredType wrapper

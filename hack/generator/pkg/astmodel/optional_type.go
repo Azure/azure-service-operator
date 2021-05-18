@@ -7,9 +7,8 @@ package astmodel
 
 import (
 	"fmt"
-	"strings"
-
 	"github.com/dave/dst"
+	"io"
 )
 
 // OptionalType is used for items that may or may not be present
@@ -113,10 +112,10 @@ func (optional *OptionalType) Unwrap() Type {
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
+// writer receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (optional *OptionalType) WriteDebugDescription(builder *strings.Builder, types Types) {
-	builder.WriteString("Optional[")
-	optional.element.WriteDebugDescription(builder, types)
-	builder.WriteString("]")
+func (optional *OptionalType) WriteDebugDescription(writer io.StringWriter, types Types) {
+	writer.WriteString("Optional[")
+	optional.element.WriteDebugDescription(writer, types)
+	writer.WriteString("]")
 }

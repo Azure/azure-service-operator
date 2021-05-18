@@ -8,8 +8,8 @@ package astmodel
 import (
 	"fmt"
 	"math/big"
+	"io"
 	"regexp"
-	"strings"
 
 	"github.com/dave/dst"
 )
@@ -233,10 +233,10 @@ func (v ValidatedType) Unwrap() Type {
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
+// writer receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (v ValidatedType) WriteDebugDescription(builder *strings.Builder, types Types) {
-	builder.WriteString("Validated[")
-	v.element.WriteDebugDescription(builder, types)
-	builder.WriteString("]")
+func (v ValidatedType) WriteDebugDescription(writer io.StringWriter, types Types) {
+	writer.WriteString("Validated[")
+	v.element.WriteDebugDescription(writer, types)
+	writer.WriteString("]")
 }

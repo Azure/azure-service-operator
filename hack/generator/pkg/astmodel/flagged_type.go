@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"io"
 	"sort"
 	"strings"
 
@@ -177,13 +178,13 @@ func (ft *FlaggedType) Unwrap() Type {
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
+// writer receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (ft *FlaggedType) WriteDebugDescription(builder *strings.Builder, types Types) {
-	ft.element.WriteDebugDescription(builder, types)
+func (ft *FlaggedType) WriteDebugDescription(writer io.StringWriter, types Types) {
+	ft.element.WriteDebugDescription(writer, types)
 	for f := range ft.flags {
-		builder.WriteString("[#")
-		builder.WriteString(f.String())
-		builder.WriteString("]")
+		writer.WriteString("[#")
+		writer.WriteString(f.String())
+		writer.WriteString("]")
 	}
 }

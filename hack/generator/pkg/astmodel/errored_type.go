@@ -7,7 +7,7 @@ package astmodel
 
 import (
 	"fmt"
-	"strings"
+	"io"
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
@@ -161,19 +161,19 @@ func (e *ErroredType) Unwrap() Type {
 // WriteDebugDescription adds a description of the current errored type to the passed builder,
 // builder receives the full description, including the nested type, errors and warnings
 // types is a dictionary for resolving named types
-func (e *ErroredType) WriteDebugDescription(builder *strings.Builder, types Types) {
-	builder.WriteString("Error[")
-	e.inner.WriteDebugDescription(builder, types)
+func (e *ErroredType) WriteDebugDescription(writer io.StringWriter, types Types) {
+	writer.WriteString("Error[")
+	e.inner.WriteDebugDescription(writer, types)
 
 	for _, e := range e.errors {
-		builder.WriteString("|")
-		builder.WriteString(e)
+		writer.WriteString("|")
+		writer.WriteString(e)
 	}
 
 	for _, w := range e.warnings {
-		builder.WriteString("|")
-		builder.WriteString(w)
+		writer.WriteString("|")
+		writer.WriteString(w)
 	}
 
-	builder.WriteString("]")
+	writer.WriteString("]")
 }

@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"io"
 	"strings"
 
 	"github.com/dave/dst"
@@ -168,19 +169,19 @@ func (typeName TypeName) Plural() TypeName {
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
+// writer receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, types Types) {
-	builder.WriteString(typeName.PackageReference.String())
-	builder.WriteString("/")
-	builder.WriteString(typeName.name)
+func (typeName TypeName) WriteDebugDescription(writer io.StringWriter, types Types) {
+	writer.WriteString(typeName.PackageReference.String())
+	writer.WriteString("/")
+	writer.WriteString(typeName.name)
 
 	if _, ok := typeName.PackageReference.AsLocalPackage(); ok {
-		builder.WriteString(":")
+		writer.WriteString(":")
 		if definition, ok := types[typeName]; ok {
-			definition.Type().WriteDebugDescription(builder, types)
+			definition.Type().WriteDebugDescription(writer, types)
 		} else {
-			builder.WriteString("NOTDEFINED")
+			writer.WriteString("NOTDEFINED")
 		}
 	}
 }

@@ -7,8 +7,8 @@ package astmodel
 
 import (
 	"go/token"
+	"io"
 	"sort"
-	"strings"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
@@ -547,8 +547,8 @@ func extractEmbeddedTypeName(t Type) (TypeName, error) {
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
+// wreiter receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, _ Types) {
-	builder.WriteString("Object")
+func (objectType *ObjectType) WriteDebugDescription(writer io.StringWriter, _ Types) {
+	writer.WriteString("Object")
 }

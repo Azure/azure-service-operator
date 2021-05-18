@@ -7,9 +7,8 @@ package astmodel
 
 import (
 	"fmt"
-	"strings"
-
 	"github.com/dave/dst"
+	"io"
 )
 
 // ArrayType is used for properties that contain an array of values
@@ -75,10 +74,10 @@ func (array *ArrayType) String() string {
 }
 
 // WriteDebugDescription adds a description of the current array type to the passed builder
-// builder receives the full description, including nested types
+// writer receives the full description, including nested types
 // types is a dictionary for resolving named types
-func (array *ArrayType) WriteDebugDescription(builder *strings.Builder, types Types) {
-	builder.WriteString("Array[")
-	array.element.WriteDebugDescription(builder, types)
-	builder.WriteString("]")
+func (array *ArrayType) WriteDebugDescription(writer io.StringWriter, types Types) {
+	writer.WriteString("Array[")
+	array.element.WriteDebugDescription(writer, types)
+	writer.WriteString("]")
 }

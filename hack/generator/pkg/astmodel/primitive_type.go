@@ -7,7 +7,7 @@ package astmodel
 
 import (
 	"github.com/dave/dst"
-	"strings"
+	"io"
 )
 
 // PrimitiveType represents a Go primitive type
@@ -89,6 +89,6 @@ func (prim *PrimitiveType) String() string {
 }
 
 // WriteDebugDescription adds a description of this primitive type to the passed builder
-func (prim *PrimitiveType) WriteDebugDescription(builder *strings.Builder, _ Types) {
-	builder.WriteString(prim.name)
+func (prim *PrimitiveType) WriteDebugDescription(writer io.StringWriter, types Types) {
+	writer.WriteString(prim.name)
 }
