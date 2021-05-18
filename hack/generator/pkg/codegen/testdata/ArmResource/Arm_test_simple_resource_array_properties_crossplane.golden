@@ -43,10 +43,11 @@ type FakeResourceParameters struct {
 	ApiVersion FakeResourceSpecApiVersion `json:"apiVersion"`
 
 	// +kubebuilder:validation:Required
-	ArrayFoo      []Foo            `json:"arrayFoo"`
-	ArrayOfArrays [][]Foo          `json:"arrayOfArrays,omitempty"`
-	ArrayOfEnums  []Color          `json:"arrayOfEnums,omitempty"`
-	ArrayOfMaps   []map[string]Foo `json:"arrayOfMaps,omitempty"`
+	ArrayFoo              []Foo            `json:"arrayFoo"`
+	ArrayOfArrays         [][]Foo          `json:"arrayOfArrays,omitempty"`
+	ArrayOfArraysOfArrays [][][]Foo        `json:"arrayOfArraysOfArrays,omitempty"`
+	ArrayOfEnums          []Color          `json:"arrayOfEnums,omitempty"`
+	ArrayOfMaps           []map[string]Foo `json:"arrayOfMaps,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Name                      string              `json:"name"`
