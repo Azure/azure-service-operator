@@ -57,7 +57,7 @@ func (prim *PrimitiveType) RequiredPackageReferences() *PackageReferenceSet {
 // AsZero renders an expression for the "zero" value of the type
 // types allows TypeName to resolve to the underlying type
 // ctx allows current imports to be correctly identified where needed
-func (prim *PrimitiveType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (prim *PrimitiveType) AsZero(_ Types, _ *CodeGenerationContext) dst.Expr {
 	return &dst.BasicLit{
 		Value: prim.zero,
 	}
@@ -89,6 +89,6 @@ func (prim *PrimitiveType) String() string {
 }
 
 // WriteDebugDescription adds a description of this primitive type to the passed builder
-func (prim *PrimitiveType) WriteDebugDescription(writer io.StringWriter, types Types) {
+func (prim *PrimitiveType) WriteDebugDescription(writer io.StringWriter, _ Types) {
 	writer.WriteString(prim.name)
 }

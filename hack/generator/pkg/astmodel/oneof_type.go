@@ -87,7 +87,7 @@ func (oneOf OneOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationCon
 
 // AsZero always panics; OneOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (oneOf OneOfType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (oneOf OneOfType) AsZero(_ Types, _ *CodeGenerationContext) dst.Expr {
 	panic(errors.New(oneOfPanicMsg))
 }
 

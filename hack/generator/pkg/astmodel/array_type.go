@@ -41,7 +41,7 @@ func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) dst
 }
 
 // AsZero renders an expression for the "zero" value of the array by calling make()
-func (array *ArrayType) AsZero(_ Types, ctx *CodeGenerationContext) dst.Expr {
+func (array *ArrayType) AsZero(_ Types, _ *CodeGenerationContext) dst.Expr {
 	return dst.NewIdent("nil")
 }
 

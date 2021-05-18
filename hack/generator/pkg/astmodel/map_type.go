@@ -53,7 +53,7 @@ func (m *MapType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr 
 }
 
 // AsZero renders an expression for the "zero" value of a map by calling make()
-func (m *MapType) AsZero(_ Types, ctx *CodeGenerationContext) dst.Expr {
+func (m *MapType) AsZero(_ Types, _ *CodeGenerationContext) dst.Expr {
 	return dst.NewIdent("nil")
 }
 

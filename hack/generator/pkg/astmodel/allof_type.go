@@ -122,7 +122,7 @@ func (allOf AllOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationCon
 
 // AsZero always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (allOf AllOfType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+func (allOf AllOfType) AsZero(_ Types, _ *CodeGenerationContext) dst.Expr {
 	panic(errors.New(allOfPanicMsg))
 }
 
