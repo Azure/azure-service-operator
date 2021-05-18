@@ -20,7 +20,7 @@ import (
 // and log better information about what the expected request was.
 //
 // By default the error will be returned to the controller which might ignore/retry it
-// and not log any useful information. So instead here we find  the recorded request with
+// and not log any useful information. So instead here we find the recorded request with
 // the body that most closely matches what was sent and report the "expected" body.
 //
 // Ideally we would panic on this error but we don't have a good way to deal with the following
