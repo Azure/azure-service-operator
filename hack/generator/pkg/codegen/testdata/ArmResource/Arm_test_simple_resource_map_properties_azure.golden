@@ -55,14 +55,16 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecARM struct {
-	ApiVersion   FakeResourceSpecApiVersion   `json:"apiVersion"`
-	MapFoo       map[string]FooARM            `json:"mapFoo"`
-	MapOfArrays  map[string][]FooARM          `json:"mapOfArrays,omitempty"`
-	MapOfEnums   map[string]Color             `json:"mapOfEnums,omitempty"`
-	MapOfMaps    map[string]map[string]FooARM `json:"mapOfMaps,omitempty"`
-	MapOfStrings map[string]string            `json:"mapOfStrings,omitempty"`
-	Name         string                       `json:"name"`
-	Type         FakeResourceSpecType         `json:"type"`
+	ApiVersion               FakeResourceSpecApiVersion              `json:"apiVersion"`
+	MapFoo                   map[string]FooARM                       `json:"mapFoo"`
+	MapOfArrays              map[string][]FooARM                     `json:"mapOfArrays,omitempty"`
+	MapOfEnums               map[string]Color                        `json:"mapOfEnums,omitempty"`
+	MapOfMaps                map[string]map[string]FooARM            `json:"mapOfMaps,omitempty"`
+	MapOfMapsOfMaps          map[string]map[string]map[string]FooARM `json:"mapOfMapsOfMaps,omitempty"`
+	MapOfMapsOfMapsOfStrings map[string]map[string]map[string]string `json:"mapOfMapsOfMapsOfStrings,omitempty"`
+	MapOfStrings             map[string]string                       `json:"mapOfStrings,omitempty"`
+	Name                     string                                  `json:"name"`
+	Type                     FakeResourceSpecType                    `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
@@ -108,11 +110,13 @@ type FakeResource_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	MapFoo       map[string]Foo            `json:"mapFoo"`
-	MapOfArrays  map[string][]Foo          `json:"mapOfArrays,omitempty"`
-	MapOfEnums   map[string]Color          `json:"mapOfEnums,omitempty"`
-	MapOfMaps    map[string]map[string]Foo `json:"mapOfMaps,omitempty"`
-	MapOfStrings map[string]string         `json:"mapOfStrings,omitempty"`
+	MapFoo                   map[string]Foo                          `json:"mapFoo"`
+	MapOfArrays              map[string][]Foo                        `json:"mapOfArrays,omitempty"`
+	MapOfEnums               map[string]Color                        `json:"mapOfEnums,omitempty"`
+	MapOfMaps                map[string]map[string]Foo               `json:"mapOfMaps,omitempty"`
+	MapOfMapsOfMaps          map[string]map[string]map[string]Foo    `json:"mapOfMapsOfMaps,omitempty"`
+	MapOfMapsOfMapsOfStrings map[string]map[string]map[string]string `json:"mapOfMapsOfMapsOfStrings,omitempty"`
+	MapOfStrings             map[string]string                       `json:"mapOfStrings,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources.infra.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -170,6 +174,46 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 					valueTemp[valueKey] = value1ARM.(FooARM)
 				}
 				result.MapOfMaps[key] = valueTemp
+			}
+		}
+	}
+	if fakeResourceSpec.MapOfMapsOfMaps != nil {
+		result.MapOfMapsOfMaps = make(map[string]map[string]map[string]FooARM)
+		for key, value := range fakeResourceSpec.MapOfMapsOfMaps {
+			if value != nil {
+				valueTemp := make(map[string]map[string]FooARM)
+				for valueKey, value1 := range value {
+					if value1 != nil {
+						value1Temp := make(map[string]FooARM)
+						for valueKey1, value2 := range value1 {
+							value2ARM, err := value2.ConvertToARM(name, resolvedReferences)
+							if err != nil {
+								return nil, err
+							}
+							value1Temp[valueKey1] = value2ARM.(FooARM)
+						}
+						valueTemp[valueKey] = value1Temp
+					}
+				}
+				result.MapOfMapsOfMaps[key] = valueTemp
+			}
+		}
+	}
+	if fakeResourceSpec.MapOfMapsOfMapsOfStrings != nil {
+		result.MapOfMapsOfMapsOfStrings = make(map[string]map[string]map[string]string)
+		for key, value := range fakeResourceSpec.MapOfMapsOfMapsOfStrings {
+			if value != nil {
+				valueTemp := make(map[string]map[string]string)
+				for valueKey, value1 := range value {
+					if value1 != nil {
+						value1Temp := make(map[string]string)
+						for valueKey1, value2 := range value1 {
+							value1Temp[valueKey1] = value2
+						}
+						valueTemp[valueKey] = value1Temp
+					}
+				}
+				result.MapOfMapsOfMapsOfStrings[key] = valueTemp
 			}
 		}
 	}
@@ -242,6 +286,47 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 					valueTemp[valueKey] = value2
 				}
 				fakeResourceSpec.MapOfMaps[key] = valueTemp
+			}
+		}
+	}
+	if typedInput.MapOfMapsOfMaps != nil {
+		fakeResourceSpec.MapOfMapsOfMaps = make(map[string]map[string]map[string]Foo)
+		for key, value := range typedInput.MapOfMapsOfMaps {
+			if value != nil {
+				valueTemp := make(map[string]map[string]Foo)
+				for valueKey, value1 := range value {
+					if value1 != nil {
+						value1Temp := make(map[string]Foo)
+						for valueKey1, value2 := range value1 {
+							var value3 Foo
+							err := value3.PopulateFromARM(owner, value2)
+							if err != nil {
+								return err
+							}
+							value1Temp[valueKey1] = value3
+						}
+						valueTemp[valueKey] = value1Temp
+					}
+				}
+				fakeResourceSpec.MapOfMapsOfMaps[key] = valueTemp
+			}
+		}
+	}
+	if typedInput.MapOfMapsOfMapsOfStrings != nil {
+		fakeResourceSpec.MapOfMapsOfMapsOfStrings = make(map[string]map[string]map[string]string)
+		for key, value := range typedInput.MapOfMapsOfMapsOfStrings {
+			if value != nil {
+				valueTemp := make(map[string]map[string]string)
+				for valueKey, value1 := range value {
+					if value1 != nil {
+						value1Temp := make(map[string]string)
+						for valueKey1, value2 := range value1 {
+							value1Temp[valueKey1] = value2
+						}
+						valueTemp[valueKey] = value1Temp
+					}
+				}
+				fakeResourceSpec.MapOfMapsOfMapsOfStrings[key] = valueTemp
 			}
 		}
 	}
