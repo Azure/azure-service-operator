@@ -172,16 +172,16 @@ func (typeName TypeName) Plural() TypeName {
 // writer receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (typeName TypeName) WriteDebugDescription(writer io.StringWriter, types Types) {
-	writer.WriteString(typeName.PackageReference.String())
-	writer.WriteString("/")
-	writer.WriteString(typeName.name)
+	_ = writer.WriteString(typeName.PackageReference.String())
+	_ = writer.WriteString("/")
+	_ = writer.WriteString(typeName.name)
 
 	if _, ok := typeName.PackageReference.AsLocalPackage(); ok {
-		writer.WriteString(":")
+		_ = writer.WriteString(":")
 		if definition, ok := types[typeName]; ok {
 			definition.Type().WriteDebugDescription(writer, types)
 		} else {
-			writer.WriteString("NOTDEFINED")
+			_ = writer.WriteString("NOTDEFINED")
 		}
 	}
 }

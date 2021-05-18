@@ -7,8 +7,8 @@ package astmodel
 
 import (
 	"fmt"
-	"math/big"
 	"io"
+	"math/big"
 	"regexp"
 
 	"github.com/dave/dst"
@@ -236,7 +236,7 @@ func (v ValidatedType) Unwrap() Type {
 // writer receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (v ValidatedType) WriteDebugDescription(writer io.StringWriter, types Types) {
-	writer.WriteString("Validated[")
+	_ = writer.WriteString("Validated[")
 	v.element.WriteDebugDescription(writer, types)
-	writer.WriteString("]")
+	_ = writer.WriteString("]")
 }

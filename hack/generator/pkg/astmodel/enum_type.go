@@ -10,7 +10,7 @@ import (
 	"go/token"
 	"io"
 	"sort"
-	
+
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"k8s.io/klog/v2"
@@ -189,14 +189,14 @@ func (enum *EnumType) String() string {
 // builder receives the full description
 // types is a dictionary for resolving named types
 func (enum *EnumType) WriteDebugDescription(writer io.StringWriter, types Types) {
-	writer.WriteString("Enum[")
+	_ = writer.WriteString("Enum[")
 	enum.baseType.WriteDebugDescription(writer, types)
-	writer.WriteString(":")
+	_ = writer.WriteString(":")
 	for i, v := range enum.options {
 		if i > 0 {
-			writer.WriteString("|")
+			_ = writer.WriteString("|")
 		}
-		writer.WriteString(v.Identifier)
+		_ = writer.WriteString(v.Identifier)
 	}
-	writer.WriteString("]")
+	_ = writer.WriteString("]")
 }

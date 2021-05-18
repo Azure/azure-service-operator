@@ -129,12 +129,12 @@ func (oneOf *OneOfType) String() string {
 // writer receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (oneOf *OneOfType) WriteDebugDescription(writer io.StringWriter, types Types) {
-	writer.WriteString("OneOf[")
+	_ = writer.WriteString("OneOf[")
 	oneOf.types.ForEach(func(t Type, ix int) {
 		if ix > 0 {
-			writer.WriteString("|")
+			_ = writer.WriteString("|")
 		}
 		t.WriteDebugDescription(writer, types)
 	})
-	writer.WriteString("]")
+	_ = writer.WriteString("]")
 }

@@ -165,12 +165,12 @@ func (allOf *AllOfType) String() string {
 // writer receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (allOf *AllOfType) WriteDebugDescription(writer io.StringWriter, types Types) {
-	writer.WriteString("AllOf[")
+	_ = writer.WriteString("AllOf[")
 	allOf.types.ForEach(func(t Type, ix int) {
 		if ix > 0 {
-			writer.WriteString("|")
+			_ = writer.WriteString("|")
 		}
 		t.WriteDebugDescription(writer, types)
 	})
-	writer.WriteString("]")
+	_ = writer.WriteString("]")
 }

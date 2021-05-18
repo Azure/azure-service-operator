@@ -7,8 +7,9 @@ package astmodel
 
 import (
 	"fmt"
-	"github.com/dave/dst"
 	"io"
+
+	"github.com/dave/dst"
 )
 
 // OptionalType is used for items that may or may not be present
@@ -115,7 +116,7 @@ func (optional *OptionalType) Unwrap() Type {
 // writer receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (optional *OptionalType) WriteDebugDescription(writer io.StringWriter, types Types) {
-	writer.WriteString("Optional[")
+	_ = writer.WriteString("Optional[")
 	optional.element.WriteDebugDescription(writer, types)
-	writer.WriteString("]")
+	_ = writer.WriteString("]")
 }

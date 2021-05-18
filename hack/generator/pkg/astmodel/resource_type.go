@@ -562,9 +562,9 @@ func (resource *ResourceType) HasTestCases() bool {
 // writer receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (resource *ResourceType) WriteDebugDescription(writer io.StringWriter, types Types) {
-	writer.WriteString("Resource[spec:")
+	_ = writer.WriteString("Resource[spec:")
 	resource.spec.WriteDebugDescription(writer, types)
-	writer.WriteString("|status:")
+	_ = writer.WriteString("|status:")
 	resource.status.WriteDebugDescription(writer, types)
-	writer.WriteString("]")
+	_ = writer.WriteString("]")
 }
