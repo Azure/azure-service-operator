@@ -5,7 +5,7 @@
 
 package storage
 
-import "github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+import "github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 
 // FunctionInjector is a utility for injecting function definitions into resources and objects
 type FunctionInjector struct {

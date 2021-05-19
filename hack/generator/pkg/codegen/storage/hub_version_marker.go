@@ -5,7 +5,7 @@
 
 package storage
 
-import "github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+import "github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 
 // HubVersionMarker is a utility for marking resource types as "hub" versions
 type HubVersionMarker struct {
