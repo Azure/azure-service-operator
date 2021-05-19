@@ -38,11 +38,10 @@ func (c *StorageConversionContext) WithKnownLocals(knownLocals *KnownLocalsSet) 
 	return result
 }
 
-// NestedContext returns a nested context with independent knownLocals so that independent blocks
-// can declare and reuse locals independently
+// NestedContext returns a new context with a cloned knownLocals so that nested blocks
+// can declare and reuse locals independently of each other.
 func (c *StorageConversionContext) NestedContext() *StorageConversionContext {
 	result := c.clone()
-	result.knownLocals = c.knownLocals.Clone()
 	return result
 }
 
@@ -77,6 +76,6 @@ func (c *StorageConversionContext) clone() *StorageConversionContext {
 	return &StorageConversionContext{
 		types:        c.types,
 		functionName: c.functionName,
-		knownLocals:  c.knownLocals,
+		knownLocals:  c.knownLocals.Clone(),
 	}
 }

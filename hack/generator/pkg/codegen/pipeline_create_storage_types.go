@@ -40,8 +40,7 @@ func createStorageTypes(idFactory astmodel.IdentifierFactory) PipelineStage {
 					factories[ref.Group()] = factory
 				}
 
-				isArm := astmodel.ARMFlag.IsOn(def.Type())
-				if isArm {
+				if astmodel.ARMFlag.IsOn(def.Type()) {
 					// skip ARM types as they don't need storage variants
 					continue
 				}

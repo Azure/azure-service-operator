@@ -21,13 +21,13 @@ func ensureARMTypeExistsForEveryResource() PipelineStage {
 		"ensureArmTypeExistsForEveryType",
 		"Ensure that an ARM type for every top level resource spec/status exists",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			return types, validateAllTypesHaveARMType(types)
+			return types, validateExpectedTypesHaveARMType(types)
 		})
 }
 
-// validateAllTypesHaveARMType returns an error containing details about all
+// validateExpectedTypesHaveARMType returns an error containing details about all
 // types which do not have a matching ARM type.
-func validateAllTypesHaveARMType(definitions astmodel.Types) error {
+func validateExpectedTypesHaveARMType(definitions astmodel.Types) error {
 	findARMType := func(t astmodel.Type) error {
 		name, ok := astmodel.AsTypeName(t)
 		if !ok {

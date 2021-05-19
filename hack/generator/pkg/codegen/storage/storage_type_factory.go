@@ -16,21 +16,18 @@ import (
 
 // StorageTypeFactory is used to create storage types for a specific service
 type StorageTypeFactory struct {
-	service                    string                     // Name of the service we're handling (used mostly for logging)
-	types                      astmodel.Types             // All the types for this service
-	propertyConversions        []propertyConversion       // Conversion rules to use for properties when creating storage variants
-	pendingStorageConversion   astmodel.TypeNameQueue     // Queue of types that need storage variants created for them
-	pendingConversionInjection astmodel.TypeNameQueue     // Queue of types that need conversion functions injected
-	pendingMarkAsHubVersion    astmodel.TypeNameQueue     // Queue of types that need to be flagged as the hub storage version
-	idFactory                  astmodel.IdentifierFactory // Factory for creating identifiers
-	storageConverter           astmodel.TypeVisitor       // a cached type visitor used to create storage variants
-	propertyConverter          astmodel.TypeVisitor       // a cached type visitor used to simplify property types
-	functionInjector           astmodel.TypeVisitor       // a cached type visitor used to inject functions into definitions
-	resourceHubMarker          astmodel.TypeVisitor       // a cached type visitor used to mark resources as Storage Versions
-
-	// Map of conversion links for creating our conversion graph
-	// (Can't use PackageReferences as keys, so keyed by the full package path)
-	conversionMap map[string]astmodel.PackageReference
+	service                    string                                                  // Name of the group we're handling (used mostly for logging)
+	types                      astmodel.Types                                          // All the types for this group
+	propertyConversions        []propertyConversion                                    // Conversion rules to use for properties when creating storage variants
+	pendingStorageConversion   astmodel.TypeNameQueue                                  // Queue of types that need storage variants created for them
+	pendingConversionInjection astmodel.TypeNameQueue                                  // Queue of types that need conversion functions injected
+	pendingMarkAsHubVersion    astmodel.TypeNameQueue                                  // Queue of types that need to be flagged as the hub storage version
+	idFactory                  astmodel.IdentifierFactory                              // Factory for creating identifiers
+	storageConverter           astmodel.TypeVisitor                                    // a cached type visitor used to create storage variants
+	propertyConverter          astmodel.TypeVisitor                                    // a cached type visitor used to simplify property types
+	functionInjector           astmodel.TypeVisitor                                    // a cached type visitor used to inject functions into definitions
+	resourceHubMarker          astmodel.TypeVisitor                                    // a cached type visitor used to mark resources as Storage Versions
+	conversionMap              map[astmodel.PackageReference]astmodel.PackageReference // Map of conversion links for creating our conversion graph
 }
 
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
@@ -42,7 +39,7 @@ func NewStorageTypeFactory(service string, idFactory astmodel.IdentifierFactory)
 		pendingConversionInjection: astmodel.MakeTypeNameQueue(),
 		pendingMarkAsHubVersion:    astmodel.MakeTypeNameQueue(),
 		idFactory:                  idFactory,
-		conversionMap:              make(map[string]astmodel.PackageReference),
+		conversionMap:              make(map[astmodel.PackageReference]astmodel.PackageReference),
 	}
 
 	result.propertyConversions = []propertyConversion{
@@ -76,6 +73,7 @@ func NewStorageTypeFactory(service string, idFactory astmodel.IdentifierFactory)
 	return result
 }
 
+// Add the supplied type definition to this factory
 func (f *StorageTypeFactory) Add(def astmodel.TypeDefinition) {
 	f.types.Add(def)
 
@@ -153,7 +151,7 @@ func (f *StorageTypeFactory) createStorageVariant(name astmodel.TypeName) error 
 	f.types.Add(storageDef)
 
 	// Add API-Package -> Storage-Package link into the conversion map
-	f.conversionMap[name.PackageReference.PackagePath()] = storageDef.Name().PackageReference
+	f.conversionMap[name.PackageReference] = storageDef.Name().PackageReference
 
 	// Queue for injection of conversion functions
 	f.pendingConversionInjection.Enqueue(name)
@@ -175,7 +173,7 @@ func (f *StorageTypeFactory) injectConversions(name astmodel.TypeName) error {
 	}
 
 	// Find the definition we want to convert to/from
-	nextPackage, ok := f.conversionMap[name.PackageReference.PackagePath()]
+	nextPackage, ok := f.conversionMap[name.PackageReference]
 	if !ok {
 		// No next package, so nothing to do
 		// (this is expected if we have the hub storage package)
@@ -460,6 +458,6 @@ func (f *StorageTypeFactory) injectFunctionIntoResource(
 // injectFunctionIntoResource takes the function provided as a context and includes it on the
 // provided resource type
 func (f *StorageTypeFactory) markResourceAsStorageVersion(
-	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, _ interface{}) (astmodel.Type, error) {
 	return rt.MarkAsStorageVersion(), nil
 }

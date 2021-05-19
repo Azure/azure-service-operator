@@ -60,19 +60,19 @@ var _ Function = &StorageConversionFunction{}
 // NewStorageConversionFromFunction creates a new StorageConversionFunction to convert from the specified source
 func NewStorageConversionFromFunction(
 	receiver TypeDefinition,
-	otherType TypeDefinition,
+	otherDefinition TypeDefinition,
 	idFactory IdentifierFactory,
 	conversionContext *StorageConversionContext,
 ) (*StorageConversionFunction, error) {
 	result := &StorageConversionFunction{
-		otherDefinition:     otherType,
+		otherDefinition:     otherDefinition,
 		idFactory:           idFactory,
 		conversionDirection: ConvertFrom,
 		conversions:         make(map[string]StoragePropertyConversion),
 		knownLocals:         NewKnownLocalsSet(idFactory),
 	}
 
-	version := idFactory.CreateIdentifier(otherType.Name().PackageReference.PackageName(), Exported)
+	version := idFactory.CreateIdentifier(otherDefinition.Name().PackageReference.PackageName(), Exported)
 	result.name = "ConvertFrom" + version
 	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
@@ -87,19 +87,19 @@ func NewStorageConversionFromFunction(
 // NewStorageConversionToFunction creates a new StorageConversionFunction to convert to the specified destination
 func NewStorageConversionToFunction(
 	receiver TypeDefinition,
-	otherType TypeDefinition,
+	otherDefinition TypeDefinition,
 	idFactory IdentifierFactory,
 	conversionContext *StorageConversionContext,
 ) (*StorageConversionFunction, error) {
 	result := &StorageConversionFunction{
-		otherDefinition:     otherType,
+		otherDefinition:     otherDefinition,
 		idFactory:           idFactory,
 		conversionDirection: ConvertTo,
 		conversions:         make(map[string]StoragePropertyConversion),
 		knownLocals:         NewKnownLocalsSet(idFactory),
 	}
 
-	version := idFactory.CreateIdentifier(otherType.Name().PackageReference.PackageName(), Exported)
+	version := idFactory.CreateIdentifier(otherDefinition.Name().PackageReference.PackageName(), Exported)
 	result.name = "ConvertTo" + version
 	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
@@ -172,11 +172,15 @@ func (fn *StorageConversionFunction) AsFunc(generationContext *CodeGenerationCon
 		panic(fmt.Sprintf("unexpected conversion direction %q", fn.conversionDirection))
 	}
 
+	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+
+	// We always use a pointer receiver so we can modify it
+	receiverType := NewOptionalType(receiver).AsType(generationContext)
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  NewOptionalType(receiver).AsType(generationContext),
+		ReceiverType:  receiverType,
 		Name:          fn.Name(),
 		Body:          fn.generateBody(receiverName, parameterName, generationContext),
 	}
@@ -350,7 +354,6 @@ func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition, 
 		if len(properties) == 1 {
 			label = "property"
 		}
-		klog.V(2).Infof("Errors with %d %s", len(properties), label)
 		return errors.Errorf("Errors with %d %s: %s", len(properties), label, strings.Join(properties, "; "))
 	}
 
@@ -395,7 +398,7 @@ func (fn *StorageConversionFunction) createPropertyConversion(
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
-			"trying to assign %q [%s] by converting from from %q [%s]",
+			"trying to assign %q [%s] by converting from %q [%s]",
 			destinationProperty.PropertyName(),
 			destinationProperty.PropertyType(),
 			sourceProperty.PropertyName(),
