@@ -15,7 +15,7 @@ type AzureNetworkInterfaceReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azurenetworkinterfaces,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azurenetworkinterfaces/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={azurenetworkinterfaces/status,azurenetworkinterfaces/finalizers},verbs=get;update;patch
 
 func (r *AzureNetworkInterfaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureNetworkInterface{})

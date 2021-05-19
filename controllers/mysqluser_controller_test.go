@@ -9,12 +9,13 @@ import (
 	"context"
 	"testing"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/stretchr/testify/assert"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/stretchr/testify/assert"
-	v1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 func TestMySQLUserControllerNoAdminSecret(t *testing.T) {
@@ -24,7 +25,7 @@ func TestMySQLUserControllerNoAdminSecret(t *testing.T) {
 
 	var mysqlServerName string
 	var mysqlDatabaseName string
-	var mysqlUser *azurev1alpha1.MySQLUser
+	var mysqlUser *v1alpha2.MySQLUser
 
 	mysqlServerName = GenerateTestResourceNameWithRandom("mysqlserver-test", 10)
 	mysqlDatabaseName = GenerateTestResourceNameWithRandom("mysqldb-test", 10)
@@ -32,17 +33,18 @@ func TestMySQLUserControllerNoAdminSecret(t *testing.T) {
 	mysqlusername := "mysql-test-user" + helpers.RandomString(10)
 	roles := []string{"select on *.* "}
 
-	mysqlUser = &azurev1alpha1.MySQLUser{
+	mysqlUser = &v1alpha2.MySQLUser{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      mysqlusername,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.MySQLUserSpec{
+		Spec: v1alpha2.MySQLUserSpec{
 			ResourceGroup: resourceGroup,
 			Server:        mysqlServerName,
-			DbName:        mysqlDatabaseName,
-			AdminSecret:   "",
-			Roles:         roles,
+			DatabaseRoles: map[string][]string{
+				mysqlDatabaseName: roles,
+			},
+			AdminSecret: "",
 		},
 	}
 
@@ -59,40 +61,32 @@ func TestMySQLUserControllerNoResourceGroup(t *testing.T) {
 	var err error
 	var mysqlServerName string
 	var mysqlDatabaseName string
-	var mysqlUser *azurev1alpha1.MySQLUser
+	var mysqlUser *v1alpha2.MySQLUser
 
 	mysqlServerName = GenerateTestResourceNameWithRandom("psqlserver-test", 10)
 	mysqlDatabaseName = GenerateTestResourceNameWithRandom("psqldb-test", 10)
 	mysqlUsername := "mysql-test-user" + helpers.RandomString(10)
 	roles := []string{"select on *.*"}
 
-	secret := &v1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      mysqlServerName,
-			Namespace: "default",
-		},
-		// Needed to avoid nil map error
-		Data: map[string][]byte{
-			"username": []byte("username"),
-			"password": []byte("password"),
-		},
-		Type: "Opaque",
+	adminSecretKey := secrets.SecretKey{Name: mysqlServerName, Namespace: "default", Kind: "MySQLServer"}
+	data := map[string][]byte{
+		"username": []byte("username"),
+		"password": []byte("password"),
 	}
+	err = tc.secretClient.Upsert(ctx, adminSecretKey, data)
+	assert.NoError(err)
 
-	// Create the sqlUser
-	err = tc.k8sClient.Create(ctx, secret)
-	assert.Equal(nil, err, "create admin secret in k8s")
-
-	mysqlUser = &azurev1alpha1.MySQLUser{
+	mysqlUser = &v1alpha2.MySQLUser{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      mysqlUsername,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.MySQLUserSpec{
-			Server:        mysqlServerName,
-			DbName:        mysqlDatabaseName,
-			AdminSecret:   "",
-			Roles:         roles,
+		Spec: v1alpha2.MySQLUserSpec{
+			Server:      mysqlServerName,
+			AdminSecret: "",
+			DatabaseRoles: map[string][]string{
+				mysqlDatabaseName: roles,
+			},
 			ResourceGroup: "fakerg" + helpers.RandomString(10),
 		},
 	}
@@ -100,5 +94,7 @@ func TestMySQLUserControllerNoResourceGroup(t *testing.T) {
 	EnsureInstanceWithResult(ctx, t, tc, mysqlUser, errhelp.ResourceGroupNotFoundErrorCode, false)
 
 	EnsureDelete(ctx, t, tc, mysqlUser)
-
 }
+
+// TODO: test that roles for a missing database don't prevent other
+// roles from being applied.

@@ -12,8 +12,9 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+
 	"github.com/stretchr/testify/assert"
-	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -22,11 +23,10 @@ func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 	defer PanicRecover(t)
 	ctx := context.Background()
 
-	var sqlServerName string
-	var sqlDatabaseName string
 	var sqlUser *azurev1alpha1.AzureSQLUser
 
-	sqlServerName = GenerateTestResourceNameWithRandom("sqlusr-test", 10)
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlusr-test", 10)
+	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldb-test", 10)
 	resourceGroup := GenerateTestResourceNameWithRandom("myrg", 10)
 
 	username := "sql-test-user" + helpers.RandomString(10)
@@ -57,31 +57,21 @@ func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 	var err error
-	var sqlServerName string
-	var sqlDatabaseName string
 	var sqlUser *azurev1alpha1.AzureSQLUser
 
-	sqlServerName = GenerateTestResourceNameWithRandom("sqlusr-test", 10)
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlusr-test", 10)
+	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldb-test", 10)
 
 	username := "sql-test-user" + helpers.RandomString(10)
 	roles := []string{"db_owner"}
 
-	secret := &v1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      sqlServerName,
-			Namespace: "default",
-		},
-		// Needed to avoid nil map error
-		Data: map[string][]byte{
-			"username": []byte("username"),
-			"password": []byte("password"),
-		},
-		Type: "Opaque",
+	adminSecretKey := secrets.SecretKey{Name: sqlServerName, Namespace: "default", Kind: "AzureSQLServer"}
+	data := map[string][]byte{
+		"username": []byte("username"),
+		"password": []byte("password"),
 	}
-
-	// Create the sqlUser
-	err = tc.k8sClient.Create(ctx, secret)
-	assert.Equal(nil, err, "create admin secret in k8s")
+	err = tc.secretClient.Upsert(ctx, adminSecretKey, data)
+	assert.NoError(err)
 
 	sqlUser = &azurev1alpha1.AzureSQLUser{
 		ObjectMeta: metav1.ObjectMeta{
@@ -100,5 +90,37 @@ func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
 	EnsureInstanceWithResult(ctx, t, tc, sqlUser, errhelp.ResourceGroupNotFoundErrorCode, false)
 
 	EnsureDelete(ctx, t, tc, sqlUser)
+}
 
+func TestAzureSQLUserValidatesDatabaseName(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+	var sqlUser *azurev1alpha1.AzureSQLUser
+
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlusr-test", 10)
+	sqlDatabaseName := "master"
+
+	username := "sql-test-user" + helpers.RandomString(10)
+	roles := []string{"db_owner"}
+
+	sqlUser = &azurev1alpha1.AzureSQLUser{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      username,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.AzureSQLUserSpec{
+			Server:        sqlServerName,
+			DbName:        sqlDatabaseName,
+			AdminSecret:   "",
+			Roles:         roles,
+			ResourceGroup: "fakerg" + helpers.RandomString(10),
+		},
+	}
+
+	assert := assert.New(t)
+
+	err := tc.k8sClient.Create(ctx, sqlUser)
+	assert.Error(err)
+	assert.Contains(err.Error(), "'master' is a reserved database name and cannot be used")
 }

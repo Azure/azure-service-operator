@@ -14,7 +14,7 @@ type PostgreSQLDatabaseReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqldatabases,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqldatabases/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={postgresqldatabases/status,postgresqldatabases/finalizers},verbs=get;update;patch
 
 func (r *PostgreSQLDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.PostgreSQLDatabase{})

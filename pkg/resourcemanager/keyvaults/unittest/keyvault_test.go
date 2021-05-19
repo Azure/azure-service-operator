@@ -8,11 +8,13 @@ import (
 	"testing"
 
 	keyvault "github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
-	v1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	azurekeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/google/go-cmp/cmp"
-	uuid "github.com/satori/go.uuid"
+	uuid "github.com/gofrs/uuid"
 	"github.com/stretchr/testify/assert"
+
+	v1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	azurekeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 )
 
 func TestParseAccessPoliciesInvalid(t *testing.T) {
@@ -31,7 +33,7 @@ func TestParseAccessPoliciesInvalid(t *testing.T) {
 
 	ctx := context.Background()
 
-	resp, err := azurekeyvault.ParseAccessPolicy(&entry, ctx)
+	resp, err := azurekeyvault.ParseAccessPolicy(ctx, config.GlobalCredentials(), &entry)
 	assert.True(t, err != nil)
 	assert.True(t, cmp.Equal(resp, keyvault.AccessPolicyEntry{}))
 }
@@ -84,7 +86,7 @@ func TestParseAccessPolicies(t *testing.T) {
 
 	ctx := context.Background()
 
-	resp, err := azurekeyvault.ParseAccessPolicy(&entry, ctx)
+	resp, err := azurekeyvault.ParseAccessPolicy(ctx, config.GlobalCredentials(), &entry)
 	assert.True(t, err == nil)
 	assert.True(t, cmp.Equal(resp, out))
 }

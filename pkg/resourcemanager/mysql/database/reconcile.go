@@ -23,7 +23,7 @@ func (m *MySQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, op
 		return true, err
 	}
 
-	client := GetMySQLDatabasesClient()
+	client := GetMySQLDatabasesClient(m.creds)
 
 	instance.Status.Provisioning = true
 	// Check if this database already exists. This is required
@@ -57,7 +57,7 @@ func (m *MySQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, op
 			errhelp.ResourceNotFound,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -85,7 +85,7 @@ func (m *MySQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, op
 			errhelp.SubscriptionDoesNotHaveServer,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -131,7 +131,7 @@ func (m *MySQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object, op
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

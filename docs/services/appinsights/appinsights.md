@@ -16,10 +16,10 @@ An Application Insights instance needs the following fields to deploy, along wit
 ### Secrets
 
 After creating an Application Insights instance, the operator stores a JSON formatted secret with the following fields. This secret is stored as a Kubernetes Secret or in an Azure Keyvault, with the same name as your Application Insights instance.
-For more details on where the secrets are stored, look [here](/docs/secrets.md)
+For more details on where the secrets are stored, look [here](/docs/howto/secrets.md)
 
 * `instrumentationKey`
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/howto/resourceprovision.md) to deploy, view and delete resources.

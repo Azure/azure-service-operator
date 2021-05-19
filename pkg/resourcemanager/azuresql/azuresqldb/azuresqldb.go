@@ -6,25 +6,33 @@ package azuresqldb
 import (
 	"context"
 	"fmt"
-	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
-	sql3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/api/v1beta1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
 type AzureSqlDbManager struct {
+	creds config.Credentials
 }
 
-func NewAzureSqlDbManager() *AzureSqlDbManager {
-	return &AzureSqlDbManager{}
+// Ensure we implement the interface we expect
+var _ SqlDbManager = &AzureSqlDbManager{}
+
+func NewAzureSqlDbManager(creds config.Credentials) *AzureSqlDbManager {
+	return &AzureSqlDbManager{creds: creds}
 }
 
 // GetServer returns a SQL server
-func (_ *AzureSqlDbManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient()
+func (m *AzureSqlDbManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClient(m.creds)
 	if err != nil {
 		return sql.Server{}, err
 	}
@@ -37,8 +45,8 @@ func (_ *AzureSqlDbManager) GetServer(ctx context.Context, resourceGroupName str
 }
 
 // GetDB retrieves a database
-func (_ *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
-	dbClient, err := azuresqlshared.GetGoDbClient()
+func (m *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
+	dbClient, err := azuresqlshared.GetGoDbClient(m.creds)
 	if err != nil {
 		return sql.Database{}, err
 	}
@@ -52,30 +60,34 @@ func (_ *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string,
 }
 
 // DeleteDB deletes a DB
-func (sdk *AzureSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result *http.Response, err error) {
-	// TODO: Probably shouldn't return a response at all in the err case here (all through this function)
-	result = &http.Response{
-		StatusCode: 200,
-	}
+func (m *AzureSqlDbManager) DeleteDB(
+	ctx context.Context,
+	resourceGroupName string,
+	serverName string,
+	databaseName string) (future *sql.DatabasesDeleteFuture, err error) {
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	server, err := sdk.GetServer(ctx, resourceGroupName, serverName)
+	server, err := m.GetServer(ctx, resourceGroupName, serverName)
 	if err != nil || *server.State != "Ready" {
-		return result, nil
+		return nil, ignoreNotFound(err)
 	}
 
 	// check to see if the db exists, if it doesn't then short-circuit
-	_, err = sdk.GetDB(ctx, resourceGroupName, serverName, databaseName)
+	db, err := m.GetDB(ctx, resourceGroupName, serverName, databaseName)
 	if err != nil {
-		return result, nil
+		return nil, ignoreNotFound(err)
+	}
+	if db.Name == nil {
+		// The database doesn't exist, we don't need to delete it.
+		return nil, nil
 	}
 
-	dbClient, err := azuresqlshared.GetGoDbClient()
+	dbClient, err := azuresqlshared.GetGoDbClient(m.creds)
 	if err != nil {
-		return result, err
+		return nil, err
 	}
 
-	future, err := dbClient.Delete(
+	result, err := dbClient.Delete(
 		ctx,
 		resourceGroupName,
 		serverName,
@@ -83,23 +95,24 @@ func (sdk *AzureSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName st
 	)
 
 	if err != nil {
-		return result, err
+		return nil, err
 	}
 
-	return future.Response(), err
+	return &result, err
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
-func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLDatabaseProperties) (*http.Response, error) {
+func (m *AzureSqlDbManager) CreateOrUpdateDB(
+	ctx context.Context,
+	resourceGroupName string,
+	location string,
+	serverName string,
+	tags map[string]*string,
+	properties azuresqlshared.SQLDatabaseProperties) (string, *sql.Database, error) {
 
-	// TODO: Probably shouldn't return a response at all in the err case here (all through this function)
-	result := &http.Response{
-		StatusCode: 0,
-	}
-
-	dbClient, err := azuresqlshared.GetGoDbClient()
+	dbClient, err := azuresqlshared.GetGoDbClient(m.creds)
 	if err != nil {
-		return result, err
+		return "", nil, err
 	}
 
 	dbProp := azuresqlshared.SQLDatabasePropertiesToDatabase(properties)
@@ -118,49 +131,49 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 		})
 
 	if err != nil {
-		return result, err
+		return "", nil, err
 	}
 
-	return future.Response(), err
+	result, err := future.Result(dbClient)
+
+	return future.PollingURL(), &result, err
 }
 
 // AddLongTermRetention enables / disables long term retention
-func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGroupName string, serverName string, databaseName string, weeklyRetention string, monthlyRetention string, yearlyRetention string, weekOfYear int32) (*http.Response, error) {
+func (m *AzureSqlDbManager) AddLongTermRetention(
+	ctx context.Context,
+	resourceGroupName string,
+	serverName string,
+	databaseName string,
+	policy azuresqlshared.SQLDatabaseBackupLongTermRetentionPolicy) (*sql.BackupLongTermRetentionPoliciesCreateOrUpdateFuture, error) {
 
-	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient()
-	// TODO: Probably shouldn't return a response at all in the err case here (all through this function)
+	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient(m.creds)
 	if err != nil {
-		return &http.Response{
-			StatusCode: 0,
-		}, err
+		return nil, err
 	}
 
 	// validate the input and exit if nothing needs to happen - this is ok!
-	if weeklyRetention == "" && monthlyRetention == "" && yearlyRetention == "" {
-		return &http.Response{
-			StatusCode: 200,
-		}, nil
+	if policy.WeeklyRetention == "" && policy.MonthlyRetention == "" && policy.YearlyRetention == "" {
+		return nil, nil
 	}
 
 	// validate the pairing of yearly retention and week of year
-	if yearlyRetention != "" && (weekOfYear <= 0 || weekOfYear > 52) {
-		return &http.Response{
-			StatusCode: 500,
-		}, fmt.Errorf("weekOfYear must be greater than 0 and less or equal to 52 when yearlyRetention is used")
+	if policy.YearlyRetention != "" && (policy.WeekOfYear <= 0 || policy.WeekOfYear > 52) {
+		return nil, fmt.Errorf("weekOfYear must be greater than 0 and less or equal to 52 when yearlyRetention is used")
 	}
 
 	// create pointers so that we can pass nils if needed
-	pWeeklyRetention := &weeklyRetention
-	if weeklyRetention == "" {
+	pWeeklyRetention := &policy.WeeklyRetention
+	if policy.WeeklyRetention == "" {
 		pWeeklyRetention = nil
 	}
-	pMonthlyRetention := &monthlyRetention
-	if monthlyRetention == "" {
+	pMonthlyRetention := &policy.MonthlyRetention
+	if policy.MonthlyRetention == "" {
 		pMonthlyRetention = nil
 	}
-	pYearlyRetention := &yearlyRetention
-	pWeekOfYear := &weekOfYear
-	if yearlyRetention == "" {
+	pYearlyRetention := &policy.YearlyRetention
+	pWeekOfYear := &policy.WeekOfYear
+	if policy.YearlyRetention == "" {
 		pYearlyRetention = nil
 		pWeekOfYear = nil
 	}
@@ -170,8 +183,8 @@ func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGr
 		resourceGroupName,
 		serverName,
 		databaseName,
-		sql3.BackupLongTermRetentionPolicy{
-			LongTermRetentionPolicyProperties: &sql3.LongTermRetentionPolicyProperties{
+		sql.BackupLongTermRetentionPolicy{
+			LongTermRetentionPolicyProperties: &sql.LongTermRetentionPolicyProperties{
 				WeeklyRetention:  pWeeklyRetention,
 				MonthlyRetention: pMonthlyRetention,
 				YearlyRetention:  pYearlyRetention,
@@ -181,10 +194,81 @@ func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGr
 	)
 
 	if err != nil {
-		return &http.Response{
-			StatusCode: 500,
-		}, nil
+		return nil, err
 	}
 
-	return future.Response(), err
+	return &future, err
+}
+
+func (m *AzureSqlDbManager) AddShortTermRetention(
+	ctx context.Context,
+	resourceGroupName string,
+	serverName string,
+	databaseName string,
+	policy *v1beta1.SQLDatabaseShortTermRetentionPolicy) (*sql.BackupShortTermRetentionPoliciesCreateOrUpdateFuture, error) {
+
+	client, err := azuresqlshared.GetBackupShortTermRetentionPoliciesClient(m.creds)
+	if err != nil {
+		return nil, errors.Wrapf(err, "couldn't create BackupShortTermRetentionPoliciesClient")
+	}
+
+	var policyProperties *sql.BackupShortTermRetentionPolicyProperties
+	if policy == nil {
+		// If policy is nil we're in a bit of an awkward situation since we cannot know if the customer has mutated
+		// the retention policy in a previous reconciliation loop and then subsequently removed it. If they have,
+		// "doing nothing" here is wrong because that leaves them in the previous modified state (but with no reflection
+		// of that fact in the Spec).
+		// Unfortunately you cannot update the retention policy to nil, nor can you delete it, so we must awkwardly
+		// set it back to its default configuration.
+		// Note: There are risks here, such as if the default on the server and the default in our code drift apart
+		// at some point in the future.
+		policyProperties = &sql.BackupShortTermRetentionPolicyProperties{
+			RetentionDays: to.Int32Ptr(7), // 7 is the magical default as of Jan 2021
+		}
+	} else {
+		policyProperties = &sql.BackupShortTermRetentionPolicyProperties{
+			RetentionDays: to.Int32Ptr(policy.RetentionDays),
+		}
+	}
+
+	future, err := client.CreateOrUpdate(
+		ctx,
+		resourceGroupName,
+		serverName,
+		databaseName,
+		sql.BackupShortTermRetentionPolicy{
+			BackupShortTermRetentionPolicyProperties: policyProperties,
+		})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &future, err
+}
+
+var goneCodes = []string{
+	errhelp.ResourceGroupNotFoundErrorCode,
+	errhelp.ParentNotFoundErrorCode,
+	errhelp.NotFoundErrorCode,
+	errhelp.ResourceNotFound,
+}
+
+func isNotFound(azerr *errhelp.AzureError) bool {
+	return helpers.ContainsString(goneCodes, azerr.Type)
+}
+
+var incompleteCodes = []string{
+	errhelp.AsyncOpIncompleteError,
+}
+
+func isIncompleteOp(azerr *errhelp.AzureError) bool {
+	return helpers.ContainsString(incompleteCodes, azerr.Type)
+}
+
+func ignoreNotFound(err error) error {
+	if isNotFound(errhelp.NewAzureError(err)) {
+		return nil
+	}
+	return err
 }

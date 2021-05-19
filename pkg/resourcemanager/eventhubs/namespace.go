@@ -27,11 +27,12 @@ import (
 )
 
 type azureEventHubNamespaceManager struct {
+	creds config.Credentials
 }
 
-func getNamespacesClient() (eventhub.NamespacesClient, error) {
-	nsClient := eventhub.NewNamespacesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	auth, err := iam.GetResourceManagementAuthorizer()
+func getNamespacesClient(creds config.Credentials) (eventhub.NamespacesClient, error) {
+	nsClient := eventhub.NewNamespacesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	auth, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return eventhub.NamespacesClient{}, err
 	}
@@ -40,17 +41,17 @@ func getNamespacesClient() (eventhub.NamespacesClient, error) {
 	return nsClient, nil
 }
 
-func NewEventHubNamespaceClient() *azureEventHubNamespaceManager {
-	return &azureEventHubNamespaceManager{}
+func NewEventHubNamespaceClient(creds config.Credentials) *azureEventHubNamespaceManager {
+	return &azureEventHubNamespaceManager{creds: creds}
 }
 
 // DeleteNamespace deletes an existing namespace. This operation also removes all associated resources under the namespace.
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
 // namespaceName - the Namespace name
-func (_ *azureEventHubNamespaceManager) DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (autorest.Response, error) {
+func (m *azureEventHubNamespaceManager) DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (autorest.Response, error) {
 
-	nsClient, err := getNamespacesClient()
+	nsClient, err := getNamespacesClient(m.creds)
 	if err != nil {
 		return autorest.Response{
 			Response: &http.Response{
@@ -63,6 +64,14 @@ func (_ *azureEventHubNamespaceManager) DeleteNamespace(ctx context.Context, res
 		resourceGroupName,
 		namespaceName)
 
+    if err != nil {
+		return autorest.Response{
+			Response: &http.Response{
+				StatusCode: 500,
+			},
+		}, err
+	}
+
 	return autorest.Response{Response: future.Response()}, err
 }
 
@@ -70,8 +79,8 @@ func (_ *azureEventHubNamespaceManager) DeleteNamespace(ctx context.Context, res
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
 // namespaceName - the Namespace name
-func (_ *azureEventHubNamespaceManager) GetNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (*eventhub.EHNamespace, error) {
-	nsClient, err := getNamespacesClient()
+func (m *azureEventHubNamespaceManager) GetNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (*eventhub.EHNamespace, error) {
+	nsClient, err := getNamespacesClient(m.creds)
 	if err != nil {
 		return nil, err
 	}
@@ -92,8 +101,8 @@ func (_ *azureEventHubNamespaceManager) GetNamespace(ctx context.Context, resour
 // resourceGroupName - name of the resource group within the azure subscription.
 // namespaceName - the Namespace name
 // location - azure region
-func (_ *azureEventHubNamespaceManager) CreateNamespaceAndWait(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error) {
-	nsClient, err := getNamespacesClient()
+func (m *azureEventHubNamespaceManager) CreateNamespaceAndWait(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error) {
+	nsClient, err := getNamespacesClient(m.creds)
 	if err != nil {
 		return nil, err
 	}
@@ -119,8 +128,8 @@ func (_ *azureEventHubNamespaceManager) CreateNamespaceAndWait(ctx context.Conte
 	return &result, err
 }
 
-func (_ *azureEventHubNamespaceManager) CreateNamespace(ctx context.Context, resourceGroupName string, namespaceName string, location string, sku v1alpha1.EventhubNamespaceSku, properties v1alpha1.EventhubNamespaceProperties) (eventhub.EHNamespace, error) {
-	nsClient, err := getNamespacesClient()
+func (m *azureEventHubNamespaceManager) CreateNamespace(ctx context.Context, resourceGroupName string, namespaceName string, location string, sku v1alpha1.EventhubNamespaceSku, properties v1alpha1.EventhubNamespaceProperties) (eventhub.EHNamespace, error) {
+	nsClient, err := getNamespacesClient(m.creds)
 	if err != nil {
 		return eventhub.EHNamespace{}, err
 	}
@@ -177,8 +186,8 @@ func (_ *azureEventHubNamespaceManager) CreateNamespace(ctx context.Context, res
 	return future.Result(nsClient)
 }
 
-func (nr *azureEventHubNamespaceManager) CreateNetworkRuleSet(ctx context.Context, groupname string, namespace string, rules eventhub.NetworkRuleSet) (result eventhub.NetworkRuleSet, err error) {
-	namespaceclient, err := getNamespacesClient()
+func (m *azureEventHubNamespaceManager) CreateNetworkRuleSet(ctx context.Context, groupname string, namespace string, rules eventhub.NetworkRuleSet) (result eventhub.NetworkRuleSet, err error) {
+	namespaceclient, err := getNamespacesClient(m.creds)
 	if err != nil {
 		return eventhub.NetworkRuleSet{}, err
 	}
@@ -186,8 +195,8 @@ func (nr *azureEventHubNamespaceManager) CreateNetworkRuleSet(ctx context.Contex
 	return namespaceclient.CreateOrUpdateNetworkRuleSet(ctx, groupname, namespace, rules)
 }
 
-func (nr *azureEventHubNamespaceManager) GetNetworkRuleSet(ctx context.Context, groupName string, namespace string) (ruleset eventhub.NetworkRuleSet, err error) {
-	namespaceclient, err := getNamespacesClient()
+func (m *azureEventHubNamespaceManager) GetNetworkRuleSet(ctx context.Context, groupName string, namespace string) (ruleset eventhub.NetworkRuleSet, err error) {
+	namespaceclient, err := getNamespacesClient(m.creds)
 	if err != nil {
 		return eventhub.NetworkRuleSet{}, err
 	}
@@ -195,8 +204,8 @@ func (nr *azureEventHubNamespaceManager) GetNetworkRuleSet(ctx context.Context, 
 	return namespaceclient.GetNetworkRuleSet(ctx, groupName, namespace)
 }
 
-func (nr *azureEventHubNamespaceManager) DeleteNetworkRuleSet(ctx context.Context, groupName string, namespace string) (result eventhub.NetworkRuleSet, err error) {
-	namespaceclient, err := getNamespacesClient()
+func (m *azureEventHubNamespaceManager) DeleteNetworkRuleSet(ctx context.Context, groupName string, namespace string) (result eventhub.NetworkRuleSet, err error) {
+	namespaceclient, err := getNamespacesClient(m.creds)
 	if err != nil {
 		return eventhub.NetworkRuleSet{}, err
 	}
@@ -318,7 +327,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 				_, err := ns.CreateNetworkRuleSet(ctx, resourcegroup, namespaceName, networkRuleSet)
 				if err != nil {
 					instance.Status.Message = errhelp.StripErrorIDs(err)
-					azerr := errhelp.NewAzureErrorAzureError(err)
+					azerr := errhelp.NewAzureError(err)
 
 					ignorableErrors := []string{
 						errhelp.ResourceGroupNotFoundErrorCode,
@@ -359,7 +368,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 	newNs, err := ns.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation, eventHubNSSku, eventHubNSProperties)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
 			// resource creation request sent to Azure
@@ -392,7 +401,7 @@ func (ns *azureEventHubNamespaceManager) Delete(ctx context.Context, obj runtime
 
 	resp, err := ns.DeleteNamespace(ctx, resourcegroup, namespaceName)
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// check if async op from previous delete was still happening
 		catch := []string{

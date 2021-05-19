@@ -3,8 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     cert-manager.io/inject-ca-from: azureoperator-system/azureoperator-serving-cert
-    controller-gen.kubebuilder.io/version: v0.2.5
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.4.0
   name: azuresqlfailovergroups.azure.microsoft.com
 spec:
   additionalPrinterColumns:
@@ -17,7 +16,6 @@ spec:
   conversion:
     strategy: Webhook
     webhookClientConfig:
-      caBundle: Cg==
       service:
         name: azureoperator-webhook-service
         namespace: azureoperator-system
@@ -74,6 +72,7 @@ spec:
                   this file'
                 type: string
               resourcegroup:
+                minLength: 1
                 pattern: ^[-\w\._\(\)]+$
                 type: string
               secondaryserver:
@@ -154,19 +153,26 @@ spec:
                   type: string
                 type: array
               failoverGracePeriod:
+                description: 'TODO: This field should be a ptr as it must not be specified
+                  if the failover policy is Manual, TODO: but is required when the
+                  policy is Automatic'
                 format: int32
                 type: integer
               failoverPolicy:
-                description: 'NOTE: json tags are required.  Any new fields you add
-                  must have json tags for the fields to be serialized.'
+                description: ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#ReadWriteEndpointFailoverPolicy
+                enum:
+                - Automatic
+                - Manual
                 type: string
               keyVaultToStoreSecrets:
                 type: string
               location:
                 description: 'Important: Run "make" to regenerate code after modifying
                   this file'
+                minLength: 1
                 type: string
               resourceGroup:
+                minLength: 1
                 pattern: ^[-\w\._\(\)]+$
                 type: string
               secondaryServer:
@@ -174,6 +180,7 @@ spec:
               secondaryServerResourceGroup:
                 type: string
               server:
+                minLength: 1
                 type: string
             required:
             - databaseList

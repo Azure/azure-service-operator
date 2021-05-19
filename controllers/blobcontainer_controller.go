@@ -16,7 +16,7 @@ type BlobContainerReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=blobcontainers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=blobcontainers/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={blobcontainers/status,blobcontainers/finalizers},verbs=get;update;patch
 
 func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &v1alpha2.BlobContainer{})

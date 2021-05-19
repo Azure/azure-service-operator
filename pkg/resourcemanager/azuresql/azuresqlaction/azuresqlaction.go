@@ -6,47 +6,62 @@ package azuresqlaction
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"strings"
+
+	"github.com/Azure/go-autorest/autorest/to"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
-	azuresqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest/to"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 type AzureSqlActionManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlActionManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlActionManager {
+func NewAzureSqlActionManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlActionManager {
 	return &AzureSqlActionManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
 }
 
-func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupName string, serverName string, dbUser string, dbName string,
-	adminSecretKey types.NamespacedName, adminSecretClient secrets.SecretClient, userSecretClient secrets.SecretClient) error {
-	data, err := adminSecretClient.Get(ctx, adminSecretKey)
+func (s *AzureSqlActionManager) UpdateUserPassword(
+	ctx context.Context,
+	groupName string,
+	serverName string,
+	dbUser string,
+	dbName string,
+	adminSecretKey secrets.SecretKey,
+	adminSecretClient secrets.SecretClient,
+	userSecretClient secrets.SecretClient) error {
+
+	adminSecret, err := adminSecretClient.Get(ctx, adminSecretKey)
 	if err != nil {
 		return err
 	}
 
-	azuresqluserManager := azuresqluser.NewAzureSqlUserManager(userSecretClient, s.Scheme)
-	db, err := azuresqluserManager.ConnectToSqlDb(ctx, "sqlserver", serverName, dbName, 1433, string(data["username"]), string(data["password"]))
+	azuresqluserManager := azuresqluser.NewAzureSqlUserManager(s.Creds, userSecretClient, s.Scheme)
+	db, err := azuresqluserManager.ConnectToSqlDb(ctx, "sqlserver", serverName, dbName, 1433, string(adminSecret["username"]), string(adminSecret["password"]))
 	if err != nil {
 		return err
 	}
 
 	instance := &azurev1alpha1.AzureSQLUser{
+		TypeMeta: metav1.TypeMeta{
+			Kind: reflect.TypeOf(azurev1alpha1.AzureSQLUser{}).Name(),
+		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      dbUser,
 			Namespace: adminSecretKey.Namespace,
@@ -57,9 +72,9 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 		},
 	}
 
-	DBSecret := azuresqluserManager.GetOrPrepareSecret(ctx, instance, userSecretClient)
+	userSecret := azuresqluserManager.GetOrPrepareSecret(ctx, instance, userSecretClient)
 	// reset user from secret in case it was loaded
-	userExists, err := azuresqluserManager.UserExists(ctx, db, string(DBSecret["username"]))
+	userExists, err := azuresqluserManager.UserExists(ctx, db, string(userSecret["username"]))
 	if err != nil {
 		return fmt.Errorf("failed checking for user, err: %v", err)
 	}
@@ -69,19 +84,18 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 	}
 
 	password := helpers.NewPassword()
-	DBSecret["password"] = []byte(password)
+	userSecret["password"] = []byte(password)
 
-	err = azuresqluserManager.UpdateUser(ctx, DBSecret, db)
+	err = azuresqluserManager.UpdateUser(ctx, userSecret, db)
 	if err != nil {
 		return fmt.Errorf("error updating user credentials: %v", err)
 	}
 
-	secretKey := azuresqluser.GetNamespacedName(instance, userSecretClient)
-	key := types.NamespacedName{Namespace: secretKey.Namespace, Name: dbUser}
+	secretKey := azuresqluser.MakeSecretKey(userSecretClient, instance)
 	err = userSecretClient.Upsert(
 		ctx,
-		key,
-		DBSecret,
+		secretKey,
+		userSecret,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(s.Scheme),
 	)
@@ -94,9 +108,9 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 
 // UpdateAdminPassword gets the server instance from Azure, updates the admin password
 // for the server and stores the new password in the secret
-func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupName string, serverName string, secretKey types.NamespacedName, secretClient secrets.SecretClient) error {
+func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupName string, serverName string, secretKey secrets.SecretKey, secretClient secrets.SecretClient) error {
 
-	azuresqlserverManager := azuresqlserver.NewAzureSqlServerManager(secretClient, s.Scheme)
+	azuresqlserverManager := azuresqlserver.NewAzureSqlServerManager(s.Creds, secretClient, s.Scheme)
 	// Get the SQL server instance
 	server, err := azuresqlserverManager.GetServer(ctx, groupName, serverName)
 	if err != nil {
@@ -123,7 +137,7 @@ func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupNa
 	_, _, err = azuresqlserverManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, server.Tags, azureSqlServerProperties, true)
 
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if !strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
 			return err
 		}

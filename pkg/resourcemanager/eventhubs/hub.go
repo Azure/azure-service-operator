@@ -27,13 +27,14 @@ import (
 )
 
 type azureEventHubManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func getHubsClient() (eventhub.EventHubsClient, error) {
-	hubClient := eventhub.NewEventHubsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	auth, err := iam.GetResourceManagementAuthorizer()
+func getHubsClient(creds config.Credentials) (eventhub.EventHubsClient, error) {
+	hubClient := eventhub.NewEventHubsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	auth, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return eventhub.EventHubsClient{}, err
 	}
@@ -42,15 +43,16 @@ func getHubsClient() (eventhub.EventHubsClient, error) {
 	return hubClient, nil
 }
 
-func NewEventhubClient(secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureEventHubManager {
+func NewEventhubClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureEventHubManager {
 	return &azureEventHubManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
 }
 
-func (_ *azureEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
-	hubClient, err := getHubsClient()
+func (m *azureEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
+	hubClient, err := getHubsClient(m.Creds)
 	if err != nil {
 		return autorest.Response{
 			Response: &http.Response{
@@ -66,8 +68,8 @@ func (_ *azureEventHubManager) DeleteHub(ctx context.Context, resourceGroupName 
 
 }
 
-func (_ *azureEventHubManager) CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, MessageRetentionInDays int32, PartitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
-	hubClient, err := getHubsClient()
+func (m *azureEventHubManager) CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, MessageRetentionInDays int32, PartitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
+	hubClient, err := getHubsClient(m.Creds)
 	if err != nil {
 		return eventhub.Model{}, err
 	}
@@ -99,8 +101,8 @@ func (_ *azureEventHubManager) CreateHub(ctx context.Context, resourceGroupName 
 	)
 }
 
-func (_ *azureEventHubManager) GetHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (eventhub.Model, error) {
-	hubClient, err := getHubsClient()
+func (m *azureEventHubManager) GetHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (eventhub.Model, error) {
+	hubClient, err := getHubsClient(m.Creds)
 	if err != nil {
 		return eventhub.Model{}, err
 	}
@@ -108,8 +110,8 @@ func (_ *azureEventHubManager) GetHub(ctx context.Context, resourceGroupName str
 	return hubClient.Get(ctx, resourceGroupName, namespaceName, eventHubName)
 }
 
-func (_ *azureEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string, parameters eventhub.AuthorizationRule) (result eventhub.AuthorizationRule, err error) {
-	hubClient, err := getHubsClient()
+func (m *azureEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string, parameters eventhub.AuthorizationRule) (result eventhub.AuthorizationRule, err error) {
+	hubClient, err := getHubsClient(m.Creds)
 	if err != nil {
 		return eventhub.AuthorizationRule{}, err
 	}
@@ -117,8 +119,8 @@ func (_ *azureEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.Conte
 	return hubClient.CreateOrUpdateAuthorizationRule(ctx, resourceGroupName, namespaceName, eventHubName, authorizationRuleName, parameters)
 }
 
-func (_ *azureEventHubManager) ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (result eventhub.AccessKeys, err error) {
-	hubClient, err := getHubsClient()
+func (m *azureEventHubManager) ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (result eventhub.AccessKeys, err error) {
+	hubClient, err := getHubsClient(m.Creds)
 	if err != nil {
 		return eventhub.AccessKeys{}, err
 	}
@@ -149,29 +151,20 @@ func (e *azureEventHubManager) createOrUpdateAccessPolicyEventHub(resourcegroup 
 	return nil
 }
 
-func (e *azureEventHubManager) createEventhubSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.Eventhub, data map[string][]byte) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
-
-	return e.SecretClient.Upsert(ctx,
-		key,
+func (e *azureEventHubManager) createEventhubSecrets(ctx context.Context, secretClient secrets.SecretClient, secretName string, instance *azurev1alpha1.Eventhub, data map[string][]byte) error {
+	secretKey := secrets.SecretKey{Name: secretName, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	return secretClient.Upsert(ctx,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(e.Scheme),
 	)
 }
 
-func (e *azureEventHubManager) deleteEventhubSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.Eventhub) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
+func (e *azureEventHubManager) deleteEventhubSecrets(ctx context.Context, secretClient secrets.SecretClient, secretName string, instance *azurev1alpha1.Eventhub) error {
+	secretKey := secrets.SecretKey{Name: secretName, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	err := e.SecretClient.Delete(ctx,
-		key,
-	)
+	err := secretClient.Delete(ctx, secretKey)
 	if err != nil {
 		return err
 	}
@@ -179,13 +172,20 @@ func (e *azureEventHubManager) deleteEventhubSecrets(ctx context.Context, secret
 	return nil
 }
 
-func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, secretName string, authorizationRuleName string, instance *azurev1alpha1.Eventhub) error {
+func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(
+	ctx context.Context,
+	secretClient secrets.SecretClient,
+	resourceGroup string,
+	eventhubNamespace string,
+	eventhubName string,
+	secretName string,
+	authorizationRuleName string,
+	instance *azurev1alpha1.Eventhub) error {
 
 	var err error
 	var result model.AccessKeys
-	ctx := context.Background()
 
-	result, err = e.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName)
+	result, err = e.ListKeys(ctx, resourceGroup, eventhubNamespace, eventhubName, authorizationRuleName)
 	if err != nil {
 		//log error and kill it
 		return err
@@ -202,6 +202,7 @@ func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup stri
 		}
 		err = e.createEventhubSecrets(
 			ctx,
+			secretClient,
 			secretName,
 			instance,
 			data,
@@ -214,13 +215,13 @@ func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup stri
 
 }
 
-func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (m *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	options := &resourcemanager.Options{}
 	for _, opt := range opts {
 		opt(options)
 	}
 
-	instance, err := e.convert(obj)
+	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
 	}
@@ -233,24 +234,25 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 	captureDescription := instance.Spec.Properties.CaptureDescription
 	secretName := instance.Spec.SecretName
 
+	secretClient := m.SecretClient
 	if options.SecretClient != nil {
-		e.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	if len(secretName) == 0 {
 		secretName = eventhubName
-		instance.Spec.SecretName = eventhubName
+		instance.Spec.SecretName = eventhubName // TODO: Ideally this would be done in a mutating admission webhook
 	}
 
 	// write information back to instance
 	instance.Status.Provisioning = true
 
-	capturePtr := getCaptureDescriptionPtr(captureDescription)
+	capturePtr := getCaptureDescriptionPtr(m.Creds, captureDescription)
 
-	hub, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+	hub, err := m.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// this happens when op isnt complete, just requeue
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
@@ -279,13 +281,13 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	err = e.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
+	err = m.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		return false, err
 	}
 
-	err = e.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
+	err = m.listAccessKeysAndCreateSecrets(ctx, secretClient, resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
 	if err != nil {
 
 		// catch secret existing and fail reconciliation
@@ -333,8 +335,9 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object, o
 	resourcegroup := instance.Spec.ResourceGroup
 	secretName := instance.Spec.SecretName
 
+	secretClient := e.SecretClient
 	if options.SecretClient != nil {
-		e.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	if len(secretName) == 0 {
@@ -349,7 +352,7 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object, o
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			instance.Status.Message = err.Error()
 			return false, nil
@@ -359,7 +362,7 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object, o
 
 	if resp.StatusCode == http.StatusNoContent {
 		//Delete the secrets as best effort before successful return after delete
-		e.deleteEventhubSecrets(ctx, secretName, instance)
+		e.deleteEventhubSecrets(ctx, secretClient, secretName, instance)
 		return false, nil
 	}
 
@@ -409,12 +412,12 @@ func (e *azureEventHubManager) convert(obj runtime.Object) (*azurev1alpha1.Event
 
 const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
 
-func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescription) *model.CaptureDescription {
+func getCaptureDescriptionPtr(creds config.Credentials, captureDescription azurev1alpha1.CaptureDescription) *model.CaptureDescription {
 	// add capture details
 	var capturePtr *model.CaptureDescription
 
 	storage := captureDescription.Destination.StorageAccount
-	storageAccountResourceID := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
+	storageAccountResourceID := fmt.Sprintf(storageAccountResourceFmt, creds.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
 
 	if captureDescription.Enabled {
 		capturePtr = &model.CaptureDescription{

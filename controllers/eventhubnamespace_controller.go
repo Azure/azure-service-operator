@@ -15,7 +15,7 @@ type EventhubNamespaceReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={eventhubnamespaces/status,eventhubnamespaces/finalizers},verbs=get;update;patch
 
 //Reconcile reconciler for eventhubnamespace
 func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {

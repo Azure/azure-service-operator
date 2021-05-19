@@ -15,6 +15,10 @@ import (
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 )
 
+// This file was adapted from https://github.com/Azure-Samples/azure-sdk-for-go-samples/blob/master/internal/iam/authorizers.go
+// A possible alternative would be to use NewAuthorizerFromEnvironment from https://github.com/Azure/go-autorest/blob/master/autorest/azure/auth/auth.go,
+// but that may not be doable because of our need to support multiple managed identities and select between them.
+
 var (
 	armAuthorizer      autorest.Authorizer
 	batchAuthorizer    autorest.Authorizer
@@ -31,23 +35,23 @@ const (
 	OAuthGrantTypeServicePrincipal OAuthGrantType = iota
 	// OAuthGrantTypeDeviceFlow for device flow
 	OAuthGrantTypeDeviceFlow
-	// OAuthGrantTypeMI for aad-pod-identity
-	OAuthGrantTypeMI
+	// OAuthGrantTypeManagedIdentity for aad-pod-identity
+	OAuthGrantTypeManagedIdentity
 )
 
 // GrantType returns what grant type has been configured.
-func grantType() OAuthGrantType {
+func grantType(creds config.Credentials) OAuthGrantType {
 	if config.UseDeviceFlow() {
 		return OAuthGrantTypeDeviceFlow
 	}
-	if config.UseMI() {
-		return OAuthGrantTypeMI
+	if creds.UseManagedIdentity() {
+		return OAuthGrantTypeManagedIdentity
 	}
 	return OAuthGrantTypeServicePrincipal
 }
 
 // GetResourceManagementAuthorizer gets an OAuthTokenAuthorizer for Azure Resource Manager
-func GetResourceManagementAuthorizer() (autorest.Authorizer, error) {
+func GetResourceManagementAuthorizer(creds config.Credentials) (autorest.Authorizer, error) {
 	if armAuthorizer != nil {
 		return armAuthorizer, nil
 	}
@@ -55,7 +59,7 @@ func GetResourceManagementAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	a, err = getAuthorizerForResource(config.Environment().ResourceManagerEndpoint)
+	a, err = getAuthorizerForResource(config.Environment().ResourceManagerEndpoint, creds)
 
 	if err == nil {
 		// cache
@@ -68,7 +72,7 @@ func GetResourceManagementAuthorizer() (autorest.Authorizer, error) {
 }
 
 // GetBatchAuthorizer gets an OAuthTokenAuthorizer for Azure Batch.
-func GetBatchAuthorizer() (autorest.Authorizer, error) {
+func GetBatchAuthorizer(creds config.Credentials) (autorest.Authorizer, error) {
 	if batchAuthorizer != nil {
 		return batchAuthorizer, nil
 	}
@@ -76,7 +80,7 @@ func GetBatchAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	a, err = getAuthorizerForResource(config.Environment().BatchManagementEndpoint)
+	a, err = getAuthorizerForResource(config.Environment().BatchManagementEndpoint, creds)
 
 	if err == nil {
 		// cache
@@ -90,7 +94,7 @@ func GetBatchAuthorizer() (autorest.Authorizer, error) {
 }
 
 // GetGraphAuthorizer gets an OAuthTokenAuthorizer for graphrbac API.
-func GetGraphAuthorizer() (autorest.Authorizer, error) {
+func GetGraphAuthorizer(creds config.Credentials) (autorest.Authorizer, error) {
 	if graphAuthorizer != nil {
 		return graphAuthorizer, nil
 	}
@@ -98,7 +102,7 @@ func GetGraphAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	a, err = getAuthorizerForResource(config.Environment().GraphEndpoint)
+	a, err = getAuthorizerForResource(config.Environment().GraphEndpoint, creds)
 
 	if err == nil {
 		// cache
@@ -111,7 +115,7 @@ func GetGraphAuthorizer() (autorest.Authorizer, error) {
 }
 
 // GetGroupsAuthorizer gets an OAuthTokenAuthorizer for resource group API.
-func GetGroupsAuthorizer() (autorest.Authorizer, error) {
+func GetGroupsAuthorizer(creds config.Credentials) (autorest.Authorizer, error) {
 	if groupsAuthorizer != nil {
 		return groupsAuthorizer, nil
 	}
@@ -119,7 +123,7 @@ func GetGroupsAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	a, err = getAuthorizerForResource(config.Environment().TokenAudience)
+	a, err = getAuthorizerForResource(config.Environment().TokenAudience, creds)
 
 	if err == nil {
 		// cache
@@ -134,7 +138,7 @@ func GetGroupsAuthorizer() (autorest.Authorizer, error) {
 // GetKeyvaultAuthorizer gets an OAuthTokenAuthorizer for use with Key Vault
 // keys and secrets. Note that Key Vault *Vaults* are managed by Azure Resource
 // Manager.
-func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
+func GetKeyvaultAuthorizer(creds config.Credentials) (autorest.Authorizer, error) {
 	if keyvaultAuthorizer != nil {
 		return keyvaultAuthorizer, nil
 	}
@@ -143,29 +147,29 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 	vaultEndpoint := strings.TrimSuffix(config.Environment().KeyVaultEndpoint, "/")
 	// BUG: alternateEndpoint replaces other endpoints in the configs below
 	alternateEndpoint, _ := url.Parse(
-		"https://login.windows.net/" + config.TenantID() + "/oauth2/token")
+		"https://login.windows.net/" + creds.TenantID() + "/oauth2/token")
 
 	var a autorest.Authorizer
 	var err error
 
-	switch grantType() {
+	switch grantType(creds) {
 	case OAuthGrantTypeServicePrincipal:
 		oauthconfig, err := adal.NewOAuthConfig(
-			config.Environment().ActiveDirectoryEndpoint, config.TenantID())
+			config.Environment().ActiveDirectoryEndpoint, creds.TenantID())
 		if err != nil {
 			return a, err
 		}
 		oauthconfig.AuthorizeEndpoint = *alternateEndpoint
 
 		token, err := adal.NewServicePrincipalToken(
-			*oauthconfig, config.ClientID(), config.ClientSecret(), vaultEndpoint)
+			*oauthconfig, creds.ClientID(), creds.ClientSecret(), vaultEndpoint)
 		if err != nil {
 			return a, err
 		}
 
 		a = autorest.NewBearerAuthorizer(token)
 
-	case OAuthGrantTypeMI:
+	case OAuthGrantTypeManagedIdentity:
 		MIEndpoint, err := adal.GetMSIVMEndpoint()
 		if err != nil {
 			return nil, err
@@ -179,7 +183,10 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 		a = autorest.NewBearerAuthorizer(token)
 
 	case OAuthGrantTypeDeviceFlow:
-		deviceConfig := auth.NewDeviceFlowConfig(config.ClientID(), config.TenantID())
+		// TODO: Remove this - it's an interactive authentication
+		// method and doesn't make sense in an operator. Maybe it was
+		// useful for early testing?
+		deviceConfig := auth.NewDeviceFlowConfig(creds.ClientID(), creds.TenantID())
 		deviceConfig.Resource = vaultEndpoint
 		deviceConfig.AADEndpoint = alternateEndpoint.String()
 		a, err = deviceConfig.Authorizer()
@@ -196,27 +203,27 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 	return keyvaultAuthorizer, err
 }
 
-func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
+func getAuthorizerForResource(resource string, creds config.Credentials) (autorest.Authorizer, error) {
 
 	var a autorest.Authorizer
 	var err error
 
-	switch grantType() {
+	switch grantType(creds) {
 	case OAuthGrantTypeServicePrincipal:
 		oauthConfig, err := adal.NewOAuthConfig(
-			config.Environment().ActiveDirectoryEndpoint, config.TenantID())
+			config.Environment().ActiveDirectoryEndpoint, creds.TenantID())
 		if err != nil {
 			return nil, err
 		}
 
 		token, err := adal.NewServicePrincipalToken(
-			*oauthConfig, config.ClientID(), config.ClientSecret(), resource)
+			*oauthConfig, creds.ClientID(), creds.ClientSecret(), resource)
 		if err != nil {
 			return nil, err
 		}
 		a = autorest.NewBearerAuthorizer(token)
 
-	case OAuthGrantTypeMI:
+	case OAuthGrantTypeManagedIdentity:
 		MIEndpoint, err := adal.GetMSIVMEndpoint()
 		if err != nil {
 			return nil, err
@@ -230,7 +237,7 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 		a = autorest.NewBearerAuthorizer(token)
 
 	case OAuthGrantTypeDeviceFlow:
-		deviceconfig := auth.NewDeviceFlowConfig(config.ClientID(), config.TenantID())
+		deviceconfig := auth.NewDeviceFlowConfig(creds.ClientID(), creds.TenantID())
 		deviceconfig.Resource = resource
 		a, err = deviceconfig.Authorizer()
 		if err != nil {
@@ -244,14 +251,14 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 	return a, err
 }
 
-// GetMSITokenForResource returns the MSI token for a resource (used in AzureSQLManagedUser)
+// GetMSITokenForResource returns the MSI token for a resource
 func GetMSITokenForResource(resource string) (*adal.ServicePrincipalToken, error) {
-	MIEndpoint, err := adal.GetMSIVMEndpoint()
+	miEndpoint, err := adal.GetMSIVMEndpoint()
 	if err != nil {
 		return nil, err
 	}
 
-	token, err := adal.NewServicePrincipalTokenFromMSI(MIEndpoint, resource)
+	token, err := adal.NewServicePrincipalTokenFromMSI(miEndpoint, resource)
 	if err != nil {
 		return nil, err
 	}
@@ -259,15 +266,55 @@ func GetMSITokenForResource(resource string) (*adal.ServicePrincipalToken, error
 	return token, err
 }
 
-// GetResourceManagementTokenHybrid retrieves auth token for hybrid environment
-func GetResourceManagementTokenHybrid(activeDirectoryEndpoint, tokenAudience string) (adal.OAuthTokenProvider, error) {
-	var tokenProvider adal.OAuthTokenProvider
-	oauthConfig, err := adal.NewOAuthConfig(activeDirectoryEndpoint, config.TenantID())
-	tokenProvider, err = adal.NewServicePrincipalToken(
-		*oauthConfig,
-		config.ClientID(),
-		config.ClientSecret(),
-		tokenAudience)
+// GetMSITokenForResourceByClientID returns the MSI token for a resource by the client ID
+func GetMSITokenForResourceByClientID(resource string, clientID string) (*adal.ServicePrincipalToken, error) {
+	miEndpoint, err := adal.GetMSIVMEndpoint()
+	if err != nil {
+		return nil, err
+	}
 
-	return tokenProvider, err
+	token, err := adal.NewServicePrincipalTokenFromMSIWithUserAssignedID(miEndpoint, resource, clientID)
+	if err != nil {
+		return nil, err
+	}
+
+	return token, err
+}
+
+// GetMSITokenProviderForResource gets a token provider for the given resource.
+// A token provider is just a function that returns the OAuth token when called
+func GetMSITokenProviderForResource(resource string) (func() (string, error), error) {
+	msi, err := GetMSITokenForResource(resource)
+	if err != nil {
+		return nil, err
+	}
+
+	return makeTokenProvider(msi), nil
+}
+
+func makeTokenProvider(msi *adal.ServicePrincipalToken) func() (string, error) {
+	return func() (string, error) {
+		err := msi.EnsureFresh()
+		if err != nil {
+			return "", err
+		}
+		token := msi.OAuthToken()
+		return token, nil
+	}
+}
+
+func GetMSITokenProviderForResourceByClientID(resource string, clientID string) (func() (string, error), error) {
+	msi, err := GetMSITokenForResourceByClientID(resource, clientID)
+	if err != nil {
+		return nil, err
+	}
+
+	return func() (string, error) {
+		err = msi.EnsureFresh()
+		if err != nil {
+			return "", err
+		}
+		token := msi.OAuthToken()
+		return token, nil
+	}, nil
 }

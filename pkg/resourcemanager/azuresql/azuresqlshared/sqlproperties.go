@@ -5,11 +5,13 @@ package azuresqlshared
 
 import (
 	"fmt"
+
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/api/resource"
+
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 )
 
 // SQLServerProperties contains values needed for adding / updating SQL servers,
@@ -63,24 +65,11 @@ type Sku struct {
 	Capacity *int32
 }
 
-// SQLFailoverGroupProperties contains values needed for adding / updating SQL failover groups,
-// wraps: https://github.com/Azure/azure-sdk-for-go/blob/master/services/preview/sql/mgmt/2015-05-01-preview/sql/failovergroups.go#L53
-type SQLFailoverGroupProperties struct {
-
-	// FailoverPolicy can be Automatic or Manual
-	FailoverPolicy v1alpha1.ReadWriteEndpointFailoverPolicy
-
-	// Read/Write Grace Period in minutes
-	FailoverGracePeriod int32
-
-	// Secondary server to failover to (should be in a different region)
-	SecondaryServer string
-
-	// Resource Group for the Secondary server
-	SecondaryServerResourceGroup string
-
-	// Names of Databases to add to the failover group
-	DatabaseList []string
+type SQLDatabaseBackupLongTermRetentionPolicy struct {
+	WeeklyRetention  string
+	MonthlyRetention string
+	YearlyRetention  string
+	WeekOfYear       int32
 }
 
 // SQLServerPropertiesToServer translates SQLServerProperties to ServerProperties
@@ -175,16 +164,18 @@ func MergeDBEditionAndSku(in v1beta1.DBEdition, sku *v1beta1.SqlDatabaseSku) (*S
 	}
 }
 
-// translateFailoverPolicy translates the enum
-func TranslateFailoverPolicy(in v1alpha1.ReadWriteEndpointFailoverPolicy) (result sql.ReadWriteEndpointFailoverPolicy) {
+// TranslateFailoverPolicy translates the enum
+func TranslateFailoverPolicy(in v1beta1.ReadWriteEndpointFailoverPolicy) (sql.ReadWriteEndpointFailoverPolicy, error) {
+	var result sql.ReadWriteEndpointFailoverPolicy
+
 	switch in {
-	case v1alpha1.FailoverPolicyAutomatic:
+	case v1beta1.FailoverPolicyAutomatic:
 		result = sql.Automatic
-	case v1alpha1.FailoverPolicyManual:
+	case v1beta1.FailoverPolicyManual:
 		result = sql.Manual
 	default:
-		result = sql.Automatic
+		return result, errors.Errorf("couldn't translate failover policy %s", in)
 	}
 
-	return result
+	return result, nil
 }

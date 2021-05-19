@@ -20,7 +20,7 @@ However, if you're interested and building and deploying the operators from sour
 
     ```shell
     docker login
-    IMG=<container_registry>/<username>/<image_name>:<tag> make build-and-push
+    IMG=<container_registry>/<username>/<image_name>:<tag> make docker-build-and-push
     ```
 
 ## Deploy the operator
@@ -84,23 +84,62 @@ export AZURE_OPERATOR_KEYVAULT=OperatorSecretKeyVault
 
 You can choose to use either Service Principals or Managed Identity for authentication.
 
-*Service Principal authentication* - if you choose to use Service Principal authentication, set these environment variables.
+#### Service Principal authentication
+If you choose to use Service Principal authentication, set these environment variables.
 
 ```shell
 export AZURE_CLIENT_ID=xxxxxxx
 export AZURE_CLIENT_SECRET=aaaaaaa
 ```
 
-*Managed Identity authentication* - if you choose to use Managed Identity, set the below environment variable and then perform the steps listed [here](managedidentity.md).
+#### Managed Identity authentication
+If you choose to use Managed Identity, set the below environment variables and then perform the steps listed [here](managedidentity.md).
 
 ```shell
+export AZURE_CLIENT_ID=xxxxxxx
 export AZURE_USE_MI=1
 ```
 
+Before we can use Managed Identity authentication we need to install [aad-pod-identity](https://github.com/Azure/aad-pod-identity).
+
+*Installing AAD Pod Identity and registering an identity*
+
+1. Install [aad-pod-identity](https://github.com/Azure/aad-pod-identity).
+
+  ```shell
+  make install-aad-pod-identity
+  ```
+
+2. Apply the AzureIdentity and Binding manifests. This binds the identity to the Azure Service Operator. 
+Where a particular `resourceID` or `clientID` is referenced in the template below, ensure that you replace it with your Managed Identity `resourceID` and `clientID`.
+
+  ```console
+  $ cat <<EOF | kubectl apply -f -
+  apiVersion: "aadpodidentity.k8s.io/v1"
+  kind: AzureIdentity
+  metadata:
+    name: aso-managed-id1
+    namespace: azureoperator-system
+  spec:
+    type: 0
+    resourceID: /subscriptions/<your-subscription-id-here>/resourcegroups/<your-resource-group-test>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<your-managed-identity-here>
+    clientID: <your-managed-identity-client-id-here>
+  ---
+  apiVersion: "aadpodidentity.k8s.io/v1"
+  kind: AzureIdentityBinding
+  metadata:
+    name: aso-identity-binding
+    namespace: azureoperator-system
+  spec:
+    azureIdentity: aso-managed-id1
+    selector: aso_manager_binding
+  EOF
+  ```
+
 > [!NOTE]
-> Use only one of the above.
+> Use only one of the authentication methods mentioned above.
 
-
+#### Deploying the secret 
 Set the ```azureoperatorsettings``` secret, and set the following environment variables `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`.
 
 ```shell

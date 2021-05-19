@@ -3,8 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     cert-manager.io/inject-ca-from: azureoperator-system/azureoperator-serving-cert
-    controller-gen.kubebuilder.io/version: v0.2.5
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.4.0
   name: azuresqlservers.azure.microsoft.com
 spec:
   additionalPrinterColumns:
@@ -17,7 +16,6 @@ spec:
   conversion:
     strategy: Webhook
     webhookClientConfig:
-      caBundle: Cg==
       service:
         name: azureoperator-webhook-service
         namespace: azureoperator-system
@@ -63,6 +61,7 @@ spec:
                   Important: Run "make" to regenerate code after modifying this file'
                 type: string
               resourcegroup:
+                minLength: 1
                 pattern: ^[-\w\._\(\)]+$
                 type: string
             required:
@@ -130,8 +129,10 @@ spec:
               location:
                 description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                   Important: Run "make" to regenerate code after modifying this file'
+                minLength: 1
                 type: string
               resourceGroup:
+                minLength: 1
                 pattern: ^[-\w\._\(\)]+$
                 type: string
             required:

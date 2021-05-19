@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultsecretlib "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -25,9 +26,10 @@ import (
 )
 
 const (
-	finalizerName string        = "azure.microsoft.com/finalizer"
-	requeDuration time.Duration = time.Second * 20
-	successMsg    string        = "successfully provisioned"
+	finalizerName    string        = "azure.microsoft.com/finalizer"
+	requeueDuration  time.Duration = time.Second * 20
+	successMsg       string        = "successfully provisioned"
+	reconcileTimeout time.Duration = time.Minute * 5
 )
 
 // AsyncReconciler is a generic reconciler for Azure resources.
@@ -42,7 +44,8 @@ type AsyncReconciler struct {
 
 // Reconcile reconciles the change request
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (result ctrl.Result, err error) {
-	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(context.Background(), reconcileTimeout)
+	defer cancel()
 
 	if err := r.Get(ctx, req.NamespacedName, obj); err != nil {
 		r.Telemetry.LogInfoByInstance("ignorable error", "error during fetch from api server", req.String())
@@ -69,23 +72,11 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 	}
 
 	var keyvaultSecretClient secrets.SecretClient
-
 	// Determine if we need to check KeyVault for secrets
-	KeyVaultName := keyvaultsecretlib.GetKeyVaultName(obj)
-
-	if len(KeyVaultName) != 0 {
+	keyVaultName := keyvaultsecretlib.GetKeyVaultName(obj)
+	if len(keyVaultName) != 0 {
 		// Instantiate the KeyVault Secret Client
-		keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
-
-		r.Telemetry.LogInfoByInstance("status", "ensuring vault", req.String())
-
-		if !keyvaultsecretlib.IsKeyVaultAccessible(keyvaultSecretClient) {
-			r.Telemetry.LogInfoByInstance("requeuing", "awaiting vault verification", req.String())
-
-			// update the status of the resource in kubernetes
-			status.Message = "Waiting for secretclient keyvault to be available"
-			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, obj)
-		}
+		keyvaultSecretClient = keyvaultsecretlib.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
 	}
 
 	// Check to see if the skipreconcile annotation is on
@@ -117,7 +108,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 		}
 	} else {
 		if HasFinalizer(res, finalizerName) {
-			if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
+			if len(keyVaultName) != 0 { // keyVault was specified in Spec, so use that for secrets
 				configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
 			}
 			found, deleteErr := r.AzureClient.Delete(ctx, obj, configOptions...)
@@ -133,7 +124,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 				return ctrl.Result{}, r.Update(ctx, obj)
 			}
 			r.Telemetry.LogInfoByInstance("requeuing", "deletion unfinished", req.String())
-			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, obj)
+			return ctrl.Result{RequeueAfter: requeueDuration}, r.Status().Update(ctx, obj)
 		}
 		return ctrl.Result{}, nil
 	}
@@ -157,7 +148,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 
 	r.Telemetry.LogInfoByInstance("status", "reconciling object", req.String())
 
-	if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
+	if len(keyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
 		configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
 	}
 
@@ -169,7 +160,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 		status.RequestedAt = nil
 	}
 	if done && !status.Provisioned && ensureErr == nil {
-		status.FailedProvisioning = true
+		status.SetFailedProvisioning(status.Message) // Keep the same message
 	}
 
 	// update the status of the resource in kubernetes
@@ -190,7 +181,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 	result = ctrl.Result{}
 	if !done {
 		r.Telemetry.LogInfoByInstance("status", "reconciling object not finished", req.String())
-		result.RequeueAfter = requeDuration
+		result.RequeueAfter = requeueDuration
 	} else {
 		r.Telemetry.LogInfoByInstance("reconciling", "success", req.String())
 
@@ -207,7 +198,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 		}
 	}
 
-	r.Telemetry.LogInfo("status", "exiting reconciliation")
+	r.Telemetry.LogInfoByInstance("status", "exiting reconciliation", req.String())
 
 	return result, err
 }

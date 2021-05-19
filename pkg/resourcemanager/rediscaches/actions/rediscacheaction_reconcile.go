@@ -20,8 +20,9 @@ func (m *AzureRedisCacheActionManager) Ensure(ctx context.Context, obj runtime.O
 		opt(options)
 	}
 
+	secretClient := m.SecretClient
 	if options.SecretClient != nil {
-		m.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := m.convert(obj)
@@ -61,7 +62,7 @@ func (m *AzureRedisCacheActionManager) Ensure(ctx context.Context, obj runtime.O
 				ResourceGroupName: instance.Spec.ResourceGroup,
 			},
 		}
-		if err = m.ListKeysAndCreateSecrets(ctx, cacheInstance); err != nil {
+		if err = m.ListKeysAndCreateSecrets(ctx, secretClient, cacheInstance); err != nil {
 			instance.Status.Provisioning = true
 			instance.Status.Provisioned = false
 			instance.Status.FailedProvisioning = true

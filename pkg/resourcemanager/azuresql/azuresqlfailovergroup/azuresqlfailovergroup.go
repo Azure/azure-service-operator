@@ -7,32 +7,33 @@ import (
 	"context"
 	"net/http"
 
+	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	"github.com/Azure/go-autorest/autorest"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
-
-	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
-	"github.com/Azure/go-autorest/autorest"
 )
 
 type AzureSqlFailoverGroupManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlFailoverGroupManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlFailoverGroupManager {
+func NewAzureSqlFailoverGroupManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlFailoverGroupManager {
 	return &AzureSqlFailoverGroupManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
 }
 
 // GetServer returns a SQL server
-func (f *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient()
+func (m *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClient(m.Creds)
 	if err != nil {
 		return sql.Server{}, err
 	}
@@ -45,8 +46,8 @@ func (f *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGr
 }
 
 // GetDB retrieves a database
-func (f *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
-	dbClient, err := azuresqlshared.GetGoDbClient()
+func (m *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
+	dbClient, err := azuresqlshared.GetGoDbClient(m.Creds)
 	if err != nil {
 		return sql.Database{}, err
 	}
@@ -59,9 +60,10 @@ func (f *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupN
 	)
 }
 
+// TODO: Delete this?
 // GetFailoverGroup retrieves a failover group
-func (f *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error) {
-	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient()
+func (m *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error) {
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(m.Creds)
 	if err != nil {
 		return sql.FailoverGroup{}, err
 	}
@@ -75,7 +77,7 @@ func (f *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, res
 }
 
 // DeleteFailoverGroup deletes a failover group
-func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failoverGroupName string) (result autorest.Response, err error) {
+func (m *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failoverGroupName string) (result autorest.Response, err error) {
 	result = autorest.Response{
 		Response: &http.Response{
 			StatusCode: 200,
@@ -83,19 +85,20 @@ func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context
 	}
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	_, err = sdk.GetServer(ctx, resourceGroupName, serverName)
-	if err != nil {
-		return result, nil
-	}
-	// check to see if the failover group exists, if it doesn't then short-circuit
-	_, err = sdk.GetFailoverGroup(ctx, resourceGroupName, serverName, failoverGroupName)
+	_, err = m.GetServer(ctx, resourceGroupName, serverName)
 	if err != nil {
 		return result, nil
 	}
 
-	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient()
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(m.Creds)
 	if err != nil {
 		return result, err
+	}
+
+	// check to see if the failover group exists, if it doesn't then short-circuit
+	_, err = failoverGroupsClient.Get(ctx, resourceGroupName, serverName, failoverGroupName)
+	if err != nil {
+		return result, nil
 	}
 
 	future, err := failoverGroupsClient.Delete(
@@ -111,22 +114,15 @@ func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context
 	return future.Result(failoverGroupsClient)
 }
 
-// CreateOrUpdateFailoverGroup creates a failover group
-func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties azuresqlshared.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
-	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient()
+// TransformToSQLFailoverGroup translates the Kubernetes shaped v1beta1.AzureSqlFailoverGroup into the Azure SDK sql.FailoverGroup.
+// This function makes a number of remote calls and so should be called sparingly.
+func (m *AzureSqlFailoverGroupManager) TransformToSQLFailoverGroup(ctx context.Context, instance *v1beta1.AzureSqlFailoverGroup) (sql.FailoverGroup, error) {
+	secondaryServer, err := m.GetServer(ctx, instance.Spec.SecondaryServerResourceGroup, instance.Spec.SecondaryServer)
 	if err != nil {
-		return sql.FailoverGroupsCreateOrUpdateFuture{}, err
+		return sql.FailoverGroup{}, err
 	}
 
-	// Construct a PartnerInfo object from the server name
-	// Get resource ID from the servername to use
-
-	server, err := sdk.GetServer(ctx, properties.SecondaryServerResourceGroup, properties.SecondaryServer)
-	if err != nil {
-		return result, nil
-	}
-
-	secServerResourceID := server.ID
+	secServerResourceID := secondaryServer.ID
 	partnerServerInfo := sql.PartnerInfo{
 		ID:              secServerResourceID,
 		ReplicationRole: sql.Secondary,
@@ -137,19 +133,30 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 	var databaseIDArray []string
 
 	// Parse the Databases in the Databaselist and form array of Resource IDs
-	for _, each := range properties.DatabaseList {
-		database, err := sdk.GetDB(ctx, resourceGroupName, serverName, each)
+	for _, each := range instance.Spec.DatabaseList {
+		database, err := m.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, each)
 		if err != nil {
-			return result, err
+			return sql.FailoverGroup{}, err
 		}
 		databaseIDArray = append(databaseIDArray, *database.ID)
 	}
 
+	failoverPolicy, err := azuresqlshared.TranslateFailoverPolicy(instance.Spec.FailoverPolicy)
+	if err != nil {
+		return sql.FailoverGroup{}, err
+	}
+
 	// Construct FailoverGroupProperties struct
+	failoverGracePeriod := &instance.Spec.FailoverGracePeriod
+	// TODO: This is a bit of a hack right now because the spec doesn't allow us to omit this field, but it
+	// TODO: cannot be specified when using Manual mode
+	if failoverPolicy == sql.Manual {
+		failoverGracePeriod = nil
+	}
 	failoverGroupProperties := sql.FailoverGroupProperties{
 		ReadWriteEndpoint: &sql.FailoverGroupReadWriteEndpoint{
-			FailoverPolicy:                         azuresqlshared.TranslateFailoverPolicy(properties.FailoverPolicy),
-			FailoverWithDataLossGracePeriodMinutes: &properties.FailoverGracePeriod,
+			FailoverPolicy:                         failoverPolicy,
+			FailoverWithDataLossGracePeriodMinutes: failoverGracePeriod,
 		},
 		PartnerServers: &partnerServerInfoArray,
 		Databases:      &databaseIDArray,
@@ -159,31 +166,146 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 		FailoverGroupProperties: &failoverGroupProperties,
 	}
 
-	return failoverGroupsClient.CreateOrUpdate(
-		ctx,
-		resourceGroupName,
-		serverName,
-		failovergroupname,
-		failoverGroup)
+	return failoverGroup, nil
 }
 
-func (f *AzureSqlFailoverGroupManager) GetOrPrepareSecret(ctx context.Context, instance *v1beta1.AzureSqlFailoverGroup) (map[string][]byte, error) {
-	failovergroupname := instance.ObjectMeta.Name
-	azuresqlprimaryserver := instance.Spec.Server
-	azuresqlsecondaryserver := instance.Spec.SecondaryServer
+// CreateOrUpdateFailoverGroup creates a failover group
+func (m *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(
+	ctx context.Context,
+	resourceGroup string,
+	server string,
+	failoverGroupName string,
+	failoverGroupProperties sql.FailoverGroup) (sql.FailoverGroupsCreateOrUpdateFuture, error) {
+
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(m.Creds)
+	if err != nil {
+		return sql.FailoverGroupsCreateOrUpdateFuture{}, err
+	}
+
+	return failoverGroupsClient.CreateOrUpdate(
+		ctx,
+		resourceGroup,
+		server,
+		failoverGroupName,
+		failoverGroupProperties)
+}
+
+func (m *AzureSqlFailoverGroupManager) NewSecret(instance *v1beta1.AzureSqlFailoverGroup) map[string][]byte {
+	failoverGroupName := instance.ObjectMeta.Name
+	azureSQLPrimaryServer := instance.Spec.Server
+	azureSQLSecondaryServer := instance.Spec.SecondaryServer
 
 	secret := map[string][]byte{}
 
-	key := types.NamespacedName{Name: failovergroupname, Namespace: instance.Namespace}
+	// TODO: In a future version we should consider moving these values to properties on status or something rather than
+	// TODO: indirecting them through KeyVault, since really none of these values are actually secrets
+	secret["azureSqlPrimaryServer"] = []byte(azureSQLPrimaryServer)
+	secret["readWriteListenerEndpoint"] = []byte(failoverGroupName + "." + config.Environment().SQLDatabaseDNSSuffix)
+	secret["azureSqlSecondaryServer"] = []byte(azureSQLSecondaryServer)
+	secret["readOnlyListenerEndpoint"] = []byte(failoverGroupName + ".secondary." + config.Environment().SQLDatabaseDNSSuffix)
 
-	if stored, err := f.SecretClient.Get(ctx, key); err == nil {
-		return stored, nil
+	return secret
+}
+
+func doReadWriteEndpointsMatch(expected *sql.FailoverGroupReadWriteEndpoint, actual *sql.FailoverGroupReadWriteEndpoint) bool {
+	if expected == nil && actual == nil {
+		return true
 	}
 
-	secret["azureSqlPrimaryServer"] = []byte(azuresqlprimaryserver)
-	secret["readWriteListenerEndpoint"] = []byte(failovergroupname + "." + config.Environment().SQLDatabaseDNSSuffix)
-	secret["azureSqlSecondaryServer"] = []byte(azuresqlsecondaryserver)
-	secret["readOnlyListenerEndpoint"] = []byte(failovergroupname + ".secondary." + config.Environment().SQLDatabaseDNSSuffix)
+	if (expected == nil) != (actual == nil) {
+		return false
+	}
 
-	return secret, nil
+	if expected.FailoverPolicy != actual.FailoverPolicy {
+		return false
+	}
+
+	if expected.FailoverWithDataLossGracePeriodMinutes == nil && actual.FailoverWithDataLossGracePeriodMinutes != nil ||
+		expected.FailoverWithDataLossGracePeriodMinutes != nil && actual.FailoverWithDataLossGracePeriodMinutes == nil {
+		return false
+	}
+
+	if expected.FailoverWithDataLossGracePeriodMinutes == nil && actual.FailoverWithDataLossGracePeriodMinutes == nil {
+		return true
+	}
+
+	return *expected.FailoverWithDataLossGracePeriodMinutes == *actual.FailoverWithDataLossGracePeriodMinutes
+}
+
+func doDatabasesMatch(expectedDatabases *[]string, actualDatabases *[]string) bool {
+	if (expectedDatabases == nil) != (actualDatabases == nil) {
+		return false
+	}
+	if expectedDatabases == nil && actualDatabases == nil {
+		return true
+	}
+	expected := *expectedDatabases
+	actual := *actualDatabases
+
+	if len(expected) != len(actual) {
+		return false
+	}
+	for i, v1 := range expected {
+		v2 := actual[i]
+		if v1 != v2 {
+			return false
+		}
+	}
+
+	return true
+}
+
+func doPartnerServersMatch(expectedPartnerServers *[]sql.PartnerInfo, actualPartnerServers *[]sql.PartnerInfo) bool {
+	if (expectedPartnerServers == nil) != (actualPartnerServers == nil) {
+		return false
+	}
+	if expectedPartnerServers != nil && actualPartnerServers != nil {
+		if len(*expectedPartnerServers) != len(*actualPartnerServers) {
+			return false
+		}
+		for i, v1 := range *expectedPartnerServers {
+			v2 := (*actualPartnerServers)[i]
+			if v1.ID == nil && v2.ID != nil ||
+				v1.ID != nil && v2.ID == nil {
+				return false
+			}
+			if v1.ID != nil && v2.ID != nil {
+				if *v1.ID != *v2.ID {
+					return false
+				}
+			}
+
+		}
+	}
+
+	return true
+}
+
+func DoesResourceMatchAzure(expected sql.FailoverGroup, actual sql.FailoverGroup) bool {
+	if len(expected.Tags) != len(actual.Tags) {
+		return false
+	}
+	for k, v := range expected.Tags {
+		if v != actual.Tags[k] {
+			return false
+		}
+	}
+
+	if (expected.FailoverGroupProperties == nil) != (actual.FailoverGroupProperties == nil) {
+		return false
+	}
+	if expected.FailoverGroupProperties != nil && actual.FailoverGroupProperties != nil {
+		// We care about ReadWriteEndpoint, PartnerServers, and Databases
+		if !doReadWriteEndpointsMatch(expected.FailoverGroupProperties.ReadWriteEndpoint, actual.FailoverGroupProperties.ReadWriteEndpoint) {
+			return false
+		}
+		if !doDatabasesMatch(expected.FailoverGroupProperties.Databases, actual.FailoverGroupProperties.Databases) {
+			return false
+		}
+		if !doPartnerServersMatch(expected.FailoverGroupProperties.PartnerServers, actual.FailoverGroupProperties.PartnerServers) {
+			return false
+		}
+	}
+
+	return true
 }

@@ -4,6 +4,7 @@
 package storages
 
 import (
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -15,9 +16,9 @@ type StorageManagers struct {
 	BlobContainer  blobcontainer.BlobContainerManager
 }
 
-func NewAzureStorageManagers(secretClient secrets.SecretClient, scheme *runtime.Scheme) StorageManagers {
+func NewAzureStorageManagers(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) StorageManagers {
 	return StorageManagers{
-		StorageAccount: storageaccount.New(secretClient, scheme),
-		BlobContainer:  blobcontainer.New(),
+		StorageAccount: storageaccount.New(creds, secretClient, scheme),
+		BlobContainer:  blobcontainer.New(creds),
 	}
 }

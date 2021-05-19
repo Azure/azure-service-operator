@@ -15,23 +15,26 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 // Ensure creates the Postgres server
-func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (c *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	options := &resourcemanager.Options{}
 	for _, opt := range opts {
 		opt(options)
 	}
 
+	secretClient := c.SecretClient
 	if options.SecretClient != nil {
-		p.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
-	instance, err := p.convert(obj)
+	instance, err := c.convert(obj)
 	if err != nil {
 		return true, err
 	}
@@ -50,14 +53,15 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 	}
 
 	// Check to see if secret exists and if yes retrieve the admin login and password
-	secret, err := p.GetOrPrepareSecret(ctx, instance)
+	secret, err := c.GetOrPrepareSecret(ctx, secretClient, instance)
 	if err != nil {
 		return false, err
 	}
 
 	// Update secret with the fully qualified server name
-	err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
+	err = c.AddServerCredsToSecrets(ctx, secretClient, secret, instance)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		return false, err
 	}
 
@@ -71,7 +75,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 	if instance.Status.Provisioning {
 		// if an error occurs thats ok as it means that it doesn't exist yet
-		getServer, err := p.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
+		getServer, err := c.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 		if err == nil {
 			instance.Status.State = string(getServer.UserVisibleState)
 
@@ -79,7 +83,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			if getServer.UserVisibleState == psql.ServerStateReady {
 
 				// Update the secret with fully qualified server name. Ignore error as we have the admin creds which is critical.
-				p.UpdateSecretWithFullServerName(ctx, instance.Name, secret, instance, *getServer.FullyQualifiedDomainName)
+				c.UpdateSecretWithFullServerName(ctx, secretClient, secret, instance, *getServer.FullyQualifiedDomainName)
 
 				instance.Status.Message = resourcemanager.SuccessMsg
 				instance.Status.ResourceId = *getServer.ID
@@ -96,14 +100,14 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		} else {
 			// handle failures in the async operation
 			if instance.Status.PollingURL != "" {
-				pClient := pollclient.NewPollClient()
+				pClient := pollclient.NewPollClient(c.Creds)
 				res, err := pClient.Get(ctx, instance.Status.PollingURL)
 				if err != nil {
 					instance.Status.Provisioning = false
 					return false, err
 				}
 
-				if res.Status == "Failed" {
+				if res.Status == pollclient.LongRunningOperationPollStatusFailed {
 					instance.Status.Provisioning = false
 					instance.Status.RequestedAt = nil
 					ignore := []string{
@@ -136,7 +140,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		}
 
 		// create the server
-		pollURL, _, err := p.CreateServerIfValid(
+		pollURL, _, err := c.CreateServerIfValid(
 			ctx,
 			*instance,
 			labels,
@@ -150,7 +154,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			instance.Status.Message = errhelp.StripErrorIDs(err)
 			instance.Status.Provisioning = false
 
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 
 			catchInProgress := []string{
 				errhelp.AsyncOpIncompleteError,
@@ -194,23 +198,24 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 }
 
 // Delete deletes the Postgres server
-func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (c *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	options := &resourcemanager.Options{}
 	for _, opt := range opts {
 		opt(options)
 	}
 
+	secretClient := c.SecretClient
 	if options.SecretClient != nil {
-		p.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
-	instance, err := p.convert(obj)
+	instance, err := c.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	status, err := p.DeleteServer(ctx, instance.Spec.ResourceGroup, instance.Name)
+	status, err := c.DeleteServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err != nil {
 		catch := []string{
 			errhelp.AsyncOpIncompleteError,
@@ -221,7 +226,7 @@ func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {
@@ -234,8 +239,8 @@ func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 	if err == nil {
 		if status != "InProgress" {
 			// Best case deletion of secrets
-			key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-			p.SecretClient.Delete(ctx, key)
+			secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+			secretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 	}
@@ -244,9 +249,9 @@ func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 }
 
 // GetParents gets the resource's parents
-func (p *PSQLServerClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+func (c *PSQLServerClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
-	instance, err := p.convert(obj)
+	instance, err := c.convert(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -263,8 +268,8 @@ func (p *PSQLServerClient) GetParents(obj runtime.Object) ([]resourcemanager.Kub
 }
 
 // GetStatus returns the status
-func (p *PSQLServerClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
-	instance, err := p.convert(obj)
+func (c *PSQLServerClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := c.convert(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -272,7 +277,7 @@ func (p *PSQLServerClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, e
 	return &st, nil
 }
 
-func (p *PSQLServerClient) convert(obj runtime.Object) (*v1alpha2.PostgreSQLServer, error) {
+func (c *PSQLServerClient) convert(obj runtime.Object) (*v1alpha2.PostgreSQLServer, error) {
 	local, ok := obj.(*v1alpha2.PostgreSQLServer)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())

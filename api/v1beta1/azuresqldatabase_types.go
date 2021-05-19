@@ -27,7 +27,7 @@ const (
 type SqlDatabaseSku struct {
 	// Name - The name of the SKU, typically, a letter + Number code, e.g. P3.
 	// +kubebuilder:validation:Required
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	Name string `json:"name"`
 	// optional
 	// Tier - The tier or edition of the particular SKU, e.g. Basic, Premium.
@@ -40,33 +40,47 @@ type SqlDatabaseSku struct {
 	Capacity *int32 `json:"capacity,omitempty"`
 }
 
+type SQLDatabaseShortTermRetentionPolicy struct {
+	// RetentionDays is the backup retention period in days. This is how many days
+	// Point-in-Time Restore will be supported.
+	// +kubebuilder:validation:Required
+	RetentionDays int32 `json:"retentionDays"`
+}
+
 // AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
 type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
 	Location string `json:"location"`
+
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup string `json:"resourceGroup"`
-	Server        string `json:"server"`
+
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
+	Server string `json:"server"`
 
 	// +kubebuilder:validation:Optional
-	Edition          DBEdition          `json:"edition"`       // TODO: Remove this in v1beta2
-	Sku              *SqlDatabaseSku    `json:"sku,omitempty"` // TODO: make this required in v1beta2
-	MaxSize          *resource.Quantity `json:"maxSize,omitempty"`
-	DbName           string             `json:"dbName,omitempty"`
-	WeeklyRetention  string             `json:"weeklyRetention,omitempty"`
-	MonthlyRetention string             `json:"monthlyRetention,omitempty"`
-	YearlyRetention  string             `json:"yearlyRetention,omitempty"`
-	WeekOfYear       int32              `json:"weekOfYear,omitempty"`
+	Edition                  DBEdition                            `json:"edition"`       // TODO: Remove this in v1beta2
+	Sku                      *SqlDatabaseSku                      `json:"sku,omitempty"` // TODO: make this required in v1beta2
+	MaxSize                  *resource.Quantity                   `json:"maxSize,omitempty"`
+	DbName                   string                               `json:"dbName,omitempty"`
+	WeeklyRetention          string                               `json:"weeklyRetention,omitempty"`
+	MonthlyRetention         string                               `json:"monthlyRetention,omitempty"`
+	YearlyRetention          string                               `json:"yearlyRetention,omitempty"`
+	WeekOfYear               int32                                `json:"weekOfYear,omitempty"`
+	ShortTermRetentionPolicy *SQLDatabaseShortTermRetentionPolicy `json:"shortTermRetentionPolicy,omitempty"`
 }
 
+// AzureSqlDatabase is the Schema for the azuresqldatabases API
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
-
-// AzureSqlDatabase is the Schema for the azuresqldatabases API
 // +kubebuilder:resource:shortName=asqldb
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"

@@ -16,7 +16,7 @@ type AzureSqlDatabaseSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup string    `json:"resourcegroup"`
 	Server        string    `json:"server"`
@@ -25,10 +25,9 @@ type AzureSqlDatabaseSpec struct {
 	DbName string `json:"dbName,omitempty"`
 }
 
+// AzureSqlDatabase is the Schema for the azuresqldatabases API
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-
-// AzureSqlDatabase is the Schema for the azuresqldatabases API
 // +kubebuilder:resource:shortName=asqldb
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"

@@ -14,7 +14,7 @@ type APIMAPIReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=apimgmtapis,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=apimgmtapis/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={apimgmtapis/status,apimgmtapis/finalizers},verbs=get;update;patch
 
 // Reconcile attempts to set the desired state snapshot representation of the service in k8s
 func (r *APIMAPIReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {

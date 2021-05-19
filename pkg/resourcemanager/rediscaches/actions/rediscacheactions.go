@@ -8,6 +8,7 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
@@ -22,9 +23,10 @@ type AzureRedisCacheActionManager struct {
 }
 
 // NewAzureRedisCacheActionManager creates a new RedisCacheManager
-func NewAzureRedisCacheActionManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureRedisCacheActionManager {
+func NewAzureRedisCacheActionManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureRedisCacheActionManager {
 	return &AzureRedisCacheActionManager{
 		rediscaches.AzureRedisManager{
+			Creds:        creds,
 			SecretClient: secretClient,
 			Scheme:       scheme,
 		},

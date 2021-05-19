@@ -8,16 +8,16 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"encoding/json"
-
 	"fmt"
 	"strings"
 	"testing"
 	"time"
 
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
+	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
+	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
+	uuid "github.com/gofrs/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/crypto/ssh"
@@ -29,11 +29,14 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -43,7 +46,10 @@ import (
 	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
+
+var TestResourceGroupPrefix = "rg-prime"
 
 type TestContext struct {
 	k8sClient             client.Client
@@ -302,45 +308,37 @@ func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance ru
 
 }
 
-func EnsureSecrets(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, secretclient secrets.SecretClient, secretname string, secretnamespace string) {
+func EnsureSecrets(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, secretClient secrets.SecretClient, secretKey secrets.SecretKey) {
 	assert := assert.New(t)
 	typeOf := fmt.Sprintf("%T", instance)
-
-	key := types.NamespacedName{Name: secretname, Namespace: secretnamespace}
 
 	// Wait for secret
 	err := helpers.Retry(tc.timeoutFast, tc.retry, func() error {
 
-		_, err := secretclient.Get(ctx, key)
-		if err != nil {
-			return fmt.Errorf("secret with name %s does not exist", key.String())
-		}
-		return nil
+		_, err := secretClient.Get(ctx, secretKey)
+		return err
 	})
 	assert.Nil(err, "error waiting for %s to have secret", typeOf)
 
 }
-func EnsureSecretsWithValue(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, secretclient secrets.SecretClient, secretname string, secretnamespace string, secretkey string, secretvalue string) {
+func EnsureSecretsWithValue(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, secretclient secrets.SecretClient, secretKey secrets.SecretKey, secretSubKey string, secretvalue string) {
 	assert := assert.New(t)
 	typeOf := fmt.Sprintf("%T", instance)
-
-	key := types.NamespacedName{Name: secretname, Namespace: secretnamespace}
 
 	// Wait for secret
 	err := helpers.Retry(tc.timeoutFast, tc.retry, func() error {
 
-		secrets, err := secretclient.Get(ctx, key)
+		secrets, err := secretclient.Get(ctx, secretKey)
 		if err != nil {
 			return err
 		}
-		if !strings.Contains(string(secrets[secretkey]), secretvalue) {
-			return fmt.Errorf("secret with key %s not equal to %s", secretname, secretvalue)
+		if !strings.Contains(string(secrets[secretSubKey]), secretvalue) {
+			return fmt.Errorf("secret with key %+v not equal to %s", secretKey, secretvalue)
 		}
 
 		return nil
 	})
 	assert.Nil(err, "error waiting for %s to have correct secret", typeOf)
-
 }
 
 func RequireInstance(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object) {
@@ -424,7 +422,7 @@ func GenerateTestResourceName(id string) string {
 
 // GenerateTestResourceNameWithRandom returns a resource name with a random string appended
 func GenerateTestResourceNameWithRandom(id string, rc int) string {
-	return GenerateTestResourceName(id) + "-" + helpers.RandomString(rc)
+	return resourcemanagerconfig.TestResourcePrefix() + "-" + helpers.RandomString(rc) + "-" + id
 }
 
 // GenerateAlphaNumTestResourceName returns an alpha-numeric resource name
@@ -443,4 +441,62 @@ func GenerateRandomSshPublicKeyString() string {
 	publicRsaKey, _ := ssh.NewPublicKey(&privateKey.PublicKey)
 	sshPublicKeyData := string(ssh.MarshalAuthorizedKey(publicRsaKey))
 	return sshPublicKeyData
+}
+
+//CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user - used in test
+func CreateVaultWithAccessPolicies(ctx context.Context, creds config.Credentials, groupName string, vaultName string, location string, clientID string) error {
+	vaultsClient, err := resourcemanagerkeyvaults.GetKeyVaultClient(creds)
+	if err != nil {
+		return errors.Wrapf(err, "couldn't get vaults client")
+	}
+	id, err := uuid.FromString(creds.TenantID())
+	if err != nil {
+		return errors.Wrapf(err, "couldn't convert tenantID to UUID")
+	}
+
+	apList := []keyvault.AccessPolicyEntry{}
+	ap := keyvault.AccessPolicyEntry{
+		TenantID: &id,
+		Permissions: &keyvault.Permissions{
+			Keys: &[]keyvault.KeyPermissions{
+				keyvault.KeyPermissionsCreate,
+			},
+			Secrets: &[]keyvault.SecretPermissions{
+				keyvault.SecretPermissionsSet,
+				keyvault.SecretPermissionsGet,
+				keyvault.SecretPermissionsDelete,
+				keyvault.SecretPermissionsList,
+			},
+		},
+	}
+	if clientID != "" {
+		objID, err := resourcemanagerkeyvaults.GetObjectID(ctx, creds, creds.TenantID(), clientID)
+		if err != nil {
+			return err
+		}
+		if objID != nil {
+			ap.ObjectID = objID
+			apList = append(apList, ap)
+		}
+
+	}
+
+	params := keyvault.VaultCreateOrUpdateParameters{
+		Properties: &keyvault.VaultProperties{
+			TenantID:       &id,
+			AccessPolicies: &apList,
+			Sku: &keyvault.Sku{
+				Family: to.StringPtr("A"),
+				Name:   keyvault.Standard,
+			},
+		},
+		Location: to.StringPtr(location),
+	}
+
+	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
+	if err != nil {
+		return err
+	}
+
+	return future.WaitForCompletionRef(ctx, vaultsClient.Client)
 }

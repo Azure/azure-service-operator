@@ -14,19 +14,29 @@ import (
 type AzureSQLUserSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Server string `json:"server"`
-	DbName string `json:"dbName"`
-	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
-	ResourceGroup string   `json:"resourceGroup"`
-	Roles         []string `json:"roles"`
+	Server string `json:"server"`
+
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
+	DbName string `json:"dbName"`
+
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Required
+	ResourceGroup string `json:"resourceGroup"`
+
+	// +kubebuilder:validation:Required
+	Roles []string `json:"roles"`
+
 	// optional
 	AdminSecret            string   `json:"adminSecret,omitempty"`
 	AdminSecretKeyVault    string   `json:"adminSecretKeyVault,omitempty"`
 	Username               string   `json:"username,omitempty"`
 	KeyVaultToStoreSecrets string   `json:"keyVaultToStoreSecrets,omitempty"`
-	KeyVaultSecretPrefix   string   `json:"keyVaultSecretPrefix,omitempty"`
+	KeyVaultSecretPrefix   string   `json:"keyVaultSecretPrefix,omitempty"` // TODO: Remove this in a future version?
 	KeyVaultSecretFormats  []string `json:"keyVaultSecretFormats,omitempty"`
 }
 

@@ -15,14 +15,14 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func (g *AzureVMScaleSetClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (c *AzureVMScaleSetClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
-	instance, err := g.convert(obj)
+	instance, err := c.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	client := getVMScaleSetClient()
+	client := getVMScaleSetClient(c.Creds)
 
 	location := instance.Spec.Location
 	resourceGroup := instance.Spec.ResourceGroup
@@ -40,13 +40,14 @@ func (g *AzureVMScaleSetClient) Ensure(ctx context.Context, obj runtime.Object, 
 	natPoolName := instance.Spec.InboundNatPoolName
 
 	// Check to see if secret exists and if yes retrieve the admin login and password
-	secret, err := g.GetOrPrepareSecret(ctx, instance)
+	secret, err := c.GetOrPrepareSecret(ctx, instance)
 	if err != nil {
 		return false, err
 	}
 	// Update secret
-	err = g.AddVMScaleSetCredsToSecrets(ctx, instance.Name, secret, instance)
+	err = c.AddVMScaleSetCredsToSecrets(ctx, secret, instance)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		return false, err
 	}
 
@@ -55,7 +56,7 @@ func (g *AzureVMScaleSetClient) Ensure(ctx context.Context, obj runtime.Object, 
 	instance.Status.Provisioning = true
 	// Check if this item already exists. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
-	item, err := g.GetVMScaleSet(ctx, resourceGroup, resourceName)
+	item, err := c.GetVMScaleSet(ctx, resourceGroup, resourceName)
 	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
@@ -64,7 +65,7 @@ func (g *AzureVMScaleSetClient) Ensure(ctx context.Context, obj runtime.Object, 
 		return true, nil
 	}
 
-	future, err := g.CreateVMScaleSet(
+	future, err := c.CreateVMScaleSet(
 		ctx,
 		location,
 		resourceGroup,
@@ -96,7 +97,7 @@ func (g *AzureVMScaleSetClient) Ensure(ctx context.Context, obj runtime.Object, 
 			errhelp.InvalidResourceReference,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -124,7 +125,7 @@ func (g *AzureVMScaleSetClient) Ensure(ctx context.Context, obj runtime.Object, 
 			errhelp.SubscriptionDoesNotHaveServer,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -149,9 +150,9 @@ func (g *AzureVMScaleSetClient) Ensure(ctx context.Context, obj runtime.Object, 
 	return true, nil
 }
 
-func (g *AzureVMScaleSetClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (c *AzureVMScaleSetClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
-	instance, err := g.convert(obj)
+	instance, err := c.convert(obj)
 	if err != nil {
 		return true, err
 	}
@@ -159,7 +160,7 @@ func (g *AzureVMScaleSetClient) Delete(ctx context.Context, obj runtime.Object, 
 	resourceGroup := instance.Spec.ResourceGroup
 	resourceName := instance.Name
 
-	status, err := g.DeleteVMScaleSet(
+	status, err := c.DeleteVMScaleSet(
 		ctx,
 		resourceName,
 		resourceGroup,
@@ -174,7 +175,7 @@ func (g *AzureVMScaleSetClient) Delete(ctx context.Context, obj runtime.Object, 
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {
@@ -191,9 +192,9 @@ func (g *AzureVMScaleSetClient) Delete(ctx context.Context, obj runtime.Object, 
 
 	return true, nil
 }
-func (g *AzureVMScaleSetClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+func (c *AzureVMScaleSetClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
-	instance, err := g.convert(obj)
+	instance, err := c.convert(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -209,16 +210,16 @@ func (g *AzureVMScaleSetClient) GetParents(obj runtime.Object) ([]resourcemanage
 	}, nil
 }
 
-func (g *AzureVMScaleSetClient) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+func (c *AzureVMScaleSetClient) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
 
-	instance, err := g.convert(obj)
+	instance, err := c.convert(obj)
 	if err != nil {
 		return nil, err
 	}
 	return &instance.Status, nil
 }
 
-func (g *AzureVMScaleSetClient) convert(obj runtime.Object) (*azurev1alpha1.AzureVMScaleSet, error) {
+func (c *AzureVMScaleSetClient) convert(obj runtime.Object) (*azurev1alpha1.AzureVMScaleSet, error) {
 	local, ok := obj.(*azurev1alpha1.AzureVMScaleSet)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())

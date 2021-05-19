@@ -7,16 +7,18 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 // Ensure creates a sqlfailovergroup
@@ -26,8 +28,9 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		opt(options)
 	}
 
+	secretClient := fg.SecretClient
 	if options.SecretClient != nil {
-		fg.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := fg.convert(obj)
@@ -35,84 +38,101 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		return false, err
 	}
 
-	groupName := instance.Spec.ResourceGroup
-	serverName := instance.Spec.Server
-	failoverGroupName := instance.ObjectMeta.Name
-	sqlFailoverGroupProperties := azuresqlshared.SQLFailoverGroupProperties{
-		FailoverPolicy:               v1alpha1.ReadWriteEndpointFailoverPolicy(instance.Spec.FailoverPolicy),
-		FailoverGracePeriod:          instance.Spec.FailoverGracePeriod,
-		SecondaryServer:              instance.Spec.SecondaryServer,
-		SecondaryServerResourceGroup: instance.Spec.SecondaryServerResourceGroup,
-		DatabaseList:                 instance.Spec.DatabaseList,
+	pClient := pollclient.NewPollClient(fg.Creds)
+	lroPollResult, err := pClient.PollLongRunningOperationIfNeeded(ctx, &instance.Status)
+	if err != nil {
+		instance.Status.Message = err.Error()
+		return false, err
 	}
-
-	resp, err := fg.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName)
-	if err == nil {
-
-		if *resp.ReplicationState == "SEEDING" {
-			return false, nil
-		}
-
-		instance.Status.Provisioning = false
-		instance.Status.Provisioned = true
-		instance.Status.Message = resourcemanager.SuccessMsg
-		instance.Status.ResourceId = *resp.ID
-		return true, nil
-	}
-	instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
-	requeuErrors := []string{
-		errhelp.ResourceGroupNotFoundErrorCode,
-		errhelp.ParentNotFoundErrorCode,
-	}
-	azerr := errhelp.NewAzureErrorAzureError(err)
-	if helpers.ContainsString(requeuErrors, azerr.Type) {
-		instance.Status.Provisioning = false
+	if lroPollResult == pollclient.PollResultTryAgainLater {
+		// Need to wait a bit before trying again
 		return false, nil
 	}
 
-	_, err = fg.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(fg.Creds)
+	if err != nil {
+		return false, errors.Wrapf(err, "failed to create failovergroup client")
+	}
+
+	notFoundErrorCodes := []string{
+		errhelp.ParentNotFoundErrorCode,
+		errhelp.ResourceGroupNotFoundErrorCode,
+		errhelp.NotFoundErrorCode,
+		errhelp.ResourceNotFound,
+	}
+
+	failoverGroupName := instance.ObjectMeta.Name
+	azureFailoverGroup, err := failoverGroupsClient.Get(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, failoverGroupName)
+	if err != nil {
+		azerr := errhelp.NewAzureError(err)
+		if azerr.Type != errhelp.ResourceNotFound {
+			instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
+			return errhelp.HandleEnsureError(err, notFoundErrorCodes, nil)
+		}
+	}
+
+	failoverGroupProperties, err := fg.TransformToSQLFailoverGroup(ctx, instance)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		catch := []string{
-			errhelp.ParentNotFoundErrorCode,
-			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.NotFoundErrorCode,
+		return errhelp.HandleEnsureError(err, notFoundErrorCodes, nil)
+	}
+
+	// We found a failover group, check to make sure that it matches what we have locally
+	resourceMatchesAzure := DoesResourceMatchAzure(failoverGroupProperties, azureFailoverGroup)
+
+	if resourceMatchesAzure {
+		if *azureFailoverGroup.ReplicationState == "SEEDING" {
+			instance.Status.Message = "FailoverGroup replicationState is SEEDING"
+			return false, nil
+		}
+
+		secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+		_, err := secretClient.Get(ctx, secretKey)
+		// We make the same assumption many other places in the code make which is that if we cannot
+		// get the secret it must not exist.
+		if err != nil {
+			// Create a new secret
+			secret := fg.NewSecret(instance)
+
+			// create or update the secret
+			err = secretClient.Upsert(
+				ctx,
+				secretKey,
+				secret,
+				secrets.WithOwner(instance),
+				secrets.WithScheme(fg.Scheme),
+			)
+			if err != nil {
+				instance.Status.Message = fmt.Sprintf("failed to update secret: %s", err.Error())
+				return false, err
+			}
+		}
+
+		instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
+		instance.Status.ResourceId = *azureFailoverGroup.ID
+		return true, nil
+	}
+
+	// We need to reconcile as our state didn't match Azure
+	instance.Status.SetProvisioning("")
+
+	future, err := fg.CreateOrUpdateFailoverGroup(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, failoverGroupName, failoverGroupProperties)
+	if err != nil {
+		instance.Status.Message = err.Error()
+		allowedErrors := []string{
 			errhelp.AsyncOpIncompleteError,
-			errhelp.ResourceNotFound,
 			errhelp.AlreadyExists,
 			errhelp.FailoverGroupBusy,
 		}
-		catchUnrecoverableErrors := []string{
+		unrecoverableErrors := []string{
 			errhelp.InvalidFailoverGroupRegion,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
-			return false, nil
-		}
-		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
-			// Unrecoverable error, so stop reconcilation
-			instance.Status.Message = "Reconcilation hit unrecoverable error " + err.Error()
-			return true, nil
-		}
-		return false, err
+		return errhelp.HandleEnsureError(err, append(allowedErrors, notFoundErrorCodes...), unrecoverableErrors)
 	}
+	instance.Status.SetProvisioning("Resource request successfully submitted to Azure")
+	instance.Status.PollingURL = future.PollingURL()
 
-	secret, _ := fg.GetOrPrepareSecret(ctx, instance)
-
-	// create or update the secret
-	key := types.NamespacedName{Name: instance.ObjectMeta.Name, Namespace: instance.Namespace}
-	err = fg.SecretClient.Upsert(
-		ctx,
-		key,
-		secret,
-		secrets.WithOwner(instance),
-		secrets.WithScheme(fg.Scheme),
-	)
-	if err != nil {
-		return false, err
-	}
-
-	// create was received successfully but replication is not done
+	// Need to poll the polling URL, so not done yet!
 	return false, nil
 }
 
@@ -123,8 +143,9 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 		opt(options)
 	}
 
+	secretClient := fg.SecretClient
 	if options.SecretClient != nil {
-		fg.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := fg.convert(obj)
@@ -137,12 +158,12 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 	failoverGroupName := instance.ObjectMeta.Name
 
 	// key for Secret to delete on successful provision
-	key := types.NamespacedName{Name: instance.ObjectMeta.Name, Namespace: instance.Namespace}
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	_, err = fg.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// these errors are expected
 		ignore := []string{
@@ -161,7 +182,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 
 		if helpers.ContainsString(finished, azerr.Type) {
 			// Best case deletion of secret
-			fg.SecretClient.Delete(ctx, key)
+			secretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 		instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Delete failed with: %s", err.Error())
@@ -170,7 +191,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFailoverGroup succeeded")
 	// Best case deletion of secret
-	fg.SecretClient.Delete(ctx, key)
+	secretClient.Delete(ctx, secretKey)
 	return false, nil
 }
 

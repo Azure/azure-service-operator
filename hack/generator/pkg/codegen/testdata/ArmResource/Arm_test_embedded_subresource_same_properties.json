@@ -1,0 +1,96 @@
+{
+    "$comment": "Test that an ARM resource and its child resource that share the same Properties type do not both have that type removed.",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "a": {
+            "$ref": "#/resourceDefinitions/A"
+        },
+        "b": {
+            "$ref": "#/resourceDefinitions/B"
+        }
+    },
+    "resourceDefinitions": {
+        "B": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/B"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                },
+                "properties": {
+                    "$ref": "#/definitions/CommonProperties"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        },
+        "A": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/A"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                },
+                "properties": {
+                    "$ref": "#/definitions/CommonProperties"
+                },
+                "resources": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/resourceDefinitions/B"
+                            }
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        }
+    },
+    "definitions": {
+        "CommonProperties": {
+            "type": "object",
+            "properties": {
+                "stringField": {
+                    "type": "string"
+                },
+                "intField": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

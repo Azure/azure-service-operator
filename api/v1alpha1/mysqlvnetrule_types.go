@@ -15,19 +15,20 @@ type MySQLVNetRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	ResourceGroup                string `json:"resourceGroup"`
 	Server                       string `json:"server"`
 	VNetResourceGroup            string `json:"vNetResourceGroup"`
 	VNetName                     string `json:"vNetName"`
 	SubnetName                   string `json:"subnetName"`
+	VNetSubscriptionID           string `json:"vNetSubscriptionID,omitempty"`
 	IgnoreMissingServiceEndpoint bool   `json:"ignoreMissingServiceEndpoint,omitempty"`
 }
 
-// +kubebuilder:object:root=true
-
 // MySQLVNetRule is the Schema for the mysqlvnetrules API
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 // +kubebuilder:resource:shortName=mysqlvnr
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"

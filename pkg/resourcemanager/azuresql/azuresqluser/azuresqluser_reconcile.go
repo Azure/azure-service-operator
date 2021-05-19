@@ -9,20 +9,52 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
+	_ "github.com/denisenkom/go-mssqldb"
+	"github.com/google/uuid"
+	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
-	"github.com/google/uuid"
-	"k8s.io/apimachinery/pkg/runtime"
-
-	_ "github.com/denisenkom/go-mssqldb"
-	"k8s.io/apimachinery/pkg/types"
 )
+
+func GetAdminSecretKey(adminSecretName string, namespace string) secrets.SecretKey {
+	return secrets.SecretKey{Name: adminSecretName, Namespace: namespace, Kind: reflect.TypeOf(v1beta1.AzureSqlServer{}).Name()}
+}
+
+func (s *AzureSqlUserManager) getAdminSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser) (map[string][]byte, error) {
+	adminSecretClient := s.SecretClient
+	adminSecretName := instance.Spec.AdminSecret
+	if len(adminSecretName) == 0 {
+		adminSecretName = instance.Spec.Server
+	}
+	adminSecretKey := GetAdminSecretKey(adminSecretName, instance.Namespace)
+
+	// if the admin secret keyvault is not specified, fall back to global secretclient
+	if len(instance.Spec.AdminSecretKeyVault) != 0 {
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
+
+		// This is here for legacy reasons
+		if len(instance.Spec.AdminSecret) != 0 && s.SecretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+			adminSecretKey.Namespace = ""
+		}
+	}
+
+	// get admin creds for server
+	secret, err := adminSecretClient.Get(ctx, adminSecretKey)
+	if err != nil {
+		return nil, errors.Wrap(err, "AzureSqlServer admin secret not found")
+	}
+
+	return secret, nil
+}
 
 // Ensure that user exists
 func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
@@ -41,53 +73,34 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		opt(options)
 	}
 
-	adminSecretClient := s.SecretClient
-
-	adminsecretName := instance.Spec.AdminSecret
-	if len(instance.Spec.AdminSecret) == 0 {
-		adminsecretName = instance.Spec.Server
-	}
-
-	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
-
-	var sqlUserSecretClient secrets.SecretClient
-	if options.SecretClient != nil {
-		sqlUserSecretClient = options.SecretClient
-	} else {
-		sqlUserSecretClient = s.SecretClient
-	}
-
-	// if the admin secret keyvault is not specified, fall back to global secretclient
-	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
-		if len(instance.Spec.AdminSecret) != 0 {
-			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
-		}
-	}
-
-	// get admin creds for server
-	adminSecret, err := adminSecretClient.Get(ctx, key)
+	adminSecret, err := s.getAdminSecret(ctx, instance)
 	if err != nil {
-		instance.Status.Provisioning = false
-		instance.Status.Message = fmt.Sprintf("admin secret : %s, not found in %s", key.String(), reflect.TypeOf(adminSecretClient).Elem().Name())
+		instance.Status.Message = err.Error()
 		return false, nil
 	}
 
 	adminUser := string(adminSecret[SecretUsernameKey])
 	adminPassword := string(adminSecret[SecretPasswordKey])
 
+	var userSecretClient secrets.SecretClient
+	if options.SecretClient != nil {
+		userSecretClient = options.SecretClient
+	} else {
+		userSecretClient = s.SecretClient
+	}
+
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
 
-		requeuErrors := []string{
+		requeueErrors := []string{
 			errhelp.ResourceNotFound,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(requeuErrors, azerr.Type) {
+		azerr := errhelp.NewAzureError(err)
+		if helpers.ContainsString(requeueErrors, azerr.Type) {
 			return false, nil
 		}
 
@@ -97,7 +110,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 			return false, nil
 		}
 
-		// if this is an unmarshall error - igmore and continue, otherwise report error and requeue
+		// if this is an unmarshall error - ignore and continue, otherwise report error and requeue
 		if !strings.Contains(errorString, "cannot unmarshal array into Go struct field serviceError2.details") {
 			return false, err
 		}
@@ -122,25 +135,23 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
-	// In keyvault we have to avoid collisions with other secrets so we create a custom namespace with the user's parameters
-	key = GetNamespacedName(instance, sqlUserSecretClient)
+	userSecretKey := MakeSecretKey(userSecretClient, instance)
 
 	// create or get new user secret
-	DBSecret := s.GetOrPrepareSecret(ctx, instance, sqlUserSecretClient)
+	userSecret := s.GetOrPrepareSecret(ctx, instance, userSecretClient)
 	// reset user from secret in case it was loaded
-	user := string(DBSecret[SecretUsernameKey])
+	user := string(userSecret[SecretUsernameKey])
 	if user == "" {
 		user = fmt.Sprintf("%s-%s", requestedUsername, uuid.New())
-		DBSecret[SecretUsernameKey] = []byte(user)
+		userSecret[SecretUsernameKey] = []byte(user)
 	}
 
 	// Publishing the user secret:
 	// We do this first so if the keyvault does not have right permissions we will not proceed to creating the user
-	err = sqlUserSecretClient.Upsert(
+	err = userSecretClient.Upsert(
 		ctx,
-		key,
-		DBSecret,
+		userSecretKey,
+		userSecret,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(s.Scheme),
 	)
@@ -150,8 +161,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 	}
 
 	// Preformatted special formats are only available through keyvault as they require separated secrets
-	keyVaultEnabled := reflect.TypeOf(sqlUserSecretClient).Elem().Name() == "KeyvaultSecretClient"
-	if keyVaultEnabled {
+	if userSecretClient.IsKeyVault() {
 		// Instantiate a map of all formats and flip the bool to true for any that have been requested in the spec.
 		// Formats that were not requested will be explicitly deleted.
 		requestedFormats := map[string]bool{
@@ -172,6 +182,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 		// Deleted items will be processed immediately but secrets that need to be added will be created in this array and persisted in one pass at the end
 		formattedSecrets := make(map[string][]byte)
+		var toDelete []string
 
 		for formatName, requested := range requestedFormats {
 			// Add the format to the output map if it has been requested otherwise call for its deletion from the secret store
@@ -180,51 +191,51 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 				case "adonet":
 					formattedSecrets["adonet"] = []byte(fmt.Sprintf(
 						"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False;User ID=%v;Password=%v;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
-						string(DBSecret["fullyQualifiedServerName"]),
+						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 						user,
-						string(DBSecret["password"]),
+						string(userSecret["password"]),
 					))
 
 				case "adonet-urlonly":
 					formattedSecrets["adonet-urlonly"] = []byte(fmt.Sprintf(
 						"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout",
-						string(DBSecret["fullyQualifiedServerName"]),
+						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 					))
 
 				case "jdbc":
 					formattedSecrets["jdbc"] = []byte(fmt.Sprintf(
 						"jdbc:sqlserver://%v:1433;database=%v;user=%v@%v;password=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
-						string(DBSecret["fullyQualifiedServerName"]),
+						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 						user,
 						instance.Spec.Server,
-						string(DBSecret["password"]),
+						string(userSecret["password"]),
 					))
 				case "jdbc-urlonly":
 					formattedSecrets["jdbc-urlonly"] = []byte(fmt.Sprintf(
 						"jdbc:sqlserver://%v:1433;database=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
-						string(DBSecret["fullyQualifiedServerName"]),
+						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 					))
 
 				case "odbc":
 					formattedSecrets["odbc"] = []byte(fmt.Sprintf(
 						"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False;User ID=%v;Password=%v;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
-						string(DBSecret["fullyQualifiedServerName"]),
+						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 						user,
-						string(DBSecret["password"]),
+						string(userSecret["password"]),
 					))
 				case "odbc-urlonly":
 					formattedSecrets["odbc-urlonly"] = []byte(fmt.Sprintf(
 						"Driver={ODBC Driver 13 for SQL Server};Server=tcp:%v,1433;Database=%v; Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;",
-						string(DBSecret["fullyQualifiedServerName"]),
+						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 					))
 				case "server":
-					formattedSecrets["server"] = DBSecret["fullyQualifiedServerName"]
+					formattedSecrets["server"] = userSecret["fullyQualifiedServerName"]
 
 				case "database":
 					formattedSecrets["database"] = []byte(instance.Spec.DbName)
@@ -233,19 +244,22 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 					formattedSecrets["username"] = []byte(user)
 
 				case "password":
-					formattedSecrets["password"] = DBSecret["password"]
+					formattedSecrets["password"] = userSecret["password"]
 				}
 			} else {
-				err = sqlUserSecretClient.Delete(
-					ctx,
-					types.NamespacedName{Namespace: key.Namespace, Name: instance.Name + "-" + formatName},
-				)
+				toDelete = append(toDelete, formatName)
 			}
 		}
 
-		err = sqlUserSecretClient.Upsert(
+		// Purposefully ignoring error here for now
+		userSecretClient.Delete(
 			ctx,
-			types.NamespacedName{Namespace: key.Namespace, Name: instance.Name},
+			userSecretKey,
+			secrets.Flatten(true, toDelete...))
+
+		err = userSecretClient.Upsert(
+			ctx,
+			userSecretKey,
 			formattedSecrets,
 			secrets.WithOwner(instance),
 			secrets.WithScheme(s.Scheme),
@@ -256,14 +270,14 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		}
 	}
 
-	userExists, err := s.UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
+	userExists, err := s.UserExists(ctx, db, string(userSecret[SecretUsernameKey]))
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
 		return false, nil
 	}
 
 	if !userExists {
-		user, err = s.CreateUser(ctx, DBSecret, db)
+		user, err = s.CreateUser(ctx, userSecret, db)
 		if err != nil {
 			instance.Status.Message = "failed creating user, err: " + err.Error()
 			return false, err
@@ -302,23 +316,7 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	adminSecretClient := s.SecretClient
-
-	adminsecretName := instance.Spec.AdminSecret
-	if len(instance.Spec.AdminSecret) == 0 {
-		adminsecretName = instance.Spec.Server
-	}
-	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
-
-	// if the admin secret keyvault is not specified, fall back to global secretclient
-	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
-		if len(instance.Spec.AdminSecret) != 0 {
-			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
-		}
-	}
-
-	adminSecret, err := adminSecretClient.Get(ctx, key)
+	adminSecret, err := s.getAdminSecret(ctx, instance)
 	if err != nil {
 		// assuming if the admin secret is gone the sql server is too
 		return false, nil
@@ -334,17 +332,17 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
 		return false, err
 	}
 
-	var adminuser = string(adminSecret[SecretUsernameKey])
-	var adminpassword = string(adminSecret[SecretPasswordKey])
+	var adminUser = string(adminSecret[SecretUsernameKey])
+	var adminPassword = string(adminSecret[SecretPasswordKey])
 
-	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, adminuser, adminpassword)
+	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
@@ -362,8 +360,8 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		sqlUserSecretClient = s.SecretClient
 	}
 
-	userkey := GetNamespacedName(instance, sqlUserSecretClient)
-	userSecret, err := sqlUserSecretClient.Get(ctx, userkey)
+	userSecretKey := MakeSecretKey(sqlUserSecretClient, instance)
+	userSecret, err := sqlUserSecretClient.Get(ctx, userSecretKey)
 	if err != nil {
 		//user secret is gone
 		return false, nil

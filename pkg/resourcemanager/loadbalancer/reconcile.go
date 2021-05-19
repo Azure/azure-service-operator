@@ -15,14 +15,14 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func (g *AzureLoadBalancerClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (c *AzureLoadBalancerClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
-	instance, err := g.convert(obj)
+	instance, err := c.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	client := getLoadBalancerClient()
+	client := getLoadBalancerClient(c.Creds)
 
 	location := instance.Spec.Location
 	resourceGroup := instance.Spec.ResourceGroup
@@ -37,7 +37,7 @@ func (g *AzureLoadBalancerClient) Ensure(ctx context.Context, obj runtime.Object
 	instance.Status.Provisioning = true
 	// Check if this item already exists. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
-	item, err := g.GetLoadBalancer(ctx, resourceGroup, resourceName)
+	item, err := c.GetLoadBalancer(ctx, resourceGroup, resourceName)
 	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
@@ -45,7 +45,7 @@ func (g *AzureLoadBalancerClient) Ensure(ctx context.Context, obj runtime.Object
 		instance.Status.ResourceId = *item.ID
 		return true, nil
 	}
-	future, err := g.CreateLoadBalancer(
+	future, err := c.CreateLoadBalancer(
 		ctx,
 		location,
 		resourceGroup,
@@ -71,7 +71,7 @@ func (g *AzureLoadBalancerClient) Ensure(ctx context.Context, obj runtime.Object
 			errhelp.InvalidResourceReference,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -99,7 +99,7 @@ func (g *AzureLoadBalancerClient) Ensure(ctx context.Context, obj runtime.Object
 			errhelp.SubscriptionDoesNotHaveServer,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -150,7 +150,7 @@ func (g *AzureLoadBalancerClient) Delete(ctx context.Context, obj runtime.Object
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

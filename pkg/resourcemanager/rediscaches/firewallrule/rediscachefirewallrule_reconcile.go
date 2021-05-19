@@ -40,7 +40,7 @@ func (fw *AzureRedisCacheFirewallRuleManager) Ensure(ctx context.Context, obj ru
 	if err != nil {
 		instance.Status.Message = err.Error()
 		instance.Status.Provisioning = false
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		inProgress := []string{
 			errhelp.RequestConflictError,
@@ -87,7 +87,7 @@ func (fw *AzureRedisCacheFirewallRuleManager) Delete(ctx context.Context, obj ru
 	_, err = fw.DeleteRedisCacheFirewallRule(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName, instance.ObjectMeta.Name)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		ignorableErr := []string{
 			errhelp.AsyncOpIncompleteError,

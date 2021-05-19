@@ -3,8 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     cert-manager.io/inject-ca-from: azureoperator-system/azureoperator-serving-cert
-    controller-gen.kubebuilder.io/version: v0.2.5
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.4.0
   name: mysqlservers.azure.microsoft.com
 spec:
   additionalPrinterColumns:
@@ -17,7 +16,6 @@ spec:
   conversion:
     strategy: Webhook
     webhookClientConfig:
-      caBundle: Cg==
       service:
         name: azureoperator-webhook-service
         namespace: azureoperator-system
@@ -68,6 +66,7 @@ spec:
                     type: string
                 type: object
               resourceGroup:
+                minLength: 1
                 pattern: ^[-\w\._\(\)]+$
                 type: string
               serverVersion:
@@ -170,6 +169,7 @@ spec:
                     type: string
                 type: object
               resourceGroup:
+                minLength: 1
                 pattern: ^[-\w\._\(\)]+$
                 type: string
               serverVersion:

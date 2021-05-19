@@ -9,6 +9,10 @@ import (
 	"strings"
 
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
@@ -18,20 +22,18 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
-// Ensure idempotently instantiates the requested server (ig possible) in Azure
+// Ensure idempotently instantiates the requested server (if possible) in Azure
 func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	options := &resourcemanager.Options{}
 	for _, opt := range opts {
 		opt(options)
 	}
 
+	secretClient := m.SecretClient
 	if options.SecretClient != nil {
-		m.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := m.convert(obj)
@@ -53,12 +55,13 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 	}
 
 	// Check to see if secret exists and if yes retrieve the admin login and password
-	secret, err := m.GetOrPrepareSecret(ctx, instance)
+	secret, err := m.GetOrPrepareSecret(ctx, secretClient, instance)
 	if err != nil {
+		instance.Status.Message = fmt.Sprintf("Failed to get or prepare secret: %s", err.Error())
 		return false, err
 	}
 
-	err = m.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
+	err = m.AddServerCredsToSecrets(ctx, secretClient, secret, instance)
 	if err != nil {
 		return false, err
 	}
@@ -82,14 +85,14 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		if err != nil {
 			// handle failures in the async operation
 			if instance.Status.PollingURL != "" {
-				pClient := pollclient.NewPollClient()
+				pClient := pollclient.NewPollClient(m.Creds)
 				res, err := pClient.Get(ctx, instance.Status.PollingURL)
 				if err != nil {
 					instance.Status.Provisioning = false
 					return false, err
 				}
 
-				if res.Status == "Failed" {
+				if res.Status == pollclient.LongRunningOperationPollStatusFailed {
 					instance.Status.Provisioning = false
 					instance.Status.RequestedAt = nil
 					ignore := []string{
@@ -112,7 +115,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 			}
 			if server.UserVisibleState == mysql.ServerStateReady {
 				// Update secret with FQ name of the server. We ignore the error.
-				m.UpdateServerNameInSecret(ctx, instance.Name, secret, *server.FullyQualifiedDomainName, instance)
+				m.UpdateServerNameInSecret(ctx, secretClient, secret, *server.FullyQualifiedDomainName, instance)
 
 				instance.Status.Provisioned = true
 				instance.Status.Provisioning = false
@@ -120,6 +123,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 				instance.Status.ResourceId = *server.ID
 				instance.Status.State = string(server.UserVisibleState)
 				instance.Status.SpecHash = hash
+				instance.Status.PollingURL = ""
 				return true, nil
 			}
 		}
@@ -154,7 +158,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 			instance.Status.Message = errhelp.StripErrorIDs(err)
 			instance.Status.Provisioning = false
 
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 
 			catchInProgress := []string{
 				errhelp.AsyncOpIncompleteError,
@@ -173,7 +177,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 				if azerr.Type == errhelp.AsyncOpIncompleteError {
 					instance.Status.PollingURL = pollURL
 				}
-				instance.Status.Message = "Postgres server exists but may not be ready"
+				instance.Status.Message = "MySQL server exists but may not be ready"
 				instance.Status.Provisioning = true
 				return false, nil
 			}
@@ -182,14 +186,14 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 				return false, nil
 			}
 
-			// serious error occured, end reconcilliation and mark it as failed
+			// serious error occurred, end reconciliation and mark it as failed
 			instance.Status.Message = errhelp.StripErrorIDs(err)
 			instance.Status.Provisioned = false
 			instance.Status.FailedProvisioning = true
 			return true, nil
-
 		}
 
+		instance.Status.PollingURL = pollURL
 		instance.Status.Message = "request submitted to Azure"
 	}
 	return false, nil
@@ -203,8 +207,9 @@ func (m *MySQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts
 		opt(options)
 	}
 
+	secretClient := m.SecretClient
 	if options.SecretClient != nil {
-		m.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := m.convert(obj)
@@ -223,7 +228,7 @@ func (m *MySQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {
@@ -236,8 +241,8 @@ func (m *MySQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts
 	if err == nil {
 		if status != "InProgress" {
 			// Best case deletion of secrets
-			key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-			m.SecretClient.Delete(ctx, key)
+			secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+			secretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 	}
@@ -284,14 +289,11 @@ func (m *MySQLServerClient) convert(obj runtime.Object) (*v1alpha2.MySQLServer, 
 }
 
 // AddServerCredsToSecrets saves the server's admin credentials in the secret store
-func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha2.MySQLServer) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
+func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretClient secrets.SecretClient, data map[string][]byte, instance *azurev1alpha2.MySQLServer) error {
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	err := m.SecretClient.Upsert(ctx,
-		key,
+	err := secretClient.Upsert(ctx,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(m.Scheme),
@@ -304,16 +306,13 @@ func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretN
 }
 
 // UpdateSecretWithFullServerName updates the secret with the fully qualified server name
-func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secretName string, data map[string][]byte, fullservername string, instance *azurev1alpha2.MySQLServer) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
+func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secretClient secrets.SecretClient, data map[string][]byte, fullservername string, instance *azurev1alpha2.MySQLServer) error {
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	data["fullyQualifiedServerName"] = []byte(fullservername)
 
-	err := m.SecretClient.Upsert(ctx,
-		key,
+	err := secretClient.Upsert(ctx,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(m.Scheme),
@@ -326,47 +325,46 @@ func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secret
 }
 
 // GetOrPrepareSecret gets tje admin credentials if they are stored or generates some if not
-func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha2.MySQLServer) (map[string][]byte, error) {
-	name := instance.Name
+func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, secretClient secrets.SecretClient, instance *azurev1alpha2.MySQLServer) (map[string][]byte, error) {
 	createmode := instance.Spec.CreateMode
 
 	// If createmode == default, then this is a new server creation, so generate username/password
 	// If createmode == replica, then get the credentials from the source server secret and use that
 
 	secret := map[string][]byte{}
-	var key types.NamespacedName
-	var Username string
-	var Password string
+	var key secrets.SecretKey
+	var username string
+	var password string
 
 	if strings.EqualFold(createmode, "default") { // new Mysql server creation
 		// See if secret already exists and return if it does
-		key = types.NamespacedName{Name: name, Namespace: instance.Namespace}
-		if stored, err := m.SecretClient.Get(ctx, key); err == nil {
+		key = secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+		if stored, err := secretClient.Get(ctx, key); err == nil {
 			return stored, nil
 		}
 		// Generate random username password if secret does not exist already
-		Username = helpers.GenerateRandomUsername(10)
-		Password = helpers.NewPassword()
+		username = helpers.GenerateRandomUsername(10)
+		password = helpers.NewPassword()
 	} else { // replica
 		sourceServerId := instance.Spec.ReplicaProperties.SourceServerId
 		if len(sourceServerId) != 0 {
 			// Parse to get source server name
 			sourceServerIdSplit := strings.Split(sourceServerId, "/")
-			sourceserver := sourceServerIdSplit[len(sourceServerIdSplit)-1]
+			sourceServer := sourceServerIdSplit[len(sourceServerIdSplit)-1]
 
 			// Get the username and password from the source server's secret
-			key = types.NamespacedName{Name: sourceserver, Namespace: instance.Namespace}
-			if sourcesecret, err := m.SecretClient.Get(ctx, key); err == nil {
-				Username = string(sourcesecret["username"])
-				Password = string(sourcesecret["password"])
+			key = secrets.SecretKey{Name: sourceServer, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+			if sourceSecret, err := secretClient.Get(ctx, key); err == nil {
+				username = string(sourceSecret["username"])
+				password = string(sourceSecret["password"])
 			}
 		}
 	}
 
 	// Populate secret fields
-	secret["username"] = []byte(Username)
-	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", Username, name))
-	secret["password"] = []byte(Password)
-	secret["mySqlServerName"] = []byte(name)
+	secret["username"] = []byte(username)
+	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", username, instance.Name))
+	secret["password"] = []byte(password)
+	secret["mySqlServerName"] = []byte(instance.Name)
 	return secret, nil
 }

@@ -1,0 +1,44 @@
+{
+    "$comment": "Check that nested aliases inside arrays etc are inlined (note that making this fail is somewhat sensitive to definition order)",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties":  {
+        "p1":  {
+            "$ref": "#/definitions/Foo"
+        },
+        "p2":  {
+            "$ref": "#/definitions/Foo2"
+        },
+        "p3":  {
+            "$ref": "#/definitions/Foo3"
+        },
+        "p4":  {
+            "$ref": "#/definitions/Foo4"
+        }
+    },
+    "definitions": {
+        "Foo": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Foo2"
+            }
+        },
+        "Foo4": {
+            "type": "number"
+        },
+        "Foo3": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Foo4"
+            }
+        },
+        "Foo2": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Foo3"
+            }
+        }
+    }
+}

@@ -1,0 +1,5 @@
+|   | prime | square | triangle |
+|---|-------|--------|----------|
+| 1 | (yes) | yes    |          |
+| 2 | yes   |        |          |
+| 3 | yes   |        | yes      |

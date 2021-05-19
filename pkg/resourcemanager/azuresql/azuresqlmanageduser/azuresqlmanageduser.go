@@ -10,33 +10,26 @@ import (
 	"strings"
 
 	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	mssql "github.com/denisenkom/go-mssqldb"
+	uuid "github.com/gofrs/uuid"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	uuid "github.com/satori/go.uuid"
-
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
-
-	_ "github.com/denisenkom/go-mssqldb"
-	mssql "github.com/denisenkom/go-mssqldb"
 )
 
-// SqlServerPort is the default server port for sql server
-const SqlServerPort = 1433
-
-// DriverName is driver name for db connection
-const DriverName = "sqlserver"
-
 type AzureSqlManagedUserManager struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlManagedUserManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlManagedUserManager {
+func NewAzureSqlManagedUserManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlManagedUserManager {
 	return &AzureSqlManagedUserManager{
+		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
@@ -44,7 +37,7 @@ func NewAzureSqlManagedUserManager(secretClient secrets.SecretClient, scheme *ru
 
 // GetDB retrieves a database
 func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (azuresql.Database, error) {
-	dbClient, err := azuresqlshared.GetGoDbClient()
+	dbClient, err := azuresqlshared.GetGoDbClient(s.Creds)
 	if err != nil {
 		return azuresql.Database{}, err
 	}
@@ -58,14 +51,15 @@ func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupNam
 }
 
 // ConnectToSqlDb connects to the SQL db using the current identity of operator (should be MI)
-func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Context, drivername string, server string, database string) (db *sql.DB, err error) {
+func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Context, server string, database string) (db *sql.DB, err error) {
 
 	fullServerAddress := fmt.Sprintf("%s."+config.Environment().SQLDatabaseDNSSuffix, server)
-	connString := fmt.Sprintf("Server=%s;Database=%s", fullServerAddress, database)
+	// Make sure to set connection timeout: https://github.com/denisenkom/go-mssqldb/issues/609
+	connString := fmt.Sprintf("Server=%s;Database=%s;Connection Timeout=30", fullServerAddress, database)
 
-	tokenProvider, err := getMSITokenProvider()
+	tokenProvider, err := iam.GetMSITokenProviderForResource("https://database.windows.net/")
 	if err != nil {
-		return db, fmt.Errorf("getMSITokenProvider failed: %v", err)
+		return db, fmt.Errorf("GetMSITokenProviderForResource failed: %v", err)
 	}
 
 	connector, err := mssql.NewAccessTokenConnector(connString, tokenProvider)
@@ -148,78 +142,33 @@ func (s *AzureSqlManagedUserManager) DropUser(ctx context.Context, db *sql.DB, u
 
 // UpdateSecret gets or creates a secret
 func (s *AzureSqlManagedUserManager) UpdateSecret(ctx context.Context, instance *v1alpha1.AzureSQLManagedUser, secretClient secrets.SecretClient) error {
-
-	secretprefix := instance.Name
-	secretnamespace := instance.Namespace
-
-	if len(instance.Spec.KeyVaultSecretPrefix) != 0 { // If KeyVaultSecretPrefix is specified, use that for secrets
-		secretprefix = instance.Spec.KeyVaultSecretPrefix
-		secretnamespace = ""
-	}
-
 	secret := map[string][]byte{
 		"clientid": []byte(instance.Spec.ManagedIdentityClientId),
 		"server":   []byte(instance.Spec.Server),
 		"dbName":   []byte(instance.Spec.DbName),
 	}
 
-	key := types.NamespacedName{Name: secretprefix, Namespace: secretnamespace}
-	// We store the different secret fields as different secrets
-	instance.Status.FlattenedSecrets = true
-	err := secretClient.Upsert(ctx, key, secret, secrets.Flatten(true))
-	if err != nil {
-		if strings.Contains(err.Error(), "FlattenedSecretsNotSupported") { // kube client does not support Flatten
-			err = secretClient.Upsert(ctx, key, secret)
-			if err != nil {
-				return fmt.Errorf("Upsert into KubeClient without flatten failed")
-			}
-			instance.Status.FlattenedSecrets = false
-		}
+	var err error
+	secretKey := makeSecretKey(secretClient, instance)
+	if secretClient.IsKeyVault() { // TODO: Maybe should be SupportsFlatten() at least for this case?
+		instance.Status.FlattenedSecrets = true
+		err = secretClient.Upsert(ctx, secretKey, secret, secrets.Flatten(true))
+	} else {
+		err = secretClient.Upsert(ctx, secretKey, secret)
 	}
+
 	return err
 }
 
 // DeleteSecret deletes a secret
 func (s *AzureSqlManagedUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLManagedUser, secretClient secrets.SecretClient) error {
-	secretprefix := instance.Name
-	secretnamespace := instance.Namespace
-
-	if len(instance.Spec.KeyVaultSecretPrefix) != 0 { // If KeyVaultSecretPrefix is specified, use that for secrets
-		secretprefix = instance.Spec.KeyVaultSecretPrefix
-		secretnamespace = ""
-	}
-
 	suffixes := []string{"clientid", "server", "dbName"}
-	if instance.Status.FlattenedSecrets == false {
-		key := types.NamespacedName{Name: secretprefix, Namespace: secretnamespace}
-		return secretClient.Delete(ctx, key)
+	secretKey := makeSecretKey(secretClient, instance)
+	if secretClient.IsKeyVault() { // TODO: Maybe should be SupportsFlatten() at least for this case?
+		return secretClient.Delete(ctx, secretKey, secrets.Flatten(instance.Status.FlattenedSecrets, suffixes...))
 	} else {
-		// Delete the secrets one by one
-		for _, suffix := range suffixes {
-			key := types.NamespacedName{Name: secretprefix + "-" + suffix, Namespace: secretnamespace}
-			err := secretClient.Delete(ctx, key)
-			if err != nil {
-				return err
-			}
-		}
+		return secretClient.Delete(ctx, secretKey)
 	}
-	return nil
-}
-
-func getMSITokenProvider() (func() (string, error), error) {
-	msi, err := iam.GetMSITokenForResource("https://database.windows.net/")
-	if err != nil {
-		return nil, err
-	}
-
-	return func() (string, error) {
-		err = msi.EnsureFresh()
-		if err != nil {
-			return "", err
-		}
-		token := msi.OAuthToken()
-		return token, nil
-	}, nil
 }
 
 func convertToSid(msiClientId string) string {
@@ -263,4 +212,16 @@ func findBadChars(stack string) error {
 		}
 	}
 	return nil
+}
+
+func makeSecretKey(secretClient secrets.SecretClient, instance *v1alpha1.AzureSQLManagedUser) secrets.SecretKey {
+	if secretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {
+		if len(instance.Spec.KeyVaultSecretPrefix) != 0 { // If KeyVaultSecretPrefix is specified, use that for secrets. Namespace is ignored in this case
+			return secrets.SecretKey{Name: instance.Spec.KeyVaultSecretPrefix, Namespace: "", Kind: instance.TypeMeta.Kind}
+		}
+		return secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	}
+
+	// TODO: Ignoring prefix here... we ok with that?
+	return secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 }

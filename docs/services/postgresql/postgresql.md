@@ -31,7 +31,7 @@ This secret contains the following fields.
 - `password` : Password for the server admin
 - `fullyqualifiedusername` : Fully qualified user name that is required by some apps such as <username>@<postgresqlserver>
 
-For more information on where and how secrets are stored, look [here](/docs/secrets.md)
+For more information on where and how secrets are stored, look [here](/docs/howto/secrets.md)
 
 ##### Read Replicas in Azure Database for PostgreSQL
 
@@ -59,4 +59,4 @@ The `server` indicates the PostgreSQL server on which you want to configure the 
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/howto/resourceprovision.md) to deploy, view and delete resources.

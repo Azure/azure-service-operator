@@ -15,28 +15,38 @@ import (
 )
 
 type AzurePublicIPAddressClient struct {
+	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzurePublicIPAddressClient(secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzurePublicIPAddressClient {
+func NewAzurePublicIPAddressClient(creds config.Credentials, secretclient secrets.SecretClient, scheme *runtime.Scheme) *AzurePublicIPAddressClient {
 	return &AzurePublicIPAddressClient{
+		Creds:        creds,
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
 }
 
-func getPublicIPAddressClient() vnetwork.PublicIPAddressesClient {
-	pipClient := vnetwork.NewPublicIPAddressesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+func getPublicIPAddressClient(creds config.Credentials) vnetwork.PublicIPAddressesClient {
+	pipClient := vnetwork.NewPublicIPAddressesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer(creds)
 	pipClient.Authorizer = a
 	pipClient.AddToUserAgent(config.UserAgent())
 	return pipClient
 }
 
-func (m *AzurePublicIPAddressClient) CreatePublicIPAddress(ctx context.Context, location string, resourceGroupName string, resourceName string, publicIPAllocationMethod string, idleTimeoutInMinutes int, publicIPAddressVersion string, skuName string) (future vnetwork.PublicIPAddressesCreateOrUpdateFuture, err error) {
+func (m *AzurePublicIPAddressClient) CreatePublicIPAddress(ctx context.Context,
+	location string,
+	resourceGroupName string,
+	resourceName string,
+	publicIPAllocationMethod string,
+	idleTimeoutInMinutes int,
+	publicIPAddressVersion string,
+	skuName string,
+	ipTags map[string]string) (future vnetwork.PublicIPAddressesCreateOrUpdateFuture, err error) {
 
-	client := getPublicIPAddressClient()
+	client := getPublicIPAddressClient(m.Creds)
 
 	publicIPAllocationMethodField := vnetwork.Static
 	if publicIPAllocationMethod == string(vnetwork.Dynamic) {
@@ -62,6 +72,7 @@ func (m *AzurePublicIPAddressClient) CreatePublicIPAddress(ctx context.Context, 
 				PublicIPAllocationMethod: publicIPAllocationMethodField,
 				IdleTimeoutInMinutes:     &idleTimeoutInMinutesInt32,
 				PublicIPAddressVersion:   publicIPAddressVersionField,
+				IPTags:                   getIPTagsForPublicIP(ipTags),
 			},
 			Sku: &vnetwork.PublicIPAddressSku{
 				Name: skuNameInput,
@@ -72,9 +83,24 @@ func (m *AzurePublicIPAddressClient) CreatePublicIPAddress(ctx context.Context, 
 	return future, err
 }
 
+func getIPTagsForPublicIP(tags map[string]string) *[]vnetwork.IPTag {
+	if tags == nil || len(tags) == 0 {
+		return nil
+	}
+
+	outputTags := []vnetwork.IPTag{}
+	for k, v := range tags {
+		outputTags = append(outputTags, vnetwork.IPTag{
+			IPTagType: &k,
+			Tag:       &v,
+		})
+	}
+	return &outputTags
+}
+
 func (m *AzurePublicIPAddressClient) DeletePublicIPAddress(ctx context.Context, publicIPAddressName string, resourcegroup string) (status string, err error) {
 
-	client := getPublicIPAddressClient()
+	client := getPublicIPAddressClient(m.Creds)
 
 	_, err = client.Get(ctx, resourcegroup, publicIPAddressName, "")
 	if err == nil { // pip present, so go ahead and delete
@@ -88,7 +114,7 @@ func (m *AzurePublicIPAddressClient) DeletePublicIPAddress(ctx context.Context, 
 
 func (m *AzurePublicIPAddressClient) GetPublicIPAddress(ctx context.Context, resourcegroup string, publicIPAddressName string) (pip network.PublicIPAddress, err error) {
 
-	client := getPublicIPAddressClient()
+	client := getPublicIPAddressClient(m.Creds)
 
 	return client.Get(ctx, resourcegroup, publicIPAddressName, "")
 }
