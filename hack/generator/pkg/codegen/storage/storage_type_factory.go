@@ -25,7 +25,7 @@ type StorageTypeFactory struct {
 	idFactory                  astmodel.IdentifierFactory                              // Factory for creating identifiers
 	storageConverter           astmodel.TypeVisitor                                    // a cached type visitor used to create storage variants
 	propertyConverter          astmodel.TypeVisitor                                    // a cached type visitor used to simplify property types
-	functionInjector           astmodel.TypeVisitor                                    // a cached type visitor used to inject functions into definitions
+	functionInjector           *FunctionInjector                                       // a utility used to inject functions into definitions
 	resourceHubMarker          astmodel.TypeVisitor                                    // a cached type visitor used to mark resources as Storage Versions
 	conversionMap              map[astmodel.PackageReference]astmodel.PackageReference // Map of conversion links for creating our conversion graph
 }
@@ -40,6 +40,7 @@ func NewStorageTypeFactory(service string, idFactory astmodel.IdentifierFactory)
 		pendingMarkAsHubVersion:    astmodel.MakeTypeNameQueue(),
 		idFactory:                  idFactory,
 		conversionMap:              make(map[astmodel.PackageReference]astmodel.PackageReference),
+		functionInjector:           NewFunctionInjector(),
 	}
 
 	result.propertyConversions = []propertyConversion{
@@ -59,11 +60,6 @@ func NewStorageTypeFactory(service string, idFactory astmodel.IdentifierFactory)
 		VisitEnumType:      result.useBaseTypeForEnumerations,
 		VisitValidatedType: result.stripAllValidations,
 		VisitTypeName:      result.shortCircuitNamesOfSimpleTypes,
-	}.Build()
-
-	result.functionInjector = astmodel.TypeVisitorBuilder{
-		VisitObjectType:   result.injectFunctionIntoObject,
-		VisitResourceType: result.injectFunctionIntoResource,
 	}.Build()
 
 	result.resourceHubMarker = astmodel.TypeVisitorBuilder{
@@ -204,13 +200,12 @@ func (f *StorageTypeFactory) injectConversions(name astmodel.TypeName) error {
 		return errors.Wrapf(err, "creating ConvertTo() function for %q", name)
 	}
 
-	// Inject the functions into our type definition
-	def, err = f.functionInjector.VisitDefinition(def, convertFrom)
+	def, err = f.functionInjector.Inject(def, convertFrom)
 	if err != nil {
 		return errors.Wrapf(err, "failed to inject ConvertFrom function into %q", name)
 	}
 
-	def, err = f.functionInjector.VisitDefinition(def, convertTo)
+	def, err = f.functionInjector.Inject(def, convertTo)
 	if err != nil {
 		return errors.Wrapf(err, "failed to inject ConvertFrom function into %q", name)
 	}
@@ -429,26 +424,6 @@ func (f *StorageTypeFactory) shortCircuitNamesOfSimpleTypes(
 
 	// Replace the name with the underlying type
 	return tv.Visit(actualType, ctx)
-}
-
-/*
- * Functions used by the functionInjector TypeVisitor
- */
-
-// injectFunctionIntoObject takes the function provided as a context and includes it on the
-// provided object type
-func (f *StorageTypeFactory) injectFunctionIntoObject(
-	_ *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	fn := ctx.(astmodel.Function)
-	return ot.WithFunction(fn), nil
-}
-
-// injectFunctionIntoResource takes the function provided as a context and includes it on the
-// provided resource type
-func (f *StorageTypeFactory) injectFunctionIntoResource(
-	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
-	fn := ctx.(astmodel.Function)
-	return rt.WithFunction(fn), nil
 }
 
 /*
