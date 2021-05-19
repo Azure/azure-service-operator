@@ -26,7 +26,7 @@ type StorageTypeFactory struct {
 	storageConverter           astmodel.TypeVisitor                                    // a cached type visitor used to create storage variants
 	propertyConverter          astmodel.TypeVisitor                                    // a cached type visitor used to simplify property types
 	functionInjector           *FunctionInjector                                       // a utility used to inject functions into definitions
-	resourceHubMarker          astmodel.TypeVisitor                                    // a cached type visitor used to mark resources as Storage Versions
+	resourceHubMarker          *HubVersionMarker                                       // a utility used to mark resources as Storage Versions
 	conversionMap              map[astmodel.PackageReference]astmodel.PackageReference // Map of conversion links for creating our conversion graph
 }
 
@@ -41,6 +41,7 @@ func NewStorageTypeFactory(service string, idFactory astmodel.IdentifierFactory)
 		idFactory:                  idFactory,
 		conversionMap:              make(map[astmodel.PackageReference]astmodel.PackageReference),
 		functionInjector:           NewFunctionInjector(),
+		resourceHubMarker:          NewHubVersionMarker(),
 	}
 
 	result.propertyConversions = []propertyConversion{
@@ -60,10 +61,6 @@ func NewStorageTypeFactory(service string, idFactory astmodel.IdentifierFactory)
 		VisitEnumType:      result.useBaseTypeForEnumerations,
 		VisitValidatedType: result.stripAllValidations,
 		VisitTypeName:      result.shortCircuitNamesOfSimpleTypes,
-	}.Build()
-
-	result.resourceHubMarker = astmodel.TypeVisitorBuilder{
-		VisitResourceType: result.markResourceAsStorageVersion,
 	}.Build()
 
 	return result
@@ -224,7 +221,7 @@ func (f *StorageTypeFactory) markAsHubVersion(name astmodel.TypeName) error {
 	}
 
 	// Mark the resource as the hub storage version
-	updated, err := f.resourceHubMarker.VisitDefinition(def, nil)
+	updated, err := f.resourceHubMarker.MarkAsStorageVersion(def)
 	if err != nil {
 		return errors.Wrapf(err, "marking %q as hub storage version", name)
 	}
@@ -424,15 +421,4 @@ func (f *StorageTypeFactory) shortCircuitNamesOfSimpleTypes(
 
 	// Replace the name with the underlying type
 	return tv.Visit(actualType, ctx)
-}
-
-/*
- * Functions used by the resourceHubMarker TypeVisitor
- */
-
-// injectFunctionIntoResource takes the function provided as a context and includes it on the
-// provided resource type
-func (f *StorageTypeFactory) markResourceAsStorageVersion(
-	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, _ interface{}) (astmodel.Type, error) {
-	return rt.MarkAsStorageVersion(), nil
 }
