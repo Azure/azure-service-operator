@@ -6,11 +6,8 @@
 package storage
 
 import (
-	"fmt"
-
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 )
 
@@ -22,8 +19,7 @@ type StorageTypeFactory struct {
 	pendingConversionInjection astmodel.TypeNameQueue                                  // Queue of types that need conversion functions injected
 	pendingMarkAsHubVersion    astmodel.TypeNameQueue                                  // Queue of types that need to be flagged as the hub storage version
 	idFactory                  astmodel.IdentifierFactory                              // Factory for creating identifiers
-	storageConverter           astmodel.TypeVisitor                                    // a cached type visitor used to create storage variants
-	propertyConverter          *PropertyConverter                                      // a utility used to simplify property types
+	typeConverter              *TypeConverter                                          // a utility type type visitor used to create storage variants
 	functionInjector           *FunctionInjector                                       // a utility used to inject functions into definitions
 	resourceHubMarker          *HubVersionMarker                                       // a utility used to mark resources as Storage Versions
 	conversionMap              map[astmodel.PackageReference]astmodel.PackageReference // Map of conversion links for creating our conversion graph
@@ -43,15 +39,7 @@ func NewStorageTypeFactory(service string, idFactory astmodel.IdentifierFactory)
 		resourceHubMarker:          NewHubVersionMarker(),
 	}
 
-	result.propertyConverter = NewPropertyConverter(result.types)
-
-	result.storageConverter = astmodel.TypeVisitorBuilder{
-		VisitObjectType:    result.convertObjectType,
-		VisitResourceType:  result.convertResourceType,
-		VisitTypeName:      result.redirectTypeNamesToStoragePackage,
-		VisitValidatedType: result.stripAllValidations,
-		VisitFlaggedType:   result.stripAllFlags,
-	}.Build()
+	result.typeConverter = NewTypeConverter(result.types)
 
 	return result
 }
@@ -123,13 +111,10 @@ func (f *StorageTypeFactory) createStorageVariant(name astmodel.TypeName) error 
 		return errors.Errorf("failed to find definition for %q", name)
 	}
 
-	storageDef, err := f.storageConverter.VisitDefinition(def, nil)
+	storageDef, err := f.typeConverter.ConvertDefinition(def)
 	if err != nil {
 		return errors.Wrapf(err, "creating storage variant for %q", name)
 	}
-
-	desc := f.descriptionForStorageVariant(def)
-	storageDef = storageDef.WithDescription(desc)
 
 	f.types.Add(storageDef)
 
@@ -220,100 +205,4 @@ func (f *StorageTypeFactory) markAsHubVersion(name astmodel.TypeName) error {
 	f.types[name] = updated
 
 	return nil
-}
-
-// descriptionForStorageVariant creates a description for a storage variant, indicating which
-// original type it is based upon
-func (f *StorageTypeFactory) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
-	pkg := definition.Name().PackageReference.PackageName()
-
-	result := []string{
-		fmt.Sprintf("Storage version of %v.%v", pkg, definition.Name().Name()),
-	}
-	result = append(result, definition.Description()...)
-
-	return result
-}
-
-func (f *StorageTypeFactory) tryConvertToStorageNamespace(name astmodel.TypeName) (astmodel.TypeName, bool) {
-	// Map the type name into our storage namespace
-	localRef, ok := name.PackageReference.AsLocalPackage()
-	if !ok {
-		return astmodel.TypeName{}, false
-	}
-
-	storageRef := astmodel.MakeStoragePackageReference(localRef)
-	visitedName := astmodel.MakeTypeName(storageRef, name.Name())
-	return visitedName, true
-}
-
-/*
- * Functions used by the storageConverter TypeVisitor
- */
-
-// convertResourceType creates a storage variation of a resource type
-func (f *StorageTypeFactory) convertResourceType(
-	tv *astmodel.TypeVisitor,
-	resource *astmodel.ResourceType,
-	ctx interface{}) (astmodel.Type, error) {
-
-	// storage resource types do not need defaulter interface, they have no webhooks
-	rsrc := resource.WithoutInterface(astmodel.DefaulterInterfaceName)
-
-	return astmodel.IdentityVisitOfResourceType(tv, rsrc, ctx)
-}
-
-// convertObjectType creates a storage variation of an object type
-func (f *StorageTypeFactory) convertObjectType(
-	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
-
-	var errs []error
-	properties := object.Properties()
-	for i, prop := range properties {
-		p, err := f.makeStorageProperty(prop)
-		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "property %s", prop.PropertyName()))
-		} else {
-			properties[i] = p
-		}
-	}
-
-	if len(errs) > 0 {
-		err := kerrors.NewAggregate(errs)
-		return nil, err
-	}
-
-	objectType := astmodel.NewObjectType().WithProperties(properties...)
-	return astmodel.StorageFlag.ApplyTo(objectType), nil
-}
-
-// redirectTypeNamesToStoragePackage modifies TypeNames to reference the current storage package
-func (f *StorageTypeFactory) redirectTypeNamesToStoragePackage(
-	_ *astmodel.TypeVisitor, name astmodel.TypeName, _ interface{}) (astmodel.Type, error) {
-	if result, ok := f.tryConvertToStorageNamespace(name); ok {
-		return result, nil
-	}
-
-	return name, nil
-}
-
-// stripAllValidations removes all validations
-func (f *StorageTypeFactory) stripAllValidations(
-	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
-	// strip all type validations from storage types,
-	// act as if they do not exist
-	return this.Visit(v.ElementType(), ctx)
-}
-
-// stripAllFlags removes all flags
-func (f *StorageTypeFactory) stripAllFlags(
-	tv *astmodel.TypeVisitor,
-	flaggedType *astmodel.FlaggedType,
-	ctx interface{}) (astmodel.Type, error) {
-	if flaggedType.HasFlag(astmodel.ARMFlag) {
-		// We don't want to do anything with ARM types
-		return flaggedType, nil
-	}
-
-	return astmodel.IdentityVisitOfFlaggedType(tv, flaggedType, ctx)
 }
