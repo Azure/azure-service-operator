@@ -9,18 +9,18 @@ import (
 	"path/filepath"
 	"testing"
 
-	"k8s.io/client-go/rest"
-
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"k8s.io/client-go/kubernetes/scheme"
+	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	"sigs.k8s.io/controller-runtime/pkg/envtest/printer"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -28,7 +28,7 @@ import (
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
 var testEnv *envtest.Environment
-var K8sClient client.Client
+var k8sClient client.Client
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
@@ -62,10 +62,9 @@ var _ = BeforeSuite(func() {
 	err = azurev1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
-	//k8sClient = k8sManager.GetClient()
-	K8sClient, _ = client.New(cfg, client.Options{Scheme: scheme.Scheme})
+	k8sClient, err = client.New(cfg, client.Options{Scheme: scheme.Scheme})
 	Expect(err).ToNot(HaveOccurred())
-	Expect(K8sClient).ToNot(BeNil())
+	Expect(k8sClient).ToNot(BeNil())
 })
 
 var _ = AfterSuite(func() {

@@ -7,13 +7,13 @@ import (
 	"context"
 	"encoding/json"
 
-	compute "github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2018-10-01/compute"
+	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2018-10-01/compute"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 type AzureVirtualMachineExtensionClient struct {
@@ -99,13 +99,10 @@ func (c *AzureVirtualMachineExtensionClient) GetVirtualMachineExtension(ctx cont
 }
 
 func (p *AzureVirtualMachineExtensionClient) AddVirtualMachineExtensionCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.AzureVirtualMachineExtension) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	err := p.SecretClient.Upsert(ctx,
-		key,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(p.Scheme),
@@ -118,12 +115,10 @@ func (p *AzureVirtualMachineExtensionClient) AddVirtualMachineExtensionCredsToSe
 }
 
 func (p *AzureVirtualMachineExtensionClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureVirtualMachineExtension) (map[string][]byte, error) {
-	name := instance.Name
-
 	secret := map[string][]byte{}
 
-	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
-	if stored, err := p.SecretClient.Get(ctx, key); err == nil {
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	if stored, err := p.SecretClient.Get(ctx, secretKey); err == nil {
 		return stored, nil
 	}
 

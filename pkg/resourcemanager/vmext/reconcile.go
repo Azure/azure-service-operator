@@ -44,6 +44,7 @@ func (c *AzureVirtualMachineExtensionClient) Ensure(ctx context.Context, obj run
 	// Update secret
 	err = c.AddVirtualMachineExtensionCredsToSecrets(ctx, instance.Name, secret, instance)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		return false, err
 	}
 

@@ -28,8 +28,9 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		opt(options)
 	}
 
+	secretClient := fg.SecretClient
 	if options.SecretClient != nil {
-		fg.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := fg.convert(obj)
@@ -85,8 +86,8 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 			return false, nil
 		}
 
-		key := types.NamespacedName{Name: instance.ObjectMeta.Name, Namespace: instance.Namespace}
-		_, err := fg.SecretClient.Get(ctx, key)
+		secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+		_, err := secretClient.Get(ctx, secretKey)
 		// We make the same assumption many other places in the code make which is that if we cannot
 		// get the secret it must not exist.
 		if err != nil {
@@ -94,9 +95,9 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 			secret := fg.NewSecret(instance)
 
 			// create or update the secret
-			err = fg.SecretClient.Upsert(
+			err = secretClient.Upsert(
 				ctx,
-				key,
+				secretKey,
 				secret,
 				secrets.WithOwner(instance),
 				secrets.WithScheme(fg.Scheme),
@@ -142,8 +143,9 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 		opt(options)
 	}
 
+	secretClient := fg.SecretClient
 	if options.SecretClient != nil {
-		fg.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := fg.convert(obj)
@@ -156,7 +158,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 	failoverGroupName := instance.ObjectMeta.Name
 
 	// key for Secret to delete on successful provision
-	key := types.NamespacedName{Name: instance.ObjectMeta.Name, Namespace: instance.Namespace}
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	_, err = fg.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 	if err != nil {
@@ -180,7 +182,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 
 		if helpers.ContainsString(finished, azerr.Type) {
 			// Best case deletion of secret
-			fg.SecretClient.Delete(ctx, key)
+			secretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 		instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Delete failed with: %s", err.Error())
@@ -189,7 +191,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFailoverGroup succeeded")
 	// Best case deletion of secret
-	fg.SecretClient.Delete(ctx, key)
+	secretClient.Delete(ctx, secretKey)
 	return false, nil
 }
 

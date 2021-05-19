@@ -151,29 +151,20 @@ func (e *azureEventHubManager) createOrUpdateAccessPolicyEventHub(resourcegroup 
 	return nil
 }
 
-func (e *azureEventHubManager) createEventhubSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.Eventhub, data map[string][]byte) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
-
-	return e.SecretClient.Upsert(ctx,
-		key,
+func (e *azureEventHubManager) createEventhubSecrets(ctx context.Context, secretClient secrets.SecretClient, secretName string, instance *azurev1alpha1.Eventhub, data map[string][]byte) error {
+	secretKey := secrets.SecretKey{Name: secretName, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	return secretClient.Upsert(ctx,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(e.Scheme),
 	)
 }
 
-func (e *azureEventHubManager) deleteEventhubSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.Eventhub) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
+func (e *azureEventHubManager) deleteEventhubSecrets(ctx context.Context, secretClient secrets.SecretClient, secretName string, instance *azurev1alpha1.Eventhub) error {
+	secretKey := secrets.SecretKey{Name: secretName, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	err := e.SecretClient.Delete(ctx,
-		key,
-	)
+	err := secretClient.Delete(ctx, secretKey)
 	if err != nil {
 		return err
 	}
@@ -181,13 +172,20 @@ func (e *azureEventHubManager) deleteEventhubSecrets(ctx context.Context, secret
 	return nil
 }
 
-func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, secretName string, authorizationRuleName string, instance *azurev1alpha1.Eventhub) error {
+func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(
+	ctx context.Context,
+	secretClient secrets.SecretClient,
+	resourceGroup string,
+	eventhubNamespace string,
+	eventhubName string,
+	secretName string,
+	authorizationRuleName string,
+	instance *azurev1alpha1.Eventhub) error {
 
 	var err error
 	var result model.AccessKeys
-	ctx := context.Background()
 
-	result, err = e.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName)
+	result, err = e.ListKeys(ctx, resourceGroup, eventhubNamespace, eventhubName, authorizationRuleName)
 	if err != nil {
 		//log error and kill it
 		return err
@@ -204,6 +202,7 @@ func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup stri
 		}
 		err = e.createEventhubSecrets(
 			ctx,
+			secretClient,
 			secretName,
 			instance,
 			data,
@@ -235,13 +234,14 @@ func (m *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 	captureDescription := instance.Spec.Properties.CaptureDescription
 	secretName := instance.Spec.SecretName
 
+	secretClient := m.SecretClient
 	if options.SecretClient != nil {
-		m.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	if len(secretName) == 0 {
 		secretName = eventhubName
-		instance.Spec.SecretName = eventhubName
+		instance.Spec.SecretName = eventhubName // TODO: Ideally this would be done in a mutating admission webhook
 	}
 
 	// write information back to instance
@@ -287,7 +287,7 @@ func (m *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	err = m.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
+	err = m.listAccessKeysAndCreateSecrets(ctx, secretClient, resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
 	if err != nil {
 
 		// catch secret existing and fail reconciliation
@@ -335,8 +335,9 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object, o
 	resourcegroup := instance.Spec.ResourceGroup
 	secretName := instance.Spec.SecretName
 
+	secretClient := e.SecretClient
 	if options.SecretClient != nil {
-		e.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	if len(secretName) == 0 {
@@ -361,7 +362,7 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object, o
 
 	if resp.StatusCode == http.StatusNoContent {
 		//Delete the secrets as best effort before successful return after delete
-		e.deleteEventhubSecrets(ctx, secretName, instance)
+		e.deleteEventhubSecrets(ctx, secretClient, secretName, instance)
 		return false, nil
 	}
 

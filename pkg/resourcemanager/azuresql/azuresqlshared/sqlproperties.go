@@ -164,7 +164,7 @@ func MergeDBEditionAndSku(in v1beta1.DBEdition, sku *v1beta1.SqlDatabaseSku) (*S
 	}
 }
 
-// translateFailoverPolicy translates the enum
+// TranslateFailoverPolicy translates the enum
 func TranslateFailoverPolicy(in v1beta1.ReadWriteEndpointFailoverPolicy) (sql.ReadWriteEndpointFailoverPolicy, error) {
 	var result sql.ReadWriteEndpointFailoverPolicy
 

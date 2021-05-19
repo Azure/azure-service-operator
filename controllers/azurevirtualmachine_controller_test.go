@@ -27,6 +27,7 @@ func TestVirtualMachineControllerNoResourceGroup(t *testing.T) {
 	sshPublicKeyData := GenerateTestResourceNameWithRandom("ssh", 10)
 	nicName := GenerateTestResourceNameWithRandom("nic", 10)
 	platformImageUrn := "Canonical:UbuntuServer:16.04-LTS:latest"
+	location := tc.resourceGroupLocation
 
 	// Create a VM
 	vmInstance := &azurev1alpha1.AzureVirtualMachine{
@@ -35,7 +36,7 @@ func TestVirtualMachineControllerNoResourceGroup(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzureVirtualMachineSpec{
-			Location:             tc.resourceGroupLocation,
+			Location:             location,
 			ResourceGroup:        rgName,
 			VMSize:               vmSize,
 			OSType:               osType,
@@ -56,6 +57,9 @@ func TestVirtualMachineHappyPathWithNicPipVNetAndSubnet(t *testing.T) {
 	defer PanicRecover(t)
 	ctx := context.Background()
 
+	// location := tc.resourceGroupLocation
+	location := "australiaeast"
+
 	// Create a vnet with a subnet
 	vnetName := GenerateTestResourceNameWithRandom("vnt", 10)
 	subnetName := GenerateTestResourceNameWithRandom("snt", 10)
@@ -70,7 +74,7 @@ func TestVirtualMachineHappyPathWithNicPipVNetAndSubnet(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.VirtualNetworkSpec{
-			Location:      tc.resourceGroupLocation,
+			Location:      location,
 			ResourceGroup: tc.resourceGroupName,
 			AddressSpace:  "110.0.0.0/8",
 			Subnets:       []azurev1alpha1.VNetSubnets{vnetSubNetInstance},
@@ -90,7 +94,7 @@ func TestVirtualMachineHappyPathWithNicPipVNetAndSubnet(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzurePublicIPAddressSpec{
-			Location:                 tc.resourceGroupLocation,
+			Location:                 location,
 			ResourceGroup:            tc.resourceGroupName,
 			PublicIPAllocationMethod: publicIPAllocationMethod,
 			IdleTimeoutInMinutes:     idleTimeoutInMinutes,
@@ -109,7 +113,7 @@ func TestVirtualMachineHappyPathWithNicPipVNetAndSubnet(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzureNetworkInterfaceSpec{
-			Location:            tc.resourceGroupLocation,
+			Location:            location,
 			ResourceGroup:       tc.resourceGroupName,
 			VNetName:            vnetName,
 			SubnetName:          subnetName,
@@ -134,7 +138,7 @@ func TestVirtualMachineHappyPathWithNicPipVNetAndSubnet(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzureVirtualMachineSpec{
-			Location:             tc.resourceGroupLocation,
+			Location:             location,
 			ResourceGroup:        tc.resourceGroupName,
 			VMSize:               vmSize,
 			OSType:               osType,

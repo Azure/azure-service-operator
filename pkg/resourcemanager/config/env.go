@@ -14,6 +14,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type ConfigRequirementType int
@@ -65,6 +66,20 @@ func ParseEnvironment() error {
 		return errors.Wrapf(err, "couldn't get POD_NAMESPACE env variable")
 	}
 
+	secretNamingVersionInt, err := ParseIntFromEnvironment("AZURE_SECRET_NAMING_VERSION")
+	if err != nil {
+		return errors.Wrapf(err, "couldn't get AZURE_SECRET_NAMING_VERSION env variable")
+	}
+
+	// If this isn't set, default to version 2
+	if secretNamingVersionInt == 1 {
+		secretNamingVersion = secrets.SecretNamingV1
+	} else if secretNamingVersionInt == 0 || secretNamingVersionInt == 2 {
+		secretNamingVersion = secrets.SecretNamingV2
+	} else {
+		return errors.Errorf("secret naming version must be one of 0, 1, or 2 but was %d", secretNamingVersionInt)
+	}
+
 	for _, requirement := range GetExpectedConfigurationVariables() {
 		switch requirement {
 		case RequireClientID:
@@ -110,10 +125,20 @@ func GetExpectedConfigurationVariables() []ConfigRequirementType {
 }
 
 func ParseBoolFromEnvironment(variable string) bool {
-	value, err := strconv.ParseBool(envy.Get(variable, "0"))
+	env := envy.Get(variable, "0")
+	value, err := strconv.ParseBool(env)
 	if err != nil {
-		log.Printf("WARNING: invalid input value specified for bool %v: \"%v\", disabling\n", variable, value)
+		log.Printf("WARNING: invalid input value specified for %q, expected bool, actual: %q. Disabling\n", variable, env)
 		value = false
 	}
 	return value
+}
+
+func ParseIntFromEnvironment(variable string) (int, error) {
+	env := envy.Get(variable, "0")
+	value, err := strconv.Atoi(env)
+	if err != nil {
+		return 0, errors.Wrapf(err, "invalid input value specified for %q, expected int, actual: %q", variable, env)
+	}
+	return value, nil
 }

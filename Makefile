@@ -1,5 +1,8 @@
+PUBLIC_REPO=mcr.microsoft.com/k8s/azureserviceoperator
+PLACEHOLDER_IMAGE=controller:latest
+
 # Image URL to use all building/pushing image targets
-IMG ?= controller:latest
+IMG ?= $(PLACEHOLDER_IMAGE)
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
@@ -8,8 +11,7 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
-# Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
-CRD_OPTIONS ?= "crd"
+CRD_OPTIONS ?= "crd:crdVersions=v1"
 
 BUILD_ID ?= $(shell git rev-parse --short HEAD)
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
@@ -55,9 +57,17 @@ generate-test-certs:
 .PHONY: test-integration-controllers
 test-integration-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
-	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m ./controllers/...
-	#2>&1 | tee reports/integration-controllers-output.txt
-	#go-junit-report < reports/integration-controllers-output.txt > reports/integration-controllers-report.xml
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
+		./controllers/... \
+		./pkg/secrets/...
+		# TODO: Note that the above test (secrets/keyvault) is not an integration-controller test... but it's not a unit test either and unfortunately the test-integration-managers target isn't run in CI either?
+
+# Run subset of tests with v1 secret naming enabled to ensure no regression in old secret naming
+.PHONY: test-v1-secret-naming
+test-v1-secret-naming: generate fmt vet manifests
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 AZURE_SECRET_NAMING_VERSION=1 \
+	go test -v -run "^.*_SecretNamedCorrectly$$" -tags "$(BUILD_TAGS)" -coverprofile=reports/v1-secret-naming-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 15m \
+		./controllers/...
 
 # Run Resource Manager tests against the configured cluster
 .PHONY: test-integration-managers
@@ -73,10 +83,8 @@ test-integration-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/... \
 	./pkg/resourcemanager/vnet/...
-	#2>&1 | tee reports/integration-managers-output.txt
-	#go-junit-report < reports/integration-managers-output.txt > reports/integration-managers-report.xml
 
-# Run all available tests. Note that Controllers are not unit-testable.
+# Run all available unit tests.
 .PHONY: test-unit
 test-unit: generate fmt vet manifests 
 	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
@@ -85,8 +93,6 @@ test-unit: generate fmt vet manifests
 	./pkg/resourcemanager/azuresql/azuresqlfailovergroup
 	# The below folders are commented out because the tests in them fail...
 	# ./api/... \
-	# ./pkg/secrets/... \
-	#2>&1 | tee testlogs.txt
 
 # Merge all the available test coverage results and publish a single report
 .PHONY: test-process-coverage
@@ -171,11 +177,11 @@ validate-cainjection-files:
 
 # Generate manifests for helm and package them up
 .PHONY: helm-chart-manifests
-helm-chart-manifests: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq .tag_name | sed 's/"//g')
+helm-chart-manifests: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
 helm-chart-manifests: generate
 	@echo "Latest released tag is $(LATEST_TAG)"
 	# substitute released tag into values file.
-	perl -pi -e 's,repository: mcr.microsoft.com/k8s/azureserviceoperator:\K.*,$(LATEST_TAG),' ./charts/azure-service-operator/values.yaml
+	perl -pi -e 's,repository: $(PUBLIC_REPO):\K.*,$(LATEST_TAG),' ./charts/azure-service-operator/values.yaml
 	# remove generated files
 	rm -rf charts/azure-service-operator/templates/generated/
 	rm -rf charts/azure-service-operator/crds
@@ -201,8 +207,13 @@ helm-chart-manifests: generate
 
 # Generate manifests e.g. CRD, RBAC etc.
 .PHONY: manifests
-manifests: controller-gen
+manifests: install-dependencies
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+	# update manifests to force preserveUnknownFields to false. We can't use controller-gen to set this to false because it has a bug...
+	# see: https://github.com/kubernetes-sigs/controller-tools/issues/476
+	# TODO: After this has been in the release for "a while" we can remove it since the default is also false and we just
+	# TODO: need it for the upgrade scenario between v1beta1 and v1 CRD types
+	ls config/crd/bases | xargs -I % yq eval -i ".spec.preserveUnknownFields = false" config/crd/bases/%
 
 # Run go fmt against code
 .PHONY: fmt
@@ -218,17 +229,6 @@ vet:
 .PHONY: generate
 generate: manifests
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
-
-# find or download controller-gen
-# download controller-gen if necessary
-.PHONY: controller-gen
-controller-gen:
-ifeq (, $(shell which controller-gen))
-	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.5
-CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
-else
-CONTROLLER_GEN=$(shell which controller-gen)
-endif
 
 .PHONY: install-bindata
 install-bindata:
@@ -316,15 +316,20 @@ install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 
 .PHONY: install-test-dependencies
-install-test-dependencies:
+install-test-dependencies: install-dependencies
 	go get github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge \
-	&& go get k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
-	&& go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0 \
 	&& go get sigs.k8s.io/kind@v0.9.0 \
-	&& go get sigs.k8s.io/kustomize/kustomize/v3@v3.8.6
+
+.PHONY: install-dependencies
+install-dependencies:
+	go get github.com/mikefarah/yq/v4 \
+	&& go get k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
+	&& go get sigs.k8s.io/kustomize/kustomize/v3@v3.8.6 \
+	&& go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0
+    CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 
 # Operator-sdk release version
 RELEASE_VERSION ?= v1.0.1
@@ -339,12 +344,21 @@ else
 	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
 endif
 
-# Current operator version
-VERSION ?= 0.37.0
+PREVIOUS_BUNDLE_VERSION ?= 0.37.0
 
+.PHONY: generate-operator-bundle
+generate-operator-bundle: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
 generate-operator-bundle: manifests
-	kustomize build config/manifests | operator-sdk generate bundle --version $(VERSION) --channels stable --default-channel stable --overwrite
+	@echo "Latest released tag is $(LATEST_TAG)"
+	@echo "Previous bundle version is $(PREVIOUS_BUNDLE_VERSION)"
+	rm -rf "bundle/$(LATEST_TAG)"
+	kustomize build config/operator-bundle | operator-sdk generate bundle --version $(LATEST_TAG) --channels stable --default-channel stable --overwrite --kustomize-dir config/operator-bundle
 	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh
-	# Rather than modify config/rbac manifests, replace CSV's default serviceAccount with azure-service-operator
-	sed -i 's/serviceAccountName: default/serviceAccountName: azure-service-operator/g' bundle/manifests/azure-service-operator.clusterserviceversion.yaml
+	# Inject the container reference into the bundle.
+	scripts/inject-container-reference.sh "$(PUBLIC_REPO)@$(LATEST_TAG)"
+	# Include the replaces field with the old version.
+	yq eval -i ".spec.replaces = \"azure-service-operator.v$(PREVIOUS_BUNDLE_VERSION)\"" bundle/manifests/azure-service-operator.clusterserviceversion.yaml
+	# Rename files so they're easy to add to the community-operators repo for a PR
+	mv bundle/manifests bundle/$(LATEST_TAG)
+	mv bundle/$(LATEST_TAG)/azure-service-operator.clusterserviceversion.yaml bundle/$(LATEST_TAG)/azure-service-operator.v$(LATEST_TAG).clusterserviceversion.yaml

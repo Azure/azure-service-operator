@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.2.5
+    controller-gen.kubebuilder.io/version: v0.4.0
   creationTimestamp: null
   name: eventhubs.azure.microsoft.com
 spec:
@@ -29,10 +29,14 @@ spec:
       description: Eventhub is the Schema for the eventhubs API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -40,7 +44,8 @@ spec:
           description: EventhubSpec defines the desired state of Eventhub
           properties:
             authorizationRule:
-              description: EventhubAuthorizationRule defines the name and rights of the access policy
+              description: EventhubAuthorizationRule defines the name and rights of
+                the access policy
               properties:
                 name:
                   description: Name - Name of AuthorizationRule for eventhub
@@ -54,7 +59,8 @@ spec:
             keyVaultToStoreSecrets:
               type: string
             location:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file'
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "make" to regenerate code after modifying this file'
               type: string
             namespace:
               type: string
@@ -62,13 +68,18 @@ spec:
               description: EventhubProperties defines the namespace properties
               properties:
                 captureDescription:
-                  description: CaptureDescription - Details specifying EventHub capture to persistent storage
+                  description: CaptureDescription - Details specifying EventHub capture
+                    to persistent storage
                   properties:
                     destination:
-                      description: Destination - Resource id of the storage account to be used to create the blobs
+                      description: Destination - Resource id of the storage account
+                        to be used to create the blobs
                       properties:
                         archiveNameFormat:
-                          description: ArchiveNameFormat - Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order
+                          description: ArchiveNameFormat - Blob naming convention
+                            for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}.
+                            Here all the parameters (Namespace,EventHub .. etc) are
+                            mandatory irrespective of order
                           type: string
                         blobContainer:
                           description: BlobContainer - Blob container Name
@@ -89,7 +100,9 @@ spec:
                               pattern: ^[a-z0-9]+$
                               type: string
                             resourceGroup:
-                              description: ResourceGroup - Name of the storage account resource group
+                              description: ResourceGroup - Name of the storage account
+                                resource group
+                              minLength: 1
                               pattern: ^[-\w\._\(\)]+$
                               type: string
                           type: object
@@ -98,13 +111,17 @@ spec:
                       description: Enabled - indicates whether capture is enabled
                       type: boolean
                     intervalInSeconds:
-                      description: IntervalInSeconds - The time window allows you to set the frequency with which the capture to Azure Blobs will happen
+                      description: IntervalInSeconds - The time window allows you
+                        to set the frequency with which the capture to Azure Blobs
+                        will happen
                       format: int32
                       maximum: 900
                       minimum: 60
                       type: integer
                     sizeLimitInBytes:
-                      description: SizeLimitInBytes - The size window defines the amount of data built up in your Event Hub before an capture operation
+                      description: SizeLimitInBytes - The size window defines the
+                        amount of data built up in your Event Hub before an capture
+                        operation
                       format: int32
                       maximum: 524288000
                       minimum: 10485760
@@ -113,30 +130,35 @@ spec:
                   - enabled
                   type: object
                 messageRetentionInDays:
-                  description: MessageRetentionInDays - Number of days to retain the events for this Event Hub, value should be 1 to 7 days
+                  description: MessageRetentionInDays - Number of days to retain the
+                    events for this Event Hub, value should be 1 to 7 days
                   format: int32
                   maximum: 7
                   minimum: 1
                   type: integer
                 partitionCount:
-                  description: PartitionCount - Number of partitions created for the Event Hub, allowed values are from 2 to 32 partitions.
+                  description: PartitionCount - Number of partitions created for the
+                    Event Hub, allowed values are from 2 to 32 partitions.
                   format: int32
                   maximum: 32
                   minimum: 2
                   type: integer
               type: object
             resourceGroup:
+              minLength: 1
               pattern: ^[-\w\._\(\)]+$
               type: string
             secretName:
-              description: SecretName - Used to specify the name of the secret. Defaults to Event Hub name if omitted.
+              description: SecretName - Used to specify the name of the secret. Defaults
+                to Event Hub name if omitted.
               type: string
           required:
           - location
           - resourceGroup
           type: object
         status:
-          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
+            state of resource actions
           properties:
             completed:
               format: date-time

@@ -2,8 +2,42 @@ apiVersion: v1
 entries:
   azure-service-operator:
   - apiVersion: v2
+    appVersion: 1.0.22275
+    created: "2021-04-23T15:32:46.5506904+12:00"
+    dependencies:
+    - condition: installAadPodIdentity
+      name: aad-pod-identity
+      repository: https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
+      version: 1.5.5
+    description: Deploy components and dependencies of azure-service-operator
+    digest: ef147be484e1729c14054808bf9f2962b4fb274032eb8b2d25e1df2b7b3a8360
+    home: https://github.com/Azure/azure-service-operator
+    name: azure-service-operator
+    sources:
+    - https://github.com/Azure/azure-service-operator
+    urls:
+    - azure-service-operator-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
     appVersion: 0.1.0
-    created: "2021-01-05T16:45:57.0936585+13:00"
+    created: "2021-04-23T15:32:46.549221+12:00"
+    dependencies:
+    - condition: installAadPodIdentity
+      name: aad-pod-identity
+      repository: https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
+      version: 1.5.5
+    description: Deploy components and dependencies of azure-service-operator
+    digest: 79c780b6532df6d6c05f484ad8ec00e313db83b8c05d41e7a215681e1e8e3732
+    home: https://github.com/Azure/azure-service-operator
+    name: azure-service-operator
+    sources:
+    - https://github.com/Azure/azure-service-operator
+    urls:
+    - azure-service-operator-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2021-04-23T15:32:46.5469889+12:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
@@ -20,7 +54,7 @@ entries:
     version: 1.0.0
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2021-01-08T13:25:22.656743744-08:00"
+    created: "2021-04-23T15:32:46.545413+12:00"
     dependencies:
     - condition: installAadPodIdentity
       name: aad-pod-identity
@@ -35,4 +69,4 @@ entries:
     urls:
     - azure-service-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2021-01-08T13:25:22.653121365-08:00"
+generated: "2021-04-23T15:32:46.5439136+12:00"

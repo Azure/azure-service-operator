@@ -86,6 +86,7 @@ func (m *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, op
 		// upsert
 		err = m.StoreSecrets(ctx, groupName, name, instance)
 		if err != nil {
+			instance.Status.Message = err.Error()
 			return false, err
 		}
 
@@ -174,12 +175,7 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
-	key := types.NamespacedName{
-		Name: fmt.Sprintf("storageaccount-%s-%s",
-			instance.Spec.ResourceGroup,
-			instance.Name),
-		Namespace: instance.Namespace,
-	}
+	secretKey := sa.makeSecretKey(instance)
 
 	_, err = sa.DeleteStorage(ctx, groupName, name)
 	if err != nil {
@@ -191,7 +187,7 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// Best case deletion of secrets
-			sa.SecretClient.Delete(ctx, key)
+			sa.SecretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 		return true, err

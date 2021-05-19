@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.2.5
+    controller-gen.kubebuilder.io/version: v0.4.0
   creationTimestamp: null
   name: mysqlserveradministrators.azure.microsoft.com
 spec:
@@ -26,13 +26,18 @@ spec:
     status: {}
   validation:
     openAPIV3Schema:
-      description: MySQLServerAdministrator is the Schema for the mysqlserveradministrator API
+      description: MySQLServerAdministrator is the Schema for the mysqlserveradministrator
+        API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -44,18 +49,25 @@ spec:
               - ActiveDirectory
               type: string
             login:
-              description: 'Login: The server administrator login account name. For example: "myuser@microsoft.com" might be the login if specifying an AAD user. "my-mi" might be the name of a managed identity'
+              description: 'Login: The server administrator login account name. For
+                example: "myuser@microsoft.com" might be the login if specifying an
+                AAD user. "my-mi" might be the name of a managed identity'
               type: string
             resourceGroup:
+              minLength: 1
               pattern: ^[-\w\._\(\)]+$
               type: string
             server:
               type: string
             sid:
-              description: 'Sid: The server administrator Sid (Secure ID). If creating for an AAD user or group, this is the OID of the entity in AAD. For a managed identity this should be the Client ID (or app id) of the identity.'
+              description: 'Sid: The server administrator Sid (Secure ID). If creating
+                for an AAD user or group, this is the OID of the entity in AAD. For
+                a managed identity this should be the Client ID (or app id) of the
+                identity.'
               type: string
             tenantId:
-              description: 'TenantId: The server Active Directory Administrator tenant id.'
+              description: 'TenantId: The server Active Directory Administrator tenant
+                id.'
               type: string
           required:
           - administratorType
@@ -66,7 +78,8 @@ spec:
           - tenantId
           type: object
         status:
-          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
+            state of resource actions
           properties:
             completed:
               format: date-time

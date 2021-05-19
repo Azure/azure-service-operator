@@ -1,0 +1,17 @@
+{
+    "$comment": "Check that a type with a property with no type specified is generated as interface{}",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "foo": {
+            "$ref": "#/definitions/Foo"
+        }
+    },
+    "definitions": {
+        "Foo": {
+            "description": "The foo."
+        }
+    }
+}

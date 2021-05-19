@@ -47,7 +47,7 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		adminSecretName = instance.Spec.Server
 	}
 
-	key := types.NamespacedName{Name: adminSecretName, Namespace: instance.Namespace}
+	adminSecretKey := secrets.SecretKey{Name: adminSecretName, Namespace: instance.Namespace, Kind: reflect.TypeOf(v1alpha2.MySQLServer{}).Name()}
 
 	var mysqlUserSecretClient secrets.SecretClient
 	if options.SecretClient != nil {
@@ -58,17 +58,15 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds)
-		if len(instance.Spec.AdminSecret) != 0 {
-			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
-		}
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
 	}
 
 	// get admin creds for server
-	adminSecret, err := adminSecretClient.Get(ctx, key)
+	adminSecret, err := adminSecretClient.Get(ctx, adminSecretKey)
 	if err != nil {
+		err = errors.Wrap(err, "MySQLServer admin secret not found")
 		instance.Status.Provisioning = false
-		instance.Status.Message = fmt.Sprintf("admin secret : %s, not found in %s", key.String(), reflect.TypeOf(adminSecretClient).Elem().Name())
+		instance.Status.Message = err.Error()
 		return false, nil
 	}
 
@@ -114,25 +112,22 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
-	// In keyvault we have to avoid collisions with other secrets so we create a custom namespace with the user's parameters
-	key = GetNamespacedName(instance, mysqlUserSecretClient)
-
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 	// create or get new user secret
-	dbSecret := s.GetOrPrepareSecret(ctx, instance, mysqlUserSecretClient)
+	userSecret := s.GetOrPrepareSecret(ctx, instance, mysqlUserSecretClient)
 	// reset user from secret in case it was loaded
-	user := string(dbSecret[MSecretUsernameKey])
+	user := string(userSecret[MSecretUsernameKey])
 	if user == "" {
 		user = fmt.Sprintf(requestedUsername)
-		dbSecret[MSecretUsernameKey] = []byte(user)
+		userSecret[MSecretUsernameKey] = []byte(user)
 	}
 
 	// Publishing the user secret:
 	// We do this first so if the keyvault does not have right permissions we will not proceed to creating the user
 	err = mysqlUserSecretClient.Upsert(
 		ctx,
-		key,
-		dbSecret,
+		secretKey,
+		userSecret,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(s.Scheme),
 	)
@@ -141,7 +136,7 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	user, err = s.CreateUser(ctx, dbSecret, db)
+	user, err = s.CreateUser(ctx, userSecret, db)
 	if err != nil {
 		instance.Status.Message = "failed creating user, err: " + err.Error()
 		return false, err
@@ -182,12 +177,12 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 
 	adminSecretClient := s.SecretClient
 
-	adminsecretName := instance.Spec.AdminSecret
+	adminSecretName := instance.Spec.AdminSecret
 
 	if len(instance.Spec.AdminSecret) == 0 {
-		adminsecretName = instance.Spec.Server
+		adminSecretName = instance.Spec.Server
 	}
-	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
+	adminSecretKey := secrets.SecretKey{Name: adminSecretName, Namespace: instance.Namespace, Kind: reflect.TypeOf(v1alpha2.MySQLServer{}).Name()}
 
 	var mysqlUserSecretClient secrets.SecretClient
 	if options.SecretClient != nil {
@@ -198,13 +193,10 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 
 	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds)
-		if len(instance.Spec.AdminSecret) != 0 {
-			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
-		}
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
 	}
 
-	adminSecret, err := adminSecretClient.Get(ctx, key)
+	adminSecret, err := adminSecretClient.Get(ctx, adminSecretKey)
 	if err != nil {
 		// assuming if the admin secret is gone the sql server is too
 		return false, nil
@@ -251,8 +243,8 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 		userSecretClient = s.SecretClient
 	}
 
-	userkey := GetNamespacedName(instance, userSecretClient)
-	userSecret, err := userSecretClient.Get(ctx, userkey)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	userSecret, err := userSecretClient.Get(ctx, secretKey)
 	if err != nil {
 		return false, nil
 	}

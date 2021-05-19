@@ -9,12 +9,13 @@ import (
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 const typeOfService = "Microsoft.Sql/servers"

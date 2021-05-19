@@ -15,6 +15,8 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -27,8 +29,9 @@ func (c *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		opt(options)
 	}
 
+	secretClient := c.SecretClient
 	if options.SecretClient != nil {
-		c.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := c.convert(obj)
@@ -50,14 +53,15 @@ func (c *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 	}
 
 	// Check to see if secret exists and if yes retrieve the admin login and password
-	secret, err := c.GetOrPrepareSecret(ctx, instance)
+	secret, err := c.GetOrPrepareSecret(ctx, secretClient, instance)
 	if err != nil {
 		return false, err
 	}
 
 	// Update secret with the fully qualified server name
-	err = c.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
+	err = c.AddServerCredsToSecrets(ctx, secretClient, secret, instance)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		return false, err
 	}
 
@@ -79,7 +83,7 @@ func (c *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			if getServer.UserVisibleState == psql.ServerStateReady {
 
 				// Update the secret with fully qualified server name. Ignore error as we have the admin creds which is critical.
-				c.UpdateSecretWithFullServerName(ctx, instance.Name, secret, instance, *getServer.FullyQualifiedDomainName)
+				c.UpdateSecretWithFullServerName(ctx, secretClient, secret, instance, *getServer.FullyQualifiedDomainName)
 
 				instance.Status.Message = resourcemanager.SuccessMsg
 				instance.Status.ResourceId = *getServer.ID
@@ -201,8 +205,9 @@ func (c *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 		opt(options)
 	}
 
+	secretClient := c.SecretClient
 	if options.SecretClient != nil {
-		c.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance, err := c.convert(obj)
@@ -234,8 +239,8 @@ func (c *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 	if err == nil {
 		if status != "InProgress" {
 			// Best case deletion of secrets
-			key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-			c.SecretClient.Delete(ctx, key)
+			secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+			secretClient.Delete(ctx, secretKey)
 			return false, nil
 		}
 	}

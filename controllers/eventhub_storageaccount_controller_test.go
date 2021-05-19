@@ -12,6 +12,7 @@ import (
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
@@ -172,9 +173,10 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	EnsureInstance(ctx, t, tc, eventhubInstance)
 
 	// Check that the secret is added to KeyVault
-	keyvaultSecretClient := kvsecrets.New(keyVaultNameForSecrets, config.GlobalCredentials())
+	keyvaultSecretClient := kvsecrets.New(keyVaultNameForSecrets, config.GlobalCredentials(), config.SecretNamingVersion())
+	key := secrets.SecretKey{Name: eventhubInstance.Name, Namespace: eventhubInstance.Namespace, Kind: "EventHub"}
 
-	EnsureSecrets(ctx, t, tc, eventhubInstance, keyvaultSecretClient, eventhubName, eventhubInstance.Namespace)
+	EnsureSecrets(ctx, t, tc, eventhubInstance, keyvaultSecretClient, key)
 
 	EnsureDelete(ctx, t, tc, eventhubInstance)
 	EnsureDelete(ctx, t, tc, eventhubNamespaceInstance)

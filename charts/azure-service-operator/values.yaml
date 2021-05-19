@@ -19,6 +19,9 @@ azureClientSecret: ""
 # azureUseMI determines if ASO will use a Managed Identity to authenticate.
 azureUseMI: False
 
+# azureSecretNamingVersion allows choosing the algorithm used to derive secret names. Version 2 is recommended.
+azureSecretNamingVersion: "2"
+
 # image defines the container image the ASO pod should run
 # Note: This should use the latest released tag number explicitly. If
 # it's ':latest' and someone deploys the chart after a new version has
@@ -27,7 +30,7 @@ azureUseMI: False
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:0.1.16800
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:1.0.22275
 
 # installAadPodIdentity determines if the aad-pod-identity subchart should be installed.
 installAadPodIdentity: False

@@ -31,8 +31,9 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 		opt(options)
 	}
 
+	secretClient := c.SecretClient
 	if options.SecretClient != nil {
-		c.SecretClient = options.SecretClient
+		secretClient = options.SecretClient
 	}
 
 	instance.Status.Provisioning = true
@@ -63,6 +64,8 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 		instance.Spec.WriteAnnotations,
 		instance.Spec.AuthSDKControlChannel,
 	)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureError(err)
@@ -72,8 +75,7 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 		case http.StatusBadRequest:
 			// if the key already exists it is fine only if the secret exists
 			if strings.Contains(azerr.Type, "already exists") {
-				sKey := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-				if _, err := c.SecretClient.Get(ctx, sKey); err != nil {
+				if _, err := secretClient.Get(ctx, secretKey); err != nil {
 					instance.Status.Message = "api key exists but no key could be recovered"
 					instance.Status.FailedProvisioning = true
 				}
@@ -89,14 +91,15 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 	}
 
 	// when create is successful we have to store the apikey somewhere
-	err = c.SecretClient.Upsert(ctx,
-		types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace},
+	err = secretClient.Upsert(
+		ctx,
+		secretKey,
 		map[string][]byte{"apiKey": []byte(*apiKey.APIKey)},
 		secrets.WithOwner(instance),
 		secrets.WithScheme(c.Scheme),
 	)
 	if err != nil {
-		instance.Status.Message = "api key created but key was lost before storage"
+		instance.Status.Message = fmt.Sprintf("api key created but key was lost before storage. err: %v", err)
 		instance.Status.FailedProvisioning = true
 		return false, err
 	}
@@ -112,9 +115,19 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 }
 
 func (c *InsightsAPIKeysClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
 	instance, err := c.convert(obj)
 	if err != nil {
 		return false, err
+	}
+
+	secretClient := c.SecretClient
+	if options.SecretClient != nil {
+		secretClient = options.SecretClient
 	}
 
 	// can't delete without an id and it probably wasn't provisioned by us if it's missing
@@ -148,8 +161,8 @@ func (c *InsightsAPIKeysClient) Delete(ctx context.Context, obj runtime.Object, 
 
 	}
 
-	sKey := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	err = c.SecretClient.Delete(ctx, sKey)
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	err = secretClient.Delete(ctx, secretKey)
 	if err != nil {
 		return true, err
 	}

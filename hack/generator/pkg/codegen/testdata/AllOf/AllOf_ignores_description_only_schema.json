@@ -1,0 +1,19 @@
+{
+    "$comment": "Check that the AllOf handler ignores schemas that contain only a description",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "allOf": [
+        {
+            "description": "this should be ignored"
+        },
+        {
+            "properties": {
+                "x": {
+                    "type" :"number"
+                }
+            }
+        }
+    ]
+}

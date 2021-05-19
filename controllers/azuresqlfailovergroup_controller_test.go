@@ -43,7 +43,7 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 			Location:                     rgLocation1,
 			ResourceGroup:                GenerateTestResourceNameWithRandom("rg-fake", 10),
 			Server:                       sqlServerOneName,
-			FailoverPolicy:               "automatic",
+			FailoverPolicy:               v1beta1.FailoverPolicyAutomatic,
 			FailoverGracePeriod:          30,
 			SecondaryServer:              sqlServerTwoName,
 			SecondaryServerResourceGroup: rgName,

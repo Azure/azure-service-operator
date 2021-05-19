@@ -8,14 +8,14 @@ import (
 	"fmt"
 
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 type PSQLServerClient struct {
@@ -193,14 +193,11 @@ func (c *PSQLServerClient) GetServer(ctx context.Context, resourcegroup string, 
 	return client.Get(ctx, resourcegroup, servername)
 }
 
-func (c *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *v1alpha2.PostgreSQLServer) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
+func (c *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretClient secrets.SecretClient, data map[string][]byte, instance *v1alpha2.PostgreSQLServer) error {
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	err := c.SecretClient.Upsert(ctx,
-		key,
+	err := secretClient.Upsert(ctx,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(c.Scheme),
@@ -212,16 +209,13 @@ func (c *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretNa
 	return nil
 }
 
-func (c *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, secretName string, data map[string][]byte, instance *v1alpha2.PostgreSQLServer, fullservername string) error {
-	key := types.NamespacedName{
-		Name:      secretName,
-		Namespace: instance.Namespace,
-	}
+func (c *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, secretClient secrets.SecretClient, data map[string][]byte, instance *v1alpha2.PostgreSQLServer, fullServerName string) error {
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	data["fullyQualifiedServerName"] = []byte(fullservername)
+	data["fullyQualifiedServerName"] = []byte(fullServerName)
 
-	err := c.SecretClient.Upsert(ctx,
-		key,
+	err := secretClient.Upsert(ctx,
+		secretKey,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(c.Scheme),
@@ -233,15 +227,13 @@ func (c *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, s
 	return nil
 }
 
-func (c *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *v1alpha2.PostgreSQLServer) (map[string][]byte, error) {
-	name := instance.Name
-
+func (c *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, secretClient secrets.SecretClient, instance *v1alpha2.PostgreSQLServer) (map[string][]byte, error) {
 	usernameLength := 8
 
 	secret := map[string][]byte{}
 
-	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
-	if stored, err := c.SecretClient.Get(ctx, key); err == nil {
+	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+	if stored, err := secretClient.Get(ctx, secretKey); err == nil {
 		return stored, nil
 	}
 
@@ -249,9 +241,9 @@ func (c *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *v1a
 	randomPassword := helpers.NewPassword()
 
 	secret["username"] = []byte(randomUsername)
-	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
+	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, instance.Name))
 	secret["password"] = []byte(randomPassword)
-	secret["postgreSqlServerName"] = []byte(name)
+	secret["postgreSqlServerName"] = []byte(instance.Name)
 
 	return secret, nil
 }

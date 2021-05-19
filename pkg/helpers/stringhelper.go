@@ -8,10 +8,8 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"regexp"
 	"strings"
-	"time"
 	"unicode"
 
 	"github.com/sethvargo/go-password/password"
@@ -75,7 +73,6 @@ func RemoveString(slice []string, s string) (result []string) {
 }
 
 func randomStringWithCharset(length int, charset string) string {
-	var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
 	b := make([]byte, length)
 	for i := range b {
 		b[i] = charset[seededRand.Intn(len(charset))]
