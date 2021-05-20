@@ -379,21 +379,19 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 		return ctrl.Result{}, errors.Wrapf(err, "couldn't convert to armResourceSpec")
 	}
 
-	var retryAfter time.Duration // ARM can tell us how long to wait for a DELETE
+	emptyStatus, err := reflecthelpers.NewEmptyArmResourceStatus(r.obj)
+	if err != nil {
+		return ctrl.Result{}, errors.Wrapf(err, "creating empty status for %q", resource.GetId())
+	}
 
-	err = r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
-		emptyStatus, deleteErr := reflecthelpers.NewEmptyArmResourceStatus(mutData.obj)
-		if deleteErr != nil {
-			return errors.Wrapf(deleteErr, "creating empty status for %q", resource.GetId())
-		}
+	// retryAfter = ARM can tell us how long to wait for a DELETE
+	retryAfter, err := r.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetApiVersion(), emptyStatus)
+	if err != nil {
+		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
+	}
 
-		retryAfter, deleteErr = r.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetApiVersion(), emptyStatus)
-		if deleteErr != nil {
-			return errors.Wrapf(deleteErr, "deleting resource %q", resource.Spec().GetType())
-		}
-
+	err = r.Patch(ctx, func() error {
 		r.SetResourceProvisioningState(armclient.DeletingProvisioningState)
-
 		return nil
 	})
 
@@ -473,8 +471,8 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 		r.recorder.Eventf(r.obj, v1.EventTypeNormal, string(CreateOrUpdateActionBeginDeployment), "Created new deployment to Azure with ID %q", deployment.ID)
 	}
 
-	err = r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
-		return mutData.Update(deployment, nil) // Status is always nil here
+	err = r.Patch(ctx, func() error {
+		return r.Update(deployment, nil) // Status is always nil here
 	})
 
 	if err != nil {
@@ -530,8 +528,8 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 		status = s
 	}
 
-	err = r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
-		updateErr := mutData.Update(deployment, status)
+	err = r.Patch(ctx, func() error {
+		updateErr := r.Update(deployment, status)
 		if updateErr != nil {
 			return errors.Wrap(updateErr, "updating obj")
 		}
@@ -564,8 +562,8 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 		deployment.ID = ""
 		deployment.Name = ""
 
-		err = r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
-			updateErr := mutData.Update(deployment, status)
+		err = r.Patch(ctx, func() error {
+			updateErr := r.Update(deployment, status)
 			if updateErr != nil {
 				return errors.Wrap(updateErr, "updating obj")
 			}
@@ -601,8 +599,8 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 		// TODO: We need to figure out how we're handing these sorts of errors.
 		// TODO: See https://github.com/Azure/k8s-infra/issues/274.
 		// TODO: For now just set an error so we at least see something
-		err = r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
-			mutData.SetResourceError(fmt.Sprintf("owner %s is not ready", r.obj.Owner().Name))
+		err = r.Patch(ctx, func() error {
+			r.SetResourceError(fmt.Sprintf("owner %s is not ready", r.obj.Owner().Name))
 			return nil
 		})
 
@@ -704,9 +702,11 @@ func (r *AzureDeploymentReconciler) resourceSpecToDeployment(ctx context.Context
 	deploymentName, deploymentNameOk := r.GetDeploymentName()
 	if deploymentIDOk != deploymentNameOk {
 		return nil, errors.Errorf(
-			"deploymentIDOk: %t, deploymentNameOk: %t expected to match, but didn't",
+			"deploymentIDOk: %t (id: %v), deploymentNameOk: %t (name: %v) expected to match, but didn't",
 			deploymentIDOk,
-			deploymentNameOk)
+			deploymentID,
+			deploymentNameOk,
+			deploymentName)
 	}
 
 	if !deploymentNameOk {
@@ -750,7 +750,7 @@ func (r *AzureDeploymentReconciler) createDeployment(
 
 func (r *AzureDeploymentReconciler) Patch(
 	ctx context.Context,
-	mutator func(context.Context, *AzureDeploymentReconciler) error) error {
+	mutator func() error) error {
 
 	// TODO: it's sorta awkward we have to reach into KubeClient to get its client here
 	patcher, err := patch.NewHelper(r.obj, r.KubeClient.Client)
@@ -758,7 +758,7 @@ func (r *AzureDeploymentReconciler) Patch(
 		return err
 	}
 
-	if err := mutator(ctx, r); err != nil {
+	if err := mutator(); err != nil {
 		return err
 	}
 
@@ -800,7 +800,7 @@ func (r *AzureDeploymentReconciler) applyOwnership(ctx context.Context) error {
 		return nil
 	}
 
-	err = r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
+	err = r.Patch(ctx, func() error {
 		ownerGvk := owner.GetObjectKind().GroupVersionKind()
 
 		ownerRef := metav1.OwnerReference{
@@ -810,9 +810,9 @@ func (r *AzureDeploymentReconciler) applyOwnership(ctx context.Context) error {
 			UID:        owner.GetUID(),
 		}
 
-		mutData.obj.SetOwnerReferences(ownerutil.EnsureOwnerRef(mutData.obj.GetOwnerReferences(), ownerRef))
+		r.obj.SetOwnerReferences(ownerutil.EnsureOwnerRef(r.obj.GetOwnerReferences(), ownerRef))
 
-		mutData.log.V(4).Info("Set owner reference", "ownerGvk", ownerGvk, "ownerName", owner.GetName())
+		r.log.V(4).Info("Set owner reference", "ownerGvk", ownerGvk, "ownerName", owner.GetName())
 
 		return nil
 	})
@@ -826,7 +826,7 @@ func (r *AzureDeploymentReconciler) applyOwnership(ctx context.Context) error {
 
 // TODO: it's not clear if we want to reserve updates of the resource to the controller itself (and keep KubeClient out of the AzureDeploymentReconciler)
 func (r *AzureDeploymentReconciler) deleteResourceSucceeded(ctx context.Context) error {
-	err := r.Patch(ctx, func(ctx context.Context, mutData *AzureDeploymentReconciler) error {
+	err := r.Patch(ctx, func() error {
 		controllerutil.RemoveFinalizer(r.obj, GenericControllerFinalizer)
 		return nil
 	})
