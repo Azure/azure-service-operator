@@ -31,7 +31,7 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 	g.Expect(kubeClient.Create(ctx, rg)).To(Succeed())
 
 	// It should be created in Kubernetes
-	g.Eventually(rg).Should(testContext.Match.BeProvisioned(ctx))
+	g.Eventually(rg, remainingTime(t)).Should(testContext.Match.BeProvisioned(ctx))
 
 	// check properties
 	g.Expect(rg.Status.Location).To(Equal(testContext.AzureRegion))
@@ -51,11 +51,11 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 		newRG := &resources.ResourceGroup{}
 		g.Expect(kubeClient.Get(ctx, objectKey, newRG)).To(Succeed())
 		return newRG.Status.Tags
-	}).Should(HaveKeyWithValue("tag1", "value1"))
+	}, remainingTime(t)).Should(HaveKeyWithValue("tag1", "value1"))
 
 	// Delete the resource group
 	g.Expect(kubeClient.Delete(ctx, rg)).To(Succeed())
-	g.Eventually(rg).Should(testContext.Match.BeDeleted(ctx))
+	g.Eventually(rg, remainingTime(t)).Should(testContext.Match.BeDeleted(ctx))
 
 	// Ensure that the resource group was really deleted in Azure
 	// TODO: Do we want to just use an SDK here? This process is quite icky as is...
