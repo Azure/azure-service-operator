@@ -194,6 +194,7 @@ func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer
 var dateMatcher *regexp.Regexp = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
 
 // hideDates replaces all ISO8601 datetimes with a fixed value
+// this lets us match requests that may contain time-sensitive information (timestamps, etc)
 func hideDates(s string) string {
 	return dateMatcher.ReplaceAllLiteralString(s, "2001-02-03T04:05:06Z") // this should be recognizable/parseable as a fake date
 }
