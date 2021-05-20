@@ -324,7 +324,7 @@ func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secret
 	return nil
 }
 
-// GetOrPrepareSecret gets tje admin credentials if they are stored or generates some if not
+// GetOrPrepareSecret gets the admin credentials if they are stored or generates some if not
 func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, secretClient secrets.SecretClient, instance *azurev1alpha2.MySQLServer) (map[string][]byte, error) {
 	createmode := instance.Spec.CreateMode
 

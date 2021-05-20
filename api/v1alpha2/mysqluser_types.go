@@ -38,6 +38,15 @@ type MySQLUserSpec struct {
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
+func (s MySQLUserSpec) GetAdminSecretName() string {
+	adminSecretName := s.AdminSecret
+	if len(adminSecretName) == 0 {
+		adminSecretName = s.Server
+	}
+
+	return adminSecretName
+}
+
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion

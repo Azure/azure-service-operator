@@ -41,25 +41,11 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	}
 
 	adminSecretClient := s.SecretClient
-
-	adminSecretName := instance.Spec.AdminSecret
-	if len(instance.Spec.AdminSecret) == 0 {
-		adminSecretName = instance.Spec.Server
-	}
-
-	adminSecretKey := secrets.SecretKey{Name: adminSecretName, Namespace: instance.Namespace, Kind: reflect.TypeOf(v1alpha2.MySQLServer{}).Name()}
-
-	var mysqlUserSecretClient secrets.SecretClient
-	if options.SecretClient != nil {
-		mysqlUserSecretClient = options.SecretClient
-	} else {
-		mysqlUserSecretClient = s.SecretClient
-	}
-
-	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
 		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
 	}
+
+	adminSecretKey := secrets.SecretKey{Name: instance.Spec.GetAdminSecretName(), Namespace: instance.Namespace, Kind: reflect.TypeOf(v1alpha2.MySQLServer{}).Name()}
 
 	// get admin creds for server
 	adminSecret, err := adminSecretClient.Get(ctx, adminSecretKey)
@@ -68,6 +54,13 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		instance.Status.Provisioning = false
 		instance.Status.Message = err.Error()
 		return false, nil
+	}
+
+	var mysqlUserSecretClient secrets.SecretClient
+	if options.SecretClient != nil {
+		mysqlUserSecretClient = options.SecretClient
+	} else {
+		mysqlUserSecretClient = s.SecretClient
 	}
 
 	_, err = s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Server)
