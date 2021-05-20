@@ -263,10 +263,12 @@ func (r *AzureDeploymentReconciler) Update(
 
 	r.SetDeploymentID(deployment.ID)
 	r.SetDeploymentName(deployment.Name)
+
 	// TODO: Do we want to just use Azure's annotations here? I bet we don't? We probably want to map
 	// TODO: them onto something more robust? For now just use Azure's though.
-	r.SetResourceProvisioningState(deployment.Properties.ProvisioningState)
+	r.SetResourceProvisioningState(deployment.Properties.ProvisioningState) // TODO: this is wrong but we need to figure out what it should be
 	r.SetResourceSignature(sig)
+
 	if deployment.IsTerminalProvisioningState() {
 		if deployment.Properties.ProvisioningState == armclient.FailedProvisioningState {
 			r.SetResourceError(deployment.Properties.Error.String())
@@ -456,13 +458,14 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 	if err != nil {
 		var reqErr *autorestAzure.RequestError
 		if errors.As(err, &reqErr) && reqErr.StatusCode == http.StatusConflict {
-			deployID, pathErr := deployment.GetEntityPath()
-			if pathErr != nil {
-				// TODO: what if GetEntityPath doesn't work due to malformed deployment?
-				r.log.Info("Deployment already exists", "id", deployID)
+			if reqErr.ServiceError.Code == "DeploymentBeingDeleted" {
+				// okay, we need to wait for deployment to delete
+				return ctrl.Result{}, errors.New("waiting for deployment to be deleted")
 			}
 
-			// TODO: we need to diff the old/new deployment here and detect if we need to do a redeploy
+			// TODO: investigate what to do when the deployment exists
+			// but is either running or has run to completion
+			return ctrl.Result{}, errors.Wrap(err, "received conflict when trying to create deployment")
 		} else {
 			return ctrl.Result{}, err
 		}
@@ -758,11 +761,11 @@ func (r *AzureDeploymentReconciler) Patch(
 		return err
 	}
 
-	if err := mutator(); err != nil {
+	if err = mutator(); err != nil {
 		return err
 	}
 
-	if err := patcher.Patch(ctx, r.obj); err != nil {
+	if err = patcher.Patch(ctx, r.obj); err != nil {
 		// Don't wrap this error so that we can easily use apierrors to classify it elsewhere
 		return err
 	}
