@@ -139,6 +139,8 @@ func NewConversionFunctionBuilder(idFactory IdentifierFactory, codeGenerationCon
 			IdentityAssignValidatedTypeDestination,
 			IdentityAssignValidatedTypeSource,
 			IdentityAssignPrimitiveType,
+			AssignToOptional,
+			AssignFromOptional,
 			IdentityDeepCopyJSON,
 			IdentityAssignTypeName,
 		},
@@ -168,8 +170,8 @@ func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParam
 	var sourceSB strings.Builder
 	params.SourceType.WriteDebugDescription(&sourceSB, types)
 	var destinationSB strings.Builder
-	params.SourceType.WriteDebugDescription(&destinationSB, types)
-	panic(fmt.Sprintf("don't know how to perform conversion for %T -> %T", sourceSB.String(), destinationSB.String()))
+	params.DestinationType.WriteDebugDescription(&destinationSB, types)
+	panic(fmt.Sprintf("don't know how to perform conversion for %s -> %s", sourceSB.String(), destinationSB.String()))
 }
 
 // IdentityConvertComplexOptionalProperty handles conversion for optional properties with complex elements
@@ -435,6 +437,104 @@ func IdentityAssignPrimitiveType(_ *ConversionFunctionBuilder, params Conversion
 	return []dst.Stmt{
 		params.AssignmentHandlerOrDefault()(params.GetDestination(), params.GetSource()),
 	}
+}
+
+// AssignToOptional assigns address of source to destination.
+// This function generates code that looks like this, for simple conversions:
+// <destination> <assignmentHandler> &<source>
+//
+// or:
+// <destination>Temp := convert(<source>)
+// <destination> <assignmentHandler> &<destination>Temp
+func AssignToOptional(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	optDest, ok := params.DestinationType.(*OptionalType)
+	if !ok {
+		return nil
+	}
+
+	if optDest.Element().Equals(params.SourceType) {
+		return []dst.Stmt{
+			params.AssignmentHandlerOrDefault()(params.GetDestination(), &dst.UnaryExpr{Op: token.AND, X: params.GetSource()}),
+		}
+	}
+
+	// a more complex conversion is needed
+	dstType := optDest.Element()
+	tmpLocal := builder.CreateLocal(params.Locals, "temp", params.NameHint)
+
+	conversion := builder.BuildConversion(
+		ConversionParameters{
+			Source:            params.Source,
+			SourceType:        params.SourceType,
+			Destination:       dst.NewIdent(tmpLocal),
+			DestinationType:   dstType,
+			NameHint:          tmpLocal,
+			ConversionContext: nil,
+			AssignmentHandler: nil,
+			Locals:            params.Locals,
+		})
+
+	if len(conversion) == 0 {
+		return nil // unable to build inner conversion
+	}
+
+	var result []dst.Stmt
+	result = append(result, astbuilder.LocalVariableDeclaration(tmpLocal, dstType.AsType(builder.CodeGenerationContext), ""))
+	result = append(result, conversion...)
+	result = append(result, params.AssignmentHandlerOrDefault()(params.GetDestination(), &dst.UnaryExpr{Op: token.AND, X: dst.NewIdent(tmpLocal)}))
+	return result
+}
+
+// AssignFromOptional assigns address of source to destination.
+// This function generates code that looks like this, for simple conversions:
+// if (<source> != nil) {
+//     <destination> <assignmentHandler> *<source>
+// }
+//
+// or:
+// if (<source> != nil) {
+//     <destination>Temp := convert(*<source>)
+//     <destination> <assignmentHandler> <destination>Temp
+// }
+func AssignFromOptional(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	optSrc, ok := params.SourceType.(*OptionalType)
+	if !ok {
+		return nil
+	}
+
+	if optSrc.Element().Equals(params.DestinationType) {
+		return []dst.Stmt{
+			astbuilder.IfNotNil(params.GetSource(),
+				params.AssignmentHandlerOrDefault()(params.GetDestination(), &dst.UnaryExpr{Op: token.MUL, X: params.GetSource()}),
+			),
+		}
+	}
+
+	// a more complex conversion is needed
+	srcType := optSrc.Element()
+	tmpLocal := builder.CreateLocal(params.Locals, "temp", params.NameHint)
+
+	conversion := builder.BuildConversion(
+		ConversionParameters{
+			Source:            &dst.UnaryExpr{Op: token.MUL, X: params.GetSource()},
+			SourceType:        srcType,
+			Destination:       dst.NewIdent(tmpLocal),
+			DestinationType:   params.DestinationType,
+			NameHint:          tmpLocal,
+			ConversionContext: nil,
+			AssignmentHandler: nil,
+			Locals:            params.Locals,
+		})
+
+	if len(conversion) == 0 {
+		return nil // unable to build inner conversion
+	}
+
+	var result []dst.Stmt
+	result = append(result, astbuilder.LocalVariableDeclaration(tmpLocal, params.DestinationType.AsType(builder.CodeGenerationContext), ""))
+	result = append(result, conversion...)
+	result = append(result, params.AssignmentHandlerOrDefault()(params.GetDestination(), dst.NewIdent(tmpLocal)))
+	return result
 }
 
 // IdentityAssignValidatedTypeDestination generates an assignment to the underlying validated type Element

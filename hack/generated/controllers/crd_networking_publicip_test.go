@@ -34,9 +34,7 @@ func Test_PublicIP_CRUD(t *testing.T) {
 			Sku: &network.PublicIPAddressSku{
 				Name: &sku,
 			},
-			Properties: network.PublicIPAddressPropertiesFormat{
-				PublicIPAllocationMethod: network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic,
-			},
+			PublicIPAllocationMethod: network.PublicIPAddressesSpecPropertiesPublicIPAllocationMethodStatic,
 		},
 	}
 
@@ -49,7 +47,7 @@ func Test_PublicIP_CRUD(t *testing.T) {
 	patcher := tc.NewResourcePatcher(publicIPAddress)
 
 	idleTimeoutInMinutes := 7
-	publicIPAddress.Spec.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+	publicIPAddress.Spec.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	patcher.Patch(publicIPAddress)
 
 	objectKey, err := client.ObjectKeyFromObject(publicIPAddress)
@@ -59,7 +57,7 @@ func Test_PublicIP_CRUD(t *testing.T) {
 	tc.Eventually(func() *int {
 		updatedIP := &network.PublicIPAddresses{}
 		tc.GetResource(objectKey, updatedIP)
-		return updatedIP.Status.Properties.IdleTimeoutInMinutes
+		return updatedIP.Status.IdleTimeoutInMinutes
 	}).Should(Equal(&idleTimeoutInMinutes))
 
 	tc.DeleteResourceAndWait(publicIPAddress)

@@ -93,7 +93,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		loadSchemaIntoTypes(idFactory, configuration, defaultSchemaLoader),
 
 		// Import status info from Swagger:
-		augmentResourcesWithSwaggerInformation(idFactory, configuration),
+		addStatusFromSwagger(idFactory, configuration),
 
 		// Reduces oneOf/allOf types from schemas to object types:
 		convertAllOfAndOneOfToObjects(idFactory),
@@ -101,6 +101,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Flatten out any nested resources created by allOf, etc. we want to do this before naming types or things
 		// get named with names like Resource_Spec_Spec_Spec:
 		flattenResources(),
+
+		// Copy additional swagger-derived information from status into spec
+		augmentSpecWithStatus().RequiresPrerequisiteStages("allof-anyof-objects", "statusFromSwagger"),
 
 		stripUnreferencedTypeDefinitions(),
 
@@ -146,6 +149,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		applyARMConversionInterface(idFactory).UsedFor(ARMTarget),
 		applyKubernetesResourceInterface(idFactory).UsedFor(ARMTarget),
 
+		// Effects the "flatten" property of Properties:
+		flattenProperties(), // must happen after generating ARM types & interfaces so that the ARM pipeline knows that the result will be flattened
+
 		addCrossplaneOwnerProperties(idFactory).UsedFor(CrossplaneTarget),
 		addCrossplaneForProvider(idFactory).UsedFor(CrossplaneTarget),
 		addCrossplaneAtProvider(idFactory).UsedFor(CrossplaneTarget),
@@ -153,6 +159,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		addCrossplaneEmbeddedResourceStatus(idFactory).UsedFor(CrossplaneTarget),
 
 		createStorageTypes(idFactory).UsedFor(ARMTarget), // TODO: For now only used for ARM
+
 		simplifyDefinitions(),
 		injectJsonSerializationTests(idFactory).UsedFor(ARMTarget),
 

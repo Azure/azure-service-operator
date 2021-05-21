@@ -31,9 +31,7 @@ func Test_ServiceBus_Standard_CRUD(t *testing.T) {
 			Sku: &servicebus.SBSku{
 				Name: servicebus.SBSkuNameStandard,
 			},
-			Properties: servicebus.SBNamespaceProperties{
-				ZoneRedundant: &zoneRedundant,
-			},
+			ZoneRedundant: &zoneRedundant,
 		},
 	}
 
@@ -78,6 +76,6 @@ func ServiceBus_Topic_CRUD(tc testcommon.KubePerTestContext, sbNamespace metav1.
 	tc.Expect(topic.Status.Id).ToNot(BeNil())
 
 	// a basic assertion on a property
-	tc.Expect(topic.Status.Properties.SizeInBytes).ToNot(BeNil())
-	tc.Expect(*topic.Status.Properties.SizeInBytes).To(Equal(0))
+	tc.Expect(topic.Status.SizeInBytes).ToNot(BeNil())
+	tc.Expect(*topic.Status.SizeInBytes).To(Equal(0))
 }

@@ -100,8 +100,8 @@ func generateTypeConversionAssignments(
 	return result
 }
 
-// NewARMTransformerImpl creates a new interface with the specified ARM conversion functions
-func NewARMTransformerImpl(
+// NewARMConversionInterfaceImpl creates a new interface with the specified ARM conversion functions
+func NewARMConversionInterfaceImpl(
 	armTypeName astmodel.TypeName,
 	armType *astmodel.ObjectType,
 	idFactory astmodel.IdentifierFactory,
@@ -139,7 +139,7 @@ func NewARMTransformerImpl(
 			convertToARMFunc,
 			populateFromARMFunc)
 	} else {
-		// only convert in one direction with the FromARMConverter interface
+		// can only convert in one direction with the FromARMConverter interface
 		return astmodel.NewInterfaceImplementation(
 			astmodel.MakeTypeName(astmodel.GenRuntimeReference, "FromARMConverter"),
 			createEmptyARMValueFunc,

@@ -151,7 +151,7 @@ func (objectType *ObjectType) EmbeddedProperties() []*PropertyDefinition {
 // A sorted slice is returned to preserve immutability and provide determinism
 func (objectType *ObjectType) Functions() []Function {
 
-	var functions []Function
+	functions := make([]Function, 0, len(objectType.functions))
 	for _, f := range objectType.functions {
 		functions = append(functions, f)
 	}

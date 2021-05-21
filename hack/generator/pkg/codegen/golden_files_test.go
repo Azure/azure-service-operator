@@ -108,6 +108,8 @@ func injectEmbeddedStructType() PipelineStage {
 }
 
 func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
+	ctx := context.Background()
+
 	for _, pipeline := range testConfig.Pipelines {
 		testName := strings.TrimPrefix(t.Name(), "TestGolden/")
 
@@ -122,7 +124,7 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 				t.Fatalf("failed to create code generator: %v", err)
 			}
 
-			err = codegen.Generate(context.TODO())
+			err = codegen.Generate(ctx)
 			if err != nil {
 				t.Fatalf("codegen failed: %v", err)
 			}

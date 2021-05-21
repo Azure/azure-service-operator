@@ -33,13 +33,11 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg.ObjectMeta),
 			Kind:     storage.StorageAccountsSpecKindBlobStorage,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
+			Sku: storage.StorageAccounts_Spec_Sku{
+				Name: storage.StorageAccountsSpecSkuNameStandardLRS,
 			},
 			// TODO: They mark this property as optional but actually it is required
-			Properties: &storage.StorageAccountPropertiesCreateParameters{
-				AccessTier: &accessTier,
-			},
+			AccessTier: &accessTier,
 		},
 	}
 

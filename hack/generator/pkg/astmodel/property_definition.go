@@ -24,8 +24,27 @@ type PropertyDefinition struct {
 	propertyType                     Type
 	description                      string
 	hasKubebuilderRequiredValidation bool
-	flatten                          bool // maps to x-ms-flatten: should the propertyType be flattened into the parent
+	flatten                          bool           // maps to x-ms-client-flatten: should the propertyType be flattened into the parent
+	flattenedFrom                    []PropertyName // a list of property names from whence this property was flattened
 	tags                             map[string][]string
+}
+
+func (property *PropertyDefinition) AddFlattenedFrom(name PropertyName) *PropertyDefinition {
+	result := *property
+	result.flattenedFrom = append([]PropertyName{name}, result.flattenedFrom...)
+	return &result
+}
+
+func (property *PropertyDefinition) WasFlattened() bool {
+	return len(property.flattenedFrom) > 0
+}
+
+func (property *PropertyDefinition) WasFlattenedFrom(name PropertyName) bool {
+	return property.WasFlattened() && property.flattenedFrom[0] == name
+}
+
+func (property *PropertyDefinition) FlattenedFrom() []PropertyName {
+	return append([]PropertyName{}, property.flattenedFrom...)
 }
 
 var _ fmt.Stringer = &PropertyDefinition{}
@@ -97,6 +116,9 @@ func (property *PropertyDefinition) Description() string {
 
 // WithType clones the property and returns it with a new type
 func (property *PropertyDefinition) WithType(newType Type) *PropertyDefinition {
+	if newType == nil {
+		panic("nil type provided to WithType")
+	}
 
 	if property.propertyType.Equals(newType) {
 		return property

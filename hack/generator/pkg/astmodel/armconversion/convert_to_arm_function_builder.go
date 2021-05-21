@@ -66,6 +66,7 @@ func newConvertToARMFunctionBuilder(
 		result.fixedValuePropertyHandler("Type"),
 		result.fixedValuePropertyHandler("ApiVersion"),
 		result.propertiesWithSameNameHandler,
+		result.flattenedPropertyHandler,
 	}
 
 	return result
@@ -182,6 +183,112 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 			Locals:            builder.locals,
 		},
 	)
+}
+
+func (builder *convertToARMBuilder) flattenedPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	fromType *astmodel.ObjectType) []dst.Stmt {
+
+	toPropName := toProp.PropertyName()
+
+	// collect any props that were flattened from the to-prop
+	var props []*astmodel.PropertyDefinition
+	for _, prop := range fromType.Properties() {
+		if prop.WasFlattenedFrom(toPropName) {
+			props = append(props, prop)
+		}
+	}
+
+	if len(props) == 0 {
+		return nil
+	}
+
+	allTypes := builder.codeGenerationContext.GetAllReachableTypes()
+	toPropType, err := allTypes.FullyResolve(toProp.PropertyType())
+	if err != nil {
+		panic(err)
+	}
+
+	generateNilCheck := false
+	var toPropTypeName astmodel.TypeName
+	if optType, ok := toPropType.(*astmodel.OptionalType); ok {
+		generateNilCheck = true
+		toPropTypeName = optType.Element().(astmodel.TypeName)
+		toPropType, err = allTypes.FullyResolve(optType.Element())
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	// we _should_ be fine, now :)
+	toPropObjType := toPropType.(*astmodel.ObjectType)
+
+	var result []dst.Stmt
+	if generateNilCheck {
+		var conds []dst.Expr
+		for _, prop := range props {
+			conds = append(conds, &dst.BinaryExpr{
+				X:  astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(prop.PropertyName())),
+				Op: token.NEQ,
+				Y:  dst.NewIdent("nil"),
+			})
+		}
+
+		cond := conds[0]
+		for _, c := range conds[1:] {
+			cond = &dst.BinaryExpr{
+				X:  cond,
+				Op: token.LOR,
+				Y:  c,
+			}
+		}
+
+		result = append(result,
+			&dst.IfStmt{
+				Cond: cond,
+				Body: &dst.BlockStmt{
+					List: []dst.Stmt{
+						astbuilder.SimpleAssignment(
+							astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toPropName)),
+							token.ASSIGN,
+							&dst.UnaryExpr{
+								Op: token.AND,
+								X: &dst.CompositeLit{
+									Type: toPropTypeName.AsType(builder.codeGenerationContext),
+								},
+							}),
+					},
+				},
+			})
+	}
+
+	for _, prop := range props {
+
+		// find the corresponding property on the to-prop type
+		toSubProp, ok := toPropObjType.Property(prop.PropertyName())
+		if !ok {
+			panic("unable to find source of flattened property")
+		}
+
+		stmts := builder.typeConversionBuilder.BuildConversion(astmodel.ConversionParameters{
+			Source:            astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(prop.PropertyName())),
+			SourceType:        prop.PropertyType(),
+			Destination:       astbuilder.Selector(astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toPropName)), string(toSubProp.PropertyName())),
+			DestinationType:   toSubProp.PropertyType(),
+			NameHint:          string(toSubProp.PropertyName()),
+			ConversionContext: nil,
+			AssignmentHandler: nil,
+			Locals:            builder.locals,
+		})
+
+		if len(stmts) == 0 {
+			return nil
+		}
+
+		result = append(result, stmts...)
+	}
+
+	return result
 }
 
 func (builder *convertToARMBuilder) fixedValuePropertyHandler(propertyName astmodel.PropertyName) propertyConversionHandler {

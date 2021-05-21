@@ -88,13 +88,17 @@ func NewVariableQualified(varName string, qualifier string, structName string) d
 //
 // …as that does not work for enum types.
 func NewVariable(varName string, structName string) dst.Stmt {
+	return NewVariableWithType(varName, dst.NewIdent(structName))
+}
+
+func NewVariableWithType(varName string, varType dst.Expr) dst.Stmt {
 	return &dst.DeclStmt{
 		Decl: &dst.GenDecl{
 			Tok: token.VAR,
 			Specs: []dst.Spec{
 				&dst.TypeSpec{
 					Name: dst.NewIdent(varName),
-					Type: dst.NewIdent(structName),
+					Type: varType,
 				},
 			},
 		},

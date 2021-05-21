@@ -1,0 +1,29 @@
+{
+    "$comment": "Check that flattened definitions are inlined into parent type",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "inner_flat": {
+            "x-ms-client-flatten": true,
+            "$ref": "#/definitions/Inner"
+        },
+        "inner_not_flat": {
+            "$ref": "#/definitions/Inner"
+        }
+    },
+    "definitions": {
+        "Inner": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }, 
+                "color" :{
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -226,7 +226,7 @@ func (c *armConversionApplier) addARMConversionInterface(
 	}
 
 	addInterfaceHandler := func(t *astmodel.ObjectType) (astmodel.Type, error) {
-		result := t.WithInterface(armconversion.NewARMTransformerImpl(
+		result := t.WithInterface(armconversion.NewARMConversionInterfaceImpl(
 			armDef.Name(),
 			objectType,
 			c.idFactory,

@@ -1,9 +1,10 @@
 Expected Pipeline Stages for ARM Code Generation
 ------------------------------------------------
 loadSchema                                     Load and walk schema
-augmentWithSwagger                             Add information from Swagger specs for 'status' fields
+statusFromSwagger                              Add information from Swagger specs for 'status' fields
 allof-anyof-objects                            Convert allOf and oneOf to object types
 flatten-resources                              Flatten nested resource types
+augmentSpecWithStatus                          Merges information from Status into Spec
 stripUnreferenced                              Strip unreferenced types
 nameTypes                                      Name inner types for CRD
 propertyRewrites                               Applying type transformers to properties
@@ -21,6 +22,7 @@ reportTypesAndVersions              azure      Generate reports on types and ver
 createArmTypes                      azure      Creates ARM types
 applyArmConversionInterface         azure      Apply the ARM conversion interface to Kubernetes types
 applyKubernetesResourceInterface    azure      Ensures that every resource implements the KubernetesResource interface
+flatten-properties                             Apply flattening to properties marked for flattening
 addCrossplaneOwnerProperties        crossplane Adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
 addCrossplaneForProviderProperty    crossplane Adds a 'ForProvider' property on every spec
 addCrossplaneAtProviderProperty     crossplane Adds an 'AtProvider' property on every status

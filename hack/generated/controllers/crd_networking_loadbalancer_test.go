@@ -40,9 +40,7 @@ func Test_LoadBalancer_CRUD(t *testing.T) {
 			Sku: &network.PublicIPAddressSku{
 				Name: &sku,
 			},
-			Properties: network.PublicIPAddressPropertiesFormat{
-				PublicIPAllocationMethod: network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic,
-			},
+			PublicIPAllocationMethod: network.PublicIPAddressesSpecPropertiesPublicIPAllocationMethodStatic,
 		},
 	}
 
@@ -60,33 +58,31 @@ func Test_LoadBalancer_CRUD(t *testing.T) {
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			Properties: network.LoadBalancerPropertiesFormat{
-				FrontendIPConfigurations: []network.FrontendIPConfiguration{
-					{
-						Name: lbFrontendName,
-						Properties: &network.FrontendIPConfigurationPropertiesFormat{
-							PublicIPAddress: &network.SubResource{
-								Reference: tc.MakeReferenceFromResource(publicIPAddress),
-							},
+			FrontendIPConfigurations: []network.FrontendIPConfiguration{
+				{
+					Name: lbFrontendName,
+					Properties: &network.FrontendIPConfigurationPropertiesFormat{
+						PublicIPAddress: &network.SubResource{
+							Reference: tc.MakeReferenceFromResource(publicIPAddress),
 						},
 					},
 				},
-				// TODO: The below stuff isn't really necessary for LB CRUD but is required for VMSS...
-				InboundNatPools: []network.InboundNatPool{
-					{
-						Name: "MyFancyNatPool",
-						Properties: &network.InboundNatPoolPropertiesFormat{
-							FrontendIPConfiguration: network.SubResource{
-								Reference: genruntime.ResourceReference{
-									// TODO: This is still really awkward
-									ARMID: tc.MakeARMId(rg.Name, "Microsoft.Network", "loadBalancers", lbName, "frontendIPConfigurations", lbFrontendName),
-								},
+			},
+			// TODO: The below stuff isn't really necessary for LB CRUD but is required for VMSS...
+			InboundNatPools: []network.InboundNatPool{
+				{
+					Name: "MyFancyNatPool",
+					Properties: &network.InboundNatPoolPropertiesFormat{
+						FrontendIPConfiguration: network.SubResource{
+							Reference: genruntime.ResourceReference{
+								// TODO: This is still really awkward
+								ARMID: tc.MakeARMId(rg.Name, "Microsoft.Network", "loadBalancers", lbName, "frontendIPConfigurations", lbFrontendName),
 							},
-							Protocol:               network.InboundNatPoolPropertiesFormatProtocolTcp,
-							FrontendPortRangeStart: 50000,
-							FrontendPortRangeEnd:   51000,
-							BackendPort:            22,
 						},
+						Protocol:               network.InboundNatPoolPropertiesFormatProtocolTcp,
+						FrontendPortRangeStart: 50000,
+						FrontendPortRangeEnd:   51000,
+						BackendPort:            22,
 					},
 				},
 			},

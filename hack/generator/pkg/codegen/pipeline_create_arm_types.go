@@ -144,8 +144,8 @@ func removeValidations(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 }
 
 func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-	convertPropertiesToARMTypesWrapper := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
-		return c.convertPropertiesToARMTypes(t, isSpecType)
+	convertObjectPropertiesForARM := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
+		return c.convertObjectPropertiesForARM(t, isSpecType)
 	}
 
 	addOneOfConversionFunctionIfNeeded := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
@@ -158,7 +158,7 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 	}
 
 	armName := astmodel.CreateARMTypeName(def.Name())
-	armDef, err := def.WithName(armName).ApplyObjectTransformations(removeValidations, convertPropertiesToARMTypesWrapper, addOneOfConversionFunctionIfNeeded)
+	armDef, err := def.WithName(armName).ApplyObjectTransformations(removeValidations, convertObjectPropertiesForARM, addOneOfConversionFunctionIfNeeded)
 	if err != nil {
 		return astmodel.TypeDefinition{},
 			errors.Wrapf(err, "creating ARM prototype %v from Kubernetes definition %v", armName, def.Name())
@@ -167,6 +167,7 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 	result, err := armDef.ApplyObjectTransformation(func(objectType *astmodel.ObjectType) (astmodel.Type, error) {
 		return astmodel.ARMFlag.ApplyTo(objectType), nil
 	})
+
 	if err != nil {
 		return astmodel.TypeDefinition{},
 			errors.Wrapf(err, "creating ARM definition %v from Kubernetes definition %v", armName, def.Name())
@@ -213,7 +214,9 @@ func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmod
 	return visitor.Visit(t, nil)
 }
 
-func (c *armTypeCreator) convertPropertiesToARMTypes(t *astmodel.ObjectType, isSpecType bool) (*astmodel.ObjectType, error) {
+// convertObjectPropertiesForARM returns the given object type with
+// any properties updated that need to be changed for ARM
+func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, isSpecType bool) (*astmodel.ObjectType, error) {
 	result := t
 
 	var errs []error
@@ -255,15 +258,13 @@ func (c *armTypeCreator) convertPropertiesToARMTypes(t *astmodel.ObjectType, isS
 			}
 
 			result = result.WithProperty(newProp)
-
 		} else {
-			propType := prop.PropertyType()
-			newType, err := c.convertARMPropertyTypeIfNeeded(propType)
+			newType, err := c.convertARMPropertyTypeIfNeeded(prop.PropertyType())
+
 			if err != nil {
 				errs = append(errs, err)
-			} else if newType != propType {
-				newProp := prop.WithType(newType)
-				result = result.WithProperty(newProp)
+			} else {
+				result = result.WithProperty(prop.WithType(newType))
 			}
 		}
 	}
