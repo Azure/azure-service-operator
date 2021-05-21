@@ -7,8 +7,11 @@ metadata:
 spec:
   conversion:
     strategy: Webhook
-    webhookClientConfig:
-      service:
-        namespace: system
-        name: webhook-service
-        path: /convert
+    webhook:
+      conversionReviewVersions:
+        - v1beta1
+      clientConfig:
+        service:
+          namespace: system
+          name: webhook-service
+          path: /convert
