@@ -47,91 +47,122 @@ func augmentResourcesWithSwaggerInformation(idFactory astmodel.IdentifierFactory
 
 			klog.V(1).Infof("Loaded Swagger data (%v resources, %v other types)", len(swaggerTypes.resources), len(swaggerTypes.otherTypes))
 
-			newTypes := make(astmodel.Types)
-
 			statusTypes, err := generateStatusTypes(swaggerTypes)
 			if err != nil {
 				return nil, err
 			}
 
-			found := 0
-			for typeName, typeDef := range types {
-				// for resources, try to find the matching Status type
-				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
-					newStatus, located := statusTypes.findResourceType(typeName)
-					if located {
-						found++
-					}
-
-					newTypes.Add(astmodel.MakeTypeDefinition(typeName, resource.WithStatus(newStatus)))
-				} else {
-					// other types are simply copied
-					newTypes.Add(typeDef)
-				}
+			// put all types into a new set
+			newTypes := make(astmodel.Types)
+			for _, t := range types {
+				newTypes.Add(t)
 			}
 
 			// all non-resources from Swagger are added regardless of whether they are used
 			// if they are not used they will be pruned off by a later pipeline stage
 			// (there will be no name clashes here due to suffixing with "_Status")
-			newTypes.AddAll(statusTypes.otherTypes)
+			for _, t := range statusTypes.otherTypes {
+				newTypes.Add(t)
+			}
 
-			klog.V(1).Infof("Found status information for %v resources", found)
+			// build the augmenter we will use:
+			augmenter := fuseAugmenters(flattenAugmenter(newTypes))
+
+			matchedResources := 0
+			// find any resources and update them with status info
+			for typeName, typeDef := range newTypes {
+				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
+					// find the status type (= Swagger resource type)
+					newStatus, located := statusTypes.findResourceType(typeName)
+					if located {
+						matchedResources++
+					}
+
+					// augment spec with any bits needed from status
+					newSpec, err := augmenter(resource.SpecType(), newStatus)
+					if err != nil {
+						return nil, err
+					}
+
+					newResource := resource.WithSpec(newSpec).WithStatus(newStatus)
+					newTypes[typeName] = astmodel.MakeTypeDefinition(typeName, newResource)
+				}
+			}
+
+			klog.V(1).Infof("Found status information for %v resources", matchedResources)
 			klog.V(1).Infof("Input %v types, output %v types", len(types), len(newTypes))
 
 			return newTypes, nil
 		})
 }
 
-// an augment adds information from the Swagger-derived type to
+// an augmenter adds information from the Swagger-derived type to
 // the main JSON schema-derived type, and returns the new type
-type augment func(main astmodel.Type, swagger astmodel.Type) (astmodel.Type, error)
+type augmenter func(main astmodel.Type, swagger astmodel.Type) (astmodel.Type, error)
 
-// fuseAugments merges multiple augments into one by applying each
-// augment in order to the result of the previous
-func fuseAugments(augments ...augment) augment {
+// fuseAugmenters merges multiple augments into one by applying each
+// augmenter in order to the result of the previous augmenter
+func fuseAugmenters(augments ...augmenter) augmenter {
 	return func(main astmodel.Type, swagger astmodel.Type) (astmodel.Type, error) {
+		var err error
 		for _, augment := range augments {
-			newMain, err := augment(main, swagger)
+			main, err = augment(main, swagger)
 			if err != nil {
 				return nil, err
 			}
-
-			main = newMain
 		}
 
 		return main, nil
 	}
 }
 
-// the overall augmenter we will use
-var augmenter augment = fuseAugments(flattenAugment)
+// flattenAugmenter copies across the "flatten" property from Swagger
+func flattenAugmenter(allTypes astmodel.Types) augmenter {
+	return func(main astmodel.Type, swagger astmodel.Type) (astmodel.Type, error) {
+		var merger = astmodel.NewTypeMerger(func(ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
+			// return left (= main) if the two sides are not ObjectTypes
+			return left, nil
+		})
 
-// the flattenAugment
-func flattenAugment(main astmodel.Type, swagger astmodel.Type) (astmodel.Type, error) {
-	var merger = astmodel.NewTypeMerger(func(ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
-		// return left (= main) if the two sides are not ObjectTypes
-		return left, nil
-	})
+		merger.Add(func(main, swagger astmodel.TypeName) (astmodel.Type, error) {
+			// when we merge two typenames we always return the main type name
+			// however, *as a side effect*, we augment this named type with the information
+			// from the corresponding swagger type.
 
-	merger.Add(func(main, swagger *astmodel.ObjectType) (astmodel.Type, error) {
-		props := main.Properties()
-		for ix, mainProp := range props {
-			if swaggerProp, ok := swagger.Property(mainProp.PropertyName()); ok {
-				// first copy over flatten property
-				mainProp = mainProp.SetFlatten(swaggerProp.Flatten())
+			// this allows us to handle cases where names differ greatly from JSON schema to Swagger,
+			// we rely on the structure of the types to tell us which types are the same despite having different names
 
-				// now recursively merge property types
-				newType, err := merger.Merge(mainProp.PropertyType(), swaggerProp.PropertyType())
-				if err != nil {
-					return nil, err
-				}
-
-				props[ix] = mainProp.WithType(newType)
+			// TODO: do we need to resolve these until we hit a non-TypeName?
+			newType, err := merger.Merge(allTypes[main].Type(), allTypes[swagger].Type())
+			if err != nil {
+				return nil, err
 			}
-		}
 
-		return main.WithProperties(props...), nil
-	})
+			allTypes[main] = allTypes[main].WithType(newType)
 
-	return merger.Merge(main, swagger)
+			return main, nil
+		})
+
+		merger.Add(func(main, swagger *astmodel.ObjectType) (astmodel.Type, error) {
+			props := main.Properties()
+			for ix, mainProp := range props {
+				if swaggerProp, ok := swagger.Property(mainProp.PropertyName()); ok {
+					// first copy over flatten property
+					mainProp = mainProp.SetFlatten(swaggerProp.Flatten())
+
+					// now recursively merge property types
+					newType, err := merger.Merge(mainProp.PropertyType(), swaggerProp.PropertyType())
+					if err != nil {
+						return nil, err
+					}
+
+					props[ix] = mainProp.WithType(newType)
+				}
+			}
+
+			return main.WithProperties(props...), nil
+		})
+
+		return merger.Merge(main, swagger)
+	}
 }

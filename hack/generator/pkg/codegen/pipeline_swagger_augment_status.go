@@ -33,7 +33,7 @@ type statusTypes struct {
 	resourceTypes resourceLookup
 
 	// otherTypes has all other Status types renamed to avoid clashes with Spec Types
-	otherTypes []astmodel.TypeDefinition
+	otherTypes astmodel.Types
 }
 
 func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Type, bool) {
@@ -47,6 +47,17 @@ func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Typ
 		return astmodel.NewErroredType(nil, nil, []string{fmt.Sprintf("missing status information for %v", typeName)}), false
 	}
 }
+
+/*
+func (st statusTypes) findNonResourceType(typeName astmodel.TypeName) (astmodel.Type, bool) {
+	typeName = appendStatusSuffix(typeName) // we must look up the "_Status" version of the type
+	if statusDef, ok := st.otherTypes[typeName]; ok {
+		return statusDef.Type(), true
+	} else {
+		return nil, false
+	}
+}
+*/
 
 type resourceLookup map[astmodel.TypeName]astmodel.Type
 
@@ -69,10 +80,11 @@ func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmode
 }
 
 // statusTypeRenamer appends "_Status" to all types
-var statusTypeRenamer astmodel.TypeVisitor = makeRenamingVisitor(
-	func(typeName astmodel.TypeName) astmodel.TypeName {
-		return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+"_Status")
-	})
+var statusTypeRenamer astmodel.TypeVisitor = makeRenamingVisitor(appendStatusSuffix)
+
+func appendStatusSuffix(typeName astmodel.TypeName) astmodel.TypeName {
+	return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+"_Status")
+}
 
 // generateStatusTypes returns the statusTypes for the input swaggerTypes
 // all types (apart from Resources) are renamed to have "_Status" as a
@@ -80,13 +92,13 @@ var statusTypeRenamer astmodel.TypeVisitor = makeRenamingVisitor(
 func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
 
 	var errs []error
-	var otherTypes []astmodel.TypeDefinition
+	otherTypes := make(astmodel.Types)
 	for _, typeDef := range swaggerTypes.otherTypes {
 		renamedDef, err := statusTypeRenamer.VisitDefinition(typeDef, nil)
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			otherTypes = append(otherTypes, renamedDef)
+			otherTypes.Add(renamedDef)
 		}
 	}
 
