@@ -9,8 +9,8 @@ import (
 	"context"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
-    "k8s.io/klog/v2"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/klog/v2"
 )
 
 // createStorageTypes returns a pipeline stage that creates dedicated storage types for each resource and nested object.
