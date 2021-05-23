@@ -43,6 +43,18 @@
                         }
                     }
                 },
+                "arrayOfArraysOfArrays": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Foo"
+                            }
+                        }
+                    }
+                },
                 "arrayOfMaps": {
                     "type": "array",
                     "items": {

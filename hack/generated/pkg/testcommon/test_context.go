@@ -7,9 +7,10 @@ package testcommon
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
+	"regexp"
 	"strings"
 	"testing"
 
@@ -56,7 +57,8 @@ func NewTestContext(region string, recordReplay bool) TestContext {
 }
 
 func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
-	authorizer, subscriptionID, recorder, err := createRecorder(t.Name(), tc.RecordReplay)
+	cassetteName := "recordings/" + t.Name()
+	authorizer, subscriptionID, recorder, err := createRecorder(cassetteName, tc.RecordReplay)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}
@@ -68,7 +70,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 
 	// replace the ARM client transport (a bit hacky)
 	httpClient := armClient.RawClient.Sender.(*http.Client)
-	httpClient.Transport = recorder
+	httpClient.Transport = addCountHeader(translateErrors(recorder, cassetteName))
 
 	t.Cleanup(func() {
 		if !t.Failed() {
@@ -92,9 +94,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	}, nil
 }
 
-func createRecorder(testName string, recordReplay bool) (autorest.Authorizer, string, *recorder.Recorder, error) {
-	cassetteName := "recordings/" + testName
-
+func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer, string, *recorder.Recorder, error) {
 	var err error
 	var r *recorder.Recorder
 	if recordReplay {
@@ -125,17 +125,26 @@ func createRecorder(testName string, recordReplay bool) (autorest.Authorizer, st
 
 	// check body as well as URL/Method (copied from go-vcr documentation)
 	r.SetMatcher(func(r *http.Request, i cassette.Request) bool {
+		if !cassette.DefaultMatcher(r, i) {
+			return false
+		}
+
+		// verify custom request count header (see counting_roundtripper.go)
+		if r.Header.Get(COUNT_HEADER) != i.Headers.Get(COUNT_HEADER) {
+			return false
+		}
+
 		if r.Body == nil {
-			return cassette.DefaultMatcher(r, i)
+			return i.Body == ""
 		}
 
 		var b bytes.Buffer
 		if _, err := b.ReadFrom(r.Body); err != nil {
-			return false
+			panic(err)
 		}
 
-		r.Body = ioutil.NopCloser(&b)
-		return cassette.DefaultMatcher(r, i) && (b.String() == "" || b.String() == i.Body)
+		r.Body = io.NopCloser(&b)
+		return b.String() == "" || hideDates(b.String()) == i.Body
 	})
 
 	r.AddSaveFilter(func(i *cassette.Interaction) error {
@@ -146,8 +155,8 @@ func createRecorder(testName string, recordReplay bool) (autorest.Authorizer, st
 			return strings.ReplaceAll(s, subscriptionID, uuid.Nil.String())
 		}
 
-		i.Request.Body = hideSubID(i.Request.Body)
-		i.Response.Body = hideSubID(i.Response.Body)
+		i.Request.Body = hideDates(hideSubID(i.Request.Body))
+		i.Response.Body = hideDates(hideSubID(i.Response.Body))
 		i.Request.URL = hideSubID(i.Request.URL)
 
 		for _, values := range i.Request.Headers {
@@ -172,16 +181,22 @@ func createRecorder(testName string, recordReplay bool) (autorest.Authorizer, st
 		delete(i.Response.Headers, "X-Ms-Request-Id")
 		delete(i.Response.Headers, "X-Ms-Routing-Request-Id")
 
+		// don't need these headers and they add to diff churn
+		delete(i.Request.Headers, "User-Agent")
+		delete(i.Response.Headers, "Date")
+
 		return nil
 	})
 
-	// request must match URI & METHOD & our custom header
-	r.SetMatcher(func(request *http.Request, i cassette.Request) bool {
-		return cassette.DefaultMatcher(request, i) &&
-			request.Header.Get(COUNT_HEADER) == i.Headers.Get(COUNT_HEADER)
-	})
-
 	return authorizer, subscriptionID, r, nil
+}
+
+var dateMatcher *regexp.Regexp = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
+
+// hideDates replaces all ISO8601 datetimes with a fixed value
+// this lets us match requests that may contain time-sensitive information (timestamps, etc)
+func hideDates(s string) string {
+	return dateMatcher.ReplaceAllLiteralString(s, "2001-02-03T04:05:06Z") // this should be recognizable/parseable as a fake date
 }
 
 func (tc PerTestContext) NewTestResourceGroup() *resources.ResourceGroup {

@@ -1,6 +1,6 @@
 module github.com/Azure/azure-service-operator/hack/generator
 
-go 1.13
+go 1.16
 
 require (
 	github.com/bmatcuk/doublestar v1.3.1
@@ -11,7 +11,6 @@ require (
 	github.com/go-openapi/jsonreference v0.19.3 // indirect
 	github.com/go-openapi/spec v0.19.3
 	github.com/gobuffalo/flect v0.2.1
-	github.com/google/go-cmp v0.5.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/leanovate/gopter v0.2.9
 	github.com/mailru/easyjson v0.7.0 // indirect

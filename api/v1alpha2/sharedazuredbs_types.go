@@ -66,7 +66,7 @@ type MySQLStorageProfile struct {
 	GeoRedundantBackup mysql.GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 	// StorageMB - Max storage allowed for a server.
 	StorageMB *int32 `json:"storageMB,omitempty"`
-	// StorageAutogrow - Enable Storage Auto Grow. Possible values include: 'StorageAutogrowEnabled', 'StorageAutogrowDisabled'
+	// StorageAutogrow - Enable Storage Auto Grow. Possible values include: 'Enabled', 'Disabled'
 	StorageAutogrow mysql.StorageAutogrow `json:"storageAutogrow,omitempty"`
 }
 
@@ -77,7 +77,7 @@ type PSQLStorageProfile struct {
 	GeoRedundantBackup psql.GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 	// StorageMB - Max storage allowed for a server.
 	StorageMB *int32 `json:"storageMB,omitempty"`
-	// StorageAutogrow - Enable Storage Auto Grow. Possible values include: 'StorageAutogrowEnabled', 'StorageAutogrowDisabled'
+	// StorageAutogrow - Enable Storage Auto Grow. Possible values include: 'Enabled', 'Disabled'
 	StorageAutogrow psql.StorageAutogrow `json:"storageAutogrow,omitempty"`
 }
 

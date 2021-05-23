@@ -55,13 +55,14 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecARM struct {
-	ApiVersion    FakeResourceSpecApiVersion `json:"apiVersion"`
-	ArrayFoo      []FooARM                   `json:"arrayFoo"`
-	ArrayOfArrays [][]FooARM                 `json:"arrayOfArrays,omitempty"`
-	ArrayOfEnums  []Color                    `json:"arrayOfEnums,omitempty"`
-	ArrayOfMaps   []map[string]FooARM        `json:"arrayOfMaps,omitempty"`
-	Name          string                     `json:"name"`
-	Type          FakeResourceSpecType       `json:"type"`
+	ApiVersion            FakeResourceSpecApiVersion `json:"apiVersion"`
+	ArrayFoo              []FooARM                   `json:"arrayFoo"`
+	ArrayOfArrays         [][]FooARM                 `json:"arrayOfArrays,omitempty"`
+	ArrayOfArraysOfArrays [][][]FooARM               `json:"arrayOfArraysOfArrays,omitempty"`
+	ArrayOfEnums          []Color                    `json:"arrayOfEnums,omitempty"`
+	ArrayOfMaps           []map[string]FooARM        `json:"arrayOfMaps,omitempty"`
+	Name                  string                     `json:"name"`
+	Type                  FakeResourceSpecType       `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
@@ -103,10 +104,11 @@ const FakeResourceSpecTypeMicrosoftAzureFakeResource = FakeResourceSpecType("Mic
 
 type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required
-	ArrayFoo      []Foo            `json:"arrayFoo"`
-	ArrayOfArrays [][]Foo          `json:"arrayOfArrays,omitempty"`
-	ArrayOfEnums  []Color          `json:"arrayOfEnums,omitempty"`
-	ArrayOfMaps   []map[string]Foo `json:"arrayOfMaps,omitempty"`
+	ArrayFoo              []Foo            `json:"arrayFoo"`
+	ArrayOfArrays         [][]Foo          `json:"arrayOfArrays,omitempty"`
+	ArrayOfArraysOfArrays [][][]Foo        `json:"arrayOfArraysOfArrays,omitempty"`
+	ArrayOfEnums          []Color          `json:"arrayOfEnums,omitempty"`
+	ArrayOfMaps           []map[string]Foo `json:"arrayOfMaps,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -142,6 +144,21 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 			itemTemp = append(itemTemp, item1ARM.(FooARM))
 		}
 		result.ArrayOfArrays = append(result.ArrayOfArrays, itemTemp)
+	}
+	for _, item := range fakeResourceSpec.ArrayOfArraysOfArrays {
+		var itemTemp [][]FooARM
+		for _, item1 := range item {
+			var item1Temp []FooARM
+			for _, item2 := range item1 {
+				item2ARM, err := item2.ConvertToARM(name, resolvedReferences)
+				if err != nil {
+					return nil, err
+				}
+				item1Temp = append(item1Temp, item2ARM.(FooARM))
+			}
+			itemTemp = append(itemTemp, item1Temp)
+		}
+		result.ArrayOfArraysOfArrays = append(result.ArrayOfArraysOfArrays, itemTemp)
 	}
 	for _, item := range fakeResourceSpec.ArrayOfEnums {
 		result.ArrayOfEnums = append(result.ArrayOfEnums, item)
@@ -194,6 +211,22 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 			itemTemp = append(itemTemp, item2)
 		}
 		fakeResourceSpec.ArrayOfArrays = append(fakeResourceSpec.ArrayOfArrays, itemTemp)
+	}
+	for _, item := range typedInput.ArrayOfArraysOfArrays {
+		var itemTemp [][]Foo
+		for _, item1 := range item {
+			var item1Temp []Foo
+			for _, item2 := range item1 {
+				var item3 Foo
+				err := item3.PopulateFromARM(owner, item2)
+				if err != nil {
+					return err
+				}
+				item1Temp = append(item1Temp, item3)
+			}
+			itemTemp = append(itemTemp, item1Temp)
+		}
+		fakeResourceSpec.ArrayOfArraysOfArrays = append(fakeResourceSpec.ArrayOfArraysOfArrays, itemTemp)
 	}
 	for _, item := range typedInput.ArrayOfEnums {
 		fakeResourceSpec.ArrayOfEnums = append(fakeResourceSpec.ArrayOfEnums, item)

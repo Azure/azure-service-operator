@@ -64,6 +64,32 @@
                     "additionalProperties": {
                         "type": "string"
                     }
+                },
+                "mapOfMapsOfMapsOfStrings": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "mapOfMapsOfMaps": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "$ref": "#/definitions/Foo"
+                            },
+                            "properties": {}
+                        },
+                        "properties": {}
+                    }
                 }
             },
             "required": [
