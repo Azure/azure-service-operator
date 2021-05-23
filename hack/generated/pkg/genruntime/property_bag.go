@@ -8,7 +8,6 @@ package genruntime
 import (
 	"encoding/json"
 	"github.com/pkg/errors"
-	"strconv"
 )
 
 // PropertyBag is used to stash additional information that's not directly supported by storage
@@ -31,22 +30,6 @@ func (bag PropertyBag) Add(property string, value interface{}) error {
 	switch v := value.(type) {
 	case string:
 		bag[property] = v
-	case int:
-		bag[property] = strconv.FormatInt(int64(v), 10)
-	case int64:
-		bag[property] = strconv.FormatInt(v, 10)
-	case uint:
-		bag[property] = strconv.FormatUint(uint64(v), 10)
-	case uint64:
-		bag[property] = strconv.FormatUint(v, 10)
-	case float64:
-		bag[property] = strconv.FormatFloat(v, 'e', -1, 64)
-	case bool:
-		if v {
-			bag[property] = "true"
-		} else {
-			bag[property] = "false"
-		}
 	default:
 		// Default to treating as a JSON blob
 		j, err := json.Marshal(v)
