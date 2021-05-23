@@ -160,7 +160,7 @@ func (f *StorageTypeFactory) injectConversions(name astmodel.TypeName) error {
 	}
 
 	// Create conversion functions
-	conversionContext := astmodel.NewStorageConversionContext(f.types)
+	conversionContext := astmodel.NewStorageConversionContext(f.types, f.idFactory)
 
 	convertFrom, err := astmodel.NewStorageConversionFromFunction(def, nextDef, f.idFactory, conversionContext)
 	if err != nil {

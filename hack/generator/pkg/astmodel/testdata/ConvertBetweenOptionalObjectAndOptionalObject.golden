@@ -4,7 +4,7 @@
 package vCurrent
 
 import (
-    "github.com/Azure/azure-service-operator/hack/generated/_apis/Verification/vNext"
+	"github.com/Azure/azure-service-operator/hack/generated/_apis/Verification/vNext"
 	"github.com/pkg/errors"
 )
 

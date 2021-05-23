@@ -13,14 +13,15 @@ type StorageConversionContext struct {
 	// functionName is the name of the function we're currently generating
 	functionName string
 	// knownLocals is a reference to our set of local variables
+	// (Pointer because it's a reference type, not because it's optional)
 	knownLocals *KnownLocalsSet
 }
 
 // NewStorageConversionContext creates a new instance of a StorageConversionContext
-func NewStorageConversionContext(types Types) *StorageConversionContext {
+func NewStorageConversionContext(types Types, idFactory IdentifierFactory) *StorageConversionContext {
 	return &StorageConversionContext{
 		types:       types,
-		knownLocals: nil,
+		knownLocals: NewKnownLocalsSet(idFactory),
 	}
 }
 
