@@ -16,6 +16,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
 
@@ -34,6 +35,17 @@ func GetMySQLDatabaseDNSSuffix() string {
 	// TODO: We need an environment specific way of getting the DNS suffix
 	// TODO: which the Go SDK doesn't seem to have.
 	// TODO: see: https://github.com/Azure/azure-sdk-for-go/issues/13749
+	// TODO: In the meantime we'll fabricate our own
+	envName := config.Environment().Name
+
+	if envName == "AzureUSGovernmentCloud" {
+		return "mysql.database.usgovcloudapi.net"
+	} else if envName == "AzureChinaCloud" {
+		return "mysql.database.chinacloudapi.cn"
+	} else if envName == "AzureGermanCloud" {
+		return "mysql.database.cloudapi.de"
+	}
+
 	return "mysql.database.azure.com"
 }
 
