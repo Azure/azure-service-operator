@@ -2,26 +2,25 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"k8sinfratest-deployment-cbdeue","location":"westus","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"k8sinfratest-rg-neasns","location":"westus","tags":{"CreatedAt":"2020-11-09T23:02:52Z"},"type":"Microsoft.Resources/resourceGroups"}]}}}'
+    body: '{"name":"k8sinfratest-deployment-cbdeue","location":"westus","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"k8sinfratest-rg-neasns","location":"westus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}]}}}'
     form: {}
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue","name":"k8sinfratest-deployment-cbdeue","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"2271546588852531505","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Accepted","timestamp":"2020-11-09T23:02:59.9652193Z","duration":"PT3.8051375S","correlationId":"aaa34ff9-7ed5-4d24-99f3-33d1feb1600d","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue","name":"k8sinfratest-deployment-cbdeue","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"2829459153152994322","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT3.9778671S","correlationId":"79b29592-66b9-44fa-adb1-feabf02ea9c9","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue/operationStatuses/08585966439093175267?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue/operationStatuses/08585802289262272931?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:00 GMT
       Expires:
       - "-1"
       Pragma:
@@ -41,19 +40,18 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue","name":"k8sinfratest-deployment-cbdeue","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"2271546588852531505","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Accepted","timestamp":"2020-11-09T23:02:59.9652193Z","duration":"PT3.8051375S","correlationId":"aaa34ff9-7ed5-4d24-99f3-33d1feb1600d","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue","name":"k8sinfratest-deployment-cbdeue","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"2829459153152994322","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT4.8286472S","correlationId":"79b29592-66b9-44fa-adb1-feabf02ea9c9","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:01 GMT
       Expires:
       - "-1"
       Pragma:
@@ -75,19 +73,18 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue","name":"k8sinfratest-deployment-cbdeue","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"2271546588852531505","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Running","timestamp":"2020-11-09T23:03:01.18263Z","duration":"PT5.0225482S","correlationId":"aaa34ff9-7ed5-4d24-99f3-33d1feb1600d","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue","name":"k8sinfratest-deployment-cbdeue","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"2829459153152994322","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT4.8286472S","correlationId":"79b29592-66b9-44fa-adb1-feabf02ea9c9","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:06 GMT
       Expires:
       - "-1"
       Pragma:
@@ -109,19 +106,18 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue","name":"k8sinfratest-deployment-cbdeue","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"2271546588852531505","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent, ResponseContent"},"provisioningState":"Succeeded","timestamp":"2020-11-09T23:03:08.1391879Z","duration":"PT11.9791061S","correlationId":"aaa34ff9-7ed5-4d24-99f3-33d1feb1600d","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[],"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns"}]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8sinfratest-deployment-cbdeue","name":"k8sinfratest-deployment-cbdeue","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"2829459153152994322","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT10.6145878S","correlationId":"79b29592-66b9-44fa-adb1-feabf02ea9c9","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[],"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns"}]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:11 GMT
       Expires:
       - "-1"
       Pragma:
@@ -141,8 +137,8 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns?api-version=2020-06-01
     method: DELETE
   response:
@@ -152,8 +148,6 @@ interactions:
       - no-cache
       Content-Length:
       - "0"
-      Date:
-      - Mon, 09 Nov 2020 23:03:14 GMT
       Expires:
       - "-1"
       Location:
@@ -167,7 +161,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14998"
+      - "14999"
     status: 202 Accepted
     code: 202
     duration: ""
@@ -177,19 +171,17 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2020-11-09T23:02:52Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:14 GMT
       Expires:
       - "-1"
       Pragma:
@@ -209,19 +201,17 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2020-11-09T23:02:52Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:19 GMT
       Expires:
       - "-1"
       Pragma:
@@ -241,19 +231,17 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2020-11-09T23:02:52Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:24 GMT
       Expires:
       - "-1"
       Pragma:
@@ -273,19 +261,17 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "3"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2020-11-09T23:02:52Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:29 GMT
       Expires:
       - "-1"
       Pragma:
@@ -305,19 +291,17 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "4"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2020-11-09T23:02:52Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:34 GMT
       Expires:
       - "-1"
       Pragma:
@@ -337,19 +321,17 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "5"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2020-11-09T23:02:52Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:39 GMT
       Expires:
       - "-1"
       Pragma:
@@ -369,19 +351,17 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "6"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2020-11-09T23:02:52Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns","name":"k8sinfratest-rg-neasns","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:44 GMT
       Expires:
       - "-1"
       Pragma:
@@ -401,12 +381,13 @@ interactions:
     headers:
       Content-Type:
       - application/json
-      User-Agent:
-      - Go/go1.15.3 (amd64-linux) go-autorest/v14.1.1 k8sinfra-generated
+      Test-Request-Attempt:
+      - "7"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/k8sinfratest-rg-neasns?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''k8sinfratest-rg-neasns'' could not be found."}}'
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''k8sinfratest-rg-neasns''
+      could not be found."}}'
     headers:
       Cache-Control:
       - no-cache
@@ -414,8 +395,6 @@ interactions:
       - "114"
       Content-Type:
       - application/json; charset=utf-8
-      Date:
-      - Mon, 09 Nov 2020 23:03:49 GMT
       Expires:
       - "-1"
       Pragma:
