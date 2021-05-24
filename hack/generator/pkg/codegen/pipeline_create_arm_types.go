@@ -130,7 +130,7 @@ func removeValidations(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 	for _, p := range t.Properties() {
 
 		// set all properties as not-required
-		p = p.SetRequired(false)
+		p = p.WithKubebuilderRequiredValidation(false)
 
 		// remove all validation types by promoting inner type
 		if validated, ok := p.PropertyType().(*astmodel.ValidatedType); ok {
@@ -248,12 +248,8 @@ func (c *armTypeCreator) convertPropertiesToARMTypes(t *astmodel.ObjectType, isS
 				astmodel.StringType)
 
 			if isRequired {
-				// TODO: This reads very confusingly. In reality today the required boolean is only ever used to
-				// TODO: generate a kubebuilder:validation:required comment. We don't want a kubebuilder comment (since
-				// TODO: ARM types aren't Kubernetes types they don't need kubebuilder annotations), so we have to
-				// TODO: set required to false. We want to keep the underlying property type the same though, so we
-				// TODO: don't want to use MakeOptional as that changes the properties type as well.
-				newProp = newProp.MakeRequired().SetRequired(false)
+				// We want to be required but don't need any kubebuidler annotations on this type because it's an ARM type
+				newProp = newProp.MakeRequired().WithKubebuilderRequiredValidation(false)
 			} else {
 				newProp = newProp.MakeOptional()
 			}
