@@ -12,14 +12,14 @@ type Person struct {
 	role Release `json:"role"`
 }
 
-// ConvertFromVNext populates our Person from the provided source Person
-func (person *Person) ConvertFromVNext(source *vNext.Person) error {
+// AssignPropertiesFromPerson populates our Person from the provided source Person
+func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// role
 	var role Release
-	err := role.ConvertFromVNext(&source.role)
+	err := role.AssignPropertiesFromPerson(&source.role)
 	if err != nil {
-		return errors.Wrap(err, "populating role from role, calling ConvertFromVNext()")
+		return errors.Wrap(err, "populating role from role, calling AssignPropertiesFromPerson()")
 	}
 	person.role = role
 
@@ -27,14 +27,14 @@ func (person *Person) ConvertFromVNext(source *vNext.Person) error {
 	return nil
 }
 
-// ConvertToVNext populates the provided destination Person from our Person
-func (person *Person) ConvertToVNext(destination *vNext.Person) error {
+// AssignPropertiesToPerson populates the provided destination Person from our Person
+func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// role
 	var role vNext.Release
-	err := person.role.ConvertToVNext(&role)
+	err := person.role.AssignPropertiesToPerson(&role)
 	if err != nil {
-		return errors.Wrap(err, "populating role from role, calling ConvertToVNext()")
+		return errors.Wrap(err, "populating role from role, calling AssignPropertiesToPerson()")
 	}
 	destination.role = role
 

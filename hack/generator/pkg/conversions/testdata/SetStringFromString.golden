@@ -9,8 +9,8 @@ type Person struct {
 	name string `json:"name"`
 }
 
-// ConvertFromVNext populates our Person from the provided source Person
-func (person *Person) ConvertFromVNext(source *vNext.Person) error {
+// AssignPropertiesFromPerson populates our Person from the provided source Person
+func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// name
 	person.name = source.name
@@ -19,8 +19,8 @@ func (person *Person) ConvertFromVNext(source *vNext.Person) error {
 	return nil
 }
 
-// ConvertToVNext populates the provided destination Person from our Person
-func (person *Person) ConvertToVNext(destination *vNext.Person) error {
+// AssignPropertiesToPerson populates the provided destination Person from our Person
+func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// name
 	destination.name = person.name

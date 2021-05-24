@@ -63,8 +63,8 @@ func NewStorageConversionFromFunction(
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 	}
 
-	version := idFactory.CreateIdentifier(otherDefinition.Name().PackageReference.PackageName(), astmodel.Exported)
-	result.name = "ConvertFrom" + version
+	version := idFactory.CreateIdentifier(otherDefinition.Name().Name(), astmodel.Exported)
+	result.name = "AssignPropertiesFrom" + version
 	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
 	err := result.createConversions(receiver, conversionContext.Types())
@@ -90,8 +90,8 @@ func NewStorageConversionToFunction(
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 	}
 
-	version := idFactory.CreateIdentifier(otherDefinition.Name().PackageReference.PackageName(), astmodel.Exported)
-	result.name = "ConvertTo" + version
+	version := idFactory.CreateIdentifier(otherDefinition.Name().Name(), astmodel.Exported)
+	result.name = "AssignPropertiesTo" + version
 	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
 	err := result.createConversions(receiver, conversionContext.Types())
