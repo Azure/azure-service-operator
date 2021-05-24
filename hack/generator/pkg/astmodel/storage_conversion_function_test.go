@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"bytes"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 	"testing"
 
 	"github.com/sebdah/goldie/v2"
@@ -172,10 +173,10 @@ func RunTestStorageConversionFunction_AsFunc(c *StorageConversionPropertyTestCas
 	currentType, ok := AsObjectType(c.currentObject.Type())
 	g.Expect(ok).To(BeTrue())
 
-	convertFrom, errs := NewStorageConversionFromFunction(c.currentObject, c.otherObject, idFactory, conversionContext)
+	convertFrom, errs := conversions.NewStorageConversionFromFunction(c.currentObject, c.otherObject, idFactory, conversionContext)
 	g.Expect(errs).To(BeNil())
 
-	convertTo, errs := NewStorageConversionToFunction(c.currentObject, c.otherObject, idFactory, conversionContext)
+	convertTo, errs := conversions.NewStorageConversionToFunction(c.currentObject, c.otherObject, idFactory, conversionContext)
 	g.Expect(errs).To(BeNil())
 
 	receiverDefinition := c.currentObject.WithType(currentType.WithFunction(convertFrom).WithFunction(convertTo))

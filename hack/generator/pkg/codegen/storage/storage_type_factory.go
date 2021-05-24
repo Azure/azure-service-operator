@@ -7,6 +7,7 @@ package storage
 
 import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 )
@@ -165,12 +166,12 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 	knownTypes.AddTypes(f.outputTypes)
 	conversionContext := astmodel.NewStorageConversionContext(knownTypes, f.idFactory)
 
-	convertFromFn, err := astmodel.NewStorageConversionFromFunction(definition, nextDef, f.idFactory, conversionContext)
+	convertFromFn, err := conversions.NewStorageConversionFromFunction(def, nextDef, f.idFactory, conversionContext)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating ConvertFrom() function for %q", name)
 	}
 
-	convertToFn, err := astmodel.NewStorageConversionToFunction(definition, nextDef, f.idFactory, conversionContext)
+	convertToFn, err := conversions.NewStorageConversionToFunction(def, nextDef, f.idFactory, conversionContext)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating ConvertTo() function for %q", name)
 	}
