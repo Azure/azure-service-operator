@@ -39,7 +39,7 @@ const (
 	OneZeroFullStopZero ServerVersion = "10.0"
 )
 
-// +kubebuilder:validation:Enum={"Basic","GeneralPurpose","MemoryOptimized"}
+// +kubebuilder:validation:Enum=Basic;GeneralPurpose;MemoryOptimized
 type SkuTier string
 
 const (
