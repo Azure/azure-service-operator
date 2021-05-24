@@ -31,7 +31,12 @@ func NewStorageConversionEndpoint(
 	}
 }
 
+func (endpoint *StorageConversionEndpoint) Name() string {
+	return endpoint.name
+}
+
 // Type returns the type of this endpoint
+//TODO: Remove ?
 func (endpoint *StorageConversionEndpoint) Type() Type {
 	return endpoint.theType
 }

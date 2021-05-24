@@ -373,7 +373,7 @@ func (fn *StorageConversionFunction) createPropertyConversion(
 	destinationEndpoint := astmodel.NewStorageConversionEndpoint(
 		destinationProperty.PropertyType(), string(destinationProperty.PropertyName()), fn.knownLocals)
 
-	conversion, err := astmodel.CreateTypeConversion(sourceEndpoint, destinationEndpoint, fn.conversionContext)
+	conversion, err := CreateTypeConversion(sourceEndpoint, destinationEndpoint, fn.conversionContext)
 
 	if err != nil {
 		return nil, errors.Wrapf(

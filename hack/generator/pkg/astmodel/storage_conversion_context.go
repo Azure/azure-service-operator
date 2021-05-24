@@ -25,6 +25,12 @@ func NewStorageConversionContext(types Types, idFactory IdentifierFactory) *Stor
 	}
 }
 
+//TODO: Remove this?
+func (c *StorageConversionContext) FunctionName() string {
+	return c.functionName
+}
+
+//TODO: Remove this?
 // Types returns the set of types available in this context
 func (c *StorageConversionContext) Types() Types {
 	return c.types
