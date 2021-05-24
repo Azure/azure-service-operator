@@ -30,7 +30,7 @@ type StorageTypeConversion func(reader dst.Expr, writer func(dst.Expr) []dst.Stm
 type StorageTypeConversionFactory func(
 	source *StorageConversionEndpoint,
 	destination *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion
+	conversionContext *StorageConversionContext) StorageTypeConversion
 
 // A list of all known type conversion factory methods
 var typeConversionFactories []StorageTypeConversionFactory
@@ -119,7 +119,7 @@ func init() {
 func CreateTypeConversion(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) (StorageTypeConversion, error) {
+	conversionContext *StorageConversionContext) (StorageTypeConversion, error) {
 	for _, f := range typeConversionFactories {
 		result := f(sourceEndpoint, destinationEndpoint, conversionContext)
 		if result != nil {
@@ -151,7 +151,7 @@ func CreateTypeConversion(
 func assignToOptionalType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
 	// Require destination to be optional
 	destinationOptional, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type())
@@ -203,7 +203,7 @@ func assignToOptionalType(
 func assignFromOptionalType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
 	// Require source to be optional
 	sourceOptional, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type())
@@ -278,7 +278,7 @@ func assignFromOptionalType(
 func assignToEnumerationType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
 	// Require destination to NOT be optional
 	_, dstIsOpt := astmodel.AsOptionalType(destinationEndpoint.Type())
@@ -328,7 +328,7 @@ func assignToEnumerationType(
 func assignPrimitiveTypeFromPrimitiveType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	_ *astmodel.StorageConversionContext) StorageTypeConversion {
+	_ *StorageConversionContext) StorageTypeConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -370,7 +370,7 @@ func assignPrimitiveTypeFromPrimitiveType(
 func assignAliasedPrimitiveTypeFromAliasedPrimitiveType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -420,7 +420,7 @@ func assignAliasedPrimitiveTypeFromAliasedPrimitiveType(
 func assignFromAliasedPrimitiveType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -463,7 +463,7 @@ func assignFromAliasedPrimitiveType(
 func assignToAliasedPrimitiveType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
 	// Require destination to be non-optional
 	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
@@ -516,7 +516,7 @@ func assignToAliasedPrimitiveType(
 func assignArrayFromArray(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
 	// Require source to be an array type
 	sourceArray, sourceIsArray := astmodel.AsArrayType(sourceEndpoint.Type())
@@ -592,7 +592,7 @@ func assignArrayFromArray(
 func assignMapFromMap(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
 	// Require source to be a map
 	sourceMap, sourceIsMap := astmodel.AsMapType(sourceEndpoint.Type())
@@ -674,7 +674,7 @@ func assignMapFromMap(
 func assignEnumTypeFromEnumType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -735,7 +735,7 @@ func assignEnumTypeFromEnumType(
 func assignPrimitiveTypeFromEnumType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
 	// Require source to be non-optional
 	if _, srcOpt := astmodel.AsOptionalType(sourceEndpoint.Type()); srcOpt {
@@ -797,7 +797,7 @@ func assignPrimitiveTypeFromEnumType(
 func assignObjectTypeFromObjectType(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	conversionContext *astmodel.StorageConversionContext) StorageTypeConversion {
+	conversionContext *StorageConversionContext) StorageTypeConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -890,7 +890,7 @@ func assignObjectTypeFromObjectType(
 func assignKnownReferenceFromKnownReference(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
-	_ *astmodel.StorageConversionContext) StorageTypeConversion {
+	_ *StorageConversionContext) StorageTypeConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {

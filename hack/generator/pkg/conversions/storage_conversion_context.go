@@ -3,25 +3,27 @@
  * Licensed under the MIT license.
  */
 
-package astmodel
+package conversions
+
+import "github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 
 // StorageConversionContext captures additional supporting information that may be needed when a
 // storage conversion factory creates a conversion
 type StorageConversionContext struct {
 	// types is a map of all known type definitions, used to resolve TypeNames to actual types
-	types Types
+	types astmodel.Types
 	// functionName is the name of the function we're currently generating
 	functionName string
 	// knownLocals is a reference to our set of local variables
 	// (Pointer because it's a reference type, not because it's optional)
-	knownLocals *KnownLocalsSet
+	knownLocals *astmodel.KnownLocalsSet
 }
 
 // NewStorageConversionContext creates a new instance of a StorageConversionContext
-func NewStorageConversionContext(types Types, idFactory IdentifierFactory) *StorageConversionContext {
+func NewStorageConversionContext(types astmodel.Types, idFactory astmodel.IdentifierFactory) *StorageConversionContext {
 	return &StorageConversionContext{
 		types:       types,
-		knownLocals: NewKnownLocalsSet(idFactory),
+		knownLocals: astmodel.NewKnownLocalsSet(idFactory),
 	}
 }
 
@@ -32,7 +34,7 @@ func (c *StorageConversionContext) FunctionName() string {
 
 //TODO: Remove this?
 // Types returns the set of types available in this context
-func (c *StorageConversionContext) Types() Types {
+func (c *StorageConversionContext) Types() astmodel.Types {
 	return c.types
 }
 
@@ -44,7 +46,7 @@ func (c *StorageConversionContext) WithFunctionName(name string) *StorageConvers
 }
 
 // WithKnownLocals returns a new context with the specified known locals set referenced
-func (c *StorageConversionContext) WithKnownLocals(knownLocals *KnownLocalsSet) *StorageConversionContext {
+func (c *StorageConversionContext) WithKnownLocals(knownLocals *astmodel.KnownLocalsSet) *StorageConversionContext {
 	result := c.clone()
 	result.knownLocals = knownLocals
 	return result
@@ -59,15 +61,15 @@ func (c *StorageConversionContext) NestedContext() *StorageConversionContext {
 
 // ResolveType resolves a type that might be a type name into both the name and the actual
 // type it references, returning true iff it was a TypeName that could be resolved
-func (c *StorageConversionContext) ResolveType(t Type) (TypeName, Type, bool) {
-	name, ok := AsTypeName(t)
+func (c *StorageConversionContext) ResolveType(t astmodel.Type) (astmodel.TypeName, astmodel.Type, bool) {
+	name, ok := astmodel.AsTypeName(t)
 	if !ok {
-		return TypeName{}, nil, false
+		return astmodel.TypeName{}, nil, false
 	}
 
 	actualType, err := c.types.FullyResolve(name)
 	if err != nil {
-		return TypeName{}, nil, false
+		return astmodel.TypeName{}, nil, false
 	}
 
 	return name, actualType, true
