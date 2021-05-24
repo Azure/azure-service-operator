@@ -34,7 +34,7 @@ type StorageConversionFunction struct {
 	// knownLocals is a cached set of local identifiers that have already been used, to avoid conflicts
 	knownLocals *astmodel.KnownLocalsSet
 	// conversionContext is additional information about the context in which this conversion was made
-	conversionContext *StorageConversionContext
+	conversionContext *PropertyConversionContext
 }
 
 // StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
@@ -62,7 +62,7 @@ func NewStorageConversionFromFunction(
 	receiver astmodel.TypeDefinition,
 	otherDefinition astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	conversionContext *StorageConversionContext,
+	conversionContext *PropertyConversionContext,
 ) (*StorageConversionFunction, error) {
 	result := &StorageConversionFunction{
 		otherDefinition:     otherDefinition,
@@ -89,7 +89,7 @@ func NewStorageConversionToFunction(
 	receiver astmodel.TypeDefinition,
 	otherDefinition astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	conversionContext *StorageConversionContext,
+	conversionContext *PropertyConversionContext,
 ) (*StorageConversionFunction, error) {
 	result := &StorageConversionFunction{
 		otherDefinition:     otherDefinition,
