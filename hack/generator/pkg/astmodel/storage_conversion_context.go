@@ -25,6 +25,11 @@ func NewStorageConversionContext(types Types, idFactory IdentifierFactory) *Stor
 	}
 }
 
+// Types returns the set of types available in this context
+func (c *StorageConversionContext) Types() Types {
+	return c.types
+}
+
 // WithFunctionName returns a new context with the specified function name included
 func (c *StorageConversionContext) WithFunctionName(name string) *StorageConversionContext {
 	result := c.clone()

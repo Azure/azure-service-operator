@@ -76,7 +76,7 @@ func NewStorageConversionFromFunction(
 	result.name = "ConvertFrom" + version
 	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
-	err := result.createConversions(receiver, conversionContext.types)
+	err := result.createConversions(receiver, conversionContext.Types())
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating '%s()'", result.name)
 	}
@@ -103,7 +103,7 @@ func NewStorageConversionToFunction(
 	result.name = "ConvertTo" + version
 	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
-	err := result.createConversions(receiver, conversionContext.types)
+	err := result.createConversions(receiver, conversionContext.Types())
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating '%s()'", result.name)
 	}
@@ -284,18 +284,18 @@ func (fn *StorageConversionFunction) generateAssignments(
 // our other type and generating conversions where possible
 func (fn *StorageConversionFunction) createConversions(receiver astmodel.TypeDefinition, types astmodel.Types) error {
 
-	receiverContainer, ok := fn.asPropertyContainer(receiver.theType)
+	receiverContainer, ok := fn.asPropertyContainer(receiver.Type())
 	if !ok {
 		var typeDescription strings.Builder
 		receiver.Type().WriteDebugDescription(&typeDescription, types)
 
 		return errors.Errorf(
 			"expected receiver TypeDefinition %q to be either resource or object type, but found %q",
-			receiver.name.String(),
+			receiver.Name().String(),
 			typeDescription.String())
 	}
 
-	otherContainer, ok := fn.asPropertyContainer(fn.otherDefinition.theType)
+	otherContainer, ok := fn.asPropertyContainer(fn.otherDefinition.Type())
 	if !ok {
 		var typeDescription strings.Builder
 		fn.otherDefinition.Type().WriteDebugDescription(&typeDescription, types)
@@ -313,7 +313,7 @@ func (fn *StorageConversionFunction) createConversions(receiver astmodel.TypeDef
 	fn.knownLocals.Add(receiver.Name().Name())
 
 	for _, receiverProperty := range receiverProperties {
-		otherProperty, ok := otherProperties[receiverProperty.propertyName]
+		otherProperty, ok := otherProperties[receiverProperty.PropertyName()]
 		//TODO: Handle renames
 		if ok {
 			var conv StoragePropertyConversion
@@ -332,7 +332,7 @@ func (fn *StorageConversionFunction) createConversions(receiver astmodel.TypeDef
 				return errors.Wrapf(err, "creating conversion for property %q of %q", receiverProperty.PropertyName(), receiver.Name())
 			} else if conv != nil {
 				// A conversion was created, keep it for later
-				fn.conversions[string(receiverProperty.propertyName)] = conv
+				fn.conversions[string(receiverProperty.PropertyName())] = conv
 			}
 		}
 	}
@@ -369,11 +369,11 @@ func (fn *StorageConversionFunction) createPropertyConversion(
 	destinationProperty *astmodel.PropertyDefinition) (StoragePropertyConversion, error) {
 
 	sourceEndpoint := astmodel.NewStorageConversionEndpoint(
-		sourceProperty.propertyType, string(sourceProperty.propertyName), fn.knownLocals)
+		sourceProperty.PropertyType(), string(sourceProperty.PropertyName()), fn.knownLocals)
 	destinationEndpoint := astmodel.NewStorageConversionEndpoint(
-		destinationProperty.propertyType, string(destinationProperty.propertyName), fn.knownLocals)
+		destinationProperty.PropertyType(), string(destinationProperty.PropertyName()), fn.knownLocals)
 
-	conversion, err := astmodel.createTypeConversion(sourceEndpoint, destinationEndpoint, fn.conversionContext)
+	conversion, err := astmodel.CreateTypeConversion(sourceEndpoint, destinationEndpoint, fn.conversionContext)
 
 	if err != nil {
 		return nil, errors.Wrapf(

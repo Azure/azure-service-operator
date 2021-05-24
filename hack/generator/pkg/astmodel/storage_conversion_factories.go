@@ -59,7 +59,7 @@ func init() {
 	}
 }
 
-// createTypeConversion tries to create a type conversion between the two provided types, using
+// CreateTypeConversion tries to create a type conversion between the two provided types, using
 // all of the available type conversion functions in priority order to do so.
 //
 // The method works by considering the conversion requested by sourceEndpoint & destinationEndpoint,
@@ -67,7 +67,7 @@ func init() {
 //
 // Example:
 //
-// createTypeConversion() is called to create a conversion from an optional string to an optional
+// CreateTypeConversion() is called to create a conversion from an optional string to an optional
 // Sku, where Sku is a new type based on string:
 //
 // source *string => destination *Sku
@@ -76,17 +76,17 @@ func init() {
 //     type Sku string
 //
 // assignFromOptionalType can handle the optionality of sourceEndpoint and makes a recursive call
-// to createTypeConversion() with the simpler target:
+// to CreateTypeConversion() with the simpler target:
 //
 // source string => destination *Sku
 //
 //     assignToOptionalType can handle the optionality of destinationEndpoint and makes a recursive
-//     call to createTypeConversion() with a simpler target:
+//     call to CreateTypeConversion() with a simpler target:
 //
 //     source string => destination Sku
 //
 //         assignToAliasedPrimitiveType can handle the type conversion of string to Sku, and makes
-//         a recursive call to createTypeConversion() with a simpler target:
+//         a recursive call to CreateTypeConversion() with a simpler target:
 //
 //         source string => destination string
 //
@@ -114,7 +114,8 @@ func init() {
 //     destination := ""
 // }
 //
-func createTypeConversion(
+// TODO: Make this internal
+func CreateTypeConversion(
 	sourceEndpoint *StorageConversionEndpoint,
 	destinationEndpoint *StorageConversionEndpoint,
 	conversionContext *StorageConversionContext) (StorageTypeConversion, error) {
@@ -160,7 +161,7 @@ func assignToOptionalType(
 
 	// Require a conversion between the unwrapped type and our source
 	unwrappedEndpoint := destinationEndpoint.WithType(destinationOptional.element)
-	conversion, _ := createTypeConversion(sourceEndpoint, unwrappedEndpoint, conversionContext)
+	conversion, _ := CreateTypeConversion(sourceEndpoint, unwrappedEndpoint, conversionContext)
 	if conversion == nil {
 		return nil
 	}
@@ -214,7 +215,7 @@ func assignFromOptionalType(
 	// statement (a nested scope) and we don't want any variables declared in that scope to leak
 	// out elsewhere.
 	unwrappedEndpoint := sourceEndpoint.WithType(sourceOptional.element)
-	conversion, _ := createTypeConversion(
+	conversion, _ := CreateTypeConversion(
 		unwrappedEndpoint,
 		destinationEndpoint,
 		conversionContext.NestedContext())
@@ -297,7 +298,7 @@ func assignToEnumerationType(
 
 	// Require a conversion between the base type of the enumeration and our source
 	dstEp := destinationEndpoint.WithType(dstEnum.baseType)
-	conversion, _ := createTypeConversion(sourceEndpoint, dstEp, conversionContext)
+	conversion, _ := CreateTypeConversion(sourceEndpoint, dstEp, conversionContext)
 	if conversion == nil {
 		return nil
 	}
@@ -437,7 +438,7 @@ func assignFromAliasedPrimitiveType(
 
 	// Require a conversion for the underlying type
 	primitiveEndpoint := sourceEndpoint.WithType(sourcePrimitive)
-	conversion, _ := createTypeConversion(primitiveEndpoint, destinationEndpoint, conversionContext)
+	conversion, _ := CreateTypeConversion(primitiveEndpoint, destinationEndpoint, conversionContext)
 	if conversion == nil {
 		return nil
 	}
@@ -480,7 +481,7 @@ func assignToAliasedPrimitiveType(
 
 	// Require a conversion for the underlying type
 	primitiveEndpoint := sourceEndpoint.WithType(destinationPrimitive)
-	conversion, _ := createTypeConversion(sourceEndpoint, primitiveEndpoint, conversionContext)
+	conversion, _ := CreateTypeConversion(sourceEndpoint, primitiveEndpoint, conversionContext)
 	if conversion == nil {
 		return nil
 	}
@@ -533,7 +534,7 @@ func assignArrayFromArray(
 	// (a nested scope) and we don't want any variables declared in that scope to leak out elsewhere.
 	unwrappedSourceEndpoint := sourceEndpoint.WithType(sourceArray.element)
 	unwrappedDestinationEndpoint := destinationEndpoint.WithType(destinationArray.element)
-	conversion, _ := createTypeConversion(
+	conversion, _ := CreateTypeConversion(
 		unwrappedSourceEndpoint,
 		unwrappedDestinationEndpoint,
 		conversionContext.NestedContext())
@@ -617,7 +618,7 @@ func assignMapFromMap(
 	// (a nested scope) and we don't want any variables declared in that scope to leak out elsewhere.
 	unwrappedSourceEndpoint := sourceEndpoint.WithType(sourceMap.value)
 	unwrappedDestinationEndpoint := destinationEndpoint.WithType(destinationMap.value)
-	conversion, _ := createTypeConversion(
+	conversion, _ := CreateTypeConversion(
 		unwrappedSourceEndpoint,
 		unwrappedDestinationEndpoint,
 		conversionContext.NestedContext())
