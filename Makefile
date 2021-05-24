@@ -359,6 +359,5 @@ generate-operator-bundle: manifests
 	scripts/inject-container-reference.sh "$(PUBLIC_REPO):$(LATEST_TAG)"
 	# Include the replaces field with the old version.
 	yq eval -i ".spec.replaces = \"azure-service-operator.v$(PREVIOUS_BUNDLE_VERSION)\"" bundle/manifests/azure-service-operator.clusterserviceversion.yaml
-	# Rename files so they're easy to add to the community-operators repo for a PR
-	mv bundle/manifests bundle/$(LATEST_TAG)
-	mv bundle/$(LATEST_TAG)/azure-service-operator.clusterserviceversion.yaml bundle/$(LATEST_TAG)/azure-service-operator.v$(LATEST_TAG).clusterserviceversion.yaml
+	# Rename the csv to simplify adding to the community-operators repo for a PR
+	mv bundle/manifests/azure-service-operator.clusterserviceversion.yaml bundle/manifests/azure-service-operator.v$(LATEST_TAG).clusterserviceversion.yaml
