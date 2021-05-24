@@ -356,7 +356,7 @@ generate-operator-bundle: manifests
 	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh
 	# Inject the container reference into the bundle.
-	scripts/inject-container-reference.sh "$(PUBLIC_REPO)@$(LATEST_TAG)"
+	scripts/inject-container-reference.sh "$(PUBLIC_REPO):$(LATEST_TAG)"
 	# Include the replaces field with the old version.
 	yq eval -i ".spec.replaces = \"azure-service-operator.v$(PREVIOUS_BUNDLE_VERSION)\"" bundle/manifests/azure-service-operator.clusterserviceversion.yaml
 	# Rename files so they're easy to add to the community-operators repo for a PR
