@@ -552,3 +552,22 @@ func extractEmbeddedTypeName(t Type) (TypeName, error) {
 func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, _ Types) {
 	builder.WriteString("Object")
 }
+
+// FindPropertyWithTagValue finds the property with the given tag and value if it exists. The boolean return
+// is false if no match can be found.
+func (objectType *ObjectType) FindPropertyWithTagValue(tag string, value string) (*PropertyDefinition, bool) {
+	for _, prop := range objectType.Properties() {
+		values, ok := prop.Tag(tag)
+		if !ok {
+			continue
+		}
+
+		for _, val := range values {
+			if val == value {
+				return prop, true
+			}
+		}
+	}
+
+	return nil, false
+}
