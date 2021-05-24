@@ -30,8 +30,8 @@ type PropertyAssignmentFunction struct {
 	conversions map[string]StoragePropertyConversion
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
 	idFactory astmodel.IdentifierFactory
-	// conversionDirection indicates the kind of conversion we are generating
-	conversionDirection ConversionDirection
+	// direction indicates the kind of conversion we are generating
+	direction Direction
 	// knownLocals is a cached set of local identifiers that have already been used, to avoid conflicts
 	knownLocals *astmodel.KnownLocalsSet
 	// conversionContext is additional information about the context in which this conversion was made
@@ -45,16 +45,6 @@ type PropertyAssignmentFunction struct {
 type StoragePropertyConversion func(
 	source dst.Expr, destination dst.Expr, generationContext *astmodel.CodeGenerationContext) []dst.Stmt
 
-// ConversionDirection specifies the direction of conversion we're implementing with this function
-type ConversionDirection int
-
-const (
-	// ConvertFrom indicates the conversion is from the passed 'other', populating the receiver with properties from the other
-	ConvertFrom = ConversionDirection(1)
-	// ConvertTo indicates the conversion is to the passed 'other', populating the other with properties from the receiver
-	ConvertTo = ConversionDirection(2)
-)
-
 // Ensure that PropertyAssignmentFunction implements Function
 var _ astmodel.Function = &PropertyAssignmentFunction{}
 
@@ -66,11 +56,11 @@ func NewStorageConversionFromFunction(
 	conversionContext *PropertyConversionContext,
 ) (*PropertyAssignmentFunction, error) {
 	result := &PropertyAssignmentFunction{
-		otherDefinition:     otherDefinition,
-		idFactory:           idFactory,
-		conversionDirection: ConvertFrom,
-		conversions:         make(map[string]StoragePropertyConversion),
-		knownLocals:         astmodel.NewKnownLocalsSet(idFactory),
+		otherDefinition: otherDefinition,
+		idFactory:       idFactory,
+		direction:       ConvertFrom,
+		conversions:     make(map[string]StoragePropertyConversion),
+		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 	}
 
 	version := idFactory.CreateIdentifier(otherDefinition.Name().PackageReference.PackageName(), astmodel.Exported)
@@ -93,11 +83,11 @@ func NewStorageConversionToFunction(
 	conversionContext *PropertyConversionContext,
 ) (*PropertyAssignmentFunction, error) {
 	result := &PropertyAssignmentFunction{
-		otherDefinition:     otherDefinition,
-		idFactory:           idFactory,
-		conversionDirection: ConvertTo,
-		conversions:         make(map[string]StoragePropertyConversion),
-		knownLocals:         astmodel.NewKnownLocalsSet(idFactory),
+		otherDefinition: otherDefinition,
+		idFactory:       idFactory,
+		direction:       ConvertTo,
+		conversions:     make(map[string]StoragePropertyConversion),
+		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 	}
 
 	version := idFactory.CreateIdentifier(otherDefinition.Name().PackageReference.PackageName(), astmodel.Exported)
@@ -162,7 +152,7 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 
 	var parameterName string
 	var description string
-	switch fn.conversionDirection {
+	switch fn.direction {
 	case ConvertFrom:
 		parameterName = "source"
 		description = fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.otherDefinition.Name().Name())
@@ -170,7 +160,7 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 		parameterName = "destination"
 		description = fmt.Sprintf("populates the provided destination %s from our %s", fn.otherDefinition.Name().Name(), receiver.Name())
 	default:
-		panic(fmt.Sprintf("unexpected conversion direction %q", fn.conversionDirection))
+		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
 	}
 
 	// Create a sensible name for our receiver
@@ -212,13 +202,13 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	parameter string,
 	generationContext *astmodel.CodeGenerationContext,
 ) []dst.Stmt {
-	switch fn.conversionDirection {
+	switch fn.direction {
 	case ConvertFrom:
 		return fn.generateDirectConversionFrom(receiver, parameter, generationContext)
 	case ConvertTo:
 		return fn.generateDirectConversionTo(receiver, parameter, generationContext)
 	default:
-		panic(fmt.Sprintf("unexpected conversion direction %q", fn.conversionDirection))
+		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
 	}
 }
 
@@ -318,13 +308,13 @@ func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDe
 		if ok {
 			var conv StoragePropertyConversion
 			var err error
-			switch fn.conversionDirection {
+			switch fn.direction {
 			case ConvertFrom:
 				conv, err = fn.createPropertyConversion(otherProperty, receiverProperty)
 			case ConvertTo:
 				conv, err = fn.createPropertyConversion(receiverProperty, otherProperty)
 			default:
-				panic(fmt.Sprintf("unexpected conversion direction %q", fn.conversionDirection))
+				panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
 			}
 
 			if err != nil {
