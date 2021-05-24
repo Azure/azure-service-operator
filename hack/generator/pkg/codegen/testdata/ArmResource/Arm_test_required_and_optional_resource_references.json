@@ -1,0 +1,60 @@
+{
+    "$comment": "Ensure that an ARM type containing multiple resource references (some optional, some required) is rendered correctly",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "test": {
+            "$ref": "#/resourceDefinitions/FakeResource"
+        }
+    },
+    "resourceDefinitions": {
+        "FakeResource": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/FakeResource"
+                    ]
+                },
+                "properties": {
+                    "$ref": "#/definitions/FakeResourceProperties"
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        }
+    },
+    "definitions": {
+        "FakeResourceProperties": {
+            "type": "object",
+            "properties": {
+                "requiredVNet": {
+                    "type": "string",
+                    "description": "A string of the form /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}"
+                },
+                "optionalVNet": {
+                    "type": "string",
+                    "description": "A string of the form /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}"
+                }
+            },
+            "required": [
+                "requiredVNet"
+            ]
+        }
+    }
+}

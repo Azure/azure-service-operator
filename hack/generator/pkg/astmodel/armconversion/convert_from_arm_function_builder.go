@@ -62,6 +62,7 @@ func newConvertFromARMFunctionBuilder(
 	result.typeConversionBuilder.AddConversionHandlers(result.convertComplexTypeNameProperty)
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		result.namePropertyHandler,
+		result.referencePropertyHandler,
 		result.ownerPropertyHandler,
 		result.propertiesWithSameNameHandler,
 	}
@@ -173,6 +174,27 @@ func (builder *convertFromARMBuilder) namePropertyHandler(
 					astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))),
 			),
 		},
+	}
+}
+
+func (builder *convertFromARMBuilder) referencePropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	fromType *astmodel.ObjectType) []dst.Stmt {
+
+	isResourceReference := toProp.PropertyType().Equals(astmodel.ResourceReferenceTypeName)
+	isOptionalResourceReference := toProp.PropertyType().Equals(astmodel.NewOptionalType(astmodel.ResourceReferenceTypeName))
+
+	if !isResourceReference && !isOptionalResourceReference {
+		return nil
+	}
+
+	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
+	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
+	// TODO: need to revisit this and actually assign something
+	// Returning an empty statement allows us to "consume" this match and not proceed to the next handler.
+	// There is nothing included in the generated code.
+	return []dst.Stmt{
+		&dst.EmptyStmt{},
 	}
 }
 

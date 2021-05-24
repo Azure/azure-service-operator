@@ -10,8 +10,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // PropertyName is a semantic type
@@ -53,6 +54,10 @@ func (property *PropertyDefinition) PropertyType() Type {
 	return property.propertyType
 }
 
+// TODO: This is an awkward method because it reads like it's related to MakeRequired/MakeOptional, but
+// TODO: in reality it ONLY controls the IsRequired boolean, which is only used for generating Kubebuilder annotations
+// TODO: and has no bearing on the type the property contains (unlike MakeRequired/MakeOptional which also modify
+// TODO: the type the property points to)
 // SetRequired sets if the property is required or not
 func (property *PropertyDefinition) SetRequired(required bool) *PropertyDefinition {
 	result := *property
@@ -69,6 +74,11 @@ func (property *PropertyDefinition) WithDescription(description string) *Propert
 	result := property.copy()
 	result.description = description
 	return result
+}
+
+// Description returns the property description
+func (property *PropertyDefinition) Description() string {
+	return property.description
 }
 
 // WithType clones the property and returns it with a new type
@@ -148,6 +158,12 @@ func (property *PropertyDefinition) HasTagValue(key string, value string) bool {
 	}
 
 	return false
+}
+
+// Tag returns the tag values of a given tag key
+func (property *PropertyDefinition) Tag(key string) ([]string, bool) {
+	result, ok := property.tags[key]
+	return result, ok
 }
 
 func (property *PropertyDefinition) hasJsonOmitEmpty() bool {
