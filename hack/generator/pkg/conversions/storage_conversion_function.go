@@ -17,8 +17,9 @@ import (
 	"github.com/pkg/errors"
 )
 
-// StorageConversionFunction represents a function that performs single step conversions for storage versions
-type StorageConversionFunction struct {
+// PropertyAssignmentFunction represents a function that assigns all the properties from one resource or object to
+// another. Performs a single step of the conversions required to/from the hub version.
+type PropertyAssignmentFunction struct {
 	// name of this conversion function
 	name string
 	// otherDefinition is the type we are converting to (or from). This will be a type which is "closer"
@@ -30,7 +31,7 @@ type StorageConversionFunction struct {
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
 	idFactory astmodel.IdentifierFactory
 	// conversionDirection indicates the kind of conversion we are generating
-	conversionDirection StorageConversionDirection
+	conversionDirection ConversionDirection
 	// knownLocals is a cached set of local identifiers that have already been used, to avoid conflicts
 	knownLocals *astmodel.KnownLocalsSet
 	// conversionContext is additional information about the context in which this conversion was made
@@ -44,27 +45,27 @@ type StorageConversionFunction struct {
 type StoragePropertyConversion func(
 	source dst.Expr, destination dst.Expr, generationContext *astmodel.CodeGenerationContext) []dst.Stmt
 
-// StorageConversionDirection specifies the direction of conversion we're implementing with this function
-type StorageConversionDirection int
+// ConversionDirection specifies the direction of conversion we're implementing with this function
+type ConversionDirection int
 
 const (
-	// ConvertFrom indicates the conversion is from the passed other instance, populating the receiver
-	ConvertFrom = StorageConversionDirection(1)
-	// ConvertTo indicates the conversion is to the passed other type, populating other
-	ConvertTo = StorageConversionDirection(2)
+	// ConvertFrom indicates the conversion is from the passed 'other', populating the receiver with properties from the other
+	ConvertFrom = ConversionDirection(1)
+	// ConvertTo indicates the conversion is to the passed 'other', populating the other with properties from the receiver
+	ConvertTo = ConversionDirection(2)
 )
 
-// Ensure that StorageConversionFunction implements Function
-var _ astmodel.Function = &StorageConversionFunction{}
+// Ensure that PropertyAssignmentFunction implements Function
+var _ astmodel.Function = &PropertyAssignmentFunction{}
 
-// NewStorageConversionFromFunction creates a new StorageConversionFunction to convert from the specified source
+// NewStorageConversionFromFunction creates a new PropertyAssignmentFunction to convert from the specified source
 func NewStorageConversionFromFunction(
 	receiver astmodel.TypeDefinition,
 	otherDefinition astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
 	conversionContext *PropertyConversionContext,
-) (*StorageConversionFunction, error) {
-	result := &StorageConversionFunction{
+) (*PropertyAssignmentFunction, error) {
+	result := &PropertyAssignmentFunction{
 		otherDefinition:     otherDefinition,
 		idFactory:           idFactory,
 		conversionDirection: ConvertFrom,
@@ -84,14 +85,14 @@ func NewStorageConversionFromFunction(
 	return result, nil
 }
 
-// NewStorageConversionToFunction creates a new StorageConversionFunction to convert to the specified destination
+// NewStorageConversionToFunction creates a new PropertyAssignmentFunction to convert to the specified destination
 func NewStorageConversionToFunction(
 	receiver astmodel.TypeDefinition,
 	otherDefinition astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
 	conversionContext *PropertyConversionContext,
-) (*StorageConversionFunction, error) {
-	result := &StorageConversionFunction{
+) (*PropertyAssignmentFunction, error) {
+	result := &PropertyAssignmentFunction{
 		otherDefinition:     otherDefinition,
 		idFactory:           idFactory,
 		conversionDirection: ConvertTo,
@@ -112,13 +113,12 @@ func NewStorageConversionToFunction(
 }
 
 // Name returns the name of this function
-func (fn *StorageConversionFunction) Name() string {
+func (fn *PropertyAssignmentFunction) Name() string {
 	return fn.name
 }
 
 // RequiredPackageReferences returns the set of package references required by this function
-		astmodel.GitHubErrorsReference,
-func (fn *StorageConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
+func (fn *PropertyAssignmentFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	result := astmodel.NewPackageReferenceSet(
 		astmodel.GitHubErrorsReference,
 		fn.otherDefinition.Name().PackageReference)
@@ -127,13 +127,13 @@ func (fn *StorageConversionFunction) RequiredPackageReferences() *astmodel.Packa
 }
 
 // References returns the set of types referenced by this function
-func (fn *StorageConversionFunction) References() astmodel.TypeNameSet {
+func (fn *PropertyAssignmentFunction) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet(fn.otherDefinition.Name())
 }
 
 // Equals checks to see if the supplied function is the same as this one
-func (fn *StorageConversionFunction) Equals(f astmodel.Function) bool {
-	if other, ok := f.(*StorageConversionFunction); ok {
+func (fn *PropertyAssignmentFunction) Equals(f astmodel.Function) bool {
+	if other, ok := f.(*PropertyAssignmentFunction); ok {
 		if fn.name != other.name {
 			// Different name means not-equal
 			return false
@@ -158,7 +158,7 @@ func (fn *StorageConversionFunction) Equals(f astmodel.Function) bool {
 }
 
 // AsFunc renders this function as an AST for serialization to a Go source file
-func (fn *StorageConversionFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 
 	var parameterName string
 	var description string
@@ -207,7 +207,7 @@ func (fn *StorageConversionFunction) AsFunc(generationContext *astmodel.CodeGene
 // receiver is an expression for access our receiver type, used to qualify field access
 // parameter is an expression for access to our parameter passed to the function, also used for field access
 // generationContext is our code generation context, passed to allow resolving of identifiers in other packages
-func (fn *StorageConversionFunction) generateBody(
+func (fn *PropertyAssignmentFunction) generateBody(
 	receiver string,
 	parameter string,
 	generationContext *astmodel.CodeGenerationContext,
@@ -224,7 +224,7 @@ func (fn *StorageConversionFunction) generateBody(
 
 // generateDirectConversionFrom returns the method body required to directly copy information from
 // the parameter instance onto our receiver
-func (fn *StorageConversionFunction) generateDirectConversionFrom(
+func (fn *PropertyAssignmentFunction) generateDirectConversionFrom(
 	receiver string,
 	parameter string,
 	generationContext *astmodel.CodeGenerationContext,
@@ -236,7 +236,7 @@ func (fn *StorageConversionFunction) generateDirectConversionFrom(
 
 // generateDirectConversionTo returns the method body required to directly copy information from
 // our receiver onto the parameter instance
-func (fn *StorageConversionFunction) generateDirectConversionTo(
+func (fn *PropertyAssignmentFunction) generateDirectConversionTo(
 	receiver string,
 	parameter string,
 	generationContext *astmodel.CodeGenerationContext,
@@ -247,7 +247,7 @@ func (fn *StorageConversionFunction) generateDirectConversionTo(
 }
 
 // generateAssignments generates a sequence of statements to copy information between the two types
-func (fn *StorageConversionFunction) generateAssignments(
+func (fn *PropertyAssignmentFunction) generateAssignments(
 	source dst.Expr,
 	destination dst.Expr,
 	generationContext *astmodel.CodeGenerationContext,
@@ -282,7 +282,7 @@ func (fn *StorageConversionFunction) generateAssignments(
 
 // createConversions iterates through the properties on our receiver type, matching them up with
 // our other type and generating conversions where possible
-func (fn *StorageConversionFunction) createConversions(receiver astmodel.TypeDefinition, types astmodel.Types) error {
+func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDefinition, types astmodel.Types) error {
 
 	receiverContainer, ok := fn.asPropertyContainer(receiver.Type())
 	if !ok {
@@ -341,7 +341,7 @@ func (fn *StorageConversionFunction) createConversions(receiver astmodel.TypeDef
 }
 
 // asPropertyContainer converts a type into a property container
-func (fn *StorageConversionFunction) asPropertyContainer(theType astmodel.Type) (astmodel.PropertyContainer, bool) {
+func (fn *PropertyAssignmentFunction) asPropertyContainer(theType astmodel.Type) (astmodel.PropertyContainer, bool) {
 	switch t := theType.(type) {
 	case astmodel.PropertyContainer:
 		return t, true
@@ -353,7 +353,7 @@ func (fn *StorageConversionFunction) asPropertyContainer(theType astmodel.Type) 
 }
 
 // createPropertyMap extracts the properties from a PropertyContainer and returns them as a map
-func (fn *StorageConversionFunction) createPropertyMap(container astmodel.PropertyContainer) map[astmodel.PropertyName]*astmodel.PropertyDefinition {
+func (fn *PropertyAssignmentFunction) createPropertyMap(container astmodel.PropertyContainer) map[astmodel.PropertyName]*astmodel.PropertyDefinition {
 	result := make(map[astmodel.PropertyName]*astmodel.PropertyDefinition)
 	for _, p := range container.Properties() {
 		result[p.PropertyName()] = p
@@ -364,7 +364,7 @@ func (fn *StorageConversionFunction) createPropertyMap(container astmodel.Proper
 
 // createPropertyConversion tries to create a property conversion between the two provided properties, using all of the
 // available conversion functions in priority order to do so. If no valid conversion could be created an error is returned.
-func (fn *StorageConversionFunction) createPropertyConversion(
+func (fn *PropertyAssignmentFunction) createPropertyConversion(
 	sourceProperty *astmodel.PropertyDefinition,
 	destinationProperty *astmodel.PropertyDefinition) (StoragePropertyConversion, error) {
 
