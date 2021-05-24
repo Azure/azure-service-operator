@@ -3,9 +3,10 @@
  * Licensed under the MIT license.
  */
 
-package astmodel
+package conversions
 
 import (
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/gobuffalo/flect"
 )
 
@@ -13,17 +14,17 @@ import (
 // In simple cases these will be fields, but can also represent indexed members of slices and maps.
 type StorageConversionEndpoint struct {
 	// theType is the Type of the value accessible via this endpoint
-	theType Type
+	theType astmodel.Type
 	// name is the name of the underlying property, used to generate useful local identifiers
 	name string
 	// knownLocals is a shared map of locals that have already been created within a given function, to prevent duplicates
-	knownLocals *KnownLocalsSet
+	knownLocals *astmodel.KnownLocalsSet
 }
 
 func NewStorageConversionEndpoint(
-	theType Type,
+	theType astmodel.Type,
 	name string,
-	knownLocals *KnownLocalsSet) *StorageConversionEndpoint {
+	knownLocals *astmodel.KnownLocalsSet) *StorageConversionEndpoint {
 	return &StorageConversionEndpoint{
 		theType:     theType,
 		name:        name,
@@ -37,7 +38,7 @@ func (endpoint *StorageConversionEndpoint) Name() string {
 
 // Type returns the type of this endpoint
 //TODO: Remove ?
-func (endpoint *StorageConversionEndpoint) Type() Type {
+func (endpoint *StorageConversionEndpoint) Type() astmodel.Type {
 	return endpoint.theType
 }
 
@@ -50,7 +51,7 @@ func (endpoint *StorageConversionEndpoint) CreateLocal(suffix ...string) string 
 }
 
 // WithType creates a new endpoint with a different type
-func (endpoint *StorageConversionEndpoint) WithType(theType Type) *StorageConversionEndpoint {
+func (endpoint *StorageConversionEndpoint) WithType(theType astmodel.Type) *StorageConversionEndpoint {
 	return &StorageConversionEndpoint{
 		theType:     theType,
 		name:        endpoint.name,
