@@ -5,6 +5,8 @@
 
 package genruntime
 
+import "github.com/pkg/errors"
+
 // ResolvedReferences is a set of references which have been resolved for a particular resource.
 // The special self field is the fully qualified ARM ID of the resource that this ResolvedReferences applies to.
 type ResolvedReferences struct {
@@ -24,4 +26,13 @@ func MakeResolvedReferences(references map[ResourceReference]string) ResolvedRef
 func (r ResolvedReferences) ARMID(ref ResourceReference) (string, bool) {
 	result, ok := r.references[ref]
 	return result, ok
+}
+
+// ARMIDOrErr looks up the fully qualified ARM ID for the given reference. If it cannot be found, an error is returned.
+func (r ResolvedReferences) ARMIDOrErr(ref ResourceReference) (string, error) {
+	result, ok := r.references[ref]
+	if !ok {
+		return "", errors.Errorf("couldn't find resolved reference %s", ref.String())
+	}
+	return result, nil
 }

@@ -130,7 +130,7 @@ func removeValidations(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 	for _, p := range t.Properties() {
 
 		// set all properties as not-required
-		p = p.SetRequired(false)
+		p = p.WithKubebuilderRequiredValidation(false)
 
 		// remove all validation types by promoting inner type
 		if validated, ok := p.PropertyType().(*astmodel.ValidatedType); ok {
@@ -222,6 +222,40 @@ func (c *armTypeCreator) convertPropertiesToARMTypes(t *astmodel.ObjectType, isS
 			// all resource Spec Name properties must be strings on their way to ARM
 			// as nested resources will have the owner etc added to the start:
 			result = result.WithProperty(prop.WithType(astmodel.StringType))
+		} else if prop.PropertyType().Equals(astmodel.ResourceReferenceTypeName) || prop.PropertyType().Equals(astmodel.NewOptionalType(astmodel.ResourceReferenceTypeName)) {
+			isRequired := prop.PropertyType().Equals(astmodel.ResourceReferenceTypeName)
+
+			// Extract expected property name
+			values, ok := prop.Tag(astmodel.ARMReferenceTag)
+			if !ok {
+				errs = append(errs, errors.Errorf("ResourceReference property missing %q tag", astmodel.ARMReferenceTag))
+				continue
+			}
+
+			if len(values) != 1 {
+				errs = append(errs, errors.Errorf("ResourceReference %q tag len(values) != 1", astmodel.ARMReferenceTag))
+				continue
+			}
+
+			armPropName := values[0]
+
+			// Remove the property we had since it doesn't apply to ARM
+			result = result.WithoutProperty(prop.PropertyName())
+
+			newProp := astmodel.NewPropertyDefinition(
+				c.idFactory.CreatePropertyName(armPropName, astmodel.Exported),
+				c.idFactory.CreateIdentifier(armPropName, astmodel.NotExported),
+				astmodel.StringType)
+
+			if isRequired {
+				// We want to be required but don't need any kubebuidler annotations on this type because it's an ARM type
+				newProp = newProp.MakeRequired().WithKubebuilderRequiredValidation(false)
+			} else {
+				newProp = newProp.MakeOptional()
+			}
+
+			result = result.WithProperty(newProp)
+
 		} else {
 			propType := prop.PropertyType()
 			newType, err := c.convertARMPropertyTypeIfNeeded(propType)

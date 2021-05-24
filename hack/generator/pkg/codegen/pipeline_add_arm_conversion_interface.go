@@ -258,7 +258,7 @@ func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeN
 	if localRef, ok := ownerTypeName.PackageReference.AsLocalPackage(); ok {
 		group := localRef.Group() + astmodel.GroupSuffix
 		prop = prop.WithTag("group", group).WithTag("kind", ownerTypeName.Name())
-		prop = prop.SetRequired(true) // Owner is always required
+		prop = prop.MakeRequired() // Owner is always required
 	} else {
 		return nil, errors.New("owners from external packages not currently supported")
 	}

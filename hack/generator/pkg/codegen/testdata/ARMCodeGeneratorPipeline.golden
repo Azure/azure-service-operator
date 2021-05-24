@@ -16,6 +16,7 @@ removeEmbeddedResources             azure      Removes properties that point to 
 filterTypes                                    Filter generated types
 stripUnreferenced                              Strip unreferenced types
 replaceAnyTypeWithJSON                         Replacing interface{}s with arbitrary JSON
+addCrossResourceReferences          azure      Replaces cross resource references with genruntime.ResourceReference
 reportTypesAndVersions              azure      Generate reports on types and versions in each package
 createArmTypes                      azure      Creates ARM types
 applyArmConversionInterface         azure      Apply the ARM conversion interface to Kubernetes types

@@ -156,6 +156,8 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			// all types. Remove it in phases that have no resources to avoid this.
 			codegen.RemoveStages("removeEmbeddedResources")
 			codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
+		} else {
+			codegen.ReplaceStage("addCrossResourceReferences", addCrossResourceReferencesForTest(idFactory))
 		}
 	case config.GenerationPipelineCrossplane:
 		codegen.RemoveStages("deleteGenerated", "rogueCheck")
@@ -278,6 +280,39 @@ func stripUnusedTypesPipelineStage() PipelineStage {
 			}
 
 			return defs, nil
+		})
+}
+
+// TODO: Ideally we wouldn't need a test specific function here, but currently
+// TODO: we're hardcoding references, and even if we were sourcing them from Swagger
+// TODO: we have no way to give Swagger to the golden files tests currently.
+func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) PipelineStage {
+	return MakePipelineStage(
+		"addCrossResourceReferences",
+		"Add cross resource references for test",
+		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+			result := make(astmodel.Types)
+			isCrossResourceReference := func(_ astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
+				return doesPropertyLookLikeARMReference(prop)
+			}
+			visitor := makeCrossResourceReferenceTypeVisitor(idFactory, isCrossResourceReference)
+
+			for _, def := range defs {
+				// Skip Status types
+				// TODO: we need flags
+				if strings.Contains(def.Name().Name(), "_Status") {
+					result.Add(def)
+					continue
+				}
+
+				t, err := visitor.Visit(def.Type(), def.Name())
+				if err != nil {
+					return nil, errors.Wrapf(err, "visiting %q", def.Name())
+				}
+				result.Add(def.WithType(t))
+			}
+
+			return result, nil
 		})
 }
 

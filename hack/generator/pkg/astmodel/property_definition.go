@@ -10,8 +10,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // PropertyName is a semantic type
@@ -19,11 +20,11 @@ type PropertyName string
 
 // PropertyDefinition encapsulates the definition of a property
 type PropertyDefinition struct {
-	propertyName PropertyName
-	propertyType Type
-	description  string
-	isRequired   bool
-	tags         map[string][]string
+	propertyName                     PropertyName
+	propertyType                     Type
+	description                      string
+	hasKubebuilderRequiredValidation bool
+	tags                             map[string][]string
 }
 
 var _ fmt.Stringer = &PropertyDefinition{}
@@ -53,10 +54,12 @@ func (property *PropertyDefinition) PropertyType() Type {
 	return property.propertyType
 }
 
-// SetRequired sets if the property is required or not
-func (property *PropertyDefinition) SetRequired(required bool) *PropertyDefinition {
+// WithKubebuilderRequiredValidation returns a new PropertyDefinition with the given Kubebuilder required annotation.
+// Note that this does not in any way change the underlying type that this PropertyDefinition points to, unlike
+// MakeRequired and MakeOptional.
+func (property *PropertyDefinition) WithKubebuilderRequiredValidation(required bool) *PropertyDefinition {
 	result := *property
-	result.isRequired = required
+	result.hasKubebuilderRequiredValidation = required
 	return &result
 }
 
@@ -69,6 +72,11 @@ func (property *PropertyDefinition) WithDescription(description string) *Propert
 	result := property.copy()
 	result.description = description
 	return result
+}
+
+// Description returns the property description
+func (property *PropertyDefinition) Description() string {
+	return property.description
 }
 
 // WithType clones the property and returns it with a new type
@@ -150,6 +158,12 @@ func (property *PropertyDefinition) HasTagValue(key string, value string) bool {
 	return false
 }
 
+// Tag returns the tag values of a given tag key
+func (property *PropertyDefinition) Tag(key string) ([]string, bool) {
+	result, ok := property.tags[key]
+	return result, ok
+}
+
 func (property *PropertyDefinition) hasJsonOmitEmpty() bool {
 	return property.HasTagValue("json", "omitempty")
 }
@@ -164,7 +178,7 @@ func (property *PropertyDefinition) withoutJsonOmitEmpty() *PropertyDefinition {
 
 // MakeRequired returns a new PropertyDefinition that is marked as required
 func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
-	if !property.hasOptionalType() && property.IsRequired() && !property.hasJsonOmitEmpty() {
+	if !property.hasOptionalType() && property.HasKubebuilderRequiredValidation() && !property.hasJsonOmitEmpty() {
 		return property
 	}
 	result := property.copy()
@@ -175,7 +189,7 @@ func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
 		result.propertyType = ot.BaseType()
 	}
 
-	result.isRequired = true
+	result.hasKubebuilderRequiredValidation = true
 	result = result.withoutJsonOmitEmpty()
 
 	return result
@@ -183,7 +197,7 @@ func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
 
 // MakeOptional returns a new PropertyDefinition that has an optional value
 func (property *PropertyDefinition) MakeOptional() *PropertyDefinition {
-	if isTypeOptional(property.propertyType) && !property.IsRequired() && property.hasJsonOmitEmpty() {
+	if isTypeOptional(property.propertyType) && !property.HasKubebuilderRequiredValidation() && property.hasJsonOmitEmpty() {
 		// No change required
 		return property
 	}
@@ -198,16 +212,16 @@ func (property *PropertyDefinition) MakeOptional() *PropertyDefinition {
 		result.propertyType = NewOptionalType(result.propertyType)
 	}
 
-	result.isRequired = false
+	result.hasKubebuilderRequiredValidation = false
 	result = result.withJsonOmitEmpty()
 
 	return result
 }
 
-// IsRequired returns true if the property is required;
+// HasKubebuilderRequiredValidation returns true if the property is required;
 // returns false otherwise.
-func (property *PropertyDefinition) IsRequired() bool {
-	return property.isRequired
+func (property *PropertyDefinition) HasKubebuilderRequiredValidation() bool {
+	return property.hasKubebuilderRequiredValidation
 }
 
 // hasOptionalType returns true if the type of this property is an optional reference to a value
@@ -246,7 +260,7 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 	}
 
 	var doc dst.Decorations
-	if property.IsRequired() {
+	if property.HasKubebuilderRequiredValidation() {
 		AddValidationComments(&doc, []KubeBuilderValidation{ValidateRequired()})
 	}
 
@@ -318,7 +332,7 @@ func (property *PropertyDefinition) Equals(f *PropertyDefinition) bool {
 	return property == f || (property.propertyName == f.propertyName &&
 		property.propertyType.Equals(f.propertyType) &&
 		property.tagsEqual(f) &&
-		property.isRequired == f.isRequired &&
+		property.hasKubebuilderRequiredValidation == f.hasKubebuilderRequiredValidation &&
 		property.description == f.description)
 }
 

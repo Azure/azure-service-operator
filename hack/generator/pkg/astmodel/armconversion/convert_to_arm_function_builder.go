@@ -56,9 +56,13 @@ func newConvertToARMFunctionBuilder(
 	// The "inner" handler (typeConversionBuilder) is about determining how to convert between two types: given a
 	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader object strucutre
 	// or other properties.
-	result.typeConversionBuilder.AddConversionHandlers(result.convertComplexTypeNameProperty)
+	result.typeConversionBuilder.AddConversionHandlers(
+		result.convertReferenceProperty,
+		result.convertComplexTypeNameProperty)
+
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		result.namePropertyHandler,
+		result.referencePropertyHandler,
 		result.fixedValuePropertyHandler("Type"),
 		result.fixedValuePropertyHandler("ApiVersion"),
 		result.propertiesWithSameNameHandler,
@@ -139,6 +143,47 @@ func (builder *convertToARMBuilder) namePropertyHandler(
 	return []dst.Stmt{result}
 }
 
+func (builder *convertToARMBuilder) referencePropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	fromType *astmodel.ObjectType) []dst.Stmt {
+
+	// This is just an optimization to avoid scanning excess properties collections
+	isString := toProp.PropertyType().Equals(astmodel.StringType)
+	isOptionalString := toProp.PropertyType().Equals(astmodel.NewOptionalType(astmodel.StringType))
+	if !isString && !isOptionalString {
+		return nil
+	}
+
+	// Find the property which is referring to our toProp in its ARMReferenceTag. If we can't find it, that means
+	// there's not one and this handler doesn't apply
+	fromProp, foundReference := fromType.FindPropertyWithTagValue(astmodel.ARMReferenceTag, string(toProp.PropertyName()))
+	if !foundReference {
+		return nil
+	}
+
+	source := &dst.SelectorExpr{
+		X:   dst.NewIdent(builder.receiverIdent),
+		Sel: dst.NewIdent(string(fromProp.PropertyName())),
+	}
+
+	destination := &dst.SelectorExpr{
+		X:   dst.NewIdent(builder.resultIdent),
+		Sel: dst.NewIdent(string(toProp.PropertyName())),
+	}
+
+	return builder.typeConversionBuilder.BuildConversion(
+		astmodel.ConversionParameters{
+			Source:            source,
+			SourceType:        fromProp.PropertyType(),
+			Destination:       destination,
+			DestinationType:   toProp.PropertyType(),
+			NameHint:          string(fromProp.PropertyName()),
+			ConversionContext: nil,
+			Locals:            builder.locals,
+		},
+	)
+}
+
 func (builder *convertToARMBuilder) fixedValuePropertyHandler(propertyName astmodel.PropertyName) propertyConversionHandler {
 	return func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt {
 		if toProp.PropertyName() != propertyName || !builder.isSpecType {
@@ -199,6 +244,41 @@ func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 			Locals:            builder.locals,
 		},
 	)
+}
+
+// convertReferenceProperty handles conversion of reference properties.
+// This function generates code that looks like this:
+//	<namehint>ARMID, err := resolvedReferences.ARMIDOrErr(<source>)
+//	if err != nil {
+//		return nil, err
+//	}
+//	<destination> = <namehint>ARMID
+func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+	isString := params.DestinationType.Equals(astmodel.StringType)
+	if !isString {
+		return nil
+	}
+
+	isReference := params.SourceType.Equals(astmodel.ResourceReferenceTypeName)
+	if !isReference {
+		return nil
+	}
+
+	// Don't need to worry about conflicting names here since the property name was unique to begin with
+	localVarName := builder.idFactory.CreateIdentifier(params.NameHint+"ARMID", astmodel.NotExported)
+	armIDLookup := astbuilder.SimpleAssignmentWithErr(
+		dst.NewIdent(localVarName),
+		token.DEFINE,
+		astbuilder.CallQualifiedFunc(
+			resolvedReferencesParameterString,
+			"ARMIDOrErr",
+			params.Source))
+
+	returnIfNotNil := astbuilder.ReturnIfNotNil(dst.NewIdent("err"), dst.NewIdent("nil"), dst.NewIdent("err"))
+
+	result := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(localVarName))
+
+	return []dst.Stmt{armIDLookup, returnIfNotNil, result}
 }
 
 // convertComplexTypeNameProperty handles conversion of complex TypeName properties.
