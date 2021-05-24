@@ -15,48 +15,48 @@ import (
 	"github.com/pkg/errors"
 )
 
-// StorageTypeConversion generates the AST for a given conversion.
+// PropertyConversion generates the AST for a given property conversion.
 // reader is an expression to read the original value.
 // writer is a function that accepts an expression for reading a value and creates one or more
 // statements to write that value.
 // Both of these might be complex expressions, possibly involving indexing into arrays or maps.
-type StorageTypeConversion func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt
+type PropertyConversion func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt
 
-// StorageTypeConversionFactory represents factory methods that can be used to create StorageTypeConversions
-// for a specific pair of types
-// source is the endpoint that will be read
-// destination is the endpoint that will be written
-// ctx contains additional information that may be needed when creating a conversion
-type StorageTypeConversionFactory func(
+// PropertyConversionFactory represents factory methods that can be used to create a PropertyConversion for a specific
+// pair of properties
+// source is the property conversion endpoint that will be read
+// destination is the property conversion endpoint that will be written
+// ctx contains additional information that may be needed when creating the property conversion
+type PropertyConversionFactory func(
 	source *PropertyConversionEndpoint,
 	destination *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion
+	conversionContext *PropertyConversionContext) PropertyConversion
 
 // A list of all known type conversion factory methods
-var typeConversionFactories []StorageTypeConversionFactory
+var propertyConversionFactories []PropertyConversionFactory
 
 func init() {
-	typeConversionFactories = []StorageTypeConversionFactory{
+	propertyConversionFactories = []PropertyConversionFactory{
 		// Primitive types and aliases
-		assignPrimitiveTypeFromPrimitiveType,
-		assignAliasedPrimitiveTypeFromAliasedPrimitiveType,
+		assignPrimitiveFromPrimitive,
+		assignAliasedPrimitiveFromAliasedPrimitive,
 		// Collection Types
 		assignArrayFromArray,
 		assignMapFromMap,
 		// Enumerations
-		assignEnumTypeFromEnumType,
-		assignPrimitiveTypeFromEnumType,
+		assignEnumFromEnum,
+		assignPrimitiveFromEnum,
 		// Complex object types
-		assignObjectTypeFromObjectType,
+		assignObjectFromObject,
 		// Known types
 		assignKnownReferenceFromKnownReference,
 		assignResourceReferenceFromResourceReference,
 		// Meta-conversions
-		assignFromOptionalType, // Must go before assignToOptionalType so we generate the right zero values
-		assignToOptionalType,
-		assignToEnumerationType,
-		assignFromAliasedPrimitiveType,
-		assignToAliasedPrimitiveType,
+		assignFromOptional, // Must go before assignToOptional so we generate the right zero values
+		assignToOptional,
+		assignToEnumeration,
+		assignFromAliasedPrimitive,
+		assignToAliasedPrimitive,
 	}
 }
 
@@ -76,36 +76,36 @@ func init() {
 // assuming
 //     type Sku string
 //
-// assignFromOptionalType can handle the optionality of sourceEndpoint and makes a recursive call
+// assignFromOptional can handle the optionality of sourceEndpoint and makes a recursive call
 // to CreateTypeConversion() with the simpler target:
 //
 // source string => destination *Sku
 //
-//     assignToOptionalType can handle the optionality of destinationEndpoint and makes a recursive
+//     assignToOptional can handle the optionality of destinationEndpoint and makes a recursive
 //     call to CreateTypeConversion() with a simpler target:
 //
 //     source string => destination Sku
 //
-//         assignToAliasedPrimitiveType can handle the type conversion of string to Sku, and makes
+//         assignToAliasedPrimitive can handle the type conversion of string to Sku, and makes
 //         a recursive call to CreateTypeConversion() with a simpler target:
 //
 //         source string => destination string
 //
-//             assignPrimitiveTypeFromPrimitiveType can handle primitive values, and generates a
+//             assignPrimitiveFromPrimitive can handle primitive values, and generates a
 //             conversion that does a simple assignment:
 //
 //             destination = source
 //
-//         assignToAliasedPrimitiveType injects the necessary type conversion:
+//         assignToAliasedPrimitive injects the necessary type conversion:
 //
 //         destination = Sku(source)
 //
-//     assignToOptionalType injects a local variable and takes it's address
+//     assignToOptional injects a local variable and takes it's address
 //
 //     sku := Sku(source)
 //     destination = &sku
 //
-// finally, assignFromOptionalType injects the check to see if we have a value to assign in the
+// finally, assignFromOptional injects the check to see if we have a value to assign in the
 // first place, assigning a suitable zero value if we don't:
 //
 // if source != nil {
@@ -119,8 +119,8 @@ func init() {
 func CreateTypeConversion(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) (StorageTypeConversion, error) {
-	for _, f := range typeConversionFactories {
+	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
+	for _, f := range propertyConversionFactories {
 		result := f(sourceEndpoint, destinationEndpoint, conversionContext)
 		if result != nil {
 			return result, nil
@@ -143,15 +143,15 @@ func CreateTypeConversion(
 	return nil, err
 }
 
-// assignToOptionalType will generate a conversion where the destination is optional, if the
+// assignToOptional will generate a conversion where the destination is optional, if the
 // underlying type of the destination is compatible with the source.
 //
 // <destination> = &<source>
 //
-func assignToOptionalType(
+func assignToOptional(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion {
+	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to be optional
 	destinationOptional, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type())
@@ -192,7 +192,7 @@ func assignToOptionalType(
 	}
 }
 
-// assignFromOptionalType will handle the case where the source type may be missing (nil)
+// assignFromOptional will handle the case where the source type may be missing (nil)
 //
 // <original> := <source>
 // if <original> != nil {
@@ -200,10 +200,10 @@ func assignToOptionalType(
 // } else {
 //    <destination> = <zero>
 // }
-func assignFromOptionalType(
+func assignFromOptional(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion {
+	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be optional
 	sourceOptional, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type())
@@ -270,15 +270,15 @@ func assignFromOptionalType(
 	}
 }
 
-// assignToEnumerationType will generate a conversion where the destination is an enumeration if
+// assignToEnumeration will generate a conversion where the destination is an enumeration if
 // the source is type compatible with the base type of the enumeration
 //
 // <destination> = <enumeration-cast>(<source>)
 //
-func assignToEnumerationType(
+func assignToEnumeration(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion {
+	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to NOT be optional
 	_, dstIsOpt := astmodel.AsOptionalType(destinationEndpoint.Type())
@@ -320,15 +320,15 @@ func assignToEnumerationType(
 	}
 }
 
-// assignPrimitiveTypeFromPrimitiveType will generate a direct assignment if both types have the
+// assignPrimitiveFromPrimitive will generate a direct assignment if both types have the
 // same primitive type and are not optional
 //
 // <destination> = <source>
 //
-func assignPrimitiveTypeFromPrimitiveType(
+func assignPrimitiveFromPrimitive(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	_ *PropertyConversionContext) StorageTypeConversion {
+	_ *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -362,15 +362,15 @@ func assignPrimitiveTypeFromPrimitiveType(
 	}
 }
 
-// assignAliasedPrimitiveTypeFromAliasedPrimitiveType will generate a direct assignment if both
+// assignAliasedPrimitiveFromAliasedPrimitive will generate a direct assignment if both
 // types have the same underlying primitive type and are not optional
 //
 // <destination> = <cast>(<source>)
 //
-func assignAliasedPrimitiveTypeFromAliasedPrimitiveType(
+func assignAliasedPrimitiveFromAliasedPrimitive(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion {
+	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -415,12 +415,12 @@ func assignAliasedPrimitiveTypeFromAliasedPrimitiveType(
 	}
 }
 
-// assignFromAliasedPrimitiveType will convert an alias of a primitive type into that primitive
+// assignFromAliasedPrimitive will convert an alias of a primitive type into that primitive
 // type as long as it is not optional and we can find a conversion to consume that primitive value
-func assignFromAliasedPrimitiveType(
+func assignFromAliasedPrimitive(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion {
+	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -455,15 +455,15 @@ func assignFromAliasedPrimitiveType(
 	}
 }
 
-// assignToAliasedPrimitiveType will convert a primitive value into the aliased type as long as it
+// assignToAliasedPrimitive will convert a primitive value into the aliased type as long as it
 // is not optional and we can find a conversion to give us the primitive type.
 //
 // <destination> = <cast>(<source>)
 //
-func assignToAliasedPrimitiveType(
+func assignToAliasedPrimitive(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion {
+	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to be non-optional
 	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
@@ -516,7 +516,7 @@ func assignToAliasedPrimitiveType(
 func assignArrayFromArray(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion {
+	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be an array type
 	sourceArray, sourceIsArray := astmodel.AsArrayType(sourceEndpoint.Type())
@@ -592,7 +592,7 @@ func assignArrayFromArray(
 func assignMapFromMap(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion {
+	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be a map
 	sourceMap, sourceIsMap := astmodel.AsMapType(sourceEndpoint.Type())
@@ -664,17 +664,17 @@ func assignMapFromMap(
 	}
 }
 
-// assignEnumTypeFromEnumType will generate a conversion if both types have the same underlying
+// assignEnumFromEnum will generate a conversion if both types have the same underlying
 // primitive type and neither source nor destination is optional
 //
 // <local> = <baseType>(<source>)
 // <destination> = <enum>(<local>)
 //
 // We don't technically need this one, but it generates nicer code because it bypasses an unnecessary cast.
-func assignEnumTypeFromEnumType(
+func assignEnumFromEnum(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion {
+	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -725,17 +725,17 @@ func assignEnumTypeFromEnumType(
 	}
 }
 
-// assignPrimitiveTypeFromEnumType will generate a conversion from an enumeration if the
+// assignPrimitiveFromEnum will generate a conversion from an enumeration if the
 // destination has the underlying base type of the enumeration and neither source nor destination
 // is optional
 //
 // <local> = <baseType>(<source>)
 // <destination> = <enum>(<local>)
 //
-func assignPrimitiveTypeFromEnumType(
+func assignPrimitiveFromEnum(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion {
+	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
 	if _, srcOpt := astmodel.AsOptionalType(sourceEndpoint.Type()); srcOpt {
@@ -773,7 +773,7 @@ func assignPrimitiveTypeFromEnumType(
 	}
 }
 
-// assignObjectTypeFromObjectType will generate a conversion if both properties are TypeNames
+// assignObjectFromObject will generate a conversion if both properties are TypeNames
 // referencing ObjectType definitions and neither property is optional
 //
 // For ConvertFrom:
@@ -794,10 +794,10 @@ func assignPrimitiveTypeFromEnumType(
 // }
 // <destination> = <local>
 //
-func assignObjectTypeFromObjectType(
+func assignObjectFromObject(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	conversionContext *PropertyConversionContext) StorageTypeConversion {
+	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -890,7 +890,7 @@ func assignObjectTypeFromObjectType(
 func assignKnownReferenceFromKnownReference(
 	sourceEndpoint *PropertyConversionEndpoint,
 	destinationEndpoint *PropertyConversionEndpoint,
-	_ *PropertyConversionContext) StorageTypeConversion {
+	_ *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
