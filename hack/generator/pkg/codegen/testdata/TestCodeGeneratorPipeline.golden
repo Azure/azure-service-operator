@@ -15,6 +15,7 @@ assertTypesStructureValid                      Asserts that the types collection
 filterTypes                                    Filter generated types
 stripUnused                                    Strip unused types for test
 replaceAnyTypeWithJSON                         Replacing interface{}s with arbitrary JSON
+addCrossResourceReferences          azure      Replaces cross resource references with genruntime.ResourceReference
 applyKubernetesResourceInterface    azure      Ensures that every resource implements the KubernetesResource interface
 simplifyDefinitions                            Flatten definitions by removing wrapper types
 jsonTestCases                       azure      Add test cases to verify JSON serialization

@@ -137,6 +137,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		stripUnreferencedTypeDefinitions(),
 
 		replaceAnyTypeWithJSON(),
+
+		addCrossResourceReferences(configuration, idFactory).UsedFor(ARMTarget),
+
 		reportOnTypesAndVersions(configuration).UsedFor(ARMTarget), // TODO: For now only used for ARM
 
 		createARMTypes(idFactory).UsedFor(ARMTarget),

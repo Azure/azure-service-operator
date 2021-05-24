@@ -3,6 +3,7 @@
  * Licensed under the MIT license.
  */
 
+// +kubebuilder:validation:Optional
 package genruntime
 
 import (
@@ -24,7 +25,7 @@ type KnownResourceReference struct {
 
 var _ fmt.Stringer = ResourceReference{}
 
-// TODO: Need to fix up construction of this to include namespace in generated code
+// ResourceReference represents a resource reference, either to a Kubernetes resource or directly to an Azure resource via ARMID
 type ResourceReference struct {
 	// Group is the Kubernetes group of the resource.
 	Group string `json:"group"`
@@ -39,6 +40,7 @@ type ResourceReference struct {
 	// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and
 	// name - the versions are just giving a different view on the same resource
 
+	// +kubebuilder:validation:Pattern="(?i)^/subscriptions/(.+?)/resourcegroups/(.+?)/providers/(.+?)/((.+?)/(.+?))+$"
 	// ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
 	// ARMID is mutually exclusive with Group, Kind, Namespace and Name.
 	ARMID string `json:"armId"`
