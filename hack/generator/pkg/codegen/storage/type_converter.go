@@ -38,7 +38,7 @@ func NewTypeConverter(types astmodel.Types) *TypeConverter {
 }
 
 // ConvertDefinition applies our type conversion to a specific type definition
-func (t TypeConverter) ConvertDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+func (t *TypeConverter) ConvertDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 	result, err := t.visitor.VisitDefinition(def, nil)
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "converting %q for storage variant", def.Name())
@@ -55,7 +55,7 @@ func (t TypeConverter) ConvertDefinition(def astmodel.TypeDefinition) (astmodel.
  */
 
 // convertResourceType creates a storage variation of a resource type
-func (t TypeConverter) convertResourceType(
+func (t *TypeConverter) convertResourceType(
 	tv *astmodel.TypeVisitor,
 	resource *astmodel.ResourceType,
 	ctx interface{}) (astmodel.Type, error) {
@@ -67,7 +67,7 @@ func (t TypeConverter) convertResourceType(
 }
 
 // convertObjectType creates a storage variation of an object type
-func (t TypeConverter) convertObjectType(
+func (t *TypeConverter) convertObjectType(
 	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
 
 	var errs []error
@@ -91,7 +91,7 @@ func (t TypeConverter) convertObjectType(
 }
 
 // redirectTypeNamesToStoragePackage modifies TypeNames to reference the current storage package
-func (t TypeConverter) redirectTypeNamesToStoragePackage(
+func (t *TypeConverter) redirectTypeNamesToStoragePackage(
 	_ *astmodel.TypeVisitor, name astmodel.TypeName, _ interface{}) (astmodel.Type, error) {
 	if result, ok := t.tryConvertToStorageNamespace(name); ok {
 		return result, nil
@@ -101,7 +101,7 @@ func (t TypeConverter) redirectTypeNamesToStoragePackage(
 }
 
 // stripAllValidations removes all validations
-func (t TypeConverter) stripAllValidations(
+func (t *TypeConverter) stripAllValidations(
 	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
 	// strip all type validations from storage types,
 	// act as if they do not exist
@@ -109,7 +109,7 @@ func (t TypeConverter) stripAllValidations(
 }
 
 // stripAllFlags removes all flags
-func (t TypeConverter) stripAllFlags(
+func (t *TypeConverter) stripAllFlags(
 	tv *astmodel.TypeVisitor,
 	flaggedType *astmodel.FlaggedType,
 	ctx interface{}) (astmodel.Type, error) {
@@ -121,7 +121,7 @@ func (t TypeConverter) stripAllFlags(
 	return astmodel.IdentityVisitOfFlaggedType(tv, flaggedType, ctx)
 }
 
-func (_ TypeConverter) tryConvertToStorageNamespace(name astmodel.TypeName) (astmodel.TypeName, bool) {
+func (_ *TypeConverter) tryConvertToStorageNamespace(name astmodel.TypeName) (astmodel.TypeName, bool) {
 	// Map the type name into our storage namespace
 	localRef, ok := name.PackageReference.AsLocalPackage()
 	if !ok {
@@ -135,7 +135,7 @@ func (_ TypeConverter) tryConvertToStorageNamespace(name astmodel.TypeName) (ast
 
 // descriptionForStorageVariant creates a description for a storage variant, indicating which
 // original type it is based upon
-func (_ TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
+func (_ *TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
 	pkg := definition.Name().PackageReference.PackageName()
 
 	result := []string{

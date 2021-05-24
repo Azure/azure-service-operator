@@ -39,7 +39,7 @@ func NewPropertyConverter(types astmodel.Types) *PropertyConverter {
 }
 
 // ConvertProperty applies our conversion rules to a specific property
-func (p PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
+func (p *PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
 
 	for _, conv := range p.propertyConversions {
 		prop, err := conv(property)
@@ -57,7 +57,7 @@ func (p PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinition
 }
 
 // stripAllValidations removes all validations
-func (p PropertyConverter) stripAllValidations(
+func (p *PropertyConverter) stripAllValidations(
 	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
 	// strip all type validations from storage property types
 	// act as if they do not exist
@@ -65,7 +65,7 @@ func (p PropertyConverter) stripAllValidations(
 }
 
 // useBaseTypeForEnumerations replaces an enumeration with its underlying base type
-func (p PropertyConverter) useBaseTypeForEnumerations(
+func (p *PropertyConverter) useBaseTypeForEnumerations(
 	tv *astmodel.TypeVisitor, et *astmodel.EnumType, ctx interface{}) (astmodel.Type, error) {
 	return tv.Visit(et.BaseType(), ctx)
 }
@@ -73,7 +73,7 @@ func (p PropertyConverter) useBaseTypeForEnumerations(
 // shortCircuitNamesOfSimpleTypes redirects TypeNames that reference resources or objects into our
 // storage namespace, and replaces TypeNames that point to simple types (enumerations or
 // primitives) with their underlying type.
-func (p PropertyConverter) shortCircuitNamesOfSimpleTypes(
+func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
 	tv *astmodel.TypeVisitor, tn astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 
 	actualType, err := p.types.FullyResolve(tn)
@@ -99,7 +99,7 @@ func (p PropertyConverter) shortCircuitNamesOfSimpleTypes(
 	return tv.Visit(actualType, ctx)
 }
 
-func (_ PropertyConverter) tryConvertToStorageNamespace(name astmodel.TypeName) (astmodel.TypeName, bool) {
+func (_ *PropertyConverter) tryConvertToStorageNamespace(name astmodel.TypeName) (astmodel.TypeName, bool) {
 	// Map the type name into our storage namespace
 	localRef, ok := name.PackageReference.AsLocalPackage()
 	if !ok {
@@ -118,7 +118,7 @@ type propertyConversion = func(property *astmodel.PropertyDefinition) (*astmodel
 
 // preserveKubernetesResourceStorageProperties preserves properties required by the
 // KubernetesResource interface as they're always required exactly as declared
-func (p PropertyConverter) preserveKubernetesResourceStorageProperties(
+func (p *PropertyConverter) preserveKubernetesResourceStorageProperties(
 	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
 
 	if astmodel.IsKubernetesResourceProperty(prop.PropertyName()) {
@@ -130,7 +130,7 @@ func (p PropertyConverter) preserveKubernetesResourceStorageProperties(
 	return nil, nil
 }
 
-func (p PropertyConverter) defaultPropertyConversion(
+func (p *PropertyConverter) defaultPropertyConversion(
 	property *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
 
 	propertyType, err := p.visitor.Visit(property.PropertyType(), nil)

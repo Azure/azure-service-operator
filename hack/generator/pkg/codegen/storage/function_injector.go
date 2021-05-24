@@ -31,7 +31,7 @@ func (fi *FunctionInjector) Inject(def astmodel.TypeDefinition, fn astmodel.Func
 
 // injectFunctionIntoObject takes the function provided as a context and includes it on the
 // provided object type
-func (_ FunctionInjector) injectFunctionIntoObject(
+func (_ *FunctionInjector) injectFunctionIntoObject(
 	_ *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	fn := ctx.(astmodel.Function)
 	return ot.WithFunction(fn), nil
@@ -39,7 +39,7 @@ func (_ FunctionInjector) injectFunctionIntoObject(
 
 // injectFunctionIntoResource takes the function provided as a context and includes it on the
 // provided resource type
-func (_ FunctionInjector) injectFunctionIntoResource(
+func (_ *FunctionInjector) injectFunctionIntoResource(
 	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 	fn := ctx.(astmodel.Function)
 	return rt.WithFunction(fn), nil
