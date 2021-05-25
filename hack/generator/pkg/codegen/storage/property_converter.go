@@ -11,7 +11,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// PropertyConverter is used to convert the properties of object types as required for storage variants
+// PropertyConverter is used to convert the properties of object inputTypes as required for storage variants
 type PropertyConverter struct {
 	visitor             astmodel.TypeVisitor // Visitor used to achieve the required modification
 	types               astmodel.Types       // All the types for this group
@@ -26,6 +26,7 @@ func NewPropertyConverter(types astmodel.Types) *PropertyConverter {
 
 	result.propertyConversions = []propertyConversion{
 		result.preserveKubernetesResourceStorageProperties,
+		result.preserveResourceReferenceProperties,
 		result.defaultPropertyConversion,
 	}
 
@@ -59,7 +60,7 @@ func (p *PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinitio
 // stripAllValidations removes all validations
 func (p *PropertyConverter) stripAllValidations(
 	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
-	// strip all type validations from storage property types
+	// strip all type validations from storage property inputTypes
 	// act as if they do not exist
 	return this.Visit(v.ElementType(), ctx)
 }
@@ -129,6 +130,29 @@ func (p *PropertyConverter) preserveKubernetesResourceStorageProperties(
 	// Not a kubernetes type, defer to another conversion
 	return nil, nil
 }
+
+// preserveResourceReferenceProperties preserves properties required by the
+// KubernetesResource interface as they're always required exactly as declared
+func (p *PropertyConverter) preserveResourceReferenceProperties(
+	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
+
+	propertyType := prop.PropertyType()
+	if opt, ok := astmodel.AsOptionalType(propertyType); ok {
+		if opt.Element().Equals(astmodel.ResourceReferenceTypeName) {
+			// Keep these unchanged
+			return prop, nil
+		}
+	}
+
+	if propertyType.Equals(astmodel.ResourceReferenceTypeName) {
+		// Keep these unchanged
+		return prop, nil
+	}
+
+	// Not a resource reference property, defer to another conversion
+	return nil, nil
+}
+
 
 func (p *PropertyConverter) defaultPropertyConversion(
 	property *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
