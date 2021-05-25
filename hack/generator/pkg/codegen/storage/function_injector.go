@@ -9,7 +9,8 @@ import "github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 
 // FunctionInjector is a utility for injecting function definitions into resources and objects
 type FunctionInjector struct {
-	visitor astmodel.TypeVisitor // Visitor used to achieve the required modification
+	// visitor is used to do the actual injection
+	visitor astmodel.TypeVisitor
 }
 
 // NewFunctionInjector creates a new function injector for modifying resources and objects

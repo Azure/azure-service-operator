@@ -13,9 +13,12 @@ import (
 
 // PropertyConverter is used to convert the properties of object inputTypes as required for storage variants
 type PropertyConverter struct {
-	visitor             astmodel.TypeVisitor // Visitor used to achieve the required modification
-	types               astmodel.Types       // All the types for this group
-	propertyConversions []propertyConversion // Conversion rules to use for properties when creating storage variants
+	// visitor is used to apply the modification
+	visitor astmodel.TypeVisitor
+	// types contains all the types for this group
+	types astmodel.Types
+	// propertyConversions is an ordered list of all our conversion rules for creating storage variants
+	propertyConversions []propertyConversion
 }
 
 // NewPropertyConverter creates a new property converter for modifying object properties
@@ -71,9 +74,12 @@ func (p *PropertyConverter) useBaseTypeForEnumerations(
 	return tv.Visit(et.BaseType(), ctx)
 }
 
-// shortCircuitNamesOfSimpleTypes redirects TypeNames that reference resources or objects into our
-// storage namespace, and replaces TypeNames that point to simple types (enumerations or
-// primitives) with their underlying type.
+// shortCircuitNamesOfSimpleTypes redirects or replaces TypeNames
+//   o  If a TypeName points into an API namespace, it is redirected into the appropriate storage namespace
+//   o  If a TypeName references an enumeration, it is replaced with the underlying type of the enumeration as our
+//      storage types don't use enumerations, they use primitive types
+//   o  If a TypeName references an alias for a primitive type (these are used to specify validations), it is replace
+//      with the primitive type
 func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
 	tv *astmodel.TypeVisitor, tn astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 
@@ -152,7 +158,6 @@ func (p *PropertyConverter) preserveResourceReferenceProperties(
 	// Not a resource reference property, defer to another conversion
 	return nil, nil
 }
-
 
 func (p *PropertyConverter) defaultPropertyConversion(
 	property *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {

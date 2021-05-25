@@ -14,9 +14,12 @@ import (
 
 // TypeConverter is used to create a storage variant of an API type
 type TypeConverter struct {
-	visitor           astmodel.TypeVisitor // Visitor used to achieve the required modification
-	types             astmodel.Types       // All the types for this group
-	propertyConverter *PropertyConverter   // nested converter for properties
+	// visitor used to apply the modification
+	visitor astmodel.TypeVisitor
+	// types contains all the types for this group
+	types astmodel.Types
+	// propertyConverter is used to modify properties
+	propertyConverter *PropertyConverter
 }
 
 // NewTypeConverter creates a new instance of the utility type

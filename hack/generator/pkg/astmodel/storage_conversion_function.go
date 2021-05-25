@@ -360,7 +360,7 @@ func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition, 
 	return nil
 }
 
-// AsPropertyContainer converts a type into a property container
+// asPropertyContainer converts a type into a property container
 func (fn *StorageConversionFunction) asPropertyContainer(theType Type) (PropertyContainer, bool) {
 	switch t := theType.(type) {
 	case PropertyContainer:
