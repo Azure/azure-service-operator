@@ -1,0 +1,11 @@
+# Sequence diagram from https://sequencediagram.org/
+
+participant "Controller" as c
+participant "v4 v4.Person" as v
+participant "hub v4storage.Person" as s
+
+c -> v: v4.ConvertToStorage(hub)
+activate v
+v ->> s: (copy properties from v4 onto hub)
+c <-- v: return
+deactivate v

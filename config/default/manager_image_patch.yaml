@@ -28,11 +28,13 @@ spec:
               secretKeyRef:
                 name: azureoperatorsettings
                 key: AZURE_TENANT_ID
+                optional: true
           - name: AZURE_SUBSCRIPTION_ID
             valueFrom:
               secretKeyRef:
                 name: azureoperatorsettings
                 key: AZURE_SUBSCRIPTION_ID
+                optional: true
           - name: AZURE_USE_MI
             valueFrom:
               secretKeyRef:

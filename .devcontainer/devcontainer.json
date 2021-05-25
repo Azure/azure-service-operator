@@ -1,59 +1,38 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.137.0/containers/go
 {
-    "name": "ASO",
-    "dockerFile": "Dockerfile",
+	"name": "Go",
+	"build": { "dockerfile": "Dockerfile" },
+	"runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
 
-    "runArgs": [
-      "--cap-add=SYS_PTRACE",
-      "--security-opt", "seccomp=unconfined",
-      "--env-file=${localWorkspaceFolder}/.env"
-    ],
-    
-    "settings": {
-      "terminal.integrated.shell.linux": "zsh",
-      "go.gopath": "/go",
-      "go.useLanguageServer": true,
-      "[go]": {
-          "editor.formatOnSave": true,
-          "editor.codeActionsOnSave": {
-              "source.organizeImports": true,
-          },
-          // Optional: Disable snippets, as they conflict with completion ranking.
-          "editor.snippetSuggestions": "none",
-      },
-      "[go.mod]": {
-          "editor.formatOnSave": true,
-          "editor.codeActionsOnSave": {
-              "source.organizeImports": true,
-          },
-      },
-      "gopls": {
-          // Add parameter placeholders when completing a function.
-          "usePlaceholders": true,
-  
-          // If true, enable additional analyses with staticcheck.
-          // Warning: This will significantly increase memory usage.
-          "staticcheck": false,
-      }
-    },
-    
-    "mounts": [
-      "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
-      // Comment the next line to avoid syncing your kubeconfig
-      "source=${env:HOME}${env:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind",
-      // Uncomment the next line to also sync certs in your .minikube folder
-      // "source=${env:HOME}${env:USERPROFILE}/.minikube,target=/usr/local/share/minikube-localhost,type=bind",
-      // Comment the next line to avoid syncing azure cli config
-      "source=${env:HOME}${env:USERPROFILE}/.azure,target=/usr/local/share/azure-localhost,type=bind",
-    ],
-    
-    "extensions": [
-      "golang.go",		
-      "ms-vscode.azurecli",
-      "ms-azuretools.vscode-docker",
-      "ms-kubernetes-tools.vscode-kubernetes-tools"
-    ],
-    
-    "remoteEnv": {
-      "GO111MODULE": "on",
-    },
+	// Set *default* container specific settings.json values on container create.
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"go.gopath": "/go",
+		"go.useLanguageServer": true,
+		"go.lintTool": "golangci-lint",
+		"[go]": {
+			"editor.snippetSuggestions": "none",
+			"editor.formatOnSave": true,
+			"editor.codeActionsOnSave": {
+				"source.organizeImports": true
+			}
+		}
+	},
+	
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"golang.Go",
+		"ms-azuretools.vscode-docker",
+		"redhat.vscode-yaml",
+		"ms-kubernetes-tools.vscode-kubernetes-tools"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [9000],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "go version",
+
+	"remoteUser": "vscode"
 }

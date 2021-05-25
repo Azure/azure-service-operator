@@ -1,0 +1,13 @@
+{
+    "$comment": "Here we check that if there are no other fields and 'additionalProperties' is not explicitly set, a map type of map[string]interface{} will be generated",
+
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "tags": {
+            "type": "object"
+        }
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "$comment": "Check that the OneOf handler properly collapses duplicate references into a single type",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "oneOf": [
+        {
+            "$ref": "#/definitions/Foo"
+        },
+        {
+            "$ref": "#/definitions/Foo"
+        },
+        {
+            "$ref": "#/definitions/Foo"
+        }
+    ],
+    "definitions": {
+        "Foo": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

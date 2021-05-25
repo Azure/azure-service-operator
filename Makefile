@@ -11,8 +11,7 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
-# Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
-CRD_OPTIONS ?= "crd:crdVersions=v1beta1"
+CRD_OPTIONS ?= "crd:crdVersions=v1"
 
 BUILD_ID ?= $(shell git rev-parse --short HEAD)
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
@@ -208,8 +207,13 @@ helm-chart-manifests: generate
 
 # Generate manifests e.g. CRD, RBAC etc.
 .PHONY: manifests
-manifests: controller-gen
+manifests: install-dependencies
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+	# update manifests to force preserveUnknownFields to false. We can't use controller-gen to set this to false because it has a bug...
+	# see: https://github.com/kubernetes-sigs/controller-tools/issues/476
+	# TODO: After this has been in the release for "a while" we can remove it since the default is also false and we just
+	# TODO: need it for the upgrade scenario between v1beta1 and v1 CRD types
+	ls config/crd/bases | xargs -I % yq eval -i ".spec.preserveUnknownFields = false" config/crd/bases/%
 
 # Run go fmt against code
 .PHONY: fmt
@@ -225,14 +229,6 @@ vet:
 .PHONY: generate
 generate: manifests
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
-
-# find or download controller-gen
-# download controller-gen if necessary
-.PHONY: controller-gen
-controller-gen:
-	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0
-    CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
-
 
 .PHONY: install-bindata
 install-bindata:
@@ -320,14 +316,20 @@ install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 
 .PHONY: install-test-dependencies
-install-test-dependencies: controller-gen
+install-test-dependencies: install-dependencies
 	go get github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge \
-	&& go get k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
 	&& go get sigs.k8s.io/kind@v0.9.0 \
-	&& go get sigs.k8s.io/kustomize/kustomize/v3@v3.8.6
+
+.PHONY: install-dependencies
+install-dependencies:
+	go get github.com/mikefarah/yq/v4 \
+	&& go get k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
+	&& go get sigs.k8s.io/kustomize/kustomize/v3@v3.8.6 \
+	&& go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0
+    CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 
 # Operator-sdk release version
 RELEASE_VERSION ?= v1.0.1
@@ -342,16 +344,21 @@ else
 	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
 endif
 
+PREVIOUS_BUNDLE_VERSION ?= 0.37.0
+
 .PHONY: generate-operator-bundle
 generate-operator-bundle: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
 generate-operator-bundle: manifests
-	rm -r bundle
 	@echo "Latest released tag is $(LATEST_TAG)"
+	@echo "Previous bundle version is $(PREVIOUS_BUNDLE_VERSION)"
+	rm -rf "bundle/$(LATEST_TAG)"
 	kustomize build config/operator-bundle | operator-sdk generate bundle --version $(LATEST_TAG) --channels stable --default-channel stable --overwrite --kustomize-dir config/operator-bundle
 	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh
 	# Inject the container reference into the bundle.
 	scripts/inject-container-reference.sh "$(PUBLIC_REPO)@$(LATEST_TAG)"
+	# Include the replaces field with the old version.
+	yq eval -i ".spec.replaces = \"azure-service-operator.v$(PREVIOUS_BUNDLE_VERSION)\"" bundle/manifests/azure-service-operator.clusterserviceversion.yaml
 	# Rename files so they're easy to add to the community-operators repo for a PR
 	mv bundle/manifests bundle/$(LATEST_TAG)
 	mv bundle/$(LATEST_TAG)/azure-service-operator.clusterserviceversion.yaml bundle/$(LATEST_TAG)/azure-service-operator.v$(LATEST_TAG).clusterserviceversion.yaml

@@ -1,0 +1,27 @@
+name: pr-validation
+on:
+  push:
+    branches:
+    - master
+
+  pull_request: 
+    branches:
+      - master
+
+jobs:
+  test-generator:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+
+      - name: Build devcontainer image
+        run: docker build --tag devcontainer:1.0 .devcontainer
+
+      - name: Run CI tasks
+        run: docker run -w /workspace -v $GITHUB_WORKSPACE:/workspace -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID devcontainer:1.0 task ci
+
+      - name: Upload code coverage to Codecov
+        run: bash <(curl -s https://codecov.io/bash)

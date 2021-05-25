@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller-manager
+  namespace: system
+spec:
+  template:
+    spec:
+      containers:
+        # Change the value of image field below to your controller image URL
+        - image: kind-registry:5000/fake/k8s-infra-controller:latest
+          name: manager
+          env:
+            - name: AZURE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: k8sinfra-controller-settings
+                  key: AZURE_CLIENT_ID
+            - name: AZURE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: k8sinfra-controller-settings
+                  key: AZURE_CLIENT_SECRET
+            - name: AZURE_TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: k8sinfra-controller-settings
+                  key: AZURE_TENANT_ID
+            - name: AZURE_SUBSCRIPTION_ID
+              valueFrom:
+                secretKeyRef:
+                  name: k8sinfra-controller-settings
+                  key: AZURE_SUBSCRIPTION_ID

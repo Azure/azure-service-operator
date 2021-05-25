@@ -1,0 +1,40 @@
+{
+    "$comment": "Check that the AllOf handler correctly generates a union type. Note that this will also generate the standalone types Foo, Bar, and Baz because they are definitions",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        }
+    },
+    "definitions": {
+        "Foo": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "Bar": {
+            "type": "object",
+            "properties": {
+                "size": {
+                    "type": "integer"
+                }
+            },
+            "required": ["size"]
+        },
+        "Baz": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                }
+            },
+            "required": ["enabled"]
+        }
+    }
+}

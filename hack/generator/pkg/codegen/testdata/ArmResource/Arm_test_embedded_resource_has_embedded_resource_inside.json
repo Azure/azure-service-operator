@@ -1,0 +1,179 @@
+{
+    "$comment": "Test that an ARM resource that has another ARM resource embedded inside one of its properties, but that same property is also used in a context where it's the top level type",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "a": {
+            "$ref": "#/resourceDefinitions/A"
+        },
+        "b": {
+            "$ref": "#/resourceDefinitions/B"
+        },
+        "c": {
+            "$ref": "#/resourceDefinitions/C"
+        }
+    },
+    "resourceDefinitions": {
+        "C": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/C"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                },
+                "properties": {
+                    "$ref": "#/definitions/CProperties"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        },
+        "B": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/B"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                },
+                "properties": {
+                    "$ref": "#/definitions/BProperties"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        },
+        "A": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/A"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                },
+                "properties": {
+                    "$ref": "#/definitions/AProperties"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        }
+    },
+    "definitions": {
+        "AProperties": {
+            "type": "object",
+            "properties": {
+                "stringField": {
+                    "type": "string"
+                },
+                "intField": {
+                    "type": "integer"
+                },
+                "refField": {
+                    "$ref": "#/definitions/BResource"
+                }
+            }
+        },
+        "BProperties": {
+            "type": "object",
+            "properties": {
+                "enumField": {
+                    "type": "string",
+                    "enum": [
+                        "Qux"
+                    ]
+                },
+                "refField": {
+                    "$ref": "#/definitions/CResource"
+                }
+            }
+        },
+        "BResource": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "properties": {
+                    "$ref": "#/definitions/BProperties"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "CResource": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "properties": {
+                    "$ref": "#/definitions/CProperties"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "CProperties": {
+            "type": "object",
+            "properties": {
+                "stringField": {
+                    "type": "string"
+                },
+                "intField": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
