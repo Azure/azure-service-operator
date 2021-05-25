@@ -13,7 +13,7 @@ import (
 
 // StorageTypeFactory is used to create storage inputTypes for a specific service
 type StorageTypeFactory struct {
-	service           string                                                  // Name of the group we're handling (used mostly for logging)
+	group             string                                                  // Name of the group we're handling (used mostly for logging)
 	inputTypes        astmodel.Types                                          // All the types for this group
 	outputTypes       astmodel.Types                                          // All the types created/modified by this factory
 	idFactory         astmodel.IdentifierFactory                              // Factory for creating identifiers
@@ -24,18 +24,18 @@ type StorageTypeFactory struct {
 }
 
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
-func NewStorageTypeFactory(service string, idFactory astmodel.IdentifierFactory) *StorageTypeFactory {
+func NewStorageTypeFactory(group string, idFactory astmodel.IdentifierFactory) *StorageTypeFactory {
 
 	types := make(astmodel.Types)
 
 	result := &StorageTypeFactory{
-		service:                    service,
-		inputTypes:                 types,
-		idFactory:                  idFactory,
-		conversionMap:              make(map[astmodel.PackageReference]astmodel.PackageReference),
-		functionInjector:           NewFunctionInjector(),
-		resourceHubMarker:          NewHubVersionMarker(),
-		typeConverter:              NewTypeConverter(types),
+		group:             group,
+		inputTypes:        types,
+		idFactory:         idFactory,
+		conversionMap:     make(map[astmodel.PackageReference]astmodel.PackageReference),
+		functionInjector:  NewFunctionInjector(),
+		resourceHubMarker: NewHubVersionMarker(),
+		typeConverter:     NewTypeConverter(types),
 	}
 
 	return result
@@ -88,7 +88,6 @@ func (f *StorageTypeFactory) process() error {
 	for _, d := range storageVariantsWithConversions {
 		f.outputTypes[d.Name()] = d
 	}
-
 
 	// Add anything missing into outputTypes
 	f.outputTypes.AddTypes(f.inputTypes.Except(f.outputTypes))
