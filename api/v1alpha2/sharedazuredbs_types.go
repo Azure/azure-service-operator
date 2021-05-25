@@ -39,6 +39,7 @@ const (
 	OneZeroFullStopZero ServerVersion = "10.0"
 )
 
+// +kubebuilder:validation:Enum=Basic;GeneralPurpose;MemoryOptimized
 type SkuTier string
 
 const (
@@ -50,6 +51,7 @@ const (
 	PSQLMemoryOptimized SkuTier = "MemoryOptimized"
 )
 
+// +kubebuilder:validation:Enum=Enabled;Disabled
 type SslEnforcementEnum string
 
 const (
@@ -67,6 +69,7 @@ type MySQLStorageProfile struct {
 	// StorageMB - Max storage allowed for a server.
 	StorageMB *int32 `json:"storageMB,omitempty"`
 	// StorageAutogrow - Enable Storage Auto Grow. Possible values include: 'Enabled', 'Disabled'
+	// +kubebuilder:validation:Enum=Enabled;Disabled
 	StorageAutogrow mysql.StorageAutogrow `json:"storageAutogrow,omitempty"`
 }
 
@@ -78,6 +81,7 @@ type PSQLStorageProfile struct {
 	// StorageMB - Max storage allowed for a server.
 	StorageMB *int32 `json:"storageMB,omitempty"`
 	// StorageAutogrow - Enable Storage Auto Grow. Possible values include: 'Enabled', 'Disabled'
+	// +kubebuilder:validation:Enum=Enabled;Disabled
 	StorageAutogrow psql.StorageAutogrow `json:"storageAutogrow,omitempty"`
 }
 
