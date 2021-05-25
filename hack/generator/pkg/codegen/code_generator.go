@@ -93,7 +93,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		loadSchemaIntoTypes(idFactory, configuration, defaultSchemaLoader),
 
 		// Import status info from Swagger:
-		augmentResourcesWithStatus(idFactory, configuration),
+		augmentResourcesWithSwaggerInformation(idFactory, configuration),
 
 		// Reduces oneOf/allOf types from schemas to object types:
 		convertAllOfAndOneOfToObjects(idFactory),
@@ -153,6 +153,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		addCrossplaneEmbeddedResourceStatus(idFactory).UsedFor(CrossplaneTarget),
 
 		createStorageTypes().UsedFor(ARMTarget), // TODO: For now only used for ARM
+
 		simplifyDefinitions(),
 		injectJsonSerializationTests(idFactory).UsedFor(ARMTarget),
 

@@ -1,7 +1,7 @@
 Expected Pipeline Stages for Test Code Generation
 -------------------------------------------------
 loadTestSchema                                 Load and walk schema (test)
-augmentStatus                                  Add information from Swagger specs for 'status' fields
+augmentWithSwagger                             Add information from Swagger specs for 'status' fields
 allof-anyof-objects                            Convert allOf and oneOf to object types
 flatten-resources                              Flatten nested resource types
 stripUnused                                    Strip unused types for test
