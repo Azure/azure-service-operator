@@ -6,8 +6,10 @@
 package reflecthelpers_test
 
 import (
+	"reflect"
 	"testing"
 
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -98,6 +100,20 @@ type ResourceWithReferencesSpec struct {
 	Location string `json:"location,omitempty"`
 }
 
+var _ genruntime.ARMTransformer = &ResourceWithReferencesSpec{}
+
+func (in *ResourceWithReferencesSpec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	panic("not expected to be called")
+}
+
+func (in *ResourceWithReferencesSpec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	panic("not expected to be called")
+}
+
+func (in *ResourceWithReferencesSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, input interface{}) error {
+	panic("not expected to be called")
+}
+
 type ResourceReference struct {
 	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
 }
@@ -172,6 +188,67 @@ func Test_FindSecrets(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(refs).To(HaveLen(1))
 	g.Expect(refs).To(HaveKey(ref))
+}
+
+// defaultResourceReferencesName exists to showcase an example where ReflectVisitor is used to modify the object in question
+func defaultResourceReferencesName(transformer genruntime.ARMTransformer, name string) error {
+	visitor := reflecthelpers.NewReflectVisitor()
+	visitor.VisitStruct = func(this *reflecthelpers.ReflectVisitor, it reflect.Value, ctx interface{}) error {
+		if it.Type() == reflect.TypeOf(genruntime.ResourceReference{}) {
+			if it.CanInterface() {
+				reference := it.Interface().(genruntime.ResourceReference)
+				if reference.Name == "" {
+					// Cannot do assignment on the reference variable as it is a copy
+					f := it.FieldByName("Name")
+					if !f.CanSet() {
+						return errors.New("cannot set 'Name' field of 'genruntime.ResourceReference'")
+					}
+					f.SetString(name)
+				}
+			} else {
+				// This should be impossible given how the visitor works
+				return errors.New("genruntime.ResourceReference field was unexpectedly nil")
+			}
+			return nil
+		}
+
+		return reflecthelpers.IdentityVisitStruct(this, it, ctx)
+	}
+
+	err := visitor.Visit(transformer, nil)
+	if err != nil {
+		return errors.Wrap(err, "defaulting genruntime.ResourceReference")
+	}
+
+	return nil
+}
+
+func Test_CanUseReflectVisitorToModifyResource(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	ref := genruntime.ResourceReference{Group: "microsoft.keyvault", Kind: "keyvault"}
+
+	res := ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName: "azureName",
+			Location:  "westus",
+			Owner: genruntime.KnownResourceReference{
+				Name: "myrg",
+			},
+			Ref: &ResourceReference{
+				Reference: ref,
+			},
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-group",
+			Namespace: "test-namespace",
+		},
+	}
+
+	err := defaultResourceReferencesName(&res.Spec, "myname")
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(res.Spec.Ref.Reference.Name).To(Equal("myname"))
 }
 
 func Test_GetObjectListItems(t *testing.T) {
