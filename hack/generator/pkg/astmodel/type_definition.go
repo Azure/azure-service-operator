@@ -76,6 +76,22 @@ func (def TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationCo
 	return def.theType.AsDeclarations(codeGenerationContext, declContext)
 }
 
+// Equals returns true if both type definitions are equivalent
+func (def TypeDefinition) Equals(other TypeDefinition) bool {
+	if !def.name.Equals(other.name) ||
+		len(def.description) != len(other.description) {
+		return false
+	}
+
+	for i := range def.description {
+		if def.description[i] != other.description[i] {
+			return false
+		}
+	}
+
+	return def.theType.Equals(other.theType)
+}
+
 // AsSimpleDeclarations is a helper for types that only require a simple name/alias to be defined
 func AsSimpleDeclarations(
 	codeGenerationContext *CodeGenerationContext,
