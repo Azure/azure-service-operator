@@ -62,8 +62,8 @@ func createStorageTypes(idFactory astmodel.IdentifierFactory) PipelineStage {
 				result.AddTypes(t)
 			}
 
-			if len(errs) > 0 {
-				err := kerrors.NewAggregate(errs)
+			err := kerrors.NewAggregate(errs)
+			if err != nil {
 				return nil, err
 			}
 
