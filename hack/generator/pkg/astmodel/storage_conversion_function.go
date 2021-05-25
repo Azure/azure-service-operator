@@ -14,7 +14,6 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 )
 
 // StorageConversionFunction represents a function that performs conversions for storage versions
@@ -308,9 +307,6 @@ func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition, 
 	receiverProperties := fn.createPropertyMap(receiverContainer)
 	otherProperties := fn.createPropertyMap(otherContainer)
 
-	var properties []string
-	first := true
-
 	// Flag receiver name as used
 	fn.knownLocals.Add(receiver.Name().Name())
 
@@ -330,31 +326,13 @@ func (fn *StorageConversionFunction) createConversions(receiver TypeDefinition, 
 			}
 
 			if err != nil {
-				// An error was returned; this can happen even if a conversion was created as well.
-				if first {
-					klog.V(2).Infof("Generating conversion function %s() for %s", fn.name, receiver.name)
-					first = false
-				}
-
-				// err will include the details of which property, don't need to log here
-				klog.V(2).Infof("Error: %s", err)
-				properties = append(properties, string(receiverProperty.propertyName))
-				continue
-			}
-
-			if conv != nil {
+				// An error was returned, we abort creating conversions for this object
+				return errors.Wrapf(err, "creating conversion for property %q of %q", receiverProperty.PropertyName(), receiver.Name())
+			} else if conv != nil {
 				// A conversion was created, keep it for later
 				fn.conversions[string(receiverProperty.propertyName)] = conv
 			}
 		}
-	}
-
-	if len(properties) > 0 {
-		label := "properties"
-		if len(properties) == 1 {
-			label = "property"
-		}
-		return errors.Errorf("Errors with %d %s: %s", len(properties), label, strings.Join(properties, "; "))
 	}
 
 	return nil
