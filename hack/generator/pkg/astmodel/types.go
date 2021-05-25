@@ -7,7 +7,6 @@ package astmodel
 
 import (
 	"fmt"
-
 	"github.com/pkg/errors"
 )
 
@@ -203,4 +202,23 @@ func (types Types) ResolveResourceStatusDefinition(
 
 	// preserve outer spec name
 	return resourceStatusDef.WithName(statusName), nil
+}
+
+// Process applies a func to transform all members of this set of type definitions, returning a new set of type
+// definitions containing the results of the transfomration, or possibly an error
+// Only definitions returned by the func will be included in the results of the function. The func may return a nil
+// TypeDefinition if it doesn't want to include anything in the output set.
+func (types Types) Process(transformation func (definition TypeDefinition) (*TypeDefinition, error)) (Types, error) {
+	result := make(Types)
+
+	for _, def := range types {
+		d, err := transformation(def)
+		if err != nil {
+			return nil, err
+		} else if d != nil {
+			result.Add(*d)
+		}
+	}
+
+	return result, nil
 }
