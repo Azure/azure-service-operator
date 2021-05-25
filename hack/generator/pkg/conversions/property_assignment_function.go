@@ -112,6 +112,10 @@ func (fn *PropertyAssignmentFunction) Name() string {
 	return nameOfPropertyAssignmentFunction(fn.otherDefinition.Name(), fn.direction, fn.idFactory)
 }
 
+func (fn *PropertyAssignmentFunction) HasDirection(d Direction) bool {
+	return fn.direction == d
+}
+
 // RequiredPackageReferences returns the set of package references required by this function
 func (fn *PropertyAssignmentFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	result := astmodel.NewPackageReferenceSet(
