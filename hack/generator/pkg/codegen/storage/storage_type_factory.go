@@ -11,7 +11,7 @@ import (
 	"k8s.io/klog/v2"
 )
 
-// StorageTypeFactory is used to create storage inputTypes for a specific service
+// StorageTypeFactory is used to create storage inputTypes for a specific api group
 type StorageTypeFactory struct {
 	group             string                                                  // Name of the group we're handling (used mostly for logging)
 	inputTypes        astmodel.Types                                          // All the types for this group

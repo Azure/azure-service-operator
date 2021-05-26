@@ -831,7 +831,7 @@ func assignObjectTypeFromObjectType(
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *CodeGenerationContext) []dst.Stmt {
 
 		// We have to do this at render time in order to ensure the first conversion generated
-		// declares 'err`, not a later one
+		// declares 'err', not a later one
 		tok := token.ASSIGN
 		if conversionContext.TryCreateLocal("err") {
 			tok = token.DEFINE

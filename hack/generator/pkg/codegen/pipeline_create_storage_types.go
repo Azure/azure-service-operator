@@ -30,7 +30,7 @@ func createStorageTypes(idFactory astmodel.IdentifierFactory) PipelineStage {
 				if !ok {
 					// Skip definitions from non-local packages
 					// (should never happen)
-					klog.Warningf("Unexpectedly found non-local package reference %q", name.PackageReference)
+					klog.Warningf("Skipping storage type generation for unexpected non-local package reference %q", name.PackageReference)
 					continue
 				}
 
