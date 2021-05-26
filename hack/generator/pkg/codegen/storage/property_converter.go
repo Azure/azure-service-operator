@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
+	"strings"
 )
 
 // PropertyConverter is used to convert the properties of object inputTypes as required for storage variants
@@ -57,7 +58,13 @@ func (p *PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinitio
 		}
 	}
 
-	return nil, fmt.Errorf("failed to find a conversion for property %v", property.PropertyName())
+	// No conversion found
+
+	var typeDescription strings.Builder
+	property.PropertyType().WriteDebugDescription(&typeDescription, p.types)
+
+	return nil, fmt.Errorf(
+		"failed to find a conversion for property %v (%v)", property.PropertyName(), typeDescription.String())
 }
 
 // stripAllValidations removes all validations
