@@ -840,7 +840,7 @@ func assignObjectTypeFromObjectType(
 		localId := dst.NewIdent(copyVar)
 		errLocal := dst.NewIdent("err")
 
-		errorsPackageName := generationContext.MustGetImportedPackageName(ErrorsReference)
+		errorsPackageName := generationContext.MustGetImportedPackageName(GitHubErrorsReference)
 
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 

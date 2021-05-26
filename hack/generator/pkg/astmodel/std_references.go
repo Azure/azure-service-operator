@@ -23,6 +23,7 @@ var (
 	APIMachineryRuntimeReference = MakeExternalPackageReference("k8s.io/apimachinery/pkg/runtime")
 	ClientGoSchemeReference      = MakeExternalPackageReference("k8s.io/client-go/kubernetes/scheme")
 	ControllerRuntimeAdmission   = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/webhook/admission")
+	GitHubErrorsReference        = MakeExternalPackageReference("github.com/pkg/errors")
 
 	// References to libraries used for testing
 	CmpReference        = MakeExternalPackageReference("github.com/google/go-cmp/cmp")

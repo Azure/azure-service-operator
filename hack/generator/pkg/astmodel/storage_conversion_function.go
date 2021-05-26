@@ -118,7 +118,7 @@ func (fn *StorageConversionFunction) Name() string {
 // RequiredPackageReferences returns the set of package references required by this function
 func (fn *StorageConversionFunction) RequiredPackageReferences() *PackageReferenceSet {
 	result := NewPackageReferenceSet(
-		ErrorsReference,
+		GitHubErrorsReference,
 		fn.otherDefinition.Name().PackageReference)
 
 	return result
