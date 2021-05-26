@@ -53,24 +53,27 @@ func NewARMSpecInterfaceImpl(
 	}
 
 	getNameFunc := &objectFunction{
-		name:      "GetName",
-		o:         spec,
-		idFactory: idFactory,
-		asFunc:    getNameFunction,
+		name:             "GetName",
+		o:                spec,
+		idFactory:        idFactory,
+		asFunc:           getNameFunction,
+		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
 	}
 
 	getTypeFunc := &objectFunction{
-		name:      "GetType",
-		o:         spec,
-		idFactory: idFactory,
-		asFunc:    getTypeFunction,
+		name:             "GetType",
+		o:                spec,
+		idFactory:        idFactory,
+		asFunc:           getTypeFunction,
+		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
 	}
 
 	getApiVersionFunc := &objectFunction{
-		name:      "GetApiVersion",
-		o:         spec,
-		idFactory: idFactory,
-		asFunc:    getApiVersionFunction,
+		name:             "GetApiVersion",
+		o:                spec,
+		idFactory:        idFactory,
+		asFunc:           getApiVersionFunction,
+		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
 	}
 
 	result := NewInterfaceImplementation(

@@ -139,6 +139,7 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 
 	// TODO: Make this configurable
 	requiredImports.ApplyName(MetaV1PackageReference, "metav1")
+	requiredImports.ApplyName(APIMachineryErrorsReference, "kerrors")
 
 	// Force local imports to have explicit names based on the service
 	for _, imp := range requiredImports.AsSlice() {
