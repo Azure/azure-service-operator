@@ -915,7 +915,7 @@ func assignKnownReferenceFromKnownReference(
 	}
 
 	// Require source to be a KnownResourceReference
-	if sourceName.Name() != "KnownResourceReference" && sourceName.PackageReference.Equals(GenRuntimeReference) {
+	if sourceName.Name() != "KnownResourceReference" && sourceName.PackageReference.Equals(astmodel.GenRuntimeReference) {
 		return nil
 	}
 
@@ -934,43 +934,43 @@ func assignKnownReferenceFromKnownReference(
 // <destination> = <source>.Copy()
 //
 func assignResourceReferenceFromResourceReference(
-	sourceEndpoint *StorageConversionEndpoint,
-	destinationEndpoint *StorageConversionEndpoint,
-	_ *StorageConversionContext) StorageTypeConversion {
+	sourceEndpoint *PropertyConversionEndpoint,
+	destinationEndpoint *PropertyConversionEndpoint,
+	_ *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
-	if _, sourceIsOptional := AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
+	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
 		return nil
 	}
 
 	// Require destination to be non-optional
-	if _, destinationIsOptional := AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
 		return nil
 	}
 
 	// Require source to be a named type
-	sourceName, sourceIsName := AsTypeName(sourceEndpoint.Type())
+	sourceName, sourceIsName := astmodel.AsTypeName(sourceEndpoint.Type())
 	if !sourceIsName {
 		return nil
 	}
 
 	// Require destination to be a named type
-	destinationName, destinationIsName := AsTypeName(destinationEndpoint.Type())
+	destinationName, destinationIsName := astmodel.AsTypeName(destinationEndpoint.Type())
 	if !destinationIsName {
 		return nil
 	}
 
 	// Require source to be a ResourceReference
-	if sourceName.Name() != "ResourceReference" && sourceName.PackageReference.Equals(GenRuntimeReference) {
+	if sourceName.Name() != "ResourceReference" && sourceName.PackageReference.Equals(astmodel.GenRuntimeReference) {
 		return nil
 	}
 
 	// Require destination to be a ResourceReference
-	if destinationName.Name() != "ResourceReference" && destinationName.PackageReference.Equals(GenRuntimeReference) {
+	if destinationName.Name() != "ResourceReference" && destinationName.PackageReference.Equals(astmodel.GenRuntimeReference) {
 		return nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *CodeGenerationContext) []dst.Stmt {
+	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		return writer(astbuilder.CallExpr(reader, "Copy"))
 	}
 }

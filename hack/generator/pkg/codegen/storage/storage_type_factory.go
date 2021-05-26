@@ -166,12 +166,12 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 	knownTypes.AddTypes(f.outputTypes)
 	conversionContext := conversions.NewStorageConversionContext(knownTypes, f.idFactory)
 
-	convertFromFn, err := conversions.NewStorageConversionFromFunction(def, nextDef, f.idFactory, conversionContext)
+	convertFromFn, err := conversions.NewStorageConversionFromFunction(definition, nextDef, f.idFactory, conversionContext)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating ConvertFrom() function for %q", name)
 	}
 
-	convertToFn, err := conversions.NewStorageConversionToFunction(def, nextDef, f.idFactory, conversionContext)
+	convertToFn, err := conversions.NewStorageConversionToFunction(definition, nextDef, f.idFactory, conversionContext)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating ConvertTo() function for %q", name)
 	}
