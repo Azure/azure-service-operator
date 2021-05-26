@@ -13,7 +13,7 @@ import (
 //
 // <funcName>(<arguments>...)
 //
-func CallFunc(funcName string, arguments ...dst.Expr) dst.Expr {
+func CallFunc(funcName string, arguments ...dst.Expr) *dst.CallExpr {
 	return &dst.CallExpr{
 		Fun:  dst.NewIdent(funcName),
 		Args: cloneExprSlice(arguments),
@@ -25,7 +25,7 @@ func CallFunc(funcName string, arguments ...dst.Expr) dst.Expr {
 //
 // <qualifier>.<funcName>(arguments...)
 //
-func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr) dst.Expr {
+func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr) *dst.CallExpr {
 	return &dst.CallExpr{
 		Fun: &dst.SelectorExpr{
 			X:   dst.NewIdent(qualifier),

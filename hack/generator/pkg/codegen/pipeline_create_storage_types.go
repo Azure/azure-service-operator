@@ -130,8 +130,8 @@ func (factory *StorageTypeFactory) convertResources(
 	resource *astmodel.ResourceType,
 	ctx interface{}) (astmodel.Type, error) {
 
-	// storage resource types do not need defaulter interface, they have no webhooks
-	return resource.WithoutInterface(astmodel.DefaulterInterfaceName), nil
+	// storage resource types do not need defaulter/validator interface, they have no webhooks
+	return resource.WithoutInterface(astmodel.DefaulterInterfaceName).WithoutInterface(astmodel.ValidatorInterfaceName), nil
 }
 
 func (factory *StorageTypeFactory) convertObjects(
