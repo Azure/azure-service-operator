@@ -208,7 +208,7 @@ func (types Types) ResolveResourceStatusDefinition(
 // definitions containing the results of the transfomration, or possibly an error
 // Only definitions returned by the func will be included in the results of the function. The func may return a nil
 // TypeDefinition if it doesn't want to include anything in the output set.
-func (types Types) Process(transformation func (definition TypeDefinition) (*TypeDefinition, error)) (Types, error) {
+func (types Types) Process(transformation func(definition TypeDefinition) (*TypeDefinition, error)) (Types, error) {
 	result := make(Types)
 
 	for _, def := range types {

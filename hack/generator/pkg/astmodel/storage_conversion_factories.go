@@ -964,7 +964,7 @@ func assignResourceReferenceFromResourceReference(
 	}
 
 	// Require destination to be a ResourceReference
-	if destinationName.Name() != "ResourceReference" && destinationName.PackageReference.Equals(GenRuntimeReference){
+	if destinationName.Name() != "ResourceReference" && destinationName.PackageReference.Equals(GenRuntimeReference) {
 		return nil
 	}
 
@@ -972,7 +972,6 @@ func assignResourceReferenceFromResourceReference(
 		return writer(astbuilder.CallExpr(reader, "Copy"))
 	}
 }
-
 
 func createTypeDeclaration(name TypeName, generationContext *CodeGenerationContext) dst.Expr {
 	if name.PackageReference.Equals(generationContext.CurrentPackage()) {

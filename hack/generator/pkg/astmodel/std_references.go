@@ -13,7 +13,7 @@ var (
 	TestingReference = MakeExternalPackageReference("testing")
 
 	// References to our Libraries
-	GenRuntimeReference  = MakeExternalPackageReference(genRuntimePathPrefix)
+	GenRuntimeReference = MakeExternalPackageReference(genRuntimePathPrefix)
 
 	// References to other libraries
 	ErrorsReference            = MakeExternalPackageReference("github.com/pkg/errors")
