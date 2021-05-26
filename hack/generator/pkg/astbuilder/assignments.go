@@ -42,3 +42,26 @@ func SimpleAssignmentWithErr(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.A
 		},
 	}
 }
+
+// AssignToInterface performs an assignment of a well-typed variable to an interface{}. This is usually used to
+// perform a type assertion on a concrete type in a subsequent statement (which Go doesn't allow, it only allows type
+// assertions on interface types).
+//	var <lhsVar> interface{} = <rhs>
+func AssignToInterface(lhsVar string, rhs dst.Expr) *dst.DeclStmt {
+	return &dst.DeclStmt{
+		Decl: &dst.GenDecl{
+			Tok: token.VAR,
+			Specs: []dst.Spec{
+				&dst.ValueSpec{
+					Names: []*dst.Ident{
+						dst.NewIdent(lhsVar),
+					},
+					Type: dst.NewIdent("interface{}"),
+					Values: []dst.Expr{
+						dst.Clone(rhs).(dst.Expr),
+					},
+				},
+			},
+		},
+	}
+}
