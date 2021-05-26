@@ -48,8 +48,8 @@ type StoragePropertyConversion func(
 // Ensure that PropertyAssignmentFunction implements Function
 var _ astmodel.Function = &PropertyAssignmentFunction{}
 
-// NewStorageConversionFromFunction creates a new PropertyAssignmentFunction to convert from the specified source
-func NewStorageConversionFromFunction(
+// NewPropertyAssignmentFromFunction creates a new PropertyAssignmentFunction to convert from the specified source
+func NewPropertyAssignmentFromFunction(
 	receiver astmodel.TypeDefinition,
 	otherDefinition astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
@@ -75,8 +75,8 @@ func NewStorageConversionFromFunction(
 	return result, nil
 }
 
-// NewStorageConversionToFunction creates a new PropertyAssignmentFunction to convert to the specified destination
-func NewStorageConversionToFunction(
+// NewPropertyAssignmentToFunction creates a new PropertyAssignmentFunction to convert to the specified destination
+func NewPropertyAssignmentToFunction(
 	receiver astmodel.TypeDefinition,
 	otherDefinition astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
