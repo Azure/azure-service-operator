@@ -72,8 +72,8 @@ func (o ObjectSerializationTestCase) AsFuncs(name TypeName, genContext *CodeGene
 
 	// Temporarily remove properties related to support for Arbitrary JSON
 	// TODO: Add generators for these properties
-	o.removeByPackage(properties, ApiExtensionsReference)
-	o.removeByPackage(properties, ApiExtensionsJsonReference)
+	o.removeByPackage(properties, APIExtensionsReference)
+	o.removeByPackage(properties, APIExtensionsJSONReference)
 
 	// Write errors for any properties we don't handle
 	for _, p := range properties {

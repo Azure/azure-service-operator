@@ -8,11 +8,11 @@ package astmodel
 import (
 	"fmt"
 	"go/token"
-	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // These are some magical field names which we're going to use or generate
@@ -58,17 +58,19 @@ func AddKubernetesResourceInterfaceImpls(
 	}
 
 	getAzureNameProperty := &objectFunction{
-		name:      AzureNameProperty,
-		o:         spec,
-		idFactory: idFactory,
-		asFunc:    getNameFunction,
+		name:             AzureNameProperty,
+		o:                spec,
+		idFactory:        idFactory,
+		asFunc:           getNameFunction,
+		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
 	}
 
 	getOwnerProperty := &objectFunction{
-		name:      OwnerProperty,
-		o:         spec,
-		idFactory: idFactory,
-		asFunc:    ownerFunction,
+		name:             OwnerProperty,
+		o:                spec,
+		idFactory:        idFactory,
+		asFunc:           ownerFunction,
+		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
 	}
 
 	r = r.WithInterface(NewInterfaceImplementation(
@@ -90,66 +92,31 @@ func AddKubernetesResourceInterfaceImpls(
 
 		r = r.WithSpec(specObj.WithFunction(
 			&objectFunction{
-				name:      SetAzureNameFunc,
-				o:         specObj,
-				idFactory: idFactory,
-				asFunc:    setNameFunction,
+				name:             SetAzureNameFunc,
+				o:                specObj,
+				idFactory:        idFactory,
+				asFunc:           setNameFunction,
+				requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
 			}))
 	}
 
+	// Add defaults
+	defaulterBuilder := NewDefaulterBuilder(resourceName, r, idFactory)
 	if setNameFunction != nil {
-		// we also need to generate a Defaulter implementation to default AzureName
-		r = r.WithInterface(generateDefaulter(resourceName, spec, idFactory))
+		defaulterBuilder.AddDefault(NewDefaultAzureNameFunction(r, idFactory))
 	}
+	r = r.WithInterface(defaulterBuilder.ToInterfaceImplementation())
+
+	// Add validations
+	validatorBuilder := NewValidatorBuilder(resourceName, r, idFactory)
+	r = r.WithInterface(validatorBuilder.ToInterfaceImplementation())
 
 	return r, nil
 }
 
-var admissionPackageReference PackageReference = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/webhook/admission")
-var DefaulterInterfaceName = MakeTypeName(admissionPackageReference, "Defaulter")
-
-func generateDefaulter(resourceName TypeName, spec *ObjectType, idFactory IdentifierFactory) *InterfaceImplementation {
-	lpr, _ := resourceName.PackageReference.AsLocalPackage()
-
-	group := lpr.group              // e.g. "microsoft.network.infra.azure.com"
-	resource := resourceName.Name() // e.g. "backendaddresspools"
-	version := lpr.version          // e.g. "v1"
-
-	group = strings.ToLower(group + GroupSuffix)
-	nonPluralResource := strings.ToLower(resource)
-	resource = strings.ToLower(resourceName.Plural().Name())
-
-	// e.g. "mutate-microsoft-network-infra-azure-com-v1-backendaddresspool"
-	// note that this must match _exactly_ how controller-runtime generates the path
-	// or it will not work!
-	path := fmt.Sprintf("/mutate-%s-%s-%s", strings.ReplaceAll(group, ".", "-"), version, nonPluralResource)
-
-	// e.g.  "default.v123.backendaddresspool.infra.azure.com"
-	name := fmt.Sprintf("default.%s.%s.%s", version, resource, group)
-
-	annotation := fmt.Sprintf(
-		"+kubebuilder:webhook:path=%s,mutating=true,sideEffects=None,"+
-			"matchPolicy=Exact,failurePolicy=fail,groups=%s,resources=%s,"+
-			"verbs=create;update,versions=%s,name=%s,admissionReviewVersions=v1beta1", // admission review version v1 is not yet supported by controller-runtime
-		path,
-		group,
-		resource,
-		version,
-		name)
-
-	return NewInterfaceImplementation(
-		DefaulterInterfaceName,
-		&objectFunction{
-			name:      "Default",
-			o:         spec,
-			idFactory: idFactory,
-			asFunc:    defaultAzureNameFunction,
-		}).WithAnnotation(annotation)
-}
-
 // note that this can, as a side-effect, update the resource type
 // it is a bit ugly!
-func getAzureNameFunctionsForType(r **ResourceType, spec *ObjectType, t Type, types Types) (asFuncType, asFuncType, error) {
+func getAzureNameFunctionsForType(r **ResourceType, spec *ObjectType, t Type, types Types) (objectFunctionHandler, objectFunctionHandler, error) {
 	// handle different types of AzureName property
 	switch azureNamePropType := t.(type) {
 	case *ValidatedType:
@@ -213,20 +180,9 @@ func getAzureNameFunctionsForType(r **ResourceType, spec *ObjectType, t Type, ty
 	}
 }
 
-// objectFunction is a simple helper that implements the Function interface. It is intended for use for functions
-// that only need information about the object they are operating on
-type objectFunction struct {
-	name      string
-	o         *ObjectType
-	idFactory IdentifierFactory
-	asFunc    asFuncType
-}
-
-type asFuncType func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl
-
 // getEnumAzureNameFunction adds an AzureName() function that casts the AzureName property
 // with an enum value to a string
-func getEnumAzureNameFunction(enumType TypeName) asFuncType {
+func getEnumAzureNameFunction(enumType TypeName) objectFunctionHandler {
 	return func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
 		receiverIdent := f.idFactory.CreateIdentifier(receiver.Name(), NotExported)
 		receiverType := receiver.AsType(codeGenerationContext)
@@ -269,7 +225,7 @@ func getEnumAzureNameFunction(enumType TypeName) asFuncType {
 
 // setEnumAzureNameFunction returns a function that sets the AzureName property to the result of casting
 // the argument string to the given enum type
-func setEnumAzureNameFunction(enumType TypeName) asFuncType {
+func setEnumAzureNameFunction(enumType TypeName) objectFunctionHandler {
 	return func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
 		receiverIdent := f.idFactory.CreateIdentifier(receiver.Name(), NotExported)
 		receiverType := receiver.AsType(codeGenerationContext)
@@ -305,7 +261,7 @@ func setEnumAzureNameFunction(enumType TypeName) asFuncType {
 }
 
 // fixedValueGetAzureNameFunction adds an AzureName() function that returns a fixed value
-func fixedValueGetAzureNameFunction(fixedValue string) asFuncType {
+func fixedValueGetAzureNameFunction(fixedValue string) objectFunctionHandler {
 
 	// ensure fixedValue is quoted. This is always the case with enum values we pass,
 	// but let's be safe:
@@ -346,36 +302,6 @@ func fixedValueGetAzureNameFunction(fixedValue string) asFuncType {
 		fn.AddReturns("string")
 		return fn.DefineFunc()
 	}
-}
-
-var _ Function = &objectFunction{}
-
-// Name returns the unique name of this function
-// (You can't have two functions with the same name on the same object or resource)
-func (k *objectFunction) Name() string {
-	return k.name
-}
-
-func (k *objectFunction) RequiredPackageReferences() *PackageReferenceSet {
-	// We only require GenRuntime
-	return NewPackageReferenceSet(GenRuntimeReference)
-}
-
-func (k *objectFunction) References() TypeNameSet {
-	return k.o.References()
-}
-
-func (k *objectFunction) AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName) *dst.FuncDecl {
-	return k.asFunc(k, codeGenerationContext, receiver, k.name)
-}
-
-func (k *objectFunction) Equals(f Function) bool {
-	typedF, ok := f.(*objectFunction)
-	if !ok {
-		return false
-	}
-
-	return k.o.Equals(typedF.o)
 }
 
 // IsKubernetesResourceProperty returns true if the supplied property name is one of our "magical" names
@@ -500,53 +426,6 @@ func createResourceReference(
 				},
 			},
 		})
-}
-
-// defaultAzureNameFunction returns a function that defaults the AzureName property of the resource spec
-// to the Name property of the resource spec
-func defaultAzureNameFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
-	receiverType := receiver.AsType(codeGenerationContext)
-
-	specSelector := &dst.SelectorExpr{
-		X:   dst.NewIdent(receiverIdent),
-		Sel: dst.NewIdent("Spec"),
-	}
-
-	azureNameProp := &dst.SelectorExpr{
-		X:   specSelector,
-		Sel: dst.NewIdent(AzureNameProperty),
-	}
-
-	nameProp := &dst.SelectorExpr{
-		X:   dst.NewIdent(receiverIdent),
-		Sel: dst.NewIdent("Name"), // this comes from ObjectMeta
-	}
-
-	fn := &astbuilder.FuncDetails{
-		Name:          methodName,
-		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
-		Body: []dst.Stmt{
-			&dst.IfStmt{
-				Cond: &dst.BinaryExpr{
-					X:  dst.Clone(azureNameProp).(dst.Expr),
-					Op: token.EQL,
-					Y:  &dst.BasicLit{Kind: token.STRING, Value: "\"\""},
-				},
-				Body: astbuilder.StatementBlock(
-					astbuilder.SimpleAssignment(
-						azureNameProp,
-						token.ASSIGN,
-						nameProp)),
-			},
-		},
-	}
-
-	fn.AddComments("defaults the Azure name of the resource to the Kubernetes name")
-	return fn.DefineFunc()
 }
 
 // setStringAzureNameFunction returns a function that sets the Name property of

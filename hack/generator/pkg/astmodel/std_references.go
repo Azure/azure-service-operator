@@ -7,6 +7,7 @@ package astmodel
 
 var (
 	// References to standard Go Libraries
+	ErrorsReference  = MakeExternalPackageReference("errors")
 	FmtReference     = MakeExternalPackageReference("fmt")
 	JsonReference    = MakeExternalPackageReference("encoding/json")
 	ReflectReference = MakeExternalPackageReference("reflect")
@@ -16,9 +17,12 @@ var (
 	GenRuntimeReference = MakeExternalPackageReference(genRuntimePathPrefix)
 
 	// References to other libraries
-	ErrorsReference            = MakeExternalPackageReference("github.com/pkg/errors")
-	ApiExtensionsReference     = MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1")
-	ApiExtensionsJsonReference = MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1/JSON")
+	APIExtensionsReference       = MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1")
+	APIExtensionsJSONReference   = MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1/JSON")
+	APIMachineryErrorsReference  = MakeExternalPackageReference("k8s.io/apimachinery/pkg/util/errors")
+	APIMachineryRuntimeReference = MakeExternalPackageReference("k8s.io/apimachinery/pkg/runtime")
+	ClientGoSchemeReference      = MakeExternalPackageReference("k8s.io/client-go/kubernetes/scheme")
+	ControllerRuntimeAdmission   = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/webhook/admission")
 
 	// References to libraries used for testing
 	CmpReference        = MakeExternalPackageReference("github.com/google/go-cmp/cmp")

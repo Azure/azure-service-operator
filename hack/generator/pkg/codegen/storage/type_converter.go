@@ -63,8 +63,9 @@ func (t *TypeConverter) convertResourceType(
 	resource *astmodel.ResourceType,
 	ctx interface{}) (astmodel.Type, error) {
 
-	// storage resource types do not need defaulter interface, they have no webhooks
-	modifiedResource := resource.WithoutInterface(astmodel.DefaulterInterfaceName)
+	// storage resource types do not need defaulter/validator interfaces, they have no webhooks
+	modifiedResource := resource.WithoutInterface(astmodel.DefaulterInterfaceName).
+		WithoutInterface(astmodel.ValidatorInterfaceName)
 
 	return astmodel.IdentityVisitOfResourceType(tv, modifiedResource, ctx)
 }
