@@ -96,7 +96,7 @@ func (t *TypeConverter) convertObjectType(
 // redirectTypeNamesToStoragePackage modifies TypeNames to reference the current storage package
 func (t *TypeConverter) redirectTypeNamesToStoragePackage(
 	_ *astmodel.TypeVisitor, name astmodel.TypeName, _ interface{}) (astmodel.Type, error) {
-	if result, ok := t.tryConvertToStorageNamespace(name); ok {
+	if result, ok := t.tryConvertToStoragePackage(name); ok {
 		return result, nil
 	}
 
@@ -124,8 +124,8 @@ func (t *TypeConverter) stripAllFlags(
 	return astmodel.IdentityVisitOfFlaggedType(tv, flaggedType, ctx)
 }
 
-func (_ *TypeConverter) tryConvertToStorageNamespace(name astmodel.TypeName) (astmodel.TypeName, bool) {
-	// Map the type name into our storage namespace
+func (_ *TypeConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astmodel.TypeName, bool) {
+	// Map the type name into our storage package
 	localRef, ok := name.PackageReference.AsLocalPackage()
 	if !ok {
 		return astmodel.TypeName{}, false
