@@ -79,7 +79,8 @@ func (fn *HubConversionFunction) Name() string {
 
 func (fn *HubConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	result := astmodel.NewPackageReferenceSet(
-		astmodel.ErrorsReference,
+		astmodel.GitHubErrorsReference,
+		astmodel.ControllerRuntimeConversion,
 		fn.hub.PackageReference)
 
 	if fn.intermediateType != nil {
@@ -115,12 +116,15 @@ func (fn *HubConversionFunction) AsFunc(
 		Name:          fn.Name(),
 	}
 
+	var parameterName string
 	switch fn.direction {
 	case ConvertFrom:
+		parameterName = "source"
 		funcDetails.AddComments(
 			fmt.Sprintf("populates our %s from the provided hub %s", receiver.Name(), fn.hub.Name()))
 		funcDetails.Body = fn.generateBodyForConvertFrom(receiverName, codeGenerationContext)
 	case ConvertTo:
+		parameterName = "destination"
 		funcDetails.AddComments(
 			fmt.Sprintf("populates the provided hub %s from our %s", fn.hub.Name(), receiver.Name()))
 		funcDetails.Body = fn.generateBodyForConvertTo(receiverName, codeGenerationContext)
@@ -128,13 +132,11 @@ func (fn *HubConversionFunction) AsFunc(
 		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
 	}
 
-	hubPackage := codeGenerationContext.MustGetImportedPackageName(fn.hub.PackageReference)
+	conversionPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeConversion)
 
 	funcDetails.AddParameter(
-		"hub",
-		&dst.StarExpr{
-			X: astbuilder.Selector(dst.NewIdent(hubPackage), fn.hub.Name()),
-		})
+		parameterName,
+		astbuilder.QualifiedTypeName(conversionPackage, "Hub"))
 
 	funcDetails.AddReturns("error")
 
