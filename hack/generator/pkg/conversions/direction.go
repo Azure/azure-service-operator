@@ -14,4 +14,3 @@ const (
 	// ConvertTo indicates the conversion is to the passed 'other', populating the other with properties from the receiver
 	ConvertTo = Direction(2)
 )
-

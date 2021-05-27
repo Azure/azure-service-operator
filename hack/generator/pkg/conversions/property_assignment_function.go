@@ -14,8 +14,8 @@ import (
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // PropertyAssignmentFunction represents a function that assigns all the properties from one resource or object to
