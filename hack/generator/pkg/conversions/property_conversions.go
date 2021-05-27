@@ -6,13 +6,14 @@
 package conversions
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"go/token"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // PropertyConversion generates the AST for a given property conversion.

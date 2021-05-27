@@ -7,14 +7,15 @@ package conversions
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"go/token"
 	"sort"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // PropertyAssignmentFunction represents a function that assigns all the properties from one resource or object to

@@ -7,10 +7,11 @@ package conversions
 
 import (
 	"bytes"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"testing"
 
 	"github.com/sebdah/goldie/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 
 	. "github.com/onsi/gomega"
 )

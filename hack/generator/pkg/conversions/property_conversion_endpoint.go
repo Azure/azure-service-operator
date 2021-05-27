@@ -6,8 +6,9 @@
 package conversions
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/gobuffalo/flect"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // PropertyConversionEndpoint represents either a source or a destination target for a storage conversion
