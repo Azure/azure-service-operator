@@ -27,12 +27,11 @@ func NewStorageConversionContext(types astmodel.Types, idFactory astmodel.Identi
 	}
 }
 
-//TODO: Remove this?
+// FunctionName returns the name of this function, as it will be shown in the generated source
 func (c *PropertyConversionContext) FunctionName() string {
 	return c.functionName
 }
 
-//TODO: Remove this?
 // Types returns the set of types available in this context
 func (c *PropertyConversionContext) Types() astmodel.Types {
 	return c.types
