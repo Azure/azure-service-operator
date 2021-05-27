@@ -280,6 +280,11 @@ func (f *StorageTypeFactory) injectConversionsBetween(
 		return nil, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
+	// Work out the name of our hub type
+	// TODO: Make this work when types are renamed
+	// TODO: Make this work when types are discontinued
+	hub := astmodel.MakeTypeName(f.hubPackage, name.Name())
+    
 	assignToFn, err := conversions.NewPropertyAssignmentToFunction(upstreamDef, downstreamDef, f.idFactory, conversionContext)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)

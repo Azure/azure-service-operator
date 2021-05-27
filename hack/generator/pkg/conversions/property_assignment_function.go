@@ -57,7 +57,7 @@ func NewPropertyAssignmentFromFunction(
 	conversionContext *PropertyConversionContext,
 ) (*PropertyAssignmentFunction, error) {
 	result := &PropertyAssignmentFunction{
-		name:                nameOfPropertyAssignmentFunction(otherDefinition.Name(), ConvertFrom, idFactory),
+		name:            nameOfPropertyAssignmentFunction(otherDefinition.Name(), ConvertFrom, idFactory),
 		otherDefinition: otherDefinition,
 		idFactory:       idFactory,
 		direction:       ConvertFrom,
@@ -87,7 +87,7 @@ func NewPropertyAssignmentToFunction(
 	conversionContext *PropertyConversionContext,
 ) (*PropertyAssignmentFunction, error) {
 	result := &PropertyAssignmentFunction{
-		name:                nameOfPropertyAssignmentFunction(otherDefinition.Name(), ConvertTo, idFactory),
+		name:            nameOfPropertyAssignmentFunction(otherDefinition.Name(), ConvertTo, idFactory),
 		otherDefinition: otherDefinition,
 		idFactory:       idFactory,
 		direction:       ConvertTo,
@@ -112,6 +112,11 @@ func NewPropertyAssignmentToFunction(
 // Name returns the name of this function
 func (fn *PropertyAssignmentFunction) Name() string {
 	return nameOfPropertyAssignmentFunction(fn.otherDefinition.Name(), fn.direction, fn.idFactory)
+}
+
+// OtherType() returns the other type involved in the property assignments
+func (fn *PropertyAssignmentFunction) OtherType() astmodel.TypeName {
+	return fn.otherDefinition.Name()
 }
 
 func (fn *PropertyAssignmentFunction) HasDirection(d Direction) bool {
