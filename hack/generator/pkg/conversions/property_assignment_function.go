@@ -108,6 +108,11 @@ func (fn *PropertyAssignmentFunction) Name() string {
 	return fn.name
 }
 
+// OtherType() returns the other type involved in the property assignments
+func (fn *PropertyAssignmentFunction) OtherType() astmodel.TypeName {
+	return fn.otherDefinition.Name()
+}
+
 func (fn *PropertyAssignmentFunction) HasDirection(d Direction) bool {
 	return fn.direction == d
 }

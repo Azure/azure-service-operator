@@ -2,6 +2,7 @@ package conversions
 
 import (
 	"fmt"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/dave/dst"
 )
@@ -20,45 +21,52 @@ type HubConversionFunction struct {
 	// intermediateType is the TypeName of an intermediate type we use as part of a multiple step conversion
 	// If nil, we are able to convert directly to/from the hub type
 	intermediateType *astmodel.TypeName
+	// idFactory is a reference to an identifier factory used for creating Go identifiers
+	idFactory astmodel.IdentifierFactory
 }
 
 // Ensure we properly implement the function interface
 var _ astmodel.Function = &HubConversionFunction{}
 
-// CreateConversionToHubFunction creates a conversion function that populates our hub type from the current instance
-func CreateConversionToHubFunction(hub astmodel.TypeDefinition, idFactory astmodel.IdentifierFactory) *HubConversionFunction {
-	name := "ConvertTo" + idFactory.CreateIdentifier(hub.Name().Name(), astmodel.Exported)
-	propertyFunction := mustFindPropertyAssignmentFunction(hub, ConvertTo)
+// NewConversionToHubFunction creates a conversion function that populates our hub type from the current instance
+func NewConversionToHubFunction(
+	hub astmodel.TypeName,
+	intermediateType astmodel.TypeName,
+	propertyFunctionName string,
+	idFactory astmodel.IdentifierFactory) *HubConversionFunction {
+	name := "ConvertTo" + idFactory.CreateIdentifier(hub.Name(), astmodel.Exported)
 
 	result := &HubConversionFunction{
 		name:                 name,
-		hub:                  hub.Name(),
+		hub:                  hub,
 		direction:            ConvertTo,
-		propertyFunctionName: propertyFunction.Name(),
+		propertyFunctionName: propertyFunctionName,
+		idFactory:            idFactory,
 	}
 
-	if !hub.Equals(propertyFunction.otherDefinition) {
-		intermediateType := propertyFunction.otherDefinition.Name()
+	if !hub.Equals(intermediateType) {
 		result.intermediateType = &intermediateType
 	}
 
 	return result
 }
 
-// CreateConversionFromHubFunction creates a conversion function that populates the current instance from our hub type
-func CreateConversionFromHubFunction(hub astmodel.TypeDefinition, idFactory astmodel.IdentifierFactory) *HubConversionFunction {
-	name := "ConvertFrom" + idFactory.CreateIdentifier(hub.Name().Name(), astmodel.Exported)
-	propertyFunction := mustFindPropertyAssignmentFunction(hub, ConvertFrom)
-
+// NewConversionFromHubFunction creates a conversion function that populates the current instance from our hub type
+func NewConversionFromHubFunction(
+	hub astmodel.TypeName,
+	intermediateType astmodel.TypeName,
+	propertyFunctionName string,
+	idFactory astmodel.IdentifierFactory) *HubConversionFunction {
+	name := "ConvertFrom" + idFactory.CreateIdentifier(hub.Name(), astmodel.Exported)
 	result := &HubConversionFunction{
-		name:          name,
-		hub: hub.Name(),
-		direction:     ConvertFrom,
-		propertyFunctionName: propertyFunction.Name(),
+		name:                 name,
+		hub:                  hub,
+		direction:            ConvertFrom,
+		propertyFunctionName: propertyFunctionName,
+		idFactory:            idFactory,
 	}
 
-	if !hub.Equals(propertyFunction.otherDefinition) {
-		intermediateType := propertyFunction.otherDefinition.Name()
+	if !hub.Equals(intermediateType) {
 		result.intermediateType = &intermediateType
 	}
 
@@ -70,15 +78,120 @@ func (fn *HubConversionFunction) Name() string {
 }
 
 func (fn *HubConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
-	panic("implement me")
+	result := astmodel.NewPackageReferenceSet(
+		astmodel.ErrorsReference,
+		fn.hub.PackageReference)
+
+	if fn.intermediateType != nil {
+		result.AddReference(fn.intermediateType.PackageReference)
+	}
+
+	return result
+
 }
 
 func (fn *HubConversionFunction) References() astmodel.TypeNameSet {
-	panic("implement me")
+	result := astmodel.NewTypeNameSet(fn.hub)
+
+	if fn.intermediateType != nil {
+		result.Add(*fn.intermediateType)
+	}
+
+	return result
 }
 
-func (fn *HubConversionFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-	panic("implement me")
+func (fn *HubConversionFunction) AsFunc(
+	codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+
+	// Create a sensible name for our receiver
+	receiverName := fn.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)
+
+	// We always use a pointer receiver so we can modify it
+	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
+
+	funcDetails := &astbuilder.FuncDetails{
+		ReceiverIdent: receiverName,
+		ReceiverType:  receiverType,
+		Name:          fn.Name(),
+	}
+
+	switch fn.direction {
+	case ConvertFrom:
+		funcDetails.AddComments(
+			fmt.Sprintf("populates our %s from the provided hub %s", receiver.Name(), fn.hub.Name()))
+		funcDetails.Body = fn.generateBodyForConvertFrom(receiverName, codeGenerationContext)
+	case ConvertTo:
+		funcDetails.AddComments(
+			fmt.Sprintf("populates the provided hub %s from our %s", fn.hub.Name(), receiver.Name()))
+		funcDetails.Body = fn.generateBodyForConvertTo(receiverName, codeGenerationContext)
+	default:
+		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
+	}
+
+	hubPackage := codeGenerationContext.MustGetImportedPackageName(fn.hub.PackageReference)
+
+	funcDetails.AddParameter(
+		"hub",
+		&dst.StarExpr{
+			X: astbuilder.Selector(dst.NewIdent(hubPackage), fn.hub.Name()),
+		})
+
+	funcDetails.AddReturns("error")
+
+	return funcDetails.DefineFunc()
+}
+
+// generateBodyForConvertFrom returns all of the statements required for the conversion function
+// receiver is an expression for access our receiver type, used to qualify field access
+// parameter is an expression for access to our parameter passed to the function, also used for field access
+// generationContext is our code generation context, passed to allow resolving of identifiers in other packages
+func (fn *HubConversionFunction) generateBodyForConvertFrom(
+	receiver string,
+	_ *astmodel.CodeGenerationContext,
+) []dst.Stmt {
+
+	propertySource := dst.NewIdent("hub")
+
+	copyProperties := astbuilder.LocalVariableDeclaration(
+		"err",
+		astbuilder.CallExpr(dst.NewIdent(receiver), fn.propertyFunctionName, propertySource),
+		"read properties from the hub type")
+
+	handleError := astbuilder.CheckErrorAndReturn()
+
+	returnNil := astbuilder.Returns(dst.NewIdent("nil"))
+
+	return []dst.Stmt{
+		copyProperties,
+		handleError,
+		returnNil,
+	}
+}
+
+// generateBodyForConvertTo returns all of the statements required for the conversion function
+// receiver is an expression for access our receiver type, used to qualify field access
+// parameter is an expression for access to our parameter passed to the function, also used for field access
+// generationContext is our code generation context, passed to allow resolving of identifiers in other packages
+func (fn *HubConversionFunction) generateBodyForConvertTo(
+	receiver string,
+	_ *astmodel.CodeGenerationContext,
+) []dst.Stmt {
+	propertySource := dst.NewIdent("hub")
+
+	copyProperties := astbuilder.LocalVariableDeclaration(
+		"err",
+		astbuilder.CallExpr(dst.NewIdent(receiver), fn.propertyFunctionName, propertySource),
+		"read properties from the hub type")
+
+	handleError := astbuilder.CheckErrorAndReturn()
+
+	returnNil := astbuilder.Returns(dst.NewIdent("nil"))
+
+	return []dst.Stmt{
+		copyProperties,
+		handleError,
+		returnNil,
+	}
 }
 
 func (fn *HubConversionFunction) Equals(otherFn astmodel.Function) bool {
@@ -87,36 +200,17 @@ func (fn *HubConversionFunction) Equals(otherFn astmodel.Function) bool {
 		return false
 	}
 
-	//
-	return fn.name == hcf.name &&
-		fn.direction == hcf.direction &&
-		fn.hub.Equals(hcf.hub)
-}
+	if fn.intermediateType != hcf.intermediateType {
+		if fn.intermediateType == nil || hcf.intermediateType == nil {
+			return false
+		}
 
-// mustFindPropertyAssignmentFunction searches for a property assignment function on the supplied TypeDefinition and returns
-// it, if found, or nil otherwise
-func mustFindPropertyAssignmentFunction(
-	other astmodel.TypeDefinition,
-	direction Direction) *PropertyAssignmentFunction {
-	var functionContainer astmodel.FunctionContainer
-	if resource, ok := astmodel.AsResourceType(other.Type()); ok {
-		functionContainer = resource
-	} else if objectType, ok := astmodel.AsObjectType(other.Type()); ok {
-		functionContainer = objectType
-	}
-
-	if functionContainer != nil {
-		for _, f := range functionContainer.Functions() {
-			propertyFn, ok := f.(*PropertyAssignmentFunction)
-			if !ok {
-				continue
-			}
-
-			if propertyFn.HasDirection(direction) {
-				return propertyFn
-			}
+		if !fn.intermediateType.Equals(hcf.intermediateType) {
+			return false
 		}
 	}
 
-	panic(fmt.Sprintf("Failed to find a PropertyAssignmentFunction on %q", other.Name()))
+	return fn.name == hcf.name &&
+		fn.direction == hcf.direction &&
+		fn.hub.Equals(hcf.hub)
 }

@@ -34,6 +34,7 @@ func NewStorageTypeFactory(group string, idFactory astmodel.IdentifierFactory) *
 	result := &StorageTypeFactory{
 		group:             group,
 		inputTypes:        types,
+		outputTypes:       make(astmodel.Types),
 		idFactory:         idFactory,
 		conversionMap:     make(map[astmodel.PackageReference]astmodel.PackageReference),
 		functionInjector:  NewFunctionInjector(),
@@ -224,28 +225,30 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 
 	// Create conversion functions
 	knownTypes := make(astmodel.Types)
-	knownTypes.AddTypes(f.inputTypes)
+	knownTypes.AddTypes(f.inputTypes.Except(f.outputTypes))
 	knownTypes.AddTypes(f.outputTypes)
 	conversionFromContext := conversions.NewStorageConversionContext(knownTypes, conversions.ConvertFrom, f.idFactory)
 
-	convertFromFn, err := conversions.NewPropertyAssignmentFromFunction(definition, nextDef, f.idFactory, conversionFromContext)
+	assignFromFn, err := conversions.NewPropertyAssignmentFromFunction(definition, nextDef, f.idFactory, conversionContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating ConvertFrom() function for %q", name)
+		return nil, errors.Wrapf(err, "creating PropertyAssignmentFrom() function for %q", name)
 	}
 
-	conversionToContext := conversions.NewStorageConversionContext(knownTypes, conversions.ConvertTo, f.idFactory)
+	// Work out the name of our hub type
+	// TODO: Make this work when types are renamed
+	// TODO: Make this work when types are discontinued
+	hub := astmodel.MakeTypeName(f.hubPackage, name.Name())
 
-	convertToFn, err := conversions.NewPropertyAssignmentToFunction(definition, nextDef, f.idFactory, conversionToContext)
+	convertFromFn := conversions.NewConversionFromHubFunction(hub, assignFromFn.OtherType(), assignFromFn.Name(), f.idFactory)
+
+	assignToFn, err := conversions.NewPropertyAssignmentToFunction(definition, nextDef, f.idFactory, conversionContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating ConvertTo() function for %q", name)
+		return nil, errors.Wrapf(err, "creating PropertyAssignmentTo() function for %q", name)
 	}
 
-	updatedDefinition, err := f.functionInjector.Inject(definition, convertFromFn)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to inject ConvertFrom function into %q", name)
-	}
+	convertToFn := conversions.NewConversionToHubFunction(hub, assignToFn.OtherType(), assignToFn.Name(), f.idFactory)
 
-	updatedDefinition, err = f.functionInjector.Inject(updatedDefinition, convertToFn)
+	updatedDefinition, err := f.functionInjector.Inject(definition, assignFromFn, assignToFn, convertFromFn, convertToFn)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to inject ConvertFrom function into %q", name)
 	}
