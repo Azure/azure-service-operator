@@ -633,6 +633,7 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 func (r *AzureDeploymentReconciler) constructArmResource(ctx context.Context) (genruntime.ARMResource, error) {
 	// TODO: Do we pass in details about this objects hierarchy, or what
 	deployableSpec, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, r.ResourceResolver, r.obj)
+
 	if err != nil {
 		return nil, errors.Wrapf(err, "converting to armResourceSpec")
 	}

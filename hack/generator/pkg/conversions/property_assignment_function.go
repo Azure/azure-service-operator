@@ -309,8 +309,8 @@ func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDe
 			return errors.Wrapf(
 				err,
 				"creating conversion to %s by %s",
-				sourceEndpoint,
-				destinationEndpoint)
+				destinationEndpoint,
+				sourceEndpoint)
 		} else if conv != nil {
 			// A conversion was created, keep it for later
 			fn.conversions[destinationName] = conv

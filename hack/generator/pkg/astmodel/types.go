@@ -228,7 +228,7 @@ func (types Types) ResolveResourceStatusDefinition(
 }
 
 // Process applies a func to transform all members of this set of type definitions, returning a new set of type
-// definitions containing the results of the transfomration, or possibly an error
+// definitions containing the results of the transformation, or possibly an error
 // Only definitions returned by the func will be included in the results of the function. The func may return a nil
 // TypeDefinition if it doesn't want to include anything in the output set.
 func (types Types) Process(transformation func(definition TypeDefinition) (*TypeDefinition, error)) (Types, error) {

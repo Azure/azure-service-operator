@@ -16,16 +16,18 @@ import (
 
 // StorageTypeFactory is used to create storage types for a specific api group
 type StorageTypeFactory struct {
-	group             string                                                  // Name of the group we're handling (used mostly for logging)
-	referenceTypes    astmodel.Types                                          // All the types for this group
-	outputTypes       astmodel.Types                                          // All the types created/modified by this factory
-	specTypes         astmodel.TypeNameSet                                    // All the names of spec types
-	statusTypes       astmodel.TypeNameSet                                    // All the names of status types
-	idFactory         astmodel.IdentifierFactory                              // Factory for creating identifiers
-	typeConverter     *TypeConverter                                          // a utility type type visitor used to create storage variants
-	functionInjector  *FunctionInjector                                       // a utility used to inject functions into definitions
-	resourceHubMarker *HubVersionMarker                                       // a utility used to mark resources as Storage Versions
-	conversionMap     map[astmodel.PackageReference]astmodel.PackageReference // Map of conversion links for creating our conversion graph
+	group                  string                                                  // Name of the group we're handling (used mostly for logging)
+	referenceTypes         astmodel.Types                                          // All the types for this group
+	outputTypes            astmodel.Types                                          // All the types created/modified by this factory
+	specTypes              astmodel.TypeNameSet                                    // All the names of spec types
+	statusTypes            astmodel.TypeNameSet                                    // All the names of status types
+	idFactory              astmodel.IdentifierFactory                              // Factory for creating identifiers
+	typeConverter          *TypeConverter                                          // a utility type type visitor used to create storage variants
+	functionInjector       *FunctionInjector                                       // a utility used to inject functions into definitions
+	implementationInjector *ImplementationInjector                                 // a utility used to inject interface implementations into definitions
+	resourceHubMarker      *HubVersionMarker                                       // a utility used to mark resources as Storage Versions
+	conversionMap          map[astmodel.PackageReference]astmodel.PackageReference // Map of conversion links for creating our conversion graph
+	hubPackage             astmodel.PackageReference                               // Identifies the package that represents our hub
 }
 
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
@@ -34,16 +36,17 @@ func NewStorageTypeFactory(group string, idFactory astmodel.IdentifierFactory) *
 	types := make(astmodel.Types)
 
 	result := &StorageTypeFactory{
-		group:             group,
-		referenceTypes:    types,
-		outputTypes:       make(astmodel.Types),
-		specTypes:         astmodel.NewTypeNameSet(),
-		statusTypes:       astmodel.NewTypeNameSet(),
-		idFactory:         idFactory,
-		conversionMap:     make(map[astmodel.PackageReference]astmodel.PackageReference),
-		functionInjector:  NewFunctionInjector(),
-		resourceHubMarker: NewHubVersionMarker(),
-		typeConverter:     NewTypeConverter(types, idFactory),
+		group:                  group,
+		referenceTypes:         types,
+		outputTypes:            make(astmodel.Types),
+		specTypes:              astmodel.NewTypeNameSet(),
+		statusTypes:            astmodel.NewTypeNameSet(),
+		idFactory:              idFactory,
+		conversionMap:          make(map[astmodel.PackageReference]astmodel.PackageReference),
+		functionInjector:       NewFunctionInjector(),
+		implementationInjector: NewImplementationInjector(),
+		resourceHubMarker:      NewHubVersionMarker(idFactory),
+		typeConverter:          NewTypeConverter(types, idFactory),
 	}
 
 	return result

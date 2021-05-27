@@ -10,6 +10,8 @@ import (
 	"go/token"
 	"sort"
 
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
