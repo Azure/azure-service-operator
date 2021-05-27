@@ -10,7 +10,7 @@ type Person struct {
 }
 
 // ConvertFromVNext populates our Person from the provided source Person
-func (person Person) ConvertFromVNext(source *vNext.Person) error {
+func (person *Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// sku
 	person.sku = string(source.sku)
@@ -20,7 +20,7 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 }
 
 // ConvertToVNext populates the provided destination Person from our Person
-func (person Person) ConvertToVNext(destination *vNext.Person) error {
+func (person *Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// sku
 	destination.sku = vNext.Bucket(person.sku)

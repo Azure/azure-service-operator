@@ -79,6 +79,7 @@ func (locals *KnownLocalsSet) Add(local string) {
 	locals.names[name] = struct{}{}
 }
 
+// HasName returns true if the specified name exists in the set, false otherwise
 func (locals *KnownLocalsSet) HasName(name string) bool {
 	_, ok := locals.names[name]
 	return ok

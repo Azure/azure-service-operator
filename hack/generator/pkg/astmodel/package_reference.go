@@ -48,13 +48,17 @@ func PackageAsLocalPackage(pkg PackageReference) (LocalPackageReference, error) 
 
 func SortPackageReferencesByPathAndVersion(packages []PackageReference) {
 	sort.Slice(packages, func(i, j int) bool {
-		comparer := versionComparer{
-			left:  []rune(packages[i].PackagePath()),
-			right: []rune(packages[j].PackagePath()),
-		}
-		compare := comparer.Compare()
-		return compare < 0
+		return ComparePathAndVersion(packages[i].PackagePath(), packages[j].PackagePath())
 	})
+}
+
+// ComparePathAndVersion compares two paths containing versions and returns true if left should go before right
+func ComparePathAndVersion(left string, right string) bool {
+	comparer := versionComparer{
+		left:  []rune(left),
+		right: []rune(right),
+	}
+	return comparer.Compare() < 0
 }
 
 // versionComparer captures our state while doing an alphanumeric version comparision

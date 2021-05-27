@@ -33,7 +33,7 @@ func MakeStoragePackageReference(local LocalPackageReference) StoragePackageRefe
 
 // String returns the string representation of the package reference
 func (s StoragePackageReference) String() string {
-	return fmt.Sprintf("storage:%v", s.PackagePath())
+	return fmt.Sprintf("storage:%s/%s", s.group, s.version)
 }
 
 // IsPreview returns true if this package reference is a preview
