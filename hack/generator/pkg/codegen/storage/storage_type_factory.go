@@ -23,6 +23,7 @@ type StorageTypeFactory struct {
 	functionInjector  *FunctionInjector                                       // a utility used to inject functions into definitions
 	resourceHubMarker *HubVersionMarker                                       // a utility used to mark resources as Storage Versions
 	conversionMap     map[astmodel.PackageReference]astmodel.PackageReference // Map of conversion links for creating our conversion graph
+	hubPackage        astmodel.PackageReference                               // Identifies the package that represents our hub
 }
 
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
@@ -63,7 +64,10 @@ func (f *StorageTypeFactory) Types() (astmodel.Types, error) {
 
 func (f *StorageTypeFactory) process() error {
 
-	f.outputTypes = make(astmodel.Types)
+	err := f.createConversionGraph()
+	if err != nil {
+		return errors.Wrap(err, "creating conversion package graph")
+	}
 
 	// Create storage variants and stash them in outputTypes so injectConversions can find them
 	storageVariants, err := f.inputTypes.Process(f.createStorageVariant)
@@ -93,6 +97,63 @@ func (f *StorageTypeFactory) process() error {
 
 	// Add anything missing into outputTypes
 	f.outputTypes.AddTypes(f.inputTypes.Except(f.outputTypes))
+
+	return nil
+}
+
+// createConversionMap creates our conversion graph of links between versions, leading towards our hub version
+func (f *StorageTypeFactory) createConversionGraph() error {
+
+	// Collect all distinct versions
+	allApiVersions := astmodel.NewPackageReferenceSet()
+	for _, t := range f.inputTypes {
+		allApiVersions.AddReference(t.Name().PackageReference)
+	}
+
+	// And turn them into a sequence sorted by increasing version
+	sortedApiVersions := allApiVersions.AsSlice()
+	astmodel.SortPackageReferencesByPathAndVersion(sortedApiVersions)
+
+	// For each API version create a matched storage package and to the graph
+	sortedStorageVersions := make([]astmodel.StoragePackageReference, len(sortedApiVersions))
+	for i, ref := range sortedApiVersions {
+		localRef, ok := ref.AsLocalPackage()
+		if !ok {
+			return errors.Errorf("expected %q to be a local package reference", ref)
+		}
+
+		storageRef := astmodel.MakeStoragePackageReference(localRef)
+		sortedStorageVersions[i] = storageRef
+
+		// Add link into our graph
+		f.conversionMap[ref] = storageRef
+	}
+
+	// For each Preview API version, the link goes from the associated storage version to the immediately prior storage version
+	for i, ref := range sortedApiVersions {
+		if i == 0 || !ref.IsPreview() {
+			continue
+		}
+
+		f.conversionMap[sortedStorageVersions[i]] = sortedStorageVersions[i-1]
+	}
+
+	// For each GA (non-Preview) API version, the link goes from the associated storage version to the next GA release
+	var gaRelease astmodel.PackageReference
+	for i, ref := range sortedStorageVersions {
+		if i == 0 {
+			gaRelease = ref
+			continue
+		}
+
+		if !ref.IsPreview() {
+			f.conversionMap[gaRelease] = ref
+			gaRelease = ref
+		}
+	}
+
+	// Cache the hub version for later reference
+	f.hubPackage = gaRelease
 
 	return nil
 }
