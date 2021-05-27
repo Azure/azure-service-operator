@@ -34,10 +34,8 @@ func NewConversionToHubFunction(
 	intermediateType astmodel.TypeName,
 	propertyFunctionName string,
 	idFactory astmodel.IdentifierFactory) *HubConversionFunction {
-	name := "ConvertTo" + idFactory.CreateIdentifier(hub.Name(), astmodel.Exported)
-
 	result := &HubConversionFunction{
-		name:                 name,
+		name:                 "ConvertTo",
 		hub:                  hub,
 		direction:            ConvertTo,
 		propertyFunctionName: propertyFunctionName,
@@ -57,9 +55,8 @@ func NewConversionFromHubFunction(
 	intermediateType astmodel.TypeName,
 	propertyFunctionName string,
 	idFactory astmodel.IdentifierFactory) *HubConversionFunction {
-	name := "ConvertFrom" + idFactory.CreateIdentifier(hub.Name(), astmodel.Exported)
 	result := &HubConversionFunction{
-		name:                 name,
+		name:                 "ConvertFrom",
 		hub:                  hub,
 		direction:            ConvertFrom,
 		propertyFunctionName: propertyFunctionName,
