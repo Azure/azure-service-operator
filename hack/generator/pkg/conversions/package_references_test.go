@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package conversions
 
 import "github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"

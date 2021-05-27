@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package conversions
 
 // Direction specifies the direction of conversion we're implementing with this function
