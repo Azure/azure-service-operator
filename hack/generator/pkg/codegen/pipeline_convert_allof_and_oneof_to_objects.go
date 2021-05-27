@@ -250,7 +250,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []propertyNames) astmodel.Type {
 	// If there's more than one option, synthesize a type.
 	// Note that this is required because Kubernetes CRDs do not support OneOf the same way
-	// OpenAPI does, see https://github.com/Azure/k8s-infra/issues/71
+	// OpenAPI does, see https://github.com/Azure/azure-service-operator/issues/1515
 	var properties []*astmodel.PropertyDefinition
 
 	propertyDescription := "Mutually exclusive with all other properties"

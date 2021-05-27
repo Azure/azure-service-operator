@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	TestNamespace          = "k8s-infra-test-ns"
+	TestNamespace          = "aso-test-ns"
 	DefaultResourceTimeout = 10 * time.Minute
 )
 

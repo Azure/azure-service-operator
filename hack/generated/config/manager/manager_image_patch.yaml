@@ -14,20 +14,20 @@ spec:
             - name: AZURE_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: k8sinfra-controller-settings
+                  name: aso-controller-settings
                   key: AZURE_CLIENT_ID
             - name: AZURE_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: k8sinfra-controller-settings
+                  name: aso-controller-settings
                   key: AZURE_CLIENT_SECRET
             - name: AZURE_TENANT_ID
               valueFrom:
                 secretKeyRef:
-                  name: k8sinfra-controller-settings
+                  name: aso-controller-settings
                   key: AZURE_TENANT_ID
             - name: AZURE_SUBSCRIPTION_ID
               valueFrom:
                 secretKeyRef:
-                  name: k8sinfra-controller-settings
+                  name: aso-controller-settings
                   key: AZURE_SUBSCRIPTION_ID

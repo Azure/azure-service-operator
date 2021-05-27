@@ -23,7 +23,7 @@ type Client struct {
 	Host string
 }
 
-const UserAgent = "k8sinfra-generated"
+const UserAgent = "azure-service-controller-generated"
 
 // NewClient creates a new raw client
 func NewClient(authorizer autorest.Authorizer) *Client {

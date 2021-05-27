@@ -16,8 +16,8 @@ cat <<EOF | $k apply -f -
 apiVersion: v1
 kind: Secret
 metadata:
-  name: k8sinfra-controller-settings
-  namespace: k8s-infra-system
+  name: aso-controller-settings
+  namespace: aso-system
 stringData:
   AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
   AZURE_TENANT_ID: "$AZURE_TENANT_ID"
