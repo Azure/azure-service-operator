@@ -303,9 +303,10 @@ func ReturnNoError() dst.Stmt {
 //
 // errors.Wrap(err, <message>)
 //
-func WrappedErrorf(template string, args ...interface{}) dst.Expr {
+// (actual package name will be used, which will usually be 'errors')
+func WrappedErrorf(errorsPackage string, template string, args ...interface{}) dst.Expr {
 	return CallQualifiedFunc(
-		"errors",
+		errorsPackage,
 		"Wrap",
 		dst.NewIdent("err"),
 		StringLiteralf(template, args...))

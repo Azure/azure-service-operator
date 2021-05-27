@@ -3,14 +3,17 @@
 // Licensed under the MIT license.
 package vCurrent
 
-import "github.com/Azure/azure-service-operator/hack/generated/_apis/Verification/vNext"
+import (
+	"github.com/Azure/azure-service-operator/hack/generated/_apis/Verification/vNext"
+	"github.com/pkg/errors"
+)
 
 type Person struct {
 	role Release `json:"role"`
 }
 
 // ConvertFromVNext populates our Person from the provided source Person
-func (person Person) ConvertFromVNext(source *vNext.Person) error {
+func (person *Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// role
 	var role Release
@@ -25,11 +28,11 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 }
 
 // ConvertToVNext populates the provided destination Person from our Person
-func (person Person) ConvertToVNext(destination *vNext.Person) error {
+func (person *Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// role
 	var role vNext.Release
-	err := person.role.ConvertToVNext(role)
+	err := person.role.ConvertToVNext(&role)
 	if err != nil {
 		return errors.Wrap(err, "populating role from role, calling ConvertToVNext()")
 	}

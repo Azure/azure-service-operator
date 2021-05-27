@@ -176,9 +176,9 @@ func (v *ValidatedType) AsType(_ *CodeGenerationContext) dst.Expr {
 	panic("Should never happen: validated types must either be named (handled by 'name types for CRDs' pipeline stage) or be directly under properties (handled by PropertyDefinition.AsField)")
 }
 
-// AsZero panics because validated types should always be named
+// AsZero returns the zero for our underlying type
 func (v *ValidatedType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
-	panic("Should never happen: validated types must either be named (handled by 'name types for CRDs' pipeline stage) or be directly under properties (handled by PropertyDefinition.AsField)")
+	return v.element.AsZero(types, ctx)
 }
 
 func (v *ValidatedType) References() TypeNameSet {

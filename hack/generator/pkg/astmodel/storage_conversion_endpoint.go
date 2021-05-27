@@ -6,8 +6,6 @@
 package astmodel
 
 import (
-	"strings"
-
 	"github.com/gobuffalo/flect"
 )
 
@@ -28,7 +26,7 @@ func NewStorageConversionEndpoint(
 	knownLocals *KnownLocalsSet) *StorageConversionEndpoint {
 	return &StorageConversionEndpoint{
 		theType:     theType,
-		name:        strings.ToLower(name),
+		name:        name,
 		knownLocals: knownLocals,
 	}
 }
