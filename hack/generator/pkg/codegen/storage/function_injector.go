@@ -25,23 +25,36 @@ func NewFunctionInjector() *FunctionInjector {
 	return result
 }
 
-// Inject modifies the passed type definition by injecting the passed function
-func (fi *FunctionInjector) Inject(def astmodel.TypeDefinition, fn astmodel.Function) (astmodel.TypeDefinition, error) {
-	return fi.visitor.VisitDefinition(def, fn)
+// Inject modifies the passed type definition by injecting the passed function(s)
+func (fi *FunctionInjector) Inject(
+	def astmodel.TypeDefinition, functions ...astmodel.Function) (astmodel.TypeDefinition, error) {
+	return fi.visitor.VisitDefinition(def, functions)
 }
 
 // injectFunctionIntoObject takes the function provided as a context and includes it on the
 // provided object type
 func (_ *FunctionInjector) injectFunctionIntoObject(
 	_ *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	fn := ctx.(astmodel.Function)
-	return ot.WithFunction(fn), nil
+	functions := ctx.([]astmodel.Function)
+
+	result := ot
+	for _, fn := range functions {
+		result = result.WithFunction(fn)
+	}
+
+	return result, nil
 }
 
 // injectFunctionIntoResource takes the function provided as a context and includes it on the
 // provided resource type
 func (_ *FunctionInjector) injectFunctionIntoResource(
 	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
-	fn := ctx.(astmodel.Function)
-	return rt.WithFunction(fn), nil
+	functions := ctx.([]astmodel.Function)
+
+	result := rt
+	for _, fn := range functions {
+		result = result.WithFunction(fn)
+	}
+
+	return result, nil
 }
