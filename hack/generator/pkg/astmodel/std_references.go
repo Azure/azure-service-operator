@@ -28,6 +28,7 @@ var (
 	APIMachineryRuntimeReference = MakeExternalPackageReference("k8s.io/apimachinery/pkg/runtime")
 	ClientGoSchemeReference      = MakeExternalPackageReference("k8s.io/client-go/kubernetes/scheme")
 	ControllerRuntimeAdmission   = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/webhook/admission")
+	ControllerRuntimeConversion  = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/conversion")
 	GitHubErrorsReference        = MakeExternalPackageReference("github.com/pkg/errors")
 
 	// References to libraries used for testing
@@ -42,6 +43,7 @@ var (
 
 	// Imports with specified names
 	GomegaImport = NewPackageImport(GomegaReference).WithName(".")
+	GitHubErrorsImport = NewPackageImport(GitHubErrorsReference).WithName("gerrors")
 
 	// Type names
 	ResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "ResourceReference")
