@@ -362,6 +362,10 @@ func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 		references.Merge(resource.status.RequiredPackageReferences())
 	}
 
+	for _, fn := range resource.functions {
+		references.Merge(fn.RequiredPackageReferences())
+	}
+
 	// Interface imports
 	references.Merge(resource.InterfaceImplementer.RequiredPackageReferences())
 

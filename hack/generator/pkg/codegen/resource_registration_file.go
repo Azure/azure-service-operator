@@ -114,22 +114,13 @@ func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet 
 	}
 
 	// We require these imports
-	clientGoSchemePkgRef := makeClientGoKubernetesSchemePackageReference()
-	clientGoSchemeImport := astmodel.NewPackageImport(clientGoSchemePkgRef).WithName("clientgoscheme")
+	clientGoSchemeImport := astmodel.NewPackageImport(astmodel.ClientGoSchemeReference).WithName("clientgoscheme")
 	requiredImports.AddImport(clientGoSchemeImport)
 
-	runtimeImport := astmodel.NewPackageImport(makeApiMachineryRuntimePackageReference())
+	runtimeImport := astmodel.NewPackageImport(astmodel.APIMachineryRuntimeReference)
 	requiredImports.AddImport(runtimeImport)
 
 	return requiredImports
-}
-
-func makeApiMachineryRuntimePackageReference() astmodel.PackageReference {
-	return astmodel.MakeExternalPackageReference("k8s.io/apimachinery/pkg/runtime")
-}
-
-func makeClientGoKubernetesSchemePackageReference() astmodel.PackageReference {
-	return astmodel.MakeExternalPackageReference("k8s.io/client-go/kubernetes/scheme")
 }
 
 // createGetKnownStorageTypesFunc creates a getKnownStorageTypes function that returns all storage types:
@@ -167,7 +158,7 @@ func (r *ResourceRegistrationFile) createGetKnownTypesFunc(codeGenerationContext
 }
 
 func createKnownTypesFuncImpl(codeGenerationContext *astmodel.CodeGenerationContext, resources []astmodel.TypeName, funcName string, funcComment string) (dst.Decl, error) {
-	runtime, err := codeGenerationContext.GetImportedPackageName(makeApiMachineryRuntimePackageReference())
+	runtime, err := codeGenerationContext.GetImportedPackageName(astmodel.APIMachineryRuntimeReference)
 	if err != nil {
 		return nil, err
 	}
@@ -254,12 +245,12 @@ func createKnownTypesFuncImpl(codeGenerationContext *astmodel.CodeGenerationCont
 //			return scheme
 //		}
 func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext *astmodel.CodeGenerationContext) (dst.Decl, error) {
-	runtime, err := codeGenerationContext.GetImportedPackageName(makeApiMachineryRuntimePackageReference())
+	runtime, err := codeGenerationContext.GetImportedPackageName(astmodel.APIMachineryRuntimeReference)
 	if err != nil {
 		return nil, err
 	}
 
-	clientGoScheme, err := codeGenerationContext.GetImportedPackageName(makeClientGoKubernetesSchemePackageReference())
+	clientGoScheme, err := codeGenerationContext.GetImportedPackageName(astmodel.ClientGoSchemeReference)
 	if err != nil {
 		return nil, err
 	}

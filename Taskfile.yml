@@ -18,6 +18,9 @@ vars:
   # for go-fmt the root dir must be excluded (it recurses)
   GENERATED_DIRS_TO_FMT_CMD: go list -f '{{"{{.Dir}}"}}' ./...  | grep -vE '/_apis(/|$)|/generated$' | tr '\n' ' '
 
+  # how long to let tests against live resources run for
+  LIVE_TEST_TIMEOUT: 2h
+
 tasks:
   default:
     desc: Perform all fast local pre-commit tasks.
@@ -197,7 +200,7 @@ tasks:
     deps: [controller:generate-crds, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
-    - RECORD_REPLAY=0 go test -timeout 30m -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v -run '{{default ".*" .TEST_FILTER}}' ./...
+    - RECORD_REPLAY=0 go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v -run '{{default ".*" .TEST_FILTER}}' ./...
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.

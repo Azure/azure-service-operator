@@ -23,6 +23,7 @@ webhooks:
     - UPDATE
     resources:
     - azuresqlmanagedusers
+  sideEffects: None
 - clientConfig:
     caBundle: Cg==
     service:
@@ -41,3 +42,4 @@ webhooks:
     - UPDATE
     resources:
     - azuresqlusers
+  sideEffects: None

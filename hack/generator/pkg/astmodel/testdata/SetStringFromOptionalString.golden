@@ -10,7 +10,7 @@ type Person struct {
 }
 
 // ConvertFromVNext populates our Person from the provided source Person
-func (person Person) ConvertFromVNext(source *vNext.Person) error {
+func (person *Person) ConvertFromVNext(source *vNext.Person) error {
 
 	// name
 	if source.name != nil {
@@ -24,7 +24,7 @@ func (person Person) ConvertFromVNext(source *vNext.Person) error {
 }
 
 // ConvertToVNext populates the provided destination Person from our Person
-func (person Person) ConvertToVNext(destination *vNext.Person) error {
+func (person *Person) ConvertToVNext(destination *vNext.Person) error {
 
 	// name
 	name := person.name

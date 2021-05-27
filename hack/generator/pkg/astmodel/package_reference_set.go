@@ -43,6 +43,11 @@ func (set *PackageReferenceSet) Remove(ref PackageReference) {
 	delete(set.references, ref)
 }
 
+// Clear removes everything from the set
+func (set *PackageReferenceSet) Clear() {
+	set.references = make(map[PackageReference]struct{})
+}
+
 // Contains allows checking to see if an import is included
 func (set *PackageReferenceSet) Contains(ref PackageReference) bool {
 	_, ok := set.references[ref]
