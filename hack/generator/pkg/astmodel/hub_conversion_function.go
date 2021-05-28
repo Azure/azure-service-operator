@@ -5,6 +5,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/dave/dst"
+	"go/token"
 )
 
 // HubConversionFunction implements conversions to/from our hub type
@@ -114,101 +115,138 @@ func (fn *HubConversionFunction) AsFunc(
 		Name:          fn.Name(),
 	}
 
-	var localId string
-	var declarationComment string
-	switch fn.direction {
-	case ConvertFrom:
-		localId = "source"
-		declarationComment = fmt.Sprintf("populates our %s from the provided hub %s", receiver.Name(), fn.hub.Name())
-	case ConvertTo:
-		localId = "destination"
-		declarationComment = fmt.Sprintf("populates the provided hub %s from our %s", fn.hub.Name(), receiver.Name())
-	default:
-		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
-	}
-
 	conversionPackage := generationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeConversion)
-	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
 	funcDetails.AddParameter("hub", astbuilder.QualifiedTypeName(conversionPackage, "Hub"))
 	funcDetails.AddReturns("error")
-	funcDetails.AddComments(declarationComment)
+	funcDetails.AddComments(fn.declarationDocComment(receiver))
 
 	if fn.intermediateType == nil {
-		// Simple case, direct conversion
-		local := dst.NewIdent(localId)
-
-		assignLocal := astbuilder.TypeAssert(
-			local,
-			dst.NewIdent("hub"),
-			astbuilder.Dereference(fn.hub.AsType(generationContext)))
-
-		checkAssert := astbuilder.ReturnIfNotOk(
-			astbuilder.FormatError(
-				fmtPackage,
-				fmt.Sprintf("expected %s but received %%T instead", fn.hub),
-				dst.NewIdent("hub")))
-
-		copyAndReturn := astbuilder.Returns(
-			astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunctionName, local))
-
-		funcDetails.Body = astbuilder.Statements(assignLocal, checkAssert, copyAndReturn)
+		funcDetails.Body = fn.DirectConversion(receiverName, generationContext)
+	} else if fn.direction == ConvertFrom {
+		funcDetails.Body = fn.IndirectConversionFromHub(receiverName, generationContext)
+	} else if fn.direction == ConvertTo {
+		funcDetails.Body = fn.IndirectConversionToHub(receiverName, generationContext)
+	} else {
+		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
 	}
 
 	return funcDetails.DefineFunc()
 }
 
-// generateBodyForConvertFrom returns all of the statements required for the conversion function
-// receiver is an expression for access our receiver type, used to qualify field access
-// parameter is an expression for access to our parameter passed to the function, also used for field access
-// generationContext is our code generation context, passed to allow resolving of identifiers in other packages
-func (fn *HubConversionFunction) generateBodyForConvertFrom(
-	receiver string,
-	parameter dst.Expr,
-	_ *astmodel.CodeGenerationContext,
-) []dst.Stmt {
-	copyProperties := astbuilder.LocalVariableDeclaration(
-		"err",
-		astbuilder.CallExpr(dst.NewIdent(receiver), fn.propertyFunctionName, parameter),
-		"read properties from the hub type")
+func (fn *HubConversionFunction) DirectConversion(
+	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
-	handleError := astbuilder.CheckErrorAndReturn()
+	localId := fn.localVariableId()
+	localIdent := dst.NewIdent(localId)
+	hubIdent := dst.NewIdent("hub")
+
+	assignLocal := astbuilder.TypeAssert(
+		localIdent,
+		hubIdent,
+		astbuilder.Dereference(fn.hub.AsType(generationContext)))
+
+	checkAssert := astbuilder.ReturnIfNotOk(
+		astbuilder.FormatError(
+			fmtPackage,
+			fmt.Sprintf("expected %s but received %%T instead", fn.hub),
+			hubIdent))
+
+	copyAndReturn := astbuilder.Returns(
+		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunctionName, localIdent))
+
+	return astbuilder.Statements(assignLocal, checkAssert, copyAndReturn)
+}
+
+func (fn *HubConversionFunction) IndirectConversionFromHub(
+	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	localId := fn.localVariableId()
+	errIdent := dst.NewIdent("err")
+
+	declareLocal := astbuilder.LocalVariableDeclaration(
+		localId, fn.intermediateType.AsType(generationContext), "// intermediate variable for conversion")
+
+	populateLocalFromHub := astbuilder.SimpleAssignment(
+		errIdent,
+		token.DEFINE,
+		astbuilder.CallExpr(dst.NewIdent(localId), fn.name, dst.NewIdent("hub")))
+
+	checkForErrorsPopulatingLocal := astbuilder.CheckErrorAndWrap(
+		errorsPackage,
+		fmt.Sprintf("converting from hub to %s", localId))
+
+	populateReceiverFromLocal := astbuilder.SimpleAssignment(
+		errIdent,
+		token.ASSIGN,
+		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunctionName, astbuilder.AddrOf(dst.NewIdent(localId))))
+
+	checkForErrorsPopulatingReceiver := astbuilder.CheckErrorAndWrap(
+		errorsPackage,
+		fmt.Sprintf("converting from %s to %s", localId, receiverName))
 
 	returnNil := astbuilder.Returns(dst.NewIdent("nil"))
 
-	return []dst.Stmt{
-		copyProperties,
-		handleError,
-		returnNil,
-	}
+	return astbuilder.Statements(
+		declareLocal, populateLocalFromHub, checkForErrorsPopulatingLocal, populateReceiverFromLocal, checkForErrorsPopulatingReceiver, returnNil)
 }
 
-// generateBodyForConvertTo returns all of the statements required for the conversion function
-// receiver is an expression for access our receiver type, used to qualify field access
-// parameter is an expression for access to our parameter passed to the function, also used for field access
-// generationContext is our code generation context, passed to allow resolving of identifiers in other packages
-func (fn *HubConversionFunction) generateBodyForConvertTo(
-	receiver string,
-	parameter dst.Expr,
-	generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
-	if fn.intermediateType == nil {
-		// Direct transformation
-		destination := dst.NewIdent("destination")
-		assignDestination := astbuilder.TypeAssert(
-			destination, parameter, fn.hub.AsType(generationContext))
-		copyProperties := astbuilder.LocalVariableDeclaration(
-			"err",
-			astbuilder.CallExpr(dst.NewIdent(receiver), fn.propertyFunctionName, destination),
-			"read properties from the hub type")
+func (fn *HubConversionFunction) IndirectConversionToHub(
+	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	localId := fn.localVariableId()
+	errIdent := dst.NewIdent("err")
 
-		handleError := astbuilder.CheckErrorAndReturn()
+	declareLocal := astbuilder.LocalVariableDeclaration(
+		localId, fn.intermediateType.AsType(generationContext), "// intermediate variable for conversion")
 
-		returnNil := astbuilder.Returns(dst.NewIdent("nil"))
-		return astbuilder.Statements(assignDestination, copyProperties, handleError, returnNil)
+	populateLocalFromReceiver := astbuilder.SimpleAssignment(
+		errIdent,
+		token.DEFINE,
+		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunctionName, astbuilder.AddrOf(dst.NewIdent(localId))))
+
+	checkForErrorsPopulatingLocal := astbuilder.CheckErrorAndWrap(
+		errorsPackage,
+		fmt.Sprintf("converting to %s from %s", localId, receiverName))
+
+	populateHubFromLocal := astbuilder.SimpleAssignmentWithErr(
+		errIdent,
+		token.ASSIGN,
+		astbuilder.CallExpr(dst.NewIdent(localId), fn.name, dst.NewIdent("hub")))
+
+	checkForErrorsPopulatingHub := astbuilder.CheckErrorAndWrap(
+		errorsPackage,
+		fmt.Sprintf("converting from %s to hub", localId))
+
+	returnNil := astbuilder.Returns(dst.NewIdent("nil"))
+
+	return astbuilder.Statements(
+		declareLocal, populateLocalFromReceiver, checkForErrorsPopulatingLocal, populateHubFromLocal, checkForErrorsPopulatingHub, returnNil)
+}
+
+// localVariableId returns a good identifier to use for a local variable in our function,
+// based which direction we are converting
+func (fn *HubConversionFunction) localVariableId() string {
+	switch fn.direction {
+	case ConvertFrom:
+		return "source"
+	case ConvertTo:
+		return "destination"
 	}
 
-	return astbuilder.Statements()
+	panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
+}
+
+func (fn *HubConversionFunction) declarationDocComment(receiver astmodel.TypeName) string {
+	switch fn.direction {
+	case ConvertFrom:
+		return fmt.Sprintf("populates our %s from the provided hub %s", receiver.Name(), fn.hub.Name())
+	case ConvertTo:
+		return fmt.Sprintf("populates the provided hub %s from our %s", fn.hub.Name(), receiver.Name())
+	}
+
+	panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
 }
 
 func (fn *HubConversionFunction) Equals(otherFn astmodel.Function) bool {
