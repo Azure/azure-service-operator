@@ -9,6 +9,9 @@ package genruntime
 import (
 	"fmt"
 	"reflect"
+
+	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // KnownResourceReference is a resource reference to a known type.
@@ -67,6 +70,24 @@ func (ref ResourceReference) String() string {
 	return fmt.Sprintf("Group: %q, Kind: %q, Namespace: %q, Name: %q, ARMID: %q", ref.Group, ref.Kind, ref.Namespace, ref.Name, ref.ARMID)
 }
 
+// TODO: We wouldn't need this if controller-gen supported DUs or OneOf better, see: https://github.com/kubernetes-sigs/controller-tools/issues/461
+// Validate validates the ResourceReference to ensure that it is structurally valid.
+func (ref ResourceReference) Validate() error {
+	if ref.ARMID == "" && ref.Namespace == "" && ref.Name == "" && ref.Group == "" && ref.Kind == "" {
+		return errors.Errorf("at least one of ['ARMID'] or ['Group', 'Kind', 'Namespace', 'Name'] must be set for ResourceReference")
+	}
+
+	if ref.ARMID != "" && !ref.IsDirectARMReference() {
+		return errors.Errorf("the 'ARMID' field is mutually exclusive with 'Group', 'Kind', 'Namespace', and 'Name' for ResourceReference: %s", ref.String())
+	}
+
+	if ref.ARMID == "" && !ref.IsKubernetesReference() {
+		return errors.Errorf("when referencing a Kubernetes resource, 'Group', 'Kind', 'Namespace', and 'Name' must all be specified for ResourceReference: %s", ref.String())
+	}
+
+	return nil
+}
+
 // LookupOwnerGroupKind looks up an owners group and kind annotations using reflection.
 // This is primarily used to convert from a KnownResourceReference to the more general
 // ResourceReference
@@ -94,4 +115,14 @@ func (ref KnownResourceReference) Copy() KnownResourceReference {
 // Copy makes an independent copy of the ResourceReference
 func (ref ResourceReference) Copy() ResourceReference {
 	return ref
+}
+
+// ValidateResourceReferences calls Validate on each ResourceReference
+func ValidateResourceReferences(refs map[ResourceReference]struct{}) error {
+	var errs []error
+	for ref := range refs {
+		errs = append(errs, ref.Validate())
+	}
+
+	return kerrors.NewAggregate(errs)
 }
