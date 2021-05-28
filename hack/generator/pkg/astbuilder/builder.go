@@ -19,14 +19,27 @@ import (
 //	}
 func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
 
-	returnValues := append([]dst.Expr{}, cloneExprSlice(otherReturns)...)
-	returnValues = append(returnValues, dst.NewIdent("err"))
-
+	returnValues := Expressions(otherReturns, dst.NewIdent("err"))
 	retStmt := &dst.ReturnStmt{
-		Results: returnValues,
+		Results: cloneExprSlice(returnValues),
 	}
 
 	return CheckErrorAndSingleStatement(retStmt)
+}
+
+// CheckErrorAndWrap checks if the err is non-nil, and if it is returns it, wrapped with additional information
+//
+// if err != nil {
+//      return errors.Wrapf(err, <message>, <args>)
+// }
+//
+func CheckErrorAndWrap(errorsPackage string, message string, args ...dst.Expr) dst.Stmt {
+	wrap := CallQualifiedFunc(
+		errorsPackage,
+		"Wrap",
+		Expressions(dst.NewIdent("err"), StringLiteral(message), args)...)
+
+	return CheckErrorAndSingleStatement(Returns(wrap))
 }
 
 // CheckErrorAndSingleStatement checks if the err is non-nil, and if it is executes the provided statement.
@@ -130,7 +143,10 @@ func VariableDeclaration(ident string, typ dst.Expr, comment string) *dst.GenDec
 		},
 	}
 
-	AddWrappedComment(&decl.Decs.Start, comment, 80)
+	if len(comment) > 0 {
+		AddWrappedComment(&decl.Decs.Start, comment, 80)
+		decl.Decs.Before = dst.NewLine
+	}
 
 	return decl
 }
@@ -383,17 +399,7 @@ func Statements(statements ...interface{}) []dst.Stmt {
 		}
 	}
 
-	return result
-}
-
-// cloneExprSlice is a utility method to clone a slice of expressions
-func cloneExprSlice(exprs []dst.Expr) []dst.Expr {
-	var result []dst.Expr
-	for _, exp := range exprs {
-		result = append(result, dst.Clone(exp).(dst.Expr))
-	}
-
-	return result
+	return cloneStmtSlice(result)
 }
 
 // cloneStmtSlice is a utility method to clone a slice of statements
@@ -401,6 +407,39 @@ func cloneStmtSlice(stmts []dst.Stmt) []dst.Stmt {
 	var result []dst.Stmt
 	for _, st := range stmts {
 		result = append(result, dst.Clone(st).(dst.Stmt))
+	}
+
+	return result
+}
+
+// Expressions creates a sequence of expressions from the provided values, each of which may be a
+// single dst.Expr or a slice of multiple []dst.Expr
+func Expressions(expressions ...interface{}) []dst.Expr {
+	var result []dst.Expr
+	for _, e := range expressions {
+		switch e := e.(type) {
+		case nil:
+			// Skip nils
+			continue
+		case dst.Expr:
+			// Add a single statement
+			result = append(result, e)
+		case []dst.Expr:
+			// Add many statements
+			result = append(result, e...)
+		default:
+			panic(fmt.Sprintf("expected dst.Expr or []dst.Expr, but found %T", e))
+		}
+	}
+
+	return cloneExprSlice(result)
+}
+
+// cloneExprSlice is a utility method to clone a slice of expressions
+func cloneExprSlice(exprs []dst.Expr) []dst.Expr {
+	var result []dst.Expr
+	for _, exp := range exprs {
+		result = append(result, dst.Clone(exp).(dst.Expr))
 	}
 
 	return result
