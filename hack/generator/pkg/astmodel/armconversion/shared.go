@@ -146,3 +146,15 @@ func NewARMTransformerImpl(
 			populateFromARMFunc)
 	}
 }
+
+func removeEmptyStatements(stmts []dst.Stmt) []dst.Stmt {
+	var result []dst.Stmt
+	for _, stmt := range stmts {
+		if _, ok := stmt.(*dst.EmptyStmt); ok {
+			continue
+		}
+		result = append(result, stmt)
+	}
+
+	return result
+}
