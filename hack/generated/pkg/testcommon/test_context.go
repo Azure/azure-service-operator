@@ -25,7 +25,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-const (
+var (
 	DefaultTestRegion = "westus" // Could make this an env variable if we wanted
 )
 
