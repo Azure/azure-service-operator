@@ -23,7 +23,7 @@ type Client struct {
 	Host string
 }
 
-const UserAgent = "azure-service-controller-generated"
+const UserAgent = "aso-controller"
 
 // NewClient creates a new raw client
 func NewClient(authorizer autorest.Authorizer) *Client {
