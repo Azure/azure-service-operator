@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/version"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/devigned/tab"
@@ -23,7 +24,7 @@ type Client struct {
 	Host string
 }
 
-const UserAgent = "aso-controller"
+var UserAgent = "aso-controller/" + version.BuildVersion
 
 // NewClient creates a new raw client
 func NewClient(authorizer autorest.Authorizer) *Client {

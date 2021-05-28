@@ -5,11 +5,16 @@ output: prefixed
 vars:
   GENERATOR_APP: aso-gen
   GENERATOR_ROOT: ./hack/generator/
+  GENERATOR_PACKAGE: github.com/Azure/azure-service-operator/hack/generator
 
   CONTROLLER_APP: aso-controller
   CONTROLLER_ROOT: ./hack/generated/
+  CONTROLLER_PACKAGE: github.com/Azure/azure-service-operator/hack/generated
 
-  CONTROLLER_DOCKER_IMAGE: azure-service-operator:v2.0.0-alpha
+  # Once the v2 controller is the main controller we can drive this from git tags
+  # via e.g. `git describe --tags --dirty` which would give better info for dev builds
+  VERSION: v2.0.0-alpha
+  CONTROLLER_DOCKER_IMAGE: azure-service-operator:{{.VERSION}}
 
   CROSSPLANE_APP: crossplane-gen
   CROSSPLANE_ROOT: ./hack/crossplane/
@@ -99,7 +104,6 @@ tasks:
     cmds:
     - go build -ldflags "-X {{.GENERATOR_PACKAGE}}/pkg/codegen.GitCommit={{.SHORT_VERSION}} -X {{.GENERATOR_PACKAGE}}/pkg/codegen.GitTreeState={{.TREE_STATE}}" -o ./bin/{{.GENERATOR_APP}}
     vars:
-      GENERATOR_PACKAGE: github.com/Azure/azure-service-operator/hack/generator
       DATE:
         sh: date +%FT%T%z
       TREE_STATE:
@@ -167,7 +171,7 @@ tasks:
     - "controllers/**/*.go"
     - "pkg/**/*.go"
     cmds:
-    - go build -o ./bin/{{.CONTROLLER_APP}}
+    - go build -ldflags "-X {{.CONTROLLER_PACKAGE}}/pkg/version.BuildVersion={{.VERSION}}" -o ./bin/{{.CONTROLLER_APP}}
 
   controller:docker-build:
     desc: Generated the {{.CONTROLLER_APP}} Docker file.
