@@ -297,10 +297,8 @@ func (fakeResourceProperties *FakeResourceProperties) CreateEmptyARMValue() inte
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (fakeResourceProperties *FakeResourceProperties) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FakeResourcePropertiesARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResourcePropertiesARM, got %T", armInput)
-	}
+
+	// No error
 	return nil
 }
 
