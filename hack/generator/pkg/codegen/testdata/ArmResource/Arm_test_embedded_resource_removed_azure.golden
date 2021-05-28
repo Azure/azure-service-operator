@@ -635,10 +635,8 @@ func (bResource *BResource) CreateEmptyARMValue() interface{} {
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (bResource *BResource) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BResourceARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BResourceARM, got %T", armInput)
-	}
+
+	// No error
 	return nil
 }
 
