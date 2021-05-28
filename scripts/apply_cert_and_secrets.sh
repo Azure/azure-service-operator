@@ -13,13 +13,13 @@ k="$bins/kubectl"
 $k create namespace cert-manager || true
 $k apply -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
 
-$k create namespace aso-system || true
+$k create namespace azureoperator-system || true
 cat <<EOF | $k apply -f -
 apiVersion: v1
 kind: Secret
 metadata:
   name: manager-bootstrap-credentials
-  namespace: aso-system
+  namespace: azureoperator-system
 type: Opaque
 data:
   subscription-id: $(echo "${AZURE_SUBSCRIPTION_ID}" | tr -d '\n' | base64 | tr -d '\n')

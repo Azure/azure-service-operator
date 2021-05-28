@@ -32,11 +32,11 @@ and follow the instructions for the latest release.
 Once the controller has been installed in your cluster, you should be able to run the following:
 ```bash
 $ k get pod -A
-NAMESPACE    NAME                                    READY   STATUS    RESTARTS   AGE
-aso-system   aso-controller-manager-b98bc664-6h6sv   2/2     Running   0          7m15s
+NAMESPACE              NAME                                    READY   STATUS    RESTARTS   AGE
+azureoperator-system   aso-controller-manager-b98bc664-6h6sv   2/2     Running   0          7m15s
 
 # check out the logs for the running controller
-$ k logs pod/aso-controller-manager-b98bc664-6h6sv -n aso-system -c manager
+$ k logs pod/aso-controller-manager-b98bc664-6h6sv -n azureoperator-system -c manager
 
 # let's create an Azure ResourceGroup in westus2 with the name "foo-2019"
 cat <<EOF | kubectl apply -f -
