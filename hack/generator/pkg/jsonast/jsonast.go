@@ -499,7 +499,7 @@ func getProperties(
 		// Currently emitting a warning and skipping
 		if property == nil {
 			// TODO: This log shouldn't happen in cases where the type in question is later excluded, see:
-			// TODO: https://github.com/Azure/k8s-infra/issues/138
+			// TODO: https://github.com/Azure/azure-service-operator/issues/1517
 			klog.V(2).Infof("Property %s omitted due to nil propType (probably due to type filter)", propName)
 			continue
 		}
@@ -744,7 +744,7 @@ func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 	ctx, span := tab.StartSpan(ctx, "anyOfHandler")
 	defer span.End()
 
-	// See https://github.com/Azure/k8s-infra/issues/111 for details about why this is treated as oneOf
+	// See https://github.com/Azure/azure-service-operator/issues/1518 for details about why this is treated as oneOf
 	klog.V(2).Infof("Handling anyOf type as if it were oneOf: %v\n", schema.url()) // TODO: was Ref.URL
 	return generateOneOfUnionType(ctx, schema, schema.anyOf(), scanner)
 }

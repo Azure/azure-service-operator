@@ -5,6 +5,10 @@
 
 package astmodel
 
+const (
+	reflectHelpersPath = "github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
+)
+
 var (
 	// References to standard Go Libraries
 	ErrorsReference  = MakeExternalPackageReference("errors")
@@ -14,7 +18,8 @@ var (
 	TestingReference = MakeExternalPackageReference("testing")
 
 	// References to our Libraries
-	GenRuntimeReference = MakeExternalPackageReference(genRuntimePathPrefix)
+	GenRuntimeReference     = MakeExternalPackageReference(genRuntimePathPrefix)
+	ReflectHelpersReference = MakeExternalPackageReference(reflectHelpersPath)
 
 	// References to other libraries
 	APIExtensionsReference       = MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1")

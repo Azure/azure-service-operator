@@ -19,6 +19,16 @@ spec:
     spec:
       containers:
       - args:
+        - --secure-listen-address=0.0.0.0:8443
+        - --upstream=http://127.0.0.1:8080/
+        - --logtostderr=true
+        - --v=10
+        image: gcr.io/kubebuilder/kube-rbac-proxy:v0.5.0
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 8443
+          name: https
+      - args:
         - --metrics-addr=127.0.0.1:8080
         command:
         - /manager
@@ -40,11 +50,13 @@ spec:
             secretKeyRef:
               key: AZURE_TENANT_ID
               name: azureoperatorsettings
+              optional: true
         - name: AZURE_SUBSCRIPTION_ID
           valueFrom:
             secretKeyRef:
               key: AZURE_SUBSCRIPTION_ID
               name: azureoperatorsettings
+              optional: true
         - name: AZURE_USE_MI
           valueFrom:
             secretKeyRef:
@@ -95,16 +107,6 @@ spec:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: cert
           readOnly: true
-      - args:
-        - --secure-listen-address=0.0.0.0:8443
-        - --upstream=http://127.0.0.1:8080/
-        - --logtostderr=true
-        - --v=10
-        image: gcr.io/kubebuilder/kube-rbac-proxy:v0.5.0
-        name: kube-rbac-proxy
-        ports:
-        - containerPort: 8443
-          name: https
       terminationGracePeriodSeconds: 10
       volumes:
       - name: cert

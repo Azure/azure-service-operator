@@ -8,7 +8,7 @@ set -o nounset
 set -o pipefail
 
 # desired cluster name; default is "kind"
-KIND_CLUSTER_NAME="${KIND_CLUSTER_NAME:-k8sinfra}"
+KIND_CLUSTER_NAME="${KIND_CLUSTER_NAME:-aso}"
 
 if [[ "$(kind get clusters)" =~ .*"${KIND_CLUSTER_NAME}".* ]]; then
   echo "cluster already exists, moving on"

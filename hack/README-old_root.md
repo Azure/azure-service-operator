@@ -23,20 +23,20 @@ This project is experimental and is not supported.
 - Long term support
 
 ## Getting Started
-To get started you are going to need a cluster to deploy k8s-infra. You can use any 1.16.0+ K8s 
+To get started you are going to need a cluster to deploy `azure-service-operator`. You can use any 1.16.0+ K8s 
 cluster. To get going quicker, just spin up a local cluster using [Kind](https://kind.sigs.k8s.io).
 
-To get started using the Azure k8s-infra infrastructure provider, visit our [releases](https://github.com/Azure/azure-service-operator/releases),
+To get started using the Azure `azure-service-operator` infrastructure provider, visit our [releases](https://github.com/Azure/azure-service-operator/releases),
 and follow the instructions for the latest release.
 
 Once the controller has been installed in your cluster, you should be able to run the following:
 ```bash
 $ k get pod -A
-NAMESPACE            NAME                                             READY   STATUS    RESTARTS   AGE
-k8s-infra-system     k8s-infra-controller-manager-b98bc664-6h6sv      2/2     Running   0          7m15s
+NAMESPACE              NAME                                    READY   STATUS    RESTARTS   AGE
+azureoperator-system   aso-controller-manager-b98bc664-6h6sv   2/2     Running   0          7m15s
 
 # check out the logs for the running controller
-$ k logs pod/k8s-infra-controller-manager-b98bc664-6h6sv -n k8s-infra-system -c manager
+$ k logs pod/aso-controller-manager-b98bc664-6h6sv -n azureoperator-system -c manager
 
 # let's create an Azure ResourceGroup in westus2 with the name "foo-2019"
 cat <<EOF | kubectl apply -f -

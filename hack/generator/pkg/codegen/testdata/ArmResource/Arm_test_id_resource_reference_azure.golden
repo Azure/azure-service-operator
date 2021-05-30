@@ -6,6 +6,7 @@ package v1alpha1api20200101
 import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -117,7 +118,7 @@ func (fakeResource *FakeResource) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (fakeResource *FakeResource) createValidations() []func() error {
-	return nil
+	return []func() error{fakeResource.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -127,7 +128,20 @@ func (fakeResource *FakeResource) deleteValidations() []func() error {
 
 // updateValidations validates the update of the resource
 func (fakeResource *FakeResource) updateValidations() []func(old runtime.Object) error {
-	return nil
+	return []func(old runtime.Object) error{
+		func(old runtime.Object) error {
+			return fakeResource.validateResourceReferences()
+		},
+	}
+}
+
+// validateResourceReferences validates all resource references
+func (fakeResource *FakeResource) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&fakeResource.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateResourceReferences(refs)
 }
 
 // +kubebuilder:object:root=true
@@ -285,10 +299,8 @@ func (fakeResourceProperties *FakeResourceProperties) CreateEmptyARMValue() inte
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (fakeResourceProperties *FakeResourceProperties) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FakeResourcePropertiesARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResourcePropertiesARM, got %T", armInput)
-	}
+
+	// No error
 	return nil
 }
 

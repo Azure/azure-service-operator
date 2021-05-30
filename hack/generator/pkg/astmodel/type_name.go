@@ -134,7 +134,7 @@ var typeNameSingularToPluralOverrides map[string]string
 
 // Singular returns a TypeName with the name singularized.
 func (typeName TypeName) Singular() TypeName {
-	// work around bug in flect: https://github.com/Azure/k8s-infra/issues/319
+	// work around bug in flect: https://github.com/Azure/azure-service-operator/issues/1454
 	name := typeName.name
 	for plural, single := range typeNamePluralToSingularOverrides {
 		if strings.HasSuffix(name, plural) {

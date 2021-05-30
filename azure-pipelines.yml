@@ -273,6 +273,7 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
+        set -e
         kubectl delete namespace $(OPERATOR_NAMESPACE)
         imagename="$(PIPELINE_CONTAINER_REGISTRY_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
         echo $imagename
@@ -298,11 +299,14 @@ steps:
         kubectl logs -n $(OPERATOR_NAMESPACE) deployment/azureoperator-controller-manager -c manager
   
   - task: AzureCLI@2
+    displayName: Deploy to AKS - Clean up deployment and release cluster back to free pool
+    condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       azureSubscription: 'ASO Subscription'
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
+        set -e
         echo "Chosen AKS Cluster name"
         echo $(chosenclustername)
         # Delete CRDs to clean up cluster
@@ -315,8 +319,7 @@ steps:
         az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(chosenclustername) --resource-type Microsoft.ContainerService/managedClusters
       workingDirectory: '$(System.DefaultWorkingDirectory)'
       failOnStandardError: true
-    displayName: Deploy to AKS - Clean up deployment and release cluster back to free pool
-    condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    
 
   - task: Docker@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))

@@ -94,16 +94,27 @@ func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
 func (builder *convertFromARMBuilder) functionBodyStatements() []dst.Stmt {
 	var result []dst.Stmt
 
+	assertStmts := builder.assertInputTypeIsARM()
+
+	conversionStmts := generateTypeConversionAssignments(
+		builder.armType,
+		builder.kubeType,
+		builder.propertyConversionHandler)
+
+	// No conversions to perform -- some properties might be ignored
+	if len(removeEmptyStatements(conversionStmts)) == 0 {
+		return []dst.Stmt{
+			astbuilder.ReturnNoError(),
+		}
+	}
+
 	// perform a type assert and check its results
-	result = append(result, builder.assertInputTypeIsARM()...)
+	result = append(result, assertStmts...)
 
 	// Do all of the assignments for each property
 	result = append(
 		result,
-		generateTypeConversionAssignments(
-			builder.armType,
-			builder.kubeType,
-			builder.propertyConversionHandler)...)
+		conversionStmts...)
 
 	// Return nil error if we make it to the end
 	result = append(

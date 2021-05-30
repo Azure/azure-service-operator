@@ -6,6 +6,7 @@ package v1alpha1api20200101
 import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -117,7 +118,7 @@ func (a *A) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (a *A) createValidations() []func() error {
-	return nil
+	return []func() error{a.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -127,7 +128,20 @@ func (a *A) deleteValidations() []func() error {
 
 // updateValidations validates the update of the resource
 func (a *A) updateValidations() []func(old runtime.Object) error {
-	return nil
+	return []func(old runtime.Object) error{
+		func(old runtime.Object) error {
+			return a.validateResourceReferences()
+		},
+	}
+}
+
+// validateResourceReferences validates all resource references
+func (a *A) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&a.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateResourceReferences(refs)
 }
 
 // +kubebuilder:object:root=true
@@ -267,7 +281,7 @@ func (b *B) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (b *B) createValidations() []func() error {
-	return nil
+	return []func() error{b.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -277,7 +291,20 @@ func (b *B) deleteValidations() []func() error {
 
 // updateValidations validates the update of the resource
 func (b *B) updateValidations() []func(old runtime.Object) error {
-	return nil
+	return []func(old runtime.Object) error{
+		func(old runtime.Object) error {
+			return b.validateResourceReferences()
+		},
+	}
+}
+
+// validateResourceReferences validates all resource references
+func (b *B) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&b.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateResourceReferences(refs)
 }
 
 // +kubebuilder:object:root=true
@@ -417,7 +444,7 @@ func (c *C) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (c *C) createValidations() []func() error {
-	return nil
+	return []func() error{c.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -427,7 +454,20 @@ func (c *C) deleteValidations() []func() error {
 
 // updateValidations validates the update of the resource
 func (c *C) updateValidations() []func(old runtime.Object) error {
-	return nil
+	return []func(old runtime.Object) error{
+		func(old runtime.Object) error {
+			return c.validateResourceReferences()
+		},
+	}
+}
+
+// validateResourceReferences validates all resource references
+func (c *C) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&c.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateResourceReferences(refs)
 }
 
 // +kubebuilder:object:root=true
@@ -905,10 +945,8 @@ func (bResource *BResource) CreateEmptyARMValue() interface{} {
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (bResource *BResource) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BResourceARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BResourceARM, got %T", armInput)
-	}
+
+	// No error
 	return nil
 }
 
@@ -943,10 +981,8 @@ func (cResource *CResource) CreateEmptyARMValue() interface{} {
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (cResource *CResource) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CResourceARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CResourceARM, got %T", armInput)
-	}
+
+	// No error
 	return nil
 }
 
