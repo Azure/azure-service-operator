@@ -48,13 +48,13 @@ jobs:
             # This controller requires cert-manager and can be installed with:
             kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
 
-            kubectl apply namespace k8s-infra-system
+            kubectl apply namespace azureoperator-system
 
             cat <<EOF | kubectl apply -f -
             apiVersion: v1
             kind: Namespace
             metadata:
-              name: k8s-infra-system
+              name: azureoperator-system
             EOF
 
             cat <<EOF | kubectl apply -f -
@@ -62,7 +62,7 @@ jobs:
             kind: Secret
             metadata:
               name: manager-bootstrap-credentials
-              namespace: k8s-infra-system
+              namespace: azureoperator-system
             type: Opaque
             data:
               subscription-id: $(echo "${AZURE_SUBSCRIPTION_ID}" | tr -d '\n' | base64 | tr -d '\n')

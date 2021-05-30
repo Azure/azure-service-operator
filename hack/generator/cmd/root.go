@@ -24,8 +24,8 @@ func Execute() {
 
 func newRootCommand() (*cobra.Command, error) {
 	rootCmd := &cobra.Command{
-		Use:              "k8sinfra",
-		Short:            "k8sinfra provides a cmdline interface for generating k8s-infra types from Azure deployment template schema",
+		Use:              "aso-gen",
+		Short:            "aso-gen provides a cmdline interface for generating Azure Service Operator types from Azure deployment template schema",
 		TraverseChildren: true,
 	}
 

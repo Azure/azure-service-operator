@@ -34,4 +34,10 @@ RUN echo 'complete -F __start_kubectl k' >> "/home/vscode/.bashrc"
 RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.0.0/completion/bash/task.bash" > "/home/vscode/.task.completion.sh" \
     && echo 'source /home/vscode/.task.completion.sh' >> /home/vscode/.bashrc
 
-ENV KIND_CLUSTER_NAME=k8sinfra
+ENV KIND_CLUSTER_NAME=aso
+
+# install docker, from: https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker.md
+COPY library-scripts/docker-debian.sh /tmp/library-scripts/
+RUN bash /tmp/library-scripts/docker-debian.sh
+ENTRYPOINT ["/usr/local/share/docker-init.sh"]
+CMD ["sleep", "infinity"]

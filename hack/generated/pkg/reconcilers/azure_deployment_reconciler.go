@@ -600,7 +600,7 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 
 	if !isOwnerReady {
 		// TODO: We need to figure out how we're handing these sorts of errors.
-		// TODO: See https://github.com/Azure/k8s-infra/issues/274.
+		// TODO: See https://github.com/Azure/azure-service-operator/issues/1448
 		// TODO: For now just set an error so we at least see something
 		err = r.Patch(ctx, func() error {
 			r.SetResourceError(fmt.Sprintf("owner %s is not ready", r.obj.Owner().Name))

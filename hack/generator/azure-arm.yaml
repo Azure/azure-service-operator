@@ -117,12 +117,22 @@ exportFilters:
     group: microsoft.servicebus
     version: v*api20180101preview
     name: Namespace
-    because: "including Service Bus namespace"
+    because: "including Service Bus namespaces"
   - action: include-transitive
     group: microsoft.servicebus
     version: v*api20180101preview
     name: NamespacesQueue
-    because: "including Service Bus queue"
+    because: "including Service Bus queues"
+  - action: include-transitive
+    group: microsoft.servicebus
+    version: v*api20180101preview
+    name: NamespacesTopic
+    because: "including Service Bus topics"
+  - action: include-transitive
+    group: microsoft.network
+    version: v*api20171001
+    name: VirtualNetwork*
+    because: "including all Virtual Network things"
 
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude

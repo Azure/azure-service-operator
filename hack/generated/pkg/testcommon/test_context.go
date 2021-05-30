@@ -25,7 +25,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-const (
+var (
 	DefaultTestRegion = "westus" // Could make this an env variable if we wanted
 )
 
@@ -46,7 +46,7 @@ type PerTestContext struct {
 }
 
 // If you modify this make sure to modify the cleanup-test-azure-resources target in the Makefile too
-const ResourcePrefix = "k8sinfratest"
+const ResourcePrefix = "asotest"
 
 func NewTestContext(region string, recordReplay bool) TestContext {
 	return TestContext{
