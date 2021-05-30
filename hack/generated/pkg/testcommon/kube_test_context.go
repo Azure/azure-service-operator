@@ -11,6 +11,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -56,10 +57,10 @@ func NewKubeContext(
 	}
 }
 
-func (ctx KubeGlobalContext) ForTest(t *testing.T) (KubePerTestContext, error) {
+func (ctx KubeGlobalContext) ForTest(t *testing.T) KubePerTestContext {
 	perTestContext, err := ctx.TestContext.ForTest(t)
 	if err != nil {
-		return KubePerTestContext{}, err
+		t.Fatal(err)
 	}
 
 	var baseCtx *KubeBaseTestContext
@@ -70,13 +71,13 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) (KubePerTestContext, error) {
 	}
 
 	if err != nil {
-		return KubePerTestContext{}, err
+		t.Fatal(err)
 	}
 
 	clientOptions := client.Options{Scheme: controllers.CreateScheme()}
 	kubeClient, err := client.New(baseCtx.KubeConfig, clientOptions)
 	if err != nil {
-		return KubePerTestContext{}, err
+		t.Fatal(err)
 	}
 
 	ensure := NewEnsure(
@@ -84,7 +85,8 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) (KubePerTestContext, error) {
 		ctx.stateAnnotation,
 		ctx.errorAnnotation)
 
-	match := NewKubeMatcher(ensure)
+	context := context.Background() // we could consider using context.WithTimeout(RemainingTime()) here
+	match := NewKubeMatcher(ensure, context)
 
 	result := KubePerTestContext{
 		KubeGlobalContext:   &ctx,
@@ -92,14 +94,22 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) (KubePerTestContext, error) {
 		KubeClient:          kubeClient,
 		Ensure:              ensure,
 		Match:               match,
+		Ctx:                 context,
+		G:                   gomega.NewWithT(t),
 	}
 
 	err = result.createTestNamespace()
 	if err != nil {
-		return KubePerTestContext{}, err
+		t.Fatal(err)
 	}
 
-	return result, nil
+	return result
+}
+
+func (ktc KubePerTestContext) Subtest(t *testing.T) KubePerTestContext {
+	ktc.T = t
+	ktc.G = gomega.NewWithT(t)
+	return ktc
 }
 
 type KubeBaseTestContext struct {
@@ -115,6 +125,9 @@ type KubePerTestContext struct {
 	KubeClient client.Client
 	Ensure     *Ensure
 	Match      *KubeMatcher
+
+	G   gomega.Gomega
+	Ctx context.Context
 }
 
 func (tc KubePerTestContext) createTestNamespace() error {

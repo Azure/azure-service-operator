@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -18,16 +17,12 @@ import (
 func Test_VirtualNetwork_CRUD(t *testing.T) {
 	t.Parallel()
 
-	g := NewGomegaWithT(t)
-	ctx := context.Background()
-	testContext, err := testContext.ForTest(t)
-	g.Expect(err).ToNot(HaveOccurred())
+	tc := globalTestContext.ForTest(t)
 
-	rg, err := testContext.CreateNewTestResourceGroup(testcommon.WaitForCreation)
-	g.Expect(err).ToNot(HaveOccurred())
+	rg := tc.CreateNewTestResourceGroupAndWait()
 
 	vn := &network.VirtualNetwork{
-		ObjectMeta: testContext.MakeObjectMetaWithName(testContext.Namer.GenerateName("vn")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
 			Owner:    testcommon.AsOwner(rg.ObjectMeta),
 			Location: &testcommon.DefaultTestRegion,
@@ -39,20 +34,16 @@ func Test_VirtualNetwork_CRUD(t *testing.T) {
 		},
 	}
 
-	// Create
-	g.Expect(testContext.KubeClient.Create(ctx, vn)).To(Succeed())
-	g.Eventually(vn, remainingTime(t)).Should(testContext.Match.BeProvisioned(ctx))
+	tc.CreateAndWait(vn)
 
-	g.Expect(vn.Status.Id).ToNot(BeNil())
+	tc.Expect(vn.Status.Id).ToNot(BeNil())
 	armId := *vn.Status.Id
 
-	// Delete
-	g.Expect(testContext.KubeClient.Delete(ctx, vn)).To(Succeed())
-	g.Eventually(vn, remainingTime(t)).Should(testContext.Match.BeDeleted(ctx))
+	tc.DeleteAndWait(vn)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := testContext.AzureClient.HeadResource(ctx, armId, "2017-10-01")
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(retryAfter).To(BeZero())
-	g.Expect(exists).To(BeFalse())
+	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, "2017-10-01")
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }
