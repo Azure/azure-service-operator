@@ -128,6 +128,11 @@ exportFilters:
     version: v*api20180101preview
     name: NamespacesTopic
     because: "including Service Bus topics"
+  - action: include-transitive
+    group: microsoft.network
+    version: v*api20171001
+    name: VirtualNetwork*
+    because: "including all Virtual Network things"
 
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
