@@ -1,5 +1,5 @@
 {
-    "$comment": "Check that the AllOf handler correctly generates a union type. Note that this will also generate the standalone types Foo, Bar, and Baz which might actually be a bug (see discussion: https://github.com/Azure/k8s-infra/issues/114)" ,
+    "$comment": "Check that the AllOf handler correctly generates a union type. Note that this will also generate the standalone types Foo, Bar, and Baz which might actually be a bug (see discussion: https://github.com/Azure/azure-service-operator/issues/1516)" ,
     "id": "https://test.test/schemas/2020-01-01/test.json",
     "$schema": "http://json-schema.org/draft-04/schema#",
     "title": "Test",

@@ -18,7 +18,7 @@ const (
 	ResourceIDAnnotation = "resource-id.infra.azure.com"
 )
 
-// MetaObject represents an arbitrary k8s-infra custom resource
+// MetaObject represents an arbitrary ASO custom resource
 type MetaObject interface {
 	runtime.Object
 	metav1.Object
@@ -34,7 +34,7 @@ type Reconciler interface { // TODO: Sorta awkward interface name
 }
 
 // KubernetesResource is an Azure resource. This interface contains the common set of
-// methods that apply to all k8s-infra resources.
+// methods that apply to all ASO resources.
 type KubernetesResource interface {
 	// Owner returns the ResourceReference of the owner, or nil if there is no owner
 	Owner() *ResourceReference

@@ -15,7 +15,7 @@ If you want to use this:
 
    To complete the clone:
    1. Select "`GitHub`".
-   2. Search for "`Azure/k8s-infra`".
+   2. Search for "`Azure/azure-service-operator`".
    3. Choose either of the following options about where to create the volume.
    4. The window will reload and run the `Dockerfile` setup. The first time, this will take some minutes to complete as it installs all dependencies.
 
@@ -28,11 +28,11 @@ If you want to use this:
 The same `Dockerfile` that the VS Code `devcontainer` extension uses can also be used outside of VS Code; it is stored in the root `.devcontainer` directory and can be used to create a development container with all the tooling preinstalled:
 
 ```console
-$ docker build $(git rev-parse --show-toplevel)/.devcontainer -t k8sinfradev:latest
+$ docker build $(git rev-parse --show-toplevel)/.devcontainer -t asodev:latest
 … image will be created …
 
 $ # After that you can start a terminal in the development container with:
-$ docker run -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) -it k8sinfradev:latest
+$ docker run -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) -it asodev:latest
 ```
 
 It is not recommended to mount the source like this on Windows (WSL2) as the cross-VM file operations are very slow.

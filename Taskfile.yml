@@ -3,11 +3,13 @@ version: '3'
 output: prefixed
 
 vars:
-  GENERATOR_APP: k8sinfra-gen
+  GENERATOR_APP: aso-gen
   GENERATOR_ROOT: ./hack/generator/
 
-  CONTROLLER_APP: k8sinfra-controller
+  CONTROLLER_APP: aso-controller
   CONTROLLER_ROOT: ./hack/generated/
+
+  CONTROLLER_DOCKER_IMAGE: azure-service-operator:v2.0.0-alpha
 
   CROSSPLANE_APP: crossplane-gen
   CROSSPLANE_ROOT: ./hack/crossplane/
@@ -167,6 +169,15 @@ tasks:
     cmds:
     - go build -o ./bin/{{.CONTROLLER_APP}}
 
+  controller:docker-build:
+    desc: Generated the {{.CONTROLLER_APP}} Docker file.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:build]
+    sources:
+    - Dockerfile
+    cmds:
+    - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
+
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
@@ -294,12 +305,13 @@ tasks:
 
   cleanup-azure-resources:
     desc: Removes any old resources created by integration tests.
-    # This finds all resource groups which match the specified pattern (k8sinfratest)
+    # This finds all resource groups which match the specified pattern (asotest*)
     # and are older than a day (86400 seconds). This is a bit horrible but it works...
+    # [*]: this must match what is specified in raw_client.go
     cmds:
       - |
         rgs=`az group list --query '[*].{Name: name, CreatedAt: tags.CreatedAt}' \
-          | jq -r '.[] | select(.Name | test("^k8sinfratest")) | select(.CreatedAt == null or now-(.CreatedAt | fromdate) > 86400) | .Name'`; \
+          | jq -r '.[] | select(.Name | test("^asotest")) | select(.CreatedAt == null or now-(.CreatedAt | fromdate) > 86400) | .Name'`; \
         for rgname in ${rgs[@]} ; do \
           echo "$rgname will be deleted"; \
           az group delete --name $rgname --no-wait --yes; \
