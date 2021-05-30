@@ -11,7 +11,7 @@ vars:
   CONTROLLER_ROOT: ./hack/generated/
   CONTROLLER_PACKAGE: github.com/Azure/azure-service-operator/hack/generated
 
-  # Once the v2 controller is the main controller we can drive this from git tags
+  # TODO: Once the v2 controller is the main controller we can drive this from git tags
   # via e.g. `git describe --tags --dirty` which would give better info for dev builds
   VERSION: v2.0.0-alpha
   CONTROLLER_DOCKER_IMAGE: azure-service-operator:{{.VERSION}}
