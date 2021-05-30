@@ -12,7 +12,8 @@ vars:
   CONTROLLER_PACKAGE: github.com/Azure/azure-service-operator/hack/generated
 
   # TODO: Once the v2 controller is the main controller we can drive this from git tags
-  # via e.g. `git describe --tags --dirty` which would give better info for dev builds
+  # via e.g. `git describe --tags --dirty` which would give better info for dev builds.
+  # When doing this, also update the generator (currently using SHORT_VERSION below).
   VERSION: v2.0.0-alpha
   CONTROLLER_DOCKER_IMAGE: azure-service-operator:{{.VERSION}}
 
@@ -110,8 +111,6 @@ tasks:
         sh: if [[ -z "$(git status --porcelain)" ]]; then echo "clean"; else echo "dirty"; fi
       SHORT_VERSION:
         sh: git rev-parse --short HEAD
-      VERSION:
-        sh: git rev-list -1 HEAD
 
   ############### Controller targets ###############
   controller:quick-checks:
