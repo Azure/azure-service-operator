@@ -64,8 +64,7 @@ func NewPropertyAssignmentFromFunction(
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 	}
 
-	version := idFactory.CreateIdentifier(otherDefinition.Name().Name(), astmodel.Exported)
-	result.name = "AssignPropertiesFrom" + version
+	result.name = nameOfPropertyAssignmentFunction(otherDefinition.Name(), ConvertFrom, idFactory)
 	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
 	err := result.createConversions(receiver, conversionContext.Types())
@@ -91,8 +90,7 @@ func NewPropertyAssignmentToFunction(
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 	}
 
-	version := idFactory.CreateIdentifier(otherDefinition.Name().Name(), astmodel.Exported)
-	result.name = "AssignPropertiesTo" + version
+	result.name = nameOfPropertyAssignmentFunction(otherDefinition.Name(), ConvertTo, idFactory)
 	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
 	err := result.createConversions(receiver, conversionContext.Types())
@@ -390,4 +388,17 @@ func (fn *PropertyAssignmentFunction) createPropertyConversion(
 
 		return conversion(reader, writer, generationContext)
 	}, nil
+}
+
+func nameOfPropertyAssignmentFunction(name astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
+	nameOfOtherType := idFactory.CreateIdentifier(name.Name(), astmodel.Exported)
+	switch direction {
+	case ConvertTo:
+		return "AssignPropertiesTo" + nameOfOtherType
+
+	case ConvertFrom:
+		return "AssignPropertiesFrom" + nameOfOtherType
+	}
+
+	panic(fmt.Sprintf("unexpected conversion direction %q", direction))
 }

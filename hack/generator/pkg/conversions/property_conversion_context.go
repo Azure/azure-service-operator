@@ -14,15 +14,21 @@ type PropertyConversionContext struct {
 	types astmodel.Types
 	// functionName is the name of the function we're currently generating
 	functionName string
+	// direction is the direction of the conversion we're generating
+	direction Direction
 	// knownLocals is a reference to our set of local variables
 	// (Pointer because it's a reference type, not because it's optional)
 	knownLocals *astmodel.KnownLocalsSet
+	// idFactory is used for generating method names
+	idFactory astmodel.IdentifierFactory
 }
 
 // NewStorageConversionContext creates a new instance of a PropertyConversionContext
-func NewStorageConversionContext(types astmodel.Types, idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
+func NewStorageConversionContext(types astmodel.Types, direction Direction, idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
 	return &PropertyConversionContext{
 		types:       types,
+		direction:   direction,
+		idFactory:   idFactory,
 		knownLocals: astmodel.NewKnownLocalsSet(idFactory),
 	}
 }
@@ -89,6 +95,8 @@ func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 	return &PropertyConversionContext{
 		types:        c.types,
 		functionName: c.functionName,
+		direction:    c.direction,
+		idFactory:    c.idFactory,
 		knownLocals:  c.knownLocals.Clone(),
 	}
 }

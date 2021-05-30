@@ -17,9 +17,9 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// role
 	var role Release
-	err := role.AssignPropertiesFromPerson(&source.role)
+	err := role.AssignPropertiesFromRelease(&source.role)
 	if err != nil {
-		return errors.Wrap(err, "populating role from role, calling AssignPropertiesFromPerson()")
+		return errors.Wrap(err, "populating role from role, calling AssignPropertiesFromRelease()")
 	}
 	person.role = role
 
@@ -32,9 +32,9 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 
 	// role
 	var role vNext.Release
-	err := person.role.AssignPropertiesToPerson(&role)
+	err := person.role.AssignPropertiesToRelease(&role)
 	if err != nil {
-		return errors.Wrap(err, "populating role from role, calling AssignPropertiesToPerson()")
+		return errors.Wrap(err, "populating role from role, calling AssignPropertiesToRelease()")
 	}
 	destination.role = role
 

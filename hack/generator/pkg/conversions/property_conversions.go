@@ -810,8 +810,8 @@ func assignObjectFromObject(
 		return nil
 	}
 
-	// Require source to be an object
-	_, sourceType, sourceFound := conversionContext.ResolveType(sourceEndpoint.Type())
+	// Require source to be the name of an object
+	sourceName, sourceType, sourceFound := conversionContext.ResolveType(sourceEndpoint.Type())
 	if !sourceFound {
 		return nil
 	}
@@ -819,7 +819,7 @@ func assignObjectFromObject(
 		return nil
 	}
 
-	// Require destination to be an object
+	// Require destination to be the name of an object
 	destinationName, destinationType, destinationFound := conversionContext.ResolveType(destinationEndpoint.Type())
 	if !destinationFound {
 		return nil
@@ -856,20 +856,22 @@ func assignObjectFromObject(
 			actualReader = astbuilder.AddrOf(reader)
 		}
 
+		functionName := nameOfPropertyAssignmentFunction(sourceName, conversionContext.direction, conversionContext.idFactory)
+
 		var conversion dst.Stmt
 		if destinationName.PackageReference.Equals(generationContext.CurrentPackage()) {
 			// Destination is our current type
 			conversion = astbuilder.SimpleAssignment(
 				errLocal,
 				tok,
-				astbuilder.CallExpr(localId, conversionContext.FunctionName(), actualReader))
+				astbuilder.CallExpr(localId, functionName, actualReader))
 
 		} else {
 			// Destination is another type
 			conversion = astbuilder.SimpleAssignment(
 				errLocal,
 				tok,
-				astbuilder.CallExpr(reader, conversionContext.FunctionName(), astbuilder.AddrOf(localId)))
+				astbuilder.CallExpr(reader, functionName, astbuilder.AddrOf(localId)))
 		}
 
 		checkForError := astbuilder.ReturnIfNotNil(
@@ -877,7 +879,7 @@ func assignObjectFromObject(
 			astbuilder.WrappedErrorf(
 				errorsPackageName,
 				"populating %s from %s, calling %s()",
-				destinationEndpoint.Name(), sourceEndpoint.Name(), conversionContext.FunctionName()))
+				destinationEndpoint.Name(), sourceEndpoint.Name(), functionName))
 
 		assignment := writer(dst.NewIdent(copyVar))
 		return astbuilder.Statements(declaration, conversion, checkForError, assignment)
