@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/testcases"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
@@ -62,7 +63,7 @@ func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefiniti
 func (s *objectSerializationTestCaseFactory) injectTestCase(
 	_ *astmodel.TypeVisitor, objectType *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	name := ctx.(astmodel.TypeName)
-	testcase := astmodel.NewObjectSerializationTestCase(name, objectType, s.idFactory)
+	testcase := testcases.NewObjectSerializationTestCase(name, objectType, s.idFactory)
 	result := objectType.WithTestCase(testcase)
 	return result, nil
 }
