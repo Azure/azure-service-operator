@@ -6,6 +6,7 @@ package v1alpha1api20200101
 import (
 	"github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
 
 // +kubebuilder:rbac:groups=test.infra.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
@@ -19,6 +20,11 @@ type A struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              A_Spec `json:"spec,omitempty"`
 }
+
+var _ conversion.Hub = &A{}
+
+// Hub marks that this A is the hub type for conversion
+func (a *A) Hub() {}
 
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
@@ -39,6 +45,11 @@ type B struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              B_Spec `json:"spec,omitempty"`
 }
+
+var _ conversion.Hub = &B{}
+
+// Hub marks that this B is the hub type for conversion
+func (b *B) Hub() {}
 
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B

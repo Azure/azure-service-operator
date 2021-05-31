@@ -10,6 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
@@ -47,6 +48,11 @@ func (fakeResource *FakeResource) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the FakeResource resource
 func (fakeResource *FakeResource) defaultImpl() { fakeResource.defaultAzureName() }
+
+var _ conversion.Hub = &FakeResource{}
+
+// Hub marks that this FakeResource is the hub type for conversion
+func (fakeResource *FakeResource) Hub() {}
 
 var _ genruntime.KubernetesResource = &FakeResource{}
 
