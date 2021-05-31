@@ -169,7 +169,6 @@ func RunTestStorageConversionFunction_AsFunc(c *StorageConversionPropertyTestCas
 
 	idFactory := astmodel.NewIdentifierFactory()
 
-
 	currentType, ok := astmodel.AsObjectType(c.currentObject.Type())
 	g.Expect(ok).To(BeTrue())
 
