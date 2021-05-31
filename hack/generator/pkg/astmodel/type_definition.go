@@ -84,7 +84,7 @@ func (def TypeDefinition) Equals(other TypeDefinition) bool {
 	}
 
 	for i := range def.description {
-		if def.description[i]!=other.description[i] {
+		if def.description[i] != other.description[i] {
 			return false
 		}
 	}

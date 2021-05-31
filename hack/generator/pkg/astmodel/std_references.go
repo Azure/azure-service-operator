@@ -42,10 +42,10 @@ var (
 	PrettyReference     = MakeExternalPackageReference("github.com/kr/pretty")
 
 	// Imports with specified names
-	GomegaImport = NewPackageImport(GomegaReference).WithName(".")
+	GomegaImport       = NewPackageImport(GomegaReference).WithName(".")
 	GitHubErrorsImport = NewPackageImport(GitHubErrorsReference).WithName("gerrors")
 
 	// Type names
 	ResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "ResourceReference")
-	ConvertibleInterface = MakeTypeName(ControllerRuntimeConversion, "Convertible")
+	ConvertibleInterface      = MakeTypeName(ControllerRuntimeConversion, "Convertible")
 )
