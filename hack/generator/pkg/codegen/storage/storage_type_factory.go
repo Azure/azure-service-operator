@@ -6,9 +6,11 @@
 package storage
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 )
 
 // StorageTypeFactory is used to create storage inputTypes for a specific api group
@@ -163,14 +165,16 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 	knownTypes := make(astmodel.Types)
 	knownTypes.AddTypes(f.inputTypes)
 	knownTypes.AddTypes(f.outputTypes)
-	conversionContext := astmodel.NewStorageConversionContext(knownTypes, f.idFactory)
+	conversionFromContext := conversions.NewStorageConversionContext(knownTypes, conversions.ConvertFrom, f.idFactory)
 
-	convertFromFn, err := astmodel.NewStorageConversionFromFunction(definition, nextDef, f.idFactory, conversionContext)
+	convertFromFn, err := conversions.NewPropertyAssignmentFromFunction(definition, nextDef, f.idFactory, conversionFromContext)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating ConvertFrom() function for %q", name)
 	}
 
-	convertToFn, err := astmodel.NewStorageConversionToFunction(definition, nextDef, f.idFactory, conversionContext)
+	conversionToContext := conversions.NewStorageConversionContext(knownTypes, conversions.ConvertTo, f.idFactory)
+
+	convertToFn, err := conversions.NewPropertyAssignmentToFunction(definition, nextDef, f.idFactory, conversionToContext)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating ConvertTo() function for %q", name)
 	}
