@@ -47,4 +47,5 @@ var (
 
 	// Type names
 	ResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "ResourceReference")
+	ConvertibleInterface = MakeTypeName(ControllerRuntimeConversion, "Convertible")
 )

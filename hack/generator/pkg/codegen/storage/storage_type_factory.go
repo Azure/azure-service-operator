@@ -15,15 +15,16 @@ import (
 
 // StorageTypeFactory is used to create storage inputTypes for a specific api group
 type StorageTypeFactory struct {
-	group             string                                                  // Name of the group we're handling (used mostly for logging)
-	inputTypes        astmodel.Types                                          // All the types for this group
-	outputTypes       astmodel.Types                                          // All the types created/modified by this factory
-	idFactory         astmodel.IdentifierFactory                              // Factory for creating identifiers
-	typeConverter     *TypeConverter                                          // a utility type type visitor used to create storage variants
-	functionInjector  *FunctionInjector                                       // a utility used to inject functions into definitions
-	resourceHubMarker *HubVersionMarker                                       // a utility used to mark resources as Storage Versions
-	conversionMap     map[astmodel.PackageReference]astmodel.PackageReference // Map of conversion links for creating our conversion graph
-	hubPackage        astmodel.PackageReference                               // Identifies the package that represents our hub
+	group                  string                                                  // Name of the group we're handling (used mostly for logging)
+	inputTypes             astmodel.Types                                          // All the types for this group
+	outputTypes            astmodel.Types                                          // All the types created/modified by this factory
+	idFactory              astmodel.IdentifierFactory                              // Factory for creating identifiers
+	typeConverter          *TypeConverter                                          // a utility type type visitor used to create storage variants
+	functionInjector       *FunctionInjector                                       // a utility used to inject functions into definitions
+	implementationInjector *ImplementationInjector                                 // a utility used to inject interface implementations into definitions
+	resourceHubMarker      *HubVersionMarker                                       // a utility used to mark resources as Storage Versions
+	conversionMap          map[astmodel.PackageReference]astmodel.PackageReference // Map of conversion links for creating our conversion graph
+	hubPackage             astmodel.PackageReference                               // Identifies the package that represents our hub
 }
 
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
@@ -32,14 +33,15 @@ func NewStorageTypeFactory(group string, idFactory astmodel.IdentifierFactory) *
 	types := make(astmodel.Types)
 
 	result := &StorageTypeFactory{
-		group:             group,
-		inputTypes:        types,
-		outputTypes:       make(astmodel.Types),
-		idFactory:         idFactory,
-		conversionMap:     make(map[astmodel.PackageReference]astmodel.PackageReference),
-		functionInjector:  NewFunctionInjector(),
-		resourceHubMarker: NewHubVersionMarker(),
-		typeConverter:     NewTypeConverter(types),
+		group:                  group,
+		inputTypes:             types,
+		outputTypes:            make(astmodel.Types),
+		idFactory:              idFactory,
+		conversionMap:          make(map[astmodel.PackageReference]astmodel.PackageReference),
+		functionInjector:       NewFunctionInjector(),
+		implementationInjector: NewImplementationInjector(),
+		resourceHubMarker:      NewHubVersionMarker(),
+		typeConverter:          NewTypeConverter(types),
 	}
 
 	return result
@@ -228,30 +230,36 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 	knownTypes.AddTypes(f.inputTypes.Except(f.outputTypes))
 	knownTypes.AddTypes(f.outputTypes)
 	conversionFromContext := conversions.NewStorageConversionContext(knownTypes, conversions.ConvertFrom, f.idFactory)
-
-	assignFromFn, err := conversions.NewPropertyAssignmentFromFunction(definition, nextDef, f.idFactory, conversionContext)
+	assignFromFn, err := conversions.NewPropertyAssignmentFromFunction(definition, nextDef, f.idFactory, conversionFromContext)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating PropertyAssignmentFrom() function for %q", name)
+	}
+
+	conversionToContext := conversions.NewStorageConversionContext(knownTypes, conversions.ConvertTo, f.idFactory)
+	assignToFn, err := conversions.NewPropertyAssignmentToFunction(definition, nextDef, f.idFactory, conversionToContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating PropertyAssignmentTo() function for %q", name)
+	}
+
+	definitionWithAssignmentFunctions, err := f.functionInjector.Inject(definition, assignToFn, assignFromFn)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to inject ConvertFrom and ConvertTo functions into %q", name)
 	}
 
 	// Work out the name of our hub type
 	// TODO: Make this work when types are renamed
 	// TODO: Make this work when types are discontinued
-	hub := astmodel.MakeTypeName(f.hubPackage, name.Name())
+	hubType := astmodel.MakeTypeName(f.hubPackage, name.Name())
 
-	convertFromFn := conversions.NewConversionFromHubFunction(hub, assignFromFn.OtherType(), assignFromFn.Name(), f.idFactory)
+	convertFromFn := conversions.NewConversionFromHubFunction(hubType, assignFromFn.OtherType(), assignFromFn.Name(), f.idFactory)
+	convertToFn := conversions.NewConversionToHubFunction(hubType, assignToFn.OtherType(), assignToFn.Name(), f.idFactory)
 
-	assignToFn, err := conversions.NewPropertyAssignmentToFunction(definition, nextDef, f.idFactory, conversionContext)
+	hubImplementation := astmodel.NewInterfaceImplementation(astmodel.ConvertibleInterface, convertFromFn, convertToFn)
+
+	definitionWithHubInterface, err := f.implementationInjector.Inject(definitionWithAssignmentFunctions, hubImplementation)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating PropertyAssignmentTo() function for %q", name)
+		return nil, errors.Wrapf(err, "failed to inject conversion.Convertible interface into %q", name)
 	}
 
-	convertToFn := conversions.NewConversionToHubFunction(hub, assignToFn.OtherType(), assignToFn.Name(), f.idFactory)
-
-	updatedDefinition, err := f.functionInjector.Inject(definition, assignFromFn, assignToFn, convertFromFn, convertToFn)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to inject ConvertFrom function into %q", name)
-	}
-
-	return &updatedDefinition, nil
+	return &definitionWithHubInterface, nil
 }
