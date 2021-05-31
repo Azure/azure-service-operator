@@ -131,6 +131,9 @@ var _ PropertyContainer = &ResourceType{}
 // Ensure ResourceType implements the FunctionContainer interface correctly
 var _ FunctionContainer = &ResourceType{}
 
+// Ensure ObjectType implements the TestCaseDefiner interface correctly
+var _ TestCaseDefiner = &ResourceType{}
+
 // SpecType returns the type used for specification
 func (resource *ResourceType) SpecType() Type {
 	return resource.spec
@@ -204,6 +207,16 @@ func (resource *ResourceType) WithFunction(function Function) *ResourceType {
 func (resource *ResourceType) WithTestCase(testcase TestCase) *ResourceType {
 	result := resource.copy()
 	result.testcases[testcase.Name()] = testcase
+	return result
+}
+
+// TestCases returns a new slice containing all the test cases associated with this resource
+func (resource *ResourceType) TestCases() []TestCase {
+	var result []TestCase
+	for _, tc := range resource.testcases {
+		result = append(result, tc)
+	}
+
 	return result
 }
 

@@ -36,6 +36,9 @@ var _ PropertyContainer = &ObjectType{}
 // Ensure ObjectType implements the FunctionContainer interface correctly
 var _ FunctionContainer = &ObjectType{}
 
+// Ensure ObjectType implements the TestCaseDefiner interface correctly
+var _ TestCaseDefiner = &ObjectType{}
+
 // NewObjectType is a factory method for creating a new ObjectType
 func NewObjectType() *ObjectType {
 	return &ObjectType{
@@ -522,6 +525,7 @@ func (objectType *ObjectType) HasTestCases() bool {
 	return len(objectType.testcases) > 0
 }
 
+// TestCases returns a new slice containing all the test cases associated with this object
 func (objectType *ObjectType) TestCases() []TestCase {
 	var result []TestCase
 	for _, tc := range objectType.testcases {
