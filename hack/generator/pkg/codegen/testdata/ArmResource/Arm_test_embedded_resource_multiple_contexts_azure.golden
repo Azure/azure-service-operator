@@ -10,15 +10,10 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -48,11 +43,6 @@ func (a *A) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the A resource
 func (a *A) defaultImpl() { a.defaultAzureName() }
-
-var _ conversion.Hub = &A{}
-
-// Hub marks that this A is the hub type for conversion
-func (a *A) Hub() {}
 
 var _ genruntime.KubernetesResource = &A{}
 

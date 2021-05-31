@@ -10,15 +10,10 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -48,11 +43,6 @@ func (a *A) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the A resource
 func (a *A) defaultImpl() { a.defaultAzureName() }
-
-var _ conversion.Hub = &A{}
-
-// Hub marks that this A is the hub type for conversion
-func (a *A) Hub() {}
 
 var _ genruntime.KubernetesResource = &A{}
 
@@ -181,11 +171,7 @@ func (aSpecARM A_SpecARM) GetType() string {
 	return string(aSpecARM.Type)
 }
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=bs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={bs/status,bs/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type B struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -215,11 +201,6 @@ func (b *B) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the B resource
 func (b *B) defaultImpl() { b.defaultAzureName() }
-
-var _ conversion.Hub = &B{}
-
-// Hub marks that this B is the hub type for conversion
-func (b *B) Hub() {}
 
 var _ genruntime.KubernetesResource = &B{}
 
@@ -348,11 +329,7 @@ func (bSpecARM B_SpecARM) GetType() string {
 	return string(bSpecARM.Type)
 }
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=cs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={cs/status,cs/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type C struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -382,11 +359,6 @@ func (c *C) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the C resource
 func (c *C) defaultImpl() { c.defaultAzureName() }
-
-var _ conversion.Hub = &C{}
-
-// Hub marks that this C is the hub type for conversion
-func (c *C) Hub() {}
 
 var _ genruntime.KubernetesResource = &C{}
 
@@ -515,11 +487,7 @@ func (cSpecARM C_SpecARM) GetType() string {
 	return string(cSpecARM.Type)
 }
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=ds,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={ds/status,ds/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
 type D struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -549,11 +517,6 @@ func (d *D) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the D resource
 func (d *D) defaultImpl() { d.defaultAzureName() }
-
-var _ conversion.Hub = &D{}
-
-// Hub marks that this D is the hub type for conversion
-func (d *D) Hub() {}
 
 var _ genruntime.KubernetesResource = &D{}
 
