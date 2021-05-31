@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
+//nolint:deadcode // We need this for codegen-alpha-0
 // MarkStorageVersion creates a Stage to mark a particular version as a storage version
 func MarkStorageVersion(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeStage(
