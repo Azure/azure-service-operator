@@ -286,27 +286,30 @@ func (f *StorageTypeFactory) injectConversionsBetween(
 		return nil, errors.Wrapf(err, "creating PropertyAssignmentTo() function for %q", name)
 	}
 
-	definitionWithAssignmentFunctions, err := f.functionInjector.Inject(definition, assignToFn, assignFromFn)
+	result, err := f.functionInjector.Inject(definition, assignToFn, assignFromFn)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to inject ConvertFrom and ConvertTo functions into %q", name)
 	}
 
-	// Work out the name of our hub type
-	// TODO: Make this work when types are renamed
-	// TODO: Make this work when types are discontinued
-	hubType := astmodel.MakeTypeName(f.hubPackage, name.Name())
+	if _, isResource := astmodel.AsResourceType(result.Type()); isResource {
 
-	convertFromFn := conversions.NewConversionFromHubFunction(hubType, assignFromFn.OtherType(), assignFromFn.Name(), f.idFactory)
-	convertToFn := conversions.NewConversionToHubFunction(hubType, assignToFn.OtherType(), assignToFn.Name(), f.idFactory)
+		// Work out the name of our hub type
+		// TODO: Make this work when types are renamed
+		// TODO: Make this work when types are discontinued
+		hubType := astmodel.MakeTypeName(f.hubPackage, name.Name())
 
-	hubImplementation := astmodel.NewInterfaceImplementation(astmodel.ConvertibleInterface, convertFromFn, convertToFn)
+		convertFromFn := conversions.NewConversionFromHubFunction(hubType, assignFromFn.OtherType(), assignFromFn.Name(), f.idFactory)
+		convertToFn := conversions.NewConversionToHubFunction(hubType, assignToFn.OtherType(), assignToFn.Name(), f.idFactory)
 
-	definitionWithHubInterface, err := f.implementationInjector.Inject(definitionWithAssignmentFunctions, hubImplementation)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to inject conversion.Convertible interface into %q", name)
+		hubImplementation := astmodel.NewInterfaceImplementation(astmodel.ConvertibleInterface, convertFromFn, convertToFn)
+
+		result, err = f.implementationInjector.Inject(result, hubImplementation)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to inject conversion.Convertible interface into %q", upstreamName)
+		}
 	}
 
-	return &definitionWithHubInterface, nil
+	return &result, nil
 }
 
 // injectOriginalVersionMethod modifies spec types by injecting an OriginalVersion() function
