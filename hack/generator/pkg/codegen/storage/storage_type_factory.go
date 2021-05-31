@@ -280,27 +280,33 @@ func (f *StorageTypeFactory) injectConversionsBetween(
 		return nil, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
+	conversionToContext := conversions.NewStorageConversionContext(knownTypes, conversions.ConvertTo, f.idFactory)
+	assignToFn, err := conversions.NewPropertyAssignmentToFunction(definition, nextDef, f.idFactory, conversionToContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating PropertyAssignmentTo() function for %q", name)
+	}
+
+	definitionWithAssignmentFunctions, err := f.functionInjector.Inject(definition, assignToFn, assignFromFn)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to inject ConvertFrom and ConvertTo functions into %q", name)
+	}
+
 	// Work out the name of our hub type
 	// TODO: Make this work when types are renamed
 	// TODO: Make this work when types are discontinued
-	hub := astmodel.MakeTypeName(f.hubPackage, name.Name())
-    
-	assignToFn, err := conversions.NewPropertyAssignmentToFunction(upstreamDef, downstreamDef, f.idFactory, conversionContext)
+	hubType := astmodel.MakeTypeName(f.hubPackage, name.Name())
+
+	convertFromFn := conversions.NewConversionFromHubFunction(hubType, assignFromFn.OtherType(), assignFromFn.Name(), f.idFactory)
+	convertToFn := conversions.NewConversionToHubFunction(hubType, assignToFn.OtherType(), assignToFn.Name(), f.idFactory)
+
+	hubImplementation := astmodel.NewInterfaceImplementation(astmodel.ConvertibleInterface, convertFromFn, convertToFn)
+
+	definitionWithHubInterface, err := f.implementationInjector.Inject(definitionWithAssignmentFunctions, hubImplementation)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)
+		return nil, errors.Wrapf(err, "failed to inject conversion.Convertible interface into %q", name)
 	}
 
-	updatedDefinition, err := f.functionInjector.Inject(upstreamDef, assignFromFn)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to inject %s function into %q", assignFromFn.Name(), upstreamName)
-	}
-
-	updatedDefinition, err = f.functionInjector.Inject(updatedDefinition, assignToFn)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to inject %s function into %q", assignToFn.Name(), upstreamName)
-	}
-
-	return &updatedDefinition, nil
+	return &definitionWithHubInterface, nil
 }
 
 // injectOriginalVersionMethod modifies spec types by injecting an OriginalVersion() function
