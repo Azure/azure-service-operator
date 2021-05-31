@@ -411,8 +411,10 @@ func (resource *ResourceType) Owner() *TypeName {
 }
 
 // MarkAsStorageVersion marks the resource as the Kubebuilder storage version
-func (resource *ResourceType) MarkAsStorageVersion() *ResourceType {
-	result := resource.copy()
+func (resource *ResourceType) MarkAsStorageVersion(idFactory IdentifierFactory) *ResourceType {
+	hubFn := NewHubFunction(idFactory)
+	hubImplementation := NewInterfaceImplementation(HubInterface, hubFn)
+	result := resource.WithInterface(hubImplementation)
 	result.isStorageVersion = true
 	return result
 }
