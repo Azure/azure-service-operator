@@ -218,7 +218,11 @@ func (generator *CodeGenerator) verifyPipeline() error {
 		}
 
 		for _, postreq := range stage.Postrequisites() {
-			stagesExpected[postreq] = append(stagesExpected[postreq], stage.Id())
+			if _, ok := stagesSeen[postreq]; ok {
+				errs = append(errs, errors.Errorf("postrequisite %q of stage %q satisfied too early", postreq, stage.Id()))
+			} else {
+				stagesExpected[postreq] = append(stagesExpected[postreq], stage.Id())
+			}
 		}
 
 		stagesSeen[stage.Id()] = struct{}{}
