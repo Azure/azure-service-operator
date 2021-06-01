@@ -14,6 +14,7 @@ import (
 
 	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/patch"
 )
 
 func Test_ResourceGroup_CRUD(t *testing.T) {
@@ -40,8 +41,11 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 	armId := rg.Status.ID
 
 	// Update the tags
+	patchHelper, err := patch.NewHelper(rg, kubeClient)
+	g.Expect(err).ToNot(HaveOccurred())
+
 	rg.Spec.Tags["tag1"] = "value1"
-	g.Expect(kubeClient.Update(ctx, rg)).To(Succeed())
+	g.Expect(patchHelper.Patch(ctx, rg)).To(Succeed())
 
 	objectKey, err := client.ObjectKeyFromObject(rg)
 	g.Expect(err).ToNot(HaveOccurred())
