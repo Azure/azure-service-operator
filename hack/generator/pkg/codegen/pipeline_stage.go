@@ -24,8 +24,10 @@ type PipelineStage struct {
 	action func(context.Context, astmodel.Types) (astmodel.Types, error)
 	// Tag used for filtering
 	targets []PipelineTarget
-	// Identifiers for other stages that must be completed first
+	// Identifiers for other stages that must be completed before this one
 	prerequisites []string
+	// Identifiers for other stages that must be completed after this one
+	postrequisites []string
 }
 
 // MakePipelineStage creates a new pipeline stage that's ready for execution
@@ -45,6 +47,7 @@ func (stage *PipelineStage) HasId(id string) bool {
 	return stage.id == id
 }
 
+// RequiresPrerequisiteStages declares which stages must have completed before this one is executed
 func (stage PipelineStage) RequiresPrerequisiteStages(prerequisites ...string) PipelineStage {
 	if len(stage.prerequisites) > 0 {
 		panic(fmt.Sprintf(
@@ -55,6 +58,24 @@ func (stage PipelineStage) RequiresPrerequisiteStages(prerequisites ...string) P
 	}
 
 	stage.prerequisites = prerequisites
+
+	return stage
+}
+
+// RequiresPostrequisiteStages declares which stages must be executed after this one has completed
+// This is not completely isomorphic with RequiresPrerequisiteStages as are supporting stages that are sometimes omitted
+// from execution when targeting different outcomes. Having both pre- and post-requisites allows the dependencies to
+// drop out cleanly when different stages are present.
+func (stage PipelineStage) RequiresPostrequisiteStages(postrequisites ...string) PipelineStage {
+	if len(stage.postrequisites) > 0 {
+		panic(fmt.Sprintf(
+			"Postrequisites of stage '%s' already set to '%s'; cannot modify to '%s'.",
+			stage.id,
+			strings.Join(stage.postrequisites, "; "),
+			strings.Join(postrequisites, "; ")))
+	}
+
+	stage.postrequisites = postrequisites
 
 	return stage
 }
