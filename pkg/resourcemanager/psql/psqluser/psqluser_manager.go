@@ -23,6 +23,7 @@ type PSqlUserManager interface {
 	DropUser(ctx context.Context, db *sql.DB, user string) error
 	DeleteSecrets(ctx context.Context, instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) (bool, error)
 	GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) map[string][]byte
+	EnsureUserOwnsDatabases(ctx context.Context, user string, ownedDatabases []string, adminUser string, db *sql.DB) error
 
 	// also embed methods from AsyncClient
 	resourcemanager.ARMClient

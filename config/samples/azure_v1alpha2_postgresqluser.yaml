@@ -1,0 +1,36 @@
+apiVersion: azure.microsoft.com/v1alpha2
+kind: PostgreSQLUser
+metadata:
+  name: psqluser-sample
+spec:
+  server: postgresqlserver-sample
+  resourceGroup: resourcegroup-azure-operators
+  # (optional) The Azure Database for PostgreSQL server is created with the 3 default roles defined.
+  # azure_pg_admin
+  # azure_superuser
+  # your server admin user 
+  # roles:
+  #   - "azure_pg_admin"
+  
+  # (optional) List of databases the user owns, or to be more specific: 
+  # The user will inherit the ownership role of those databases.
+  # ownedDatabases:
+  #   - postgresqldatabase-sample
+  
+  # Specify a specific username for the user
+  # username: psqluser-sample
+  # Specify adminSecret and adminSecretKeyVault if you want to 
+  # read the PSQL server admin creds from a specific keyvault secret
+  # adminSecret: postgresqlserver-sample
+  # adminSecretKeyVault: asokeyvault
+  
+  # Use the field below to optionally specify a different keyvault 
+  # to store the secrets in
+  # keyVaultToStoreSecrets: asokeyvault
+
+  # (optional) Defaults to 'postgres'. This database is meant as a default database for users 
+  # and applications to connect to. The ASO needs an existing database to connect to but does 
+  # not run database specific queries.
+  # maintenanceDatabase: other-existing-database
+
+

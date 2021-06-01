@@ -864,7 +864,10 @@ func RegisterWebhooks(mgr manager.Manager) error {
 	if err := (&v1alpha1.PostgreSQLServer{}).SetupWebhookWithManager(mgr); err != nil {
 		return errors.Wrap(err, "registering PostgreSQLServer webhook")
 	}
-
+	if  err = (&azurev1alpha1.PostgreSQLUser{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "PostgreSQLUser")
+		os.Exit(1)
+	}
 	if err := (&v1alpha1.AzureSQLUser{}).SetupWebhookWithManager(mgr); err != nil {
 		return errors.Wrap(err, "registering AzureSQLUser webhook")
 	}

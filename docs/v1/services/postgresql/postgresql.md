@@ -7,6 +7,8 @@ The Postgre SQL operator suite consists of the following operators.
 1. Postgre SQL server - Deploys an `Azure Database for PostgreSQL server` given the Location and Resource group
 2. Postgre SQL database - Deploys a database under the given `Azure Database for PostgreSQL server`
 3. Postgre SQL firewall rule - Deploys a firewall rule to allow access to the `Azure Database for PostgreSQL server` from the specified IP range
+4. Postgre SQL user  - Deploys a user to a given database server and allows to assign roles and database ownership
+
 
 ### PostgreSQL server
 
@@ -56,6 +58,20 @@ Here is a [sample YAML](/config/samples/azure_v1alpha1_postgresqlfirewallrule.ya
 The `server` indicates the PostgreSQL server on which you want to configure the new PostgreSQL firewall rule on and `resourceGroup` is the resource group of the PostgreSQL server. The `startIpAddress` and `endIpAddress` indicate the IP range of sources to allow access to the SQL server.
 
 *Note*: When the `startIpAddress` and `endIpAddress` are 0.0.0.0, it denotes a special case that adds a firewall rule to allow all Azure services to access the SQL server.
+
+### PostgreSQL Database
+
+Here is a [sample YAML](/config/samples/azure_v1alpha2_postgresqluser.yaml) for PostgreSQL user
+
+You can:
+- Add `roles` you want to grant to this user
+- Add database names to `ownedDatabases` of which this user should inherit the ownership role. Under the hood 
+  this will create a role with the name of the database, set this role as database owner and grant this 
+  role to the user.
+- Define a `maintenanceDatabase` if you do not have the default `postgres` database at you server. This 
+  database is meant as a default database for users and applications to connect to. The ASO needs an 
+  existing database to connect to but does not run database specific queries.
+
 
 ## Deploy, view and delete resources
 

@@ -8,7 +8,7 @@ import (
 
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1alpha2 "github.com/Azure/azure-service-operator/api/v1alpha2"
 )
 
 // PostgreSQLUserReconciler reconciles a PSQLUser object
@@ -20,12 +20,12 @@ type PostgreSQLUserReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={postgresqlusers/status,postgresqlusers/finalizers},verbs=get;update;patch
 
 func (r *PostgreSQLUserReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.PostgreSQLUser{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha2.PostgreSQLUser{})
 }
 
 // SetupWithManager runs reconcile loop with manager
 func (r *PostgreSQLUserReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.PostgreSQLUser{}).
+		For(&azurev1alpha2.PostgreSQLUser{}).
 		Complete(r)
 }

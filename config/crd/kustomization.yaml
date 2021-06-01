@@ -68,7 +68,7 @@ patches:
 #- patches/webhook_in_postgresqldatabases.yaml
 #- patches/webhook_in_postgresqlfirewallrules.yaml
 #- patches/webhook_in_postgresqlvnetrules.yaml
-#- patches/webhook_in_postgresqlusers.yaml
+- patches/webhook_in_postgresqlusers.yaml
 #- patches/webhook_in_apimservices.yaml
 #- patches/webhook_in_apimgmtapis.yaml
 #- patches/webhook_in_virtualnetworks.yaml
@@ -112,7 +112,7 @@ patches:
 #- patches/cainjection_in_postgresqldatabases.yaml
 #- patches/cainjection_in_postgresqlfirewallrules.yaml
 #- patches/cainjection_in_postgresqlvnetrules.yaml
-#- patches/cainjection_in_postgresqlusers.yaml
+- patches/cainjection_in_postgresqlusers.yaml
 #- patches/cainjection_in_apimservices.yaml
 #- patches/cainjection_in_apimgmtapis.yaml
 #- patches/cainjection_in_virtualnetworks.yaml

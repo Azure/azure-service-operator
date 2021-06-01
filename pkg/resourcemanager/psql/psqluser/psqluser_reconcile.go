@@ -27,6 +27,11 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
+// The DefaultMaintanenceDatabase is also created when a database
+// cluster is initialized. This database is meant as a default database
+// for users and applications to connect to.
+const DefaultMaintanenceDatabase = "postgres"
+
 // Ensure that user exists
 func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := m.convert(obj)
@@ -83,7 +88,12 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 	adminUser := string(adminSecret["fullyQualifiedUsername"])
 	adminPassword := string(adminSecret[PSecretPasswordKey])
 
-	_, err = m.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
+	maintenanceDatabase := instance.Spec.MaintenanceDatabase
+	if len(maintenanceDatabase) == 0 {
+		maintenanceDatabase = DefaultMaintanenceDatabase
+	}
+
+	_, err = m.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, maintenanceDatabase)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
@@ -111,7 +121,7 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 	}
 
 	fullServerName := string(adminSecret["fullyQualifiedServerName"])
-	db, err := m.ConnectToSqlDb(ctx, PDriverName, fullServerName, instance.Spec.DbName, PSqlServerPort, adminUser, adminPassword)
+	db, err := m.ConnectToSqlDb(ctx, PDriverName, fullServerName, maintenanceDatabase, PSqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
@@ -141,6 +151,7 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 	if user == "" {
 		user = fmt.Sprintf(requestedUsername)
 		userSecret[PSecretUsernameKey] = []byte(user)
+		userSecret[PSecretFullyQualifiedUsernameKey] = []byte(fmt.Sprintf("%s@%s", user, instance.Spec.Server))
 	}
 
 	// Publishing the user secret:
@@ -171,21 +182,27 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 		}
 	}
 
-	// apply roles to user
-	if len(instance.Spec.Roles) == 0 {
-		instance.Status.Message = "No roles specified for user"
-		return false, fmt.Errorf("No roles specified for database user")
+	// apply roles to user, if any
+	if len(instance.Spec.Roles) > 0 {
+		err = m.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
+		if err != nil {
+			instance.Status.Message = "GrantUserRoles failed"
+			return false, fmt.Errorf("GrantUserRoles failed")
+		}
 	}
 
-	err = m.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
-	if err != nil {
-		instance.Status.Message = "GrantUserRoles failed"
-		return false, fmt.Errorf("GrantUserRoles failed")
+	if len(instance.Spec.OwnedDatabases) > 0 {
+		err = m.EnsureUserOwnsDatabases(ctx, user, instance.Spec.OwnedDatabases, adminUser, db)
+		if err != nil {
+			instance.Status.Message = fmt.Sprintf("EnsureUserOwnsDatabases failed: %s", err.Error())
+			return false, fmt.Errorf("EnsureUserOwnsDatabases failed %w", err)
+		}
 	}
 
 	instance.Status.Provisioned = true
 	instance.Status.State = "Succeeded"
 	instance.Status.Message = resourcemanager.SuccessMsg
+
 	// reconcile done
 	return true, nil
 }
@@ -229,8 +246,13 @@ func (m *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		return false, nil
 	}
 
+	maintenanceDatabase := instance.Spec.MaintenanceDatabase
+	if len(maintenanceDatabase) == 0 {
+		maintenanceDatabase = DefaultMaintanenceDatabase
+	}
+
 	// short circuit connection if database doesn't exist
-	_, err = m.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
+	_, err = m.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, maintenanceDatabase)
 	if err != nil {
 		instance.Status.Message = err.Error()
 
@@ -250,7 +272,7 @@ func (m *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 	adminPassword := string(adminSecret[PSecretPasswordKey])
 	fullServerName := string(adminSecret["fullyQualifiedServerName"])
 
-	db, err := m.ConnectToSqlDb(ctx, PDriverName, fullServerName, instance.Spec.DbName, PSqlServerPort, adminUser, adminPassword)
+	db, err := m.ConnectToSqlDb(ctx, PDriverName, fullServerName, maintenanceDatabase, PSqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "no pg_hba.conf entry for host") {
@@ -320,13 +342,6 @@ func (m *PostgreSqlUserManager) GetParents(obj runtime.Object) ([]resourcemanage
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.DbName,
-			},
-			Target: &v1alpha1.PostgreSQLDatabase{},
-		},
-		{
-			Key: types.NamespacedName{
-				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
 			Target: &v1alpha2.PostgreSQLServer{},
@@ -347,11 +362,13 @@ func (m *PostgreSqlUserManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStat
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+
+	st := v1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
-func (m *PostgreSqlUserManager) convert(obj runtime.Object) (*v1alpha1.PostgreSQLUser, error) {
-	local, ok := obj.(*v1alpha1.PostgreSQLUser)
+func (m *PostgreSqlUserManager) convert(obj runtime.Object) (*v1alpha2.PostgreSQLUser, error) {
+	local, ok := obj.(*v1alpha2.PostgreSQLUser)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}

@@ -14,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	psdatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
@@ -29,6 +29,9 @@ const PDriverName = "postgres"
 
 // PSecretUsernameKey is the username key in secret
 const PSecretUsernameKey = "username"
+
+// PSecretUsernameKey is the username key in secret
+const PSecretFullyQualifiedUsernameKey = "fullyQualifiedUsername"
 
 // PSecretPasswordKey is the password key in secret
 const PSecretPasswordKey = "password"
@@ -82,6 +85,132 @@ func (m *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername s
 	return db, err
 }
 
+func (m *PostgreSqlUserManager) GetDbOwnerRole(dbName string) string {
+	return dbName
+}
+
+// EnsureUserOwnsDatabases adds the user to the database owner role (and create a dedicated owner role if non exists)
+func (m *PostgreSqlUserManager) EnsureUserOwnsDatabases(ctx context.Context, user string, ownedDatabases []string, adminUser string, db *sql.DB) error {
+	var errorStrings []string
+
+	// remove host from username, if specified
+	if strings.Contains(adminUser, "@") {
+		adminUser = strings.Split(adminUser, "@")[0]
+	}
+
+	for _, dbName := range ownedDatabases {
+
+		databaseExists, err := m.DatabaseExists(ctx, db, dbName)
+		if err != nil {
+			errorStrings = append(errorStrings, err.Error())
+			continue
+		}
+		if !databaseExists {
+			errorStrings = append(errorStrings, fmt.Sprintf("Database %s does not exist.", dbName))
+			continue
+		}
+
+		dbOwnerRole := m.GetDbOwnerRole(dbName)
+
+		err = m.EnsureDatabaseHasOwner(ctx, dbName, dbOwnerRole, adminUser, db)
+		if err != nil {
+			errorStrings = append(errorStrings, err.Error())
+			continue
+		}
+
+		// add dbOwnerRole to users roles
+		err = m.GrantUserRoles(ctx, user, []string{dbOwnerRole}, db)
+		if err != nil {
+			errorStrings = append(errorStrings, err.Error())
+			continue
+		}
+
+		// add execution context to users role for db
+		if err = helpers.FindBadChars(dbOwnerRole); err != nil {
+			errorStrings = append(errorStrings, fmt.Sprintf("Problem found with dbOwnerRole: %s", err.Error()))
+			continue
+		}
+
+		tsql := fmt.Sprintf("ALTER ROLE %q IN DATABASE %q SET role TO '%s' ", user, dbName, dbOwnerRole)
+		_, err = db.ExecContext(ctx, tsql)
+		if err != nil {
+			errorStrings = append(errorStrings, err.Error())
+			continue
+		}
+	}
+
+	if len(errorStrings) != 0 {
+		return fmt.Errorf(strings.Join(errorStrings, "\n"))
+	}
+	return nil
+}
+
+// EnsureDatabaseHasOwnOwnerROle
+func (m *PostgreSqlUserManager) EnsureDatabaseHasOwner(ctx context.Context, dbName string, dbOwner string, adminUser string, db *sql.DB) error {
+	var errorStrings []string
+
+	if err := helpers.FindBadChars(dbOwner); err != nil {
+		return fmt.Errorf("Problem found with dbOwner: %w", err)
+	}
+
+	if err := helpers.FindBadChars(dbName); err != nil {
+		return fmt.Errorf("Problem found with dbName: %w", err)
+	}
+
+	// check if database has the owner role dbOwner
+	tsql := fmt.Sprintf(`SELECT pg_catalog.pg_get_userbyid(d.datdba) as "OWNER" 
+						FROM pg_catalog.pg_database d 
+						WHERE d.datname = '%s' 
+						AND pg_catalog.pg_get_userbyid(d.datdba) = '%s';`,
+		dbName, dbOwner)
+
+	res, err := db.ExecContext(ctx, tsql)
+	if err != nil {
+		return err
+	}
+	rows, err := res.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rows == 0 {
+		// the role dbOwner is not owner of the database dbName
+
+		// create owner role if not exists
+		roleExists, err := m.RoleExists(ctx, db, dbOwner)
+		if err != nil {
+			return err
+		}
+		if !roleExists {
+			tsql = fmt.Sprintf("CREATE ROLE %q", dbOwner)
+			_, err = db.ExecContext(ctx, tsql)
+			if err != nil {
+				return err
+			}
+		}
+
+		// add to admin user, otherwise the admin user can not
+		// assign the role as owner to the database
+		tsql = fmt.Sprintf("GRANT %q TO %q", dbOwner, adminUser)
+		_, err = db.ExecContext(ctx, tsql)
+		if err != nil {
+			return err
+		}
+
+		// update the owner of the database to the new role
+		tsql := fmt.Sprintf("ALTER DATABASE %q OWNER TO %q", dbName, dbOwner)
+		_, err = db.ExecContext(ctx, tsql)
+		if err != nil {
+			return err
+		}
+	}
+
+	if len(errorStrings) != 0 {
+		return fmt.Errorf(strings.Join(errorStrings, "\n"))
+	}
+	return nil
+}
+
 // GrantUserRoles grants roles to a user for a given database
 func (m *PostgreSqlUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
 	var errorStrings []string
@@ -91,8 +220,7 @@ func (m *PostgreSqlUserManager) GrantUserRoles(ctx context.Context, user string,
 	}
 
 	for _, role := range roles {
-		tsql := fmt.Sprintf("GRANT %s TO %q", role, user)
-
+		tsql := fmt.Sprintf("GRANT %q TO %q", role, user)
 		if err := helpers.FindBadChars(role); err != nil {
 			return errors.Wrap(err, "problem found with role")
 		}
@@ -101,6 +229,7 @@ func (m *PostgreSqlUserManager) GrantUserRoles(ctx context.Context, user string,
 		if err != nil {
 			errorStrings = append(errorStrings, err.Error())
 		}
+
 	}
 
 	if len(errorStrings) != 0 {
@@ -162,6 +291,30 @@ func (m *PostgreSqlUserManager) UserExists(ctx context.Context, db *sql.DB, user
 
 }
 
+// DatabaseExists checks if a database exists
+func (m *PostgreSqlUserManager) DatabaseExists(ctx context.Context, db *sql.DB, dbName string) (bool, error) {
+
+	res, err := db.ExecContext(ctx, "SELECT datname FROM pg_catalog.pg_database WHERE datname = $1", dbName)
+	if err != nil {
+		return false, err
+	}
+	rows, err := res.RowsAffected()
+	return rows > 0, err
+
+}
+
+// RoleExists checks if db contains role
+func (m *PostgreSqlUserManager) RoleExists(ctx context.Context, db *sql.DB, rolname string) (bool, error) {
+
+	res, err := db.ExecContext(ctx, "SELECT * FROM pg_roles WHERE rolname = $1", rolname)
+	if err != nil {
+		return false, err
+	}
+	rows, err := res.RowsAffected()
+	return rows > 0, err
+
+}
+
 // DropUser drops a user from db
 func (m *PostgreSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
 	if err := helpers.FindBadChars(user); err != nil {
@@ -174,7 +327,7 @@ func (m *PostgreSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user s
 }
 
 // DeleteSecrets deletes the secrets associated with a SQLUser
-func (m *PostgreSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) (bool, error) {
+func (m *PostgreSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha2.PostgreSQLUser, secretClient secrets.SecretClient) (bool, error) {
 
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
@@ -192,7 +345,7 @@ func (m *PostgreSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1a
 }
 
 // GetOrPrepareSecret gets or creates a secret
-func (m *PostgreSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) map[string][]byte {
+func (m *PostgreSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha2.PostgreSQLUser, secretClient secrets.SecretClient) map[string][]byte {
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	secret, err := secretClient.Get(ctx, secretKey)
@@ -206,12 +359,12 @@ func (m *PostgreSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance
 		// @todo: find out whether this is an error due to non existing key or failed conn
 		pw := helpers.NewPassword()
 		return map[string][]byte{
-			"username":                 []byte(""),
-			"password":                 []byte(pw),
-			"PSqlServerNamespace":      []byte(instance.Namespace),
-			"PSqlServerName":           []byte(instance.Spec.Server),
-			"fullyQualifiedServerName": []byte(instance.Spec.Server + "." + psqldbdnssuffix),
-			"PSqlDatabaseName":         []byte(instance.Spec.DbName),
+			PSecretUsernameKey:               []byte(""),
+			PSecretPasswordKey:               []byte(pw),
+			"PSqlServerNamespace":            []byte(instance.Namespace),
+			"PSqlServerName":                 []byte(instance.Spec.Server),
+			"fullyQualifiedServerName":       []byte(instance.Spec.Server + "." + psqldbdnssuffix),
+			PSecretFullyQualifiedUsernameKey: []byte(""),
 		}
 	}
 
