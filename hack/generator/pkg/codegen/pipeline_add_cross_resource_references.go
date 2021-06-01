@@ -180,5 +180,9 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20190401"), "VirtualNetworkRule"),
 			propName: "Id",
 		}: {},
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.network", "v1alpha1api20200501"), "SubResource"),
+			propName: "Id",
+		}: {},
 	}
 }

@@ -133,7 +133,11 @@ exportFilters:
     version: v*api20171001
     name: VirtualNetwork*
     because: "including all Virtual Network things"
-
+  - action: include-transitive
+    group: microsoft.network
+    version: v*api20200501
+    name: PublicIPAddresses
+    because: "including public IP Address"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.

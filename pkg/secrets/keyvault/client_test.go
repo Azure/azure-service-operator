@@ -49,7 +49,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 		userID := config.GlobalCredentials().ClientID()
 
 		kvManager = kvhelper.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
-		keyVaultName = controllers.GenerateTestResourceNameWithRandom("keyvault", 5)
+		keyVaultName = controllers.GenerateTestResourceNameWithRandom("kv", 5)
 		vaultBaseUrl = keyvault.GetVaultsURL(keyVaultName)
 
 		// Create a keyvault
