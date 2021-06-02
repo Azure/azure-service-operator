@@ -116,7 +116,34 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 			types:         types,
 		}
 	}
-	
+
+	createFunctionAssignmentTest := func(
+		name string,
+		property *astmodel.PropertyDefinition,
+		function astmodel.Function) *StorageConversionPropertyTestCase {
+
+		currentType := astmodel.NewObjectType().WithFunction(function)
+		currentDefinition := astmodel.MakeTypeDefinition(
+			astmodel.MakeTypeName(vCurrent, "Person"),
+			currentType)
+
+		hubType := astmodel.NewObjectType().WithProperty(property)
+		hubDefinition := astmodel.MakeTypeDefinition(
+			astmodel.MakeTypeName(vNext, "Person"),
+			hubType)
+
+		types := make(astmodel.Types)
+		types.Add(currentDefinition)
+		types.Add(hubDefinition)
+
+		return &StorageConversionPropertyTestCase{
+			name:          name,
+			currentObject: currentDefinition,
+			otherObject:   hubDefinition,
+			types:         types,
+		}
+	}
+
 	return []*StorageConversionPropertyTestCase{
 		createPropertyAssignmentTest("SetStringFromString", requiredStringProperty, requiredStringProperty),
 		createPropertyAssignmentTest("SetStringFromOptionalString", requiredStringProperty, optionalStringProperty),
@@ -155,6 +182,9 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 		createPropertyAssignmentTest("ConvertBetweenAliasAndBaseType", requiredCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge, nextAge),
 		createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndBaseType", optionalCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge),
 		createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndOptionalBaseType", optionalCurrentAgeProperty, optionalPrimitiveAgeProperty, currentAge),
+
+		createFunctionAssignmentTest("ReadFromFunctionIntoProperty", requiredIntProperty, ageFunction),
+		createFunctionAssignmentTest("ReadFromFunctionIntoOptionalProperty", optionalIntProperty, ageFunction),
 	}
 }
 
