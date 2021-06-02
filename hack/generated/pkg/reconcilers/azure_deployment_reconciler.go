@@ -317,7 +317,8 @@ func (r *AzureDeploymentReconciler) DetermineCreateOrUpdateAction() (CreateOrUpd
 		return CreateOrUpdateActionNoAction, NoAction, errors.Errorf("resource is currently deleting; it can not be applied")
 	}
 
-	if _, ok := r.GetDeploymentID(); ok {
+	if depId, ok := r.GetDeploymentID(); ok {
+		r.log.V(3).Info("Have existing deployment ID, will monitor it", "deploymentID", depId)
 		// There is an ongoing deployment we need to monitor
 		return CreateOrUpdateActionMonitorDeployment, r.MonitorDeployment, nil
 	}
@@ -559,7 +560,7 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 		r.log.Info("Deleting deployment", "ID", deployment.ID)
 		retryAfter, err = r.ARMClient.DeleteDeployment(ctx, deployment.ID)
 		if err != nil {
-			return ctrl.Result{}, errors.Wrapf(err, "deleting deployment %q", deployment.ID)
+			return ctrl.Result{}, errors.Wrapf(err, "failed deleting deployment %q", deployment.ID)
 		}
 
 		deployment.ID = ""
