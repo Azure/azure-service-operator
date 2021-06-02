@@ -67,14 +67,14 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		azerr := errhelp.NewAzureError(err)
 		if azerr.Type != errhelp.ResourceNotFound {
 			instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
-			return errhelp.HandleEnsureError(err, notFoundErrorCodes, nil)
+			return errhelp.IsErrorFatal(err, notFoundErrorCodes, nil)
 		}
 	}
 
 	failoverGroupProperties, err := fg.TransformToSQLFailoverGroup(ctx, instance)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		return errhelp.HandleEnsureError(err, notFoundErrorCodes, nil)
+		return errhelp.IsErrorFatal(err, notFoundErrorCodes, nil)
 	}
 
 	// We found a failover group, check to make sure that it matches what we have locally
@@ -127,7 +127,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		unrecoverableErrors := []string{
 			errhelp.InvalidFailoverGroupRegion,
 		}
-		return errhelp.HandleEnsureError(err, append(allowedErrors, notFoundErrorCodes...), unrecoverableErrors)
+		return errhelp.IsErrorFatal(err, append(allowedErrors, notFoundErrorCodes...), unrecoverableErrors)
 	}
 	instance.Status.SetProvisioning("Resource request successfully submitted to Azure")
 	instance.Status.PollingURL = future.PollingURL()

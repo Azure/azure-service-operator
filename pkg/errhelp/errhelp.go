@@ -43,7 +43,16 @@ func StripErrorTimes(err string) string {
 
 }
 
-func HandleEnsureError(err error, allowedErrorTypes []string, unrecoverableErrorTypes []string) (bool, error) {
+// IsErrorFatal checks the given error against the provided list of allowed and unrecoverable error types.
+//   - Allowed errors are NOT fatal and no error is returned. When returned to the async_reconciler this means that
+//     reconciliation is reattempted.
+//   - Unrecoverable errors are fatal. When returned to the async_reconciler reconciliation is stopped until
+//     a new modification is made to the resource in question. This is useful for things like client errors that
+//     no amount of reconciliation will fix.
+// If an error is not in the allowed list and also not in the unrecoverable list, it is classified as nonfatal,
+// but an error is returned. When returned to the async_reconciler, reconciliation will continue but an error will
+// be logged.
+func IsErrorFatal(err error, allowedErrorTypes []string, unrecoverableErrorTypes []string) (bool, error) {
 	azerr := NewAzureError(err)
 	if helpers.ContainsString(allowedErrorTypes, azerr.Type) {
 		return false, nil // false means the resource is not in a terminal state yet, keep trying to reconcile.
