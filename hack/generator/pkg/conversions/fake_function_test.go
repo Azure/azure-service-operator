@@ -98,4 +98,3 @@ func (fake *FakeFunction) Equals(f astmodel.Function) bool {
 func (fake *FakeFunction) ReturnType() astmodel.Type {
 	return fake.returnType
 }
-
