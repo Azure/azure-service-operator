@@ -6,17 +6,17 @@ package vCurrent
 import "github.com/Azure/azure-service-operator/hack/generated/_apis/Verification/vNext"
 
 type Person struct {
-	name string `json:"name"`
+	Name string `json:"name"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
-	// name
-	if source.name != nil {
-		person.name = *source.name
+	// Name
+	if source.Name != nil {
+		person.Name = *source.Name
 	} else {
-		person.name = ""
+		person.Name = ""
 	}
 
 	// No error
@@ -26,9 +26,9 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 // AssignPropertiesToPerson populates the provided destination Person from our Person
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
-	// name
-	name := person.name
-	destination.name = &name
+	// Name
+	name := person.Name
+	destination.Name = &name
 
 	// No error
 	return nil
