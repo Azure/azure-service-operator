@@ -76,6 +76,10 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 	optionalCurrentAgeProperty := astmodel.NewPropertyDefinition("age", "age", astmodel.NewOptionalType(currentAge.Name()))
 	optionalNextAgeProperty := astmodel.NewPropertyDefinition("age", "age", astmodel.NewOptionalType(nextAge.Name()))
 
+	idFactory := astmodel.NewIdentifierFactory()
+	ageFunction := NewFakeFunction("Age", idFactory)
+	ageFunction.returnType = astmodel.IntType
+
 	nastyProperty := astmodel.NewPropertyDefinition(
 		"nasty",
 		"nasty",
