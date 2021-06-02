@@ -529,6 +529,7 @@ func (objectType *ObjectType) HasTestCases() bool {
 	return len(objectType.testcases) > 0
 }
 
+// TestCases returns a new slice containing all the test cases associated with this object
 func (objectType *ObjectType) TestCases() []TestCase {
 	var result []TestCase
 	for _, tc := range objectType.testcases {
