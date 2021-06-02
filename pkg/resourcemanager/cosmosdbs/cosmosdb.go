@@ -7,15 +7,15 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
+	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2021-03-15/documentdb"
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/to"
 )
 
 // AzureCosmosDBManager is the struct which contains helper functions for resource groups
@@ -43,7 +43,7 @@ func (m *AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	ctx context.Context,
 	accountName string,
 	spec v1alpha1.CosmosDBSpec,
-	tags map[string]*string) (*documentdb.DatabaseAccount, string, error) {
+	tags map[string]*string) (*documentdb.DatabaseAccountGetResults, string, error) {
 	cosmosDBClient, err := getCosmosDBClient(m.Creds)
 	if err != nil {
 		return nil, "", err
@@ -61,7 +61,7 @@ func (m *AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 			EnableMultipleWriteLocations:  &spec.Properties.EnableMultipleWriteLocations,
 			Locations:                     getLocations(spec),
 			Capabilities:                  getCapabilities(spec),
-			IPRangeFilter:                 getIPRangeFilter(spec),
+			IPRules:                       getIPRules(spec),
 		},
 	}
 	createUpdateFuture, err := cosmosDBClient.CreateOrUpdate(
@@ -83,7 +83,7 @@ func (m *AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 func (m *AzureCosmosDBManager) GetCosmosDB(
 	ctx context.Context,
 	groupName string,
-	cosmosDBName string) (*documentdb.DatabaseAccount, error) {
+	cosmosDBName string) (*documentdb.DatabaseAccountGetResults, error) {
 	cosmosDBClient, err := getCosmosDBClient(m.Creds)
 	if err != nil {
 		return nil, err
@@ -241,10 +241,15 @@ func getCapabilities(spec v1alpha1.CosmosDBSpec) *[]documentdb.Capability {
 	return &capabilities
 }
 
-func getIPRangeFilter(spec v1alpha1.CosmosDBSpec) *string {
-	sIPRules := ""
-	if spec.IPRules != nil {
-		sIPRules = strings.Join(*spec.IPRules, ",")
+func getIPRules(spec v1alpha1.CosmosDBSpec) *[]documentdb.IPAddressOrRange {
+	if spec.IPRules == nil {
+		return nil
 	}
-	return &sIPRules
+
+	var result []documentdb.IPAddressOrRange
+	for _, rule := range *spec.IPRules {
+		result = append(result, documentdb.IPAddressOrRange{IPAddressOrRange: &rule})
+	}
+
+	return &result
 }
