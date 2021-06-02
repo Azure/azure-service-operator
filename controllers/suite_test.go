@@ -38,7 +38,7 @@ import (
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
+	resourcemanagercosmosdbaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/account"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
@@ -266,7 +266,7 @@ func setup() error {
 	err = (&CosmosDBReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagercosmosdb.NewAzureCosmosDBManager(config.GlobalCredentials(), secretClient),
+			AzureClient: resourcemanagercosmosdbaccount.NewAzureCosmosDBManager(config.GlobalCredentials(), secretClient),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"CosmosDB",
 				ctrl.Log.WithName("controllers").WithName("CosmosDB"),

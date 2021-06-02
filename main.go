@@ -37,7 +37,7 @@ import (
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
+	resourcemanagercosmosdbaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/account"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	loadbalancer "github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
@@ -179,7 +179,7 @@ func main() {
 	)
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(config.GlobalCredentials())
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(config.GlobalCredentials())
-	cosmosDBClient := resourcemanagercosmosdb.NewAzureCosmosDBManager(
+	cosmosDBClient := resourcemanagercosmosdbaccount.NewAzureCosmosDBManager(
 		config.GlobalCredentials(),
 		secretClient,
 	)

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package cosmosdbs
+package account
 
 import (
 	"context"
@@ -14,7 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
@@ -24,27 +24,13 @@ type AzureCosmosDBManager struct {
 	SecretClient secrets.SecretClient
 }
 
-func getCosmosDBClient(creds config.Credentials) (documentdb.DatabaseAccountsClient, error) {
-	cosmosDBClient := documentdb.NewDatabaseAccountsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
-
-	a, err := iam.GetResourceManagementAuthorizer(creds)
-	if err != nil {
-		cosmosDBClient = documentdb.DatabaseAccountsClient{}
-	} else {
-		cosmosDBClient.Authorizer = a
-	}
-
-	err = cosmosDBClient.AddToUserAgent(config.UserAgent())
-	return cosmosDBClient, err
-}
-
 // CreateOrUpdateCosmosDB creates a new CosmosDB
 func (m *AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	ctx context.Context,
 	accountName string,
 	spec v1alpha1.CosmosDBSpec,
 	tags map[string]*string) (*documentdb.DatabaseAccountGetResults, string, error) {
-	cosmosDBClient, err := getCosmosDBClient(m.Creds)
+	cosmosDBClient, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return nil, "", err
 	}
@@ -84,7 +70,7 @@ func (m *AzureCosmosDBManager) GetCosmosDB(
 	ctx context.Context,
 	groupName string,
 	cosmosDBName string) (*documentdb.DatabaseAccountGetResults, error) {
-	cosmosDBClient, err := getCosmosDBClient(m.Creds)
+	cosmosDBClient, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +86,7 @@ func (m *AzureCosmosDBManager) GetCosmosDB(
 func (m *AzureCosmosDBManager) CheckNameExistsCosmosDB(
 	ctx context.Context,
 	accountName string) (bool, error) {
-	cosmosDBClient, err := getCosmosDBClient(m.Creds)
+	cosmosDBClient, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return false, err
 	}
@@ -125,7 +111,7 @@ func (m *AzureCosmosDBManager) DeleteCosmosDB(
 	ctx context.Context,
 	groupName string,
 	cosmosDBName string) (*autorest.Response, error) {
-	cosmosDBClient, err := getCosmosDBClient(m.Creds)
+	cosmosDBClient, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -147,7 +133,7 @@ func (m *AzureCosmosDBManager) ListKeys(
 	ctx context.Context,
 	groupName string,
 	accountName string) (*documentdb.DatabaseAccountListKeysResult, error) {
-	client, err := getCosmosDBClient(m.Creds)
+	client, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +151,7 @@ func (m *AzureCosmosDBManager) ListConnectionStrings(
 	ctx context.Context,
 	groupName string,
 	accountName string) (*documentdb.DatabaseAccountListConnectionStringsResult, error) {
-	client, err := getCosmosDBClient(m.Creds)
+	client, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
