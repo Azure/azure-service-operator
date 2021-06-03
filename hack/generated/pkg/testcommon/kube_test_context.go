@@ -6,22 +6,9 @@ Licensed under the MIT license.
 package testcommon
 
 import (
-	"context"
-	"log"
-	"testing"
-	"time"
-
-	"github.com/onsi/gomega"
-	"github.com/pkg/errors"
-	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/rest"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
-	"github.com/Azure/azure-service-operator/hack/generated/controllers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 )
 
@@ -57,169 +44,10 @@ func NewKubeContext(
 	}
 }
 
-func (ctx KubeGlobalContext) ForTest(t *testing.T) KubePerTestContext {
-	perTestContext, err := ctx.TestContext.ForTest(t)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	var baseCtx *KubeBaseTestContext
-	if ctx.useEnvTest {
-		baseCtx, err = createEnvtestContext(perTestContext)
-	} else {
-		baseCtx, err = createRealKubeContext(perTestContext)
-	}
-
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	clientOptions := client.Options{Scheme: controllers.CreateScheme()}
-	kubeClient, err := client.New(baseCtx.KubeConfig, clientOptions)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	ensure := NewEnsure(
-		kubeClient,
-		ctx.stateAnnotation,
-		ctx.errorAnnotation)
-
-	context := context.Background() // we could consider using context.WithTimeout(RemainingTime()) here
-	match := NewKubeMatcher(ensure, context)
-
-	result := KubePerTestContext{
-		KubeGlobalContext:   &ctx,
-		KubeBaseTestContext: *baseCtx,
-		KubeClient:          kubeClient,
-		Ensure:              ensure,
-		Match:               match,
-		Ctx:                 context,
-		G:                   gomega.NewWithT(t),
-	}
-
-	err = result.createTestNamespace()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	return result
-}
-
-func (ktc KubePerTestContext) Subtest(t *testing.T) KubePerTestContext {
-	ktc.T = t
-	ktc.G = gomega.NewWithT(t)
-	return ktc
-}
-
 type KubeBaseTestContext struct {
 	PerTestContext
 
 	KubeConfig *rest.Config
-}
-
-type KubePerTestContext struct {
-	*KubeGlobalContext
-	KubeBaseTestContext
-
-	Ctx        context.Context
-	KubeClient client.Client
-	G          gomega.Gomega
-	Ensure     *Ensure
-	Match      *KubeMatcher
-}
-
-func (tc KubePerTestContext) createTestNamespace() error {
-	ctx := context.Background()
-
-	ns := &corev1.Namespace{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: tc.namespace,
-		},
-	}
-	_, err := controllerutil.CreateOrUpdate(ctx, tc.KubeClient, ns, func() error {
-		return nil
-	})
-	if err != nil {
-		return errors.Wrapf(err, "creating namespace")
-	}
-
-	return nil
-}
-
-func (tc KubePerTestContext) MakeObjectMeta(prefix string) ctrl.ObjectMeta {
-	return ctrl.ObjectMeta{
-		Name:      tc.Namer.GenerateName(prefix),
-		Namespace: tc.namespace,
-	}
-}
-
-func (tc KubePerTestContext) MakeObjectMetaWithName(name string) ctrl.ObjectMeta {
-	return ctrl.ObjectMeta{
-		Name:      name,
-		Namespace: tc.namespace,
-	}
-}
-
-func (tc KubePerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
-	return &resources.ResourceGroup{
-		ObjectMeta: tc.MakeObjectMeta("rg"),
-		Spec: resources.ResourceGroupSpec{
-			Location: tc.AzureRegion,
-			// This tag is used for cleanup optimization
-			Tags: CreateTestResourceGroupDefaultTags(),
-		},
-	}
-}
-
-func CreateTestResourceGroupDefaultTags() map[string]string {
-	return map[string]string{"CreatedAt": time.Now().UTC().Format(time.RFC3339)}
-}
-
-type WaitCondition bool
-
-const (
-	WaitForCreation WaitCondition = true
-	DoNotWait       WaitCondition = false
-)
-
-// CreateNewTestResourceGroup creates a new randomly-named resource group
-// and registers it to be deleted up when the context is cleaned up
-func (tc KubePerTestContext) CreateNewTestResourceGroup(wait WaitCondition) (*resources.ResourceGroup, error) {
-	ctx := context.Background()
-
-	rg := tc.NewTestResourceGroup()
-
-	log.Printf("Creating test resource group %q", rg.Name)
-	err := tc.KubeClient.Create(ctx, rg)
-	if err != nil {
-		return nil, errors.Wrapf(err, "creating resource group")
-	}
-
-	// register the RG for cleanup
-	// important to do this before waiting for it, so that
-	// we delete it even if we time out
-	tc.T.Cleanup(func() {
-		cleanupCtx := context.Background()
-		log.Printf("Deleting test resource group %q", rg.Name)
-		cleanupErr := tc.KubeClient.Delete(cleanupCtx, rg)
-		if cleanupErr != nil {
-			// don't error out, just warn
-			log.Printf("Unable to delete resource group: %s", cleanupErr.Error())
-		}
-	})
-
-	if wait {
-		err = WaitFor(ctx, 2*time.Minute, func(ctx context.Context) (bool, error) {
-			return tc.Ensure.Provisioned(ctx, rg)
-		})
-
-		if err != nil {
-			return nil, errors.Wrapf(err, "waiting for resource group creation")
-		}
-	}
-
-	return rg, nil
 }
 
 func AsOwner(obj metav1.ObjectMeta) genruntime.KnownResourceReference {
