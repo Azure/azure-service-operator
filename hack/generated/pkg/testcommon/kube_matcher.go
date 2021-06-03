@@ -13,25 +13,27 @@ import (
 
 // TODO: Would we rather these just be on testcontext? Might read better
 type KubeMatcher struct {
+	ctx    context.Context
 	ensure *Ensure
 }
 
-func NewKubeMatcher(ensure *Ensure) *KubeMatcher {
+func NewKubeMatcher(ensure *Ensure, ctx context.Context) *KubeMatcher {
 	return &KubeMatcher{
 		ensure: ensure,
+		ctx:    ctx,
 	}
 }
 
-func (m *KubeMatcher) BeProvisioned(ctx context.Context) types.GomegaMatcher {
+func (m *KubeMatcher) BeProvisioned() types.GomegaMatcher {
 	return &BeProvisionedMatcher{
 		ensure: m.ensure,
-		ctx:    ctx,
+		ctx:    m.ctx,
 	}
 }
 
-func (m *KubeMatcher) BeDeleted(ctx context.Context) types.GomegaMatcher {
+func (m *KubeMatcher) BeDeleted() types.GomegaMatcher {
 	return &BeDeletedMatcher{
 		ensure: m.ensure,
-		ctx:    ctx,
+		ctx:    m.ctx,
 	}
 }

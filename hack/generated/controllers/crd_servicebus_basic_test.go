@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -19,19 +18,15 @@ import (
 func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 	t.Parallel()
 
-	g := NewGomegaWithT(t)
-	ctx := context.Background()
-	testContext, err := testContext.ForTest(t)
-	g.Expect(err).ToNot(HaveOccurred())
+	tc := globalTestContext.ForTest(t)
 
-	rg, err := testContext.CreateNewTestResourceGroup(testcommon.WaitForCreation)
-	g.Expect(err).ToNot(HaveOccurred())
+	rg := tc.CreateNewTestResourceGroupAndWait()
 
 	zoneRedundant := false
 	namespace := &servicebus.Namespace{
-		ObjectMeta: testContext.MakeObjectMetaWithName(testContext.Namer.GenerateName("sbnamespace")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sbnamespace")),
 		Spec: servicebus.Namespaces_Spec{
-			Location: testContext.AzureRegion,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg.ObjectMeta),
 			Sku: &servicebus.SBSku{
 				Name: servicebus.SBSkuNameBasic,
@@ -42,53 +37,44 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 		},
 	}
 
-	// Create
-	g.Expect(testContext.KubeClient.Create(ctx, namespace)).To(Succeed())
-	g.Eventually(namespace, remainingTime(t)).Should(testContext.Match.BeProvisioned(ctx))
+	tc.CreateResourceAndWait(namespace)
 
-	g.Expect(namespace.Status.Id).ToNot(BeNil())
+	tc.Expect(namespace.Status.Id).ToNot(BeNil())
 	armId := *namespace.Status.Id
 
-	RunParallelSubtests(t,
-		subtest{
-			name: "Queue CRUD",
-			test: func(t *testing.T) { ServiceBus_Queue_CRUD(t, testContext, namespace.ObjectMeta) },
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "Queue CRUD",
+			Test: func(testContext testcommon.KubePerTestContext) {
+				ServiceBus_Queue_CRUD(testContext, namespace.ObjectMeta)
+			},
 		},
 	)
 
-	// Delete
-	g.Expect(testContext.KubeClient.Delete(ctx, namespace)).To(Succeed())
-	g.Eventually(namespace, remainingTime(t)).Should(testContext.Match.BeDeleted(ctx))
+	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := testContext.AzureClient.HeadResource(ctx, armId, "2018-01-01-preview")
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(retryAfter).To(BeZero())
-	g.Expect(exists).To(BeFalse())
+	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, "2018-01-01-preview")
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }
 
-func ServiceBus_Queue_CRUD(t *testing.T, testContext testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
-	ctx := context.Background()
-	g := NewGomegaWithT(t)
-
+func ServiceBus_Queue_CRUD(tc testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
 	queue := &servicebus.NamespacesQueue{
-		ObjectMeta: testContext.MakeObjectMeta("queue"),
+		ObjectMeta: tc.MakeObjectMeta("queue"),
 		Spec: servicebus.NamespacesQueues_Spec{
-			Location: &testContext.AzureRegion,
+			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(sbNamespace),
 		},
 	}
 
-	// Create
-	g.Expect(testContext.KubeClient.Create(ctx, queue)).To(Succeed())
-	g.Eventually(queue, remainingTime(t)).Should(testContext.Match.BeProvisioned(ctx))
+	tc.CreateResourceAndWait(queue)
+	defer tc.DeleteResourceAndWait(queue)
 
-	g.Expect(queue.Status.Id).ToNot(BeNil())
+	tc.Expect(queue.Status.Id).ToNot(BeNil())
 
 	// a basic assertion on a property
-	g.Expect(queue.Status.Properties.SizeInBytes).ToNot(BeNil())
-	g.Expect(*queue.Status.Properties.SizeInBytes).To(Equal(0))
-
-	g.Expect(testContext.KubeClient.Delete(ctx, queue)).To(Succeed())
-	g.Eventually(queue, remainingTime(t)).Should(testContext.Match.BeDeleted(ctx))
+	tc.Expect(queue.Status.Properties.SizeInBytes).ToNot(BeNil())
+	tc.Expect(*queue.Status.Properties.SizeInBytes).To(Equal(0))
 }

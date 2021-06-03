@@ -22,7 +22,7 @@ const (
 	DefaultResourceTimeout = 10 * time.Minute
 )
 
-var testContext testcommon.KubeGlobalContext
+var globalTestContext testcommon.KubeGlobalContext
 
 func setup(options Options) {
 	log.Println("Running test setup")
@@ -31,7 +31,7 @@ func setup(options Options) {
 	gomega.SetDefaultEventuallyPollingInterval(5 * time.Second)
 
 	// set global context var
-	testContext = testcommon.NewKubeContext(
+	globalTestContext = testcommon.NewKubeContext(
 		options.useEnvTest,
 		options.recordReplay,
 		TestNamespace,
