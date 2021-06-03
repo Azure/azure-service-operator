@@ -47,10 +47,6 @@ func Test_LoadBalancer_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWait(publicIPAddress)
-	defer tc.DeleteResourceAndWait(publicIPAddress)
-
-	// It should be created in Kubernetes
-	g.Expect(publicIPAddress.Status.Id).ToNot(BeNil())
 
 	// LoadBalancer
 	loadBalancerSku := network.LoadBalancerSkuNameStandard
