@@ -122,12 +122,11 @@ type KubePerTestContext struct {
 	*KubeGlobalContext
 	KubeBaseTestContext
 
+	Ctx        context.Context
 	KubeClient client.Client
+	G          gomega.Gomega
 	Ensure     *Ensure
 	Match      *KubeMatcher
-
-	G   gomega.Gomega
-	Ctx context.Context
 }
 
 func (tc KubePerTestContext) createTestNamespace() error {
