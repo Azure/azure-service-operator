@@ -23,10 +23,9 @@ func Test_LoadBalancer_CRUD(t *testing.T) {
 
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
-	testContext, err := testContext.ForTest(t)
-	g.Expect(err).ToNot(HaveOccurred())
-	rg, err := testContext.CreateNewTestResourceGroup(testcommon.WaitForCreation)
-	g.Expect(err).ToNot(HaveOccurred())
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateNewTestResourceGroupAndWait()
 
 	// Public IP Address
 	sku := network.PublicIPAddressSkuNameStandard
@@ -34,9 +33,9 @@ func Test_LoadBalancer_CRUD(t *testing.T) {
 		TypeMeta: metav1.TypeMeta{
 			Kind: reflect.TypeOf(network.PublicIPAddresses{}).Name(),
 		},
-		ObjectMeta: testContext.MakeObjectMetaWithName(testContext.Namer.GenerateName("publicip")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
 		Spec: network.PublicIPAddresses_Spec{
-			Location: testContext.AzureRegion,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg.ObjectMeta),
 			Sku: &network.PublicIPAddressSku{
 				Name: &sku,
@@ -47,20 +46,20 @@ func Test_LoadBalancer_CRUD(t *testing.T) {
 		},
 	}
 
-	err = testContext.KubeClient.Create(ctx, publicIPAddress)
-	g.Expect(err).ToNot(HaveOccurred())
+	tc.CreateResourceAndWait(publicIPAddress)
+	defer tc.DeleteResourceAndWait(publicIPAddress)
+
 	// It should be created in Kubernetes
-	g.Eventually(publicIPAddress).Should(testContext.Match.BeProvisioned(ctx))
 	g.Expect(publicIPAddress.Status.Id).ToNot(BeNil())
 
 	// LoadBalancer
 	loadBalancerSku := network.LoadBalancerSkuNameStandard
-	lbName := testContext.Namer.GenerateName("loadbalancer")
+	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
 	loadBalancer := &network.LoadBalancer{
-		ObjectMeta: testContext.MakeObjectMetaWithName(lbName),
+		ObjectMeta: tc.MakeObjectMetaWithName(lbName),
 		Spec: network.LoadBalancers_Spec{
-			Location: testContext.AzureRegion,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg.ObjectMeta),
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
@@ -71,7 +70,7 @@ func Test_LoadBalancer_CRUD(t *testing.T) {
 						Name: lbFrontendName,
 						Properties: &network.FrontendIPConfigurationPropertiesFormat{
 							PublicIPAddress: &network.SubResource{
-								Reference: testContext.MakeReferenceFromResource(publicIPAddress),
+								Reference: tc.MakeReferenceFromResource(publicIPAddress),
 							},
 						},
 					},
@@ -84,7 +83,7 @@ func Test_LoadBalancer_CRUD(t *testing.T) {
 							FrontendIPConfiguration: network.SubResource{
 								Reference: genruntime.ResourceReference{
 									// TODO: This is still really awkward
-									ARMID: testContext.MakeARMId(rg.Name, "Microsoft.Network", "loadBalancers", lbName, "frontendIPConfigurations", lbFrontendName),
+									ARMID: tc.MakeARMId(rg.Name, "Microsoft.Network", "loadBalancers", lbName, "frontendIPConfigurations", lbFrontendName),
 								},
 							},
 							Protocol:               network.InboundNatPoolPropertiesFormatProtocolTcp,
@@ -98,27 +97,17 @@ func Test_LoadBalancer_CRUD(t *testing.T) {
 		},
 	}
 
-	err = testContext.KubeClient.Create(ctx, loadBalancer)
-	g.Expect(err).ToNot(HaveOccurred())
+	tc.CreateResourceAndWait(loadBalancer)
 
 	// It should be created in Kubernetes
-	g.Eventually(loadBalancer).Should(testContext.Match.BeProvisioned(ctx))
 	g.Expect(loadBalancer.Status.Id).ToNot(BeNil())
 	armId := *loadBalancer.Status.Id
 
-	// Delete LoadBalancer
-	err = testContext.KubeClient.Delete(ctx, loadBalancer)
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Eventually(loadBalancer).Should(testContext.Match.BeDeleted(ctx))
+	tc.DeleteResourceAndWait(loadBalancer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := testContext.AzureClient.HeadResource(ctx, armId, "2020-05-01")
+	exists, retryAfter, err := tc.AzureClient.HeadResource(ctx, armId, "2020-05-01")
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())
-
-	// Delete Public IP
-	err = testContext.KubeClient.Delete(ctx, publicIPAddress)
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Eventually(publicIPAddress).Should(testContext.Match.BeDeleted(ctx))
 }
