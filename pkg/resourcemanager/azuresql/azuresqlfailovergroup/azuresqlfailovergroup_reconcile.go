@@ -48,6 +48,11 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		// Need to wait a bit before trying again
 		return false, nil
 	}
+	if lroPollResult == pollclient.PollResultBadRequest {
+		// Reached a terminal state
+		instance.Status.SetFailedProvisioning(instance.Status.Message)
+		return true, nil
+	}
 
 	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(fg.Creds)
 	if err != nil {

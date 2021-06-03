@@ -7,6 +7,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -134,7 +135,19 @@ const (
 	PollResultNoPollingNeeded       = LongRunningOperationPollResult("noPollingNeeded")
 	PollResultCompletedSuccessfully = LongRunningOperationPollResult("completedSuccessfully")
 	PollResultTryAgainLater         = LongRunningOperationPollResult("tryAgainLater")
+	PollResultBadRequest            = LongRunningOperationPollResult("badRequest")
 )
+
+func (client PollClient) PollLongRunningOperationIfNeededV1Alpha1(ctx context.Context, status *v1alpha1.ASOStatus) (LongRunningOperationPollResult, error) {
+	wrapper := v1beta1.ASOStatus(*status)
+	result, err := client.PollLongRunningOperationIfNeeded(ctx, &wrapper)
+
+	// Propagate changes from wrapper to original type
+	status.PollingURL = wrapper.PollingURL
+	status.Message = wrapper.Message
+
+	return result, err
+}
 
 func (client PollClient) PollLongRunningOperationIfNeeded(ctx context.Context, status *v1beta1.ASOStatus) (LongRunningOperationPollResult, error) {
 	// Before we attempt to issue a new update, check if there is a previously ongoing update
@@ -156,12 +169,17 @@ func (client PollClient) PollLongRunningOperationIfNeeded(ctx context.Context, s
 		status.Message = res.Error.Error()
 		// There can be intermediate errors and various other things that cause requests to fail, so we need to try again.
 		status.PollingURL = "" // Clear URL to force retry
+
+		if res.Error.Code == errhelp.BadRequest {
+			return PollResultBadRequest, nil
+		}
+
 		return PollResultTryAgainLater, nil
 	}
 
 	// TODO: May need a notion of fatal error here too
 
-	if res.Status == "InProgress" {
+	if res.Status == "InProgress" || res.Status == "Enqueued" {
 		// We're waiting for an async op... keep waiting
 		return PollResultTryAgainLater, nil
 	}

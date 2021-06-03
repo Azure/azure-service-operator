@@ -25,5 +25,15 @@ func GetCosmosDBAccountClient(creds config.Credentials) (documentdb.DatabaseAcco
 }
 
 func GetCosmosDBSQLDatabaseClient(creds config.Credentials) (documentdb.SQLResourcesClient, error) {
+	client := documentdb.NewSQLResourcesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
 
+	a, err := iam.GetResourceManagementAuthorizer(creds)
+	if err != nil {
+		return documentdb.SQLResourcesClient{}, err
+	}
+
+	client.Authorizer = a
+
+	err = client.AddToUserAgent(config.UserAgent())
+	return client, err
 }
