@@ -43,7 +43,7 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateAndWait(acct)
+	tc.CreateResourceAndWait(acct)
 
 	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
 	expectedKind := storage.StorageAccountStatusKindBlobStorage
@@ -55,13 +55,13 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Blob Services CRUD",
-			Test: func(testContext testcommon.KubePerTestContext) {
-				StorageAccount_BlobServices_CRUD(testContext, acct.ObjectMeta)
+			Test: func(tc testcommon.KubePerTestContext) {
+				StorageAccount_BlobServices_CRUD(tc, acct.ObjectMeta)
 			},
 		},
 	)
 
-	tc.DeleteAndWait(acct)
+	tc.DeleteResourceAndWait(acct)
 
 	// Ensure that the resource group was really deleted in Azure
 	exists, _, err := tc.AzureClient.HeadResource(
@@ -72,18 +72,18 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func StorageAccount_BlobServices_CRUD(testContext testcommon.KubePerTestContext, storageAccount metav1.ObjectMeta) {
+func StorageAccount_BlobServices_CRUD(tc testcommon.KubePerTestContext, storageAccount metav1.ObjectMeta) {
 	blobService := &storage.StorageAccountsBlobService{
-		ObjectMeta: testContext.MakeObjectMeta("blobservice"),
+		ObjectMeta: tc.MakeObjectMeta("blobservice"),
 		Spec: storage.StorageAccountsBlobServices_Spec{
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
 
-	testContext.CreateAndWait(blobService)
+	tc.CreateResourceAndWait(blobService)
 	// no DELETE, this is not a real resource
 
-	testContext.RunParallelSubtests(
+	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Container CRUD",
 			Test: func(testContext testcommon.KubePerTestContext) {
@@ -101,15 +101,15 @@ func StorageAccount_BlobServices_CRUD(testContext testcommon.KubePerTestContext,
 	*/
 }
 
-func StorageAccount_BlobServices_Container_CRUD(testContext testcommon.KubePerTestContext, blobService metav1.ObjectMeta) {
+func StorageAccount_BlobServices_Container_CRUD(tc testcommon.KubePerTestContext, blobService metav1.ObjectMeta) {
 
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
-		ObjectMeta: testContext.MakeObjectMeta("container"),
+		ObjectMeta: tc.MakeObjectMeta("container"),
 		Spec: storage.StorageAccountsBlobServicesContainers_Spec{
 			Owner: testcommon.AsOwner(blobService),
 		},
 	}
 
-	testContext.CreateAndWait(blobContainer)
-	defer testContext.DeleteAndWait(blobContainer)
+	tc.CreateResourceAndWait(blobContainer)
+	defer tc.DeleteResourceAndWait(blobContainer)
 }

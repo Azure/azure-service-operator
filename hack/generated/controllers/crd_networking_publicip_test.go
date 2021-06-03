@@ -40,13 +40,13 @@ func Test_PublicIP_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateAndWait(publicIPAddress)
+	tc.CreateResourceAndWait(publicIPAddress)
 
 	tc.Expect(publicIPAddress.Status.Id).ToNot(BeNil())
 	armId := *publicIPAddress.Status.Id
 
 	// Perform a simple patch
-	patcher := tc.NewPatcher(publicIPAddress)
+	patcher := tc.NewResourcePatcher(publicIPAddress)
 
 	idleTimeoutInMinutes := 7
 	publicIPAddress.Spec.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
@@ -58,11 +58,11 @@ func Test_PublicIP_CRUD(t *testing.T) {
 	// ensure state got updated in Azure
 	tc.Eventually(func() *int {
 		updatedIP := &network.PublicIPAddresses{}
-		tc.Get(objectKey, updatedIP)
+		tc.GetResource(objectKey, updatedIP)
 		return updatedIP.Status.Properties.IdleTimeoutInMinutes
 	}).Should(Equal(&idleTimeoutInMinutes))
 
-	tc.DeleteAndWait(publicIPAddress)
+	tc.DeleteResourceAndWait(publicIPAddress)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, "2020-05-01")

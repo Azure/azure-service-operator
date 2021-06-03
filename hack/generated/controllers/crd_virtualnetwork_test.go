@@ -34,12 +34,12 @@ func Test_VirtualNetwork_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateAndWait(vn)
+	tc.CreateResourceAndWait(vn)
 
 	tc.Expect(vn.Status.Id).ToNot(BeNil())
 	armId := *vn.Status.Id
 
-	tc.DeleteAndWait(vn)
+	tc.DeleteResourceAndWait(vn)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, "2017-10-01")

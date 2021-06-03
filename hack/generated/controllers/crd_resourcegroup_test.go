@@ -22,7 +22,7 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 
 	// Create a resource group
 	rg := tc.NewTestResourceGroup()
-	tc.CreateAndWait(rg)
+	tc.CreateResourceAndWait(rg)
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
@@ -31,7 +31,7 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 	armId := rg.Status.ID
 
 	// Update the tags
-	patcher := tc.NewPatcher(rg)
+	patcher := tc.NewResourcePatcher(rg)
 
 	rg.Spec.Tags["tag1"] = "value1"
 	patcher.Patch(rg)
@@ -42,11 +42,11 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 	// ensure they get updated
 	tc.Eventually(func() map[string]string {
 		newRG := &resources.ResourceGroup{}
-		tc.Get(objectKey, newRG)
+		tc.GetResource(objectKey, newRG)
 		return newRG.Status.Tags
 	}).Should(HaveKeyWithValue("tag1", "value1"))
 
-	tc.DeleteAndWait(rg)
+	tc.DeleteResourceAndWait(rg)
 
 	// Ensure that the resource group was really deleted in Azure
 	// TODO: Do we want to just use an SDK here? This process is quite icky as is...

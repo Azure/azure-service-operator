@@ -37,7 +37,7 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateAndWait(namespace)
+	tc.CreateResourceAndWait(namespace)
 
 	tc.Expect(namespace.Status.Id).ToNot(BeNil())
 	armId := *namespace.Status.Id
@@ -51,7 +51,7 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 		},
 	)
 
-	tc.DeleteAndWait(namespace)
+	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, "2018-01-01-preview")
@@ -60,21 +60,21 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func ServiceBus_Queue_CRUD(testContext testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
+func ServiceBus_Queue_CRUD(tc testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
 	queue := &servicebus.NamespacesQueue{
-		ObjectMeta: testContext.MakeObjectMeta("queue"),
+		ObjectMeta: tc.MakeObjectMeta("queue"),
 		Spec: servicebus.NamespacesQueues_Spec{
-			Location: &testContext.AzureRegion,
+			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(sbNamespace),
 		},
 	}
 
-	testContext.CreateAndWait(queue)
-	defer testContext.DeleteAndWait(queue)
+	tc.CreateResourceAndWait(queue)
+	defer tc.DeleteResourceAndWait(queue)
 
-	testContext.Expect(queue.Status.Id).ToNot(BeNil())
+	tc.Expect(queue.Status.Id).ToNot(BeNil())
 
 	// a basic assertion on a property
-	testContext.Expect(queue.Status.Properties.SizeInBytes).ToNot(BeNil())
-	testContext.Expect(*queue.Status.Properties.SizeInBytes).To(Equal(0))
+	tc.Expect(queue.Status.Properties.SizeInBytes).ToNot(BeNil())
+	tc.Expect(*queue.Status.Properties.SizeInBytes).To(Equal(0))
 }

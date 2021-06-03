@@ -43,7 +43,7 @@ func Test_CosmosDB_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateAndWait(acct)
+	tc.CreateResourceAndWait(acct)
 
 	expectedKind := documentdb.DatabaseAccountStatusKindGlobalDocumentDB
 	tc.Expect(*acct.Status.Kind).To(Equal(expectedKind))
@@ -58,7 +58,7 @@ func Test_CosmosDB_CRUD(t *testing.T) {
 		})
 	*/
 
-	tc.DeleteAndWait(acct)
+	tc.DeleteResourceAndWait(acct)
 
 	// Ensure that the resource group was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, "2015-04-08")

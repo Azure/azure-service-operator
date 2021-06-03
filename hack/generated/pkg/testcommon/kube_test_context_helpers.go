@@ -55,23 +55,33 @@ func (ktc *KubePerTestContext) Eventually(actual interface{}, intervals ...inter
 	return ktc.G.Eventually(actual, ktc.RemainingTime())
 }
 
-func (ktc *KubePerTestContext) CreateAndWait(obj runtime.Object) {
-	ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
-	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisioned())
-}
-
 func (ktc *KubePerTestContext) CreateNewTestResourceGroupAndWait() *v1alpha1api20200601.ResourceGroup {
 	rg, err := ktc.CreateNewTestResourceGroup(WaitForCreation)
 	ktc.Expect(err).ToNot(gomega.HaveOccurred())
 	return rg
 }
 
-func (ktc *KubePerTestContext) Get(key types.NamespacedName, obj runtime.Object) {
+// CreateResourceAndWait creates the resource in K8s and waits for it to be
+// change into the Provisioned state.
+func (ktc *KubePerTestContext) CreateResourceAndWait(obj runtime.Object) {
+	ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
+	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisioned())
+}
+
+// GetResource retrieves the current state of the resource from K8s (not from Azure).
+func (ktc *KubePerTestContext) GetResource(key types.NamespacedName, obj runtime.Object) {
 	ktc.G.Expect(ktc.KubeClient.Get(ktc.Ctx, key, obj)).To(gomega.Succeed())
 }
 
-func (ktc *KubePerTestContext) Update(obj runtime.Object) {
+// UpdateResource updates the given resource in K8s.
+func (ktc *KubePerTestContext) UpdateResource(obj runtime.Object) {
 	ktc.G.Expect(ktc.KubeClient.Update(ktc.Ctx, obj)).To(gomega.Succeed())
+}
+
+func (ktc *KubePerTestContext) NewResourcePatcher(obj runtime.Object) Patcher {
+	result, err := patch.NewHelper(obj, ktc.KubeClient)
+	ktc.Expect(err).ToNot(gomega.HaveOccurred())
+	return Patcher{ktc, result}
 }
 
 type Patcher struct {
@@ -83,13 +93,9 @@ func (ph *Patcher) Patch(obj runtime.Object) {
 	ph.ktc.Expect(ph.helper.Patch(ph.ktc.Ctx, obj)).To(gomega.Succeed())
 }
 
-func (ktc *KubePerTestContext) NewPatcher(obj runtime.Object) Patcher {
-	result, err := patch.NewHelper(obj, ktc.KubeClient)
-	ktc.Expect(err).ToNot(gomega.HaveOccurred())
-	return Patcher{ktc, result}
-}
-
-func (ktc *KubePerTestContext) DeleteAndWait(obj runtime.Object) {
+// DeleteResourceAndWait deletes the given resource in K8s and waits for
+// it to update to the Deleted state.
+func (ktc *KubePerTestContext) DeleteResourceAndWait(obj runtime.Object) {
 	ktc.G.Expect(ktc.KubeClient.Delete(ktc.Ctx, obj)).To(gomega.Succeed())
 	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeDeleted())
 }
@@ -99,6 +105,8 @@ type Subtest struct {
 	Test func(testContext KubePerTestContext)
 }
 
+// RunParallelSubtests runs the given tests in parallel. They are given
+// their own KubePerTestContext.
 func (ktc *KubePerTestContext) RunParallelSubtests(tests ...Subtest) {
 	// this looks super weird but is correct.
 	// parallel subtests do not run until their parent test completes,

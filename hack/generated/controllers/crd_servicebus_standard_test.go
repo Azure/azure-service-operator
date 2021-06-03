@@ -37,7 +37,7 @@ func Test_ServiceBus_Standard_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateAndWait(namespace)
+	tc.CreateResourceAndWait(namespace)
 
 	tc.Expect(namespace.Status.Id).ToNot(BeNil())
 	armId := *namespace.Status.Id
@@ -53,7 +53,7 @@ func Test_ServiceBus_Standard_CRUD(t *testing.T) {
 		},
 	)
 
-	tc.DeleteAndWait(namespace)
+	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, "2018-01-01-preview")
@@ -63,22 +63,21 @@ func Test_ServiceBus_Standard_CRUD(t *testing.T) {
 }
 
 // Topics can only be created in Standard or Premium SKUs
-func ServiceBus_Topic_CRUD(testContext testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
-
+func ServiceBus_Topic_CRUD(tc testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
 	topic := &servicebus.NamespacesTopic{
-		ObjectMeta: testContext.MakeObjectMeta("topic"),
+		ObjectMeta: tc.MakeObjectMeta("topic"),
 		Spec: servicebus.NamespacesTopics_Spec{
-			Location: &testContext.AzureRegion,
+			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(sbNamespace),
 		},
 	}
 
-	testContext.CreateAndWait(topic)
-	defer testContext.DeleteAndWait(topic)
+	tc.CreateResourceAndWait(topic)
+	defer tc.DeleteResourceAndWait(topic)
 
-	testContext.Expect(topic.Status.Id).ToNot(BeNil())
+	tc.Expect(topic.Status.Id).ToNot(BeNil())
 
 	// a basic assertion on a property
-	testContext.Expect(topic.Status.Properties.SizeInBytes).ToNot(BeNil())
-	testContext.Expect(*topic.Status.Properties.SizeInBytes).To(Equal(0))
+	tc.Expect(topic.Status.Properties.SizeInBytes).ToNot(BeNil())
+	tc.Expect(*topic.Status.Properties.SizeInBytes).To(Equal(0))
 }
