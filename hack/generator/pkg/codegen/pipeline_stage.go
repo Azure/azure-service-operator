@@ -63,9 +63,9 @@ func (stage PipelineStage) RequiresPrerequisiteStages(prerequisites ...string) P
 }
 
 // RequiresPostrequisiteStages declares which stages must be executed after this one has completed
-// This is not completely isomorphic with RequiresPrerequisiteStages as are supporting stages that are sometimes omitted
-// from execution when targeting different outcomes. Having both pre- and post-requisites allows the dependencies to
-// drop out cleanly when different stages are present.
+// This is not completely isomorphic with RequiresPrerequisiteStages as there may be supporting stages that are
+// sometimes omitted from execution when targeting different outcomes. Having both pre- and post-requisites allows the
+// dependencies to drop out cleanly when different stages are present.
 func (stage PipelineStage) RequiresPostrequisiteStages(postrequisites ...string) PipelineStage {
 	if len(stage.postrequisites) > 0 {
 		panic(fmt.Sprintf(
