@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -19,19 +18,15 @@ import (
 func Test_ServiceBus_Standard_CRUD(t *testing.T) {
 	t.Parallel()
 
-	g := NewGomegaWithT(t)
-	ctx := context.Background()
-	testContext, err := testContext.ForTest(t)
-	g.Expect(err).ToNot(HaveOccurred())
+	tc := globalTestContext.ForTest(t)
 
-	rg, err := testContext.CreateNewTestResourceGroup(testcommon.WaitForCreation)
-	g.Expect(err).ToNot(HaveOccurred())
+	rg := tc.CreateNewTestResourceGroupAndWait()
 
 	zoneRedundant := false
 	namespace := &servicebus.Namespace{
-		ObjectMeta: testContext.MakeObjectMetaWithName(testContext.Namer.GenerateName("sbstandard")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sbstandard")),
 		Spec: servicebus.Namespaces_Spec{
-			Location: testContext.AzureRegion,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg.ObjectMeta),
 			Sku: &servicebus.SBSku{
 				Name: servicebus.SBSkuNameStandard,
@@ -42,58 +37,47 @@ func Test_ServiceBus_Standard_CRUD(t *testing.T) {
 		},
 	}
 
-	// Create
-	g.Expect(testContext.KubeClient.Create(ctx, namespace)).To(Succeed())
-	g.Eventually(namespace, remainingTime(t)).Should(testContext.Match.BeProvisioned(ctx))
+	tc.CreateResourceAndWait(namespace)
 
-	g.Expect(namespace.Status.Id).ToNot(BeNil())
+	tc.Expect(namespace.Status.Id).ToNot(BeNil())
 	armId := *namespace.Status.Id
 
-	RunParallelSubtests(t,
-		subtest{
-			name: "Queue CRUD",
-			test: func(t *testing.T) { ServiceBus_Queue_CRUD(t, testContext, namespace.ObjectMeta) },
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "Queue CRUD",
+			Test: func(t testcommon.KubePerTestContext) { ServiceBus_Queue_CRUD(tc, namespace.ObjectMeta) },
 		},
-		subtest{
-			name: "Topic CRUD",
-			test: func(t *testing.T) { ServiceBus_Topic_CRUD(t, testContext, namespace.ObjectMeta) },
+		testcommon.Subtest{
+			Name: "Topic CRUD",
+			Test: func(t testcommon.KubePerTestContext) { ServiceBus_Topic_CRUD(tc, namespace.ObjectMeta) },
 		},
 	)
 
-	// Delete
-	g.Expect(testContext.KubeClient.Delete(ctx, namespace)).To(Succeed())
-	g.Eventually(namespace, remainingTime(t)).Should(testContext.Match.BeDeleted(ctx))
+	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := testContext.AzureClient.HeadResource(ctx, armId, "2018-01-01-preview")
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(retryAfter).To(BeZero())
-	g.Expect(exists).To(BeFalse())
+	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, "2018-01-01-preview")
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }
 
 // Topics can only be created in Standard or Premium SKUs
-func ServiceBus_Topic_CRUD(t *testing.T, testContext testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
-	ctx := context.Background()
-	g := NewGomegaWithT(t)
-
+func ServiceBus_Topic_CRUD(tc testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
 	topic := &servicebus.NamespacesTopic{
-		ObjectMeta: testContext.MakeObjectMeta("topic"),
+		ObjectMeta: tc.MakeObjectMeta("topic"),
 		Spec: servicebus.NamespacesTopics_Spec{
-			Location: &testContext.AzureRegion,
+			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(sbNamespace),
 		},
 	}
 
-	// Create
-	g.Expect(testContext.KubeClient.Create(ctx, topic)).To(Succeed())
-	g.Eventually(topic, remainingTime(t)).Should(testContext.Match.BeProvisioned(ctx))
+	tc.CreateResourceAndWait(topic)
+	defer tc.DeleteResourceAndWait(topic)
 
-	g.Expect(topic.Status.Id).ToNot(BeNil())
+	tc.Expect(topic.Status.Id).ToNot(BeNil())
 
 	// a basic assertion on a property
-	g.Expect(topic.Status.Properties.SizeInBytes).ToNot(BeNil())
-	g.Expect(*topic.Status.Properties.SizeInBytes).To(Equal(0))
-
-	g.Expect(testContext.KubeClient.Delete(ctx, topic)).To(Succeed())
-	g.Eventually(topic, remainingTime(t)).Should(testContext.Match.BeDeleted(ctx))
+	tc.Expect(topic.Status.Properties.SizeInBytes).ToNot(BeNil())
+	tc.Expect(*topic.Status.Properties.SizeInBytes).To(Equal(0))
 }

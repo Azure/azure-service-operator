@@ -8,6 +8,7 @@ package testcommon
 import (
 	"fmt"
 	"net/http"
+	"sync"
 )
 
 // Wraps an inner HTTP roundtripper to add a
@@ -17,14 +18,17 @@ import (
 // the same Request URL and it will return the first
 // one that matches.
 type requestCounter struct {
-	inner  http.RoundTripper
-	counts map[string]uint32
+	inner http.RoundTripper
+
+	countsMutex sync.Mutex
+	counts      map[string]uint32
 }
 
 func addCountHeader(inner http.RoundTripper) *requestCounter {
 	return &requestCounter{
-		inner:  inner,
-		counts: make(map[string]uint32),
+		inner:       inner,
+		counts:      make(map[string]uint32),
+		countsMutex: sync.Mutex{},
 	}
 }
 
@@ -32,9 +36,11 @@ var COUNT_HEADER string = "TEST-REQUEST-ATTEMPT"
 
 func (rt *requestCounter) RoundTrip(req *http.Request) (*http.Response, error) {
 	key := req.Method + ":" + req.URL.String()
+	rt.countsMutex.Lock()
 	count := rt.counts[key]
-	req.Header.Add(COUNT_HEADER, fmt.Sprintf("%v", count))
 	rt.counts[key] = count + 1
+	rt.countsMutex.Unlock()
+	req.Header.Add(COUNT_HEADER, fmt.Sprintf("%v", count))
 	return rt.inner.RoundTrip(req)
 }
 

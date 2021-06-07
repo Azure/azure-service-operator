@@ -7,6 +7,7 @@ package testcommon
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -14,15 +15,15 @@ import (
 	"strings"
 	"testing"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
-	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 )
 
 var (
@@ -40,6 +41,7 @@ type PerTestContext struct {
 	T                   *testing.T
 	AzureClientRecorder *recorder.Recorder
 	AzureClient         armclient.Applier
+	AzureSubscription   string
 	AzureMatch          *ArmMatcher
 	Namer               ResourceNamer
 	TestName            string
@@ -88,6 +90,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		T:                   t,
 		Namer:               tc.NameConfig.NewResourceNamer(t.Name()),
 		AzureClient:         armClient,
+		AzureSubscription:   subscriptionID,
 		AzureMatch:          NewArmMatcher(armClient),
 		AzureClientRecorder: recorder,
 		TestName:            t.Name(),
@@ -209,4 +212,17 @@ func (tc PerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
 			Tags:     CreateTestResourceGroupDefaultTags(),
 		},
 	}
+}
+
+func (tc PerTestContext) MakeARMId(resourceGroup string, provider string, params ...string) string {
+	if len(params) == 0 {
+		panic("At least 2 params must be specified")
+	}
+	if len(params)%2 != 0 {
+		panic("ARM Id params must come in resourceKind/name pairs")
+	}
+
+	suffix := strings.Join(params, "/")
+
+	return fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/%s/%s", tc.AzureSubscription, resourceGroup, provider, suffix)
 }
