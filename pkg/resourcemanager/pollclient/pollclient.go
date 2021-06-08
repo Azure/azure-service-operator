@@ -7,6 +7,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/Azure/azure-service-operator/api"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -138,20 +139,27 @@ const (
 	PollResultBadRequest            = LongRunningOperationPollResult("badRequest")
 )
 
-func (client PollClient) PollLongRunningOperationIfNeededV1Alpha1(ctx context.Context, status *v1alpha1.ASOStatus) (LongRunningOperationPollResult, error) {
+func (client PollClient) PollLongRunningOperationIfNeededV1Alpha1(ctx context.Context, status *v1alpha1.ASOStatus, kind api.PollingURLKind) (LongRunningOperationPollResult, error) {
 	wrapper := v1beta1.ASOStatus(*status)
-	result, err := client.PollLongRunningOperationIfNeeded(ctx, &wrapper)
+	result, err := client.PollLongRunningOperationIfNeeded(ctx, &wrapper, kind)
 
 	// Propagate changes from wrapper to original type
 	status.PollingURL = wrapper.PollingURL
+	status.PollingURLKind = wrapper.PollingURLKind
 	status.Message = wrapper.Message
 
 	return result, err
 }
 
-func (client PollClient) PollLongRunningOperationIfNeeded(ctx context.Context, status *v1beta1.ASOStatus) (LongRunningOperationPollResult, error) {
+func (client PollClient) PollLongRunningOperationIfNeeded(ctx context.Context, status *v1beta1.ASOStatus, kind api.PollingURLKind) (LongRunningOperationPollResult, error) {
 	// Before we attempt to issue a new update, check if there is a previously ongoing update
 	if status.PollingURL == "" {
+		return PollResultNoPollingNeeded, nil
+	}
+
+	// If there is a URL but it's the wrong kind then clear the old URL and return NoPollingNeeded
+	if status.PollingURLKind != nil && *status.PollingURLKind != kind {
+		status.ClearPollingURL()
 		return PollResultNoPollingNeeded, nil
 	}
 
@@ -160,7 +168,7 @@ func (client PollClient) PollLongRunningOperationIfNeeded(ctx context.Context, s
 	if pollErr != nil {
 		if pollErr.Type == errhelp.OperationIdNotFound {
 			// Something happened to our OperationId, just clear things out and try again
-			status.PollingURL = ""
+			status.ClearPollingURL()
 		}
 		return PollResultTryAgainLater, err
 	}
@@ -168,7 +176,7 @@ func (client PollClient) PollLongRunningOperationIfNeeded(ctx context.Context, s
 	if res.Status == LongRunningOperationPollStatusFailed {
 		status.Message = res.Error.Error()
 		// There can be intermediate errors and various other things that cause requests to fail, so we need to try again.
-		status.PollingURL = "" // Clear URL to force retry
+		status.ClearPollingURL()
 
 		if res.Error.Code == errhelp.BadRequest {
 			return PollResultBadRequest, nil
@@ -179,14 +187,15 @@ func (client PollClient) PollLongRunningOperationIfNeeded(ctx context.Context, s
 
 	// TODO: May need a notion of fatal error here too
 
-	if res.Status == "InProgress" || res.Status == "Enqueued" {
+	if res.Status == "InProgress" || res.Status == "Enqueued" || res.Status == "Dequeued" {
 		// We're waiting for an async op... keep waiting
 		return PollResultTryAgainLater, nil
 	}
 
 	// Previous operation was a success, clear polling URL and continue
 	if res.Status == LongRunningOperationPollStatusSucceeded {
-		status.PollingURL = ""
+		status.ClearPollingURL()
+
 		return PollResultCompletedSuccessfully, nil
 	}
 

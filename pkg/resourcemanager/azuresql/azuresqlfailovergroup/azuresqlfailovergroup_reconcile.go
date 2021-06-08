@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Azure/azure-service-operator/api"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -39,7 +40,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 	}
 
 	pClient := pollclient.NewPollClient(fg.Creds)
-	lroPollResult, err := pClient.PollLongRunningOperationIfNeeded(ctx, &instance.Status)
+	lroPollResult, err := pClient.PollLongRunningOperationIfNeeded(ctx, &instance.Status, api.PollingURLKindCreateOrUpdate)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		return false, err
@@ -135,7 +136,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		return errhelp.IsErrorFatal(err, append(allowedErrors, notFoundErrorCodes...), unrecoverableErrors)
 	}
 	instance.Status.SetProvisioning("Resource request successfully submitted to Azure")
-	instance.Status.PollingURL = future.PollingURL()
+	instance.Status.SetPollingURL(future.PollingURL(), api.PollingURLKindCreateOrUpdate)
 
 	// Need to poll the polling URL, so not done yet!
 	return false, nil

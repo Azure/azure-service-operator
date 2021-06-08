@@ -8,6 +8,7 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2021-03-15/documentdb"
+	"github.com/Azure/azure-service-operator/api"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -49,7 +50,7 @@ func (m *AzureCosmosDBSQLDatabaseManager) Ensure(ctx context.Context, obj runtim
 	}
 
 	pClient := pollclient.NewPollClient(m.Creds)
-	lroPollResult, err := pClient.PollLongRunningOperationIfNeededV1Alpha1(ctx, &instance.Status)
+	lroPollResult, err := pClient.PollLongRunningOperationIfNeededV1Alpha1(ctx, &instance.Status, api.PollingURLKindCreateOrUpdate)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		return false, err
@@ -134,7 +135,7 @@ func (m *AzureCosmosDBSQLDatabaseManager) Ensure(ctx context.Context, obj runtim
 		return errhelp.IsErrorFatal(err, append(allowedErrors, notFoundErrorCodes...), unrecoverableErrors)
 	}
 	instance.Status.SetProvisioning("Resource request successfully submitted to Azure")
-	instance.Status.PollingURL = future.PollingURL()
+	instance.Status.SetPollingURL(future.PollingURL(), api.PollingURLKindCreateOrUpdate)
 
 	// Need to poll the polling URL, so not done yet!
 	return false, nil
@@ -151,7 +152,33 @@ func (m *AzureCosmosDBSQLDatabaseManager) Delete(ctx context.Context, obj runtim
 		return false, errors.Wrapf(err, "failed to create cosmos DB SQL database client")
 	}
 
-	_, err = cosmosDBSQLDatabaseClient.DeleteSQLDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Account, instance.ObjectMeta.Name)
+	// TODO: What if we have a pollURL already but it's for a create
+
+	pClient := pollclient.NewPollClient(m.Creds)
+	lroPollResult, err := pClient.PollLongRunningOperationIfNeededV1Alpha1(ctx, &instance.Status, api.PollingURLKindDelete)
+	if err != nil {
+		instance.Status.Message = err.Error()
+		return false, err
+	}
+
+	switch lroPollResult {
+	case pollclient.PollResultTryAgainLater:
+		// Need to wait a bit before trying again
+		return true, nil
+	case pollclient.PollResultBadRequest:
+		// Failed to delete
+		instance.Status.SetFailedProvisioning(instance.Status.Message)
+		return true, nil
+	case pollclient.PollResultCompletedSuccessfully:
+		// Deleted
+		return false, nil
+	case pollclient.PollResultNoPollingNeeded:
+		// Continue on to issue new delete
+	default:
+		return true, errors.Errorf("unknown polling result %q", lroPollResult)
+	}
+
+	future, err := cosmosDBSQLDatabaseClient.DeleteSQLDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Account, instance.ObjectMeta.Name)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureError(err)
@@ -179,6 +206,8 @@ func (m *AzureCosmosDBSQLDatabaseManager) Delete(ctx context.Context, obj runtim
 	}
 
 	// Not done yet, keep trying
+	instance.Status.SetPollingURL(future.PollingURL(), api.PollingURLKindDelete)
+
 	return true, nil
 }
 

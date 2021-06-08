@@ -3,26 +3,40 @@
 
 package v1beta1
 
-import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+import (
+	"github.com/Azure/azure-service-operator/api"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
 
 // ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
 type ASOStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	Provisioning       bool         `json:"provisioning,omitempty"`
-	Provisioned        bool         `json:"provisioned,omitempty"`
-	State              string       `json:"state,omitempty"`
-	Message            string       `json:"message,omitempty"`
-	ResourceId         string       `json:"resourceId,omitempty"`
-	PollingURL         string       `json:"pollingUrl,omitempty"`
-	SpecHash           string       `json:"specHash,omitempty"`
-	ContainsUpdate     bool         `json:"containsUpdate,omitempty"` // TODO: Unused, remove in future version
-	RequestedAt        *metav1.Time `json:"requested,omitempty"`
-	CompletedAt        *metav1.Time `json:"completed,omitempty"`
-	FailedProvisioning bool         `json:"failedProvisioning,omitempty"`
-	FlattenedSecrets   bool         `json:"flattenedSecrets,omitempty"`
-	Output             string       `json:"output,omitempty"`
+	Provisioning       bool                `json:"provisioning,omitempty"`
+	Provisioned        bool                `json:"provisioned,omitempty"`
+	State              string              `json:"state,omitempty"`
+	Message            string              `json:"message,omitempty"`
+	ResourceId         string              `json:"resourceId,omitempty"`
+	PollingURL         string              `json:"pollingUrl,omitempty"`
+	PollingURLKind     *api.PollingURLKind `json:"pollingUrlKind,omitempty"`
+	SpecHash           string              `json:"specHash,omitempty"`
+	ContainsUpdate     bool                `json:"containsUpdate,omitempty"` // TODO: Unused, remove in future version
+	RequestedAt        *metav1.Time        `json:"requested,omitempty"`
+	CompletedAt        *metav1.Time        `json:"completed,omitempty"`
+	FailedProvisioning bool                `json:"failedProvisioning,omitempty"`
+	FlattenedSecrets   bool                `json:"flattenedSecrets,omitempty"`
+	Output             string              `json:"output,omitempty"`
+}
+
+func (s *ASOStatus) SetPollingURL(url string, kind api.PollingURLKind) {
+	s.PollingURL = url
+	s.PollingURLKind = &kind
+}
+
+func (s *ASOStatus) ClearPollingURL() {
+	s.PollingURL = ""
+	s.PollingURLKind = nil
 }
 
 func (s *ASOStatus) SetProvisioned(msg string) {
