@@ -57,7 +57,9 @@ generate-test-certs:
 .PHONY: test-integration-controllers
 test-integration-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
+	AZURE_TARGET_NAMESPACES=default,watched \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
+		-run TestTargetNamespaces \
 		./controllers/... \
 		./pkg/secrets/...
 		# TODO: Note that the above test (secrets/keyvault) is not an integration-controller test... but it's not a unit test either and unfortunately the test-integration-managers target isn't run in CI either?
@@ -208,7 +210,7 @@ helm-chart-manifests: generate
 
 # Generate manifests e.g. CRD, RBAC etc.
 .PHONY: manifests
-manifests: install-dependencies
+manifests:
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
 	# update manifests to force preserveUnknownFields to false. We can't use controller-gen to set this to false because it has a bug...
 	# see: https://github.com/kubernetes-sigs/controller-tools/issues/476
