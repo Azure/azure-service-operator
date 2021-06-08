@@ -235,74 +235,87 @@ func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 
 	for _, fromProp := range fromType.Properties() {
 		if toProp.WasFlattenedFrom(fromProp.PropertyName()) {
-			if len(toProp.FlattenedFrom()) > 1 {
-				panic("TODO: need to implement multiple levels of flattening")
-			}
-
-			allTypes := builder.codeGenerationContext.GetAllReachableTypes()
-
-			fromPropType, err := allTypes.FullyResolve(fromProp.PropertyType())
-			if err != nil {
-				panic(err)
-			}
-
-			var fromPropObjType *astmodel.ObjectType
-			var objOk bool
-			if fromPropOptType, ok := fromPropType.(*astmodel.OptionalType); ok {
-				// TODO: need to generate a check first
-				elementType, err := allTypes.FullyResolve(fromPropOptType.Element())
-				if err != nil {
-					panic(err)
-				}
-
-				fromPropObjType, objOk = elementType.(*astmodel.ObjectType)
-			} else {
-				fromPropObjType, objOk = fromPropType.(*astmodel.ObjectType)
-			}
-
-			if !objOk {
-				panic("flattened property flattened from non-object type?")
-			}
-
-			toPropName := toProp.PropertyName()
-			nestedProp, ok := fromPropObjType.Property(toPropName)
-			if !ok {
-				panic("couldn't find source of flattened property")
-			}
-
-			stmts := builder.typeConversionBuilder.BuildConversion(astmodel.ConversionParameters{
-				Source:            astbuilder.Selector(astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName())), string(toPropName)),
-				SourceType:        nestedProp.PropertyType(),
-				Destination:       astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toPropName)),
-				DestinationType:   toProp.PropertyType(),
-				NameHint:          string(toProp.PropertyName()),
-				ConversionContext: nil,
-				AssignmentHandler: nil,
-				Locals:            builder.locals,
-			})
-
-			if len(stmts) == 0 {
-				return nil
-			}
-
-			result := []dst.Stmt{
-				&dst.EmptyStmt{
-					Decs: dst.EmptyStmtDecorations{
-						NodeDecs: dst.NodeDecs{
-							End: []string{
-								"// copying to flattened property:",
-							},
-						},
-					},
-				},
-			}
-
-			result = append(result, stmts...)
-			return result
+			return builder.buildFlattenedAssignment(toProp, fromProp)
 		}
 	}
 
 	panic("couldn’t find source ARM property that k8s property was flattened from")
+}
+
+func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.PropertyDefinition, fromProp *astmodel.PropertyDefinition) []dst.Stmt {
+	if len(toProp.FlattenedFrom()) > 1 {
+		// this doesn't appear to happen anywhere in the JSON schemas currently
+		panic("need to implement multiple levels of flattening!")
+	}
+
+	allTypes := builder.codeGenerationContext.GetAllReachableTypes()
+
+	// the from shape here must be:
+	// 1. maybe a typename, pointing to…
+	// 2. maybe optional, wrapping …
+	// 3. maybe a typename, pointing to…
+	// 4. an object type
+
+	// (1.) resolve any outer typename
+	fromPropType, err := allTypes.FullyResolve(fromProp.PropertyType())
+	if err != nil {
+		panic(err)
+	}
+
+	var fromPropObjType *astmodel.ObjectType
+	var objOk bool
+	// (2.) resolve any optional type
+	if fromPropOptType, ok := fromPropType.(*astmodel.OptionalType); ok {
+		// TODO: need to generate a nil check in the generated code?
+		// (3.) resolve any inner typename
+		elementType, err := allTypes.FullyResolve(fromPropOptType.Element())
+		if err != nil {
+			panic(err)
+		}
+
+		// (4.) resolve the inner object type
+		fromPropObjType, objOk = elementType.(*astmodel.ObjectType)
+	} else {
+		// (4.) resolve the inner object type
+		fromPropObjType, objOk = fromPropType.(*astmodel.ObjectType)
+	}
+
+	if !objOk {
+		panic("property marked as flattened from non-object type, which doesn’t make sense")
+	}
+
+	// *** Now generate the code! ***
+	toPropName := toProp.PropertyName()
+	nestedProp, ok := fromPropObjType.Property(toPropName)
+	if !ok {
+		panic("couldn't find source of flattened property")
+	}
+
+	stmts := builder.typeConversionBuilder.BuildConversion(astmodel.ConversionParameters{
+		Source:            astbuilder.Selector(astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName())), string(toPropName)),
+		SourceType:        nestedProp.PropertyType(),
+		Destination:       astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toPropName)),
+		DestinationType:   toProp.PropertyType(),
+		NameHint:          string(toProp.PropertyName()),
+		ConversionContext: nil,
+		AssignmentHandler: nil,
+		Locals:            builder.locals,
+	})
+
+	// failed?
+	if len(stmts) == 0 {
+		return nil
+	}
+
+	result := []dst.Stmt{
+		&dst.EmptyStmt{
+			Decs: dst.EmptyStmtDecorations{
+				NodeDecs: dst.NodeDecs{End: []string{"// copying to flattened property:"}},
+			},
+		},
+	}
+
+	return append(result, stmts...)
 }
 
 func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
