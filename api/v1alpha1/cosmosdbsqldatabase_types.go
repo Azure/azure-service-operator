@@ -23,16 +23,19 @@ type CosmosDBSQLDatabaseSpec struct {
 
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
-	// CosmosDBAccount is the account that the SQL database will be created in.
-	CosmosDBAccount string `json:"cosmosDBAccount"`
+	// Account is the account that the SQL database will be created in.
+	Account string `json:"cosmosDBAccount"`
 
 	// +kubebuilder:validation:Min=400
 	// Throughput is the user specified manual throughput (RU/s) for the database expressed in units of 100 request
 	// units per second. The minimum is 400 up to 1,000,000 (or higher by requesting a limit increase).
-	// This must not be specified if autoscale is specified.
+	// This must not be specified if autoscale is specified. This cannot be changed after creation if it
+	// (or autoscaleSettings) was not set to something initially.
 	Throughput *int32 `json:"throughput,omitempty"`
 
 	// AutoscaleSettings contains the user specified autoscale configuration.
+	// This must not be specified if Throughput is specified. This cannot be changed after creation if it
+	// (or throughput) was not set to something initially.
 	AutoscaleSettings *AutoscaleSettings `json:"autoscaleSettings,omitempty"`
 
 	// Tags are key-value pairs associated with the resource.
@@ -41,7 +44,7 @@ type CosmosDBSQLDatabaseSpec struct {
 
 type AutoscaleSettings struct {
 	// +kubebuilder:validation:Min=0
-	// MaxThroughput is the autoscale max RU/s of the database. This must not be specified if Throughput is specified.
+	// MaxThroughput is the autoscale max RU/s of the database.
 	MaxThroughput *int32 `json:"maxThroughput,omitempty"`
 }
 
@@ -63,7 +66,7 @@ type CosmosDBSQLDatabase struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// CosmosDBSQLList contains a list of CosmosDBSQLDatabase
+// CosmosDBSQLDatabaseList contains a list of CosmosDBSQLDatabase
 type CosmosDBSQLDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

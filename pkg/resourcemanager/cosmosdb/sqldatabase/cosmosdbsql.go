@@ -38,11 +38,6 @@ type AzureCosmosDBSQLDatabaseManager struct {
  */
 
 func (m *AzureCosmosDBSQLDatabaseManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
-	options := &resourcemanager.Options{}
-	for _, opt := range opts {
-		opt(options)
-	}
-
 	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
@@ -81,7 +76,7 @@ func (m *AzureCosmosDBSQLDatabaseManager) Ensure(ctx context.Context, obj runtim
 	sqlDatabase, err := cosmosDBSQLDatabaseClient.GetSQLDatabase(
 		ctx,
 		instance.Spec.ResourceGroup,
-		instance.Spec.CosmosDBAccount,
+		instance.Spec.Account,
 		instance.ObjectMeta.Name)
 	if err != nil {
 		azerr := errhelp.NewAzureError(err)
@@ -97,7 +92,7 @@ func (m *AzureCosmosDBSQLDatabaseManager) Ensure(ctx context.Context, obj runtim
 	sqlDatabaseThroughputSettings, err := cosmosDBSQLDatabaseClient.GetSQLDatabaseThroughput(
 		ctx,
 		instance.Spec.ResourceGroup,
-		instance.Spec.CosmosDBAccount,
+		instance.Spec.Account,
 		instance.ObjectMeta.Name)
 	if err != nil {
 		azerr := errhelp.NewAzureError(err)
@@ -123,7 +118,7 @@ func (m *AzureCosmosDBSQLDatabaseManager) Ensure(ctx context.Context, obj runtim
 	future, err := cosmosDBSQLDatabaseClient.CreateUpdateSQLDatabase(
 		ctx,
 		instance.Spec.ResourceGroup,
-		instance.Spec.CosmosDBAccount,
+		instance.Spec.Account,
 		instance.ObjectMeta.Name,
 		transformed)
 	if err != nil {
@@ -146,11 +141,6 @@ func (m *AzureCosmosDBSQLDatabaseManager) Ensure(ctx context.Context, obj runtim
 }
 
 func (m *AzureCosmosDBSQLDatabaseManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
-	options := &resourcemanager.Options{}
-	for _, opt := range opts {
-		opt(options)
-	}
-
 	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
@@ -161,7 +151,7 @@ func (m *AzureCosmosDBSQLDatabaseManager) Delete(ctx context.Context, obj runtim
 		return false, errors.Wrapf(err, "failed to create cosmos DB SQL database client")
 	}
 
-	_, err = cosmosDBSQLDatabaseClient.DeleteSQLDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.CosmosDBAccount, instance.ObjectMeta.Name)
+	_, err = cosmosDBSQLDatabaseClient.DeleteSQLDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Account, instance.ObjectMeta.Name)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureError(err)
@@ -189,7 +179,7 @@ func (m *AzureCosmosDBSQLDatabaseManager) Delete(ctx context.Context, obj runtim
 	}
 
 	// Not done yet, keep trying
-	return false, nil
+	return true, nil
 }
 
 func (m *AzureCosmosDBSQLDatabaseManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
@@ -202,7 +192,7 @@ func (m *AzureCosmosDBSQLDatabaseManager) GetParents(obj runtime.Object) ([]reso
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.CosmosDBAccount,
+				Name:      instance.Spec.Account,
 			},
 			Target: &v1alpha1.CosmosDB{},
 		},
@@ -240,7 +230,8 @@ func (m *AzureCosmosDBSQLDatabaseManager) convert(obj runtime.Object) (*v1alpha1
 func makeTags(tags map[string]string) map[string]*string {
 	result := make(map[string]*string)
 	for key, value := range tags {
-		result[key] = &value
+		valCopy := value
+		result[key] = &valCopy
 	}
 
 	return result
@@ -263,7 +254,6 @@ func (m *AzureCosmosDBSQLDatabaseManager) transformToCosmosDBSQLDatabase(instanc
 	}
 
 	return documentdb.SQLDatabaseCreateUpdateParameters{
-		//Location: &instance.Spec.Location, // TODO: Is this really optional? TODO: if this passes with this commented out, maybe just remove it?
 		Tags: makeTags(instance.Spec.Tags),
 		SQLDatabaseCreateUpdateProperties: &documentdb.SQLDatabaseCreateUpdateProperties{
 			Resource: &documentdb.SQLDatabaseResource{

@@ -11,14 +11,15 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2021-03-15/documentdb"
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/require"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
+
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb"
 )
 
 func CosmosDBSQLDatabaseHappyPath(t *testing.T, cosmosDBAccountName string) {
@@ -40,9 +41,9 @@ func CosmosDBSQLDatabaseHappyPath(t *testing.T, cosmosDBAccountName string) {
 			Namespace: namespace,
 		},
 		Spec: v1alpha1.CosmosDBSQLDatabaseSpec{
-			ResourceGroup:   tc.resourceGroupName,
-			CosmosDBAccount: cosmosDBAccountName,
-			Throughput:      &throughPutRUs,
+			ResourceGroup: tc.resourceGroupName,
+			Account:       cosmosDBAccountName,
+			Throughput:    &throughPutRUs,
 		},
 	}
 
@@ -106,8 +107,8 @@ func CosmosDBSQLDatabase_FailedThroughputUpdate(t *testing.T, cosmosDBAccountNam
 			Namespace: namespace,
 		},
 		Spec: v1alpha1.CosmosDBSQLDatabaseSpec{
-			ResourceGroup:   tc.resourceGroupName,
-			CosmosDBAccount: cosmosDBAccountName,
+			ResourceGroup: tc.resourceGroupName,
+			Account:       cosmosDBAccountName,
 		},
 	}
 
@@ -184,8 +185,8 @@ func TestCosmosDBSQLDatabaseNoCosmosDBAccount(t *testing.T) {
 			Namespace: namespace,
 		},
 		Spec: v1alpha1.CosmosDBSQLDatabaseSpec{
-			ResourceGroup:   resourceGroupName,
-			CosmosDBAccount: name,
+			ResourceGroup: resourceGroupName,
+			Account:       name,
 		},
 	}
 
