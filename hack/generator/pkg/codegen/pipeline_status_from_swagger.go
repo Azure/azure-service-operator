@@ -115,17 +115,6 @@ func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Typ
 	}
 }
 
-/*
-func (st statusTypes) findNonResourceType(typeName astmodel.TypeName) (astmodel.Type, bool) {
-	typeName = appendStatusSuffix(typeName) // we must look up the "_Status" version of the type
-	if statusDef, ok := st.otherTypes[typeName]; ok {
-		return statusDef.Type(), true
-	} else {
-		return nil, false
-	}
-}
-*/
-
 type resourceLookup map[astmodel.TypeName]astmodel.Type
 
 func lowerCase(name astmodel.TypeName) astmodel.TypeName {
