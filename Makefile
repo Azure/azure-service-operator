@@ -59,10 +59,18 @@ test-integration-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
 	AZURE_TARGET_NAMESPACES=default,watched \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
-		-run TestTargetNamespaces \
 		./controllers/... \
 		./pkg/secrets/...
 		# TODO: Note that the above test (secrets/keyvault) is not an integration-controller test... but it's not a unit test either and unfortunately the test-integration-managers target isn't run in CI either?
+
+# Check that when there are no target namespaces all namespaces are watched
+.PHONY: test-no-target-namespaces
+test-no-target-namespaces: generate fmt vet manifests
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
+	AZURE_TARGET_NAMESPACES= \
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/no-target-namespaces-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
+		-run TestTargetNamespaces \
+		./controllers/...
 
 # Run subset of tests with v1 secret naming enabled to ensure no regression in old secret naming
 .PHONY: test-v1-secret-naming

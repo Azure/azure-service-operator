@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/gobuffalo/envy"
 	"github.com/stretchr/testify/require"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -30,13 +31,18 @@ func TestTargetNamespaces(t *testing.T) {
 	// successfully, but ones created in other ones don't.
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
-	storageName := "storageacct" + helpers.RandomString(6)
+
+	newName := func() string {
+		return "storageacct" + helpers.RandomString(6)
+	}
 
 	createNamespaces(ctx, t, "watched", "unwatched")
 
+	configuredNamespaces := envy.Get("AZURE_TARGET_NAMESPACES", "")
+
 	instance := v1alpha1.StorageAccount{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      storageName,
+			Name:      newName(),
 			Namespace: "default",
 		},
 		Spec: v1alpha1.StorageAccountSpec{
@@ -55,13 +61,18 @@ func TestTargetNamespaces(t *testing.T) {
 
 	// The watched namespace is also reconciled.
 	instance2 := instance
-	instance2.ObjectMeta.Namespace = "watched"
+	instance2.ObjectMeta = metav1.ObjectMeta{
+		Name:      newName(),
+		Namespace: "watched",
+	}
 	EnsureInstance(ctx, t, tc, &instance2)
 
 	// But the unwatched namespace isn't...
 	instance3 := instance
-	instance3.ObjectMeta.Namespace = "unwatched"
-
+	instance3.ObjectMeta = metav1.ObjectMeta{
+		Name:      newName(),
+		Namespace: "unwatched",
+	}
 	require := require.New(t)
 	err := tc.k8sClient.Create(ctx, &instance3)
 	require.Equal(nil, err)
@@ -69,19 +80,31 @@ func TestTargetNamespaces(t *testing.T) {
 	res, err := meta.Accessor(&instance3)
 	require.Equal(nil, err)
 	names := types.NamespacedName{Name: res.GetName(), Namespace: res.GetNamespace()}
-	// We can tell that the resource isn't being reconciled if it
-	// never gets a finalizer.
-	require.Never(
-		func() bool {
-			err := tc.k8sClient.Get(ctx, names, &instance3)
-			require.Equal(nil, err)
 
-			return HasFinalizer(res, finalizerName)
-		},
-		5*time.Second,
-		100*time.Millisecond,
-		"instance in unwatched namespace got finalizer",
-	)
+	gotFinalizer := func() bool {
+		err := tc.k8sClient.Get(ctx, names, &instance3)
+		require.Equal(nil, err)
+		return HasFinalizer(res, finalizerName)
+	}
+
+	if configuredNamespaces == "" {
+		// The operator should be watching all namespaces.
+		require.Eventually(
+			gotFinalizer,
+			tc.timeoutFast,
+			tc.retry,
+			"instance in some namespace never got a finalizer",
+		)
+	} else {
+		// We can tell that the resource isn't being reconciled if it
+		// never gets a finalizer.
+		require.Never(
+			gotFinalizer,
+			20*time.Second,
+			time.Second,
+			"instance in unwatched namespace got finalizer",
+		)
+	}
 
 	EnsureDelete(ctx, t, tc, &instance)
 	EnsureDelete(ctx, t, tc, &instance2)
