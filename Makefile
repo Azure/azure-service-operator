@@ -90,7 +90,8 @@ test-unit: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/unittest-coverage-ouput.txt -covermode count -parallel 4 -timeout 10m \
 	./pkg/resourcemanager/keyvaults/unittest/ \
-	./pkg/resourcemanager/azuresql/azuresqlfailovergroup
+	./pkg/resourcemanager/azuresql/azuresqlfailovergroup \
+	./pkg/resourcemanager/cosmosdb/sqldatabase
 	# The below folders are commented out because the tests in them fail...
 	# ./api/... \
 

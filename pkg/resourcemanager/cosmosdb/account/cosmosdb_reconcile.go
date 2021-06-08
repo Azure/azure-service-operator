@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package cosmosdbs
+package account
 
 import (
 	"context"
 	"fmt"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
+	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2021-03-15/documentdb"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -251,7 +251,7 @@ func (m *AzureCosmosDBManager) convert(obj runtime.Object) (*v1alpha1.CosmosDB, 
 	return db, nil
 }
 
-func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, secretClient secrets.SecretClient, instance *v1alpha1.CosmosDB, db *documentdb.DatabaseAccount) error {
+func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, secretClient secrets.SecretClient, instance *v1alpha1.CosmosDB, db *documentdb.DatabaseAccountGetResults) error {
 	connStrResult, err := m.ListConnectionStrings(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
 	if err != nil {
 		return err
@@ -279,8 +279,8 @@ func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, secretC
 	}
 
 	// set each location's endpoint in the secret
-	if db.DatabaseAccountProperties.ReadLocations != nil {
-		for _, l := range *db.DatabaseAccountProperties.ReadLocations {
+	if db.DatabaseAccountGetProperties.ReadLocations != nil {
+		for _, l := range *db.DatabaseAccountGetProperties.ReadLocations {
 			safeLocationName := helpers.RemoveNonAlphaNumeric(strings.ToLower(*l.LocationName))
 			secretData[safeLocationName+"Endpoint"] = []byte(*l.DocumentEndpoint)
 		}

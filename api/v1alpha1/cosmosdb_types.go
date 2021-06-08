@@ -16,8 +16,10 @@ type CosmosDBSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// +kubebuilder:validation:MinLength=0
-
+	// +kubebuilder:validation:Required
+	// Location is the Azure location where the CosmosDB exists
 	Location string `json:"location,omitempty"`
+
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required

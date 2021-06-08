@@ -37,7 +37,8 @@ import (
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
+	resourcemanagercosmosdbaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/account"
+	resourcemanagercosmosdbsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/sqldatabase"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	loadbalancer "github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
@@ -179,10 +180,11 @@ func main() {
 	)
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(config.GlobalCredentials())
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(config.GlobalCredentials())
-	cosmosDBClient := resourcemanagercosmosdb.NewAzureCosmosDBManager(
+	cosmosDBClient := resourcemanagercosmosdbaccount.NewAzureCosmosDBManager(
 		config.GlobalCredentials(),
 		secretClient,
 	)
+	cosmosDBSQLDatabaseClient := resourcemanagercosmosdbsqldatabase.NewAzureCosmosDBSQLDatabaseManager(config.GlobalCredentials())
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(config.GlobalCredentials(), mgr.GetScheme())
 	keyVaultKeyManager := resourcemanagerkeyvault.NewKeyvaultKeyClient(config.GlobalCredentials(), keyVaultManager)
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme)
@@ -249,6 +251,23 @@ func main() {
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
+		os.Exit(1)
+	}
+
+	err = (&controllers.CosmosDBSQLDatabaseReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: cosmosDBSQLDatabaseClient,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"CosmosDBSQLDatabase",
+				ctrl.Log.WithName("controllers").WithName("CosmosDBSQLDatabase"),
+			),
+			Recorder: mgr.GetEventRecorderFor("CosmosDBSQLDatabase-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "CosmosDBSQLDatabase")
 		os.Exit(1)
 	}
 
