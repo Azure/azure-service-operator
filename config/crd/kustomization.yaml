@@ -4,6 +4,7 @@
 resources:
 - bases/azure.microsoft.com_storageaccounts.yaml
 - bases/azure.microsoft.com_cosmosdbs.yaml
+- bases/azure.microsoft.com_cosmosdbsqldatabases.yaml
 - bases/azure.microsoft.com_rediscaches.yaml
 - bases/azure.microsoft.com_eventhubs.yaml
 - bases/azure.microsoft.com_resourcegroups.yaml
