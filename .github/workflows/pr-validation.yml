@@ -20,8 +20,26 @@ jobs:
       - name: Build devcontainer image
         run: docker build --tag devcontainer:1.0 .devcontainer
 
+      - name: Run devcontainer image
+        id: devcontainer
+        run: |
+          container_id=$(docker create devcontainer:1.0 -w /workspace -v $GITHUB_WORKSPACE:/workspace)
+          docker start "$container_id"
+          echo "::set-output name=id::$container_id"
+
       - name: Run CI tasks
-        run: docker run -w /workspace -v $GITHUB_WORKSPACE:/workspace -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID devcontainer:1.0 task ci
+        run: docker exec "${{steps.devcontainer.outputs.id}}" task ci
+
+      - name: Build Docker image 
+        run: |
+          docker exec "${{steps.devcontainer.outputs.id}}" task controller:docker-build
+          docker cp "${{steps.devcontainer.outputs.id}}":/workspace/hack/generated/bin/aso-controller aso-controller
+
+      - name: Archive Docker image
+        uses: actions/upload-artifact@v2
+        with:
+          name: aso-controller
+          path: aso-controller
 
       - name: Upload code coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash)
