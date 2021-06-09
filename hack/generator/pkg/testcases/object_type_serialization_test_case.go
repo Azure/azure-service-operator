@@ -71,6 +71,10 @@ func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext 
 	// Remove properties from our runtime
 	o.removeByPackage(properties, astmodel.GenRuntimeReference)
 
+	// Remove API machinery properties
+	o.removeByPackage(properties, astmodel.APIMachineryRuntimeReference)
+	o.removeByPackage(properties, astmodel.APIMachinerySchemaReference)
+
 	// Temporarily remove properties related to support for Arbitrary JSON
 	// TODO: Add generators for these properties
 	o.removeByPackage(properties, astmodel.APIExtensionsReference)
@@ -83,10 +87,8 @@ func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext 
 
 	var result []dst.Decl
 
-	if len(simpleGenerators) == 0 && len(relatedGenerators) == 0 {
-		// No properties that we can generate to test - skip the testing completely
-		errs = append(errs, errors.Errorf("No property generators for %v", name))
-	} else {
+	if len(simpleGenerators) != 0 || len(relatedGenerators) != 0 {
+		// Only generate the test if we have found some generators
 		result = append(result,
 			o.createTestRunner(genContext),
 			o.createTestMethod(genContext),
