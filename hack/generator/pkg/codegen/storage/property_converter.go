@@ -13,7 +13,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// PropertyConverter is used to convert the properties of object inputTypes as required for storage variants
+// PropertyConverter is used to convert the properties of object types as required for storage variants
 type PropertyConverter struct {
 	// visitor is used to apply the modification
 	visitor astmodel.TypeVisitor
@@ -71,7 +71,7 @@ func (p *PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinitio
 // stripAllValidations removes all validations
 func (p *PropertyConverter) stripAllValidations(
 	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
-	// strip all type validations from storage property inputTypes
+	// strip all type validations from storage properties
 	// act as if they do not exist
 	return this.Visit(v.ElementType(), ctx)
 }
