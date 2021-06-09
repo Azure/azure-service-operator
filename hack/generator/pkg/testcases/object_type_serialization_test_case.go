@@ -70,6 +70,10 @@ func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext 
 	// Remove properties from our runtime
 	o.removeByPackage(properties, astmodel.GenRuntimeReference)
 
+	// Remove API machinery properties
+	o.removeByPackage(properties, astmodel.APIMachineryRuntimeReference)
+	o.removeByPackage(properties, astmodel.APIMachinerySchemaReference)
+
 	// Temporarily remove properties related to support for Arbitrary JSON
 	// TODO: Add generators for these properties
 	o.removeByPackage(properties, astmodel.APIExtensionsReference)
