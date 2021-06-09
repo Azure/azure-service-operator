@@ -7,9 +7,11 @@ package storage
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // TypeConverter is used to create a storage variant of an API type
@@ -63,11 +65,15 @@ func (t *TypeConverter) convertResourceType(
 	resource *astmodel.ResourceType,
 	ctx interface{}) (astmodel.Type, error) {
 
+	// Resource needs OriginalGVP property injected too
+	originalGVK := astmodel.NewPropertyDefinition("OriginalGVK", "original-gvk", astmodel.GroupVersionKindTypeName)
+	result := resource.WithProperty(originalGVK)
+
 	// storage resource types do not need defaulter/validator interfaces, they have no webhooks
-	modifiedResource := resource.WithoutInterface(astmodel.DefaulterInterfaceName).
+	result = result.WithoutInterface(astmodel.DefaulterInterfaceName).
 		WithoutInterface(astmodel.ValidatorInterfaceName)
 
-	return astmodel.IdentityVisitOfResourceType(tv, modifiedResource, ctx)
+	return astmodel.IdentityVisitOfResourceType(tv, result, ctx)
 }
 
 // convertObjectType creates a storage variation of an object type

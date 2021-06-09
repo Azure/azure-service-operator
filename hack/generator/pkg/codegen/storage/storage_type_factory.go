@@ -11,12 +11,13 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
-// StorageTypeFactory is used to create storage inputTypes for a specific api group
+// StorageTypeFactory is used to create storage types for a specific api group
 type StorageTypeFactory struct {
 	group             string                                                  // Name of the group we're handling (used mostly for logging)
-	inputTypes        astmodel.Types                                          // All the types for this group
+	referenceTypes    astmodel.Types                                          // All the types for this group
 	outputTypes       astmodel.Types                                          // All the types created/modified by this factory
 	idFactory         astmodel.IdentifierFactory                              // Factory for creating identifiers
 	typeConverter     *TypeConverter                                          // a utility type type visitor used to create storage variants
@@ -32,7 +33,8 @@ func NewStorageTypeFactory(group string, idFactory astmodel.IdentifierFactory) *
 
 	result := &StorageTypeFactory{
 		group:             group,
-		inputTypes:        types,
+		referenceTypes:    types,
+		outputTypes:       make(astmodel.Types),
 		idFactory:         idFactory,
 		conversionMap:     make(map[astmodel.PackageReference]astmodel.PackageReference),
 		functionInjector:  NewFunctionInjector(),
@@ -60,9 +62,10 @@ func (f *StorageTypeFactory) Add(def astmodel.TypeDefinition) {
 	}
 }
 
-// Types returns inputTypes contained by the factory, including all new storage variants and modified
-// api inputTypes. If any errors occur during processing, they're returned here.
+// Types returns referenceTypes contained by the factory, including all new storage variants and modified
+// api referenceTypes. If any errors occur during processing, they're returned here.
 func (f *StorageTypeFactory) Types() (astmodel.Types, error) {
+
 	if len(f.outputTypes) == 0 {
 		err := f.process()
 		if err != nil {
@@ -73,38 +76,32 @@ func (f *StorageTypeFactory) Types() (astmodel.Types, error) {
 	return f.outputTypes, nil
 }
 
+// process carries out our transformations
+// Each step reads from outputTypes and puts the results back in there
 func (f *StorageTypeFactory) process() error {
 
-	f.outputTypes = make(astmodel.Types)
+	f.outputTypes = f.referenceTypes.Copy()
 
-	// Create storage variants and stash them in outputTypes so injectConversions can find them
-	storageVariants, err := f.inputTypes.Process(f.createStorageVariant)
+	// Inject OriginalGVK() methods into our resource types
+	modifiedResourceTypes, err := f.referenceTypes.Process(f.injectOriginalGVK)
 	if err != nil {
 		return err
 	}
+	f.outputTypes = f.outputTypes.OverlayWith(modifiedResourceTypes)
 
+	// Create Storage Variants (injectConversions will look for them)
+	storageVariants, err := f.outputTypes.Process(f.createStorageVariant)
+	if err != nil {
+		return err
+	}
 	f.outputTypes.AddTypes(storageVariants)
 
-	// Inject conversions into our original types and stash them in outputTypes
-	inputTypesWithConversions, err := f.inputTypes.Process(f.injectConversions)
+	// Inject conversion functions where required and stash them in output types
+	typesWithConversions, err := f.outputTypes.Process(f.injectConversions)
 	if err != nil {
 		return err
 	}
-
-	f.outputTypes.AddTypes(inputTypesWithConversions)
-
-	// Inject conversions into our storage variants and replace the definitions in outputTypes
-	storageVariantsWithConversions, err := storageVariants.Process(f.injectConversions)
-	if err != nil {
-		return err
-	}
-
-	for _, d := range storageVariantsWithConversions {
-		f.outputTypes[d.Name()] = d
-	}
-
-	// Add anything missing into outputTypes
-	f.outputTypes.AddTypes(f.inputTypes.Except(f.outputTypes))
+	f.outputTypes = f.outputTypes.OverlayWith(typesWithConversions)
 
 	return nil
 }
@@ -200,4 +197,21 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 	}
 
 	return &updatedDefinition, nil
+}
+
+// injectOriginalGVK modifies spec types by injecting an OriginalGVK() function
+func (f *StorageTypeFactory) injectOriginalGVK(definition astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
+	if _, isResource := astmodel.AsResourceType(definition.Type()); isResource {
+		// We have a Resource, inject the OriginalGVK() function
+		fn := functions.NewOriginalGVKFunction(f.idFactory)
+
+		result, err := f.functionInjector.Inject(definition, fn)
+		if err != nil {
+			return nil, errors.Wrapf(err, "injecting OriginalGVK() into %s", definition.Name())
+		}
+
+		return &result, nil
+	}
+
+	return nil, nil
 }
