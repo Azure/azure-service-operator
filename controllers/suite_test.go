@@ -938,7 +938,7 @@ func setup() error {
 	if result.Response.StatusCode != 204 {
 		_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)
 		if err != nil {
-			return fmt.Errorf("ResourceGroup creation failed")
+			return fmt.Errorf("ResourceGroup creation failed: %v", err)
 		}
 	}
 
