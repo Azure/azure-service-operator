@@ -73,7 +73,7 @@ func determineOwnership(definitions astmodel.Types, configuration *config.Config
 
 	setResourceGroupOwnerForResourcesWithNoOwner(configuration, definitions, updatedDefs)
 
-	return astmodel.TypesDisjointUnion(definitions.Except(updatedDefs), updatedDefs), nil
+	return definitions.OverlayWith(updatedDefs), nil
 }
 
 func resourceSpecTypeAsObject(resourceSpecDef astmodel.TypeDefinition) (*astmodel.ObjectType, error) {
