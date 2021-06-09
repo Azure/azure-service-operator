@@ -64,7 +64,7 @@ func (m *azureEventHubNamespaceManager) DeleteNamespace(ctx context.Context, res
 		resourceGroupName,
 		namespaceName)
 
-    if err != nil {
+	if err != nil {
 		return autorest.Response{
 			Response: &http.Response{
 				StatusCode: 500,

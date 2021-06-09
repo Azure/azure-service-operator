@@ -9,7 +9,6 @@ import (
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-
 // ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#ReadWriteEndpointFailoverPolicy
 // +kubebuilder:validation:Enum=Automatic;Manual
 type ReadWriteEndpointFailoverPolicy string

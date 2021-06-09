@@ -38,7 +38,8 @@ import (
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
+	resourcemanagercosmosdbaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/account"
+	resourcemanagercosmosdbsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/sqldatabase"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
@@ -266,12 +267,28 @@ func setup() error {
 	err = (&CosmosDBReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagercosmosdb.NewAzureCosmosDBManager(config.GlobalCredentials(), secretClient),
+			AzureClient: resourcemanagercosmosdbaccount.NewAzureCosmosDBManager(config.GlobalCredentials(), secretClient),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"CosmosDB",
 				ctrl.Log.WithName("controllers").WithName("CosmosDB"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("CosmosDB-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&CosmosDBSQLDatabaseReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: resourcemanagercosmosdbsqldatabase.NewAzureCosmosDBSQLDatabaseManager(config.GlobalCredentials()),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"CosmosDBSQLDatabase",
+				ctrl.Log.WithName("controllers").WithName("CosmosDBSQLDatabase"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("CosmosDBSQLDatabase-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)

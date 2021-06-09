@@ -50,6 +50,15 @@ func TestCosmosDBHappyPath(t *testing.T) {
 		return err == nil && len(secret) > 0
 	}, tc.timeoutFast, tc.retry, "wait for cosmosdb to have secret")
 
+	t.Run("group1", func(t *testing.T) {
+		t.Run("Test Cosmos DB SQL Database happy path", func(t *testing.T) {
+			CosmosDBSQLDatabaseHappyPath(t, name)
+		})
+		t.Run("Test Cosmos DB SQL Database failed throughput update", func(t *testing.T) {
+			CosmosDBSQLDatabase_FailedThroughputUpdate(t, name)
+		})
+	})
+
 	EnsureDelete(ctx, t, tc, dbInstance)
 
 	assert.Eventually(func() bool {

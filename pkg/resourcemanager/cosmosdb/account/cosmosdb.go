@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package cosmosdbs
+package account
 
 import (
 	"context"
 	"fmt"
 	"net/http"
-	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
+	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2021-03-15/documentdb"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 // AzureCosmosDBManager is the struct which contains helper functions for resource groups
@@ -24,27 +24,13 @@ type AzureCosmosDBManager struct {
 	SecretClient secrets.SecretClient
 }
 
-func getCosmosDBClient(creds config.Credentials) (documentdb.DatabaseAccountsClient, error) {
-	cosmosDBClient := documentdb.NewDatabaseAccountsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
-
-	a, err := iam.GetResourceManagementAuthorizer(creds)
-	if err != nil {
-		cosmosDBClient = documentdb.DatabaseAccountsClient{}
-	} else {
-		cosmosDBClient.Authorizer = a
-	}
-
-	err = cosmosDBClient.AddToUserAgent(config.UserAgent())
-	return cosmosDBClient, err
-}
-
 // CreateOrUpdateCosmosDB creates a new CosmosDB
 func (m *AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	ctx context.Context,
 	accountName string,
 	spec v1alpha1.CosmosDBSpec,
-	tags map[string]*string) (*documentdb.DatabaseAccount, string, error) {
-	cosmosDBClient, err := getCosmosDBClient(m.Creds)
+	tags map[string]*string) (*documentdb.DatabaseAccountGetResults, string, error) {
+	cosmosDBClient, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return nil, "", err
 	}
@@ -61,7 +47,7 @@ func (m *AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 			EnableMultipleWriteLocations:  &spec.Properties.EnableMultipleWriteLocations,
 			Locations:                     getLocations(spec),
 			Capabilities:                  getCapabilities(spec),
-			IPRangeFilter:                 getIPRangeFilter(spec),
+			IPRules:                       getIPRules(spec),
 		},
 	}
 	createUpdateFuture, err := cosmosDBClient.CreateOrUpdate(
@@ -83,8 +69,8 @@ func (m *AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 func (m *AzureCosmosDBManager) GetCosmosDB(
 	ctx context.Context,
 	groupName string,
-	cosmosDBName string) (*documentdb.DatabaseAccount, error) {
-	cosmosDBClient, err := getCosmosDBClient(m.Creds)
+	cosmosDBName string) (*documentdb.DatabaseAccountGetResults, error) {
+	cosmosDBClient, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +86,7 @@ func (m *AzureCosmosDBManager) GetCosmosDB(
 func (m *AzureCosmosDBManager) CheckNameExistsCosmosDB(
 	ctx context.Context,
 	accountName string) (bool, error) {
-	cosmosDBClient, err := getCosmosDBClient(m.Creds)
+	cosmosDBClient, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return false, err
 	}
@@ -125,7 +111,7 @@ func (m *AzureCosmosDBManager) DeleteCosmosDB(
 	ctx context.Context,
 	groupName string,
 	cosmosDBName string) (*autorest.Response, error) {
-	cosmosDBClient, err := getCosmosDBClient(m.Creds)
+	cosmosDBClient, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -147,7 +133,7 @@ func (m *AzureCosmosDBManager) ListKeys(
 	ctx context.Context,
 	groupName string,
 	accountName string) (*documentdb.DatabaseAccountListKeysResult, error) {
-	client, err := getCosmosDBClient(m.Creds)
+	client, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +151,7 @@ func (m *AzureCosmosDBManager) ListConnectionStrings(
 	ctx context.Context,
 	groupName string,
 	accountName string) (*documentdb.DatabaseAccountListConnectionStringsResult, error) {
-	client, err := getCosmosDBClient(m.Creds)
+	client, err := cosmosdb.GetCosmosDBAccountClient(m.Creds)
 	if err != nil {
 		return nil, err
 	}
@@ -241,10 +227,15 @@ func getCapabilities(spec v1alpha1.CosmosDBSpec) *[]documentdb.Capability {
 	return &capabilities
 }
 
-func getIPRangeFilter(spec v1alpha1.CosmosDBSpec) *string {
-	sIPRules := ""
-	if spec.IPRules != nil {
-		sIPRules = strings.Join(*spec.IPRules, ",")
+func getIPRules(spec v1alpha1.CosmosDBSpec) *[]documentdb.IPAddressOrRange {
+	if spec.IPRules == nil {
+		return nil
 	}
-	return &sIPRules
+
+	var result []documentdb.IPAddressOrRange
+	for _, rule := range *spec.IPRules {
+		result = append(result, documentdb.IPAddressOrRange{IPAddressOrRange: &rule})
+	}
+
+	return &result
 }
