@@ -4,16 +4,16 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.0
   creationTimestamp: null
-  name: appinsights.azure.microsoft.com
+  name: cosmosdbsqldatabases.azure.microsoft.com
 spec:
   group: azure.microsoft.com
   names:
-    kind: AppInsights
-    listKind: AppInsightsList
-    plural: appinsights
+    kind: CosmosDBSQLDatabase
+    listKind: CosmosDBSQLDatabaseList
+    plural: cosmosdbsqldatabases
     shortNames:
-    - ai
-    singular: appinsights
+    - cdbsql
+    singular: cosmosdbsqldatabase
   preserveUnknownFields: false
   scope: Namespaced
   versions:
@@ -27,7 +27,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: AppInsights is the Schema for the appinsights API
+        description: CosmosDBSQLDatabase is the Schema for the cosmosdbsql API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -42,24 +42,47 @@ spec:
           metadata:
             type: object
           spec:
-            description: AppInsightsSpec defines the desired state of AppInsights
+            description: CosmosDBSQLDatabaseSpec defines the desired state of the
+              CosmosDBSQLDatabase
             properties:
-              applicationType:
-                type: string
-              keyVaultToStoreSecrets:
-                type: string
-              kind:
-                type: string
-              location:
+              autoscaleSettings:
+                description: AutoscaleSettings contains the user specified autoscale
+                  configuration. This must not be specified if Throughput is specified.
+                  This cannot be changed after creation if it (or throughput) was
+                  not set to something initially.
+                properties:
+                  maxThroughput:
+                    description: MaxThroughput is the autoscale max RU/s of the database.
+                    format: int32
+                    type: integer
+                type: object
+              cosmosDBAccount:
+                description: Account is the account that the SQL database will be
+                  created in.
+                minLength: 1
                 type: string
               resourceGroup:
+                description: ResourceGroup is the resource group the CosmosDBSQLDatabase
+                  will be created in.
                 minLength: 1
                 pattern: ^[-\w\._\(\)]+$
                 type: string
+              tags:
+                additionalProperties:
+                  type: string
+                description: Tags are key-value pairs associated with the resource.
+                type: object
+              throughput:
+                description: Throughput is the user specified manual throughput (RU/s)
+                  for the database expressed in units of 100 request units per second.
+                  The minimum is 400 up to 1,000,000 (or higher by requesting a limit
+                  increase). This must not be specified if autoscale is specified.
+                  This cannot be changed after creation if it (or autoscaleSettings)
+                  was not set to something initially.
+                format: int32
+                type: integer
             required:
-            - applicationType
-            - kind
-            - location
+            - cosmosDBAccount
             - resourceGroup
             type: object
           status:
