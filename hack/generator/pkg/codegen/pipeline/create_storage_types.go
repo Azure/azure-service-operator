@@ -51,8 +51,8 @@ func CreateStorageTypes(idFactory astmodel.IdentifierFactory) Stage {
 				factory.Add(def)
 			}
 
-			// Collect up all the results
-			result := make(astmodel.Types)
+			// Collect up all the storage types
+			storageTypes := make(astmodel.Types)
 			var errs []error
 			for _, factory := range factories {
 				t, err := factory.Types()
@@ -61,7 +61,7 @@ func CreateStorageTypes(idFactory astmodel.IdentifierFactory) Stage {
 					continue
 				}
 
-				result.AddTypes(t)
+				storageTypes.AddTypes(t)
 			}
 
 			err := kerrors.NewAggregate(errs)
@@ -69,8 +69,6 @@ func CreateStorageTypes(idFactory astmodel.IdentifierFactory) Stage {
 				return nil, err
 			}
 
-			unmodified := types.Except(result)
-			result.AddTypes(unmodified)
-			return result, nil
+			return types.OverlayWith(storageTypes), nil
 		})
 }
