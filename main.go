@@ -770,7 +770,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	identityFinder := helpers.NewAADIdentityFinder(mgr.GetClient(), config.PodNamespace())
+	// Use the API reader rather than using mgr.GetClient(), because
+	// the client might be restricted by target namespaces, while we
+	// need to read from the operator namespace.
+	identityFinder := helpers.NewAADIdentityFinder(mgr.GetAPIReader(), config.PodNamespace())
 	if err = (&controllers.MySQLAADUserReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
