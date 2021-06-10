@@ -291,6 +291,10 @@ func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
 // WithProperty creates a new ResourceType with another property attached to it
 // Properties are unique by name, so this can be used to Add and Replace a property
 func (resource *ResourceType) WithProperty(property *PropertyDefinition) *ResourceType {
+	if property.HasName("Status") || property.HasName("Spec") {
+		panic(fmt.Sprintf("May not modify property %q on a resource", property.PropertyName()))
+	}
+
 	// Create a copy to preserve immutability
 	result := resource.copy()
 	result.properties[property.propertyName] = property
@@ -300,7 +304,6 @@ func (resource *ResourceType) WithProperty(property *PropertyDefinition) *Resour
 
 // WithoutProperty creates a new ResourceType that's a copy without the specified property
 func (resource *ResourceType) WithoutProperty(name PropertyName) *ResourceType {
-
 	if name == "Status" || name == "Spec" {
 		panic(fmt.Sprintf("May not remove property %q from a resource", name))
 	}

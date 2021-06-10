@@ -90,7 +90,7 @@ func TestResourceType_Property_ForSpec_ReturnsProperty(t *testing.T) {
  * WithProperty() tests
  */
 
-func TestResourceType_WithoutProperty_IncludesProperty(t *testing.T) {
+func TestResourceType_WithProperty_IncludesProperty(t *testing.T) {
 	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	ownerProp := NewPropertyDefinition("Owner", "owner", StringType)
@@ -98,6 +98,20 @@ func TestResourceType_WithoutProperty_IncludesProperty(t *testing.T) {
 	prop, ok := resource.Property("Owner")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(prop).NotTo(BeNil())
+}
+
+func TestResourceType_WithProperty_OverridingSpec_Panics(t *testing.T) {
+	g := NewGomegaWithT(t)
+	base := NewResourceType(emptySpec, emptyStatus)
+	specProp := NewPropertyDefinition("Spec", "spec", StringType)
+	g.Expect(func() { base.WithProperty(specProp)}).To(Panic())
+}
+
+func TestResourceType_WithProperty_OverridingStatus_Panics(t *testing.T) {
+	g := NewGomegaWithT(t)
+	base := NewResourceType(emptySpec, emptyStatus)
+	statusProp := NewPropertyDefinition("Status", "status", StringType)
+	g.Expect(func() { base.WithProperty(statusProp)}).To(Panic())
 }
 
 /*
