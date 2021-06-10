@@ -290,20 +290,39 @@ func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
 // An ordered slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) Properties() []*PropertyDefinition {
 
-	specProperty := NewPropertyDefinition("Spec", "spec", resource.spec).
-		WithTag("json", "omitempty")
-
 	result := []*PropertyDefinition{
-		specProperty,
+		resource.createSpecProperty(),
 	}
 
 	if resource.status != nil {
-		statusProperty := NewPropertyDefinition("Status", "status", resource.status).
-			WithTag("json", "omitempty")
-		result = append(result, statusProperty)
+		result = append(result, resource.createStatusProperty())
 	}
 
 	return result
+}
+
+func (resource *ResourceType) createStatusProperty() *PropertyDefinition {
+	statusProperty := NewPropertyDefinition("Status", "status", resource.status).
+		WithTag("json", "omitempty")
+	return statusProperty
+}
+
+func (resource *ResourceType) createSpecProperty() *PropertyDefinition {
+	return NewPropertyDefinition("Spec", "spec", resource.spec).
+		WithTag("json", "omitempty")
+}
+
+// Property returns the property and true if the named property is found, nil and false otherwise
+func (resource *ResourceType) Property(name PropertyName) (*PropertyDefinition, bool) {
+	if name == "Spec" {
+		return resource.createSpecProperty(), true
+	}
+
+	if name == "Status" {
+		return resource.createStatusProperty(), true
+	}
+
+	return nil, false
 }
 
 // Functions returns all the function implementations

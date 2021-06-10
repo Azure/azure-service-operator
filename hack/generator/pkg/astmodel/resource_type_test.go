@@ -13,6 +13,11 @@ import (
 
 //TODO (theunrepentantgeek): MOAR TESTS
 
+var (
+	emptySpec   = NewObjectType()
+	emptyStatus = NewObjectType()
+)
+
 /*
  * WithTestCase() tests
  */
@@ -20,11 +25,9 @@ import (
 func TestResourceType_WithTestCase_ReturnsExpectedInstance(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	spec := NewObjectType()
-	status := NewObjectType()
 	name := "assertStuff"
 	fake := NewFakeTestCase(name)
-	base := NewResourceType(spec, status)
+	base := NewResourceType(emptySpec, emptyStatus)
 
 	resource := base.WithTestCase(fake)
 
@@ -40,12 +43,10 @@ func TestResourceType_WithTestCase_ReturnsExpectedInstance(t *testing.T) {
 func TestResourceType_WithFunction_ReturnsExpectedInstance(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	spec := NewObjectType()
-	status := NewObjectType()
 	name := "assertStuff"
 
 	fake := NewFakeFunction(name)
-	base := NewResourceType(spec, status)
+	base := NewResourceType(emptySpec, emptyStatus)
 
 	resource := base.WithFunction(fake)
 
@@ -53,4 +54,34 @@ func TestResourceType_WithFunction_ReturnsExpectedInstance(t *testing.T) {
 	g.Expect(resource.functions).To(HaveLen(1))
 	g.Expect(resource.functions[name]).To(Equal(fake))
 
+}
+
+/*
+ * Properties() tests
+ */
+
+func TestResourceType_Properties_ReturnsExpectedCount(t *testing.T) {
+	g := NewGomegaWithT(t)
+	base := NewResourceType(emptySpec, emptyStatus)
+	g.Expect(base.Properties()).To(HaveLen(2))
+}
+
+/*
+ * Property() tests
+ */
+
+func TestResourceType_Property_ForStatus_ReturnsProperty(t *testing.T) {
+	g := NewGomegaWithT(t)
+	base := NewResourceType(emptySpec, emptyStatus)
+	prop, ok := base.Property("Spec")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(prop).NotTo(BeNil())
+}
+
+func TestResourceType_Property_ForSpec_ReturnsProperty(t *testing.T) {
+	g := NewGomegaWithT(t)
+	base := NewResourceType(emptySpec, emptyStatus)
+	prop, ok := base.Property("Spec")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(prop).NotTo(BeNil())
 }
