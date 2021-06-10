@@ -166,15 +166,9 @@ func (fn *PropertyAssignmentFunction) Equals(f astmodel.Function) bool {
 // AsFunc renders this function as an AST for serialization to a Go source file
 func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 
-	var description string
-	switch fn.direction {
-	case ConvertFrom:
-		description = fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.otherDefinition.Name().Name())
-	case ConvertTo:
-		description = fmt.Sprintf("populates the provided destination %s from our %s", fn.otherDefinition.Name().Name(), receiver.Name())
-	default:
-		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
-	}
+	description := fn.direction.SelectString(
+		fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.otherDefinition.Name().Name()),
+		fmt.Sprintf("populates the provided destination %s from our %s", fn.otherDefinition.Name().Name(), receiver.Name()))
 
 	// We always use a pointer receiver so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
@@ -281,19 +275,19 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 // our other type and generating conversions where possible
 func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDefinition) error {
 
-	var sourceEndpoints map[string]ReadableConversionEndpoint
-	var destinationEndpoints map[string]WritableConversionEndpoint
+	var sourceType astmodel.Type
+	var destinationType astmodel.Type
 
-	switch fn.direction {
-	case ConvertFrom:
-		sourceEndpoints = fn.createReadableEndpoints(fn.otherDefinition.Type())
-		destinationEndpoints = fn.createWritableEndpoints(receiver.Type())
-	case ConvertTo:
-		sourceEndpoints = fn.createReadableEndpoints(receiver.Type())
-		destinationEndpoints = fn.createWritableEndpoints(fn.otherDefinition.Type())
-	default:
-		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
-	}
+	fn.direction.WhenFrom(func() {
+		sourceType = fn.otherDefinition.Type()
+		destinationType = receiver.Type()
+	}).WhenTo(func() {
+		sourceType = receiver.Type()
+		destinationType = fn.otherDefinition.Type()
+	})
+
+	sourceEndpoints := fn.createReadableEndpoints(sourceType)
+	destinationEndpoints := fn.createWritableEndpoints(destinationType)
 
 	// Flag receiver and parameter names as used
 	fn.knownLocals.Add(fn.receiverName)
@@ -415,13 +409,7 @@ func (fn *PropertyAssignmentFunction) createConversion(
 
 func nameOfPropertyAssignmentFunction(name astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
 	nameOfOtherType := idFactory.CreateIdentifier(name.Name(), astmodel.Exported)
-	switch direction {
-	case ConvertTo:
-		return "AssignPropertiesTo" + nameOfOtherType
-
-	case ConvertFrom:
-		return "AssignPropertiesFrom" + nameOfOtherType
-	}
-
-	panic(fmt.Sprintf("unexpected conversion direction %q", direction))
+	return direction.SelectString(
+		"AssignPropertiesFrom"+nameOfOtherType,
+		"AssignPropertiesTo"+nameOfOtherType)
 }
