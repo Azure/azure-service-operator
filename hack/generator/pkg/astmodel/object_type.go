@@ -10,9 +10,10 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // ObjectType represents an (unnamed) object type
@@ -35,6 +36,9 @@ var _ PropertyContainer = &ObjectType{}
 
 // Ensure ObjectType implements the FunctionContainer interface correctly
 var _ FunctionContainer = &ObjectType{}
+
+// Ensure ObjectType implements the TestCaseContainer interface correctly
+var _ TestCaseContainer = &ObjectType{}
 
 // NewObjectType is a factory method for creating a new ObjectType
 func NewObjectType() *ObjectType {
