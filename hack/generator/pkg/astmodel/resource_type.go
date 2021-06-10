@@ -288,15 +288,30 @@ func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
 	}
 }
 
-// WithProperty creates a new ObjectType with another property attached to it
+// WithProperty creates a new ResourceType with another property attached to it
 // Properties are unique by name, so this can be used to Add and Replace a property
 func (resource *ResourceType) WithProperty(property *PropertyDefinition) *ResourceType {
-	// Create a copy of objectType to preserve immutability
+	// Create a copy to preserve immutability
 	result := resource.copy()
 	result.properties[property.propertyName] = property
 
 	return result
 }
+
+// WithoutProperty creates a new ResourceType that's a copy without the specified property
+func (resource *ResourceType) WithoutProperty(name PropertyName) *ResourceType {
+
+	if name == "Status" || name == "Spec" {
+		panic(fmt.Sprintf("May not remove property %q from a resource", name))
+	}
+
+	// Create a copy to preserve immutability
+	result := resource.copy()
+	delete(result.properties, name)
+
+	return result
+}
+
 
 // Properties returns all the properties from this resource type
 // An ordered slice is returned to preserve immutability and provide determinism
