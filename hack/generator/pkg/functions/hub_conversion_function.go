@@ -13,15 +13,11 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/dave/dst"
-	"go/token"
 )
 
 // HubConversionFunction implements conversions to/from our hub type
 // Existing PropertyAssignment functions are used to implement stepwise conversion
 type HubConversionFunction struct {
-	// name of this conversion function
-	name string
 	// hub is the TypeName of the canonical hub type, the final target or original source for conversion
 	hub astmodel.TypeName
 	// direction specifies whether we are converting to the hub type, or from it
@@ -45,7 +41,6 @@ func NewConversionToHubFunction(
 	propertyFunctionName string,
 	idFactory astmodel.IdentifierFactory) *HubConversionFunction {
 	result := &HubConversionFunction{
-		name:                 "ConvertTo",
 		hub:                  hub,
 		direction:            ConvertTo,
 		propertyFunctionName: propertyFunctionName,
@@ -66,7 +61,6 @@ func NewConversionFromHubFunction(
 	propertyFunctionName string,
 	idFactory astmodel.IdentifierFactory) *HubConversionFunction {
 	result := &HubConversionFunction{
-		name:                 "ConvertFrom",
 		hub:                  hub,
 		direction:            ConvertFrom,
 		propertyFunctionName: propertyFunctionName,
@@ -310,7 +304,7 @@ func (fn *HubConversionFunction) Equals(otherFn astmodel.Function) bool {
 		}
 	}
 
-	return fn.name == hcf.name &&
+	return fn.Name() == hcf.Name() &&
 		fn.direction == hcf.direction &&
 		fn.hub.Equals(hcf.hub)
 }
