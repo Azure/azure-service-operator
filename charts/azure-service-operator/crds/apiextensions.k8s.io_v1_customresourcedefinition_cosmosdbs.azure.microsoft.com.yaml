@@ -59,6 +59,7 @@ spec:
                 - MongoDB
                 type: string
               location:
+                description: Location is the Azure location where the CosmosDB exists
                 minLength: 0
                 type: string
               locations:
@@ -150,6 +151,11 @@ spec:
               output:
                 type: string
               pollingUrl:
+                type: string
+              pollingUrlKind:
+                enum:
+                - CreateOrUpdate
+                - Delete
                 type: string
               provisioned:
                 type: boolean
