@@ -29,13 +29,13 @@ jobs:
           docker exec "$container_id" task ci
           docker exec "$container_id" task controller:docker-build
 
-          docker cp "$container_id:/workspace/hack/generated/bin/aso-controller" aso-controller
+          docker cp "$container_id:/workspace/hack/generated/bin/azure-service-operator:v2.0.0-alpha.tar" aso-controller.tar
 
       - name: Archive Docker image
         uses: actions/upload-artifact@v2
         with:
-          name: aso-controller
-          path: aso-controller
+          name: aso-controller.tar
+          path: aso-controller.tar
 
       - name: Upload code coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash)
