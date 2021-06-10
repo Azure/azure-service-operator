@@ -119,7 +119,7 @@ func (f *StorageTypeFactory) process() error {
 	return nil
 }
 
-// createConversionMap creates our conversion graph of links between versions, leading towards our hub version
+// createConversionGraph creates our conversion graph of links between versions, leading towards our hub version
 func (f *StorageTypeFactory) createConversionGraph() error {
 
 	// Collect all distinct versions
@@ -132,7 +132,7 @@ func (f *StorageTypeFactory) createConversionGraph() error {
 	sortedApiVersions := allApiVersions.AsSlice()
 	astmodel.SortPackageReferencesByPathAndVersion(sortedApiVersions)
 
-	// For each API version create a matched storage package and to the graph
+	// For each API version create a matched storage package and add it to the graph
 	sortedStorageVersions := make([]astmodel.StoragePackageReference, len(sortedApiVersions))
 	for i, ref := range sortedApiVersions {
 		localRef, ok := ref.AsLocalPackage()
@@ -147,7 +147,8 @@ func (f *StorageTypeFactory) createConversionGraph() error {
 		f.conversionMap[ref] = storageRef
 	}
 
-	// For each Preview API version, the link goes from the associated storage version to the immediately prior storage version
+	// For each Preview API version, the link goes from the associated storage version to the immediately prior storage
+	// version, no matter whether it's preview or GA
 	for i, ref := range sortedApiVersions {
 		if i == 0 || !ref.IsPreview() {
 			continue
@@ -160,11 +161,13 @@ func (f *StorageTypeFactory) createConversionGraph() error {
 	var gaRelease astmodel.PackageReference
 	for i, ref := range sortedStorageVersions {
 		if i == 0 {
+			// Always treat the very earliest version as GA
 			gaRelease = ref
 			continue
 		}
 
 		if !ref.IsPreview() {
+			// Found a GA release, link to the prior GA release
 			f.conversionMap[gaRelease] = ref
 			gaRelease = ref
 		}
@@ -243,7 +246,6 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 		// No next package, so nothing to do
 		// (this is expected if we have the hub storage package)
 		// Flag the type as needing to be flagged as the storage version
-		//TODO: Restore this - currently disabled until we get all the conversion functions injected
 		hubDefinition, err := f.resourceHubMarker.MarkAsHubVersion(definition)
 		if err != nil {
 			return nil, errors.Wrapf(err, "marking %q as hub version", name)
@@ -294,16 +296,15 @@ func (f *StorageTypeFactory) injectConversionsBetween(
 	if _, isResource := astmodel.AsResourceType(result.Type()); isResource {
 
 		// Work out the name of our hub type
-		// TODO: Make this work when types are renamed
 		// TODO: Make this work when types are discontinued
 		hubType := astmodel.MakeTypeName(f.hubPackage, name.Name())
 
 		convertFromFn := conversions.NewConversionFromHubFunction(hubType, assignFromFn.OtherType(), assignFromFn.Name(), f.idFactory)
 		convertToFn := conversions.NewConversionToHubFunction(hubType, assignToFn.OtherType(), assignToFn.Name(), f.idFactory)
 
-		hubImplementation := astmodel.NewInterfaceImplementation(astmodel.ConvertibleInterface, convertFromFn, convertToFn)
+		convertibleImplementation := astmodel.NewInterfaceImplementation(astmodel.ConvertibleInterface, convertFromFn, convertToFn)
 
-		result, err = f.implementationInjector.Inject(result, hubImplementation)
+		result, err = f.implementationInjector.Inject(result, convertibleImplementation)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to inject conversion.Convertible interface into %q", upstreamName)
 		}
