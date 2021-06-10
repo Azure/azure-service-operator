@@ -85,3 +85,17 @@ func TestResourceType_Property_ForSpec_ReturnsProperty(t *testing.T) {
 	g.Expect(ok).To(BeTrue())
 	g.Expect(prop).NotTo(BeNil())
 }
+
+/*
+ * WithProperty() tests
+ */
+
+func TestResourceType_WithProperty_ContainsProperty(t *testing.T) {
+	g := NewGomegaWithT(t)
+	base := NewResourceType(emptySpec, emptyStatus)
+	ownerProp := NewPropertyDefinition("Owner", "owner", StringType)
+	resource := base.WithProperty(ownerProp)
+	prop, ok := resource.Property("Owner")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(prop).NotTo(BeNil())
+}

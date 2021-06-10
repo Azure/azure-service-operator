@@ -24,6 +24,7 @@ type ResourceType struct {
 	status           Type
 	isStorageVersion bool
 	owner            *TypeName
+	properties       map[PropertyName]*PropertyDefinition
 	functions        map[string]Function
 	testcases        map[string]TestCase
 	InterfaceImplementer
@@ -34,6 +35,7 @@ func NewResourceType(specType Type, statusType Type) *ResourceType {
 	result := &ResourceType{
 		isStorageVersion:     false,
 		owner:                nil,
+		properties:           make(map[PropertyName]*PropertyDefinition),
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		InterfaceImplementer: MakeInterfaceImplementer(),
@@ -286,6 +288,16 @@ func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
 	}
 }
 
+// WithProperty creates a new ObjectType with another property attached to it
+// Properties are unique by name, so this can be used to Add and Replace a property
+func (resource *ResourceType) WithProperty(property *PropertyDefinition) *ResourceType {
+	// Create a copy of objectType to preserve immutability
+	result := resource.copy()
+	result.properties[property.propertyName] = property
+
+	return result
+}
+
 // Properties returns all the properties from this resource type
 // An ordered slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) Properties() []*PropertyDefinition {
@@ -322,7 +334,8 @@ func (resource *ResourceType) Property(name PropertyName) (*PropertyDefinition, 
 		return resource.createStatusProperty(), true
 	}
 
-	return nil, false
+	prop, ok := resource.properties[name]
+	return prop, ok
 }
 
 // Functions returns all the function implementations
@@ -560,9 +573,14 @@ func (resource *ResourceType) copy() *ResourceType {
 		status:               resource.status,
 		isStorageVersion:     resource.isStorageVersion,
 		owner:                resource.owner,
+		properties:           make(map[PropertyName]*PropertyDefinition),
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		InterfaceImplementer: resource.InterfaceImplementer.copy(),
+	}
+
+	for key, property := range resource.properties {
+		result.properties[key] = property
 	}
 
 	for key, testcase := range resource.testcases {
