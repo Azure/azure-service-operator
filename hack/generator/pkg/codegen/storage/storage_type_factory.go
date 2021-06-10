@@ -282,22 +282,21 @@ func (f *StorageTypeFactory) injectConversionsBetween(
 		return nil, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
-	conversionToContext := conversions.NewStorageConversionContext(knownTypes, conversions.ConvertTo, f.idFactory)
-	assignToFn, err := conversions.NewPropertyAssignmentToFunction(definition, nextDef, f.idFactory, conversionToContext)
+	assignToFn, err := conversions.NewPropertyAssignmentToFunction(upstreamDef, downstreamDef, f.idFactory, conversionContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating PropertyAssignmentTo() function for %q", name)
+		return nil, errors.Wrapf(err, "creating PropertyAssignmentTo() function for %q", upstreamName)
 	}
 
-	result, err := f.functionInjector.Inject(definition, assignToFn, assignFromFn)
+	result, err := f.functionInjector.Inject(upstreamDef, assignToFn, assignFromFn)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to inject ConvertFrom and ConvertTo functions into %q", name)
+		return nil, errors.Wrapf(err, "failed to inject %s() and %s() functions into %q", assignToFn.Name(), assignFromFn.Name(), upstreamName)
 	}
 
 	if _, isResource := astmodel.AsResourceType(result.Type()); isResource {
 
 		// Work out the name of our hub type
 		// TODO: Make this work when types are discontinued
-		hubType := astmodel.MakeTypeName(f.hubPackage, name.Name())
+		hubType := astmodel.MakeTypeName(f.hubPackage, upstreamName.Name())
 
 		convertFromFn := conversions.NewConversionFromHubFunction(hubType, assignFromFn.OtherType(), assignFromFn.Name(), f.idFactory)
 		convertToFn := conversions.NewConversionToHubFunction(hubType, assignToFn.OtherType(), assignToFn.Name(), f.idFactory)
