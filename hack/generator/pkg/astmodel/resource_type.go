@@ -315,7 +315,6 @@ func (resource *ResourceType) WithoutProperty(name PropertyName) *ResourceType {
 	return result
 }
 
-
 // Properties returns all the properties from this resource type
 // An ordered slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) Properties() []*PropertyDefinition {

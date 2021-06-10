@@ -104,14 +104,14 @@ func TestResourceType_WithProperty_OverridingSpec_Panics(t *testing.T) {
 	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	specProp := NewPropertyDefinition("Spec", "spec", StringType)
-	g.Expect(func() { base.WithProperty(specProp)}).To(Panic())
+	g.Expect(func() { base.WithProperty(specProp) }).To(Panic())
 }
 
 func TestResourceType_WithProperty_OverridingStatus_Panics(t *testing.T) {
 	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	statusProp := NewPropertyDefinition("Status", "status", StringType)
-	g.Expect(func() { base.WithProperty(statusProp)}).To(Panic())
+	g.Expect(func() { base.WithProperty(statusProp) }).To(Panic())
 }
 
 /*
