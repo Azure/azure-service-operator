@@ -388,7 +388,7 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 	}
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
-	retryAfter, err := r.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetApiVersion(), emptyStatus)
+	retryAfter, err := r.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetAPIVersion(), emptyStatus)
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
 	}
@@ -424,7 +424,7 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 	}
 
 	// already deleting, just check to see if it still exists and if it's gone, remove finalizer
-	found, retryAfter, err := r.ARMClient.HeadResource(ctx, resource.GetId(), resource.Spec().GetApiVersion())
+	found, retryAfter, err := r.ARMClient.HeadResource(ctx, resource.GetId(), resource.Spec().GetAPIVersion())
 	if err != nil {
 		if retryAfter != 0 {
 			r.log.V(3).Info("Error performing HEAD on resource, will retry", "delaySec", retryAfter/time.Second)
@@ -657,7 +657,7 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 	}
 
 	// Get the resource
-	retryAfter, err := r.ARMClient.GetResource(ctx, id, deployableSpec.Spec().GetApiVersion(), armStatus)
+	retryAfter, err := r.ARMClient.GetResource(ctx, id, deployableSpec.Spec().GetAPIVersion(), armStatus)
 	if r.log.V(4).Enabled() {
 		statusBytes, marshalErr := json.Marshal(armStatus)
 		if marshalErr != nil {

@@ -77,7 +77,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *Re
 				}
 			}
 
-			if property.HasName(ApiVersionProperty) {
+			if property.HasName(APIVersionProperty) {
 				apiVersionProperty = property
 			}
 		}

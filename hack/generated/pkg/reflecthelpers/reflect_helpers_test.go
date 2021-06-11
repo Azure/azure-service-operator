@@ -147,7 +147,7 @@ func Test_ConvertResourceToDeployableResource(t *testing.T) {
 	g.Expect(ok).To(BeTrue())
 	g.Expect("myrg").To(Equal(rgResource.ResourceGroup()))
 	g.Expect("azureName").To(Equal(rgResource.Spec().GetName()))
-	g.Expect("2017-09-01").To(Equal(rgResource.Spec().GetApiVersion()))
+	g.Expect("2017-09-01").To(Equal(rgResource.Spec().GetAPIVersion()))
 	g.Expect(string(batch.BatchAccountsSpecTypeMicrosoftBatchBatchAccounts)).To(Equal(rgResource.Spec().GetType()))
 }
 

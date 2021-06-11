@@ -87,7 +87,7 @@ func AddAnnotation(obj MetaObject, k string, v string) {
 // methods to access properties common to all ARM Resource Specs. An Azure
 // Deployment is made of these.
 type ARMResourceSpec interface {
-	GetApiVersion() string
+	GetAPIVersion() string
 
 	GetType() string
 

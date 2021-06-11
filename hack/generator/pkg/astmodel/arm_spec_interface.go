@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	ApiVersionProperty = "ApiVersion"
+	APIVersionProperty = "APIVersion"
 	TypeProperty       = "Type"
 	NameProperty       = "Name"
 )
@@ -36,7 +36,7 @@ func NewARMSpecInterfaceImpl(
 	spec *ObjectType) (*InterfaceImplementation, error) {
 
 	// Check the spec first to ensure it looks how we expect
-	apiVersionProperty := idFactory.CreatePropertyName(ApiVersionProperty, Exported)
+	apiVersionProperty := idFactory.CreatePropertyName(APIVersionProperty, Exported)
 	err := checkPropertyPresence(spec, apiVersionProperty)
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func NewARMSpecInterfaceImpl(
 	}
 
 	getNameFunc := &objectFunction{
-		name:             "GetName",
+		name:             "Get" + NameProperty,
 		o:                spec,
 		idFactory:        idFactory,
 		asFunc:           getNameFunction,
@@ -61,18 +61,18 @@ func NewARMSpecInterfaceImpl(
 	}
 
 	getTypeFunc := &objectFunction{
-		name:             "GetType",
+		name:             "Get" + TypeProperty,
 		o:                spec,
 		idFactory:        idFactory,
 		asFunc:           getTypeFunction,
 		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
 	}
 
-	getApiVersionFunc := &objectFunction{
-		name:             "GetApiVersion",
+	getAPIVersionFunc := &objectFunction{
+		name:             "Get" + APIVersionProperty,
 		o:                spec,
 		idFactory:        idFactory,
-		asFunc:           getApiVersionFunction,
+		asFunc:           getAPIVersionFunction,
 		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
 	}
 
@@ -80,7 +80,7 @@ func NewARMSpecInterfaceImpl(
 		MakeTypeName(GenRuntimeReference, "ARMResourceSpec"),
 		getNameFunc,
 		getTypeFunc,
-		getApiVersionFunc)
+		getAPIVersionFunc)
 
 	return result, nil
 }
@@ -105,13 +105,13 @@ func getTypeFunction(k *objectFunction, codeGenerationContext *CodeGenerationCon
 		true)
 }
 
-func getApiVersionFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func getAPIVersionFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		k,
 		codeGenerationContext,
 		receiver,
 		methodName,
-		"ApiVersion",
+		APIVersionProperty,
 		true)
 }
 
