@@ -384,11 +384,11 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 
 	emptyStatus, err := reflecthelpers.NewEmptyArmResourceStatus(r.obj)
 	if err != nil {
-		return ctrl.Result{}, errors.Wrapf(err, "creating empty status for %q", resource.GetId())
+		return ctrl.Result{}, errors.Wrapf(err, "creating empty status for %q", resource.GetID())
 	}
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
-	retryAfter, err := r.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetAPIVersion(), emptyStatus)
+	retryAfter, err := r.ARMClient.BeginDeleteResource(ctx, resource.GetID(), resource.Spec().GetAPIVersion(), emptyStatus)
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
 	}
@@ -424,7 +424,7 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 	}
 
 	// already deleting, just check to see if it still exists and if it's gone, remove finalizer
-	found, retryAfter, err := r.ARMClient.HeadResource(ctx, resource.GetId(), resource.Spec().GetAPIVersion())
+	found, retryAfter, err := r.ARMClient.HeadResource(ctx, resource.GetID(), resource.Spec().GetAPIVersion())
 	if err != nil {
 		if retryAfter != 0 {
 			r.log.V(3).Info("Error performing HEAD on resource, will retry", "delaySec", retryAfter/time.Second)

@@ -107,7 +107,7 @@ type ARMResource interface {
 	Status() ARMResourceStatus
 
 	// TODO: Golang wants this to be GetID
-	GetId() string // TODO: Should this be on Status instead?
+	GetID() string // TODO: Should this be on Status instead?
 }
 
 func NewArmResource(spec ARMResourceSpec, status ARMResourceStatus, id string) ARMResource {
@@ -134,7 +134,7 @@ func (resource *armResourceImpl) Status() ARMResourceStatus {
 	return resource.status
 }
 
-func (resource *armResourceImpl) GetId() string {
+func (resource *armResourceImpl) GetID() string {
 	return resource.Id
 }
 
