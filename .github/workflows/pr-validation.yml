@@ -23,7 +23,7 @@ jobs:
       - name: Run CI & build output image
         id: devcontainer
         run: |
-          container_id=$(docker create devcontainer:1.0 -w /workspace -v $GITHUB_WORKSPACE:/workspace)
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace devcontainer:1.0)
           docker start "$container_id"
 
           docker exec "$container_id" task ci
