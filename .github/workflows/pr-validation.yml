@@ -20,15 +20,21 @@ jobs:
       - name: Build devcontainer image
         run: docker build --tag devcontainer:1.0 .devcontainer
 
-      - name: Run CI & build output image
+      - name: Run devcontainer image
         id: devcontainer
         run: |
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace devcontainer:1.0)
           docker start "$container_id"
+          echo "::set-output name=id::$container_id"
+        
+      - name: Run CI tasks
+        run: |
+          docker exec "${{steps.devcontainer.outputs.id}}" task ci
 
-          docker exec "$container_id" task ci
+      - name: Build docker image
+        run: |
+          container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task controller:docker-build
-
           docker cp "$container_id:/workspace/hack/generated/bin/azure-service-operator:v2.0.0-alpha.tar" aso-controller.tar
 
       - name: Archive Docker image
