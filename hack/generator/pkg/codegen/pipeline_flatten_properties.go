@@ -94,11 +94,9 @@ func flattenObjectType(objectType *astmodel.ObjectType, defs astmodel.Types) ([]
 				return nil, err
 			}
 
-			for ix := range innerProps {
-				innerProps[ix] = innerProps[ix].AddFlattenedFrom(prop.PropertyName())
+			for _, innerProp := range innerProps {
+				flattenedProps = append(flattenedProps, innerProp.AddFlattenedFrom(prop.PropertyName())
 			}
-
-			flattenedProps = append(flattenedProps, innerProps...)
 		} else {
 			flattenedProps = append(flattenedProps, prop)
 		}
