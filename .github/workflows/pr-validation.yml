@@ -23,7 +23,7 @@ jobs:
       - name: Run devcontainer image
         id: devcontainer
         run: |
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace devcontainer:1.0)
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:1.0)
           docker start "$container_id"
           echo "::set-output name=id::$container_id"
         
