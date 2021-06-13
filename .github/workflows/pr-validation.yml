@@ -36,12 +36,14 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task controller:docker-build
           docker cp "$container_id:/workspace/hack/generated/bin" .
+          mv bin/*.tar azure-service-operator.tar
 
       - name: Archive Docker image
         uses: actions/upload-artifact@v2
         with:
           name: controller-image
-          path: bin/*.tar
+          path: azure-service-operator.tar
+          if-no-files-found: error
 
       - name: Upload code coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash)
