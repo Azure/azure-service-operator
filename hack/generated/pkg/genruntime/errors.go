@@ -28,7 +28,7 @@ func NewReferenceNotFoundError(name types.NamespacedName, cause error) *Referenc
 var _ error = &ReferenceNotFound{}
 
 func (e *ReferenceNotFound) Error() string {
-	return fmt.Sprintf("%s does not exist", e.NamespacedName)
+	return fmt.Sprintf("%s does not exist (%s)", e.NamespacedName, e.cause)
 }
 
 func (e *ReferenceNotFound) Is(err error) bool {
