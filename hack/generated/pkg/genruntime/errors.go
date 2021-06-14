@@ -48,7 +48,7 @@ func (e *ReferenceNotFound) Format(s fmt.State, verb rune) {
 	switch verb {
 	case 'v':
 		if s.Flag('+') {
-			n, _ := fmt.Fprintf(s, "%+v", e.Cause())
+			n, _ := fmt.Fprintf(s, "%s", e.Cause())
 			if n > 0 {
 				_, _ = fmt.Fprintf(s, "\n")
 			}
