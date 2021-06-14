@@ -191,19 +191,19 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 		// TODO: https://github.com/kubernetes-sigs/controller-tools/issues/461 is fixed
 
 		// drop Type property
-		t = t.WithoutProperty("Type")
+		t = t.WithoutProperty(astmodel.TypeProperty)
 
-		// drop ApiVersion property
-		t = t.WithoutProperty("ApiVersion")
+		// drop APIVersion property
+		t = t.WithoutProperty(astmodel.APIVersionProperty)
 
-		nameProp, hasName := t.Property("Name")
+		nameProp, hasName := t.Property(astmodel.NameProperty)
 		if !hasName {
 			return t, nil
 		}
 
 		// rename Name to AzureName
 		azureNameProp := armconversion.GetAzureNameProperty(c.idFactory).WithType(nameProp.PropertyType())
-		return t.WithoutProperty("Name").WithProperty(azureNameProp), nil
+		return t.WithoutProperty(astmodel.NameProperty).WithProperty(azureNameProp), nil
 	}
 
 	kubernetesDef, err := resourceSpecDef.ApplyObjectTransformations(remapProperties, injectOwnerProperty)

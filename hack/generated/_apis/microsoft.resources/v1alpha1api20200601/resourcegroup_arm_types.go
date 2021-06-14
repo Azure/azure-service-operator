@@ -25,9 +25,9 @@ type ResourceGroupStatusPropertiesArm struct {
 
 type ResourceGroupSpecArm struct {
 
-	//ApiVersion: API Version of the resource type, optional when apiProfile is used
+	//APIVersion: API Version of the resource type, optional when apiProfile is used
 	//on the template
-	ApiVersion string `json:"apiVersion"`
+	APIVersion string `json:"apiVersion"`
 
 	//Name: Name of the resource
 	Name string `json:"name"`
@@ -47,9 +47,9 @@ type ResourceGroupSpecArm struct {
 
 var _ genruntime.ARMResourceSpec = &ResourceGroupSpecArm{}
 
-// GetApiVersion returns the ApiVersion of the resource
-func (spec ResourceGroupSpecArm) GetApiVersion() string {
-	return string(spec.ApiVersion)
+// GetAPIVersion returns the APIVersion of the resource
+func (spec ResourceGroupSpecArm) GetAPIVersion() string {
+	return string(spec.APIVersion)
 }
 
 // GetName returns the Name of the resource
