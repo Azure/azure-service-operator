@@ -27,6 +27,8 @@ type TestCase interface {
 	Equals(f TestCase) bool
 }
 
-type TestCaseDefiner interface {
+// TestCaseContainer represents types that can contain test cases
+// These types allow us to generate tests to verify the generated code does the right thing
+type TestCaseContainer interface {
 	TestCases() []TestCase
 }

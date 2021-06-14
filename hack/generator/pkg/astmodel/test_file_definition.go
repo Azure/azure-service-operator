@@ -43,7 +43,7 @@ func (file *TestFileDefinition) AsAst() (*dst.File, error) {
 	// Emit all test cases:
 	var testcases []dst.Decl
 	for _, s := range file.definitions {
-		definer, ok := s.Type().(TestCaseDefiner)
+		definer, ok := s.Type().(TestCaseContainer)
 		if !ok {
 			continue
 		}
@@ -90,7 +90,7 @@ func (file *TestFileDefinition) generateImports() *PackageImportSet {
 	var requiredImports = NewPackageImportSet()
 
 	for _, s := range file.definitions {
-		definer, ok := s.Type().(TestCaseDefiner)
+		definer, ok := s.Type().(TestCaseContainer)
 		if !ok {
 			continue
 		}
