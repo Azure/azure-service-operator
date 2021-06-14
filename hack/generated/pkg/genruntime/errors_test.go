@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package genruntime
 
 import (
+	"strings"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -111,7 +112,13 @@ func TestOwnerNotFound_RemembersCause(t *testing.T) {
 
 	g.Expect(errors.Cause(err)).To(Equal(cause))
 
-	fmtedErr := err.Error()
+	var builder strings.Builder
+	for err != nil {
+		builder.WriteString(err.Error())
+		err = errors.Unwrap(err)
+	}
+
+	fmtedErr := builder.String()
 	g.Expect(fmtedErr).To(ContainSubstring("I caused the problem"))
 	g.Expect(fmtedErr).To(ContainSubstring("default/foo does not exist"))
 	// Note that both of the below lines are fragile with respect to line number and will
