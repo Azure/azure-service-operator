@@ -6,9 +6,10 @@
 package armconversion
 
 import (
+	"github.com/dave/dst"
+
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/dave/dst"
 )
 
 // CreateEmptyARMValueFunc represents a function that creates
