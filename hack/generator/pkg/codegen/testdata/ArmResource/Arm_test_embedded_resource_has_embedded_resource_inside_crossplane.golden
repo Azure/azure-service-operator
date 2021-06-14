@@ -92,7 +92,7 @@ type C_Spec struct {
 
 type AParameters struct {
 	// +kubebuilder:validation:Required
-	ApiVersion ASpecApiVersion `json:"apiVersion"`
+	APIVersion ASpecAPIVersion `json:"apiVersion"`
 
 	// +kubebuilder:validation:Required
 	Name                      string              `json:"name"`
@@ -107,7 +107,7 @@ type AParameters struct {
 
 type BParameters struct {
 	// +kubebuilder:validation:Required
-	ApiVersion BSpecApiVersion `json:"apiVersion"`
+	APIVersion BSpecAPIVersion `json:"apiVersion"`
 
 	// +kubebuilder:validation:Required
 	Name                      string              `json:"name"`
@@ -122,7 +122,7 @@ type BParameters struct {
 
 type CParameters struct {
 	// +kubebuilder:validation:Required
-	ApiVersion CSpecApiVersion `json:"apiVersion"`
+	APIVersion CSpecAPIVersion `json:"apiVersion"`
 
 	// +kubebuilder:validation:Required
 	Name                      string              `json:"name"`
@@ -143,9 +143,9 @@ type AProperties struct {
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type ASpecApiVersion string
+type ASpecAPIVersion string
 
-const ASpecApiVersion20200601 = ASpecApiVersion("2020-06-01")
+const ASpecAPIVersion20200601 = ASpecAPIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
 type ASpecType string
@@ -159,9 +159,9 @@ type BProperties struct {
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type BSpecApiVersion string
+type BSpecAPIVersion string
 
-const BSpecApiVersion20200601 = BSpecApiVersion("2020-06-01")
+const BSpecAPIVersion20200601 = BSpecAPIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/B"}
 type BSpecType string
@@ -175,9 +175,9 @@ type CProperties struct {
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type CSpecApiVersion string
+type CSpecAPIVersion string
 
-const CSpecApiVersion20200601 = CSpecApiVersion("2020-06-01")
+const CSpecAPIVersion20200601 = CSpecAPIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/C"}
 type CSpecType string

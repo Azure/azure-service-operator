@@ -6,18 +6,18 @@ package vCurrent
 import "github.com/Azure/azure-service-operator/hack/generated/_apis/Verification/vNext"
 
 type Person struct {
-	release Bucket `json:"release"`
+	Release Bucket `json:"release"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
-	// release
-	if source.release != nil {
-		release := Bucket(*source.release)
-		person.release = release
+	// Release
+	if source.Release != nil {
+		release := Bucket(*source.Release)
+		person.Release = release
 	} else {
-		person.release = ""
+		person.Release = ""
 	}
 
 	// No error
@@ -27,9 +27,9 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 // AssignPropertiesToPerson populates the provided destination Person from our Person
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
-	// release
-	release := Bucket(person.release)
-	destination.release = &release
+	// Release
+	release := Bucket(person.Release)
+	destination.Release = &release
 
 	// No error
 	return nil

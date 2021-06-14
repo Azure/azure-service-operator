@@ -153,7 +153,7 @@ type AList struct {
 }
 
 type A_SpecARM struct {
-	ApiVersion ASpecApiVersion `json:"apiVersion"`
+	APIVersion ASpecAPIVersion `json:"apiVersion"`
 	Name       string          `json:"name"`
 	Properties *APropertiesARM `json:"properties,omitempty"`
 	Type       ASpecType       `json:"type"`
@@ -161,9 +161,9 @@ type A_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &A_SpecARM{}
 
-// GetApiVersion returns the ApiVersion of the resource
-func (aSpecARM A_SpecARM) GetApiVersion() string {
-	return string(aSpecARM.ApiVersion)
+// GetAPIVersion returns the APIVersion of the resource
+func (aSpecARM A_SpecARM) GetAPIVersion() string {
+	return string(aSpecARM.APIVersion)
 }
 
 // GetName returns the Name of the resource
@@ -183,9 +183,9 @@ type APropertiesARM struct {
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type ASpecApiVersion string
+type ASpecAPIVersion string
 
-const ASpecApiVersion20200601 = ASpecApiVersion("2020-06-01")
+const ASpecAPIVersion20200601 = ASpecAPIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
 type ASpecType string
@@ -210,7 +210,7 @@ func (aSpec *A_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 		return nil, nil
 	}
 	var result A_SpecARM
-	result.ApiVersion = ASpecApiVersion20200601
+	result.APIVersion = ASpecAPIVersion20200601
 	result.Name = name
 	if aSpec.Properties != nil {
 		propertiesARM, err := (*aSpec.Properties).ConvertToARM(name, resolvedReferences)

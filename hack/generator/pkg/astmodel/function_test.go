@@ -22,6 +22,8 @@ func NewFakeFunction(name string) *FakeFunction {
 	}
 }
 
+var _ Function = &FakeFunction{}
+
 func (fake *FakeFunction) Name() string {
 	return fake.name
 }
@@ -72,5 +74,3 @@ func (fake *FakeFunction) Equals(f Function) bool {
 
 	return true
 }
-
-var _ Function = &FakeFunction{}
