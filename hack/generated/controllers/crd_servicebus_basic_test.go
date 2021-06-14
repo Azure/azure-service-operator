@@ -11,7 +11,8 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	servicebus "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.servicebus/v1alpha1api20180101preview"
+	servicebusqueuetopic "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.servicebus/v1alpha1api20180101preview"
+	servicebus "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.servicebus/v1alpha1api20210101preview"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
@@ -54,16 +55,16 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, "2018-01-01-preview")
+	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, string(servicebus.NamespacesSpecAPIVersion20210101Preview))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
 }
 
 func ServiceBus_Queue_CRUD(tc testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
-	queue := &servicebus.NamespacesQueue{
+	queue := &servicebusqueuetopic.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
-		Spec: servicebus.NamespacesQueues_Spec{
+		Spec: servicebusqueuetopic.NamespacesQueues_Spec{
 			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(sbNamespace),
 		},
