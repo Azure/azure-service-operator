@@ -23,8 +23,8 @@ type PropertyConversionContext struct {
 	idFactory astmodel.IdentifierFactory
 }
 
-// NewStorageConversionContext creates a new instance of a PropertyConversionContext
-func NewStorageConversionContext(types astmodel.Types, direction Direction, idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
+// NewPropertyConversionContext creates a new instance of a PropertyConversionContext
+func NewPropertyConversionContext(types astmodel.Types, idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
 	return &PropertyConversionContext{
 		types:       types,
 		direction:   direction,

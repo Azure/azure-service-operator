@@ -165,7 +165,7 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 	knownTypes := make(astmodel.Types)
 	knownTypes.AddTypes(f.inputTypes)
 	knownTypes.AddTypes(f.outputTypes)
-	conversionFromContext := conversions.NewStorageConversionContext(knownTypes, conversions.ConvertFrom, f.idFactory)
+	conversionContext := conversions.NewPropertyConversionContext(knownTypes, f.idFactory)
 
 	convertFromFn, err := conversions.NewPropertyAssignmentFromFunction(definition, nextDef, f.idFactory, conversionFromContext)
 	if err != nil {

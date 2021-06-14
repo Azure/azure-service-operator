@@ -206,11 +206,11 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 	currentType, ok := astmodel.AsObjectType(c.currentObject.Type())
 	g.Expect(ok).To(BeTrue())
 
-	conversionFromContext := NewStorageConversionContext(c.types, ConvertFrom, idFactory)
+	conversionFromContext := NewPropertyConversionContext(c.types, ConvertFrom, idFactory)
 	convertFrom, errs := NewPropertyAssignmentFromFunction(c.currentObject, c.otherObject, idFactory, conversionFromContext)
 	g.Expect(errs).To(BeNil())
 
-	conversionToContext := NewStorageConversionContext(c.types, ConvertTo, idFactory)
+	conversionToContext := NewPropertyConversionContext(c.types, ConvertTo, idFactory)
 	convertTo, errs := NewPropertyAssignmentToFunction(c.currentObject, c.otherObject, idFactory, conversionToContext)
 	g.Expect(errs).To(BeNil())
 
