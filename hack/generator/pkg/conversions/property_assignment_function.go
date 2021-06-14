@@ -19,8 +19,6 @@ import (
 // PropertyAssignmentFunction represents a function that assigns all the properties from one resource or object to
 // another. Performs a single step of the conversions required to/from the hub version.
 type PropertyAssignmentFunction struct {
-	// name of this conversion function
-	name string
 	// otherDefinition is the type we are converting to (or from). This will be a type which is "closer"
 	// to the hub storage type, making this a building block of the final conversion.
 	otherDefinition astmodel.TypeDefinition
@@ -62,8 +60,8 @@ func NewPropertyAssignmentFromFunction(
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 	}
 
-	result.name = nameOfPropertyAssignmentFunction(otherDefinition.Name(), ConvertFrom, idFactory)
-	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
+	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
+		WithKnownLocals(result.knownLocals).
 
 	err := result.createConversions(receiver)
 	if err != nil {
@@ -88,8 +86,8 @@ func NewPropertyAssignmentToFunction(
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 	}
 
-	result.name = nameOfPropertyAssignmentFunction(otherDefinition.Name(), ConvertTo, idFactory)
-	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
+	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
+		WithKnownLocals(result.knownLocals).
 
 	err := result.createConversions(receiver)
 	if err != nil {
@@ -101,7 +99,7 @@ func NewPropertyAssignmentToFunction(
 
 // Name returns the name of this function
 func (fn *PropertyAssignmentFunction) Name() string {
-	return fn.name
+	return nameOfPropertyAssignmentFunction(fn.otherDefinition.Name(), fn.direction, fn.idFactory)
 }
 
 // RequiredPackageReferences returns the set of package references required by this function
@@ -121,7 +119,7 @@ func (fn *PropertyAssignmentFunction) References() astmodel.TypeNameSet {
 // Equals checks to see if the supplied function is the same as this one
 func (fn *PropertyAssignmentFunction) Equals(f astmodel.Function) bool {
 	if other, ok := f.(*PropertyAssignmentFunction); ok {
-		if fn.name != other.name {
+		if fn.Name() != other.Name() {
 			// Different name means not-equal
 			return false
 		}
