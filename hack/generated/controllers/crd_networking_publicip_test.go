@@ -65,7 +65,7 @@ func Test_PublicIP_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(publicIPAddress)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, string(network.PublicIPAddressesSpecApiVersion20201101))
+	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, string(network.PublicIPAddressesSpecAPIVersion20201101))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

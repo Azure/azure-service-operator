@@ -67,7 +67,7 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadResource(
 		tc.Ctx,
 		armId,
-		string(storage.StorageAccountsSpecApiVersion20210401))
+		string(storage.StorageAccountsSpecAPIVersion20210401))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
