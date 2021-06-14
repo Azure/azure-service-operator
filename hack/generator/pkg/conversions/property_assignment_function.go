@@ -7,9 +7,7 @@ package conversions
 
 import (
 	"fmt"
-	"go/token"
 	"sort"
-	"strings"
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
@@ -67,7 +65,7 @@ func NewPropertyAssignmentFromFunction(
 	result.name = nameOfPropertyAssignmentFunction(otherDefinition.Name(), ConvertFrom, idFactory)
 	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
-	err := result.createConversions(receiver, conversionContext.Types())
+	err := result.createConversions(receiver)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating '%s()'", result.name)
 	}
@@ -93,7 +91,7 @@ func NewPropertyAssignmentToFunction(
 	result.name = nameOfPropertyAssignmentFunction(otherDefinition.Name(), ConvertTo, idFactory)
 	result.conversionContext = conversionContext.WithFunctionName(result.name).WithKnownLocals(result.knownLocals)
 
-	err := result.createConversions(receiver, conversionContext.Types())
+	err := result.createConversions(receiver)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating '%s()'", result.name)
 	}
@@ -271,65 +269,18 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 
 // createConversions iterates through the properties on our receiver type, matching them up with
 // our other type and generating conversions where possible
-func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDefinition, types astmodel.Types) error {
+func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDefinition) error {
 
-	receiverProperties, ok := fn.asPropertyContainer(receiver.Type())
-	if !ok {
-		var typeDescription strings.Builder
-		receiver.Type().WriteDebugDescription(&typeDescription, types)
-
-		return errors.Errorf(
-			"expected receiver TypeDefinition %q to be either resource or object type, but found %q",
-			receiver.Name().String(),
-			typeDescription.String())
-	}
-
-	receiverFunctions, ok := fn.asFunctionContainer(receiver.Type())
-	if !ok {
-		var typeDescription strings.Builder
-		receiver.Type().WriteDebugDescription(&typeDescription, types)
-
-		return errors.Errorf(
-			"expected receiver TypeDefinition %q to be either resource or object type, but found %q",
-			receiver.Name().String(),
-			typeDescription.String())
-	}
-
-	otherProperties, ok := fn.asPropertyContainer(fn.otherDefinition.Type())
-	if !ok {
-		var typeDescription strings.Builder
-		fn.otherDefinition.Type().WriteDebugDescription(&typeDescription, types)
-
-		return errors.Errorf(
-			"expected other TypeDefinition %q to be either resource or object type, but found %q",
-			fn.otherDefinition.Name().String(),
-			typeDescription.String())
-	}
-
-	otherFunctions, ok := fn.asFunctionContainer(fn.otherDefinition.Type())
-	if !ok {
-		var typeDescription strings.Builder
-		fn.otherDefinition.Type().WriteDebugDescription(&typeDescription, types)
-
-		return errors.Errorf(
-			"expected other TypeDefinition %q to be either resource or object type, but found %q",
-			fn.otherDefinition.Name().String(),
-			typeDescription.String())
-	}
-
-	var sourceProperties map[string]*astmodel.PropertyDefinition
-	var sourceFunctions map[string]astmodel.Function
-	var destinationProperties map[string]*astmodel.PropertyDefinition
+	var sourceEndpoints map[string]ReadableConversionEndpoint
+	var destinationEndpoints map[string]WritableConversionEndpoint
 
 	switch fn.direction {
 	case ConvertFrom:
-		sourceProperties = fn.createPropertyMap(otherProperties)
-		sourceFunctions = fn.createFunctionMap(otherFunctions)
-		destinationProperties = fn.createPropertyMap(receiverProperties)
+		sourceEndpoints = fn.createReadableEndpoints(fn.otherDefinition.Type())
+		destinationEndpoints = fn.createWritableEndpoints(receiver.Type())
 	case ConvertTo:
-		sourceProperties = fn.createPropertyMap(receiverProperties)
-		sourceFunctions = fn.createFunctionMap(receiverFunctions)
-		destinationProperties = fn.createPropertyMap(otherProperties)
+		sourceEndpoints = fn.createReadableEndpoints(receiver.Type())
+		destinationEndpoints = fn.createWritableEndpoints(fn.otherDefinition.Type())
 	default:
 		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
 	}
@@ -337,41 +288,26 @@ func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDe
 	// Flag receiver name as used
 	fn.knownLocals.Add(receiver.Name().Name())
 
-	for destinationName, destinationProperty := range destinationProperties {
-		sourceProperty, ok := sourceProperties[destinationName]
-		//TODO: Handle property renames
-		if ok {
-			// Generate a conversion from one property to another
-			conv, err := fn.createPropertyConversion(sourceProperty, destinationProperty)
-			if err != nil {
-				// An error was returned, we abort creating conversions for this object
-				return errors.Wrapf(
-					err,
-					"creating conversion setting property %q from property %q",
-					destinationProperty.PropertyName(),
-					sourceProperty.PropertyName())
-			} else if conv != nil {
-				// A conversion was created, keep it for later
-				fn.conversions[destinationName] = conv
-			}
+	for destinationName, destinationEndpoint := range destinationEndpoints {
+		sourceEndpoint, ok := sourceEndpoints[destinationName]
+
+		if !ok {
+			//TODO: Handle property renames
 			continue
 		}
 
-		sourceFunction, ok := sourceFunctions[destinationName]
-		if ok {
-			// Generate a conversion to assign the property from the function
-			conv, err := fn.createFunctionConversion(sourceFunction, destinationProperty)
-			if err != nil {
-				// An error was returned, we abort creating conversions for this object
-				return errors.Wrapf(
-					err,
-					"creating conversion setting property %q from function %s()",
-					destinationName,
-					sourceFunction.Name())
-			} else if conv != nil {
-				// A conversion was created, keep it for later
-				fn.conversions[destinationName] = conv
-			}
+		// Generate a conversion from one endpoint to another
+		conv, err := fn.createConversion(sourceEndpoint, destinationEndpoint)
+		if err != nil {
+			// An error was returned, we abort creating conversions for this object
+			return errors.Wrapf(
+				err,
+				"creating conversion to %s by %s",
+				sourceEndpoint,
+				destinationEndpoint)
+		} else if conv != nil {
+			// A conversion was created, keep it for later
+			fn.conversions[destinationName] = conv
 		}
 	}
 
@@ -402,120 +338,68 @@ func (fn *PropertyAssignmentFunction) asFunctionContainer(theType astmodel.Type)
 	}
 }
 
-// createPropertyMap extracts the properties from a PropertyContainer and returns them as a map
-func (fn *PropertyAssignmentFunction) createPropertyMap(container astmodel.PropertyContainer) map[string]*astmodel.PropertyDefinition {
-	result := make(map[string]*astmodel.PropertyDefinition)
-	for _, p := range container.Properties() {
-		result[string(p.PropertyName())] = p
+func (fn *PropertyAssignmentFunction) createReadableEndpoints(instance astmodel.Type) map[string]ReadableConversionEndpoint {
+	result := make(map[string]ReadableConversionEndpoint)
+
+	propContainer, ok := fn.asPropertyContainer(instance)
+	if ok {
+		for _, prop := range propContainer.Properties() {
+			endpoint := MakeReadableConversionEndpointForProperty(prop, fn.knownLocals)
+			result[string(prop.PropertyName())] = endpoint
+		}
+	}
+
+	funcContainer, ok := fn.asFunctionContainer(instance)
+	if ok {
+		for _, f := range funcContainer.Functions() {
+			valueFn, ok := f.(astmodel.ValueFunction)
+			if ok {
+				endpoint := MakeReadableConversionEndpointForValueFunction(valueFn, fn.knownLocals)
+				result[f.Name()] = endpoint
+			}
+		}
 	}
 
 	return result
 }
 
-func (fn *PropertyAssignmentFunction) createFunctionMap(container astmodel.FunctionContainer) map[string]astmodel.Function {
-	result := make(map[string]astmodel.Function)
-	for _, fn := range container.Functions() {
-		returnTypes := fn.ReturnTypes()
-		if len(returnTypes) != 1 {
-			// Can only use functions that return exactly one value to populate a property
-			continue
-		}
+func (fn *PropertyAssignmentFunction) createWritableEndpoints(instance astmodel.Type) map[string]WritableConversionEndpoint {
+	result := make(map[string]WritableConversionEndpoint)
 
-		if returnTypes[0] == astmodel.ErrorType {
-			// Skip functions that just return an error
-			continue
+	propContainer, ok := fn.asPropertyContainer(instance)
+	if ok {
+		for _, prop := range propContainer.Properties() {
+			endpoint := MakeWritableConversionEndpointForProperty(prop, fn.knownLocals)
+			result[string(prop.PropertyName())] = endpoint
 		}
-
-		result[fn.Name()] = fn
 	}
 
 	return result
 }
 
-// createPropertyConversion tries to create a property conversion between the two provided properties, using all of the
-// available conversion functions in priority order to do so. If no valid conversion could be created an error is returned.
-func (fn *PropertyAssignmentFunction) createPropertyConversion(
-	sourceProperty *astmodel.PropertyDefinition,
-	destinationProperty *astmodel.PropertyDefinition) (StoragePropertyConversion, error) {
+// createPropertyConversion tries to create a conversion between the two provided endpoints, using all of the
+// available conversion functions in priority order to do so. If no valid conversion can be created an error is returned.
+func (fn *PropertyAssignmentFunction) createConversion(
+	sourceEndpoint ReadableConversionEndpoint,
+	destinationEndpoint WritableConversionEndpoint) (StoragePropertyConversion, error) {
 
-	sourceEndpoint := NewStorageConversionEndpoint(
-		sourceProperty.PropertyType(), string(sourceProperty.PropertyName()), fn.knownLocals)
-	destinationEndpoint := NewStorageConversionEndpoint(
-		destinationProperty.PropertyType(), string(destinationProperty.PropertyName()), fn.knownLocals)
-
-	conversion, err := CreateTypeConversion(sourceEndpoint, destinationEndpoint, fn.conversionContext)
+	conversion, err := CreateTypeConversion(sourceEndpoint.endpoint, destinationEndpoint.endpoint, fn.conversionContext)
 
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
-			"trying to assign %q [%s] by converting from %q [%s]",
-			destinationProperty.PropertyName(),
-			destinationProperty.PropertyType(),
-			sourceProperty.PropertyName(),
-			sourceProperty.PropertyType())
+			"trying to %s and %s",
+			sourceEndpoint, destinationEndpoint)
 	}
 
 	return func(source dst.Expr, destination dst.Expr, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-
-		reader := astbuilder.Selector(source, string(sourceProperty.PropertyName()))
+		reader := sourceEndpoint.reader(source)
 		writer := func(expr dst.Expr) []dst.Stmt {
-			return []dst.Stmt{
-				astbuilder.SimpleAssignment(
-					astbuilder.Selector(destination, string(destinationProperty.PropertyName())),
-					token.ASSIGN,
-					expr),
-			}
+			return destinationEndpoint.writer(destination, expr)
 		}
 
 		return conversion(reader, writer, generationContext)
 	}, nil
-}
-
-func (fn *PropertyAssignmentFunction) createFunctionConversion(
-	sourceFunction astmodel.Function,
-	destinationProperty *astmodel.PropertyDefinition) (StoragePropertyConversion, error) {
-
-	sourceFunctionReturns := sourceFunction.ReturnTypes()
-	if len(sourceFunctionReturns) != 1 {
-		return nil, errors.New("should never have functions with multiple returns")
-	}
-	if sourceFunctionReturns[0] == astmodel.ErrorType {
-		return nil, errors.New("should never have a function returning error")
-	}
-
-	sourceType := sourceFunctionReturns[0]
-
-	sourceEndpoint := NewStorageConversionEndpoint(sourceType, sourceFunction.Name(), fn.knownLocals)
-	destinationEndpoint := NewStorageConversionEndpoint(
-		destinationProperty.PropertyType(), string(destinationProperty.PropertyName()), fn.knownLocals)
-
-	conversion, err := CreateTypeConversion(sourceEndpoint, destinationEndpoint, fn.conversionContext)
-
-	if err != nil {
-		return nil, errors.Wrapf(
-			err,
-			"trying to assign %q [%s] by converting from %q [%s]",
-			destinationProperty.PropertyName(),
-			destinationProperty.PropertyType(),
-			sourceFunction.Name(),
-			sourceType)
-	}
-
-	return func(source dst.Expr, destination dst.Expr, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-
-		reader := astbuilder.CallExpr(source, sourceFunction.Name())
-		writer := func(expr dst.Expr) []dst.Stmt {
-			return []dst.Stmt{
-				astbuilder.SimpleAssignment(
-					astbuilder.Selector(destination, string(destinationProperty.PropertyName())),
-					token.ASSIGN,
-					expr),
-			}
-		}
-
-		return conversion(reader, writer, generationContext)
-	}, nil
-
 }
 
 func nameOfPropertyAssignmentFunction(name astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
