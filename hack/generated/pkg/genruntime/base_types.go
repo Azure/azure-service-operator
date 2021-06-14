@@ -87,7 +87,7 @@ func AddAnnotation(obj MetaObject, k string, v string) {
 // methods to access properties common to all ARM Resource Specs. An Azure
 // Deployment is made of these.
 type ARMResourceSpec interface {
-	GetApiVersion() string
+	GetAPIVersion() string
 
 	GetType() string
 
@@ -107,7 +107,7 @@ type ARMResource interface {
 	Status() ARMResourceStatus
 
 	// TODO: Golang wants this to be GetID
-	GetId() string // TODO: Should this be on Status instead?
+	GetID() string // TODO: Should this be on Status instead?
 }
 
 func NewArmResource(spec ARMResourceSpec, status ARMResourceStatus, id string) ARMResource {
@@ -134,7 +134,7 @@ func (resource *armResourceImpl) Status() ARMResourceStatus {
 	return resource.status
 }
 
-func (resource *armResourceImpl) GetId() string {
+func (resource *armResourceImpl) GetID() string {
 	return resource.Id
 }
 
