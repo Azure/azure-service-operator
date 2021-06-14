@@ -62,10 +62,11 @@ func NewPropertyAssignmentFromFunction(
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
+		WithDirection(ConvertFrom)
 
 	err := result.createConversions(receiver)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating '%s()'", result.name)
+		return nil, errors.Wrapf(err, "creating '%s()'", result.Name())
 	}
 
 	return result, nil
@@ -88,10 +89,11 @@ func NewPropertyAssignmentToFunction(
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
+		WithDirection(ConvertTo)
 
 	err := result.createConversions(receiver)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating '%s()'", result.name)
+		return nil, errors.Wrapf(err, "creating '%s()'", result.Name())
 	}
 
 	return result, nil

@@ -27,7 +27,6 @@ type PropertyConversionContext struct {
 func NewPropertyConversionContext(types astmodel.Types, idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
 	return &PropertyConversionContext{
 		types:       types,
-		direction:   direction,
 		idFactory:   idFactory,
 		knownLocals: astmodel.NewKnownLocalsSet(idFactory),
 	}
@@ -54,6 +53,13 @@ func (c *PropertyConversionContext) WithFunctionName(name string) *PropertyConve
 func (c *PropertyConversionContext) WithKnownLocals(knownLocals *astmodel.KnownLocalsSet) *PropertyConversionContext {
 	result := c.clone()
 	result.knownLocals = knownLocals
+	return result
+}
+
+// WithDirection returns a new context with the specified direction
+func (c *PropertyConversionContext) WithDirection( dir Direction) *PropertyConversionContext {
+	result := c.clone()
+	result.direction = dir
 	return result
 }
 

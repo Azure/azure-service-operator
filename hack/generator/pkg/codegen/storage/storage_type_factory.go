@@ -167,26 +167,24 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 	knownTypes.AddTypes(f.outputTypes)
 	conversionContext := conversions.NewPropertyConversionContext(knownTypes, f.idFactory)
 
-	convertFromFn, err := conversions.NewPropertyAssignmentFromFunction(definition, nextDef, f.idFactory, conversionFromContext)
+	convertFromFn, err := conversions.NewPropertyAssignmentFromFunction(definition, nextDef, f.idFactory, conversionContext)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating ConvertFrom() function for %q", name)
 	}
 
-	conversionToContext := conversions.NewStorageConversionContext(knownTypes, conversions.ConvertTo, f.idFactory)
-
-	convertToFn, err := conversions.NewPropertyAssignmentToFunction(definition, nextDef, f.idFactory, conversionToContext)
+	convertToFn, err := conversions.NewPropertyAssignmentToFunction(definition, nextDef, f.idFactory, conversionContext)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating ConvertTo() function for %q", name)
 	}
 
 	updatedDefinition, err := f.functionInjector.Inject(definition, convertFromFn)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to inject ConvertFrom function into %q", name)
+		return nil, errors.Wrapf(err, "failed to inject %s function into %q", convertFromFn.Name(), name)
 	}
 
 	updatedDefinition, err = f.functionInjector.Inject(updatedDefinition, convertToFn)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to inject ConvertFrom function into %q", name)
+		return nil, errors.Wrapf(err, "failed to inject %s function into %q", convertToFn.Name(), name)
 	}
 
 	return &updatedDefinition, nil
