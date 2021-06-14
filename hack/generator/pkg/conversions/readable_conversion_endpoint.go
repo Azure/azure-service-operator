@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package conversions
 
 import (
@@ -55,4 +60,3 @@ func MakeReadableConversionEndpointForValueFunction(
 func (r ReadableConversionEndpoint) String() string {
 	return r.description
 }
-
