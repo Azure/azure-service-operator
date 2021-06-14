@@ -47,7 +47,13 @@ func addCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) P
 					}
 
 					result.Add(typeDef)
-					result.Add(updatedDef)
+					// Allow duplicates here because some resources share the same _Status type
+					// which means it'll get processed multiple times. That's OK as long as it looks
+					// the same though.
+					err = result.AddAllowDuplicates(updatedDef)
+					if err != nil {
+						return nil, err
+					}
 				}
 			}
 
