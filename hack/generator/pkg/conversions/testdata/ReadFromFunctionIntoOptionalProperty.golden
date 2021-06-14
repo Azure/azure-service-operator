@@ -6,20 +6,12 @@ package vCurrent
 import "github.com/Azure/azure-service-operator/hack/generated/_apis/Verification/vNext"
 
 type Person struct {
-	Ratings map[string]int `json:"ratings"`
 }
+
+func (person *Person) Age() int {}
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
-
-	// Ratings
-	ratingMap := make(map[string]int)
-	for ratingKey, ratingValue := range source.Ratings {
-		// Shadow the loop variable to avoid aliasing
-		ratingValue := ratingValue
-		ratingMap[ratingKey] = ratingValue
-	}
-	person.Ratings = ratingMap
 
 	// No error
 	return nil
@@ -28,14 +20,9 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 // AssignPropertiesToPerson populates the provided destination Person from our Person
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
-	// Ratings
-	ratingMap := make(map[string]int)
-	for ratingKey, ratingValue := range person.Ratings {
-		// Shadow the loop variable to avoid aliasing
-		ratingValue := ratingValue
-		ratingMap[ratingKey] = ratingValue
-	}
-	destination.Ratings = ratingMap
+	// Age
+	age := person.Age()
+	destination.Age = &age
 
 	// No error
 	return nil

@@ -140,11 +140,16 @@ func (fn *FuncDetails) AddParameter(id string, parameterType dst.Expr) {
 // AddReturns adds (possibly many) return values to the function definition
 func (fn *FuncDetails) AddReturns(types ...string) {
 	for _, t := range types {
-		field := &dst.Field{
-			Type: dst.NewIdent(t),
-		}
-		fn.Returns = append(fn.Returns, field)
+		fn.AddReturn(dst.NewIdent(t))
 	}
+}
+
+// AddReturn adds a single return value to the function definition
+func (fn *FuncDetails) AddReturn(expr dst.Expr) {
+	field := &dst.Field{
+		Type: expr,
+	}
+	fn.Returns = append(fn.Returns, field)
 }
 
 // AddComments adds multiple comments to the function declaration
