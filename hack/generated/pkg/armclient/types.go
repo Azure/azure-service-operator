@@ -110,7 +110,8 @@ func NewResourceGroupDeployment(
 				},
 				Mode: IncrementalDeploymentMode,
 				Template: &Template{
-					Schema:         "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+					// TODO: The fact that this is hardcoded is not great
+					Schema:         "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
 					ContentVersion: "1.0.0.0",
 					Resources:      resources,
 				},

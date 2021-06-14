@@ -169,19 +169,19 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 func newKnownReferencesMap(configuration *config.Configuration) map[referencePair]struct{} {
 	return map[referencePair]struct{}{
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.batch", "v1alpha1api20170901"), "KeyVaultReference"),
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.batch", "v1alpha1api20210101"), "KeyVaultReference"),
 			propName: "Id",
 		}: {},
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.documentdb", "v1alpha1api20150408"), "VirtualNetworkRule"),
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.documentdb", "v1alpha1api20210515"), "VirtualNetworkRule"),
 			propName: "Id",
 		}: {},
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20190401"), "VirtualNetworkRule"),
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20210401"), "VirtualNetworkRule"),
 			propName: "Id",
 		}: {},
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.network", "v1alpha1api20200501"), "SubResource"),
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.network", "v1alpha1api20201101"), "SubResource"),
 			propName: "Id",
 		}: {},
 	}

@@ -7,6 +7,7 @@ package codegen
 
 import (
 	"context"
+	"strings"
 
 	"github.com/pkg/errors"
 
@@ -60,7 +61,10 @@ func nestSpecIntoForProvider(
 		return nil, errors.Errorf("resource %q spec was not of type TypeName, instead: %T", resourceName, resource.SpecType())
 	}
 
-	nestedTypeName := resourceName.Name() + "Parameters"
+	// In the case where a spec type is reused across multiple resource types, we need to make sure
+	// to generate the same names for all of their nested properties, so base the nested type name off the
+	// spec type name
+	nestedTypeName := strings.Split(specName.Name(), "_")[0] + "Parameters"
 	nestedPropertyName := "ForProvider"
 	return nestType(idFactory, types, specName, nestedTypeName, nestedPropertyName)
 }
@@ -101,7 +105,7 @@ func nestType(
 		idFactory.CreateIdentifier(nestedPropertyName, astmodel.NotExported),
 		nestedDef.Name())
 
-	// Change existing spec to have a single property pointing to the above parameters object
+	// Change existing object type to have a single property pointing to the above nested type
 	updatedObject := outerObject.WithoutProperties().WithProperty(nestedProperty)
 	result = append(result, astmodel.MakeTypeDefinition(outerTypeName, updatedObject))
 
