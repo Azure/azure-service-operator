@@ -90,6 +90,14 @@ func TestResourceType_Property_ForSpec_ReturnsProperty(t *testing.T) {
  * WithProperty() tests
  */
 
+func TestResourceType_WithProperty_HasExpectedLength(t *testing.T) {
+	g := NewGomegaWithT(t)
+	base := NewResourceType(emptySpec, emptyStatus)
+	ownerProp := NewPropertyDefinition("Owner", "owner", StringType)
+	resource := base.WithProperty(ownerProp)
+	g.Expect(resource.Properties()).To(HaveLen(3))
+}
+
 func TestResourceType_WithProperty_IncludesProperty(t *testing.T) {
 	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)

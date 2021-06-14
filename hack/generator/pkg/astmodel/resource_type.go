@@ -327,6 +327,15 @@ func (resource *ResourceType) Properties() []*PropertyDefinition {
 		result = append(result, resource.createStatusProperty())
 	}
 
+	for _, property := range resource.properties {
+		result = append(result, property)
+	}
+
+	// Sorted so that it's always consistent
+	sort.Slice(result, func(left int, right int) bool {
+		return result[left].propertyName < result[right].propertyName
+	})
+
 	return result
 }
 
