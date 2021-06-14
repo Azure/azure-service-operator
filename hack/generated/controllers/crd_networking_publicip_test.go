@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	network "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.network/v1alpha1api20200501"
+	network "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.network/v1alpha1api20201101"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
@@ -65,7 +65,7 @@ func Test_PublicIP_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(publicIPAddress)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, "2020-05-01")
+	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, string(network.PublicIPAddressesSpecAPIVersion20201101))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

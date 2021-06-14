@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	documentdb "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.documentdb/v1alpha1api20150408"
+	documentdb "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.documentdb/v1alpha1api20210515"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
@@ -45,7 +45,7 @@ func Test_CosmosDB_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(acct)
 
-	expectedKind := documentdb.DatabaseAccountStatusKindGlobalDocumentDB
+	expectedKind := documentdb.DatabaseAccountGetResultsStatusKindGlobalDocumentDB
 	tc.Expect(*acct.Status.Kind).To(Equal(expectedKind))
 
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
@@ -61,7 +61,7 @@ func Test_CosmosDB_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(acct)
 
 	// Ensure that the resource group was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, "2015-04-08")
+	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, string(documentdb.DatabaseAccountsSpecAPIVersion20210515))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

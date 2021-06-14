@@ -60,6 +60,9 @@ func NewPropertyAssignmentFromFunction(
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 	}
 
+	// TODO: Bevan will improve how this is done (avoid hard-coding "source")
+	result.knownLocals.Add("source")
+
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
 		WithDirection(ConvertFrom)
@@ -86,6 +89,9 @@ func NewPropertyAssignmentToFunction(
 		conversions:     make(map[string]StoragePropertyConversion),
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 	}
+
+	// TODO: Bevan will improve how this is done (avoid hard-coding "destination")
+	result.knownLocals.Add("destination")
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
