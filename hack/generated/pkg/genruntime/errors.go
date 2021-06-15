@@ -68,14 +68,3 @@ func (e *ReferenceNotFound) Format(s fmt.State, verb rune) {
 type stackTracer interface {
 	StackTrace() errors.StackTrace
 }
-
-// StackTrace returns the stack trace of the cause of the error
-func (e *ReferenceNotFound) StackTrace() errors.StackTrace {
-	if e.cause != nil {
-		if st, ok := e.cause.(stackTracer); ok {
-			return st.StackTrace()
-		}
-	}
-
-	return []errors.Frame{}
-}
