@@ -8,9 +8,11 @@ Sometimes, in addition to structural changes, there are behaviour changes betwee
 
 ### Example
 
-Revisting the CRM example from the [Versioning](versioning.md) specification, consider what happens if we have two available versions of the resource `Person`, lets call them **v1** and **v2**. In **v2** the new property `PostalAddress` is mandatory, requiring that everyone have a mailing address. 
+Revisting the CRM example from the [Versioning](versioning.md) specification, consider what happens if we have two available versions of the resource `Person`, lets call them **v1** and **v2**. In **v2** the new properties `PostalAddress` and `ResidentialAddress` are mandatory, requiring that everyone have a both a mailing address and a home. 
 
-If we have a valid **v1** `Person`, trying to submit that through the **v2** ARM API will fail because it's missing a postal address. 
+![example](images/api-versions/example.png)
+
+If we have a valid **v1** `Person`, trying to submit that through the **v2** ARM API will fail because it's missing these addresses.
 
 ## Proposed Solution
 
@@ -18,15 +20,20 @@ We need to preserve the original API Version of each resource, and use that to c
 
 ### API Preservation
 
-When generating the storage variants of each resource, we'll inject a new `ApiVersion` property of type **string**.
+When generating storage variants, we'll inject a new `OriginalVersion` property of type **string** into the Spec of each resource, providing a place to capture the API version that was originally used to create the resource.
 
-The generated `AssignPropertiesTo*()` methods for each API resource will set the `ApiVersion` property to the *kind* (in the Kubernetes *group-version-kind* meaning) of the API version.
+To populate the `OriginalVersion` property on each storage spec, we'll inject an `OriginalVersion()` method (returning **string**) into the API variant of each spec. 
 
-The generated `AssignPropertiesFrom*()` methods for each API resource will ignore the `ApiVersion` property.
+![preservation](images/api-versions/preservation.png)
 
-Generated property assignment methods for conversion between storage variants will copy the `ApiVersion` property across, preserving the value.
+API version shown on the left, corresponding Storage version shown on the right.
 
-### ARM Resource Generation
+For each API spec, generated `AssignPropertiesTo*()` method  will read the value of `OriginalVersion()` and write it to the `OriginalVersion` property on the storage variant. The `AssignPropertiesFrom*()` method will ignore `OriginalVersion`.
 
-When an ARM resource is required, the running hub version of the resource will use the `ApiVersion` property to convert to the named API version, which will in turn be used to generate the required ARM resource.
+For each Storage spec, the generated `AssignPropertiesTo*()` and `AssignPropertiesFrom*()` methods will copy the `OriginalVersion` property between versions, preserving the original value.
 
+### API Recovery
+
+Into each storage resource variant, we'll inject a function `OriginalGVK(): GroupVersionKind` which will use `OriginalVersion` to create the GVK required.
+
+SequenceDiagram TBC.
