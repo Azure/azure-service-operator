@@ -125,12 +125,12 @@ func TestOwnerNotFound_RemembersCause(t *testing.T) {
 
 func StackTraceOf(e error) string {
 	var tracer stackTracer
-	if  errors.As(e, &tracer) {
+	if errors.As(e, &tracer) {
 		var stack strings.Builder
 		for _, f := range tracer.StackTrace() {
 			stack.WriteString(fmt.Sprintf("%+s:%d\n", f, f))
 		}
-		
+
 		return stack.String()
 	}
 
