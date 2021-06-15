@@ -233,7 +233,7 @@ func TestHelperPatch(t *testing.T) {
 func IsSucceeded(obj *unstructured.Unstructured) (bool, error) {
 	ready, found, err := unstructured.NestedString(obj.Object, "status", "provisioningState")
 	if err != nil {
-		return false, errors.Wrapf(err, "failed to determine %v %q readiness",
+		return false, errors.Wrapf(err, "failed to determine %s %q readiness",
 			obj.GroupVersionKind(), obj.GetName())
 	}
 	return ready == "Succeeded" && found, nil

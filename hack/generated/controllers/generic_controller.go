@@ -200,7 +200,7 @@ func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	// convert itself to/from the corresponding Azure types.
 	metaObj, ok := obj.(genruntime.MetaObject)
 	if !ok {
-		return ctrl.Result{}, errors.Errorf("object is not a genruntime.MetaObject: %+v - type: %T", obj, obj)
+		return ctrl.Result{}, errors.Errorf("object is not a genruntime.MetaObject, found type: %T", obj)
 	}
 
 	// TODO: We need some factory-lookup here
