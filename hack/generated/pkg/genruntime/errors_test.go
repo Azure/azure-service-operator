@@ -136,3 +136,9 @@ func StackTraceOf(e error) string {
 
 	return ""
 }
+
+// stackTracer allows access to the stack trace of an error
+// This should be exposed by the errors package, but it is not
+type stackTracer interface {
+	StackTrace() errors.StackTrace
+}

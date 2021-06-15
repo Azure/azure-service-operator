@@ -62,9 +62,3 @@ func (e *ReferenceNotFound) Format(s fmt.State, verb rune) {
 		_, _ = fmt.Fprintf(s, "%q", e.Error())
 	}
 }
-
-// stackTracer allows access to the stack trace of an error
-// This should be exposed by the errors package, but it is not
-type stackTracer interface {
-	StackTrace() errors.StackTrace
-}
