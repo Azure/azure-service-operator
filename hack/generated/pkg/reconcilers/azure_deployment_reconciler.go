@@ -706,7 +706,7 @@ func (r *AzureDeploymentReconciler) resourceSpecToDeployment(ctx context.Context
 	deploymentName, deploymentNameOk := r.GetDeploymentName()
 	if deploymentIDOk != deploymentNameOk {
 		return nil, errors.Errorf(
-			"deploymentIDOk: %t (id: %v), deploymentNameOk: %t (name: %v) expected to match, but didn't",
+			"deploymentIDOk: %t (id: %s), deploymentNameOk: %t (name: %s) expected to match, but didn't",
 			deploymentIDOk,
 			deploymentID,
 			deploymentNameOk,

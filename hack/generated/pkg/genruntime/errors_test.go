@@ -7,6 +7,7 @@ package genruntime
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -112,11 +113,32 @@ func TestOwnerNotFound_RemembersCause(t *testing.T) {
 
 	g.Expect(errors.Cause(err)).To(Equal(cause))
 
-	fmtedErr := fmt.Sprintf("%+v", err)
-	g.Expect(fmtedErr).To(ContainSubstring("I caused the problem"))
-	g.Expect(fmtedErr).To(ContainSubstring("default/foo does not exist"))
+	errorText := err.Error()
+	g.Expect(errorText).To(ContainSubstring("I caused the problem"))
+	g.Expect(errorText).To(ContainSubstring("default/foo does not exist"))
+
 	// Note that both of the below lines are fragile with respect to line number and will
 	// need to be changed if the lines causing the error above are changed.
-	g.Expect(fmtedErr).To(ContainSubstring("errors_test.go:110"))
-	g.Expect(fmtedErr).To(ContainSubstring("errors_test.go:111"))
+	g.Expect(StackTraceOf(err)).To(ContainSubstring("errors_test.go:112"))
+	g.Expect(StackTraceOf(errors.Cause(err))).To(ContainSubstring("errors_test.go:111"))
+}
+
+func StackTraceOf(e error) string {
+	var tracer stackTracer
+	if errors.As(e, &tracer) {
+		var stack strings.Builder
+		for _, f := range tracer.StackTrace() {
+			stack.WriteString(fmt.Sprintf("%+s:%d\n", f, f))
+		}
+
+		return stack.String()
+	}
+
+	return ""
+}
+
+// stackTracer allows access to the stack trace of an error
+// This should be exposed by the errors package, but it is not
+type stackTracer interface {
+	StackTrace() errors.StackTrace
 }

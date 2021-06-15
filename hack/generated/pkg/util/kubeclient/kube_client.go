@@ -34,7 +34,7 @@ func NewClient(
 func (k *Client) GetObject(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (runtime.Object, error) {
 	obj, err := k.Scheme.New(gvk)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to create object from gvk %+v with", gvk)
+		return nil, errors.Wrapf(err, "unable to create object from gvk %s with", gvk)
 	}
 
 	if err := k.Client.Get(ctx, namespacedName, obj); err != nil {
