@@ -28,7 +28,7 @@ func NewReferenceNotFoundError(name types.NamespacedName, cause error) *Referenc
 var _ error = &ReferenceNotFound{}
 
 func (e *ReferenceNotFound) Error() string {
-	return fmt.Sprintf("%s does not exist", e.NamespacedName)
+	return fmt.Sprintf("%s does not exist (%s)", e.NamespacedName, e.cause)
 }
 
 func (e *ReferenceNotFound) Is(err error) bool {
@@ -48,7 +48,7 @@ func (e *ReferenceNotFound) Format(s fmt.State, verb rune) {
 	switch verb {
 	case 'v':
 		if s.Flag('+') {
-			n, _ := fmt.Fprintf(s, "%+v", e.Cause())
+			n, _ := fmt.Fprintf(s, "%s", e.Cause())
 			if n > 0 {
 				_, _ = fmt.Fprintf(s, "\n")
 			}
