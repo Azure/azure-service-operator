@@ -57,7 +57,7 @@ func (c *PropertyConversionContext) WithKnownLocals(knownLocals *astmodel.KnownL
 }
 
 // WithDirection returns a new context with the specified direction
-func (c *PropertyConversionContext) WithDirection( dir Direction) *PropertyConversionContext {
+func (c *PropertyConversionContext) WithDirection(dir Direction) *PropertyConversionContext {
 	result := c.clone()
 	result.direction = dir
 	return result
