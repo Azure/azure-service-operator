@@ -16,10 +16,11 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/bmatcuk/doublestar"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // deleteGeneratedCode creates a pipeline stage for cleanup of our output folder prior to generating files
@@ -98,6 +99,12 @@ func isFileGenerated(filename string) (bool, error) {
 		}
 
 		for _, codeGenComment := range astmodel.CodeGenerationComments {
+			if strings.Contains(line, codeGenComment) {
+				return true, nil
+			}
+		}
+
+		for _, codeGenComment := range astmodel.CodeGenerationCommentsDeprecated {
 			if strings.Contains(line, codeGenComment) {
 				return true, nil
 			}
