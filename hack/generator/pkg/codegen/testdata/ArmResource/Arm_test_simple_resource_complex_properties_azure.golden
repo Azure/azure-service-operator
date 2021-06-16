@@ -153,7 +153,7 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecARM struct {
-	ApiVersion  FakeResourceSpecApiVersion `json:"apiVersion"`
+	APIVersion  FakeResourceSpecAPIVersion `json:"apiVersion"`
 	Color       *FakeResourceSpecColor     `json:"color,omitempty"`
 	Foo         FooARM                     `json:"foo"`
 	Name        string                     `json:"name"`
@@ -163,9 +163,9 @@ type FakeResource_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
-// GetApiVersion returns the ApiVersion of the resource
-func (fakeResourceSpecARM FakeResource_SpecARM) GetApiVersion() string {
-	return string(fakeResourceSpecARM.ApiVersion)
+// GetAPIVersion returns the APIVersion of the resource
+func (fakeResourceSpecARM FakeResource_SpecARM) GetAPIVersion() string {
+	return string(fakeResourceSpecARM.APIVersion)
 }
 
 // GetName returns the Name of the resource
@@ -179,9 +179,9 @@ func (fakeResourceSpecARM FakeResource_SpecARM) GetType() string {
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type FakeResourceSpecApiVersion string
+type FakeResourceSpecAPIVersion string
 
-const FakeResourceSpecApiVersion20200601 = FakeResourceSpecApiVersion("2020-06-01")
+const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"blue","green","red"}
 type FakeResourceSpecColor string
@@ -219,7 +219,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 		return nil, nil
 	}
 	var result FakeResource_SpecARM
-	result.ApiVersion = FakeResourceSpecApiVersion20200601
+	result.APIVersion = FakeResourceSpecAPIVersion20200601
 	if fakeResourceSpec.Color != nil {
 		color := *fakeResourceSpec.Color
 		result.Color = &color

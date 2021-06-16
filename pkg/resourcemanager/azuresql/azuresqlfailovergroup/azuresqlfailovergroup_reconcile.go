@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Azure/azure-service-operator/api"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -39,7 +40,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 	}
 
 	pClient := pollclient.NewPollClient(fg.Creds)
-	lroPollResult, err := pClient.PollLongRunningOperationIfNeeded(ctx, &instance.Status)
+	lroPollResult, err := pClient.PollLongRunningOperationIfNeeded(ctx, &instance.Status, api.PollingURLKindCreateOrUpdate)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		return false, err
@@ -47,6 +48,11 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 	if lroPollResult == pollclient.PollResultTryAgainLater {
 		// Need to wait a bit before trying again
 		return false, nil
+	}
+	if lroPollResult == pollclient.PollResultBadRequest {
+		// Reached a terminal state
+		instance.Status.SetFailedProvisioning(instance.Status.Message)
+		return true, nil
 	}
 
 	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(fg.Creds)
@@ -67,14 +73,14 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		azerr := errhelp.NewAzureError(err)
 		if azerr.Type != errhelp.ResourceNotFound {
 			instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
-			return errhelp.HandleEnsureError(err, notFoundErrorCodes, nil)
+			return errhelp.IsErrorFatal(err, notFoundErrorCodes, nil)
 		}
 	}
 
 	failoverGroupProperties, err := fg.TransformToSQLFailoverGroup(ctx, instance)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		return errhelp.HandleEnsureError(err, notFoundErrorCodes, nil)
+		return errhelp.IsErrorFatal(err, notFoundErrorCodes, nil)
 	}
 
 	// We found a failover group, check to make sure that it matches what we have locally
@@ -127,10 +133,10 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		unrecoverableErrors := []string{
 			errhelp.InvalidFailoverGroupRegion,
 		}
-		return errhelp.HandleEnsureError(err, append(allowedErrors, notFoundErrorCodes...), unrecoverableErrors)
+		return errhelp.IsErrorFatal(err, append(allowedErrors, notFoundErrorCodes...), unrecoverableErrors)
 	}
 	instance.Status.SetProvisioning("Resource request successfully submitted to Azure")
-	instance.Status.PollingURL = future.PollingURL()
+	instance.Status.SetPollingURL(future.PollingURL(), api.PollingURLKindCreateOrUpdate)
 
 	// Need to poll the polling URL, so not done yet!
 	return false, nil

@@ -195,7 +195,10 @@ func TestVerifyPipeline_GivenUnsatisfiedPrerequisites_ReturnsError(t *testing.T)
 		},
 	}
 
-	g.Expect(gen.verifyPipeline()).NotTo(BeNil())
+	err := gen.verifyPipeline()
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(stage.id))
+	g.Expect(err.Error()).To(ContainSubstring(barStage.id))
 }
 
 func TestVerifyPipeline_GivenOutOfOrderPrerequisites_ReturnsError(t *testing.T) {
@@ -212,5 +215,65 @@ func TestVerifyPipeline_GivenOutOfOrderPrerequisites_ReturnsError(t *testing.T) 
 		},
 	}
 
-	g.Expect(gen.verifyPipeline()).NotTo(BeNil())
+	err := gen.verifyPipeline()
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(stage.id))
+	g.Expect(err.Error()).To(ContainSubstring(barStage.id))
+}
+
+func TestVerifyPipeline_GivenSatisfiedPostrequisites_ReturnsNoError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	stage := MakeFakePipelineStage("stage").RequiresPostrequisiteStages(barStage.id)
+
+	gen := &CodeGenerator{
+		pipeline: []PipelineStage{
+			fooStage,
+			stage,
+			barStage,
+			bazStage,
+		},
+	}
+
+	err := gen.verifyPipeline()
+	g.Expect(err).To(BeNil())
+}
+
+func TestVerifyPipeline_GivenUnsatisfiedPostrequisites_ReturnsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.id)
+
+	gen := &CodeGenerator{
+		pipeline: []PipelineStage{
+			fooStage,
+			stage,
+			bazStage,
+		},
+	}
+
+	err := gen.verifyPipeline()
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(stage.id))
+	g.Expect(err.Error()).To(ContainSubstring(barStage.id))
+}
+
+func TestVerifyPipeline_GivenOutOfOrderPostrequisites_ReturnsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	stage := MakeFakePipelineStage("stage").RequiresPostrequisiteStages(barStage.id)
+
+	gen := &CodeGenerator{
+		pipeline: []PipelineStage{
+			fooStage,
+			barStage,
+			stage,
+			bazStage,
+		},
+	}
+
+	err := gen.verifyPipeline()
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(stage.id))
+	g.Expect(err.Error()).To(ContainSubstring(barStage.id))
 }

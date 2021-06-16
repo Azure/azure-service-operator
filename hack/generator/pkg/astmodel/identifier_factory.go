@@ -120,8 +120,9 @@ func (factory *identifierFactory) CreatePropertyName(propertyName string, visibi
 
 func createRenames() map[string]string {
 	return map[string]string{
-		"$schema": "Schema",
-		"*":       "Star", // This happens mostly in enums
+		"$schema":    "Schema",
+		"*":          "Star", // This happens mostly in enums
+		"apiVersion": "APIVersion",
 	}
 }
 

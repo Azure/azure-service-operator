@@ -6,57 +6,49 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
 
-	documentdb "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.documentdb/v1alpha1api20150408"
+	documentdb "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.documentdb/v1alpha1api20210515"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
 func Test_CosmosDB_CRUD(t *testing.T) {
 	t.Parallel()
 
-	g := NewGomegaWithT(t)
-	ctx := context.Background()
-	testContext, err := testContext.ForTest(t)
-	g.Expect(err).ToNot(HaveOccurred())
+	tc := globalTestContext.ForTest(t)
 
-	rg, err := testContext.CreateNewTestResourceGroup(testcommon.WaitForCreation)
-	g.Expect(err).ToNot(HaveOccurred())
+	rg := tc.CreateNewTestResourceGroupAndWait()
 
 	// Custom namer because storage accounts have strict names
-	namer := testContext.Namer.WithSeparator("")
+	namer := tc.Namer.WithSeparator("")
 
 	// Create a Cosmos DB account
 	kind := documentdb.DatabaseAccountsSpecKindGlobalDocumentDB
 	acct := &documentdb.DatabaseAccount{
-		ObjectMeta: testContext.MakeObjectMetaWithName(namer.GenerateName("db")),
+		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("db")),
 		Spec: documentdb.DatabaseAccounts_Spec{
-			Location: &testContext.AzureRegion,
+			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg.ObjectMeta),
 			Kind:     &kind,
 			Properties: documentdb.DatabaseAccountCreateUpdateProperties{
 				DatabaseAccountOfferType: documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard,
 				Locations: []documentdb.Location{
 					{
-						LocationName: &testContext.AzureRegion,
+						LocationName: &tc.AzureRegion,
 					},
 				},
 			},
 		},
 	}
-	err = testContext.KubeClient.Create(ctx, acct)
-	g.Expect(err).ToNot(HaveOccurred())
 
-	// It should be created in Kubernetes
-	g.Eventually(acct).Should(testContext.Match.BeProvisioned(ctx))
+	tc.CreateResourceAndWait(acct)
 
-	expectedKind := documentdb.DatabaseAccountStatusKindGlobalDocumentDB
-	g.Expect(*acct.Status.Kind).To(Equal(expectedKind))
+	expectedKind := documentdb.DatabaseAccountGetResultsStatusKindGlobalDocumentDB
+	tc.Expect(*acct.Status.Kind).To(Equal(expectedKind))
 
-	g.Expect(acct.Status.Id).ToNot(BeNil())
+	tc.Expect(acct.Status.Id).ToNot(BeNil())
 	armId := *acct.Status.Id
 
 	// Run sub-tests
@@ -66,14 +58,11 @@ func Test_CosmosDB_CRUD(t *testing.T) {
 		})
 	*/
 
-	// Delete
-	err = testContext.KubeClient.Delete(ctx, acct)
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Eventually(acct).Should(testContext.Match.BeDeleted(ctx))
+	tc.DeleteResourceAndWait(acct)
 
 	// Ensure that the resource group was really deleted in Azure
-	exists, retryAfter, err := testContext.AzureClient.HeadResource(ctx, armId, "2015-04-08")
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(retryAfter).To(BeZero())
-	g.Expect(exists).To(BeFalse())
+	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, string(documentdb.DatabaseAccountsSpecAPIVersion20210515))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }

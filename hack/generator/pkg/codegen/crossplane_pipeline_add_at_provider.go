@@ -7,6 +7,7 @@ package codegen
 
 import (
 	"context"
+	"strings"
 
 	"github.com/pkg/errors"
 
@@ -29,7 +30,14 @@ func addCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) PipelineStage
 					if err != nil {
 						return nil, errors.Wrapf(err, "creating AtProvider types")
 					}
-					result.AddAll(atProviderTypes)
+
+					// Allow duplicates here because some resources share the same _Status type
+					// which means it'll get processed multiple times. That's OK as long as it looks
+					// the same though.
+					err = result.AddAllAllowDuplicates(atProviderTypes)
+					if err != nil {
+						return nil, err
+					}
 				}
 			}
 
@@ -63,7 +71,10 @@ func nestStatusIntoAtProvider(
 		return nil, errors.Errorf("resource %q status was not of type TypeName, instead: %T", resourceName, resource.StatusType())
 	}
 
-	nestedTypeName := resourceName.Name() + "Observation"
+	// In the case where a status type is reused across multiple resource types, we need to make sure
+	// to generate the same names for all of their nested properties, so base the nested type name off the
+	// status type name
+	nestedTypeName := strings.Split(statusName.Name(), "_")[0] + "Observation"
 	nestedPropertyName := "AtProvider"
 	return nestType(idFactory, types, statusName, nestedTypeName, nestedPropertyName)
 }

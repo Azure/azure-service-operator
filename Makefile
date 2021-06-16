@@ -90,7 +90,8 @@ test-unit: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/unittest-coverage-ouput.txt -covermode count -parallel 4 -timeout 10m \
 	./pkg/resourcemanager/keyvaults/unittest/ \
-	./pkg/resourcemanager/azuresql/azuresqlfailovergroup
+	./pkg/resourcemanager/azuresql/azuresqlfailovergroup \
+	./pkg/resourcemanager/cosmosdb/sqldatabase
 	# The below folders are commented out because the tests in them fail...
 	# ./api/... \
 
@@ -351,7 +352,7 @@ generate-operator-bundle: LATEST_TAG := $(shell curl -sL https://api.github.com/
 generate-operator-bundle: manifests
 	@echo "Latest released tag is $(LATEST_TAG)"
 	@echo "Previous bundle version is $(PREVIOUS_BUNDLE_VERSION)"
-	rm -rf "bundle/$(LATEST_TAG)"
+	rm -rf "bundle/manifests"
 	kustomize build config/operator-bundle | operator-sdk generate bundle --version $(LATEST_TAG) --channels stable --default-channel stable --overwrite --kustomize-dir config/operator-bundle
 	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh

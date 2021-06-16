@@ -206,15 +206,31 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 func (generator *CodeGenerator) verifyPipeline() error {
 	var errs []error
 
+	// Set of stages that we've already seen, used to confirm prerequisites
 	stagesSeen := make(map[string]struct{})
+
+	// Set of stages we expect to see, each associated with a slice containing the earlier stages that expected each
+	stagesExpected := make(map[string][]string)
+
 	for _, stage := range generator.pipeline {
 		for _, prereq := range stage.prerequisites {
 			if _, ok := stagesSeen[prereq]; !ok {
-				errs = append(errs, errors.Errorf("prerequisite '%s' of stage '%s' not satisfied.", prereq, stage.id))
+				errs = append(errs, errors.Errorf("prerequisite %q of stage %q not satisfied.", prereq, stage.id))
 			}
 		}
 
+		for _, postreq := range stage.postrequisites {
+			stagesExpected[postreq] = append(stagesExpected[postreq], stage.id)
+		}
+
 		stagesSeen[stage.id] = struct{}{}
+		delete(stagesExpected, stage.id)
+	}
+
+	for required, requiredBy := range stagesExpected {
+		for _, stageId := range requiredBy {
+			errs = append(errs, errors.Errorf("postrequisite %q of stage %q not satisfied", required, stageId))
+		}
 	}
 
 	return kerrors.NewAggregate(errs)

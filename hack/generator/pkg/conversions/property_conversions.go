@@ -29,8 +29,8 @@ type PropertyConversion func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, 
 // destination is the property conversion endpoint that will be written
 // ctx contains additional information that may be needed when creating the property conversion
 type PropertyConversionFactory func(
-	source *PropertyConversionEndpoint,
-	destination *PropertyConversionEndpoint,
+	source *TypedConversionEndpoint,
+	destination *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion
 
 // A list of all known type conversion factory methods
@@ -118,8 +118,8 @@ func init() {
 //
 // TODO: Make this internal
 func CreateTypeConversion(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
 	for _, f := range propertyConversionFactories {
 		result := f(sourceEndpoint, destinationEndpoint, conversionContext)
@@ -150,8 +150,8 @@ func CreateTypeConversion(
 // <destination> = &<source>
 //
 func assignToOptional(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to be optional
@@ -202,8 +202,8 @@ func assignToOptional(
 //    <destination> = <zero>
 // }
 func assignFromOptional(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be optional
@@ -277,8 +277,8 @@ func assignFromOptional(
 // <destination> = <enumeration-cast>(<source>)
 //
 func assignToEnumeration(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to NOT be optional
@@ -327,8 +327,8 @@ func assignToEnumeration(
 // <destination> = <source>
 //
 func assignPrimitiveFromPrimitive(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	_ *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
@@ -369,8 +369,8 @@ func assignPrimitiveFromPrimitive(
 // <destination> = <cast>(<source>)
 //
 func assignAliasedPrimitiveFromAliasedPrimitive(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
@@ -419,8 +419,8 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 // assignFromAliasedPrimitive will convert an alias of a primitive type into that primitive
 // type as long as it is not optional and we can find a conversion to consume that primitive value
 func assignFromAliasedPrimitive(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
@@ -462,8 +462,8 @@ func assignFromAliasedPrimitive(
 // <destination> = <cast>(<source>)
 //
 func assignToAliasedPrimitive(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to be non-optional
@@ -515,8 +515,8 @@ func assignToAliasedPrimitive(
 // <writer> = <arr>
 //
 func assignArrayFromArray(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be an array type
@@ -591,8 +591,8 @@ func assignArrayFromArray(
 // <writer> = <map>
 //
 func assignMapFromMap(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be a map
@@ -673,8 +673,8 @@ func assignMapFromMap(
 //
 // We don't technically need this one, but it generates nicer code because it bypasses an unnecessary cast.
 func assignEnumFromEnum(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
@@ -734,8 +734,8 @@ func assignEnumFromEnum(
 // <destination> = <enum>(<local>)
 //
 func assignPrimitiveFromEnum(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
@@ -796,8 +796,8 @@ func assignPrimitiveFromEnum(
 // <destination> = <local>
 //
 func assignObjectFromObject(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
@@ -891,8 +891,8 @@ func assignObjectFromObject(
 // <destination> = <source>.Copy()
 //
 func assignKnownReferenceFromKnownReference(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	_ *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional
@@ -937,8 +937,8 @@ func assignKnownReferenceFromKnownReference(
 // <destination> = <source>.Copy()
 //
 func assignResourceReferenceFromResourceReference(
-	sourceEndpoint *PropertyConversionEndpoint,
-	destinationEndpoint *PropertyConversionEndpoint,
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
 	_ *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be non-optional

@@ -20,10 +20,12 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generated/controllers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/version"
 )
 
 func main() {
-	flagSet := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+	exeName := os.Args[0] + " " + version.BuildVersion
+	flagSet := flag.NewFlagSet(exeName, flag.ExitOnError)
 	klog.InitFlags(flagSet)
 	setupLog := ctrl.Log.WithName("setup")
 
