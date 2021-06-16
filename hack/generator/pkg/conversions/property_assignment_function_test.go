@@ -6,12 +6,10 @@
 package conversions
 
 import (
-	"bytes"
 	"testing"
 
-	"github.com/sebdah/goldie/v2"
-
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 
 	. "github.com/onsi/gomega"
 )
@@ -230,18 +228,5 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 	// the package reference isn't really used here.
 	fileDef := astmodel.NewFileDefinition(currentPackage, defs, packages)
 
-	assertFileGeneratesExpectedCode(t, fileDef, c.name)
-}
-
-func assertFileGeneratesExpectedCode(t *testing.T, fileDef *astmodel.FileDefinition, testName string) {
-	g := goldie.New(t)
-
-	buf := &bytes.Buffer{}
-	fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
-	err := fileWriter.SaveToWriter(buf)
-	if err != nil {
-		t.Fatalf("could not generate file: %v", err)
-	}
-
-	g.Assert(t, testName, buf.Bytes())
+	test.AssertFileGeneratesExpectedCode(t, fileDef, c.name)
 }
