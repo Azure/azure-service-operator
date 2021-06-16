@@ -15,36 +15,39 @@ import (
 	"time"
 
 	"github.com/gobuffalo/envy"
-
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	mysqladmin "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/aadadmin"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqlaaduser"
-
+	"k8s.io/client-go/kubernetes/scheme"
 	kscheme "k8s.io/client-go/kubernetes/scheme"
-
 	"k8s.io/client-go/rest"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/cache"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
-	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
-
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	resourcemanagerapimgmt "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagersqlaction "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlaction"
+	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 	resourcemanagersqlmanageduser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlmanageduser"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagercosmosdbaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/account"
 	resourcemanagercosmosdbsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/sqldatabase"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
+	mysqladmin "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/aadadmin"
 	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlFirewallManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqlaaduser"
 	mysqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
 	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	mysqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/vnetrule"
@@ -64,16 +67,8 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmext"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
+	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
-
-	"k8s.io/client-go/kubernetes/scheme"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/envtest"
-
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/api/v1alpha2"
-	"github.com/Azure/azure-service-operator/api/v1beta1"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -154,11 +149,19 @@ func setup() error {
 
 	var k8sManager ctrl.Manager
 
+	targetNamespaces := resourcemanagerconfig.TargetNamespaces()
+	var cacheFunc cache.NewCacheFunc
+	if targetNamespaces != nil {
+		log.Println("Restricting operator cache to namespaces", targetNamespaces)
+		cacheFunc = cache.MultiNamespacedCacheBuilder(targetNamespaces)
+	}
+
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
-		Scheme:  scheme.Scheme,
-		CertDir: testEnv.WebhookInstallOptions.LocalServingCertDir,
-		Port:    testEnv.WebhookInstallOptions.LocalServingPort,
+		Scheme:   scheme.Scheme,
+		CertDir:  testEnv.WebhookInstallOptions.LocalServingCertDir,
+		Port:     testEnv.WebhookInstallOptions.LocalServingPort,
+		NewCache: cacheFunc,
 	})
 	if err != nil {
 		return err
@@ -935,7 +938,7 @@ func setup() error {
 	if result.Response.StatusCode != 204 {
 		_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)
 		if err != nil {
-			return fmt.Errorf("ResourceGroup creation failed")
+			return fmt.Errorf("ResourceGroup creation failed: %v", err)
 		}
 	}
 
