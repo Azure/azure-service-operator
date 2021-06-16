@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/gobuffalo/envy"
@@ -65,6 +66,7 @@ func ParseEnvironment() error {
 	if err != nil {
 		return errors.Wrapf(err, "couldn't get POD_NAMESPACE env variable")
 	}
+	targetNamespaces = ParseStringListFromEnvironment("AZURE_TARGET_NAMESPACES")
 
 	secretNamingVersionInt, err := ParseIntFromEnvironment("AZURE_SECRET_NAMING_VERSION")
 	if err != nil {
@@ -141,4 +143,17 @@ func ParseIntFromEnvironment(variable string) (int, error) {
 		return 0, errors.Wrapf(err, "invalid input value specified for %q, expected int, actual: %q", variable, env)
 	}
 	return value, nil
+}
+
+func ParseStringListFromEnvironment(variable string) []string {
+	env := envy.Get(variable, "")
+	if len(strings.TrimSpace(env)) == 0 {
+		return nil
+	}
+	items := strings.Split(env, ",")
+	// Remove any whitespace used to separate items.
+	for i, item := range items {
+		items[i] = strings.TrimSpace(item)
+	}
+	return items
 }
