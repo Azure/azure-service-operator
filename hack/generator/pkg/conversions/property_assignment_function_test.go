@@ -76,7 +76,7 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 
 	idFactory := astmodel.NewIdentifierFactory()
 	ageFunction := test.NewFakeFunction("Age", idFactory)
-	ageFunction.returnType = astmodel.IntType
+	ageFunction.TypeReturned = astmodel.IntType
 
 	nastyProperty := astmodel.NewPropertyDefinition(
 		"nasty",
@@ -214,19 +214,6 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 
 	receiverDefinition := c.currentObject.WithType(currentType.WithFunction(convertFrom).WithFunction(convertTo))
 
-	defs := []astmodel.TypeDefinition{receiverDefinition}
-	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
-
-	currentPackage := receiverDefinition.Name().PackageReference.(astmodel.LocalPackageReference)
-
-	packageDefinition := astmodel.NewPackageDefinition(currentPackage.Group(), currentPackage.PackageName(), "1")
-	packageDefinition.AddDefinition(receiverDefinition)
-
-	packages[currentPackage] = packageDefinition
-
-	// put all definitions in one file, regardless.
-	// the package reference isn't really used here.
-	fileDef := astmodel.NewFileDefinition(currentPackage, defs, packages)
-
+	fileDef := test.CreateFileDefinition(receiverDefinition)
 	test.AssertFileGeneratesExpectedCode(t, fileDef, c.name)
 }

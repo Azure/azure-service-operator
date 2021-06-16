@@ -14,11 +14,11 @@ import (
 
 // FakeFunction is a fake function that can be used for testing purposes
 type FakeFunction struct {
-	name       string
-	Imported   *astmodel.PackageReferenceSet
-	Referenced astmodel.TypeNameSet
-	returnType astmodel.Type
-	idFactory  astmodel.IdentifierFactory
+	name         string
+	Imported     *astmodel.PackageReferenceSet
+	Referenced   astmodel.TypeNameSet
+	TypeReturned astmodel.Type
+	idFactory    astmodel.IdentifierFactory
 }
 
 func NewFakeFunction(name string, idFactory astmodel.IdentifierFactory) *FakeFunction {
@@ -47,16 +47,16 @@ func (fake *FakeFunction) References() astmodel.TypeNameSet {
 	return fake.Referenced
 }
 
-func (fake *FakeFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, reciever astmodel.TypeName) *dst.FuncDecl {
-	recieverName := fake.idFactory.CreateIdentifier(reciever.Name(), astmodel.NotExported)
+func (fake *FakeFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+	receiverName := fake.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)
 	details := astbuilder.FuncDetails{
-		ReceiverIdent: recieverName,
-		ReceiverType:  astmodel.NewOptionalType(reciever).AsType(generationContext),
+		ReceiverIdent: receiverName,
+		ReceiverType:  astmodel.NewOptionalType(receiver).AsType(generationContext),
 		Name:          fake.name,
 	}
 
-	if fake.returnType != nil {
-		details.AddReturn(fake.returnType.AsType(generationContext))
+	if fake.TypeReturned != nil {
+		details.AddReturn(fake.TypeReturned.AsType(generationContext))
 	}
 
 	return details.DefineFunc()
@@ -96,5 +96,5 @@ func (fake *FakeFunction) Equals(f astmodel.Function) bool {
 }
 
 func (fake *FakeFunction) ReturnType() astmodel.Type {
-	return fake.returnType
+	return fake.TypeReturned
 }
