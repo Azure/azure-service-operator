@@ -13,6 +13,8 @@ import (
 )
 
 // FakeFunction is a fake function that can be used for testing purposes
+// Note that there's another FakeFunction in astmodel but we can't eliminate that one because it would cause a package
+// reference cycle
 type FakeFunction struct {
 	name         string
 	Imported     *astmodel.PackageReferenceSet
