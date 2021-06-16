@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// +build all
-
 package controllers
 
 import (
@@ -40,7 +38,7 @@ func TestTargetNamespaces(t *testing.T) {
 
 	configuredNamespaces := envy.Get("AZURE_TARGET_NAMESPACES", "")
 
-	instance := v1alpha1.StorageAccount{
+	instanceDefault := v1alpha1.StorageAccount{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      newName(),
 			Namespace: "default",
@@ -57,32 +55,32 @@ func TestTargetNamespaces(t *testing.T) {
 		},
 	}
 
-	EnsureInstance(ctx, t, tc, &instance)
+	EnsureInstance(ctx, t, tc, &instanceDefault)
 
 	// The watched namespace is also reconciled.
-	instance2 := instance
-	instance2.ObjectMeta = metav1.ObjectMeta{
+	instanceWatched := instanceDefault
+	instanceWatched.ObjectMeta = metav1.ObjectMeta{
 		Name:      newName(),
 		Namespace: "watched",
 	}
-	EnsureInstance(ctx, t, tc, &instance2)
+	EnsureInstance(ctx, t, tc, &instanceWatched)
 
 	// But the unwatched namespace isn't...
-	instance3 := instance
-	instance3.ObjectMeta = metav1.ObjectMeta{
+	instanceUnwatched := instanceDefault
+	instanceUnwatched.ObjectMeta = metav1.ObjectMeta{
 		Name:      newName(),
 		Namespace: "unwatched",
 	}
 	require := require.New(t)
-	err := tc.k8sClient.Create(ctx, &instance3)
+	err := tc.k8sClient.Create(ctx, &instanceUnwatched)
 	require.Equal(nil, err)
 
-	res, err := meta.Accessor(&instance3)
+	res, err := meta.Accessor(&instanceUnwatched)
 	require.Equal(nil, err)
 	names := types.NamespacedName{Name: res.GetName(), Namespace: res.GetNamespace()}
 
 	gotFinalizer := func() bool {
-		err := tc.k8sClient.Get(ctx, names, &instance3)
+		err := tc.k8sClient.Get(ctx, names, &instanceUnwatched)
 		require.Equal(nil, err)
 		return HasFinalizer(res, finalizerName)
 	}
@@ -106,9 +104,9 @@ func TestTargetNamespaces(t *testing.T) {
 		)
 	}
 
-	EnsureDelete(ctx, t, tc, &instance)
-	EnsureDelete(ctx, t, tc, &instance2)
-	EnsureDelete(ctx, t, tc, &instance3)
+	EnsureDelete(ctx, t, tc, &instanceDefault)
+	EnsureDelete(ctx, t, tc, &instanceWatched)
+	EnsureDelete(ctx, t, tc, &instanceUnwatched)
 }
 
 func createNamespaces(ctx context.Context, t *testing.T, names ...string) {

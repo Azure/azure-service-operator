@@ -134,7 +134,6 @@ func main() {
 	targetNamespaces := resourcemanagerconfig.TargetNamespaces()
 	var cacheFunc cache.NewCacheFunc
 	if targetNamespaces != nil {
-		setupLog.V(0).Info("Restricting operator cache", "namespaces", targetNamespaces)
 		cacheFunc = cache.MultiNamespacedCacheBuilder(targetNamespaces)
 	}
 
