@@ -103,12 +103,6 @@ func isFileGenerated(filename string) (bool, error) {
 				return true, nil
 			}
 		}
-
-		for _, codeGenComment := range astmodel.CodeGenerationCommentsDeprecated {
-			if strings.Contains(line, codeGenComment) {
-				return true, nil
-			}
-		}
 	}
 
 	return false, nil
