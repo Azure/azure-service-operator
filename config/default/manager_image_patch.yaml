@@ -61,6 +61,12 @@ spec:
                 name: azureoperatorsettings
                 key: AZURE_SECRET_NAMING_VERSION
                 optional: true
+          - name: AZURE_TARGET_NAMESPACES
+            valueFrom:
+              secretKeyRef:
+                name: azureoperatorsettings
+                key: AZURE_TARGET_NAMESPACES
+                optional: true
           # Used along with aad-pod-identity integration, but set always
           # because it doesn't hurt
           - name: POD_NAMESPACE
