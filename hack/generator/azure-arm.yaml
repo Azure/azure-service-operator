@@ -160,6 +160,11 @@ exportFilters:
     version: v*api20201101
     name: LoadBalancer
     because: "including load balancer"
+  - action: include-transitive
+    group: microsoft.compute
+    version: v*api20200930
+    name: Disk
+    because: "including compute disk"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.

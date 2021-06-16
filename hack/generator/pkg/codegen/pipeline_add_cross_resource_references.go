@@ -184,5 +184,13 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.network", "v1alpha1api20201101"), "SubResource"),
 			propName: "Id",
 		}: {},
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930"), "SourceVault"),
+			propName: "Id",
+		}: {},
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930"), "ImageDiskReference"),
+			propName: "Id",
+		}: {},
 	}
 }
