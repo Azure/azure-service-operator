@@ -75,7 +75,7 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	optionalNextAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(nextAge.Name()))
 
 	idFactory := astmodel.NewIdentifierFactory()
-	ageFunction := NewFakeFunction("Age", idFactory)
+	ageFunction := test.NewFakeFunction("Age", idFactory)
 	ageFunction.returnType = astmodel.IntType
 
 	nastyProperty := astmodel.NewPropertyDefinition(
