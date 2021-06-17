@@ -74,6 +74,9 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	optionalCurrentAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(currentAge.Name()))
 	optionalNextAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(nextAge.Name()))
 
+	referenceProperty := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceTypeName)
+	knownReferenceProperty := astmodel.NewPropertyDefinition("KnownReference", "known-reference", astmodel.KnownResourceReferenceTypeName)
+
 	idFactory := astmodel.NewIdentifierFactory()
 	ageFunction := test.NewFakeFunction("Age", idFactory)
 	ageFunction.TypeReturned = astmodel.IntType
@@ -183,6 +186,9 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 
 		createFunctionAssignmentTest("ReadFromFunctionIntoProperty", requiredIntProperty, ageFunction),
 		createFunctionAssignmentTest("ReadFromFunctionIntoOptionalProperty", optionalIntProperty, ageFunction),
+
+		createPropertyAssignmentTest("CopyReferenceProperty", referenceProperty, referenceProperty),
+		createPropertyAssignmentTest("CopyKnownReferenceProperty", knownReferenceProperty, knownReferenceProperty),
 	}
 }
 
