@@ -52,6 +52,7 @@ func init() {
 		// Known types
 		copyKnownType(astmodel.KnownResourceReferenceTypeName, "Copy"),
 		copyKnownType(astmodel.ResourceReferenceTypeName, "Copy"),
+		copyKnownType(astmodel.JSONTypeName, "DeepCopy"),
 		// Meta-conversions
 		assignFromOptional, // Must go before assignToOptional so we generate the right zero values
 		assignToOptional,
