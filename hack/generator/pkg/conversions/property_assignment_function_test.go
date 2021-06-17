@@ -6,12 +6,10 @@
 package conversions
 
 import (
-	"bytes"
 	"testing"
 
-	"github.com/sebdah/goldie/v2"
-
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 
 	. "github.com/onsi/gomega"
 )
@@ -77,8 +75,8 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	optionalNextAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(nextAge.Name()))
 
 	idFactory := astmodel.NewIdentifierFactory()
-	ageFunction := NewFakeFunction("Age", idFactory)
-	ageFunction.returnType = astmodel.IntType
+	ageFunction := test.NewFakeFunction("Age", idFactory)
+	ageFunction.TypeReturned = astmodel.IntType
 
 	nastyProperty := astmodel.NewPropertyDefinition(
 		"nasty",
@@ -216,32 +214,6 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 
 	receiverDefinition := c.currentObject.WithType(currentType.WithFunction(convertFrom).WithFunction(convertTo))
 
-	defs := []astmodel.TypeDefinition{receiverDefinition}
-	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
-
-	currentPackage := receiverDefinition.Name().PackageReference.(astmodel.LocalPackageReference)
-
-	packageDefinition := astmodel.NewPackageDefinition(currentPackage.Group(), currentPackage.PackageName(), "1")
-	packageDefinition.AddDefinition(receiverDefinition)
-
-	packages[currentPackage] = packageDefinition
-
-	// put all definitions in one file, regardless.
-	// the package reference isn't really used here.
-	fileDef := astmodel.NewFileDefinition(currentPackage, defs, packages)
-
-	assertFileGeneratesExpectedCode(t, fileDef, c.name)
-}
-
-func assertFileGeneratesExpectedCode(t *testing.T, fileDef *astmodel.FileDefinition, testName string) {
-	g := goldie.New(t)
-
-	buf := &bytes.Buffer{}
-	fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
-	err := fileWriter.SaveToWriter(buf)
-	if err != nil {
-		t.Fatalf("could not generate file: %v", err)
-	}
-
-	g.Assert(t, testName, buf.Bytes())
+	fileDef := test.CreateFileDefinition(receiverDefinition)
+	test.AssertFileGeneratesExpectedCode(t, fileDef, c.name)
 }
