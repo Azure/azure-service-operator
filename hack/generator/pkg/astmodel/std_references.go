@@ -30,6 +30,7 @@ var (
 	ControllerRuntimeAdmission   = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/webhook/admission")
 	GitHubErrorsReference        = MakeExternalPackageReference("github.com/pkg/errors")
 
+
 	// References to libraries used for testing
 	CmpReference        = MakeExternalPackageReference("github.com/google/go-cmp/cmp")
 	CmpOptsReference    = MakeExternalPackageReference("github.com/google/go-cmp/cmp/cmpopts")
@@ -44,5 +45,7 @@ var (
 	GomegaImport = NewPackageImport(GomegaReference).WithName(".")
 
 	// Type names
-	ResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "ResourceReference")
+	ResourceReferenceTypeName      = MakeTypeName(GenRuntimeReference, "ResourceReference")
+	KnownResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "KnownResourceReference")
+	JSONTypeName                   = MakeTypeName(APIExtensionsReference, "JSON")
 )

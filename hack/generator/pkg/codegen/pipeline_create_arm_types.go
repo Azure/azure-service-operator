@@ -179,7 +179,7 @@ func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmod
 
 	createArmTypeName := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 		// Allow json type to pass through.
-		if it == astmodel.JSONType {
+		if it == astmodel.JSONTypeName {
 			return it, nil
 		}
 
