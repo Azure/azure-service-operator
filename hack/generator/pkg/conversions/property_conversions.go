@@ -50,8 +50,9 @@ func init() {
 		// Complex object types
 		assignObjectFromObject,
 		// Known types
-		assignKnownReferenceFromKnownReference,
-		assignResourceReferenceFromResourceReference,
+		copyKnownType(astmodel.KnownResourceReferenceTypeName, "Copy"),
+		copyKnownType(astmodel.ResourceReferenceTypeName, "Copy"),
+		copyKnownType(astmodel.JSONTypeName, "DeepCopy"),
 		// Meta-conversions
 		assignFromOptional, // Must go before assignToOptional so we generate the right zero values
 		assignToOptional,
@@ -886,95 +887,92 @@ func assignObjectFromObject(
 	}
 }
 
-// assignKnownReferenceFromKnownReference will generate a direct assignment if both types are genruntime.KnownResourceReference
+// assignKnownType will generate an assignment if both types have the specified TypeName
 //
-// <destination> = <source>.Copy()
+// <destination> = <source>
 //
-func assignKnownReferenceFromKnownReference(
-	sourceEndpoint *TypedConversionEndpoint,
-	destinationEndpoint *TypedConversionEndpoint,
-	_ *PropertyConversionContext) PropertyConversion {
+// TODO: Make this internal once referenced ;-)
+func AssignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
+	return func(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint, _ *PropertyConversionContext) PropertyConversion {
+		// Require source to be non-optional
+		if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
+			return nil
+		}
 
-	// Require source to be non-optional
-	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
-		return nil
-	}
+		// Require destination to be non-optional
+		if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+			return nil
+		}
 
-	// Require destination to be non-optional
-	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
-		return nil
-	}
+		// Require source to be a named type
+		sourceName, sourceIsName := astmodel.AsTypeName(sourceEndpoint.Type())
+		if !sourceIsName {
+			return nil
+		}
 
-	// Require source to be a named type
-	sourceName, sourceIsName := astmodel.AsTypeName(sourceEndpoint.Type())
-	if !sourceIsName {
-		return nil
-	}
+		// Require destination to be a named type
+		destinationName, destinationIsName := astmodel.AsTypeName(destinationEndpoint.Type())
+		if !destinationIsName {
+			return nil
+		}
 
-	// Require destination to be a named type
-	destinationName, destinationIsName := astmodel.AsTypeName(destinationEndpoint.Type())
-	if !destinationIsName {
-		return nil
-	}
+		// Require source to be our specific type
+		if !sourceName.Equals(name) {
+			return nil
+		}
 
-	// Require source to be a KnownResourceReference
-	if sourceName.Name() != "KnownResourceReference" && sourceName.PackageReference.Equals(astmodel.GenRuntimeReference) {
-		return nil
-	}
+		// Require destination to be our specific type
+		if !destinationName.Equals(name) {
+			return nil
+		}
 
-	// Require destination to be a KnownResourceReference
-	if destinationName.Name() != "KnownResourceReference" {
-		return nil
-	}
-
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-		return writer(astbuilder.CallExpr(reader, "Copy"))
+		return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+			return writer(reader)
+		}
 	}
 }
 
-// assignResourceReferenceFromResourceReference will generate a direct assignment if both types are genruntime.ResourceReference
+// copyKnownType will generate an assignment with the results of a call on the specified TypeName
 //
-// <destination> = <source>.Copy()
+// <destination> = <source>.<methodName>()
 //
-func assignResourceReferenceFromResourceReference(
-	sourceEndpoint *TypedConversionEndpoint,
-	destinationEndpoint *TypedConversionEndpoint,
-	_ *PropertyConversionContext) PropertyConversion {
+func copyKnownType(name astmodel.TypeName, methodName string) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
+	return func(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint, _ *PropertyConversionContext) PropertyConversion {
+		// Require source to be non-optional
+		if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
+			return nil
+		}
 
-	// Require source to be non-optional
-	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
-		return nil
-	}
+		// Require destination to be non-optional
+		if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
+			return nil
+		}
 
-	// Require destination to be non-optional
-	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
-		return nil
-	}
+		// Require source to be a named type
+		sourceName, sourceIsName := astmodel.AsTypeName(sourceEndpoint.Type())
+		if !sourceIsName {
+			return nil
+		}
 
-	// Require source to be a named type
-	sourceName, sourceIsName := astmodel.AsTypeName(sourceEndpoint.Type())
-	if !sourceIsName {
-		return nil
-	}
+		// Require destination to be a named type
+		destinationName, destinationIsName := astmodel.AsTypeName(destinationEndpoint.Type())
+		if !destinationIsName {
+			return nil
+		}
 
-	// Require destination to be a named type
-	destinationName, destinationIsName := astmodel.AsTypeName(destinationEndpoint.Type())
-	if !destinationIsName {
-		return nil
-	}
+		// Require source to be our specific type
+		if !sourceName.Equals(name) {
+			return nil
+		}
 
-	// Require source to be a ResourceReference
-	if sourceName.Name() != "ResourceReference" && sourceName.PackageReference.Equals(astmodel.GenRuntimeReference) {
-		return nil
-	}
+		// Require destination to be our specific type
+		if !destinationName.Equals(name) {
+			return nil
+		}
 
-	// Require destination to be a ResourceReference
-	if destinationName.Name() != "ResourceReference" && destinationName.PackageReference.Equals(astmodel.GenRuntimeReference) {
-		return nil
-	}
-
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-		return writer(astbuilder.CallExpr(reader, "Copy"))
+		return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+			return writer(astbuilder.CallExpr(reader, methodName))
+		}
 	}
 }
 
