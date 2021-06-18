@@ -26,32 +26,36 @@ type TypeMatcher struct {
 	nameRegex *regexp.Regexp
 	// Because is used to articulate why the filter applied to a type (used to generate explanatory logs in debug mode)
 	Because string
+
+	// MatchedTypes is the set of all type names matched by this matcher
+	matchedTypes astmodel.TypeNameSet
 }
 
 var _ fmt.Stringer = &TypeMatcher{}
 
 // Initialize initializes the type matcher
-func (typeMatcher *TypeMatcher) Initialize() error {
-	typeMatcher.groupRegex = createGlobbingRegex(typeMatcher.Group)
-	typeMatcher.versionRegex = createGlobbingRegex(typeMatcher.Version)
-	typeMatcher.nameRegex = createGlobbingRegex(typeMatcher.Name)
+func (t *TypeMatcher) Initialize() error {
+	t.groupRegex = createGlobbingRegex(t.Group)
+	t.versionRegex = createGlobbingRegex(t.Version)
+	t.nameRegex = createGlobbingRegex(t.Name)
+	t.matchedTypes = make(astmodel.TypeNameSet)
 
 	return nil
 }
 
-func (typeMatcher *TypeMatcher) groupMatches(schema string) bool {
-	return typeMatcher.matches(typeMatcher.Group, &typeMatcher.groupRegex, schema)
+func (t *TypeMatcher) groupMatches(schema string) bool {
+	return t.matches(t.Group, &t.groupRegex, schema)
 }
 
-func (typeMatcher *TypeMatcher) versionMatches(version string) bool {
-	return typeMatcher.matches(typeMatcher.Version, &typeMatcher.versionRegex, version)
+func (t *TypeMatcher) versionMatches(version string) bool {
+	return t.matches(t.Version, &t.versionRegex, version)
 }
 
-func (typeMatcher *TypeMatcher) nameMatches(name string) bool {
-	return typeMatcher.matches(typeMatcher.Name, &typeMatcher.nameRegex, name)
+func (t *TypeMatcher) nameMatches(name string) bool {
+	return t.matches(t.Name, &t.nameRegex, name)
 }
 
-func (typeMatcher *TypeMatcher) matches(glob string, regex **regexp.Regexp, name string) bool {
+func (t *TypeMatcher) matches(glob string, regex **regexp.Regexp, name string) bool {
 	if glob == "" {
 		return true
 	}
@@ -64,20 +68,30 @@ func (typeMatcher *TypeMatcher) matches(glob string, regex **regexp.Regexp, name
 }
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
-func (typeMatcher *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
+func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 	if localRef, ok := typeName.PackageReference.AsLocalPackage(); ok {
 		group := localRef.Group()
 		version := localRef.Version()
 
-		result := typeMatcher.groupMatches(group) &&
-			typeMatcher.versionMatches(version) &&
-			typeMatcher.nameMatches(typeName.Name())
+		result := t.groupMatches(group) &&
+			t.versionMatches(version) &&
+			t.nameMatches(typeName.Name())
+
+		// Track this match so we can later report if we didn't match anything
+		if result {
+			t.matchedTypes = t.matchedTypes.Add(typeName)
+		}
 
 		return result
 	}
 
 	// Never match external references
 	return false
+}
+
+// HasMatches returns true if this matcher has ever matched at least 1 type
+func (t *TypeMatcher) HasMatches() bool {
+	return len(t.matchedTypes) > 0
 }
 
 // String returns a description of this filter

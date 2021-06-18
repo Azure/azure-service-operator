@@ -32,10 +32,6 @@ typeFilters:
 exportFilters:
   - action: exclude
     group: definitions
-    name: NumberOrExpression
-    because: this type is not really used, it's just float64. We remap this type to float64 in typetransformers so we can skip exporting it too
-  - action: exclude
-    group: definitions
     name: '*ResourceBase*'
     because: Not actually a resource, used for inheritance only.
   - action: exclude
@@ -147,11 +143,6 @@ typeTransformers:
       optional: true
     remove: true
     because: It exists on ARMResource but doesn't make sense in the context of a CRD
-  - group: deploymenttemplate
-    name: ResourceLocations
-    target:
-      name: string
-    because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
 
   # Deal with readonly properties that were not properly pruned in the JSON schema
   - name: ResourceIdentity
