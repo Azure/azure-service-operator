@@ -891,7 +891,8 @@ func assignObjectFromObject(
 //
 // <destination> = <source>
 //
-func assignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
+// TODO: Make this internal once referenced ;-)
+func AssignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
 	return func(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint, _ *PropertyConversionContext) PropertyConversion {
 		// Require source to be non-optional
 		if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {

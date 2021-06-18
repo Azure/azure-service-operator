@@ -30,7 +30,6 @@ var (
 	ControllerRuntimeAdmission   = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/webhook/admission")
 	GitHubErrorsReference        = MakeExternalPackageReference("github.com/pkg/errors")
 
-
 	// References to libraries used for testing
 	CmpReference        = MakeExternalPackageReference("github.com/google/go-cmp/cmp")
 	CmpOptsReference    = MakeExternalPackageReference("github.com/google/go-cmp/cmp/cmpopts")
