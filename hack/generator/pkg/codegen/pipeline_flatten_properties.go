@@ -8,8 +8,9 @@ package codegen
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 func flattenProperties() PipelineStage {
@@ -95,7 +96,7 @@ func flattenObjectType(objectType *astmodel.ObjectType, defs astmodel.Types) ([]
 			}
 
 			for _, innerProp := range innerProps {
-				flattenedProps = append(flattenedProps, innerProp.AddFlattenedFrom(prop.PropertyName())
+				flattenedProps = append(flattenedProps, innerProp.AddFlattenedFrom(prop.PropertyName()))
 			}
 		} else {
 			flattenedProps = append(flattenedProps, prop)

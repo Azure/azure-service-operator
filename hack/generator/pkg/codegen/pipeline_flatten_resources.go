@@ -8,8 +8,9 @@ package codegen
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // flattenResources flattens any resources directly inside other resources
@@ -18,7 +19,6 @@ func flattenResources() PipelineStage {
 		"flatten-resources",
 		"Flatten nested resource types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
-
 			flattenEachResource := func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 				// visit inner types:
 				visited, err := astmodel.IdentityVisitOfResourceType(this, it, ctx)
