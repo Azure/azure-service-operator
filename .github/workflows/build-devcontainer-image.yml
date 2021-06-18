@@ -1,5 +1,7 @@
 name: Build Devcontainer image
 on:
+  workflow_dispatch:
+    # no content, allows manual triggering
   schedule:
     # 5:30 pm every Sunday (UTC)
     - cron: '30 17 * * 7'
