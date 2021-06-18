@@ -86,7 +86,7 @@ func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
 
 func (config *Configuration) GetTypeFiltersError() error {
 	for _, filter := range config.TypeFilters {
-		if !filter.HasMatches() {
+		if !filter.MatchedRequiredTypes() {
 			return errors.Errorf("Type filter action: %q, target: %q matched no types", filter.Action, filter.String())
 		}
 	}
@@ -96,7 +96,7 @@ func (config *Configuration) GetTypeFiltersError() error {
 
 func (config *Configuration) GetTypeTransformersError() error {
 	for _, filter := range config.typeTransformers {
-		if !filter.HasMatches() {
+		if !filter.MatchedRequiredTypes() {
 			return errors.Errorf("Type transformer target: %q matched no types", filter.String())
 		}
 	}
@@ -106,7 +106,7 @@ func (config *Configuration) GetTypeTransformersError() error {
 
 func (config *Configuration) GetPropertyTransformersError() error {
 	for _, filter := range config.propertyTransformers {
-		if !filter.HasMatches() {
+		if !filter.MatchedRequiredTypes() {
 			return errors.Errorf("Type transformer target: %q for property %q matched no types", filter.String(), filter.Property)
 		}
 	}
@@ -116,7 +116,7 @@ func (config *Configuration) GetPropertyTransformersError() error {
 
 func (config *Configuration) GetExportFiltersError() error {
 	for _, filter := range config.ExportFilters {
-		if !filter.HasMatches() {
+		if !filter.MatchedRequiredTypes() {
 			return errors.Errorf("Export filter action: %q, target: %q matched no types", filter.Action, filter.String())
 		}
 	}

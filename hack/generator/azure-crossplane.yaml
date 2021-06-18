@@ -75,6 +75,7 @@ typeTransformers:
     because: NumberOrExpression is an ARM template artifact that doesn't make sense in CRDs
     target:
       name: float
+    matchRequired: false  # TODO: Remove this if/when we actually require it
   - name: "*"
     property: Tags
     ifType:

@@ -26,8 +26,11 @@ type TypeMatcher struct {
 	nameRegex *regexp.Regexp
 	// Because is used to articulate why the filter applied to a type (used to generate explanatory logs in debug mode)
 	Because string
+	// MatchRequired indicates if an error will be raised if this TypeMatcher doesn't match at least one type.
+	// The default is true.
+	MatchRequired *bool `yaml:"matchRequired,omitempty"`
 
-	// MatchedTypes is the set of all type names matched by this matcher
+	// matchedTypes is the set of all type names matched by this matcher
 	matchedTypes astmodel.TypeNameSet
 }
 
@@ -39,6 +42,11 @@ func (t *TypeMatcher) Initialize() error {
 	t.versionRegex = createGlobbingRegex(t.Version)
 	t.nameRegex = createGlobbingRegex(t.Name)
 	t.matchedTypes = make(astmodel.TypeNameSet)
+	// Default MatchRequired
+	if t.MatchRequired == nil {
+		temp := true
+		t.MatchRequired = &temp
+	}
 
 	return nil
 }
@@ -87,6 +95,14 @@ func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 
 	// Never match external references
 	return false
+}
+
+func (t *TypeMatcher) MatchedRequiredTypes() bool {
+	if *t.MatchRequired {
+		return t.HasMatches()
+	}
+
+	return true
 }
 
 // HasMatches returns true if this matcher has ever matched at least 1 type
