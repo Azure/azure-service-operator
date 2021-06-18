@@ -13,3 +13,6 @@ cover-existing.html
 coverage-existing.txt
 report-existing.xml
 testlogs-existing.txt
+hack/generator
+hack/generated
+.git
