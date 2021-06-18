@@ -28,11 +28,6 @@ type FakeResourceList struct {
 	Items           []FakeResource `json:"items"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json
-type Test struct {
-	Test *FakeResource `json:"test,omitempty"`
-}
-
 type FakeResource_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline"`
 	ForProvider           FakeResourceParameters `json:"forProvider"`

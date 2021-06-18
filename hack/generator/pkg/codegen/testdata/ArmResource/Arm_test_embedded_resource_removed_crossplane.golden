@@ -48,12 +48,6 @@ type BList struct {
 	Items           []B `json:"items"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json
-type Test struct {
-	A *A `json:"a,omitempty"`
-	B *B `json:"b,omitempty"`
-}
-
 type A_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline"`
 	ForProvider           AParameters `json:"forProvider"`
