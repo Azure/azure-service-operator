@@ -27,7 +27,7 @@ var (
 			astmodel.AnyType,
 		),
 	)
-	mapOfJSON = astmodel.NewMapType(astmodel.StringType, astmodel.JSONType)
+	mapOfJSON = astmodel.NewMapType(astmodel.StringType, astmodel.JSONTypeName)
 )
 
 func replaceAnyTypeWithJSON() PipelineStage {
@@ -38,7 +38,7 @@ func replaceAnyTypeWithJSON() PipelineStage {
 
 			replaceAnyWithJson := func(it *astmodel.PrimitiveType) astmodel.Type {
 				if it == astmodel.AnyType {
-					return astmodel.JSONType
+					return astmodel.JSONTypeName
 				}
 
 				return it

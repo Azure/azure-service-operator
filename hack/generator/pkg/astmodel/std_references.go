@@ -44,5 +44,7 @@ var (
 	GomegaImport = NewPackageImport(GomegaReference).WithName(".")
 
 	// Type names
-	ResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "ResourceReference")
+	ResourceReferenceTypeName      = MakeTypeName(GenRuntimeReference, "ResourceReference")
+	KnownResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "KnownResourceReference")
+	JSONTypeName                   = MakeTypeName(APIExtensionsReference, "JSON")
 )
