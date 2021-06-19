@@ -44,8 +44,30 @@ jobs:
         run: |
           docker buildx build --tag devcontainer:1.0 --cache-from=type=local,src=docker-cache --load .devcontainer
 
+      - name: Run devcontainer image
+        id: devcontainer
+        run: |
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:1.0)
+          docker start "$container_id"
+          echo "::set-output name=id::$container_id"
+        
       - name: Run CI tasks
-        run: docker run -w /workspace -v $GITHUB_WORKSPACE:/workspace -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID devcontainer:1.0 task ci
+        run: |
+          docker exec "${{steps.devcontainer.outputs.id}}" task ci
+
+      - name: Build docker image
+        run: |
+          container_id=${{steps.devcontainer.outputs.id}}
+          docker exec "$container_id" task controller:docker-build
+          docker cp "$container_id:/workspace/hack/generated/bin" .
+          mv bin/*.tar azure-service-operator.tar
+
+      - name: Archive Docker image
+        uses: actions/upload-artifact@v2
+        with:
+          name: controller-image
+          path: azure-service-operator.tar
+          if-no-files-found: error
 
       - name: Upload code coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash)
