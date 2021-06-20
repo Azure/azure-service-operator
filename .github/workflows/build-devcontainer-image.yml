@@ -15,6 +15,13 @@ on:
     paths:
     - .devcontainer/**
 
+  push:
+    # run when changes pushed to master if any devcontainer files changed
+    branches:
+    - master
+    paths:
+    - .devcontainer/**
+
 jobs:
   # Based on: https://docs.github.com/en/actions/guides/publishing-docker-images#publishing-images-to-github-packages
   build-devcontainer-image:
