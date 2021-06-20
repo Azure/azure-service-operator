@@ -6,7 +6,7 @@ on:
   schedule:
     # 5:30 pm every Sunday (UTC)
     # to pick up any important bug fixes etc in base image
-    - cron: '30 17 * * 7'
+    - cron: '30 17 * * 0'
 
   push:
     # run when changes pushed to master if any devcontainer files changed
