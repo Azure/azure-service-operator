@@ -15,13 +15,6 @@ on:
     paths:
     - .devcontainer/**
 
-  push:
-    # run when changes pushed to master if any devcontainer files changed
-    branches:
-    - master
-    paths:
-    - .devcontainer/**
-
 jobs:
   # Based on: https://docs.github.com/en/actions/guides/publishing-docker-images#publishing-images-to-github-packages
   build-devcontainer-image:
@@ -42,7 +35,7 @@ jobs:
         with:
           registry: docker.pkg.github.com
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & push Devcontainer image 
         uses: docker/build-push-action@v2
