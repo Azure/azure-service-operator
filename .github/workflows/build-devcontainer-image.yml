@@ -2,9 +2,18 @@ name: Build Devcontainer image
 on:
   workflow_dispatch:
     # no content, allows manual triggering
+
   schedule:
     # 5:30 pm every Sunday (UTC)
+    # to pick up any important bug fixes etc in base image
     - cron: '30 17 * * 7'
+
+  push:
+    # run when changes pushed to master if any devcontainer files changed
+    branches:
+    - master
+    paths:
+    - .devcontainer/**
 
 jobs:
   # Based on: https://docs.github.com/en/actions/guides/publishing-docker-images#publishing-images-to-github-packages
