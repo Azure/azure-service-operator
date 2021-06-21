@@ -180,6 +180,7 @@ tasks:
     - Dockerfile
     cmds:
     - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
+    - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/{{.CONTROLLER_DOCKER_IMAGE}}.tar
 
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
