@@ -42,6 +42,12 @@ func applyPropertyRewrites(config *config.Configuration) PipelineStage {
 				newTypes.Add(t.WithType(objectType))
 			}
 
+			// Ensure that the property transformers had no errors
+			err := config.GetPropertyTransformersError()
+			if err != nil {
+				return nil, err
+			}
+
 			return newTypes, nil
 		})
 }
