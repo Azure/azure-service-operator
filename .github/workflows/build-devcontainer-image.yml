@@ -45,5 +45,5 @@ jobs:
           # Build an image usable as cache-from, per: https://docs.docker.com/engine/reference/commandline/build/#specifying-external-cache-sources
           build-args: BUILDKIT_INLINE_CACHE=1
           tags: |
-            docker.pkg.github.com/azure/azure-service-operator-devcontainer:latest
-            docker.pkg.github.com/azure/azure-service-operator-devcontainer:${{ github.sha }}
+            docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+            docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:${{ github.sha }}
