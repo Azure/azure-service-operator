@@ -15,6 +15,8 @@ set -eu
 # To distinguish between these modes we will
 # have the devcontainer script pass an argument:
 
+echo "HIIIII"
+
 if [ "$1" = "devcontainer" ]; then 
     TOOL_DEST=/usr/local/bin
     KUBEBUILDER_DEST=/usr/local/kubebuilder
