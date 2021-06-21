@@ -971,6 +971,13 @@ func copyKnownType(name astmodel.TypeName, methodName string) func(*TypedConvers
 		}
 
 		return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+			if methodName == "DeepCopy" {
+				// DeepCopy methods always return a ptr, which we need to dereference.
+				// This dereference is always safe because we ensured that both source and destination are always
+				// non optional
+				return writer(astbuilder.Dereference(astbuilder.CallExpr(reader, methodName)))
+			}
+
 			return writer(astbuilder.CallExpr(reader, methodName))
 		}
 	}
