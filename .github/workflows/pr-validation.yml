@@ -28,6 +28,19 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build devcontainer image
+        # We must issue a manual pull before the build so the image gets copied locally, because
+        # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
+        # however, `docker pull` will fall back to other methods that do work and get the image loaded.
+        #
+        # This message comes from "docker pull":
+        #
+        # Run docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+        # WARNING: ⚠️ Failed to pull manifest by the resolved digest. This registry does not
+        #  appear to conform to the distribution registry specification; falling back to
+        #  pull by tag.  This fallback is DEPRECATED, and will be removed in a future
+        #  release.  Please contact admins of https://docker.pkg.github.com. ⚠️
+        #
+        # See: https://github.com/moby/moby/issues/41687#issuecomment-733826074 and related issues
         run: |
           docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
           docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
@@ -42,8 +55,7 @@ jobs:
           echo "::set-output name=id::$container_id"
         
       - name: Run CI tasks
-        run: |
-          docker exec "${{steps.devcontainer.outputs.id}}" task ci
+        run: docker exec "${{steps.devcontainer.outputs.id}}" task ci
 
       - name: Build docker image
         run: |
