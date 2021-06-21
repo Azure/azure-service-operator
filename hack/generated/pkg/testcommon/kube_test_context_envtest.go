@@ -7,16 +7,16 @@ package testcommon
 
 import (
 	"fmt"
-	"log"
 	"net"
+	"os"
 	"strconv"
+	"testing"
 	"time"
 
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/klog/v2/klogr"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
@@ -24,7 +24,7 @@ import (
 )
 
 func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, error) {
-	log.Printf("Creating envtest for test %s", perTestContext.TestName)
+	perTestContext.T.Logf("Creating envtest test: %s", perTestContext.TestName)
 
 	environment := envtest.Environment{
 		ErrorIfCRDPathMissing: true,
@@ -38,21 +38,21 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		},
 	}
 
-	log.Print("Starting envtest")
+	perTestContext.T.Log("Starting envtest")
 	config, err := environment.Start()
 	if err != nil {
 		return nil, errors.Wrapf(err, "starting envtest environment")
 	}
 
 	perTestContext.T.Cleanup(func() {
-		log.Print("Stopping envtest")
+		perTestContext.T.Log("Stopping envtest")
 		stopErr := environment.Stop()
 		if stopErr != nil {
-			log.Printf("unable to stop envtest environment: %s", stopErr.Error())
+			perTestContext.T.Logf("unable to stop envtest environment: %s", stopErr.Error())
 		}
 	})
 
-	log.Print("Creating & starting controller-runtime manager")
+	perTestContext.T.Log("Creating & starting controller-runtime manager")
 	mgr, err := ctrl.NewManager(config, ctrl.Options{
 		Scheme:             controllers.CreateScheme(),
 		CertDir:            environment.WebhookInstallOptions.LocalServingCertDir,
@@ -66,17 +66,16 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 
 	var requeueDelay time.Duration // defaults to 5s when zero is passed
 	if perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying {
-		log.Print("Minimizing requeue delay")
+		perTestContext.T.Log("Minimizing requeue delay")
 		// skip requeue delays when replaying
 		requeueDelay = 100 * time.Millisecond
 	}
 
-	log.Print("Registering custom controllers")
 	err = controllers.RegisterAll(
 		mgr,
 		perTestContext.AzureClient,
 		controllers.GetKnownStorageTypes(),
-		klogr.New(),
+		perTestContext.logger,
 		controllers.Options{
 			CreateDeploymentName: func(obj metav1.Object) (string, error) {
 				// create deployment name based on test name and kubernetes name
@@ -99,19 +98,21 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		// this blocks until the input chan is closed
 		err := mgr.Start(stopManager)
 		if err != nil {
-			log.Fatal(errors.Wrapf(err, "running controller-runtime manager"))
+			perTestContext.T.Errorf("error running controller-runtime manager: %s", err.Error())
+			os.Exit(1)
 		}
 	}()
 
 	perTestContext.T.Cleanup(func() {
-		log.Print("Stopping controller-runtime manager")
+
+		perTestContext.T.Log("Stopping controller-runtime manager")
 		close(stopManager)
 	})
 
-	waitForWebhooks(environment)
+	waitForWebhooks(perTestContext.T, environment)
 
 	webhookServer := mgr.GetWebhookServer()
-	log.Printf("Webhook server running at: %s:%d", webhookServer.Host, webhookServer.Port)
+	perTestContext.T.Logf("Webhook server running at: %s:%d", webhookServer.Host, webhookServer.Port)
 
 	return &KubeBaseTestContext{
 		PerTestContext: perTestContext,
@@ -119,11 +120,11 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 	}, nil
 }
 
-func waitForWebhooks(env envtest.Environment) {
+func waitForWebhooks(t *testing.T, env envtest.Environment) {
 	port := env.WebhookInstallOptions.LocalServingPort
 	address := net.JoinHostPort("127.0.0.1", strconv.Itoa(port))
 
-	log.Printf("Checking for webhooks at: %s", address)
+	t.Logf("Checking for webhooks at: %s", address)
 	timeout := 1 * time.Second
 	for {
 		conn, err := net.DialTimeout("tcp", address, timeout)
@@ -132,7 +133,7 @@ func waitForWebhooks(env envtest.Environment) {
 			continue
 		}
 		_ = conn.Close()
-		log.Printf("Webhooks available at: %s", address)
+		t.Logf("Webhooks available at: %s", address)
 		return
 	}
 }

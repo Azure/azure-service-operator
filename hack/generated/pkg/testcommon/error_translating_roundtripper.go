@@ -10,6 +10,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"testing"
 
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
@@ -28,8 +29,8 @@ import (
 // - during record the controller does GET (404), PUT, … GET (OK)
 // - during playback the controller does GET (which now returns OK), DELETE, PUT, …
 //   and fails due to a missing DELETE recording
-func translateErrors(r *recorder.Recorder, cassetteName string) http.RoundTripper {
-	return errorTranslation{r, cassetteName, nil}
+func translateErrors(r *recorder.Recorder, cassetteName string, t *testing.T) http.RoundTripper {
+	return errorTranslation{r, cassetteName, nil, t}
 }
 
 type errorTranslation struct {
@@ -37,6 +38,7 @@ type errorTranslation struct {
 	cassetteName string
 
 	cassette *cassette.Cassette
+	t        *testing.T
 }
 
 func (w errorTranslation) ensureCassette() *cassette.Cassette {
@@ -74,7 +76,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	matchingBodies := w.findMatchingBodies(req)
 
 	if len(matchingBodies) == 0 {
-		fmt.Printf("\n*** Cannot find go-vcr recording for request (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n", req.Method, req.URL.String(), req.Header.Get(COUNT_HEADER))
+		w.t.Logf("\n*** Cannot find go-vcr recording for request (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n", req.Method, req.URL.String(), req.Header.Get(COUNT_HEADER))
 		return nil, originalErr
 	}
 
@@ -87,7 +89,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 		}
 	}
 
-	fmt.Printf("\n*** Cannot find go-vcr recording for request (body mismatch): %s %s\nShortest body diff: %s\n\n", req.Method, req.URL.String(), shortestDiff)
+	w.t.Logf("\n*** Cannot find go-vcr recording for request (body mismatch): %s %s\nShortest body diff: %s\n\n", req.Method, req.URL.String(), shortestDiff)
 	return nil, originalErr
 }
 

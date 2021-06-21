@@ -9,7 +9,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"regexp"
 	"strings"
@@ -18,6 +17,7 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
+	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -39,6 +39,7 @@ type TestContext struct {
 type PerTestContext struct {
 	TestContext
 	T                   *testing.T
+	logger              logr.Logger
 	AzureClientRecorder *recorder.Recorder
 	AzureClient         armclient.Applier
 	AzureSubscription   string
@@ -59,6 +60,8 @@ func NewTestContext(region string, recordReplay bool) TestContext {
 }
 
 func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
+	logger := NewTestLogger(t)
+
 	cassetteName := "recordings/" + t.Name()
 	authorizer, subscriptionID, recorder, err := createRecorder(cassetteName, tc.RecordReplay)
 	if err != nil {
@@ -72,15 +75,16 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 
 	// replace the ARM client transport (a bit hacky)
 	httpClient := armClient.RawClient.Sender.(*http.Client)
-	httpClient.Transport = addCountHeader(translateErrors(recorder, cassetteName))
+	httpClient.Transport = addCountHeader(translateErrors(recorder, cassetteName, t))
 
 	t.Cleanup(func() {
 		if !t.Failed() {
-			log.Printf("saving ARM client recorder")
+			logger.Info("saving ARM client recorder")
 			err := recorder.Stop()
 			if err != nil {
 				// cleanup function should not error-out
-				log.Printf("unable to stop ARM client recorder: %s", err.Error())
+				logger.Error(err, "unable to stop ARM client recorder")
+				t.Fail()
 			}
 		}
 	})
@@ -88,6 +92,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	return PerTestContext{
 		TestContext:         tc,
 		T:                   t,
+		logger:              logger,
 		Namer:               tc.NameConfig.NewResourceNamer(t.Name()),
 		AzureClient:         armClient,
 		AzureSubscription:   subscriptionID,
