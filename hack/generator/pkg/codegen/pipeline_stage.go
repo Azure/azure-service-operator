@@ -24,7 +24,7 @@ type PipelineStage struct {
 	// Stage implementation
 	action func(context.Context, astmodel.Types) (astmodel.Types, error)
 	// Tag used for filtering
-	targets []pipeline.PipelineTarget
+	targets []pipeline.Target
 	// Identifiers for other stages that must be completed before this one
 	prerequisites []string
 	// Identifiers for other stages that must be completed after this one
@@ -82,13 +82,13 @@ func (stage PipelineStage) RequiresPostrequisiteStages(postrequisites ...string)
 }
 
 // UsedFor specifies that this stage should be used for only the specified targets
-func (stage PipelineStage) UsedFor(targets ...pipeline.PipelineTarget) PipelineStage {
+func (stage PipelineStage) UsedFor(targets ...pipeline.Target) PipelineStage {
 	stage.targets = targets
 	return stage
 }
 
 // IsUsedFor returns true if this stage should be used for the specified target
-func (stage *PipelineStage) IsUsedFor(target pipeline.PipelineTarget) bool {
+func (stage *PipelineStage) IsUsedFor(target pipeline.Target) bool {
 
 	if len(stage.targets) == 0 {
 		// Stages without specific targeting are always used

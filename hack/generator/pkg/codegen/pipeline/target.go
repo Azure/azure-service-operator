@@ -13,40 +13,39 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
-// PipelineTarget is used to classify what kind of pipeline we have
+// Target is used to classify what kind of pipeline we have
 // Deliberately wraps a string because we *do* *not* want type compatibility with literal strings
-type PipelineTarget struct {
+type Target struct {
 	name string
 }
 
-var _ fmt.Stringer = PipelineTarget{}
+var _ fmt.Stringer = Target{}
 
 var (
 	// ARMTarget is used to tag stages that are required when generating types for working directly with Azure
-	ARMTarget PipelineTarget = MakePipelineTarget("azure")
+	ARMTarget Target = MakePipelineTarget("azure")
 
 	// CrossplaneTarget is used to tag stages that are required when generating types for working with Crossplane
-	CrossplaneTarget PipelineTarget = MakePipelineTarget("crossplane")
+	CrossplaneTarget Target = MakePipelineTarget("crossplane")
 )
 
-func MakePipelineTarget(tag string) PipelineTarget {
-	return PipelineTarget{
+func MakePipelineTarget(tag string) Target {
+	return Target{
 		name: tag,
 	}
 }
 
-func (t PipelineTarget) String() string {
+func (t Target) String() string {
 	return t.name
 }
 
-func TranslatePipelineToTarget(pipeline config.GenerationPipeline) (PipelineTarget, error) {
+func TranslatePipelineToTarget(pipeline config.GenerationPipeline) (Target, error) {
 	switch pipeline {
 	case config.GenerationPipelineAzure:
 		return ARMTarget, nil
 	case config.GenerationPipelineCrossplane:
 		return CrossplaneTarget, nil
 	default:
-		return PipelineTarget{}, errors.Errorf("unknown pipeline target kind %s", pipeline)
+		return Target{}, errors.Errorf("unknown pipeline target kind %s", pipeline)
 	}
 }
-

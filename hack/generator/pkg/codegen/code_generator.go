@@ -42,7 +42,7 @@ func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, e
 // NewTargetedCodeGeneratorFromConfig produces a new code generator with the given configuration and
 // only the stages appropriate for the specified target.
 func NewTargetedCodeGeneratorFromConfig(
-	configuration *config.Configuration, idFactory astmodel.IdentifierFactory, target pipeline.PipelineTarget) (*CodeGenerator, error) {
+	configuration *config.Configuration, idFactory astmodel.IdentifierFactory, target pipeline.Target) (*CodeGenerator, error) {
 
 	result, err := NewCodeGeneratorFromConfig(configuration, idFactory)
 	if err != nil {
