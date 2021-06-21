@@ -145,7 +145,11 @@ func simplifyTypeNames(types astmodel.Types, flag astmodel.TypeFlag) (astmodel.T
 				return nil, err
 			}
 
-			updatedNames[embeddedName.original] = updatedNames[embeddedName.original].Add(def.Name())
+			if updatedNames[embeddedName.original] == nil {
+				updatedNames[embeddedName.original] = astmodel.NewTypeNameSet(def.Name())
+			} else {
+				updatedNames[embeddedName.original].Add(def.Name())
+			}
 		}
 	}
 

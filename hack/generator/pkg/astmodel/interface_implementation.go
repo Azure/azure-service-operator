@@ -47,7 +47,7 @@ func (iface *InterfaceImplementation) RequiredPackageReferences() *PackageRefere
 
 // References indicates whether this type includes any direct references to the given type
 func (iface *InterfaceImplementation) References() TypeNameSet {
-	var results TypeNameSet
+	results := NewTypeNameSet()
 	for _, f := range iface.functions {
 		for ref := range f.References() {
 			results.Add(ref)

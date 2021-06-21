@@ -284,7 +284,7 @@ func stripUnusedTypesPipelineStage() PipelineStage {
 }
 
 // TODO: Ideally we wouldn't need a test specific function here, but currently
-// TODO: we're hardcoding references, and even if we were sourcing them from Swagger
+// TODO: we're hard-coding references, and even if we were sourcing them from Swagger
 // TODO: we have no way to give Swagger to the golden files tests currently.
 func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) PipelineStage {
 	return MakePipelineStage(
