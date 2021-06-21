@@ -41,7 +41,8 @@ func (t *TypeMatcher) Initialize() error {
 	t.groupRegex = createGlobbingRegex(t.Group)
 	t.versionRegex = createGlobbingRegex(t.Version)
 	t.nameRegex = createGlobbingRegex(t.Name)
-	t.matchedTypes = make(astmodel.TypeNameSet)
+	t.matchedTypes = astmodel.NewTypeNameSet()
+
 	// Default MatchRequired
 	if t.MatchRequired == nil {
 		temp := true
@@ -87,7 +88,7 @@ func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 
 		// Track this match so we can later report if we didn't match anything
 		if result {
-			t.matchedTypes = t.matchedTypes.Add(typeName)
+			t.matchedTypes.Add(typeName)
 		}
 
 		return result

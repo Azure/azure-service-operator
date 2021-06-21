@@ -18,7 +18,7 @@ type ReferenceGraph struct {
 // CollectResourceDefinitions returns a TypeNameSet of all of the
 // root definitions in the definitions passed in.
 func CollectResourceDefinitions(definitions Types) TypeNameSet {
-	resources := make(TypeNameSet)
+	resources := NewTypeNameSet()
 	for _, def := range definitions {
 		if _, ok := def.Type().(*ResourceType); ok {
 			resources.Add(def.Name())
@@ -45,7 +45,7 @@ func CollectARMSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 		return armName, nil
 	}
 
-	armSpecAndStatus := make(TypeNameSet)
+	armSpecAndStatus := NewTypeNameSet()
 	for _, def := range definitions {
 
 		if resourceType, ok := definitions.ResolveResourceType(def.Type()); ok {
