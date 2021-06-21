@@ -415,7 +415,7 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Result, error) {
 
 	msg := "Continue monitoring deletion"
-	r.log.Info(msg)
+	r.log.V(1).Info(msg)
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionMonitorDelete), msg)
 
 	resource, err := r.constructArmResource(ctx)
@@ -435,7 +435,7 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 	}
 
 	if found {
-		r.log.V(0).Info("Found resource: continuing to wait for deletion...")
+		r.log.V(1).Info("Found resource: continuing to wait for deletion...")
 		return ctrl.Result{Requeue: true}, nil
 	}
 

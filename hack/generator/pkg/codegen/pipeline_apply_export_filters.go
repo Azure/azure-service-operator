@@ -31,10 +31,7 @@ func filterTypes(
 
 	newDefinitions := make(astmodel.Types)
 
-	filterer, err := configuration.BuildExportFilterer(definitions)
-	if err != nil {
-		return nil, err
-	}
+	filterer := configuration.BuildExportFilterer(definitions)
 
 	for _, def := range definitions {
 		defName := def.Name()
@@ -55,6 +52,12 @@ func filterTypes(
 		default:
 			panic(fmt.Sprintf("unhandled shouldExport case %q", shouldExport))
 		}
+	}
+
+	// Ensure that the export filters had no issues
+	err := configuration.GetExportFiltersError()
+	if err != nil {
+		return nil, err
 	}
 
 	return newDefinitions, nil
