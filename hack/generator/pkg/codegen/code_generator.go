@@ -14,6 +14,7 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
@@ -23,17 +24,6 @@ type CodeGenerator struct {
 	pipeline      []PipelineStage
 }
 
-func translatePipelineToTarget(pipeline config.GenerationPipeline) (PipelineTarget, error) {
-	switch pipeline {
-	case config.GenerationPipelineAzure:
-		return ARMTarget, nil
-	case config.GenerationPipelineCrossplane:
-		return CrossplaneTarget, nil
-	default:
-		return PipelineTarget{}, errors.Errorf("unknown pipeline target kind %s", pipeline)
-	}
-}
-
 // NewCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
 func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, error) {
 	configuration, err := config.LoadConfiguration(configurationFile)
@@ -41,7 +31,7 @@ func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, e
 		return nil, err
 	}
 
-	target, err := translatePipelineToTarget(configuration.Pipeline)
+	target, err := pipeline.TranslatePipelineToTarget(configuration.Pipeline)
 	if err != nil {
 		return nil, err
 	}
@@ -50,9 +40,9 @@ func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, e
 }
 
 // NewTargetedCodeGeneratorFromConfig produces a new code generator with the given configuration and
-// only the stages appropriate for the specfied target.
+// only the stages appropriate for the specified target.
 func NewTargetedCodeGeneratorFromConfig(
-	configuration *config.Configuration, idFactory astmodel.IdentifierFactory, target PipelineTarget) (*CodeGenerator, error) {
+	configuration *config.Configuration, idFactory astmodel.IdentifierFactory, target pipeline.PipelineTarget) (*CodeGenerator, error) {
 
 	result, err := NewCodeGeneratorFromConfig(configuration, idFactory)
 	if err != nil {
@@ -128,7 +118,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		assertTypesCollectionValid(),
 
-		removeEmbeddedResources().UsedFor(ARMTarget), // TODO: For now only used for ARM,
+		removeEmbeddedResources().UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM,
 
 		// Apply export filters before generating
 		// ARM types for resources etc:
@@ -138,36 +128,36 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		replaceAnyTypeWithJSON(),
 
-		addCrossResourceReferences(configuration, idFactory).UsedFor(ARMTarget),
+		addCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 
-		reportOnTypesAndVersions(configuration).UsedFor(ARMTarget), // TODO: For now only used for ARM
+		reportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
-		createARMTypes(idFactory).UsedFor(ARMTarget),
-		applyARMConversionInterface(idFactory).UsedFor(ARMTarget),
-		applyKubernetesResourceInterface(idFactory).UsedFor(ARMTarget),
+		createARMTypes(idFactory).UsedFor(pipeline.ARMTarget),
+		applyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
+		applyKubernetesResourceInterface(idFactory).UsedFor(pipeline.ARMTarget),
 
-		addCrossplaneOwnerProperties(idFactory).UsedFor(CrossplaneTarget),
-		addCrossplaneForProvider(idFactory).UsedFor(CrossplaneTarget),
-		addCrossplaneAtProvider(idFactory).UsedFor(CrossplaneTarget),
-		addCrossplaneEmbeddedResourceSpec(idFactory).UsedFor(CrossplaneTarget),
-		addCrossplaneEmbeddedResourceStatus(idFactory).UsedFor(CrossplaneTarget),
+		addCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
+		addCrossplaneForProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
+		addCrossplaneAtProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
+		addCrossplaneEmbeddedResourceSpec(idFactory).UsedFor(pipeline.CrossplaneTarget),
+		addCrossplaneEmbeddedResourceStatus(idFactory).UsedFor(pipeline.CrossplaneTarget),
 
-		createStorageTypes(idFactory).UsedFor(ARMTarget), // TODO: For now only used for ARM
+		createStorageTypes(idFactory).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 		simplifyDefinitions(),
-		injectJsonSerializationTests(idFactory).UsedFor(ARMTarget),
+		injectJsonSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
 
 		markStorageVersion(),
 
 		// Safety checks at the end:
 		ensureDefinitionsDoNotUseAnyTypes(),
-		ensureARMTypeExistsForEveryResource().UsedFor(ARMTarget),
+		ensureARMTypeExistsForEveryResource().UsedFor(pipeline.ARMTarget),
 
 		deleteGeneratedCode(configuration.FullTypesOutputPath()),
 
 		exportPackages(configuration.FullTypesOutputPath()).
 			RequiresPrerequisiteStages("deleteGenerated"),
 
-		exportControllerResourceRegistrations(configuration.FullTypesRegistrationOutputFilePath()).UsedFor(ARMTarget),
+		exportControllerResourceRegistrations(configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
 	}
 }
 
@@ -245,7 +235,7 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 		stagesToRemove[s] = false
 	}
 
-	var pipeline []PipelineStage
+	var stages []PipelineStage
 
 	for _, stage := range generator.pipeline {
 		if _, ok := stagesToRemove[stage.id]; ok {
@@ -253,16 +243,16 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 			continue
 		}
 
-		pipeline = append(pipeline, stage)
+		stages = append(stages, stage)
 	}
 
 	for stage, removed := range stagesToRemove {
 		if !removed {
-			panic(fmt.Sprintf("Expected to remove stage %s from pipeline, but it wasn't found.", stage))
+			panic(fmt.Sprintf("Expected to remove stage %s from stages, but it wasn't found.", stage))
 		}
 	}
 
-	generator.pipeline = pipeline
+	generator.pipeline = stages
 }
 
 // ReplaceStage replaces all uses of an existing stage with another one.

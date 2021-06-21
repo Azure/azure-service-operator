@@ -3,10 +3,14 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"fmt"
+
+	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
 // PipelineTarget is used to classify what kind of pipeline we have
@@ -34,3 +38,15 @@ func MakePipelineTarget(tag string) PipelineTarget {
 func (t PipelineTarget) String() string {
 	return t.name
 }
+
+func TranslatePipelineToTarget(pipeline config.GenerationPipeline) (PipelineTarget, error) {
+	switch pipeline {
+	case config.GenerationPipelineAzure:
+		return ARMTarget, nil
+	case config.GenerationPipelineCrossplane:
+		return CrossplaneTarget, nil
+	default:
+		return PipelineTarget{}, errors.Errorf("unknown pipeline target kind %s", pipeline)
+	}
+}
+

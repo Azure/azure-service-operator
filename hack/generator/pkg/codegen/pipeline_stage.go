@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
 // PipelineStage represents a composable stage of processing that can transform or process the set
@@ -23,7 +24,7 @@ type PipelineStage struct {
 	// Stage implementation
 	action func(context.Context, astmodel.Types) (astmodel.Types, error)
 	// Tag used for filtering
-	targets []PipelineTarget
+	targets []pipeline.PipelineTarget
 	// Identifiers for other stages that must be completed before this one
 	prerequisites []string
 	// Identifiers for other stages that must be completed after this one
@@ -81,13 +82,13 @@ func (stage PipelineStage) RequiresPostrequisiteStages(postrequisites ...string)
 }
 
 // UsedFor specifies that this stage should be used for only the specified targets
-func (stage PipelineStage) UsedFor(targets ...PipelineTarget) PipelineStage {
+func (stage PipelineStage) UsedFor(targets ...pipeline.PipelineTarget) PipelineStage {
 	stage.targets = targets
 	return stage
 }
 
 // IsUsedFor returns true if this stage should be used for the specified target
-func (stage *PipelineStage) IsUsedFor(target PipelineTarget) bool {
+func (stage *PipelineStage) IsUsedFor(target pipeline.PipelineTarget) bool {
 
 	if len(stage.targets) == 0 {
 		// Stages without specific targeting are always used
