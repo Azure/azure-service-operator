@@ -28,7 +28,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build devcontainer image
-        run: docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+        run: |
+          docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+          docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
         env:
           DOCKER_BUILDKIT: 1
 
