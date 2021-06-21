@@ -11,49 +11,51 @@ on:
 jobs:
   test-generator:
     runs-on: ubuntu-latest
+    permissions:
+      packages: read
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           submodules: 'true'
 
-      - name: Docker cache
-        id: docker-cache
-        uses: actions/cache@v2
+      - name: Log in to GitHub Docker Registry
+        uses: docker/login-action@v1
         with:
-          path: docker-cache
-          key: ${{ runner.os }}-${{ hashFiles('.devcontainer/**') }}
+          registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build devcontainer image (uncached)
-        if: steps.docker-cache.outputs.cache-hit != 'true'
-        # If no cache-hit we will rebuild the image from scratch with buildx, which
-        # allows us to output a cache for reuse later.
+      - name: Build devcontainer image
+        # We must issue a manual pull before the build so the image gets copied locally, because
+        # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
+        # however, `docker pull` will fall back to other methods that do work and get the image loaded.
         #
-        # We output the cache to a new folder and then remove the old cache and copy the new one there
-        # so that the cache size does not keep growing.
+        # This message comes from "docker pull":
+        #
+        # Run docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+        # WARNING: ⚠️ Failed to pull manifest by the resolved digest. This registry does not
+        #  appear to conform to the distribution registry specification; falling back to
+        #  pull by tag.  This fallback is DEPRECATED, and will be removed in a future
+        #  release.  Please contact admins of https://docker.pkg.github.com. ⚠️
+        #
+        # See: https://github.com/moby/moby/issues/41687#issuecomment-733826074 and related issues
         run: |
-          mkdir -p docker-cache docker-cache-new
-          docker buildx create --use
-          docker buildx build --tag devcontainer:1.0 --cache-from=type=local,src=docker-cache --cache-to=type=local,dest=docker-cache-new --load .devcontainer
-          rm -rf docker-cache && mv docker-cache-new docker-cache
-
-      - name: Build devcontainer image (cached)
-        if: steps.docker-cache.outputs.cache-hit == 'true'
-        # If we have a cache hit we can instruct docker to load from the cache.
-        # We do not write to the cache as we had a hit, and it is very slow.
-        run: |
-          docker buildx build --tag devcontainer:1.0 --cache-from=type=local,src=docker-cache --load .devcontainer
+          docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+          docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+        env:
+          DOCKER_BUILDKIT: 1
 
       - name: Run devcontainer image
         id: devcontainer
         run: |
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:1.0)
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
           docker start "$container_id"
           echo "::set-output name=id::$container_id"
         
       - name: Run CI tasks
-        run: |
-          docker exec "${{steps.devcontainer.outputs.id}}" task ci
+        run: docker exec "${{steps.devcontainer.outputs.id}}" task ci
 
       - name: Build docker image
         run: |
