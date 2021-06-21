@@ -122,12 +122,8 @@ func (typeName TypeName) String() string {
 }
 
 var typeNamePluralToSingularOverrides = map[string]string{
-	"Services":  "Service",
-	"services":  "service",
-	"Redis":     "Redis",
-	"redis":     "redis",
-	"Addresses": "Address",
-	"addresses": "address",
+	"Redis": "Redis",
+	"redis": "redis",
 }
 
 var typeNameSingularToPluralOverrides map[string]string
