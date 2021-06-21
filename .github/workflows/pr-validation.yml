@@ -17,37 +17,15 @@ jobs:
         with:
           submodules: 'true'
 
-      - name: Docker cache
-        id: docker-cache
-        uses: actions/cache@v2
-        with:
-          path: docker-cache
-          key: ${{ runner.os }}-${{ hashFiles('.devcontainer/**') }}
-
-      - name: Build devcontainer image (uncached)
-        if: steps.docker-cache.outputs.cache-hit != 'true'
-        # If no cache-hit we will rebuild the image from scratch with buildx, which
-        # allows us to output a cache for reuse later.
-        #
-        # We output the cache to a new folder and then remove the old cache and copy the new one there
-        # so that the cache size does not keep growing.
-        run: |
-          mkdir -p docker-cache docker-cache-new
-          docker buildx create --use
-          docker buildx build --tag devcontainer:1.0 --cache-from=type=local,src=docker-cache --cache-to=type=local,dest=docker-cache-new --load .devcontainer
-          rm -rf docker-cache && mv docker-cache-new docker-cache
-
-      - name: Build devcontainer image (cached)
-        if: steps.docker-cache.outputs.cache-hit == 'true'
-        # If we have a cache hit we can instruct docker to load from the cache.
-        # We do not write to the cache as we had a hit, and it is very slow.
-        run: |
-          docker buildx build --tag devcontainer:1.0 --cache-from=type=local,src=docker-cache --load .devcontainer
+      - name: Build devcontainer image
+        run: docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+        env:
+          DOCKER_BUILDKIT: 1
 
       - name: Run devcontainer image
         id: devcontainer
         run: |
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:1.0)
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
           docker start "$container_id"
           echo "::set-output name=id::$container_id"
         
