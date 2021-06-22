@@ -308,9 +308,10 @@ steps:
             --set azureUseMI=true \
             --set installAadPodIdentity=true \
             --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
-            --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/$(AZURE_SUBSCRIPTION_ID)/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$(ASO-DEVOPS-MI)" \
-            --set aad-pod-identity.azureIdentity.clientID=$(POD-IDENTITY-CLIENTID) \
-            --set image.repository=$imagename 
+            --set aad-pod-identity.azureIdentities.aso-identity.resourceID="/subscriptions/$(AZURE_SUBSCRIPTION_ID)/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$(ASO-DEVOPS-MI)" \
+            --set aad-pod-identity.azureIdentities.aso-identity.clientID=$(POD-IDENTITY-CLIENTID) \
+            --set aad-pod-identity.nmi.allowNetworkPluginKubenet=true \
+            --set image.repository=$imagename
         # Verify namespace and pods
         kubectl get namespace
         kubectl get pods -n $(OPERATOR_NAMESPACE)
