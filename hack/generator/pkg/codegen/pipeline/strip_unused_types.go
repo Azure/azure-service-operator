@@ -3,17 +3,16 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-func stripUnreferencedTypeDefinitions() pipeline.Stage {
-	return pipeline.MakeStage(
+func StripUnreferencedTypeDefinitions() Stage {
+	return MakeStage(
 		"stripUnreferenced",
 		"Strip unreferenced types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

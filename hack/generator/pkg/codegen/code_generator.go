@@ -92,7 +92,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// get named with names like Resource_Spec_Spec_Spec:
 		flattenResources(),
 
-		stripUnreferencedTypeDefinitions(),
+		pipeline.StripUnreferencedTypeDefinitions(),
 
 		// Name all anonymous object, enum, and validated types (required by controller-gen):
 		nameTypesForCRD(idFactory),
@@ -114,7 +114,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		improveResourcePluralization().
 			RequiresPrerequisiteStages("removeAliases"),
 
-		stripUnreferencedTypeDefinitions(),
+		pipeline.StripUnreferencedTypeDefinitions(),
 
 		pipeline.AssertTypesCollectionValid(),
 
@@ -124,7 +124,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// ARM types for resources etc:
 		pipeline.ApplyExportFilters(configuration),
 
-		stripUnreferencedTypeDefinitions(),
+		pipeline.StripUnreferencedTypeDefinitions(),
 
 		pipeline.ReplaceAnyTypeWithJSON(),
 

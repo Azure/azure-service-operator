@@ -270,7 +270,7 @@ func stripUnusedTypesPipelineStage() pipeline.Stage {
 				test.MakeLocalPackageReference("test", "v1alpha1api20200101"),
 				"Test",
 			))
-			defs, err := StripUnusedDefinitions(roots, defs)
+			defs, err := pipeline.StripUnusedDefinitions(roots, defs)
 			if err != nil {
 				return nil, errors.Wrapf(err, "could not strip unused types")
 			}
