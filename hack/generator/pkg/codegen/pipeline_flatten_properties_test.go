@@ -31,7 +31,7 @@ func TestDuplicateNamesAreCaught(t *testing.T) {
 
 	result, err := applyPropertyFlattening(context.Background(), types)
 	g.Expect(result).To(BeNil())
-	g.Expect(err).To(MatchError("visit of type of \"prefix/group/version/objType\" failed: Flattening caused duplicate property name \"duplicate\""))
+	g.Expect(err).To(MatchError("visit of type of \"prefix/group/version/objType\" failed: flattening caused duplicate property name \"duplicate\""))
 }
 
 func TestFlatteningWorks(t *testing.T) {
