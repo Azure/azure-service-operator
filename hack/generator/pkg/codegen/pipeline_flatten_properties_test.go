@@ -60,17 +60,4 @@ func TestFlatteningWorks(t *testing.T) {
 
 	ot := it.(*astmodel.ObjectType)
 	g.Expect(ot.Properties()).To(HaveLen(3))
-
-	/*
-		fs := ot.Functions()
-		g.Expect(fs).To(HaveLen(1))
-
-		var f astmodel.Function
-		for _, single := range fs {
-			f = single
-			break
-		}
-
-		g.Expect(f.Name()).To(Equal("Flatten"))
-	*/
 }
