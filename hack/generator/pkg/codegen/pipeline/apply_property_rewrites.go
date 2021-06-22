@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -11,18 +11,17 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
-// applyPropertyRewrites applies any typeTransformers for properties.
+// ApplyPropertyRewrites applies any typeTransformers for properties.
 // It is its own pipeline stage so that we can apply it after the allOf/oneOf types have
 // been "lowered" to objects.
-func applyPropertyRewrites(config *config.Configuration) pipeline.Stage {
+func ApplyPropertyRewrites(config *config.Configuration) Stage {
 
-	return pipeline.MakeStage(
+	return MakeStage(
 		"propertyRewrites",
-		"Applying type transformers to properties",
+		"Modify property types using configured transforms",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
 			newTypes := make(astmodel.Types, len(types))

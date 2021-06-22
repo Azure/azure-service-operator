@@ -100,7 +100,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Apply property type rewrites from the config file
 		// Must come after nameTypesForCRD ('nameTypes)' and convertAllOfAndOneOfToObjects ('allof-anyof-objects') so
 		// that objects are all expanded
-		applyPropertyRewrites(configuration).
+		pipeline.ApplyPropertyRewrites(configuration).
 			RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects"),
 
 		// Figure out resource owners:
