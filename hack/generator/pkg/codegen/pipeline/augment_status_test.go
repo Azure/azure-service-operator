@@ -3,12 +3,13 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
-	. "github.com/onsi/gomega"
 	"runtime"
 	"testing"
+
+	. "github.com/onsi/gomega"
 )
 
 func Test_ShouldSkipDir_GivenPath_HasExpectedResult(t *testing.T) {

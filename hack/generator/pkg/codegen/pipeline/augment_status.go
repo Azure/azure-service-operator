@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -24,12 +24,11 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
 )
 
-/* augmentResourcesWithStatus creates a Stage to add status information into the generated resources.
+/* AugmentResourcesWithStatus creates a Stage to add status information into the generated resources.
 
 This information is derived from the Azure Swagger specifications. We parse the Swagger specs and look for
 any actions that appear to be ARM resources (have PUT methods with types we can use and appropriate names in the
@@ -42,8 +41,8 @@ added to the Status field of the Resource type, after we have renamed all the st
 avoid any conflicts with existing Spec types that have already been defined.
 
 */
-func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *config.Configuration) pipeline.Stage {
-	return pipeline.MakeStage(
+func AugmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *config.Configuration) Stage {
+	return MakeStage(
 		"augmentStatus",
 		"Add information from Swagger specs for 'status' fields",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

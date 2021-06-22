@@ -83,7 +83,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		loadSchemaIntoTypes(idFactory, configuration, defaultSchemaLoader),
 
 		// Import status info from Swagger:
-		augmentResourcesWithStatus(idFactory, configuration),
+		pipeline.AugmentResourcesWithStatus(idFactory, configuration),
 
 		// Reduces oneOf/allOf types from schemas to object types:
 		convertAllOfAndOneOfToObjects(idFactory),
