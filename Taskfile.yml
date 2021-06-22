@@ -112,6 +112,13 @@ tasks:
       SHORT_VERSION:
         sh: git rev-parse --short HEAD
 
+  generator:diagrams:
+    desc: Regenerate all GraphViz diagrams
+    dir: "./docs/design/images"
+    sources: ["*/*.dot"]
+    cmds:
+    - "for f in **/*.dot; do dot -Tpng -o${f%.dot}.png $f; done"
+
   ############### Controller targets ###############
   controller:quick-checks:
     deps: [header-check, controller:format-code, controller:test]
