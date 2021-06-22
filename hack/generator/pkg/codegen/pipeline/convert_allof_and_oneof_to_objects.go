@@ -3,18 +3,17 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
 	"fmt"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
-
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // This is needed when we are processing a Resource that happens to be nested inside
@@ -29,9 +28,9 @@ var (
 	chooseStatus resourceFieldSelector = "Status"
 )
 
-// convertAllOfAndOneOfToObjects reduces the AllOfType and OneOfType to ObjectType
-func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) pipeline.Stage {
-	return pipeline.MakeStage(
+// ConvertAllOfAndOneOfToObjects reduces the AllOfType and OneOfType to ObjectType
+func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Stage {
+	return MakeStage(
 		"allof-anyof-objects",
 		"Convert allOf and oneOf to object types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

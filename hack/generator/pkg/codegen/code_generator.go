@@ -86,7 +86,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.AugmentResourcesWithStatus(idFactory, configuration),
 
 		// Reduces oneOf/allOf types from schemas to object types:
-		convertAllOfAndOneOfToObjects(idFactory),
+		pipeline.ConvertAllOfAndOneOfToObjects(idFactory),
 
 		// Flatten out any nested resources created by allOf, etc. we want to do this before naming types or things
 		// get named with names like Resource_Spec_Spec_Spec:
@@ -98,7 +98,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		nameTypesForCRD(idFactory),
 
 		// Apply property type rewrites from the config file
-		// Must come after nameTypesForCRD ('nameTypes)' and convertAllOfAndOneOfToObjects ('allof-anyof-objects') so
+		// Must come after nameTypesForCRD ('nameTypes)' and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
 		// that objects are all expanded
 		pipeline.ApplyPropertyRewrites(configuration).
 			RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects"),
