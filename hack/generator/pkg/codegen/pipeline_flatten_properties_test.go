@@ -9,8 +9,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 var placeholderPackage = astmodel.MakeLocalPackageReference("prefix", "group", "version")
