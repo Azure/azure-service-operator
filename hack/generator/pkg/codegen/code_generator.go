@@ -134,7 +134,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		createARMTypes(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
-		applyKubernetesResourceInterface(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ApplyKubernetesResourceInterface(idFactory).UsedFor(pipeline.ARMTarget),
 
 		addCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		addCrossplaneForProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),

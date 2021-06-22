@@ -3,23 +3,22 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
-
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// applyKubernetesResourceInterface ensures that every Resource implements the KubernetesResource interface
-func applyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) pipeline.Stage {
+// ApplyKubernetesResourceInterface ensures that every Resource implements the KubernetesResource interface
+func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Stage {
 
-	return pipeline.MakeStage(
+	return MakeStage(
 		"applyKubernetesResourceInterface",
-		"Ensures that every resource implements the KubernetesResource interface",
+		"Add the KubernetesResource to every resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
 			skip := make(map[astmodel.TypeName]struct{})
