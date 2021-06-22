@@ -3,20 +3,21 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
 	"testing"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 
 	. "github.com/onsi/gomega"
 )
 
 func TestReplacingAnyTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
-	p1 := makeTestLocalPackageReference("horo.logy", "v20200730")
+	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
 	aName := astmodel.MakeTypeName(p1, "A")
 	bName := astmodel.MakeTypeName(p1, "B")
 
@@ -30,7 +31,7 @@ func TestReplacingAnyTypes(t *testing.T) {
 		),
 	))
 
-	results, err := replaceAnyTypeWithJSON().action(context.Background(), defs)
+	results, err := ReplaceAnyTypeWithJSON().action(context.Background(), defs)
 
 	g.Expect(err).To(BeNil())
 
@@ -52,7 +53,7 @@ func TestReplacingMapMapInterface(t *testing.T) {
 	// map[string]JSON, rather than the right one, since
 	// controller-gen can't handle it at the moment.
 	g := NewGomegaWithT(t)
-	p1 := makeTestLocalPackageReference("horo.logy", "v20200730")
+	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
 	aName := astmodel.MakeTypeName(p1, "A")
 
 	defs := make(astmodel.Types)
@@ -70,7 +71,7 @@ func TestReplacingMapMapInterface(t *testing.T) {
 		),
 	))
 
-	results, err := replaceAnyTypeWithJSON().action(context.Background(), defs)
+	results, err := ReplaceAnyTypeWithJSON().action(context.Background(), defs)
 
 	g.Expect(err).To(BeNil())
 

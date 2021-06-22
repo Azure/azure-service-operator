@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -11,7 +11,6 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
 // jsonType is the type of fields storing arbitrary JSON content in
@@ -31,10 +30,10 @@ var (
 	mapOfJSON = astmodel.NewMapType(astmodel.StringType, astmodel.JSONTypeName)
 )
 
-func replaceAnyTypeWithJSON() pipeline.Stage {
-	return pipeline.MakeStage(
+func ReplaceAnyTypeWithJSON() Stage {
+	return MakeStage(
 		"replaceAnyTypeWithJSON",
-		"Replacing interface{}s with arbitrary JSON",
+		"Replace properties using interface{} with arbitrary JSON",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
 			replaceAnyWithJson := func(it *astmodel.PrimitiveType) astmodel.Type {

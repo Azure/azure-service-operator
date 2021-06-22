@@ -126,7 +126,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		stripUnreferencedTypeDefinitions(),
 
-		replaceAnyTypeWithJSON(),
+		pipeline.ReplaceAnyTypeWithJSON(),
 
 		pipeline.AddCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 
