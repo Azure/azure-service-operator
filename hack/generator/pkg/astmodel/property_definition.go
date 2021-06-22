@@ -18,6 +18,11 @@ import (
 // PropertyName is a semantic type
 type PropertyName string
 
+// Implement Stringer for easy fmt printing
+func (pn PropertyName) String() string {
+	return string(pn)
+}
+
 // PropertyDefinition encapsulates the definition of a property
 type PropertyDefinition struct {
 	propertyName                     PropertyName

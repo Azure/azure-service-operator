@@ -8,6 +8,7 @@ package armconversion
 import (
 	"fmt"
 	"go/token"
+	"strings"
 
 	"github.com/dave/dst"
 
@@ -239,13 +240,22 @@ func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 		}
 	}
 
-	panic("couldn’t find source ARM property that k8s property was flattened from")
+	panic(fmt.Sprintf("couldn’t find source ARM property ‘%s’ that k8s property ‘%s’ was flattened from", toProp.FlattenedFrom()[0], toProp.PropertyName()))
 }
 
 func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.PropertyDefinition, fromProp *astmodel.PropertyDefinition) []dst.Stmt {
 	if len(toProp.FlattenedFrom()) > 1 {
 		// this doesn't appear to happen anywhere in the JSON schemas currently
-		panic("need to implement multiple levels of flattening!")
+
+		var props []string
+		for _, ff := range toProp.FlattenedFrom() {
+			props = append(props, string(ff))
+		}
+
+		panic(fmt.Sprintf("need to implement multiple levels of flattening: property ‘%s’ on %s was flattened from ‘%s’",
+			toProp.PropertyName(),
+			builder.receiverIdent,
+			strings.Join(props, ".")))
 	}
 
 	allTypes := builder.codeGenerationContext.GetAllReachableTypes()
