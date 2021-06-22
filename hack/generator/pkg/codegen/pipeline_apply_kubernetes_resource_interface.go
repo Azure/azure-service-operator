@@ -15,9 +15,9 @@ import (
 )
 
 // applyKubernetesResourceInterface ensures that every Resource implements the KubernetesResource interface
-func applyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+func applyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) pipeline.Stage {
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"applyKubernetesResourceInterface",
 		"Ensures that every resource implements the KubernetesResource interface",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

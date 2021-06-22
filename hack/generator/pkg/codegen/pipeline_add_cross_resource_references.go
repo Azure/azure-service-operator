@@ -23,8 +23,8 @@ var armIDDescriptionRegex = regexp.MustCompile("(?i).*/subscriptions/.*?/resourc
 // TODO: For now not supporting array or map of references. Unsure if it actually ever happens in practice.
 
 // addCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
-func addCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func addCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) pipeline.Stage {
+	return pipeline.MakeStage(
 		"addCrossResourceReferences",
 		"Replaces cross resource references with genruntime.ResourceReference",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {

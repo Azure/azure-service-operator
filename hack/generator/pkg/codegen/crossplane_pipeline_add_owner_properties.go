@@ -16,9 +16,9 @@ import (
 )
 
 // addCrossplaneOwnerProperties adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
-func addCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+func addCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) pipeline.Stage {
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"addCrossplaneOwnerProperties",
 		"Adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

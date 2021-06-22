@@ -18,8 +18,8 @@ import (
 
 const resourcesPropertyName = astmodel.PropertyName("Resources")
 
-func determineResourceOwnership(configuration *config.Configuration) pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func determineResourceOwnership(configuration *config.Configuration) pipeline.Stage {
+	return pipeline.MakeStage(
 		"determineResourceOwnership",
 		"Determine ARM resource relationships",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

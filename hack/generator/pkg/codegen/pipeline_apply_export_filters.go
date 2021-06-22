@@ -16,9 +16,9 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
-// applyExportFilters creates a PipelineStage to reduce our set of types for export
-func applyExportFilters(configuration *config.Configuration) pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+// applyExportFilters creates a Stage to reduce our set of types for export
+func applyExportFilters(configuration *config.Configuration) pipeline.Stage {
+	return pipeline.MakeStage(
 		"filterTypes",
 		"Filter generated types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

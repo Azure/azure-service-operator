@@ -13,9 +13,9 @@ import (
 )
 
 // improveResourcePluralization improves pluralization for resources
-func improveResourcePluralization() pipeline.PipelineStage {
+func improveResourcePluralization() pipeline.Stage {
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"pluralizeNames",
 		"Improve resource pluralization",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

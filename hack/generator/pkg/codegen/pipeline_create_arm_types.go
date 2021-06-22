@@ -18,8 +18,8 @@ import (
 
 // createARMTypes walks the type graph and builds new types for communicating
 // with ARM
-func createARMTypes(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func createARMTypes(idFactory astmodel.IdentifierFactory) pipeline.Stage {
+	return pipeline.MakeStage(
 		"createArmTypes",
 		"Creates ARM types",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {

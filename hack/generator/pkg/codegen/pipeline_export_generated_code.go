@@ -22,10 +22,10 @@ import (
 	"k8s.io/klog/v2"
 )
 
-// exportPackages creates a PipelineStage to export our generated code as a set of packages
-func exportPackages(outputPath string) pipeline.PipelineStage {
+// exportPackages creates a Stage to export our generated code as a set of packages
+func exportPackages(outputPath string) pipeline.Stage {
 	description := fmt.Sprintf("Export packages to %q", outputPath)
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"exportPackages",
 		description,
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

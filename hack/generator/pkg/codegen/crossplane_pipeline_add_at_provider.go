@@ -16,9 +16,9 @@ import (
 )
 
 // addCrossplaneAtProvider adds an "AtProvider" property as the sole property in every resource status
-func addCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+func addCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) pipeline.Stage {
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"addCrossplaneAtProviderProperty",
 		"Adds an 'AtProvider' property on every status",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

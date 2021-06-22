@@ -21,7 +21,7 @@ import (
 // CodeGenerator is a generator of code
 type CodeGenerator struct {
 	configuration *config.Configuration
-	pipeline      []pipeline.PipelineStage
+	pipeline      []pipeline.Stage
 }
 
 // NewCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
@@ -50,7 +50,7 @@ func NewTargetedCodeGeneratorFromConfig(
 	}
 
 	// Filter stages to use only those appropriate for our target
-	var stages []pipeline.PipelineStage
+	var stages []pipeline.Stage
 	for _, s := range result.pipeline {
 		if s.IsUsedFor(target) {
 			stages = append(stages, s)
@@ -77,8 +77,8 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 	return result, nil
 }
 
-func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []pipeline.PipelineStage {
-	return []pipeline.PipelineStage{
+func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []pipeline.Stage {
+	return []pipeline.Stage{
 
 		loadSchemaIntoTypes(idFactory, configuration, defaultSchemaLoader),
 
@@ -234,7 +234,7 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 		stagesToRemove[s] = false
 	}
 
-	var stages []pipeline.PipelineStage
+	var stages []pipeline.Stage
 
 	for _, stage := range generator.pipeline {
 		if _, ok := stagesToRemove[stage.Id()]; ok {
@@ -257,7 +257,7 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 // ReplaceStage replaces all uses of an existing stage with another one.
 // Only available for test builds.
 // Will panic if the existing stage is not found.
-func (generator *CodeGenerator) ReplaceStage(existingStage string, stage pipeline.PipelineStage) {
+func (generator *CodeGenerator) ReplaceStage(existingStage string, stage pipeline.Stage) {
 	replaced := false
 	for i, s := range generator.pipeline {
 		if s.HasId(existingStage) {
@@ -274,12 +274,12 @@ func (generator *CodeGenerator) ReplaceStage(existingStage string, stage pipelin
 // InjectStageAfter injects a new stage immediately after the first occurrence of an existing stage
 // Only available for test builds.
 // Will panic if the existing stage is not found.
-func (generator *CodeGenerator) InjectStageAfter(existingStage string, stage pipeline.PipelineStage) {
+func (generator *CodeGenerator) InjectStageAfter(existingStage string, stage pipeline.Stage) {
 	injected := false
 
 	for i, s := range generator.pipeline {
 		if s.HasId(existingStage) {
-			var p []pipeline.PipelineStage
+			var p []pipeline.Stage
 			p = append(p, generator.pipeline[:i+1]...)
 			p = append(p, stage)
 			p = append(p, generator.pipeline[i+1:]...)

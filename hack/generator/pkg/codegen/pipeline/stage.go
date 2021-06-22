@@ -16,9 +16,9 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// PipelineStage represents a composable stage of processing that can transform or process the set
+// Stage represents a composable stage of processing that can transform or process the set
 // of generated types
-type PipelineStage struct {
+type Stage struct {
 	// Unique identifier used to manipulate the pipeline from code
 	id string
 	// Description of the stage to use when logging
@@ -33,12 +33,12 @@ type PipelineStage struct {
 	postrequisites []string
 }
 
-// MakePipelineStage creates a new pipeline stage that's ready for execution
-func MakePipelineStage(
+// MakeStage creates a new pipeline stage that's ready for execution
+func MakeStage(
 	id string,
 	description string,
-	action func(context.Context, astmodel.Types) (astmodel.Types, error)) PipelineStage {
-	return PipelineStage{
+	action func(context.Context, astmodel.Types) (astmodel.Types, error)) Stage {
+	return Stage{
 		id:          id,
 		description: description,
 		action:      action,
@@ -46,12 +46,12 @@ func MakePipelineStage(
 }
 
 // HasId returns true if this stage has the specified id, false otherwise
-func (stage *PipelineStage) HasId(id string) bool {
+func (stage *Stage) HasId(id string) bool {
 	return stage.id == id
 }
 
 // RequiresPrerequisiteStages declares which stages must have completed before this one is executed
-func (stage PipelineStage) RequiresPrerequisiteStages(prerequisites ...string) PipelineStage {
+func (stage Stage) RequiresPrerequisiteStages(prerequisites ...string) Stage {
 	if len(stage.prerequisites) > 0 {
 		panic(fmt.Sprintf(
 			"Prerequisites of stage '%s' already set to '%s'; cannot modify to '%s'.",
@@ -69,7 +69,7 @@ func (stage PipelineStage) RequiresPrerequisiteStages(prerequisites ...string) P
 // This is not completely isomorphic with RequiresPrerequisiteStages as there may be supporting stages that are
 // sometimes omitted from execution when targeting different outcomes. Having both pre- and post-requisites allows the
 // dependencies to drop out cleanly when different stages are present.
-func (stage PipelineStage) RequiresPostrequisiteStages(postrequisites ...string) PipelineStage {
+func (stage Stage) RequiresPostrequisiteStages(postrequisites ...string) Stage {
 	if len(stage.postrequisites) > 0 {
 		panic(fmt.Sprintf(
 			"Postrequisites of stage '%s' already set to '%s'; cannot modify to '%s'.",
@@ -84,13 +84,13 @@ func (stage PipelineStage) RequiresPostrequisiteStages(postrequisites ...string)
 }
 
 // UsedFor specifies that this stage should be used for only the specified targets
-func (stage PipelineStage) UsedFor(targets ...Target) PipelineStage {
+func (stage Stage) UsedFor(targets ...Target) Stage {
 	stage.targets = targets
 	return stage
 }
 
 // IsUsedFor returns true if this stage should be used for the specified target
-func (stage *PipelineStage) IsUsedFor(target Target) bool {
+func (stage *Stage) IsUsedFor(target Target) bool {
 
 	if len(stage.targets) == 0 {
 		// Stages without specific targeting are always used
@@ -108,22 +108,22 @@ func (stage *PipelineStage) IsUsedFor(target Target) bool {
 }
 
 // Id returns the unique identifier for this stage
-func (stage *PipelineStage) Id() string {
+func (stage *Stage) Id() string {
 	return stage.id
 }
 
 // Description returns a human readable description of this stage
-func (stage *PipelineStage) Description() string {
+func (stage *Stage) Description() string {
 	return stage.description
 }
 
 // Run is used to execute the action associated with this stage
-func (stage *PipelineStage) Run(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+func (stage *Stage) Run(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 	return stage.action(ctx, types)
 }
 
 // CheckPrerequisites returns an error if the prerequisites of this stage have not been met
-func (stage *PipelineStage) CheckPrerequisites(priorStages map[string]struct{}) error {
+func (stage *Stage) CheckPrerequisites(priorStages map[string]struct{}) error {
 	var errs []error
 	for _, prereq := range stage.prerequisites {
 		if _, ok := priorStages[prereq]; !ok {
@@ -135,6 +135,12 @@ func (stage *PipelineStage) CheckPrerequisites(priorStages map[string]struct{}) 
 }
 
 // Postrequisites returns the unique ids of stages that must run after this stage
-func (stage *PipelineStage) Postrequisites() []string {
+func (stage *Stage) Postrequisites() []string {
 	return stage.postrequisites
+}
+
+// Targets returns the targets this stage should be used for
+// If no targets are returned, this stage should always be used
+func (stage *Stage) Targets() []Target {
+	return stage.targets
 }

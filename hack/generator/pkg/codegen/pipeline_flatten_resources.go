@@ -15,8 +15,8 @@ import (
 )
 
 // flattenResources flattens any resources directly inside other resources
-func flattenResources() pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func flattenResources() pipeline.Stage {
+	return pipeline.MakeStage(
 		"flatten-resources",
 		"Flatten nested resource types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

@@ -18,9 +18,9 @@ import (
 // applyPropertyRewrites applies any typeTransformers for properties.
 // It is its own pipeline stage so that we can apply it after the allOf/oneOf types have
 // been "lowered" to objects.
-func applyPropertyRewrites(config *config.Configuration) pipeline.PipelineStage {
+func applyPropertyRewrites(config *config.Configuration) pipeline.Stage {
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"propertyRewrites",
 		"Applying type transformers to properties",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

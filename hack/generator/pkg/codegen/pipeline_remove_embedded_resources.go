@@ -13,8 +13,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-func removeEmbeddedResources() pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func removeEmbeddedResources() pipeline.Stage {
+	return pipeline.MakeStage(
 		"removeEmbeddedResources",
 		"Removes properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

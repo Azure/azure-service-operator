@@ -15,11 +15,11 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-// exportControllerResourceRegistrations creates a PipelineStage to generate type registrations
+// exportControllerResourceRegistrations creates a Stage to generate type registrations
 // for resources.
-func exportControllerResourceRegistrations(outputPath string) pipeline.PipelineStage {
+func exportControllerResourceRegistrations(outputPath string) pipeline.Stage {
 	description := fmt.Sprintf("Export resource registrations to %q", outputPath)
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"exportControllerResourceRegistrations",
 		description,
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

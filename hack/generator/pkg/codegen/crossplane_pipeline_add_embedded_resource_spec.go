@@ -17,9 +17,9 @@ import (
 var CrossplaneRuntimeV1Alpha1Package = astmodel.MakeExternalPackageReference("github.com/crossplane/crossplane-runtime/apis/core/v1alpha1")
 
 // addCrossplaneEmbeddedResourceSpec puts an embedded runtimev1alpha1.ResourceSpec on every spec type
-func addCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+func addCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) pipeline.Stage {
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"addCrossplaneEmbeddedResourceSpec",
 		"Adds an embedded runtimev1alpha1.ResourceSpec to every spec type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

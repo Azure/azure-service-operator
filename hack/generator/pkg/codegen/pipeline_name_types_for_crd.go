@@ -16,9 +16,9 @@ import (
 )
 
 // nameTypesForCRD - for CRDs all inner enums and objects and validated types must be named, so we do it here
-func nameTypesForCRD(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+func nameTypesForCRD(idFactory astmodel.IdentifierFactory) pipeline.Stage {
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"nameTypes",
 		"Name inner types for CRD",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

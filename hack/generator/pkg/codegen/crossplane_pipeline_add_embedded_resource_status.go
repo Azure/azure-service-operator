@@ -15,9 +15,9 @@ import (
 )
 
 // addCrossplaneEmbeddedResourceStatus puts an embedded runtimev1alpha1.ResourceStatus on every spec type
-func addCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+func addCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) pipeline.Stage {
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"addCrossplaneEmbeddedResourceStatus",
 		"Adds an embedded runtimev1alpha1.ResourceStatus to every status type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

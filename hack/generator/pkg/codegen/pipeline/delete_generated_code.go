@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"bufio"
@@ -21,12 +21,11 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-// deleteGeneratedCode creates a pipeline stage for cleanup of our output folder prior to generating files
-func deleteGeneratedCode(outputFolder string) pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+// DeleteGeneratedCode creates a pipeline stage for cleanup of our output folder prior to generating files
+func DeleteGeneratedCode(outputFolder string) Stage {
+	return MakeStage(
 		"deleteGenerated",
 		"Delete generated code from "+outputFolder,
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

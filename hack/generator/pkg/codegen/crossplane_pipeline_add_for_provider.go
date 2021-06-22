@@ -17,9 +17,9 @@ import (
 
 // addCrossplaneForProvider adds a "ForProvider" property as the sole property in every resource spec
 // and moves everything that was at the spec level down a level into the ForProvider type
-func addCrossplaneForProvider(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+func addCrossplaneForProvider(idFactory astmodel.IdentifierFactory) pipeline.Stage {
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"addCrossplaneForProviderProperty",
 		"Adds a 'ForProvider' property on every spec",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

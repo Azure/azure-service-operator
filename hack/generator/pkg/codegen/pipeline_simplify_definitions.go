@@ -16,8 +16,8 @@ import (
 )
 
 // simplifyDefinitions creates a pipeline stage that removes any wrapper types prior to actual code generation
-func simplifyDefinitions() pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func simplifyDefinitions() pipeline.Stage {
+	return pipeline.MakeStage(
 		"simplifyDefinitions",
 		"Flatten definitions by removing wrapper types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

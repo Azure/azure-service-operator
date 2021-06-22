@@ -30,8 +30,8 @@ var (
 )
 
 // convertAllOfAndOneOfToObjects reduces the AllOfType and OneOfType to ObjectType
-func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) pipeline.Stage {
+	return pipeline.MakeStage(
 		"allof-anyof-objects",
 		"Convert allOf and oneOf to object types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

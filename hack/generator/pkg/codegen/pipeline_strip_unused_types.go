@@ -12,8 +12,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-func stripUnreferencedTypeDefinitions() pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func stripUnreferencedTypeDefinitions() pipeline.Stage {
+	return pipeline.MakeStage(
 		"stripUnreferenced",
 		"Strip unreferenced types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

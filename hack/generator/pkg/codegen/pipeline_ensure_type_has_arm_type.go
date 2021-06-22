@@ -17,8 +17,8 @@ import (
 
 // TODO: Wondering if we should have an even stronger version of this that asserts it for all types rather than just the top level?
 // ensureARMTypeExistsForEveryResource performs a check ensuring that every Kubernetes resource spec/status has a corresponding ARM type
-func ensureARMTypeExistsForEveryResource() pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func ensureARMTypeExistsForEveryResource() pipeline.Stage {
+	return pipeline.MakeStage(
 		"ensureArmTypeExistsForEveryType",
 		"Ensure that an ARM type for every top level resource spec/status exists",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

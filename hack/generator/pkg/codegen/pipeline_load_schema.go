@@ -138,10 +138,10 @@ func defaultSchemaLoader(ctx context.Context, rewrite *config.RewriteRule, sourc
 func loadSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	schemaLoader schemaLoader) pipeline.PipelineStage {
+	schemaLoader schemaLoader) pipeline.Stage {
 	source := configuration.SchemaURL
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"loadSchema",
 		"Load and walk schema",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

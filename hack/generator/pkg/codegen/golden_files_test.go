@@ -76,8 +76,8 @@ func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
 	return astmodel.MakeTypeDefinition(name, t)
 }
 
-func injectEmbeddedStructType() pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func injectEmbeddedStructType() pipeline.Stage {
+	return pipeline.MakeStage(
 		"injectEmbeddedStructType",
 		"Injects an embedded struct into each object",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
@@ -183,10 +183,10 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 func loadTestSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	path string) pipeline.PipelineStage {
+	path string) pipeline.Stage {
 	source := configuration.SchemaURL
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"loadTestSchema",
 		"Load and walk schema (test)",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
@@ -217,10 +217,10 @@ func loadTestSchemaIntoTypes(
 		})
 }
 
-func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.PipelineStage {
+func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Stage {
 	g := goldie.New(t)
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"exportTestPackages",
 		"Export packages for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
@@ -264,8 +264,8 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Pip
 		})
 }
 
-func stripUnusedTypesPipelineStage() pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func stripUnusedTypesPipelineStage() pipeline.Stage {
+	return pipeline.MakeStage(
 		"stripUnused",
 		"Strip unused types for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
@@ -287,8 +287,8 @@ func stripUnusedTypesPipelineStage() pipeline.PipelineStage {
 // TODO: Ideally we wouldn't need a test specific function here, but currently
 // TODO: we're hardcoding references, and even if we were sourcing them from Swagger
 // TODO: we have no way to give Swagger to the golden files tests currently.
-func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pipeline.Stage {
+	return pipeline.MakeStage(
 		"addCrossResourceReferences",
 		"Add cross resource references for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

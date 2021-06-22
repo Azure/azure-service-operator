@@ -19,8 +19,8 @@ import (
 )
 
 // removeTypeAliases creates a pipeline stage removing type aliases
-func removeTypeAliases() pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func removeTypeAliases() pipeline.Stage {
+	return pipeline.MakeStage(
 		"removeAliases",
 		"Remove type aliases",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

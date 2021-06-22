@@ -15,9 +15,9 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
-func injectJsonSerializationTests(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+func injectJsonSerializationTests(idFactory astmodel.IdentifierFactory) pipeline.Stage {
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"jsonTestCases",
 		"Add test cases to verify JSON serialization",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

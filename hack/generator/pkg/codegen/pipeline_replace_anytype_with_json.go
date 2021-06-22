@@ -31,8 +31,8 @@ var (
 	mapOfJSON = astmodel.NewMapType(astmodel.StringType, astmodel.JSONTypeName)
 )
 
-func replaceAnyTypeWithJSON() pipeline.PipelineStage {
-	return pipeline.MakePipelineStage(
+func replaceAnyTypeWithJSON() pipeline.Stage {
+	return pipeline.MakeStage(
 		"replaceAnyTypeWithJSON",
 		"Replacing interface{}s with arbitrary JSON",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

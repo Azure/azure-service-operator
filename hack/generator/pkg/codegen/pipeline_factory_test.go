@@ -11,9 +11,10 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/sebdah/goldie/v2"
+
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
-	"github.com/sebdah/goldie/v2"
 
 	. "github.com/onsi/gomega"
 )
@@ -55,7 +56,7 @@ func writePipeline(title string, codegen *CodeGenerator) []byte {
 
 	for _, s := range codegen.pipeline {
 		targets := ""
-		for _, t := range s.targets {
+		for _, t := range s.Targets() {
 			if len(targets) > 0 {
 				targets = targets + "; "
 			}
@@ -63,7 +64,7 @@ func writePipeline(title string, codegen *CodeGenerator) []byte {
 			targets = targets + t.String()
 		}
 
-		fmt.Fprintf(&b, "%-35s %-10s %s\n", s.id, targets, s.description)
+		fmt.Fprintf(&b, "%-35s %-10s %s\n", s.Id(), targets, s.Description())
 	}
 
 	return b.Bytes()

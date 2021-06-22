@@ -24,24 +24,24 @@ import (
 // error. The stage will also return an error if there are packages that we expect
 // to have AnyTypes but turn out not to, ensuring that we clean up our configuration
 // as the schemas are fixed and our handling improves.
-func filterOutDefinitionsUsingAnyType(packages []string) pipeline.PipelineStage {
+func filterOutDefinitionsUsingAnyType(packages []string) pipeline.Stage {
 	return checkForAnyType("Filter out rogue definitions using AnyTypes", packages)
 }
 
 // ensureDefinitionsDoNotUseAnyTypes returns a stage that will check for any
 // definitions containing AnyTypes. The stage will return errors for each type
 // found that uses an AnyType.
-func ensureDefinitionsDoNotUseAnyTypes() pipeline.PipelineStage {
+func ensureDefinitionsDoNotUseAnyTypes() pipeline.Stage {
 	return checkForAnyType("Catch rogue definitions using AnyTypes", []string{})
 }
 
-func checkForAnyType(description string, packages []string) pipeline.PipelineStage {
+func checkForAnyType(description string, packages []string) pipeline.Stage {
 	expectedPackages := make(map[string]struct{}, len(packages))
 	for _, p := range packages {
 		expectedPackages[p] = struct{}{}
 	}
 
-	return pipeline.MakePipelineStage(
+	return pipeline.MakeStage(
 		"rogueCheck",
 		description,
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
