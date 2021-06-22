@@ -95,50 +95,42 @@ func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
 func (builder *convertFromARMBuilder) functionBodyStatements() []dst.Stmt {
 	var result []dst.Stmt
 
-	assertStmts := builder.assertInputTypeIsARM()
-
 	conversionStmts := generateTypeConversionAssignments(
 		builder.armType,
 		builder.kubeType,
 		builder.propertyConversionHandler)
 
-	// No conversions to perform -- some properties might be ignored
-	if len(removeEmptyStatements(conversionStmts)) == 0 {
-		return []dst.Stmt{
-			astbuilder.ReturnNoError(),
-		}
-	}
+	hasConversions := len(removeEmptyStatements(conversionStmts)) > 0
+
+	assertStmts := builder.assertInputTypeIsARM(hasConversions)
 
 	// perform a type assert and check its results
 	result = append(result, assertStmts...)
 
-	// Do all of the assignments for each property
-	result = append(
-		result,
-		conversionStmts...)
+	if hasConversions {
+		result = append(result, conversionStmts...)
+	}
 
-	// Return nil error if we make it to the end
-	result = append(
-		result,
-		&dst.ReturnStmt{
-			Results: []dst.Expr{
-				dst.NewIdent("nil"),
-			},
-		})
+	result = append(result, astbuilder.ReturnNoError())
 
 	return result
 }
 
-func (builder *convertFromARMBuilder) assertInputTypeIsARM() []dst.Stmt {
+func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []dst.Stmt {
 	var result []dst.Stmt
 
 	fmtPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.FmtReference)
+
+	dest := builder.typedInputIdent
+	if !needsResult {
+		dest = "_" // drop result
+	}
 
 	// perform a type assert
 	result = append(
 		result,
 		astbuilder.TypeAssert(
-			dst.NewIdent(builder.typedInputIdent),
+			dst.NewIdent(dest),
 			dst.NewIdent(builder.inputIdent),
 			dst.NewIdent(builder.armTypeIdent)))
 
@@ -275,8 +267,9 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 	var fromPropObjType *astmodel.ObjectType
 	var objOk bool
 	// (2.) resolve any optional type
+	generateNilCheck := false
 	if fromPropOptType, ok := fromPropType.(*astmodel.OptionalType); ok {
-		// TODO: need to generate a nil check in the generated code?
+		generateNilCheck = true
 		// (3.) resolve any inner typename
 		elementType, err := allTypes.FullyResolve(fromPropOptType.Element())
 		if err != nil {
@@ -301,6 +294,12 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 		panic("couldn't find source of flattened property")
 	}
 
+	// need to make a clone of builder.locals if we are going to nest in an if statement
+	locals := builder.locals
+	if generateNilCheck {
+		locals = locals.Clone()
+	}
+
 	stmts := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
 			Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()), string(toPropName)),
@@ -310,7 +309,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 			NameHint:          string(toProp.PropertyName()),
 			ConversionContext: nil,
 			AssignmentHandler: nil,
-			Locals:            builder.locals,
+			Locals:            locals,
 		})
 
 	// failed?
@@ -318,10 +317,25 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 		return nil
 	}
 
+	if generateNilCheck {
+		stmts = []dst.Stmt{
+			&dst.IfStmt{
+				Cond: &dst.BinaryExpr{
+					X:  astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName())),
+					Op: token.NEQ,
+					Y:  dst.NewIdent("nil"),
+				},
+				Body: &dst.BlockStmt{List: stmts},
+			},
+		}
+	}
+
 	result := []dst.Stmt{
 		&dst.EmptyStmt{
 			Decs: dst.EmptyStmtDecorations{
-				NodeDecs: dst.NodeDecs{End: []string{"// copying to flattened property:"}},
+				NodeDecs: dst.NodeDecs{
+					End: []string{"// copying flattened property:"},
+				},
 			},
 		},
 	}

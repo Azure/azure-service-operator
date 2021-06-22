@@ -373,8 +373,14 @@ func (aSpec *A_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 		return nil, nil
 	}
 	var result A_SpecARM
+
+	// Set property ‘ApiVersion’:
 	result.ApiVersion = ASpecApiVersion20200601
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Properties’:
 	if aSpec.Properties != nil {
 		propertiesARM, err := (*aSpec.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -383,6 +389,8 @@ func (aSpec *A_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 		properties := propertiesARM.(APropertiesARM)
 		result.Properties = &properties
 	}
+
+	// Set property ‘Type’:
 	result.Type = ASpecTypeMicrosoftAzureA
 	return result, nil
 }
@@ -398,8 +406,14 @@ func (aSpec *A_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, ar
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	aSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Owner’:
 	aSpec.Owner = owner
+
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 AProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -409,6 +423,8 @@ func (aSpec *A_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, ar
 		properties := properties1
 		aSpec.Properties = &properties
 	}
+
+	// No error
 	return nil
 }
 
@@ -448,8 +464,14 @@ func (bSpec *B_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 		return nil, nil
 	}
 	var result B_SpecARM
+
+	// Set property ‘ApiVersion’:
 	result.ApiVersion = BSpecApiVersion20200601
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Properties’:
 	if bSpec.Properties != nil {
 		propertiesARM, err := (*bSpec.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -458,6 +480,8 @@ func (bSpec *B_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 		properties := propertiesARM.(BPropertiesARM)
 		result.Properties = &properties
 	}
+
+	// Set property ‘Type’:
 	result.Type = BSpecTypeMicrosoftAzureB
 	return result, nil
 }
@@ -473,8 +497,14 @@ func (bSpec *B_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, ar
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	bSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Owner’:
 	bSpec.Owner = owner
+
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 BProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -484,6 +514,8 @@ func (bSpec *B_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, ar
 		properties := properties1
 		bSpec.Properties = &properties
 	}
+
+	// No error
 	return nil
 }
 
@@ -504,10 +536,14 @@ func (aProperties *AProperties) ConvertToARM(name string, resolvedReferences gen
 		return nil, nil
 	}
 	var result APropertiesARM
+
+	// Set property ‘IntField’:
 	if aProperties.IntField != nil {
 		intField := *aProperties.IntField
 		result.IntField = &intField
 	}
+
+	// Set property ‘StringField’:
 	if aProperties.StringField != nil {
 		stringField := *aProperties.StringField
 		result.StringField = &stringField
@@ -526,14 +562,20 @@ func (aProperties *AProperties) PopulateFromARM(owner genruntime.KnownResourceRe
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected APropertiesARM, got %T", armInput)
 	}
+
+	// Set property ‘IntField’:
 	if typedInput.IntField != nil {
 		intField := *typedInput.IntField
 		aProperties.IntField = &intField
 	}
+
+	// Set property ‘StringField’:
 	if typedInput.StringField != nil {
 		stringField := *typedInput.StringField
 		aProperties.StringField = &stringField
 	}
+
+	// No error
 	return nil
 }
 
@@ -550,6 +592,8 @@ func (bProperties *BProperties) ConvertToARM(name string, resolvedReferences gen
 		return nil, nil
 	}
 	var result BPropertiesARM
+
+	// Set property ‘EnumField’:
 	if bProperties.EnumField != nil {
 		enumField := *bProperties.EnumField
 		result.EnumField = &enumField
@@ -568,10 +612,14 @@ func (bProperties *BProperties) PopulateFromARM(owner genruntime.KnownResourceRe
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BPropertiesARM, got %T", armInput)
 	}
+
+	// Set property ‘EnumField’:
 	if typedInput.EnumField != nil {
 		enumField := *typedInput.EnumField
 		bProperties.EnumField = &enumField
 	}
+
+	// No error
 	return nil
 }
 

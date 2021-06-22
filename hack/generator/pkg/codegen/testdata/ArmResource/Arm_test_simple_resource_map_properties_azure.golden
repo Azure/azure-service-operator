@@ -228,7 +228,11 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 		return nil, nil
 	}
 	var result FakeResource_SpecARM
+
+	// Set property ‘ApiVersion’:
 	result.ApiVersion = FakeResourceSpecApiVersion20200601
+
+	// Set property ‘MapFoo’:
 	if fakeResourceSpec.MapFoo != nil {
 		result.MapFoo = make(map[string]FooARM)
 		for key, value := range fakeResourceSpec.MapFoo {
@@ -239,6 +243,8 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 			result.MapFoo[key] = valueARM.(FooARM)
 		}
 	}
+
+	// Set property ‘MapOfArrays’:
 	if fakeResourceSpec.MapOfArrays != nil {
 		result.MapOfArrays = make(map[string][]FooARM)
 		for key, value := range fakeResourceSpec.MapOfArrays {
@@ -253,12 +259,16 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 			result.MapOfArrays[key] = valueTemp
 		}
 	}
+
+	// Set property ‘MapOfEnums’:
 	if fakeResourceSpec.MapOfEnums != nil {
 		result.MapOfEnums = make(map[string]Color)
 		for key, value := range fakeResourceSpec.MapOfEnums {
 			result.MapOfEnums[key] = value
 		}
 	}
+
+	// Set property ‘MapOfMaps’:
 	if fakeResourceSpec.MapOfMaps != nil {
 		result.MapOfMaps = make(map[string]map[string]FooARM)
 		for key, value := range fakeResourceSpec.MapOfMaps {
@@ -275,6 +285,8 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 			}
 		}
 	}
+
+	// Set property ‘MapOfMapsOfMaps’:
 	if fakeResourceSpec.MapOfMapsOfMaps != nil {
 		result.MapOfMapsOfMaps = make(map[string]map[string]map[string]FooARM)
 		for key, value := range fakeResourceSpec.MapOfMapsOfMaps {
@@ -297,6 +309,8 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 			}
 		}
 	}
+
+	// Set property ‘MapOfMapsOfMapsOfStrings’:
 	if fakeResourceSpec.MapOfMapsOfMapsOfStrings != nil {
 		result.MapOfMapsOfMapsOfStrings = make(map[string]map[string]map[string]string)
 		for key, value := range fakeResourceSpec.MapOfMapsOfMapsOfStrings {
@@ -315,13 +329,19 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 			}
 		}
 	}
+
+	// Set property ‘MapOfStrings’:
 	if fakeResourceSpec.MapOfStrings != nil {
 		result.MapOfStrings = make(map[string]string)
 		for key, value := range fakeResourceSpec.MapOfStrings {
 			result.MapOfStrings[key] = value
 		}
 	}
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Type’:
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
 }
@@ -337,7 +357,11 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘MapFoo’:
 	if typedInput.MapFoo != nil {
 		fakeResourceSpec.MapFoo = make(map[string]Foo)
 		for key, value := range typedInput.MapFoo {
@@ -349,6 +373,8 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 			fakeResourceSpec.MapFoo[key] = value1
 		}
 	}
+
+	// Set property ‘MapOfArrays’:
 	if typedInput.MapOfArrays != nil {
 		fakeResourceSpec.MapOfArrays = make(map[string][]Foo)
 		for key, value := range typedInput.MapOfArrays {
@@ -364,12 +390,16 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 			fakeResourceSpec.MapOfArrays[key] = valueTemp
 		}
 	}
+
+	// Set property ‘MapOfEnums’:
 	if typedInput.MapOfEnums != nil {
 		fakeResourceSpec.MapOfEnums = make(map[string]Color)
 		for key, value := range typedInput.MapOfEnums {
 			fakeResourceSpec.MapOfEnums[key] = value
 		}
 	}
+
+	// Set property ‘MapOfMaps’:
 	if typedInput.MapOfMaps != nil {
 		fakeResourceSpec.MapOfMaps = make(map[string]map[string]Foo)
 		for key, value := range typedInput.MapOfMaps {
@@ -387,6 +417,8 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 			}
 		}
 	}
+
+	// Set property ‘MapOfMapsOfMaps’:
 	if typedInput.MapOfMapsOfMaps != nil {
 		fakeResourceSpec.MapOfMapsOfMaps = make(map[string]map[string]map[string]Foo)
 		for key, value := range typedInput.MapOfMapsOfMaps {
@@ -410,6 +442,8 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 			}
 		}
 	}
+
+	// Set property ‘MapOfMapsOfMapsOfStrings’:
 	if typedInput.MapOfMapsOfMapsOfStrings != nil {
 		fakeResourceSpec.MapOfMapsOfMapsOfStrings = make(map[string]map[string]map[string]string)
 		for key, value := range typedInput.MapOfMapsOfMapsOfStrings {
@@ -428,13 +462,19 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 			}
 		}
 	}
+
+	// Set property ‘MapOfStrings’:
 	if typedInput.MapOfStrings != nil {
 		fakeResourceSpec.MapOfStrings = make(map[string]string)
 		for key, value := range typedInput.MapOfStrings {
 			fakeResourceSpec.MapOfStrings[key] = value
 		}
 	}
+
+	// Set property ‘Owner’:
 	fakeResourceSpec.Owner = owner
+
+	// No error
 	return nil
 }
 
@@ -461,6 +501,8 @@ func (foo *Foo) ConvertToARM(name string, resolvedReferences genruntime.Resolved
 		return nil, nil
 	}
 	var result FooARM
+
+	// Set property ‘FooName’:
 	if foo.FooName != nil {
 		fooName := *foo.FooName
 		result.FooName = &fooName
@@ -479,10 +521,14 @@ func (foo *Foo) PopulateFromARM(owner genruntime.KnownResourceReference, armInpu
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FooARM, got %T", armInput)
 	}
+
+	// Set property ‘FooName’:
 	if typedInput.FooName != nil {
 		fooName := *typedInput.FooName
 		foo.FooName = &fooName
 	}
+
+	// No error
 	return nil
 }
 

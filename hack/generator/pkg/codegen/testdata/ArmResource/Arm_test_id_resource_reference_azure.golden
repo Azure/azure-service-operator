@@ -210,8 +210,14 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 		return nil, nil
 	}
 	var result FakeResource_SpecARM
+
+	// Set property ‘ApiVersion’:
 	result.ApiVersion = FakeResourceSpecApiVersion20200601
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Properties’:
 	if fakeResourceSpec.Properties != nil {
 		propertiesARM, err := (*fakeResourceSpec.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -220,6 +226,8 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 		properties := propertiesARM.(FakeResourcePropertiesARM)
 		result.Properties = &properties
 	}
+
+	// Set property ‘Type’:
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
 }
@@ -235,8 +243,14 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Owner’:
 	fakeResourceSpec.Owner = owner
+
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 FakeResourceProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -246,6 +260,8 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 		properties := properties1
 		fakeResourceSpec.Properties = &properties
 	}
+
+	// No error
 	return nil
 }
 
@@ -273,6 +289,8 @@ func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(name string, 
 		return nil, nil
 	}
 	var result FakeResourcePropertiesARM
+
+	// Set property ‘Id’:
 	if fakeResourceProperties.Reference != nil {
 		referenceARMID, err := resolvedReferences.ARMIDOrErr(*fakeResourceProperties.Reference)
 		if err != nil {
@@ -281,6 +299,8 @@ func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(name string, 
 		reference := referenceARMID
 		result.Id = &reference
 	}
+
+	// Set property ‘SubnetId’:
 	if fakeResourceProperties.SubnetReference != nil {
 		subnetReferenceARMID, err := resolvedReferences.ARMIDOrErr(*fakeResourceProperties.SubnetReference)
 		if err != nil {
@@ -299,6 +319,10 @@ func (fakeResourceProperties *FakeResourceProperties) CreateEmptyARMValue() inte
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (fakeResourceProperties *FakeResourceProperties) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+	_, ok := armInput.(FakeResourcePropertiesARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResourcePropertiesARM, got %T", armInput)
+	}
 
 	// No error
 	return nil
