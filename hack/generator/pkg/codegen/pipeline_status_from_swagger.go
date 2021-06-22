@@ -42,7 +42,7 @@ avoid any conflicts with existing Spec types that have already been defined.
 */
 func addStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.Configuration) PipelineStage {
 	return MakePipelineStage(
-		"statusFromSwagger",
+		"addStatusFromSwagger",
 		"Add information from Swagger specs for 'status' fields",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			if config.Status.SchemaRoot == "" {
