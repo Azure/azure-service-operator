@@ -148,7 +148,6 @@ func (fn *PropertyAssignmentFunction) Equals(f astmodel.Function) bool {
 
 // AsFunc renders this function as an AST for serialization to a Go source file
 func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-
 	var parameterName string
 	var description string
 	switch fn.direction {
@@ -272,7 +271,6 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 // createConversions iterates through the properties on our receiver type, matching them up with
 // our other type and generating conversions where possible
 func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDefinition, types astmodel.Types) error {
-
 	receiverContainer, ok := fn.asPropertyContainer(receiver.Type())
 	if !ok {
 		var typeDescription strings.Builder
@@ -303,7 +301,7 @@ func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDe
 
 	for _, receiverProperty := range receiverProperties {
 		otherProperty, ok := otherProperties[receiverProperty.PropertyName()]
-		//TODO: Handle renames
+		// TODO: Handle renames
 		if ok {
 			var conv StoragePropertyConversion
 			var err error
@@ -363,7 +361,6 @@ func (fn *PropertyAssignmentFunction) createPropertyConversion(
 		destinationProperty.PropertyType(), string(destinationProperty.PropertyName()), fn.knownLocals)
 
 	conversion, err := CreateTypeConversion(sourceEndpoint, destinationEndpoint, fn.conversionContext)
-
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
@@ -375,12 +372,12 @@ func (fn *PropertyAssignmentFunction) createPropertyConversion(
 	}
 
 	return func(source dst.Expr, destination dst.Expr, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-
 		reader := astbuilder.Selector(source, string(sourceProperty.PropertyName()))
 		writer := func(expr dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
-				astbuilder.SimpleAssignment(
-					astbuilder.Selector(destination, string(destinationProperty.PropertyName())),
+				astbuilder.QualifiedAssignment(
+					destination,
+					string(destinationProperty.PropertyName()),
 					token.ASSIGN,
 					expr),
 			}

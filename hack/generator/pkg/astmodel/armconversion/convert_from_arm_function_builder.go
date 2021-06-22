@@ -217,8 +217,9 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		return nil
 	}
 
-	result := astbuilder.SimpleAssignment(
-		astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toProp.PropertyName())),
+	result := astbuilder.QualifiedAssignment(
+		dst.NewIdent(builder.receiverIdent),
+		string(toProp.PropertyName()),
 		token.ASSIGN,
 		dst.NewIdent(builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)))
 	return []dst.Stmt{result}

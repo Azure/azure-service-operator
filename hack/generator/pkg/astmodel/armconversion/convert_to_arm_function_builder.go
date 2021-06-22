@@ -138,8 +138,9 @@ func (builder *convertToARMBuilder) namePropertyHandler(
 	// we do not read from AzureName() but instead use
 	// the passed-in 'name' parameter which contains
 	// a full name including any owners, etc
-	result := astbuilder.SimpleAssignment(
-		astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toProp.PropertyName())),
+	result := astbuilder.QualifiedAssignment(
+		dst.NewIdent(builder.resultIdent),
+		string(toProp.PropertyName()),
 		token.ASSIGN,
 		dst.NewIdent(nameParameterString))
 
@@ -295,8 +296,9 @@ func (builder *convertToARMBuilder) buildToPropInitializer(fromProps []*astmodel
 		Cond: cond,
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
-				astbuilder.SimpleAssignment(
-					astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toPropName)),
+				astbuilder.QualifiedAssignment(
+					dst.NewIdent(builder.resultIdent),
+					string(toPropName),
 					token.ASSIGN,
 					&dst.UnaryExpr{
 						Op: token.AND,
@@ -337,8 +339,9 @@ func (builder *convertToARMBuilder) fixedValuePropertyHandler(propertyName astmo
 
 		optionId := astmodel.GetEnumValueId(def.Name().Name(), enumType.Options()[0])
 
-		result := astbuilder.SimpleAssignment(
-			astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toProp.PropertyName())),
+		result := astbuilder.QualifiedAssignment(
+			dst.NewIdent(builder.resultIdent),
+			string(toProp.PropertyName()),
 			token.ASSIGN,
 			dst.NewIdent(optionId))
 

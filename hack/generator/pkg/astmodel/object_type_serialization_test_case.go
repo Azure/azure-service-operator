@@ -57,7 +57,6 @@ func (o ObjectSerializationTestCase) References() TypeNameSet {
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
 func (o ObjectSerializationTestCase) AsFuncs(name TypeName, genContext *CodeGenerationContext) []dst.Decl {
-
 	var errs []error
 	properties := o.makePropertyMap()
 
@@ -153,7 +152,6 @@ func (o ObjectSerializationTestCase) Equals(_ TestCase) bool {
 
 // createTestRunner generates the AST for the test runner itself
 func (o ObjectSerializationTestCase) createTestRunner(codegenContext *CodeGenerationContext) dst.Decl {
-
 	const (
 		parametersLocal  = "parameters"
 		propertiesLocal  = "properties"
@@ -174,11 +172,9 @@ func (o ObjectSerializationTestCase) createTestRunner(codegenContext *CodeGenera
 		astbuilder.CallQualifiedFunc(gopterPackage, "DefaultTestParameters"))
 
 	// parameters.MaxSize = 10
-	configureMaxSize := astbuilder.SimpleAssignment(
-		&dst.SelectorExpr{
-			X:   dst.NewIdent(parametersLocal),
-			Sel: dst.NewIdent("MaxSize"),
-		},
+	configureMaxSize := astbuilder.QualifiedAssignment(
+		dst.NewIdent(parametersLocal),
+		"MaxSize",
 		token.ASSIGN,
 		astbuilder.IntLiteral(10))
 
@@ -353,7 +349,6 @@ func (o ObjectSerializationTestCase) createGeneratorDeclaration(genContext *Code
 
 // createGeneratorMethod generates the AST for a method used to populate our generator cache variable on demand
 func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *CodeGenerationContext, haveSimpleGenerators bool, haveRelatedGenerators bool) dst.Decl {
-
 	gopterPackage := ctx.MustGetImportedPackageName(GopterReference)
 	genPackage := ctx.MustGetImportedPackageName(GopterGenReference)
 
@@ -606,7 +601,7 @@ func (o ObjectSerializationTestCase) createRelatedGenerator(
 			return astbuilder.CallQualifiedFunc(importName, o.idOfGeneratorMethod(t))
 		}
 
-		//TODO: Should we invoke a generator for stuff from our runtime package?
+		// TODO: Should we invoke a generator for stuff from our runtime package?
 
 		return nil
 
