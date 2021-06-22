@@ -277,7 +277,18 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 	return result
 }
 
-func (builder *convertToARMBuilder) buildToPropInitializer(fromProps []*astmodel.PropertyDefinition, toPropTypeName astmodel.TypeName, toPropName astmodel.PropertyName) dst.Stmt {
+// buildToPropInitializer builds an initializer for a given “to” property
+// that assigns it a value if any of the “from” properties are not nil.
+//
+// Resultant code looks like:
+// if (from1 != nil) || (from2 != nil) || … {
+// 		<resultIdent>.<toProp> = &<toPropTypeName>{}
+// }
+func (builder *convertToARMBuilder) buildToPropInitializer(
+	fromProps []*astmodel.PropertyDefinition,
+	toPropTypeName astmodel.TypeName,
+	toPropName astmodel.PropertyName) dst.Stmt {
+
 	// build (x != nil, y != nil, …)
 	conds := make([]dst.Expr, 0, len(fromProps))
 	for _, prop := range fromProps {
