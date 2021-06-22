@@ -3,22 +3,21 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-// assertTypesCollectionValid creates a Stage that ensures that each reachable type in the types collection
+// AssertTypesCollectionValid creates a Stage that ensures that each reachable type in the types collection
 // has TypeName's that are all reachable as well. This check fails if there is any TypeName that refers to a type that doesn't
 // exist.
-func assertTypesCollectionValid() pipeline.Stage {
-	return pipeline.MakeStage(
+func AssertTypesCollectionValid() Stage {
+	return MakeStage(
 		"assertTypesStructureValid",
-		"Asserts that the types collection is valid",
+		"Verify that all named types are properly defined",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			visitor := astmodel.TypeVisitorBuilder{}.Build()
 			typeWalker := astmodel.NewTypeWalker(types, visitor)

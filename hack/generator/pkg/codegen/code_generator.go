@@ -116,7 +116,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		stripUnreferencedTypeDefinitions(),
 
-		assertTypesCollectionValid(),
+		pipeline.AssertTypesCollectionValid(),
 
 		removeEmbeddedResources().UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM,
 
