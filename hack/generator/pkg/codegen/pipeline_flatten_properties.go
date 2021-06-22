@@ -14,7 +14,7 @@ import (
 )
 
 func flattenProperties() PipelineStage {
-	return MakePipelineStage("flatten-properties", "Apply flattening to properties marked for flattening", applyPropertyFlattening)
+	return MakePipelineStage("flattenProperties", "Apply flattening to properties marked for flattening", applyPropertyFlattening)
 }
 
 func applyPropertyFlattening(
