@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"fmt"
@@ -15,7 +15,7 @@ var (
 	GitTreeState string
 )
 
-func combinedVersion() string {
+func CombinedVersion() string {
 	result := GitCommit
 	if GitTreeState != "clean" {
 		result += fmt.Sprintf(" (tree is %s)", GitTreeState)

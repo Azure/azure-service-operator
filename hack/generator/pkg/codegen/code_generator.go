@@ -154,7 +154,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.DeleteGeneratedCode(configuration.FullTypesOutputPath()),
 
-		exportPackages(configuration.FullTypesOutputPath()).
+		pipeline.ExportPackages(configuration.FullTypesOutputPath()).
 			RequiresPrerequisiteStages("deleteGenerated"),
 
 		pipeline.ExportControllerResourceRegistrations(configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
@@ -163,7 +163,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 // Generate produces the Go code corresponding to the configured JSON schema in the given output folder
 func (generator *CodeGenerator) Generate(ctx context.Context) error {
-	klog.V(1).Infof("Generator version: %v", combinedVersion())
+	klog.V(1).Infof("Generator version: %v", pipeline.CombinedVersion())
 
 	defs := make(astmodel.Types)
 	for i, stage := range generator.pipeline {

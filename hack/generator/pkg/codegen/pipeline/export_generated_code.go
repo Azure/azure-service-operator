@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -14,18 +14,17 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
-
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// exportPackages creates a Stage to export our generated code as a set of packages
-func exportPackages(outputPath string) pipeline.Stage {
+// ExportPackages creates a Stage to export our generated code as a set of packages
+func ExportPackages(outputPath string) Stage {
 	description := fmt.Sprintf("Export packages to %q", outputPath)
-	return pipeline.MakeStage(
+	return MakeStage(
 		"exportPackages",
 		description,
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
@@ -46,7 +45,7 @@ func exportPackages(outputPath string) pipeline.Stage {
 // CreatePackagesForDefinitions groups type definitions into packages
 func CreatePackagesForDefinitions(definitions astmodel.Types) (map[astmodel.PackageReference]*astmodel.PackageDefinition, error) {
 
-	genVersion := combinedVersion()
+	genVersion := CombinedVersion()
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 	for _, def := range definitions {
 		defName := def.Name()
@@ -180,7 +179,7 @@ type progressMeter struct {
 	mutex sync.Mutex
 }
 
-// Log() writes a log message for our progress to this point
+// Log writes a log message for our progress to this point
 func (export *progressMeter) Log() {
 	started := export.resetAt
 	export.resetAt = time.Now()
@@ -199,7 +198,7 @@ func (export *progressMeter) Log() {
 	export.resetAt = time.Now()
 }
 
-// LogProgress() accumulates totals until a new label is supplied, when it will write a log message
+// LogProgress accumulates totals until a new label is supplied, when it will write a log message
 func (export *progressMeter) LogProgress(label string, definitions int, files int) {
 	export.mutex.Lock()
 	defer export.mutex.Unlock()
