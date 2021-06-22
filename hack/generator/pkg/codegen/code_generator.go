@@ -150,7 +150,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// Safety checks at the end:
 		pipeline.EnsureDefinitionsDoNotUseAnyTypes(),
-		ensureARMTypeExistsForEveryResource().UsedFor(pipeline.ARMTarget),
+		pipeline.EnsureARMTypeExistsForEveryResource().UsedFor(pipeline.ARMTarget),
 
 		pipeline.DeleteGeneratedCode(configuration.FullTypesOutputPath()),
 
