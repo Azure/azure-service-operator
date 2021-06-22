@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -12,15 +12,14 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
-// applyExportFilters creates a Stage to reduce our set of types for export
-func applyExportFilters(configuration *config.Configuration) pipeline.Stage {
-	return pipeline.MakeStage(
+// ApplyExportFilters creates a Stage to reduce our set of types for export
+func ApplyExportFilters(configuration *config.Configuration) Stage {
+	return MakeStage(
 		"filterTypes",
-		"Filter generated types",
+		"Apply export filters to reduce the number of generated types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			return filterTypes(configuration, types)
 		})

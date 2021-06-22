@@ -122,7 +122,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// Apply export filters before generating
 		// ARM types for resources etc:
-		applyExportFilters(configuration),
+		pipeline.ApplyExportFilters(configuration),
 
 		stripUnreferencedTypeDefinitions(),
 
