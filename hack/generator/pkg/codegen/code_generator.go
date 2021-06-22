@@ -133,7 +133,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
 		createARMTypes(idFactory).UsedFor(pipeline.ARMTarget),
-		applyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ApplyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		applyKubernetesResourceInterface(idFactory).UsedFor(pipeline.ARMTarget),
 
 		addCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
