@@ -18,7 +18,6 @@ import (
 // 		return <otherReturns...>, err
 //	}
 func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
-
 	returnValues := append([]dst.Expr{}, cloneExprSlice(otherReturns)...)
 	returnValues = append(returnValues, dst.NewIdent("err"))
 
@@ -35,7 +34,6 @@ func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
 // 		<stmt>
 //	}
 func CheckErrorAndSingleStatement(stmt dst.Stmt) dst.Stmt {
-
 	return &dst.IfStmt{
 		Cond: &dst.BinaryExpr{
 			X:  dst.NewIdent("err"),
@@ -144,7 +142,6 @@ func VariableDeclaration(ident string, typ dst.Expr, comment string) *dst.GenDec
 // 	<lhs>, ok := <rhs>.(<type>)
 //
 func TypeAssert(lhs dst.Expr, rhs dst.Expr, typ dst.Expr) *dst.AssignStmt {
-
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			dst.Clone(lhs).(dst.Expr),
@@ -405,6 +402,35 @@ func cloneStmtSlice(stmts []dst.Stmt) []dst.Stmt {
 	var result []dst.Stmt
 	for _, st := range stmts {
 		result = append(result, dst.Clone(st).(dst.Stmt))
+	}
+
+	return result
+}
+
+func JoinOr(exprs ...dst.Expr) dst.Expr {
+	return JoinBinaryOp(token.LOR, exprs...)
+}
+
+func JoinAnd(exprs ...dst.Expr) dst.Expr {
+	return JoinBinaryOp(token.LAND, exprs...)
+}
+
+func JoinBinaryOp(op token.Token, exprs ...dst.Expr) dst.Expr {
+	return Reduce(
+		func(x, y dst.Expr) dst.Expr {
+			return &dst.BinaryExpr{X: x, Op: op, Y: y}
+		},
+		exprs...)
+}
+
+func Reduce(operator func(l, r dst.Expr) dst.Expr, exprs ...dst.Expr) dst.Expr {
+	if len(exprs) == 0 {
+		panic("must provide at least one expression to reduce")
+	}
+
+	result := exprs[0]
+	for _, e := range exprs[1:] {
+		result = operator(result, e)
 	}
 
 	return result

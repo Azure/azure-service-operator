@@ -15,8 +15,10 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-const nameParameterString = "name"
-const resolvedReferencesParameterString = "resolvedReferences"
+const (
+	nameParameterString               = "name"
+	resolvedReferencesParameterString = "resolvedReferences"
+)
 
 type convertToARMBuilder struct {
 	conversionBuilder
@@ -285,14 +287,7 @@ func (builder *convertToARMBuilder) buildToPropInitializer(fromProps []*astmodel
 	}
 
 	// build (x || y || …)
-	cond := conds[0]
-	for _, c := range conds[1:] {
-		cond = &dst.BinaryExpr{
-			X:  cond,
-			Op: token.LOR,
-			Y:  c,
-		}
-	}
+	cond := astbuilder.JoinOr(conds...)
 
 	// build if (conds…) { target.prop = &TargetType{} }
 	return &dst.IfStmt{
