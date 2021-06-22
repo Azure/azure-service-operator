@@ -289,9 +289,9 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pip
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			result := make(astmodel.Types)
 			isCrossResourceReference := func(_ astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
-				return doesPropertyLookLikeARMReference(prop)
+				return pipeline.DoesPropertyLookLikeARMReference(prop)
 			}
-			visitor := makeCrossResourceReferenceTypeVisitor(idFactory, isCrossResourceReference)
+			visitor := pipeline.MakeCrossResourceReferenceTypeVisitor(idFactory, isCrossResourceReference)
 
 			for _, def := range defs {
 				// Skip Status types

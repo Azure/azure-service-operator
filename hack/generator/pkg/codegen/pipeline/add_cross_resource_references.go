@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -14,7 +14,6 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
@@ -22,11 +21,11 @@ var armIDDescriptionRegex = regexp.MustCompile("(?i).*/subscriptions/.*?/resourc
 
 // TODO: For now not supporting array or map of references. Unsure if it actually ever happens in practice.
 
-// addCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
-func addCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) pipeline.Stage {
-	return pipeline.MakeStage(
+// AddCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
+func AddCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) Stage {
+	return MakeStage(
 		"addCrossResourceReferences",
-		"Replaces cross resource references with genruntime.ResourceReference",
+		"Replace cross-resource references with genruntime.ResourceReference",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
 
 			result := make(astmodel.Types)
@@ -38,14 +37,14 @@ func addCrossResourceReferences(configuration *config.Configuration, idFactory a
 				}
 				_, isReference := knownReferences[ref]
 
-				if doesPropertyLookLikeARMReference(prop) && !isReference {
+				if DoesPropertyLookLikeARMReference(prop) && !isReference {
 					klog.V(0).Infof("\"%s.%s\" looks like a resource reference but was not labelled as one", typeName, prop.PropertyName())
 				}
 
 				return isReference
 			}
 
-			visitor := makeCrossResourceReferenceTypeVisitor(idFactory, isCrossResourceReference)
+			visitor := MakeCrossResourceReferenceTypeVisitor(idFactory, isCrossResourceReference)
 
 			for _, def := range definitions {
 				// Skip Status types
@@ -83,7 +82,7 @@ type crossResourceReferenceTypeVisitor struct {
 	isPropertyAnARMReference crossResourceReferenceChecker
 }
 
-func makeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory, referenceChecker crossResourceReferenceChecker) crossResourceReferenceTypeVisitor {
+func MakeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory, referenceChecker crossResourceReferenceChecker) crossResourceReferenceTypeVisitor {
 	visitor := crossResourceReferenceTypeVisitor{
 		isPropertyAnARMReference: referenceChecker,
 	}
@@ -118,9 +117,9 @@ func makeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory,
 	return visitor
 }
 
-// doesPropertyLookLikeARMReference uses a simple heuristic to determine if a property looks like it might be an ARM reference.
+// DoesPropertyLookLikeARMReference uses a simple heuristic to determine if a property looks like it might be an ARM reference.
 // This can be used for logging/reporting purposes to discover references which we missed.
-func doesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
+func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
 	// The property must be a string or optional string
 	isString := prop.PropertyType().Equals(astmodel.StringType)
 	isOptionalString := prop.PropertyType().Equals(astmodel.NewOptionalType(astmodel.StringType))
