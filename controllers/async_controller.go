@@ -26,10 +26,11 @@ import (
 )
 
 const (
-	finalizerName    string        = "azure.microsoft.com/finalizer"
-	requeueDuration  time.Duration = time.Second * 20
-	successMsg       string        = "successfully provisioned"
-	reconcileTimeout time.Duration = time.Minute * 5
+	finalizerName       string        = "azure.microsoft.com/finalizer"
+	namespaceAnnotation string        = "azure.microsoft.com/operator-namespace"
+	requeueDuration     time.Duration = time.Second * 20
+	successMsg          string        = "successfully provisioned"
+	reconcileTimeout    time.Duration = time.Minute * 5
 )
 
 // AsyncReconciler is a generic reconciler for Azure resources.
@@ -96,6 +97,32 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 			}
 		}
 		r.Recorder.Event(obj, corev1.EventTypeNormal, "Skipping", "Skipping reconcile based on provided annotation")
+		return ctrl.Result{}, r.Update(ctx, obj)
+	}
+
+	// Ensure the resource is tagged with the operator's namespace.
+	objNamespace := annotations[namespaceAnnotation]
+	podNamespace := config.PodNamespace()
+	if objNamespace != podNamespace {
+		if objNamespace != "" {
+			// Maybe we're fighting with another operator that's also
+			// watching this namespace. Alternatively it could be that
+			// the resource has been moved, or namespace config has
+			// been updated so this resource used to belong to one
+			// operator and now belongs to this one.
+			message := fmt.Sprintf("resource previously reconciled by operator in %q - overlapping namespace configurations?", objNamespace)
+			// TODO: should this be an event rather than logging? I
+			// don't fully understand the split. Picked logging
+			// because it could produce unbounded messages if two
+			// operators are fighting over the resource.
+			r.Telemetry.LogWarningByInstance("fighting", message, req.String())
+		}
+		// Set the namespace annotation to this operator's one and go around again.
+		if annotations == nil {
+			annotations = make(map[string]string)
+		}
+		annotations[namespaceAnnotation] = podNamespace
+		res.SetAnnotations(annotations)
 		return ctrl.Result{}, r.Update(ctx, obj)
 	}
 
