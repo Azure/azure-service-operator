@@ -24,9 +24,18 @@ type PropertyDefinition struct {
 	propertyType                     Type
 	description                      string
 	hasKubebuilderRequiredValidation bool
-	flatten                          bool           // maps to x-ms-client-flatten: should the propertyType be flattened into the parent
-	flattenedFrom                    []PropertyName // a list of property names from whence this property was flattened
-	tags                             map[string][]string
+
+	// Two properties to handle flattening:
+	// - flatten is set when a property should be flattened and its inner properties
+	//   moved out into the parent object.
+	// - flattenedFrom is set once an ‘inner’ property has been flattened, to record
+	//   which property(/ies) (that had flatten:true) it was flattened from. this
+	//   is stored with most-recent first so that `[0].[1].[2]` would form the
+	//   correct nested property name.
+	flatten       bool           // maps to x-ms-client-flatten: should the propertyType be flattened into the parent?
+	flattenedFrom []PropertyName // a list of property names from whence this property was flattened
+
+	tags map[string][]string
 }
 
 func (property *PropertyDefinition) AddFlattenedFrom(name PropertyName) *PropertyDefinition {
@@ -156,7 +165,7 @@ func (property *PropertyDefinition) WithoutTag(key string, value string) *Proper
 
 	if value != "" {
 		// Find the value and remove it
-		//TODO: Do we want a generic helper that does this?
+		// TODO: Do we want a generic helper that does this?
 		var tagsWithoutValue []string
 		for _, item := range result.tags[key] {
 			if item == value {
