@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -16,15 +16,14 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/reporting"
 )
 
-// reportOnTypesAndVersions creates a pipeline stage that removes any wrapper types prior to actual code generation
-func reportOnTypesAndVersions(configuration *config.Configuration) pipeline.Stage {
+// ReportOnTypesAndVersions creates a pipeline stage that removes any wrapper types prior to actual code generation
+func ReportOnTypesAndVersions(configuration *config.Configuration) Stage {
 
-	return pipeline.MakeStage(
+	return MakeStage(
 		"reportTypesAndVersions",
 		"Generate reports on types and versions in each package",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

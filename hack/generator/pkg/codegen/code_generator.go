@@ -130,7 +130,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		addCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 
-		reportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
+		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
 		createARMTypes(idFactory).UsedFor(pipeline.ARMTarget),
 		applyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
