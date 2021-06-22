@@ -45,7 +45,7 @@ func makeFlatteningVisitor(defs astmodel.Types) astmodel.TypeVisitor {
 
 			it = newIt.(*astmodel.ObjectType)
 
-			newProps, err := flattenObjectType(it, defs)
+			newProps, err := collectAndFlattenProperties(it, defs)
 			if err != nil {
 				return nil, err
 			}
@@ -83,8 +83,8 @@ func checkForDuplicateNames(props []*astmodel.PropertyDefinition) error {
 	return nil
 }
 
-// containerName is the type that will hold the flattened properties, i.e. act as a container for them
-func flattenObjectType(objectType *astmodel.ObjectType, defs astmodel.Types) ([]*astmodel.PropertyDefinition, error) {
+// collectAndFlattenProperties walks the object type and extracts all properties, flattening any properties that require flattening
+func collectAndFlattenProperties(objectType *astmodel.ObjectType, defs astmodel.Types) ([]*astmodel.PropertyDefinition, error) {
 	var flattenedProps []*astmodel.PropertyDefinition
 
 	props := objectType.Properties()
@@ -106,11 +106,12 @@ func flattenObjectType(objectType *astmodel.ObjectType, defs astmodel.Types) ([]
 	return flattenedProps, nil
 }
 
+// flattenPropType is invoked on a property marked for flattening to collect all inner properties
 func flattenPropType(propType astmodel.Type, defs astmodel.Types) ([]*astmodel.PropertyDefinition, error) {
 	switch propType := propType.(type) {
 	// "base case"
 	case *astmodel.ObjectType:
-		return flattenObjectType(propType, defs)
+		return collectAndFlattenProperties(propType, defs)
 
 	// typename must be resolved
 	case astmodel.TypeName:
