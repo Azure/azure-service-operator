@@ -3,23 +3,25 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
 	"testing"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
+
 	"github.com/pkg/errors"
 
 	. "github.com/onsi/gomega"
 )
 
-func TestFindsAnytypes(t *testing.T) {
+func TestFindsAnyTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
-	p1 := makeTestLocalPackageReference("horo.logy", "v20200730")
-	p2 := makeTestLocalPackageReference("road.train", "v20200730")
-	p3 := makeTestLocalPackageReference("wah.wah", "v20200730")
+	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
+	p2 := test.MakeLocalPackageReference("road.train", "v20200730")
+	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.Types)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
@@ -36,7 +38,7 @@ func TestFindsAnytypes(t *testing.T) {
 	// One that's fine.
 	add(p3, "C", astmodel.NewArrayType(astmodel.IntType))
 
-	results, err := filterOutDefinitionsUsingAnyType(nil).action(context.Background(), defs)
+	results, err := FilterOutDefinitionsUsingAnyType(nil).action(context.Background(), defs)
 
 	g.Expect(results).To(HaveLen(0))
 	g.Expect(err).To(MatchError("AnyTypes found - add exclusions for: horo.logy/v20200730, road.train/v20200730"))
@@ -44,9 +46,9 @@ func TestFindsAnytypes(t *testing.T) {
 
 func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 	g := NewGomegaWithT(t)
-	p1 := makeTestLocalPackageReference("horo.logy", "v20200730")
-	p2 := makeTestLocalPackageReference("road.train", "v20200730")
-	p3 := makeTestLocalPackageReference("wah.wah", "v20200730")
+	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
+	p2 := test.MakeLocalPackageReference("road.train", "v20200730")
+	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.Types)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
@@ -64,7 +66,7 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 	add(p3, "C", astmodel.NewArrayType(astmodel.IntType))
 
 	exclusions := []string{"horo.logy/v20200730", "road.train/v20200730"}
-	results, err := filterOutDefinitionsUsingAnyType(exclusions).action(context.Background(), defs)
+	results, err := FilterOutDefinitionsUsingAnyType(exclusions).action(context.Background(), defs)
 	g.Expect(err).To(BeNil())
 
 	expected := make(astmodel.Types)
@@ -76,9 +78,9 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 
 func TestComplainsAboutUnneededExclusions(t *testing.T) {
 	g := NewGomegaWithT(t)
-	p1 := makeTestLocalPackageReference("horo.logy", "v20200730")
-	p2 := makeTestLocalPackageReference("road.train", "v20200730")
-	p3 := makeTestLocalPackageReference("wah.wah", "v20200730")
+	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
+	p2 := test.MakeLocalPackageReference("road.train", "v20200730")
+	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.Types)
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
@@ -101,7 +103,7 @@ func TestComplainsAboutUnneededExclusions(t *testing.T) {
 		"gamma.knife/v20200821",
 		"road.train/v20200730",
 	}
-	results, err := filterOutDefinitionsUsingAnyType(exclusions).action(context.Background(), defs)
+	results, err := FilterOutDefinitionsUsingAnyType(exclusions).action(context.Background(), defs)
 	g.Expect(results).To(HaveLen(0))
 	g.Expect(errors.Cause(err)).To(MatchError("no AnyTypes found in: gamma.knife/v20200821, people.vultures/20200821"))
 }

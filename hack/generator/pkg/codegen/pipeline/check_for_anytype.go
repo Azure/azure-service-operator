@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -14,34 +14,33 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-// filterOutDefinitionsUsingAnyType returns a stage that will check for any definitions
+// FilterOutDefinitionsUsingAnyType returns a stage that will check for any definitions
 // containing AnyTypes. It accepts a set of packages that we expect to contain types
 // with AnyTypes. Those packages will be quietly filtered out of the output of the
 // stage, but if there are more AnyTypes in other packages they'll be reported as an
 // error. The stage will also return an error if there are packages that we expect
 // to have AnyTypes but turn out not to, ensuring that we clean up our configuration
 // as the schemas are fixed and our handling improves.
-func filterOutDefinitionsUsingAnyType(packages []string) pipeline.Stage {
+func FilterOutDefinitionsUsingAnyType(packages []string) Stage {
 	return checkForAnyType("Filter out rogue definitions using AnyTypes", packages)
 }
 
 // ensureDefinitionsDoNotUseAnyTypes returns a stage that will check for any
 // definitions containing AnyTypes. The stage will return errors for each type
 // found that uses an AnyType.
-func ensureDefinitionsDoNotUseAnyTypes() pipeline.Stage {
-	return checkForAnyType("Catch rogue definitions using AnyTypes", []string{})
+func EnsureDefinitionsDoNotUseAnyTypes() Stage {
+	return checkForAnyType("Check for rogue definitions using AnyTypes", []string{})
 }
 
-func checkForAnyType(description string, packages []string) pipeline.Stage {
+func checkForAnyType(description string, packages []string) Stage {
 	expectedPackages := make(map[string]struct{}, len(packages))
 	for _, p := range packages {
 		expectedPackages[p] = struct{}{}
 	}
 
-	return pipeline.MakeStage(
+	return MakeStage(
 		"rogueCheck",
 		description,
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

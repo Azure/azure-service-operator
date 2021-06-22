@@ -25,6 +25,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
 type GoldenTestConfig struct {
@@ -62,14 +63,8 @@ func loadTestConfig(path string) (GoldenTestConfig, error) {
 	return result, nil
 }
 
-var goModulePrefix = "github.com/Azure/azure-service-operator/testing"
-
-func makeTestLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
-	return astmodel.MakeLocalPackageReference(goModulePrefix, group, version)
-}
-
 func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
-	name := astmodel.MakeTypeName(makeTestLocalPackageReference("test", "v1alpha1api20200101"), "EmbeddedTestType")
+	name := astmodel.MakeTypeName(test.MakeLocalPackageReference("test", "v1alpha1api20200101"), "EmbeddedTestType")
 	t := astmodel.NewObjectType()
 	t = t.WithProperty(astmodel.NewPropertyDefinition("FancyProp", "fancyProp", astmodel.IntType))
 
@@ -109,16 +104,16 @@ func injectEmbeddedStructType() pipeline.Stage {
 }
 
 func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
-	for _, pipeline := range testConfig.Pipelines {
+	for _, p := range testConfig.Pipelines {
 		testName := strings.TrimPrefix(t.Name(), "TestGolden/")
 
 		// Append pipeline name at the end of file name if there is more than one pipeline under test
 		if len(testConfig.Pipelines) > 1 {
-			testName = filepath.Join(filepath.Dir(testName), fmt.Sprintf("%s_%s", filepath.Base(testName), string(pipeline)))
+			testName = filepath.Join(filepath.Dir(testName), fmt.Sprintf("%s_%s", filepath.Base(testName), string(p)))
 		}
 
-		t.Run(string(pipeline), func(t *testing.T) {
-			codegen, err := NewTestCodeGenerator(testName, path, t, testConfig, pipeline)
+		t.Run(string(p), func(t *testing.T) {
+			codegen, err := NewTestCodeGenerator(testName, path, t, testConfig, p)
 			if err != nil {
 				t.Fatalf("failed to create code generator: %v", err)
 			}
@@ -131,12 +126,12 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 	}
 }
 
-func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig GoldenTestConfig, pipeline config.GenerationPipeline) (*CodeGenerator, error) {
+func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig GoldenTestConfig, genPipeline config.GenerationPipeline) (*CodeGenerator, error) {
 	idFactory := astmodel.NewIdentifierFactory()
 	cfg := config.NewConfiguration()
-	cfg.GoModulePath = goModulePrefix
+	cfg.GoModulePath = test.GoModulePrefix
 
-	pipelineTarget, err := translatePipelineToTarget(pipeline)
+	pipelineTarget, err := pipeline.TranslatePipelineToTarget(genPipeline)
 	if err != nil {
 		return nil, err
 	}
@@ -147,7 +142,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 	}
 
 	// TODO: This isn't as clean as would be liked -- should we remove panic from RemoveStages?
-	switch pipeline {
+	switch genPipeline {
 	case config.GenerationPipelineAzure:
 		codegen.RemoveStages("deleteGenerated", "rogueCheck", "createStorage", "reportTypesAndVersions")
 		if !testConfig.HasARMResources {
@@ -165,7 +160,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
 
 	default:
-		return nil, errors.Errorf("unknown pipeline kind %q", string(pipeline))
+		return nil, errors.Errorf("unknown pipeline kind %q", string(genPipeline))
 	}
 
 	codegen.ReplaceStage("loadSchema", loadTestSchemaIntoTypes(idFactory, cfg, path))
@@ -272,7 +267,7 @@ func stripUnusedTypesPipelineStage() pipeline.Stage {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
 			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
-				makeTestLocalPackageReference("test", "v1alpha1api20200101"),
+				test.MakeLocalPackageReference("test", "v1alpha1api20200101"),
 				"Test",
 			))
 			defs, err := StripUnusedDefinitions(roots, defs)
@@ -285,7 +280,7 @@ func stripUnusedTypesPipelineStage() pipeline.Stage {
 }
 
 // TODO: Ideally we wouldn't need a test specific function here, but currently
-// TODO: we're hardcoding references, and even if we were sourcing them from Swagger
+// TODO: we're hard-coding references, and even if we were sourcing them from Swagger
 // TODO: we have no way to give Swagger to the golden files tests currently.
 func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pipeline.Stage {
 	return pipeline.MakeStage(
