@@ -74,7 +74,7 @@ func checkForDuplicateNames(props []*astmodel.PropertyDefinition) error {
 	names := make(map[astmodel.PropertyName]struct{})
 	for _, p := range props {
 		if _, ok := names[p.PropertyName()]; ok {
-			return errors.Errorf("Flattening caused duplicate property name %q", p.PropertyName())
+			return errors.Errorf("flattening caused duplicate property name %q", p.PropertyName())
 		}
 
 		names[p.PropertyName()] = struct{}{}
@@ -140,6 +140,6 @@ func flattenPropType(propType astmodel.Type, defs astmodel.Types) ([]*astmodel.P
 		return innerProps, nil
 
 	default:
-		return nil, errors.Errorf("Flatten applied to non-object type: %s", propType.String())
+		return nil, errors.Errorf("flatten applied to non-object type: %s", propType.String())
 	}
 }

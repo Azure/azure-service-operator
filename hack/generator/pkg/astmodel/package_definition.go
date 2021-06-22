@@ -42,7 +42,7 @@ func (p *PackageDefinition) GetDefinition(typeName TypeName) (TypeDefinition, er
 		}
 	}
 
-	return TypeDefinition{}, errors.Errorf("No error with name %v found", typeName)
+	return TypeDefinition{}, errors.Errorf("no error with name %v found", typeName)
 }
 
 // AddDefinition adds a Definition to the PackageDefinition
@@ -52,11 +52,9 @@ func (p *PackageDefinition) AddDefinition(def TypeDefinition) {
 
 // EmitDefinitions emits the PackageDefinition to an output directory
 func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages map[PackageReference]*PackageDefinition) (int, error) {
-
 	filesToGenerate := allocateTypesToFiles(p.definitions)
 
 	err := p.emitFiles(filesToGenerate, outputDir, generatedPackages)
-
 	if err != nil {
 		return 0, err
 	}

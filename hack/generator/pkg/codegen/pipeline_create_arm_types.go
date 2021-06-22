@@ -22,10 +22,8 @@ func createARMTypes(idFactory astmodel.IdentifierFactory) PipelineStage {
 		"createArmTypes",
 		"Creates ARM types",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
-
 			armTypeCreator := &armTypeCreator{definitions: definitions, idFactory: idFactory}
 			armTypes, err := armTypeCreator.createARMTypes()
-
 			if err != nil {
 				return nil, err
 			}
@@ -57,7 +55,6 @@ func getAllSpecDefinitions(definitions astmodel.Types) (astmodel.Types, error) {
 }
 
 func (c *armTypeCreator) createARMTypes() (astmodel.Types, error) {
-
 	result := make(astmodel.Types)
 	resourceSpecDefs, err := getAllSpecDefinitions(c.definitions)
 	if err != nil {
@@ -167,7 +164,6 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 	result, err := armDef.ApplyObjectTransformation(func(objectType *astmodel.ObjectType) (astmodel.Type, error) {
 		return astmodel.ARMFlag.ApplyTo(objectType), nil
 	})
-
 	if err != nil {
 		return astmodel.TypeDefinition{},
 			errors.Wrapf(err, "creating ARM definition %v from Kubernetes definition %v", armName, def.Name())
@@ -177,7 +173,6 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 }
 
 func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmodel.Type, error) {
-
 	createArmTypeName := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 		// Allow json type to pass through.
 		if it == astmodel.JSONType {
@@ -186,7 +181,7 @@ func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmod
 
 		def, ok := c.definitions[it]
 		if !ok {
-			return nil, errors.Errorf("Failed to lookup %v", it)
+			return nil, errors.Errorf("failed to lookup %v", it)
 		}
 
 		if _, ok := def.Type().(*astmodel.ObjectType); ok {

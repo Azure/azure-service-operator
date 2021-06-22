@@ -76,14 +76,14 @@ func (o ObjectSerializationTestCase) AsFuncs(name TypeName, genContext *CodeGene
 
 	// Write errors for any properties we don't handle
 	for _, p := range properties {
-		errs = append(errs, errors.Errorf("No generator created for %v (%v)", p.PropertyName(), p.PropertyType()))
+		errs = append(errs, errors.Errorf("no generator created for %v (%v)", p.PropertyName(), p.PropertyType()))
 	}
 
 	var result []dst.Decl
 
 	if len(simpleGenerators) == 0 && len(relatedGenerators) == 0 {
 		// No properties that we can generate to test - skip the testing completely
-		errs = append(errs, errors.Errorf("No property generators for %v", name))
+		errs = append(errs, errors.Errorf("no property generators for %v", name))
 	} else {
 		result = append(result,
 			o.createTestRunner(genContext),
