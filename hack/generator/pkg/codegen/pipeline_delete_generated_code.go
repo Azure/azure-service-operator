@@ -21,11 +21,12 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
 // deleteGeneratedCode creates a pipeline stage for cleanup of our output folder prior to generating files
-func deleteGeneratedCode(outputFolder string) PipelineStage {
-	return MakePipelineStage(
+func deleteGeneratedCode(outputFolder string) pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"deleteGenerated",
 		"Delete generated code from "+outputFolder,
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

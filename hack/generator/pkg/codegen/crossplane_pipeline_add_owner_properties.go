@@ -12,12 +12,13 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
 // addCrossplaneOwnerProperties adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
-func addCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) PipelineStage {
+func addCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
 
-	return MakePipelineStage(
+	return pipeline.MakePipelineStage(
 		"addCrossplaneOwnerProperties",
 		"Adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

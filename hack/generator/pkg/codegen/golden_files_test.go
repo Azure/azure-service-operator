@@ -22,6 +22,7 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
 )
@@ -75,8 +76,8 @@ func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
 	return astmodel.MakeTypeDefinition(name, t)
 }
 
-func injectEmbeddedStructType() PipelineStage {
-	return MakePipelineStage(
+func injectEmbeddedStructType() pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"injectEmbeddedStructType",
 		"Injects an embedded struct into each object",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
@@ -182,10 +183,10 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 func loadTestSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	path string) PipelineStage {
+	path string) pipeline.PipelineStage {
 	source := configuration.SchemaURL
 
-	return MakePipelineStage(
+	return pipeline.MakePipelineStage(
 		"loadTestSchema",
 		"Load and walk schema (test)",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
@@ -216,10 +217,10 @@ func loadTestSchemaIntoTypes(
 		})
 }
 
-func exportPackagesTestPipelineStage(t *testing.T, testName string) PipelineStage {
+func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.PipelineStage {
 	g := goldie.New(t)
 
-	return MakePipelineStage(
+	return pipeline.MakePipelineStage(
 		"exportTestPackages",
 		"Export packages for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
@@ -263,8 +264,8 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) PipelineStag
 		})
 }
 
-func stripUnusedTypesPipelineStage() PipelineStage {
-	return MakePipelineStage(
+func stripUnusedTypesPipelineStage() pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"stripUnused",
 		"Strip unused types for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
@@ -286,8 +287,8 @@ func stripUnusedTypesPipelineStage() PipelineStage {
 // TODO: Ideally we wouldn't need a test specific function here, but currently
 // TODO: we're hardcoding references, and even if we were sourcing them from Swagger
 // TODO: we have no way to give Swagger to the golden files tests currently.
-func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) PipelineStage {
-	return MakePipelineStage(
+func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"addCrossResourceReferences",
 		"Add cross resource references for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

@@ -9,13 +9,14 @@ import (
 	"context"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
 // assertTypesCollectionValid creates a PipelineStage that ensures that each reachable type in the types collection
 // has TypeName's that are all reachable as well. This check fails if there is any TypeName that refers to a type that doesn't
 // exist.
-func assertTypesCollectionValid() PipelineStage {
-	return MakePipelineStage(
+func assertTypesCollectionValid() pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"assertTypesStructureValid",
 		"Asserts that the types collection is valid",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

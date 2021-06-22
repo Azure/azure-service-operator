@@ -9,13 +9,15 @@ import (
 	"context"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
+
 	"github.com/pkg/errors"
 )
 
 // applyKubernetesResourceInterface ensures that every Resource implements the KubernetesResource interface
-func applyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) PipelineStage {
+func applyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
 
-	return MakePipelineStage(
+	return pipeline.MakePipelineStage(
 		"applyKubernetesResourceInterface",
 		"Ensures that every resource implements the KubernetesResource interface",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

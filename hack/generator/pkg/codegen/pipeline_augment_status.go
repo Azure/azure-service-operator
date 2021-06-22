@@ -18,13 +18,15 @@ import (
 
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
 )
 
 /* augmentResourcesWithStatus creates a PipelineStage to add status information into the generated resources.
@@ -40,8 +42,8 @@ added to the Status field of the Resource type, after we have renamed all the st
 avoid any conflicts with existing Spec types that have already been defined.
 
 */
-func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *config.Configuration) PipelineStage {
-	return MakePipelineStage(
+func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *config.Configuration) pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"augmentStatus",
 		"Add information from Swagger specs for 'status' fields",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

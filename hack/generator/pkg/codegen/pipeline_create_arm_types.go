@@ -13,12 +13,13 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
 // createARMTypes walks the type graph and builds new types for communicating
 // with ARM
-func createARMTypes(idFactory astmodel.IdentifierFactory) PipelineStage {
-	return MakePipelineStage(
+func createARMTypes(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"createArmTypes",
 		"Creates ARM types",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {

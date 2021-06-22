@@ -3,15 +3,17 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
 	"fmt"
 	"strings"
 
+	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
 // PipelineStage represents a composable stage of processing that can transform or process the set
@@ -24,7 +26,7 @@ type PipelineStage struct {
 	// Stage implementation
 	action func(context.Context, astmodel.Types) (astmodel.Types, error)
 	// Tag used for filtering
-	targets []pipeline.Target
+	targets []Target
 	// Identifiers for other stages that must be completed before this one
 	prerequisites []string
 	// Identifiers for other stages that must be completed after this one
@@ -82,13 +84,13 @@ func (stage PipelineStage) RequiresPostrequisiteStages(postrequisites ...string)
 }
 
 // UsedFor specifies that this stage should be used for only the specified targets
-func (stage PipelineStage) UsedFor(targets ...pipeline.Target) PipelineStage {
+func (stage PipelineStage) UsedFor(targets ...Target) PipelineStage {
 	stage.targets = targets
 	return stage
 }
 
 // IsUsedFor returns true if this stage should be used for the specified target
-func (stage *PipelineStage) IsUsedFor(target pipeline.Target) bool {
+func (stage *PipelineStage) IsUsedFor(target Target) bool {
 
 	if len(stage.targets) == 0 {
 		// Stages without specific targeting are always used
@@ -103,4 +105,36 @@ func (stage *PipelineStage) IsUsedFor(target pipeline.Target) bool {
 	}
 
 	return false
+}
+
+// Id returns the unique identifier for this stage
+func (stage *PipelineStage) Id() string {
+	return stage.id
+}
+
+// Description returns a human readable description of this stage
+func (stage *PipelineStage) Description() string {
+	return stage.description
+}
+
+// Run is used to execute the action associated with this stage
+func (stage *PipelineStage) Run(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+	return stage.action(ctx, types)
+}
+
+// CheckPrerequisites returns an error if the prerequisites of this stage have not been met
+func (stage *PipelineStage) CheckPrerequisites(priorStages map[string]struct{}) error {
+	var errs []error
+	for _, prereq := range stage.prerequisites {
+		if _, ok := priorStages[prereq]; !ok {
+			errs = append(errs, errors.Errorf("prerequisite %q of stage %q not satisfied.", prereq, stage.id))
+		}
+	}
+
+	return kerrors.NewAggregate(errs)
+}
+
+// Postrequisites returns the unique ids of stages that must run after this stage
+func (stage *PipelineStage) Postrequisites() []string {
+	return stage.postrequisites
 }

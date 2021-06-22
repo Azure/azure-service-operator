@@ -12,13 +12,15 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
+
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 )
 
 // removeTypeAliases creates a pipeline stage removing type aliases
-func removeTypeAliases() PipelineStage {
-	return MakePipelineStage(
+func removeTypeAliases() pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"removeAliases",
 		"Remove type aliases",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

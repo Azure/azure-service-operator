@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 
 	"github.com/pkg/errors"
@@ -17,8 +18,8 @@ import (
 
 const resourcesPropertyName = astmodel.PropertyName("Resources")
 
-func determineResourceOwnership(configuration *config.Configuration) PipelineStage {
-	return MakePipelineStage(
+func determineResourceOwnership(configuration *config.Configuration) pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"determineResourceOwnership",
 		"Determine ARM resource relationships",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

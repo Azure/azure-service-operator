@@ -12,17 +12,19 @@ import (
 	"path"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/reporting"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/reporting"
 )
 
 // reportOnTypesAndVersions creates a pipeline stage that removes any wrapper types prior to actual code generation
-func reportOnTypesAndVersions(configuration *config.Configuration) PipelineStage {
+func reportOnTypesAndVersions(configuration *config.Configuration) pipeline.PipelineStage {
 
-	return MakePipelineStage(
+	return pipeline.MakePipelineStage(
 		"reportTypesAndVersions",
 		"Generate reports on types and versions in each package",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

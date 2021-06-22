@@ -11,12 +11,14 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
 	"github.com/pkg/errors"
 	"github.com/xeipuuv/gojsonreference"
 	"github.com/xeipuuv/gojsonschema"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
 
 	"k8s.io/klog/v2"
 )
@@ -136,10 +138,10 @@ func defaultSchemaLoader(ctx context.Context, rewrite *config.RewriteRule, sourc
 func loadSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	schemaLoader schemaLoader) PipelineStage {
+	schemaLoader schemaLoader) pipeline.PipelineStage {
 	source := configuration.SchemaURL
 
-	return MakePipelineStage(
+	return pipeline.MakePipelineStage(
 		"loadSchema",
 		"Load and walk schema",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

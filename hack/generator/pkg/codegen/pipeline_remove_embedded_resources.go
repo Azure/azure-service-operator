@@ -10,10 +10,11 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/embeddedresources"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-func removeEmbeddedResources() PipelineStage {
-	return MakePipelineStage(
+func removeEmbeddedResources() pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"removeEmbeddedResources",
 		"Removes properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

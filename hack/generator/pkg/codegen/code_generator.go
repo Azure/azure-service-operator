@@ -21,7 +21,7 @@ import (
 // CodeGenerator is a generator of code
 type CodeGenerator struct {
 	configuration *config.Configuration
-	pipeline      []PipelineStage
+	pipeline      []pipeline.PipelineStage
 }
 
 // NewCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
@@ -50,7 +50,7 @@ func NewTargetedCodeGeneratorFromConfig(
 	}
 
 	// Filter stages to use only those appropriate for our target
-	var stages []PipelineStage
+	var stages []pipeline.PipelineStage
 	for _, s := range result.pipeline {
 		if s.IsUsedFor(target) {
 			stages = append(stages, s)
@@ -77,8 +77,8 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 	return result, nil
 }
 
-func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []PipelineStage {
-	return []PipelineStage{
+func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []pipeline.PipelineStage {
+	return []pipeline.PipelineStage{
 
 		loadSchemaIntoTypes(idFactory, configuration, defaultSchemaLoader),
 
@@ -167,11 +167,11 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 
 	defs := make(astmodel.Types)
 	for i, stage := range generator.pipeline {
-		klog.V(0).Infof("%d/%d: %s", i+1, len(generator.pipeline), stage.description)
+		klog.V(0).Infof("%d/%d: %s", i+1, len(generator.pipeline), stage.Description())
 		// Defensive copy (in case the pipeline modifies its inputs) so that we can compare types in vs out
-		defsOut, err := stage.action(ctx, defs.Copy())
+		defsOut, err := stage.Run(ctx, defs.Copy())
 		if err != nil {
-			return errors.Wrapf(err, "failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.description)
+			return errors.Wrapf(err, "failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.Description())
 		}
 
 		defsAdded := defsOut.Except(defs)
@@ -203,18 +203,17 @@ func (generator *CodeGenerator) verifyPipeline() error {
 	stagesExpected := make(map[string][]string)
 
 	for _, stage := range generator.pipeline {
-		for _, prereq := range stage.prerequisites {
-			if _, ok := stagesSeen[prereq]; !ok {
-				errs = append(errs, errors.Errorf("prerequisite %q of stage %q not satisfied.", prereq, stage.id))
-			}
+		err := stage.CheckPrerequisites(stagesSeen)
+		if err != nil {
+			errs = append(errs, err)
 		}
 
-		for _, postreq := range stage.postrequisites {
-			stagesExpected[postreq] = append(stagesExpected[postreq], stage.id)
+		for _, postreq := range stage.Postrequisites() {
+			stagesExpected[postreq] = append(stagesExpected[postreq], stage.Id())
 		}
 
-		stagesSeen[stage.id] = struct{}{}
-		delete(stagesExpected, stage.id)
+		stagesSeen[stage.Id()] = struct{}{}
+		delete(stagesExpected, stage.Id())
 	}
 
 	for required, requiredBy := range stagesExpected {
@@ -235,11 +234,11 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 		stagesToRemove[s] = false
 	}
 
-	var stages []PipelineStage
+	var stages []pipeline.PipelineStage
 
 	for _, stage := range generator.pipeline {
-		if _, ok := stagesToRemove[stage.id]; ok {
-			stagesToRemove[stage.id] = true
+		if _, ok := stagesToRemove[stage.Id()]; ok {
+			stagesToRemove[stage.Id()] = true
 			continue
 		}
 
@@ -258,7 +257,7 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 // ReplaceStage replaces all uses of an existing stage with another one.
 // Only available for test builds.
 // Will panic if the existing stage is not found.
-func (generator *CodeGenerator) ReplaceStage(existingStage string, stage PipelineStage) {
+func (generator *CodeGenerator) ReplaceStage(existingStage string, stage pipeline.PipelineStage) {
 	replaced := false
 	for i, s := range generator.pipeline {
 		if s.HasId(existingStage) {
@@ -275,12 +274,12 @@ func (generator *CodeGenerator) ReplaceStage(existingStage string, stage Pipelin
 // InjectStageAfter injects a new stage immediately after the first occurrence of an existing stage
 // Only available for test builds.
 // Will panic if the existing stage is not found.
-func (generator *CodeGenerator) InjectStageAfter(existingStage string, stage PipelineStage) {
+func (generator *CodeGenerator) InjectStageAfter(existingStage string, stage pipeline.PipelineStage) {
 	injected := false
 
 	for i, s := range generator.pipeline {
 		if s.HasId(existingStage) {
-			var p []PipelineStage
+			var p []pipeline.PipelineStage
 			p = append(p, generator.pipeline[:i+1]...)
 			p = append(p, stage)
 			p = append(p, generator.pipeline[i+1:]...)
@@ -291,7 +290,7 @@ func (generator *CodeGenerator) InjectStageAfter(existingStage string, stage Pip
 	}
 
 	if !injected {
-		panic(fmt.Sprintf("Expected to inject stage %s but %s wasn't found", stage.id, existingStage))
+		panic(fmt.Sprintf("Expected to inject stage %s but %s wasn't found", stage.Id(), existingStage))
 	}
 }
 

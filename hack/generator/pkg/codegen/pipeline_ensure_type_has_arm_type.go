@@ -12,12 +12,13 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
 // TODO: Wondering if we should have an even stronger version of this that asserts it for all types rather than just the top level?
 // ensureARMTypeExistsForEveryResource performs a check ensuring that every Kubernetes resource spec/status has a corresponding ARM type
-func ensureARMTypeExistsForEveryResource() PipelineStage {
-	return MakePipelineStage(
+func ensureARMTypeExistsForEveryResource() pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"ensureArmTypeExistsForEveryType",
 		"Ensure that an ARM type for every top level resource spec/status exists",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

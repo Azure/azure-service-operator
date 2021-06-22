@@ -11,12 +11,13 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
 // addCrossplaneEmbeddedResourceStatus puts an embedded runtimev1alpha1.ResourceStatus on every spec type
-func addCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) PipelineStage {
+func addCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
 
-	return MakePipelineStage(
+	return pipeline.MakePipelineStage(
 		"addCrossplaneEmbeddedResourceStatus",
 		"Adds an embedded runtimev1alpha1.ResourceStatus to every status type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

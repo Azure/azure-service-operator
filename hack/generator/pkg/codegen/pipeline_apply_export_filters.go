@@ -9,14 +9,16 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
 // applyExportFilters creates a PipelineStage to reduce our set of types for export
-func applyExportFilters(configuration *config.Configuration) PipelineStage {
-	return MakePipelineStage(
+func applyExportFilters(configuration *config.Configuration) pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"filterTypes",
 		"Filter generated types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

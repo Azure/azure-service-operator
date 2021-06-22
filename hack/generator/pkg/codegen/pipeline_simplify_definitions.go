@@ -9,13 +9,15 @@ import (
 	"context"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
+
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 )
 
 // simplifyDefinitions creates a pipeline stage that removes any wrapper types prior to actual code generation
-func simplifyDefinitions() PipelineStage {
-	return MakePipelineStage(
+func simplifyDefinitions() pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"simplifyDefinitions",
 		"Flatten definitions by removing wrapper types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

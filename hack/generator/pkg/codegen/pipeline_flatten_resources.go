@@ -9,12 +9,14 @@ import (
 	"context"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
+
 	"github.com/pkg/errors"
 )
 
 // flattenResources flattens any resources directly inside other resources
-func flattenResources() PipelineStage {
-	return MakePipelineStage(
+func flattenResources() pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"flatten-resources",
 		"Flatten nested resource types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

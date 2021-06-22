@@ -12,11 +12,12 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
 // markStorageVersion creates a PipelineStage to mark a particular version as a storage version
-func markStorageVersion() PipelineStage {
-	return MakePipelineStage(
+func markStorageVersion() pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"markStorageVersion",
 		"Marking the latest version of each resource as the storage version",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

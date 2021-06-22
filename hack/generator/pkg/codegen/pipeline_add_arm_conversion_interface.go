@@ -13,13 +13,14 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel/armconversion"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
 // applyARMConversionInterface adds the genruntime.ARMTransformer interface and the Owner property
 // to all Kubernetes types.
 // The genruntime.ARMTransformer interface is used to convert from the Kubernetes type to the corresponding ARM type and back.
-func applyARMConversionInterface(idFactory astmodel.IdentifierFactory) PipelineStage {
-	return MakePipelineStage(
+func applyARMConversionInterface(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"applyArmConversionInterface",
 		"Apply the ARM conversion interface to Kubernetes types",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {

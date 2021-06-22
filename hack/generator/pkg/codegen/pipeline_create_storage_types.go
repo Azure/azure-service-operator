@@ -7,17 +7,20 @@ package codegen
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
+
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 )
 
 // createStorageTypes returns a pipeline stage that creates dedicated storage types for each resource and nested object.
 // Storage versions are created for *all* API versions to allow users of older versions of the operator to easily
 // upgrade. This is of course a bit odd for the first release, but defining the approach from day one is useful.
-func createStorageTypes(idFactory astmodel.IdentifierFactory) PipelineStage {
-	return MakePipelineStage(
+func createStorageTypes(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"createStorage",
 		"Create storage versions of CRD types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

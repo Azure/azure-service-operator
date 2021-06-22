@@ -11,6 +11,8 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
+
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 )
@@ -28,8 +30,8 @@ var (
 )
 
 // convertAllOfAndOneOfToObjects reduces the AllOfType and OneOfType to ObjectType
-func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) PipelineStage {
-	return MakePipelineStage(
+func convertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) pipeline.PipelineStage {
+	return pipeline.MakePipelineStage(
 		"allof-anyof-objects",
 		"Convert allOf and oneOf to object types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
