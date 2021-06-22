@@ -326,13 +326,19 @@ func QualifiedTypeName(pkg string, name string) *dst.SelectorExpr {
 
 // Selector generates a field reference into an existing expression
 //
-// <expr>.<name>
+// <expr>.<name>.(<moreNames1>.<moreNames2>…)
 //
-func Selector(expr dst.Expr, name string) *dst.SelectorExpr {
-	return &dst.SelectorExpr{
+func Selector(expr dst.Expr, name string, moreNames ...string) *dst.SelectorExpr {
+	result := &dst.SelectorExpr{
 		X:   dst.Clone(expr).(dst.Expr),
 		Sel: dst.NewIdent(name),
 	}
+
+	if len(moreNames) > 0 {
+		return Selector(result, moreNames[0], moreNames[1:]...)
+	}
+
+	return result
 }
 
 // NotEqual generates a != comparison between the two expressions

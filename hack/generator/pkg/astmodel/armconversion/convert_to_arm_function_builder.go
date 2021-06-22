@@ -253,16 +253,17 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		}
 
 		// generate conversion
-		stmts := builder.typeConversionBuilder.BuildConversion(astmodel.ConversionParameters{
-			Source:            astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(fromProp.PropertyName())),
-			SourceType:        fromProp.PropertyType(),
-			Destination:       astbuilder.Selector(astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toPropName)), string(toSubProp.PropertyName())),
-			DestinationType:   toSubProp.PropertyType(),
-			NameHint:          string(toSubProp.PropertyName()),
-			ConversionContext: nil,
-			AssignmentHandler: nil,
-			Locals:            builder.locals,
-		})
+		stmts := builder.typeConversionBuilder.BuildConversion(
+			astmodel.ConversionParameters{
+				Source:            astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(fromProp.PropertyName())),
+				SourceType:        fromProp.PropertyType(),
+				Destination:       astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toPropName), string(toSubProp.PropertyName())),
+				DestinationType:   toSubProp.PropertyType(),
+				NameHint:          string(toSubProp.PropertyName()),
+				ConversionContext: nil,
+				AssignmentHandler: nil,
+				Locals:            builder.locals,
+			})
 
 		// failed?
 		if len(stmts) == 0 {

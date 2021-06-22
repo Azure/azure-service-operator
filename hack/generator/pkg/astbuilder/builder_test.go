@@ -52,3 +52,27 @@ func TestJoinAnd(t *testing.T) {
 
 	g.Expect(JoinAnd(expr1, expr2)).To(Equal(expected))
 }
+
+func TestSelectorWithMoreNames(t *testing.T) {
+	g := gomega.NewWithT(t)
+
+	selector := Selector(
+		dst.NewIdent("chair"),
+		"table",
+		"miracle",
+		"ecstasy",
+	)
+
+	expectedSelector := &dst.SelectorExpr{
+		X: &dst.SelectorExpr{
+			X: &dst.SelectorExpr{
+				X:   dst.NewIdent("chair"),
+				Sel: dst.NewIdent("table"),
+			},
+			Sel: dst.NewIdent("miracle"),
+		},
+		Sel: dst.NewIdent("ecstasy"),
+	}
+
+	g.Expect(selector).To(Equal(expectedSelector))
+}

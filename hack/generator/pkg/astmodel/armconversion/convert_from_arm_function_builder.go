@@ -72,7 +72,6 @@ func newConvertFromARMFunctionBuilder(
 }
 
 func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
-
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
@@ -292,7 +291,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 	}
 
 	stmts := builder.typeConversionBuilder.BuildConversion(astmodel.ConversionParameters{
-		Source:            astbuilder.Selector(astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName())), string(toPropName)),
+		Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()), string(toPropName)),
 		SourceType:        nestedProp.PropertyType(),
 		Destination:       astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toPropName)),
 		DestinationType:   toProp.PropertyType(),
@@ -353,7 +352,6 @@ func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
 //	}
 //	<destination> = <nameHint>
 func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(conversionBuilder *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
-
 	destinationType, ok := params.DestinationType.(astmodel.TypeName)
 	if !ok {
 		return nil
