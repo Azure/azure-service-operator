@@ -16,14 +16,15 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
 )
 
 /* addStatusFromSwagger creates a PipelineStage to add status information into the generated resources.
@@ -44,7 +45,6 @@ func addStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 		"statusFromSwagger",
 		"Add information from Swagger specs for 'status' fields",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-
 			if config.Status.SchemaRoot == "" {
 				klog.Warningf("No status schema root specified, will not generate status types")
 				return types, nil
@@ -146,7 +146,6 @@ func appendStatusSuffix(typeName astmodel.TypeName) astmodel.TypeName {
 // all types (apart from Resources) are renamed to have "_Status" as a
 // suffix, to avoid name clashes.
 func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
-
 	var errs []error
 	otherTypes := make(astmodel.Types)
 	for _, typeDef := range swaggerTypes.otherTypes {
@@ -192,7 +191,6 @@ type swaggerTypes struct {
 }
 
 func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, config *config.Configuration) (swaggerTypes, error) {
-
 	result := swaggerTypes{
 		resources:  make(astmodel.Types),
 		otherTypes: make(astmodel.Types),
@@ -272,7 +270,6 @@ func loadAllSchemas(
 	schemas := make(map[string]spec.Swagger)
 
 	err := filepath.Walk(rootPath, func(filePath string, fileInfo os.FileInfo, err error) error {
-
 		if err != nil {
 			return err
 		}
