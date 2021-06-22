@@ -301,16 +301,17 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 		panic("couldn't find source of flattened property")
 	}
 
-	stmts := builder.typeConversionBuilder.BuildConversion(astmodel.ConversionParameters{
-		Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()), string(toPropName)),
-		SourceType:        nestedProp.PropertyType(),
-		Destination:       astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toPropName)),
-		DestinationType:   toProp.PropertyType(),
-		NameHint:          string(toProp.PropertyName()),
-		ConversionContext: nil,
-		AssignmentHandler: nil,
-		Locals:            builder.locals,
-	})
+	stmts := builder.typeConversionBuilder.BuildConversion(
+		astmodel.ConversionParameters{
+			Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()), string(toPropName)),
+			SourceType:        nestedProp.PropertyType(),
+			Destination:       astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toPropName)),
+			DestinationType:   toProp.PropertyType(),
+			NameHint:          string(toProp.PropertyName()),
+			ConversionContext: nil,
+			AssignmentHandler: nil,
+			Locals:            builder.locals,
+		})
 
 	// failed?
 	if len(stmts) == 0 {
