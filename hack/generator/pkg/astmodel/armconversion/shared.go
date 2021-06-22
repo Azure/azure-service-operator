@@ -51,8 +51,10 @@ func (builder conversionBuilder) propertyConversionHandler(
 
 type propertyConversionHandler = func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt
 
-var once sync.Once
-var azureNameProperty *astmodel.PropertyDefinition
+var (
+	once              sync.Once
+	azureNameProperty *astmodel.PropertyDefinition
+)
 
 func initializeAzureName(idFactory astmodel.IdentifierFactory) {
 	azureNameFieldDescription := "The name of the resource in Azure. This is often the same as" +
@@ -100,8 +102,8 @@ func generateTypeConversionAssignments(
 	return result
 }
 
-// NewARMConversionInterfaceImpl creates a new interface with the specified ARM conversion functions
-func NewARMConversionInterfaceImpl(
+// NewARMConversionImplementation creates an interface implementation with the specified ARM conversion functions
+func NewARMConversionImplementation(
 	armTypeName astmodel.TypeName,
 	armType *astmodel.ObjectType,
 	idFactory astmodel.IdentifierFactory,
