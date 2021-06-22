@@ -103,7 +103,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		flattenResources(),
 
 		// Copy additional swagger-derived information from status into spec
-		augmentSpecWithStatus().RequiresPrerequisiteStages("allof-anyof-objects", "statusFromSwagger"),
+		augmentSpecWithStatus().RequiresPrerequisiteStages("allof-anyof-objects", "addStatusFromSwagger"),
 
 		stripUnreferencedTypeDefinitions(),
 
