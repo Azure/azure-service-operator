@@ -80,7 +80,7 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []pipeline.Stage {
 	return []pipeline.Stage{
 
-		loadSchemaIntoTypes(idFactory, configuration, defaultSchemaLoader),
+		pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
 
 		// Import status info from Swagger:
 		pipeline.AugmentResourcesWithStatus(idFactory, configuration),

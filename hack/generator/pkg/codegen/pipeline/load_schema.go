@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -16,7 +16,6 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
 
@@ -115,7 +114,7 @@ func (loader *cancellableJSONLoader) LoaderFactory() gojsonschema.JSONLoaderFact
 
 type schemaLoader func(ctx context.Context, rewrite *config.RewriteRule, source string) (*gojsonschema.Schema, error)
 
-func defaultSchemaLoader(ctx context.Context, rewrite *config.RewriteRule, source string) (*gojsonschema.Schema, error) {
+func DefaultSchemaLoader(ctx context.Context, rewrite *config.RewriteRule, source string) (*gojsonschema.Schema, error) {
 	sl := gojsonschema.NewSchemaLoader()
 	var loader gojsonschema.JSONLoader = &cancellableJSONLoader{ctx, gojsonschema.NewReferenceLoaderFileSystem(source, &cancellableFileSystem{ctx})}
 
@@ -135,13 +134,13 @@ func defaultSchemaLoader(ctx context.Context, rewrite *config.RewriteRule, sourc
 	return schema, nil
 }
 
-func loadSchemaIntoTypes(
+func LoadSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	schemaLoader schemaLoader) pipeline.Stage {
+	schemaLoader schemaLoader) Stage {
 	source := configuration.SchemaURL
 
-	return pipeline.MakeStage(
+	return MakeStage(
 		"loadSchema",
 		"Load and walk schema",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
