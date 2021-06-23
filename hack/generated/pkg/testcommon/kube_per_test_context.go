@@ -183,9 +183,15 @@ func (tc KubePerTestContext) CreateNewTestResourceGroup(wait WaitCondition) (*re
 			tc.T.Logf("Unable to delete resource group: %s", cleanupErr.Error())
 		}
 
-		// Ensure we give enough time for the controller to actually issue a request to Azure before tearing
-		// the process down - this should be pretty quick and the resource will transition to Deleting
-		tc.G.Eventually(rg, 2 * time.Minute).Should(tc.Match.BeDeleted())
+		// We have to wait delete to finish here. If we don't, there's a good chance
+		// that even though Kuberentes accepted our request to delete the resource, the
+		// controller running in envtest never got a chance to actually issue a request
+		// to Azure before the test is torn down (and envtest stops). We can't easily
+		// wait for just "Deleting" as that causes issues with determinism as the controller
+		// doesn't stop polling resources in "Deleting" state and so when running recordings
+		// different runs end up polling different numbers of times. Ensuring we reach a state
+		// the controller deems terminal (Deleted) resolves this issue.
+		tc.G.Eventually(rg, 2*time.Minute).Should(tc.Match.BeDeleted())
 	})
 
 	if wait {
