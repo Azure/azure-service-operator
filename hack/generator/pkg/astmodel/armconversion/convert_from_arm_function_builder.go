@@ -284,7 +284,10 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 	}
 
 	if !objOk {
-		panic("property marked as flattened from non-object type, which doesn’t make sense")
+		// see pipeline_flatten_properties.go:flattenPropType which will only flatten from (optional) object types
+		panic(fmt.Sprintf("property ‘%s’ marked as flattened from non-object type %T, which shouldn’t be possible",
+			toProp.PropertyName(),
+			fromPropType))
 	}
 
 	// *** Now generate the code! ***
