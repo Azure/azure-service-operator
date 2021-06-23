@@ -108,7 +108,7 @@ func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Typ
 		klog.V(4).Infof("Swagger information found for %v", typeName)
 		return statusDef, true
 	} else {
-		klog.V(4).Infof("Swagger information missing for %v", typeName)
+		klog.V(3).Infof("Swagger information missing for %v", typeName)
 		// add a warning that the status is missing
 		// this will be reported if the type is not pruned
 		return astmodel.NewErroredType(nil, nil, []string{fmt.Sprintf("missing status information for %v", typeName)}), false
