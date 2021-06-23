@@ -150,7 +150,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		applyKubernetesResourceInterface(idFactory).UsedFor(ARMTarget),
 
 		// Effects the "flatten" property of Properties:
-		flattenProperties(), // must happen after generating ARM types & interfaces so that the ARM pipeline knows that the result will be flattened
+		flattenProperties(),
 
 		addCrossplaneOwnerProperties(idFactory).UsedFor(CrossplaneTarget),
 		addCrossplaneForProvider(idFactory).UsedFor(CrossplaneTarget),
