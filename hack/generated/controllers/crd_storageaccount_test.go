@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	storage "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.storage/v1alpha1api20190401"
+	storage "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.storage/v1alpha1api20210401"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
@@ -65,7 +65,7 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadResource(
 		tc.Ctx,
 		armId,
-		"2019-04-01")
+		string(storage.StorageAccountsSpecAPIVersion20210401))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

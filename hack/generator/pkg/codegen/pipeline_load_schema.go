@@ -159,6 +159,17 @@ func loadSchemaIntoTypes(
 				return nil, errors.Wrapf(err, "failed to walk JSON schema")
 			}
 
+			// Ensure that the type filters/transformers that are applied during schema graph walking
+			// are checked for errors before proceeding. These are the TypeTransformers and TypeFilters
+			err = configuration.GetTypeFiltersError()
+			if err != nil {
+				return nil, err
+			}
+			err = configuration.GetTypeTransformersError()
+			if err != nil {
+				return nil, err
+			}
+
 			return defs, nil
 		})
 }

@@ -87,6 +87,11 @@ spec:
                 type: string
               pollingUrl:
                 type: string
+              pollingUrlKind:
+                enum:
+                - CreateOrUpdate
+                - Delete
+                type: string
               provisioned:
                 type: boolean
               provisioning:
@@ -166,6 +171,11 @@ spec:
               output:
                 type: string
               pollingUrl:
+                type: string
+              pollingUrlKind:
+                enum:
+                - CreateOrUpdate
+                - Delete
                 type: string
               provisioned:
                 type: boolean

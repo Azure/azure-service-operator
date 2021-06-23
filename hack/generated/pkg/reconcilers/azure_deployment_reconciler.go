@@ -384,11 +384,11 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 
 	emptyStatus, err := reflecthelpers.NewEmptyArmResourceStatus(r.obj)
 	if err != nil {
-		return ctrl.Result{}, errors.Wrapf(err, "creating empty status for %q", resource.GetId())
+		return ctrl.Result{}, errors.Wrapf(err, "creating empty status for %q", resource.GetID())
 	}
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
-	retryAfter, err := r.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetApiVersion(), emptyStatus)
+	retryAfter, err := r.ARMClient.BeginDeleteResource(ctx, resource.GetID(), resource.Spec().GetAPIVersion(), emptyStatus)
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
 	}
@@ -415,7 +415,7 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Result, error) {
 
 	msg := "Continue monitoring deletion"
-	r.log.Info(msg)
+	r.log.V(1).Info(msg)
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionMonitorDelete), msg)
 
 	resource, err := r.constructArmResource(ctx)
@@ -424,7 +424,7 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 	}
 
 	// already deleting, just check to see if it still exists and if it's gone, remove finalizer
-	found, retryAfter, err := r.ARMClient.HeadResource(ctx, resource.GetId(), resource.Spec().GetApiVersion())
+	found, retryAfter, err := r.ARMClient.HeadResource(ctx, resource.GetID(), resource.Spec().GetAPIVersion())
 	if err != nil {
 		if retryAfter != 0 {
 			r.log.V(3).Info("Error performing HEAD on resource, will retry", "delaySec", retryAfter/time.Second)
@@ -435,7 +435,7 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 	}
 
 	if found {
-		r.log.V(0).Info("Found resource: continuing to wait for deletion...")
+		r.log.V(1).Info("Found resource: continuing to wait for deletion...")
 		return ctrl.Result{Requeue: true}, nil
 	}
 
@@ -657,7 +657,7 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 	}
 
 	// Get the resource
-	retryAfter, err := r.ARMClient.GetResource(ctx, id, deployableSpec.Spec().GetApiVersion(), armStatus)
+	retryAfter, err := r.ARMClient.GetResource(ctx, id, deployableSpec.Spec().GetAPIVersion(), armStatus)
 	if r.log.V(4).Enabled() {
 		statusBytes, marshalErr := json.Marshal(armStatus)
 		if marshalErr != nil {
@@ -706,7 +706,7 @@ func (r *AzureDeploymentReconciler) resourceSpecToDeployment(ctx context.Context
 	deploymentName, deploymentNameOk := r.GetDeploymentName()
 	if deploymentIDOk != deploymentNameOk {
 		return nil, errors.Errorf(
-			"deploymentIDOk: %t (id: %v), deploymentNameOk: %t (name: %v) expected to match, but didn't",
+			"deploymentIDOk: %t (id: %s), deploymentNameOk: %t (name: %s) expected to match, but didn't",
 			deploymentIDOk,
 			deploymentID,
 			deploymentNameOk,

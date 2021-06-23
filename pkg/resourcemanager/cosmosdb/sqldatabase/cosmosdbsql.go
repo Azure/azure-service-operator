@@ -152,8 +152,6 @@ func (m *AzureCosmosDBSQLDatabaseManager) Delete(ctx context.Context, obj runtim
 		return false, errors.Wrapf(err, "failed to create cosmos DB SQL database client")
 	}
 
-	// TODO: What if we have a pollURL already but it's for a create
-
 	pClient := pollclient.NewPollClient(m.Creds)
 	lroPollResult, err := pClient.PollLongRunningOperationIfNeededV1Alpha1(ctx, &instance.Status, api.PollingURLKindDelete)
 	if err != nil {

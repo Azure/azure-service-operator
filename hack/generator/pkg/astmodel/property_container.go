@@ -11,4 +11,7 @@ type PropertyContainer interface {
 	// Properties returns all the properties from this container
 	// A sorted slice is returned to preserve immutability and provide determinism
 	Properties() []*PropertyDefinition
+
+	// Property returns the property and true if the named property is found, nil and false otherwise
+	Property(name PropertyName) (*PropertyDefinition, bool)
 }

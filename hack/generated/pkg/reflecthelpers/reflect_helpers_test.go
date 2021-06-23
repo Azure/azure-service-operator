@@ -25,7 +25,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
 
 	// TODO: Do we want to use a sample object rather than a code generated one?
-	batch "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.batch/v1alpha1api20170901"
+	batch "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.batch/v1alpha1api20210101"
 
 	. "github.com/onsi/gomega"
 )
@@ -148,7 +148,7 @@ func Test_ConvertResourceToDeployableResource(t *testing.T) {
 	g.Expect(ok).To(BeTrue())
 	g.Expect("myrg").To(Equal(rgResource.ResourceGroup()))
 	g.Expect("azureName").To(Equal(rgResource.Spec().GetName()))
-	g.Expect("2017-09-01").To(Equal(rgResource.Spec().GetApiVersion()))
+	g.Expect("2021-01-01").To(Equal(rgResource.Spec().GetAPIVersion()))
 	g.Expect(string(batch.BatchAccountsSpecTypeMicrosoftBatchBatchAccounts)).To(Equal(rgResource.Spec().GetType()))
 }
 

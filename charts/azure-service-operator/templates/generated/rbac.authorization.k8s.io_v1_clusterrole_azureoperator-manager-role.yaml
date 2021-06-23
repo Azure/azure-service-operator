@@ -502,6 +502,27 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - cosmosdbsqldatabases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - cosmosdbsqldatabases/finalizers
+  - cosmosdbsqldatabases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - eventhubnamespaces
   verbs:
   - create

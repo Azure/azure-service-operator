@@ -37,6 +37,9 @@ var BoolType = &PrimitiveType{"bool", "false"}
 // AnyType represents the root Go interface type, permitting any object
 var AnyType = &PrimitiveType{"interface{}", "nil"}
 
+// ErrorType represents the standard Go error interface
+var ErrorType = &PrimitiveType{"error", "nil"}
+
 // assert that we implemented Type correctly
 var _ Type = (*PrimitiveType)(nil)
 

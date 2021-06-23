@@ -174,16 +174,8 @@ func (transformer *TypeTransformer) propertyNameMatches(propName astmodel.Proper
 // TransformTypeName transforms the type with the specified name into the TypeTransformer target type if
 // the provided type name matches the pattern(s) specified in the TypeTransformer
 func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.TypeName) astmodel.Type {
-	if localRef, ok := typeName.PackageReference.AsLocalPackage(); ok {
-		group := localRef.Group()
-		version := localRef.Version()
-		name := typeName.Name()
-
-		if transformer.groupMatches(group) &&
-			transformer.versionMatches(version) &&
-			transformer.nameMatches(name) {
-			return transformer.targetType
-		}
+	if transformer.AppliesToType(typeName) {
+		return transformer.targetType
 	}
 
 	// Didn't match so return nil

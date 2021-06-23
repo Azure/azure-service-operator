@@ -175,7 +175,7 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmodel.Type, error) {
 	createArmTypeName := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 		// Allow json type to pass through.
-		if it == astmodel.JSONType {
+		if it == astmodel.JSONTypeName {
 			return it, nil
 		}
 

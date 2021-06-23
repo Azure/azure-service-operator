@@ -112,6 +112,13 @@ tasks:
       SHORT_VERSION:
         sh: git rev-parse --short HEAD
 
+  generator:diagrams:
+    desc: Regenerate all GraphViz diagrams
+    dir: "./docs/design/images"
+    sources: ["*/*.dot"]
+    cmds:
+    - "for f in **/*.dot; do dot -Tpng -o${f%.dot}.png $f; done"
+
   ############### Controller targets ###############
   controller:quick-checks:
     deps: [header-check, controller:format-code, controller:test]
@@ -180,6 +187,7 @@ tasks:
     - Dockerfile
     cmds:
     - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
+    - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/{{.CONTROLLER_DOCKER_IMAGE}}.tar
 
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
@@ -187,7 +195,7 @@ tasks:
     deps: [controller:generate-crds]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -v -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -run '{{default ".*" .TEST_FILTER}}' ./...
 
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
@@ -195,7 +203,7 @@ tasks:
     deps: [controller:generate-crds]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -v -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.

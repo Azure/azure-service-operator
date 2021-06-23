@@ -6,12 +6,10 @@
 package conversions
 
 import (
-	"bytes"
 	"testing"
 
-	"github.com/sebdah/goldie/v2"
-
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 
 	. "github.com/onsi/gomega"
 )
@@ -23,7 +21,7 @@ type StorageConversionPropertyTestCase struct {
 	types         astmodel.Types
 }
 
-func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTestCase {
+func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTestCase {
 
 	vCurrent := makeTestLocalPackageReference("Verification", "vCurrent")
 	vNext := makeTestLocalPackageReference("Verification", "vNext")
@@ -39,42 +37,50 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 	currentAge := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Age"), astmodel.IntType)
 	nextAge := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "Age"), astmodel.IntType)
 
-	requiredStringProperty := astmodel.NewPropertyDefinition("name", "name", astmodel.StringType)
-	optionalStringProperty := astmodel.NewPropertyDefinition("name", "name", astmodel.NewOptionalType(astmodel.StringType))
-	requiredIntProperty := astmodel.NewPropertyDefinition("age", "age", astmodel.IntType)
-	optionalIntProperty := astmodel.NewPropertyDefinition("age", "age", astmodel.NewOptionalType(astmodel.IntType))
+	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
+	optionalStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.NewOptionalType(astmodel.StringType))
+	requiredIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.IntType)
+	optionalIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(astmodel.IntType))
 
-	arrayOfRequiredIntProperty := astmodel.NewPropertyDefinition("scores", "scores", astmodel.NewArrayType(astmodel.IntType))
-	arrayOfOptionalIntProperty := astmodel.NewPropertyDefinition("scores", "scores", astmodel.NewArrayType(astmodel.NewOptionalType(astmodel.IntType)))
+	arrayOfRequiredIntProperty := astmodel.NewPropertyDefinition("Scores", "scores", astmodel.NewArrayType(astmodel.IntType))
+	arrayOfOptionalIntProperty := astmodel.NewPropertyDefinition("Scores", "scores", astmodel.NewArrayType(astmodel.NewOptionalType(astmodel.IntType)))
 
-	mapOfRequiredIntsProperty := astmodel.NewPropertyDefinition("ratings", "ratings", astmodel.NewMapType(astmodel.StringType, astmodel.IntType))
-	mapOfOptionalIntsProperty := astmodel.NewPropertyDefinition("ratings", "ratings", astmodel.NewMapType(astmodel.StringType, astmodel.NewOptionalType(astmodel.IntType)))
+	mapOfRequiredIntsProperty := astmodel.NewPropertyDefinition("Ratings", "ratings", astmodel.NewMapType(astmodel.StringType, astmodel.IntType))
+	mapOfOptionalIntsProperty := astmodel.NewPropertyDefinition("Ratings", "ratings", astmodel.NewMapType(astmodel.StringType, astmodel.NewOptionalType(astmodel.IntType)))
 
-	requiredCurrentEnumProperty := astmodel.NewPropertyDefinition("release", "release", currentEnum.Name())
-	requiredHubEnumProperty := astmodel.NewPropertyDefinition("release", "release", nextEnum.Name())
-	optionalCurrentEnumProperty := astmodel.NewPropertyDefinition("release", "release", astmodel.NewOptionalType(currentEnum.Name()))
-	optionalHubEnumProperty := astmodel.NewPropertyDefinition("release", "release", astmodel.NewOptionalType(nextEnum.Name()))
+	requiredCurrentEnumProperty := astmodel.NewPropertyDefinition("Release", "release", currentEnum.Name())
+	requiredHubEnumProperty := astmodel.NewPropertyDefinition("Release", "release", nextEnum.Name())
+	optionalCurrentEnumProperty := astmodel.NewPropertyDefinition("Release", "release", astmodel.NewOptionalType(currentEnum.Name()))
+	optionalHubEnumProperty := astmodel.NewPropertyDefinition("Release", "release", astmodel.NewOptionalType(nextEnum.Name()))
 
 	roleType := astmodel.NewObjectType().WithProperty(requiredStringProperty).WithProperty(arrayOfRequiredIntProperty)
 	currentRole := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Release"), roleType)
 	hubRole := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "Release"), roleType)
 
-	requiredCurrentRoleProperty := astmodel.NewPropertyDefinition("role", "role", currentRole.Name())
-	requiredHubRoleProperty := astmodel.NewPropertyDefinition("role", "role", hubRole.Name())
-	optionalCurrentRoleProperty := astmodel.NewPropertyDefinition("role", "role", astmodel.NewOptionalType(currentRole.Name()))
-	optionalNextRoleProperty := astmodel.NewPropertyDefinition("role", "role", astmodel.NewOptionalType(hubRole.Name()))
+	requiredCurrentRoleProperty := astmodel.NewPropertyDefinition("Role", "role", currentRole.Name())
+	requiredHubRoleProperty := astmodel.NewPropertyDefinition("Role", "role", hubRole.Name())
+	optionalCurrentRoleProperty := astmodel.NewPropertyDefinition("Role", "role", astmodel.NewOptionalType(currentRole.Name()))
+	optionalNextRoleProperty := astmodel.NewPropertyDefinition("Role", "role", astmodel.NewOptionalType(hubRole.Name()))
 
-	requiredSkuStringProperty := astmodel.NewPropertyDefinition("sku", "sku", astmodel.StringType)
-	requiredNextSkuEnumProperty := astmodel.NewPropertyDefinition("sku", "sku", nextEnum.Name())
-	optionalSkuStringProperty := astmodel.NewPropertyDefinition("sku", "sku", astmodel.NewOptionalType(astmodel.StringType))
-	optionalNextSkuEnumProperty := astmodel.NewPropertyDefinition("sku", "sku", astmodel.NewOptionalType(nextEnum.Name()))
+	requiredSkuStringProperty := astmodel.NewPropertyDefinition("Sku", "sku", astmodel.StringType)
+	requiredNextSkuEnumProperty := astmodel.NewPropertyDefinition("Sku", "sku", nextEnum.Name())
+	optionalSkuStringProperty := astmodel.NewPropertyDefinition("Sku", "sku", astmodel.NewOptionalType(astmodel.StringType))
+	optionalNextSkuEnumProperty := astmodel.NewPropertyDefinition("Sku", "sku", astmodel.NewOptionalType(nextEnum.Name()))
 
-	requiredPrimitiveAgeProperty := astmodel.NewPropertyDefinition("age", "age", astmodel.IntType)
-	optionalPrimitiveAgeProperty := astmodel.NewPropertyDefinition("age", "age", astmodel.NewOptionalType(astmodel.IntType))
-	requiredCurrentAgeProperty := astmodel.NewPropertyDefinition("age", "age", currentAge.Name())
-	requiredNextAgeProperty := astmodel.NewPropertyDefinition("age", "age", nextAge.Name())
-	optionalCurrentAgeProperty := astmodel.NewPropertyDefinition("age", "age", astmodel.NewOptionalType(currentAge.Name()))
-	optionalNextAgeProperty := astmodel.NewPropertyDefinition("age", "age", astmodel.NewOptionalType(nextAge.Name()))
+	requiredPrimitiveAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.IntType)
+	optionalPrimitiveAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(astmodel.IntType))
+	requiredCurrentAgeProperty := astmodel.NewPropertyDefinition("Age", "age", currentAge.Name())
+	requiredNextAgeProperty := astmodel.NewPropertyDefinition("Age", "age", nextAge.Name())
+	optionalCurrentAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(currentAge.Name()))
+	optionalNextAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(nextAge.Name()))
+
+	referenceProperty := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceTypeName)
+	knownReferenceProperty := astmodel.NewPropertyDefinition("KnownReference", "known-reference", astmodel.KnownResourceReferenceTypeName)
+	jsonProperty := astmodel.NewPropertyDefinition("JSONBlob", "json-blob", astmodel.JSONTypeName)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	ageFunction := test.NewFakeFunction("Age", idFactory)
+	ageFunction.TypeReturned = astmodel.IntType
 
 	nastyProperty := astmodel.NewPropertyDefinition(
 		"nasty",
@@ -84,7 +90,7 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 			astmodel.NewArrayType(
 				astmodel.NewMapType(astmodel.StringType, astmodel.BoolType))))
 
-	createTest := func(
+	createPropertyAssignmentTest := func(
 		name string,
 		currentProperty *astmodel.PropertyDefinition,
 		hubProperty *astmodel.PropertyDefinition,
@@ -113,58 +119,92 @@ func CreateStorageConversionFunctionTestCases() []*StorageConversionPropertyTest
 		}
 	}
 
+	createFunctionAssignmentTest := func(
+		name string,
+		property *astmodel.PropertyDefinition,
+		function astmodel.Function) *StorageConversionPropertyTestCase {
+
+		currentType := astmodel.NewObjectType().WithFunction(function)
+		currentDefinition := astmodel.MakeTypeDefinition(
+			astmodel.MakeTypeName(vCurrent, "Person"),
+			currentType)
+
+		hubType := astmodel.NewObjectType().WithProperty(property)
+		hubDefinition := astmodel.MakeTypeDefinition(
+			astmodel.MakeTypeName(vNext, "Person"),
+			hubType)
+
+		types := make(astmodel.Types)
+		types.Add(currentDefinition)
+		types.Add(hubDefinition)
+
+		return &StorageConversionPropertyTestCase{
+			name:          name,
+			currentObject: currentDefinition,
+			otherObject:   hubDefinition,
+			types:         types,
+		}
+	}
+
 	return []*StorageConversionPropertyTestCase{
-		createTest("SetStringFromString", requiredStringProperty, requiredStringProperty),
-		createTest("SetStringFromOptionalString", requiredStringProperty, optionalStringProperty),
-		createTest("SetOptionalStringFromString", optionalStringProperty, requiredStringProperty),
-		createTest("SetOptionalStringFromOptionalString", optionalStringProperty, optionalStringProperty),
+		createPropertyAssignmentTest("SetStringFromString", requiredStringProperty, requiredStringProperty),
+		createPropertyAssignmentTest("SetStringFromOptionalString", requiredStringProperty, optionalStringProperty),
+		createPropertyAssignmentTest("SetOptionalStringFromString", optionalStringProperty, requiredStringProperty),
+		createPropertyAssignmentTest("SetOptionalStringFromOptionalString", optionalStringProperty, optionalStringProperty),
 
-		createTest("SetIntFromInt", requiredIntProperty, requiredIntProperty),
-		createTest("SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty),
+		createPropertyAssignmentTest("SetIntFromInt", requiredIntProperty, requiredIntProperty),
+		createPropertyAssignmentTest("SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty),
 
-		createTest("SetArrayOfRequiredFromArrayOfRequired", arrayOfRequiredIntProperty, arrayOfRequiredIntProperty),
-		createTest("SetArrayOfRequiredFromArrayOfOptional", arrayOfRequiredIntProperty, arrayOfOptionalIntProperty),
-		createTest("SetArrayOfOptionalFromArrayOfRequired", arrayOfOptionalIntProperty, arrayOfRequiredIntProperty),
+		createPropertyAssignmentTest("SetArrayOfRequiredFromArrayOfRequired", arrayOfRequiredIntProperty, arrayOfRequiredIntProperty),
+		createPropertyAssignmentTest("SetArrayOfRequiredFromArrayOfOptional", arrayOfRequiredIntProperty, arrayOfOptionalIntProperty),
+		createPropertyAssignmentTest("SetArrayOfOptionalFromArrayOfRequired", arrayOfOptionalIntProperty, arrayOfRequiredIntProperty),
 
-		createTest("SetMapOfRequiredFromMapOfRequired", mapOfRequiredIntsProperty, mapOfRequiredIntsProperty),
-		createTest("SetMapOfRequiredFromMapOfOptional", mapOfRequiredIntsProperty, mapOfOptionalIntsProperty),
-		createTest("SetMapOfOptionalFromMapOfRequired", mapOfOptionalIntsProperty, mapOfRequiredIntsProperty),
+		createPropertyAssignmentTest("SetMapOfRequiredFromMapOfRequired", mapOfRequiredIntsProperty, mapOfRequiredIntsProperty),
+		createPropertyAssignmentTest("SetMapOfRequiredFromMapOfOptional", mapOfRequiredIntsProperty, mapOfOptionalIntsProperty),
+		createPropertyAssignmentTest("SetMapOfOptionalFromMapOfRequired", mapOfOptionalIntsProperty, mapOfRequiredIntsProperty),
 
-		createTest("NastyTest", nastyProperty, nastyProperty),
+		createPropertyAssignmentTest("NastyTest", nastyProperty, nastyProperty),
 
-		createTest("ConvertBetweenRequiredEnumAndRequiredEnum", requiredCurrentEnumProperty, requiredHubEnumProperty, currentEnum, nextEnum),
-		createTest("ConvertBetweenRequiredEnumAndOptionalEnum", requiredCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum),
-		createTest("ConvertBetweenOptionalEnumAndOptionalEnum", optionalCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum),
+		createPropertyAssignmentTest("ConvertBetweenRequiredEnumAndRequiredEnum", requiredCurrentEnumProperty, requiredHubEnumProperty, currentEnum, nextEnum),
+		createPropertyAssignmentTest("ConvertBetweenRequiredEnumAndOptionalEnum", requiredCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum),
+		createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndOptionalEnum", optionalCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum),
 
-		createTest("ConvertBetweenRequiredObjectAndRequiredObject", requiredCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole),
-		createTest("ConvertBetweenRequiredObjectAndOptionalObject", requiredCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
-		createTest("ConvertBetweenOptionalObjectAndOptionalObject", optionalCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
+		createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndRequiredObject", requiredCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole),
+		createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndOptionalObject", requiredCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
+		createPropertyAssignmentTest("ConvertBetweenOptionalObjectAndOptionalObject", optionalCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
 
-		createTest("ConvertBetweenEnumAndBaseType", requiredSkuStringProperty, requiredNextSkuEnumProperty, nextEnum),
-		createTest("ConvertBetweenEnumAndOptionalBaseType", optionalSkuStringProperty, requiredNextSkuEnumProperty, nextEnum),
-		createTest("ConvertBetweenOptionalEnumAndBaseType", requiredSkuStringProperty, optionalNextSkuEnumProperty, nextEnum),
-		createTest("ConvertBetweenOptionalEnumAndOptionalBaseType", optionalSkuStringProperty, optionalNextSkuEnumProperty, nextEnum),
+		createPropertyAssignmentTest("ConvertBetweenEnumAndBaseType", requiredSkuStringProperty, requiredNextSkuEnumProperty, nextEnum),
+		createPropertyAssignmentTest("ConvertBetweenEnumAndOptionalBaseType", optionalSkuStringProperty, requiredNextSkuEnumProperty, nextEnum),
+		createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndBaseType", requiredSkuStringProperty, optionalNextSkuEnumProperty, nextEnum),
+		createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndOptionalBaseType", optionalSkuStringProperty, optionalNextSkuEnumProperty, nextEnum),
 
-		createTest("ConvertBetweenAliasAndAliasType", requiredCurrentAgeProperty, requiredNextAgeProperty, currentAge, nextAge),
-		createTest("ConvertBetweenAliasAndOptionalAliasType", requiredCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge),
-		createTest("ConvertBetweenOptionalAliasAndOptionalAliasType", optionalCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge),
-		createTest("ConvertBetweenAliasAndBaseType", requiredCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge, nextAge),
-		createTest("ConvertBetweenOptionalAliasAndBaseType", optionalCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge),
-		createTest("ConvertBetweenOptionalAliasAndOptionalBaseType", optionalCurrentAgeProperty, optionalPrimitiveAgeProperty, currentAge),
+		createPropertyAssignmentTest("ConvertBetweenAliasAndAliasType", requiredCurrentAgeProperty, requiredNextAgeProperty, currentAge, nextAge),
+		createPropertyAssignmentTest("ConvertBetweenAliasAndOptionalAliasType", requiredCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge),
+		createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndOptionalAliasType", optionalCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge),
+		createPropertyAssignmentTest("ConvertBetweenAliasAndBaseType", requiredCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge, nextAge),
+		createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndBaseType", optionalCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge),
+		createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndOptionalBaseType", optionalCurrentAgeProperty, optionalPrimitiveAgeProperty, currentAge),
+
+		createFunctionAssignmentTest("ReadFromFunctionIntoProperty", requiredIntProperty, ageFunction),
+		createFunctionAssignmentTest("ReadFromFunctionIntoOptionalProperty", optionalIntProperty, ageFunction),
+
+		createPropertyAssignmentTest("CopyReferenceProperty", referenceProperty, referenceProperty),
+		createPropertyAssignmentTest("CopyKnownReferenceProperty", knownReferenceProperty, knownReferenceProperty),
+		createPropertyAssignmentTest("CopyJSONProperty", jsonProperty, jsonProperty),
 	}
 }
 
-func TestStorageConversionFunction_AsFunc(t *testing.T) {
-	for _, c := range CreateStorageConversionFunctionTestCases() {
+func TestPropertyAssignmentFunction_AsFunc(t *testing.T) {
+	for _, c := range CreatePropertyAssignmentFunctionTestCases() {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			RunTestStorageConversionFunction_AsFunc(c, t)
+			runTestPropertyAssignmentFunction_AsFunc(c, t)
 		})
 	}
 }
 
-func RunTestStorageConversionFunction_AsFunc(c *StorageConversionPropertyTestCase, t *testing.T) {
+func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCase, t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
@@ -172,42 +212,15 @@ func RunTestStorageConversionFunction_AsFunc(c *StorageConversionPropertyTestCas
 	currentType, ok := astmodel.AsObjectType(c.currentObject.Type())
 	g.Expect(ok).To(BeTrue())
 
-	conversionFromContext := NewStorageConversionContext(c.types, ConvertFrom, idFactory)
-	convertFrom, errs := NewPropertyAssignmentFromFunction(c.currentObject, c.otherObject, idFactory, conversionFromContext)
+	conversionContext := NewPropertyConversionContext(c.types, idFactory)
+	convertFrom, errs := NewPropertyAssignmentFromFunction(c.currentObject, c.otherObject, idFactory, conversionContext)
 	g.Expect(errs).To(BeNil())
 
-	conversionToContext := NewStorageConversionContext(c.types, ConvertTo, idFactory)
-	convertTo, errs := NewPropertyAssignmentToFunction(c.currentObject, c.otherObject, idFactory, conversionToContext)
+	convertTo, errs := NewPropertyAssignmentToFunction(c.currentObject, c.otherObject, idFactory, conversionContext)
 	g.Expect(errs).To(BeNil())
 
 	receiverDefinition := c.currentObject.WithType(currentType.WithFunction(convertFrom).WithFunction(convertTo))
 
-	defs := []astmodel.TypeDefinition{receiverDefinition}
-	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
-
-	currentPackage := receiverDefinition.Name().PackageReference.(astmodel.LocalPackageReference)
-
-	packageDefinition := astmodel.NewPackageDefinition(currentPackage.Group(), currentPackage.PackageName(), "1")
-	packageDefinition.AddDefinition(receiverDefinition)
-
-	packages[currentPackage] = packageDefinition
-
-	// put all definitions in one file, regardless.
-	// the package reference isn't really used here.
-	fileDef := astmodel.NewFileDefinition(currentPackage, defs, packages)
-
-	assertFileGeneratesExpectedCode(t, fileDef, c.name)
-}
-
-func assertFileGeneratesExpectedCode(t *testing.T, fileDef *astmodel.FileDefinition, testName string) {
-	g := goldie.New(t)
-
-	buf := &bytes.Buffer{}
-	fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
-	err := fileWriter.SaveToWriter(buf)
-	if err != nil {
-		t.Fatalf("could not generate file: %v", err)
-	}
-
-	g.Assert(t, testName, buf.Bytes())
+	fileDef := test.CreateFileDefinition(receiverDefinition)
+	test.AssertFileGeneratesExpectedCode(t, fileDef, c.name)
 }

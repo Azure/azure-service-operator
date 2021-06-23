@@ -18,6 +18,8 @@ func TestSingular_GivesExpectedResults(t *testing.T) {
 	}{
 		{"Account", "Account"},
 		{"Accounts", "Account"},
+		{"Address", "Address"},
+		{"Addresses", "Address"},
 		{"Batch", "Batch"},
 		{"Batches", "Batch"},
 		{"ImportServices", "ImportService"},

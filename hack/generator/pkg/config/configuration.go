@@ -84,6 +84,46 @@ func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
 		config.TypeRegistrationOutputFile)
 }
 
+func (config *Configuration) GetTypeFiltersError() error {
+	for _, filter := range config.TypeFilters {
+		if !filter.MatchedRequiredTypes() {
+			return errors.Errorf("Type filter action: %q, target: %q matched no types", filter.Action, filter.String())
+		}
+	}
+
+	return nil
+}
+
+func (config *Configuration) GetTypeTransformersError() error {
+	for _, filter := range config.typeTransformers {
+		if !filter.MatchedRequiredTypes() {
+			return errors.Errorf("Type transformer target: %q matched no types", filter.String())
+		}
+	}
+
+	return nil
+}
+
+func (config *Configuration) GetPropertyTransformersError() error {
+	for _, filter := range config.propertyTransformers {
+		if !filter.MatchedRequiredTypes() {
+			return errors.Errorf("Type transformer target: %q for property %q matched no types", filter.String(), filter.Property)
+		}
+	}
+
+	return nil
+}
+
+func (config *Configuration) GetExportFiltersError() error {
+	for _, filter := range config.ExportFilters {
+		if !filter.MatchedRequiredTypes() {
+			return errors.Errorf("Export filter action: %q, target: %q matched no types", filter.Action, filter.String())
+		}
+	}
+
+	return nil
+}
+
 // NewConfiguration returns a new empty Configuration
 func NewConfiguration() *Configuration {
 	return &Configuration{}
@@ -267,7 +307,7 @@ func absDirectoryPathToURL(path string) *url.URL {
 
 type ExportFilterFunc func(astmodel.TypeName) (result ShouldExportResult, because string)
 
-func buildExportFilterFunc(f *ExportFilter, allTypes astmodel.Types) (ExportFilterFunc, error) {
+func buildExportFilterFunc(f *ExportFilter, allTypes astmodel.Types) ExportFilterFunc {
 	switch f.Action {
 	case ExportFilterExclude:
 		return func(typeName astmodel.TypeName) (ShouldExportResult, string) {
@@ -276,7 +316,7 @@ func buildExportFilterFunc(f *ExportFilter, allTypes astmodel.Types) (ExportFilt
 			}
 
 			return "", ""
-		}, nil
+		}
 
 	case ExportFilterInclude:
 		return func(typeName astmodel.TypeName) (ShouldExportResult, string) {
@@ -285,20 +325,14 @@ func buildExportFilterFunc(f *ExportFilter, allTypes astmodel.Types) (ExportFilt
 			}
 
 			return "", ""
-		}, nil
+		}
 
 	case ExportFilterIncludeTransitive:
 		applicableTypes := make(astmodel.TypeNameSet)
-		foundMatch := false
 		for tn := range allTypes {
 			if f.AppliesToType(tn) {
-				foundMatch = true
 				collectAllReferencedTypes(allTypes, tn, applicableTypes)
 			}
-		}
-
-		if !foundMatch {
-			return nil, errors.Errorf("no types matched for include-transitive filter: %v", f)
 		}
 
 		return func(typeName astmodel.TypeName) (ShouldExportResult, string) {
@@ -307,7 +341,7 @@ func buildExportFilterFunc(f *ExportFilter, allTypes astmodel.Types) (ExportFilt
 			}
 
 			return "", ""
-		}, nil
+		}
 
 	default:
 		panic(errors.Errorf("unknown exportfilter directive: %s", f.Action))
@@ -325,13 +359,10 @@ func collectAllReferencedTypes(allTypes astmodel.Types, root astmodel.TypeName, 
 
 // BuildExportFilterer tests for whether a given type should be exported as Go code
 // Returns a result indicating whether export should occur as well as a reason for logging
-func (config *Configuration) BuildExportFilterer(allTypes astmodel.Types) (ExportFilterFunc, error) {
+func (config *Configuration) BuildExportFilterer(allTypes astmodel.Types) ExportFilterFunc {
 	var filters []ExportFilterFunc
 	for _, f := range config.ExportFilters {
-		filter, err := buildExportFilterFunc(f, allTypes)
-		if err != nil {
-			return nil, errors.Wrap(err, "building export filter func")
-		}
+		filter := buildExportFilterFunc(f, allTypes)
 		filters = append(filters, filter)
 	}
 
@@ -345,7 +376,7 @@ func (config *Configuration) BuildExportFilterer(allTypes astmodel.Types) (Expor
 
 		// By default we export all types
 		return Export, ""
-	}, nil
+	}
 }
 
 // ShouldPrune tests for whether a given type should be extracted from the JSON schema or pruned

@@ -184,7 +184,7 @@ func (spec *ResourceGroupSpec) ConvertToARM(name string, resolvedReferences genr
 		return nil, nil
 	}
 	result := ResourceGroupSpecArm{}
-	result.ApiVersion = "2020-06-01" // TODO: Update this to match what the codegenerated resources do with APIVersion eventually
+	result.APIVersion = "2020-06-01" // TODO: Update this to match what the codegenerated resources do with APIVersion eventually
 	result.Location = spec.Location
 	result.Name = name
 	result.ManagedBy = spec.ManagedBy

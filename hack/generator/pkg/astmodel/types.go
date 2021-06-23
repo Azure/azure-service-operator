@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+
 	"github.com/pkg/errors"
 )
 
@@ -68,6 +69,20 @@ func (types Types) AddAllowDuplicates(def TypeDefinition) error {
 	}
 
 	// Can safely skip this add
+	return nil
+}
+
+// AddAllAllowDuplicates adds multiple definitions to the set.
+// Multiple adds of a type with the same shape are allowed, but attempting to add two
+// types with the same name but different shape will trigger an error.
+func (types Types) AddAllAllowDuplicates(otherDefinitions []TypeDefinition) error {
+	for _, def := range otherDefinitions {
+		err := types.AddAllowDuplicates(def)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 

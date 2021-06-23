@@ -100,7 +100,7 @@ steps:
         arch=$(go env GOARCH)
         go mod download
         make install-kubebuilder
-        make install-test-dependencies
+        make install-test-tools
         make generate-test-certs
       workingDirectory: '$(System.DefaultWorkingDirectory)'
 
@@ -144,6 +144,26 @@ steps:
       export KUBEBUILDER_ASSETS=$(go env GOPATH)/kubebuilder/bin
       make test-v1-secret-naming
     displayName: Run legacy v1 secret naming tests
+    condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    continueOnError: 'false'
+    env:
+      GO111MODULE: on
+      AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+      AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+      AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+      AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+      REQUEUE_AFTER: $(REQUEUE_AFTER)
+      BUILD_ID: $(Build.BuildId)
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+  # TODO: There is no way to run steps in parallel in Azure pipelines but ideally this step would run in parallel
+  # TODO: with the above testing step to reduce overall runtime
+  - script: |
+      set -e
+      export PATH=$PATH:$(go env GOPATH)/bin:$(go env GOPATH)/kubebuilder/bin
+      export KUBEBUILDER_ASSETS=$(go env GOPATH)/kubebuilder/bin
+      make test-no-target-namespaces
+    displayName: Run test for no target namespaces
     condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     continueOnError: 'false'
     env:
@@ -318,7 +338,10 @@ steps:
         echo "Setting tags back to free"
         az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(chosenclustername) --resource-type Microsoft.ContainerService/managedClusters
       workingDirectory: '$(System.DefaultWorkingDirectory)'
-      failOnStandardError: true
+      # Turn off this check until our aad-pod-identity dep is updated
+      # so that it's not trying to install v1beta1
+      # ClusterRoleBindings.
+      failOnStandardError: false
     
 
   - task: Docker@2

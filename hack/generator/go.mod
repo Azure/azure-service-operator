@@ -10,7 +10,7 @@ require (
 	github.com/go-openapi/jsonpointer v0.19.3
 	github.com/go-openapi/jsonreference v0.19.3 // indirect
 	github.com/go-openapi/spec v0.19.3
-	github.com/gobuffalo/flect v0.2.1
+	github.com/gobuffalo/flect v0.2.3
 	github.com/kr/text v0.2.0 // indirect
 	github.com/leanovate/gopter v0.2.9
 	github.com/mailru/easyjson v0.7.0 // indirect

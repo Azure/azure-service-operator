@@ -13,7 +13,7 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	network "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.network/v1alpha1api20200501"
+	network "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.network/v1alpha1api20201101"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
@@ -98,7 +98,7 @@ func Test_LoadBalancer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(loadBalancer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadResource(ctx, armId, "2020-05-01")
+	exists, retryAfter, err := tc.AzureClient.HeadResource(ctx, armId, string(network.LoadBalancersSpecAPIVersion20201101))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())

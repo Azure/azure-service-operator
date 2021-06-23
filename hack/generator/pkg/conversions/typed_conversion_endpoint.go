@@ -11,9 +11,9 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// PropertyConversionEndpoint represents either a source or a destination target for a storage conversion
+// TypedConversionEndpoint represents either a source or a destination target for a storage conversion
 // In simple cases these will be fields, but can also represent indexed members of slices and maps.
-type PropertyConversionEndpoint struct {
+type TypedConversionEndpoint struct {
 	// theType is the Type of the value accessible via this endpoint
 	theType astmodel.Type
 	// name is the name of the underlying property, used to generate useful local identifiers
@@ -25,35 +25,35 @@ type PropertyConversionEndpoint struct {
 func NewStorageConversionEndpoint(
 	theType astmodel.Type,
 	name string,
-	knownLocals *astmodel.KnownLocalsSet) *PropertyConversionEndpoint {
-	return &PropertyConversionEndpoint{
+	knownLocals *astmodel.KnownLocalsSet) *TypedConversionEndpoint {
+	return &TypedConversionEndpoint{
 		theType:     theType,
 		name:        name,
 		knownLocals: knownLocals,
 	}
 }
 
-func (endpoint *PropertyConversionEndpoint) Name() string {
+func (endpoint *TypedConversionEndpoint) Name() string {
 	return endpoint.name
 }
 
 // Type returns the type of this endpoint
 //TODO: Remove ?
-func (endpoint *PropertyConversionEndpoint) Type() astmodel.Type {
+func (endpoint *TypedConversionEndpoint) Type() astmodel.Type {
 	return endpoint.theType
 }
 
 // CreateLocal creates an identifier for a local variable using one of the supplied suffixes if
 // possible. If all of those suffixes have been used, integer suffixes will be used
 // Each call will return a unique identifier
-func (endpoint *PropertyConversionEndpoint) CreateLocal(suffix ...string) string {
+func (endpoint *TypedConversionEndpoint) CreateLocal(suffix ...string) string {
 	singular := flect.Singularize(endpoint.name)
 	return endpoint.knownLocals.CreateLocal(singular, suffix...)
 }
 
 // WithType creates a new endpoint with a different type
-func (endpoint *PropertyConversionEndpoint) WithType(theType astmodel.Type) *PropertyConversionEndpoint {
-	return &PropertyConversionEndpoint{
+func (endpoint *TypedConversionEndpoint) WithType(theType astmodel.Type) *TypedConversionEndpoint {
+	return &TypedConversionEndpoint{
 		theType:     theType,
 		name:        endpoint.name,
 		knownLocals: endpoint.knownLocals,
