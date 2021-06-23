@@ -146,7 +146,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		simplifyDefinitions(),
 		pipeline.InjectJsonSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
 
-		markStorageVersion(),
+		pipeline.MarkStorageVersion(),
 
 		// Safety checks at the end:
 		pipeline.EnsureDefinitionsDoNotUseAnyTypes(),
