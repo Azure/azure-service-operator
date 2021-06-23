@@ -250,7 +250,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		// find the corresponding inner property on the to-prop type
 		toSubProp, ok := toPropObjType.Property(fromProp.PropertyName())
 		if !ok {
-			panic("unable to find source of flattened property")
+			panic(fmt.Sprintf("unable to find expected property %s inside property %s", fromProp.PropertyName(), toPropName))
 		}
 
 		// generate conversion
