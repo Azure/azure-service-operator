@@ -14,6 +14,23 @@ import (
 // Types is a map of TypeName to TypeDefinition, representing a set of types.
 type Types map[TypeName]TypeDefinition
 
+// A restricted interface to indicate that the
+// consumer won’t modify the contained types.
+type ReadonlyTypes interface {
+	FullyResolve(t Type) (Type, error)
+	Get(t TypeName) TypeDefinition
+	TryGet(t TypeName) (TypeDefinition, bool)
+}
+
+func (types Types) Get(t TypeName) TypeDefinition {
+	return types[t]
+}
+
+func (types Types) TryGet(t TypeName) (TypeDefinition, bool) {
+	result, ok := types[t]
+	return result, ok
+}
+
 // Add adds a type to the set, with safety check that it has not already been defined
 func (types Types) Add(def TypeDefinition) {
 	key := def.Name()

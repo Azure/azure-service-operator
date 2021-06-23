@@ -16,28 +16,25 @@ func augmentSpecWithStatus() PipelineStage {
 		"augmentSpecWithStatus",
 		"Merges information from Status into Spec",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-
-			newTypes := make(astmodel.Types)
-			newTypes.AddTypes(types)
-
 			// build the augmenter we will use:
 			augmenter := fuseAugmenters(
-				flattenAugmenter(newTypes), // note that this can alter newTypes as a side-effect, so it must be preloaded with all the types
+				flattenAugmenter(types),
 			)
 
-			for typeName, typeDef := range newTypes {
-				resource, ok := typeDef.Type().(*astmodel.ResourceType)
-				if !ok {
-					continue
-				}
+			newTypes := make(astmodel.Types)
 
-				// augment spec with any bits needed from status
-				newSpec, err := augmenter(resource.SpecType(), resource.StatusType())
-				if err != nil {
-					return nil, err
-				}
+			for _, typeDef := range types {
+				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
+					// augment spec with any bits needed from status
+					newSpec, err := augmenter(resource.SpecType(), resource.StatusType())
+					if err != nil {
+						return nil, err
+					}
 
-				newTypes[typeName] = typeDef.WithType(resource.WithSpec(newSpec))
+					newTypes.Add(typeDef.WithType(resource.WithSpec(newSpec)))
+				} else {
+					newTypes.Add(typeDef)
+				}
 			}
 
 			return newTypes, nil
@@ -65,35 +62,31 @@ func fuseAugmenters(augments ...augmenter) augmenter {
 }
 
 // flattenAugmenter copies across the "flatten" property from Swagger
-func flattenAugmenter(allTypes astmodel.Types) augmenter {
+func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 	return func(main astmodel.Type, swagger astmodel.Type) (astmodel.Type, error) {
-		var merger = astmodel.NewTypeMerger(func(ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
-			// return left (= main) if the two sides are not ObjectTypes
+		merger := astmodel.NewTypeMerger(func(ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
+			// as a fallback, return left (= main) if we have nothing else to do
 			return left, nil
 		})
 
 		merger.Add(func(main, swagger astmodel.TypeName) (astmodel.Type, error) {
-			// when we merge two typenames we always return the main type name
-			// however, *as a side effect*, we augment this named type with the information
-			// from the corresponding swagger type.
+			// when we merge two typenames we know that (structurally) they must
+			// be the ‘same’ type, even if they have different names
 
 			// this allows us to handle cases where names differ greatly from JSON schema to Swagger,
-			// we rely on the structure of the types to tell us which types are the same despite having different names
+			// we rely on the structure of the types to tell us which types are the same
 
-			// TODO: do we need to resolve these until we hit a non-TypeName?
-			newType, err := merger.Merge(allTypes[main].Type(), allTypes[swagger].Type())
+			newType, err := merger.Merge(allTypes.Get(main).Type(), allTypes.Get(swagger).Type())
 			if err != nil {
 				return nil, err
 			}
 
-			allTypes[main] = allTypes[main].WithType(newType)
-
-			return main, nil
+			return newType, nil
 		})
 
 		// need to resolve main type
 		merger.Add(func(main astmodel.TypeName, swagger astmodel.Type) (astmodel.Type, error) {
-			newMain, err := merger.Merge(allTypes[main].Type(), swagger)
+			newMain, err := merger.Merge(allTypes.Get(main).Type(), swagger)
 			if err != nil {
 				return nil, err
 			}
@@ -103,7 +96,7 @@ func flattenAugmenter(allTypes astmodel.Types) augmenter {
 
 		// need to resolve swagger type
 		merger.Add(func(main astmodel.Type, swagger astmodel.TypeName) (astmodel.Type, error) {
-			result, err := merger.Merge(main, allTypes[swagger].Type())
+			result, err := merger.Merge(main, allTypes.Get(swagger).Type())
 			if err != nil {
 				return nil, err
 			}
