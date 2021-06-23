@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -12,15 +12,14 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 )
 
-// createStorageTypes returns a pipeline stage that creates dedicated storage types for each resource and nested object.
+// CreateStorageTypes returns a pipeline stage that creates dedicated storage types for each resource and nested object.
 // Storage versions are created for *all* API versions to allow users of older versions of the operator to easily
 // upgrade. This is of course a bit odd for the first release, but defining the approach from day one is useful.
-func createStorageTypes(idFactory astmodel.IdentifierFactory) pipeline.Stage {
-	return pipeline.MakeStage(
+func CreateStorageTypes(idFactory astmodel.IdentifierFactory) Stage {
+	return MakeStage(
 		"createStorage",
 		"Create storage versions of CRD types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
