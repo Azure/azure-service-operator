@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -13,15 +13,14 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-// createARMTypes walks the type graph and builds new types for communicating
+// CreateARMTypes walks the type graph and builds new types for communicating
 // with ARM
-func createARMTypes(idFactory astmodel.IdentifierFactory) pipeline.Stage {
-	return pipeline.MakeStage(
+func CreateARMTypes(idFactory astmodel.IdentifierFactory) Stage {
+	return MakeStage(
 		"createArmTypes",
-		"Creates ARM types",
+		"Create custom types for interaction with ARM",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
 
 			armTypeCreator := &armTypeCreator{definitions: definitions, idFactory: idFactory}
