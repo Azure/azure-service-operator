@@ -12,6 +12,7 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
 // TypeConverter is used to create a storage variant of an API type
@@ -22,12 +23,15 @@ type TypeConverter struct {
 	types astmodel.Types
 	// propertyConverter is used to modify properties
 	propertyConverter *PropertyConverter
+	// idFactory is a reference to our IdentifierFactory singleton
+	idFactory astmodel.IdentifierFactory
 }
 
 // NewTypeConverter creates a new instance of the utility type
-func NewTypeConverter(types astmodel.Types) *TypeConverter {
+func NewTypeConverter(types astmodel.Types, idFactory astmodel.IdentifierFactory) *TypeConverter {
 	result := &TypeConverter{
 		types:             types,
+		idFactory:         idFactory,
 		propertyConverter: NewPropertyConverter(types),
 	}
 
@@ -42,11 +46,63 @@ func NewTypeConverter(types astmodel.Types) *TypeConverter {
 	return result
 }
 
-// ConvertDefinition applies our type conversion to a specific type definition
-func (t *TypeConverter) ConvertDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-	result, err := t.visitor.VisitDefinition(def, nil)
+// ConvertResourceDefinition applies our type conversion to a specific resource type definition
+func (t *TypeConverter) ConvertResourceDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	converterContext := typeConverterContext{}
+
+	updated, err := t.convertDefinition(def, converterContext)
 	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "converting %q for storage variant", def.Name())
+		return astmodel.TypeDefinition{}, errors.Wrapf(err, "converting resource %q for storage variant", def.Name())
+	}
+
+	return updated, nil
+}
+
+// ConvertSpecDefinition applies our type conversion to a specific spec type definition
+func (t *TypeConverter) ConvertSpecDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	converterContext := typeConverterContext{
+		isSpec: true,
+	}
+
+	updated, err := t.convertDefinition(def, converterContext)
+	if err != nil {
+		return astmodel.TypeDefinition{}, errors.Wrapf(err, "converting spec %q for storage variant", def.Name())
+	}
+
+	return updated, nil
+}
+
+// ConvertStatusDefinition applies our type conversion to a specific status type definition
+func (t *TypeConverter) ConvertStatusDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	converterContext := typeConverterContext{
+		isStatus: true,
+	}
+
+	updated, err := t.convertDefinition(def, converterContext)
+	if err != nil {
+		return astmodel.TypeDefinition{}, errors.Wrapf(err, "converting status %q for storage variant", def.Name())
+	}
+
+	return updated, nil
+}
+
+// ConvertObjectDefinition applies our type conversion to a specific object type definition
+func (t *TypeConverter) ConvertObjectDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	converterContext := typeConverterContext{}
+	updated, err := t.convertDefinition(def, converterContext)
+	if err != nil {
+		return astmodel.TypeDefinition{}, errors.Wrapf(err, "converting object %q for storage variant", def.Name())
+	}
+
+	return updated, nil
+}
+
+// convertDefinition applies our type conversion to a specific type definition
+func (t *TypeConverter) convertDefinition(def astmodel.TypeDefinition, ctx typeConverterContext) (astmodel.TypeDefinition, error) {
+	result, err := t.visitor.VisitDefinition(def, ctx)
+	if err != nil {
+		// Don't need to wrap for context because all our callers do that with better precision
+		return astmodel.TypeDefinition{}, err
 	}
 
 	description := t.descriptionForStorageVariant(def)
@@ -65,9 +121,9 @@ func (t *TypeConverter) convertResourceType(
 	resource *astmodel.ResourceType,
 	ctx interface{}) (astmodel.Type, error) {
 
-	// Resource needs OriginalGVP property injected too
-	originalGVK := astmodel.NewPropertyDefinition("OriginalGVK", "original-gvk", astmodel.GroupVersionKindTypeName)
-	result := resource.WithProperty(originalGVK)
+	// Storage resource needs OriginalGVP() function injected too
+	originalGVK := functions.NewOriginalGVKFunction(t.idFactory)
+	result := resource.WithFunction(originalGVK)
 
 	// storage resource types do not need defaulter/validator interfaces, they have no webhooks
 	result = result.WithoutInterface(astmodel.DefaulterInterfaceName).
@@ -78,7 +134,9 @@ func (t *TypeConverter) convertResourceType(
 
 // convertObjectType creates a storage variation of an object type
 func (t *TypeConverter) convertObjectType(
-	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
+	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+
+	converterContext := ctx.(typeConverterContext)
 
 	var errs []error
 	properties := object.Properties()
@@ -97,6 +155,13 @@ func (t *TypeConverter) convertObjectType(
 	}
 
 	objectType := astmodel.NewObjectType().WithProperties(properties...)
+
+	if converterContext.isSpec {
+		// Inject OriginalVersion property
+		originalVersion :=astmodel.NewPropertyDefinition("OriginalVersion", "original-version", astmodel.StringType)
+		objectType = objectType.WithProperty(originalVersion)
+	}
+
 	return astmodel.StorageFlag.ApplyTo(objectType), nil
 }
 
@@ -154,4 +219,9 @@ func (_ *TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDef
 	result = append(result, definition.Description()...)
 
 	return result
+}
+
+type typeConverterContext struct {
+	isSpec   bool
+	isStatus bool
 }
