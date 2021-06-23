@@ -182,6 +182,16 @@ func (tc KubePerTestContext) CreateNewTestResourceGroup(wait WaitCondition) (*re
 			// don't error out, just warn
 			tc.T.Logf("Unable to delete resource group: %s", cleanupErr.Error())
 		}
+
+		// We have to wait delete to finish here. If we don't, there's a good chance
+		// that even though Kuberentes accepted our request to delete the resource, the
+		// controller running in envtest never got a chance to actually issue a request
+		// to Azure before the test is torn down (and envtest stops). We can't easily
+		// wait for just "Deleting" as that causes issues with determinism as the controller
+		// doesn't stop polling resources in "Deleting" state and so when running recordings
+		// different runs end up polling different numbers of times. Ensuring we reach a state
+		// the controller deems terminal (Deleted) resolves this issue.
+		tc.G.Eventually(rg, 2*time.Minute).Should(tc.Match.BeDeleted())
 	})
 
 	if wait {
@@ -247,6 +257,18 @@ func (ktc *KubePerTestContext) CreateNewTestResourceGroupAndWait() *v1alpha1api2
 func (ktc *KubePerTestContext) CreateResourceAndWait(obj runtime.Object) {
 	ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
 	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisioned())
+}
+
+// CreateResourcesAndWait creates the resources in K8s and waits for them to
+// change into the Provisioned state.
+func (ktc *KubePerTestContext) CreateResourcesAndWait(objs ...runtime.Object) {
+	for _, obj := range objs {
+		ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
+	}
+
+	for _, obj := range objs {
+		ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisioned())
+	}
 }
 
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
