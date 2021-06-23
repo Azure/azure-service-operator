@@ -38,7 +38,7 @@ func CheckErrorAndSingleStatement(stmt dst.Stmt) dst.Stmt {
 		Cond: &dst.BinaryExpr{
 			X:  dst.NewIdent("err"),
 			Op: token.NEQ,
-			Y:  dst.NewIdent("nil"),
+			Y:  Nil(),
 		},
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
@@ -193,7 +193,7 @@ func ReturnIfNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 		&dst.BinaryExpr{
 			X:  dst.Clone(toCheck).(dst.Expr),
 			Op: token.EQL,
-			Y:  dst.NewIdent("nil"),
+			Y:  Nil(),
 		},
 		returns...)
 }
@@ -209,7 +209,7 @@ func ReturnIfNotNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 		&dst.BinaryExpr{
 			X:  dst.Clone(toCheck).(dst.Expr),
 			Op: token.NEQ,
-			Y:  dst.NewIdent("nil"),
+			Y:  Nil(),
 		},
 		returns...)
 }
@@ -294,7 +294,7 @@ func Returns(returns ...dst.Expr) dst.Stmt {
 //    return nil
 //
 func ReturnNoError() dst.Stmt {
-	result := Returns(dst.NewIdent("nil"))
+	result := Returns(Nil())
 	result.Decorations().Before = dst.EmptyLine
 	result.Decorations().Start.Append("// No error")
 	return result
@@ -351,6 +351,16 @@ func NotEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 		Op: token.NEQ,
 		Y:  dst.Clone(rhs).(dst.Expr),
 	}
+}
+
+// NotNil generates an `x != nil` comparison
+func NotNil(x dst.Expr) *dst.BinaryExpr {
+	return NotEqual(x, Nil())
+}
+
+// Nil returns the nil identifier (not keyword!)
+func Nil() *dst.Ident {
+	return dst.NewIdent("nil")
 }
 
 // StatementBlock generates a block containing the supplied statements

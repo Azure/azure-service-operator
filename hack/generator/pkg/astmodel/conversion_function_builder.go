@@ -214,11 +214,7 @@ func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, 
 			astbuilder.AddrOf(dst.NewIdent(tempVarIdent))))
 
 	result := &dst.IfStmt{
-		Cond: &dst.BinaryExpr{
-			X:  params.GetSource(),
-			Op: token.NEQ,
-			Y:  dst.NewIdent("nil"),
-		},
+		Cond: astbuilder.NotNil(params.GetSource()),
 		Body: &dst.BlockStmt{
 			List: innerStatements,
 		},
@@ -233,7 +229,6 @@ func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, 
 //		<destination> = append(<destination>, <result>)
 //	}
 func IdentityConvertComplexArrayProperty(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
-
 	destinationType, ok := params.DestinationType.(*ArrayType)
 	if !ok {
 		return nil
@@ -373,11 +368,7 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 	}
 
 	result := &dst.IfStmt{
-		Cond: &dst.BinaryExpr{
-			X:  params.GetSource(),
-			Op: token.NEQ,
-			Y:  dst.NewIdent("nil"),
-		},
+		Cond: astbuilder.NotNil(params.GetSource()),
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
 				makeMapStatement,
@@ -565,7 +556,6 @@ func IdentityAssignValidatedTypeSource(builder *ConversionFunctionBuilder, param
 // It generates code that looks like:
 //     <destination> = *<source>.DeepCopy()
 func IdentityDeepCopyJSON(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
-
 	if !params.DestinationType.Equals(JSONTypeName) {
 		return nil
 	}

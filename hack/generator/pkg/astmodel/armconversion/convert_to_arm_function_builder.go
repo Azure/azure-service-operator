@@ -101,7 +101,7 @@ func (builder *convertToARMBuilder) functionBodyStatements() []dst.Stmt {
 	// but saves us some nil-checks
 	result = append(
 		result,
-		astbuilder.ReturnIfNil(dst.NewIdent(builder.receiverIdent), dst.NewIdent("nil"), dst.NewIdent("nil")))
+		astbuilder.ReturnIfNil(dst.NewIdent(builder.receiverIdent), astbuilder.Nil(), astbuilder.Nil()))
 	result = append(result, astbuilder.NewVariable(builder.resultIdent, builder.armTypeIdent))
 
 	// Each ARM object property needs to be filled out
@@ -115,7 +115,7 @@ func (builder *convertToARMBuilder) functionBodyStatements() []dst.Stmt {
 	returnStatement := &dst.ReturnStmt{
 		Results: []dst.Expr{
 			dst.NewIdent(builder.resultIdent),
-			dst.NewIdent("nil"),
+			astbuilder.Nil(),
 		},
 	}
 	result = append(result, returnStatement)
@@ -266,7 +266,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 				Locals:            builder.locals,
 			})
 
-		// failed?
+		// we were unable to generate an inner conversion so we cannot generate the overall conversion
 		if len(stmts) == 0 {
 			return nil
 		}
@@ -292,11 +292,8 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 	// build (x != nil, y != nil, …)
 	conds := make([]dst.Expr, 0, len(fromProps))
 	for _, prop := range fromProps {
-		conds = append(conds, &dst.BinaryExpr{
-			X:  astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(prop.PropertyName())),
-			Op: token.NEQ,
-			Y:  dst.NewIdent("nil"),
-		})
+		propSel := astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(prop.PropertyName()))
+		conds = append(conds, astbuilder.NotNil(propSel))
 	}
 
 	// build (x || y || …)
@@ -413,7 +410,7 @@ func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.Convers
 			"ARMIDOrErr",
 			params.Source))
 
-	returnIfNotNil := astbuilder.ReturnIfNotNil(dst.NewIdent("err"), dst.NewIdent("nil"), dst.NewIdent("err"))
+	returnIfNotNil := astbuilder.ReturnIfNotNil(dst.NewIdent("err"), astbuilder.Nil(), dst.NewIdent("err"))
 
 	result := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(localVarName))
 
@@ -490,7 +487,7 @@ func callToARMFunction(source dst.Expr, destination dst.Expr, methodName string)
 		},
 	}
 	results = append(results, propertyToARMInvocation)
-	results = append(results, astbuilder.CheckErrorAndReturn(dst.NewIdent("nil")))
+	results = append(results, astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
 
 	return results
 }

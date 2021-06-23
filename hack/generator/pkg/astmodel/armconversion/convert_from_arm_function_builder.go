@@ -312,19 +312,16 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 			Locals:            locals,
 		})
 
-	// failed?
+	// we were unable to generate an inner conversion so we cannot generate the overall conversion
 	if len(stmts) == 0 {
 		return nil
 	}
 
 	if generateNilCheck {
+		propToCheck := astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))
 		stmts = []dst.Stmt{
 			&dst.IfStmt{
-				Cond: &dst.BinaryExpr{
-					X:  astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName())),
-					Op: token.NEQ,
-					Y:  dst.NewIdent("nil"),
-				},
+				Cond: astbuilder.NotNil(propToCheck),
 				Body: &dst.BlockStmt{List: stmts},
 			},
 		}

@@ -15,8 +15,10 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
-var ValidatorInterfaceName = MakeTypeName(ControllerRuntimeAdmission, "Validator")
-var GenRuntimeValidatorInterfaceName = MakeTypeName(GenRuntimeReference, "Validator")
+var (
+	ValidatorInterfaceName           = MakeTypeName(ControllerRuntimeAdmission, "Validator")
+	GenRuntimeValidatorInterfaceName = MakeTypeName(GenRuntimeReference, "Validator")
+)
 
 // ValidationKind determines when a particular validation should be run
 type ValidationKind string
@@ -365,7 +367,7 @@ func (v *ValidatorBuilder) localValidationFuncBody(kind ValidationKind, codeGene
 	}
 
 	if len(elements) == 0 {
-		return []dst.Stmt{astbuilder.Returns(dst.NewIdent("nil"))}
+		return []dst.Stmt{astbuilder.Returns(astbuilder.Nil())}
 	}
 
 	returnStmt := astbuilder.Returns(&dst.CompositeLit{
@@ -402,7 +404,7 @@ func (v *ValidatorBuilder) makeLocalValidationElement(
 			return &dst.FuncLit{
 				Decs: dst.FuncLitDecorations{
 					NodeDecs: dst.NodeDecs{
-						//Start:  doc,
+						// Start:  doc,
 						Before: dst.NewLine,
 						After:  dst.NewLine,
 					},
