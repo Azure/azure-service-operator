@@ -978,6 +978,11 @@ func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTy
 		}
 
 		return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+			// If our writer is dereferencing a value, skip that as we don't need to dereference before a method call
+			if unary, ok := astbuilder.AsDereference(reader); ok {
+				reader = unary.X
+			}
+
 			if returnKind == returnsReference {
 				// If the copy method returns a ptr, we need to dereference
 				// This dereference is always safe because we ensured that both source and destination are always
