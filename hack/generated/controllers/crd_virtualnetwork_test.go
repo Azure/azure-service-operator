@@ -26,7 +26,7 @@ func Test_VirtualNetwork_CRUD(t *testing.T) {
 		Spec: network.VirtualNetworks_Spec{
 			Owner:    testcommon.AsOwner(rg.ObjectMeta),
 			Location: testcommon.DefaultTestRegion,
-			AddressSpace: &network.AddressSpace{
+			AddressSpace: network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/8"},
 			},
 		},

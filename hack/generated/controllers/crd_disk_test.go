@@ -33,26 +33,24 @@ func Test_Disk_CRUD(t *testing.T) {
 			Sku: &compute.DiskSku{
 				Name: &standardSkuName,
 			},
-			Properties: compute.DiskProperties{
-				CreationData: compute.CreationData{
-					CreateOption: "Empty",
-				},
-				DiskSizeGB: &sizeInGb,
+			CreationData: compute.CreationData{
+				CreateOption: "Empty",
 			},
+			DiskSizeGB: &sizeInGb,
 		},
 	}
 	tc.CreateResourceAndWait(disk)
 
 	tc.Expect(disk.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(disk.Status.Sku.Name).To(BeEquivalentTo(&standardSkuName))
-	tc.Expect(*disk.Status.Properties.DiskSizeGB).To(BeNumerically(">=", 500))
+	tc.Expect(*disk.Status.DiskSizeGB).To(BeNumerically(">=", 500))
 	tc.Expect(disk.Status.Id).ToNot(BeNil())
 	armId := *disk.Status.Id
 
 	// Perform a simple patch.
 	patcher := tc.NewResourcePatcher(disk)
-	networkAccessPolicy := compute.DiskPropertiesNetworkAccessPolicyDenyAll
-	disk.Spec.Properties.NetworkAccessPolicy = &networkAccessPolicy
+	networkAccessPolicy := compute.DisksSpecPropertiesNetworkAccessPolicyDenyAll
+	disk.Spec.NetworkAccessPolicy = &networkAccessPolicy
 	patcher.Patch(disk)
 
 	objectKey, err := client.ObjectKeyFromObject(disk)
@@ -62,7 +60,7 @@ func Test_Disk_CRUD(t *testing.T) {
 	tc.Eventually(func() *compute.NetworkAccessPolicy_Status {
 		var updatedDisk compute.Disk
 		tc.GetResource(objectKey, &updatedDisk)
-		return updatedDisk.Status.Properties.NetworkAccessPolicy
+		return updatedDisk.Status.NetworkAccessPolicy
 	}).Should(BeEquivalentTo(&networkAccessPolicy))
 
 	tc.DeleteResourceAndWait(disk)
