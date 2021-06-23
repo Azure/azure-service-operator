@@ -26,7 +26,7 @@ func applyPropertyFlattening(
 	for name, def := range defs {
 		newDef, err := visitor.VisitDefinition(def, name)
 		if err != nil {
-			return nil, errors.Wrapf(err, "while flattening %s", name.String())
+			return nil, err
 		}
 
 		result.Add(newDef)
