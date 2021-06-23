@@ -95,10 +95,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.StripUnreferencedTypeDefinitions(),
 
 		// Name all anonymous object, enum, and validated types (required by controller-gen):
-		nameTypesForCRD(idFactory),
+		pipeline.NameTypesForCRD(idFactory),
 
 		// Apply property type rewrites from the config file
-		// Must come after nameTypesForCRD ('nameTypes)' and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
+		// Must come after NameTypesForCRD ('nameTypes)' and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
 		// that objects are all expanded
 		pipeline.ApplyPropertyRewrites(configuration).
 			RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects"),

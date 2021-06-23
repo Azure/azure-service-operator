@@ -3,22 +3,21 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
-
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// nameTypesForCRD - for CRDs all inner enums and objects and validated types must be named, so we do it here
-func nameTypesForCRD(idFactory astmodel.IdentifierFactory) pipeline.Stage {
+// NameTypesForCRD - for CRDs all inner enums and objects and validated types must be named, so we do it here
+func NameTypesForCRD(idFactory astmodel.IdentifierFactory) Stage {
 
-	return pipeline.MakeStage(
+	return MakeStage(
 		"nameTypes",
 		"Name inner types for CRD",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
