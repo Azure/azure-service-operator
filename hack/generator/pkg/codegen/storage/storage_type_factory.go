@@ -19,6 +19,8 @@ type StorageTypeFactory struct {
 	group             string                                                  // Name of the group we're handling (used mostly for logging)
 	referenceTypes    astmodel.Types                                          // All the types for this group
 	outputTypes       astmodel.Types                                          // All the types created/modified by this factory
+	specTypes         astmodel.TypeNameSet                                    // All the names of spec types
+	statusTypes       astmodel.TypeNameSet                                    // All the names of status types
 	idFactory         astmodel.IdentifierFactory                              // Factory for creating identifiers
 	typeConverter     *TypeConverter                                          // a utility type type visitor used to create storage variants
 	functionInjector  *FunctionInjector                                       // a utility used to inject functions into definitions
@@ -35,11 +37,13 @@ func NewStorageTypeFactory(group string, idFactory astmodel.IdentifierFactory) *
 		group:             group,
 		referenceTypes:    types,
 		outputTypes:       make(astmodel.Types),
+		specTypes:         astmodel.NewTypeNameSet(),
+		statusTypes:       astmodel.NewTypeNameSet(),
 		idFactory:         idFactory,
 		conversionMap:     make(map[astmodel.PackageReference]astmodel.PackageReference),
 		functionInjector:  NewFunctionInjector(),
 		resourceHubMarker: NewHubVersionMarker(),
-		typeConverter:     NewTypeConverter(types),
+		typeConverter:     NewTypeConverter(types, idFactory),
 	}
 
 	return result
@@ -82,12 +86,12 @@ func (f *StorageTypeFactory) process() error {
 
 	f.outputTypes = f.referenceTypes.Copy()
 
-	// Inject OriginalGVK() methods into our resource types
-	modifiedResourceTypes, err := f.referenceTypes.Process(f.injectOriginalGVK)
+	// Inject OriginalVersion() methods into all our spec types
+	modifiedSpecTypes, err := f.outputTypes.Process(f.injectOriginalVersionMethod)
 	if err != nil {
 		return err
 	}
-	f.outputTypes = f.outputTypes.OverlayWith(modifiedResourceTypes)
+	f.outputTypes = f.outputTypes.OverlayWith(modifiedSpecTypes)
 
 	// Create Storage Variants (injectConversions will look for them)
 	storageVariants, err := f.outputTypes.Process(f.createStorageVariant)
@@ -112,6 +116,7 @@ func (f *StorageTypeFactory) process() error {
 // visitor is a type visitor that will do the creation
 func (f *StorageTypeFactory) createStorageVariant(definition astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
 	name := definition.Name()
+
 	_, isObject := astmodel.AsObjectType(definition.Type())
 	_, isResource := astmodel.AsResourceType(definition.Type())
 	if !isObject && !isResource {
@@ -122,9 +127,28 @@ func (f *StorageTypeFactory) createStorageVariant(definition astmodel.TypeDefini
 
 	klog.V(3).Infof("Creating storage variant of %s", name)
 
-	storageDef, err := f.typeConverter.ConvertDefinition(definition)
-	if err != nil {
-		return nil, errors.Wrapf(err, "creating storage variant for %q", name)
+	var storageDef astmodel.TypeDefinition
+	var err error
+	if isResource {
+		storageDef, err = f.typeConverter.ConvertResourceDefinition(definition)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating storage variant for resource %q", name)
+		}
+	} else if f.specTypes.Contains(definition.Name()) {
+		storageDef, err = f.typeConverter.ConvertSpecDefinition(definition)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating storage variant for spec %q", name)
+		}
+	} else if f.statusTypes.Contains(definition.Name()) {
+		storageDef, err = f.typeConverter.ConvertStatusDefinition(definition)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating storage variant for status %q", name)
+		}
+	} else if isObject {
+		storageDef, err = f.typeConverter.ConvertObjectDefinition(definition)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating storage variant for object %q", name)
+		}
 	}
 
 	// Add API-Package -> Storage-Package link into the conversion map
@@ -170,48 +194,53 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 		return nil, nil
 	}
 
+	return f.injectConversionsBetween(definition, nextDef)
+}
+
+func (f *StorageTypeFactory) injectConversionsBetween(
+	upstreamDef astmodel.TypeDefinition, downstreamDef astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
+
 	// Create conversion functions
-	knownTypes := make(astmodel.Types)
-	knownTypes.AddTypes(f.inputTypes)
-	knownTypes.AddTypes(f.outputTypes)
+	knownTypes := f.referenceTypes.Copy()
+	knownTypes = knownTypes.OverlayWith(f.outputTypes)
 	conversionContext := conversions.NewPropertyConversionContext(knownTypes, f.idFactory)
 
-	convertFromFn, err := conversions.NewPropertyAssignmentFromFunction(definition, nextDef, f.idFactory, conversionContext)
+	assignFromFn, err := conversions.NewPropertyAssignmentFromFunction(upstreamDef, downstreamDef, f.idFactory, conversionContext)
+	upstreamName := upstreamDef.Name()
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating ConvertFrom() function for %q", name)
+		return nil, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
-	convertToFn, err := conversions.NewPropertyAssignmentToFunction(definition, nextDef, f.idFactory, conversionContext)
+	assignToFn, err := conversions.NewPropertyAssignmentToFunction(upstreamDef, downstreamDef, f.idFactory, conversionContext)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating ConvertTo() function for %q", name)
+		return nil, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)
 	}
 
-	updatedDefinition, err := f.functionInjector.Inject(definition, convertFromFn)
+	updatedDefinition, err := f.functionInjector.Inject(upstreamDef, assignFromFn)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to inject %s function into %q", convertFromFn.Name(), name)
+		return nil, errors.Wrapf(err, "failed to inject %s function into %q", assignFromFn.Name(), upstreamName)
 	}
 
-	updatedDefinition, err = f.functionInjector.Inject(updatedDefinition, convertToFn)
+	updatedDefinition, err = f.functionInjector.Inject(updatedDefinition, assignToFn)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to inject %s function into %q", convertToFn.Name(), name)
+		return nil, errors.Wrapf(err, "failed to inject %s function into %q", assignToFn.Name(), upstreamName)
 	}
 
 	return &updatedDefinition, nil
 }
 
-// injectOriginalGVK modifies spec types by injecting an OriginalGVK() function
-func (f *StorageTypeFactory) injectOriginalGVK(definition astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
-	if _, isResource := astmodel.AsResourceType(definition.Type()); isResource {
-		// We have a Resource, inject the OriginalGVK() function
-		fn := functions.NewOriginalGVKFunction(f.idFactory)
-
-		result, err := f.functionInjector.Inject(definition, fn)
-		if err != nil {
-			return nil, errors.Wrapf(err, "injecting OriginalGVK() into %s", definition.Name())
-		}
-
-		return &result, nil
+// injectOriginalVersionMethod modifies spec types by injecting an OriginalVersion() function
+func (f *StorageTypeFactory) injectOriginalVersionMethod(definition astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
+	if !f.specTypes.Contains(definition.Name()) {
+		// No error, no transform
+		return nil, nil
 	}
 
-	return nil, nil
+	fn := functions.NewOriginalVersionFunction(f.idFactory)
+	result, err := f.functionInjector.Inject(definition, fn)
+	if err != nil {
+		return nil, errors.Wrapf(err, "injecting OriginalVersion() into %s", definition.Name())
+	}
+
+	return &result, nil
 }
