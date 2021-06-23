@@ -9,7 +9,7 @@ import (
 )
 
 type Person struct {
-	JSONBlob v1.JSON `json:"json-blob"`
+	JSONBlob v1.JSON `json:"jsonBlob"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person

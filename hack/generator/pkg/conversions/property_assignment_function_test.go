@@ -76,7 +76,7 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 
 	referenceProperty := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceTypeName)
 	knownReferenceProperty := astmodel.NewPropertyDefinition("KnownReference", "known-reference", astmodel.KnownResourceReferenceTypeName)
-	jsonProperty := astmodel.NewPropertyDefinition("JSONBlob", "json-blob", astmodel.JSONTypeName)
+	jsonProperty := astmodel.NewPropertyDefinition("JSONBlob", "jsonBlob", astmodel.JSONTypeName)
 	jsonObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", astmodel.NewMapType(astmodel.StringType, astmodel.JSONTypeName))
 
 	idFactory := astmodel.NewIdentifierFactory()
