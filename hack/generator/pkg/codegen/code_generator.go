@@ -90,7 +90,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// Flatten out any nested resources created by allOf, etc. we want to do this before naming types or things
 		// get named with names like Resource_Spec_Spec_Spec:
-		flattenResources(),
+		pipeline.FlattenResources(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 
