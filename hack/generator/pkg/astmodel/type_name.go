@@ -70,7 +70,7 @@ func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) ds
 // The exact thing we need to generate depends on the actual type we reference
 func (typeName TypeName) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
 
-	if _, isLocal:= typeName.PackageReference.AsLocalPackage(); !isLocal{
+	if _, isLocal := typeName.PackageReference.AsLocalPackage(); !isLocal {
 		// TypeName is external, zero value is a qualified empty struct
 		// (we might not actually use this, if the property is optional, but we still need to generate the right thing)
 
