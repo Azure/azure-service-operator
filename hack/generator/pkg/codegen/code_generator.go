@@ -144,7 +144,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.CreateStorageTypes(idFactory).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 		simplifyDefinitions(),
-		injectJsonSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectJsonSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
 
 		markStorageVersion(),
 

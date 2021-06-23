@@ -3,21 +3,20 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/testcases"
 
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
-func injectJsonSerializationTests(idFactory astmodel.IdentifierFactory) pipeline.Stage {
+func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
 
-	return pipeline.MakeStage(
+	return MakeStage(
 		"jsonTestCases",
 		"Add test cases to verify JSON serialization",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
