@@ -101,23 +101,22 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 	}
 
 	// Ensure the resource is tagged with the operator's namespace.
-	objNamespace := annotations[namespaceAnnotation]
+	reconcilerNamespace := annotations[namespaceAnnotation]
 	podNamespace := config.PodNamespace()
-	if objNamespace != podNamespace {
-		if objNamespace != "" {
-			// Maybe we're fighting with another operator that's also
-			// watching this namespace. Alternatively it could be that
-			// the resource has been moved, or namespace config has
-			// been updated so this resource used to belong to one
-			// operator and now belongs to this one.
-			message := fmt.Sprintf("resource previously reconciled by operator in %q - overlapping namespace configurations?", objNamespace)
-			// TODO: should this be an event rather than logging? I
-			// don't fully understand the split. Picked logging
-			// because it could produce unbounded messages if two
-			// operators are fighting over the resource.
-			r.Telemetry.LogWarningByInstance("fighting", message, req.String())
-		}
-		// Set the namespace annotation to this operator's one and go around again.
+	if reconcilerNamespace != podNamespace && reconcilerNamespace != "" {
+		// We don't want to get into a fight with another operator -
+		// so treat some other operator's annotation in a very similar
+		// way as the skip annotation above. This will do the right
+		// thing in the case of two operators trying to manage the
+		// same namespace. It makes moving objects between namespaces
+		// or changing which operator owns a namespace fiddlier (since
+		// you'd need to remove the annotation) but those operations
+		// are likely to be rare.
+		message := fmt.Sprintf("Operators in %q and %q are both configured to manage this resource", podNamespace, reconcilerNamespace)
+		r.Recorder.Event(obj, corev1.EventTypeWarning, "Overlap", message)
+		return ctrl.Result{}, r.Update(ctx, obj)
+	} else if reconcilerNamespace == "" {
+		// Set the annotation to this operator's namespace and go around again.
 		if annotations == nil {
 			annotations = make(map[string]string)
 		}
