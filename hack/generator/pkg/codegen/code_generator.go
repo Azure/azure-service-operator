@@ -104,7 +104,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 			RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects"),
 
 		// Figure out resource owners:
-		determineResourceOwnership(configuration),
+		pipeline.DetermineResourceOwnership(configuration),
 
 		// Strip out redundant type aliases:
 		removeTypeAliases(),
