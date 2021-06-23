@@ -50,9 +50,9 @@ func init() {
 		// Complex object types
 		assignObjectFromObject,
 		// Known types
-		copyKnownType(astmodel.KnownResourceReferenceTypeName, "Copy"),
-		copyKnownType(astmodel.ResourceReferenceTypeName, "Copy"),
-		copyKnownType(astmodel.JSONTypeName, "DeepCopy"),
+		copyKnownType(astmodel.KnownResourceReferenceTypeName, "Copy", returnsValue),
+		copyKnownType(astmodel.ResourceReferenceTypeName, "Copy", returnsValue),
+		copyKnownType(astmodel.JSONTypeName, "DeepCopy", returnsReference),
 		// Meta-conversions
 		assignFromOptional, // Must go before assignToOptional so we generate the right zero values
 		assignToOptional,
@@ -932,11 +932,18 @@ func AssignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *Typ
 	}
 }
 
+type knownTypeMethodReturn int
+
+const (
+	returnsReference = 0
+	returnsValue     = 1
+)
+
 // copyKnownType will generate an assignment with the results of a call on the specified TypeName
 //
 // <destination> = <source>.<methodName>()
 //
-func copyKnownType(name astmodel.TypeName, methodName string) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
+func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTypeMethodReturn) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
 	return func(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint, _ *PropertyConversionContext) PropertyConversion {
 		// Require source to be non-optional
 		if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -971,10 +978,10 @@ func copyKnownType(name astmodel.TypeName, methodName string) func(*TypedConvers
 		}
 
 		return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-			if methodName == "DeepCopy" {
-				// DeepCopy methods always return a ptr, which we need to dereference.
+			if returnKind == returnsReference {
+				// If the copy method returns a ptr, we need to dereference
 				// This dereference is always safe because we ensured that both source and destination are always
-				// non optional
+				// non optional. The handler assignToOptional() should do the right thing when this happens.
 				return writer(astbuilder.Dereference(astbuilder.CallExpr(reader, methodName)))
 			}
 
