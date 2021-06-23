@@ -218,6 +218,17 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 	return []dst.Stmt{result}
 }
 
+// flattenedPropertyHandler generates conversions for properties that
+// were flattened out from inside other properties. The code it generates will
+// look something like:
+//
+// If 'X' is a property that was flattened:
+//
+//   k8sObj.Y1 = armObj.X.Y1;
+//   k8sObj.Y2 = armObj.X.Y2;
+//
+// in reality each assignment is likely to be another conversion that is specific
+// to the type being converted.
 func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType) []dst.Stmt {
