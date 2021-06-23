@@ -182,6 +182,10 @@ func (tc KubePerTestContext) CreateNewTestResourceGroup(wait WaitCondition) (*re
 			// don't error out, just warn
 			tc.T.Logf("Unable to delete resource group: %s", cleanupErr.Error())
 		}
+
+		// Ensure we give enough time for the controller to actually issue a request to Azure before tearing
+		// the process down - this should be pretty quick and the resource will transition to Deleting
+		tc.G.Eventually(rg, 2 * time.Minute).Should(tc.Match.BeDeleted())
 	})
 
 	if wait {
@@ -247,6 +251,18 @@ func (ktc *KubePerTestContext) CreateNewTestResourceGroupAndWait() *v1alpha1api2
 func (ktc *KubePerTestContext) CreateResourceAndWait(obj runtime.Object) {
 	ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
 	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisioned())
+}
+
+// CreateResourcesAndWait creates the resources in K8s and waits for them to
+// change into the Provisioned state.
+func (ktc *KubePerTestContext) CreateResourcesAndWait(objs ...runtime.Object) {
+	for _, obj := range objs {
+		ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
+	}
+
+	for _, obj := range objs {
+		ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisioned())
+	}
 }
 
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
