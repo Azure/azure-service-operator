@@ -67,8 +67,8 @@ func newConvertToARMFunctionBuilder(
 		result.referencePropertyHandler,
 		result.fixedValuePropertyHandler(astmodel.TypeProperty),
 		result.fixedValuePropertyHandler(astmodel.APIVersionProperty),
-		result.propertiesWithSameNameHandler,
 		result.flattenedPropertyHandler,
+		result.propertiesWithSameNameHandler,
 	}
 
 	return result
