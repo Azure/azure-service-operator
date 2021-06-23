@@ -3,19 +3,18 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-// improveResourcePluralization improves pluralization for resources
-func improveResourcePluralization() pipeline.Stage {
+// ImproveResourcePluralization improves pluralization for resources
+func ImproveResourcePluralization() Stage {
 
-	return pipeline.MakeStage(
+	return MakeStage(
 		"pluralizeNames",
 		"Improve resource pluralization",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
