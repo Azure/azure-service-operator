@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -12,13 +12,12 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-// addCrossplaneOwnerProperties adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
-func addCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) pipeline.Stage {
+// AddCrossplaneOwnerProperties adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
+func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) Stage {
 
-	return pipeline.MakeStage(
+	return MakeStage(
 		"addCrossplaneOwnerProperties",
 		"Adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

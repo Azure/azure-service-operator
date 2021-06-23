@@ -136,11 +136,11 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ApplyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyKubernetesResourceInterface(idFactory).UsedFor(pipeline.ARMTarget),
 
-		addCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
-		addCrossplaneForProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
-		addCrossplaneAtProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
-		addCrossplaneEmbeddedResourceSpec(idFactory).UsedFor(pipeline.CrossplaneTarget),
-		addCrossplaneEmbeddedResourceStatus(idFactory).UsedFor(pipeline.CrossplaneTarget),
+		pipeline.AddCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
+		pipeline.AddCrossplaneForProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
+		pipeline.AddCrossplaneAtProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
+		pipeline.AddCrossplaneEmbeddedResourceSpec(idFactory).UsedFor(pipeline.CrossplaneTarget),
+		pipeline.AddCrossplaneEmbeddedResourceStatus(idFactory).UsedFor(pipeline.CrossplaneTarget),
 
 		createStorageTypes(idFactory).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 		simplifyDefinitions(),

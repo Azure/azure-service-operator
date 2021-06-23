@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -12,13 +12,12 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-// addCrossplaneAtProvider adds an "AtProvider" property as the sole property in every resource status
-func addCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) pipeline.Stage {
+// AddCrossplaneAtProvider adds an "AtProvider" property as the sole property in every resource status
+func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) Stage {
 
-	return pipeline.MakeStage(
+	return MakeStage(
 		"addCrossplaneAtProviderProperty",
 		"Adds an 'AtProvider' property on every status",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

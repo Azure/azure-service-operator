@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -12,14 +12,13 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 )
 
-// addCrossplaneForProvider adds a "ForProvider" property as the sole property in every resource spec
+// AddCrossplaneForProvider adds a "ForProvider" property as the sole property in every resource spec
 // and moves everything that was at the spec level down a level into the ForProvider type
-func addCrossplaneForProvider(idFactory astmodel.IdentifierFactory) pipeline.Stage {
+func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) Stage {
 
-	return pipeline.MakeStage(
+	return MakeStage(
 		"addCrossplaneForProviderProperty",
 		"Adds a 'ForProvider' property on every spec",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
