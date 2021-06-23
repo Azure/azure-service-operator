@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
@@ -11,16 +11,15 @@ import (
 
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
-
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// removeTypeAliases creates a pipeline stage removing type aliases
-func removeTypeAliases() pipeline.Stage {
-	return pipeline.MakeStage(
+// RemoveTypeAliases creates a pipeline stage removing type aliases
+func RemoveTypeAliases() Stage {
+	return MakeStage(
 		"removeAliases",
 		"Remove type aliases",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

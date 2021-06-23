@@ -107,7 +107,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.DetermineResourceOwnership(configuration),
 
 		// Strip out redundant type aliases:
-		removeTypeAliases(),
+		pipeline.RemoveTypeAliases(),
 
 		// De-pluralize resource types
 		// (Must come after type aliases are resolved)
