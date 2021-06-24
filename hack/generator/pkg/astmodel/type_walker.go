@@ -79,6 +79,11 @@ func (t *TypeWalker) visitTypeName(this *TypeVisitor, it TypeName, ctx interface
 		panic(fmt.Sprintf("TypeWalker visitor visitTypeName must return a TypeName, instead returned %T", visitedTypeName))
 	}
 
+	if _, isLocal := it.PackageReference.AsLocalPackage(); !isLocal {
+		// Non-local type names are fine, we can exit early
+		return it, nil
+	}
+
 	def, ok := t.allTypes[it]
 	if !ok {
 		return nil, errors.Errorf("couldn't find type %q", it)
