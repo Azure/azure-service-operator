@@ -150,8 +150,15 @@ func (o ObjectSerializationTestCase) RequiredImports() *astmodel.PackageImportSe
 }
 
 // Equals determines if this TestCase is equal to another one
-func (o ObjectSerializationTestCase) Equals(_ astmodel.TestCase) bool {
-	panic("implement me")
+func (o ObjectSerializationTestCase) Equals(other astmodel.TestCase) bool {
+	otherTC, ok := other.(*ObjectSerializationTestCase)
+	if !ok {
+		return false
+	}
+
+	return o.testName == otherTC.testName &&
+		o.subject.Equals(otherTC.subject) &&
+		o.objectType.Equals(otherTC.objectType)
 }
 
 // createTestRunner generates the AST for the test runner itself
