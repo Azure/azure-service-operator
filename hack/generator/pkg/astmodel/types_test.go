@@ -12,11 +12,12 @@ import (
 )
 
 var (
-	pkg             = MakeExternalPackageReference("foo")
-	alphaDefinition = createTestDefinition("alpha")
-	betaDefinition  = createTestDefinition("beta")
-	gammaDefinition = createTestDefinition("gamma")
-	deltaDefinition = createTestDefinition("delta")
+	pkg                = MakeExternalPackageReference("foo")
+	alphaDefinition    = createTestDefinition("alpha", StringType)
+	betaDefinition     = createTestDefinition("beta", StringType)
+	gammaDefinition    = createTestDefinition("gamma", StringType)
+	deltaDefinition    = createTestDefinition("delta", StringType)
+	deltaIntDefinition = createTestDefinition("delta", IntType)
 )
 
 /*
@@ -147,12 +148,44 @@ func Test_TypesExcept_GivenSubset_ReturnsExpectedSet(t *testing.T) {
 }
 
 /*
+ * Overlay() tests
+ */
+
+func Test_TypesOverlayWith_GivenDisjointSets_ReturnsUnionSet(t *testing.T) {
+	g := NewGomegaWithT(t)
+	left := createTestTypes(alphaDefinition, betaDefinition)
+	right := createTestTypes(gammaDefinition, deltaDefinition)
+
+	set := left.OverlayWith(right)
+
+	g.Expect(len(set)).To(Equal(4))
+	g.Expect(set).To(ContainElement(alphaDefinition))
+	g.Expect(set).To(ContainElement(betaDefinition))
+	g.Expect(set).To(ContainElement(gammaDefinition))
+	g.Expect(set).To(ContainElement(deltaDefinition))
+}
+
+func Test_TypesOverlayWith_GivenOverlappingSets_PrefersTypeInOverlay(t *testing.T) {
+	g := NewGomegaWithT(t)
+	left := createTestTypes(alphaDefinition, deltaDefinition)
+	right := createTestTypes(gammaDefinition, deltaIntDefinition)
+
+	set := left.OverlayWith(right)
+
+	g.Expect(len(set)).To(Equal(3))
+	g.Expect(set).To(ContainElement(alphaDefinition))
+	g.Expect(set).To(ContainElement(gammaDefinition))
+	g.Expect(set).To(ContainElement(deltaIntDefinition))
+	g.Expect(set).NotTo(ContainElement(deltaDefinition))
+}
+
+/*
  * Utility functions
  */
 
-func createTestDefinition(name string) TypeDefinition {
+func createTestDefinition(name string, underlyingType Type) TypeDefinition {
 	n := MakeTypeName(pkg, name)
-	return MakeTypeDefinition(n, StringType)
+	return MakeTypeDefinition(n, underlyingType)
 }
 
 func createTestTypes(defs ...TypeDefinition) Types {
