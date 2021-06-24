@@ -23,9 +23,11 @@ type StorageConversionPropertyTestCase struct {
 
 func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTestCase {
 
+	// Package References
 	vCurrent := makeTestLocalPackageReference("Verification", "vCurrent")
 	vNext := makeTestLocalPackageReference("Verification", "vNext")
 
+	// Custom Types
 	alpha := astmodel.EnumValue{Identifier: "Alpha", Value: "alpha"}
 	beta := astmodel.EnumValue{Identifier: "Beta", Value: "beta"}
 
@@ -33,7 +35,9 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	currentEnum := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Bucket"), enumType)
 	nextEnum := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "Bucket"), enumType)
 
-	// These are aliases of primitive types
+	jsonObjectType := astmodel.NewMapType(astmodel.StringType, astmodel.JSONTypeName)
+
+	// Aliases of primitive types
 	currentAge := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Age"), astmodel.IntType)
 	nextAge := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "Age"), astmodel.IntType)
 
@@ -76,7 +80,10 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 
 	referenceProperty := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceTypeName)
 	knownReferenceProperty := astmodel.NewPropertyDefinition("KnownReference", "known-reference", astmodel.KnownResourceReferenceTypeName)
-	jsonProperty := astmodel.NewPropertyDefinition("JSONBlob", "json-blob", astmodel.JSONTypeName)
+	jsonProperty := astmodel.NewPropertyDefinition("JSONBlob", "jsonBlob", astmodel.JSONTypeName)
+	optionalJSONProperty := astmodel.NewPropertyDefinition("JSONBlob", "jsonBlob", astmodel.NewOptionalType(astmodel.JSONTypeName))
+	jsonObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", jsonObjectType)
+	optionalJSONObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", astmodel.NewOptionalType(jsonObjectType))
 
 	idFactory := astmodel.NewIdentifierFactory()
 	ageFunction := test.NewFakeFunction("Age", idFactory)
@@ -190,7 +197,11 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 
 		createPropertyAssignmentTest("CopyReferenceProperty", referenceProperty, referenceProperty),
 		createPropertyAssignmentTest("CopyKnownReferenceProperty", knownReferenceProperty, knownReferenceProperty),
+
 		createPropertyAssignmentTest("CopyJSONProperty", jsonProperty, jsonProperty),
+		createPropertyAssignmentTest("CopyJSONObjectProperty", jsonObjectProperty, jsonObjectProperty),
+		createPropertyAssignmentTest("CopyOptionalJSONProperty", optionalJSONProperty, jsonProperty),
+		createPropertyAssignmentTest("CopyJSONObjectProperty", optionalJSONObjectProperty, jsonObjectProperty),
 	}
 }
 

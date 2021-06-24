@@ -9,14 +9,15 @@ import (
 )
 
 type Person struct {
-	JSONBlob v1.JSON `json:"jsonBlob"`
+	JSONBlob *v1.JSON `json:"jsonBlob"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// JSONBlob
-	person.JSONBlob = *source.JSONBlob.DeepCopy()
+	jsonBlob := *source.JSONBlob.DeepCopy()
+	person.JSONBlob = &jsonBlob
 
 	// No error
 	return nil
@@ -26,7 +27,11 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// JSONBlob
-	destination.JSONBlob = *person.JSONBlob.DeepCopy()
+	if person.JSONBlob != nil {
+		destination.JSONBlob = *person.JSONBlob.DeepCopy()
+	} else {
+		destination.JSONBlob = v1.JSON{}
+	}
 
 	// No error
 	return nil
