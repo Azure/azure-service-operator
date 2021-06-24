@@ -69,6 +69,18 @@ func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) ds
 // AsZero renders an expression for the "zero" value of the type.
 // The exact thing we need to generate depends on the actual type we reference
 func (typeName TypeName) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
+
+	if _, isLocal := typeName.PackageReference.AsLocalPackage(); !isLocal {
+		// TypeName is external, zero value is a qualified empty struct
+		// (we might not actually use this, if the property is optional, but we still need to generate the right thing)
+
+		packageName := ctx.MustGetImportedPackageName(typeName.PackageReference)
+		return &dst.SelectorExpr{
+			X:   dst.NewIdent(packageName),
+			Sel: dst.NewIdent(fmt.Sprintf("%s{}", typeName.Name())),
+		}
+	}
+
 	actualType, err := types.FullyResolve(typeName)
 	if err != nil {
 		// This should never happen
