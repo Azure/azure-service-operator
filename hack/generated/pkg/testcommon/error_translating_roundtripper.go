@@ -76,20 +76,20 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	matchingBodies := w.findMatchingBodies(req)
 
 	if len(matchingBodies) == 0 {
-		w.t.Logf("\n*** Cannot find go-vcr recording for request (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n", req.Method, req.URL.String(), req.Header.Get(COUNT_HEADER))
+		w.t.Fatalf("\n*** Cannot find go-vcr recording for request (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n", req.Method, req.URL.String(), req.Header.Get(COUNT_HEADER))
 		return nil, originalErr
 	}
 
 	// locate the request body with the shortest diff from the sent body
 	shortestDiff := ""
 	for i, bodyString := range matchingBodies {
-		diff := cmp.Diff(sentBodyString, bodyString)
+		diff := cmp.Diff(bodyString, sentBodyString)
 		if i == 0 || len(diff) < len(shortestDiff) {
 			shortestDiff = diff
 		}
 	}
 
-	w.t.Logf("\n*** Cannot find go-vcr recording for request (body mismatch): %s %s\nShortest body diff: %s\n\n", req.Method, req.URL.String(), shortestDiff)
+	w.t.Fatalf("\n*** Cannot find go-vcr recording for request (body mismatch): %s %s\nShortest body diff: %s\n\n", req.Method, req.URL.String(), shortestDiff)
 	return nil, originalErr
 }
 

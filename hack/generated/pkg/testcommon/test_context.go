@@ -27,7 +27,8 @@ import (
 )
 
 var (
-	DefaultTestRegion = "westus" // Could make this an env variable if we wanted
+	// Use WestUS2 as some things (such as VM quota) are hard to get in West US.
+	DefaultTestRegion = "westus2" // Could make this an env variable if we wanted
 )
 
 type TestContext struct {

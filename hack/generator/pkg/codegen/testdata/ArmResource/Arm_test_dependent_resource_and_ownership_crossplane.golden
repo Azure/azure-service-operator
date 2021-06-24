@@ -68,11 +68,24 @@ type CList struct {
 	Items           []C `json:"items"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json
-type Test struct {
-	A *A `json:"a,omitempty"`
-	B *B `json:"b,omitempty"`
-	C *C `json:"c,omitempty"`
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources=ds,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.infra.azure.com,resources={ds/status,ds/finalizers},verbs=get;update;patch
+
+// +kubebuilder:object:root=true
+// +kubebuilder:storageversion
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
+type D struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              D_Spec `json:"spec,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
+type DList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []D `json:"items"`
 }
 
 type A_Spec struct {
@@ -88,6 +101,11 @@ type B_Spec struct {
 type C_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline"`
 	ForProvider           CParameters `json:"forProvider"`
+}
+
+type D_Spec struct {
+	v1alpha1.ResourceSpec `json:",inline"`
+	ForProvider           DParameters `json:"forProvider"`
 }
 
 type AParameters struct {
@@ -143,6 +161,27 @@ type CParameters struct {
 	Type CSpecType `json:"type"`
 }
 
+type DParameters struct {
+	AName         string              `json:"aName"`
+	ANameRef      *v1alpha1.Reference `json:"aNameRef,omitempty"`
+	ANameSelector *v1alpha1.Selector  `json:"aNameSelector,omitempty"`
+
+	// +kubebuilder:validation:Required
+	APIVersion    DSpecAPIVersion     `json:"apiVersion"`
+	BName         string              `json:"bName"`
+	BNameRef      *v1alpha1.Reference `json:"bNameRef,omitempty"`
+	BNameSelector *v1alpha1.Selector  `json:"bNameSelector,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Name                      string              `json:"name"`
+	ResourceGroupName         string              `json:"resourceGroupName"`
+	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
+	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type DSpecType `json:"type"`
+}
+
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type ASpecAPIVersion string
 
@@ -173,6 +212,16 @@ type CSpecType string
 
 const CSpecTypeMicrosoftAzureC = CSpecType("Microsoft.Azure/C")
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type DSpecAPIVersion string
+
+const DSpecAPIVersion20200601 = DSpecAPIVersion("2020-06-01")
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/D"}
+type DSpecType string
+
+const DSpecTypeMicrosoftAzureD = DSpecType("Microsoft.Azure/D")
+
 func init() {
-	SchemeBuilder.Register(&A{}, &AList{}, &B{}, &BList{}, &C{}, &CList{})
+	SchemeBuilder.Register(&A{}, &AList{}, &B{}, &BList{}, &C{}, &CList{}, &D{}, &DList{})
 }

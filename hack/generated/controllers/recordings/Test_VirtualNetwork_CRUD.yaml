@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","location":"westus","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-sbiboa","location":"westus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
+    body: '{"name":"k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-sbiboa","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
       ''asotest-rg-sbiboa'')]"}}}}}'
     form: {}
     headers:
@@ -13,15 +13,15 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","name":"k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"5807317163456519345","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.1771594S","correlationId":"7a2c8a51-a297-4cc8-9321-eb397fdd05aa","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","name":"k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"13918104672835275982","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.6648599S","correlationId":"73634254-41a2-4191-8f6d-a6f0341955b9","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42/operationStatuses/08585783269735943093?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42/operationStatuses/08585771334886818542?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "690"
+      - "693"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -46,8 +46,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","name":"k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"5807317163456519345","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.1771594S","correlationId":"7a2c8a51-a297-4cc8-9321-eb397fdd05aa","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","name":"k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"13918104672835275982","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.6648599S","correlationId":"73634254-41a2-4191-8f6d-a6f0341955b9","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -79,8 +79,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","name":"k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","type":"Microsoft.Resources/deployments","location":"westus","properties":{"templateHash":"5807317163456519345","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT5.0192484S","correlationId":"7a2c8a51-a297-4cc8-9321-eb397fdd05aa","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-sbiboa"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa"}]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","name":"k8s_872c0e5e-ab95-5d6d-ae7d-214a32f3ae42","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"13918104672835275982","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT3.5839244S","correlationId":"73634254-41a2-4191-8f6d-a6f0341955b9","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-sbiboa"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa"}]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -110,7 +110,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -149,7 +149,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtLUs4Uzo1Rjg3MkMwRTVFOjJEQUI5NToyRDVENkQ6MkRBRTdEOjJEMjE0QTMyRjNBRTQyLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzIn0?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtLUs4Uzo1Rjg3MkMwRTVFOjJEQUI5NToyRDVENkQ6MkRBRTdEOjJEMjE0QTMyRjNBRTQyLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
       Pragma:
       - no-cache
       Retry-After:
@@ -159,12 +159,12 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14995"
+      - "14994"
     status: 202 Accepted
     code: 202
     duration: ""
 - request:
-    body: '{"name":"k8s_4bc0b700-92b9-539a-a027-3bb76588f646","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","location":"westus","name":"asotest-vn-fhyuzx","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/8"]}},"type":"Microsoft.Network/virtualNetworks"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/virtualNetworks'',
+    body: '{"name":"k8s_4bc0b700-92b9-539a-a027-3bb76588f646","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","location":"westus2","name":"asotest-vn-fhyuzx","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/8"]}},"type":"Microsoft.Network/virtualNetworks"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/virtualNetworks'',
       ''asotest-vn-fhyuzx'')]"}}}}}'
     form: {}
     headers:
@@ -175,15 +175,15 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646","name":"k8s_4bc0b700-92b9-539a-a027-3bb76588f646","type":"Microsoft.Resources/deployments","properties":{"templateHash":"8393001219741823602","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2741737S","correlationId":"3f6b329f-1926-4225-9d08-0bf2c293dc49","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646","name":"k8s_4bc0b700-92b9-539a-a027-3bb76588f646","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14067529373820911530","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2942117S","correlationId":"989eaaf7-bd00-495c-bc78-d79d1b2cc96f","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646/operationStatuses/08585783269636463077?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646/operationStatuses/08585771334789210124?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "701"
+      - "703"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -208,8 +208,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646","name":"k8s_4bc0b700-92b9-539a-a027-3bb76588f646","type":"Microsoft.Resources/deployments","properties":{"templateHash":"8393001219741823602","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.4191356S","correlationId":"3f6b329f-1926-4225-9d08-0bf2c293dc49","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646","name":"k8s_4bc0b700-92b9-539a-a027-3bb76588f646","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14067529373820911530","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2942117S","correlationId":"989eaaf7-bd00-495c-bc78-d79d1b2cc96f","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -241,8 +241,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646","name":"k8s_4bc0b700-92b9-539a-a027-3bb76588f646","type":"Microsoft.Resources/deployments","properties":{"templateHash":"8393001219741823602","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.4191356S","correlationId":"3f6b329f-1926-4225-9d08-0bf2c293dc49","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646","name":"k8s_4bc0b700-92b9-539a-a027-3bb76588f646","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14067529373820911530","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT3.9966999S","correlationId":"989eaaf7-bd00-495c-bc78-d79d1b2cc96f","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -253,7 +253,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "5"
+      - "16"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -274,8 +274,41 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646","name":"k8s_4bc0b700-92b9-539a-a027-3bb76588f646","type":"Microsoft.Resources/deployments","properties":{"templateHash":"8393001219741823602","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT4.5186698S","correlationId":"3f6b329f-1926-4225-9d08-0bf2c293dc49","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Network/virtualNetworks/asotest-vn-fhyuzx"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Network/virtualNetworks/asotest-vn-fhyuzx"}]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646","name":"k8s_4bc0b700-92b9-539a-a027-3bb76588f646","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14067529373820911530","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT3.9966999S","correlationId":"989eaaf7-bd00-495c-bc78-d79d1b2cc96f","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "16"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Resources/deployments/k8s_4bc0b700-92b9-539a-a027-3bb76588f646","name":"k8s_4bc0b700-92b9-539a-a027-3bb76588f646","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14067529373820911530","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT5.1603579S","correlationId":"989eaaf7-bd00-495c-bc78-d79d1b2cc96f","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Network/virtualNetworks/asotest-vn-fhyuzx"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Network/virtualNetworks/asotest-vn-fhyuzx"}]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -306,9 +339,9 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vn-fhyuzx\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Network/virtualNetworks/asotest-vn-fhyuzx\",\r\n
-      \ \"etag\": \"W/\\\"52ed4c5e-9e32-4333-aa2d-570235f22d5e\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"b20d144f-5532-45a5-a049-aa51c0939210\",\r\n
+      \ \"etag\": \"W/\\\"49d04db3-ee93-44d0-81f7-ff219d844813\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"7b661aa3-cb3e-4312-a939-6b5d122c0806\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/8\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -318,7 +351,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"52ed4c5e-9e32-4333-aa2d-570235f22d5e"
+      - W/"49d04db3-ee93-44d0-81f7-ff219d844813"
       Expires:
       - "-1"
       Pragma:
@@ -333,7 +366,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Arm-Service-Request-Id:
-      - c160a7b1-5770-4738-8166-c428217b0f01
+      - 6c61f2e5-bba4-40ee-a588-9aeaba0b720a
     status: 200 OK
     code: 200
     duration: ""
@@ -357,7 +390,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEU0JJQk9BLUs4Uzo1RjRCQzBCNzAwOjJEOTJCOToyRDUzOUE6MkRBMDI3OjJEM0JCNzY1ODhGNjQ2LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzIn0?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEU0JJQk9BLUs4Uzo1RjRCQzBCNzAwOjJEOTJCOToyRDUzOUE6MkRBMDI3OjJEM0JCNzY1ODhGNjQ2LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
       Pragma:
       - no-cache
       Retry-After:
@@ -367,7 +400,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14994"
+      - "14990"
     status: 202 Accepted
     code: 202
     duration: ""
@@ -387,7 +420,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operations/67e47eba-b151-4b5f-b2ab-1724ead33f02?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/10cb2501-c8dd-4f13-bd66-06f909f66511?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -395,7 +428,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus/operationResults/67e47eba-b151-4b5f-b2ab-1724ead33f02?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/10cb2501-c8dd-4f13-bd66-06f909f66511?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -408,9 +441,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Arm-Service-Request-Id:
-      - 367a6bb5-7489-4d48-8611-d558e030e74c
+      - d61c8fbf-6817-481c-a90c-968d1c374012
       X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14991"
+      - "14989"
     status: 202 Accepted
     code: 202
     duration: ""
@@ -447,7 +480,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Arm-Service-Request-Id:
-      - acbda793-714e-4788-8f17-4dca127f6ef5
+      - e687851e-bcf3-432b-a1b7-997026cf268f
     status: 404 Not Found
     code: 404
     duration: ""
@@ -462,14 +495,624 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Network/virtualNetworks/asotest-vn-fhyuzx?api-version=2020-11-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/asotest-vn-fhyuzx''
-      under resource group ''asotest-rg-sbiboa'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":
+      \"Resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa/providers/Microsoft.Network/virtualNetworks/asotest-vn-fhyuzx
+      not found.\",\r\n    \"details\": []\r\n  }\r\n}"
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "240"
+      - "253"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Arm-Service-Request-Id:
+      - fab51deb-0593-4824-ab51-62a00aa8cfc2
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRTQklCT0EtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
+      - "14987"
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "10"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "11"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "12"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "13"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "14"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "15"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "16"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "17"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "18"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa","name":"asotest-rg-sbiboa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "19"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sbiboa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-sbiboa''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
