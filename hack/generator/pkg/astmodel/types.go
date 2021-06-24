@@ -128,6 +128,14 @@ func (types Types) Contains(name TypeName) bool {
 	return ok
 }
 
+// OverlayWith creates a new set containing all the type definitions from both this and the provided set. Any name
+// collisions are resolved in favour of the provided set. Returns a new independent set, leaving the original unmodified.
+func (types Types) OverlayWith(t Types) Types {
+	result := t.Copy()
+	result.AddTypes(types.Except(t))
+	return result
+}
+
 // TypesDisjointUnion merges this and other, with a safety check that no type is overwritten.
 // If an attempt is made to overwrite a type, this function panics
 func TypesDisjointUnion(s1 Types, s2 Types) Types {

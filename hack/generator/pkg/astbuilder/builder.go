@@ -272,6 +272,16 @@ func Dereference(expr dst.Expr) *dst.UnaryExpr {
 	}
 }
 
+// AsDereference converts the supplied expression into a dereference if it is one
+func AsDereference(expr dst.Expr) (*dst.UnaryExpr, bool) {
+	result, ok := expr.(*dst.UnaryExpr)
+	if ok && result.Op == token.MUL {
+		return result, true
+	}
+
+	return nil, false
+}
+
 // Returns creates a return statement with one or more expressions, of the form
 //
 //    return <expr>
