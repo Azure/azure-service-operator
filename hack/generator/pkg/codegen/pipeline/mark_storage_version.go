@@ -18,7 +18,7 @@ import (
 func MarkStorageVersion() Stage {
 	return MakeStage(
 		"markStorageVersion",
-		"Marking the latest version of each resource as the storage version",
+		"Mark the latest version of each resource as the storage version",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			updatedDefs, err := MarkLatestResourceVersionsForStorage(types)
 			if err != nil {

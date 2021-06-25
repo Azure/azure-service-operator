@@ -19,7 +19,7 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) Stage {
 
 	return MakeStage(
 		"addCrossplaneOwnerProperties",
-		"Adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource",
+		"Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			referenceTypeName := astmodel.MakeTypeName(
 				CrossplaneRuntimeV1Alpha1Package,

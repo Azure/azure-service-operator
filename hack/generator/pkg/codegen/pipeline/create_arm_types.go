@@ -20,7 +20,7 @@ import (
 func CreateARMTypes(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeStage(
 		"createArmTypes",
-		"Create custom types for interaction with ARM",
+		"Create types for interaction with ARM",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
 
 			armTypeCreator := &armTypeCreator{definitions: definitions, idFactory: idFactory}

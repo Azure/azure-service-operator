@@ -18,7 +18,7 @@ func AddCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) S
 
 	return MakeStage(
 		"addCrossplaneEmbeddedResourceStatus",
-		"Adds an embedded runtimev1alpha1.ResourceStatus to every status type",
+		"Add an embedded runtimev1alpha1.ResourceStatus to every status type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			statusTypeName := astmodel.MakeTypeName(
 				CrossplaneRuntimeV1Alpha1Package,

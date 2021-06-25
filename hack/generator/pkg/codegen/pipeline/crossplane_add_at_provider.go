@@ -19,7 +19,7 @@ func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) Stage {
 
 	return MakeStage(
 		"addCrossplaneAtProviderProperty",
-		"Adds an 'AtProvider' property on every status",
+		"Add an 'AtProvider' property on every status",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
 			result := make(astmodel.Types)

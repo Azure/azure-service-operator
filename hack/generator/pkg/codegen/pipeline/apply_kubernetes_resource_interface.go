@@ -18,7 +18,7 @@ func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Stag
 
 	return MakeStage(
 		"applyKubernetesResourceInterface",
-		"Add the KubernetesResource to every resource",
+		"Add the KubernetesResource interface to every resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
 			skip := make(map[astmodel.TypeName]struct{})
