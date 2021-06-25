@@ -23,5 +23,6 @@ Because the Helm chart is hosted out of the GitHub repo itself, we cannot update
 
 1. Create a new branch of ASO.
 2. Update the `version` field of `charts/azure-service-operator/Chart.yaml`. Note that this field is the version of the _chart_, so it should follow semver for the chart. If there's a breaking change in the chart then the major version should be incremented, otherwise incrementing the minor version is fine.
-2. Run `make helm-chart-manifests`. You should see a new chart `.tgz` get created and the new chart version you defined referenced in `charts/index.yaml`.
-3. Submit a PR to ASO with the updated `Chart.yaml`, `index.yaml` and chart `.tgz` file.
+3. Update the `appVersion` field of `charts/azure-service-operator/Chart.yaml` to the version of the container published in the [section above](#Releasing-an-updated-container-image-for-the-manager). Currently, this is the same version as the latest [tag](https://github.com/Azure/azure-service-operator/tags).
+4. Run `make helm-chart-manifests`. You should see a new chart `.tgz` get created and the new chart version you defined referenced in `charts/index.yaml`.
+5. Submit a PR to ASO with the updated `Chart.yaml`, `index.yaml` and chart `.tgz` file.

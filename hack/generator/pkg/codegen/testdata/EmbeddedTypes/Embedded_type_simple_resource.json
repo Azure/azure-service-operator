@@ -1,0 +1,64 @@
+{
+    "$comment": "Test that a simple ARM resource with some complex properties is rendered property",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "test": {
+            "$ref": "#/resourceDefinitions/FakeResource"
+        }
+    },
+    "resourceDefinitions": {
+        "FakeResource": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/FakeResource"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                },
+                "optionalFoo": {
+                    "$ref": "#/definitions/Foo"
+                },
+                "foo": {
+                    "$ref": "#/definitions/Foo"
+                },
+                "color": {
+                    "type": "string",
+                    "enum": [
+                        "red",
+                        "green",
+                        "blue"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion",
+                "foo"
+            ]
+        }
+    },
+    "definitions": {
+        "Foo": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

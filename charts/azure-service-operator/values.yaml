@@ -33,7 +33,7 @@ azureSecretNamingVersion: "2"
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:1.0.22275
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:1.0.24492
 
 # installAadPodIdentity determines if the aad-pod-identity subchart should be installed.
 installAadPodIdentity: False

@@ -1,0 +1,44 @@
+{
+    "$comment": "Here we check that properties with validated types end up with the validations on the properties",
+
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "duck": {
+            "$comment": "checks that string validations work",
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 10,
+            "pattern": "^[a-z]+$"
+        }, 
+        "apple": {
+            "$comment": "checks that array validations work",
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 2,
+            "uniqueItems": true,
+            "items": {"type":"number"}
+        },
+        "sun": {
+            "$comment": "checks that integer validations work",
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 200,
+            "exclusiveMaximum": true,
+            "exclusiveMinimum": false,
+            "multipleOf": 4
+        },
+        "moon": {
+            "$comment": "checks that number validations work",
+            "type": "number",
+            "minimum": 1000,
+            "maximum": 2000,
+            "exclusiveMaximum": false,
+            "exclusiveMinimum": true,
+            "multipleOf": 3
+        }
+    },
+    "required": ["duck", "apple", "sun", "moon"]
+}

@@ -18,6 +18,7 @@ import (
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -37,7 +38,8 @@ import (
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
+	resourcemanagercosmosdbaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/account"
+	resourcemanagercosmosdbsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/sqldatabase"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	loadbalancer "github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
@@ -121,9 +123,24 @@ func main() {
 
 	ctrl.SetLogger(zap.Logger(true))
 
+	err := resourcemanagerconfig.ParseEnvironment()
+	if err != nil {
+		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
+		os.Exit(1)
+	}
+
+	setupLog.V(0).Info("Configuration details", "Configuration", resourcemanagerconfig.ConfigString())
+
+	targetNamespaces := resourcemanagerconfig.TargetNamespaces()
+	var cacheFunc cache.NewCacheFunc
+	if targetNamespaces != nil {
+		cacheFunc = cache.MultiNamespacedCacheBuilder(targetNamespaces)
+	}
+
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:               scheme,
 		MetricsBindAddress:   metricsAddr,
+		NewCache:             cacheFunc,
 		LeaderElection:       enableLeaderElection,
 		LivenessEndpointName: "/healthz",
 		Port:                 9443,
@@ -133,14 +150,6 @@ func main() {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
 	}
-
-	err = resourcemanagerconfig.ParseEnvironment()
-	if err != nil {
-		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
-		os.Exit(1)
-	}
-
-	setupLog.V(0).Info("Configuration details", "Configuration", resourcemanagerconfig.ConfigString())
 
 	keyvaultName := resourcemanagerconfig.GlobalCredentials().OperatorKeyvault()
 
@@ -179,10 +188,11 @@ func main() {
 	)
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(config.GlobalCredentials())
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(config.GlobalCredentials())
-	cosmosDBClient := resourcemanagercosmosdb.NewAzureCosmosDBManager(
+	cosmosDBClient := resourcemanagercosmosdbaccount.NewAzureCosmosDBManager(
 		config.GlobalCredentials(),
 		secretClient,
 	)
+	cosmosDBSQLDatabaseClient := resourcemanagercosmosdbsqldatabase.NewAzureCosmosDBSQLDatabaseManager(config.GlobalCredentials())
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(config.GlobalCredentials(), mgr.GetScheme())
 	keyVaultKeyManager := resourcemanagerkeyvault.NewKeyvaultKeyClient(config.GlobalCredentials(), keyVaultManager)
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(config.GlobalCredentials(), secretClient, scheme)
@@ -249,6 +259,23 @@ func main() {
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
+		os.Exit(1)
+	}
+
+	err = (&controllers.CosmosDBSQLDatabaseReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: cosmosDBSQLDatabaseClient,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"CosmosDBSQLDatabase",
+				ctrl.Log.WithName("controllers").WithName("CosmosDBSQLDatabase"),
+			),
+			Recorder: mgr.GetEventRecorderFor("CosmosDBSQLDatabase-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "CosmosDBSQLDatabase")
 		os.Exit(1)
 	}
 
@@ -742,7 +769,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	identityFinder := helpers.NewAADIdentityFinder(mgr.GetClient(), config.PodNamespace())
+	// Use the API reader rather than using mgr.GetClient(), because
+	// the client might be restricted by target namespaces, while we
+	// need to read from the operator namespace.
+	identityFinder := helpers.NewAADIdentityFinder(mgr.GetAPIReader(), config.PodNamespace())
 	if err = (&controllers.MySQLAADUserReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),

@@ -1,0 +1,18 @@
+{
+    "$comment": "Here we check that if there are other fields present and 'additionalProperties' is not explicitly set then nothing additional is generated (this is against spec but see 'additionalProperties' comments in jsonast)",
+
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "tags": {
+            "type": "object",
+            "properties": {
+                "otherField": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

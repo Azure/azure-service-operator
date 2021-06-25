@@ -1,82 +1,43 @@
-#-------------------------------------------------------------------------------------------------------------
-# Copyright (c) Microsoft Corporation. All rights reserved.
-# Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
-#-------------------------------------------------------------------------------------------------------------
+# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.137.0/containers/go/.devcontainer/base.Dockerfile
 
-FROM golang:1.13.10-buster
+# This is pinned to a particular version of go:
+FROM mcr.microsoft.com/vscode/devcontainers/go:0-1.16
 
-# Configure apt, install packages and cli tools
-RUN export DEBIAN_FRONTEND=noninteractive \
-    && apt-get update \
-    && apt-get -y install --no-install-recommends apt-transport-https ca-certificates curl gnupg2 lsb-release \
-    # 
-    # Install Kubebuilder
-    && curl -sL https://go.kubebuilder.io/dl/2.3.1/$(go env GOOS)/$(go env GOARCH) | tar -xz --strip-components=2 -C /usr/local/bin \
-    #
-    # Install Helm
-    && curl -s https://get.helm.sh/helm-v3.2.1-linux-amd64.tar.gz | tar -zxv --strip-components=1 -C /usr/local/bin linux-amd64/helm \
-    #
-    # Install Docker CLI package source
-    && curl -fsSL https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/gpg | (OUT=$(apt-key add - 2>&1) || echo $OUT) \
-    && echo "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list \
-    #
-    # Add the Azure CLI package source
-    && curl -sL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - 2>/dev/null \
-    && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/azure-cli.list \
-    #
-    # Install Packages
-    && apt-get update \
-    && apt-get install -y --no-install-recommends \
-        docker-ce-cli \
-        azure-cli \
-        zsh \
-    #
-    # Install ZSH shell
-    && wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
-    #
-    # Clean up
-    && apt-get autoremove -y \
-    && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
+# APT dependencies
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+    && apt-get -y install --no-install-recommends bash-completion software-properties-common lsb-release \
+    # install az-cli
+    && curl -sL https://aka.ms/InstallAzureCLIDeb | bash -
 
-RUN export DEBIAN_FRONTEND=noninteractive \
-    #
-    # Install Go development tools
-    && GO111MODULE=on go get -v \
-        golang.org/x/tools/gopls@latest \
-        golang.org/x/lint/golint@latest \
-        github.com/go-delve/delve/cmd/dlv@latest \
-        2>&1 \
-    #
-    # Install Go test dependencies
-    && GO111MODULE=on go get -v \
-        github.com/jstemmer/go-junit-report@latest \
-        github.com/axw/gocov/gocov@latest \
-        github.com/AlekSi/gocov-xml \
-        github.com/wadey/gocovmerge \
-        2>&1
+# install docker
+# - not yet needed?
+# RUN curl -fsSL https://get.docker.com | sh -
+# RUN usermod -aG docker vscode
 
-# Copy shares from localhost into container when new shells are created
-RUN echo '\n\
-if [ -d "/usr/local/share/kube-localhost" ]; then\n\
-    mkdir -p $HOME/.kube\n\
-    cp -r /usr/local/share/kube-localhost/* $HOME/.kube\n\
-    chown -R $(id -u) $HOME/.kube\n\
-    sed -i -e "s/localhost/host.docker.internal/g" $HOME/.kube/config\n\
-\n\
-    if [ -d "/usr/local/share/minikube-localhost" ]; then\n\
-        mkdir -p $HOME/.minikube\n\
-        cp -r /usr/local/share/minikube-localhost/ca.crt $HOME/.minikube\n\
-        cp -r /usr/local/share/minikube-localhost/client.crt $HOME/.minikube\n\
-        cp -r /usr/local/share/minikube-localhost/client.key $HOME/.minikube\n\
-        chown -R $(id -u) $HOME/.minikube\n\
-        sed -i -r "s|(\s*certificate-authority:\s).*|\\1$HOME\/.minikube\/ca.crt|g" $HOME/.kube/config\n\
-        sed -i -r "s|(\s*client-certificate:\s).*|\\1$HOME\/.minikube\/client.crt|g" $HOME/.kube/config\n\
-        sed -i -r "s|(\s*client-key:\s).*|\\1$HOME\/.minikube\/client.key|g" $HOME/.kube/config\n\
-    fi\n\
-fi\n\
-if [ -d "/usr/local/share/azure-localhost" ]; then\n\
-    mkdir -p $HOME/.azure\n\
-    cp -r /usr/local/share/azure-localhost/* $HOME/.azure\n\
-    chown -R $(id -u) $HOME/.azure\n\
-fi' | tee -a /root/.bashrc /root/.zshrc /home/${USERNAME}/.bashrc >> /home/${USERNAME}/.zshrc
+COPY install-dependencies.sh .
+RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh
+
+# Add kubebuilder to PATH
+ENV PATH=$PATH:/usr/local/kubebuilder/bin
+
+# Add further bash customizations
+# note that the base image includes oh-my-bash, we are enabling plugins here
+# TODO: restore oh-my-bash? it was removed in base image.
+# RUN sed -i '/^plugins=/a kubectl\ngolang' "/home/vscode/.bashrc"
+# RUN sed -i '/^completions=/a kubectl\ngo\ntask' "/home/vscode/.bashrc"
+
+# Make kubectl completions work with 'k' alias
+RUN echo 'complete -F __start_kubectl k' >> "/home/vscode/.bashrc"
+
+# Setup go-task completions
+RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.0.0/completion/bash/task.bash" > "/home/vscode/.task.completion.sh" \
+    && echo 'source /home/vscode/.task.completion.sh' >> /home/vscode/.bashrc
+
+ENV KIND_CLUSTER_NAME=aso
+
+# install docker, from: https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker.md
+COPY library-scripts/docker-debian.sh /tmp/library-scripts/
+RUN bash /tmp/library-scripts/docker-debian.sh
+ENTRYPOINT ["/usr/local/share/docker-init.sh"]
+CMD ["sleep", "infinity"]

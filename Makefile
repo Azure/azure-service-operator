@@ -57,10 +57,20 @@ generate-test-certs:
 .PHONY: test-integration-controllers
 test-integration-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
+	AZURE_TARGET_NAMESPACES=default,watched \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
 		./controllers/... \
 		./pkg/secrets/...
 		# TODO: Note that the above test (secrets/keyvault) is not an integration-controller test... but it's not a unit test either and unfortunately the test-integration-managers target isn't run in CI either?
+
+# Check that when there are no target namespaces all namespaces are watched
+.PHONY: test-no-target-namespaces
+test-no-target-namespaces: generate fmt vet manifests
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
+	AZURE_TARGET_NAMESPACES= \
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/no-target-namespaces-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
+		-run TestTargetNamespaces \
+		./controllers/...
 
 # Run subset of tests with v1 secret naming enabled to ensure no regression in old secret naming
 .PHONY: test-v1-secret-naming
@@ -90,7 +100,8 @@ test-unit: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/unittest-coverage-ouput.txt -covermode count -parallel 4 -timeout 10m \
 	./pkg/resourcemanager/keyvaults/unittest/ \
-	./pkg/resourcemanager/azuresql/azuresqlfailovergroup
+	./pkg/resourcemanager/azuresql/azuresqlfailovergroup \
+	./pkg/resourcemanager/cosmosdb/sqldatabase
 	# The below folders are commented out because the tests in them fail...
 	# ./api/... \
 
@@ -207,7 +218,7 @@ helm-chart-manifests: generate
 
 # Generate manifests e.g. CRD, RBAC etc.
 .PHONY: manifests
-manifests: install-dependencies
+manifests: install-tools
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
 	# update manifests to force preserveUnknownFields to false. We can't use controller-gen to set this to false because it has a bug...
 	# see: https://github.com/kubernetes-sigs/controller-tools/issues/476
@@ -241,11 +252,11 @@ generate-template:
 # TODO: These kind-delete / kind-create targets were stolen from k8s-infra and
 # TODO: should be merged back together when the projects more closely align
 .PHONY: kind-delete
-kind-delete: install-test-dependencies
+kind-delete: install-test-tools
 	kind delete cluster --name=$(KIND_CLUSTER_NAME) || true
 
 .PHONY: kind-create
-kind-create: install-test-dependencies
+kind-create: install-test-tools
 	kind get clusters | grep -E $(KIND_CLUSTER_NAME) > /dev/null;\
 	EXISTS=$$?;\
 	if [ $$EXISTS -eq 0 ]; then \
@@ -315,20 +326,28 @@ install-cert-manager:
 install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 
-.PHONY: install-test-dependencies
-install-test-dependencies: install-dependencies
-	go get github.com/jstemmer/go-junit-report \
+.PHONY: install-test-tools
+install-test-tools: TEST_TOOLS_MOD_DIR := $(shell mktemp -d -t goinstall_XXXXXXXXXX)
+install-test-tools: install-tools
+	cd $(TEST_TOOLS_MOD_DIR) \
+	&& go mod init fake/mod \
+	&& go get github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge \
-	&& go get sigs.k8s.io/kind@v0.9.0 \
+	&& go get sigs.k8s.io/kind@v0.9.0
+	rm -r $(TEST_TOOLS_MOD_DIR)
 
-.PHONY: install-dependencies
-install-dependencies:
-	go get github.com/mikefarah/yq/v4 \
+.PHONY: install-tools
+install-tools: TEMP_DIR := $(shell mktemp -d -t goinstall_XXXXXXXXXX)
+install-tools:
+	cd $(TEMP_DIR) \
+	&& go mod init fake/mod \
+	&& go get github.com/mikefarah/yq/v4 \
 	&& go get k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
 	&& go get sigs.k8s.io/kustomize/kustomize/v3@v3.8.6 \
 	&& go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0
+	rm -r $(TEMP_DIR)
     CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 
 # Operator-sdk release version
@@ -351,14 +370,13 @@ generate-operator-bundle: LATEST_TAG := $(shell curl -sL https://api.github.com/
 generate-operator-bundle: manifests
 	@echo "Latest released tag is $(LATEST_TAG)"
 	@echo "Previous bundle version is $(PREVIOUS_BUNDLE_VERSION)"
-	rm -rf "bundle/$(LATEST_TAG)"
+	rm -rf "bundle/manifests"
 	kustomize build config/operator-bundle | operator-sdk generate bundle --version $(LATEST_TAG) --channels stable --default-channel stable --overwrite --kustomize-dir config/operator-bundle
 	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh
 	# Inject the container reference into the bundle.
-	scripts/inject-container-reference.sh "$(PUBLIC_REPO)@$(LATEST_TAG)"
+	scripts/inject-container-reference.sh "$(PUBLIC_REPO):$(LATEST_TAG)"
 	# Include the replaces field with the old version.
 	yq eval -i ".spec.replaces = \"azure-service-operator.v$(PREVIOUS_BUNDLE_VERSION)\"" bundle/manifests/azure-service-operator.clusterserviceversion.yaml
-	# Rename files so they're easy to add to the community-operators repo for a PR
-	mv bundle/manifests bundle/$(LATEST_TAG)
-	mv bundle/$(LATEST_TAG)/azure-service-operator.clusterserviceversion.yaml bundle/$(LATEST_TAG)/azure-service-operator.v$(LATEST_TAG).clusterserviceversion.yaml
+	# Rename the csv to simplify adding to the community-operators repo for a PR
+	mv bundle/manifests/azure-service-operator.clusterserviceversion.yaml bundle/manifests/azure-service-operator.v$(LATEST_TAG).clusterserviceversion.yaml
