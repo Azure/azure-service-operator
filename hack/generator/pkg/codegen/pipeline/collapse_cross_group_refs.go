@@ -3,19 +3,20 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// collapseCrossGroupReferences finds and removes references between API groups. This isn't particularly common
+// CollapseCrossGroupReferences finds and removes references between API groups. This isn't particularly common
 // but does occur in a few instances, for example from Microsoft.Compute -> Microsoft.Compute.Extensions.
-func collapseCrossGroupReferences() PipelineStage {
-	return MakePipelineStage(
+func CollapseCrossGroupReferences() Stage {
+	return MakeStage(
 		"collapseCrossGroupReferences",
 		"Finds and removes cross group references",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
