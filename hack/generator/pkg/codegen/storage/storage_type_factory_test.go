@@ -76,7 +76,7 @@ func createTestResource(
 		statusName,
 		astmodel.NewObjectType().WithProperties(statusProperty))
 
-	resource := astmodel.MakeTypeDefinition(
+	resource = astmodel.MakeTypeDefinition(
 		astmodel.MakeTypeName(pkg, name),
 		astmodel.NewResourceType(specName, statusName))
 
