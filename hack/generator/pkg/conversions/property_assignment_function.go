@@ -33,6 +33,10 @@ type PropertyAssignmentFunction struct {
 	knownLocals *astmodel.KnownLocalsSet
 	// conversionContext is additional information about the context in which this conversion was made
 	conversionContext *PropertyConversionContext
+	// identifier to use for our receiver in generated code
+	receiverName string
+	// identifier to use for our parameter in generated code
+	parameterName string
 }
 
 // StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
@@ -58,10 +62,9 @@ func NewPropertyAssignmentFromFunction(
 		direction:       ConvertFrom,
 		conversions:     make(map[string]StoragePropertyConversion),
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
+		receiverName:    idFactory.CreateIdentifier(receiver.Name().Name(), astmodel.NotExported),
+		parameterName:   "source",
 	}
-
-	// TODO: Bevan will improve how this is done (avoid hard-coding "source")
-	result.knownLocals.Add("source")
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
@@ -88,10 +91,9 @@ func NewPropertyAssignmentToFunction(
 		direction:       ConvertTo,
 		conversions:     make(map[string]StoragePropertyConversion),
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
+		receiverName:    idFactory.CreateIdentifier(receiver.Name().Name(), astmodel.NotExported),
+		parameterName:   "destination",
 	}
-
-	// TODO: Bevan will improve how this is done (avoid hard-coding "destination")
-	result.knownLocals.Add("destination")
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
@@ -152,41 +154,32 @@ func (fn *PropertyAssignmentFunction) Equals(f astmodel.Function) bool {
 
 // AsFunc renders this function as an AST for serialization to a Go source file
 func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-	var parameterName string
 	var description string
 	switch fn.direction {
 	case ConvertFrom:
-		parameterName = "source"
 		description = fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.otherDefinition.Name().Name())
 	case ConvertTo:
-		parameterName = "destination"
 		description = fmt.Sprintf("populates the provided destination %s from our %s", fn.otherDefinition.Name().Name(), receiver.Name())
 	default:
 		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
 	}
 
-	// Create a sensible name for our receiver
-	receiverName := fn.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)
-
 	// We always use a pointer receiver so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
 
 	funcDetails := &astbuilder.FuncDetails{
-		ReceiverIdent: receiverName,
+		ReceiverIdent: fn.receiverName,
 		ReceiverType:  receiverType,
 		Name:          fn.Name(),
-		Body:          fn.generateBody(receiverName, parameterName, generationContext),
+		Body:          fn.generateBody(fn.receiverName, fn.parameterName, generationContext),
 	}
 
 	parameterPackage := generationContext.MustGetImportedPackageName(fn.otherDefinition.Name().PackageReference)
 
 	funcDetails.AddParameter(
-		parameterName,
+		fn.parameterName,
 		&dst.StarExpr{
-			X: &dst.SelectorExpr{
-				X:   dst.NewIdent(parameterPackage),
-				Sel: dst.NewIdent(fn.otherDefinition.Name().Name()),
-			},
+			X: astbuilder.Selector(dst.NewIdent(parameterPackage), fn.otherDefinition.Name().Name()),
 		})
 
 	funcDetails.AddReturns("error")
@@ -289,8 +282,10 @@ func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDe
 		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
 	}
 
-	// Flag receiver name as used
-	fn.knownLocals.Add(receiver.Name().Name())
+	// Flag receiver and parameter names as used
+	fn.knownLocals.Add(fn.receiverName)
+	fn.knownLocals.Add(fn.parameterName)
+
 	for destinationName, destinationEndpoint := range destinationEndpoints {
 		sourceEndpoint, ok := sourceEndpoints[destinationName]
 
