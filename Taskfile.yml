@@ -211,7 +211,7 @@ tasks:
     deps: [controller:generate-crds, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
-    - RECORD_REPLAY=0 go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -v -run '{{default ".*" .TEST_FILTER}}' ./...
+    - RECORD_REPLAY=0 go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.

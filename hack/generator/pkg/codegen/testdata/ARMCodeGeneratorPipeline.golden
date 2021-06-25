@@ -9,6 +9,7 @@ nameTypes                                      Name inner types for CRD
 propertyRewrites                               Modify property types using configured transforms
 determineResourceOwnership                     Determine ARM resource relationships
 removeAliases                                  Remove type aliases
+collapseCrossGroupReferences                   Finds and removes cross group references
 pluralizeNames                                 Improve resource pluralization
 stripUnreferenced                              Strip unreferenced types
 assertTypesStructureValid                      Verify that all local TypeNames refer to a type

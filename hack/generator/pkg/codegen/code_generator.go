@@ -109,6 +109,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Strip out redundant type aliases:
 		pipeline.RemoveTypeAliases(),
 
+		// Collapse cross group references
+		collapseCrossGroupReferences(),
+
 		// De-pluralize resource types
 		// (Must come after type aliases are resolved)
 		pipeline.ImproveResourcePluralization().

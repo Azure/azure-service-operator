@@ -9,14 +9,20 @@ import (
 )
 
 type Person struct {
-	JSONBlob v1.JSON `json:"jsonBlob"`
+	JSONObject map[string]v1.JSON `json:"jsonObject"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
-	// JSONBlob
-	person.JSONBlob = *source.JSONBlob.DeepCopy()
+	// JSONObject
+	jsonObjectMap := make(map[string]v1.JSON)
+	for jsonObjectKey, jsonObjectValue := range source.JSONObject {
+		// Shadow the loop variable to avoid aliasing
+		jsonObjectValue := jsonObjectValue
+		jsonObjectMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
+	}
+	person.JSONObject = jsonObjectMap
 
 	// No error
 	return nil
@@ -25,8 +31,14 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 // AssignPropertiesToPerson populates the provided destination Person from our Person
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
-	// JSONBlob
-	destination.JSONBlob = *person.JSONBlob.DeepCopy()
+	// JSONObject
+	jsonObjectMap := make(map[string]v1.JSON)
+	for jsonObjectKey, jsonObjectValue := range person.JSONObject {
+		// Shadow the loop variable to avoid aliasing
+		jsonObjectValue := jsonObjectValue
+		jsonObjectMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
+	}
+	destination.JSONObject = jsonObjectMap
 
 	// No error
 	return nil

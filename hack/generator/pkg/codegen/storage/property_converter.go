@@ -7,9 +7,10 @@ package storage
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/pkg/errors"
-	"strings"
 )
 
 // PropertyConverter is used to convert the properties of object inputTypes as required for storage variants
@@ -89,6 +90,11 @@ func (p *PropertyConverter) useBaseTypeForEnumerations(
 //      with the primitive type
 func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
 	tv *astmodel.TypeVisitor, tn astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+
+	// for nonlocal packages, preserve the name as is
+	if _, ok := tn.PackageReference.AsLocalPackage(); !ok {
+		return tn, nil
+	}
 
 	actualType, err := p.types.FullyResolve(tn)
 	if err != nil {
