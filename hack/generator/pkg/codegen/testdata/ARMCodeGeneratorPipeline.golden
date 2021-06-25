@@ -3,7 +3,7 @@ Expected Pipeline Stages for ARM Code Generation
 loadSchema                                     Load and walk schema
 augmentStatus                                  Add information from Swagger specs for 'status' fields
 allof-anyof-objects                            Convert allOf and oneOf to object types
-flatten-resources                              Flatten nested resource types
+flattenResources                               Flatten nested resource types
 stripUnreferenced                              Strip unreferenced types
 nameTypes                                      Name inner types for CRD
 propertyRewrites                               Modify property types using configured transforms
@@ -11,25 +11,25 @@ determineResourceOwnership                     Determine ARM resource relationsh
 removeAliases                                  Remove type aliases
 pluralizeNames                                 Improve resource pluralization
 stripUnreferenced                              Strip unreferenced types
-assertTypesStructureValid                      Verify that all named types are properly defined
-removeEmbeddedResources             azure      Removes properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.
+assertTypesStructureValid                      Verify that all local TypeNames refer to a type
+removeEmbeddedResources             azure      Remove properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.
 filterTypes                                    Apply export filters to reduce the number of generated types
 stripUnreferenced                              Strip unreferenced types
 replaceAnyTypeWithJSON                         Replace properties using interface{} with arbitrary JSON
 addCrossResourceReferences          azure      Replace cross-resource references with genruntime.ResourceReference
 reportTypesAndVersions              azure      Generate reports on types and versions in each package
-createArmTypes                      azure      Create custom types for interaction with ARM
+createArmTypes                      azure      Create types for interaction with ARM
 applyArmConversionInterface         azure      Add ARM conversion interfaces to Kubernetes types
-applyKubernetesResourceInterface    azure      Add the KubernetesResource to every resource
-addCrossplaneOwnerProperties        crossplane Adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
-addCrossplaneForProviderProperty    crossplane Adds a 'ForProvider' property on every spec
-addCrossplaneAtProviderProperty     crossplane Adds an 'AtProvider' property on every status
-addCrossplaneEmbeddedResourceSpec   crossplane Adds an embedded runtimev1alpha1.ResourceSpec to every spec type
-addCrossplaneEmbeddedResourceStatus crossplane Adds an embedded runtimev1alpha1.ResourceStatus to every status type
+applyKubernetesResourceInterface    azure      Add the KubernetesResource interface to every resource
+addCrossplaneOwnerProperties        crossplane Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
+addCrossplaneForProviderProperty    crossplane Add a 'ForProvider' property on every spec
+addCrossplaneAtProviderProperty     crossplane Add an 'AtProvider' property on every status
+addCrossplaneEmbeddedResourceSpec   crossplane Add an embedded runtimev1alpha1.ResourceSpec to every spec type
+addCrossplaneEmbeddedResourceStatus crossplane Add an embedded runtimev1alpha1.ResourceStatus to every status type
 createStorage                       azure      Create storage versions of CRD types
 simplifyDefinitions                            Flatten definitions by removing wrapper types
 jsonTestCases                       azure      Add test cases to verify JSON serialization
-markStorageVersion                             Marking the latest version of each resource as the storage version
+markStorageVersion                             Mark the latest version of each resource as the storage version
 rogueCheck                                     Check for rogue definitions using AnyTypes
 ensureArmTypeExistsForEveryType     azure      Check that an ARM type exists for both Spec and Status of each resource
 deleteGenerated                                Delete generated code from .
