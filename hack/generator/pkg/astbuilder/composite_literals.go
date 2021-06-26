@@ -27,6 +27,7 @@ func (details *CompositeLiteralDetails) AddField(name string, value dst.Expr) *C
 	}
 
 	expr.Decs.Before = dst.NewLine
+	expr.Decs.After = dst.NewLine
 
 	details.elts = append(details.elts, expr)
 
