@@ -53,7 +53,7 @@ func makeFlatteningVisitor(defs astmodel.Types) astmodel.TypeVisitor {
 
 			// safety check:
 			if err := checkForDuplicateNames(newProps); err != nil {
-				klog.Warningf("Flattening caused duplicate property names, skipping flattening")
+				klog.Warningf("Flattening caused duplicate property names, skipping flattening: %s", err)
 				return it, nil // nolint:nilerr
 			}
 
