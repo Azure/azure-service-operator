@@ -84,10 +84,6 @@ func (o OriginalGVKFunction) AsFunc(
 // Equals returns true if the passed function is equal to us, or false otherwise
 func (o OriginalGVKFunction) Equals(f astmodel.Function) bool {
 	_, ok := f.(*OriginalGVKFunction)
-	if !ok {
-		// Not same type, can't be the same
-		return false
-	}
-
-	return true
+	// Equality is just based on Type for now
+	return ok
 }

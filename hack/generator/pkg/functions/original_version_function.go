@@ -74,13 +74,8 @@ func (o OriginalVersionFunction) AsFunc(
 // Equals returns true if the passed function is equal to us, or false otherwise
 func (o OriginalVersionFunction) Equals(f astmodel.Function) bool {
 	_, ok := f.(*OriginalVersionFunction)
-	if !ok {
-		// Not same type, can't be the same
-		return false
-	}
-
-	// All OriginalVersion() functions are identical
-	return true
+	// Equality is just based on Type for now
+	return ok
 }
 
 // ReturnType indicates that this function returns a string

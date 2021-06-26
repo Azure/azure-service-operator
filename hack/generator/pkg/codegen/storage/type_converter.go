@@ -158,7 +158,7 @@ func (t *TypeConverter) convertObjectType(
 
 	if converterContext.isSpec {
 		// Inject OriginalVersion property
-		originalVersion :=astmodel.NewPropertyDefinition("OriginalVersion", "original-version", astmodel.StringType)
+		originalVersion := astmodel.NewPropertyDefinition("OriginalVersion", "original-version", astmodel.StringType)
 		objectType = objectType.WithProperty(originalVersion)
 	}
 
