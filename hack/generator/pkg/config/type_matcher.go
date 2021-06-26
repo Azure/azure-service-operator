@@ -88,7 +88,11 @@ func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 
 		// Track this match so we can later report if we didn't match anything
 		if result {
-			t.matchedTypes.Add(typeName)
+			if t.matchedTypes == nil {
+				t.matchedTypes = astmodel.NewTypeNameSet(typeName)
+			} else {
+				t.matchedTypes.Add(typeName)
+			}
 		}
 
 		return result
