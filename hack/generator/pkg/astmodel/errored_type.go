@@ -168,7 +168,7 @@ func (e *ErroredType) WriteDebugDescription(builder *strings.Builder, types Type
 	} else {
 		builder.WriteString("<missing>")
 	}
-	
+
 	for _, e := range e.errors {
 		builder.WriteString("|")
 		builder.WriteString(e)

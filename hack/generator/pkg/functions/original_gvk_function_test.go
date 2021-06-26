@@ -16,7 +16,7 @@ func Test_OriginalGVKFunction_GeneratesExpectedCode(t *testing.T) {
 	idFactory := astmodel.NewIdentifierFactory()
 
 	originalGVKFunction := NewOriginalGVKFunction(idFactory)
-	demoType := astmodel.NewObjectType().		WithFunction(originalGVKFunction)
+	demoType := astmodel.NewObjectType().WithFunction(originalGVKFunction)
 
 	demoRef := astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/hack/generated/_apis", "Person", "vDemo")
 	demoName := astmodel.MakeTypeName(demoRef, "Demo")
