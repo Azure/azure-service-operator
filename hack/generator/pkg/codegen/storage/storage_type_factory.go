@@ -50,18 +50,20 @@ func NewStorageTypeFactory(group string, idFactory astmodel.IdentifierFactory) *
 }
 
 // Add the supplied type definition to this factory
-func (f *StorageTypeFactory) Add(def astmodel.TypeDefinition) {
-	f.referenceTypes.Add(def)
+func (f *StorageTypeFactory) Add(definitions ...astmodel.TypeDefinition) {
+	for _, def := range definitions {
+		f.referenceTypes.Add(def)
 
-	if rt, ok := astmodel.AsResourceType(def.Type()); ok {
-		// We have a resource type
-		if tn, ok := astmodel.AsTypeName(rt.SpecType()); ok {
-			// Keep track of all our spec types
-			f.specTypes = f.specTypes.Add(tn)
-		}
-		if tn, ok := astmodel.AsTypeName(rt.StatusType()); ok {
-			// Keep track of all our status types
-			f.statusTypes = f.statusTypes.Add(tn)
+		if rt, ok := astmodel.AsResourceType(def.Type()); ok {
+			// We have a resource type
+			if tn, ok := astmodel.AsTypeName(rt.SpecType()); ok {
+				// Keep track of all our spec types
+				f.specTypes = f.specTypes.Add(tn)
+			}
+			if tn, ok := astmodel.AsTypeName(rt.StatusType()); ok {
+				// Keep track of all our status types
+				f.statusTypes = f.statusTypes.Add(tn)
+			}
 		}
 	}
 }
