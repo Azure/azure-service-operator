@@ -197,6 +197,9 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 	return f.injectConversionsBetween(definition, nextDef)
 }
 
+// inject conversion methods between the two specified definitions
+// upstreamDef is the definition further away from our hub type in our directed conversion graph
+// downstreamDef is the definition closer to our hub type in our directed conversion graph
 func (f *StorageTypeFactory) injectConversionsBetween(
 	upstreamDef astmodel.TypeDefinition, downstreamDef astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
 
