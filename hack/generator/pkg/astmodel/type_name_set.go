@@ -62,10 +62,8 @@ func (ts TypeNameSet) Equals(set TypeNameSet) bool {
 
 // AddAll adds the provided TypeNameSet to the set
 func (ts TypeNameSet) AddAll(other TypeNameSet) {
-	if other != nil {
-		for val := range other {
-			ts[val] = struct{}{}
-		}
+	for val := range other {
+		ts[val] = struct{}{}
 	}
 }
 

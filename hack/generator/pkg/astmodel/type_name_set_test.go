@@ -13,9 +13,8 @@ import (
 
 var (
 	oneTypeName = MakeTypeName(GenRuntimeReference, "One")
-	twoTypeName  = MakeTypeName(GenRuntimeReference, "Two")
+	twoTypeName = MakeTypeName(GenRuntimeReference, "Two")
 )
-
 
 /*
  * Empty Set tests
