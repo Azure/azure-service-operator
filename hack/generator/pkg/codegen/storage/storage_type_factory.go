@@ -298,8 +298,8 @@ func (f *StorageTypeFactory) injectConversionsBetween(
 		// TODO: Make this work when types are discontinued
 		hubType := astmodel.MakeTypeName(f.hubPackage, upstreamName.Name())
 
-		convertFromFn := conversions.NewConversionFromHubFunction(hubType, assignFromFn.OtherType(), assignFromFn.Name(), f.idFactory)
-		convertToFn := conversions.NewConversionToHubFunction(hubType, assignToFn.OtherType(), assignToFn.Name(), f.idFactory)
+		convertFromFn := functions.NewConversionFromHubFunction(hubType, assignFromFn.OtherType(), assignFromFn.Name(), f.idFactory)
+		convertToFn := functions.NewConversionToHubFunction(hubType, assignToFn.OtherType(), assignToFn.Name(), f.idFactory)
 
 		convertibleImplementation := astmodel.NewInterfaceImplementation(astmodel.ConvertibleInterface, convertFromFn, convertToFn)
 

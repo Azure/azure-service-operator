@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package conversions
+package functions
 
 import (
 	"fmt"
@@ -13,6 +13,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 )
 
 // HubConversionFunction implements conversions to/from our hub type
@@ -21,7 +22,7 @@ type HubConversionFunction struct {
 	// hub is the TypeName of the canonical hub type, the final target or original source for conversion
 	hub astmodel.TypeName
 	// direction specifies whether we are converting to the hub type, or from it
-	direction Direction
+	direction conversions.Direction
 	// propertyFunctionName is the name of the function we call to copy properties across
 	propertyFunctionName string
 	// intermediateType is the TypeName of an intermediate type we use as part of a multiple step conversion
@@ -42,7 +43,7 @@ func NewConversionToHubFunction(
 	idFactory astmodel.IdentifierFactory) *HubConversionFunction {
 	result := &HubConversionFunction{
 		hub:                  hub,
-		direction:            ConvertTo,
+		direction:            conversions.ConvertTo,
 		propertyFunctionName: propertyFunctionName,
 		idFactory:            idFactory,
 	}
@@ -62,7 +63,7 @@ func NewConversionFromHubFunction(
 	idFactory astmodel.IdentifierFactory) *HubConversionFunction {
 	result := &HubConversionFunction{
 		hub:                  hub,
-		direction:            ConvertFrom,
+		direction:            conversions.ConvertFrom,
 		propertyFunctionName: propertyFunctionName,
 		idFactory:            idFactory,
 	}
