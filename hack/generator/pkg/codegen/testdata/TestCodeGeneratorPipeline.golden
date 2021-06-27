@@ -1,9 +1,10 @@
 Expected Pipeline Stages for Test Code Generation
 -------------------------------------------------
 loadTestSchema                                 Load and walk schema (test)
-augmentStatus                                  Add information from Swagger specs for 'status' fields
+addStatusFromSwagger                           Add information from Swagger specs for 'status' fields
 allof-anyof-objects                            Convert allOf and oneOf to object types
 flattenResources                               Flatten nested resource types
+augmentSpecWithStatus                          Merges information from Status into Spec
 stripUnused                                    Strip unused types for test
 nameTypes                                      Name inner types for CRD
 propertyRewrites                               Modify property types using configured transforms
@@ -17,6 +18,7 @@ stripUnused                                    Strip unused types for test
 replaceAnyTypeWithJSON                         Replace properties using interface{} with arbitrary JSON
 addCrossResourceReferences          azure      Replace cross-resource references with genruntime.ResourceReference
 applyKubernetesResourceInterface    azure      Add the KubernetesResource interface to every resource
+flattenProperties                              Apply flattening to properties marked for flattening
 simplifyDefinitions                            Flatten definitions by removing wrapper types
 jsonTestCases                       azure      Add test cases to verify JSON serialization
 markStorageVersion                             Mark the latest version of each resource as the storage version

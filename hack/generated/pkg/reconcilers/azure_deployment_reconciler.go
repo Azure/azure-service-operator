@@ -70,8 +70,10 @@ const (
 	DeleteActionMonitorDelete = DeleteAction("MonitorDelete")
 )
 
-type CreateOrUpdateActionFunc = func(ctx context.Context) (ctrl.Result, error)
-type DeleteActionFunc = func(ctx context.Context) (ctrl.Result, error)
+type (
+	CreateOrUpdateActionFunc = func(ctx context.Context) (ctrl.Result, error)
+	DeleteActionFunc         = func(ctx context.Context) (ctrl.Result, error)
+)
 
 var _ genruntime.Reconciler = &AzureDeploymentReconciler{}
 
@@ -109,7 +111,6 @@ func NewAzureDeploymentReconciler(
 
 func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Result, error) {
 	action, actionFunc, err := r.DetermineCreateOrUpdateAction()
-
 	if err != nil {
 		r.log.Error(err, "error determining create or update action")
 		r.recorder.Event(r.obj, v1.EventTypeWarning, "DetermineCreateOrUpdateActionError", err.Error())
@@ -128,7 +129,6 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 
 func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, error) {
 	action, actionFunc, err := r.DetermineDeleteAction()
-
 	if err != nil {
 		r.log.Error(err, "error determining delete action")
 		r.recorder.Event(r.obj, v1.EventTypeWarning, "DetermineDeleteActionError", err.Error())
@@ -350,7 +350,6 @@ func NoAction(_ context.Context) (ctrl.Result, error) {
 // StartDeleteOfResource will begin the delete of a resource by telling Azure to start deleting it. The resource will be
 // marked with the provisioning state of "Deleting".
 func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (ctrl.Result, error) {
-
 	msg := "Starting delete of resource"
 	r.log.Info(msg)
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
@@ -364,7 +363,6 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 	// TODO: return the data we need.
 	// TODO(matthchr): For now just emulate this with reflection
 	resource, err := r.constructArmResource(ctx)
-
 	if err != nil {
 		// If the error is that the owner isn't found, that probably
 		// means that the owner was deleted in Kubernetes. The current
@@ -373,9 +371,9 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 		var typedErr *genruntime.ReferenceNotFound
 		if errors.As(err, &typedErr) {
 			// TODO: We should confirm the above assumption by performing a HEAD on
-			// TODO: the resource in Azure. This requires GetApiVersion() on  metaObj which
+			// TODO: the resource in Azure. This requires GetAPIVersion() on  metaObj which
 			// TODO: we don't currently have in the interface.
-			// gr.ARMClient.HeadResource(ctx, data.resourceID, r.obj.GetApiVersion())
+			// gr.ARMClient.HeadResource(ctx, data.resourceID, r.obj.GetAPIVersion())
 			return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 		}
 
@@ -413,7 +411,6 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 // MonitorDelete will call Azure to check if the resource still exists. If so, it will requeue, else,
 // the finalizer will be removed.
 func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Result, error) {
-
 	msg := "Continue monitoring deletion"
 	r.log.V(1).Info(msg)
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionMonitorDelete), msg)
@@ -594,7 +591,6 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.Result, error) {
 	r.log.V(1).Info("applying ownership", "action", CreateOrUpdateActionManageOwnership)
 	isOwnerReady, err := r.isOwnerReady(ctx)
-
 	if err != nil {
 		return ctrl.Result{}, err
 	}

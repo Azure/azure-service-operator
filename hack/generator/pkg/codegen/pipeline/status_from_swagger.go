@@ -16,11 +16,10 @@ import (
 	"strings"
 	"sync"
 
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
@@ -28,7 +27,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/jsonast"
 )
 
-/* AugmentResourcesWithStatus creates a Stage to add status information into the generated resources.
+/* addStatusFromSwagger creates a PipelineStage to add status information into the generated resources.
 
 This information is derived from the Azure Swagger specifications. We parse the Swagger specs and look for
 any actions that appear to be ARM resources (have PUT methods with types we can use and appropriate names in the
@@ -41,12 +40,11 @@ added to the Status field of the Resource type, after we have renamed all the st
 avoid any conflicts with existing Spec types that have already been defined.
 
 */
-func AugmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *config.Configuration) Stage {
+func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.Configuration) Stage {
 	return MakeStage(
-		"augmentStatus",
+		"addStatusFromSwagger",
 		"Add information from Swagger specs for 'status' fields",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-
 			if config.Status.SchemaRoot == "" {
 				klog.Warningf("No status schema root specified, will not generate status types")
 				return types, nil
@@ -61,40 +59,35 @@ func AugmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *co
 
 			klog.V(1).Infof("Loaded Swagger data (%v resources, %v other types)", len(swaggerTypes.resources), len(swaggerTypes.otherTypes))
 
-			newTypes := make(astmodel.Types)
-
 			statusTypes, err := generateStatusTypes(swaggerTypes)
 			if err != nil {
 				return nil, err
 			}
 
-			found := 0
+			// put all types into a new set
+			newTypes := make(astmodel.Types)
+			// all non-resources from Swagger are added regardless of whether they are used
+			// if they are not used they will be pruned off by a later pipeline stage
+			// (there will be no name clashes here due to suffixing with "_Status")
+			newTypes.AddTypes(statusTypes.otherTypes)
+
+			matchedResources := 0
+			// find any resources and update them with status info
 			for typeName, typeDef := range types {
-				// for resources, try to find the matching Status type
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
-					var newStatus astmodel.Type
-					if statusDef, ok := statusTypes.resourceTypes.tryFind(typeName); ok {
-						klog.V(4).Infof("Swagger information found for %v", typeName)
-						newStatus = statusDef
-						found++
-					} else {
-						klog.V(4).Infof("Swagger information missing for %v", typeName)
-						// add a warning that the status is missing
-						// this will be reported if the type is not pruned
-						newStatus = astmodel.NewErroredType(nil, nil, []string{fmt.Sprintf("missing status information for %v", typeName)})
+					// find the status type (= Swagger resource type)
+					newStatus, located := statusTypes.findResourceType(typeName)
+					if located {
+						matchedResources++
 					}
-					newTypes.Add(astmodel.MakeTypeDefinition(typeName, resource.WithStatus(newStatus)))
+
+					newTypes.Add(typeDef.WithType(resource.WithStatus(newStatus)))
 				} else {
-					// other types are simply copied
 					newTypes.Add(typeDef)
 				}
 			}
 
-			// all non-resources are added regardless of whether they are used
-			// if they are not used they will be pruned off by a later pipeline stage
-			newTypes.AddAll(statusTypes.otherTypes)
-
-			klog.V(1).Infof("Found status information for %v resources", found)
+			klog.V(1).Infof("Found status information for %v resources", matchedResources)
 			klog.V(1).Infof("Input %v types, output %v types", len(types), len(newTypes))
 
 			return newTypes, nil
@@ -107,7 +100,19 @@ type statusTypes struct {
 	resourceTypes resourceLookup
 
 	// otherTypes has all other Status types renamed to avoid clashes with Spec Types
-	otherTypes []astmodel.TypeDefinition
+	otherTypes astmodel.Types
+}
+
+func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Type, bool) {
+	if statusDef, ok := st.resourceTypes.tryFind(typeName); ok {
+		klog.V(4).Infof("Swagger information found for %v", typeName)
+		return statusDef, true
+	} else {
+		klog.V(3).Infof("Swagger information missing for %v", typeName)
+		// add a warning that the status is missing
+		// this will be reported if the type is not pruned
+		return astmodel.NewErroredType(nil, nil, []string{fmt.Sprintf("missing status information for %v", typeName)}), false
+	}
 }
 
 type resourceLookup map[astmodel.TypeName]astmodel.Type
@@ -130,33 +135,36 @@ func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmode
 	resourceLookup[lower] = theType
 }
 
+// statusTypeRenamer appends "_Status" to all types
+var statusTypeRenamer astmodel.TypeVisitor = makeRenamingVisitor(appendStatusSuffix)
+
+func appendStatusSuffix(typeName astmodel.TypeName) astmodel.TypeName {
+	return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+"_Status")
+}
+
 // generateStatusTypes returns the statusTypes for the input swaggerTypes
+// all types (apart from Resources) are renamed to have "_Status" as a
+// suffix, to avoid name clashes.
 func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
-	appendStatusToName := func(typeName astmodel.TypeName) astmodel.TypeName {
-		return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+"_Status")
-	}
-
-	renamer := makeRenamingVisitor(appendStatusToName)
-
 	var errs []error
-	var otherTypes []astmodel.TypeDefinition
+	otherTypes := make(astmodel.Types)
 	for _, typeDef := range swaggerTypes.otherTypes {
-		renamedDef, err := renamer.VisitDefinition(typeDef, nil)
+		renamedDef, err := statusTypeRenamer.VisitDefinition(typeDef, nil)
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			otherTypes = append(otherTypes, renamedDef)
+			otherTypes.Add(renamedDef)
 		}
 	}
 
-	lookup := make(resourceLookup)
+	resources := make(resourceLookup)
 	for resourceName, resourceDef := range swaggerTypes.resources {
 		// resourceName is not renamed as this is a lookup for the Spec type
-		renamedDef, err := renamer.Visit(resourceDef.Type(), nil)
+		renamedDef, err := statusTypeRenamer.Visit(resourceDef.Type(), nil)
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			lookup.add(resourceName, renamedDef)
+			resources.add(resourceName, renamedDef)
 		}
 	}
 
@@ -164,17 +172,15 @@ func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
 		return statusTypes{}, kerrors.NewAggregate(errs)
 	}
 
-	return statusTypes{lookup, otherTypes}, nil
+	return statusTypes{resources, otherTypes}, nil
 }
 
 func makeRenamingVisitor(rename func(astmodel.TypeName) astmodel.TypeName) astmodel.TypeVisitor {
-	builder := astmodel.TypeVisitorBuilder{
-		VisitTypeName: func(it astmodel.TypeName) (astmodel.Type, error) {
+	return astmodel.TypeVisitorBuilder{
+		VisitTypeName: func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 			return rename(it), nil
 		},
-	}
-
-	return builder.Build()
+	}.Build()
 }
 
 var swaggerVersionRegex = regexp.MustCompile(`\d{4}-\d{2}-\d{2}(-preview)?`)
@@ -185,7 +191,6 @@ type swaggerTypes struct {
 }
 
 func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, config *config.Configuration) (swaggerTypes, error) {
-
 	result := swaggerTypes{
 		resources:  make(astmodel.Types),
 		otherTypes: make(astmodel.Types),
@@ -265,7 +270,6 @@ func loadAllSchemas(
 	schemas := make(map[string]spec.Swagger)
 
 	err := filepath.Walk(rootPath, func(filePath string, fileInfo os.FileInfo, err error) error {
-
 		if err != nil {
 			return err
 		}

@@ -119,7 +119,6 @@ func (c *armConversionApplier) transformResourceStatuses() (astmodel.Types, erro
 // transformTypes adds the required ARM conversion information to all applicable types.
 // If a type doesn't need any modification, it is returned unmodified.
 func (c *armConversionApplier) transformTypes() (astmodel.Types, error) {
-
 	result := make(astmodel.Types)
 
 	// Specs
@@ -167,7 +166,6 @@ func (c *armConversionApplier) transformTypes() (astmodel.Types, error) {
 // transformSpec adds an owner property to the given resource spec, and adds the ARM conversion interface
 // to the spec with some special property remappings (for Type, Name, APIVersion, etc).
 func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType) (astmodel.TypeDefinition, error) {
-
 	resourceSpecDef, err := c.definitions.ResolveResourceSpecDefinition(resourceType)
 	if err != nil {
 		return astmodel.TypeDefinition{}, err
@@ -226,7 +224,7 @@ func (c *armConversionApplier) addARMConversionInterface(
 	}
 
 	addInterfaceHandler := func(t *astmodel.ObjectType) (astmodel.Type, error) {
-		result := t.WithInterface(armconversion.NewARMTransformerImpl(
+		result := t.WithInterface(armconversion.NewARMConversionImplementation(
 			armDef.Name(),
 			objectType,
 			c.idFactory,
@@ -238,14 +236,13 @@ func (c *armConversionApplier) addARMConversionInterface(
 	if err != nil {
 		emptyDef := astmodel.TypeDefinition{}
 		return emptyDef,
-			errors.Errorf("Failed to add ARM conversion interface to Kubenetes object definition %v", armDef.Name())
+			errors.Errorf("failed to add ARM conversion interface to Kubenetes object definition %v", armDef.Name())
 	}
 
 	return result, nil
 }
 
 func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeName) (*astmodel.PropertyDefinition, error) {
-
 	knownResourceReferenceType := astmodel.MakeTypeName(
 		astmodel.GenRuntimeReference,
 		"KnownResourceReference")

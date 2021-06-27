@@ -76,7 +76,6 @@ func injectEmbeddedStructType() pipeline.Stage {
 		"injectEmbeddedStructType",
 		"Injects an embedded struct into each object",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
-
 			results := make(astmodel.Types)
 			embeddedTypeDef := makeEmbeddedTestTypeDefinition()
 			for _, def := range defs {
@@ -104,6 +103,8 @@ func injectEmbeddedStructType() pipeline.Stage {
 }
 
 func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
+	ctx := context.Background()
+
 	for _, p := range testConfig.Pipelines {
 		testName := strings.TrimPrefix(t.Name(), "TestGolden/")
 
@@ -118,7 +119,7 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 				t.Fatalf("failed to create code generator: %v", err)
 			}
 
-			err = codegen.Generate(context.TODO())
+			err = codegen.Generate(ctx)
 			if err != nil {
 				t.Fatalf("codegen failed: %v", err)
 			}
@@ -197,7 +198,6 @@ func loadTestSchemaIntoTypes(
 
 			loader := gojsonschema.NewSchemaLoader()
 			schema, err := loader.Compile(gojsonschema.NewBytesLoader(inputFile))
-
 			if err != nil {
 				return nil, errors.Wrapf(err, "could not compile input")
 			}
@@ -316,7 +316,6 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pip
 }
 
 func TestGolden(t *testing.T) {
-
 	type Test struct {
 		name string
 		path string
@@ -335,7 +334,6 @@ func TestGolden(t *testing.T) {
 
 		return nil
 	})
-
 	if err != nil {
 		t.Fatalf("Error enumerating files: %v", err)
 	}

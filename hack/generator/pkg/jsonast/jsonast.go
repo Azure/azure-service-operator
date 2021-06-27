@@ -509,6 +509,9 @@ func getProperties(
 			property = property.WithDescription(*propSchema.description())
 		}
 
+		// add flattening
+		property = property.SetFlatten(propSchema.extensions("x-ms-client-flatten") == true)
+
 		// add validations
 		isRequired := false
 		for _, required := range schema.requiredProperties() {

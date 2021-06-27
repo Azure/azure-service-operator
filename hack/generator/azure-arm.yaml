@@ -283,11 +283,11 @@ typeTransformers:
     because: it has no writable properties in swagger
 
   # Deal with properties that should have been marked readOnly but weren't
-  - name: SBNamespaceProperties
+  - name: Namespaces_Spec
     group: microsoft.servicebus
     property: PrivateEndpointConnections
     remove: true
-    because: The this property should have been marked readonly but wasn't.
+    because: This property should have been marked readonly but wasn't.
 
 status:
   schemaRoot: "./specs/azure-rest-api-specs/specification"

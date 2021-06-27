@@ -83,7 +83,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
 
 		// Import status info from Swagger:
-		pipeline.AugmentResourcesWithStatus(idFactory, configuration),
+		pipeline.AddStatusFromSwagger(idFactory, configuration),
 
 		// Reduces oneOf/allOf types from schemas to object types:
 		pipeline.ConvertAllOfAndOneOfToObjects(idFactory),
@@ -91,6 +91,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Flatten out any nested resources created by allOf, etc. we want to do this before naming types or things
 		// get named with names like Resource_Spec_Spec_Spec:
 		pipeline.FlattenResources(),
+
+		// Copy additional swagger-derived information from status into spec
+		pipeline.AugmentSpecWithStatus().RequiresPrerequisiteStages("allof-anyof-objects", "addStatusFromSwagger"),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 
@@ -138,6 +141,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.CreateARMTypes(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyKubernetesResourceInterface(idFactory).UsedFor(pipeline.ARMTarget),
+
+		// Effects the "flatten" property of Properties:
+		pipeline.FlattenProperties(),
 
 		pipeline.AddCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddCrossplaneForProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),

@@ -213,19 +213,31 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 		return nil, nil
 	}
 	var result FakeResource_SpecARM
+
+	// Set property ‘APIVersion’:
 	result.APIVersion = FakeResourceSpecAPIVersion20200601
+
+	// Set property ‘JsonObject’:
 	if fakeResourceSpec.JsonObject != nil {
 		result.JsonObject = make(map[string]v1.JSON)
 		for key, value := range fakeResourceSpec.JsonObject {
 			result.JsonObject[key] = *value.DeepCopy()
 		}
 	}
+
+	// Set property ‘MandatoryJson’:
 	result.MandatoryJson = *fakeResourceSpec.MandatoryJson.DeepCopy()
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘OptionalJson’:
 	if fakeResourceSpec.OptionalJson != nil {
 		optionalJson := *(*fakeResourceSpec.OptionalJson).DeepCopy()
 		result.OptionalJson = &optionalJson
 	}
+
+	// Set property ‘Type’:
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
 }
@@ -241,19 +253,31 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘JsonObject’:
 	if typedInput.JsonObject != nil {
 		fakeResourceSpec.JsonObject = make(map[string]v1.JSON)
 		for key, value := range typedInput.JsonObject {
 			fakeResourceSpec.JsonObject[key] = *value.DeepCopy()
 		}
 	}
+
+	// Set property ‘MandatoryJson’:
 	fakeResourceSpec.MandatoryJson = *typedInput.MandatoryJson.DeepCopy()
+
+	// Set property ‘OptionalJson’:
 	if typedInput.OptionalJson != nil {
 		optionalJson := *(*typedInput.OptionalJson).DeepCopy()
 		fakeResourceSpec.OptionalJson = &optionalJson
 	}
+
+	// Set property ‘Owner’:
 	fakeResourceSpec.Owner = owner
+
+	// No error
 	return nil
 }
 

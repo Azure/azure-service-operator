@@ -87,7 +87,6 @@ func TestPatchNotFound(t *testing.T) {
 }
 
 func TestHelperPatch(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		before  runtime.Object

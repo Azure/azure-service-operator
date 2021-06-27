@@ -7,10 +7,10 @@ package astmodel
 
 import (
 	"fmt"
-	"go/token"
+
+	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
-	"github.com/dave/dst"
 )
 
 const JSONMarshalFunctionName string = "MarshalJSON"
@@ -63,28 +63,22 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	for _, property := range f.oneOfObject.Properties() {
 
 		ifStatement := dst.IfStmt{
-			Cond: &dst.BinaryExpr{
-				X: &dst.SelectorExpr{
-					X:   dst.NewIdent(receiverName),
-					Sel: dst.NewIdent(string(property.propertyName)),
-				},
-				Op: token.NEQ,
-				Y:  dst.NewIdent("nil"),
-			},
+			Cond: astbuilder.NotNil(
+				astbuilder.Selector(
+					dst.NewIdent(receiverName),
+					string(property.propertyName))),
 			Body: &dst.BlockStmt{
 				List: []dst.Stmt{
 					&dst.ReturnStmt{
 						Results: []dst.Expr{
 							&dst.CallExpr{
-								Fun: &dst.SelectorExpr{
-									X:   dst.NewIdent(jsonPackage),
-									Sel: dst.NewIdent("Marshal"),
-								},
+								Fun: astbuilder.Selector(
+									dst.NewIdent(jsonPackage),
+									"Marshal"),
 								Args: []dst.Expr{
-									&dst.SelectorExpr{
-										X:   dst.NewIdent(receiverName),
-										Sel: dst.NewIdent(string(property.propertyName)),
-									},
+									astbuilder.Selector(
+										dst.NewIdent(receiverName),
+										string(property.propertyName)),
 								},
 							},
 						},
@@ -97,10 +91,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	}
 
 	finalReturnStatement := &dst.ReturnStmt{
-		Results: []dst.Expr{
-			dst.NewIdent("nil"),
-			dst.NewIdent("nil"),
-		},
+		Results: []dst.Expr{astbuilder.Nil(), astbuilder.Nil()},
 	}
 	statements = append(statements, finalReturnStatement)
 

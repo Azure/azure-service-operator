@@ -18,13 +18,47 @@ import (
 // PropertyName is a semantic type
 type PropertyName string
 
+// Implement Stringer for easy fmt printing
+func (pn PropertyName) String() string {
+	return string(pn)
+}
+
 // PropertyDefinition encapsulates the definition of a property
 type PropertyDefinition struct {
 	propertyName                     PropertyName
 	propertyType                     Type
 	description                      string
 	hasKubebuilderRequiredValidation bool
-	tags                             map[string][]string
+
+	// Two properties to handle flattening:
+	// - flatten is set when a property should be flattened and its inner properties
+	//   moved out into the parent object.
+	// - flattenedFrom is set once an ‘inner’ property has been flattened, to record
+	//   which property(/ies) (that had flatten:true) it was flattened from. this
+	//   is stored with most-recent first so that `[0].[1].[2]` would form the
+	//   correct nested property name.
+	flatten       bool           // maps to x-ms-client-flatten: should the propertyType be flattened into the parent?
+	flattenedFrom []PropertyName // a list of property names from whence this property was flattened
+
+	tags map[string][]string
+}
+
+func (property *PropertyDefinition) AddFlattenedFrom(name PropertyName) *PropertyDefinition {
+	result := *property
+	result.flattenedFrom = append([]PropertyName{name}, result.flattenedFrom...)
+	return &result
+}
+
+func (property *PropertyDefinition) WasFlattened() bool {
+	return len(property.flattenedFrom) > 0
+}
+
+func (property *PropertyDefinition) WasFlattenedFrom(name PropertyName) bool {
+	return property.WasFlattened() && property.flattenedFrom[0] == name
+}
+
+func (property *PropertyDefinition) FlattenedFrom() []PropertyName {
+	return append([]PropertyName{}, property.flattenedFrom...)
 }
 
 var _ fmt.Stringer = &PropertyDefinition{}
@@ -58,8 +92,23 @@ func (property *PropertyDefinition) PropertyType() Type {
 // Note that this does not in any way change the underlying type that this PropertyDefinition points to, unlike
 // MakeRequired and MakeOptional.
 func (property *PropertyDefinition) WithKubebuilderRequiredValidation(required bool) *PropertyDefinition {
+	if required == property.hasKubebuilderRequiredValidation {
+		return property
+	}
+
 	result := *property
 	result.hasKubebuilderRequiredValidation = required
+	return &result
+}
+
+// SetFlatten sets if the property should be flattened or not
+func (property *PropertyDefinition) SetFlatten(flatten bool) *PropertyDefinition {
+	if flatten == property.flatten {
+		return property
+	}
+
+	result := *property
+	result.flatten = flatten
 	return &result
 }
 
@@ -81,6 +130,9 @@ func (property *PropertyDefinition) Description() string {
 
 // WithType clones the property and returns it with a new type
 func (property *PropertyDefinition) WithType(newType Type) *PropertyDefinition {
+	if newType == nil {
+		panic("nil type provided to WithType")
+	}
 
 	if property.propertyType.Equals(newType) {
 		return property
@@ -118,7 +170,7 @@ func (property *PropertyDefinition) WithoutTag(key string, value string) *Proper
 
 	if value != "" {
 		// Find the value and remove it
-		//TODO: Do we want a generic helper that does this?
+		// TODO: Do we want a generic helper that does this?
 		var tagsWithoutValue []string
 		for _, item := range result.tags[key] {
 			if item == value {
@@ -222,6 +274,11 @@ func (property *PropertyDefinition) MakeOptional() *PropertyDefinition {
 // returns false otherwise.
 func (property *PropertyDefinition) HasKubebuilderRequiredValidation() bool {
 	return property.hasKubebuilderRequiredValidation
+}
+
+// Flatten returns true iff the property is marked with 'flatten'.
+func (property *PropertyDefinition) Flatten() bool {
+	return property.flatten
 }
 
 // hasOptionalType returns true if the type of this property is an optional reference to a value

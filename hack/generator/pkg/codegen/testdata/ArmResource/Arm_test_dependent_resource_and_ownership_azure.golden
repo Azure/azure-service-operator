@@ -688,8 +688,14 @@ func (aSpec *A_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 		return nil, nil
 	}
 	var result A_SpecARM
+
+	// Set property ‘APIVersion’:
 	result.APIVersion = ASpecAPIVersion20200601
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Type’:
 	result.Type = ASpecTypeMicrosoftAzureA
 	return result, nil
 }
@@ -705,8 +711,14 @@ func (aSpec *A_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, ar
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	aSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Owner’:
 	aSpec.Owner = owner
+
+	// No error
 	return nil
 }
 
@@ -740,8 +752,14 @@ func (bSpec *B_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 		return nil, nil
 	}
 	var result B_SpecARM
+
+	// Set property ‘APIVersion’:
 	result.APIVersion = BSpecAPIVersion20200601
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Type’:
 	result.Type = BSpecTypeMicrosoftAzureB
 	return result, nil
 }
@@ -757,8 +775,14 @@ func (bSpec *B_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, ar
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	bSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Owner’:
 	bSpec.Owner = owner
+
+	// No error
 	return nil
 }
 
@@ -792,8 +816,14 @@ func (cSpec *C_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 		return nil, nil
 	}
 	var result C_SpecARM
+
+	// Set property ‘APIVersion’:
 	result.APIVersion = CSpecAPIVersion20200601
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Type’:
 	result.Type = CSpecTypeMicrosoftAzureC
 	return result, nil
 }
@@ -809,8 +839,14 @@ func (cSpec *C_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, ar
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected C_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	cSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Owner’:
 	cSpec.Owner = owner
+
+	// No error
 	return nil
 }
 
@@ -844,8 +880,14 @@ func (dSpec *D_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 		return nil, nil
 	}
 	var result D_SpecARM
+
+	// Set property ‘APIVersion’:
 	result.APIVersion = DSpecAPIVersion20200601
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Type’:
 	result.Type = DSpecTypeMicrosoftAzureD
 	return result, nil
 }
@@ -861,8 +903,14 @@ func (dSpec *D_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, ar
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected D_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	dSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Owner’:
 	dSpec.Owner = owner
+
+	// No error
 	return nil
 }
 

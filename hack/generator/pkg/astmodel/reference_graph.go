@@ -33,13 +33,13 @@ func CollectARMSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 	findARMType := func(t Type) (TypeName, error) {
 		name, ok := t.(TypeName)
 		if !ok {
-			return TypeName{}, errors.Errorf("Type was not of type TypeName, instead %T", t)
+			return TypeName{}, errors.Errorf("type was not of type TypeName, instead %T", t)
 		}
 
 		armName := CreateARMTypeName(name)
 
 		if _, ok = definitions[armName]; !ok {
-			return TypeName{}, errors.Errorf("Couldn't find ARM type %q", armName)
+			return TypeName{}, errors.Errorf("couldn't find ARM type %q", armName)
 		}
 
 		return armName, nil
@@ -47,7 +47,6 @@ func CollectARMSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 
 	armSpecAndStatus := make(TypeNameSet)
 	for _, def := range definitions {
-
 		if resourceType, ok := definitions.ResolveResourceType(def.Type()); ok {
 
 			armSpecName, err := findARMType(resourceType.spec)

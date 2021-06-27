@@ -210,8 +210,14 @@ func (aSpec *A_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 		return nil, nil
 	}
 	var result A_SpecARM
+
+	// Set property ‘APIVersion’:
 	result.APIVersion = ASpecAPIVersion20200601
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Properties’:
 	if aSpec.Properties != nil {
 		propertiesARM, err := (*aSpec.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -220,6 +226,8 @@ func (aSpec *A_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 		properties := propertiesARM.(APropertiesARM)
 		result.Properties = &properties
 	}
+
+	// Set property ‘Type’:
 	result.Type = ASpecTypeMicrosoftAzureA
 	return result, nil
 }
@@ -235,8 +243,14 @@ func (aSpec *A_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, ar
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	aSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Owner’:
 	aSpec.Owner = owner
+
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 AProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -246,6 +260,8 @@ func (aSpec *A_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, ar
 		properties := properties1
 		aSpec.Properties = &properties
 	}
+
+	// No error
 	return nil
 }
 
@@ -266,6 +282,8 @@ func (aProperties *AProperties) ConvertToARM(name string, resolvedReferences gen
 		return nil, nil
 	}
 	var result APropertiesARM
+
+	// Set property ‘Left’:
 	if aProperties.Left != nil {
 		leftARM, err := (*aProperties.Left).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -274,6 +292,8 @@ func (aProperties *AProperties) ConvertToARM(name string, resolvedReferences gen
 		left := leftARM.(Left_SubResourceEmbeddedARM)
 		result.Left = &left
 	}
+
+	// Set property ‘Right’:
 	if aProperties.Right != nil {
 		rightARM, err := (*aProperties.Right).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -296,6 +316,8 @@ func (aProperties *AProperties) PopulateFromARM(owner genruntime.KnownResourceRe
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected APropertiesARM, got %T", armInput)
 	}
+
+	// Set property ‘Left’:
 	if typedInput.Left != nil {
 		var left1 Left_SubResourceEmbedded
 		err := left1.PopulateFromARM(owner, *typedInput.Left)
@@ -305,6 +327,8 @@ func (aProperties *AProperties) PopulateFromARM(owner genruntime.KnownResourceRe
 		left := left1
 		aProperties.Left = &left
 	}
+
+	// Set property ‘Right’:
 	if typedInput.Right != nil {
 		var right1 Right_SubResourceEmbedded_1
 		err := right1.PopulateFromARM(owner, *typedInput.Right)
@@ -314,6 +338,8 @@ func (aProperties *AProperties) PopulateFromARM(owner genruntime.KnownResourceRe
 		right := right1
 		aProperties.Right = &right
 	}
+
+	// No error
 	return nil
 }
 
@@ -363,10 +389,14 @@ func (leftSubResourceEmbedded *Left_SubResourceEmbedded) ConvertToARM(name strin
 		return nil, nil
 	}
 	var result Left_SubResourceEmbeddedARM
+
+	// Set property ‘Name’:
 	if leftSubResourceEmbedded.Name != nil {
 		name := *leftSubResourceEmbedded.Name
 		result.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if leftSubResourceEmbedded.Properties != nil {
 		propertiesARM, err := (*leftSubResourceEmbedded.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -375,6 +405,8 @@ func (leftSubResourceEmbedded *Left_SubResourceEmbedded) ConvertToARM(name strin
 		properties := propertiesARM.(LeftPropertiesARM)
 		result.Properties = &properties
 	}
+
+	// Set property ‘RefField’:
 	if leftSubResourceEmbedded.RefField != nil {
 		refFieldARM, err := (*leftSubResourceEmbedded.RefField).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -397,10 +429,14 @@ func (leftSubResourceEmbedded *Left_SubResourceEmbedded) PopulateFromARM(owner g
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Left_SubResourceEmbeddedARM, got %T", armInput)
 	}
+
+	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		leftSubResourceEmbedded.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 LeftProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -410,6 +446,8 @@ func (leftSubResourceEmbedded *Left_SubResourceEmbedded) PopulateFromARM(owner g
 		properties := properties1
 		leftSubResourceEmbedded.Properties = &properties
 	}
+
+	// Set property ‘RefField’:
 	if typedInput.RefField != nil {
 		var refField1 FakeResource_SubResourceEmbedded
 		err := refField1.PopulateFromARM(owner, *typedInput.RefField)
@@ -419,6 +457,8 @@ func (leftSubResourceEmbedded *Left_SubResourceEmbedded) PopulateFromARM(owner g
 		refField := refField1
 		leftSubResourceEmbedded.RefField = &refField
 	}
+
+	// No error
 	return nil
 }
 
@@ -442,10 +482,14 @@ func (rightSubResourceEmbedded1 *Right_SubResourceEmbedded_1) ConvertToARM(name 
 		return nil, nil
 	}
 	var result Right_SubResourceEmbedded_1ARM
+
+	// Set property ‘Name’:
 	if rightSubResourceEmbedded1.Name != nil {
 		name := *rightSubResourceEmbedded1.Name
 		result.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if rightSubResourceEmbedded1.Properties != nil {
 		propertiesARM, err := (*rightSubResourceEmbedded1.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -454,6 +498,8 @@ func (rightSubResourceEmbedded1 *Right_SubResourceEmbedded_1) ConvertToARM(name 
 		properties := propertiesARM.(RightPropertiesARM)
 		result.Properties = &properties
 	}
+
+	// Set property ‘RefField’:
 	if rightSubResourceEmbedded1.RefField != nil {
 		refFieldARM, err := (*rightSubResourceEmbedded1.RefField).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -476,10 +522,14 @@ func (rightSubResourceEmbedded1 *Right_SubResourceEmbedded_1) PopulateFromARM(ow
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Right_SubResourceEmbedded_1ARM, got %T", armInput)
 	}
+
+	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rightSubResourceEmbedded1.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 RightProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -489,6 +539,8 @@ func (rightSubResourceEmbedded1 *Right_SubResourceEmbedded_1) PopulateFromARM(ow
 		properties := properties1
 		rightSubResourceEmbedded1.Properties = &properties
 	}
+
+	// Set property ‘RefField’:
 	if typedInput.RefField != nil {
 		var refField1 FakeResource_SubResourceEmbedded_1
 		err := refField1.PopulateFromARM(owner, *typedInput.RefField)
@@ -498,6 +550,8 @@ func (rightSubResourceEmbedded1 *Right_SubResourceEmbedded_1) PopulateFromARM(ow
 		refField := refField1
 		rightSubResourceEmbedded1.RefField = &refField
 	}
+
+	// No error
 	return nil
 }
 
@@ -525,10 +579,14 @@ func (fakeResourceSubResourceEmbedded *FakeResource_SubResourceEmbedded) Convert
 		return nil, nil
 	}
 	var result FakeResource_SubResourceEmbeddedARM
+
+	// Set property ‘Name’:
 	if fakeResourceSubResourceEmbedded.Name != nil {
 		name := *fakeResourceSubResourceEmbedded.Name
 		result.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if fakeResourceSubResourceEmbedded.Properties != nil {
 		propertiesARM, err := (*fakeResourceSubResourceEmbedded.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -551,10 +609,14 @@ func (fakeResourceSubResourceEmbedded *FakeResource_SubResourceEmbedded) Populat
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SubResourceEmbeddedARM, got %T", armInput)
 	}
+
+	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		fakeResourceSubResourceEmbedded.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 FakeResourceProperties_SubResourceEmbedded
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -564,6 +626,8 @@ func (fakeResourceSubResourceEmbedded *FakeResource_SubResourceEmbedded) Populat
 		properties := properties1
 		fakeResourceSubResourceEmbedded.Properties = &properties
 	}
+
+	// No error
 	return nil
 }
 
@@ -581,10 +645,14 @@ func (fakeResourceSubResourceEmbedded1 *FakeResource_SubResourceEmbedded_1) Conv
 		return nil, nil
 	}
 	var result FakeResource_SubResourceEmbedded_1ARM
+
+	// Set property ‘Name’:
 	if fakeResourceSubResourceEmbedded1.Name != nil {
 		name := *fakeResourceSubResourceEmbedded1.Name
 		result.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if fakeResourceSubResourceEmbedded1.Properties != nil {
 		propertiesARM, err := (*fakeResourceSubResourceEmbedded1.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -607,10 +675,14 @@ func (fakeResourceSubResourceEmbedded1 *FakeResource_SubResourceEmbedded_1) Popu
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SubResourceEmbedded_1ARM, got %T", armInput)
 	}
+
+	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		fakeResourceSubResourceEmbedded1.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 FakeResourceProperties_SubResourceEmbedded_1
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -620,6 +692,8 @@ func (fakeResourceSubResourceEmbedded1 *FakeResource_SubResourceEmbedded_1) Popu
 		properties := properties1
 		fakeResourceSubResourceEmbedded1.Properties = &properties
 	}
+
+	// No error
 	return nil
 }
 
@@ -636,6 +710,8 @@ func (leftProperties *LeftProperties) ConvertToARM(name string, resolvedReferenc
 		return nil, nil
 	}
 	var result LeftPropertiesARM
+
+	// Set property ‘StrField’:
 	if leftProperties.StrField != nil {
 		strField := *leftProperties.StrField
 		result.StrField = &strField
@@ -654,10 +730,14 @@ func (leftProperties *LeftProperties) PopulateFromARM(owner genruntime.KnownReso
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LeftPropertiesARM, got %T", armInput)
 	}
+
+	// Set property ‘StrField’:
 	if typedInput.StrField != nil {
 		strField := *typedInput.StrField
 		leftProperties.StrField = &strField
 	}
+
+	// No error
 	return nil
 }
 
@@ -674,6 +754,8 @@ func (rightProperties *RightProperties) ConvertToARM(name string, resolvedRefere
 		return nil, nil
 	}
 	var result RightPropertiesARM
+
+	// Set property ‘StrField’:
 	if rightProperties.StrField != nil {
 		strField := *rightProperties.StrField
 		result.StrField = &strField
@@ -692,10 +774,14 @@ func (rightProperties *RightProperties) PopulateFromARM(owner genruntime.KnownRe
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RightPropertiesARM, got %T", armInput)
 	}
+
+	// Set property ‘StrField’:
 	if typedInput.StrField != nil {
 		strField := *typedInput.StrField
 		rightProperties.StrField = &strField
 	}
+
+	// No error
 	return nil
 }
 
@@ -712,6 +798,8 @@ func (fakeResourcePropertiesSubResourceEmbedded *FakeResourceProperties_SubResou
 		return nil, nil
 	}
 	var result FakeResourceProperties_SubResourceEmbeddedARM
+
+	// Set property ‘Loop2’:
 	if fakeResourcePropertiesSubResourceEmbedded.Loop2 != nil {
 		loop2ARM, err := (*fakeResourcePropertiesSubResourceEmbedded.Loop2).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -734,6 +822,8 @@ func (fakeResourcePropertiesSubResourceEmbedded *FakeResourceProperties_SubResou
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResourceProperties_SubResourceEmbeddedARM, got %T", armInput)
 	}
+
+	// Set property ‘Loop2’:
 	if typedInput.Loop2 != nil {
 		var loop Right_SubResourceEmbedded
 		err := loop.PopulateFromARM(owner, *typedInput.Loop2)
@@ -743,6 +833,8 @@ func (fakeResourcePropertiesSubResourceEmbedded *FakeResourceProperties_SubResou
 		loop2 := loop
 		fakeResourcePropertiesSubResourceEmbedded.Loop2 = &loop2
 	}
+
+	// No error
 	return nil
 }
 
@@ -759,6 +851,8 @@ func (fakeResourcePropertiesSubResourceEmbedded1 *FakeResourceProperties_SubReso
 		return nil, nil
 	}
 	var result FakeResourceProperties_SubResourceEmbedded_1ARM
+
+	// Set property ‘Loop1’:
 	if fakeResourcePropertiesSubResourceEmbedded1.Loop1 != nil {
 		loop1ARM, err := (*fakeResourcePropertiesSubResourceEmbedded1.Loop1).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -781,6 +875,8 @@ func (fakeResourcePropertiesSubResourceEmbedded1 *FakeResourceProperties_SubReso
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResourceProperties_SubResourceEmbedded_1ARM, got %T", armInput)
 	}
+
+	// Set property ‘Loop1’:
 	if typedInput.Loop1 != nil {
 		var loop Left_SubResourceEmbedded_1
 		err := loop.PopulateFromARM(owner, *typedInput.Loop1)
@@ -790,6 +886,8 @@ func (fakeResourcePropertiesSubResourceEmbedded1 *FakeResourceProperties_SubReso
 		loop1 := loop
 		fakeResourcePropertiesSubResourceEmbedded1.Loop1 = &loop1
 	}
+
+	// No error
 	return nil
 }
 
@@ -819,10 +917,14 @@ func (leftSubResourceEmbedded1 *Left_SubResourceEmbedded_1) ConvertToARM(name st
 		return nil, nil
 	}
 	var result Left_SubResourceEmbedded_1ARM
+
+	// Set property ‘Name’:
 	if leftSubResourceEmbedded1.Name != nil {
 		name := *leftSubResourceEmbedded1.Name
 		result.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if leftSubResourceEmbedded1.Properties != nil {
 		propertiesARM, err := (*leftSubResourceEmbedded1.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -845,10 +947,14 @@ func (leftSubResourceEmbedded1 *Left_SubResourceEmbedded_1) PopulateFromARM(owne
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Left_SubResourceEmbedded_1ARM, got %T", armInput)
 	}
+
+	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		leftSubResourceEmbedded1.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 LeftProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -858,6 +964,8 @@ func (leftSubResourceEmbedded1 *Left_SubResourceEmbedded_1) PopulateFromARM(owne
 		properties := properties1
 		leftSubResourceEmbedded1.Properties = &properties
 	}
+
+	// No error
 	return nil
 }
 
@@ -875,10 +983,14 @@ func (rightSubResourceEmbedded *Right_SubResourceEmbedded) ConvertToARM(name str
 		return nil, nil
 	}
 	var result Right_SubResourceEmbeddedARM
+
+	// Set property ‘Name’:
 	if rightSubResourceEmbedded.Name != nil {
 		name := *rightSubResourceEmbedded.Name
 		result.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if rightSubResourceEmbedded.Properties != nil {
 		propertiesARM, err := (*rightSubResourceEmbedded.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -901,10 +1013,14 @@ func (rightSubResourceEmbedded *Right_SubResourceEmbedded) PopulateFromARM(owner
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Right_SubResourceEmbeddedARM, got %T", armInput)
 	}
+
+	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rightSubResourceEmbedded.Name = &name
 	}
+
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 RightProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -914,6 +1030,8 @@ func (rightSubResourceEmbedded *Right_SubResourceEmbedded) PopulateFromARM(owner
 		properties := properties1
 		rightSubResourceEmbedded.Properties = &properties
 	}
+
+	// No error
 	return nil
 }
 

@@ -186,7 +186,7 @@ func isMarkedAsARMResource(schema Schema) bool {
 
 	var recurse func(schema Schema) bool
 	recurse = func(schema Schema) bool {
-		if schema.extensions()["x-ms-azure-resource"] == true {
+		if schema.extensions("x-ms-azure-resource") == true {
 			return true
 		}
 

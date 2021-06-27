@@ -8,6 +8,7 @@ package armconversion
 import (
 	"fmt"
 	"go/token"
+	"strings"
 
 	"github.com/dave/dst"
 
@@ -64,6 +65,7 @@ func newConvertFromARMFunctionBuilder(
 		result.namePropertyHandler,
 		result.referencePropertyHandler,
 		result.ownerPropertyHandler,
+		result.flattenedPropertyHandler,
 		result.propertiesWithSameNameHandler,
 	}
 
@@ -71,7 +73,6 @@ func newConvertFromARMFunctionBuilder(
 }
 
 func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
-
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
@@ -94,50 +95,42 @@ func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
 func (builder *convertFromARMBuilder) functionBodyStatements() []dst.Stmt {
 	var result []dst.Stmt
 
-	assertStmts := builder.assertInputTypeIsARM()
-
 	conversionStmts := generateTypeConversionAssignments(
 		builder.armType,
 		builder.kubeType,
 		builder.propertyConversionHandler)
 
-	// No conversions to perform -- some properties might be ignored
-	if len(removeEmptyStatements(conversionStmts)) == 0 {
-		return []dst.Stmt{
-			astbuilder.ReturnNoError(),
-		}
-	}
+	hasConversions := len(removeEmptyStatements(conversionStmts)) > 0
+
+	assertStmts := builder.assertInputTypeIsARM(hasConversions)
 
 	// perform a type assert and check its results
 	result = append(result, assertStmts...)
 
-	// Do all of the assignments for each property
-	result = append(
-		result,
-		conversionStmts...)
+	if hasConversions {
+		result = append(result, conversionStmts...)
+	}
 
-	// Return nil error if we make it to the end
-	result = append(
-		result,
-		&dst.ReturnStmt{
-			Results: []dst.Expr{
-				dst.NewIdent("nil"),
-			},
-		})
+	result = append(result, astbuilder.ReturnNoError())
 
 	return result
 }
 
-func (builder *convertFromARMBuilder) assertInputTypeIsARM() []dst.Stmt {
+func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []dst.Stmt {
 	var result []dst.Stmt
 
 	fmtPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.FmtReference)
+
+	dest := builder.typedInputIdent
+	if !needsResult {
+		dest = "_" // drop result
+	}
 
 	// perform a type assert
 	result = append(
 		result,
 		astbuilder.TypeAssert(
-			dst.NewIdent(builder.typedInputIdent),
+			dst.NewIdent(dest),
 			dst.NewIdent(builder.inputIdent),
 			dst.NewIdent(builder.armTypeIdent)))
 
@@ -217,11 +210,148 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		return nil
 	}
 
-	result := astbuilder.SimpleAssignment(
-		astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toProp.PropertyName())),
+	result := astbuilder.QualifiedAssignment(
+		dst.NewIdent(builder.receiverIdent),
+		string(toProp.PropertyName()),
 		token.ASSIGN,
 		dst.NewIdent(builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)))
 	return []dst.Stmt{result}
+}
+
+// flattenedPropertyHandler generates conversions for properties that
+// were flattened out from inside other properties. The code it generates will
+// look something like:
+//
+// If 'X' is a property that was flattened:
+//
+//   k8sObj.Y1 = armObj.X.Y1;
+//   k8sObj.Y2 = armObj.X.Y2;
+//
+// in reality each assignment is likely to be another conversion that is specific
+// to the type being converted.
+func (builder *convertFromARMBuilder) flattenedPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	fromType *astmodel.ObjectType) []dst.Stmt {
+
+	if !toProp.WasFlattened() {
+		return nil
+	}
+
+	for _, fromProp := range fromType.Properties() {
+		if toProp.WasFlattenedFrom(fromProp.PropertyName()) {
+			return builder.buildFlattenedAssignment(toProp, fromProp)
+		}
+	}
+
+	panic(fmt.Sprintf("couldn’t find source ARM property ‘%s’ that k8s property ‘%s’ was flattened from", toProp.FlattenedFrom()[0], toProp.PropertyName()))
+}
+
+func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.PropertyDefinition, fromProp *astmodel.PropertyDefinition) []dst.Stmt {
+	if len(toProp.FlattenedFrom()) > 1 {
+		// this doesn't appear to happen anywhere in the JSON schemas currently
+
+		var props []string
+		for _, ff := range toProp.FlattenedFrom() {
+			props = append(props, string(ff))
+		}
+
+		panic(fmt.Sprintf("need to implement multiple levels of flattening: property ‘%s’ on %s was flattened from ‘%s’",
+			toProp.PropertyName(),
+			builder.receiverIdent,
+			strings.Join(props, ".")))
+	}
+
+	allTypes := builder.codeGenerationContext.GetAllReachableTypes()
+
+	// the from shape here must be:
+	// 1. maybe a typename, pointing to…
+	// 2. maybe optional, wrapping …
+	// 3. maybe a typename, pointing to…
+	// 4. an object type
+
+	// (1.) resolve any outer typename
+	fromPropType, err := allTypes.FullyResolve(fromProp.PropertyType())
+	if err != nil {
+		panic(err)
+	}
+
+	var fromPropObjType *astmodel.ObjectType
+	var objOk bool
+	// (2.) resolve any optional type
+	generateNilCheck := false
+	if fromPropOptType, ok := fromPropType.(*astmodel.OptionalType); ok {
+		generateNilCheck = true
+		// (3.) resolve any inner typename
+		elementType, err := allTypes.FullyResolve(fromPropOptType.Element())
+		if err != nil {
+			panic(err)
+		}
+
+		// (4.) resolve the inner object type
+		fromPropObjType, objOk = elementType.(*astmodel.ObjectType)
+	} else {
+		// (4.) resolve the inner object type
+		fromPropObjType, objOk = fromPropType.(*astmodel.ObjectType)
+	}
+
+	if !objOk {
+		// see pipeline_flatten_properties.go:flattenPropType which will only flatten from (optional) object types
+		panic(fmt.Sprintf("property ‘%s’ marked as flattened from non-object type %T, which shouldn’t be possible",
+			toProp.PropertyName(),
+			fromPropType))
+	}
+
+	// *** Now generate the code! ***
+	toPropName := toProp.PropertyName()
+	nestedProp, ok := fromPropObjType.Property(toPropName)
+	if !ok {
+		panic("couldn't find source of flattened property")
+	}
+
+	// need to make a clone of builder.locals if we are going to nest in an if statement
+	locals := builder.locals
+	if generateNilCheck {
+		locals = locals.Clone()
+	}
+
+	stmts := builder.typeConversionBuilder.BuildConversion(
+		astmodel.ConversionParameters{
+			Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()), string(toPropName)),
+			SourceType:        nestedProp.PropertyType(),
+			Destination:       astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toPropName)),
+			DestinationType:   toProp.PropertyType(),
+			NameHint:          string(toProp.PropertyName()),
+			ConversionContext: nil,
+			AssignmentHandler: nil,
+			Locals:            locals,
+		})
+
+	// we were unable to generate an inner conversion so we cannot generate the overall conversion
+	if len(stmts) == 0 {
+		return nil
+	}
+
+	if generateNilCheck {
+		propToCheck := astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))
+		stmts = []dst.Stmt{
+			&dst.IfStmt{
+				Cond: astbuilder.NotNil(propToCheck),
+				Body: &dst.BlockStmt{List: stmts},
+			},
+		}
+	}
+
+	result := []dst.Stmt{
+		&dst.EmptyStmt{
+			Decs: dst.EmptyStmtDecorations{
+				NodeDecs: dst.NodeDecs{
+					End: []string{"// copying flattened property:"},
+				},
+			},
+		},
+	}
+
+	return append(result, stmts...)
 }
 
 func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
@@ -259,7 +389,6 @@ func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
 //	}
 //	<destination> = <nameHint>
 func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(conversionBuilder *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
-
 	destinationType, ok := params.DestinationType.(astmodel.TypeName)
 	if !ok {
 		return nil

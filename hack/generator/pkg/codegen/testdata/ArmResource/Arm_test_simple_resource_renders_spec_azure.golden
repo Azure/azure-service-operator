@@ -202,8 +202,14 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 		return nil, nil
 	}
 	var result FakeResource_SpecARM
+
+	// Set property ‘APIVersion’:
 	result.APIVersion = FakeResourceSpecAPIVersion20200601
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Type’:
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
 }
@@ -219,8 +225,14 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Owner’:
 	fakeResourceSpec.Owner = owner
+
+	// No error
 	return nil
 }
 

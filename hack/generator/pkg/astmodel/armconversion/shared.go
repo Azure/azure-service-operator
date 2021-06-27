@@ -51,8 +51,10 @@ func (builder conversionBuilder) propertyConversionHandler(
 
 type propertyConversionHandler = func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt
 
-var once sync.Once
-var azureNameProperty *astmodel.PropertyDefinition
+var (
+	once              sync.Once
+	azureNameProperty *astmodel.PropertyDefinition
+)
 
 func initializeAzureName(idFactory astmodel.IdentifierFactory) {
 	azureNameFieldDescription := "The name of the resource in Azure. This is often the same as" +
@@ -94,14 +96,33 @@ func generateTypeConversionAssignments(
 	var result []dst.Stmt
 	for _, toField := range toType.Properties() {
 		fieldConversionStmts := propertyHandler(toField, fromType)
-		result = append(result, fieldConversionStmts...)
+		if len(fieldConversionStmts) > 0 {
+			result = append(result, &dst.EmptyStmt{
+				Decs: dst.EmptyStmtDecorations{
+					NodeDecs: dst.NodeDecs{
+						Before: dst.EmptyLine,
+						End:    []string{fmt.Sprintf("// Set property ‘%s’:", toField.PropertyName())},
+					},
+				},
+			})
+			result = append(result, fieldConversionStmts...)
+		} else {
+			result = append(result, &dst.EmptyStmt{
+				Decs: dst.EmptyStmtDecorations{
+					NodeDecs: dst.NodeDecs{
+						Before: dst.EmptyLine,
+						End:    []string{fmt.Sprintf("// no assignment for property ‘%s’:", toField.PropertyName())},
+					},
+				},
+			})
+		}
 	}
 
 	return result
 }
 
-// NewARMTransformerImpl creates a new interface with the specified ARM conversion functions
-func NewARMTransformerImpl(
+// NewARMConversionImplementation creates an interface implementation with the specified ARM conversion functions
+func NewARMConversionImplementation(
 	armTypeName astmodel.TypeName,
 	armType *astmodel.ObjectType,
 	idFactory astmodel.IdentifierFactory,
@@ -139,7 +160,7 @@ func NewARMTransformerImpl(
 			convertToARMFunc,
 			populateFromARMFunc)
 	} else {
-		// only convert in one direction with the FromARMConverter interface
+		// can only convert in one direction with the FromARMConverter interface
 		return astmodel.NewInterfaceImplementation(
 			astmodel.MakeTypeName(astmodel.GenRuntimeReference, "FromARMConverter"),
 			createEmptyARMValueFunc,
