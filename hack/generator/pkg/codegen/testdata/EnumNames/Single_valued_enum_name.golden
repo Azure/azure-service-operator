@@ -196,8 +196,14 @@ func (aResourceSpec *AResource_Spec) ConvertToARM(name string, resolvedReference
 		return nil, nil
 	}
 	var result AResource_SpecARM
+
+	// Set property ‘APIVersion’:
 	result.APIVersion = AResourceSpecAPIVersion20200601
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Type’:
 	result.Type = AResourceSpecTypeMicrosoftAzureAResource
 	return result, nil
 }
@@ -213,7 +219,11 @@ func (aResourceSpec *AResource_Spec) PopulateFromARM(owner genruntime.KnownResou
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AResource_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘Owner’:
 	aResourceSpec.Owner = owner
+
+	// No error
 	return nil
 }
 

@@ -229,7 +229,6 @@ func assignFromOptional(
 	local := sourceEndpoint.CreateLocal("", "Read")
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-
 		var cacheOriginal dst.Stmt
 		var actualReader dst.Expr
 
@@ -251,7 +250,7 @@ func assignFromOptional(
 			actualReader = dst.NewIdent(local)
 		}
 
-		checkForNil := astbuilder.NotEqual(actualReader, dst.NewIdent("nil"))
+		checkForNil := astbuilder.NotEqual(actualReader, astbuilder.Nil())
 
 		// If we have a value, need to convert it to our destination type
 		writeActualValue := conversion(
@@ -447,7 +446,6 @@ func assignFromAliasedPrimitive(
 	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-
 		actualReader := &dst.CallExpr{
 			Fun:  sourcePrimitive.AsType(generationContext),
 			Args: []dst.Expr{reader},
@@ -490,7 +488,6 @@ func assignToAliasedPrimitive(
 	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-
 		actualWriter := func(expr dst.Expr) []dst.Stmt {
 			castToAlias := &dst.CallExpr{
 				Fun:  destinationName.AsType(generationContext),
@@ -833,7 +830,6 @@ func assignObjectFromObject(
 	copyVar := destinationEndpoint.CreateLocal()
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-
 		// We have to do this at render time in order to ensure the first conversion generated
 		// declares 'err', not a later one
 		tok := token.ASSIGN
@@ -866,7 +862,6 @@ func assignObjectFromObject(
 				errLocal,
 				tok,
 				astbuilder.CallExpr(localId, functionName, actualReader))
-
 		} else {
 			// Destination is another type
 			conversion = astbuilder.SimpleAssignment(

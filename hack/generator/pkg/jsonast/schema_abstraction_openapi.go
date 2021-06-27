@@ -253,8 +253,13 @@ func (schema *OpenAPISchema) enumValues() []string {
 	return enumValuesToLiterals(schema.inner.Enum)
 }
 
-func (schema *OpenAPISchema) extensions() map[string]interface{} {
-	return schema.inner.Extensions
+func (schema *OpenAPISchema) extensions(key string) interface{} {
+	exts := schema.inner.Extensions
+	if exts == nil {
+		return nil
+	}
+
+	return exts[key]
 }
 
 func (schema *OpenAPISchema) isRef() bool {

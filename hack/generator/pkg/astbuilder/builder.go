@@ -18,7 +18,6 @@ import (
 // 		return <otherReturns...>, err
 //	}
 func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
-
 	returnValues := append([]dst.Expr{}, cloneExprSlice(otherReturns)...)
 	returnValues = append(returnValues, dst.NewIdent("err"))
 
@@ -35,12 +34,11 @@ func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
 // 		<stmt>
 //	}
 func CheckErrorAndSingleStatement(stmt dst.Stmt) dst.Stmt {
-
 	return &dst.IfStmt{
 		Cond: &dst.BinaryExpr{
 			X:  dst.NewIdent("err"),
 			Op: token.NEQ,
-			Y:  dst.NewIdent("nil"),
+			Y:  Nil(),
 		},
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
@@ -88,13 +86,17 @@ func NewVariableQualified(varName string, qualifier string, structName string) d
 //
 // …as that does not work for enum types.
 func NewVariable(varName string, structName string) dst.Stmt {
+	return NewVariableWithType(varName, dst.NewIdent(structName))
+}
+
+func NewVariableWithType(varName string, varType dst.Expr) dst.Stmt {
 	return &dst.DeclStmt{
 		Decl: &dst.GenDecl{
 			Tok: token.VAR,
 			Specs: []dst.Spec{
 				&dst.TypeSpec{
 					Name: dst.NewIdent(varName),
-					Type: dst.NewIdent(structName),
+					Type: varType,
 				},
 			},
 		},
@@ -140,7 +142,6 @@ func VariableDeclaration(ident string, typ dst.Expr, comment string) *dst.GenDec
 // 	<lhs>, ok := <rhs>.(<type>)
 //
 func TypeAssert(lhs dst.Expr, rhs dst.Expr, typ dst.Expr) *dst.AssignStmt {
-
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			dst.Clone(lhs).(dst.Expr),
@@ -192,7 +193,7 @@ func ReturnIfNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 		&dst.BinaryExpr{
 			X:  dst.Clone(toCheck).(dst.Expr),
 			Op: token.EQL,
-			Y:  dst.NewIdent("nil"),
+			Y:  Nil(),
 		},
 		returns...)
 }
@@ -208,7 +209,7 @@ func ReturnIfNotNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 		&dst.BinaryExpr{
 			X:  dst.Clone(toCheck).(dst.Expr),
 			Op: token.NEQ,
-			Y:  dst.NewIdent("nil"),
+			Y:  Nil(),
 		},
 		returns...)
 }
@@ -303,7 +304,7 @@ func Returns(returns ...dst.Expr) dst.Stmt {
 //    return nil
 //
 func ReturnNoError() dst.Stmt {
-	result := Returns(dst.NewIdent("nil"))
+	result := Returns(Nil())
 	result.Decorations().Before = dst.EmptyLine
 	result.Decorations().Start.Append("// No error")
 	return result
@@ -335,13 +336,19 @@ func QualifiedTypeName(pkg string, name string) *dst.SelectorExpr {
 
 // Selector generates a field reference into an existing expression
 //
-// <expr>.<name>
+// <expr>.<name0>.(<name1>.<name2>…)
 //
-func Selector(expr dst.Expr, name string) *dst.SelectorExpr {
-	return &dst.SelectorExpr{
-		X:   dst.Clone(expr).(dst.Expr),
-		Sel: dst.NewIdent(name),
+func Selector(expr dst.Expr, names ...string) *dst.SelectorExpr {
+	exprs := []dst.Expr{dst.Clone(expr).(dst.Expr)}
+	for _, name := range names {
+		exprs = append(exprs, dst.NewIdent(name))
 	}
+
+	return Reduce(
+		func(l, r dst.Expr) dst.Expr {
+			return &dst.SelectorExpr{X: l, Sel: r.(*dst.Ident)}
+		},
+		exprs...).(*dst.SelectorExpr)
 }
 
 // NotEqual generates a != comparison between the two expressions
@@ -354,6 +361,16 @@ func NotEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 		Op: token.NEQ,
 		Y:  dst.Clone(rhs).(dst.Expr),
 	}
+}
+
+// NotNil generates an `x != nil` comparison
+func NotNil(x dst.Expr) *dst.BinaryExpr {
+	return NotEqual(x, Nil())
+}
+
+// Nil returns the nil identifier (not keyword!)
+func Nil() *dst.Ident {
+	return dst.NewIdent("nil")
 }
 
 // StatementBlock generates a block containing the supplied statements
@@ -411,6 +428,35 @@ func cloneStmtSlice(stmts []dst.Stmt) []dst.Stmt {
 	var result []dst.Stmt
 	for _, st := range stmts {
 		result = append(result, dst.Clone(st).(dst.Stmt))
+	}
+
+	return result
+}
+
+func JoinOr(exprs ...dst.Expr) dst.Expr {
+	return JoinBinaryOp(token.LOR, exprs...)
+}
+
+func JoinAnd(exprs ...dst.Expr) dst.Expr {
+	return JoinBinaryOp(token.LAND, exprs...)
+}
+
+func JoinBinaryOp(op token.Token, exprs ...dst.Expr) dst.Expr {
+	return Reduce(
+		func(x, y dst.Expr) dst.Expr {
+			return &dst.BinaryExpr{X: x, Op: op, Y: y}
+		},
+		exprs...)
+}
+
+func Reduce(operator func(l, r dst.Expr) dst.Expr, exprs ...dst.Expr) dst.Expr {
+	if len(exprs) == 0 {
+		panic("must provide at least one expression to reduce")
+	}
+
+	result := exprs[0]
+	for _, e := range exprs[1:] {
+		result = operator(result, e)
 	}
 
 	return result

@@ -10,6 +10,8 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // ArrayType is used for properties that contain an array of values
@@ -43,7 +45,7 @@ func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) dst
 
 // AsZero renders an expression for the "zero" value of the array by calling make()
 func (array *ArrayType) AsZero(_ Types, ctx *CodeGenerationContext) dst.Expr {
-	return dst.NewIdent("nil")
+	return astbuilder.Nil()
 }
 
 // RequiredPackageReferences returns a list of packages required by this

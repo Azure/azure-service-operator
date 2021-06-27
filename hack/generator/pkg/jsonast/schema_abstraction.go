@@ -23,7 +23,7 @@ type Schema interface {
 	description() *string
 
 	// for extensions like x-ms-...
-	extensions() map[string]interface{}
+	extensions(key string) interface{}
 
 	hasType(schemaType SchemaType) bool
 

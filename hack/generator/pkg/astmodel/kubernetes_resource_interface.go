@@ -134,12 +134,12 @@ func getAzureNameFunctionsForType(r **ResourceType, spec *ObjectType, t Type, ty
 				return fixedValueGetAzureNameFunction("default"), nil, nil // no SetAzureName for this case
 			} else {
 				// ignoring for now:
-				//return nil, errors.Errorf("unable to handle pattern in Name property: %s", validations.Pattern.String())
+				// return nil, errors.Errorf("unable to handle pattern in Name property: %s", validations.Pattern.String())
 				return getStringAzureNameFunction, setStringAzureNameFunction, nil
 			}
 		} else {
 			// ignoring length validations for now
-			//return nil, errors.Errorf("unable to handle validations on Name property …TODO")
+			// return nil, errors.Errorf("unable to handle validations on Name property …TODO")
 			return getStringAzureNameFunction, setStringAzureNameFunction, nil
 		}
 
@@ -265,7 +265,6 @@ func setEnumAzureNameFunction(enumType TypeName) objectFunctionHandler {
 
 // fixedValueGetAzureNameFunction adds an AzureName() function that returns a fixed value
 func fixedValueGetAzureNameFunction(fixedValue string) objectFunctionHandler {
-
 	// ensure fixedValue is quoted. This is always the case with enum values we pass,
 	// but let's be safe:
 	if len(fixedValue) == 0 {
@@ -314,7 +313,6 @@ func IsKubernetesResourceProperty(name PropertyName) bool {
 
 // ownerFunction returns a function that returns the owner of the resource
 func ownerFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-
 	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
 
 	fn := &astbuilder.FuncDetails{
@@ -444,11 +442,9 @@ func setStringAzureNameFunction(k *objectFunction, codeGenerationContext *CodeGe
 			X: receiverType,
 		},
 		Body: []dst.Stmt{
-			astbuilder.SimpleAssignment(
-				&dst.SelectorExpr{
-					X:   dst.NewIdent(receiverIdent),
-					Sel: dst.NewIdent(AzureNameProperty),
-				},
+			astbuilder.QualifiedAssignment(
+				dst.NewIdent(receiverIdent),
+				AzureNameProperty,
 				token.ASSIGN,
 				dst.NewIdent("azureName")),
 		},

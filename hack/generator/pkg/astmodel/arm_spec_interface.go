@@ -23,7 +23,7 @@ const (
 func checkPropertyPresence(o *ObjectType, name PropertyName) error {
 	_, ok := o.Property(name)
 	if !ok {
-		return errors.Errorf("Resource spec doesn't have %q property", name)
+		return errors.Errorf("resource spec doesn't have %q property", name)
 	}
 
 	return nil

@@ -205,8 +205,14 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 		return nil, nil
 	}
 	var result FakeResource_SpecARM
+
+	// Set property ‘APIVersion’:
 	result.APIVersion = FakeResourceSpecAPIVersion20200601
+
+	// Set property ‘Name’:
 	result.Name = name
+
+	// Set property ‘Properties’:
 	if fakeResourceSpec.Properties != nil {
 		propertiesARM, err := (*fakeResourceSpec.Properties).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -215,6 +221,8 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 		properties := propertiesARM.(PropertiesARM)
 		result.Properties = &properties
 	}
+
+	// Set property ‘Type’:
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
 }
@@ -230,8 +238,14 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
 	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Owner’:
 	fakeResourceSpec.Owner = owner
+
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 Properties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -241,6 +255,8 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 		properties := properties1
 		fakeResourceSpec.Properties = &properties
 	}
+
+	// No error
 	return nil
 }
 
@@ -310,6 +326,8 @@ func (properties *Properties) ConvertToARM(name string, resolvedReferences genru
 		return nil, nil
 	}
 	var result PropertiesARM
+
+	// Set property ‘Bar’:
 	if properties.Bar != nil {
 		barARM, err := (*properties.Bar).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -318,6 +336,8 @@ func (properties *Properties) ConvertToARM(name string, resolvedReferences genru
 		bar := barARM.(BarARM)
 		result.Bar = &bar
 	}
+
+	// Set property ‘Baz’:
 	if properties.Baz != nil {
 		bazARM, err := (*properties.Baz).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -326,6 +346,8 @@ func (properties *Properties) ConvertToARM(name string, resolvedReferences genru
 		baz := bazARM.(BazARM)
 		result.Baz = &baz
 	}
+
+	// Set property ‘Foo’:
 	if properties.Foo != nil {
 		fooARM, err := (*properties.Foo).ConvertToARM(name, resolvedReferences)
 		if err != nil {
@@ -348,6 +370,8 @@ func (properties *Properties) PopulateFromARM(owner genruntime.KnownResourceRefe
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PropertiesARM, got %T", armInput)
 	}
+
+	// Set property ‘Bar’:
 	if typedInput.Bar != nil {
 		var bar1 Bar
 		err := bar1.PopulateFromARM(owner, *typedInput.Bar)
@@ -357,6 +381,8 @@ func (properties *Properties) PopulateFromARM(owner genruntime.KnownResourceRefe
 		bar := bar1
 		properties.Bar = &bar
 	}
+
+	// Set property ‘Baz’:
 	if typedInput.Baz != nil {
 		var baz1 Baz
 		err := baz1.PopulateFromARM(owner, *typedInput.Baz)
@@ -366,6 +392,8 @@ func (properties *Properties) PopulateFromARM(owner genruntime.KnownResourceRefe
 		baz := baz1
 		properties.Baz = &baz
 	}
+
+	// Set property ‘Foo’:
 	if typedInput.Foo != nil {
 		var foo1 Foo
 		err := foo1.PopulateFromARM(owner, *typedInput.Foo)
@@ -375,6 +403,8 @@ func (properties *Properties) PopulateFromARM(owner genruntime.KnownResourceRefe
 		foo := foo1
 		properties.Foo = &foo
 	}
+
+	// No error
 	return nil
 }
 
@@ -392,6 +422,8 @@ func (bar *Bar) ConvertToARM(name string, resolvedReferences genruntime.Resolved
 		return nil, nil
 	}
 	var result BarARM
+
+	// Set property ‘Size’:
 	result.Size = bar.Size
 	return result, nil
 }
@@ -407,7 +439,11 @@ func (bar *Bar) PopulateFromARM(owner genruntime.KnownResourceReference, armInpu
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BarARM, got %T", armInput)
 	}
+
+	// Set property ‘Size’:
 	bar.Size = typedInput.Size
+
+	// No error
 	return nil
 }
 
@@ -425,6 +461,8 @@ func (baz *Baz) ConvertToARM(name string, resolvedReferences genruntime.Resolved
 		return nil, nil
 	}
 	var result BazARM
+
+	// Set property ‘Enabled’:
 	result.Enabled = baz.Enabled
 	return result, nil
 }
@@ -440,7 +478,11 @@ func (baz *Baz) PopulateFromARM(owner genruntime.KnownResourceReference, armInpu
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BazARM, got %T", armInput)
 	}
+
+	// Set property ‘Enabled’:
 	baz.Enabled = typedInput.Enabled
+
+	// No error
 	return nil
 }
 
@@ -457,6 +499,8 @@ func (foo *Foo) ConvertToARM(name string, resolvedReferences genruntime.Resolved
 		return nil, nil
 	}
 	var result FooARM
+
+	// Set property ‘Name’:
 	if foo.Name != nil {
 		name := *foo.Name
 		result.Name = &name
@@ -475,10 +519,14 @@ func (foo *Foo) PopulateFromARM(owner genruntime.KnownResourceReference, armInpu
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FooARM, got %T", armInput)
 	}
+
+	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		foo.Name = &name
 	}
+
+	// No error
 	return nil
 }
 

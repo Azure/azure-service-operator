@@ -10,6 +10,8 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // MapType is used to define properties that contain additional property values
@@ -55,7 +57,7 @@ func (m *MapType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr 
 
 // AsZero renders an expression for the "zero" value of a map by calling make()
 func (m *MapType) AsZero(_ Types, ctx *CodeGenerationContext) dst.Expr {
-	return dst.NewIdent("nil")
+	return astbuilder.Nil()
 }
 
 // RequiredPackageReferences returns a list of packages required by this

@@ -6,8 +6,9 @@
 package astbuilder
 
 import (
-	"github.com/dave/dst"
 	"go/token"
+
+	"github.com/dave/dst"
 )
 
 // SimpleIfElse creates a simple if statement with a single statement in each branch
@@ -39,7 +40,7 @@ func IfNotNil(toCheck dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 		Cond: &dst.BinaryExpr{
 			X:  dst.Clone(toCheck).(dst.Expr),
 			Op: token.NEQ,
-			Y:  dst.NewIdent("nil"),
+			Y:  Nil(),
 		},
 		Body: StatementBlock(statements...),
 	}

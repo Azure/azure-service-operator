@@ -142,7 +142,9 @@ func (codeGenContext *CodeGenerationContext) GetAllReachableTypes() Types {
 	for _, pkgImport := range codeGenContext.packageImports.AsSlice() {
 		types, found := codeGenContext.GetTypesInPackage(pkgImport.packageReference)
 		if found {
-			result.AddTypes(types)
+			for k, v := range types {
+				result[k] = v
+			}
 		}
 	}
 
