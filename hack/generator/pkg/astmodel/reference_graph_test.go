@@ -21,7 +21,7 @@ func Test_ReferenceGraph_Gives_Correct_Depth(t *testing.T) {
 	}
 
 	names := func(ns ...string) TypeNameSet {
-		result := make(TypeNameSet)
+		result := NewTypeNameSet()
 		for _, n := range ns {
 			result.Add(name(n))
 		}

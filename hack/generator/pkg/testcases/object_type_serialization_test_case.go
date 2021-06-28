@@ -58,7 +58,6 @@ func (o ObjectSerializationTestCase) References() astmodel.TypeNameSet {
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
 func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *astmodel.CodeGenerationContext) []dst.Decl {
-
 	var errs []error
 	properties := o.makePropertyMap()
 
@@ -78,14 +77,14 @@ func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext 
 
 	// Write errors for any properties we don't handle
 	for _, p := range properties {
-		errs = append(errs, errors.Errorf("No generator created for %v (%v)", p.PropertyName(), p.PropertyType()))
+		errs = append(errs, errors.Errorf("no generator created for %v (%v)", p.PropertyName(), p.PropertyType()))
 	}
 
 	var result []dst.Decl
 
 	if len(simpleGenerators) == 0 && len(relatedGenerators) == 0 {
 		// No properties that we can generate to test - skip the testing completely
-		errs = append(errs, errors.Errorf("No property generators for %v", name))
+		errs = append(errs, errors.Errorf("no property generators for %v", name))
 	} else {
 		result = append(result,
 			o.createTestRunner(genContext),
@@ -154,7 +153,6 @@ func (o ObjectSerializationTestCase) Equals(_ astmodel.TestCase) bool {
 
 // createTestRunner generates the AST for the test runner itself
 func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.CodeGenerationContext) dst.Decl {
-
 	const (
 		parametersLocal  = "parameters"
 		propertiesLocal  = "properties"
@@ -175,11 +173,9 @@ func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.C
 		astbuilder.CallQualifiedFunc(gopterPackage, "DefaultTestParameters"))
 
 	// parameters.MaxSize = 10
-	configureMaxSize := astbuilder.SimpleAssignment(
-		&dst.SelectorExpr{
-			X:   dst.NewIdent(parametersLocal),
-			Sel: dst.NewIdent("MaxSize"),
-		},
+	configureMaxSize := astbuilder.QualifiedAssignment(
+		dst.NewIdent(parametersLocal),
+		"MaxSize",
 		token.ASSIGN,
 		astbuilder.IntLiteral(10))
 
@@ -354,7 +350,6 @@ func (o ObjectSerializationTestCase) createGeneratorDeclaration(genContext *astm
 
 // createGeneratorMethod generates the AST for a method used to populate our generator cache variable on demand
 func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGenerationContext, haveSimpleGenerators bool, haveRelatedGenerators bool) dst.Decl {
-
 	gopterPackage := ctx.MustGetImportedPackageName(astmodel.GopterReference)
 	genPackage := ctx.MustGetImportedPackageName(astmodel.GopterGenReference)
 
@@ -607,7 +602,7 @@ func (o ObjectSerializationTestCase) createRelatedGenerator(
 			return astbuilder.CallQualifiedFunc(importName, o.idOfGeneratorMethod(t))
 		}
 
-		//TODO: Should we invoke a generator for stuff from our runtime package?
+		// TODO: Should we invoke a generator for stuff from our runtime package?
 
 		return nil
 

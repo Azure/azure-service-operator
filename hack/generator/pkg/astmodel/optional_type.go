@@ -10,6 +10,8 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // OptionalType is used for items that may or may not be present
@@ -69,9 +71,7 @@ func (optional *OptionalType) AsType(codeGenerationContext *CodeGenerationContex
 // AsZero renders an expression for the "zero" value of the type
 // by returning a literal "nil"
 func (optional *OptionalType) AsZero(_ Types, _ *CodeGenerationContext) dst.Expr {
-	return &dst.BasicLit{
-		Value: "nil",
-	}
+	return astbuilder.Nil()
 }
 
 // RequiredPackageReferences returns the imports required by the 'element' type

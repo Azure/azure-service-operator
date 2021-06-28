@@ -44,7 +44,7 @@ func (schema GoJSONSchema) title() *string {
 	return schema.inner.Title
 }
 
-func (schema GoJSONSchema) extensions() map[string]interface{} {
+func (schema GoJSONSchema) extensions(key string) interface{} {
 	return nil
 }
 
@@ -215,7 +215,7 @@ func groupOf(url *url.URL) (string, error) {
 
 	file := pathParts[len(pathParts)-1]
 	if !strings.HasSuffix(file, ".json") {
-		return "", errors.Errorf("Unexpected URL format (doesn't point to .json file)")
+		return "", errors.Errorf("unexpected URL format (doesn't point to .json file)")
 	}
 
 	return strings.TrimSuffix(file, ".json"), nil

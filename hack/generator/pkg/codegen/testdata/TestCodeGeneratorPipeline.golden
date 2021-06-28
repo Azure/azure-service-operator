@@ -1,25 +1,27 @@
 Expected Pipeline Stages for Test Code Generation
 -------------------------------------------------
 loadTestSchema                                 Load and walk schema (test)
-augmentStatus                                  Add information from Swagger specs for 'status' fields
+addStatusFromSwagger                           Add information from Swagger specs for 'status' fields
 allof-anyof-objects                            Convert allOf and oneOf to object types
-flatten-resources                              Flatten nested resource types
+flattenResources                               Flatten nested resource types
+augmentSpecWithStatus                          Merges information from Status into Spec
 stripUnused                                    Strip unused types for test
 nameTypes                                      Name inner types for CRD
-propertyRewrites                               Applying type transformers to properties
+propertyRewrites                               Modify property types using configured transforms
 determineResourceOwnership                     Determine ARM resource relationships
 removeAliases                                  Remove type aliases
 pluralizeNames                                 Improve resource pluralization
 stripUnused                                    Strip unused types for test
-assertTypesStructureValid                      Asserts that the types collection is valid
-filterTypes                                    Filter generated types
+assertTypesStructureValid                      Verify that all local TypeNames refer to a type
+filterTypes                                    Apply export filters to reduce the number of generated types
 stripUnused                                    Strip unused types for test
-replaceAnyTypeWithJSON                         Replacing interface{}s with arbitrary JSON
-addCrossResourceReferences          azure      Replaces cross resource references with genruntime.ResourceReference
-applyKubernetesResourceInterface    azure      Ensures that every resource implements the KubernetesResource interface
+replaceAnyTypeWithJSON                         Replace properties using interface{} with arbitrary JSON
+addCrossResourceReferences          azure      Replace cross-resource references with genruntime.ResourceReference
+applyKubernetesResourceInterface    azure      Add the KubernetesResource interface to every resource
+flattenProperties                              Apply flattening to properties marked for flattening
 simplifyDefinitions                            Flatten definitions by removing wrapper types
 jsonTestCases                       azure      Add test cases to verify JSON serialization
-markStorageVersion                             Marking the latest version of each resource as the storage version
-ensureArmTypeExistsForEveryType     azure      Ensure that an ARM type for every top level resource spec/status exists
+markStorageVersion                             Mark the latest version of each resource as the storage version
+ensureArmTypeExistsForEveryType     azure      Check that an ARM type exists for both Spec and Status of each resource
 exportTestPackages                             Export packages for test
 exportControllerResourceRegistrations azure      Export resource registrations to ""

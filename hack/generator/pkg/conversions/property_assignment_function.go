@@ -154,7 +154,6 @@ func (fn *PropertyAssignmentFunction) Equals(f astmodel.Function) bool {
 
 // AsFunc renders this function as an AST for serialization to a Go source file
 func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-
 	var description string
 	switch fn.direction {
 	case ConvertFrom:
@@ -269,7 +268,6 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 // createConversions iterates through the properties on our receiver type, matching them up with
 // our other type and generating conversions where possible
 func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDefinition) error {
-
 	var sourceEndpoints map[string]ReadableConversionEndpoint
 	var destinationEndpoints map[string]WritableConversionEndpoint
 
@@ -292,7 +290,7 @@ func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDe
 		sourceEndpoint, ok := sourceEndpoints[destinationName]
 
 		if !ok {
-			//TODO: Handle property renames
+			// TODO: Handle property renames
 			continue
 		}
 
@@ -384,7 +382,6 @@ func (fn *PropertyAssignmentFunction) createConversion(
 	destinationEndpoint WritableConversionEndpoint) (StoragePropertyConversion, error) {
 
 	conversion, err := CreateTypeConversion(sourceEndpoint.endpoint, destinationEndpoint.endpoint, fn.conversionContext)
-
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,

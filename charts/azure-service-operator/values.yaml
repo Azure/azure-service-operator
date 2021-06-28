@@ -39,13 +39,13 @@ image:
 installAadPodIdentity: False
 
 aad-pod-identity:
-  azureIdentityBinding:
-    name: aso-identity-binding
-    selector: aso_manager_binding
-  azureIdentity:
-    enabled: True
-    name: aso-identity
-    type: 0
-    # Update values for Managed Identity
-    resourceID: ""
-    clientID: ""
+  azureIdentities:
+    aso-identity:
+      name: aso-identity
+      type: 0
+      # Update values for Managed Identity
+      resourceID: ""
+      clientID: ""
+      binding:
+        name: aso-identity-binding
+        selector: aso_manager_binding

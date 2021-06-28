@@ -41,10 +41,10 @@ func (i InterfaceImplementer) WithInterface(iface *InterfaceImplementation) Inte
 }
 
 func (i InterfaceImplementer) References() TypeNameSet {
-	var results TypeNameSet
+	results := NewTypeNameSet()
 	for _, iface := range i.interfaces {
 		for ref := range iface.References() {
-			results = results.Add(ref)
+			results.Add(ref)
 		}
 	}
 

@@ -61,8 +61,7 @@ func (oneOf *OneOfType) Types() ReadonlyTypeSet {
 
 // References returns any type referenced by the OneOf types
 func (oneOf *OneOfType) References() TypeNameSet {
-	var result TypeNameSet
-
+	result := NewTypeNameSet()
 	oneOf.types.ForEach(func(t Type, _ int) {
 		result = SetUnion(result, t.References())
 	})

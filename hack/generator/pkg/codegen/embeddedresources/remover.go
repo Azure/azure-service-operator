@@ -273,11 +273,21 @@ func findSubResourcePropertiesTypeNames(types astmodel.Types) (map[astmodel.Type
 			errs = append(errs, errors.Wrapf(err, "couldn't extract spec/status properties from %q", def.Name()))
 			continue
 		}
+
 		if specPropertiesTypeName != nil {
-			result[owner] = result[owner].Add(*specPropertiesTypeName)
+			if result[owner] == nil {
+				result[owner] = astmodel.NewTypeNameSet(*specPropertiesTypeName)
+			} else {
+				result[owner].Add(*specPropertiesTypeName)
+			}
 		}
+
 		if statusPropertiesTypeName != nil {
-			result[owner] = result[owner].Add(*statusPropertiesTypeName)
+			if result[owner] == nil {
+				result[owner] = astmodel.NewTypeNameSet(*statusPropertiesTypeName)
+			} else {
+				result[owner].Add(*statusPropertiesTypeName)
+			}
 		}
 	}
 
@@ -322,7 +332,7 @@ func findAllResourcePropertiesTypes(types astmodel.Types) (astmodel.TypeNameSet,
 	})
 
 	var errs []error
-	result := make(astmodel.TypeNameSet)
+	result := astmodel.NewTypeNameSet()
 
 	// Identify sub-resources and their "properties", associate them with parent resource
 	// Look through parent resource for subresource properties
@@ -338,11 +348,13 @@ func findAllResourcePropertiesTypes(types astmodel.Types) (astmodel.TypeNameSet,
 			errs = append(errs, errors.Wrapf(err, "couldn't extract spec/status properties from %q", def.Name()))
 			continue
 		}
+
 		if specPropertiesTypeName != nil {
-			result = result.Add(*specPropertiesTypeName)
+			result.Add(*specPropertiesTypeName)
 		}
+
 		if statusPropertiesTypeName != nil {
-			result = result.Add(*statusPropertiesTypeName)
+			result.Add(*statusPropertiesTypeName)
 		}
 	}
 
@@ -362,7 +374,7 @@ func findAllResourceStatusTypes(types astmodel.Types) astmodel.TypeNameSet {
 		return ok
 	})
 
-	result := make(astmodel.TypeNameSet)
+	result := astmodel.NewTypeNameSet()
 
 	// Identify sub-resources and their "properties", associate them with parent resource
 	// Look through parent resource for subresource properties
@@ -378,7 +390,7 @@ func findAllResourceStatusTypes(types astmodel.Types) astmodel.TypeNameSet {
 			continue
 		}
 
-		result = result.Add(statusName)
+		result.Add(statusName)
 	}
 
 	return result
@@ -412,7 +424,7 @@ func requiredResourceProperties() []string {
 }
 
 // optionalResourceProperties are properties which may or may not be on a resource. Technically all resources
-// should have all of these properties, but because we drop the top-level allof that joins resource types with
+// should have all of these properties, but because we drop the top-level AllOf that joins resource types with
 // ResourceBase when parsing schemas sometimes they aren't defined.
 func optionalResourceProperties() []string {
 	return []string{

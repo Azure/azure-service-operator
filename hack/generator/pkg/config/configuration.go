@@ -328,7 +328,7 @@ func buildExportFilterFunc(f *ExportFilter, allTypes astmodel.Types) ExportFilte
 		}
 
 	case ExportFilterIncludeTransitive:
-		applicableTypes := make(astmodel.TypeNameSet)
+		applicableTypes := astmodel.NewTypeNameSet()
 		for tn := range allTypes {
 			if f.AppliesToType(tn) {
 				collectAllReferencedTypes(allTypes, tn, applicableTypes)

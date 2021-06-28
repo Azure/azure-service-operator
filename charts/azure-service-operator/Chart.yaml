@@ -1,6 +1,6 @@
 apiVersion: v2
 name: azure-service-operator
-version: 1.5.0
+version: 1.6.0
 appVersion: 1.0.24492
 description: Deploy components and dependencies of azure-service-operator
 home: https://github.com/Azure/azure-service-operator
@@ -8,6 +8,6 @@ sources:
   - https://github.com/Azure/azure-service-operator
 dependencies:
   - name: aad-pod-identity
-    version: 1.5.5
+    version: 4.1.1
     repository: https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
     condition: installAadPodIdentity

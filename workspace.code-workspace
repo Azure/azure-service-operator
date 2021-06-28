@@ -10,5 +10,9 @@
 			"path": "hack/generator"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"gopls": {
+			"formatting.local": "github.com/Azure/azure-service-operator"
+		}
+	}
 }

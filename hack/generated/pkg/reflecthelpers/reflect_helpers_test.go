@@ -15,6 +15,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
+
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
@@ -22,6 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
+
 	// TODO: Do we want to use a sample object rather than a code generated one?
 	batch "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.batch/v1alpha1api20210101"
 
@@ -51,7 +53,6 @@ func createDummyResource() *batch.BatchAccount {
 			Owner: genruntime.KnownResourceReference{
 				Name: "myrg",
 			},
-			Properties: batch.BatchAccountCreateProperties{},
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "test-group",
@@ -162,7 +163,7 @@ func Test_FindReferences(t *testing.T) {
 	g.Expect(test.client.Create(ctx, rg)).To(Succeed())
 	account := createDummyResource()
 	ref := genruntime.ResourceReference{ARMID: "test"}
-	account.Spec.Properties.KeyVaultReference = &batch.KeyVaultReference{
+	account.Spec.KeyVaultReference = &batch.KeyVaultReference{
 		Reference: ref,
 	}
 	g.Expect(test.client.Create(ctx, account)).To(Succeed())

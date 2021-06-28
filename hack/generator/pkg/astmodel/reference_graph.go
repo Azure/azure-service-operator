@@ -18,7 +18,7 @@ type ReferenceGraph struct {
 // CollectResourceDefinitions returns a TypeNameSet of all of the
 // root definitions in the definitions passed in.
 func CollectResourceDefinitions(definitions Types) TypeNameSet {
-	resources := make(TypeNameSet)
+	resources := NewTypeNameSet()
 	for _, def := range definitions {
 		if _, ok := def.Type().(*ResourceType); ok {
 			resources.Add(def.Name())
@@ -33,21 +33,20 @@ func CollectARMSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 	findARMType := func(t Type) (TypeName, error) {
 		name, ok := t.(TypeName)
 		if !ok {
-			return TypeName{}, errors.Errorf("Type was not of type TypeName, instead %T", t)
+			return TypeName{}, errors.Errorf("type was not of type TypeName, instead %T", t)
 		}
 
 		armName := CreateARMTypeName(name)
 
 		if _, ok = definitions[armName]; !ok {
-			return TypeName{}, errors.Errorf("Couldn't find ARM type %q", armName)
+			return TypeName{}, errors.Errorf("couldn't find ARM type %q", armName)
 		}
 
 		return armName, nil
 	}
 
-	armSpecAndStatus := make(TypeNameSet)
+	armSpecAndStatus := NewTypeNameSet()
 	for _, def := range definitions {
-
 		if resourceType, ok := definitions.ResolveResourceType(def.Type()); ok {
 
 			armSpecName, err := findARMType(resourceType.spec)

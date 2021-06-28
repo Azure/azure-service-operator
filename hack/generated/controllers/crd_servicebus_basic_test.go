@@ -32,9 +32,7 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 			Sku: &servicebus.SBSku{
 				Name: servicebus.SBSkuNameBasic,
 			},
-			Properties: servicebus.SBNamespaceProperties{
-				ZoneRedundant: &zoneRedundant,
-			},
+			ZoneRedundant: &zoneRedundant,
 		},
 	}
 
@@ -76,6 +74,6 @@ func ServiceBus_Queue_CRUD(tc testcommon.KubePerTestContext, sbNamespace metav1.
 	tc.Expect(queue.Status.Id).ToNot(BeNil())
 
 	// a basic assertion on a property
-	tc.Expect(queue.Status.Properties.SizeInBytes).ToNot(BeNil())
-	tc.Expect(*queue.Status.Properties.SizeInBytes).To(Equal(0))
+	tc.Expect(queue.Status.SizeInBytes).ToNot(BeNil())
+	tc.Expect(*queue.Status.SizeInBytes).To(Equal(0))
 }
