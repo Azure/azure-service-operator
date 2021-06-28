@@ -1,3 +1,6 @@
+# Create secret or use an existing secret
+createAzureOperatorSecret: true
+
 # azureTenantID is the AAD tenant that the subscription is in
 azureTenantID: ""
 # azureSubscriptionID is the Azure Subscription the operator will act against.
