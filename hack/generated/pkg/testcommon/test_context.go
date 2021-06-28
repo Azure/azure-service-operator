@@ -7,6 +7,8 @@ package testcommon
 
 import (
 	"bytes"
+	"crypto/rand"
+	"crypto/rsa"
 	"fmt"
 	"io"
 	"net/http"
@@ -20,6 +22,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
+	"golang.org/x/crypto/ssh"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
@@ -153,7 +156,7 @@ func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer
 		}
 
 		r.Body = io.NopCloser(&b)
-		return b.String() == "" || hideDates(b.String()) == i.Body
+		return b.String() == "" || hideRecordingData(b.String()) == i.Body
 	})
 
 	r.AddSaveFilter(func(i *cassette.Interaction) error {
@@ -164,8 +167,8 @@ func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer
 			return strings.ReplaceAll(s, subscriptionID, uuid.Nil.String())
 		}
 
-		i.Request.Body = hideDates(hideSubID(i.Request.Body))
-		i.Response.Body = hideDates(hideSubID(i.Response.Body))
+		i.Request.Body = hideRecordingData(hideSubID(i.Request.Body))
+		i.Response.Body = hideRecordingData(hideSubID(i.Response.Body))
 		i.Request.URL = hideSubID(i.Request.URL)
 
 		for _, values := range i.Request.Headers {
@@ -200,12 +203,25 @@ func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer
 	return authorizer, subscriptionID, r, nil
 }
 
-var dateMatcher *regexp.Regexp = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
+var dateMatcher = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
+var sshKeyMatcher = regexp.MustCompile("ssh-rsa [0-9a-zA-Z+/=]+")
 
 // hideDates replaces all ISO8601 datetimes with a fixed value
 // this lets us match requests that may contain time-sensitive information (timestamps, etc)
 func hideDates(s string) string {
 	return dateMatcher.ReplaceAllLiteralString(s, "2001-02-03T04:05:06Z") // this should be recognizable/parseable as a fake date
+}
+
+// hideSSHKeys hides anything that looks like SSH keys
+func hideSSHKeys(s string) string {
+	return sshKeyMatcher.ReplaceAllLiteralString(s, "ssh-rsa {KEY}")
+}
+
+func hideRecordingData(s string) string {
+	result := hideDates(s)
+	result = hideSSHKeys(result)
+
+	return result
 }
 
 func (tc PerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
@@ -218,6 +234,34 @@ func (tc PerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
 			Tags:     CreateTestResourceGroupDefaultTags(),
 		},
 	}
+}
+
+// GenerateSSHKey generates an SSH key.
+func (tc PerTestContext) GenerateSSHKey(size int) (*string, error) {
+	// Note: If we ever want to make sure that the SSH keys are the same between
+	// test runs, we can base it off of a hash of subscription ID. Right now since
+	// we just replace the SSH key in the recordings regardless of what the value is
+	// there's no need for uniformity between runs though.
+
+	key, err := rsa.GenerateKey(rand.Reader, size)
+	if err != nil {
+		return nil, err
+	}
+
+	err = key.Validate()
+	if err != nil {
+		return nil, err
+	}
+
+	sshPublicKey, err := ssh.NewPublicKey(&key.PublicKey)
+	if err != nil {
+		return nil, err
+	}
+
+	resultBytes := ssh.MarshalAuthorizedKey(sshPublicKey)
+	result := string(resultBytes)
+
+	return &result, nil
 }
 
 func (tc PerTestContext) MakeARMId(resourceGroup string, provider string, params ...string) string {

@@ -69,15 +69,16 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 			panic("io.ReadAll(req.Body) failed, this should always succeed because req.Body has been replaced by a buffer")
 		}
 
-		sentBodyString = string(bodyBytes)
+		// Apply the same body filtering that we do in recordings so that the diffs don't show things
+		// that we've just removed
+		sentBodyString = hideRecordingData(string(bodyBytes))
 	}
 
 	// find all request bodies for the specified method/URL combination
 	matchingBodies := w.findMatchingBodies(req)
 
 	if len(matchingBodies) == 0 {
-		w.t.Fatalf("\n*** Cannot find go-vcr recording for request (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n", req.Method, req.URL.String(), req.Header.Get(COUNT_HEADER))
-		return nil, originalErr
+		panic(fmt.Sprintf("\n*** Cannot find go-vcr recording for request (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n", req.Method, req.URL.String(), req.Header.Get(COUNT_HEADER)))
 	}
 
 	// locate the request body with the shortest diff from the sent body
@@ -89,8 +90,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 		}
 	}
 
-	w.t.Fatalf("\n*** Cannot find go-vcr recording for request (body mismatch): %s %s\nShortest body diff: %s\n\n", req.Method, req.URL.String(), shortestDiff)
-	return nil, originalErr
+	panic(fmt.Sprintf("\n*** Cannot find go-vcr recording for request (body mismatch): %s %s\nShortest body diff: %s\n\n", req.Method, req.URL.String(), shortestDiff))
 }
 
 // finds bodies for interactions where request method, URL, and COUNT_HEADER match
