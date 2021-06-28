@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
@@ -52,7 +53,8 @@ func makeFlatteningVisitor(defs astmodel.Types) astmodel.TypeVisitor {
 
 			// safety check:
 			if err := checkForDuplicateNames(newProps); err != nil {
-				return nil, err
+				klog.Warningf("Flattening caused duplicate property names, skipping flattening: %s", err)
+				return it, nil // nolint:nilerr
 			}
 
 			result := it.WithoutProperties().WithProperties(newProps...)

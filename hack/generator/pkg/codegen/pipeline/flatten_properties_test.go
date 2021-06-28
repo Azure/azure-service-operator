@@ -30,8 +30,9 @@ func TestDuplicateNamesAreCaught(t *testing.T) {
 	types.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "objType"), objType))
 
 	result, err := applyPropertyFlattening(context.Background(), types)
-	g.Expect(result).To(BeNil())
-	g.Expect(err).To(MatchError("visit of type of \"prefix/group/version/objType\" failed: flattening caused duplicate property name \"duplicate\""))
+	// We don't fail but flattening does not occur
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result).To(Equal(types))
 }
 
 func TestFlatteningWorks(t *testing.T) {
