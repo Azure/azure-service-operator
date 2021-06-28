@@ -32,7 +32,7 @@ func RemoveEmptyObjects(types astmodel.Types) (astmodel.Types, error) {
 }
 
 func findEmptyObjectTypes(types astmodel.Types) astmodel.TypeNameSet {
-	result := make(astmodel.TypeNameSet)
+	result := astmodel.NewTypeNameSet()
 
 	for _, def := range types {
 		ot, ok := astmodel.AsObjectType(def.Type())

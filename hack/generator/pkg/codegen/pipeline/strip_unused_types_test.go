@@ -43,9 +43,9 @@ func TestConnectionChecker_Avoids_Cycles(t *testing.T) {
 	graph := astmodel.NewReferenceGraph(roots, references)
 	connectedSet := graph.Connected()
 
-	var names astmodel.TypeNameSet
+	names := astmodel.NewTypeNameSet()
 	for name := range connectedSet {
-		names = names.Add(name)
+		names.Add(name)
 	}
 
 	g.Expect(names).To(Equal(makeSet("res1", "res2", "A", "B", "C", "D")))
