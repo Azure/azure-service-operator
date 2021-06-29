@@ -58,7 +58,7 @@ func (types Types) FullyResolve(t Type) (Type, error) {
 }
 
 // AddAll adds multiple definitions to the set, with the same safety check as Add() to panic if a duplicate is included
-func (types Types) AddAll(otherDefinitions []TypeDefinition) {
+func (types Types) AddAll(otherDefinitions ...TypeDefinition) {
 	for _, t := range otherDefinitions {
 		types.Add(t)
 	}
