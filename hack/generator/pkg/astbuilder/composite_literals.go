@@ -25,7 +25,7 @@ func NewCompositeLiteralDetails(structType dst.Expr) *CompositeLiteralDetails {
 
 // AddField adds initialization of another field
 // Returns the receiver to allow method chaining when desired
-func (details *CompositeLiteralDetails) AddField(name string, value dst.Expr) *CompositeLiteralDetails {
+func (details *CompositeLiteralDetails) AddField(name string, value dst.Expr) {
 	expr := &dst.KeyValueExpr{
 		Key:   dst.NewIdent(name),
 		Value: dst.Clone(value).(dst.Expr),
@@ -35,8 +35,6 @@ func (details *CompositeLiteralDetails) AddField(name string, value dst.Expr) *C
 	expr.Decs.After = dst.NewLine
 
 	details.elts = append(details.elts, expr)
-
-	return details
 }
 
 // Build constructs the actual dst.CompositeLit that's required

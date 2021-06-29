@@ -63,11 +63,11 @@ func (o OriginalGVKFunction) AsFunc(
 
 	spec := astbuilder.Selector(dst.NewIdent(receiverName), "Spec")
 
-	initGVK := astbuilder.NewCompositeLiteralDetails(gvkType).
-		AddField("Group", astbuilder.Selector(groupVersionPackageGlobal, "Group")).
-		AddField("Version", astbuilder.Selector(spec, "OriginalVersion")).
-		AddField("Kind", astbuilder.StringLiteral(receiver.Name())).
-		Build()
+	builder := astbuilder.NewCompositeLiteralDetails(gvkType)
+	builder.AddField("Group", astbuilder.Selector(groupVersionPackageGlobal, "Group"))
+	builder.AddField("Version", astbuilder.Selector(spec, "OriginalVersion"))
+	builder.AddField("Kind", astbuilder.StringLiteral(receiver.Name()))
+	initGVK := builder.Build()
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
