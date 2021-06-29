@@ -16,16 +16,16 @@ import (
 
 // StorageTypeFactory is used to create storage types for a specific api group
 type StorageTypeFactory struct {
-	group             string                                                  // Name of the group we're handling (used mostly for logging)
-	types             astmodel.Types                                          // All the types for this group
-	specTypes         astmodel.TypeNameSet                                    // All the names of spec types
-	statusTypes       astmodel.TypeNameSet                                    // All the names of status types
-	idFactory         astmodel.IdentifierFactory                              // Factory for creating identifiers
-	typeConverter     *TypeConverter                                          // a utility type type visitor used to create storage variants
-	functionInjector  *FunctionInjector                                       // a utility used to inject functions into definitions
-	resourceHubMarker *HubVersionMarker                                       // a utility used to mark resources as Storage Versions
-	conversionMap     map[astmodel.PackageReference]astmodel.PackageReference // Map of conversion links for creating our conversion graph
-	processed         bool                                                    // Flag to track whether we've done all our processing or not
+	group             string                     // Name of the group we're handling (used mostly for logging)
+	types             astmodel.Types             // All the types for this group
+	specTypes         astmodel.TypeNameSet       // All the names of spec types
+	statusTypes       astmodel.TypeNameSet       // All the names of status types
+	idFactory         astmodel.IdentifierFactory // Factory for creating identifiers
+	typeConverter     *TypeConverter             // a utility type type visitor used to create storage variants
+	functionInjector  *FunctionInjector          // a utility used to inject functions into definitions
+	resourceHubMarker *HubVersionMarker          // a utility used to mark resources as Storage Versions
+	conversionGraph   *GroupConversionGraph      // Map of conversion links for creating our conversion graph
+	processed         bool                       // Flag to track whether we've done all our processing or not
 }
 
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
@@ -39,7 +39,7 @@ func NewStorageTypeFactory(group string, idFactory astmodel.IdentifierFactory) *
 		specTypes:         astmodel.NewTypeNameSet(),
 		statusTypes:       astmodel.NewTypeNameSet(),
 		idFactory:         idFactory,
-		conversionMap:     make(map[astmodel.PackageReference]astmodel.PackageReference),
+		conversionGraph:   NewGroupConversionGraph(group),
 		functionInjector:  NewFunctionInjector(),
 		resourceHubMarker: NewHubVersionMarker(),
 		typeConverter:     NewTypeConverter(types, idFactory),
@@ -152,7 +152,7 @@ func (f *StorageTypeFactory) createStorageVariant(definition astmodel.TypeDefini
 	}
 
 	// Add API-Package -> Storage-Package link into the conversion map
-	f.conversionMap[name.PackageReference] = storageDef.Name().PackageReference
+	f.conversionGraph.AddLink(name.PackageReference, storageDef.Name().PackageReference)
 
 	return &storageDef, nil
 }
@@ -172,7 +172,7 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 	klog.V(3).Infof("Injecting conversion functions into %s", name)
 
 	// Find the definition we want to convert to/from
-	nextPackage, ok := f.conversionMap[name.PackageReference]
+	nextPackage, ok := f.conversionGraph.LookupTransition(name.PackageReference)
 	if !ok {
 		// No next package, so nothing to do
 		// (this is expected if we have the hub storage package)
