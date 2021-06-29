@@ -17,8 +17,7 @@ import (
 // StorageTypeFactory is used to create storage types for a specific api group
 type StorageTypeFactory struct {
 	group             string                                                  // Name of the group we're handling (used mostly for logging)
-	referenceTypes    astmodel.Types                                          // All the types for this group
-	outputTypes       astmodel.Types                                          // All the types created/modified by this factory
+	types             astmodel.Types                                          // All the types for this group
 	specTypes         astmodel.TypeNameSet                                    // All the names of spec types
 	statusTypes       astmodel.TypeNameSet                                    // All the names of status types
 	idFactory         astmodel.IdentifierFactory                              // Factory for creating identifiers
@@ -26,6 +25,7 @@ type StorageTypeFactory struct {
 	functionInjector  *FunctionInjector                                       // a utility used to inject functions into definitions
 	resourceHubMarker *HubVersionMarker                                       // a utility used to mark resources as Storage Versions
 	conversionMap     map[astmodel.PackageReference]astmodel.PackageReference // Map of conversion links for creating our conversion graph
+	processed         bool                                                    // Flag to track whether we've done all our processing or not
 }
 
 // NewStorageTypeFactory creates a new instance of StorageTypeFactory ready for use
@@ -35,8 +35,7 @@ func NewStorageTypeFactory(group string, idFactory astmodel.IdentifierFactory) *
 
 	result := &StorageTypeFactory{
 		group:             group,
-		referenceTypes:    types,
-		outputTypes:       make(astmodel.Types),
+		types:             types,
 		specTypes:         astmodel.NewTypeNameSet(),
 		statusTypes:       astmodel.NewTypeNameSet(),
 		idFactory:         idFactory,
@@ -52,62 +51,61 @@ func NewStorageTypeFactory(group string, idFactory astmodel.IdentifierFactory) *
 // Add the supplied type definition to this factory
 func (f *StorageTypeFactory) Add(definitions ...astmodel.TypeDefinition) {
 	for _, def := range definitions {
-		f.referenceTypes.Add(def)
+		f.types.Add(def)
 
 		if rt, ok := astmodel.AsResourceType(def.Type()); ok {
 			// We have a resource type
 			if tn, ok := astmodel.AsTypeName(rt.SpecType()); ok {
 				// Keep track of all our spec types
-				f.specTypes = f.specTypes.Add(tn)
+				f.specTypes.Add(tn)
 			}
 			if tn, ok := astmodel.AsTypeName(rt.StatusType()); ok {
 				// Keep track of all our status types
-				f.statusTypes = f.statusTypes.Add(tn)
+				f.statusTypes.Add(tn)
 			}
 		}
 	}
 }
 
-// Types returns referenceTypes contained by the factory, including all new storage variants and modified
-// api referenceTypes. If any errors occur during processing, they're returned here.
+// Types returns types contained by the factory, including all new storage variants and modified
+// api types. If any errors occur during processing, they're returned here.
 func (f *StorageTypeFactory) Types() (astmodel.Types, error) {
 
-	if len(f.outputTypes) == 0 {
+	if !f.processed {
 		err := f.process()
+		f.processed = true
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	return f.outputTypes, nil
+	return f.types, nil
 }
 
 // process carries out our transformations
 // Each step reads from outputTypes and puts the results back in there
 func (f *StorageTypeFactory) process() error {
 
-	f.outputTypes = f.referenceTypes.Copy()
-
 	// Inject OriginalVersion() methods into all our spec types
-	modifiedSpecTypes, err := f.outputTypes.Process(f.injectOriginalVersionMethod)
+	modifiedSpecTypes, err := f.types.Process(f.injectOriginalVersionMethod)
 	if err != nil {
 		return err
 	}
-	f.outputTypes = f.outputTypes.OverlayWith(modifiedSpecTypes)
+	f.types = f.types.OverlayWith(modifiedSpecTypes)
 
 	// Create Storage Variants (injectConversions will look for them)
-	storageVariants, err := f.outputTypes.Process(f.createStorageVariant)
+	storageVariants, err := f.types.Process(f.createStorageVariant)
 	if err != nil {
 		return err
 	}
-	f.outputTypes.AddTypes(storageVariants)
+	f.types = f.types.OverlayWith(storageVariants)
 
-	// Inject conversion functions where required and stash them in output types
-	typesWithConversions, err := f.outputTypes.Process(f.injectConversions)
+	// Inject conversion functions where required
+	typesWithConversions, err := f.types.Process(f.injectConversions)
 	if err != nil {
 		return err
 	}
-	f.outputTypes = f.outputTypes.OverlayWith(typesWithConversions)
+	f.types = f.types.OverlayWith(typesWithConversions)
 
 	return nil
 }
@@ -189,7 +187,7 @@ func (f *StorageTypeFactory) injectConversions(definition astmodel.TypeDefinitio
 	}
 
 	nextName := astmodel.MakeTypeName(nextPackage, name.Name())
-	nextDef, ok := f.outputTypes[nextName]
+	nextDef, ok := f.types[nextName]
 	if !ok {
 		// No next type so nothing to do
 		// (this is expected if the type is discontinued or we're looking at the hub type)
@@ -206,9 +204,7 @@ func (f *StorageTypeFactory) injectConversionsBetween(
 	upstreamDef astmodel.TypeDefinition, downstreamDef astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
 
 	// Create conversion functions
-	knownTypes := f.referenceTypes.Copy()
-	knownTypes = knownTypes.OverlayWith(f.outputTypes)
-	conversionContext := conversions.NewPropertyConversionContext(knownTypes, f.idFactory)
+	conversionContext := conversions.NewPropertyConversionContext(f.types, f.idFactory)
 
 	assignFromFn, err := conversions.NewPropertyAssignmentFromFunction(upstreamDef, downstreamDef, f.idFactory, conversionContext)
 	upstreamName := upstreamDef.Name()
