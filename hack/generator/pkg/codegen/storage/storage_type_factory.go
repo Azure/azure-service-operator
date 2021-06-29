@@ -86,21 +86,21 @@ func (f *StorageTypeFactory) Types() (astmodel.Types, error) {
 // Each step reads from outputTypes and puts the results back in there
 func (f *StorageTypeFactory) process() error {
 
-	// Inject OriginalVersion() methods into all our spec types
+	// Inject OriginalVersion() methods into all our spec types and update f.types with the new definitions
 	modifiedSpecTypes, err := f.types.Process(f.injectOriginalVersionMethod)
 	if err != nil {
 		return err
 	}
 	f.types = f.types.OverlayWith(modifiedSpecTypes)
 
-	// Create Storage Variants (injectConversions will look for them)
+	// Create Storage Variants (injectConversions will look for them) and add them to f.types
 	storageVariants, err := f.types.Process(f.createStorageVariant)
 	if err != nil {
 		return err
 	}
-	f.types = f.types.OverlayWith(storageVariants)
+	f.types.AddTypes(storageVariants)
 
-	// Inject conversion functions where required
+	// Inject conversion functions where required and update f.types with the new definitions
 	typesWithConversions, err := f.types.Process(f.injectConversions)
 	if err != nil {
 		return err
