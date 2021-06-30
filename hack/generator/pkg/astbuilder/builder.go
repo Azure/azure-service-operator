@@ -18,11 +18,8 @@ import (
 // 		return <otherReturns...>, err
 //	}
 func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
-	returnValues := append([]dst.Expr{}, cloneExprSlice(otherReturns)...)
-	returnValues = append(returnValues, dst.NewIdent("err"))
-
 	retStmt := &dst.ReturnStmt{
-		Results: returnValues,
+		Results: Expressions(otherReturns, dst.NewIdent("err")),
 	}
 
 	return CheckErrorAndSingleStatement(retStmt)
@@ -230,7 +227,7 @@ func ReturnIfExpr(cond dst.Expr, returns ...dst.Expr) *dst.IfStmt {
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
 				&dst.ReturnStmt{
-					Results: cloneExprSlice(returns),
+					Results: Expressions(returns),
 				},
 			},
 		},
@@ -294,7 +291,7 @@ func Returns(returns ...dst.Expr) dst.Stmt {
 				Before: dst.NewLine,
 			},
 		},
-		Results: cloneExprSlice(returns),
+		Results: Expressions(returns),
 	}
 }
 
@@ -418,11 +415,29 @@ func Statements(statements ...interface{}) []dst.Stmt {
 	return result
 }
 
-// cloneExprSlice is a utility method to clone a slice of expressions
-func cloneExprSlice(exprs []dst.Expr) []dst.Expr {
+// Expression creates a sequence of expressions from the provided values, each of which may be a
+// single dst.Expr or a slice of multiple []dst.Expr
+func Expressions(statements ...interface{}) []dst.Expr {
+	var exprs []dst.Expr
+	for _, e := range statements {
+		switch s := e.(type) {
+		case nil:
+			// Skip nils
+			continue
+		case dst.Expr:
+			// Add a single expression
+			exprs = append(exprs, s)
+		case []dst.Expr:
+			// Add many expressions
+			exprs = append(exprs, s...)
+		default:
+			panic(fmt.Sprintf("expected dst.Expr or []dst.Expr, but found %T", s))
+		}
+	}
+
 	var result []dst.Expr
-	for _, exp := range exprs {
-		result = append(result, dst.Clone(exp).(dst.Expr))
+	for _, ex := range exprs {
+		result = append(result, dst.Clone(ex).(dst.Expr))
 	}
 
 	return result
