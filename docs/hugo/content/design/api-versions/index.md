@@ -20,13 +20,13 @@ If we have a valid **v1** `Person`, trying to submit that through the **v2** ARM
 
 ## Proposed Solution
 
+At a high level, the proposed solution contains the following elements. These are described in greater detail in following sections.
+
 **Preserve the API Version**: the original API version used to create the custom resource (CR) will be preserved so that we know which API version to use when interacting with ARM.
 
 **New conversion interfaces**: to avoid having to version-convert an entire resource when we are interested in only its `Spec` or `Status`, we'll define and implement new interfaces to allow direct conversion.
 
 **Reconciler integration**: to cleanly plug into the existing reconciler, we'll introduce a new interface and hide the complexity of version-conversion.
-
-Full details of each of these steps follow, below.
 
 ## Preserve the API Version
 
@@ -99,6 +99,8 @@ type GeneratedResource interface {
 }
 ```
 
+**TODO**: Needs a better name than `GeneratedResource`.
+
 The implementation strategy used for API types and Storage types will differ, as detailed below. Conversion between versions of a resource requires access to a `runtime.Scheme` instance, which is why each method has one as a parameter.
 
 ### Implementation for API versions
@@ -150,12 +152,12 @@ func (p *Person) GetSpec(scheme runtime.Scheme) (genruntime.ARMTransformer, erro
     }
     resource, ok := originalObj.(genruntime.GeneratedResource)
     if !ok {
-        return errors.Wrapf(
-            err, "unable to convert %T to genruntime.GeneratedResource", originalObj)
+        return errors.Errorf(
+            "unable to convert %T to genruntime.GeneratedResource", originalObj)
     }
 
     // Extract the Spec and populate
-    resultSpec := resource.GetSpec()
+    resultSpec := resource.GetSpec(scheme)
     resultSpec.ConvertFromSpec(p.Spec)
 
     return &resultSpec, nil
@@ -185,7 +187,7 @@ func (p *Person) NewStatus(scheme runtime.Scheme) (genruntime.ARMTransformer, er
 }
 ```
 
-After the reconciler has populated an empty `Status` instance, `SetStatus()` is called for the update. It will be the appropriate API `Spec` as that is returned by `NewStatus()`, so all we need to do is to populate our Hub status.
+After the reconciler has populated an empty `Status` instance, `SetStatus()` is called for the update. It will be the appropriate API `Status` as that is returned by `NewStatus()`, so all we need to do is to populate our Hub status.
 
 And, `SetStatus()` needs to convert the provided status to the hub variant.
 
