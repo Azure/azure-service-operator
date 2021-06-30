@@ -45,6 +45,6 @@ func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) Stage {
 			return result, nil
 		})
 
-	result.RequiresPrerequisiteStages(injectOriginalVersionFunctionId)
+	result.RequiresPrerequisiteStages(injectOriginalVersionFunctionStageId)
 	return result
 }

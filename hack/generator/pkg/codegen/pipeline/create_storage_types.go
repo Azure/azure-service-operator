@@ -50,6 +50,6 @@ func CreateStorageTypes(conversionGraph *storage.ConversionGraph, idFactory astm
 			return result, nil
 		})
 
-	result.RequiresPrerequisiteStages(injectOriginalVersionFunctionId)
+	result.RequiresPrerequisiteStages(injectOriginalVersionFunctionStageId)
 	return result
 }
