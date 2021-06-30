@@ -11,7 +11,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
 // StorageTypeFactory is used to create storage types for a specific api group
@@ -85,13 +84,6 @@ func (f *StorageTypeFactory) Types() (astmodel.Types, error) {
 // process carries out our transformations
 // Each step reads from outputTypes and puts the results back in there
 func (f *StorageTypeFactory) process() error {
-
-	// Inject OriginalVersion() methods into all our spec types and update f.types with the new definitions
-	modifiedSpecTypes, err := f.types.Process(f.injectOriginalVersionMethod)
-	if err != nil {
-		return err
-	}
-	f.types = f.types.OverlayWith(modifiedSpecTypes)
 
 	// Create Storage Variants (injectConversions will look for them) and add them to f.types
 	storageVariants, err := f.types.Process(f.createStorageVariant)
@@ -228,20 +220,4 @@ func (f *StorageTypeFactory) injectConversionsBetween(
 	}
 
 	return &updatedDefinition, nil
-}
-
-// injectOriginalVersionMethod modifies spec types by injecting an OriginalVersion() function
-func (f *StorageTypeFactory) injectOriginalVersionMethod(definition astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
-	if !f.specTypes.Contains(definition.Name()) {
-		// No error, no transform
-		return nil, nil
-	}
-
-	fn := functions.NewOriginalVersionFunction(f.idFactory)
-	result, err := f.functionInjector.Inject(definition, fn)
-	if err != nil {
-		return nil, errors.Wrapf(err, "injecting OriginalVersion() into %s", definition.Name())
-	}
-
-	return &result, nil
 }
