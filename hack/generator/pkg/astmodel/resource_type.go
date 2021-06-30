@@ -393,6 +393,12 @@ func (resource *ResourceType) Functions() []Function {
 	return functions
 }
 
+// HasFunctionWithName determines if this resource has a function with the given name
+func (resource *ResourceType) HasFunctionWithName(name string) bool {
+	_, ok := resource.functions[name]
+	return ok
+}
+
 // References returns the types referenced by Status or Spec parts of the resource
 func (resource *ResourceType) References() TypeNameSet {
 	spec := resource.spec.References()

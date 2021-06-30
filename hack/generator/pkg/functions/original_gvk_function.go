@@ -13,8 +13,8 @@ import (
 )
 
 // OriginalGVKFunction implements a function to return the GVK for the type on which it is called
-// We put these on the *storage* versions of our resource types, giving us a way to obtain the right type of instance
-// when the reconciler is working with ARM.
+// We put these on our resource types, giving us a way to obtain the right type of instance when the reconciler is
+// working with ARM. The code differs slightly depending on whether we're injecting into an API or storage variant.
 //
 // func (resource *SomeResource) OriginalGVK() scheme.GroupVersionKind {
 //     return scheme.GroupVersionKind{
@@ -25,17 +25,31 @@ import (
 // }
 //
 type OriginalGVKFunction struct {
-	idFactory astmodel.IdentifierFactory
+	idFactory                  astmodel.IdentifierFactory
+	hasOriginalVersionFunction bool
+	hasOriginalVersionProperty bool
 }
 
 // Ensure OriginalGVKFunction properly implements Function
 var _ astmodel.Function = &OriginalGVKFunction{}
 
+type OriginalVersionKind string
+
+const (
+	ReadProperty = OriginalVersionKind("property")
+	ReadFunction = OriginalVersionKind("function")
+)
+
 // NewOriginalGVKFunction creates a new OriginalGVKFunction
-func NewOriginalGVKFunction(idFactory astmodel.IdentifierFactory) *OriginalGVKFunction {
-	return &OriginalGVKFunction{
+func NewOriginalGVKFunction(originalVersion OriginalVersionKind, idFactory astmodel.IdentifierFactory) *OriginalGVKFunction {
+	result := &OriginalGVKFunction{
 		idFactory: idFactory,
 	}
+
+	result.hasOriginalVersionFunction = originalVersion == ReadFunction
+	result.hasOriginalVersionProperty = originalVersion == ReadProperty
+
+	return result
 }
 
 // Name returns the name of this function, which is always OriginalGVK()
@@ -65,7 +79,13 @@ func (o OriginalGVKFunction) AsFunc(
 
 	builder := astbuilder.NewCompositeLiteralDetails(gvkType)
 	builder.AddField("Group", astbuilder.Selector(groupVersionPackageGlobal, "Group"))
-	builder.AddField("Version", astbuilder.Selector(spec, "OriginalVersion"))
+
+	if o.hasOriginalVersionProperty {
+		builder.AddField("Version", astbuilder.Selector(spec, "OriginalVersion"))
+	} else if o.hasOriginalVersionFunction {
+		builder.AddField("Version", astbuilder.CallExpr(spec, "OriginalVersion"))
+	}
+
 	builder.AddField("Kind", astbuilder.StringLiteral(receiver.Name()))
 	initGVK := builder.Build()
 
@@ -76,6 +96,7 @@ func (o OriginalGVKFunction) AsFunc(
 		Body:          astbuilder.Statements(astbuilder.Returns(astbuilder.AddrOf(initGVK))),
 	}
 
+	funcDetails.AddComments("returns a GroupValueKind for the original API version used to create the resource")
 	funcDetails.AddReturn(astbuilder.Dereference(gvkType))
 
 	return funcDetails.DefineFunc()

@@ -9,11 +9,15 @@ func CreateResource(
 	pkg astmodel.PackageReference,
 	name string,
 	spec astmodel.TypeDefinition,
-	status astmodel.TypeDefinition) astmodel.TypeDefinition {
+	status astmodel.TypeDefinition,
+	functions ...astmodel.Function) astmodel.TypeDefinition {
 
-	return astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(pkg, name),
-		astmodel.NewResourceType(spec.Name(), status.Name()))
+	resourceType := astmodel.NewResourceType(spec.Name(), status.Name())
+	for _, fn := range functions {
+		resourceType = resourceType.WithFunction(fn)
+	}
+
+	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pkg, name), resourceType)
 }
 
 // CreateSpec makes a spec for testing

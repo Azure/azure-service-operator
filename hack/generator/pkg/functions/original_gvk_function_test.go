@@ -12,17 +12,42 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-func Test_OriginalGVKFunction_GeneratesExpectedCode(t *testing.T) {
+func Test_OriginalGVKFunction_ReadingOriginalVersionFromProperty_GeneratesExpectedCode(t *testing.T) {
 	idFactory := astmodel.NewIdentifierFactory()
 
-	originalGVKFunction := NewOriginalGVKFunction(idFactory)
-	demoType := astmodel.NewObjectType().WithFunction(originalGVKFunction)
+	testGroup := "microsoft.person"
+	testPackage := test.MakeLocalPackageReference(testGroup, "v20200101")
 
-	demoRef := astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/hack/generated/_apis", "Person", "vDemo")
-	demoName := astmodel.MakeTypeName(demoRef, "Demo")
+	fullNameProperty := astmodel.NewPropertyDefinition("FullName", "fullName", astmodel.StringType).
+		WithDescription("As would be used to address mail")
 
-	demoDef := astmodel.MakeTypeDefinition(demoName, demoType)
+	originalGVKFunction := NewOriginalGVKFunction(ReadProperty, idFactory)
 
-	fileDef := test.CreateFileDefinition(demoDef)
+	// Define a test resource
+	spec := test.CreateSpec(testPackage, "Person", fullNameProperty)
+	status := test.CreateStatus(testPackage, "Person")
+	resource := test.CreateResource(testPackage, "Person", spec, status, originalGVKFunction)
+
+	fileDef := test.CreateFileDefinition(resource)
+	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
+}
+
+func Test_OriginalGVKFunction_ReadingOriginalVersionFromFunction_GeneratesExpectedCode(t *testing.T) {
+	idFactory := astmodel.NewIdentifierFactory()
+
+	testGroup := "microsoft.person"
+	testPackage := test.MakeLocalPackageReference(testGroup, "v20200101")
+
+	fullNameProperty := astmodel.NewPropertyDefinition("FullName", "fullName", astmodel.StringType).
+		WithDescription("As would be used to address mail")
+
+	originalGVKFunction := NewOriginalGVKFunction(ReadFunction, idFactory)
+
+	// Define a test resource
+	spec := test.CreateSpec(testPackage, "Person", fullNameProperty)
+	status := test.CreateStatus(testPackage, "Person")
+	resource := test.CreateResource(testPackage, "Person", spec, status, originalGVKFunction)
+
+	fileDef := test.CreateFileDefinition(resource)
 	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
 }

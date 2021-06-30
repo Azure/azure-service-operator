@@ -12,7 +12,6 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
 // TypeConverter is used to create a storage variant of an API type
@@ -121,12 +120,8 @@ func (t *TypeConverter) convertResourceType(
 	resource *astmodel.ResourceType,
 	ctx interface{}) (astmodel.Type, error) {
 
-	// Storage resource needs OriginalGVP() function injected too
-	originalGVK := functions.NewOriginalGVKFunction(t.idFactory)
-	result := resource.WithFunction(originalGVK)
-
 	// storage resource types do not need defaulter/validator interfaces, they have no webhooks
-	result = result.WithoutInterface(astmodel.DefaulterInterfaceName).
+	result := resource.WithoutInterface(astmodel.DefaulterInterfaceName).
 		WithoutInterface(astmodel.ValidatorInterfaceName)
 
 	return astmodel.IdentityVisitOfResourceType(tv, result, ctx)
