@@ -28,9 +28,9 @@ func TestFindSpecTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	// Define a test resource
-	spec := createTestSpec(testPackage, "Person", fullNameProperty, familyNameProperty, knownAsProperty)
-	status := createTestStatus(testPackage, "Person")
-	resource := createTestResource(testPackage, "Person", spec, status)
+	spec := test.CreateSpec(testPackage, "Person", fullNameProperty, familyNameProperty, knownAsProperty)
+	status := test.CreateStatus(testPackage, "Person")
+	resource := test.CreateResource(testPackage, "Person", spec, status)
 
 	types := make(astmodel.Types)
 	types.AddAll(resource, status, spec)
@@ -45,9 +45,9 @@ func TestFindStatusTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	// Define a test resource
-	spec := createTestSpec(testPackage, "Person", fullNameProperty, familyNameProperty, knownAsProperty)
-	status := createTestStatus(testPackage, "Person")
-	resource := createTestResource(testPackage, "Person", spec, status)
+	spec := test.CreateSpec(testPackage, "Person", fullNameProperty, familyNameProperty, knownAsProperty)
+	status := test.CreateStatus(testPackage, "Person")
+	resource := test.CreateResource(testPackage, "Person", spec, status)
 
 	types := make(astmodel.Types)
 	types.AddAll(resource, status, spec)
@@ -59,29 +59,3 @@ func TestFindStatusTypes(t *testing.T) {
 }
 
 
-func createTestResource(
-	pkg astmodel.PackageReference,
-	name string,
-	spec astmodel.TypeDefinition,
-	status astmodel.TypeDefinition) astmodel.TypeDefinition {
-
-	return astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(pkg, name),
-		astmodel.NewResourceType(spec.Name(), status.Name()))
-}
-
-func createTestSpec(
-	pkg astmodel.PackageReference, name string, properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
-	specName := astmodel.MakeTypeName(pkg, name+"_Spec")
-	return astmodel.MakeTypeDefinition(
-		specName,
-		astmodel.NewObjectType().WithProperties(properties...))
-}
-
-func createTestStatus(pkg astmodel.PackageReference, name string) astmodel.TypeDefinition {
-	statusProperty := astmodel.NewPropertyDefinition("Status", "status", astmodel.StringType)
-	statusName := astmodel.MakeTypeName(pkg, name+"_Status")
-	return astmodel.MakeTypeDefinition(
-		statusName,
-		astmodel.NewObjectType().WithProperties(statusProperty))
-}
