@@ -15,52 +15,21 @@ func TestCreateStorageTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
-	testGroup := "microsoft.person"
-
-	packageV1 := test.MakeLocalPackageReference(testGroup, "v20200101")
-
-	// Properties for v1
-
-	fullNameProperty := astmodel.NewPropertyDefinition("FullName", "fullName", astmodel.StringType).
-		WithDescription("As would be used to address mail")
-
-	familyNameProperty := astmodel.NewPropertyDefinition("FamilyName", "familyName", astmodel.StringType).
-		WithDescription("Shared name of the family")
-
-	knownAsProperty := astmodel.NewPropertyDefinition("KnownAs", "knownAs", astmodel.StringType).
-		WithDescription("How the person is generally known")
-
-	fullAddressProperty := astmodel.NewPropertyDefinition("FullAddress", "fullAddress", astmodel.StringType).
-		WithDescription("Full written address for map or postal use")
-
-	cityProperty := astmodel.NewPropertyDefinition("City", "city", astmodel.StringType).
-		WithDescription("City or town (or nearest)")
-
-	// Properties for v2
-
-	packageV2 := test.MakeLocalPackageReference(testGroup, "v20211231")
-
-	addressV2 := test.CreateObjectDefinition(packageV2, "Address", fullAddressProperty, cityProperty)
-
-	residentialAddress := astmodel.NewPropertyDefinition("ResidentialAddress", "residentialAddress", addressV2.Name())
-
-	postalAddress := astmodel.NewPropertyDefinition("PostalAddress", "postalAddress", addressV2.Name())
-
 	// Test Resource V1
 
-	specV1 := test.CreateSpec(packageV1, "Person", fullNameProperty, familyNameProperty, knownAsProperty)
-	statusV1 := test.CreateStatus(packageV1, "Person")
-	resourceV1 := test.CreateResource(packageV1, "Person", specV1, statusV1)
+	specV1 := test.CreateSpec(pkg2020, "Person", fullNameProperty, familyNameProperty, knownAsProperty)
+	statusV1 := test.CreateStatus(pkg2020, "Person")
+	resourceV1 := test.CreateResource(pkg2020, "Person", specV1, statusV1)
 
 	// Test Resource V2
 
-	specV2 := test.CreateSpec(packageV2, "Person",
-		fullNameProperty, familyNameProperty, knownAsProperty, residentialAddress, postalAddress)
-	statusV2 := test.CreateStatus(packageV2, "Person")
-	resourceV2 := test.CreateResource(packageV2, "Person", specV2, statusV2)
+	specV2 := test.CreateSpec(pkg2021, "Person",
+		fullNameProperty, familyNameProperty, knownAsProperty, residentialAddress2021, postalAddress2021)
+	statusV2 := test.CreateStatus(pkg2021, "Person")
+	resourceV2 := test.CreateResource(pkg2021, "Person", specV2, statusV2)
 
 	types := make(astmodel.Types)
-	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, addressV2)
+	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, address2021)
 
 	// Run the stage
 

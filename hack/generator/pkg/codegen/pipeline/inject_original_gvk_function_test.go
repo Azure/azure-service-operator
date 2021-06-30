@@ -14,22 +14,11 @@ func TestInjectOriginalGVKFunction(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
-	testGroup := "microsoft.person"
-	testPackage := test.MakeLocalPackageReference(testGroup, "v20200101")
-
-	fullNameProperty := astmodel.NewPropertyDefinition("FullName", "fullName", astmodel.StringType).
-		WithDescription("As would be used to address mail")
-
-	familyNameProperty := astmodel.NewPropertyDefinition("FamilyName", "familyName", astmodel.StringType).
-		WithDescription("Shared name of the family")
-
-	knownAsProperty := astmodel.NewPropertyDefinition("KnownAs", "knownAs", astmodel.StringType).
-		WithDescription("How the person is generally known")
 
 	// Define a test resource
-	spec := test.CreateSpec(testPackage, "Person", fullNameProperty, familyNameProperty, knownAsProperty)
-	status := test.CreateStatus(testPackage, "Person")
-	resource := test.CreateResource(testPackage, "Person", spec, status)
+	spec := test.CreateSpec(pkg2020, "Person", fullNameProperty, familyNameProperty, knownAsProperty)
+	status := test.CreateStatus(pkg2020, "Person")
+	resource := test.CreateResource(pkg2020, "Person", spec, status)
 
 	types := make(astmodel.Types)
 	types.AddAll(resource, status, spec)
