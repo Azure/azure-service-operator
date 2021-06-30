@@ -26,10 +26,11 @@ import (
 )
 
 const (
-	finalizerName    string        = "azure.microsoft.com/finalizer"
-	requeueDuration  time.Duration = time.Second * 20
-	successMsg       string        = "successfully provisioned"
-	reconcileTimeout time.Duration = time.Minute * 5
+	finalizerName       string        = "azure.microsoft.com/finalizer"
+	namespaceAnnotation string        = "azure.microsoft.com/operator-namespace"
+	requeueDuration     time.Duration = time.Second * 20
+	successMsg          string        = "successfully provisioned"
+	reconcileTimeout    time.Duration = time.Minute * 5
 )
 
 // AsyncReconciler is a generic reconciler for Azure resources.
@@ -96,6 +97,31 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 			}
 		}
 		r.Recorder.Event(obj, corev1.EventTypeNormal, "Skipping", "Skipping reconcile based on provided annotation")
+		return ctrl.Result{}, r.Update(ctx, obj)
+	}
+
+	// Ensure the resource is tagged with the operator's namespace.
+	reconcilerNamespace := annotations[namespaceAnnotation]
+	podNamespace := config.PodNamespace()
+	if reconcilerNamespace != podNamespace && reconcilerNamespace != "" {
+		// We don't want to get into a fight with another operator -
+		// so treat some other operator's annotation in a very similar
+		// way as the skip annotation above. This will do the right
+		// thing in the case of two operators trying to manage the
+		// same namespace. It makes moving objects between namespaces
+		// or changing which operator owns a namespace fiddlier (since
+		// you'd need to remove the annotation) but those operations
+		// are likely to be rare.
+		message := fmt.Sprintf("Operators in %q and %q are both configured to manage this resource", podNamespace, reconcilerNamespace)
+		r.Recorder.Event(obj, corev1.EventTypeWarning, "Overlap", message)
+		return ctrl.Result{}, r.Update(ctx, obj)
+	} else if reconcilerNamespace == "" {
+		// Set the annotation to this operator's namespace and go around again.
+		if annotations == nil {
+			annotations = make(map[string]string)
+		}
+		annotations[namespaceAnnotation] = podNamespace
+		res.SetAnnotations(annotations)
 		return ctrl.Result{}, r.Update(ctx, obj)
 	}
 
