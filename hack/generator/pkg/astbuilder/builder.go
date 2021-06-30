@@ -376,7 +376,7 @@ func Nil() *dst.Ident {
 // StatementBlock generates a block containing the supplied statements
 func StatementBlock(statements ...dst.Stmt) *dst.BlockStmt {
 	return &dst.BlockStmt{
-		List: cloneStmtSlice(statements),
+		List: Statements(statements),
 	}
 }
 
@@ -393,7 +393,7 @@ func EnsureStatementBlock(statement dst.Stmt) *dst.BlockStmt {
 // Statements creates a sequence of statements from the provided values, each of which may be a
 // single dst.Stmt or a slice of multiple []dst.Stmts
 func Statements(statements ...interface{}) []dst.Stmt {
-	var result []dst.Stmt
+	var stmts []dst.Stmt
 	for _, s := range statements {
 		switch s := s.(type) {
 		case nil:
@@ -401,13 +401,18 @@ func Statements(statements ...interface{}) []dst.Stmt {
 			continue
 		case dst.Stmt:
 			// Add a single statement
-			result = append(result, s)
+			stmts = append(stmts, s)
 		case []dst.Stmt:
 			// Add many statements
-			result = append(result, s...)
+			stmts = append(stmts, s...)
 		default:
 			panic(fmt.Sprintf("expected dst.Stmt or []dst.Stmt, but found %T", s))
 		}
+	}
+
+	var result []dst.Stmt
+	for _, st := range stmts {
+		result = append(result, dst.Clone(st).(dst.Stmt))
 	}
 
 	return result
@@ -418,16 +423,6 @@ func cloneExprSlice(exprs []dst.Expr) []dst.Expr {
 	var result []dst.Expr
 	for _, exp := range exprs {
 		result = append(result, dst.Clone(exp).(dst.Expr))
-	}
-
-	return result
-}
-
-// cloneStmtSlice is a utility method to clone a slice of statements
-func cloneStmtSlice(stmts []dst.Stmt) []dst.Stmt {
-	var result []dst.Stmt
-	for _, st := range stmts {
-		result = append(result, dst.Clone(st).(dst.Stmt))
 	}
 
 	return result
