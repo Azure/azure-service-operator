@@ -46,6 +46,7 @@ func TestInjectPropertyAssignmentFunctions(t *testing.T) {
 	// Now run our stage
 	injectFunctions := InjectPropertyAssignmentFunctions(graph, idFactory)
 	types, err = injectFunctions.Run(context.TODO(), types)
+	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, types, t.Name())
 }

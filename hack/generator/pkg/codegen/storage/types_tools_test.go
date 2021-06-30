@@ -20,13 +20,13 @@ var (
 	testPackage = test.MakeLocalPackageReference(testGroup, "v20200101")
 
 	fullNameProperty = astmodel.NewPropertyDefinition("FullName", "fullName", astmodel.StringType).
-		WithDescription("As would be used to address mail")
+				WithDescription("As would be used to address mail")
 
 	familyNameProperty = astmodel.NewPropertyDefinition("FamilyName", "familyName", astmodel.StringType).
-		WithDescription("Shared name of the family")
+				WithDescription("Shared name of the family")
 
 	knownAsProperty = astmodel.NewPropertyDefinition("KnownAs", "knownAs", astmodel.StringType).
-		WithDescription("How the person is generally known")
+			WithDescription("How the person is generally known")
 )
 
 func TestFindSpecTypes(t *testing.T) {
@@ -62,5 +62,3 @@ func TestFindStatusTypes(t *testing.T) {
 	g.Expect(statuses).To(HaveLen(1))
 	g.Expect(statuses.Contains(status.Name())).To(BeTrue())
 }
-
-

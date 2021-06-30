@@ -116,7 +116,7 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 		types := make(astmodel.Types)
 		types.Add(currentDefinition)
 		types.Add(hubDefinition)
-		types.AddAll(otherDefinitions)
+		types.AddAll(otherDefinitions...)
 
 		return &StorageConversionPropertyTestCase{
 			name:          name,
