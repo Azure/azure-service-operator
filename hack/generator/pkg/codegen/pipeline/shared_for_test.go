@@ -21,19 +21,19 @@ var (
 	// Reusable Properties - any package version
 
 	fullNameProperty = astmodel.NewPropertyDefinition("FullName", "fullName", astmodel.StringType).
-		WithDescription("As would be used to address mail")
+				WithDescription("As would be used to address mail")
 
 	familyNameProperty = astmodel.NewPropertyDefinition("FamilyName", "familyName", astmodel.StringType).
-		WithDescription("Shared name of the family")
+				WithDescription("Shared name of the family")
 
 	knownAsProperty = astmodel.NewPropertyDefinition("KnownAs", "knownAs", astmodel.StringType).
-		WithDescription("How the person is generally known")
+			WithDescription("How the person is generally known")
 
 	fullAddressProperty = astmodel.NewPropertyDefinition("FullAddress", "fullAddress", astmodel.StringType).
-		WithDescription("Full written address for map or postal use")
+				WithDescription("Full written address for map or postal use")
 
 	cityProperty = astmodel.NewPropertyDefinition("City", "city", astmodel.StringType).
-		WithDescription("City or town (or nearest)")
+			WithDescription("City or town (or nearest)")
 
 	// Reference Package 2020
 	pkg2020 = test.MakeLocalPackageReference(testGroup, "v20200101")
