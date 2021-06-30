@@ -33,21 +33,6 @@ type PersonList struct {
 	Items           []Person `json:"items"`
 }
 
-type Person_Spec struct {
-	//FamilyName: Shared name of the family
-	FamilyName string `json:"familyName"`
-
-	//FullName: As would be used to address mail
-	FullName string `json:"fullName"`
-
-	//KnownAs: How the person is generally known
-	KnownAs string `json:"knownAs"`
-}
-
-type Person_Status struct {
-	Status string `json:"status"`
-}
-
 func init() {
 	SchemeBuilder.Register(&Person{}, &PersonList{})
 }

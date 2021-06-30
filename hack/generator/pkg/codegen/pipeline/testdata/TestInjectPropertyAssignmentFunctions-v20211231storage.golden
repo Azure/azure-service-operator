@@ -31,7 +31,6 @@ type Person_Spec struct {
 	FamilyName         *string                   `json:"familyName,omitempty"`
 	FullName           *string                   `json:"fullName,omitempty"`
 	KnownAs            *string                   `json:"knownAs,omitempty"`
-	OriginalVersion    string                    `json:"original-version"`
 	PostalAddress      *v20211231storage.Address `json:"postalAddress,omitempty"`
 	ResidentialAddress *v20211231storage.Address `json:"residentialAddress,omitempty"`
 }
