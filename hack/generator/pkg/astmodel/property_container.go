@@ -15,3 +15,15 @@ type PropertyContainer interface {
 	// Property returns the property and true if the named property is found, nil and false otherwise
 	Property(name PropertyName) (*PropertyDefinition, bool)
 }
+
+// AsPropertyContainer converts a type into a property container
+func AsPropertyContainer(theType Type) (PropertyContainer, bool) {
+	switch t := theType.(type) {
+	case PropertyContainer:
+		return t, true
+	case MetaType:
+		return AsPropertyContainer(t.Unwrap())
+	default:
+		return nil, false
+	}
+}

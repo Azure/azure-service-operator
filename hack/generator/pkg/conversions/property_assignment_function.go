@@ -315,7 +315,7 @@ func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDe
 func (fn *PropertyAssignmentFunction) createReadableEndpoints(instance astmodel.Type) map[string]ReadableConversionEndpoint {
 	result := make(map[string]ReadableConversionEndpoint)
 
-	propContainer, ok := fn.asPropertyContainer(instance)
+	propContainer, ok := astmodel.AsPropertyContainer(instance)
 	if ok {
 		for _, prop := range propContainer.Properties() {
 			endpoint := MakeReadableConversionEndpointForProperty(prop, fn.knownLocals)
@@ -340,7 +340,7 @@ func (fn *PropertyAssignmentFunction) createReadableEndpoints(instance astmodel.
 func (fn *PropertyAssignmentFunction) createWritableEndpoints(instance astmodel.Type) map[string]WritableConversionEndpoint {
 	result := make(map[string]WritableConversionEndpoint)
 
-	propContainer, ok := fn.asPropertyContainer(instance)
+	propContainer, ok := astmodel.AsPropertyContainer(instance)
 	if ok {
 		for _, prop := range propContainer.Properties() {
 			endpoint := MakeWritableConversionEndpointForProperty(prop, fn.knownLocals)
