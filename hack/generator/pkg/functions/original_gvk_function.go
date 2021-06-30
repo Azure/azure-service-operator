@@ -53,22 +53,22 @@ func NewOriginalGVKFunction(originalVersion OriginalVersionKind, idFactory astmo
 }
 
 // Name returns the name of this function, which is always OriginalGVK()
-func (o OriginalGVKFunction) Name() string {
+func (o *OriginalGVKFunction) Name() string {
 	return "OriginalGVK"
 }
 
 // RequiredPackageReferences returns the set of packages required by OriginalGVK()
-func (o OriginalGVKFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
+func (o *OriginalGVKFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	return astmodel.NewPackageReferenceSet(astmodel.APIMachinerySchemaReference)
 }
 
 // References shows that OriginalGVK() references no other generated types
-func (o OriginalGVKFunction) References() astmodel.TypeNameSet {
+func (o *OriginalGVKFunction) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet()
 }
 
 // AsFunc returns the generated code for the OriginalGVK() function
-func (o OriginalGVKFunction) AsFunc(
+func (o *OriginalGVKFunction) AsFunc(
 	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 	gvkType := astmodel.GroupVersionKindTypeName.AsType(generationContext)
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
@@ -103,7 +103,7 @@ func (o OriginalGVKFunction) AsFunc(
 }
 
 // Equals returns true if the passed function is equal to us, or false otherwise
-func (o OriginalGVKFunction) Equals(f astmodel.Function) bool {
+func (o *OriginalGVKFunction) Equals(f astmodel.Function) bool {
 	_, ok := f.(*OriginalGVKFunction)
 	// Equality is just based on Type for now
 	return ok

@@ -35,22 +35,22 @@ func NewOriginalVersionFunction(idFactory astmodel.IdentifierFactory) *OriginalV
 }
 
 // Name returns the name of this function, which is always OriginalVersion()
-func (o OriginalVersionFunction) Name() string {
+func (o *OriginalVersionFunction) Name() string {
 	return "OriginalVersion"
 }
 
 // RequiredPackageReferences returns the set of packages required by OriginalVersion()
-func (o OriginalVersionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
+func (o *OriginalVersionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	return astmodel.NewPackageReferenceSet()
 }
 
 // References shows that OriginalVersion() references no other generated types
-func (o OriginalVersionFunction) References() astmodel.TypeNameSet {
+func (o *OriginalVersionFunction) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet()
 }
 
 // AsFunc returns the generated code for the OriginalVersion() function
-func (o OriginalVersionFunction) AsFunc(
+func (o *OriginalVersionFunction) AsFunc(
 	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
 
@@ -72,13 +72,13 @@ func (o OriginalVersionFunction) AsFunc(
 }
 
 // Equals returns true if the passed function is equal to us, or false otherwise
-func (o OriginalVersionFunction) Equals(f astmodel.Function) bool {
+func (o *OriginalVersionFunction) Equals(f astmodel.Function) bool {
 	_, ok := f.(*OriginalVersionFunction)
 	// Equality is just based on Type for now
 	return ok
 }
 
 // ReturnType indicates that this function returns a string
-func (o OriginalVersionFunction) ReturnType() astmodel.Type {
+func (o *OriginalVersionFunction) ReturnType() astmodel.Type {
 	return astmodel.StringType
 }
