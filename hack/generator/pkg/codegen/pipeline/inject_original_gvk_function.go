@@ -18,7 +18,7 @@ const injectOriginalGVKFunctionId = "injectOriginalGVKFunction"
 // information needed to interact with ARM using the correct API version.
 func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) Stage {
 
-	return MakeStage(
+	result := MakeStage(
 		injectOriginalGVKFunctionId,
 		"Inject the function OriginalGVK() into each Resource type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
@@ -44,4 +44,7 @@ func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) Stage {
 
 			return result, nil
 		})
+
+	result.RequiresPrerequisiteStages(injectOriginalVersionFunctionId)
+	return result
 }
