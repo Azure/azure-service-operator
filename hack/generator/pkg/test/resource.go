@@ -18,7 +18,9 @@ func CreateResource(
 
 // CreateSpec makes a spec for testing
 func CreateSpec(
-	pkg astmodel.PackageReference, name string, properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
+	pkg astmodel.PackageReference,
+	name string,
+	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 	specName := astmodel.MakeTypeName(pkg, name+"_Spec")
 	return astmodel.MakeTypeDefinition(
 		specName,
@@ -32,4 +34,16 @@ func CreateStatus(pkg astmodel.PackageReference, name string) astmodel.TypeDefin
 	return astmodel.MakeTypeDefinition(
 		statusName,
 		astmodel.NewObjectType().WithProperties(statusProperty))
+}
+
+// CreateObjectDefinition makes an object for testing
+func CreateObjectDefinition(
+	pkg astmodel.PackageReference,
+	name string,
+	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
+
+	typeName := astmodel.MakeTypeName(pkg, name)
+	return astmodel.MakeTypeDefinition(
+		typeName,
+		astmodel.NewObjectType().WithProperties(properties...))
 }

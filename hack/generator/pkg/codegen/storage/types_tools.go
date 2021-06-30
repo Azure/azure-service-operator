@@ -4,6 +4,24 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
+// FindResourceTypes walks the provided set of TypeDefinitions and returns all the resource types
+func FindResourceTypes(types astmodel.Types) astmodel.Types {
+	result := make(astmodel.Types)
+
+	// Find all our resources and extract all their Specs
+	for _, def := range types {
+		_, ok := astmodel.AsResourceType(def.Type())
+		if !ok {
+			continue
+		}
+
+		// We have a resource type
+		result.Add(def)
+	}
+
+	return result
+}
+
 // FindSpecTypes walks the provided set of TypeDefinitions and returns all the spec types
 func FindSpecTypes(types astmodel.Types) astmodel.Types {
 	result := make(astmodel.Types)

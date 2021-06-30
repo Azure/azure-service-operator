@@ -84,14 +84,6 @@ func (f *StorageTypeFactory) Types() (astmodel.Types, error) {
 // process carries out our transformations
 // Each step reads from outputTypes and puts the results back in there
 func (f *StorageTypeFactory) process() error {
-
-	// Create Storage Variants (injectConversions will look for them) and add them to f.types
-	storageVariants, err := f.types.Process(f.createStorageVariant)
-	if err != nil {
-		return err
-	}
-	f.types.AddTypes(storageVariants)
-
 	// Inject conversion functions where required and update f.types with the new definitions
 	typesWithConversions, err := f.types.Process(f.injectConversions)
 	if err != nil {
@@ -100,53 +92,6 @@ func (f *StorageTypeFactory) process() error {
 	f.types = f.types.OverlayWith(typesWithConversions)
 
 	return nil
-}
-
-// createStorageVariant takes an existing object definition and creates a storage variant in a
-// related package.
-// def is the api definition on which to base the storage variant
-// visitor is a type visitor that will do the creation
-func (f *StorageTypeFactory) createStorageVariant(definition astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
-	name := definition.Name()
-
-	_, isObject := astmodel.AsObjectType(definition.Type())
-	_, isResource := astmodel.AsResourceType(definition.Type())
-	if !isObject && !isResource {
-		// just skip it
-		klog.V(4).Infof("Skipping %s as no storage variant needed", name)
-		return nil, nil
-	}
-
-	klog.V(3).Infof("Creating storage variant of %s", name)
-
-	var storageDef astmodel.TypeDefinition
-	var err error
-	if isResource {
-		storageDef, err = f.typeConverter.ConvertResourceDefinition(definition)
-		if err != nil {
-			return nil, errors.Wrapf(err, "creating storage variant for resource %q", name)
-		}
-	} else if f.specTypes.Contains(definition.Name()) {
-		storageDef, err = f.typeConverter.ConvertSpecDefinition(definition)
-		if err != nil {
-			return nil, errors.Wrapf(err, "creating storage variant for spec %q", name)
-		}
-	} else if f.statusTypes.Contains(definition.Name()) {
-		storageDef, err = f.typeConverter.ConvertStatusDefinition(definition)
-		if err != nil {
-			return nil, errors.Wrapf(err, "creating storage variant for status %q", name)
-		}
-	} else if isObject {
-		storageDef, err = f.typeConverter.ConvertObjectDefinition(definition)
-		if err != nil {
-			return nil, errors.Wrapf(err, "creating storage variant for object %q", name)
-		}
-	}
-
-	// Add API-Package -> Storage-Package link into the conversion map
-	f.conversionGraph.AddLink(name.PackageReference, storageDef.Name().PackageReference)
-
-	return &storageDef, nil
 }
 
 // injectConversions modifies the named type by injecting the required conversion methods using
