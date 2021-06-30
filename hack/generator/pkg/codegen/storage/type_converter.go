@@ -45,60 +45,9 @@ func NewTypeConverter(types astmodel.Types, idFactory astmodel.IdentifierFactory
 	return result
 }
 
-// ConvertResourceDefinition applies our type conversion to a specific resource type definition
-func (t *TypeConverter) ConvertResourceDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-	converterContext := typeConverterContext{}
-
-	updated, err := t.convertDefinition(def, converterContext)
-	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "converting resource %q for storage variant", def.Name())
-	}
-
-	return updated, nil
-}
-
-// ConvertSpecDefinition applies our type conversion to a specific spec type definition
-func (t *TypeConverter) ConvertSpecDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-	converterContext := typeConverterContext{
-		isSpec: true,
-	}
-
-	updated, err := t.convertDefinition(def, converterContext)
-	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "converting spec %q for storage variant", def.Name())
-	}
-
-	return updated, nil
-}
-
-// ConvertStatusDefinition applies our type conversion to a specific status type definition
-func (t *TypeConverter) ConvertStatusDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-	converterContext := typeConverterContext{
-		isStatus: true,
-	}
-
-	updated, err := t.convertDefinition(def, converterContext)
-	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "converting status %q for storage variant", def.Name())
-	}
-
-	return updated, nil
-}
-
-// ConvertObjectDefinition applies our type conversion to a specific object type definition
-func (t *TypeConverter) ConvertObjectDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-	converterContext := typeConverterContext{}
-	updated, err := t.convertDefinition(def, converterContext)
-	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "converting object %q for storage variant", def.Name())
-	}
-
-	return updated, nil
-}
-
-// convertDefinition applies our type conversion to a specific type definition
-func (t *TypeConverter) convertDefinition(def astmodel.TypeDefinition, ctx typeConverterContext) (astmodel.TypeDefinition, error) {
-	result, err := t.visitor.VisitDefinition(def, ctx)
+// ConvertDefinition applies our type conversion to a specific type definition
+func (t *TypeConverter) ConvertDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	result, err := t.visitor.VisitDefinition(def, nil)
 	if err != nil {
 		// Don't need to wrap for context because all our callers do that with better precision
 		return astmodel.TypeDefinition{}, err
@@ -129,9 +78,7 @@ func (t *TypeConverter) convertResourceType(
 
 // convertObjectType creates a storage variation of an object type
 func (t *TypeConverter) convertObjectType(
-	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-
-	converterContext := ctx.(typeConverterContext)
+	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
 
 	var errs []error
 	properties := object.Properties()
@@ -150,12 +97,6 @@ func (t *TypeConverter) convertObjectType(
 	}
 
 	objectType := astmodel.NewObjectType().WithProperties(properties...)
-
-	if converterContext.isSpec {
-		// Inject OriginalVersion property
-		originalVersion := astmodel.NewPropertyDefinition("OriginalVersion", "original-version", astmodel.StringType)
-		objectType = objectType.WithProperty(originalVersion)
-	}
 
 	return astmodel.StorageFlag.ApplyTo(objectType), nil
 }
@@ -214,9 +155,4 @@ func (_ *TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDef
 	result = append(result, definition.Description()...)
 
 	return result
-}
-
-type typeConverterContext struct {
-	isSpec   bool
-	isStatus bool
 }

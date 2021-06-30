@@ -25,60 +25,24 @@ func CreateStorageTypes(conversionGraph *storage.ConversionGraph, idFactory astm
 		"Create storage versions of CRD types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
-			// Partition the four kinds of types for which we create storage variants
-			resourceTypes := storage.FindResourceTypes(types)
-			specTypes := storage.FindSpecTypes(types)
-			statusTypes := storage.FindStatusTypes(types)
-			otherTypes := types.Where(func(def astmodel.TypeDefinition) bool {
-				_, isObject := astmodel.AsObjectType(def.Type())
-				return isObject &&
-					!specTypes.Contains(def.Name()) &&
-					!statusTypes.Contains(def.Name())
+			// Isolate both resources and complex objects
+			typesToConvert := types.Where(func(def astmodel.TypeDefinition) bool {
+				_, ok := astmodel.AsPropertyContainer(def.Type())
+				return ok
 			})
 
 			storageTypes := make(astmodel.Types)
-
 			typeConverter := storage.NewTypeConverter(types, idFactory)
 
-			// Create storage variants of Resource types
-			for name, def := range resourceTypes {
-				storageDef, err := typeConverter.ConvertResourceDefinition(def)
+			// Create storage variants
+			for name, def := range typesToConvert {
+				storageDef, err := typeConverter.ConvertDefinition(def)
 				if err != nil {
-					return nil, errors.Wrapf(err, "creating storage variant for resource %q", name)
+					return nil, errors.Wrapf(err, "creating storage variant of %q", name)
 				}
 
 				storageTypes.Add(storageDef)
 				conversionGraph.AddLink(name.PackageReference, storageDef.Name().PackageReference)
-			}
-
-			// Create storage variants of Spec types
-			for name, def := range specTypes {
-				storageDef, err := typeConverter.ConvertSpecDefinition(def)
-				if err != nil {
-					return nil, errors.Wrapf(err, "creating storage variant for spec %q", name)
-				}
-
-				storageTypes.Add(storageDef)
-			}
-
-			// Create storage variants of Status types
-			for name, def := range statusTypes {
-				storageDef, err := typeConverter.ConvertStatusDefinition(def)
-				if err != nil {
-					return nil, errors.Wrapf(err, "creating storage variant for status %q", name)
-				}
-
-				storageTypes.Add(storageDef)
-			}
-
-			// Create storage variants of other Object types
-			for name, def := range otherTypes {
-				storageDef, err := typeConverter.ConvertObjectDefinition(def)
-				if err != nil {
-					return nil, errors.Wrapf(err, "creating storage variant for status %q", name)
-				}
-
-				storageTypes.Add(storageDef)
 			}
 
 			result := types.Copy()
