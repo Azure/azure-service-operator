@@ -8,6 +8,7 @@ package testcommon
 import (
 	"context"
 
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/onsi/gomega/types"
 )
 
@@ -25,9 +26,27 @@ func NewKubeMatcher(ensure *Ensure, ctx context.Context) *KubeMatcher {
 }
 
 func (m *KubeMatcher) BeProvisioned() types.GomegaMatcher {
-	return &BeProvisionedMatcher{
-		ensure: m.ensure,
-		ctx:    m.ctx,
+	return &DesiredStateMatcher{
+		ensure:    m.ensure,
+		ctx:       m.ctx,
+		goalState: armclient.SucceededProvisioningState,
+	}
+}
+
+func (m *KubeMatcher) BeProvisionedAfter(previousState armclient.ProvisioningState) types.GomegaMatcher {
+	return &DesiredStateMatcher{
+		ensure:        m.ensure,
+		ctx:           m.ctx,
+		goalState:     armclient.SucceededProvisioningState,
+		previousState: &previousState,
+	}
+}
+
+func (m *KubeMatcher) BeFailed() types.GomegaMatcher {
+	return &DesiredStateMatcher{
+		ensure:    m.ensure,
+		ctx:       m.ctx,
+		goalState: armclient.FailedProvisioningState,
 	}
 }
 

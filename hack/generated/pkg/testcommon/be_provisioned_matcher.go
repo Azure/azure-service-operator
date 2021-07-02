@@ -15,14 +15,17 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 )
 
-type BeProvisionedMatcher struct {
+type DesiredStateMatcher struct {
 	ensure *Ensure
 	ctx    context.Context
+
+	goalState     armclient.ProvisioningState
+	previousState *armclient.ProvisioningState
 }
 
-var _ types.GomegaMatcher = &BeProvisionedMatcher{}
+var _ types.GomegaMatcher = &DesiredStateMatcher{}
 
-func (m *BeProvisionedMatcher) Match(actual interface{}) (bool, error) {
+func (m *DesiredStateMatcher) Match(actual interface{}) (bool, error) {
 
 	if actual == nil {
 		return false, nil
@@ -33,10 +36,10 @@ func (m *BeProvisionedMatcher) Match(actual interface{}) (bool, error) {
 		return false, err
 	}
 
-	return m.ensure.Provisioned(m.ctx, obj)
+	return m.ensure.HasState(m.ctx, obj, m.goalState)
 }
 
-func (m *BeProvisionedMatcher) FailureMessage(actual interface{}) string {
+func (m *DesiredStateMatcher) FailureMessage(actual interface{}) string {
 	obj, err := actualAsObj(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
@@ -50,10 +53,10 @@ func (m *BeProvisionedMatcher) FailureMessage(actual interface{}) string {
 
 	return gomegaformat.Message(
 		state,
-		fmt.Sprintf("state to be %s. Error is: %s", string(armclient.SucceededProvisioningState), errorString))
+		fmt.Sprintf("state to be %s. Error is: %s", string(m.goalState), errorString))
 }
 
-func (m *BeProvisionedMatcher) NegatedFailureMessage(actual interface{}) string {
+func (m *DesiredStateMatcher) NegatedFailureMessage(actual interface{}) string {
 	obj, err := actualAsObj(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
@@ -64,11 +67,11 @@ func (m *BeProvisionedMatcher) NegatedFailureMessage(actual interface{}) string 
 
 	state := obj.GetAnnotations()[m.ensure.stateAnnotation]
 
-	return gomegaformat.Message(state, fmt.Sprintf("state not to be %s", string(armclient.SucceededProvisioningState)))
+	return gomegaformat.Message(state, fmt.Sprintf("state not to be %s", string(m.goalState)))
 }
 
 // MatchMayChangeInTheFuture implements OracleMatcher which of course isn't exported so we can't type-assert we implement it
-func (m *BeProvisionedMatcher) MatchMayChangeInTheFuture(actual interface{}) bool {
+func (m *DesiredStateMatcher) MatchMayChangeInTheFuture(actual interface{}) bool {
 	if actual == nil {
 		return false
 	}
@@ -78,6 +81,7 @@ func (m *BeProvisionedMatcher) MatchMayChangeInTheFuture(actual interface{}) boo
 		panic(err)
 	}
 	state := obj.GetAnnotations()[m.ensure.stateAnnotation]
+	provisioningState := armclient.ProvisioningState(state)
 
-	return !armclient.IsTerminalProvisioningState(armclient.ProvisioningState(state))
+	return !armclient.IsTerminalProvisioningState(provisioningState) || m.previousState != nil && *m.previousState == provisioningState
 }

@@ -31,8 +31,8 @@ func NewEnsure(c client.Client, stateAnnotation string, errorAnnotation string) 
 	}
 }
 
-// Provisioned checks to ensure the provisioning state of the resource is successful.
-func (e *Ensure) Provisioned(ctx context.Context, obj runtime.Object) (bool, error) {
+// HasState checks to ensure the provisioning state of the resource the target state.
+func (e *Ensure) HasState(ctx context.Context, obj runtime.Object, desiredState armclient.ProvisioningState) (bool, error) {
 	key, err := client.ObjectKeyFromObject(obj)
 	if err != nil {
 		return false, err
@@ -50,7 +50,17 @@ func (e *Ensure) Provisioned(ctx context.Context, obj runtime.Object) (bool, err
 	}
 
 	state := metaObj.GetAnnotations()[e.stateAnnotation]
-	return state == string(armclient.SucceededProvisioningState), nil
+	return state == string(desiredState), nil
+}
+
+// Provisioned checks to ensure the provisioning state of the resource is successful.
+func (e *Ensure) Provisioned(ctx context.Context, obj runtime.Object) (bool, error) {
+	return e.HasState(ctx, obj, armclient.SucceededProvisioningState)
+}
+
+// Failed checks to ensure the provisioning state of the resource is failed.
+func (e *Ensure) Failed(ctx context.Context, obj runtime.Object) (bool, error) {
+	return e.HasState(ctx, obj, armclient.FailedProvisioningState)
 }
 
 // Deleted ensures that the object specified has been deleted

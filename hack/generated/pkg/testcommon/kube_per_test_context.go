@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/hack/generated/controllers"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/patch"
 	"github.com/onsi/gomega"
@@ -26,6 +27,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
+
+const ResourceGroupDeletionWaitTime = 5 * time.Minute
 
 type KubePerTestContext struct {
 	*KubeGlobalContext
@@ -161,9 +164,14 @@ const (
 // CreateNewTestResourceGroup creates a new randomly-named resource group
 // and registers it to be deleted up when the context is cleaned up
 func (tc KubePerTestContext) CreateNewTestResourceGroup(wait WaitCondition) (*resources.ResourceGroup, error) {
-	ctx := context.Background()
-
 	rg := tc.NewTestResourceGroup()
+	return tc.CreateTestResourceGroup(rg, wait)
+}
+
+// CreateTestResourceGroup creates a new resource group
+// and registers it to be deleted up when the context is cleaned up
+func (tc KubePerTestContext) CreateTestResourceGroup(rg *resources.ResourceGroup, wait WaitCondition) (*resources.ResourceGroup, error) {
+	ctx := context.Background()
 
 	tc.T.Logf("Creating test resource group %q", rg.Name)
 	err := tc.KubeClient.Create(ctx, rg)
@@ -191,7 +199,7 @@ func (tc KubePerTestContext) CreateNewTestResourceGroup(wait WaitCondition) (*re
 		// doesn't stop polling resources in "Deleting" state and so when running recordings
 		// different runs end up polling different numbers of times. Ensuring we reach a state
 		// the controller deems terminal (Deleted) resolves this issue.
-		tc.G.Eventually(rg, 2*time.Minute).Should(tc.Match.BeDeleted())
+		tc.G.Eventually(rg, ResourceGroupDeletionWaitTime).Should(tc.Match.BeDeleted())
 	})
 
 	if wait {
@@ -252,7 +260,7 @@ func (ktc *KubePerTestContext) CreateNewTestResourceGroupAndWait() *v1alpha1api2
 	return rg
 }
 
-// CreateResourceAndWait creates the resource in K8s and waits for it to be
+// CreateResourceAndWait creates the resource in K8s and waits for it to
 // change into the Provisioned state.
 func (ktc *KubePerTestContext) CreateResourceAndWait(obj runtime.Object) {
 	ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
@@ -269,6 +277,20 @@ func (ktc *KubePerTestContext) CreateResourcesAndWait(objs ...runtime.Object) {
 	for _, obj := range objs {
 		ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisioned())
 	}
+}
+
+// CreateResourceAndWaitForFailure creates the resource in K8s and waits for it to
+// change into the Failed state.
+func (ktc *KubePerTestContext) CreateResourceAndWaitForFailure(obj runtime.Object) {
+	ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
+	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeFailed())
+}
+
+// PatchResourceAndWaitAfter patches the resource in K8s and waits for it to change into
+// the Provisioned state from the provided previousState.
+func (ktc *KubePerTestContext) PatchResourceAndWaitAfter(obj runtime.Object, patcher Patcher, previousState armclient.ProvisioningState) {
+	patcher.Patch(obj)
+	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisionedAfter(previousState))
 }
 
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
