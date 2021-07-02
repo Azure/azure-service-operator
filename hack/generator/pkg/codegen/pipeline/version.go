@@ -5,20 +5,7 @@
 
 package pipeline
 
-import (
-	"fmt"
-)
-
-// GitCommit and GitTreeState are populated by the Makefile.
+// Populated by the TaskFile.yml
 var (
-	GitCommit    string
-	GitTreeState string
+	Version string
 )
-
-func CombinedVersion() string {
-	result := GitCommit
-	if GitTreeState != "clean" {
-		result += fmt.Sprintf(" (tree is %s)", GitTreeState)
-	}
-	return result
-}

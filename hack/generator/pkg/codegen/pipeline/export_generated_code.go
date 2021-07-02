@@ -49,8 +49,6 @@ func ExportPackages(outputPath string) Stage {
 
 // CreatePackagesForDefinitions groups type definitions into packages
 func CreatePackagesForDefinitions(definitions astmodel.Types) (map[astmodel.PackageReference]*astmodel.PackageDefinition, error) {
-
-	genVersion := CombinedVersion()
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 	for _, def := range definitions {
 		defName := def.Name()
@@ -66,7 +64,7 @@ func CreatePackagesForDefinitions(definitions astmodel.Types) (map[astmodel.Pack
 		if pkg, ok := packages[pkgRef]; ok {
 			pkg.AddDefinition(def)
 		} else {
-			pkg = astmodel.NewPackageDefinition(groupName, pkgName, genVersion)
+			pkg = astmodel.NewPackageDefinition(groupName, pkgName, Version)
 			pkg.AddDefinition(def)
 			packages[pkgRef] = pkg
 		}

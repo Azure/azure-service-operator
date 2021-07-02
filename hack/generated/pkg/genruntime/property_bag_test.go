@@ -6,9 +6,9 @@
 package genruntime
 
 import (
-	. "github.com/onsi/gomega"
-
 	"testing"
+
+	. "github.com/onsi/gomega"
 )
 
 func TestPropertyBag_CorrectlyRoundTripsIntegers(t *testing.T) {

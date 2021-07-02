@@ -1,4 +1,4 @@
-name: pr-validation
+name: Validate Pull Request
 on:
   push:
     branches:
@@ -60,7 +60,7 @@ jobs:
       - name: Build docker image
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:docker-build
+          docker exec "$container_id" task controller:docker-build-and-save
           docker cp "$container_id:/workspace/hack/generated/bin" .
           mv bin/*.tar azure-service-operator.tar
 

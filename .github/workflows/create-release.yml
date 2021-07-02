@@ -1,0 +1,34 @@
+name: Create new release
+
+on:
+  # run when a release is published
+  # triggers for both prerelease and release
+  release:
+    types:
+    - published
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+
+      - name: Build & run devcontainer image
+        # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
+        # so that we pick up the latest versions of everything
+        id: devcontainer
+        run: |
+          docker build --tag devcontainer:latest .devcontainer
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
+          docker start "$container_id"
+          echo "::set-output name=id::$container_id"
+
+      - name: Build & push docker image
+        run: |
+          container_id=${{steps.devcontainer.outputs.id}}
+          docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-remote
+        env:
+          DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PRERELEASE }}
