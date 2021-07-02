@@ -220,6 +220,15 @@ func (d *Deployment) ProvisioningStateOrUnknown() string {
 	return string(d.Properties.ProvisioningState)
 }
 
+func (d *Deployment) ErrorOrEmpty() string {
+	if d.Properties == nil {
+		return ""
+	}
+
+	// The below method handles nil err
+	return d.Properties.Error.String()
+}
+
 func (d *Deployment) IsSuccessful() bool {
 	return d.Properties != nil && d.Properties.ProvisioningState == SucceededProvisioningState
 }

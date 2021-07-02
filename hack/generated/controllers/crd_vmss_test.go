@@ -20,7 +20,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func makeVNETForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetwork {
+func newVNETForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetwork {
 	return &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
@@ -33,7 +33,7 @@ func makeVNETForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownRes
 	}
 }
 
-func makeSubnetForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
+func newSubnetForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
 	return &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnets_Spec{
@@ -43,7 +43,7 @@ func makeSubnetForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownR
 	}
 }
 
-func makePublicIPAddressForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.PublicIPAddresses {
+func newPublicIPAddressForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.PublicIPAddresses {
 	publicIPAddressSku := network.PublicIPAddressSkuNameStandard
 	return &network.PublicIPAddresses{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
@@ -58,7 +58,7 @@ func makePublicIPAddressForVMSS(tc testcommon.KubePerTestContext, owner genrunti
 	}
 }
 
-func makeLoadBalancerForVMSS(tc testcommon.KubePerTestContext, rg *resources.ResourceGroup, publicIPAddress *network.PublicIPAddresses) *network.LoadBalancer {
+func newLoadBalancerForVMSS(tc testcommon.KubePerTestContext, rg *resources.ResourceGroup, publicIPAddress *network.PublicIPAddresses) *network.LoadBalancer {
 	loadBalancerSku := network.LoadBalancerSkuNameStandard
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
@@ -101,34 +101,19 @@ func makeLoadBalancerForVMSS(tc testcommon.KubePerTestContext, rg *resources.Res
 	}
 }
 
-func Test_VMSS_CRUD(t *testing.T) {
-	t.Parallel()
-
-	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateNewTestResourceGroupAndWait()
+func newVMSS(
+	tc testcommon.KubePerTestContext,
+	rg *resources.ResourceGroup,
+	loadBalancer *network.LoadBalancer,
+	subnet *network.VirtualNetworksSubnet) *compute.VirtualMachineScaleSet {
 
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	vnet := makeVNETForVMSS(tc, testcommon.AsOwner(rg.ObjectMeta))
-	subnet := makeSubnetForVMSS(tc, testcommon.AsOwner(vnet.ObjectMeta))
-	publicIPAddress := makePublicIPAddressForVMSS(tc, testcommon.AsOwner(rg.ObjectMeta))
-
-	// Need to create this first because we use the Load Balancer InboundNATPool ARM ID
-	// in the spec of the VMSS.
-	tc.CreateResourceAndWait(publicIPAddress)
-
-	loadBalancer := makeLoadBalancerForVMSS(tc, rg, publicIPAddress)
-
-	// TODO: This has to happen before subnet right now because our controller doesn't deal with children being created before their parents well
-	tc.CreateResourceAndWait(vnet)
-	tc.CreateResourcesAndWait(subnet, loadBalancer)
-
-	// VMSS
 	upgradePolicyMode := compute.UpgradePolicyModeAutomatic
 	adminUsername := "adminUser"
 
-	vmss := &compute.VirtualMachineScaleSet{
+	return &compute.VirtualMachineScaleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),
 		Spec: compute.VirtualMachineScaleSets_Spec{
 			Location: tc.AzureRegion,
@@ -195,6 +180,20 @@ func Test_VMSS_CRUD(t *testing.T) {
 			},
 		},
 	}
+}
+
+func Test_VMSS_CRUD(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+	rg := tc.CreateNewTestResourceGroupAndWait()
+
+	vnet := newVNETForVMSS(tc, testcommon.AsOwner(rg.ObjectMeta))
+	subnet := newSubnetForVMSS(tc, testcommon.AsOwner(vnet.ObjectMeta))
+	publicIPAddress := newPublicIPAddressForVMSS(tc, testcommon.AsOwner(rg.ObjectMeta))
+	loadBalancer := newLoadBalancerForVMSS(tc, rg, publicIPAddress)
+	tc.CreateResourcesAndWait(vnet, subnet, loadBalancer, publicIPAddress)
+	vmss := newVMSS(tc, rg, loadBalancer, subnet)
 
 	tc.CreateResourceAndWait(vmss)
 	tc.Expect(vmss.Status.Id).ToNot(BeNil())

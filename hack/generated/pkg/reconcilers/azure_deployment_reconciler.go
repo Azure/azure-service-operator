@@ -159,6 +159,11 @@ func (r *AzureDeploymentReconciler) GetDeploymentID() (string, bool) {
 	return id, ok
 }
 
+func (r *AzureDeploymentReconciler) GetDeploymentIDOrDefault() string {
+	id, _ := r.GetDeploymentID()
+	return id
+}
+
 func (r *AzureDeploymentReconciler) SetDeploymentID(id string) {
 	genruntime.AddAnnotation(r.obj, DeploymentIDAnnotation, id)
 }
@@ -253,31 +258,41 @@ func (r *AzureDeploymentReconciler) Update(
 	deployment *armclient.Deployment,
 	status genruntime.FromARMConverter) error {
 
-	// TODO: Does this happen in the controller?
+	// TODO: Should this happen in the controller?
 	controllerutil.AddFinalizer(r.obj, GenericControllerFinalizer)
-
-	sig, err := r.SpecSignature()
-	if err != nil {
-		return errors.Wrap(err, "failed to compute resource spec hash")
-	}
-
 	r.SetDeploymentID(deployment.ID)
 	r.SetDeploymentName(deployment.Name)
 
 	// TODO: Do we want to just use Azure's annotations here? I bet we don't? We probably want to map
 	// TODO: them onto something more robust? For now just use Azure's though.
-	r.SetResourceProvisioningState(deployment.Properties.ProvisioningState) // TODO: this is wrong but we need to figure out what it should be
-	r.SetResourceSignature(sig)
+	r.SetResourceProvisioningState(deployment.Properties.ProvisioningState)
 
 	if deployment.IsTerminalProvisioningState() {
 		if deployment.Properties.ProvisioningState == armclient.FailedProvisioningState {
 			r.SetResourceError(deployment.Properties.Error.String())
+
+			// TODO: error classification probably should not be happening in the Update method.
+			errorClassification := ClassifyDeploymentError(deployment.Properties.Error)
+			switch errorClassification {
+			case DeploymentErrorRetryable:
+				// TODO: hackily set this to "" for now - when we deal with
+				// TODO: https://github.com/Azure/azure-service-operator/issues/1448 we should
+				// TODO: set this to a state that makes more sense
+				r.SetResourceProvisioningState("")
+			case DeploymentErrorFatal:
+				// This case purposefully does nothing as the fatal provisioning state was already set above
+			default:
+				// TODO: Is panic OK here?
+				panic(fmt.Sprintf("Unknown error classification %q", errorClassification))
+			}
+
 		} else if len(deployment.Properties.OutputResources) > 0 {
 			resourceID := deployment.Properties.OutputResources[0].ID
 			genruntime.SetResourceID(r.obj, resourceID)
+			r.SetResourceError("") // This clears the error
 
 			if status != nil {
-				err = reflecthelpers.SetStatus(r.obj, status)
+				err := reflecthelpers.SetStatus(r.obj, status)
 				if err != nil {
 					return err
 				}
@@ -308,7 +323,7 @@ func (r *AzureDeploymentReconciler) DetermineCreateOrUpdateAction() (CreateOrUpd
 	}
 
 	if !hasChanged && r.IsTerminalProvisioningState() {
-		msg := fmt.Sprintf("resource spec has not changed and resource is in terminal state: %q", state)
+		msg := fmt.Sprintf("Resource spec has not changed and resource is in terminal state: %q", state)
 		r.log.V(1).Info(msg)
 		return CreateOrUpdateActionNoAction, NoAction, nil
 	}
@@ -455,20 +470,41 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 
 	if err != nil {
 		var reqErr *autorestAzure.RequestError
-		if errors.As(err, &reqErr) && reqErr.StatusCode == http.StatusConflict {
-			if reqErr.ServiceError.Code == "DeploymentBeingDeleted" {
-				// okay, we need to wait for deployment to delete
-				return ctrl.Result{}, errors.New("waiting for deployment to be deleted")
-			}
+		if errors.As(err, &reqErr) {
+			switch reqErr.StatusCode {
+			case http.StatusConflict:
+				if reqErr.ServiceError.Code == "DeploymentBeingDeleted" {
+					// okay, we need to wait for deployment to delete
+					return ctrl.Result{}, errors.New("waiting for deployment to be deleted")
+				}
+				// TODO: investigate what to do when the deployment exists
+				// but is either running or has run to completion
+				return ctrl.Result{}, errors.Wrap(err, "received conflict when trying to create deployment")
+			case http.StatusBadRequest:
+				err = r.Patch(ctx, func() error {
+					r.SetResourceError(err.Error())
+					r.SetResourceProvisioningState(armclient.FailedProvisioningState)
+					sig, err := r.SpecSignature() // nolint:govet
+					if err != nil {
+						return errors.Wrap(err, "failed to compute resource spec hash")
+					}
+					r.SetResourceSignature(sig)
 
-			// TODO: investigate what to do when the deployment exists
-			// but is either running or has run to completion
-			return ctrl.Result{}, errors.Wrap(err, "received conflict when trying to create deployment")
-		} else {
-			// TODO: The above call can fail due to a 4xx error code - this may mean the resource we're attempting to create is bad and we need to handle the error. See:
-			// TODO: "Error during reconcile" "error"="autorest/azure: Service returned an error. Status=400 Code=\"InvalidTemplateDeployment\" Message=\"The template deployment failed because of policy violation. Please see details for more information."
-			// TODO: you can repro the above by attempting to create a Linux VMSS without setting DisablePasswordAuthentication to true, or by using an invalid image reference
-			return ctrl.Result{}, err
+					return nil
+				})
+
+				if err != nil {
+					// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+					// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+					return ctrl.Result{}, errors.Wrap(client.IgnoreNotFound(err), "patching")
+				}
+
+				r.log.Error(reqErr, "Error creating deployment", "id", deployment.ID)
+				// This is terminal so give up and return
+				return ctrl.Result{}, nil
+			default:
+				return ctrl.Result{}, err
+			}
 		}
 	} else {
 		r.log.Info("Created deployment in Azure", "id", deployment.ID)
@@ -476,6 +512,12 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 	}
 
 	err = r.Patch(ctx, func() error {
+		sig, err := r.SpecSignature() // nolint:govet
+		if err != nil {
+			return errors.Wrap(err, "failed to compute resource spec hash")
+		}
+		r.SetResourceSignature(sig)
+
 		return r.Update(deployment, nil) // Status is always nil here
 	})
 
@@ -557,7 +599,14 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 	// persisted the resource ID can we safely delete the deployment
 	retryAfter = time.Duration(0) // ARM can tell us how long to check after issuing DELETE
 	if deployment.IsTerminalProvisioningState() && !r.GetShouldPreserveDeployment() {
-		r.log.Info("Deleting deployment", "ID", deployment.ID)
+		r.log.Info(
+			"Deployment in terminal state",
+			"DeploymentID", deployment.ID,
+			"State", deployment.ProvisioningStateOrUnknown(),
+			"Error", deployment.ErrorOrEmpty())
+
+		r.log.V(4).Info("Deleting deployment", "DeploymentID", deployment.ID)
+
 		retryAfter, err = r.ARMClient.DeleteDeployment(ctx, deployment.ID)
 		if err != nil {
 			return ctrl.Result{}, errors.Wrapf(err, "failed deleting deployment %q", deployment.ID)
@@ -574,6 +623,10 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 
 			return nil
 		})
+		r.log.V(4).Info(
+			"Cleared deployment info from resource",
+			"DeploymentID", r.GetDeploymentIDOrDefault(),
+			"DeploymentName", r.GetDeploymentNameOrDefault())
 
 		if err != nil {
 			// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
