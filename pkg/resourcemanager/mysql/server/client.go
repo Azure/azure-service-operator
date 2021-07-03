@@ -6,26 +6,31 @@ package server
 import (
 	"context"
 
-	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type MySQLServerClient struct {
 	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
+	// KubeReader is used to read secrets in the case the customer has specified a secret containing their
+	// MySQLServer admin username/password
+	KubeReader   client.Reader
 }
 
-func NewMySQLServerClient(creds config.Credentials, secretclient secrets.SecretClient, scheme *runtime.Scheme) *MySQLServerClient {
+func NewMySQLServerClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme, kubeReader client.Reader) *MySQLServerClient {
 	return &MySQLServerClient{
 		Creds:        creds,
-		SecretClient: secretclient,
+		SecretClient: secretClient,
 		Scheme:       scheme,
+		KubeReader:   kubeReader,
 	}
 }
 

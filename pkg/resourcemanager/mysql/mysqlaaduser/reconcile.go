@@ -199,7 +199,7 @@ func (m *MySQLAADUserManager) GetServer(ctx context.Context, resourceGroupName, 
 	// they're not used getting the server.
 	// TODO: This feels a bit dodgy, consider taking secret client and
 	// scheme just so we can pass them in here.
-	client := mysqlserver.NewMySQLServerClient(m.Creds, nil, nil)
+	client := mysqlserver.NewMySQLServerClient(m.Creds, nil, nil, nil)
 	return client.GetServer(ctx, resourceGroupName, serverName)
 }
 

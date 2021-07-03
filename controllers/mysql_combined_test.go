@@ -10,12 +10,14 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -113,7 +115,7 @@ func TestMySQLHappyPath(t *testing.T) {
 }
 
 func RunMySQLUserHappyPath(ctx context.Context, t *testing.T, mySQLServerName string, mySQLDBName string, rgName string) {
-	assert := assert.New(t)
+	assert := require.New(t)
 
 	// Create a user in the DB
 	username := GenerateTestResourceNameWithRandom("user", 10)
@@ -196,4 +198,82 @@ func RunMySQLUserHappyPath(ctx context.Context, t *testing.T, mySQLServerName st
 
 		return true
 	}, tc.timeout, tc.retry, "waiting for DB user to be updated")
+}
+
+func TestMySQLUserSuppliedPassword(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+	assert := require.New(t)
+
+	// Add any setup steps that needs to be executed before each test
+	rgLocation := "westus2"
+	rgName := tc.resourceGroupName
+	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
+	mySQLReplicaName := GenerateTestResourceNameWithRandom("mysql-rep", 10)
+
+	adminSecretName := GenerateTestResourceNameWithRandom("mysqlsecret", 10)
+	adminUsername := helpers.GenerateRandomUsername(10)
+	adminPassword := helpers.NewPassword()
+	// Create the secret
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: adminSecretName,
+			Namespace: "default",
+		},
+		StringData: map[string]string{
+			"username": adminUsername,
+			"password": adminPassword,
+		},
+	}
+	err := tc.k8sClient.Create(ctx, secret)
+	assert.NoError(err)
+
+	// Create the mySQLServer object and expect the Reconcile to be created
+	mySQLServerInstance := v1alpha2.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
+	mySQLServerInstance.Spec.AdminSecret = adminSecretName
+	RequireInstance(ctx, t, tc, mySQLServerInstance)
+
+	// Create a mySQL replica
+	mySQLReplicaInstance := v1alpha2.NewReplicaMySQLServer(mySQLReplicaName, rgName, rgLocation, mySQLServerInstance.Status.ResourceId)
+	mySQLReplicaInstance.Spec.StorageProfile = nil
+	EnsureInstance(ctx, t, tc, mySQLReplicaInstance)
+
+	mySQLDBName := GenerateTestResourceNameWithRandom("mysql-db", 10)
+	// Create the mySQLDB object and expect the Reconcile to be created
+	mySQLDBInstance := &azurev1alpha1.MySQLDatabase{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      mySQLDBName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.MySQLDatabaseSpec{
+			Server:        mySQLServerName,
+			ResourceGroup: rgName,
+		},
+	}
+	EnsureInstance(ctx, t, tc, mySQLDBInstance)
+
+	// This rule opens access to the public internet, but in this case
+	// there's literally no data in the database
+	ruleName := GenerateTestResourceNameWithRandom("mysql-fw", 10)
+	ruleInstance := &azurev1alpha1.MySQLFirewallRule{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      ruleName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.MySQLFirewallRuleSpec{
+			Server:         mySQLServerName,
+			ResourceGroup:  rgName,
+			StartIPAddress: "0.0.0.0",
+			EndIPAddress:   "255.255.255.255",
+		},
+	}
+	EnsureInstance(ctx, t, tc, ruleInstance)
+
+	// Create user and ensure it can be updated
+	RunMySQLUserHappyPath(ctx, t, mySQLServerName, mySQLDBName, rgName)
+
+	EnsureDelete(ctx, t, tc, mySQLDBInstance)
+	EnsureDelete(ctx, t, tc, mySQLServerInstance)
+	EnsureDelete(ctx, t, tc, mySQLReplicaInstance)
 }

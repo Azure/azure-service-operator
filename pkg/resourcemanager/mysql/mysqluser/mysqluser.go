@@ -56,7 +56,9 @@ func (m *MySqlUserManager) GetDB(ctx context.Context, resourceGroupName string, 
 
 // GetServer retrieves a server
 func (m *MySqlUserManager) GetServer(ctx context.Context, resourceGroupName, serverName string) (mysqlmgmt.Server, error) {
-	client := mysqlserver.NewMySQLServerClient(m.Creds, m.SecretClient, m.Scheme)
+	// TODO: It's only ok to pass nil for KubeReader here because we know it's not needed to perform GET server.
+	// TODO: Ideally this would be done via a different struct than the one that also does MySQLServer reconciles
+	client := mysqlserver.NewMySQLServerClient(m.Creds, m.SecretClient, m.Scheme, nil)
 	return client.GetServer(ctx, resourceGroupName, serverName)
 }
 
