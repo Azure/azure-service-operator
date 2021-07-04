@@ -15,8 +15,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 )
 
-// ResourceSpecToArmResourceSpec converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
-// a genruntime.ARMResourceSpec - a specification which can be submitted to Azure for deployment
+// ConvertResourceToDeployableResource converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
+// a genruntime.DeployableResource - a specification which can be submitted to Azure for deployment
 func ConvertResourceToDeployableResource(
 	ctx context.Context,
 	resolver *genruntime.Resolver,
@@ -57,7 +57,7 @@ func ConvertResourceToDeployableResource(
 	// resolve them
 	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, refs)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "failed resolving ARM IDs for references")
 	}
 
 	armSpec, err := armTransformer.ConvertToARM(resourceHierarchy.FullAzureName(), genruntime.MakeResolvedReferences(resolvedRefs))
