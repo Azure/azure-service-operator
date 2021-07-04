@@ -73,7 +73,7 @@ func TestPropertyBag_CorrectlyRoundTripsBooleans(t *testing.T) {
 
 func TestPropertyBag_CorrectlyRoundTripsFloats(t *testing.T) {
 	g := NewWithT(t)
-	var original float64 = 1 / 10 // Deliberately chose a value that can't be represented exactly
+	var original float64 = 1.0 / 10 // Deliberately chose a value that can't be represented exactly
 	var actual float64
 
 	bag := make(PropertyBag)
