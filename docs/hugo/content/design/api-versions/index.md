@@ -80,47 +80,70 @@ type ConvertibleStatus interface {
 
 When the reconciler is working with ARM, we'll use the `OriginalVersion` property on the storage spec to pivot from the current version to the original version.
 
-To keep the reconciler a simple as possible, we'll handle this with generated code hidden behind a simple interface:
+The existing `genruntime.KubernetesResource` interface will be extended as follows:
 
 ``` go
-type GeneratedResource interface {
-    // GetSpec returns the spec of the resource ready for 
-    // serialization to ARM
-    GetSpec(scheme runtime.Scheme) (genruntime.ARMTransformer, error)
+type KubernetesResource interface {
+    // Obtain the GroupVersionKind of the original version of this resource
+    OriginalGVK() schema.GroupVersionKind
 
-    // NewStatus returns a new, empty, status instance ready for
-    // population from ARM
-    NewStatus(scheme runtime.Scheme) (genruntime.FromARMConverter, error)
+    // Return the Spec for this resource
+    GetSpec() ConvertibleSpec
 
-    // SetStatus updates the current resource with the status provided
-    // The instance passed here should always be the one returned by
-    // NewStatus()
-    SetStatus(status genruntime.FromARMConverter) error
+    // Return the Status for this resource
+    GetStatus() ConvertibleStatus
+
+    // Set the status of this resource
+    // If status is not the expected type, this will return an error
+    SetStatus(status ConvertibleStatus) error
+}
+```
+(For clarity, only new members are shown.)
+
+### Generated code for OriginalGVK()
+
+For every resource, we'll generate the `OriginalGVK()` function required by the `KubernetesResource` interface. 
+
+``` go
+func (p *Person) OriginalGVK() *schema.GroupVersionKind {
+	return &schema.GroupVersionKind{
+		Group:   GroupVersion.Group,
+		Version: r.Spec.OriginalVersion(),
+		Kind:    "BatchAccount",
+	}
 }
 ```
 
-**TODO**: Needs a better name than `GeneratedResource`.
+Depending on whether this is an API or a Storage resource variant, the function will use either the function `OriginalVersion()` (as shown in the example) or the field `OriginalVersion`.
 
-The implementation strategy used for API types and Storage types will differ, as detailed below. Conversion between versions of a resource requires access to a `runtime.Scheme` instance, which is why each method has one as a parameter.
+### Generated code for GetSpec()
 
-### Implementation for API versions
-
-For all API versions of resources, the generated implementation of this interface will work directly with the `Spec` and `Status` of that API type.
+For every resource, we'll generate the accessor function `GetSpec()` to give the reconciler easy access to the specification.
 
 ``` go
-// GetSpec returns the Spec of this resource
-func (p *Person) GetSpec(_ runtime.Scheme) (genruntime.ARMTransformer, error) {
-    return &p.Spec, nil
+func (p *Person) GetSpec() genruntime.ConvertibleSpec {
+    return p.Spec
 }
+```
 
-// NewStatus returns a new blank status, ready to be populated
-func (p *Person) NewStatus(_ runtime.Scheme) (genruntime.FromARMConverter, error) {
-    return &Person_Status{}, nil
+### Generated code for GetStatus()
+
+For every resource, we'll generate the accessor function `GetSpec()` to give the reconciler easy access to the specification.
+
+``` go
+func (p *Person) GetStatus() genruntime.ConvertibleStatus {
+    return p.Status
 }
+```
 
+### Generated code for SetStatus()
+
+For every resource, we'll generate the mutator function `SetSpec()` to allow the reconciler to update the resource.
+
+``` go
 // SetStatus accepts a status and updates this resource
 // Only a status of the expected type is handled; anything else will error
-func (p *Person) SetStatus(status interface{}) error {
+func (p *Person) SetStatus(status ConvertibleStatus) error {
     s, ok := status.(*Person_Status);
     if !ok {
         return errors.Errorf(
@@ -132,83 +155,51 @@ func (p *Person) SetStatus(status interface{}) error {
 }
 ```
 
-### Implementation for storage versions
+The supplied status will be checked to ensure it's the expected type; if not, an error will be returned.
 
-For the hub Storage version of resources, the generated implementation will transparently handle conversion between versions as dictated by the `OriginalVersion()` function described earlier.
+### Reconciler publication to ARM
 
-We pivot to the original version by using the `OriginalGVK()` function to obtain a new, empty resource from the schema.
+When the reconciler needs to serialize the Spec of a resource to ARM, the `GetSpec()` function allows the spec to be obtained, and the `OriginalGVK()` function allows the reconciler to identify when conversion is required. 
+
+Comparison of the actual GVK of the resource with the original GVK allows the reconciler to decide whether conversion is needed. 
+Actual conversion requires use of the available Scheme to create the required Spec, which is then populated by converting from the spec we already have:
 
 ``` go
-// GetSpec returns the spec of the current type using 
-// the original API version from when the CR was created
-func (p *Person) GetSpec(scheme runtime.Scheme) (genruntime.ARMTransformer, error) {
-    gvk := p.OriginalGVK()
-    
-    // Use gvk to create an empty resource of the expected version 
-    originalObj, err := scheme.New(gvk)
+actualGVK := metaObject.GetObjectKind().GroupVersionKind()
+
+k8sResource, ok := metaObject.(genruntime.KubernetesResource)
+if !ok {
+    return nil, errors.Errorf("resource %s is not a genruntime.KubernetesResource", actualGVK)
+}
+
+originalGVK := k8sResource.OriginalGVK()
+
+spec := k8sResource.GetSpec()
+if actualGVK != originalGVK {
+    // Need to convert the spec version; create a resource of the original kind
+    orgObject, err := resolver.Client().Scheme.New(originalGVK)
     if err != nil {
-        return errors.Wrapf(
-            err, "unable to create requested version %s of resource", gvk)
+        return nil, errors.Wrapf(err, "unable to create resource %s for conversion", originalGVK)
     }
-    resource, ok := originalObj.(genruntime.GeneratedResource)
+
+    // Convert to our KubernetesResource interface
+    orgResource, ok := orgObject.(genruntime.KubernetesResource)
     if !ok {
-        return errors.Errorf(
-            "unable to convert %T to genruntime.GeneratedResource", originalObj)
+        return nil, errors.Errorf("resource %s is not a genruntime.KubernetesResource", originalGVK)
     }
 
-    // Extract the Spec and populate
-    resultSpec := resource.GetSpec(scheme)
-    resultSpec.ConvertFromSpec(p.Spec)
-
-    return &resultSpec, nil
-}
-```
-
-The `NewStatus()` method needs to pivot to the original version of the resource so that can return the right kind of status.
-
-``` go
-func (p *Person) NewStatus(scheme runtime.Scheme) (genruntime.ARMTransformer, error) {
-    gvk := p.OriginalGVK()
-
-    // Use gvk to create an empty resource of the expected version
-    original, err := scheme.New(gvk)
+    // Get the spec we want and populate by converting from the spec we have
+    orgSpec := orgResource.GetSpec()
+    err = orgSpec.ConvertFromSpec(spec)
     if err != nil {
-        return errors.Wrapf(
-            err, "unable to create requested version %s of resource", gvk)
-    }
-    resource, ok := originalObj.(genruntime.GeneratedResource)
-    if !ok {
-        return errors.Wrapf(
-            err, "unable to convert %T to genruntime.GeneratedResource", originalObj)
+        return nil, errors.Wrapf(err, "unable to convert spec from %s to %s", actualGVK, originalGVK)
     }
 
-    // Return an empty Status from the empty resource
-    return resource.NewStatus(scheme)
+    spec = orgSpec
 }
 ```
 
-After the reconciler has populated an empty `Status` instance, `SetStatus()` is called for the update. It will be the appropriate API `Status` as that is returned by `NewStatus()`, so all we need to do is to populate our Hub status.
+### Reconcilation update from ARM
 
-And, `SetStatus()` needs to convert the provided status to the hub variant.
+TBC
 
-``` go
-func (p *Person) SetStatus(status interface{}) error {
-    if _, ok := status.(*PersonStatus); ok {
-        // We already have the required type, can short circuit
-        p.Status = resource.Status
-        return nil
-    }
-
-    // Populate an updated status instance
-    source := status.(genruntime.ConvertibleStatus)
-    destination := &Person_Status{}
-    err := source.ConvertToStatus(destination)
-    if err != nil {
-        return errors.Wrapf(err, "populating %T from %T", destination, source)
-    }
-
-    // Copy the converted status over
-    p.Status = resource.Status
-    return nil
-}
-```
