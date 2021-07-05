@@ -44,7 +44,7 @@ func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types, pref
 	for _, defs := range groups {
 		ref := defs[0].Name().PackageReference
 		local, ok := ref.AsLocalPackage()
-		if ! ok {
+		if !ok {
 			panic("Must only have types from local packages - fix your test")
 		}
 
