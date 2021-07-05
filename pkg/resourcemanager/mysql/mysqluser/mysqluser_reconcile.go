@@ -104,6 +104,7 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 		return false, err
 	}
+	defer db.Close()
 
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 	// create or get new user secret
@@ -228,6 +229,7 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 		}
 		return false, err
 	}
+	defer db.Close()
 
 	var userSecretClient secrets.SecretClient
 	if options.SecretClient != nil {

@@ -108,6 +108,7 @@ func (m *MySQLAADUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 		return false, mysql.IgnoreDatabaseBusy(err)
 	}
+	defer db.Close()
 
 	instance.Status.SetProvisioning("")
 
@@ -179,6 +180,7 @@ func (m *MySQLAADUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		}
 		return false, err
 	}
+	defer db.Close()
 
 	err = mysql.DropUser(ctx, db, instance.Username())
 	if err != nil {
