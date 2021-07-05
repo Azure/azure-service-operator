@@ -3,12 +3,13 @@
  * Licensed under the MIT license.
  */
 
-package conversions
+package functions
 
 import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 
 	. "github.com/onsi/gomega"
@@ -24,8 +25,8 @@ type StorageConversionPropertyTestCase struct {
 func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTestCase {
 
 	// Package References
-	vCurrent := makeTestLocalPackageReference("Verification", "vCurrent")
-	vNext := makeTestLocalPackageReference("Verification", "vNext")
+	vCurrent := test.MakeLocalPackageReference("Verification", "vCurrent")
+	vNext := test.MakeLocalPackageReference("Verification", "vNext")
 
 	// Custom Types
 	alpha := astmodel.EnumValue{Identifier: "Alpha", Value: "alpha"}
@@ -223,7 +224,7 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 	currentType, ok := astmodel.AsObjectType(c.currentObject.Type())
 	g.Expect(ok).To(BeTrue())
 
-	conversionContext := NewPropertyConversionContext(c.types, idFactory)
+	conversionContext := conversions.NewPropertyConversionContext(c.types, idFactory)
 	convertFrom, errs := NewPropertyAssignmentFromFunction(c.currentObject, c.otherObject, idFactory, conversionContext)
 	g.Expect(errs).To(BeNil())
 

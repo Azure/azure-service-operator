@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package conversions
+package functions
 
 import (
 	"fmt"
@@ -14,6 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 )
 
 // PropertyAssignmentFunction represents a function that assigns all the properties from one resource or object to
@@ -28,11 +29,11 @@ type PropertyAssignmentFunction struct {
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
 	idFactory astmodel.IdentifierFactory
 	// direction indicates the kind of conversion we are generating
-	direction Direction
+	direction conversions.Direction
 	// knownLocals is a cached set of local identifiers that have already been used, to avoid conflicts
 	knownLocals *astmodel.KnownLocalsSet
 	// conversionContext is additional information about the context in which this conversion was made
-	conversionContext *PropertyConversionContext
+	conversionContext *conversions.PropertyConversionContext
 	// identifier to use for our receiver in generated code
 	receiverName string
 	// identifier to use for our parameter in generated code
@@ -54,12 +55,12 @@ func NewPropertyAssignmentFromFunction(
 	receiver astmodel.TypeDefinition,
 	otherDefinition astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	conversionContext *PropertyConversionContext,
+	conversionContext *conversions.PropertyConversionContext,
 ) (*PropertyAssignmentFunction, error) {
 	result := &PropertyAssignmentFunction{
 		otherDefinition: otherDefinition,
 		idFactory:       idFactory,
-		direction:       ConvertFrom,
+		direction:       conversions.ConvertFrom,
 		conversions:     make(map[string]StoragePropertyConversion),
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 		receiverName:    idFactory.CreateIdentifier(receiver.Name().Name(), astmodel.NotExported),
@@ -68,7 +69,7 @@ func NewPropertyAssignmentFromFunction(
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
-		WithDirection(ConvertFrom)
+		WithDirection(conversions.ConvertFrom)
 
 	err := result.createConversions(receiver)
 	if err != nil {
@@ -83,12 +84,12 @@ func NewPropertyAssignmentToFunction(
 	receiver astmodel.TypeDefinition,
 	otherDefinition astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	conversionContext *PropertyConversionContext,
+	conversionContext *conversions.PropertyConversionContext,
 ) (*PropertyAssignmentFunction, error) {
 	result := &PropertyAssignmentFunction{
 		otherDefinition: otherDefinition,
 		idFactory:       idFactory,
-		direction:       ConvertTo,
+		direction:       conversions.ConvertTo,
 		conversions:     make(map[string]StoragePropertyConversion),
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 		receiverName:    idFactory.CreateIdentifier(receiver.Name().Name(), astmodel.NotExported),
@@ -97,7 +98,7 @@ func NewPropertyAssignmentToFunction(
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
-		WithDirection(ConvertTo)
+		WithDirection(conversions.ConvertTo)
 
 	err := result.createConversions(receiver)
 	if err != nil {
@@ -109,7 +110,7 @@ func NewPropertyAssignmentToFunction(
 
 // Name returns the name of this function
 func (fn *PropertyAssignmentFunction) Name() string {
-	return nameOfPropertyAssignmentFunction(fn.otherDefinition.Name(), fn.direction, fn.idFactory)
+	return conversions.NameOfPropertyAssignmentFunction(fn.otherDefinition.Name(), fn.direction, fn.idFactory)
 }
 
 // RequiredPackageReferences returns the set of package references required by this function
@@ -193,9 +194,9 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	generationContext *astmodel.CodeGenerationContext,
 ) []dst.Stmt {
 	switch fn.direction {
-	case ConvertFrom:
+	case conversions.ConvertFrom:
 		return fn.generateDirectConversionFrom(receiver, parameter, generationContext)
-	case ConvertTo:
+	case conversions.ConvertTo:
 		return fn.generateDirectConversionTo(receiver, parameter, generationContext)
 	default:
 		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
@@ -269,8 +270,8 @@ func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDe
 	sourceType := fn.direction.SelectType(fn.otherDefinition.Type(), receiver.Type())
 	destinationType := fn.direction.SelectType(receiver.Type(), fn.otherDefinition.Type())
 
-	sourceEndpoints := fn.createReadableEndpoints(sourceType)
-	destinationEndpoints := fn.createWritableEndpoints(destinationType)
+	sourceEndpoints := conversions.CreateReadableEndpoints(sourceType, fn.knownLocals)
+	destinationEndpoints := conversions.CreateWritableEndpoints(destinationType, fn.knownLocals)
 
 	// Flag receiver and parameter names as used
 	fn.knownLocals.Add(fn.receiverName)
@@ -302,52 +303,13 @@ func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDe
 	return nil
 }
 
-func (fn *PropertyAssignmentFunction) createReadableEndpoints(instance astmodel.Type) map[string]ReadableConversionEndpoint {
-	result := make(map[string]ReadableConversionEndpoint)
-
-	propContainer, ok := astmodel.AsPropertyContainer(instance)
-	if ok {
-		for _, prop := range propContainer.Properties() {
-			endpoint := MakeReadableConversionEndpointForProperty(prop, fn.knownLocals)
-			result[string(prop.PropertyName())] = endpoint
-		}
-	}
-
-	funcContainer, ok := astmodel.AsFunctionContainer(instance)
-	if ok {
-		for _, f := range funcContainer.Functions() {
-			valueFn, ok := f.(astmodel.ValueFunction)
-			if ok {
-				endpoint := MakeReadableConversionEndpointForValueFunction(valueFn, fn.knownLocals)
-				result[f.Name()] = endpoint
-			}
-		}
-	}
-
-	return result
-}
-
-func (fn *PropertyAssignmentFunction) createWritableEndpoints(instance astmodel.Type) map[string]WritableConversionEndpoint {
-	result := make(map[string]WritableConversionEndpoint)
-
-	propContainer, ok := astmodel.AsPropertyContainer(instance)
-	if ok {
-		for _, prop := range propContainer.Properties() {
-			endpoint := MakeWritableConversionEndpointForProperty(prop, fn.knownLocals)
-			result[string(prop.PropertyName())] = endpoint
-		}
-	}
-
-	return result
-}
-
 // createPropertyConversion tries to create a conversion between the two provided endpoints, using all of the
 // available conversion functions in priority order to do so. If no valid conversion can be created an error is returned.
 func (fn *PropertyAssignmentFunction) createConversion(
-	sourceEndpoint ReadableConversionEndpoint,
-	destinationEndpoint WritableConversionEndpoint) (StoragePropertyConversion, error) {
+	sourceEndpoint conversions.ReadableConversionEndpoint,
+	destinationEndpoint conversions.WritableConversionEndpoint) (StoragePropertyConversion, error) {
 
-	conversion, err := CreateTypeConversion(sourceEndpoint.endpoint, destinationEndpoint.endpoint, fn.conversionContext)
+	conversion, err := conversions.CreateTypeConversion(sourceEndpoint.Endpoint(), destinationEndpoint.Endpoint(), fn.conversionContext)
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
@@ -356,18 +318,11 @@ func (fn *PropertyAssignmentFunction) createConversion(
 	}
 
 	return func(source dst.Expr, destination dst.Expr, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-		reader := sourceEndpoint.reader(source)
+		reader := sourceEndpoint.Read(source)
 		writer := func(expr dst.Expr) []dst.Stmt {
-			return destinationEndpoint.writer(destination, expr)
+			return destinationEndpoint.Write(destination, expr)
 		}
 
 		return conversion(reader, writer, generationContext)
 	}, nil
-}
-
-func nameOfPropertyAssignmentFunction(name astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
-	nameOfOtherType := idFactory.CreateIdentifier(name.Name(), astmodel.Exported)
-	return direction.SelectString(
-		"AssignPropertiesFrom"+nameOfOtherType,
-		"AssignPropertiesTo"+nameOfOtherType)
 }
