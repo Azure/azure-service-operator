@@ -61,7 +61,7 @@ func (n ResourceNamer) WithSeparator(separator string) ResourceNamer {
 
 func (n ResourceNamer) generateName(prefix string, num int) string {
 	result := make([]rune, num)
-	for i := 0; i < num; i++ {
+	for i := range result {
 		result[i] = n.runes[n.rand.Intn(len(n.runes))]
 	}
 
