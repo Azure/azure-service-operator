@@ -31,6 +31,11 @@ func CreateStorageTypes(conversionGraph *storage.ConversionGraph, idFactory astm
 				return ok
 			})
 
+			// Filter out ARM types
+			typesToConvert = typesToConvert.Where(func(def astmodel.TypeDefinition) bool {
+				return !astmodel.ARMFlag.IsOn(def.Type())
+			})
+
 			storageTypes := make(astmodel.Types)
 			typeConverter := storage.NewTypeConverter(types, idFactory)
 
