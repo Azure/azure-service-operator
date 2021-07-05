@@ -55,7 +55,7 @@ func InjectPropertyAssignmentFunctions(graph *storage.ConversionGraph, idFactory
 				if !ok {
 					// No next type so nothing to do
 					// (this is expected if the type is discontinued or we're looking at the hub type)
-					return nil, nil
+					continue
 				}
 
 				modified, err := factory.injectBetween(def, nextDef)
