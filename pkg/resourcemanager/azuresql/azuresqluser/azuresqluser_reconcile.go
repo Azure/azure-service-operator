@@ -134,6 +134,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 		return false, err
 	}
+	defer db.Close()
 
 	userSecretKey := MakeSecretKey(userSecretClient, instance)
 
@@ -352,6 +353,7 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		}
 		return false, err
 	}
+	defer db.Close()
 
 	var sqlUserSecretClient secrets.SecretClient
 	if options.SecretClient != nil {

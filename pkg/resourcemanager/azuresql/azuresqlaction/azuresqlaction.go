@@ -57,6 +57,7 @@ func (s *AzureSqlActionManager) UpdateUserPassword(
 	if err != nil {
 		return err
 	}
+	defer db.Close()
 
 	instance := &azurev1alpha1.AzureSQLUser{
 		TypeMeta: metav1.TypeMeta{
