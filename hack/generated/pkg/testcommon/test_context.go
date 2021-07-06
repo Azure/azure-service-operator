@@ -29,10 +29,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 )
 
-var (
-	// Use WestUS2 as some things (such as VM quota) are hard to get in West US.
-	DefaultTestRegion = "westus2" // Could make this an env variable if we wanted
-)
+// Use WestUS2 as some things (such as VM quota) are hard to get in West US.
+var DefaultTestRegion = "westus2" // Could make this an env variable if we wanted
 
 type TestContext struct {
 	AzureRegion  string
@@ -183,19 +181,13 @@ func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer
 			}
 		}
 
-		// remove all Authorization headers from stored requests
-		delete(i.Request.Headers, "Authorization")
+		for _, header := range requestHeadersToRemove {
+			delete(i.Request.Headers, header)
+		}
 
-		// remove all request IDs
-		delete(i.Response.Headers, "X-Ms-Correlation-Request-Id")
-		delete(i.Response.Headers, "X-Ms-Ratelimit-Remaining-Subscription-Reads")
-		delete(i.Response.Headers, "X-Ms-Ratelimit-Remaining-Subscription-Writes")
-		delete(i.Response.Headers, "X-Ms-Request-Id")
-		delete(i.Response.Headers, "X-Ms-Routing-Request-Id")
-
-		// don't need these headers and they add to diff churn
-		delete(i.Request.Headers, "User-Agent")
-		delete(i.Response.Headers, "Date")
+		for _, header := range responseHeadersToRemove {
+			delete(i.Response.Headers, header)
+		}
 
 		return nil
 	})
@@ -203,8 +195,34 @@ func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer
 	return authorizer, subscriptionID, r, nil
 }
 
-var dateMatcher = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
-var sshKeyMatcher = regexp.MustCompile("ssh-rsa [0-9a-zA-Z+/=]+")
+var requestHeadersToRemove = []string{
+	// remove all Authorization headers from stored requests
+	"Authorization",
+
+	// Not needed, adds to diff churn:
+	"User-Agent",
+}
+
+var responseHeadersToRemove = []string{
+	// Request IDs
+	"X-Ms-Arm-Service-Request-Id",
+	"X-Ms-Correlation-Request-Id",
+	"X-Ms-Request-Id",
+	"X-Ms-Routing-Request-Id",
+
+	// Quota limits
+	"X-Ms-Ratelimit-Remaining-Subscription-Deletes",
+	"X-Ms-Ratelimit-Remaining-Subscription-Reads",
+	"X-Ms-Ratelimit-Remaining-Subscription-Writes",
+
+	// Not needed, adds to diff churn
+	"Date",
+}
+
+var (
+	dateMatcher   = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
+	sshKeyMatcher = regexp.MustCompile("ssh-rsa [0-9a-zA-Z+/=]+")
+)
 
 // hideDates replaces all ISO8601 datetimes with a fixed value
 // this lets us match requests that may contain time-sensitive information (timestamps, etc)

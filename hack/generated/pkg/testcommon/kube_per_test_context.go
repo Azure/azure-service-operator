@@ -10,12 +10,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
-	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
-	"github.com/Azure/azure-service-operator/hack/generated/controllers"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/patch"
 	"github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
@@ -26,6 +20,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+
+	"github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
+	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/hack/generated/controllers"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/patch"
 )
 
 const ResourceGroupDeletionWaitTime = 5 * time.Minute
@@ -104,6 +105,10 @@ func CreateTestResourceGroupDefaultTags() map[string]string {
 }
 
 func (ctx KubeGlobalContext) ForTest(t *testing.T) KubePerTestContext {
+	/*
+		Note: if you update this method you might also need to update TestContext.Subtest.
+	*/
+
 	perTestContext, err := ctx.TestContext.ForTest(t)
 	if err != nil {
 		t.Fatal(err)
@@ -215,9 +220,13 @@ func (tc KubePerTestContext) CreateTestResourceGroup(rg *resources.ResourceGroup
 	return rg, nil
 }
 
+// Subtest replaces any testing.T-specific types with new values
 func (ktc KubePerTestContext) Subtest(t *testing.T) KubePerTestContext {
 	ktc.T = t
 	ktc.G = gomega.NewWithT(t)
+	ktc.Namer = ktc.NameConfig.NewResourceNamer(t.Name())
+	ktc.TestName = t.Name()
+	ktc.logger = NewTestLogger(t)
 	return ktc
 }
 
