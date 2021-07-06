@@ -21,9 +21,9 @@ func TestInjectOriginalGVKFunction(t *testing.T) {
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Define a test resource
-	spec := test.CreateSpec(pkg2020, "Person", fullNameProperty, familyNameProperty, knownAsProperty)
-	status := test.CreateStatus(pkg2020, "Person")
-	resource := test.CreateResource(pkg2020, "Person", spec, status)
+	spec := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, test.KnownAsProperty)
+	status := test.CreateStatus(test.Pkg2020, "Person")
+	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
 	types := make(astmodel.Types)
 	types.AddAll(resource, status, spec)
