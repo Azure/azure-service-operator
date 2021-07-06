@@ -34,3 +34,8 @@ func (graph *GroupConversionGraph) LookupTransition(start astmodel.PackageRefere
 	end, found := graph.links[start]
 	return end, found
 }
+
+// TransitionCount returns the number of transitions in the graph
+func (graph *GroupConversionGraph) TransitionCount() int {
+	return len(graph.links)
+}

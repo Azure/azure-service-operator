@@ -52,6 +52,16 @@ func (graph *ConversionGraph) FindHubTypeName(name astmodel.TypeName) astmodel.T
 	return astmodel.MakeTypeName(ref, name.Name())
 }
 
+// TransitionCount returns the number of transitions in the graph
+func (graph *ConversionGraph) TransitionCount() int {
+	result := 0
+	for _, g := range graph.subgraphs {
+		result += g.TransitionCount()
+	}
+
+	return result
+}
+
 // getSubGraph finds the relevant subgraph for the group of the provided reference, creating one if necessary
 func (graph *ConversionGraph) getSubGraph(ref astmodel.PackageReference) *GroupConversionGraph {
 	// Expect to get either a local or a storage reference, not an external one
