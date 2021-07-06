@@ -26,8 +26,18 @@ func NewFunctionInjector() *FunctionInjector {
 }
 
 // Inject modifies the passed type definition by injecting the passed function
-func (fi *FunctionInjector) Inject(def astmodel.TypeDefinition, fn astmodel.Function) (astmodel.TypeDefinition, error) {
-	return fi.visitor.VisitDefinition(def, fn)
+func (fi *FunctionInjector) Inject(def astmodel.TypeDefinition, fns ...astmodel.Function) (astmodel.TypeDefinition, error) {
+	result := def
+
+	for _, fn := range fns {
+		var err error
+		result, err = fi.visitor.VisitDefinition(result, fn)
+		if err != nil {
+			return astmodel.TypeDefinition{}, err
+		}
+	}
+
+	return result, nil
 }
 
 // injectFunctionIntoObject takes the function provided as a context and includes it on the
