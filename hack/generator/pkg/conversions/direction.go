@@ -15,6 +15,10 @@ type Direction interface {
 	SelectString(from string, to string) string
 	// SelectType returns one of the provided types, depending on the direction of conversion
 	SelectType(from astmodel.Type, to astmodel.Type) astmodel.Type
+	// WhenFrom will run the specified function only if the direction is "From", returning the current direction for chaining
+	WhenFrom(fn func()) Direction
+	// WhenTo will run the specified function only if the direction is "To", returning the current direction for chaining
+	WhenTo(fn func()) Direction
 }
 
 var (
@@ -38,6 +42,18 @@ func (dir *ConvertFromDirection) SelectType(fromType astmodel.Type, _ astmodel.T
 	return fromType
 }
 
+// WhenFrom will run the supplied function, returning this FROM direction for chaining
+func (dir *ConvertFromDirection) WhenFrom(fn func()) Direction {
+	fn()
+	return dir
+}
+
+// WhenTo will skip the supplied function, returning this FROM direction for chaining
+func (dir *ConvertFromDirection) WhenTo(_ func()) Direction {
+	// Nothing
+	return dir
+}
+
 type ConvertToDirection struct{}
 
 var _ Direction = &ConvertToDirection{}
@@ -51,3 +67,15 @@ func (dir *ConvertToDirection) SelectString(_ string, toValue string) string {
 func (dir *ConvertToDirection) SelectType(_ astmodel.Type, toType astmodel.Type) astmodel.Type {
 	return toType
 }
+
+// WhenFrom will skip the supplied function, returning this TO direction for chaining
+func (dir *ConvertToDirection) WhenFrom(_ func()) Direction {
+	return dir
+}
+
+// WhenTo will run the supplied function, returning this TO direction for chaining
+func (dir *ConvertToDirection) WhenTo(fn func()) Direction {
+	fn()
+	return dir
+}
+
