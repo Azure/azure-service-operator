@@ -51,7 +51,6 @@ func CreateStorageTypes() Stage {
 				}
 
 				storageTypes.Add(storageDef)
-				conversionGraph.AddLink(name.PackageReference, storageDef.Name().PackageReference)
 			}
 
 			types := state.Types().Copy()
@@ -60,6 +59,6 @@ func CreateStorageTypes() Stage {
 			return state.WithTypes(types).WithConversionGraph(conversionGraph), nil
 		})
 
-	result.RequiresPrerequisiteStages(injectOriginalVersionFunctionStageId)
+	result.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageId, CreateConversionGraphStageId)
 	return result
 }
