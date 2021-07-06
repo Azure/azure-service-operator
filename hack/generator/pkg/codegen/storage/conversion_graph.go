@@ -37,6 +37,21 @@ func (graph *ConversionGraph) LookupTransition(start astmodel.PackageReference) 
 	return subgraph.LookupTransition(start)
 }
 
+// FindHubTypeName returns the type name of the hub resource, given the type name of one of the resources that is
+// persisted using that hub type. This is done by following links in the conversion graph until we reach the end
+func (graph *ConversionGraph) FindHubTypeName(name astmodel.TypeName) astmodel.TypeName {
+	ref := name.PackageReference
+	for {
+		r, ok := graph.LookupTransition(ref)
+		if !ok {
+			break
+		}
+		ref = r
+	}
+
+	return astmodel.MakeTypeName(ref, name.Name())
+}
+
 // getSubGraph finds the relevant subgraph for the group of the provided reference, creating one if necessary
 func (graph *ConversionGraph) getSubGraph(ref astmodel.PackageReference) *GroupConversionGraph {
 	// Expect to get either a local or a storage reference, not an external one
