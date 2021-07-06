@@ -78,3 +78,4 @@ func (dir *ConvertToDirection) WhenTo(fn func()) Direction {
 	fn()
 	return dir
 }
+
