@@ -124,6 +124,7 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 		return false, err
 	}
+	defer db.Close()
 
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
@@ -250,6 +251,7 @@ func (m *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		//stop the reconcile with unkown error
 		return false, err
 	}
+	defer db.Close()
 
 	var psqlUserSecretClient secrets.SecretClient
 	if options.SecretClient != nil {

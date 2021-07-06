@@ -85,6 +85,7 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 		instance.Status.SetFailedProvisioning(instance.Status.Message)
 		return false, nil
 	}
+	defer db.Close()
 
 	userExists, err := s.UserExists(ctx, db, requestedUsername)
 	if err != nil {
@@ -189,6 +190,7 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 
 		return true, nil
 	}
+	defer db.Close()
 
 	userExists, err := s.UserExists(ctx, db, requestedUsername)
 	if err != nil {
