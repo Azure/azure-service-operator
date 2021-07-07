@@ -59,6 +59,10 @@ func makeFlatteningVisitor(defs astmodel.Types) astmodel.TypeVisitor {
 				return it, nil // nolint:nilerr
 			}
 
+			if len(newProps) != len(it.Properties()) {
+				klog.V(4).Infof("Flattened properties in %s", name)
+			}
+
 			result := it.WithoutProperties().WithProperties(newProps...)
 
 			return result, nil
