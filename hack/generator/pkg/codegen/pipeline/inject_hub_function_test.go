@@ -31,7 +31,7 @@ func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t 
 	types := make(astmodel.Types)
 	types.AddAll(resource, status, spec)
 
-	injectHubFunction:= InjectHubFunction(idFactory)
+	injectHubFunction := InjectHubFunction(idFactory)
 
 	// Don't need a context when testing
 	finalTypes, err := injectHubFunction.Run(context.TODO(), types)
@@ -54,7 +54,7 @@ func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile
 	types := make(astmodel.Types)
 	types.AddAll(resource, status, spec)
 
-	injectHubFunction:= InjectHubFunction(idFactory)
+	injectHubFunction := InjectHubFunction(idFactory)
 
 	// Don't need a context when testing
 	finalTypes, err := injectHubFunction.Run(context.TODO(), types)
