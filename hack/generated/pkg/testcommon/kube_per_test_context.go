@@ -89,6 +89,11 @@ func (tc KubePerTestContext) MakeReferenceFromResource(resource controllerutil.O
 	}
 }
 
+func (tc KubePerTestContext) MakeReferencePtrFromResource(resource controllerutil.Object) *genruntime.ResourceReference {
+	result := tc.MakeReferenceFromResource(resource)
+	return &result
+}
+
 func (tc KubePerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
 	return &resources.ResourceGroup{
 		ObjectMeta: tc.MakeObjectMeta("rg"),
