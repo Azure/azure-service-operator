@@ -175,6 +175,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 			   See https://github.com/kubernetes-sigs/controller-runtime/blob/master/pkg/webhook/conversion/conversion.go#L310
 
 			pipeline.InjectHubFunction(idFactory).UsedFor(pipeline.ARMTarget),
+			pipeline.ImplementConvertibleInterface(graph, idFactory),
 		*/
 
 		// Safety checks at the end:
