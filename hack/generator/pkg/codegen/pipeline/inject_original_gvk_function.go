@@ -27,7 +27,7 @@ func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) Stage {
 		injectOriginalGVKFunctionId,
 		"Inject the function OriginalGVK() into each Resource type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			injector := storage.NewFunctionInjector()
+			injector := astmodel.NewFunctionInjector()
 			result := types.Copy()
 
 			resources := storage.FindResourceTypes(types)

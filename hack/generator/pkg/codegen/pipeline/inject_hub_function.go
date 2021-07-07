@@ -26,7 +26,7 @@ func InjectHubFunction(idFactory astmodel.IdentifierFactory) Stage {
 		InjectHubFunctionStageId,
 		"Inject the function Hub() into each hub resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			injector := storage.NewFunctionInjector()
+			injector := astmodel.NewFunctionInjector()
 			result := types.Copy()
 
 			resources := storage.FindResourceTypes(types)

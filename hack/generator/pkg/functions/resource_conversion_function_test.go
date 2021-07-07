@@ -6,7 +6,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
@@ -44,7 +43,7 @@ func Test_ResourceConversionFunction_DirectConversion_GeneratesExpectedCode(t *t
 	convertFrom := NewResourceConversionFunction(person2021.Name(), propertyAssignFrom, idFactory)
 
 	// Inject these methods into person2020
-	injector := storage.NewFunctionInjector()
+	injector := astmodel.NewFunctionInjector()
 	person2020, err = injector.Inject(person2020, propertyAssignTo, propertyAssignFrom, convertTo, convertFrom)
 	g.Expect(err).To(Succeed())
 
@@ -93,7 +92,7 @@ func Test_ResourceConversionFunction_IndirectConversion_GeneratesExpectedCode(t 
 	convertFrom := NewResourceConversionFunction(person2022.Name(), propertyAssignFrom, idFactory)
 
 	// Inject these methods into person2020
-	injector := storage.NewFunctionInjector()
+	injector := astmodel.NewFunctionInjector()
 	person2020, err = injector.Inject(person2020, propertyAssignTo, propertyAssignFrom, convertTo, convertFrom)
 	g.Expect(err).To(Succeed())
 

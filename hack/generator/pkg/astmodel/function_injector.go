@@ -3,21 +3,19 @@
  * Licensed under the MIT license.
  */
 
-package storage
-
-import "github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+package astmodel
 
 // FunctionInjector is a utility for injecting function definitions into resources and objects
 type FunctionInjector struct {
 	// visitor is used to do the actual injection
-	visitor astmodel.TypeVisitor
+	visitor TypeVisitor
 }
 
 // NewFunctionInjector creates a new function injector for modifying resources and objects
 func NewFunctionInjector() *FunctionInjector {
 	result := &FunctionInjector{}
 
-	result.visitor = astmodel.TypeVisitorBuilder{
+	result.visitor = TypeVisitorBuilder{
 		VisitObjectType:   result.injectFunctionIntoObject,
 		VisitResourceType: result.injectFunctionIntoResource,
 	}.Build()
@@ -26,14 +24,14 @@ func NewFunctionInjector() *FunctionInjector {
 }
 
 // Inject modifies the passed type definition by injecting the passed function
-func (fi *FunctionInjector) Inject(def astmodel.TypeDefinition, fns ...astmodel.Function) (astmodel.TypeDefinition, error) {
+func (fi *FunctionInjector) Inject(def TypeDefinition, fns ...Function) (TypeDefinition, error) {
 	result := def
 
 	for _, fn := range fns {
 		var err error
 		result, err = fi.visitor.VisitDefinition(result, fn)
 		if err != nil {
-			return astmodel.TypeDefinition{}, err
+			return TypeDefinition{}, err
 		}
 	}
 
@@ -43,15 +41,15 @@ func (fi *FunctionInjector) Inject(def astmodel.TypeDefinition, fns ...astmodel.
 // injectFunctionIntoObject takes the function provided as a context and includes it on the
 // provided object type
 func (_ *FunctionInjector) injectFunctionIntoObject(
-	_ *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	fn := ctx.(astmodel.Function)
+	_ *TypeVisitor, ot *ObjectType, ctx interface{}) (Type, error) {
+	fn := ctx.(Function)
 	return ot.WithFunction(fn), nil
 }
 
 // injectFunctionIntoResource takes the function provided as a context and includes it on the
 // provided resource type
 func (_ *FunctionInjector) injectFunctionIntoResource(
-	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
-	fn := ctx.(astmodel.Function)
+	_ *TypeVisitor, rt *ResourceType, ctx interface{}) (Type, error) {
+	fn := ctx.(Function)
 	return rt.WithFunction(fn), nil
 }

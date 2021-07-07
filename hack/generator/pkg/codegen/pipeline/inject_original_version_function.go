@@ -28,7 +28,7 @@ func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) Stage {
 		InjectOriginalVersionFunctionStageId,
 		"Inject the function OriginalVersion() into each Spec type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			injector := storage.NewFunctionInjector()
+			injector := astmodel.NewFunctionInjector()
 			result := types.Copy()
 
 			specs := storage.FindSpecTypes(types)
