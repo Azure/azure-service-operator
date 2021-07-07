@@ -39,6 +39,8 @@ func applyPropertyFlattening(
 func makeFlatteningVisitor(defs astmodel.Types) astmodel.TypeVisitor {
 	return astmodel.TypeVisitorBuilder{
 		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+			name := ctx.(astmodel.TypeName)
+
 			newIt, err := astmodel.IdentityVisitOfObjectType(this, it, ctx)
 			if err != nil {
 				return nil, err
@@ -53,7 +55,7 @@ func makeFlatteningVisitor(defs astmodel.Types) astmodel.TypeVisitor {
 
 			// safety check:
 			if err := checkForDuplicateNames(newProps); err != nil {
-				klog.Warningf("Flattening caused duplicate property names, skipping flattening: %s", err)
+				klog.Warningf("Skipping flattening for %s: %s", name, err)
 				return it, nil // nolint:nilerr
 			}
 
