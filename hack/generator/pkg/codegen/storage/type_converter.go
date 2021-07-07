@@ -7,9 +7,11 @@ package storage
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // TypeConverter is used to create a storage variant of an API type
@@ -44,7 +46,8 @@ func NewTypeConverter(types astmodel.Types) *TypeConverter {
 func (t *TypeConverter) ConvertDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 	result, err := t.visitor.VisitDefinition(def, nil)
 	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "converting %q for storage variant", def.Name())
+		// Don't need to wrap for context because all our callers do that with better precision
+		return astmodel.TypeDefinition{}, err
 	}
 
 	description := t.descriptionForStorageVariant(def)
@@ -64,10 +67,10 @@ func (t *TypeConverter) convertResourceType(
 	ctx interface{}) (astmodel.Type, error) {
 
 	// storage resource types do not need defaulter/validator interfaces, they have no webhooks
-	modifiedResource := resource.WithoutInterface(astmodel.DefaulterInterfaceName).
+	result := resource.WithoutInterface(astmodel.DefaulterInterfaceName).
 		WithoutInterface(astmodel.ValidatorInterfaceName)
 
-	return astmodel.IdentityVisitOfResourceType(tv, modifiedResource, ctx)
+	return astmodel.IdentityVisitOfResourceType(tv, result, ctx)
 }
 
 // convertObjectType creates a storage variation of an object type
@@ -91,6 +94,7 @@ func (t *TypeConverter) convertObjectType(
 	}
 
 	objectType := astmodel.NewObjectType().WithProperties(properties...)
+
 	return astmodel.StorageFlag.ApplyTo(objectType), nil
 }
 

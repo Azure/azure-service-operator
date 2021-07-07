@@ -32,7 +32,7 @@ func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) Stage {
 						return nil, errors.Wrapf(err, "creating 'ForProvider' types")
 					}
 
-					result.AddAll(forProviderTypes)
+					result.AddAll(forProviderTypes...)
 				}
 			}
 

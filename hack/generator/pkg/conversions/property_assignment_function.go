@@ -312,34 +312,10 @@ func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDe
 	return nil
 }
 
-// asPropertyContainer converts a type into a property container
-func (fn *PropertyAssignmentFunction) asPropertyContainer(theType astmodel.Type) (astmodel.PropertyContainer, bool) {
-	switch t := theType.(type) {
-	case astmodel.PropertyContainer:
-		return t, true
-	case astmodel.MetaType:
-		return fn.asPropertyContainer(t.Unwrap())
-	default:
-		return nil, false
-	}
-}
-
-// asFunctionContainer converts a type into a function container
-func (fn *PropertyAssignmentFunction) asFunctionContainer(theType astmodel.Type) (astmodel.FunctionContainer, bool) {
-	switch t := theType.(type) {
-	case astmodel.FunctionContainer:
-		return t, true
-	case astmodel.MetaType:
-		return fn.asFunctionContainer(t.Unwrap())
-	default:
-		return nil, false
-	}
-}
-
 func (fn *PropertyAssignmentFunction) createReadableEndpoints(instance astmodel.Type) map[string]ReadableConversionEndpoint {
 	result := make(map[string]ReadableConversionEndpoint)
 
-	propContainer, ok := fn.asPropertyContainer(instance)
+	propContainer, ok := astmodel.AsPropertyContainer(instance)
 	if ok {
 		for _, prop := range propContainer.Properties() {
 			endpoint := MakeReadableConversionEndpointForProperty(prop, fn.knownLocals)
@@ -347,7 +323,7 @@ func (fn *PropertyAssignmentFunction) createReadableEndpoints(instance astmodel.
 		}
 	}
 
-	funcContainer, ok := fn.asFunctionContainer(instance)
+	funcContainer, ok := astmodel.AsFunctionContainer(instance)
 	if ok {
 		for _, f := range funcContainer.Functions() {
 			valueFn, ok := f.(astmodel.ValueFunction)
@@ -364,7 +340,7 @@ func (fn *PropertyAssignmentFunction) createReadableEndpoints(instance astmodel.
 func (fn *PropertyAssignmentFunction) createWritableEndpoints(instance astmodel.Type) map[string]WritableConversionEndpoint {
 	result := make(map[string]WritableConversionEndpoint)
 
-	propContainer, ok := fn.asPropertyContainer(instance)
+	propContainer, ok := astmodel.AsPropertyContainer(instance)
 	if ok {
 		for _, prop := range propContainer.Properties() {
 			endpoint := MakeWritableConversionEndpointForProperty(prop, fn.knownLocals)

@@ -145,7 +145,15 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 	// TODO: This isn't as clean as would be liked -- should we remove panic from RemoveStages?
 	switch genPipeline {
 	case config.GenerationPipelineAzure:
-		codegen.RemoveStages("deleteGenerated", "rogueCheck", "createStorage", "reportTypesAndVersions")
+		codegen.RemoveStages(
+			"deleteGenerated",
+			"rogueCheck",
+			"createStorageTypes",
+			"injectOriginalGVKFunction",
+			"injectOriginalVersionFunction",
+			"injectOriginalVersionProperty",
+			"injectPropertyAssignmentFunctions",
+			"reportTypesAndVersions")
 		if !testConfig.HasARMResources {
 			codegen.RemoveStages("createArmTypes", "applyArmConversionInterface")
 			// These stages treat the collection of types as a graph of types rooted by a resource type.

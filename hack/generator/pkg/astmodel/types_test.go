@@ -50,9 +50,7 @@ func Test_TypesAddAll_GivenTypes_ModifiesSet(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition)
-	otherTypes := []TypeDefinition{gammaDefinition, deltaDefinition}
-
-	types.AddAll(otherTypes)
+	types.AddAll(gammaDefinition, deltaDefinition)
 
 	g.Expect(types).To(ContainElements(gammaDefinition, deltaDefinition))
 }
@@ -61,9 +59,7 @@ func Test_TypesAddAll_GivenOverlappingTypes_Panics(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := createTestTypes(alphaDefinition, betaDefinition)
-	otherTypes := []TypeDefinition{betaDefinition, deltaDefinition}
-
-	g.Expect(func() { types.AddAll(otherTypes) }).To(Panic())
+	g.Expect(func() { types.AddAll(betaDefinition, deltaDefinition) }).To(Panic())
 }
 
 /*

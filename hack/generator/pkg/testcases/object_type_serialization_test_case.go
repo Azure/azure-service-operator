@@ -70,6 +70,10 @@ func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext 
 	// Remove properties from our runtime
 	o.removeByPackage(properties, astmodel.GenRuntimeReference)
 
+	// Remove API machinery properties
+	o.removeByPackage(properties, astmodel.APIMachineryRuntimeReference)
+	o.removeByPackage(properties, astmodel.APIMachinerySchemaReference)
+
 	// Temporarily remove properties related to support for Arbitrary JSON
 	// TODO: Add generators for these properties
 	o.removeByPackage(properties, astmodel.APIExtensionsReference)
@@ -147,8 +151,15 @@ func (o ObjectSerializationTestCase) RequiredImports() *astmodel.PackageImportSe
 }
 
 // Equals determines if this TestCase is equal to another one
-func (o ObjectSerializationTestCase) Equals(_ astmodel.TestCase) bool {
-	panic("implement me")
+func (o ObjectSerializationTestCase) Equals(other astmodel.TestCase) bool {
+	otherTC, ok := other.(*ObjectSerializationTestCase)
+	if !ok {
+		return false
+	}
+
+	return o.testName == otherTC.testName &&
+		o.subject.Equals(otherTC.subject) &&
+		o.objectType.Equals(otherTC.objectType)
 }
 
 // createTestRunner generates the AST for the test runner itself

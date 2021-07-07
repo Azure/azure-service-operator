@@ -163,7 +163,11 @@ func (e *ErroredType) Unwrap() Type {
 // types is a dictionary for resolving named types
 func (e *ErroredType) WriteDebugDescription(builder *strings.Builder, types Types) {
 	builder.WriteString("Error[")
-	e.inner.WriteDebugDescription(builder, types)
+	if e.inner != nil {
+		e.inner.WriteDebugDescription(builder, types)
+	} else {
+		builder.WriteString("<missing>")
+	}
 
 	for _, e := range e.errors {
 		builder.WriteString("|")

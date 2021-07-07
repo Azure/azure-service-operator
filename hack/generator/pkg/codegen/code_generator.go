@@ -15,6 +15,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
@@ -78,6 +79,10 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 }
 
 func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []pipeline.Stage {
+
+	// graph keeps track of the conversions we need between different API & Storage versions
+	graph := storage.NewConversionGraph()
+
 	return []pipeline.Stage{
 
 		pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
@@ -151,7 +156,14 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.AddCrossplaneEmbeddedResourceSpec(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddCrossplaneEmbeddedResourceStatus(idFactory).UsedFor(pipeline.CrossplaneTarget),
 
-		pipeline.CreateStorageTypes(idFactory).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
+		// Create Storage types
+		//TODO: For now only used for ARM
+		pipeline.InjectOriginalVersionFunction(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.CreateStorageTypes(graph).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
+		pipeline.InjectPropertyAssignmentFunctions(graph, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectOriginalGVKFunction(idFactory).UsedFor(pipeline.ARMTarget),
+
 		pipeline.SimplifyDefinitions(),
 		pipeline.InjectJsonSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
 
@@ -218,7 +230,11 @@ func (generator *CodeGenerator) verifyPipeline() error {
 		}
 
 		for _, postreq := range stage.Postrequisites() {
-			stagesExpected[postreq] = append(stagesExpected[postreq], stage.Id())
+			if _, ok := stagesSeen[postreq]; ok {
+				errs = append(errs, errors.Errorf("postrequisite %q of stage %q satisfied too early", postreq, stage.Id()))
+			} else {
+				stagesExpected[postreq] = append(stagesExpected[postreq], stage.Id())
+			}
 		}
 
 		stagesSeen[stage.Id()] = struct{}{}

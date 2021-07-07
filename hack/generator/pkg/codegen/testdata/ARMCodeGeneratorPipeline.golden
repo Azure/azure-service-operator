@@ -29,7 +29,11 @@ addCrossplaneForProviderProperty    crossplane Add a 'ForProvider' property on e
 addCrossplaneAtProviderProperty     crossplane Add an 'AtProvider' property on every status
 addCrossplaneEmbeddedResourceSpec   crossplane Add an embedded runtimev1alpha1.ResourceSpec to every spec type
 addCrossplaneEmbeddedResourceStatus crossplane Add an embedded runtimev1alpha1.ResourceStatus to every status type
-createStorage                       azure      Create storage versions of CRD types
+injectOriginalVersionFunction       azure      Inject the function OriginalVersion() into each Spec type
+createStorageTypes                  azure      Create storage versions of CRD types
+injectOriginalVersionProperty       azure      Inject the property OriginalVersion into each Storage Spec type
+injectPropertyAssignmentFunctions   azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
+injectOriginalGVKFunction           azure      Inject the function OriginalGVK() into each Resource type
 simplifyDefinitions                            Flatten definitions by removing wrapper types
 jsonTestCases                       azure      Add test cases to verify JSON serialization
 markStorageVersion                             Mark the latest version of each resource as the storage version

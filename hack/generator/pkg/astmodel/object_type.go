@@ -240,7 +240,10 @@ func (objectType *ObjectType) References() TypeNameSet {
 		results.AddAll(property.PropertyType().References())
 	}
 
-	// Not collecting types from functions deliberately.
+	for _, fn := range objectType.functions {
+		results.AddAll(fn.References())
+	}
+
 	return results
 }
 

@@ -74,6 +74,7 @@ func (t *TypeWalker) visitTypeName(this *TypeVisitor, it TypeName, ctx interface
 	if err != nil {
 		return nil, errors.Wrapf(err, "visitTypeName failed for name %q", it)
 	}
+
 	it, ok := visitedTypeName.(TypeName)
 	if !ok {
 		panic(fmt.Sprintf("TypeWalker visitor visitTypeName must return a TypeName, instead returned %T", visitedTypeName))
