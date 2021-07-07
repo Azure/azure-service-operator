@@ -45,7 +45,7 @@ func TestInjectPropertyAssignmentFunctions(t *testing.T) {
 	graph := storage.NewConversionGraph()
 
 	// Run CreateStorageTypes first to populate the conversion graph
-	createStorageTypes := CreateStorageTypes(graph, idFactory)
+	createStorageTypes := CreateStorageTypes(graph)
 	types, err := createStorageTypes.Run(context.TODO(), types)
 	g.Expect(err).To(Succeed())
 
