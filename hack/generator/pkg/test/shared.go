@@ -35,7 +35,7 @@ var (
 			WithDescription("City or town (or nearest)")
 
 	StatusProperty = astmodel.NewPropertyDefinition("Status", "status", astmodel.StringType).
-		WithDescription("Current status")
+			WithDescription("Current status")
 
 	// Reference Package 2020
 	Pkg2020 = MakeLocalPackageReference(Group, "v20200101")
