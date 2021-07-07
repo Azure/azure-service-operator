@@ -14,10 +14,13 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
+// MarkStorageVersionStageId is the unique identifier for this pipeline stage
+const MarkStorageVersionStageId = "markStorageVersion"
+
 // MarkStorageVersion creates a Stage to mark a particular version as a storage version
 func MarkStorageVersion() Stage {
 	return MakeStage(
-		"markStorageVersion",
+		MarkStorageVersionStageId,
 		"Mark the latest version of each resource as the storage version",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			updatedDefs, err := MarkLatestResourceVersionsForStorage(types)
