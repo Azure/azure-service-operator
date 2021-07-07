@@ -19,7 +19,6 @@ import (
 func TestCreateStorageTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	idFactory := astmodel.NewIdentifierFactory()
 	// Test Resource V1
 
 	specV1 := test.CreateSpec(pkg2020, "Person", fullNameProperty, familyNameProperty, knownAsProperty)
@@ -45,7 +44,7 @@ func TestCreateStorageTypes(t *testing.T) {
 	// Run the stage
 
 	graph := storage.NewConversionGraph()
-	createStorageTypes := CreateStorageTypes(graph, idFactory)
+	createStorageTypes := CreateStorageTypes(graph)
 
 	// Don't need a context when testing
 	finalTypes, err := createStorageTypes.Run(context.TODO(), types)

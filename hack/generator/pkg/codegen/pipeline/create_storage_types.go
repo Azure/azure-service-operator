@@ -19,7 +19,7 @@ const createStorageTypesStageId = "createStorageTypes"
 // CreateStorageTypes returns a pipeline stage that creates dedicated storage types for each resource and nested object.
 // Storage versions are created for *all* API versions to allow users of older versions of the operator to easily
 // upgrade. This is of course a bit odd for the first release, but defining the approach from day one is useful.
-func CreateStorageTypes(conversionGraph *storage.ConversionGraph, idFactory astmodel.IdentifierFactory) Stage {
+func CreateStorageTypes(conversionGraph *storage.ConversionGraph) Stage {
 	result := MakeStage(
 		createStorageTypesStageId,
 		"Create storage versions of CRD types",
@@ -40,7 +40,7 @@ func CreateStorageTypes(conversionGraph *storage.ConversionGraph, idFactory astm
 			typesToConvert := types.Where(isPropertyContainer).Where(isNotARMType)
 
 			storageTypes := make(astmodel.Types)
-			typeConverter := storage.NewTypeConverter(types, idFactory)
+			typeConverter := storage.NewTypeConverter(types)
 
 			// Create storage variants
 			for name, def := range typesToConvert {

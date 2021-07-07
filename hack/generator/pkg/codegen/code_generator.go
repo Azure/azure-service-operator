@@ -159,7 +159,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Create Storage types
 		//TODO: For now only used for ARM
 		pipeline.InjectOriginalVersionFunction(idFactory).UsedFor(pipeline.ARMTarget),
-		pipeline.CreateStorageTypes(graph, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.CreateStorageTypes(graph).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentFunctions(graph, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalGVKFunction(idFactory).UsedFor(pipeline.ARMTarget),

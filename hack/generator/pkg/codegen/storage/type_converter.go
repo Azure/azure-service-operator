@@ -22,15 +22,12 @@ type TypeConverter struct {
 	types astmodel.Types
 	// propertyConverter is used to modify properties
 	propertyConverter *PropertyConverter
-	// idFactory is a reference to our IdentifierFactory 
-	idFactory astmodel.IdentifierFactory
 }
 
 // NewTypeConverter creates a new instance of the utility type
-func NewTypeConverter(types astmodel.Types, idFactory astmodel.IdentifierFactory) *TypeConverter {
+func NewTypeConverter(types astmodel.Types) *TypeConverter {
 	result := &TypeConverter{
 		types:             types,
-		idFactory:         idFactory,
 		propertyConverter: NewPropertyConverter(types),
 	}
 
