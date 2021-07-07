@@ -25,16 +25,19 @@ func CreateStorageTypes(conversionGraph *storage.ConversionGraph, idFactory astm
 		"Create storage versions of CRD types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
-			// Isolate both resources and complex objects
-			typesToConvert := types.Where(func(def astmodel.TypeDefinition) bool {
+			// Predicate to isolate both resources and complex objects
+			isPropertyContainer := func(def astmodel.TypeDefinition) bool {
 				_, ok := astmodel.AsPropertyContainer(def.Type())
 				return ok
-			})
+			}
 
-			// Filter out ARM types
-			typesToConvert = typesToConvert.Where(func(def astmodel.TypeDefinition) bool {
+			// Predicate to filter out ARM types
+			isNotARMType := func(def astmodel.TypeDefinition) bool {
 				return !astmodel.ARMFlag.IsOn(def.Type())
-			})
+			}
+
+			// Filter to the types we want to process
+			typesToConvert := types.Where(isPropertyContainer).Where(isNotARMType)
 
 			storageTypes := make(astmodel.Types)
 			typeConverter := storage.NewTypeConverter(types, idFactory)
