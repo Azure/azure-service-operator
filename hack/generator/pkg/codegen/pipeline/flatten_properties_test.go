@@ -30,9 +30,16 @@ func TestDuplicateNamesAreCaught(t *testing.T) {
 	types.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "objType"), objType))
 
 	result, err := applyPropertyFlattening(context.Background(), types)
-	// We don't fail but flattening does not occur
+
+	// We don't fail but flattening does not occur, and flatten is set to false
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(result).To(Equal(types))
+
+	// identical to objType above but the "inner" prop is not set to flatten
+	newObjType := astmodel.NewObjectType().WithProperties(prop, innerObjProp.SetFlatten(false))
+	expectedTypes := make(astmodel.Types)
+	expectedTypes.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "objType"), newObjType))
+
+	g.Expect(result).To(Equal(expectedTypes))
 }
 
 func TestFlatteningWorks(t *testing.T) {

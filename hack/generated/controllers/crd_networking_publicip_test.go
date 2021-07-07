@@ -34,7 +34,7 @@ func Test_PublicIP_CRUD(t *testing.T) {
 			Sku: &network.PublicIPAddressSku{
 				Name: &sku,
 			},
-			PublicIPAllocationMethod: network.PublicIPAddressesSpecPropertiesPublicIPAllocationMethodStatic,
+			PublicIPAllocationMethod: network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic,
 		},
 	}
 

@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"strings"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
@@ -63,37 +64,27 @@ func fuseAugmenters(augments ...augmenter) augmenter {
 
 // flattenAugmenter copies across the "flatten" property from Swagger
 func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
+	/* TODO: there is a lot here that should be pulled into a "default augmenter" value that can be reused,
+	but at the moment we only have one augmenter */
+
 	return func(main astmodel.Type, swagger astmodel.Type) (astmodel.Type, error) {
 		merger := astmodel.NewTypeMerger(func(ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
 			// as a fallback, return left (= main) if we have nothing else to do
 			return left, nil
 		})
 
-		merger.Add(func(main, swagger astmodel.TypeName) (astmodel.Type, error) {
-			// when we merge two typenames we know that (structurally) they must
-			// be the ‘same’ type, even if they have different names
-
-			// this allows us to handle cases where names differ greatly from JSON schema to Swagger,
-			// we rely on the structure of the types to tell us which types are the same
-
-			mainType := allTypes.Get(main).Type()
-			swaggerType := allTypes.Get(swagger).Type()
-
-			newMainType, err := merger.Merge(mainType, swaggerType)
-			if err != nil {
-				return nil, err
-			}
-
-			// return original typename if not changed
-			if newMainType == mainType {
+		// need to resolve main type
+		merger.Add(func(main astmodel.TypeName, swagger astmodel.Type) (astmodel.Type, error) {
+			// Connascence alert! This is in coöperation with the code in
+			// determine_resource_ownership.go:updateChildResourceDefinitionsWithOwner
+			// which requires the typenames to identify which ChildResources match
+			// which Resources. The ChildResource types should never actually be
+			// used, so it's okay that we don't visit them here.
+			if strings.HasSuffix(main.Name(), "ChildResource") {
+				// don't touch child resources!
 				return main, nil
 			}
 
-			return newMainType, nil
-		})
-
-		// need to resolve main type
-		merger.Add(func(main astmodel.TypeName, swagger astmodel.Type) (astmodel.Type, error) {
 			mainType := allTypes.Get(main).Type()
 
 			newMain, err := merger.Merge(mainType, swagger)
@@ -133,6 +124,39 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			return astmodel.NewOptionalType(result), nil
 		})
 
+		merger.Add(func(main *astmodel.FlaggedType, swagger astmodel.Type) (astmodel.Type, error) {
+			result, err := merger.Merge(main.Element(), swagger)
+			if err != nil {
+				return nil, err
+			}
+
+			// return original type if not changed
+			if result == main.Element() {
+				return main, nil
+			}
+
+			return main.WithElement(result), nil
+		})
+
+		merger.Add(func(main, swagger *astmodel.MapType) (astmodel.Type, error) {
+			keyResult, err := merger.Merge(main.KeyType(), swagger.KeyType())
+			if err != nil {
+				return nil, err
+			}
+
+			valueResult, err := merger.Merge(main.ValueType(), swagger.ValueType())
+			if err != nil {
+				return nil, err
+			}
+
+			// return original type if not changed
+			if keyResult == main.KeyType() && valueResult == main.ValueType() {
+				return main, nil
+			}
+
+			return astmodel.NewMapType(keyResult, valueResult), nil
+		})
+
 		merger.Add(func(main, swagger *astmodel.ArrayType) (astmodel.Type, error) {
 			result, err := merger.Merge(main.Element(), swagger.Element())
 			if err != nil {
@@ -145,6 +169,19 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			}
 
 			return astmodel.NewArrayType(result), nil
+		})
+
+		merger.Add(func(main, swagger *astmodel.AllOfType) (astmodel.Type, error) {
+			panic("allofs should have been removed")
+		})
+
+		merger.Add(func(main, swagger *astmodel.OneOfType) (astmodel.Type, error) {
+			panic("oneofs should have been removed")
+		})
+
+		// this shouldn't ever happen, I think
+		merger.Add(func(main, swagger *astmodel.ResourceType) (astmodel.Type, error) {
+			return astmodel.NewErroredType(nil, []string{"unsupported"}, nil), nil
 		})
 
 		merger.Add(func(main, swagger *astmodel.ObjectType) (astmodel.Type, error) {

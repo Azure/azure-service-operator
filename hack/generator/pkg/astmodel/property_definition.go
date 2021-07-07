@@ -134,7 +134,7 @@ func (property *PropertyDefinition) WithType(newType Type) *PropertyDefinition {
 		panic("nil type provided to WithType")
 	}
 
-	if property.propertyType.Equals(newType) {
+	if property.propertyType == newType || property.propertyType.Equals(newType) {
 		return property
 	}
 
@@ -310,7 +310,7 @@ func (property *PropertyDefinition) renderedTags() string {
 // AsField generates a Go AST field node representing this property definition
 func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGenerationContext) *dst.Field {
 	if property.flatten {
-		panic("property marked for flattening was not flattened")
+		panic(fmt.Sprintf("property %s marked for flattening was not flattened", property.propertyName))
 	}
 
 	tags := property.renderedTags()
