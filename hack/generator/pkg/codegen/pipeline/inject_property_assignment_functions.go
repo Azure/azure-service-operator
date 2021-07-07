@@ -70,7 +70,7 @@ func InjectPropertyAssignmentFunctions(graph *storage.ConversionGraph, idFactory
 		})
 
 	// Needed to populate the conversion graph
-	stage.RequiresPrerequisiteStages(createStorageTypesStageId)
+	stage.RequiresPrerequisiteStages(CreateStorageTypesStageId)
 	return stage
 }
 

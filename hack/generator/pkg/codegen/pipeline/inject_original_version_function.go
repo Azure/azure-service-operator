@@ -21,9 +21,10 @@ const injectOriginalVersionFunctionStageId = "injectOriginalVersionFunction"
 // InjectOriginalVersionFunction injects the function OriginalVersion() into each Spec type
 // This function allows us to recover the original version used to create each custom resource, giving the operator the
 // information needed to interact with ARM using the correct API version.
+// We run this stage before we create any storage types, ensuring only API versions get the function.
 func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) Stage {
 
-	return MakeStage(
+	stage := MakeStage(
 		injectOriginalVersionFunctionStageId,
 		"Inject the function OriginalVersion() into each Spec type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
@@ -43,4 +44,7 @@ func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) Stage {
 
 			return result, nil
 		})
+
+	stage.RequiresPostrequisiteStages(CreateStorageTypesStageId, InjectOriginalVersionPropertyId)
+	return stage
 }

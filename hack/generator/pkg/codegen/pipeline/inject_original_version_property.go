@@ -14,8 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 )
 
-// injectOriginalVersionPropertyId is the unique identifier for this pipeline stage
-const injectOriginalVersionPropertyId = "injectOriginalVersionProperty"
+// InjectOriginalVersionPropertyId is the unique identifier for this pipeline stage
+const InjectOriginalVersionPropertyId = "injectOriginalVersionProperty"
 
 // InjectOriginalVersionProperty injects the property OriginalVersion into each Storage Spec type
 // This property gets populated by reading from the OriginalVersion() function previously injected into the API Spec
@@ -24,7 +24,7 @@ const injectOriginalVersionPropertyId = "injectOriginalVersionProperty"
 func InjectOriginalVersionProperty() Stage {
 
 	stage := MakeStage(
-		injectOriginalVersionPropertyId,
+		InjectOriginalVersionPropertyId,
 		"Inject the property OriginalVersion into each Storage Spec type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			injector := storage.NewPropertyInjector()

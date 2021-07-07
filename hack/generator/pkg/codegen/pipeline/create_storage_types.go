@@ -14,14 +14,14 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 )
 
-const createStorageTypesStageId = "createStorageTypes"
+const CreateStorageTypesStageId = "createStorageTypes"
 
 // CreateStorageTypes returns a pipeline stage that creates dedicated storage types for each resource and nested object.
 // Storage versions are created for *all* API versions to allow users of older versions of the operator to easily
 // upgrade. This is of course a bit odd for the first release, but defining the approach from day one is useful.
 func CreateStorageTypes(conversionGraph *storage.ConversionGraph) Stage {
 	result := MakeStage(
-		createStorageTypesStageId,
+		CreateStorageTypesStageId,
 		"Create storage versions of CRD types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
