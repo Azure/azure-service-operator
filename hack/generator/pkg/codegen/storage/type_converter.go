@@ -22,7 +22,7 @@ type TypeConverter struct {
 	types astmodel.Types
 	// propertyConverter is used to modify properties
 	propertyConverter *PropertyConverter
-	// idFactory is a reference to our IdentifierFactory singleton
+	// idFactory is a reference to our IdentifierFactory 
 	idFactory astmodel.IdentifierFactory
 }
 

@@ -23,7 +23,7 @@ const injectOriginalVersionPropertyId = "injectOriginalVersionProperty"
 // information needed to interact with ARM using the correct API version.
 func InjectOriginalVersionProperty() Stage {
 
-	result := MakeStage(
+	stage := MakeStage(
 		injectOriginalVersionPropertyId,
 		"Inject the property OriginalVersion into each Storage Spec type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
@@ -54,6 +54,6 @@ func InjectOriginalVersionProperty() Stage {
 			return result, nil
 		})
 
-	result.RequiresPrerequisiteStages(injectOriginalVersionFunctionStageId)
-	return result
+	stage.RequiresPrerequisiteStages(injectOriginalVersionFunctionStageId)
+	return stage
 }

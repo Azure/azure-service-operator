@@ -26,19 +26,19 @@ func NewPropertyInjector() *PropertyInjector {
 }
 
 // Inject modifies the passed type definition by injecting the passed property
-func (fi *PropertyInjector) Inject(def astmodel.TypeDefinition, prop *astmodel.PropertyDefinition) (astmodel.TypeDefinition, error) {
-	return fi.visitor.VisitDefinition(def, prop)
+func (pi *PropertyInjector) Inject(def astmodel.TypeDefinition, prop *astmodel.PropertyDefinition) (astmodel.TypeDefinition, error) {
+	return pi.visitor.VisitDefinition(def, prop)
 }
 
 // injectPropertyIntoObject takes the property provided as a context and includes it on the provided object type
-func (_ *PropertyInjector) injectPropertyIntoObject(
+func (pi *PropertyInjector) injectPropertyIntoObject(
 	_ *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	prop := ctx.(*astmodel.PropertyDefinition)
 	return ot.WithProperty(prop), nil
 }
 
 // injectPropertyIntoResource takes the property  provided as a context and includes it on the provided resource type
-func (_ *PropertyInjector) injectPropertyIntoResource(
+func (pi *PropertyInjector) injectPropertyIntoResource(
 	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 	prop := ctx.(*astmodel.PropertyDefinition)
 	return rt.WithProperty(prop), nil

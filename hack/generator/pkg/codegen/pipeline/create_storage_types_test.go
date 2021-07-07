@@ -28,8 +28,14 @@ func TestCreateStorageTypes(t *testing.T) {
 
 	// Test Resource V2
 
-	specV2 := test.CreateSpec(pkg2021, "Person",
-		fullNameProperty, familyNameProperty, knownAsProperty, residentialAddress2021, postalAddress2021)
+	specV2 := test.CreateSpec(
+		pkg2021,
+		"Person",
+		fullNameProperty,
+		familyNameProperty,
+		knownAsProperty,
+		residentialAddress2021,
+		postalAddress2021)
 	statusV2 := test.CreateStatus(pkg2021, "Person")
 	resourceV2 := test.CreateResource(pkg2021, "Person", specV2, statusV2)
 

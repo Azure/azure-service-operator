@@ -23,15 +23,15 @@ const injectOriginalGVKFunctionId = "injectOriginalGVKFunction"
 // information needed to interact with ARM using the correct API version.
 func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) Stage {
 
-	result := MakeStage(
+	stage := MakeStage(
 		injectOriginalGVKFunctionId,
 		"Inject the function OriginalGVK() into each Resource type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			injector := storage.NewFunctionInjector()
 			result := types.Copy()
 
-			specs := storage.FindResourceTypes(types)
-			for name, def := range specs {
+			resources := storage.FindResourceTypes(types)
+			for name, def := range resources {
 				var fn *functions.OriginalGVKFunction
 				if astmodel.IsStoragePackageReference(name.PackageReference) {
 					fn = functions.NewOriginalGVKFunction(functions.ReadProperty, idFactory)
@@ -41,7 +41,7 @@ func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) Stage {
 
 				defWithFn, err := injector.Inject(def, fn)
 				if err != nil {
-					return nil, errors.Wrapf(err, "injecting OriginalVersion() into %s", name)
+					return nil, errors.Wrapf(err, "injecting OriginalGVK() into %s", name)
 				}
 
 				result[defWithFn.Name()] = defWithFn
@@ -50,6 +50,6 @@ func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) Stage {
 			return result, nil
 		})
 
-	result.RequiresPrerequisiteStages(injectOriginalVersionFunctionStageId)
-	return result
+	stage.RequiresPrerequisiteStages(injectOriginalVersionFunctionStageId)
+	return stage
 }
