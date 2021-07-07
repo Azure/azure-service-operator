@@ -76,19 +76,34 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			// this allows us to handle cases where names differ greatly from JSON schema to Swagger,
 			// we rely on the structure of the types to tell us which types are the same
 
-			newType, err := merger.Merge(allTypes.Get(main).Type(), allTypes.Get(swagger).Type())
+			mainType := allTypes.Get(main).Type()
+			swaggerType := allTypes.Get(swagger).Type()
+
+			newMainType, err := merger.Merge(mainType, swaggerType)
 			if err != nil {
 				return nil, err
 			}
 
-			return newType, nil
+			// return original typename if not changed
+			if newMainType == mainType {
+				return main, nil
+			}
+
+			return newMainType, nil
 		})
 
 		// need to resolve main type
 		merger.Add(func(main astmodel.TypeName, swagger astmodel.Type) (astmodel.Type, error) {
-			newMain, err := merger.Merge(allTypes.Get(main).Type(), swagger)
+			mainType := allTypes.Get(main).Type()
+
+			newMain, err := merger.Merge(mainType, swagger)
 			if err != nil {
 				return nil, err
+			}
+
+			// return original typename if not changed
+			if newMain == mainType {
+				return main, nil
 			}
 
 			return newMain, nil
@@ -104,13 +119,46 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			return result, nil
 		})
 
+		merger.Add(func(main, swagger *astmodel.OptionalType) (astmodel.Type, error) {
+			result, err := merger.Merge(main.Element(), swagger.Element())
+			if err != nil {
+				return nil, err
+			}
+
+			// return original type if not changed
+			if result == main.Element() {
+				return main, nil
+			}
+
+			return astmodel.NewOptionalType(result), nil
+		})
+
+		merger.Add(func(main, swagger *astmodel.ArrayType) (astmodel.Type, error) {
+			result, err := merger.Merge(main.Element(), swagger.Element())
+			if err != nil {
+				return nil, err
+			}
+
+			// return original type if not changed
+			if result == main.Element() {
+				return main, nil
+			}
+
+			return astmodel.NewArrayType(result), nil
+		})
+
 		merger.Add(func(main, swagger *astmodel.ObjectType) (astmodel.Type, error) {
 			props := main.Properties()
+
+			changed := false
 			for ix, mainProp := range props {
 				// find a matching property in the swagger spec
 				if swaggerProp, ok := swagger.Property(mainProp.PropertyName()); ok {
 					// first copy over flatten property
-					mainProp = mainProp.SetFlatten(swaggerProp.Flatten())
+					if mainProp.Flatten() != swaggerProp.Flatten() {
+						changed = true
+						mainProp = mainProp.SetFlatten(swaggerProp.Flatten())
+					}
 
 					// now recursively merge property types
 					newType, err := merger.Merge(mainProp.PropertyType(), swaggerProp.PropertyType())
@@ -118,8 +166,16 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 						return nil, err
 					}
 
+					if newType != mainProp.PropertyType() {
+						changed = true
+					}
+
 					props[ix] = mainProp.WithType(newType)
 				}
+			}
+
+			if !changed {
+				return main, nil
 			}
 
 			return main.WithProperties(props...), nil

@@ -309,6 +309,10 @@ func (property *PropertyDefinition) renderedTags() string {
 
 // AsField generates a Go AST field node representing this property definition
 func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGenerationContext) *dst.Field {
+	if property.flatten {
+		panic("property marked for flattening was not flattened")
+	}
+
 	tags := property.renderedTags()
 
 	var names []*dst.Ident
