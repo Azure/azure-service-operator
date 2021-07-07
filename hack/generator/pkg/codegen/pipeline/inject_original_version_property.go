@@ -30,16 +30,18 @@ func InjectOriginalVersionProperty() Stage {
 			injector := storage.NewPropertyInjector()
 			result := types.Copy()
 
-			storageSpecs := storage.FindSpecTypes(types).Where(func(definition astmodel.TypeDefinition) bool {
-				fc, ok := astmodel.AsFunctionContainer(definition.Type())
+			doesNotHaveOriginalVersionFunction := func(definition astmodel.TypeDefinition) bool {
+				ot, ok := astmodel.AsObjectType(definition.Type())
 				if !ok {
-					// Exclude everything except resources and complex objects
+					// Not an object
 					return false
 				}
 
-				// Skip API Specs that have OriginalVersion() functions
-				return !fc.HasFunctionWithName("OriginalVersion")
-			})
+				// Skip objects that have OriginalVersion() functions
+				return !ot.HasFunctionWithName("OriginalVersion")
+			}
+
+			storageSpecs := storage.FindSpecTypes(types).Where(doesNotHaveOriginalVersionFunction)
 
 			for name, def := range storageSpecs {
 				prop := astmodel.NewPropertyDefinition("OriginalVersion", "originalVersion", astmodel.StringType)
