@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
 // injectPropertyAssignmentFunctionsStageId is the unique identifier for this pipeline stage
@@ -102,13 +103,13 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	// Create conversion functions
 	conversionContext := conversions.NewPropertyConversionContext(f.types, f.idFactory)
 
-	assignFromFn, err := conversions.NewPropertyAssignmentFromFunction(upstreamDef, downstreamDef, f.idFactory, conversionContext)
+	assignFromFn, err := functions.NewPropertyAssignmentFromFunction(upstreamDef, downstreamDef, f.idFactory, conversionContext)
 	upstreamName := upstreamDef.Name()
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
-	assignToFn, err := conversions.NewPropertyAssignmentToFunction(upstreamDef, downstreamDef, f.idFactory, conversionContext)
+	assignToFn, err := functions.NewPropertyAssignmentToFunction(upstreamDef, downstreamDef, f.idFactory, conversionContext)
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)
 	}

@@ -145,6 +145,13 @@ func CreateTypeConversion(
 	return nil, err
 }
 
+func NameOfPropertyAssignmentFunction(name astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
+	nameOfOtherType := idFactory.CreateIdentifier(name.Name(), astmodel.Exported)
+	return direction.SelectString(
+		"AssignPropertiesFrom"+nameOfOtherType,
+		"AssignPropertiesTo"+nameOfOtherType)
+}
+
 // assignToOptional will generate a conversion where the destination is optional, if the
 // underlying type of the destination is compatible with the source.
 //
@@ -853,7 +860,7 @@ func assignObjectFromObject(
 			actualReader = astbuilder.AddrOf(reader)
 		}
 
-		functionName := nameOfPropertyAssignmentFunction(sourceName, conversionContext.direction, conversionContext.idFactory)
+		functionName := NameOfPropertyAssignmentFunction(sourceName, conversionContext.direction, conversionContext.idFactory)
 
 		var conversion dst.Stmt
 		if destinationName.PackageReference.Equals(generationContext.CurrentPackage()) {

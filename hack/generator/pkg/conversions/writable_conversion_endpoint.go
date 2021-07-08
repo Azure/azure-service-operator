@@ -50,3 +50,30 @@ func MakeWritableConversionEndpointForProperty(
 func (w WritableConversionEndpoint) String() string {
 	return w.description
 }
+
+// Write generates a series of statements to write the specified value to our destination endpoint
+func (w WritableConversionEndpoint) Write(destination dst.Expr, value dst.Expr) []dst.Stmt {
+	return w.writer(destination, value)
+}
+
+// Endpoint() provides access to the endpoint we write
+func (w WritableConversionEndpoint) Endpoint() *TypedConversionEndpoint {
+	return w.endpoint
+}
+
+// CreateWritableEndpoints creates a map of all the writable endpoints found on a type
+func CreateWritableEndpoints(
+	instance astmodel.Type,
+	knownLocals *astmodel.KnownLocalsSet) map[string]WritableConversionEndpoint {
+	result := make(map[string]WritableConversionEndpoint)
+
+	propContainer, ok := astmodel.AsPropertyContainer(instance)
+	if ok {
+		for _, prop := range propContainer.Properties() {
+			endpoint := MakeWritableConversionEndpointForProperty(prop, knownLocals)
+			result[string(prop.PropertyName())] = endpoint
+		}
+	}
+
+	return result
+}
