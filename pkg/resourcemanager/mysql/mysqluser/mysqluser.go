@@ -58,8 +58,8 @@ func (m *MySqlUserManager) GetDB(ctx context.Context, resourceGroupName string, 
 func (m *MySqlUserManager) GetServer(ctx context.Context, resourceGroupName, serverName string) (mysqlmgmt.Server, error) {
 	// TODO: It's only ok to pass nil for KubeReader here because we know it's not needed to perform GET server.
 	// TODO: Ideally this would be done via a different struct than the one that also does MySQLServer reconciles
-	client := mysqlserver.NewMySQLServerClient(m.Creds, m.SecretClient, m.Scheme, nil)
-	return client.GetServer(ctx, resourceGroupName, serverName)
+	client := mysqlserver.MakeMySQLServerAzureClient(m.Creds)
+	return client.Get(ctx, resourceGroupName, serverName)
 }
 
 // CreateUser creates user with secret credentials

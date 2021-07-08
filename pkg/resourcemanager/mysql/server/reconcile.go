@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
@@ -413,11 +413,14 @@ func (m *MySQLServerClient) GetOrPrepareSecret(
 	return secret, nil
 }
 
+// MySQLCredentials is a username/password pair for a MySQL account
 type MySQLCredentials struct {
 	username string
 	password string
 }
 
+// GetUserProvidedAdminCredentials gets the user provided MySQLCredentials, or nil if none was
+// specified by the user.
 func (m *MySQLServerClient) GetUserProvidedAdminCredentials(
 	ctx context.Context,
 	instance *azurev1alpha2.MySQLServer) (*MySQLCredentials, error) {

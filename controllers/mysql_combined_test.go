@@ -210,7 +210,6 @@ func TestMySQLUserSuppliedPassword(t *testing.T) {
 	rgLocation := "westus2"
 	rgName := tc.resourceGroupName
 	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
-	mySQLReplicaName := GenerateTestResourceNameWithRandom("mysql-rep", 10)
 
 	adminSecretName := GenerateTestResourceNameWithRandom("mysqlsecret", 10)
 	adminUsername := helpers.GenerateRandomUsername(10)
@@ -233,11 +232,6 @@ func TestMySQLUserSuppliedPassword(t *testing.T) {
 	mySQLServerInstance := v1alpha2.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
 	mySQLServerInstance.Spec.AdminSecret = adminSecretName
 	RequireInstance(ctx, t, tc, mySQLServerInstance)
-
-	// Create a mySQL replica
-	mySQLReplicaInstance := v1alpha2.NewReplicaMySQLServer(mySQLReplicaName, rgName, rgLocation, mySQLServerInstance.Status.ResourceId)
-	mySQLReplicaInstance.Spec.StorageProfile = nil
-	EnsureInstance(ctx, t, tc, mySQLReplicaInstance)
 
 	mySQLDBName := GenerateTestResourceNameWithRandom("mysql-db", 10)
 	// Create the mySQLDB object and expect the Reconcile to be created
@@ -275,5 +269,4 @@ func TestMySQLUserSuppliedPassword(t *testing.T) {
 
 	EnsureDelete(ctx, t, tc, mySQLDBInstance)
 	EnsureDelete(ctx, t, tc, mySQLServerInstance)
-	EnsureDelete(ctx, t, tc, mySQLReplicaInstance)
 }
