@@ -76,7 +76,7 @@ func (m *MapType) References() TypeNameSet {
 // Equals returns true if the passed type is a map type with the same kinds of keys and elements, false otherwise
 func (m *MapType) Equals(t Type) bool {
 	if m == t {
-		return true
+		return true // short-circuit
 	}
 
 	if mt, ok := t.(*MapType); ok {

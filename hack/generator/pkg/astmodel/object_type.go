@@ -89,7 +89,6 @@ func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGen
 }
 
 func defineField(fieldName string, fieldType dst.Expr, tag string) *dst.Field {
-
 	result := &dst.Field{
 		Type: fieldType,
 		Tag:  astbuilder.TextLiteral(tag),
@@ -154,7 +153,6 @@ func (objectType *ObjectType) EmbeddedProperties() []*PropertyDefinition {
 // Functions returns all the function implementations
 // A sorted slice is returned to preserve immutability and provide determinism
 func (objectType *ObjectType) Functions() []Function {
-
 	functions := make([]Function, 0, len(objectType.functions))
 	for _, f := range objectType.functions {
 		functions = append(functions, f)
@@ -251,7 +249,7 @@ func (objectType *ObjectType) References() TypeNameSet {
 // The order of the properties is not relevant
 func (objectType *ObjectType) Equals(t Type) bool {
 	if objectType == t {
-		return true
+		return true // short circuit
 	}
 
 	other, ok := t.(*ObjectType)
@@ -376,7 +374,6 @@ func (objectType *ObjectType) WithProperties(properties ...*PropertyDefinition) 
 
 // WithEmbeddedProperties creates a new ObjectType with the additional embedded properties included
 func (objectType *ObjectType) WithEmbeddedProperties(properties ...*PropertyDefinition) (*ObjectType, error) {
-
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
 

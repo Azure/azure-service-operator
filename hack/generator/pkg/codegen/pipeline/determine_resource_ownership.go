@@ -27,7 +27,6 @@ func DetermineResourceOwnership(configuration *config.Configuration) Stage {
 }
 
 func determineOwnership(definitions astmodel.Types, configuration *config.Configuration) (astmodel.Types, error) {
-
 	updatedDefs := make(astmodel.Types)
 
 	for _, def := range definitions {
@@ -180,6 +179,9 @@ func extractChildResourceTypeNames(resourcesPropertyTypeDef astmodel.TypeDefinit
 	}
 }
 
+// this is the name we expect to see on "child resources" in the ARM JSON schema
+const ChildResourceNameSuffix = "ChildResource"
+
 func updateChildResourceDefinitionsWithOwner(
 	definitions astmodel.Types,
 	childResourceTypeNames []astmodel.TypeName,
@@ -188,8 +190,8 @@ func updateChildResourceDefinitionsWithOwner(
 
 	for _, typeName := range childResourceTypeNames {
 		// If the typename ends in ChildResource, remove that
-		if strings.HasSuffix(typeName.Name(), "ChildResource") {
-			typeName = astmodel.MakeTypeName(typeName.PackageReference, strings.TrimSuffix(typeName.Name(), "ChildResource"))
+		if strings.HasSuffix(typeName.Name(), ChildResourceNameSuffix) {
+			typeName = astmodel.MakeTypeName(typeName.PackageReference, strings.TrimSuffix(typeName.Name(), ChildResourceNameSuffix))
 		}
 
 		// If type typename is ExtensionsChild, remove Child -- this is a special case due to

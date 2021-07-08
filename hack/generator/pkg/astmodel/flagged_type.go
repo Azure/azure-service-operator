@@ -124,6 +124,10 @@ func (ft *FlaggedType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr 
 
 // Equals returns true if the passed type is the same as this one, false otherwise
 func (ft *FlaggedType) Equals(t Type) bool {
+	if ft == t {
+		return true // short-circuit
+	}
+
 	other, ok := t.(*FlaggedType)
 	if !ok {
 		return false

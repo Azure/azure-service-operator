@@ -153,7 +153,6 @@ func (resource *ResourceType) IsStorageVersion() bool {
 
 // WithSpec returns a new resource that has the specified spec type
 func (resource *ResourceType) WithSpec(specType Type) *ResourceType {
-
 	if specResource, ok := specType.(*ResourceType); ok {
 		// type is a resource, take its SpecType instead
 		// so we don't nest resources
@@ -167,7 +166,6 @@ func (resource *ResourceType) WithSpec(specType Type) *ResourceType {
 
 // WithStatus returns a new resource that has the specified status type
 func (resource *ResourceType) WithStatus(statusType Type) *ResourceType {
-
 	if specResource, ok := statusType.(*ResourceType); ok {
 		// type is a resource, take its StatusType instead
 		// so we don't nest resources
@@ -286,7 +284,6 @@ func (resource *ResourceType) Equals(other Type) bool {
 // EmbeddedProperties returns all the embedded properties for this resource type
 // An ordered slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
-
 	typeMetaType := MakeTypeName(MetaV1PackageReference, "TypeMeta")
 	typeMetaProperty := NewPropertyDefinition("", "", typeMetaType).
 		WithTag("json", "inline")
@@ -331,7 +328,6 @@ func (resource *ResourceType) WithoutProperty(name PropertyName) *ResourceType {
 // Properties returns all the properties from this resource type
 // An ordered slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) Properties() []*PropertyDefinition {
-
 	result := []*PropertyDefinition{
 		resource.createSpecProperty(),
 	}
@@ -380,7 +376,6 @@ func (resource *ResourceType) Property(name PropertyName) (*PropertyDefinition, 
 // Functions returns all the function implementations
 // A sorted slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) Functions() []Function {
-
 	var functions []Function
 	for _, f := range resource.functions {
 		functions = append(functions, f)

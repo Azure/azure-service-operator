@@ -33,8 +33,8 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg.ObjectMeta),
 			Kind:     storage.StorageAccountsSpecKindBlobStorage,
-			Sku: storage.StorageAccounts_Spec_Sku{
-				Name: storage.StorageAccountsSpecSkuNameStandardLRS,
+			Sku: storage.Sku{
+				Name: storage.SkuNameStandardLRS,
 			},
 			// TODO: They mark this property as optional but actually it is required
 			AccessTier: &accessTier,
@@ -100,7 +100,6 @@ func StorageAccount_BlobServices_CRUD(tc testcommon.KubePerTestContext, storageA
 }
 
 func StorageAccount_BlobServices_Container_CRUD(tc testcommon.KubePerTestContext, blobService metav1.ObjectMeta) {
-
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("container"),
 		Spec: storage.StorageAccountsBlobServicesContainers_Spec{
