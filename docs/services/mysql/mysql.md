@@ -25,12 +25,13 @@ The `adminSecret` is optional and if provided must point to a Kubernetes secret 
 Along with creating the MySQL server, this operator also generates the admin `username` and `password` for the MySQL server and stores it in a kube secret or keyvault (based on what is specified). The generated secret is named according to [secrets naming](/docs/secrets.md).
 
 This secret contains the following fields.
-
-- `fullyQualifiedServerName`: Fully qualified name of the MySQL server. Example: `mysqlserver.mysql.database.azure.com`.
-- `mySqlServerName`: MySQL server name.
-- `username`: Server admin account name.
-- `password`: Server admin account password.
-- `fullyQualifiedUsername`: Fully qualified user name that is required by some apps. Example: `<username>@<mysqlserver>`.
+| Secret field               | Content                                                                                       |
+| -------------------------- | --------------------------------------------------------------------------------------------- |
+| `fullyQualifiedServerName` | Fully qualified name of the MySQL server. Example: `mysqlserver.mysql.database.azure.com`.    |
+| `mySqlServerName`          | MySQL server name.                                                                            |
+| `username`                 | Server admin account name.                                                                    |
+| `password`                 | Server admin account password.                                                                |
+| `fullyQualifiedUsername`   | Fully qualified user name that is required by some apps. Example: `<username>@<mysqlserver>`. |
 
 For more information on where and how secrets are stored, look [here](/docs/secrets.md)
 
