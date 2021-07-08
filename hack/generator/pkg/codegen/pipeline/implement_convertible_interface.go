@@ -58,7 +58,7 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 			return state.WithTypes(newTypes), nil
 		})
 
-	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageId)
+	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageID)
 	return stage
 }
 

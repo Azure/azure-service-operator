@@ -152,7 +152,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			pipeline.InjectOriginalGVKFunctionStageID,
 			pipeline.InjectOriginalVersionFunctionStageID,
 			pipeline.InjectOriginalVersionPropertyStageID,
-			"injectPropertyAssignmentFunctions",
+			pipeline.InjectPropertyAssignmentFunctionsStageID,
 			//pipeline.InjectHubFunctionStageId,
 			"reportTypesAndVersions")
 		if !testConfig.HasARMResources {

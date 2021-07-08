@@ -17,8 +17,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
-// InjectPropertyAssignmentFunctionsStageId is the unique identifier for this pipeline stage
-const InjectPropertyAssignmentFunctionsStageId = "injectPropertyAssignmentFunctions"
+// InjectPropertyAssignmentFunctionsStageID is the unique identifier for this pipeline stage
+const InjectPropertyAssignmentFunctionsStageID = "injectPropertyAssignmentFunctions"
 
 // InjectPropertyAssignmentFunctions injects property assignment functions AssignTo*() and AssignFrom*() into both
 // resources and object types. These functions do the heavy lifting of the conversions between versions of each type and
@@ -26,7 +26,7 @@ const InjectPropertyAssignmentFunctionsStageId = "injectPropertyAssignmentFuncti
 func InjectPropertyAssignmentFunctions(idFactory astmodel.IdentifierFactory) Stage {
 
 	stage := MakeStage(
-		InjectPropertyAssignmentFunctionsStageId,
+		InjectPropertyAssignmentFunctionsStageID,
 		"Inject property assignment functions AssignFrom() and AssignTo() into resources and objects",
 		func(ctx context.Context, state *State) (*State, error) {
 
