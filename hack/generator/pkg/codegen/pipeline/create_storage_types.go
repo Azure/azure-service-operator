@@ -59,6 +59,6 @@ func CreateStorageTypes() Stage {
 			return state.WithTypes(types), nil
 		})
 
-	stage.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageId, CreateConversionGraphStageId)
+	stage.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageID, CreateConversionGraphStageId)
 	return stage
 }
