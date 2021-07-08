@@ -45,6 +45,6 @@ func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) Stage {
 			return result, nil
 		})
 
-	stage.RequiresPostrequisiteStages(CreateStorageTypesStageId, InjectOriginalVersionPropertyId)
+	stage.RequiresPostrequisiteStages(CreateStorageTypesStageID, InjectOriginalVersionPropertyId)
 	return stage
 }

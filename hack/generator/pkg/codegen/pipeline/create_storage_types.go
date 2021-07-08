@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 )
 
-const CreateStorageTypesStageId = "createStorageTypes"
+const CreateStorageTypesStageID = "createStorageTypes"
 
 // CreateStorageTypes returns a pipeline stage that creates dedicated storage types for each resource and nested object.
 // Storage versions are created for *all* API versions to allow users of older versions of the operator to easily

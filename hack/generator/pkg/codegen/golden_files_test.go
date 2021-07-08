@@ -148,7 +148,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		codegen.RemoveStages(
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
-			"createStorageTypes",
+			pipeline.CreateStorageTypesStageID,
 			"injectOriginalGVKFunction",
 			"injectOriginalVersionFunction",
 			"injectOriginalVersionProperty",
