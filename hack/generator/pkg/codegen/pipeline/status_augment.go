@@ -67,165 +67,191 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 	/* TODO: there is a lot here that should be pulled into a "default augmenter" value that can be reused,
 	but at the moment we only have one augmenter */
 
-	return func(main astmodel.Type, swagger astmodel.Type) (astmodel.Type, error) {
+	return func(spec astmodel.Type, status astmodel.Type) (astmodel.Type, error) {
+		// reminder: merger is invoked with a pair of Types and invokes the first
+		// Added function that matches those types
+		//
+		// in this incarnation we are using it to handle the pair of values
+		// (SpecType, StatusType),  to copy the StatusType’s “flatten” property
+		// across, if present (this is only provided on the Swagger = Status side)
+		//
+		// most of the cases are only recursively invoking the merger/matcher on
+		// “inner” types; the (Object, Object) case is where the work is done
+		//
+		// note that we do a small optimization where we don’t return a new type
+		// if nothing was changed; this allows us to keep the same TypeNames
+		// if no alterations were made
+
 		merger := astmodel.NewTypeMerger(func(ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
-			// as a fallback, return left (= main) if we have nothing else to do
+			// as a fallback, return left (= main type) if we have nothing else to do
 			return left, nil
 		})
 
-		// need to resolve main type
-		merger.Add(func(main astmodel.TypeName, swagger astmodel.Type) (astmodel.Type, error) {
+		// handle (TypeName, Type) by resolving LHS
+		merger.Add(func(spec astmodel.TypeName, status astmodel.Type) (astmodel.Type, error) {
 			// Connascence alert! This is in coöperation with the code in
 			// determine_resource_ownership.go:updateChildResourceDefinitionsWithOwner
 			// which requires the typenames to identify which ChildResources match
 			// which Resources. The ChildResource types should never actually be
 			// used, so it's okay that we don't visit them here.
-			if strings.HasSuffix(main.Name(), ChildResourceNameSuffix) {
+			if strings.HasSuffix(spec.Name(), ChildResourceNameSuffix) {
 				// don't touch child resources!
-				return main, nil
+				return spec, nil
 			}
 
-			mainType := allTypes.Get(main).Type()
+			specType := allTypes.Get(spec).Type()
 
-			newMain, err := merger.Merge(mainType, swagger)
+			newSpec, err := merger.Merge(specType, status)
 			if err != nil {
 				return nil, err
 			}
 
 			// return original typename if not changed
-			if newMain == mainType {
-				return main, nil
+			if newSpec == specType {
+				return spec, nil
 			}
 
-			return newMain, nil
+			return newSpec, nil
 		})
 
-		// need to resolve swagger type
-		merger.Add(func(main astmodel.Type, swagger astmodel.TypeName) (astmodel.Type, error) {
-			result, err := merger.Merge(main, allTypes.Get(swagger).Type())
+		// handle (Type, TypeName) by resolving RHS
+		merger.Add(func(spec astmodel.Type, status astmodel.TypeName) (astmodel.Type, error) {
+			newSpec, err := merger.Merge(spec, allTypes.Get(status).Type())
 			if err != nil {
 				return nil, err
 			}
 
-			return result, nil
+			return newSpec, nil
 		})
 
-		merger.Add(func(main *astmodel.OptionalType, swagger astmodel.Type) (astmodel.Type, error) {
+		// handle (Optional, Type)
+		merger.Add(func(spec *astmodel.OptionalType, status astmodel.Type) (astmodel.Type, error) {
 			// we ignore optionality when matching things up, since there are
 			// discordances between the JSON Schema/Swagger as some teams have handcrafted them
-			result, err := merger.Merge(main.Element(), swagger)
+			newSpec, err := merger.Merge(spec.Element(), status)
 			if err != nil {
 				return nil, err
 			}
 
 			// return original type if not changed
-			if result == main.Element() {
-				return main, nil
+			if newSpec == spec.Element() {
+				return spec, nil
 			}
 
-			return astmodel.NewOptionalType(result), nil
+			return astmodel.NewOptionalType(newSpec), nil
 		})
 
-		merger.Add(func(main astmodel.Type, swagger *astmodel.OptionalType) (astmodel.Type, error) {
+		// handle (Type, Optional)
+		merger.Add(func(spec astmodel.Type, status *astmodel.OptionalType) (astmodel.Type, error) {
 			// we ignore optionality when matching things up, since there are
 			// discordances between the JSON Schema/Swagger as some teams have handcrafted them
-			return merger.Merge(main, swagger.Element())
+			return merger.Merge(spec, status.Element())
 		})
 
-		merger.Add(func(main *astmodel.FlaggedType, swagger astmodel.Type) (astmodel.Type, error) {
-			result, err := merger.Merge(main.Element(), swagger)
+		// handle (FlaggedType, Type); there is no need to handle the opposite direction
+		// as the swagger types won’t be flagged
+		merger.Add(func(spec *astmodel.FlaggedType, status astmodel.Type) (astmodel.Type, error) {
+			newSpec, err := merger.Merge(spec.Element(), status)
 			if err != nil {
 				return nil, err
 			}
 
 			// return original type if not changed
-			if result == main.Element() {
-				return main, nil
+			if newSpec == spec.Element() {
+				return spec, nil
 			}
 
-			return main.WithElement(result), nil
+			return spec.WithElement(newSpec), nil
 		})
 
-		merger.Add(func(main, swagger *astmodel.MapType) (astmodel.Type, error) {
-			keyResult, err := merger.Merge(main.KeyType(), swagger.KeyType())
+		// handle (Map, Map) by matching up the keys and values
+		merger.Add(func(spec, status *astmodel.MapType) (astmodel.Type, error) {
+			keyResult, err := merger.Merge(spec.KeyType(), status.KeyType())
 			if err != nil {
 				return nil, err
 			}
 
-			valueResult, err := merger.Merge(main.ValueType(), swagger.ValueType())
+			valueResult, err := merger.Merge(spec.ValueType(), status.ValueType())
 			if err != nil {
 				return nil, err
 			}
 
 			// return original type if not changed
-			if keyResult == main.KeyType() && valueResult == main.ValueType() {
-				return main, nil
+			if keyResult == spec.KeyType() && valueResult == spec.ValueType() {
+				return spec, nil
 			}
 
 			return astmodel.NewMapType(keyResult, valueResult), nil
 		})
 
-		merger.Add(func(main, swagger *astmodel.ArrayType) (astmodel.Type, error) {
-			result, err := merger.Merge(main.Element(), swagger.Element())
+		// handle (Array, Array) by matching up the inner types
+		merger.Add(func(spec, status *astmodel.ArrayType) (astmodel.Type, error) {
+			newSpec, err := merger.Merge(spec.Element(), status.Element())
 			if err != nil {
 				return nil, err
 			}
 
 			// return original type if not changed
-			if result == main.Element() {
-				return main, nil
+			if newSpec == spec.Element() {
+				return spec, nil
 			}
 
-			return astmodel.NewArrayType(result), nil
+			return astmodel.NewArrayType(newSpec), nil
 		})
 
-		merger.Add(func(main, swagger *astmodel.AllOfType) (astmodel.Type, error) {
+		// safety check, (AllOf, AllOf) should not occur
+		merger.Add(func(_, _ *astmodel.AllOfType) (astmodel.Type, error) {
 			panic("allofs should have been removed")
 		})
 
-		merger.Add(func(main, swagger *astmodel.OneOfType) (astmodel.Type, error) {
+		// safety check, (OneOf, OneOf) should not occur
+		merger.Add(func(_, _ *astmodel.OneOfType) (astmodel.Type, error) {
 			panic("oneofs should have been removed")
 		})
 
-		// this shouldn't ever happen, I think
-		merger.Add(func(main, swagger *astmodel.ResourceType) (astmodel.Type, error) {
+		// this shouldn't ever happen, I think, (Resource, Resource)j
+		merger.Add(func(_, _ *astmodel.ResourceType) (astmodel.Type, error) {
 			return astmodel.NewErroredType(nil, []string{"unsupported"}, nil), nil
 		})
 
-		merger.Add(func(main, swagger *astmodel.ObjectType) (astmodel.Type, error) {
-			props := main.Properties()
+		// this is the main part of the merging, we want to match up (Object, Object)
+		// properties and copy across “flatten” when present, and also match up
+		// the type of each property recursively
+		merger.Add(func(spec, status *astmodel.ObjectType) (astmodel.Type, error) {
+			props := spec.Properties()
 
 			changed := false
-			for ix, mainProp := range props {
+			for ix, specProp := range props {
 				// find a matching property in the swagger spec
-				if swaggerProp, ok := swagger.Property(mainProp.PropertyName()); ok {
+				if swaggerProp, ok := status.Property(specProp.PropertyName()); ok {
 					// first copy over flatten property
-					if mainProp.Flatten() != swaggerProp.Flatten() {
+					if specProp.Flatten() != swaggerProp.Flatten() {
 						changed = true
-						mainProp = mainProp.SetFlatten(swaggerProp.Flatten())
+						specProp = specProp.SetFlatten(swaggerProp.Flatten())
 					}
 
 					// now recursively merge property types
-					newType, err := merger.Merge(mainProp.PropertyType(), swaggerProp.PropertyType())
+					newType, err := merger.Merge(specProp.PropertyType(), swaggerProp.PropertyType())
 					if err != nil {
 						return nil, err
 					}
 
-					if newType != mainProp.PropertyType() {
+					if newType != specProp.PropertyType() {
 						changed = true
 					}
 
-					props[ix] = mainProp.WithType(newType)
+					props[ix] = specProp.WithType(newType)
 				}
 			}
 
 			if !changed {
-				return main, nil
+				return spec, nil
 			}
 
-			return main.WithProperties(props...), nil
+			return spec.WithProperties(props...), nil
 		})
 
-		return merger.Merge(main, swagger)
+		// now go!
+		return merger.Merge(spec, status)
 	}
 }
