@@ -146,7 +146,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 	switch genPipeline {
 	case config.GenerationPipelineAzure:
 		codegen.RemoveStages(
-			"deleteGenerated",
+			pipeline.DeleteGeneratedCodeStageID,
 			"rogueCheck",
 			"createStorageTypes",
 			"injectOriginalGVKFunction",
@@ -167,7 +167,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			codegen.ReplaceStage("addCrossResourceReferences", addCrossResourceReferencesForTest(idFactory))
 		}
 	case config.GenerationPipelineCrossplane:
-		codegen.RemoveStages("deleteGenerated", "rogueCheck")
+		codegen.RemoveStages(pipeline.DeleteGeneratedCodeStageID, "rogueCheck")
 		if !testConfig.HasARMResources {
 			codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
 		}
