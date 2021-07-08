@@ -194,6 +194,10 @@ func (v *ValidatedType) String() string {
 }
 
 func (v *ValidatedType) Equals(t Type) bool {
+	if v == t {
+		return true
+	}
+
 	other, ok := t.(*ValidatedType)
 	if !ok {
 		return false

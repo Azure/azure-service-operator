@@ -69,7 +69,6 @@ func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) ds
 // AsZero renders an expression for the "zero" value of the type.
 // The exact thing we need to generate depends on the actual type we reference
 func (typeName TypeName) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
-
 	if _, isLocal := typeName.PackageReference.AsLocalPackage(); !isLocal {
 		// TypeName is external, zero value is a qualified empty struct
 		// (we might not actually use this, if the property is optional, but we still need to generate the right thing)
@@ -121,6 +120,10 @@ func (typeName TypeName) RequiredPackageReferences() *PackageReferenceSet {
 
 // Equals returns true if the passed type is the same TypeName, false otherwise
 func (typeName TypeName) Equals(t Type) bool {
+	if typeName == t {
+		return true
+	}
+
 	if d, ok := t.(TypeName); ok {
 		return typeName.name == d.name && typeName.PackageReference.Equals(d.PackageReference)
 	}

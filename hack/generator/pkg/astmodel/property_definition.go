@@ -396,12 +396,14 @@ func (property *PropertyDefinition) tagsEqual(f *PropertyDefinition) bool {
 }
 
 // Equals tests to see if the specified PropertyDefinition specifies the same property
-func (property *PropertyDefinition) Equals(f *PropertyDefinition) bool {
-	return property == f || (property.propertyName == f.propertyName &&
-		property.propertyType.Equals(f.propertyType) &&
-		property.tagsEqual(f) &&
-		property.hasKubebuilderRequiredValidation == f.hasKubebuilderRequiredValidation &&
-		property.description == f.description)
+func (property *PropertyDefinition) Equals(o *PropertyDefinition) bool {
+	return property == o || (property.propertyName == o.propertyName &&
+		property.propertyType.Equals(o.propertyType) &&
+		property.flatten == o.flatten &&
+		propertyNameSlicesEqual(property.flattenedFrom, o.flattenedFrom) &&
+		property.tagsEqual(o) &&
+		property.hasKubebuilderRequiredValidation == o.hasKubebuilderRequiredValidation &&
+		property.description == o.description)
 }
 
 func (property *PropertyDefinition) copy() *PropertyDefinition {

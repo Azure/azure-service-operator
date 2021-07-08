@@ -6,8 +6,9 @@
 package astmodel
 
 import (
-	"github.com/dave/dst"
 	"strings"
+
+	"github.com/dave/dst"
 )
 
 // PrimitiveType represents a Go primitive type
@@ -74,6 +75,10 @@ func (prim *PrimitiveType) References() TypeNameSet {
 
 // Equals returns true if the passed type is another primitive type the same name, false otherwise
 func (prim *PrimitiveType) Equals(t Type) bool {
+	if prim == t {
+		return true // short circuit
+	}
+
 	if p, ok := t.(*PrimitiveType); ok {
 		return prim.name == p.name
 	}

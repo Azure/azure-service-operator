@@ -87,6 +87,43 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			return left, nil
 		})
 
+		// this is the main part of the merging, we want to match up (Object, Object)
+		// based on their properties and copy across “flatten” when present, and
+		// also invoke the merger on the (Spec, Status) types of each property recursively
+		merger.Add(func(spec, status *astmodel.ObjectType) (astmodel.Type, error) {
+			props := spec.Properties()
+
+			changed := false
+			for ix, specProp := range props {
+				// find a matching property in the swagger spec
+				if swaggerProp, ok := status.Property(specProp.PropertyName()); ok {
+					// first copy over flatten property
+					if specProp.Flatten() != swaggerProp.Flatten() {
+						changed = true
+						specProp = specProp.SetFlatten(swaggerProp.Flatten())
+					}
+
+					// now recursively merge property types
+					newType, err := merger.Merge(specProp.PropertyType(), swaggerProp.PropertyType())
+					if err != nil {
+						return nil, err
+					}
+
+					if !newType.Equals(specProp.PropertyType()) {
+						changed = true
+					}
+
+					props[ix] = specProp.WithType(newType)
+				}
+			}
+
+			if !changed {
+				return spec, nil
+			}
+
+			return spec.WithProperties(props...), nil
+		})
+
 		// handle (TypeName, Type) by resolving LHS
 		merger.Add(func(spec astmodel.TypeName, status astmodel.Type) (astmodel.Type, error) {
 			// Connascence alert! This is in coöperation with the code in
@@ -107,7 +144,7 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			}
 
 			// return original typename if not changed
-			if newSpec == specType {
+			if newSpec.Equals(specType) {
 				return spec, nil
 			}
 
@@ -116,29 +153,24 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 
 		// handle (Type, TypeName) by resolving RHS
 		merger.Add(func(spec astmodel.Type, status astmodel.TypeName) (astmodel.Type, error) {
-			newSpec, err := merger.Merge(spec, allTypes.Get(status).Type())
-			if err != nil {
-				return nil, err
-			}
-
-			return newSpec, nil
+			return merger.Merge(spec, allTypes.Get(status).Type())
 		})
 
 		// handle (Optional, Type)
 		merger.Add(func(spec *astmodel.OptionalType, status astmodel.Type) (astmodel.Type, error) {
 			// we ignore optionality when matching things up, since there are
 			// discordances between the JSON Schema/Swagger as some teams have handcrafted them
-			newSpec, err := merger.Merge(spec.Element(), status)
+			newSpecElement, err := merger.Merge(spec.Element(), status)
 			if err != nil {
 				return nil, err
 			}
 
 			// return original type if not changed
-			if newSpec == spec.Element() {
+			if newSpecElement.Equals(spec.Element()) {
 				return spec, nil
 			}
 
-			return astmodel.NewOptionalType(newSpec), nil
+			return astmodel.NewOptionalType(newSpecElement), nil
 		})
 
 		// handle (Type, Optional)
@@ -157,7 +189,7 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			}
 
 			// return original type if not changed
-			if newSpec == spec.Element() {
+			if newSpec.Equals(spec.Element()) {
 				return spec, nil
 			}
 
@@ -177,7 +209,7 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			}
 
 			// return original type if not changed
-			if keyResult == spec.KeyType() && valueResult == spec.ValueType() {
+			if keyResult.Equals(spec.KeyType()) && valueResult.Equals(spec.ValueType()) {
 				return spec, nil
 			}
 
@@ -186,17 +218,17 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 
 		// handle (Array, Array) by matching up the inner types
 		merger.Add(func(spec, status *astmodel.ArrayType) (astmodel.Type, error) {
-			newSpec, err := merger.Merge(spec.Element(), status.Element())
+			newSpecElement, err := merger.Merge(spec.Element(), status.Element())
 			if err != nil {
 				return nil, err
 			}
 
 			// return original type if not changed
-			if newSpec == spec.Element() {
+			if newSpecElement.Equals(spec.Element()) {
 				return spec, nil
 			}
 
-			return astmodel.NewArrayType(newSpec), nil
+			return astmodel.NewArrayType(newSpecElement), nil
 		})
 
 		// safety check, (AllOf, AllOf) should not occur
@@ -209,46 +241,9 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			panic("oneofs should have been removed")
 		})
 
-		// this shouldn't ever happen, I think, (Resource, Resource)j
+		// this shouldn't ever happen, I think, (Resource, Resource)
 		merger.Add(func(_, _ *astmodel.ResourceType) (astmodel.Type, error) {
 			return astmodel.NewErroredType(nil, []string{"unsupported"}, nil), nil
-		})
-
-		// this is the main part of the merging, we want to match up (Object, Object)
-		// properties and copy across “flatten” when present, and also match up
-		// the type of each property recursively
-		merger.Add(func(spec, status *astmodel.ObjectType) (astmodel.Type, error) {
-			props := spec.Properties()
-
-			changed := false
-			for ix, specProp := range props {
-				// find a matching property in the swagger spec
-				if swaggerProp, ok := status.Property(specProp.PropertyName()); ok {
-					// first copy over flatten property
-					if specProp.Flatten() != swaggerProp.Flatten() {
-						changed = true
-						specProp = specProp.SetFlatten(swaggerProp.Flatten())
-					}
-
-					// now recursively merge property types
-					newType, err := merger.Merge(specProp.PropertyType(), swaggerProp.PropertyType())
-					if err != nil {
-						return nil, err
-					}
-
-					if newType != specProp.PropertyType() {
-						changed = true
-					}
-
-					props[ix] = specProp.WithType(newType)
-				}
-			}
-
-			if !changed {
-				return spec, nil
-			}
-
-			return spec.WithProperties(props...), nil
 		})
 
 		// now go!
