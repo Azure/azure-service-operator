@@ -77,4 +77,3 @@ func CreateWritableEndpoints(
 
 	return result
 }
-
