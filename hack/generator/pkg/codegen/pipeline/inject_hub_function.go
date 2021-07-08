@@ -22,8 +22,8 @@ const InjectHubFunctionStageId = "injectHubFunction"
 // function so that it satisfies the required interface.
 func InjectHubFunction(idFactory astmodel.IdentifierFactory) Stage {
 
-	result := MakeLegacyStage(
-		InjectHubFunctionStageId,
+	stage := MakeLegacyStage(
+		InjectHubFunctionStageID,
 		"Inject the function Hub() into each hub resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			injector := astmodel.NewFunctionInjector()
@@ -50,6 +50,6 @@ func InjectHubFunction(idFactory astmodel.IdentifierFactory) Stage {
 			return result, nil
 		})
 
-	result.RequiresPrerequisiteStages(MarkStorageVersionStageId)
-	return result
+	stage.RequiresPrerequisiteStages(MarkStorageVersionStageId)
+	return stage
 }
