@@ -80,7 +80,7 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			// which requires the typenames to identify which ChildResources match
 			// which Resources. The ChildResource types should never actually be
 			// used, so it's okay that we don't visit them here.
-			if strings.HasSuffix(main.Name(), "ChildResource") {
+			if strings.HasSuffix(main.Name(), ChildResourceNameSuffix) {
 				// don't touch child resources!
 				return main, nil
 			}
