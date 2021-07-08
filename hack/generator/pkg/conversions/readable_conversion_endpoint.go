@@ -61,7 +61,7 @@ func (r ReadableConversionEndpoint) String() string {
 	return r.description
 }
 
-// Reader generates an expression to read our endpoint
+// Read generates an expression to read our endpoint
 func (r ReadableConversionEndpoint) Read(expr dst.Expr) dst.Expr {
 	return r.reader(expr)
 }
