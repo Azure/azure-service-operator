@@ -111,6 +111,11 @@ func newVMSS(
 	upgradePolicyMode := compute.UpgradePolicyModeAutomatic
 	adminUsername := "adminUser"
 
+	inboundNATPoolRef := genruntime.ResourceReference{
+		// TODO: It is the most awkward thing in the world that this is not a fully fledged resource
+		ARMID: *loadBalancer.Status.InboundNatPools[0].Id,
+	}
+
 	return &compute.VirtualMachineScaleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),
 		Spec: compute.VirtualMachineScaleSets_Spec{
@@ -158,12 +163,11 @@ func newVMSS(
 								{
 									Name: "myipconfiguration",
 									Subnet: &compute.ApiEntityReference{
-										Id: subnet.Status.Id,
+										Reference: tc.MakeReferencePtrFromResource(subnet),
 									},
 									LoadBalancerInboundNatPools: []compute.SubResource{
 										{
-											// TODO: It is the most awkward thing in the world that this is not a fully fledged resource
-											Id: loadBalancer.Status.InboundNatPools[0].Id,
+											Reference: &inboundNATPoolRef,
 										},
 									},
 								},

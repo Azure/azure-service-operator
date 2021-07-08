@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
@@ -27,18 +28,25 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 		"addCrossResourceReferences",
 		"Replace cross-resource references with genruntime.ResourceReference",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
-
 			result := make(astmodel.Types)
 			knownReferences := newKnownReferencesMap(configuration)
+
+			var isCrossResourceReferenceErrs []error
+
 			isCrossResourceReference := func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
 				ref := referencePair{
 					typeName: typeName,
 					propName: prop.PropertyName(),
 				}
-				_, isReference := knownReferences[ref]
+				isReference, found := knownReferences[ref]
 
-				if DoesPropertyLookLikeARMReference(prop) && !isReference {
-					klog.V(0).Infof("\"%s.%s\" looks like a resource reference but was not labelled as one", typeName, prop.PropertyName())
+				if DoesPropertyLookLikeARMReference(prop) && !found {
+					// This is an error for now to ensure that we don't accidentally miss adding references.
+					// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
+					// trust the Swagger.
+					isCrossResourceReferenceErrs = append(
+						isCrossResourceReferenceErrs,
+						errors.Errorf("\"%s.%s\" looks like a resource reference but was not labelled as one. It might need to be manually added to `newKnownReferencesMap`", typeName, prop.PropertyName()))
 				}
 
 				return isReference
@@ -64,6 +72,11 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				// TODO: Properties collapsing work for this.
 			}
 
+			err := kerrors.NewAggregate(isCrossResourceReferenceErrs)
+			if err != nil {
+				return nil, err
+			}
+
 			return result, nil
 		})
 }
@@ -75,15 +88,15 @@ type referencePair struct {
 
 type crossResourceReferenceChecker func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool
 
-type crossResourceReferenceTypeVisitor struct {
+type CrossResourceReferenceTypeVisitor struct {
 	astmodel.TypeVisitor
 	// referenceChecker is a function describing what a cross resource reference looks like. It is overridable so that
 	// we can use a more simplistic criteria for tests.
 	isPropertyAnARMReference crossResourceReferenceChecker
 }
 
-func MakeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory, referenceChecker crossResourceReferenceChecker) crossResourceReferenceTypeVisitor {
-	visitor := crossResourceReferenceTypeVisitor{
+func MakeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory, referenceChecker crossResourceReferenceChecker) CrossResourceReferenceTypeVisitor {
+	visitor := CrossResourceReferenceTypeVisitor{
 		isPropertyAnARMReference: referenceChecker,
 	}
 
@@ -137,7 +150,6 @@ func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
 }
 
 func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
-
 	var referencePropertyName string
 	// Special case for "Id" and properties that end in "Id", which are quite common in the specs. This is primarily
 	// because it's awkward to have a field called "Id" not just be a string and instead but a complex type describing
@@ -166,31 +178,73 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 }
 
 // TODO: This will go away in favor of a cleaner solution in the future, as obviously this isn't great
-func newKnownReferencesMap(configuration *config.Configuration) map[referencePair]struct{} {
-	return map[referencePair]struct{}{
+// Set the value to false to eliminate a reference which has incorrectly been flagged
+func newKnownReferencesMap(configuration *config.Configuration) map[referencePair]bool {
+	return map[referencePair]bool{
+		// Batch
 		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.batch", "v1alpha1api20210101"), "KeyVaultReference"),
 			propName: "Id",
-		}: {},
+		}: true,
+		// Document DB
 		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.documentdb", "v1alpha1api20210515"), "VirtualNetworkRule"),
 			propName: "Id",
-		}: {},
+		}: true,
+		// Storage
 		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20210401"), "VirtualNetworkRule"),
 			propName: "Id",
-		}: {},
+		}: true,
+		// Service bus
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.servicebus", "v1alpha1api20210101preview"), "PrivateEndpoint"),
+			propName: "Id",
+		}: true,
+		// Network
 		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.network", "v1alpha1api20201101"), "SubResource"),
 			propName: "Id",
-		}: {},
+		}: true,
+		// Compute
 		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930"), "SourceVault"),
 			propName: "Id",
-		}: {},
+		}: true,
 		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930"), "ImageDiskReference"),
 			propName: "Id",
-		}: {},
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "DiskEncryptionSetParameters"),
+			propName: "Id",
+		}: true,
+		// This is an Id that I believe refers to itself.
+		// It's never supplied in a PUT I don't think, and is only returned in a GET because the
+		// IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations"),
+			propName: "Id",
+		}: false,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "ApiEntityReference"),
+			propName: "Id",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "ImageReference"),
+			propName: "Id",
+		}: true,
+		// This is an Id that I believe refers to itself.
+		// It's never supplied in a PUT I don't think, and is only returned in a GET because the
+		// IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations"),
+			propName: "Id",
+		}: false,
+		// When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "SubResource"),
+			propName: "Id",
+		}: true,
 	}
 }
