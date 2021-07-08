@@ -151,7 +151,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			pipeline.CreateStorageTypesStageID,
 			pipeline.InjectOriginalGVKFunctionStageID,
 			pipeline.InjectOriginalVersionFunctionStageID,
-			"injectOriginalVersionProperty",
+			pipeline.InjectOriginalVersionPropertyStageID,
 			"injectPropertyAssignmentFunctions",
 			//pipeline.InjectHubFunctionStageId,
 			"reportTypesAndVersions")
