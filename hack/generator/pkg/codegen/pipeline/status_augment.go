@@ -110,8 +110,10 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			return result, nil
 		})
 
-		merger.Add(func(main, swagger *astmodel.OptionalType) (astmodel.Type, error) {
-			result, err := merger.Merge(main.Element(), swagger.Element())
+		merger.Add(func(main *astmodel.OptionalType, swagger astmodel.Type) (astmodel.Type, error) {
+			// we ignore optionality when matching things up, since there are
+			// discordances between the JSON Schema/Swagger as some teams have handcrafted them
+			result, err := merger.Merge(main.Element(), swagger)
 			if err != nil {
 				return nil, err
 			}
@@ -122,6 +124,12 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			}
 
 			return astmodel.NewOptionalType(result), nil
+		})
+
+		merger.Add(func(main astmodel.Type, swagger *astmodel.OptionalType) (astmodel.Type, error) {
+			// we ignore optionality when matching things up, since there are
+			// discordances between the JSON Schema/Swagger as some teams have handcrafted them
+			return merger.Merge(main, swagger.Element())
 		})
 
 		merger.Add(func(main *astmodel.FlaggedType, swagger astmodel.Type) (astmodel.Type, error) {

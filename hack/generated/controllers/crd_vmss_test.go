@@ -44,9 +44,9 @@ func newSubnetForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownRe
 	}
 }
 
-func newPublicIPAddressForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.PublicIPAddresses {
+func newPublicIPAddressForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.PublicIPAddress {
 	publicIPAddressSku := network.PublicIPAddressSkuNameStandard
-	return &network.PublicIPAddresses{
+	return &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
 		Spec: network.PublicIPAddresses_Spec{
 			Location: tc.AzureRegion,
@@ -59,10 +59,11 @@ func newPublicIPAddressForVMSS(tc testcommon.KubePerTestContext, owner genruntim
 	}
 }
 
-func newLoadBalancerForVMSS(tc testcommon.KubePerTestContext, rg *resources.ResourceGroup, publicIPAddress *network.PublicIPAddresses) *network.LoadBalancer {
+func newLoadBalancerForVMSS(tc testcommon.KubePerTestContext, rg *resources.ResourceGroup, publicIPAddress *network.PublicIPAddress) *network.LoadBalancer {
 	loadBalancerSku := network.LoadBalancerSkuNameStandard
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
+	protocol := network.InboundNatPoolPropertiesFormatProtocolTcp
 	return &network.LoadBalancer{
 		ObjectMeta: tc.MakeObjectMetaWithName(lbName),
 		Spec: network.LoadBalancers_Spec{
@@ -71,31 +72,27 @@ func newLoadBalancerForVMSS(tc testcommon.KubePerTestContext, rg *resources.Reso
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			FrontendIPConfigurations: []network.FrontendIPConfiguration{
+			FrontendIPConfigurations: []network.LoadBalancers_Spec_Properties_FrontendIPConfigurations{
 				{
 					Name: lbFrontendName,
-					Properties: &network.FrontendIPConfigurationPropertiesFormat{
-						PublicIPAddress: &network.SubResource{
-							Reference: tc.MakeReferenceFromResource(publicIPAddress),
-						},
+					PublicIPAddress: &network.SubResource{
+						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},
 				},
 			},
-			InboundNatPools: []network.InboundNatPool{
+			InboundNatPools: []network.LoadBalancers_Spec_Properties_InboundNatPools{
 				{
 					Name: "MyFancyNatPool",
-					Properties: &network.InboundNatPoolPropertiesFormat{
-						FrontendIPConfiguration: network.SubResource{
-							Reference: genruntime.ResourceReference{
-								// TODO: Getting this is SUPER awkward
-								ARMID: tc.MakeARMId(rg.Name, "Microsoft.Network", "loadBalancers", lbName, "frontendIPConfigurations", lbFrontendName),
-							},
+					FrontendIPConfiguration: &network.SubResource{
+						Reference: genruntime.ResourceReference{
+							// TODO: Getting this is SUPER awkward
+							ARMID: tc.MakeARMId(rg.Name, "Microsoft.Network", "loadBalancers", lbName, "frontendIPConfigurations", lbFrontendName),
 						},
-						Protocol:               network.InboundNatPoolPropertiesFormatProtocolTcp,
-						FrontendPortRangeStart: 50000,
-						FrontendPortRangeEnd:   51000,
-						BackendPort:            22,
 					},
+					Protocol:               &protocol,
+					FrontendPortRangeStart: to.IntPtr(50_000),
+					FrontendPortRangeEnd:   to.IntPtr(51_000),
+					BackendPort:            to.IntPtr(22),
 				},
 			},
 		},
@@ -128,7 +125,7 @@ func newVMSS(
 			UpgradePolicy: &compute.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute.VirtualMachineScaleSetVMProfile{
+			VirtualMachineProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{
 				StorageProfile: &compute.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute.ImageReference{
 						Publisher: to.StringPtr("Canonical"),
@@ -152,25 +149,21 @@ func newVMSS(
 						},
 					},
 				},
-				NetworkProfile: &compute.VirtualMachineScaleSetNetworkProfile{
-					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSetNetworkConfiguration{
+				NetworkProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
+					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
 						{
-							Name: "mynicconfig",
-							Properties: &compute.VirtualMachineScaleSetNetworkConfigurationProperties{
-								Primary: to.BoolPtr(true),
-								IpConfigurations: []compute.VirtualMachineScaleSetIPConfiguration{
-									{
-										Name: "myipconfiguration",
-										Properties: &compute.VirtualMachineScaleSetIPConfigurationProperties{
-											Subnet: &compute.ApiEntityReference{
-												Id: subnet.Status.Id,
-											},
-											LoadBalancerInboundNatPools: []compute.SubResource{
-												{
-													// TODO: It is the most awkward thing in the world that this is not a fully fledged resource
-													Id: loadBalancer.Status.InboundNatPools[0].Id,
-												},
-											},
+							Name:    "mynicconfig",
+							Primary: to.BoolPtr(true),
+							IpConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{
+								{
+									Name: "myipconfiguration",
+									Subnet: &compute.ApiEntityReference{
+										Id: subnet.Status.Id,
+									},
+									LoadBalancerInboundNatPools: []compute.SubResource{
+										{
+											// TODO: It is the most awkward thing in the world that this is not a fully fledged resource
+											Id: loadBalancer.Status.InboundNatPools[0].Id,
 										},
 									},
 								},
@@ -203,18 +196,16 @@ func Test_VMSS_CRUD(t *testing.T) {
 	// Perform a simple patch to add a basic custom script extension
 	patcher := tc.NewResourcePatcher(vmss)
 	extensionName := "mycustomextension"
-	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute.VirtualMachineScaleSetExtensionProfile{
-		Extensions: []compute.VirtualMachineScaleSetExtension{
+	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile{
+		Extensions: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions{
 			{
-				Name: &extensionName,
-				Properties: &compute.GenericExtension{
-					Publisher:          "Microsoft.Azure.Extensions",
-					Type:               "CustomScript",
-					TypeHandlerVersion: "2.0",
-					Settings: map[string]v1.JSON{
-						"commandToExecute": {
-							Raw: []byte(`"/bin/bash -c \"echo hello\""`),
-						},
+				Name:               &extensionName,
+				Publisher:          to.StringPtr("Microsoft.Azure.Extensions"),
+				Type:               to.StringPtr("CustomScript"),
+				TypeHandlerVersion: to.StringPtr("2.0"),
+				Settings: map[string]v1.JSON{
+					"commandToExecute": {
+						Raw: []byte(`"/bin/bash -c \"echo hello\""`),
 					},
 				},
 			},

@@ -261,7 +261,14 @@ func (property *PropertyDefinition) MakeOptional() *PropertyDefinition {
 	// whereas in the MakeRequired direction we only care if the type is specifically *astmodel.Optional
 	if !isTypeOptional(property.propertyType) {
 		// Need to make the type optional
-		result.propertyType = NewOptionalType(result.propertyType)
+
+		// we must check if the type is validated to preserve the validation invariant
+		// that all validations are *directly* under either a named type or a property
+		if vType, ok := result.propertyType.(*ValidatedType); ok {
+			result.propertyType = NewValidatedType(NewOptionalType(vType.ElementType()), vType.validations)
+		} else {
+			result.propertyType = NewOptionalType(result.propertyType)
+		}
 	}
 
 	result.hasKubebuilderRequiredValidation = false

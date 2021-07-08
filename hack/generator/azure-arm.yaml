@@ -152,7 +152,7 @@ exportFilters:
   - action: include-transitive
     group: microsoft.network
     version: v*api20201101
-    name: PublicIPAddresses
+    name: PublicIPAddress
     because: "including public IP Address"
   - action: include-transitive
     group: microsoft.network

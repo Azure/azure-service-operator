@@ -61,7 +61,7 @@ func newVMSSWithInvalidPublisher(tc testcommon.KubePerTestContext, rg *resources
 			UpgradePolicy: &compute.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute.VirtualMachineScaleSetVMProfile{
+			VirtualMachineProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{
 				StorageProfile: &compute.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute.ImageReference{
 						Publisher: to.StringPtr("this publisher"),
@@ -74,8 +74,8 @@ func newVMSSWithInvalidPublisher(tc testcommon.KubePerTestContext, rg *resources
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 				},
-				NetworkProfile: &compute.VirtualMachineScaleSetNetworkProfile{
-					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSetNetworkConfiguration{
+				NetworkProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
+					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
 						{
 							Name: "mynicconfig",
 						},
