@@ -15,7 +15,7 @@ import (
 )
 
 // CreateConversionGraphStageId is the unique identifier for this stage
-const CreateConversionGraphStageId = "linkConversionGraph"
+const CreateConversionGraphStageId = "createConversionGraph"
 
 // CreateConversionGraph walks the set of available types and creates a graph of conversions that will be used to
 // convert resources to/from the designated storage (or hub) version
