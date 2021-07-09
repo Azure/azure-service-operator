@@ -766,7 +766,7 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 
 	items := schema.items()
 	if len(items) > 1 {
-		return nil, errors.Errorf("item contains more children than expected: %v", schema.items())
+		return nil, errors.Errorf("item contains more children than expected: %s", schema.items())
 	}
 
 	if len(items) == 0 {

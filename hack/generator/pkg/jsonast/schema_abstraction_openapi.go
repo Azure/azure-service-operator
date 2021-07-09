@@ -242,7 +242,7 @@ func enumValuesToLiterals(enumValues []interface{}) []string {
 		} else if enumFloat, ok := enumValue.(float64); ok {
 			result[i] = fmt.Sprintf("%g", enumFloat)
 		} else {
-			panic(fmt.Sprintf("unable to convert enum value (%v %T) to literal", enumValue, enumValue))
+			panic(fmt.Sprintf("unable to convert enum value (%s %T) to literal", enumValue, enumValue))
 		}
 	}
 
