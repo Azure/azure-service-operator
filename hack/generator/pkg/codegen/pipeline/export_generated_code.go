@@ -51,7 +51,7 @@ func CreatePackagesForDefinitions(definitions astmodel.Types) (map[astmodel.Pack
 		defName := def.Name()
 		pkgRef, ok := defName.PackageReference.AsLocalPackage()
 		if !ok {
-			klog.Errorf("Definition %v from external package %v skipped", defName.Name(), defName.PackageReference)
+			klog.Errorf("Definition %s from external package %s skipped", defName.Name(), defName.PackageReference)
 			continue
 		}
 
@@ -190,7 +190,7 @@ func (export *progressMeter) Log() {
 
 	elapsed := time.Since(started).Round(time.Millisecond)
 	if export.label != "" {
-		klog.V(2).Infof("Wrote %d files containing %d definitions for %v in %v", export.files, export.definitions, export.label, elapsed)
+		klog.V(2).Infof("Wrote %d files containing %d definitions for %s in %v", export.files, export.definitions, export.label, elapsed)
 	} else {
 		klog.V(2).Infof("Wrote %d files containing %d definitions in %v", export.files, export.definitions, time.Since(started))
 	}
