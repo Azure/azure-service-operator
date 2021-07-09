@@ -131,7 +131,7 @@ func SecretNamingVersion() secrets.SecretNamingVersion {
 func ConfigString() string {
 	creds := GlobalCredentials()
 	return fmt.Sprintf(
-		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %v, useManagedIdentity: %v, targetNamespaces: %v, podNamespace: %q, secretNamingVersion: %q",
+		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %t, useManagedIdentity: %t, targetNamespaces: %s, podNamespace: %q, secretNamingVersion: %q",
 		creds.ClientID(),
 		creds.TenantID(),
 		creds.SubscriptionID(),
