@@ -7,6 +7,7 @@ package armconversion
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/dave/dst"
@@ -46,7 +47,13 @@ func (builder conversionBuilder) propertyConversionHandler(
 		}
 	}
 
-	panic(fmt.Sprintf("No property found for %s in method %s\nFrom: %+v\nTo: %+v", toProp.PropertyName(), builder.methodName, *builder.kubeType, *builder.armType))
+	var kubeDescription strings.Builder
+	builder.kubeType.WriteDebugDescription(&kubeDescription, nil)
+
+	var armDescription strings.Builder
+	builder.armType.WriteDebugDescription(&armDescription, nil)
+
+	panic(fmt.Sprintf("No property found for %q in method %s()\nFrom: %s\nTo: %s", toProp.PropertyName(), builder.methodName, kubeDescription, armDescription))
 }
 
 type propertyConversionHandler = func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt
