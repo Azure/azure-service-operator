@@ -54,7 +54,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	if err != nil {
 		if instance.Status.Provisioned {
 			instance.Status.Message = err.Error()
-			return false, fmt.Errorf("secret missing for provisioned server: %+v", secretKey)
+			return false, fmt.Errorf("secret missing for provisioned server: %s", secretKey)
 		}
 
 		// Assure that the requested name is available and assume the secret exists

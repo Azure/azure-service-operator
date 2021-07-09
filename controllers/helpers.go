@@ -334,7 +334,7 @@ func EnsureSecretsWithValue(ctx context.Context, t *testing.T, tc TestContext, i
 			return err
 		}
 		if !strings.Contains(string(secrets[secretSubKey]), secretvalue) {
-			return fmt.Errorf("secret with key %+v not equal to %s", secretKey, secretvalue)
+			return fmt.Errorf("secret with key %s not equal to %s", secretKey, secretvalue)
 		}
 
 		return nil
