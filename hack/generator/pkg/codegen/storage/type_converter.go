@@ -147,7 +147,7 @@ func (_ *TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDef
 	pkg := definition.Name().PackageReference.PackageName()
 
 	result := []string{
-		fmt.Sprintf("Storage version of %v.%v", pkg, definition.Name().Name()),
+		fmt.Sprintf("Storage version of %s.%s", pkg, definition.Name().Name()),
 	}
 	result = append(result, definition.Description()...)
 

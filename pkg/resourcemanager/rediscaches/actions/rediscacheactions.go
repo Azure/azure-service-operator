@@ -82,7 +82,7 @@ func (r *AzureRedisCacheActionManager) ForceReboot(ctx context.Context, resource
 	case v1alpha1.RedisCacheActionNameRebootSecondaryNode:
 		rebootType = model.SecondaryNode
 	default:
-		return fmt.Errorf("%v is not a valid reboot action", actionName)
+		return fmt.Errorf("%s is not a valid reboot action", actionName)
 	}
 
 	_, err = client.ForceReboot(ctx, resourceGroup, cacheName, model.RebootParameters{

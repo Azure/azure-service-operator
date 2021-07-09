@@ -129,7 +129,7 @@ func collectBadPackages(
 	if klog.V(2).Enabled() {
 		for _, groupName := range groupNames {
 			sort.Strings(grouped[groupName])
-			klog.Infof("%s: %v", groupName, grouped[groupName])
+			klog.Infof("%s: %s", groupName, grouped[groupName])
 		}
 	}
 
