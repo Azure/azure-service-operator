@@ -54,13 +54,13 @@ tasks:
 
   ############### Generator targets ###############
   generator:quick-checks:
-    deps: [header-check, generator:format-code, generator:test]
+    deps: [header-check, specifier-check, generator:format-code, generator:test]
     # Lint is forced to the end because it expects the code is formatted
     cmds:
     - task: generator:lint
 
   generator:ci:
-    deps: [header-check, generator:lint-full, generator:test-cover]
+    deps: [header-check, specifier-check, generator:lint-full, generator:test-cover]
 
   generator:test:
     desc: Run {{.GENERATOR_APP}} unit tests.
@@ -121,16 +121,16 @@ tasks:
 
   ############### Controller targets ###############
   controller:quick-checks:
-    deps: [header-check, controller:format-code, controller:test]
+    deps: [header-check, specifier-check, controller:format-code, controller:test]
     # Lint is forced to the end because it expects the code is formatted
     cmds:
       - task: controller:lint
 
   controller:ci:
-    deps: [header-check, controller:lint-full, controller:test-integration-envtest-cover]
+    deps: [header-check, specifier-check, controller:lint-full, controller:test-integration-envtest-cover]
 
   controller:ci-live:
-    deps: [header-check, controller:lint-full, controller:test-integration-envtest-live]
+    deps: [header-check, specifier-check, controller:lint-full, controller:test-integration-envtest-live]
 
   controller:lint:
     desc: Run fast lint checks.
@@ -252,7 +252,7 @@ tasks:
 
   ############### Crossplane targets ###############
   crossplane:quick-checks:
-    deps: [header-check, crossplane:format-code]
+    deps: [header-check, specifier-check, crossplane:format-code]
     # Lint is forced to the end because it expects the code is formatted
     cmds:
       # - task: crossplane:lint
@@ -310,7 +310,7 @@ tasks:
       - ./bin/{{.GENERATOR_APP}} gen-types azure-crossplane.yaml
 
   crossplane:ci:
-    deps: [header-check, crossplane:generate-crds]
+    deps: [header-check, specifier-check, crossplane:generate-crds]
 
   ############### Shared targets ###############
 
@@ -331,3 +331,16 @@ tasks:
   header-check:
     desc: Ensure all files have an appropriate license header.
     cmds: [python3 ./scripts/check_headers.py]
+
+  specifier-check:
+    desc: Check that format specifiers %v and %+v are not used
+    # Both %v and %+v result in all the values from structs being dumped into the string. If that 
+    # struct happens to contain a secret or sensitive information, it ends up dumped out in an 
+    # uncontrolled way, potentially leading to a security issue or a problem with PII disclosure.
+    # The buried risk here is that while %v might be safe now, a future change to the struct might
+    # introduce a disclosure later on. 
+    cmds:
+      - echo "==> Checking format specifiers <=="
+      - git grep -e "%+v" -e "%v" --break --heading --line-number -I '*.go'
+      - git grep -e "%+v" -e "%v" -I --quiet '*.go' && exit -1 
+
