@@ -37,14 +37,14 @@ func GenerateKubebuilderComment(validation KubeBuilderValidation) string {
 			// handle slice values which should look like "{"x","y","z"}
 			var values []string
 			for i := 0; i < value.Len(); i++ {
-				values = append(values, fmt.Sprintf("%v", value.Index(i)))
+				values = append(values, fmt.Sprintf("%s", value.Index(i)))
 			}
 
 			return fmt.Sprintf("%s%s={%s}", prefix, validation.name, strings.Join(values, ","))
 		}
 
 		// everything else
-		return fmt.Sprintf("%s%s=%v", prefix, validation.name, validation.value)
+		return fmt.Sprintf("%s%s=%s", prefix, validation.name, validation.value)
 	}
 
 	// validation without argument
@@ -139,7 +139,7 @@ func ValidateMaximum(value *big.Rat) KubeBuilderValidation {
 	} else {
 		floatValue, ok := value.Float64()
 		if !ok {
-			klog.Warningf("inexact maximum: %s ⇒ %v", value.String(), floatValue)
+			klog.Warningf("inexact maximum: %s ⇒ %g", value.String(), floatValue)
 		}
 
 		return KubeBuilderValidation{MaximumValidationName, floatValue}
@@ -152,7 +152,7 @@ func ValidateMinimum(value *big.Rat) KubeBuilderValidation {
 	} else {
 		floatValue, ok := value.Float64()
 		if !ok {
-			klog.Warningf("inexact minimum: %s ⇒ %v", value.String(), floatValue)
+			klog.Warningf("inexact minimum: %s ⇒ %g", value.String(), floatValue)
 		}
 
 		return KubeBuilderValidation{MinimumValidationName, floatValue}
