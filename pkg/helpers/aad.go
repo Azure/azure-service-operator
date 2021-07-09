@@ -74,7 +74,7 @@ func (a *AADIdentityFinder) FindIdentity(ctx context.Context) (*AADIdentity, err
 		Name:      binding.Spec.AzureIdentity,
 	}
 	if err := a.client.Get(ctx, key, &identity); err != nil {
-		return nil, errors.Wrapf(err, "failed getting identity %v", key)
+		return nil, errors.Wrapf(err, "failed getting identity %s", key)
 	}
 
 	// TODO: Confirm the identity we found was the right kind (MSI) rather than SP
