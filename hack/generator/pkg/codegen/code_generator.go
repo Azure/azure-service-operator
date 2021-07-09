@@ -79,7 +79,6 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 }
 
 func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []pipeline.Stage {
-
 	// graph keeps track of the conversions we need between different API & Storage versions
 	graph := storage.NewConversionGraph()
 
@@ -157,7 +156,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.AddCrossplaneEmbeddedResourceStatus(idFactory).UsedFor(pipeline.CrossplaneTarget),
 
 		// Create Storage types
-		//TODO: For now only used for ARM
+		// TODO: For now only used for ARM
 		pipeline.InjectOriginalVersionFunction(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.CreateStorageTypes(graph).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),

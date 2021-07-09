@@ -11,13 +11,14 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	"github.com/Azure/go-autorest/autorest/to"
+
 	compute "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.compute/v1alpha1api20201201"
 	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	storage "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.storage/v1alpha1api20210401"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reconcilers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
-	"github.com/Azure/go-autorest/autorest/to"
 )
 
 func newStorageAccountWithInvalidKeyExpiration(tc testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
@@ -32,8 +33,8 @@ func newStorageAccountWithInvalidKeyExpiration(tc testcommon.KubePerTestContext,
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg.ObjectMeta),
 			Kind:     storage.StorageAccountsSpecKindBlobStorage,
-			Sku: storage.StorageAccounts_Spec_Sku{
-				Name: storage.StorageAccountsSpecSkuNameStandardLRS,
+			Sku: storage.Sku{
+				Name: storage.SkuNameStandardLRS,
 			},
 			AccessTier: &accessTier,
 			KeyPolicy: &storage.KeyPolicy{
@@ -60,7 +61,7 @@ func newVMSSWithInvalidPublisher(tc testcommon.KubePerTestContext, rg *resources
 			UpgradePolicy: &compute.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute.VirtualMachineScaleSetVMProfile{
+			VirtualMachineProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{
 				StorageProfile: &compute.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute.ImageReference{
 						Publisher: to.StringPtr("this publisher"),
@@ -73,8 +74,8 @@ func newVMSSWithInvalidPublisher(tc testcommon.KubePerTestContext, rg *resources
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 				},
-				NetworkProfile: &compute.VirtualMachineScaleSetNetworkProfile{
-					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSetNetworkConfiguration{
+				NetworkProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
+					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
 						{
 							Name: "mynicconfig",
 						},

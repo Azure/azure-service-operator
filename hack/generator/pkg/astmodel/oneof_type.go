@@ -97,13 +97,13 @@ func (oneOf OneOfType) RequiredPackageReferences() *PackageReferenceSet {
 // Equals returns true if the other Type is a OneOfType that contains
 // the same set of types
 func (oneOf *OneOfType) Equals(t Type) bool {
+	if oneOf == t {
+		return true // short-circuit
+	}
+
 	other, ok := t.(*OneOfType)
 	if !ok {
 		return false
-	}
-
-	if oneOf == other {
-		return true // short-circuit
 	}
 
 	return oneOf.types.Equals(other.types)
