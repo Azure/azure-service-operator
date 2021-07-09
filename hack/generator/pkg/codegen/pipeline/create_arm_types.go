@@ -158,7 +158,7 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 	armDef, err := def.WithName(armName).ApplyObjectTransformations(removeValidations, convertObjectPropertiesForARM, addOneOfConversionFunctionIfNeeded)
 	if err != nil {
 		return astmodel.TypeDefinition{},
-			errors.Wrapf(err, "creating ARM prototype %v from Kubernetes definition %v", armName, def.Name())
+			errors.Wrapf(err, "creating ARM prototype %s from Kubernetes definition %s", armName, def.Name())
 	}
 
 	result, err := armDef.ApplyObjectTransformation(func(objectType *astmodel.ObjectType) (astmodel.Type, error) {
@@ -166,7 +166,7 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 	})
 	if err != nil {
 		return astmodel.TypeDefinition{},
-			errors.Wrapf(err, "creating ARM definition %v from Kubernetes definition %v", armName, def.Name())
+			errors.Wrapf(err, "creating ARM definition %s from Kubernetes definition %s", armName, def.Name())
 	}
 
 	return result, nil
@@ -181,7 +181,7 @@ func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmod
 
 		def, ok := c.definitions[it]
 		if !ok {
-			return nil, errors.Errorf("failed to lookup %v", it)
+			return nil, errors.Errorf("failed to lookup %s", it)
 		}
 
 		if _, ok := def.Type().(*astmodel.ObjectType); ok {
@@ -192,7 +192,7 @@ func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmod
 		// just keep using that alias)
 		updatedType, err := this.Visit(def.Type(), ctx)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to update definition %v", def.Name())
+			return nil, errors.Wrapf(err, "failed to update definition %s", def.Name())
 		}
 
 		if updatedType.Equals(def.Type()) {

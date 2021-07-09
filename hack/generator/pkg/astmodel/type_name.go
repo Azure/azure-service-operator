@@ -58,7 +58,7 @@ func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) ds
 	// Safety assertion that the type we're generating is in the same package that the context is for
 	if !codeGenerationContext.currentPackage.Equals(typeName.PackageReference) {
 		panic(fmt.Sprintf(
-			"no reference for %v included in package %v",
+			"no reference for %s included in package %s",
 			typeName.name,
 			codeGenerationContext.currentPackage))
 	}

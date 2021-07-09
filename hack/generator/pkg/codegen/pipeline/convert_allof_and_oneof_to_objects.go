@@ -108,7 +108,7 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Stage {
 
 				transformed, err := visitor.VisitDefinition(def, resourceUpdater)
 				if err != nil {
-					return nil, errors.Wrapf(err, "error processing type %v", def.Name())
+					return nil, errors.Wrapf(err, "error processing type %s", def.Name())
 				}
 
 				result.Add(transformed)

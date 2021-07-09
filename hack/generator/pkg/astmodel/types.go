@@ -35,7 +35,7 @@ func (types Types) TryGet(t TypeName) (TypeDefinition, bool) {
 func (types Types) Add(def TypeDefinition) {
 	key := def.Name()
 	if _, ok := types[key]; ok {
-		panic(fmt.Sprintf("type already defined: %v", key))
+		panic(fmt.Sprintf("type already defined: %s", key))
 	}
 
 	types[key] = def
@@ -47,7 +47,7 @@ func (types Types) FullyResolve(t Type) (Type, error) {
 	for ok {
 		tDef, found := types[tName]
 		if !found {
-			return nil, errors.Errorf("couldn't find definition for %v", tName)
+			return nil, errors.Errorf("couldn't find definition for %s", tName)
 		}
 
 		t = tDef.Type()
@@ -221,7 +221,7 @@ func (types Types) ResolveResourceSpecDefinition(
 
 	resourceSpecDef, ok := types[specName]
 	if !ok {
-		return TypeDefinition{}, errors.Errorf("couldn't find spec %v", specName)
+		return TypeDefinition{}, errors.Errorf("couldn't find spec %s", specName)
 	}
 
 	return resourceSpecDef, nil
@@ -237,7 +237,7 @@ func (types Types) ResolveResourceStatusDefinition(
 
 	resourceStatusDef, ok := types[statusName]
 	if !ok {
-		return TypeDefinition{}, errors.Errorf("couldn't find status %v", statusName)
+		return TypeDefinition{}, errors.Errorf("couldn't find status %s", statusName)
 	}
 
 	// preserve outer spec name

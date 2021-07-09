@@ -105,13 +105,13 @@ type statusTypes struct {
 
 func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Type, bool) {
 	if statusDef, ok := st.resourceTypes.tryFind(typeName); ok {
-		klog.V(4).Infof("Swagger information found for %v", typeName)
+		klog.V(4).Infof("Swagger information found for %s", typeName)
 		return statusDef, true
 	} else {
-		klog.V(3).Infof("Swagger information missing for %v", typeName)
+		klog.V(3).Infof("Swagger information missing for %s", typeName)
 		// add a warning that the status is missing
 		// this will be reported if the type is not pruned
-		return astmodel.NewErroredType(nil, nil, []string{fmt.Sprintf("missing status information for %v", typeName)}), false
+		return astmodel.NewErroredType(nil, nil, []string{fmt.Sprintf("missing status information for %s", typeName)}), false
 	}
 }
 
@@ -129,7 +129,7 @@ func (resourceLookup resourceLookup) tryFind(name astmodel.TypeName) (astmodel.T
 func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmodel.Type) {
 	lower := lowerCase(name)
 	if _, ok := resourceLookup[lower]; ok {
-		panic(fmt.Sprintf("lowercase name collision: %v", name))
+		panic(fmt.Sprintf("lowercase name collision: %s", name))
 	}
 
 	resourceLookup[lower] = theType

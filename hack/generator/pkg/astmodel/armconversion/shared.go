@@ -89,7 +89,7 @@ func getReceiverObjectType(codeGenerationContext *astmodel.CodeGenerationContext
 	receiverType, ok := rt.Type().(*astmodel.ObjectType)
 	if !ok {
 		// Don't expect to have any wrapper types left at this point
-		panic(fmt.Sprintf("receiver for ARMConversionFunction is not of expected type. TypeName: %v, Type %T", receiver, rt.Type()))
+		panic(fmt.Sprintf("receiver for ARMConversionFunction is not of expected type. TypeName: %s, Type %T", receiver, rt.Type()))
 	}
 
 	return receiverType

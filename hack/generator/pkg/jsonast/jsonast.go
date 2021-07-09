@@ -53,7 +53,7 @@ func (scanner *SchemaScanner) findTypeDefinition(name astmodel.TypeName) (*astmo
 // addTypeDefinition adds a type definition to emit later
 func (scanner *SchemaScanner) addTypeDefinition(def astmodel.TypeDefinition) {
 	if existing, ok := scanner.definitions[def.Name()]; ok && existing != nil {
-		panic(fmt.Sprintf("overwriting existing definition for %v", def.Name()))
+		panic(fmt.Sprintf("overwriting existing definition for %s", def.Name()))
 	}
 
 	scanner.definitions[def.Name()] = &def
@@ -187,13 +187,13 @@ func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx cont
 
 		resourceDef, ok := scanner.findTypeDefinition(resourceRef)
 		if !ok {
-			return errors.Errorf("unable to resolve resource definition for %v", resourceRef)
+			return errors.Errorf("unable to resolve resource definition for %s", resourceRef)
 		}
 
 		resourceType, ok := resourceDef.Type().(*astmodel.ResourceType)
 		if !ok {
 			// safety check
-			return errors.Errorf("resource reference %v in deployment template did not resolve to resource type", resourceRef)
+			return errors.Errorf("resource reference %s in deployment template did not resolve to resource type", resourceRef)
 		}
 
 		// now we will remove the existing resource definition and replace it with a new one that includes the base type
@@ -247,12 +247,12 @@ func (scanner *SchemaScanner) Definitions() astmodel.Types {
 	for defName, def := range scanner.definitions {
 		if def == nil {
 			// safety check/assert:
-			panic(fmt.Sprintf("%v was nil", defName))
+			panic(fmt.Sprintf("%s was nil", defName))
 		}
 
 		if defName != def.Name() {
 			// this indicates a serious programming error
-			panic(fmt.Sprintf("mismatched typenames: %v != %v", defName, def.Name()))
+			panic(fmt.Sprintf("mismatched typenames: %s != %s", defName, def.Name()))
 		}
 
 		defs.Add(*def)
@@ -669,7 +669,7 @@ func generateDefinitionsFor(
 
 	if def, ok := scanner.findTypeDefinition(typeName); !ok || def == nil {
 		// safety check in case of breaking changes
-		panic(fmt.Sprintf("didn't set type definition for %v", typeName))
+		panic(fmt.Sprintf("didn't set type definition for %s", typeName))
 	}
 
 	return definition.Name(), nil

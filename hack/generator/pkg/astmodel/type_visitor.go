@@ -66,7 +66,7 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 		return tv.visitErroredType(tv, it, ctx)
 	}
 
-	panic(fmt.Sprintf("unhandled type: (%T) %v", t, t))
+	panic(fmt.Sprintf("unhandled type: (%T) %s", t, t))
 }
 
 // VisitDefinition invokes the TypeVisitor on both the name and type of the definition

@@ -236,7 +236,7 @@ func (c *armConversionApplier) addARMConversionInterface(
 	if err != nil {
 		emptyDef := astmodel.TypeDefinition{}
 		return emptyDef,
-			errors.Errorf("failed to add ARM conversion interface to Kubenetes object definition %v", armDef.Name())
+			errors.Errorf("failed to add ARM conversion interface to Kubenetes object definition %s", armDef.Name())
 	}
 
 	return result, nil

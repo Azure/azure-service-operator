@@ -166,14 +166,14 @@ func nameInnerTypes(
 
 		spec, err := this.Visit(it.SpecType(), nameHint+"_Spec")
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to name spec type %v", it.SpecType())
+			return nil, errors.Wrapf(err, "failed to name spec type %s", it.SpecType())
 		}
 
 		var status astmodel.Type
 		if it.StatusType() != nil {
 			status, err = this.Visit(it.StatusType(), nameHint+"_Status")
 			if err != nil {
-				return nil, errors.Wrapf(err, "failed to name status type %v", it.StatusType())
+				return nil, errors.Wrapf(err, "failed to name status type %s", it.StatusType())
 			}
 		}
 
@@ -193,7 +193,7 @@ func nameInnerTypes(
 
 	_, err := visitor.Visit(def.Type(), def.Name().Name())
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to name inner types of %v", def.Name())
+		return nil, errors.Wrapf(err, "failed to name inner types of %s", def.Name())
 	}
 
 	return resultTypes, nil

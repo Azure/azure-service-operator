@@ -44,7 +44,7 @@ func FlattenResources() Stage {
 
 				result, err := v.VisitDefinition(def, nil)
 				if err != nil {
-					return nil, errors.Wrapf(err, "error processing type %v", def.Name())
+					return nil, errors.Wrapf(err, "error processing type %s", def.Name())
 				}
 
 				results.Add(result)

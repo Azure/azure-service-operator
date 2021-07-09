@@ -214,7 +214,7 @@ func updateChildResourceDefinitionsWithOwner(
 		if updatedDef, ok := updatedDefs[typeName]; ok {
 			// already exists, make sure it is the same
 			if !updatedDef.Type().Equals(childResourceDef.Type()) {
-				return errors.Errorf("conflicting child resource already defined for %v", typeName)
+				return errors.Errorf("conflicting child resource already defined for %s", typeName)
 			}
 		} else {
 			updatedDefs.Add(childResourceDef)

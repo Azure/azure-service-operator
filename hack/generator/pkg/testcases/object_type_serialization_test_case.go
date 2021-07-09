@@ -88,7 +88,7 @@ func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext 
 
 	if len(simpleGenerators) == 0 && len(relatedGenerators) == 0 {
 		// No properties that we can generate to test - skip the testing completely
-		errs = append(errs, errors.Errorf("no property generators for %v", name))
+		errs = append(errs, errors.Errorf("no property generators for %s", name))
 	} else {
 		result = append(result,
 			o.createTestRunner(genContext),
