@@ -8,6 +8,7 @@ import (
 	"os"
 
 	aadpodv1 "github.com/Azure/aad-pod-identity/pkg/apis/aadpodidentity/v1"
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -20,6 +21,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -163,6 +165,30 @@ func main() {
 		secretClient = keyvaultSecrets.New(keyvaultName, config.GlobalCredentials(), config.SecretNamingVersion())
 	}
 
+	if config.SelectedMode().IncludesWatchers() {
+		if err := registerReconcilers(mgr, secretClient); err != nil {
+			setupLog.Error(err, "unable to create controller")
+			os.Exit(1)
+		}
+	}
+
+	if config.SelectedMode().IncludesWebhooks() {
+		if err := registerWebhooks(mgr); err != nil {
+			setupLog.Error(err, "unable to create webhook")
+			os.Exit(1)
+		}
+	}
+	// +kubebuilder:scaffold:builder
+
+	setupLog.Info("starting manager")
+	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
+		setupLog.Error(err, "problem running manager")
+		os.Exit(1)
+	}
+
+}
+
+func registerReconcilers(mgr manager.Manager, secretClient secrets.SecretClient) error {
 	// TODO(creds-refactor): construction of these managers will need
 	// to move into the AsyncReconciler.Reconcile so that it can use the correct
 	// creds based on the namespace of the specific resource being reconciled.
@@ -231,7 +257,7 @@ func main() {
 	)
 	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(config.GlobalCredentials(), secretClient, scheme)
 
-	err = (&controllers.StorageAccountReconciler{
+	err := (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: storageaccountManager.New(config.GlobalCredentials(), secretClient, scheme),
@@ -244,8 +270,7 @@ func main() {
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "StorageAccount")
-		os.Exit(1)
+		return errors.Wrap(err, "controller StorageAccount")
 	}
 	err = (&controllers.CosmosDBReconciler{
 		Reconciler: &controllers.AsyncReconciler{
@@ -260,8 +285,7 @@ func main() {
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
-		os.Exit(1)
+		return errors.Wrap(err, "controller CosmosDB")
 	}
 
 	err = (&controllers.CosmosDBSQLDatabaseReconciler{
@@ -277,8 +301,7 @@ func main() {
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "CosmosDBSQLDatabase")
-		os.Exit(1)
+		return errors.Wrap(err, "controller CosmosDBSQLDatabase")
 	}
 
 	err = (&controllers.RedisCacheReconciler{
@@ -294,8 +317,7 @@ func main() {
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
-		os.Exit(1)
+		return errors.Wrap(err, "controller RedisCache")
 	}
 
 	if err = (&controllers.RedisCacheActionReconciler{
@@ -310,8 +332,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "RedisCacheAction")
-		os.Exit(1)
+		return errors.Wrap(err, "controller RedisCacheAction")
 	}
 
 	if err = (&controllers.RedisCacheFirewallRuleReconciler{
@@ -326,8 +347,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "RedisCacheFirewallRule")
-		os.Exit(1)
+		return errors.Wrap(err, "controller RedisCacheFirewallRule")
 	}
 
 	err = (&controllers.EventhubReconciler{
@@ -343,8 +363,7 @@ func main() {
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
-		os.Exit(1)
+		return errors.Wrap(err, "controller Eventhub")
 	}
 
 	err = (&controllers.ResourceGroupReconciler{
@@ -360,8 +379,7 @@ func main() {
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
-		os.Exit(1)
+		return errors.Wrap(err, "controller ResourceGroup")
 	}
 
 	err = (&controllers.EventhubNamespaceReconciler{
@@ -377,8 +395,7 @@ func main() {
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
-		os.Exit(1)
+		return errors.Wrap(err, "controller EventhubNamespace")
 	}
 
 	err = (&controllers.KeyVaultReconciler{
@@ -394,8 +411,7 @@ func main() {
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "KeyVault")
-		os.Exit(1)
+		return errors.Wrap(err, "controller KeyVault")
 	}
 
 	err = (&controllers.ConsumerGroupReconciler{
@@ -411,8 +427,7 @@ func main() {
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
-		os.Exit(1)
+		return errors.Wrap(err, "controller ConsumerGroup")
 	}
 
 	if err = (&controllers.AzureSqlServerReconciler{
@@ -427,8 +442,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlServer")
-		os.Exit(1)
+		return errors.Wrap(err, "controller AzureSqlServer")
 	}
 
 	/* Azure Sql Database */
@@ -445,8 +459,7 @@ func main() {
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlDb")
-		os.Exit(1)
+		return errors.Wrap(err, "controller AzureSqlDb")
 	}
 
 	if err = (&controllers.AzureSqlFirewallRuleReconciler{
@@ -461,8 +474,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
-		os.Exit(1)
+		return errors.Wrap(err, "controller SqlFirewallRule")
 	}
 
 	if err = (&controllers.AzureSQLVNetRuleReconciler{
@@ -477,8 +489,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "SqlVNetRule")
-		os.Exit(1)
+		return errors.Wrap(err, "controller SqlVNetRule")
 	}
 
 	if err = (&controllers.AzureSqlActionReconciler{
@@ -493,8 +504,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
-		os.Exit(1)
+		return errors.Wrap(err, "controller SqlAction")
 	}
 
 	if err = (&controllers.AzureSQLUserReconciler{
@@ -509,8 +519,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
-		os.Exit(1)
+		return errors.Wrap(err, "controller AzureSQLUser")
 	}
 
 	if err = (&controllers.AzureSQLManagedUserReconciler{
@@ -525,8 +534,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLManagedUser")
-		os.Exit(1)
+		return errors.Wrap(err, "controller AzureSQLManagedUser")
 	}
 
 	if err = (&controllers.AzureSqlFailoverGroupReconciler{
@@ -541,8 +549,7 @@ func main() {
 			Scheme:   mgr.GetScheme(),
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
-		os.Exit(1)
+		return errors.Wrap(err, "controller AzureSqlFailoverGroup")
 	}
 
 	if err = (&controllers.BlobContainerReconciler{
@@ -557,8 +564,7 @@ func main() {
 			Scheme:   mgr.GetScheme(),
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
-		os.Exit(1)
+		return errors.Wrap(err, "controller BlobContainer")
 	}
 
 	if err = (&controllers.AppInsightsReconciler{
@@ -573,8 +579,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AppInsights")
-		os.Exit(1)
+		return errors.Wrap(err, "controller AppInsights")
 	}
 
 	if err = (&controllers.PostgreSQLServerReconciler{
@@ -589,8 +594,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLServer")
-		os.Exit(1)
+		return errors.Wrap(err, "controller PostgreSQLServer")
 	}
 
 	if err = (&controllers.PostgreSQLDatabaseReconciler{
@@ -605,8 +609,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLDatabase")
-		os.Exit(1)
+		return errors.Wrap(err, "controller PostgreSQLDatabase")
 	}
 
 	if err = (&controllers.PostgreSQLFirewallRuleReconciler{
@@ -621,8 +624,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLFirewallRule")
-		os.Exit(1)
+		return errors.Wrap(err, "controller PostgreSQLFirewallRule")
 	}
 
 	if err = (&controllers.PostgreSQLUserReconciler{
@@ -637,8 +639,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLUser")
-		os.Exit(1)
+		return errors.Wrap(err, "controller PostgreSQLUser")
 	}
 
 	if err = (&controllers.ApimServiceReconciler{
@@ -653,8 +654,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "ApimService")
-		os.Exit(1)
+		return errors.Wrap(err, "controller ApimService")
 	}
 
 	if err = (&controllers.VirtualNetworkReconciler{
@@ -669,8 +669,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "VNet")
-		os.Exit(1)
+		return errors.Wrap(err, "controller VNet")
 	}
 
 	if err = (&controllers.APIMAPIReconciler{
@@ -685,8 +684,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "APIMgmtAPI")
-		os.Exit(1)
+		return errors.Wrap(err, "controller APIMgmtAPI")
 	}
 
 	if err = (&controllers.KeyVaultKeyReconciler{
@@ -701,8 +699,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "KeyVaultKey")
-		os.Exit(1)
+		return errors.Wrap(err, "controller KeyVaultKey")
 	}
 
 	if err = (&controllers.MySQLServerReconciler{
@@ -722,8 +719,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "MySQLServer")
-		os.Exit(1)
+		return errors.Wrap(err, "controller MySQLServer")
 	}
 	if err = (&controllers.MySQLDatabaseReconciler{
 		Reconciler: &controllers.AsyncReconciler{
@@ -737,8 +733,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "MySQLDatabase")
-		os.Exit(1)
+		return errors.Wrap(err, "controller MySQLDatabase")
 	}
 	if err = (&controllers.MySQLFirewallRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
@@ -752,8 +747,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "MySQLFirewallRule")
-		os.Exit(1)
+		return errors.Wrap(err, "controller MySQLFirewallRule")
 	}
 
 	if err = (&controllers.MySQLUserReconciler{
@@ -768,8 +762,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "MySQLUser")
-		os.Exit(1)
+		return errors.Wrap(err, "controller MySQLUser")
 	}
 
 	// Use the API reader rather than using mgr.GetClient(), because
@@ -788,8 +781,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "MySQLAADUser")
-		os.Exit(1)
+		return errors.Wrap(err, "controller MySQLAADUser")
 	}
 
 	if err = (&controllers.MySQLServerAdministratorReconciler{
@@ -804,8 +796,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "MySQLServerAdministrator")
-		os.Exit(1)
+		return errors.Wrap(err, "controller MySQLServerAdministrator")
 	}
 
 	if err = (&controllers.AzurePublicIPAddressReconciler{
@@ -824,8 +815,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "PublicIPAddress")
-		os.Exit(1)
+		return errors.Wrap(err, "controller PublicIPAddress")
 	}
 
 	if err = (&controllers.AzureNetworkInterfaceReconciler{
@@ -844,8 +834,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "NetworkInterface")
-		os.Exit(1)
+		return errors.Wrap(err, "controller NetworkInterface")
 	}
 
 	if err = (&controllers.MySQLVNetRuleReconciler{
@@ -860,8 +849,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "MySQLVNetRule")
-		os.Exit(1)
+		return errors.Wrap(err, "controller MySQLVNetRule")
 	}
 
 	if err = (&controllers.AzureVirtualMachineReconciler{
@@ -880,8 +868,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "VirtualMachine")
-		os.Exit(1)
+		return errors.Wrap(err, "controller VirtualMachine")
 	}
 
 	if err = (&controllers.AzureVirtualMachineExtensionReconciler{
@@ -900,8 +887,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "VirtualMachineExtension")
-		os.Exit(1)
+		return errors.Wrap(err, "controller VirtualMachineExtension")
 	}
 
 	if err = (&controllers.PostgreSQLVNetRuleReconciler{
@@ -916,8 +902,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLVNetRule")
-		os.Exit(1)
+		return errors.Wrap(err, "controller PostgreSQLVNetRule")
 	}
 
 	if err = (&controllers.AzureLoadBalancerReconciler{
@@ -936,8 +921,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "LoadBalancer")
-		os.Exit(1)
+		return errors.Wrap(err, "controller LoadBalancer")
 	}
 
 	if err = (&controllers.AzureVMScaleSetReconciler{
@@ -956,8 +940,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "VMScaleSet")
-		os.Exit(1)
+		return errors.Wrap(err, "controller VMScaleSet")
 	}
 
 	if err = (&controllers.AppInsightsApiKeyReconciler{
@@ -972,62 +955,46 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AppInsightsApiKey")
-		os.Exit(1)
+		return errors.Wrap(err, "controller AppInsightsApiKey")
+	}
+	return nil
+}
+
+func registerWebhooks(mgr manager.Manager) error {
+	if err := (&v1alpha1.AzureSqlServer{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering AzureSqlServer webhook")
+	}
+	if err := (&azurev1alpha1.AzureSqlDatabase{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering AzureSqlDatabase webhook")
+	}
+	if err := (&azurev1alpha1.AzureSqlFirewallRule{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering AzureSqlFirewallRule webhook")
+	}
+	if err := (&azurev1alpha1.AzureSqlFailoverGroup{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering AzureSqlFailoverGroup webhook")
+	}
+	if err := (&azurev1alpha1.BlobContainer{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering BlobContainer webhook")
 	}
 
-	if err = (&v1alpha1.AzureSqlServer{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlServer")
-		os.Exit(1)
+	if err := (&azurev1alpha1.MySQLServer{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering MySQLServer webhook")
 	}
-	if err = (&azurev1alpha1.AzureSqlDatabase{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlDatabase")
-		os.Exit(1)
+	if err := (&azurev1alpha1.MySQLUser{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering MySQLUser webhook")
 	}
-	if err = (&azurev1alpha1.AzureSqlFirewallRule{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlFirewallRule")
-		os.Exit(1)
+	if err := (&azurev1alpha1.MySQLAADUser{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering MySQLAADUser webhook")
 	}
-	if err = (&azurev1alpha1.AzureSqlFailoverGroup{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlFailoverGroup")
-		os.Exit(1)
-	}
-	if err = (&azurev1alpha1.BlobContainer{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "BlobContainer")
-		os.Exit(1)
+	if err := (&azurev1alpha1.PostgreSQLServer{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering PostgreSQLServer webhook")
 	}
 
-	if err = (&azurev1alpha1.MySQLServer{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLServer")
-		os.Exit(1)
+	if err := (&azurev1alpha1.AzureSQLUser{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering AzureSQLUser webhook")
 	}
-	if err = (&azurev1alpha1.MySQLUser{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLUser")
-		os.Exit(1)
+	if err := (&azurev1alpha1.AzureSQLManagedUser{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering AzureSQLManagedUser webhook")
 	}
-	if err = (&azurev1alpha1.MySQLAADUser{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLAADUser")
-		os.Exit(1)
-	}
-	if err = (&azurev1alpha1.PostgreSQLServer{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "PostgreSQLServer")
-		os.Exit(1)
-	}
-
-	if err = (&azurev1alpha1.AzureSQLUser{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSQLUser")
-		os.Exit(1)
-	}
-	if err = (&azurev1alpha1.AzureSQLManagedUser{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSQLManagedUser")
-		os.Exit(1)
-	}
-	// +kubebuilder:scaffold:builder
-
-	setupLog.Info("starting manager")
-	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
-		setupLog.Error(err, "problem running manager")
-		os.Exit(1)
-	}
-
+	return nil
 }

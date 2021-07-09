@@ -68,6 +68,17 @@ func ParseEnvironment() error {
 	}
 	targetNamespaces = ParseStringListFromEnvironment("AZURE_TARGET_NAMESPACES")
 
+	operatorMode = OperatorMode(envy.Get("AZURE_OPERATOR_MODE", "both"))
+	switch operatorMode {
+	case OperatorModeBoth, OperatorModeWebhooks, OperatorModeWatchers:
+	default:
+		return errors.Errorf(`operator mode must be one of "both", "webhooks" or "watchers" but was %q`, operatorMode)
+	}
+
+	if operatorMode == OperatorModeWebhooks && len(targetNamespaces) > 0 {
+		return errors.Errorf("setting target namespaces doesn't make sense when in webhooks-only mode")
+	}
+
 	secretNamingVersionInt, err := ParseIntFromEnvironment("AZURE_SECRET_NAMING_VERSION")
 	if err != nil {
 		return errors.Wrapf(err, "couldn't get AZURE_SECRET_NAMING_VERSION env variable")

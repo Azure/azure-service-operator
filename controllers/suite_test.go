@@ -40,7 +40,6 @@ import (
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagercosmosdbaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/account"
 	resourcemanagercosmosdbsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/sqldatabase"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
@@ -91,13 +90,13 @@ func setup() error {
 	// Uncomment the below to run the tests in the old v1 naming mode
 	// envy.Set("AZURE_SECRET_NAMING_VERSION", "1")
 
-	err := resourcemanagerconfig.ParseEnvironment()
+	err := config.ParseEnvironment()
 	if err != nil {
 		return err
 	}
 
 	resourceGroupName := GenerateTestResourceNameWithRandom(TestResourceGroupPrefix, 6)
-	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
+	resourceGroupLocation := config.DefaultLocation()
 
 	keyvaultName := GenerateAlphaNumTestResourceNameWithRandom("kv-prime", 5)
 
@@ -151,7 +150,7 @@ func setup() error {
 
 	var k8sManager ctrl.Manager
 
-	targetNamespaces := resourcemanagerconfig.TargetNamespaces()
+	targetNamespaces := config.TargetNamespaces()
 	var cacheFunc cache.NewCacheFunc
 	if targetNamespaces != nil {
 		log.Println("Restricting operator cache to namespaces", targetNamespaces)
@@ -964,11 +963,11 @@ func setup() error {
 	log.Println("Creating KV:", keyvaultName)
 	err = CreateVaultWithAccessPolicies(
 		context.Background(),
-		resourcemanagerconfig.GlobalCredentials(),
+		config.GlobalCredentials(),
 		resourceGroupName,
 		keyvaultName,
 		resourceGroupLocation,
-		resourcemanagerconfig.GlobalCredentials().ClientID(),
+		config.GlobalCredentials().ClientID(),
 	)
 	if err != nil {
 		return err
