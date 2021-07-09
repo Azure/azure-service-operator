@@ -756,7 +756,7 @@ func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 	defer span.End()
 
 	// See https://github.com/Azure/azure-service-operator/issues/1518 for details about why this is treated as oneOf
-	klog.V(2).Infof("Handling anyOf type as if it were oneOf: %v\n", schema.url()) // TODO: was Ref.URL
+	klog.V(2).Infof("Handling anyOf type as if it were oneOf: %s\n", schema.url()) // TODO: was Ref.URL
 	return generateOneOfUnionType(ctx, schema, schema.anyOf(), scanner)
 }
 
@@ -771,7 +771,7 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 
 	if len(items) == 0 {
 		// there is no type to the elements, so we must assume interface{}
-		klog.Warningf("Interface assumption unproven for %v\n", schema.url())
+		klog.Warningf("Interface assumption unproven for %s\n", schema.url())
 
 		result := astmodel.NewArrayType(astmodel.AnyType)
 		return withArrayValidations(schema, result), nil
