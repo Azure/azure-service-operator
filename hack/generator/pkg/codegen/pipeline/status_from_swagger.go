@@ -57,7 +57,7 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				return nil, errors.Wrapf(err, "unable to load Swagger data")
 			}
 
-			klog.V(1).Infof("Loaded Swagger data (%v resources, %v other types)", len(swaggerTypes.resources), len(swaggerTypes.otherTypes))
+			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other types)", len(swaggerTypes.resources), len(swaggerTypes.otherTypes))
 
 			statusTypes, err := generateStatusTypes(swaggerTypes)
 			if err != nil {
@@ -87,8 +87,8 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				}
 			}
 
-			klog.V(1).Infof("Found status information for %v resources", matchedResources)
-			klog.V(1).Infof("Input %v types, output %v types", len(types), len(newTypes))
+			klog.V(1).Infof("Found status information for %d resources", matchedResources)
+			klog.V(1).Infof("Input %d types, output %d types", len(types), len(newTypes))
 
 			return newTypes, nil
 		})

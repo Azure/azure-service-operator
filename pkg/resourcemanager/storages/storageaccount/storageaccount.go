@@ -214,8 +214,8 @@ func (m *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupNam
 		"StorageAccountName": []byte(accountName),
 	}
 	for i, key := range keys {
-		data[fmt.Sprintf("connectionString%v", i)] = []byte(fmt.Sprintf(templateForConnectionString, accountName, *key.Value, storageEndpointSuffix))
-		data[fmt.Sprintf("key%v", i)] = []byte(*key.Value)
+		data[fmt.Sprintf("connectionString%d", i)] = []byte(fmt.Sprintf(templateForConnectionString, accountName, *key.Value, storageEndpointSuffix))
+		data[fmt.Sprintf("key%d", i)] = []byte(*key.Value)
 	}
 
 	// upsert
