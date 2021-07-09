@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -45,7 +46,7 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 			return true, nil
 		}
 
-		return false, fmt.Errorf("ResourceGroup create error %v", err)
+		return false, errors.Wrap(err, "resourceGroup create error")
 	}
 
 	instance.Status.Provisioned = true
@@ -77,7 +78,7 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 			return false, nil
 		}
 
-		return true, fmt.Errorf("ResourceGroup delete error %v", err)
+		return true, errors.Wrap(err, "resourceGroup delete error")
 
 	}
 

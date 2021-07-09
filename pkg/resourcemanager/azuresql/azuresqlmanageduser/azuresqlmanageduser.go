@@ -12,6 +12,7 @@ import (
 	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	mssql "github.com/denisenkom/go-mssqldb"
 	uuid "github.com/gofrs/uuid"
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -59,19 +60,19 @@ func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Con
 
 	tokenProvider, err := iam.GetMSITokenProviderForResource("https://database.windows.net/")
 	if err != nil {
-		return db, fmt.Errorf("GetMSITokenProviderForResource failed: %v", err)
+		return db, errors.Wrap(err, "GetMSITokenProviderForResource failed")
 	}
 
 	connector, err := mssql.NewAccessTokenConnector(connString, tokenProvider)
 	if err != nil {
-		return db, fmt.Errorf("NewAccessTokenConnector failed: %v", err)
+		return db, errors.Wrap(err, "NewAccessTokenConnector failed")
 	}
 
 	db = sql.OpenDB(connector)
 
 	err = db.PingContext(ctx)
 	if err != nil {
-		return db, fmt.Errorf("PingContext failed: %v", err)
+		return db, errors.Wrap(err, "PingContext failed")
 	}
 
 	return db, err
@@ -80,7 +81,7 @@ func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Con
 // EnableUser creates user with secret credentials
 func (s *AzureSqlManagedUserManager) EnableUser(ctx context.Context, MIName string, MIUserClientId string, db *sql.DB) error {
 	if err := findBadChars(MIName); err != nil {
-		return fmt.Errorf("Problem found with managed identity username: %v", err)
+		return errors.Wrap(err, "Problem found with managed identity username")
 	}
 
 	sid := convertToSid(MIUserClientId)
@@ -133,7 +134,7 @@ func (s *AzureSqlManagedUserManager) UserExists(ctx context.Context, db *sql.DB,
 // DropUser drops a user from db
 func (s *AzureSqlManagedUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
 	if err := findBadChars(user); err != nil {
-		return fmt.Errorf("Problem found with managed identity username: %v", err)
+		return errors.Wrap(err, "Problem found with managed identity username")
 	}
 	tsql := fmt.Sprintf("DROP USER [%s]", user)
 	_, err := db.ExecContext(ctx, tsql)

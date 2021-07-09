@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -87,7 +89,7 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 			return false, nil
 		}
 
-		return false, fmt.Errorf("api key create error %v", err)
+		return false, errors.Wrap(err, "api key create error")
 	}
 
 	// when create is successful we have to store the apikey somewhere
@@ -157,7 +159,7 @@ func (c *InsightsAPIKeysClient) Delete(ctx context.Context, obj runtime.Object, 
 			return false, nil
 		}
 
-		return true, fmt.Errorf("ResourceGroup delete error %v", err)
+		return true, errors.Wrap(err, "ResourceGroup delete error")
 
 	}
 

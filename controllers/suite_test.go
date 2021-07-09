@@ -14,6 +14,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/pkg/errors"
+
 	"github.com/gobuffalo/envy"
 	"k8s.io/client-go/kubernetes/scheme"
 	kscheme "k8s.io/client-go/kubernetes/scheme"
@@ -938,7 +940,7 @@ func setup() error {
 	if result.Response.StatusCode != 204 {
 		_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)
 		if err != nil {
-			return fmt.Errorf("ResourceGroup creation failed: %v", err)
+			return errors.Wrap(err, "resource creation failed")
 		}
 	}
 

@@ -11,6 +11,7 @@ import (
 
 	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	_ "github.com/denisenkom/go-mssqldb"
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -116,10 +117,10 @@ func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string]
 
 	// make an effort to prevent sql injection
 	if err := helpers.FindBadChars(newUser); err != nil {
-		return "", fmt.Errorf("Problem found with username: %v", err)
+		return "", errors.Wrap(err, "Problem found with username")
 	}
 	if err := helpers.FindBadChars(newPassword); err != nil {
-		return "", fmt.Errorf("Problem found with password: %v", err)
+		return "", errors.Wrap(err, "Problem found with password")
 	}
 
 	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
@@ -142,10 +143,10 @@ func (m *AzureSqlUserManager) UpdateUser(ctx context.Context, secret map[string]
 
 	// make an effort to prevent sql injection
 	if err := helpers.FindBadChars(user); err != nil {
-		return fmt.Errorf("Problem found with username: %v", err)
+		return errors.Wrap(err, "problem found with username")
 	}
 	if err := helpers.FindBadChars(newPassword); err != nil {
-		return fmt.Errorf("Problem found with password: %v", err)
+		return errors.Wrap(err, "problem found with password")
 	}
 
 	tsql := fmt.Sprintf("ALTER USER \"%s\" WITH PASSWORD='%s'", user, newPassword)

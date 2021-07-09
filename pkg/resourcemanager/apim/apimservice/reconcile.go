@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -85,7 +87,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 					return false, nil
 				}
 				instance.Status.Message = "API Mgmt Svc encountered an unknown error, requeueing..."
-				return false, fmt.Errorf("API Mgmt Svc create error %v", err)
+				return false, errors.Wrap(err, "API Mgmt Svc create error")
 			}
 			instance.Status.Message = "API Mgmt Svc successfully created, waiting for requeue"
 			return false, nil
@@ -131,7 +133,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 				return true, nil
 			}
 			instance.Status.Message = "API Mgmt Svc encountered an unknown error, requeueing..."
-			return false, fmt.Errorf("API Mgmt Svc could not set App Insights %s, %s - %v", appInsightsResourceGroup, appInsightsName, err)
+			return false, errors.Wrapf(err, "API Mgmt Svc could not set App Insights %s, %s", appInsightsResourceGroup, appInsightsName)
 		}
 	}
 
@@ -163,7 +165,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 				return true, nil
 			}
 			instance.Status.Message = "API Mgmt Svc encountered an unknown error, requeueing..."
-			return false, fmt.Errorf("API Mgmt Svc could not update VNet %s, %s - %v", vnetResourceGroup, vnetName, err)
+			return false, errors.Wrapf(err, "API Mgmt Svc could not update VNet %s, %s", vnetResourceGroup, vnetName)
 		}
 		if updated {
 			instance.Status.Message = "API Mgmt Svc just updated VNet, requeueing..."
@@ -218,7 +220,7 @@ func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Obj
 			strings.Contains(errorStr, "Failure sending request: StatusCode=0") {
 			return true, nil
 		}
-		return true, fmt.Errorf("API Mgmt Svc delete error: %v", err)
+		return true, errors.Wrap(err, "API Mgmt Svc delete error")
 	}
 
 	return false, nil

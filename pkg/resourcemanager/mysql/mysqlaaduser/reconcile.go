@@ -43,10 +43,10 @@ var _ resourcemanager.ARMClient = &MySQLAADUserManager{}
 // CreateUser creates an aad user
 func (m *MySQLAADUserManager) CreateUser(ctx context.Context, db *sql.DB, username string, aadID string) error {
 	if err := helpers.FindBadChars(username); err != nil {
-		return fmt.Errorf("problem found with username: %v", err)
+		return errors.Wrap(err, "problem found with username")
 	}
 	if err := helpers.FindBadChars(aadID); err != nil {
-		return fmt.Errorf("problem found with clientID: %v", err)
+		return errors.Wrap(err, "problem found with clientID")
 	}
 
 	// TODO: Need to talk to MySQL team to understand why we even need to do this, their documentation

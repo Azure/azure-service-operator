@@ -9,6 +9,8 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/pkg/errors"
+
 	"github.com/Azure/go-autorest/autorest/to"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -77,7 +79,7 @@ func (s *AzureSqlActionManager) UpdateUserPassword(
 	// reset user from secret in case it was loaded
 	userExists, err := azuresqluserManager.UserExists(ctx, db, string(userSecret["username"]))
 	if err != nil {
-		return fmt.Errorf("failed checking for user, err: %v", err)
+		return errors.Wrap(err, "failed checking for user")
 	}
 
 	if !userExists {
@@ -89,7 +91,7 @@ func (s *AzureSqlActionManager) UpdateUserPassword(
 
 	err = azuresqluserManager.UpdateUser(ctx, userSecret, db)
 	if err != nil {
-		return fmt.Errorf("error updating user credentials: %v", err)
+		return errors.Wrap(err, "error updating user credentials")
 	}
 
 	secretKey := azuresqluser.MakeSecretKey(userSecretClient, instance)
@@ -101,7 +103,7 @@ func (s *AzureSqlActionManager) UpdateUserPassword(
 		secrets.WithScheme(s.Scheme),
 	)
 	if err != nil {
-		return fmt.Errorf("failed to update secret: %v", err)
+		return errors.Wrap(err, "failed to update secret")
 	}
 
 	return nil

@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -116,7 +117,7 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 	err = s.GrantUserRoles(ctx, requestedUsername, instance.Spec.Roles, db)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("GrantUserRoles failed: %v", err)
-		return false, fmt.Errorf("GrantUserRoles failed: %v", err)
+		return false, errors.Wrap(err, "GrantUserRoles failed")
 	}
 
 	err = s.UpdateSecret(ctx, instance, secretClient)

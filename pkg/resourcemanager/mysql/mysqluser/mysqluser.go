@@ -6,10 +6,10 @@ package mysqluser
 import (
 	"context"
 	"database/sql"
-	"fmt"
 
 	mysqlmgmt "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	_ "github.com/go-sql-driver/mysql" //mysql drive link
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
@@ -66,10 +66,10 @@ func (m *MySqlUserManager) CreateUser(ctx context.Context, secret map[string][]b
 	newPassword := string(secret[MSecretPasswordKey])
 
 	if err := helpers.FindBadChars(newUser); err != nil {
-		return "", fmt.Errorf("Problem found with username: %v", err)
+		return "", errors.Wrap(err, "Problem found with username")
 	}
 	if err := helpers.FindBadChars(newPassword); err != nil {
-		return "", fmt.Errorf("Problem found with password: %v", err)
+		return "", errors.Wrap(err, "Problem found with password")
 	}
 
 	tsql := "CREATE USER IF NOT EXISTS ? IDENTIFIED BY ? "
