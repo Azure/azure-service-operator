@@ -173,7 +173,7 @@ func ValidateMultipleOf(value *big.Rat) KubeBuilderValidation {
 	} else {
 		floatValue, ok := value.Float64()
 		if !ok {
-			klog.Warningf("inexact multiple-of: %s ⇒ %v", value.String(), floatValue)
+			klog.Warningf("inexact multiple-of: %s ⇒ %g", value.String(), floatValue)
 		}
 
 		return KubeBuilderValidation{MultipleOfValidationName, floatValue}
