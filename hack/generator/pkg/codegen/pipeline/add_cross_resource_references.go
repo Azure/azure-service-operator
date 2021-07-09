@@ -28,7 +28,6 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 		"addCrossResourceReferences",
 		"Replace cross-resource references with genruntime.ResourceReference",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
-
 			result := make(astmodel.Types)
 			knownReferences := newKnownReferencesMap(configuration)
 
@@ -47,7 +46,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 					// trust the Swagger.
 					isCrossResourceReferenceErrs = append(
 						isCrossResourceReferenceErrs,
-						errors.Errorf("\"%s.%s\" looks like a resource reference but was not labelled as one", typeName, prop.PropertyName()))
+						errors.Errorf("\"%s.%s\" looks like a resource reference but was not labelled as one. It might need to be manually added to `newKnownReferencesMap`", typeName, prop.PropertyName()))
 				}
 
 				return isReference
@@ -151,7 +150,6 @@ func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
 }
 
 func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
-
 	var referencePropertyName string
 	// Special case for "Id" and properties that end in "Id", which are quite common in the specs. This is primarily
 	// because it's awkward to have a field called "Id" not just be a string and instead but a complex type describing
@@ -225,7 +223,7 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 		// It's never supplied in a PUT I don't think, and is only returned in a GET because the
 		// IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "VirtualMachineScaleSetIPConfiguration"),
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations"),
 			propName: "Id",
 		}: false,
 		{
@@ -240,7 +238,7 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 		// It's never supplied in a PUT I don't think, and is only returned in a GET because the
 		// IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "VirtualMachineScaleSetNetworkConfiguration"),
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations"),
 			propName: "Id",
 		}: false,
 		// When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self

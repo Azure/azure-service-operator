@@ -56,7 +56,7 @@ func makeFlatteningVisitor(defs astmodel.Types) astmodel.TypeVisitor {
 			// safety check:
 			if err := checkForDuplicateNames(newProps); err != nil {
 				klog.Warningf("Skipping flattening for %s: %s", name, err)
-				return it, nil // nolint:nilerr
+				return removeFlattenFromObject(it), nil
 			}
 
 			if len(newProps) != len(it.Properties()) {
@@ -67,15 +67,26 @@ func makeFlatteningVisitor(defs astmodel.Types) astmodel.TypeVisitor {
 
 			return result, nil
 		},
-		VisitFlaggedType: func(this *astmodel.TypeVisitor, it *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
-			// skip ARM types, do not flatten
-			if it.HasFlag(astmodel.ARMFlag) {
-				return it, nil
-			}
-
-			return astmodel.IdentityVisitOfFlaggedType(this, it, ctx)
-		},
 	}.Build()
+}
+
+func removeFlattenFromObject(tObj *astmodel.ObjectType) *astmodel.ObjectType {
+	var props []*astmodel.PropertyDefinition
+	for _, prop := range tObj.Properties() {
+		prop = prop.WithType(removeFlatten(prop.PropertyType()))
+		prop = prop.SetFlatten(false)
+		props = append(props, prop)
+	}
+
+	return tObj.WithProperties(props...)
+}
+
+func removeFlatten(t astmodel.Type) astmodel.Type {
+	if tObj, ok := t.(*astmodel.ObjectType); ok {
+		return removeFlattenFromObject(tObj)
+	}
+
+	return t
 }
 
 func checkForDuplicateNames(props []*astmodel.PropertyDefinition) error {

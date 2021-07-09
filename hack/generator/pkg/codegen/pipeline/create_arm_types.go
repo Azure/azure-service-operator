@@ -140,6 +140,10 @@ func removeValidations(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 	return t, nil
 }
 
+func removeFlattening(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
+	return removeFlattenFromObject(t), nil
+}
+
 func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 	convertObjectPropertiesForARM := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		return c.convertObjectPropertiesForARM(t, isSpecType)
@@ -155,7 +159,7 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 	}
 
 	armName := astmodel.CreateARMTypeName(def.Name())
-	armDef, err := def.WithName(armName).ApplyObjectTransformations(removeValidations, convertObjectPropertiesForARM, addOneOfConversionFunctionIfNeeded)
+	armDef, err := def.WithName(armName).ApplyObjectTransformations(removeValidations, convertObjectPropertiesForARM, addOneOfConversionFunctionIfNeeded, removeFlattening)
 	if err != nil {
 		return astmodel.TypeDefinition{},
 			errors.Wrapf(err, "creating ARM prototype %v from Kubernetes definition %v", armName, def.Name())

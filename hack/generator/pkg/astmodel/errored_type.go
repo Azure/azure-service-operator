@@ -53,13 +53,13 @@ func (e *ErroredType) WithType(t Type) *ErroredType {
 }
 
 func (e *ErroredType) Equals(t Type) bool {
+	if e == t {
+		return true // short-circuit
+	}
+
 	other, ok := t.(*ErroredType)
 	if !ok {
 		return false
-	}
-
-	if e == other {
-		return true // short-circuit
 	}
 
 	return ((e.inner == nil && other.inner == nil) || e.inner.Equals(other.inner)) &&
@@ -67,9 +67,31 @@ func (e *ErroredType) Equals(t Type) bool {
 		stringSlicesEqual(e.errors, other.errors)
 }
 
-func stringSlicesEqual(l []string, r []string) bool {
+func propertyNameSlicesEqual(l, r []PropertyName) bool {
 	if len(l) != len(r) {
 		return false
+	}
+
+	if len(l) > 0 && (&l[0] == &r[0]) {
+		return true // reference equality
+	}
+
+	for ix := range l {
+		if string(l[ix]) != string(r[ix]) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func stringSlicesEqual(l, r []string) bool {
+	if len(l) != len(r) {
+		return false
+	}
+
+	if len(l) > 0 && (&l[0] == &r[0]) {
+		return true // reference equality
 	}
 
 	for ix := range l {

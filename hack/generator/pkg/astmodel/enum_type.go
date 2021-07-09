@@ -11,9 +11,10 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // EnumType represents a set of mutually exclusive predefined options
@@ -95,7 +96,6 @@ func (enum *EnumType) createBaseDeclaration(
 }
 
 func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) dst.Spec {
-
 	valueSpec := &dst.ValueSpec{
 		Names: []*dst.Ident{dst.NewIdent(GetEnumValueId(name.name, value))},
 		Values: []dst.Expr{
@@ -126,6 +126,10 @@ func (enum *EnumType) References() TypeNameSet {
 
 // Equals will return true if the supplied type has the same base type and options
 func (enum *EnumType) Equals(t Type) bool {
+	if enum == t {
+		return true // short-circuit
+	}
+
 	if e, ok := t.(*EnumType); ok {
 		if !enum.baseType.Equals(e.baseType) {
 			return false
