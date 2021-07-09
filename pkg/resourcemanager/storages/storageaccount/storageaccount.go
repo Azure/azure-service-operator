@@ -203,7 +203,7 @@ func (m *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupNam
 		return err
 	}
 	if keyResult.Keys == nil {
-		return fmt.Errorf("No keys were returned from ListKeys")
+		return errors.New("No keys were returned from ListKeys")
 	}
 	keys := *keyResult.Keys
 	storageEndpointSuffix := resourcemgrconfig.Environment().StorageEndpointSuffix
