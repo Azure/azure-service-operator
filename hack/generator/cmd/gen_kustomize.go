@@ -71,7 +71,7 @@ func logAndExtractStack(str string, err error) error {
 	klog.Errorf("%s:\n%s\n", str, err)
 	stackTrace := findDeepestTrace(err)
 	if stackTrace != nil {
-		klog.V(4).Infof("%+v", stackTrace)
+		klog.V(4).Infof("%s", stackTrace)
 	}
 	return err
 }
