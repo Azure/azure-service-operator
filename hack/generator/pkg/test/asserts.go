@@ -24,7 +24,7 @@ func AssertFileGeneratesExpectedCode(t *testing.T, fileDef *astmodel.FileDefinit
 	fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
 	err := fileWriter.SaveToWriter(buf)
 	if err != nil {
-		t.Fatalf("could not generate file: %v", err)
+		t.Fatalf("could not generate file: %s", err)
 	}
 
 	g.Assert(t, testName, buf.Bytes())

@@ -116,12 +116,12 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 		t.Run(string(p), func(t *testing.T) {
 			codegen, err := NewTestCodeGenerator(testName, path, t, testConfig, p)
 			if err != nil {
-				t.Fatalf("failed to create code generator: %v", err)
+				t.Fatalf("failed to create code generator: %s", err)
 			}
 
 			err = codegen.Generate(ctx)
 			if err != nil {
-				t.Fatalf("codegen failed: %v", err)
+				t.Fatalf("codegen failed: %s", err)
 			}
 		})
 	}
@@ -262,7 +262,7 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Sta
 			fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
 			err := fileWriter.SaveToWriter(buf)
 			if err != nil {
-				t.Fatalf("could not generate file: %v", err)
+				t.Fatalf("could not generate file: %s", err)
 			}
 
 			g.Assert(t, testName, buf.Bytes())
@@ -344,7 +344,7 @@ func TestGolden(t *testing.T) {
 		return nil
 	})
 	if err != nil {
-		t.Fatalf("Error enumerating files: %v", err)
+		t.Fatalf("Error enumerating files: %s", err)
 	}
 
 	// run all tests
@@ -359,7 +359,7 @@ func TestGolden(t *testing.T) {
 
 		testConfig, err := loadTestConfig(configPath)
 		if err != nil {
-			t.Fatalf("could not load test config: %v", err)
+			t.Fatalf("could not load test config: %s", err)
 		}
 
 		t.Run(groupName, func(t *testing.T) {

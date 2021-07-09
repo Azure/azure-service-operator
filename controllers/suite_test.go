@@ -1014,7 +1014,7 @@ func TestMain(m *testing.M) {
 
 	err = setup()
 	if err != nil {
-		log.Println(fmt.Sprintf("could not set up environment: %v\n", err))
+		log.Println(fmt.Sprintf("could not set up environment: %s\n", err))
 		os.Exit(1)
 	}
 
@@ -1022,7 +1022,7 @@ func TestMain(m *testing.M) {
 
 	err = teardown()
 	if err != nil {
-		log.Println(fmt.Sprintf("could not tear down environment: %v\n; original exit code: %v\n", err, code))
+		log.Println(fmt.Sprintf("could not tear down environment: %s\n; original exit code: %d\n", err, code))
 	}
 
 	os.Exit(code)
@@ -1030,7 +1030,7 @@ func TestMain(m *testing.M) {
 
 func PanicRecover(t *testing.T) {
 	if err := recover(); err != nil {
-		t.Logf("caught panic in test: %v", err)
+		t.Logf("caught panic in test: %s", err)
 		t.Logf("stacktrace from panic: \n%s", string(debug.Stack()))
 		t.Fail()
 	}

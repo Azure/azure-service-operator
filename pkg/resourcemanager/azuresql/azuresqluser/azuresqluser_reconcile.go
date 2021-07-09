@@ -273,7 +273,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	userExists, err := s.UserExists(ctx, db, string(userSecret[SecretUsernameKey]))
 	if err != nil {
-		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
+		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %s", err)
 		return false, nil
 	}
 

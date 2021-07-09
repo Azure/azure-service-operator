@@ -262,7 +262,7 @@ func EnsureUserServerRoles(ctx context.Context, db *sql.DB, user string, roles [
 // privileges for subsequent databases (before reporting all errors).
 func EnsureUserDatabaseRoles(ctx context.Context, conn *sql.DB, user string, dbRoles map[string][]string) error {
 	if err := helpers.FindBadChars(user); err != nil {
-		return errors.Errorf("problem found with username: %v", err)
+		return errors.Errorf("problem found with username: %s", err)
 	}
 
 	desiredRoles := make(map[string]StringSet)
