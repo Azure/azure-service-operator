@@ -6,11 +6,14 @@
 package astbuilder
 
 import (
-	. "github.com/onsi/gomega"
 	"testing"
+
+	. "github.com/onsi/gomega"
 )
 
 func Test_LiteralString(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name     string
 		original string

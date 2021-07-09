@@ -61,6 +61,7 @@ func Test_EnumTypeBaseType_AfterConstruction_ReturnsExpectedType(t *testing.T) {
  */
 
 func Test_EnumTypeEquals_GivenEnums_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 
 	enum := NewEnumType(StringType, aboveValue, underValue)
 

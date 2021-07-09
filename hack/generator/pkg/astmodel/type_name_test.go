@@ -12,6 +12,8 @@ import (
 )
 
 func TestSingular_GivesExpectedResults(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name     string
 		expected string
@@ -43,6 +45,8 @@ func TestSingular_GivesExpectedResults(t *testing.T) {
 }
 
 func TestPlural_GivesExpectedResults(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name     string
 		expected string

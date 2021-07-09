@@ -12,6 +12,8 @@ import (
 )
 
 func TestMakeExternalPackageReference_GivenPath_ReturnsInstanceWithPath(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name string
 		path string
@@ -32,6 +34,8 @@ func TestMakeExternalPackageReference_GivenPath_ReturnsInstanceWithPath(t *testi
 }
 
 func TestExternalPackageReferences_ReturnExpectedProperties(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name        string
 		path        string
@@ -58,6 +62,7 @@ func TestExternalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 }
 
 func TestExternalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
+	t.Parallel()
 
 	fmtRef := MakeExternalPackageReference("fmt")
 	astRef := MakeExternalPackageReference("go/ast")
@@ -90,6 +95,8 @@ func TestExternalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 }
 
 func TestExternalPackageReferenceIsPreview(t *testing.T) {
+	t.Parallel()
+
 	fmtRef := MakeExternalPackageReference("fmt")
 	astRef := MakeExternalPackageReference("go/ast")
 	otherRef := makeTestLocalPackageReference("group", "package")

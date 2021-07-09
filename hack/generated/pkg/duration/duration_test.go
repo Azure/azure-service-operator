@@ -62,6 +62,8 @@ func TestDuration_String(t *testing.T) {
 }
 
 func TestDuration_JSON(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		Name   string
 		JSON   string

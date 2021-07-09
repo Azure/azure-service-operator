@@ -79,6 +79,8 @@ func TestFlaggedType_WithoutFlag_GivenUnusedFlag_ReturnsSameInstance(t *testing.
  */
 
 func TestFlaggedType_Equals_GivenOther_HasExpectedResult(t *testing.T) {
+	t.Parallel()
+
 	armString := NewFlaggedType(StringType, ARMFlag)
 	armInt := NewFlaggedType(IntType, ARMFlag)
 	storageString := NewFlaggedType(StringType, StorageFlag)
@@ -120,6 +122,8 @@ func TestFlaggedType_Equals_GivenOther_HasExpectedResult(t *testing.T) {
  */
 
 func TestFlaggedType_String_GivenTypeAndTag_ReturnsExpectedString(t *testing.T) {
+	t.Parallel()
+
 	flaggedString := NewFlaggedType(StringType, OneOfFlag)
 	cases := []struct {
 		name       string

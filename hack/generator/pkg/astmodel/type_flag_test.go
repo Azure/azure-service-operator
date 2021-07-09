@@ -27,6 +27,7 @@ func TestTypeFlag_Wrap_GivenType_ReturnsWrappedType(t *testing.T) {
  */
 
 func TestTypeFlag_IsOn_GivenType_ReturnsExpectedValue(t *testing.T) {
+	t.Parallel()
 
 	armString := ARMFlag.ApplyTo(StringType)
 
@@ -57,6 +58,7 @@ func TestTypeFlag_IsOn_GivenType_ReturnsExpectedValue(t *testing.T) {
  */
 
 func TestTypeFlag_RemoveFrom_ReturnsExpectedValue(t *testing.T) {
+	t.Parallel()
 
 	armString := ARMFlag.ApplyTo(StringType)
 	armStorageString := StorageFlag.ApplyTo(armString)

@@ -6,13 +6,15 @@
 package astmodel
 
 import (
-	"github.com/pkg/errors"
 	"testing"
+
+	"github.com/pkg/errors"
 
 	. "github.com/onsi/gomega"
 )
 
 func Test_Visit_GivenCountingTypeVisitor_ReturnsExpectedCounts(t *testing.T) {
+	t.Parallel()
 
 	arrType := NewArrayType(StringType)
 	mapType := NewMapType(StringType, StringType)
@@ -123,6 +125,7 @@ func MakeCountingTypeVisitor() *CountingTypeVisitor {
 }
 
 func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
+	t.Parallel()
 
 	mapOfStringToString := NewMapType(StringType, StringType)
 	mapOfStringToBool := NewMapType(StringType, BoolType)
@@ -177,6 +180,7 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 }
 
 func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
+	t.Parallel()
 
 	cases := []struct {
 		name          string
