@@ -147,7 +147,6 @@ func (m *azureStorageManager) CreateStorage(ctx context.Context,
 		},
 	}
 
-	//log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
 	future, err := storageClient.Create(ctx, groupName, storageAccountName, params)
 	if err != nil {
 		return "", result, err
