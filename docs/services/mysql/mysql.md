@@ -7,6 +7,10 @@ The MySQL operator suite consists of the following operators.
 1. MySQL server - Deploys an `Azure Database for MySQL server` given the Location, Resource group and other properties. This operator also helps creating read replicas for MySQL server.
 2. MySQL database - Deploys a database under the given `Azure Database for MySQL server`
 3. MySQL firewall rule - Deploys a firewall rule to allow access to the `Azure Database for MySQL server` from the specified IP range
+4. MySQL virtual network rule - Deploys a virtual network rule place the `Azure Database for MySQL server` into an Azure Virtual Network Subnet.
+4. MySQL administrator - Sets the AAD Administrator of the `Azure Database for MySQL server` to the specified AAD identity.
+5. MySQL user - Deploys a user into the `Azure Database for MySQL server`.
+6. MySQL AAD User - Deploys an AAD user into the `Azure Database for MySQL server`.
 
 ### MySQL server
 
@@ -17,15 +21,17 @@ The value for kind, `MySQLServer` is the Custom Resource Definition (CRD) name.
 
 The values under `spec` provide the values for the location where you want to create the server at and the Resource group in which you want to create it under. It also contains other values that are required to create the server like the `serverVersion`, `sslEnforcement` and the `sku` information.
 
-Along with creating the MySQL server, this operator also generates the admin username and password for the MySQL server and stores it in a kube secret or keyvault (based on what is specified) with the same name as the MySQL server.
+The `adminSecret` is optional and if provided must point to a Kubernetes secret containing a `username` and `password` field. If not specified, the operator will generate an administrator account `username` and `password`.
+Along with creating the MySQL server, this operator also generates the admin `username` and `password` for the MySQL server and stores it in a kube secret or keyvault (based on what is specified). The generated secret is named according to [secrets naming](/docs/secrets.md).
 
 This secret contains the following fields.
-
-- `fullyqualifiedservername` : Fully qualified name of the MySQL server such as mysqlserver.mysql.database.azure.com
-- `mysqlservername` : MySQL server name
-- `username` : Server admin
-- `password` : Password for the server admin
-- `fullyqualifiedusername` : Fully qualified user name that is required by some apps such as <username>@<mysqlserver>
+| Secret field               | Content                                                                                       |
+| -------------------------- | --------------------------------------------------------------------------------------------- |
+| `fullyQualifiedServerName` | Fully qualified name of the MySQL server. Example: `mysqlserver.mysql.database.azure.com`.    |
+| `mySqlServerName`          | MySQL server name.                                                                            |
+| `username`                 | Server admin account name.                                                                    |
+| `password`                 | Server admin account password.                                                                |
+| `fullyQualifiedUsername`   | Fully qualified user name that is required by some apps. Example: `<username>@<mysqlserver>`. |
 
 For more information on where and how secrets are stored, look [here](/docs/secrets.md)
 
@@ -65,6 +71,12 @@ The `server` indicates the MySQL server on which you want to configure the new M
 
 *Note*: When using MySQL Virtual Network Rules, the `Basic` SKU is not a valid op
 
+### MySQL administrator
+
+The MySQL administrator operator allows you to add an [AAD administrator](https://docs.microsoft.com/azure/mysql/concepts-azure-ad-authentication) to the MySQL server.
+
+Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlserveradministrator.yaml).
+
 ### MySQL user
 
 The MySQL user operator allows you to add a new user to an existing MySQL database. 
@@ -78,6 +90,17 @@ The operator supports grant specified privileges using the concept of `roles`, a
 ##### `SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER`.
 
 The username is defined by `username`. The MySQL server admin secret is stored in the secret with name `adminSecret` in the  keyvault named `adminSecretKeyVault`. 
+
+### MySQL AAD user
+The MySQL AAD user operator allows you to add a new AAD user to an existing MySQL database.
+
+Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlaaduser.yaml).
+
+This controller is only avilable when using [Managed Identity authentication](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/managedidentity.md) with ASO.
+Attempting to use it without Managed Identity will result in an authentication error.
+
+The AAD identity the operator is running as must have permissions to create users in the MySQLServer. This is most commonly granted by making the operator managed identity the MySQL Administrator using the
+[MySQL administrator](mysql-administrator) operator described above.
 
 ## Deploy, view and delete resources
 

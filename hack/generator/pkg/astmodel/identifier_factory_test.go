@@ -12,6 +12,8 @@ import (
 )
 
 func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name       string
 		visibility Visibility
@@ -58,6 +60,8 @@ func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
 }
 
 func Test_SliceIntoWords_GivenIdentifier_ReturnsExpectedSlice(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		identifier string
 		expected   []string
@@ -89,6 +93,8 @@ func Test_SliceIntoWords_GivenIdentifier_ReturnsExpectedSlice(t *testing.T) {
 }
 
 func Test_TransformToSnakeCase_ReturnsExpectedString(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		string   string
 		expected string
@@ -120,6 +126,8 @@ func Test_TransformToSnakeCase_ReturnsExpectedString(t *testing.T) {
 }
 
 func Test_SimplifyIdentifier_GivenContextAndName_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		context    string
 		identifier string

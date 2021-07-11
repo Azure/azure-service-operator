@@ -710,6 +710,7 @@ func main() {
 				config.GlobalCredentials(),
 				secretClient,
 				mgr.GetScheme(),
+				mgr.GetClient(),
 			),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLServer",
