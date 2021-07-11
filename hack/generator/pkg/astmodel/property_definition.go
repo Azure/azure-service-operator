@@ -134,7 +134,7 @@ func (property *PropertyDefinition) WithType(newType Type) *PropertyDefinition {
 		panic("nil type provided to WithType")
 	}
 
-	if property.propertyType.Equals(newType) {
+	if property.propertyType == newType || property.propertyType.Equals(newType) {
 		return property
 	}
 
@@ -261,7 +261,14 @@ func (property *PropertyDefinition) MakeOptional() *PropertyDefinition {
 	// whereas in the MakeRequired direction we only care if the type is specifically *astmodel.Optional
 	if !isTypeOptional(property.propertyType) {
 		// Need to make the type optional
-		result.propertyType = NewOptionalType(result.propertyType)
+
+		// we must check if the type is validated to preserve the validation invariant
+		// that all validations are *directly* under either a named type or a property
+		if vType, ok := result.propertyType.(*ValidatedType); ok {
+			result.propertyType = NewValidatedType(NewOptionalType(vType.ElementType()), vType.validations)
+		} else {
+			result.propertyType = NewOptionalType(result.propertyType)
+		}
 	}
 
 	result.hasKubebuilderRequiredValidation = false
@@ -309,6 +316,10 @@ func (property *PropertyDefinition) renderedTags() string {
 
 // AsField generates a Go AST field node representing this property definition
 func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGenerationContext) *dst.Field {
+	if property.flatten {
+		panic(fmt.Sprintf("property %s marked for flattening was not flattened", property.propertyName))
+	}
+
 	tags := property.renderedTags()
 
 	var names []*dst.Ident
@@ -385,12 +396,14 @@ func (property *PropertyDefinition) tagsEqual(f *PropertyDefinition) bool {
 }
 
 // Equals tests to see if the specified PropertyDefinition specifies the same property
-func (property *PropertyDefinition) Equals(f *PropertyDefinition) bool {
-	return property == f || (property.propertyName == f.propertyName &&
-		property.propertyType.Equals(f.propertyType) &&
-		property.tagsEqual(f) &&
-		property.hasKubebuilderRequiredValidation == f.hasKubebuilderRequiredValidation &&
-		property.description == f.description)
+func (property *PropertyDefinition) Equals(o *PropertyDefinition) bool {
+	return property == o || (property.propertyName == o.propertyName &&
+		property.propertyType.Equals(o.propertyType) &&
+		property.flatten == o.flatten &&
+		propertyNameSlicesEqual(property.flattenedFrom, o.flattenedFrom) &&
+		property.tagsEqual(o) &&
+		property.hasKubebuilderRequiredValidation == o.hasKubebuilderRequiredValidation &&
+		property.description == o.description)
 }
 
 func (property *PropertyDefinition) copy() *PropertyDefinition {

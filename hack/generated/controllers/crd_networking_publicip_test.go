@@ -26,7 +26,7 @@ func Test_PublicIP_CRUD(t *testing.T) {
 	// TODO: Note the microsoft.networking package also defines a PublicIPAddress type, so
 	// TODO: depluralization of this resource doesn't work because of the collision.
 	sku := network.PublicIPAddressSkuNameStandard
-	publicIPAddress := &network.PublicIPAddresses{
+	publicIPAddress := &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
 		Spec: network.PublicIPAddresses_Spec{
 			Location: tc.AzureRegion,
@@ -34,7 +34,7 @@ func Test_PublicIP_CRUD(t *testing.T) {
 			Sku: &network.PublicIPAddressSku{
 				Name: &sku,
 			},
-			PublicIPAllocationMethod: network.PublicIPAddressesSpecPropertiesPublicIPAllocationMethodStatic,
+			PublicIPAllocationMethod: network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic,
 		},
 	}
 
@@ -55,7 +55,7 @@ func Test_PublicIP_CRUD(t *testing.T) {
 
 	// ensure state got updated in Azure
 	tc.Eventually(func() *int {
-		updatedIP := &network.PublicIPAddresses{}
+		updatedIP := &network.PublicIPAddress{}
 		tc.GetResource(objectKey, updatedIP)
 		return updatedIP.Status.IdleTimeoutInMinutes
 	}).Should(Equal(&idleTimeoutInMinutes))

@@ -49,7 +49,7 @@ func Test_Disk_CRUD(t *testing.T) {
 
 	// Perform a simple patch.
 	patcher := tc.NewResourcePatcher(disk)
-	networkAccessPolicy := compute.DisksSpecPropertiesNetworkAccessPolicyDenyAll
+	networkAccessPolicy := compute.DiskPropertiesNetworkAccessPolicyDenyAll
 	disk.Spec.NetworkAccessPolicy = &networkAccessPolicy
 	patcher.Patch(disk)
 

@@ -334,7 +334,6 @@ func Test_PropertyDefinitionMakeRequired_WhenTypeOptionalAndIsRequired_ReturnsNe
 }
 
 func Test_PropertyDefinitionMakeRequired_PropertyTypeArrayAndMap(t *testing.T) {
-
 	cases := []struct {
 		name         string
 		propertyType Type
@@ -403,7 +402,6 @@ func Test_PropertyDefinitionMakeOptional_WhenTypeMandatoryAndIsRequiredFalse_Ret
 }
 
 func Test_PropertyDefinitionMakeOptional_PropertyTypeArrayAndMap(t *testing.T) {
-
 	cases := []struct {
 		name                  string
 		propertyType          Type
@@ -476,7 +474,6 @@ func Test_PropertyDefinition_WithValidation_ReturnsNewPropertyDefinition(t *test
  */
 
 func TestPropertyDefinition_Equals_WhenGivenPropertyDefinition_ReturnsExpectedResult(t *testing.T) {
-
 	strProperty := createStringProperty("FullName", "Full Legal Name")
 	otherStrProperty := createStringProperty("FullName", "Full Legal Name")
 
@@ -547,4 +544,23 @@ func TestSettingSameFlattenValueDoesNotAllocateNewPropertyDefinition(t *testing.
 	// actual asserts
 	g.Expect(strProperty.SetFlatten(false)).To(BeIdenticalTo(strProperty))
 	g.Expect(strPropertyFlatten.SetFlatten(true)).To(BeIdenticalTo(strPropertyFlatten))
+}
+
+func TestPropertyDefinitionsWithDifferentFlattenSettingsAreNotEqual(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	strProperty := createStringProperty("FullName", "Full Legal Name")
+	strPropertyFlatten := strProperty.SetFlatten(true)
+	g.Expect(strProperty.Equals(strPropertyFlatten)).To(BeFalse())
+}
+
+func TestPropertyDefinitionsWithDifferentFlattenedFromSettingsAreNotEqual(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	strProperty := createStringProperty("FullName", "Full Legal Name")
+	strPropertyFlatten1 := strProperty.AddFlattenedFrom("foo")
+	strPropertyFlatten2 := strProperty.AddFlattenedFrom("bar")
+	g.Expect(strProperty.Equals(strPropertyFlatten1)).To(BeFalse())
+	g.Expect(strProperty.Equals(strPropertyFlatten2)).To(BeFalse())
+	g.Expect(strPropertyFlatten1.Equals(strPropertyFlatten2)).To(BeFalse())
 }

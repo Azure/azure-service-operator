@@ -134,13 +134,13 @@ func (allOf AllOfType) RequiredPackageReferences() *PackageReferenceSet {
 // Equals returns true if the other Type is a AllOf that contains
 // the same set of types
 func (allOf *AllOfType) Equals(t Type) bool {
+	if allOf == t {
+		return true // short-circuit
+	}
+
 	other, ok := t.(*AllOfType)
 	if !ok {
 		return false
-	}
-
-	if allOf == other {
-		return true // short-circuit
 	}
 
 	return allOf.types.Equals(other.types)
