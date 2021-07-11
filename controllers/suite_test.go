@@ -722,6 +722,7 @@ func setup() error {
 				config.GlobalCredentials(),
 				secretClient,
 				k8sManager.GetScheme(),
+				k8sManager.GetClient(),
 			),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"MySQLServer",

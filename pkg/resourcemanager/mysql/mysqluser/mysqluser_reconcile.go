@@ -9,6 +9,7 @@ import (
 	"reflect"
 	"strings"
 
+	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	_ "github.com/go-sql-driver/mysql" //sql drive link
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -75,9 +76,9 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	adminUser := string(adminSecret["fullyQualifiedUsername"])
-	adminPassword := string(adminSecret[MSecretPasswordKey])
-	fullServerName := string(adminSecret["fullyQualifiedServerName"])
+	adminUser := string(adminSecret[mysqlserver.FullyQualifiedUsernameSecretKey])
+	adminPassword := string(adminSecret[mysqlserver.PasswordSecretKey])
+	fullServerName := string(adminSecret[mysqlserver.FullyQualifiedServerNameSecretKey])
 
 	db, err := mysql.ConnectToSqlDB(
 		ctx,
