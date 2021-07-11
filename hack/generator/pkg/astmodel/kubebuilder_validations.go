@@ -37,18 +37,32 @@ func GenerateKubebuilderComment(validation KubeBuilderValidation) string {
 			// handle slice values which should look like "{"x","y","z"}
 			var values []string
 			for i := 0; i < value.Len(); i++ {
-				values = append(values, fmt.Sprintf("%s", value.Index(i)))
+				values = append(values, valueAsString(value.Index(i)))
 			}
 
 			return fmt.Sprintf("%s%s={%s}", prefix, validation.name, strings.Join(values, ","))
 		}
 
 		// everything else
-		return fmt.Sprintf("%s%s=%s", prefix, validation.name, validation.value)
+		return fmt.Sprintf("%s%s=%s", prefix, validation.name, valueAsString(value))
 	}
 
 	// validation without argument
 	return fmt.Sprintf("%s%s", prefix, validation.name)
+}
+
+func valueAsString(value reflect.Value) string {
+	switch v := value.Interface().(type) {
+	case int, int16, int32, int64:
+		return fmt.Sprintf("%d", v)
+	case bool:
+		return fmt.Sprintf("%t", v)
+	case string:
+		return v
+	default:
+		klog.Error(fmt.Sprintf("unexpected value for kubebuilder comment - %s", value.Kind()))
+		return "%%UNKNOWN%%"
+	}
 }
 
 func AddValidationComments(commentList *dst.Decorations, validations []KubeBuilderValidation) {
