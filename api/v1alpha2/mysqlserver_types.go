@@ -33,7 +33,7 @@ type MySQLServerSpec struct {
 	// If AdminSecret is specified but a secret with the given name is not found in the same namespace
 	// as the MySQLServer, then reconciliation will block until the secret is created.
 	// If this is not specified, a username and password will be automatically generated.
-	AdminSecret            string               `json:"adminSecret,omitempty"`
+	AdminSecret string `json:"adminSecret,omitempty"`
 }
 
 // +kubebuilder:object:root=true
