@@ -261,7 +261,7 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 				t.Log("")
 				t.Log("-------")
 				t.Log("unexpected failed provisioning encountered")
-				t.Logf("%s\n", statused.Status)
+				t.Logf("%s (%s)\n", statused.Status.Message, statused.Status.State)
 				t.Logf("current time %s\n", time.Now().Format("2006-01-02 15:04:05"))
 				t.Log("-------")
 				t.Log("")
