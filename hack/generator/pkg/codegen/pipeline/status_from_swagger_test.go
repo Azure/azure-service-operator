@@ -13,6 +13,8 @@ import (
 )
 
 func Test_ShouldSkipDir_GivenPath_HasExpectedResult(t *testing.T) {
+	t.Parallel()
+
 	linuxCases := []struct {
 		name       string
 		path       string

@@ -84,6 +84,7 @@ func Test_EmbeddedProperties_GivenObjectWithProperties_ReturnsExpectedSortedSlic
  */
 
 func TestObjectType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 
 	clanName := NewStringPropertyDefinition("Clan")
 	testcaseA := NewFakeTestCase("testcaseA")
