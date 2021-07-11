@@ -53,7 +53,13 @@ func (builder conversionBuilder) propertyConversionHandler(
 	var armDescription strings.Builder
 	builder.armType.WriteDebugDescription(&armDescription, nil)
 
-	panic(fmt.Sprintf("No property found for %q in method %s()\nFrom: %s\nTo: %s", toProp.PropertyName(), builder.methodName, kubeDescription, armDescription))
+	message := fmt.Sprintf(
+		"No property found for %q in method %s()\nFrom: %s\nTo: %s",
+		toProp.PropertyName(),
+		builder.methodName,
+		kubeDescription.String(),
+		armDescription.String())
+	panic(message)
 }
 
 type propertyConversionHandler = func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt
