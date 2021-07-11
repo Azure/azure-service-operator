@@ -12,6 +12,7 @@ import (
 )
 
 func Test_CreateGlobbingRegex_ReturnsExpectedRegex(t *testing.T) {
+	t.Parallel()
 
 	cases := []struct {
 		glob  string
@@ -36,6 +37,7 @@ func Test_CreateGlobbingRegex_ReturnsExpectedRegex(t *testing.T) {
 }
 
 func Test_GlobbingRegex_MatchesExpectedStrings(t *testing.T) {
+	t.Parallel()
 
 	cases := []struct {
 		regex       string

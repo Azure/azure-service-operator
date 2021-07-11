@@ -334,6 +334,8 @@ func Test_PropertyDefinitionMakeRequired_WhenTypeOptionalAndIsRequired_ReturnsNe
 }
 
 func Test_PropertyDefinitionMakeRequired_PropertyTypeArrayAndMap(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name         string
 		propertyType Type
@@ -402,6 +404,8 @@ func Test_PropertyDefinitionMakeOptional_WhenTypeMandatoryAndIsRequiredFalse_Ret
 }
 
 func Test_PropertyDefinitionMakeOptional_PropertyTypeArrayAndMap(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name                  string
 		propertyType          Type
@@ -474,6 +478,8 @@ func Test_PropertyDefinition_WithValidation_ReturnsNewPropertyDefinition(t *test
  */
 
 func TestPropertyDefinition_Equals_WhenGivenPropertyDefinition_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+
 	strProperty := createStringProperty("FullName", "Full Legal Name")
 	otherStrProperty := createStringProperty("FullName", "Full Legal Name")
 
