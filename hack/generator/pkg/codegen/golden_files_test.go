@@ -161,7 +161,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			// These stages treat the collection of types as a graph of types rooted by a resource type.
 			// In the degenerate case where there are no resources it behaves the same as stripUnreferenced - removing
 			// all types. Remove it in phases that have no resources to avoid this.
-			codegen.RemoveStages("removeEmbeddedResources", "collapseCrossGroupReferences")
+			codegen.RemoveStages(pipeline.RemoveEmbeddedResourcesStageID, "collapseCrossGroupReferences")
 
 			codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
 		} else {
