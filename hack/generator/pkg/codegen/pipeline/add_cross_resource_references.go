@@ -18,6 +18,9 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
+// AddCrossResourceReferencesStageID is the unique identifier for this pipeline stage
+const AddCrossResourceReferencesStageID ="addCrossResourceReferences"
+
 var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARM ID|Resource ID)")
 
 // TODO: For now not supporting array or map of references. Unsure if it actually ever happens in practice.
@@ -25,7 +28,7 @@ var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resour
 // AddCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
 func AddCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
-		"addCrossResourceReferences",
+		AddCrossResourceReferencesStageID,
 		"Replace cross-resource references with genruntime.ResourceReference",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
 			result := make(astmodel.Types)

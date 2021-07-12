@@ -165,7 +165,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 
 			codegen.ReplaceStage(pipeline.StripUnreferencedTypeDefinitionsStageID, stripUnusedTypesPipelineStage())
 		} else {
-			codegen.ReplaceStage("addCrossResourceReferences", addCrossResourceReferencesForTest(idFactory))
+			codegen.ReplaceStage(pipeline.AddCrossResourceReferencesStageID, addCrossResourceReferencesForTest(idFactory))
 		}
 	case config.GenerationPipelineCrossplane:
 		codegen.RemoveStages(pipeline.DeleteGeneratedCodeStageID, pipeline.CheckForAnyTypeStageID)
@@ -297,7 +297,7 @@ func stripUnusedTypesPipelineStage() pipeline.Stage {
 // TODO: we have no way to give Swagger to the golden files tests currently.
 func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pipeline.Stage {
 	return pipeline.MakeLegacyStage(
-		"addCrossResourceReferences",
+		pipeline.AddCrossResourceReferencesStageID,
 		"Add cross resource references for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			result := make(astmodel.Types)
