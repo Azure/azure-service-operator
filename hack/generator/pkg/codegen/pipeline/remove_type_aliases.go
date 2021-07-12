@@ -17,10 +17,13 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
+// RemoveTypeAliasesStageID is the unique identifier for this pipeline stage
+const RemoveTypeAliasesStageID = "removeAliases"
+
 // RemoveTypeAliases creates a pipeline stage removing type aliases
 func RemoveTypeAliases() Stage {
 	return MakeLegacyStage(
-		"removeAliases",
+		RemoveTypeAliasesStageID,
 		"Remove type aliases",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 

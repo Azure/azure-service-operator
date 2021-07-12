@@ -181,7 +181,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 	codegen.ReplaceStage(pipeline.ExportPackagesStageID, exportPackagesTestPipelineStage(t, testName))
 
 	if testConfig.InjectEmbeddedStruct {
-		codegen.InjectStageAfter("removeAliases", injectEmbeddedStructType())
+		codegen.InjectStageAfter(pipeline.RemoveTypeAliasesStageID, injectEmbeddedStructType())
 	}
 
 	codegen.RemoveStages()
