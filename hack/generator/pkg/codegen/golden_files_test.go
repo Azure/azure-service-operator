@@ -163,14 +163,14 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			// all types. Remove it in phases that have no resources to avoid this.
 			codegen.RemoveStages(pipeline.RemoveEmbeddedResourcesStageID, pipeline.CollapseCrossGroupReferencesStageID)
 
-			codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
+			codegen.ReplaceStage(pipeline.StripUnreferencedTypeDefinitionsStageID, stripUnusedTypesPipelineStage())
 		} else {
 			codegen.ReplaceStage("addCrossResourceReferences", addCrossResourceReferencesForTest(idFactory))
 		}
 	case config.GenerationPipelineCrossplane:
 		codegen.RemoveStages(pipeline.DeleteGeneratedCodeStageID, pipeline.CheckForAnyTypeStageID)
 		if !testConfig.HasARMResources {
-			codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
+			codegen.ReplaceStage(pipeline.StripUnreferencedTypeDefinitionsStageID, stripUnusedTypesPipelineStage())
 		}
 
 	default:
