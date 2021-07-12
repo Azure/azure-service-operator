@@ -15,8 +15,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
-// InjectHubFunctionStageId is the unique identifier for this pipeline stage
-const InjectHubFunctionStageId = "injectHubFunction"
+// InjectHubFunctionStageID is the unique identifier for this pipeline stage
+const InjectHubFunctionStageID = "injectHubFunction"
 
 // InjectHubFunction modifies the nominates storage version (aka hub version) of each resource by injecting a Hub()
 // function so that it satisfies the required interface.

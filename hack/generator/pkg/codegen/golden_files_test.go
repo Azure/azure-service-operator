@@ -153,8 +153,8 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			pipeline.InjectOriginalVersionFunctionStageID,
 			pipeline.InjectOriginalVersionPropertyStageID,
 			pipeline.InjectPropertyAssignmentFunctionsStageID,
-			//pipeline.InjectHubFunctionStageId,
-			"reportTypesAndVersions")
+			//pipeline.InjectHubFunctionStageID,
+			pipeline.ReportOnTypesAndVersionsStageID)
 		if !testConfig.HasARMResources {
 			codegen.RemoveStages("createArmTypes", "applyArmConversionInterface")
 			// These stages treat the collection of types as a graph of types rooted by a resource type.
