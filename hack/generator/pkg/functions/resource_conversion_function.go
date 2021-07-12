@@ -120,17 +120,17 @@ func (fn *ResourceConversionFunction) AsFunc(
 
 	if fn.hub.Equals(fn.propertyFunction.otherDefinition.Name()) {
 		// Not using an intermediate step
-		funcDetails.Body = fn.DirectConversion(receiverName, generationContext)
+		funcDetails.Body = fn.directConversion(receiverName, generationContext)
 	} else {
 		fn.propertyFunction.direction.
-			WhenFrom(func() { funcDetails.Body = fn.IndirectConversionFromHub(receiverName, generationContext) }).
-			WhenTo(func() { funcDetails.Body = fn.IndirectConversionToHub(receiverName, generationContext) })
+			WhenFrom(func() { funcDetails.Body = fn.indirectConversionFromHub(receiverName, generationContext) }).
+			WhenTo(func() { funcDetails.Body = fn.indirectConversionToHub(receiverName, generationContext) })
 	}
 
 	return funcDetails.DefineFunc()
 }
 
-// DirectConversion creates a simple direct conversion between the two types
+// directConversion creates a simple direct conversion between the two types
 //
 // <local>, ok := <hubAsInterface>.(<actualHubType>)
 // if !ok {
@@ -139,7 +139,7 @@ func (fn *ResourceConversionFunction) AsFunc(
 //
 // return receiver.AssignProperties(To|From)<type>(<local>)
 //
-func (fn *ResourceConversionFunction) DirectConversion(
+func (fn *ResourceConversionFunction) directConversion(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
@@ -167,7 +167,7 @@ func (fn *ResourceConversionFunction) DirectConversion(
 		copyAndReturn)
 }
 
-// IndirectConversionFromHub generates a conversion when the type we know about isn't the hub type, but is closer to it
+// indirectConversionFromHub generates a conversion when the type we know about isn't the hub type, but is closer to it
 // in our conversion graph
 //
 // var source <intermediateType>
@@ -181,7 +181,7 @@ func (fn *ResourceConversionFunction) DirectConversion(
 // }
 // return nil
 //
-func (fn *ResourceConversionFunction) IndirectConversionFromHub(
+func (fn *ResourceConversionFunction) indirectConversionFromHub(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 	localId := fn.localVariableId()
@@ -225,7 +225,7 @@ func (fn *ResourceConversionFunction) IndirectConversionFromHub(
 		returnNil)
 }
 
-// IndirectConversionToHub generates a conversion when the type we know about isn't the hub type, but is closer to it in
+// indirectConversionToHub generates a conversion when the type we know about isn't the hub type, but is closer to it in
 // our conversion graph
 //
 // var destination <intermediateType>
@@ -239,7 +239,7 @@ func (fn *ResourceConversionFunction) IndirectConversionFromHub(
 // }
 // return nil
 //
-func (fn *ResourceConversionFunction) IndirectConversionToHub(
+func (fn *ResourceConversionFunction) indirectConversionToHub(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 	localId := fn.localVariableId()
