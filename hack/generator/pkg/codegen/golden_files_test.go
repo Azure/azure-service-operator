@@ -156,7 +156,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			//pipeline.InjectHubFunctionStageID,
 			pipeline.ReportOnTypesAndVersionsStageID)
 		if !testConfig.HasARMResources {
-			codegen.RemoveStages("createArmTypes", "applyArmConversionInterface")
+			codegen.RemoveStages(pipeline.CreateARMTypesStageID, "applyArmConversionInterface")
 			// These stages treat the collection of types as a graph of types rooted by a resource type.
 			// In the degenerate case where there are no resources it behaves the same as stripUnreferenced - removing
 			// all types. Remove it in phases that have no resources to avoid this.
