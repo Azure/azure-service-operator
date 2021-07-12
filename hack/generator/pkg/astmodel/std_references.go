@@ -49,6 +49,7 @@ var (
 	GomegaImport = NewPackageImport(GomegaReference).WithName(".")
 
 	// Type names - GenRuntime
+	ConvertibleSpecInterfaceType   = MakeTypeName(GenRuntimeReference, "ConvertibleSpec")
 	ResourceReferenceTypeName      = MakeTypeName(GenRuntimeReference, "ResourceReference")
 	KnownResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "KnownResourceReference")
 	ToARMConverterInterfaceType    = MakeTypeName(GenRuntimeReference, "ToARMConverter")
