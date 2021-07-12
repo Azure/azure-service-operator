@@ -6,6 +6,7 @@ linters:
   enable:
     - gofmt
     - megacheck
+    - tparallel
   presets:
     - bugs
     - unused

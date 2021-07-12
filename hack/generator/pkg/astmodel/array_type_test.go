@@ -12,6 +12,8 @@ import (
 )
 
 func TestArrayType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+
 	strArray := NewArrayType(StringType)
 	intArray := NewArrayType(IntType)
 	otherStrArray := NewArrayType(StringType)

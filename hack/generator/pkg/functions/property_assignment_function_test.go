@@ -23,7 +23,6 @@ type StorageConversionPropertyTestCase struct {
 }
 
 func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTestCase {
-
 	// Package References
 	vCurrent := test.MakeLocalPackageReference("Verification", "vCurrent")
 	vNext := test.MakeLocalPackageReference("Verification", "vNext")
@@ -207,6 +206,8 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 }
 
 func TestPropertyAssignmentFunction_AsFunc(t *testing.T) {
+	t.Parallel()
+
 	for _, c := range CreatePropertyAssignmentFunctionTestCases() {
 		c := c
 		t.Run(c.name, func(t *testing.T) {

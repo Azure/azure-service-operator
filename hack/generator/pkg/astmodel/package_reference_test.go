@@ -29,6 +29,8 @@ func TestSortPackageReferencesByPathAndVersion(t *testing.T) {
 }
 
 func TestComparePackageReferencesByPathAndVersion(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name     string
 		left     string
@@ -74,6 +76,8 @@ func TestComparePackageReferencesByPathAndVersion(t *testing.T) {
 }
 
 func TestVersionComparerCompareNumeric(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name     string
 		left     string
