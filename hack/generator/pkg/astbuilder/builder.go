@@ -28,13 +28,17 @@ func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
 // CheckErrorAndWrap checks if the err is non-nil, and if it is returns it, wrapped with additional information
 //
 // if err != nil {
-//      return errors.Wrapf(err, <message>, <args>)
+//      return errors.Wrap(f)(err, <message>, <args>)
 // }
 //
 func CheckErrorAndWrap(errorsPackage string, message string, args ...dst.Expr) dst.Stmt {
+	funcName := "Wrap"
+	if len(args) > 0 {
+		funcName = "Wrapf"
+	}
 	wrap := CallQualifiedFunc(
 		errorsPackage,
-		"Wrap",
+		funcName,
 		Expressions(dst.NewIdent("err"), StringLiteral(message), args)...)
 
 	return CheckErrorAndSingleStatement(Returns(wrap))

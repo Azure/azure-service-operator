@@ -45,3 +45,33 @@ func IfNotNil(toCheck dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 		Body: StatementBlock(statements...),
 	}
 }
+
+// IfOk checks a boolean ok variable and if it is ok runs the given statements
+//
+//	if ok {
+//		<statements>
+//	}
+//
+func IfOk(statements ...dst.Stmt) *dst.IfStmt {
+	return &dst.IfStmt{
+		Cond: dst.NewIdent("ok"),
+		Body: StatementBlock(statements...),
+	}
+}
+
+// IfNotOk checks a boolean ok variable and if it is not ok runs the given statements
+//
+//	if !ok {
+//		<statements>
+//	}
+//
+func IfNotOk(statements ...dst.Stmt) *dst.IfStmt {
+	return &dst.IfStmt{
+		Cond: &dst.UnaryExpr{
+			Op: token.NOT,
+			X:  dst.NewIdent("ok"),
+		},
+		Body: StatementBlock(statements...),
+	}
+}
+

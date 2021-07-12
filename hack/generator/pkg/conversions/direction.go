@@ -6,6 +6,8 @@
 package conversions
 
 import (
+	"github.com/dave/dst"
+
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
@@ -15,6 +17,8 @@ type Direction interface {
 	SelectString(from string, to string) string
 	// SelectType returns one of the provided types, depending on the direction of conversion
 	SelectType(from astmodel.Type, to astmodel.Type) astmodel.Type
+	// SelectExpr returns on one of the provided expressions, depending on the direction of conversion
+	SelectExpr(from dst.Expr, to dst.Expr) dst.Expr
 	// WhenFrom will run the specified function only if the direction is "From", returning the current direction for chaining
 	WhenFrom(fn func()) Direction
 	// WhenTo will run the specified function only if the direction is "To", returning the current direction for chaining
@@ -42,6 +46,11 @@ func (dir *ConvertFromDirection) SelectType(fromType astmodel.Type, _ astmodel.T
 	return fromType
 }
 
+// SelectExpr returns the expression for conversion FROM
+func (dir *ConvertFromDirection) SelectExpr(fromExpr dst.Expr, _ dst.Expr) dst.Expr {
+	return fromExpr
+}
+
 // WhenFrom will run the supplied function, returning this FROM direction for chaining
 func (dir *ConvertFromDirection) WhenFrom(fn func()) Direction {
 	fn()
@@ -66,6 +75,11 @@ func (dir *ConvertToDirection) SelectString(_ string, toValue string) string {
 // SelectType returns the type for conversion TO
 func (dir *ConvertToDirection) SelectType(_ astmodel.Type, toType astmodel.Type) astmodel.Type {
 	return toType
+}
+
+// SelectExpr returns the expression for conversion TO
+func (dir *ConvertToDirection) SelectExpr(_ dst.Expr, toExpr dst.Expr) dst.Expr {
+	return toExpr
 }
 
 // WhenFrom will skip the supplied function, returning this TO direction for chaining
