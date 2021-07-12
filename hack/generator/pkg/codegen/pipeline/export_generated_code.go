@@ -21,6 +21,9 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
+// ExportPackagesStageID is the unique identifier for this pipeline stage
+const ExportPackagesStageID = "exportPackages"
+
 // ExportPackages creates a Stage to export our generated code as a set of packages
 func ExportPackages(outputPath string) Stage {
 	description := fmt.Sprintf("Export packages to %q", outputPath)
