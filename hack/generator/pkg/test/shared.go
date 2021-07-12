@@ -40,6 +40,9 @@ var (
 	// Reference Package 2020
 	Pkg2020 = MakeLocalPackageReference(Group, "v20200101")
 
+	// Reference Package 2021 preview
+	Pkg2021Preview = MakeLocalPackageReference(Group, "v20211231preview")
+
 	// Reference Package 2021
 	Pkg2021 = MakeLocalPackageReference(Group, "v20211231")
 
