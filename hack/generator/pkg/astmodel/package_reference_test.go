@@ -108,3 +108,29 @@ func TestVersionComparerCompareNumeric(t *testing.T) {
 		})
 	}
 }
+
+func TestContainsPreviewVersionLabel(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name string
+		version string
+		expected bool
+	}{
+		{"Non-preview", "v20200201", false},
+		{"Alpha", "v20200201alpha", true},
+		{"Beta", "v20200201beta", true},
+		{"Preview", "v20200201preview", true},
+	}
+
+	for _, c := range cases {
+		c:=c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			isPreview := containsPreviewVersionLabel(c.version)
+			g.Expect(isPreview).To(Equal(c.expected))
+		})
+	}
+}
