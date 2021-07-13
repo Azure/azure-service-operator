@@ -33,6 +33,18 @@ type Stage struct {
 	postrequisites []string
 }
 
+// MakeStage creates a new pipeline stage that's ready for execution
+func MakeStage(
+	id string,
+	description string,
+	action func(context.Context, *State) (*State, error)) Stage {
+	return Stage{
+		id:          id,
+		description: description,
+		action:      action,
+	}
+}
+
 // MakeLegacyStage is a legacy constructor for creating a new pipeline stage that's ready for execution
 // DO NOT USE THIS FOR ANY NEW STAGES - it's kept for compatibility with an older style of pipeline stages that will be
 // migrated to the new style over time.
@@ -40,18 +52,17 @@ func MakeLegacyStage(
 	id string,
 	description string,
 	action func(context.Context, astmodel.Types) (astmodel.Types, error)) Stage {
-	return Stage{
-		id:          id,
-		description: description,
-		action: func(ctx context.Context, state *State) (*State, error) {
+	return MakeStage(
+		id,
+		description,
+		func(ctx context.Context, state *State) (*State, error) {
 			types, err := action(ctx, state.Types())
 			if err != nil {
 				return nil, err
 			}
 
 			return state.WithTypes(types), nil
-		},
-	}
+		})
 }
 
 // HasId returns true if this stage has the specified id, false otherwise
