@@ -25,7 +25,7 @@ const injectPropertyAssignmentFunctionsStageId = "injectPropertyAssignmentFuncti
 // are the building blocks of the main CovertTo*() and ConvertFrom*() methods.
 func InjectPropertyAssignmentFunctions(graph *storage.ConversionGraph, idFactory astmodel.IdentifierFactory) Stage {
 
-	stage := MakeStage(
+	stage := MakeLegacyStage(
 		injectPropertyAssignmentFunctionsStageId,
 		"Inject property assignment functions AssignFrom() and AssignTo() into resources and objects",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

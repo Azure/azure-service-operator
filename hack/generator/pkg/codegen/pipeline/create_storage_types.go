@@ -20,7 +20,7 @@ const CreateStorageTypesStageId = "createStorageTypes"
 // Storage versions are created for *all* API versions to allow users of older versions of the operator to easily
 // upgrade. This is of course a bit odd for the first release, but defining the approach from day one is useful.
 func CreateStorageTypes(conversionGraph *storage.ConversionGraph) Stage {
-	result := MakeStage(
+	result := MakeLegacyStage(
 		CreateStorageTypesStageId,
 		"Create storage versions of CRD types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

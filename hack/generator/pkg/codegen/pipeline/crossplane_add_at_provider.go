@@ -17,7 +17,7 @@ import (
 // AddCrossplaneAtProvider adds an "AtProvider" property as the sole property in every resource status
 func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) Stage {
 
-	return MakeStage(
+	return MakeLegacyStage(
 		"addCrossplaneAtProviderProperty",
 		"Add an 'AtProvider' property on every status",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

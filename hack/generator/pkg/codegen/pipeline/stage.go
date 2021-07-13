@@ -33,8 +33,10 @@ type Stage struct {
 	postrequisites []string
 }
 
-// MakeStage creates a new pipeline stage that's ready for execution
-func MakeStage(
+// MakeLegacyStage is a legacy constructor for creating a new pipeline stage that's ready for execution
+// DO NOT USE THIS FOR ANY NEW STAGES - it's kept for compatibility with an older style of pipeline stages that will be
+// migrated to the new style over time.
+func MakeLegacyStage(
 	id string,
 	description string,
 	action func(context.Context, astmodel.Types) (astmodel.Types, error)) Stage {

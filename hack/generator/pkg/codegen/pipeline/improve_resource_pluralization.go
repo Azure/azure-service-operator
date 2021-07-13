@@ -14,7 +14,7 @@ import (
 // ImproveResourcePluralization improves pluralization for resources
 func ImproveResourcePluralization() Stage {
 
-	return MakeStage(
+	return MakeLegacyStage(
 		"pluralizeNames",
 		"Improve resource pluralization",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

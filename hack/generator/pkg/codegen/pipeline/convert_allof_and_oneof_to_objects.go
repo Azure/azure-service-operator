@@ -30,7 +30,7 @@ var (
 
 // ConvertAllOfAndOneOfToObjects reduces the AllOfType and OneOfType to ObjectType
 func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		"allof-anyof-objects",
 		"Convert allOf and oneOf to object types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

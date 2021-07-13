@@ -31,7 +31,7 @@ var (
 )
 
 func ReplaceAnyTypeWithJSON() Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		"replaceAnyTypeWithJSON",
 		"Replace properties using interface{} with arbitrary JSON",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

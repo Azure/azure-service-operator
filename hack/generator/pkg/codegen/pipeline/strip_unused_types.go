@@ -12,7 +12,7 @@ import (
 )
 
 func StripUnreferencedTypeDefinitions() Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		"stripUnreferenced",
 		"Strip unreferenced types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

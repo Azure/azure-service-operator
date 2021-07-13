@@ -15,7 +15,7 @@ import (
 )
 
 func FlattenProperties() Stage {
-	return MakeStage("flattenProperties", "Apply flattening to properties marked for flattening", applyPropertyFlattening)
+	return MakeLegacyStage("flattenProperties", "Apply flattening to properties marked for flattening", applyPropertyFlattening)
 }
 
 func applyPropertyFlattening(
