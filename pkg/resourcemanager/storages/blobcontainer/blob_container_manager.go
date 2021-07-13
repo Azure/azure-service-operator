@@ -12,8 +12,8 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 )
 
-// New returns a pointer to a new instance of a blob container client
-func New(creds config.Credentials) *AzureBlobContainerManager {
+// NewManager returns a pointer to a new instance of a blob container client
+func NewManager(creds config.Credentials) *AzureBlobContainerManager {
 	return &AzureBlobContainerManager{creds: creds}
 }
 
