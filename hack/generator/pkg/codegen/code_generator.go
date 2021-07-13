@@ -156,7 +156,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// Create Storage types
 		// TODO: For now only used for ARM
-		pipeline.CreateConversionGraph(graph).UsedFor(pipeline.ARMTarget),
+		pipeline.CreateConversionGraph().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionFunction(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.CreateStorageTypes().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),

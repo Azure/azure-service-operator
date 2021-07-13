@@ -27,6 +27,13 @@ func (b *ConversionGraphBuilder) Add(ref astmodel.PackageReference) {
 	subBuilder.Add(ref)
 }
 
+// AddAll includes all the supplied package references in the conversion graph
+func (b *ConversionGraphBuilder) AddAll(set *astmodel.PackageReferenceSet) {
+	for _, ref := range set.AsSlice() {
+		b.Add(ref)
+	}
+}
+
 // Build connects all the provided API types together into a single conversion graph
 func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
 
