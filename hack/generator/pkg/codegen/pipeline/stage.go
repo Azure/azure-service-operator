@@ -24,7 +24,7 @@ type Stage struct {
 	// Description of the stage to use when logging
 	description string
 	// Stage implementation
-	action func(context.Context, astmodel.Types) (astmodel.Types, error)
+	action func(context.Context, *State) (*State, error)
 	// Tag used for filtering
 	targets []Target
 	// Identifiers for other stages that must be completed before this one
@@ -43,7 +43,14 @@ func MakeLegacyStage(
 	return Stage{
 		id:          id,
 		description: description,
-		action:      action,
+		action: func(ctx context.Context, state *State) (*State, error) {
+			types, err := action(ctx, state.Types())
+			if err != nil {
+				return nil, err
+			}
+
+			return state.WithTypes(types), nil
+		},
 	}
 }
 
@@ -120,8 +127,8 @@ func (stage *Stage) Description() string {
 }
 
 // Run is used to execute the action associated with this stage
-func (stage *Stage) Run(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-	return stage.action(ctx, types)
+func (stage *Stage) Run(ctx context.Context, state *State) (*State, error) {
+	return stage.action(ctx, state)
 }
 
 // CheckPrerequisites returns an error if the prerequisites of this stage have not been met
