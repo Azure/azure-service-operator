@@ -4,6 +4,8 @@
 package controllers
 
 import (
+	"context"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1beta1"
@@ -18,7 +20,7 @@ type AzureSqlFirewallRuleReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={azuresqlfirewallrules/status,azuresqlfirewallrules/finalizers},verbs=get;update;patch
 
 // Reconcile function does the main reconciliation loop of the operator
-func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctrl.Result, err error) {
+func (r *AzureSqlFirewallRuleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (result ctrl.Result, err error) {
 	return r.Reconciler.Reconcile(req, &v1beta1.AzureSqlFirewallRule{})
 }
 

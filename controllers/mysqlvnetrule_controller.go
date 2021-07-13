@@ -4,6 +4,8 @@
 package controllers
 
 import (
+	"context"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -17,7 +19,7 @@ type MySQLVNetRuleReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlvnetrules,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={mysqlvnetrules/status,mysqlvnetrules/finalizers},verbs=get;update;patch
 
-func (r *MySQLVNetRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+func (r *MySQLVNetRuleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.MySQLVNetRule{})
 }
 

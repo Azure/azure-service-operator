@@ -5,6 +5,9 @@ package controllers
 
 import (
 	"github.com/Azure/azure-service-operator/api/v1beta1"
+
+	"context"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
@@ -17,7 +20,7 @@ type AzureSqlFailoverGroupReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={azuresqlfailovergroups/status,azuresqlfailovergroups/finalizers},verbs=get;update;patch
 
 // Reconcile function does the main reconciliation loop of the operator
-func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+func (r *AzureSqlFailoverGroupReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &v1beta1.AzureSqlFailoverGroup{})
 }
 

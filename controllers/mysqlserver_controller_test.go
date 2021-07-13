@@ -87,7 +87,7 @@ func TestMySQLServerUserSpecifiedSecretMissingPassword(t *testing.T) {
 	secretName := GenerateTestResourceNameWithRandom("mysqlserversecret", 10)
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: secretName,
+			Name:      secretName,
 			Namespace: "default",
 		},
 		StringData: map[string]string{
@@ -115,7 +115,7 @@ func TestMySQLServerUserSpecifiedSecretMissingUsername(t *testing.T) {
 	secretName := GenerateTestResourceNameWithRandom("mysqlserversecret", 10)
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: secretName,
+			Name:      secretName,
 			Namespace: "default",
 		},
 		StringData: map[string]string{
@@ -131,4 +131,3 @@ func TestMySQLServerUserSpecifiedSecretMissingUsername(t *testing.T) {
 	EnsureInstanceWithResult(ctx, t, tc, mySQLServerInstance, "is missing required \"username\" field", false)
 	EnsureDelete(ctx, t, tc, mySQLServerInstance)
 }
-

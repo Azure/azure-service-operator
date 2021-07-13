@@ -6,10 +6,12 @@ package resourcemanager
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 const (
@@ -33,7 +35,7 @@ func WithSecretClient(secretClient secrets.SecretClient) ConfigOption {
 
 type KubeParent struct {
 	Key    types.NamespacedName
-	Target runtime.Object
+	Target client.Object
 }
 
 type ARMClient interface {

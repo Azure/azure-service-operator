@@ -4,8 +4,11 @@
 package controllers
 
 import (
-	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"context"
+
 	ctrl "sigs.k8s.io/controller-runtime"
+
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 )
 
 // MySQLServerReconciler reconciles a MySQLServer object
@@ -16,7 +19,7 @@ type MySQLServerReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlservers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={mysqlservers/status,mysqlservers/finalizers},verbs=get;update;patch
 
-func (r *MySQLServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+func (r *MySQLServerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &v1alpha2.MySQLServer{})
 }
 

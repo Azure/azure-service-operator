@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
-	uuid "github.com/gofrs/uuid"
+	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -85,7 +85,7 @@ type TestContext struct {
 
 // Fetch retrieves an object by namespaced name from the API server and puts the contents in the runtime.Object parameter.
 // TODO(ace): refactor onto base reconciler struct
-func Fetch(ctx context.Context, client client.Client, namespacedName types.NamespacedName, obj runtime.Object, log logr.Logger) error {
+func Fetch(ctx context.Context, client client.Client, namespacedName types.NamespacedName, obj client.Object, log logr.Logger) error {
 	if err := client.Get(ctx, namespacedName, obj); err != nil {
 		// dont't requeue not found
 		if apierrs.IsNotFound(err) {
@@ -99,7 +99,7 @@ func Fetch(ctx context.Context, client client.Client, namespacedName types.Names
 
 // AddFinalizerAndUpdate removes a finalizer from a runtime object and attempts to update that object in the API server.
 // It returns an error if either operation failed.
-func AddFinalizerAndUpdate(ctx context.Context, client client.Client, finalizer string, o runtime.Object) error {
+func AddFinalizerAndUpdate(ctx context.Context, client client.Client, finalizer string, o client.Object) error {
 	m, err := meta.Accessor(o)
 	if err != nil {
 		return err
@@ -116,7 +116,7 @@ func AddFinalizerAndUpdate(ctx context.Context, client client.Client, finalizer 
 
 // RemoveFinalizerAndUpdate removes a finalizer from a runtime object and attempts to update that object in the API server.
 // It returns an error if either operation failed.
-func RemoveFinalizerAndUpdate(ctx context.Context, client client.Client, finalizer string, o runtime.Object) error {
+func RemoveFinalizerAndUpdate(ctx context.Context, client client.Client, finalizer string, o client.Object) error {
 	m, err := meta.Accessor(o)
 	if err != nil {
 		return err
@@ -167,7 +167,7 @@ func HasFinalizer(o metav1.Object, finalizer string) bool {
 
 // RemoveFinalizerIfPossible tries to convert a runtime object to a metav1 object and remove the provided finalizer.
 // It returns an error if the provided object cannot provide an accessor.
-func RemoveFinalizerIfPossible(o runtime.Object, finalizer string) error {
+func RemoveFinalizerIfPossible(o client.Object, finalizer string) error {
 	m, err := meta.Accessor(o)
 	if err != nil {
 		return err
@@ -176,7 +176,7 @@ func RemoveFinalizerIfPossible(o runtime.Object, finalizer string) error {
 	return nil
 }
 
-func DeleteIfFound(ctx context.Context, client client.Client, obj runtime.Object) error {
+func DeleteIfFound(ctx context.Context, client client.Client, obj client.Object) error {
 	if err := client.Delete(ctx, obj); err != nil && !apierrs.IsNotFound(err) {
 		return err
 	}
@@ -216,11 +216,11 @@ func removeString(slice []string, s string) []string {
 }
 
 // EnsureInstance creates the instance and waits for it to exist or timeout
-func EnsureInstance(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object) {
+func EnsureInstance(ctx context.Context, t *testing.T, tc TestContext, instance client.Object) {
 	EnsureInstanceWithResult(ctx, t, tc, instance, successMsg, true)
 }
 
-func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, message string, provisioned bool) {
+func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext, instance client.Object, message string, provisioned bool) {
 	assert := assert.New(t)
 	typeOf := fmt.Sprintf("%T", instance)
 
@@ -289,7 +289,7 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 }
 
 // EnsureDelete deletes the instance and waits for it to be gone or timeout
-func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object) {
+func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance client.Object) {
 	assert := assert.New(t)
 	typeOf := fmt.Sprintf("%T", instance)
 
@@ -341,11 +341,11 @@ func EnsureSecretsWithValue(ctx context.Context, t *testing.T, tc TestContext, i
 	assert.Nil(err, "error waiting for %s to have correct secret", typeOf)
 }
 
-func RequireInstance(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object) {
+func RequireInstance(ctx context.Context, t *testing.T, tc TestContext, instance client.Object) {
 	RequireInstanceWithResult(ctx, t, tc, instance, successMsg, true)
 }
 
-func RequireInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, message string, provisioned bool) {
+func RequireInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext, instance client.Object, message string, provisioned bool) {
 	require := require.New(t)
 	typeOf := fmt.Sprintf("%T", instance)
 

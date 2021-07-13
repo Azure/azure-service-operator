@@ -6,12 +6,13 @@ package resourcegroups
 import (
 	"testing"
 
-	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"k8s.io/client-go/rest"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 )
 
 // These tests use Ginkgo (BDD-style Go testing framework). Refer to
@@ -30,7 +31,11 @@ func TestAPIs(t *testing.T) {
 }
 
 var _ = BeforeSuite(func(done Done) {
-	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
+	zaplogger := zap.New(func(o *zap.Options) {
+		o.DestWriter = GinkgoWriter
+		o.Development = true
+	})
+	logf.SetLogger(zaplogger)
 
 	By("bootstrapping test environment")
 

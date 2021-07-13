@@ -26,7 +26,7 @@ import (
 	azurev1alpha2 "github.com/Azure/azure-service-operator/api/v1alpha2"
 	azurev1beta1 "github.com/Azure/azure-service-operator/api/v1beta1"
 	resourceapimanagement "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
-	apimservice "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagersqlaction "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlaction"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
@@ -42,19 +42,19 @@ import (
 	resourcemanagercosmosdbsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdb/sqldatabase"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
-	loadbalancer "github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
 	mysqladmin "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/aadadmin"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlfirewall "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
-	mysqlaaduser "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqlaaduser"
-	mysqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqlaaduser"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
 	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	mysqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/vnetrule"
-	nic "github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
-	pip "github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
-	psqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/psqluser"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/psqluser"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
 	psqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/vnetrule"
 	rediscacheactions "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/actions"
@@ -63,14 +63,14 @@ import (
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
-	vm "github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
-	vmext "github.com/Azure/azure-service-operator/pkg/resourcemanager/vmext"
-	vmss "github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
-	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmext"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
-	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
+	"github.com/Azure/azure-service-operator/pkg/telemetry"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -121,7 +121,9 @@ func main() {
 
 	flag.Parse()
 
-	ctrl.SetLogger(zap.Logger(true))
+	ctrl.SetLogger(zap.New(func(o *zap.Options) {
+		o.Development = true
+	}))
 
 	err := resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
