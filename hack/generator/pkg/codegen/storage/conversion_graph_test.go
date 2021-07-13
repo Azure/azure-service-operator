@@ -14,58 +14,80 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-var (
-	crmV1 = test.MakeLocalPackageReference("crm", "v1")
-	crmV2 = test.MakeLocalPackageReference("crm", "v2")
-	crmV3 = test.MakeLocalPackageReference("crm", "v3")
-	crmV4 = test.MakeLocalPackageReference("crm", "v4")
-
-	batchV1 = test.MakeLocalPackageReference("batch", "v1")
-	batchV2 = test.MakeLocalPackageReference("batch", "v2")
-)
-
-func TestConversionGraph_GivenLink_ReturnsLink(t *testing.T) {
+func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *testing.T) {
+	/*
+	 *  Test that a conversion graph that contains two API package references from different groups ends up with just
+	 *  one transition for each group, each linking from the provided API version to the matching storage variant.
+	 */
 	g := NewGomegaWithT(t)
 
-	graph := NewConversionGraph()
-	graph.AddLink(crmV1, crmV2)
-	graph.AddLink(batchV1, batchV2)
+	builder := NewConversionGraphBuilder()
+	builder.Add(test.Pkg2020)
+	builder.Add(test.BatchPkg2020)
+	graph, err := builder.Build()
 
-	crmActual, ok := graph.LookupTransition(crmV1)
+	// Check size of graph
+	g.Expect(err).To(Succeed())
+	g.Expect(graph.TransitionCount()).To(Equal(2))
+
+	// Check for the expected transition from Pkg2020
+	pkg, ok := graph.LookupTransition(test.Pkg2020)
 	g.Expect(ok).To(BeTrue())
-	g.Expect(crmActual).To(Equal(crmV2))
+	g.Expect(pkg).NotTo(BeNil())
+	g.Expect(astmodel.IsStoragePackageReference(pkg)).To(BeTrue())
+
+	// Check for the expected transition from BatchPkg2020
+	pkg, ok = graph.LookupTransition(test.BatchPkg2020)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(pkg).NotTo(BeNil())
+	g.Expect(astmodel.IsStoragePackageReference(pkg)).To(BeTrue())
 }
+
+
 
 func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	personV1 := astmodel.MakeTypeName(crmV1, "Person")
-	personV2 := astmodel.MakeTypeName(crmV2, "Person")
-	personV3 := astmodel.MakeTypeName(crmV3, "Person")
-	personV4 := astmodel.MakeTypeName(crmV4, "Person")
+	builder := NewConversionGraphBuilder()
+	builder.Add(test.Pkg2020)
+	builder.Add(test.Pkg2021)
+	builder.Add(test.Pkg2022)
 
-	graph := NewConversionGraph()
-	graph.AddLink(crmV1, crmV2)
-	graph.AddLink(crmV2, crmV3)
-	graph.AddLink(crmV3, crmV4)
+	graph, err := builder.Build()
+	g.Expect(err).To(Succeed())
+
+	pkg2020storage, ok := graph.LookupTransition(test.Pkg2020)
+	g.Expect(ok).To(BeTrue())
+
+	pkg2021storage, ok := graph.LookupTransition(test.Pkg2021)
+	g.Expect(ok).To(BeTrue())
+
+	pkg2022storage, ok := graph.LookupTransition(test.Pkg2022)
+	g.Expect(ok).To(BeTrue())
 
 	cases := []struct {
 		name     string
-		typeName astmodel.TypeName
-		expected astmodel.TypeName
+		start astmodel.PackageReference
+		expected astmodel.PackageReference
 	}{
-		{"Hub type resolves to self", personV4, personV4},
-		{"Directly linked resolves", personV3, personV4},
-		{"Doubly linked resolves", personV2, personV4},
-		{"Indirectly linked resolves", personV1, personV4},
+		{"Hub type resolves to self", pkg2022storage, pkg2022storage},
+		{"Directly linked api resolves", test.Pkg2021, pkg2022storage},
+		{"Directly linked storage resolves", pkg2021storage, pkg2022storage},
+		{"Doubly linked api resolves", test.Pkg2021, pkg2022storage},
+		{"Indirectly linked api resolves", test.Pkg2020, pkg2022storage},
+		{"Indirectly linked storage resolves", pkg2020storage, pkg2022storage},
 	}
 
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			actual := graph.FindHubTypeName(c.typeName)
-			g.Expect(actual).To(Equal(c.expected))
+
+			startType := astmodel.MakeTypeName(c.start, "Person")
+			expectedType := astmodel.MakeTypeName(c.expected, "Person")
+
+			actual := graph.FindHubTypeName(startType)
+			g.Expect(actual).To(Equal(expectedType))
 		})
 	}
 }

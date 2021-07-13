@@ -14,8 +14,9 @@ import (
  */
 
 var (
-	// Common group for testing
+	// Common groups for testing
 	Group = "microsoft.person"
+	BatchGroup = "microsoft.batch"
 
 	// Reusable Properties - any package version
 
@@ -48,6 +49,12 @@ var (
 
 	// Reference Package 2022
 	Pkg2022 = MakeLocalPackageReference(Group, "v20220630")
+
+	// Reference Package Batch 2020
+	BatchPkg2020 = MakeLocalPackageReference(BatchGroup, "v20200101")
+
+	// Reference Package Batch 2021
+	BatchPkg2021 = MakeLocalPackageReference(BatchGroup, "v20210630")
 
 	// Objects in Pkg2021
 
