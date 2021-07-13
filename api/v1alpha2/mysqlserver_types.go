@@ -28,7 +28,7 @@ type MySQLServerSpec struct {
 
 	// +kubebuilder:validation:MinLength=1
 	// AdminSecret is the name of a Kubernetes secret containing the username and password of the
-	// MySQLServer administrator account. When specified, the username and password fields of this
+	// MySQLServer administrator account. When specified, the `username` and `password` fields of this
 	// secret will be included in the generated secret associated with this MySQLServer.
 	// If AdminSecret is specified but a secret with the given name is not found in the same namespace
 	// as the MySQLServer, then reconciliation will block until the secret is created.
