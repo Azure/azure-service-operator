@@ -10,9 +10,10 @@ import (
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	. "github.com/onsi/gomega"
+
 	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
-	. "github.com/onsi/gomega"
 )
 
 func Test_ResourceGroup_CRUD(t *testing.T) {
@@ -36,8 +37,7 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 	rg.Spec.Tags["tag1"] = "value1"
 	patcher.Patch(rg)
 
-	objectKey, err := client.ObjectKeyFromObject(rg)
-	tc.Expect(err).ToNot(HaveOccurred())
+	objectKey := client.ObjectKeyFromObject(rg)
 
 	// ensure they get updated
 	tc.Eventually(func() map[string]string {

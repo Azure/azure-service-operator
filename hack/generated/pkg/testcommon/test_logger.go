@@ -116,7 +116,7 @@ func (t *TestLogger) Error(err error, msg string, keysAndValues ...interface{}) 
 	}
 }
 
-func (t *TestLogger) V(level int) logr.InfoLogger {
+func (t *TestLogger) V(level int) logr.Logger {
 	result := t.clone()
 	if level <= LogLevel {
 		return result

@@ -75,7 +75,7 @@ func (tc KubePerTestContext) MakeObjectMetaWithName(name string) ctrl.ObjectMeta
 	}
 }
 
-func (tc KubePerTestContext) MakeReferenceFromResource(resource controllerutil.Object) genruntime.ResourceReference {
+func (tc KubePerTestContext) MakeReferenceFromResource(resource client.Object) genruntime.ResourceReference {
 	gvk, err := apiutil.GVKForObject(resource, tc.scheme)
 	if err != nil {
 		tc.T.Fatal(err)
@@ -89,7 +89,7 @@ func (tc KubePerTestContext) MakeReferenceFromResource(resource controllerutil.O
 	}
 }
 
-func (tc KubePerTestContext) MakeReferencePtrFromResource(resource controllerutil.Object) *genruntime.ResourceReference {
+func (tc KubePerTestContext) MakeReferencePtrFromResource(resource client.Object) *genruntime.ResourceReference {
 	result := tc.MakeReferenceFromResource(resource)
 	return &result
 }
@@ -276,14 +276,14 @@ func (ktc *KubePerTestContext) CreateNewTestResourceGroupAndWait() *v1alpha1api2
 
 // CreateResourceAndWait creates the resource in K8s and waits for it to
 // change into the Provisioned state.
-func (ktc *KubePerTestContext) CreateResourceAndWait(obj runtime.Object) {
+func (ktc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
 	ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
 	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisioned())
 }
 
 // CreateResourcesAndWait creates the resources in K8s and waits for them to
 // change into the Provisioned state.
-func (ktc *KubePerTestContext) CreateResourcesAndWait(objs ...runtime.Object) {
+func (ktc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 	for _, obj := range objs {
 		ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
 	}
@@ -295,29 +295,29 @@ func (ktc *KubePerTestContext) CreateResourcesAndWait(objs ...runtime.Object) {
 
 // CreateResourceAndWaitForFailure creates the resource in K8s and waits for it to
 // change into the Failed state.
-func (ktc *KubePerTestContext) CreateResourceAndWaitForFailure(obj runtime.Object) {
+func (ktc *KubePerTestContext) CreateResourceAndWaitForFailure(obj client.Object) {
 	ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
 	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeFailed())
 }
 
 // PatchResourceAndWaitAfter patches the resource in K8s and waits for it to change into
 // the Provisioned state from the provided previousState.
-func (ktc *KubePerTestContext) PatchResourceAndWaitAfter(obj runtime.Object, patcher Patcher, previousState armclient.ProvisioningState) {
+func (ktc *KubePerTestContext) PatchResourceAndWaitAfter(obj client.Object, patcher Patcher, previousState armclient.ProvisioningState) {
 	patcher.Patch(obj)
 	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisionedAfter(previousState))
 }
 
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
-func (ktc *KubePerTestContext) GetResource(key types.NamespacedName, obj runtime.Object) {
+func (ktc *KubePerTestContext) GetResource(key types.NamespacedName, obj client.Object) {
 	ktc.G.Expect(ktc.KubeClient.Get(ktc.Ctx, key, obj)).To(gomega.Succeed())
 }
 
 // UpdateResource updates the given resource in K8s.
-func (ktc *KubePerTestContext) UpdateResource(obj runtime.Object) {
+func (ktc *KubePerTestContext) UpdateResource(obj client.Object) {
 	ktc.G.Expect(ktc.KubeClient.Update(ktc.Ctx, obj)).To(gomega.Succeed())
 }
 
-func (ktc *KubePerTestContext) NewResourcePatcher(obj runtime.Object) Patcher {
+func (ktc *KubePerTestContext) NewResourcePatcher(obj client.Object) Patcher {
 	result, err := patch.NewHelper(obj, ktc.KubeClient)
 	ktc.Expect(err).ToNot(gomega.HaveOccurred())
 	return Patcher{ktc, result}
@@ -328,13 +328,13 @@ type Patcher struct {
 	helper *patch.Helper
 }
 
-func (ph *Patcher) Patch(obj runtime.Object) {
+func (ph *Patcher) Patch(obj client.Object) {
 	ph.ktc.Expect(ph.helper.Patch(ph.ktc.Ctx, obj)).To(gomega.Succeed())
 }
 
 // DeleteResourceAndWait deletes the given resource in K8s and waits for
 // it to update to the Deleted state.
-func (ktc *KubePerTestContext) DeleteResourceAndWait(obj runtime.Object) {
+func (ktc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
 	ktc.G.Expect(ktc.KubeClient.Delete(ktc.Ctx, obj)).To(gomega.Succeed())
 	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeDeleted())
 }

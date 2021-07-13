@@ -43,7 +43,7 @@ func TestHelperUnstructuredPatch(t *testing.T) {
 	}
 
 	s := runtime.NewScheme()
-	fakeClient := fake.NewFakeClientWithScheme(s)
+	fakeClient := fake.NewClientBuilder().WithScheme(s).Build()
 	g.Expect(fakeClient.Create(ctx, obj)).To(Succeed())
 
 	h, err := NewHelper(obj, fakeClient)
@@ -65,7 +65,7 @@ func TestPatchNotFound(t *testing.T) {
 	ctx := context.TODO()
 
 	s := runtime.NewScheme()
-	fakeClient := fake.NewFakeClientWithScheme(s)
+	fakeClient := fake.NewClientBuilder().WithScheme(s).Build()
 	g.Expect(storage.AddToScheme(s)).To(Succeed())
 
 	obj := &storage.StorageAccount{
@@ -195,9 +195,9 @@ func TestHelperPatch(t *testing.T) {
 
 			s := runtime.NewScheme()
 			g.Expect(storage.AddToScheme(s)).To(Succeed())
-			fakeClient := fake.NewFakeClientWithScheme(s)
+			fakeClient := fake.NewClientBuilder().WithScheme(s).Build()
 
-			beforeCopy := tt.before.DeepCopyObject()
+			beforeCopy := tt.before.DeepCopyObject().(client.Object)
 			g.Expect(fakeClient.Create(ctx, beforeCopy)).To(Succeed())
 
 			h, err := NewHelper(beforeCopy, fakeClient)
@@ -214,7 +214,7 @@ func TestHelperPatch(t *testing.T) {
 			afterMeta := tt.after.(*storage.StorageAccount)
 			afterMeta.ResourceVersion = beforeMeta.ResourceVersion
 
-			afterCopy := tt.after.DeepCopyObject()
+			afterCopy := tt.after.DeepCopyObject().(client.Object)
 
 			err = h.Patch(ctx, afterCopy)
 			if tt.wantErr {
