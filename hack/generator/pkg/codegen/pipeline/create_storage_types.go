@@ -19,11 +19,11 @@ const CreateStorageTypesStageId = "createStorageTypes"
 // CreateStorageTypes returns a pipeline stage that creates dedicated storage types for each resource and nested object.
 // Storage versions are created for *all* API versions to allow users of older versions of the operator to easily
 // upgrade. This is of course a bit odd for the first release, but defining the approach from day one is useful.
-func CreateStorageTypes(conversionGraph *storage.ConversionGraph) Stage {
-	result := MakeLegacyStage(
+func CreateStorageTypes() Stage {
+	result := MakeStage(
 		CreateStorageTypesStageId,
 		"Create storage versions of CRD types",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, state *State) (*State, error) {
 
 			// Predicate to isolate both resources and complex objects
 			isPropertyContainer := func(def astmodel.TypeDefinition) bool {
@@ -37,12 +37,13 @@ func CreateStorageTypes(conversionGraph *storage.ConversionGraph) Stage {
 			}
 
 			// Filter to the types we want to process
-			typesToConvert := types.Where(isPropertyContainer).Where(isNotARMType)
+			typesToConvert := state.Types().Where(isPropertyContainer).Where(isNotARMType)
 
 			storageTypes := make(astmodel.Types)
-			typeConverter := storage.NewTypeConverter(types)
+			typeConverter := storage.NewTypeConverter(state.Types())
 
 			// Create storage variants
+			conversionGraph := storage.NewConversionGraph()
 			for name, def := range typesToConvert {
 				storageDef, err := typeConverter.ConvertDefinition(def)
 				if err != nil {
@@ -53,9 +54,10 @@ func CreateStorageTypes(conversionGraph *storage.ConversionGraph) Stage {
 				conversionGraph.AddLink(name.PackageReference, storageDef.Name().PackageReference)
 			}
 
-			result := types.Copy()
-			result.AddTypes(storageTypes)
-			return result, nil
+			types := state.Types().Copy()
+			types.AddTypes(storageTypes)
+
+			return state.WithTypes(types).WithConversionGraph(conversionGraph), nil
 		})
 
 	result.RequiresPrerequisiteStages(injectOriginalVersionFunctionStageId)

@@ -15,7 +15,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
@@ -79,9 +78,6 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 }
 
 func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []pipeline.Stage {
-	// graph keeps track of the conversions we need between different API & Storage versions
-	graph := storage.NewConversionGraph()
-
 	return []pipeline.Stage{
 
 		pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
@@ -158,9 +154,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Create Storage types
 		// TODO: For now only used for ARM
 		pipeline.InjectOriginalVersionFunction(idFactory).UsedFor(pipeline.ARMTarget),
-		pipeline.CreateStorageTypes(graph).UsedFor(pipeline.ARMTarget),
+		pipeline.CreateStorageTypes().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
-		pipeline.InjectPropertyAssignmentFunctions(graph, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectPropertyAssignmentFunctions(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalGVKFunction(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.SimplifyDefinitions(),
