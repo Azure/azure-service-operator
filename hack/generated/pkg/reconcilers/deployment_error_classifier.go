@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package reconcilers
 
 import "github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"

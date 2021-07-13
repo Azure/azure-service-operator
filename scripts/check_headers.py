@@ -4,7 +4,7 @@ import re
 import sys
 
 
-number_of_lines = 4
+number_of_lines = 8
 
 
 # Turn colors in this script off by setting the NO_COLOR variable in your
@@ -38,7 +38,12 @@ def is_file_compliant(regex, path):
 
 
 if __name__ == '__main__':
-    regex = re.compile('(copyright|generated)', re.MULTILINE | re.IGNORECASE)
+    msftRegex = 'Copyright \(c\) Microsoft Corporation\.(\s)*(.){0,7}Licensed under the MIT License\.'
+
+    # We have a few files that were copied from CAPI and modified some. We need to maintain attribution and leave
+    # their license as is. See <> for an issue discussing if they could be moved into a place we could depend on.
+    capiRegex = 'Copyright \d{4} The Kubernetes Authors\.(\s)*(.){0,7}Licensed under the Apache License, Version 2\.0'
+    regex = re.compile('({}|{})'.format(msftRegex, capiRegex), re.MULTILINE | re.IGNORECASE)
     failed_files = []
 
     print_colorful('==> Checking copyright headers <==')
