@@ -11,6 +11,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// This was adapted from: https://github.com/kubernetes-sigs/cluster-api/blob/master/util/util.go
+
 package ownerutil
 
 import (
