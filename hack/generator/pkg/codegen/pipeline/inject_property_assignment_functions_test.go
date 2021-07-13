@@ -12,7 +12,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
@@ -42,17 +41,16 @@ func TestInjectPropertyAssignmentFunctions(t *testing.T) {
 	types := make(astmodel.Types)
 	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, address2021)
 
-	graph := storage.NewConversionGraph()
-
 	// Run CreateStorageTypes first to populate the conversion graph
-	createStorageTypes := CreateStorageTypes(graph)
-	types, err := createStorageTypes.Run(context.TODO(), types)
+	createStorageTypes := CreateStorageTypes()
+	state := NewState().WithTypes(types)
+	initialState, err := createStorageTypes.Run(context.TODO(), state)
 	g.Expect(err).To(Succeed())
 
 	// Now run our stage
-	injectFunctions := InjectPropertyAssignmentFunctions(graph, idFactory)
-	types, err = injectFunctions.Run(context.TODO(), types)
+	injectFunctions := InjectPropertyAssignmentFunctions(idFactory)
+	finalState, err := injectFunctions.Run(context.TODO(), initialState)
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, types, t.Name())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())
 }

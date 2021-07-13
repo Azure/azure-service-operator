@@ -12,7 +12,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
@@ -42,14 +41,13 @@ func TestCreateStorageTypes(t *testing.T) {
 	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, address2021)
 
 	// Run the stage
-
-	graph := storage.NewConversionGraph()
-	createStorageTypes := CreateStorageTypes(graph)
+	createStorageTypes := CreateStorageTypes()
 
 	// Don't need a context when testing
-	finalTypes, err := createStorageTypes.Run(context.TODO(), types)
+	state := NewState()
+	finalState, err := createStorageTypes.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalTypes, t.Name())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())
 }

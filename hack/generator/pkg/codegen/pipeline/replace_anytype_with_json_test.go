@@ -31,18 +31,19 @@ func TestReplacingAnyTypes(t *testing.T) {
 		),
 	))
 
-	results, err := ReplaceAnyTypeWithJSON().action(context.Background(), defs)
-
+	state := NewState().WithTypes(defs)
+	finalState, err := ReplaceAnyTypeWithJSON().action(context.Background(), state)
 	g.Expect(err).To(BeNil())
 
-	a := results[aName]
+	finalTypes := finalState.Types()
+	a := finalTypes[aName]
 	expectedType := astmodel.MakeTypeName(
 		astmodel.MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"),
 		"JSON",
 	)
 	g.Expect(a.Type()).To(Equal(expectedType))
 
-	bDef := results[bName]
+	bDef := finalTypes[bName]
 	bProp, found := bDef.Type().(*astmodel.ObjectType).Property("Field2")
 	g.Expect(found).To(BeTrue())
 	g.Expect(bProp.PropertyType()).To(Equal(expectedType))
@@ -71,7 +72,8 @@ func TestReplacingMapMapInterface(t *testing.T) {
 		),
 	))
 
-	results, err := ReplaceAnyTypeWithJSON().action(context.Background(), defs)
+	state := NewState().WithTypes(defs)
+	finalState, err := ReplaceAnyTypeWithJSON().action(context.Background(), state)
 
 	g.Expect(err).To(BeNil())
 
@@ -84,7 +86,8 @@ func TestReplacingMapMapInterface(t *testing.T) {
 		),
 	)
 
-	aDef := results[aName]
+	finalTypes := finalState.Types()
+	aDef := finalTypes[aName]
 	aProp, found := aDef.Type().(*astmodel.ObjectType).Property("Maps")
 	g.Expect(found).To(BeTrue())
 	g.Expect(aProp.PropertyType()).To(Equal(expectedType))
