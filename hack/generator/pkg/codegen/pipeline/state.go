@@ -16,6 +16,13 @@ type State struct {
 	conversionGraph *storage.ConversionGraph // graph of transitions between packages in our conversion graph
 }
 
+/*
+ *  TODO: Future extension (suggested by @matthchr):
+ *  Instead of hard coding specific knowledge in the state type, implement a generic solution where stages can stash
+ *  information in a map indexed by their unique identifier; later stages can then retrieve that information using
+ *  that identifier.
+ */
+
 // NewState returns a new empty state
 func NewState() *State {
 	return &State{
