@@ -33,7 +33,7 @@ func CreateConversionGraph() Stage {
 			builder := storage.NewConversionGraphBuilder()
 			builder.AddAll(allReferences)
 			graph, err := builder.Build()
-			if err!=nil {
+			if err != nil {
 				// Shouldn't have any non-local references, if we do, abort
 				return nil, errors.Wrapf(err, "creating conversion graph")
 			}

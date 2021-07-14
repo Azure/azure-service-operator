@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package storage
 
 import (
@@ -39,7 +44,7 @@ func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
 
 	subgraphs := make(map[string]*GroupConversionGraph)
 	for group, builder := range b.subBuilders {
-		subgraph,err := builder.Build()
+		subgraph, err := builder.Build()
 		if err != nil {
 			return nil, errors.Wrapf(err, "building subgraph for group %s", group)
 		}

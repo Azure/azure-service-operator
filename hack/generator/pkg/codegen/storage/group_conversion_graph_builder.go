@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package storage
 
 import (
@@ -85,4 +90,3 @@ func (b *GroupConversionGraphBuilder) Build() (*GroupConversionGraph, error) {
 
 	return result, nil
 }
-

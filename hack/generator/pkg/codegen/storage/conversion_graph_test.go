@@ -43,8 +43,6 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 	g.Expect(astmodel.IsStoragePackageReference(pkg)).To(BeTrue())
 }
 
-
-
 func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) {
 	g := NewGomegaWithT(t)
 
@@ -67,7 +65,7 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 
 	cases := []struct {
 		name     string
-		start astmodel.PackageReference
+		start    astmodel.PackageReference
 		expected astmodel.PackageReference
 	}{
 		{"Hub type resolves to self", pkg2022storage, pkg2022storage},
@@ -78,6 +76,7 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 		{"Indirectly linked storage resolves", pkg2020storage, pkg2022storage},
 	}
 
+	t.Parallel()
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {

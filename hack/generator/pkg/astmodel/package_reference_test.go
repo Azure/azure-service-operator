@@ -113,8 +113,8 @@ func TestContainsPreviewVersionLabel(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
-		name string
-		version string
+		name     string
+		version  string
 		expected bool
 	}{
 		{"Non-preview", "v20200201", false},
@@ -124,7 +124,7 @@ func TestContainsPreviewVersionLabel(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c:=c
+		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
