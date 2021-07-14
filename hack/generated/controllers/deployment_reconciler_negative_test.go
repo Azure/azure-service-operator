@@ -120,8 +120,7 @@ func Test_DeploymentAccepted_LongRunningOperationFails_SucceedsAfterUpdate(t *te
 	tc.PatchResourceAndWaitAfter(acct, patcher, armclient.FailedProvisioningState)
 
 	// Ensure that the old failure information was cleared away
-	objectKey, err := client.ObjectKeyFromObject(acct)
-	tc.Expect(err).ToNot(HaveOccurred())
+	objectKey := client.ObjectKeyFromObject(acct)
 	updated := &storage.StorageAccount{}
 	tc.GetResource(objectKey, updated)
 
@@ -178,8 +177,7 @@ func Test_DeploymentRejected_SucceedsAfterUpdate(t *testing.T) {
 	tc.PatchResourceAndWaitAfter(vmss, patcher, armclient.FailedProvisioningState)
 
 	// Ensure that the old failure information was cleared away
-	objectKey, err := client.ObjectKeyFromObject(vmss)
-	tc.Expect(err).ToNot(HaveOccurred())
+	objectKey := client.ObjectKeyFromObject(vmss)
 	updated := &compute.VirtualMachineScaleSet{}
 	tc.GetResource(objectKey, updated)
 

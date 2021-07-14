@@ -29,7 +29,7 @@ import (
 const testNamespace = "testnamespace"
 
 func NewKubeClient(s *runtime.Scheme) *kubeclient.Client {
-	fakeClient := fake.NewFakeClientWithScheme(s)
+	fakeClient := fake.NewClientBuilder().WithScheme(s).Build()
 	return kubeclient.NewClient(fakeClient, s)
 }
 

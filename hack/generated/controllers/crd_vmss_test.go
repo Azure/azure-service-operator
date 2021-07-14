@@ -217,8 +217,7 @@ func Test_VMSS_CRUD(t *testing.T) {
 	}
 	patcher.Patch(vmss)
 
-	objectKey, err := client.ObjectKeyFromObject(vmss)
-	tc.Expect(err).ToNot(HaveOccurred())
+	objectKey := client.ObjectKeyFromObject(vmss)
 
 	// Ensure state eventually gets updated in k8s from change in Azure.
 	tc.Eventually(func() string {

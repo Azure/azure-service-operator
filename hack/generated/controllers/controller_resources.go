@@ -7,11 +7,12 @@ package controllers
 
 import (
 	"k8s.io/apimachinery/pkg/runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 )
 
-func GetKnownStorageTypes() []runtime.Object {
+func GetKnownStorageTypes() []client.Object {
 	knownTypes := getKnownStorageTypes()
 
 	knownTypes = append(knownTypes, new(resources.ResourceGroup))
@@ -19,7 +20,7 @@ func GetKnownStorageTypes() []runtime.Object {
 	return knownTypes
 }
 
-func GetKnownTypes() []runtime.Object {
+func GetKnownTypes() []client.Object {
 	knownTypes := getKnownTypes()
 
 	knownTypes = append(knownTypes, new(resources.ResourceGroup))

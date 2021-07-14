@@ -50,8 +50,7 @@ func Test_PublicIP_CRUD(t *testing.T) {
 	publicIPAddress.Spec.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	patcher.Patch(publicIPAddress)
 
-	objectKey, err := client.ObjectKeyFromObject(publicIPAddress)
-	tc.Expect(err).ToNot(HaveOccurred())
+	objectKey := client.ObjectKeyFromObject(publicIPAddress)
 
 	// ensure state got updated in Azure
 	tc.Eventually(func() *int {

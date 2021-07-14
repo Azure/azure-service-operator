@@ -14,11 +14,11 @@ import (
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/conversion"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
@@ -67,7 +67,7 @@ func (options *Options) setDefaults() {
 	}
 }
 
-func RegisterWebhooks(mgr ctrl.Manager, objs []runtime.Object) error {
+func RegisterWebhooks(mgr ctrl.Manager, objs []client.Object) error {
 	var errs []error
 
 	for _, obj := range objs {
@@ -79,7 +79,7 @@ func RegisterWebhooks(mgr ctrl.Manager, objs []runtime.Object) error {
 	return kerrors.NewAggregate(errs)
 }
 
-func registerWebhook(mgr ctrl.Manager, obj runtime.Object) error {
+func registerWebhook(mgr ctrl.Manager, obj client.Object) error {
 	_, err := conversion.EnforcePtr(obj)
 	if err != nil {
 		return errors.Wrap(err, "obj was expected to be ptr but was not")
@@ -90,7 +90,7 @@ func registerWebhook(mgr ctrl.Manager, obj runtime.Object) error {
 		Complete()
 }
 
-func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []runtime.Object, log logr.Logger, options Options) error {
+func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []client.Object, log logr.Logger, options Options) error {
 	options.setDefaults()
 
 	reconciledResourceLookup, err := MakeResourceGVKLookup(mgr, objs)
@@ -108,7 +108,7 @@ func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []runtime.Obj
 	return kerrors.NewAggregate(errs)
 }
 
-func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind, applier armclient.Applier, obj runtime.Object, log logr.Logger, options Options) error {
+func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind, applier armclient.Applier, obj client.Object, log logr.Logger, options Options) error {
 	v, err := conversion.EnforcePtr(obj)
 	if err != nil {
 		return errors.Wrap(err, "obj was expected to be ptr but was not")
@@ -157,7 +157,7 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 
 // MakeResourceGVKLookup creates a map of schema.GroupKind to schema.GroupVersionKind. This can be used to look up
 // the version of a GroupKind that is being reconciled.
-func MakeResourceGVKLookup(mgr ctrl.Manager, objs []runtime.Object) (map[schema.GroupKind]schema.GroupVersionKind, error) {
+func MakeResourceGVKLookup(mgr ctrl.Manager, objs []client.Object) (map[schema.GroupKind]schema.GroupVersionKind, error) {
 	result := make(map[schema.GroupKind]schema.GroupVersionKind)
 
 	for _, obj := range objs {
@@ -176,8 +176,7 @@ func MakeResourceGVKLookup(mgr ctrl.Manager, objs []runtime.Object) (map[schema.
 }
 
 // Reconcile will take state in K8s and apply it to Azure
-func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	ctx := context.Background()
+func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := gr.Log.WithValues("name", req.Name, "namespace", req.Namespace)
 
 	obj, err := gr.KubeClient.GetObjectOrDefault(ctx, req.NamespacedName, gr.GVK)
@@ -194,7 +193,9 @@ func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	// https://github.com/kubernetes/community/blob/master/contributors/devel/sig-api-machinery/controllers.md, which says:
 	// Never mutate original objects! Caches are shared across controllers, this means that if you mutate your "copy"
 	// (actually a reference or shallow copy) of an object, you'll mess up other controllers (not just your own).
-	obj = obj.DeepCopyObject()
+	obj = obj.DeepCopyObject().(client.Object)
+
+	gr.Log.V(0).Info("Reconcile invoked", "kind", fmt.Sprintf("%T", obj))
 
 	// The Go type for the Kubernetes object must understand how to
 	// convert itself to/from the corresponding Azure types.

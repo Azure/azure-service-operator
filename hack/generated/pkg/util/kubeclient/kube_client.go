@@ -31,20 +31,25 @@ func NewClient(
 	}
 }
 
-func (k *Client) GetObject(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (runtime.Object, error) {
+func (k *Client) GetObject(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (client.Object, error) {
 	obj, err := k.Scheme.New(gvk)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to create object from gvk %s with", gvk)
 	}
 
-	if err := k.Client.Get(ctx, namespacedName, obj); err != nil {
+	clientObj, ok := obj.(client.Object)
+	if !ok {
+		return nil, errors.Errorf("gvk %s doesn't implement client.Object", gvk)
+	}
+
+	if err := k.Client.Get(ctx, namespacedName, clientObj); err != nil {
 		return nil, err
 	}
 
-	return obj, nil
+	return clientObj, nil
 }
 
-func (k *Client) GetObjectOrDefault(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (runtime.Object, error) {
+func (k *Client) GetObjectOrDefault(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (client.Object, error) {
 	result, err := k.GetObject(ctx, namespacedName, gvk)
 	if apierrors.IsNotFound(err) {
 		return nil, nil

@@ -120,12 +120,15 @@ func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet 
 	runtimeImport := astmodel.NewPackageImport(astmodel.APIMachineryRuntimeReference)
 	requiredImports.AddImport(runtimeImport)
 
+	clientImport := astmodel.NewPackageImport(astmodel.ControllerRuntimeClient)
+	requiredImports.AddImport(clientImport)
+
 	return requiredImports
 }
 
 // createGetKnownStorageTypesFunc creates a getKnownStorageTypes function that returns all storage types:
-//		func getKnownStorageTypes() []runtime.Object {
-//			var result []runtime.Object
+//		func getKnownStorageTypes() []client.Object {
+//			var result []client.Object
 //			result = append(result, new(<package>.<resource>))
 //			result = append(result, new(<package>.<resource>))
 //			result = append(result, new(<package>.<resource>))
@@ -141,8 +144,8 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(codeGeneration
 }
 
 // createGetKnownTypesFunc creates a getKnownTypes function that returns all known types:
-//		func getKnownTypes() []runtime.Object {
-//			var result []runtime.Object
+//		func getKnownTypes() []client.Object {
+//			var result []client.Object
 //			result = append(result, new(<package>.<resource>))
 //			result = append(result, new(<package>.<resource>))
 //			result = append(result, new(<package>.<resource>))
@@ -158,7 +161,7 @@ func (r *ResourceRegistrationFile) createGetKnownTypesFunc(codeGenerationContext
 }
 
 func createKnownTypesFuncImpl(codeGenerationContext *astmodel.CodeGenerationContext, resources []astmodel.TypeName, funcName string, funcComment string) (dst.Decl, error) {
-	runtime, err := codeGenerationContext.GetImportedPackageName(astmodel.APIMachineryRuntimeReference)
+	client, err := codeGenerationContext.GetImportedPackageName(astmodel.ControllerRuntimeClient)
 	if err != nil {
 		return nil, err
 	}
@@ -168,7 +171,7 @@ func createKnownTypesFuncImpl(codeGenerationContext *astmodel.CodeGenerationCont
 		resultIdent.String(),
 		&dst.ArrayType{
 			Elt: &dst.SelectorExpr{
-				X:   dst.NewIdent(runtime),
+				X:   dst.NewIdent(client),
 				Sel: dst.NewIdent("Object"),
 			},
 		},
@@ -223,7 +226,7 @@ func createKnownTypesFuncImpl(codeGenerationContext *astmodel.CodeGenerationCont
 			{
 				Type: &dst.ArrayType{
 					Elt: &dst.SelectorExpr{
-						X:   dst.NewIdent(runtime),
+						X:   dst.NewIdent(client),
 						Sel: dst.NewIdent("Object"),
 					},
 				},

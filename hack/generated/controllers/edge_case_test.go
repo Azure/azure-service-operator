@@ -20,9 +20,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
-func waitForOwnerMissingError(tc testcommon.KubePerTestContext, obj controllerutil.Object) {
-	objectKey, err := client.ObjectKeyFromObject(obj)
-	tc.Expect(err).ToNot(HaveOccurred())
+func waitForOwnerMissingError(tc testcommon.KubePerTestContext, obj client.Object) {
+	objectKey := client.ObjectKeyFromObject(obj)
 
 	tc.Eventually(func() string {
 		tc.GetResource(objectKey, obj)
@@ -30,9 +29,9 @@ func waitForOwnerMissingError(tc testcommon.KubePerTestContext, obj controllerut
 	}).Should(MatchRegexp("owner.*is not ready"))
 }
 
-func doNotWait(_ testcommon.KubePerTestContext, _ controllerutil.Object) {}
+func doNotWait(_ testcommon.KubePerTestContext, _ client.Object) {}
 
-func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, waitHelper func(tc testcommon.KubePerTestContext, obj controllerutil.Object)) {
+func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, waitHelper func(tc testcommon.KubePerTestContext, obj client.Object)) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -71,7 +70,7 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	tc.G.Eventually(acct, tc.RemainingTime()).Should(tc.Match.BeProvisioned())
 }
 
-func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc testcommon.KubePerTestContext, obj controllerutil.Object)) {
+func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc testcommon.KubePerTestContext, obj client.Object)) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)

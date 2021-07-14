@@ -93,7 +93,7 @@ func makeTestResolver() (testResolverAndFriends, error) {
 		return testResolverAndFriends{}, err
 	}
 
-	fakeClient := fake.NewFakeClientWithScheme(scheme)
+	fakeClient := fake.NewClientBuilder().WithScheme(scheme).Build()
 	resolver := genruntime.NewResolver(kubeclient.NewClient(fakeClient, scheme), groupToVersionMap)
 
 	return testResolverAndFriends{
