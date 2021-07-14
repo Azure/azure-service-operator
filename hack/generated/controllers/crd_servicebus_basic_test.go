@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	servicebusqueuetopic "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.servicebus/v1alpha1api20180101preview"
 	servicebus "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.servicebus/v1alpha1api20210101preview"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
@@ -60,9 +59,9 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 }
 
 func ServiceBus_Queue_CRUD(tc testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
-	queue := &servicebusqueuetopic.NamespacesQueue{
+	queue := &servicebus.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
-		Spec: servicebusqueuetopic.NamespacesQueues_Spec{
+		Spec: servicebus.NamespacesQueues_Spec{
 			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(sbNamespace),
 		},
