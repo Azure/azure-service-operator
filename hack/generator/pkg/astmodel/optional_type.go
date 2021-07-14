@@ -19,14 +19,30 @@ type OptionalType struct {
 	element Type
 }
 
-var _ Type = &OptionalType{}
+// type assertions
+var (
+	_ Type     = &OptionalType{}
+	_ MetaType = &OptionalType{}
+)
 
-var _ MetaType = &OptionalType{}
+// cache of commonly-used values
+var cachedOptionals = map[Type]*OptionalType{
+	BoolType:   {BoolType},
+	FloatType:  {FloatType},
+	IntType:    {IntType},
+	StringType: {StringType},
+	UInt32Type: {UInt32Type},
+	UInt64Type: {UInt64Type},
+}
 
 // NewOptionalType creates a new optional type that may or may not have the specified 'element' type
 func NewOptionalType(element Type) Type {
 	if isTypeOptional(element) {
 		return element
+	}
+
+	if result, ok := cachedOptionals[element]; ok {
+		return result
 	}
 
 	return &OptionalType{element}
@@ -50,6 +66,24 @@ func isTypeOptional(t Type) bool {
 // Element returns the type which is optional
 func (optional *OptionalType) Element() Type {
 	return optional.element
+}
+
+func (optional *OptionalType) WithElement(t Type) Type {
+	if optional.element.Equals(t) {
+		return optional
+	}
+
+	if isTypeOptional(t) {
+		return t
+	}
+
+	if cached, ok := cachedOptionals[t]; ok {
+		return cached
+	}
+
+	result := *optional
+	result.element = t
+	return &result
 }
 
 func (optional *OptionalType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
