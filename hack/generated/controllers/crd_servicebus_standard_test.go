@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	servicebusqueuetopic "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.servicebus/v1alpha1api20180101preview"
 	servicebus "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.servicebus/v1alpha1api20210101preview"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
@@ -63,9 +62,9 @@ func Test_ServiceBus_Standard_CRUD(t *testing.T) {
 
 // Topics can only be created in Standard or Premium SKUs
 func ServiceBus_Topic_CRUD(tc testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
-	topic := &servicebusqueuetopic.NamespacesTopic{
+	topic := &servicebus.NamespacesTopic{
 		ObjectMeta: tc.MakeObjectMeta("topic"),
-		Spec: servicebusqueuetopic.NamespacesTopics_Spec{
+		Spec: servicebus.NamespacesTopics_Spec{
 			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(sbNamespace),
 		},

@@ -13,15 +13,15 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee","name":"k8s_1f277c80-0581-5874-a682-5d87a0be3cee","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"10949074896093630379","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.2423269S","correlationId":"fec86a28-d580-4014-90d2-c807c672c508","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee","name":"k8s_1f277c80-0581-5874-a682-5d87a0be3cee","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"8062078474122819998","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.5208487S","correlationId":"691ac90a-1ae4-42d2-941c-cfbb1e5ee33d","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee/operationStatuses/08585760863142151717?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee/operationStatuses/08585754762908012401?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "693"
+      - "692"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -46,8 +46,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee","name":"k8s_1f277c80-0581-5874-a682-5d87a0be3cee","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"10949074896093630379","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.2423269S","correlationId":"fec86a28-d580-4014-90d2-c807c672c508","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee","name":"k8s_1f277c80-0581-5874-a682-5d87a0be3cee","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"8062078474122819998","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.6806881S","correlationId":"691ac90a-1ae4-42d2-941c-cfbb1e5ee33d","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -79,8 +79,41 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee","name":"k8s_1f277c80-0581-5874-a682-5d87a0be3cee","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"10949074896093630379","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.1742913S","correlationId":"fec86a28-d580-4014-90d2-c807c672c508","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-gxxglo"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo"}]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee","name":"k8s_1f277c80-0581-5874-a682-5d87a0be3cee","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"8062078474122819998","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.6806881S","correlationId":"691ac90a-1ae4-42d2-941c-cfbb1e5ee33d","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1f277c80-0581-5874-a682-5d87a0be3cee","name":"k8s_1f277c80-0581-5874-a682-5d87a0be3cee","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"8062078474122819998","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.3096145S","correlationId":"691ac90a-1ae4-42d2-941c-cfbb1e5ee33d","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-gxxglo"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo"}]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -174,10 +207,10 @@ interactions:
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.7622652S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1267966S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7/operationStatuses/08585760863030256630?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7/operationStatuses/08585754762816744438?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -207,7 +240,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6126116S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2856467S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -240,7 +273,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6126116S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2856467S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -273,7 +306,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6126116S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.8958438S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -284,7 +317,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "5"
+      - "14"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -306,7 +339,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6126116S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.8958438S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -317,7 +350,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "5"
+      - "9"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -339,7 +372,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT11.0866811S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.8958438S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -350,7 +383,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "13"
+      - "5"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -372,7 +405,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT11.0866811S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT17.992006S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -383,7 +416,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "7"
+      - "14"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -405,7 +438,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT11.0866811S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT17.992006S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -416,7 +449,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "5"
+      - "9"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -438,7 +471,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT11.0866811S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT17.992006S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -471,7 +504,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT31.5341071S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT34.3375685S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -482,7 +515,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "11"
+      - "15"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -504,7 +537,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT31.5341071S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT34.3375685S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -515,7 +548,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "6"
+      - "10"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -537,7 +570,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT31.5341071S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT34.3375685S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -570,106 +603,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT48.4465873S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "12"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "12"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT48.4465873S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "7"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "13"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT48.4465873S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "14"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","name":"k8s_22ee9b4e-cfca-5fe1-b10f-1e05892002c7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2278911573060782128","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M6.8061554S","correlationId":"8df9866d-8bd1-404d-8bb0-93f5e8d98552","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay"}]}}'
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT50.2952484S","correlationId":"a105b250-1cb1-4e70-a4e9-58cce0f9f6b0","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay"}]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -711,10 +645,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -757,7 +691,7 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"name":"k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2018-01-01-preview","location":"westus2","name":"asotest-sbnamespace-bdyvay/asotest-queue-xsjrxq","properties":{},"type":"Microsoft.ServiceBus/namespaces/queues"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.ServiceBus/namespaces/queues'',
+    body: '{"name":"k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-01-01-preview","location":"westus2","name":"asotest-sbnamespace-bdyvay/asotest-queue-xsjrxq","properties":{},"type":"Microsoft.ServiceBus/namespaces/queues"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.ServiceBus/namespaces/queues'',
       ''asotest-sbnamespace-bdyvay'', ''asotest-queue-xsjrxq'')]"}}}}}'
     form: {}
     headers:
@@ -768,11 +702,11 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","name":"k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15160125343958738688","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.7561235S","correlationId":"cb8eab30-7a7c-493d-bc2c-1dde9bb42804","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","name":"k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","type":"Microsoft.Resources/deployments","properties":{"templateHash":"11311300755242340411","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1438378S","correlationId":"1d70b085-bae2-4714-a57f-1229f9767e6e","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655/operationStatuses/08585760862286340356?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655/operationStatuses/08585754762264690845?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -801,8 +735,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","name":"k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15160125343958738688","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6640375S","correlationId":"cb8eab30-7a7c-493d-bc2c-1dde9bb42804","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","name":"k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","type":"Microsoft.Resources/deployments","properties":{"templateHash":"11311300755242340411","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1438378S","correlationId":"1d70b085-bae2-4714-a57f-1229f9767e6e","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -834,74 +768,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","name":"k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15160125343958738688","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6640375S","correlationId":"cb8eab30-7a7c-493d-bc2c-1dde9bb42804","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","name":"k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15160125343958738688","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6640375S","correlationId":"cb8eab30-7a7c-493d-bc2c-1dde9bb42804","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","name":"k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15160125343958738688","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.7584007S","correlationId":"cb8eab30-7a7c-493d-bc2c-1dde9bb42804","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay/queues/asotest-queue-xsjrxq"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay/queues/asotest-queue-xsjrxq"}]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.Resources/deployments/k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","name":"k8s_1e5977d9-1c6b-553c-8a19-058c90f04655","type":"Microsoft.Resources/deployments","properties":{"templateHash":"11311300755242340411","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT3.4331557S","correlationId":"1d70b085-bae2-4714-a57f-1229f9767e6e","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay/queues/asotest-queue-xsjrxq"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay/queues/asotest-queue-xsjrxq"}]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -928,7 +796,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay/queues/asotest-queue-xsjrxq?api-version=2018-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay/queues/asotest-queue-xsjrxq?api-version=2021-01-01-preview
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay/queues/asotest-queue-xsjrxq","name":"asotest-queue-xsjrxq","type":"Microsoft.ServiceBus/Namespaces/Queues","location":"West
@@ -943,10 +811,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -996,7 +864,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay/queues/asotest-queue-xsjrxq?api-version=2018-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay/queues/asotest-queue-xsjrxq?api-version=2021-01-01-preview
     method: DELETE
   response:
     body: ""
@@ -1010,10 +878,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -1029,11 +897,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay/queues/asotest-queue-xsjrxq?api-version=2018-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay/queues/asotest-queue-xsjrxq?api-version=2021-01-01-preview
     method: GET
   response:
     body: '{"error":{"message":"The requested resource asotest-queue-xsjrxq does not
-      exist. CorrelationId: d4b3a2ae-4b6f-4b84-8b40-e5fddea09dfb","code":"NotFound"}}'
+      exist. CorrelationId: dcdb4b6d-b0d1-4731-8756-df72fd438d96","code":"NotFound"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1046,10 +914,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -1081,10 +949,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -1115,10 +983,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1151,10 +1019,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1187,10 +1055,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1223,10 +1091,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1259,10 +1127,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1283,7 +1151,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 1486606c-7b0d-4c20-a21c-94ea2f503680","code":"NotFound"}}'
+    body: '{"error":{"message":"Namespace does not exist. CorrelationId: f1c2e775-da7c-4386-a15f-7d3c38384c12","code":"NotFound"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1296,10 +1164,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -1318,7 +1186,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gxxglo/providers/Microsoft.ServiceBus/namespaces/asotest-sbnamespace-bdyvay?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 785c2cb5-bd48-4f39-b9aa-a6c37eb37888","code":"NotFound"}}'
+    body: '{"error":{"message":"Namespace does not exist. CorrelationId: f128b616-ed9c-4064-920f-5c25f0a874da","code":"NotFound"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1331,10 +1199,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:

@@ -136,12 +136,12 @@ exportFilters:
     because: "including Service Bus namespaces"
   - action: include-transitive
     group: microsoft.servicebus
-    version: v*api20180101preview  # TODO: We should change this to 20210101preview when their RP is updated to support it
+    version: v*api20210101preview
     name: NamespacesQueue
     because: "including Service Bus queues"
   - action: include-transitive
     group: microsoft.servicebus
-    version: v*api20180101preview  # TODO: We should change this to 20210101preview when their RP is updated to support it
+    version: v*api20210101preview
     name: NamespacesTopic
     because: "including Service Bus topics"
   - action: include-transitive
