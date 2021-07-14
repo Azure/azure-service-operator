@@ -3,20 +3,10 @@
 // Licensed under the MIT license.
 package v20211231
 
-import (
-	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231storage"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-)
-
-//Storage version of v20211231.Address
-type Address struct {
-	City        *string `json:"city,omitempty"`
-	FullAddress *string `json:"fullAddress,omitempty"`
-}
+import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-//Storage version of v20211231.Person
 type Person struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -25,25 +15,35 @@ type Person struct {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v20211231.Person
 type PersonList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Person `json:"items"`
 }
 
-//Storage version of v20211231.Person_Spec
 type Person_Spec struct {
-	FamilyName         *string                   `json:"familyName,omitempty"`
-	FullName           *string                   `json:"fullName,omitempty"`
-	KnownAs            *string                   `json:"knownAs,omitempty"`
-	PostalAddress      *v20211231storage.Address `json:"postalAddress,omitempty"`
-	ResidentialAddress *v20211231storage.Address `json:"residentialAddress,omitempty"`
+	//FamilyName: Shared name of the family
+	FamilyName string `json:"familyName"`
+
+	//FullName: As would be used to address mail
+	FullName string `json:"fullName"`
+
+	//KnownAs: How the person is generally known
+	KnownAs            string  `json:"knownAs"`
+	PostalAddress      Address `json:"postalAddress"`
+	ResidentialAddress Address `json:"residentialAddress"`
 }
 
-//Storage version of v20211231.Person_Status
 type Person_Status struct {
-	Status *string `json:"status,omitempty"`
+	Status string `json:"status"`
+}
+
+type Address struct {
+	//City: City or town (or nearest)
+	City string `json:"city"`
+
+	//FullAddress: Full written address for map or postal use
+	FullAddress string `json:"fullAddress"`
 }
 
 func init() {

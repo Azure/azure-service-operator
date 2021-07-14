@@ -12,7 +12,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
@@ -26,11 +25,14 @@ func TestCreateConversionGraph(t *testing.T) {
 	types := make(astmodel.Types)
 	types.AddAll(person2020, person2021, person2022)
 
-	graph := storage.NewConversionGraph()
-	stage := CreateConversionGraph(graph)
-	resultTypes, err := stage.Run(context.TODO(), types)
+	initialState := NewState().WithTypes(types)
+	stage := CreateConversionGraph()
+	finalState, err := stage.Run(context.TODO(), initialState)
 	g.Expect(err).To(Succeed())
-	g.Expect(resultTypes).To(Equal(types))
+	g.Expect(finalState.Types()).To(Equal(types))
+	g.Expect(finalState.ConversionGraph()).NotTo(BeNil())
+
+	graph := finalState.ConversionGraph()
 
 	// Expect to have a link from Pkg2020 to a matching storage version
 	storage2020, ok := graph.LookupTransition(test.Pkg2020)

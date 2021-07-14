@@ -39,14 +39,16 @@ func TestCreateStorageTypes(t *testing.T) {
 
 	types := make(astmodel.Types)
 	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
+	state := NewState().WithTypes(types)
 
-	// Run the stage
-	createStorageTypes := CreateStorageTypes()
+	// Use CreateConversionGraph to create the conversion graph needed prior to creating storage types
+	createConversionGraphStage := CreateConversionGraph()
+	initialState, err := createConversionGraphStage.Run(context.TODO(), state)
+	g.Expect(err).To(Succeed())
 
-	// Don't need a context when testing
-	state := NewState()
-	finalState, err := createStorageTypes.Run(context.TODO(), state)
-
+	// Now create storage types
+	createStorageTypesStage := CreateStorageTypes()
+	finalState, err := createStorageTypesStage.Run(context.TODO(), initialState)
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())

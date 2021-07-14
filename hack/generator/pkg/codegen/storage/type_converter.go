@@ -110,7 +110,8 @@ func (t *TypeConverter) redirectTypeNamesToStoragePackage(
 		return result, nil
 	}
 
-	return name, nil
+	// Failed to redirect into a storage package, return an error
+	return nil, errors.Errorf("unable to redirect %s into a storage package", name)
 }
 
 // stripAllValidations removes all validations
