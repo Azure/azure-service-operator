@@ -60,8 +60,7 @@ func valueAsString(value reflect.Value) string {
 	case string:
 		return v
 	default:
-		klog.Error(fmt.Sprintf("unexpected value for kubebuilder comment - %s", value.Kind()))
-		return "%%UNKNOWN%%"
+		panic(fmt.Sprintf("unexpected value for kubebuilder comment - %s", value.Kind()))
 	}
 }
 
