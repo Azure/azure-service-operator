@@ -18,7 +18,8 @@ type Function interface {
 	RequiredPackageReferences() *PackageReferenceSet
 
 	// References returns the set of types to which this function refers.
-	// Should *not* include the receiver of this function
+	// SHOULD include any types which this function references but its receiver doesn't.
+	// SHOULD NOT include the receiver of this function.
 	References() TypeNameSet
 
 	// AsFunc renders the current instance as a Go abstract syntax tree
@@ -53,9 +54,11 @@ func (k *objectFunction) RequiredPackageReferences() *PackageReferenceSet {
 	return k.requiredPackages
 }
 
-// References returns the TypeName's referenced by this function
+// References returns the set of types to which this function refers.
+// SHOULD include any types which this function references but its receiver doesn't.
+// SHOULD NOT include the receiver of this function.
 func (k *objectFunction) References() TypeNameSet {
-	return k.o.References()
+	return nil
 }
 
 // AsFunc renders the current instance as a Go abstract syntax tree
@@ -97,9 +100,11 @@ func (r *resourceFunction) RequiredPackageReferences() *PackageReferenceSet {
 	return r.requiredPackages
 }
 
-// References returns the TypeName's referenced by this function
+// References returns the set of types to which this function refers.
+// SHOULD include any types which this function references but its receiver doesn't.
+// SHOULD NOT include the receiver of this function.
 func (r *resourceFunction) References() TypeNameSet {
-	return r.resource.References()
+	return nil
 }
 
 // AsFunc renders the current instance as a Go abstract syntax tree

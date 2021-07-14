@@ -43,10 +43,11 @@ func (f *OneOfJSONMarshalFunction) Equals(other Function) bool {
 	return false
 }
 
-// References returns the set of references for the underlying object.
+// References returns the set of types to which this function refers.
+// SHOULD include any types which this function references but its receiver doesn't.
+// SHOULD NOT include the receiver of this function.
 func (f *OneOfJSONMarshalFunction) References() TypeNameSet {
-	// Defer this check to the owning object as we only refer to its properties and it
-	return f.oneOfObject.References()
+	return nil
 }
 
 // AsFunc returns the function as a go dst
