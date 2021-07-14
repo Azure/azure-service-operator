@@ -29,6 +29,19 @@ func (array *ArrayType) Element() Type {
 	return array.element
 }
 
+// WithElement returns an ArrayType with the specified element.
+// the benefit of this is it allows reusing the same value if the
+// element type is the same
+func (array *ArrayType) WithElement(t Type) *ArrayType {
+	if array.element.Equals(t) {
+		return array
+	}
+
+	result := *array
+	result.element = t
+	return &result
+}
+
 // assert we implemented Type correctly
 var _ Type = (*ArrayType)(nil)
 
