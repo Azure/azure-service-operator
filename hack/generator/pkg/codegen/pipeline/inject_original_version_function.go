@@ -24,7 +24,7 @@ const injectOriginalVersionFunctionStageId = "injectOriginalVersionFunction"
 // We run this stage before we create any storage types, ensuring only API versions get the function.
 func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) Stage {
 
-	stage := MakeStage(
+	stage := MakeLegacyStage(
 		injectOriginalVersionFunctionStageId,
 		"Inject the function OriginalVersion() into each Spec type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

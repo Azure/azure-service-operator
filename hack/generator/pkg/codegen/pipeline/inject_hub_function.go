@@ -22,7 +22,7 @@ const InjectHubFunctionStageId = "injectHubFunction"
 // function so that it satisfies the required interface.
 func InjectHubFunction(idFactory astmodel.IdentifierFactory) Stage {
 
-	result := MakeStage(
+	result := MakeLegacyStage(
 		InjectHubFunctionStageId,
 		"Inject the function Hub() into each hub resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

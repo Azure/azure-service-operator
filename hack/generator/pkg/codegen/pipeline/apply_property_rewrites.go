@@ -19,7 +19,7 @@ import (
 // been "lowered" to objects.
 func ApplyPropertyRewrites(config *config.Configuration) Stage {
 
-	return MakeStage(
+	return MakeLegacyStage(
 		"propertyRewrites",
 		"Modify property types using configured transforms",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

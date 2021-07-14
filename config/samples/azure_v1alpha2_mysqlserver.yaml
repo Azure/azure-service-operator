@@ -11,6 +11,10 @@ spec:
   serverVersion: "8.0"
   sslEnforcement: Enabled
   createMode: Default # Possible values include: Default, Replica, PointInTimeRestore (not implemented), GeoRestore (not implemented)
+  # Optional admin secret name. If the admin secret is specified the `username` and `password` fields of the secret will be used to set
+  # the administrator username and password. If adminSecret is not provided, ASO will generate an administrator account
+  # and password.
+  # adminSecret: my-admin-secret
   sku:
     name: GP_Gen5_4 # tier + family + cores eg. - B_Gen4_1, GP_Gen5_4
     tier: GeneralPurpose # possible values - 'Basic', 'GeneralPurpose', 'MemoryOptimized'

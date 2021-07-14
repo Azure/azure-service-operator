@@ -18,7 +18,7 @@ import (
 // CreateARMTypes walks the type graph and builds new types for communicating
 // with ARM
 func CreateARMTypes(idFactory astmodel.IdentifierFactory) Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		"createArmTypes",
 		"Create types for interaction with ARM",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {

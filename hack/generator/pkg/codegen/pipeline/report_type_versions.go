@@ -23,7 +23,7 @@ import (
 // ReportOnTypesAndVersions creates a pipeline stage that removes any wrapper types prior to actual code generation
 func ReportOnTypesAndVersions(configuration *config.Configuration) Stage {
 
-	return MakeStage(
+	return MakeLegacyStage(
 		"reportTypesAndVersions",
 		"Generate reports on types and versions in each package",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

@@ -156,6 +156,16 @@ func (v *ValidatedType) ElementType() Type {
 	return v.element
 }
 
+func (v *ValidatedType) WithElement(t Type) Type {
+	if v.element.Equals(t) {
+		return v
+	}
+
+	result := *v
+	result.element = t
+	return &result
+}
+
 func (v *ValidatedType) Validations() Validations {
 	return v.validations
 }

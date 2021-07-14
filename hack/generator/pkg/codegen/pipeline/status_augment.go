@@ -13,7 +13,7 @@ import (
 )
 
 func AugmentSpecWithStatus() Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		"augmentSpecWithStatus",
 		"Merges information from Status into Spec",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
@@ -160,17 +160,12 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 		merger.Add(func(spec *astmodel.OptionalType, status astmodel.Type) (astmodel.Type, error) {
 			// we ignore optionality when matching things up, since there are
 			// discordances between the JSON Schema/Swagger as some teams have handcrafted them
-			newSpecElement, err := merger.Merge(spec.Element(), status)
+			newElement, err := merger.Merge(spec.Element(), status)
 			if err != nil {
 				return nil, err
 			}
 
-			// return original type if not changed
-			if newSpecElement.Equals(spec.Element()) {
-				return spec, nil
-			}
-
-			return astmodel.NewOptionalType(newSpecElement), nil
+			return spec.WithElement(newElement), nil
 		})
 
 		// handle (Type, Optional)
@@ -183,17 +178,12 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 		// handle (FlaggedType, Type); there is no need to handle the opposite direction
 		// as the swagger types won’t be flagged
 		merger.Add(func(spec *astmodel.FlaggedType, status astmodel.Type) (astmodel.Type, error) {
-			newSpec, err := merger.Merge(spec.Element(), status)
+			newElement, err := merger.Merge(spec.Element(), status)
 			if err != nil {
 				return nil, err
 			}
 
-			// return original type if not changed
-			if newSpec.Equals(spec.Element()) {
-				return spec, nil
-			}
-
-			return spec.WithElement(newSpec), nil
+			return spec.WithElement(newElement), nil
 		})
 
 		// handle (Map, Map) by matching up the keys and values
@@ -208,27 +198,17 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 				return nil, err
 			}
 
-			// return original type if not changed
-			if keyResult.Equals(spec.KeyType()) && valueResult.Equals(spec.ValueType()) {
-				return spec, nil
-			}
-
-			return astmodel.NewMapType(keyResult, valueResult), nil
+			return spec.WithKeyType(keyResult).WithValueType(valueResult), nil
 		})
 
 		// handle (Array, Array) by matching up the inner types
 		merger.Add(func(spec, status *astmodel.ArrayType) (astmodel.Type, error) {
-			newSpecElement, err := merger.Merge(spec.Element(), status.Element())
+			newElement, err := merger.Merge(spec.Element(), status.Element())
 			if err != nil {
 				return nil, err
 			}
 
-			// return original type if not changed
-			if newSpecElement.Equals(spec.Element()) {
-				return spec, nil
-			}
-
-			return astmodel.NewArrayType(newSpecElement), nil
+			return spec.WithElement(newElement), nil
 		})
 
 		// safety check, (AllOf, AllOf) should not occur

@@ -66,7 +66,7 @@ func TestRemoveStages_PanicsForUnknownStage(t *testing.T) {
 }
 
 func MakeFakePipelineStage(id string) pipeline.Stage {
-	return pipeline.MakeStage(
+	return pipeline.MakeLegacyStage(
 		id, "Stage "+id, func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			return types, nil
 		})

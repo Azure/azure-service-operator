@@ -19,7 +19,7 @@ import (
 // to all Kubernetes types.
 // The genruntime.ARMTransformer interface is used to convert from the Kubernetes type to the corresponding ARM type and back.
 func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory) Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		"applyArmConversionInterface",
 		"Add ARM conversion interfaces to Kubernetes types",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {

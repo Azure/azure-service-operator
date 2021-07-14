@@ -40,7 +40,7 @@ func checkForAnyType(description string, packages []string) Stage {
 		expectedPackages[p] = struct{}{}
 	}
 
-	return MakeStage(
+	return MakeLegacyStage(
 		"rogueCheck",
 		description,
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

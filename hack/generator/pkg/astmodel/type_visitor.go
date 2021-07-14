@@ -121,11 +121,7 @@ func IdentityVisitOfArrayType(this *TypeVisitor, it *ArrayType, ctx interface{})
 		return nil, errors.Wrap(err, "failed to visit type of array")
 	}
 
-	if newElement == it.element {
-		return it, nil // short-circuit
-	}
-
-	return NewArrayType(newElement), nil
+	return it.WithElement(newElement), nil
 }
 
 func IdentityVisitOfPrimitiveType(_ *TypeVisitor, it *PrimitiveType, _ interface{}) (Type, error) {
@@ -186,11 +182,7 @@ func IdentityVisitOfMapType(this *TypeVisitor, it *MapType, ctx interface{}) (Ty
 		return nil, errors.Wrapf(err, "failed to visit map value type %q", it.value)
 	}
 
-	if visitedKey == it.key && visitedValue == it.value {
-		return it, nil // short-circuit
-	}
-
-	return NewMapType(visitedKey, visitedValue), nil
+	return it.WithKeyType(visitedKey).WithValueType(visitedValue), nil
 }
 
 func IdentityVisitOfEnumType(_ *TypeVisitor, it *EnumType, _ interface{}) (Type, error) {
@@ -205,11 +197,7 @@ func IdentityVisitOfOptionalType(this *TypeVisitor, it *OptionalType, ctx interf
 		return nil, errors.Wrapf(err, "failed to visit optional element type %q", it.element)
 	}
 
-	if visitedElement == it.element {
-		return it, nil // short-circuit
-	}
-
-	return NewOptionalType(visitedElement), nil
+	return it.WithElement(visitedElement), nil
 }
 
 func IdentityVisitOfResourceType(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error) {
@@ -241,7 +229,6 @@ func IdentityVisitOfOneOfType(this *TypeVisitor, it *OneOfType, ctx interface{})
 		newTypes = append(newTypes, newType)
 		return nil
 	})
-
 	if err != nil {
 		return nil, err
 	}
@@ -264,7 +251,6 @@ func IdentityVisitOfAllOfType(this *TypeVisitor, it *AllOfType, ctx interface{})
 		newTypes = append(newTypes, newType)
 		return nil
 	})
-
 	if err != nil {
 		return nil, err
 	}

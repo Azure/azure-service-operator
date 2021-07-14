@@ -16,7 +16,7 @@ import (
 
 func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
 
-	return MakeStage(
+	return MakeLegacyStage(
 		"jsonTestCases",
 		"Add test cases to verify JSON serialization",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
