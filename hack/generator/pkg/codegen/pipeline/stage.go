@@ -24,7 +24,7 @@ type Stage struct {
 	// Description of the stage to use when logging
 	description string
 	// Stage implementation
-	action func(context.Context, astmodel.Types) (astmodel.Types, error)
+	action func(context.Context, *State) (*State, error)
 	// Tag used for filtering
 	targets []Target
 	// Identifiers for other stages that must be completed before this one
@@ -37,12 +37,32 @@ type Stage struct {
 func MakeStage(
 	id string,
 	description string,
-	action func(context.Context, astmodel.Types) (astmodel.Types, error)) Stage {
+	action func(context.Context, *State) (*State, error)) Stage {
 	return Stage{
 		id:          id,
 		description: description,
 		action:      action,
 	}
+}
+
+// MakeLegacyStage is a legacy constructor for creating a new pipeline stage that's ready for execution
+// DO NOT USE THIS FOR ANY NEW STAGES - it's kept for compatibility with an older style of pipeline stages that will be
+// migrated to the new style over time.
+func MakeLegacyStage(
+	id string,
+	description string,
+	action func(context.Context, astmodel.Types) (astmodel.Types, error)) Stage {
+	return MakeStage(
+		id,
+		description,
+		func(ctx context.Context, state *State) (*State, error) {
+			types, err := action(ctx, state.Types())
+			if err != nil {
+				return nil, err
+			}
+
+			return state.WithTypes(types), nil
+		})
 }
 
 // HasId returns true if this stage has the specified id, false otherwise
@@ -118,8 +138,8 @@ func (stage *Stage) Description() string {
 }
 
 // Run is used to execute the action associated with this stage
-func (stage *Stage) Run(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-	return stage.action(ctx, types)
+func (stage *Stage) Run(ctx context.Context, state *State) (*State, error) {
+	return stage.action(ctx, state)
 }
 
 // CheckPrerequisites returns an error if the prerequisites of this stage have not been met

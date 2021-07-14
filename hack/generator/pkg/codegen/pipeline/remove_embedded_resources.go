@@ -13,7 +13,7 @@ import (
 )
 
 func RemoveEmbeddedResources() Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		"removeEmbeddedResources",
 		"Remove properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

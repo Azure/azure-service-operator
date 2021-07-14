@@ -16,7 +16,7 @@ import (
 // ApplyKubernetesResourceInterface ensures that every Resource implements the KubernetesResource interface
 func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Stage {
 
-	return MakeStage(
+	return MakeLegacyStage(
 		"applyKubernetesResourceInterface",
 		"Add the KubernetesResource interface to every resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

@@ -17,7 +17,7 @@ import (
 
 // ApplyExportFilters creates a Stage to reduce our set of types for export
 func ApplyExportFilters(configuration *config.Configuration) Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		"filterTypes",
 		"Apply export filters to reduce the number of generated types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

@@ -17,7 +17,7 @@ import (
 // AddCrossplaneOwnerProperties adds the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
 func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) Stage {
 
-	return MakeStage(
+	return MakeLegacyStage(
 		"addCrossplaneOwnerProperties",
 		"Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

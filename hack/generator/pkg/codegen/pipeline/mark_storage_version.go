@@ -19,7 +19,7 @@ const MarkStorageVersionStageId = "markStorageVersion"
 
 // MarkStorageVersion creates a Stage to mark a particular version as a storage version
 func MarkStorageVersion() Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		MarkStorageVersionStageId,
 		"Mark the latest version of each resource as the storage version",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

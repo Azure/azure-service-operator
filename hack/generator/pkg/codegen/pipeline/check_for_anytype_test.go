@@ -27,6 +27,7 @@ func TestFindsAnyTypes(t *testing.T) {
 	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
 		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(p, n), t))
 	}
+
 	// A couple of types in the same package...
 	add(p1, "A", astmodel.AnyType)
 	add(p1, "B", astmodel.NewObjectType().WithProperties(
@@ -38,9 +39,11 @@ func TestFindsAnyTypes(t *testing.T) {
 	// One that's fine.
 	add(p3, "C", astmodel.NewArrayType(astmodel.IntType))
 
-	results, err := FilterOutDefinitionsUsingAnyType(nil).action(context.Background(), defs)
+	state := NewState().WithTypes(defs)
+	stage := FilterOutDefinitionsUsingAnyType(nil)
+	finalState, err := stage.Run(context.Background(), state)
 
-	g.Expect(results).To(HaveLen(0))
+	g.Expect(finalState).To(BeNil())
 	g.Expect(err).To(MatchError("AnyTypes found - add exclusions for: horo.logy/v20200730, road.train/v20200730"))
 }
 
@@ -66,14 +69,16 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 	add(p3, "C", astmodel.NewArrayType(astmodel.IntType))
 
 	exclusions := []string{"horo.logy/v20200730", "road.train/v20200730"}
-	results, err := FilterOutDefinitionsUsingAnyType(exclusions).action(context.Background(), defs)
+
+	state := NewState().WithTypes(defs)
+	finalState, err := FilterOutDefinitionsUsingAnyType(exclusions).action(context.Background(), state)
 	g.Expect(err).To(BeNil())
 
 	expected := make(astmodel.Types)
 	expected.Add(astmodel.MakeTypeDefinition(
 		astmodel.MakeTypeName(p3, "C"), astmodel.NewArrayType(astmodel.IntType),
 	))
-	g.Expect(results).To(Equal(expected))
+	g.Expect(finalState.Types()).To(Equal(expected))
 }
 
 func TestComplainsAboutUnneededExclusions(t *testing.T) {
@@ -103,7 +108,10 @@ func TestComplainsAboutUnneededExclusions(t *testing.T) {
 		"gamma.knife/v20200821",
 		"road.train/v20200730",
 	}
-	results, err := FilterOutDefinitionsUsingAnyType(exclusions).action(context.Background(), defs)
-	g.Expect(results).To(HaveLen(0))
+
+	state := NewState().WithTypes(defs)
+	stage := FilterOutDefinitionsUsingAnyType(exclusions)
+	finalState, err := stage.Run(context.Background(), state)
+	g.Expect(finalState).To(BeNil())
 	g.Expect(errors.Cause(err)).To(MatchError("no AnyTypes found in: gamma.knife/v20200821, people.vultures/20200821"))
 }

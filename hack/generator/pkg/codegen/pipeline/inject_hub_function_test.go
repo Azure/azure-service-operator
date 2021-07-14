@@ -34,11 +34,12 @@ func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t 
 	injectHubFunction := InjectHubFunction(idFactory)
 
 	// Don't need a context when testing
-	finalTypes, err := injectHubFunction.Run(context.TODO(), types)
+	state := NewState().WithTypes(types)
+	finalState, err := injectHubFunction.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalTypes, t.Name())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())
 }
 
 func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile(t *testing.T) {
@@ -57,9 +58,10 @@ func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile
 	injectHubFunction := InjectHubFunction(idFactory)
 
 	// Don't need a context when testing
-	finalTypes, err := injectHubFunction.Run(context.TODO(), types)
+	state := NewState().WithTypes(types)
+	finalState, err := injectHubFunction.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalTypes, t.Name())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())
 }

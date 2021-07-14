@@ -13,7 +13,7 @@ import (
 )
 
 func AugmentSpecWithStatus() Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		"augmentSpecWithStatus",
 		"Merges information from Status into Spec",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

@@ -24,7 +24,7 @@ import (
 // ExportPackages creates a Stage to export our generated code as a set of packages
 func ExportPackages(outputPath string) Stage {
 	description := fmt.Sprintf("Export packages to %q", outputPath)
-	return MakeStage(
+	return MakeLegacyStage(
 		"exportPackages",
 		description,
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
