@@ -397,7 +397,7 @@ func (s synthesizer) handleMapMap(leftMap *astmodel.MapType, rightMap *astmodel.
 		return nil, err
 	}
 
-	return astmodel.NewMapType(keyType, valueType), nil
+	return leftMap.WithKeyType(keyType).WithValueType(valueType), nil
 }
 
 // intersection of array types is array of intersection of their element types
@@ -564,6 +564,11 @@ func (synthesizer) handleEqualTypes(left astmodel.Type, right astmodel.Type) (as
 func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedType, right astmodel.Type) (astmodel.Type, error) {
 	if validated.ElementType().Equals(right) {
 		return validated, nil
+	}
+
+	// validated(optional(T)) combined with a non-optional T becomes validated(T)
+	if validated.ElementType().Equals(astmodel.NewOptionalType(right)) {
+		return validated.WithElement(right), nil
 	}
 
 	return nil, nil

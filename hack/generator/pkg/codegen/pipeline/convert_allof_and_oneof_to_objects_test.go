@@ -18,9 +18,11 @@ var synth synthesizer = synthesizer{
 	idFactory: astmodel.NewIdentifierFactory(),
 }
 
-var mapStringInterface = astmodel.NewStringMapType(astmodel.AnyType)
-var mapStringString = astmodel.NewStringMapType(astmodel.StringType)
-var mapInterfaceString = astmodel.NewMapType(astmodel.AnyType, astmodel.StringType)
+var (
+	mapStringInterface = astmodel.NewStringMapType(astmodel.AnyType)
+	mapStringString    = astmodel.NewStringMapType(astmodel.StringType)
+	mapInterfaceString = astmodel.NewMapType(astmodel.AnyType, astmodel.StringType)
+)
 
 var emptyObject = astmodel.NewObjectType()
 
@@ -220,6 +222,40 @@ func TestMergeResourceMissingStatus(t *testing.T) {
 
 	g.Expect(synth.intersectTypes(r1, r2)).To(Equal(expected))
 	g.Expect(synth.intersectTypes(r2, r1)).To(Equal(expected))
+}
+
+func TestMergeValidated(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	maxLen := int64(32)
+	validatedString := astmodel.NewValidatedType(
+		astmodel.StringType,
+		astmodel.StringValidations{
+			MaxLength: &maxLen,
+		})
+
+	g.Expect(synth.intersectTypes(validatedString, astmodel.StringType)).To(Equal(validatedString))
+	g.Expect(synth.intersectTypes(astmodel.StringType, validatedString)).To(Equal(validatedString))
+}
+
+func TestMergeValidatedOfOptional(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	maxLen := int64(32)
+	validatedOptionalString := astmodel.NewValidatedType(
+		astmodel.NewOptionalType(astmodel.StringType),
+		astmodel.StringValidations{
+			MaxLength: &maxLen,
+		})
+
+	validatedString := astmodel.NewValidatedType(
+		astmodel.StringType,
+		astmodel.StringValidations{
+			MaxLength: &maxLen,
+		})
+
+	g.Expect(synth.intersectTypes(validatedOptionalString, astmodel.StringType)).To(Equal(validatedString))
+	g.Expect(synth.intersectTypes(astmodel.StringType, validatedOptionalString)).To(Equal(validatedString))
 }
 
 func TestMergeResourceWithOtherDependsOnSpecVsStatus(t *testing.T) {
