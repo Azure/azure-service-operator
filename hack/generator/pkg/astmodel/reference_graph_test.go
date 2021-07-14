@@ -49,7 +49,7 @@ func Test_ReferenceGraph_Gives_Correct_Depth(t *testing.T) {
 
 	roots := names("r")
 
-	graph := NewReferenceGraph(roots, references)
+	graph := MakeReferenceGraph(roots, references)
 
 	result := graph.Connected()
 
