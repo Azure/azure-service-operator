@@ -8,10 +8,13 @@ import (
 	"fmt"
 	"strings"
 
-	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/pkg/errors"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -22,6 +25,14 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
+)
+
+const (
+	UsernameSecretKey                 = "username"
+	PasswordSecretKey                 = "password"
+	FullyQualifiedServerNameSecretKey = "fullyQualifiedServerName"
+	MySQLServerNameSecretKey          = "mySqlServerName"
+	FullyQualifiedUsernameSecretKey   = "fullyQualifiedUsername"
 )
 
 // Ensure idempotently instantiates the requested server (if possible) in Azure
@@ -41,27 +52,42 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		return true, err
 	}
 
-	createmode := mysql.CreateModeDefault
+	createMode := mysql.CreateModeDefault
 	if len(instance.Spec.CreateMode) != 0 {
-		createmode = mysql.CreateMode(instance.Spec.CreateMode)
+		createMode = mysql.CreateMode(instance.Spec.CreateMode)
 	}
 
 	// If a replica is requested, ensure that source server is specified
-	if createmode == mysql.CreateModeReplica {
+	if createMode == mysql.CreateModeReplica {
 		if len(instance.Spec.ReplicaProperties.SourceServerId) == 0 {
 			instance.Status.Message = "Replica requested but source server unspecified"
 			return true, nil
 		}
 	}
 
+	adminCreds, err := m.GetUserProvidedAdminCredentials(ctx, instance)
+	if err != nil {
+		// The error already has the details we need
+		instance.Status.Message = err.Error()
+		return false, err
+	}
+
 	// Check to see if secret exists and if yes retrieve the admin login and password
-	secret, err := m.GetOrPrepareSecret(ctx, secretClient, instance)
+	secret, err := m.GetOrPrepareSecret(ctx, secretClient, instance, adminCreds)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Failed to get or prepare secret: %s", err.Error())
 		return false, err
 	}
 
-	err = m.AddServerCredsToSecrets(ctx, secretClient, secret, instance)
+	// If the user didn't provide administrator credentials, get them from the secret
+	if adminCreds == nil {
+		adminCreds = &MySQLCredentials{
+			username: string(secret[UsernameSecretKey]),
+			password: string(secret[PasswordSecretKey]),
+		}
+	}
+
+	err = m.UpsertSecrets(ctx, secretClient, secret, instance)
 	if err != nil {
 		return false, err
 	}
@@ -134,8 +160,6 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		instance.Status.Provisioning = true
 		instance.Status.FailedProvisioning = false
 
-		adminlogin := string(secret["username"])
-		adminpassword := string(secret["password"])
 		skuInfo := mysql.Sku{
 			Name:     to.StringPtr(instance.Spec.Sku.Name),
 			Tier:     mysql.SkuTier(instance.Spec.Sku.Tier),
@@ -149,9 +173,9 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 			*instance,
 			labels,
 			skuInfo,
-			adminlogin,
-			adminpassword,
-			createmode,
+			adminCreds.username,
+			adminCreds.password,
+			createMode,
 			hash,
 		)
 		if err != nil {
@@ -288,8 +312,8 @@ func (m *MySQLServerClient) convert(obj runtime.Object) (*v1alpha2.MySQLServer, 
 	return local, nil
 }
 
-// AddServerCredsToSecrets saves the server's admin credentials in the secret store
-func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretClient secrets.SecretClient, data map[string][]byte, instance *azurev1alpha2.MySQLServer) error {
+// UpsertSecrets saves the server's admin credentials in the secret store
+func (m *MySQLServerClient) UpsertSecrets(ctx context.Context, secretClient secrets.SecretClient, data map[string][]byte, instance *azurev1alpha2.MySQLServer) error {
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
 	err := secretClient.Upsert(ctx,
@@ -309,7 +333,7 @@ func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretC
 func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secretClient secrets.SecretClient, data map[string][]byte, fullservername string, instance *azurev1alpha2.MySQLServer) error {
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	data["fullyQualifiedServerName"] = []byte(fullservername)
+	data[FullyQualifiedServerNameSecretKey] = []byte(fullservername)
 
 	err := secretClient.Upsert(ctx,
 		secretKey,
@@ -325,46 +349,107 @@ func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secret
 }
 
 // GetOrPrepareSecret gets the admin credentials if they are stored or generates some if not
-func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, secretClient secrets.SecretClient, instance *azurev1alpha2.MySQLServer) (map[string][]byte, error) {
-	createmode := instance.Spec.CreateMode
-
-	// If createmode == default, then this is a new server creation, so generate username/password
-	// If createmode == replica, then get the credentials from the source server secret and use that
+func (m *MySQLServerClient) GetOrPrepareSecret(
+	ctx context.Context,
+	secretClient secrets.SecretClient,
+	instance *azurev1alpha2.MySQLServer,
+	adminCredentials *MySQLCredentials) (map[string][]byte, error) {
 
 	secret := map[string][]byte{}
 	var key secrets.SecretKey
 	var username string
 	var password string
 
-	if strings.EqualFold(createmode, "default") { // new Mysql server creation
+	// If createmode == default, then this is a new server creation, so generate username/password
+	// If createmode == replica, then get the credentials from the source server secret and use that
+	if strings.EqualFold(instance.Spec.CreateMode, "default") { // new Mysql server creation
 		// See if secret already exists and return if it does
 		key = secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 		if stored, err := secretClient.Get(ctx, key); err == nil {
+			// Ensure that we use the most up to date secret information if the user has provided it
+			if adminCredentials != nil {
+				stored[UsernameSecretKey] = []byte(adminCredentials.username)
+				stored[PasswordSecretKey] = []byte(adminCredentials.password)
+			}
 			return stored, nil
 		}
-		// Generate random username password if secret does not exist already
-		username = helpers.GenerateRandomUsername(10)
-		password = helpers.NewPassword()
-	} else { // replica
-		sourceServerId := instance.Spec.ReplicaProperties.SourceServerId
-		if len(sourceServerId) != 0 {
-			// Parse to get source server name
-			sourceServerIdSplit := strings.Split(sourceServerId, "/")
-			sourceServer := sourceServerIdSplit[len(sourceServerIdSplit)-1]
+		// Generate random username and password if secret does not exist already and it
+		// wasn't provided in the spec
+		if adminCredentials == nil {
+			username = helpers.GenerateRandomUsername(10)
+			password = helpers.NewPassword()
+		} else {
+			username = adminCredentials.username
+			password = adminCredentials.password
+		}
+	} else {
+		// We only attempt to get the username and password from the primary if there's not
+		// a user specified secret. If there IS a user specified secret then just use that.
+		if adminCredentials == nil {
+			sourceServerId := instance.Spec.ReplicaProperties.SourceServerId
+			if len(sourceServerId) != 0 {
+				// Parse to get source server name
+				sourceServerIdSplit := strings.Split(sourceServerId, "/")
+				sourceServer := sourceServerIdSplit[len(sourceServerIdSplit)-1]
 
-			// Get the username and password from the source server's secret
-			key = secrets.SecretKey{Name: sourceServer, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
-			if sourceSecret, err := secretClient.Get(ctx, key); err == nil {
-				username = string(sourceSecret["username"])
-				password = string(sourceSecret["password"])
+				// Get the username and password from the source server's secret
+				key = secrets.SecretKey{Name: sourceServer, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
+				if sourceSecret, err := secretClient.Get(ctx, key); err == nil {
+					username = string(sourceSecret[UsernameSecretKey])
+					password = string(sourceSecret[PasswordSecretKey])
+				}
 			}
+		} else {
+			username = adminCredentials.username
+			password = adminCredentials.password
 		}
 	}
 
-	// Populate secret fields
-	secret["username"] = []byte(username)
-	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", username, instance.Name))
-	secret["password"] = []byte(password)
-	secret["mySqlServerName"] = []byte(instance.Name)
+	// Populate secret fields derived from username and password
+	secret[UsernameSecretKey] = []byte(username)
+	secret[PasswordSecretKey] = []byte(password)
+	secret[FullyQualifiedUsernameSecretKey] = []byte(makeFullyQualifiedUsername(username, instance.Name))
+	secret[MySQLServerNameSecretKey] = []byte(instance.Name)
 	return secret, nil
+}
+
+// MySQLCredentials is a username/password pair for a MySQL account
+type MySQLCredentials struct {
+	username string
+	password string
+}
+
+// GetUserProvidedAdminCredentials gets the user provided MySQLCredentials, or nil if none was
+// specified by the user.
+func (m *MySQLServerClient) GetUserProvidedAdminCredentials(
+	ctx context.Context,
+	instance *azurev1alpha2.MySQLServer) (*MySQLCredentials, error) {
+
+	if instance.Spec.AdminSecret == "" {
+		return nil, nil
+	}
+
+	key := client.ObjectKey{Namespace: instance.Namespace, Name: instance.Spec.AdminSecret}
+	secret := &v1.Secret{}
+	if err := m.KubeReader.Get(ctx, key, secret); err != nil {
+		return nil, errors.Wrapf(err, "Failed to get AdminSecret %q", key)
+	}
+
+	adminUsernameBytes, ok := secret.Data[UsernameSecretKey]
+	if !ok {
+		return nil, errors.Errorf("AdminSecret %s is missing required %q field", instance.Spec.AdminSecret, UsernameSecretKey)
+	}
+	adminPasswordBytes, ok := secret.Data[PasswordSecretKey]
+	if !ok {
+		return nil, errors.Errorf("AdminSecret %s is missing required %q field", instance.Spec.AdminSecret, PasswordSecretKey)
+	}
+
+	return &MySQLCredentials{
+		username: string(adminUsernameBytes),
+		password: string(adminPasswordBytes),
+	}, nil
+}
+
+func makeFullyQualifiedUsername(username string, instanceName string) string {
+	return fmt.Sprintf("%s@%s", username, instanceName)
 }

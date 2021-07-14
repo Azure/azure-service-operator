@@ -12,6 +12,7 @@ import (
 )
 
 func TestMakeStoragePackageReference(t *testing.T) {
+	t.Parallel()
 
 	cases := []struct {
 		group           string
@@ -37,6 +38,8 @@ func TestMakeStoragePackageReference(t *testing.T) {
 }
 
 func TestStoragePackageReferenceEquals(t *testing.T) {
+	t.Parallel()
+
 	localRef := makeTestLocalPackageReference("group", "v1")
 	storageRef := MakeStoragePackageReference(localRef)
 	otherRef := MakeStoragePackageReference(localRef)
@@ -67,6 +70,8 @@ func TestStoragePackageReferenceEquals(t *testing.T) {
 }
 
 func TestStoragePackageReferenceIsPreview(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name      string
 		version   string

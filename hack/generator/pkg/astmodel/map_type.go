@@ -30,6 +30,26 @@ func (m *MapType) ValueType() Type {
 	return m.value
 }
 
+func (m *MapType) WithKeyType(t Type) *MapType {
+	if m.key.Equals(t) {
+		return m
+	}
+
+	result := *m
+	result.key = t
+	return &result
+}
+
+func (m *MapType) WithValueType(t Type) *MapType {
+	if m.value.Equals(t) {
+		return m
+	}
+
+	result := *m
+	result.value = t
+	return &result
+}
+
 // NewMapType creates a new map with the specified key and value types
 func NewMapType(key Type, value Type) *MapType {
 	return &MapType{key, value}

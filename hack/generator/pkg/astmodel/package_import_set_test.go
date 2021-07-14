@@ -197,6 +197,7 @@ func TestRemove_WhenItemNotInSet_LeavesSetWithoutIt(t *testing.T) {
  */
 
 func TestByNameInGroups_AppliesExpectedOrdering(t *testing.T) {
+	t.Parallel()
 
 	fmtRef := MakeExternalPackageReference("fmt")
 	testingRef := MakeExternalPackageReference("testing")
@@ -265,6 +266,7 @@ func TestPackageImportSet_ResolveConflicts_GivenExplicitlyNamedConflicts_Returns
 }
 
 func TestPackageImportSet_ResolveConflicts_GivenImplicityNamedConflicts_AssignsExpectedNames(t *testing.T) {
+	t.Parallel()
 
 	createSet := func(refs ...PackageReference) *PackageImportSet {
 		result := NewPackageImportSet()
@@ -303,7 +305,8 @@ func TestPackageImportSet_ResolveConflicts_GivenImplicityNamedConflicts_AssignsE
 			"Import conflicts with versioned resolution (ii)",
 			createSet(emailTestRef, networkTestRef, emailTestAltRef, networkTestAltRef),
 			networkTestRef,
-			"networkv20180801"},
+			"networkv20180801",
+		},
 		{
 			"Import conflicts with versioned resolution (iii)",
 			createSet(emailTestRef, networkTestRef, emailTestAltRef, networkTestAltRef),
@@ -339,6 +342,7 @@ func TestPackageImportSet_ResolveConflicts_GivenImplicityNamedConflicts_AssignsE
  */
 
 func Test_PackageSet_OrderImports(t *testing.T) {
+	t.Parallel()
 
 	alphaRef := MakeExternalPackageReference("alpha")
 	betaRef := MakeExternalPackageReference("beta")

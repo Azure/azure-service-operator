@@ -16,6 +16,8 @@ func makeTestLocalPackageReference(group string, version string) LocalPackageRef
 }
 
 func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithProperties(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name  string
 		group string
@@ -42,6 +44,8 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 }
 
 func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name         string
 		group        string
@@ -87,6 +91,7 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 }
 
 func TestLocalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
+	t.Parallel()
 
 	batchRef := makeTestLocalPackageReference("microsoft.batch", "v20200901")
 	olderRef := makeTestLocalPackageReference("microsoft.batch", "v20150101")
@@ -122,6 +127,7 @@ func TestLocalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 }
 
 func TestLocalPackageReferenceIsPreview(t *testing.T) {
+	t.Parallel()
 
 	cases := []struct {
 		name      string

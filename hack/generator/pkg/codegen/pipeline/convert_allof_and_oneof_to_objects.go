@@ -407,7 +407,7 @@ func (s synthesizer) handleArrayArray(leftArray *astmodel.ArrayType, rightArray 
 		return nil, err
 	}
 
-	return astmodel.NewArrayType(intersected), nil
+	return leftArray.WithElement(intersected), nil
 }
 
 func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {

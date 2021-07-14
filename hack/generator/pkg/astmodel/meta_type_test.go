@@ -12,6 +12,7 @@ import (
 )
 
 func TestAsPrimitiveType(t *testing.T) {
+	t.Parallel()
 
 	objectType := NewObjectType()
 	arrayType := NewArrayType(StringType)
@@ -56,12 +57,12 @@ func TestAsPrimitiveType(t *testing.T) {
 				g.Expect(actual).To(Equal(c.expected))
 				g.Expect(ok).To(BeTrue())
 			}
-
 		})
 	}
 }
 
 func TestAsObjectType(t *testing.T) {
+	t.Parallel()
 
 	objectType := NewObjectType()
 	arrayType := NewArrayType(StringType)
@@ -106,12 +107,12 @@ func TestAsObjectType(t *testing.T) {
 				g.Expect(actual).To(Equal(c.expected))
 				g.Expect(ok).To(BeTrue())
 			}
-
 		})
 	}
 }
 
 func TestAsArrayType(t *testing.T) {
+	t.Parallel()
 
 	objectType := NewObjectType()
 	arrayType := NewArrayType(StringType)
@@ -156,12 +157,12 @@ func TestAsArrayType(t *testing.T) {
 				g.Expect(actual).To(Equal(c.expected))
 				g.Expect(ok).To(BeTrue())
 			}
-
 		})
 	}
 }
 
 func TestAsMapType(t *testing.T) {
+	t.Parallel()
 
 	objectType := NewObjectType()
 	arrayType := NewArrayType(StringType)
@@ -206,12 +207,12 @@ func TestAsMapType(t *testing.T) {
 				g.Expect(actual).To(Equal(c.expected))
 				g.Expect(ok).To(BeTrue())
 			}
-
 		})
 	}
 }
 
 func TestAsOptionalType(t *testing.T) {
+	t.Parallel()
 
 	objectType := NewObjectType()
 	arrayType := NewArrayType(StringType)
@@ -254,12 +255,12 @@ func TestAsOptionalType(t *testing.T) {
 				g.Expect(actual).To(Equal(c.expected))
 				g.Expect(ok).To(BeTrue())
 			}
-
 		})
 	}
 }
 
 func TestAsEnumType(t *testing.T) {
+	t.Parallel()
 
 	objectType := NewObjectType()
 	arrayType := NewArrayType(StringType)
@@ -302,12 +303,12 @@ func TestAsEnumType(t *testing.T) {
 				g.Expect(actual).To(Equal(c.expected))
 				g.Expect(ok).To(BeTrue())
 			}
-
 		})
 	}
 }
 
 func TestAsTypeName(t *testing.T) {
+	t.Parallel()
 
 	objectType := NewObjectType()
 	arrayType := NewArrayType(StringType)
@@ -350,7 +351,6 @@ func TestAsTypeName(t *testing.T) {
 				g.Expect(actual).To(Equal(c.expected))
 				g.Expect(ok).To(BeTrue())
 			}
-
 		})
 	}
 }

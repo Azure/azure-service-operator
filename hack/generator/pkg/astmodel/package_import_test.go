@@ -71,6 +71,8 @@ func Test_PackageImportWithName_GivenExistingName_ReturnsEqualInstance(t *testin
  */
 
 func TestPackageImport_Equals(t *testing.T) {
+	t.Parallel()
+
 	var zeroPkgRef PackageImport
 	localPkgRef := makeTestLocalPackageReference("group", "ver")
 	localPkgImport := NewPackageImport(localPkgRef)
@@ -107,6 +109,8 @@ func TestPackageImport_Equals(t *testing.T) {
  */
 
 func TestPackageImport_ServiceNameForImport_GivenImport_ReturnsExpectedName(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name     string
 		ref      PackageReference
