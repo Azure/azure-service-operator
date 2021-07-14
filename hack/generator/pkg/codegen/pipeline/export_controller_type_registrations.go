@@ -17,7 +17,7 @@ import (
 // ExportControllerResourceRegistrations creates a Stage to generate type registrations
 // for resources.
 func ExportControllerResourceRegistrations(outputPath string) Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		"exportControllerResourceRegistrations",
 		fmt.Sprintf("Export resource registrations to %q", outputPath),
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

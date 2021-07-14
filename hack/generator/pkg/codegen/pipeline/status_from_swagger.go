@@ -41,7 +41,7 @@ avoid any conflicts with existing Spec types that have already been defined.
 
 */
 func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.Configuration) Stage {
-	return MakeStage(
+	return MakeLegacyStage(
 		"addStatusFromSwagger",
 		"Add information from Swagger specs for 'status' fields",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {

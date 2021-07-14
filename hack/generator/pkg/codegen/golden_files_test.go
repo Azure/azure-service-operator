@@ -72,7 +72,7 @@ func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
 }
 
 func injectEmbeddedStructType() pipeline.Stage {
-	return pipeline.MakeStage(
+	return pipeline.MakeLegacyStage(
 		"injectEmbeddedStructType",
 		"Injects an embedded struct into each object",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
@@ -194,7 +194,7 @@ func loadTestSchemaIntoTypes(
 	path string) pipeline.Stage {
 	source := configuration.SchemaURL
 
-	return pipeline.MakeStage(
+	return pipeline.MakeLegacyStage(
 		"loadTestSchema",
 		"Load and walk schema (test)",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
@@ -227,7 +227,7 @@ func loadTestSchemaIntoTypes(
 func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Stage {
 	g := goldie.New(t)
 
-	return pipeline.MakeStage(
+	return pipeline.MakeLegacyStage(
 		"exportTestPackages",
 		"Export packages for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
@@ -272,7 +272,7 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Sta
 }
 
 func stripUnusedTypesPipelineStage() pipeline.Stage {
-	return pipeline.MakeStage(
+	return pipeline.MakeLegacyStage(
 		"stripUnused",
 		"Strip unused types for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
@@ -295,7 +295,7 @@ func stripUnusedTypesPipelineStage() pipeline.Stage {
 // TODO: we're hard-coding references, and even if we were sourcing them from Swagger
 // TODO: we have no way to give Swagger to the golden files tests currently.
 func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pipeline.Stage {
-	return pipeline.MakeStage(
+	return pipeline.MakeLegacyStage(
 		"addCrossResourceReferences",
 		"Add cross resource references for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {

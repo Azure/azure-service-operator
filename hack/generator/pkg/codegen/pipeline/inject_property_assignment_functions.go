@@ -23,15 +23,16 @@ const injectPropertyAssignmentFunctionsStageId = "injectPropertyAssignmentFuncti
 // InjectPropertyAssignmentFunctions injects property assignment functions AssignTo*() and AssignFrom*() into both
 // resources and object types. These functions do the heavy lifting of the conversions between versions of each type and
 // are the building blocks of the main CovertTo*() and ConvertFrom*() methods.
-func InjectPropertyAssignmentFunctions(graph *storage.ConversionGraph, idFactory astmodel.IdentifierFactory) Stage {
+func InjectPropertyAssignmentFunctions(idFactory astmodel.IdentifierFactory) Stage {
 
 	stage := MakeStage(
 		injectPropertyAssignmentFunctionsStageId,
 		"Inject property assignment functions AssignFrom() and AssignTo() into resources and objects",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, state *State) (*State, error) {
 
+			types := state.Types()
 			result := types.Copy()
-			factory := NewPropertyAssignmentFunctionsFactory(graph, idFactory, types)
+			factory := NewPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, types)
 
 			for name, def := range types {
 				_, ok := astmodel.AsFunctionContainer(def.Type())
@@ -44,7 +45,7 @@ func InjectPropertyAssignmentFunctions(graph *storage.ConversionGraph, idFactory
 				klog.V(3).Infof("Injecting conversion functions into %s", name)
 
 				// Find the definition we want to convert to/from
-				nextPackage, ok := graph.LookupTransition(name.PackageReference)
+				nextPackage, ok := state.ConversionGraph().LookupTransition(name.PackageReference)
 				if !ok {
 					// No next package, so nothing to do
 					// (this is expected if we have the hub storage package)
@@ -67,7 +68,7 @@ func InjectPropertyAssignmentFunctions(graph *storage.ConversionGraph, idFactory
 				result[modified.Name()] = modified
 			}
 
-			return result, nil
+			return state.WithTypes(result), nil
 		})
 
 	// Needed to populate the conversion graph

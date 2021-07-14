@@ -153,6 +153,10 @@ func (resource *ResourceType) IsStorageVersion() bool {
 
 // WithSpec returns a new resource that has the specified spec type
 func (resource *ResourceType) WithSpec(specType Type) *ResourceType {
+	if TypeEquals(resource.spec, specType) {
+		return resource // short-circuit
+	}
+
 	if specResource, ok := specType.(*ResourceType); ok {
 		// type is a resource, take its SpecType instead
 		// so we don't nest resources
@@ -166,6 +170,10 @@ func (resource *ResourceType) WithSpec(specType Type) *ResourceType {
 
 // WithStatus returns a new resource that has the specified status type
 func (resource *ResourceType) WithStatus(statusType Type) *ResourceType {
+	if TypeEquals(resource.status, statusType) {
+		return resource // short-circuit
+	}
+
 	if specResource, ok := statusType.(*ResourceType); ok {
 		// type is a resource, take its StatusType instead
 		// so we don't nest resources

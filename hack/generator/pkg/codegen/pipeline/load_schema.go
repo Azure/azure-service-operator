@@ -140,7 +140,7 @@ func LoadSchemaIntoTypes(
 	schemaLoader schemaLoader) Stage {
 	source := configuration.SchemaURL
 
-	return MakeStage(
+	return MakeLegacyStage(
 		"loadSchema",
 		"Load and walk schema",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
