@@ -15,12 +15,6 @@ typeFilters:
     group: microsoft.servicebus
     version: v*api20210101preview
     because: We want to export this particular preview version
-  # TODO: This is temporarily included because the SB RP doesn't support queue/topic
-  # TODO: in 20210101preview right now.
-  - action: include
-    group: microsoft.servicebus
-    version: v*api20180101preview
-    because: We want to export this particular preview version
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default
@@ -210,7 +204,6 @@ typeTransformers:
     target:
       name: string
     because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
-
   - name: "*"
     property: Condition
     ifType:
@@ -300,9 +293,29 @@ typeTransformers:
     because: it has no writable properties in swagger
 
   # Deal with properties that should have been marked readOnly but weren't
-  - name: Namespaces_Spec
-    group: microsoft.servicebus
+  - group: microsoft.servicebus
+    name: Namespaces_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
     property: PrivateEndpointConnections
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - group: microsoft.servicebus
+    name: SBQueueProperties  # This type is subsequently flattened into NamespacesQueues_Spec
+    property: Status
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - group: microsoft.servicebus
+    name: SBTopicProperties  # This type is subsequently flattened into NamespacesTopics_Spec
+    property: Status
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - group: microsoft.documentdb
+    name: Location  # This type is subsequently flattened into NamespacesTopics_Spec
+    property: ProvisioningState
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - group: microsoft.compute
+    name: DiskProperties  # This type is subsequently flattened into Disks_Spec
+    property: DiskState
     remove: true
     because: This property should have been marked readonly but wasn't.
 
