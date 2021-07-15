@@ -159,7 +159,7 @@ func (k *SecretClient) Upsert(ctx context.Context, key secrets.SecretKey, data m
 				// If secret exists we delete it and recreate it again
 				_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
 				if err != nil {
-					return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
+					return errors.Wrap(err, "upsert failed: Trying to delete existing secret failed")
 				}
 			}*/
 

@@ -353,7 +353,7 @@ func (builder *convertToARMBuilder) fixedValuePropertyHandler(propertyName astmo
 
 		enumType, ok := def.Type().(*astmodel.EnumType)
 		if !ok {
-			panic(fmt.Sprintf("Enum %v definition was not of type EnumDefinition", enumTypeName))
+			panic(fmt.Sprintf("Enum %s definition was not of type EnumDefinition", enumTypeName))
 		}
 
 		optionId := astmodel.GetEnumValueId(def.Name().Name(), enumType.Options()[0])

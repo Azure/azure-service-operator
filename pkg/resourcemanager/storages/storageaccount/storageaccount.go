@@ -147,7 +147,6 @@ func (m *azureStorageManager) CreateStorage(ctx context.Context,
 		},
 	}
 
-	//log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
 	future, err := storageClient.Create(ctx, groupName, storageAccountName, params)
 	if err != nil {
 		return "", result, err
@@ -204,7 +203,7 @@ func (m *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupNam
 		return err
 	}
 	if keyResult.Keys == nil {
-		return fmt.Errorf("No keys were returned from ListKeys")
+		return errors.New("No keys were returned from ListKeys")
 	}
 	keys := *keyResult.Keys
 	storageEndpointSuffix := resourcemgrconfig.Environment().StorageEndpointSuffix
@@ -214,8 +213,8 @@ func (m *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupNam
 		"StorageAccountName": []byte(accountName),
 	}
 	for i, key := range keys {
-		data[fmt.Sprintf("connectionString%v", i)] = []byte(fmt.Sprintf(templateForConnectionString, accountName, *key.Value, storageEndpointSuffix))
-		data[fmt.Sprintf("key%v", i)] = []byte(*key.Value)
+		data[fmt.Sprintf("connectionString%d", i)] = []byte(fmt.Sprintf(templateForConnectionString, accountName, *key.Value, storageEndpointSuffix))
+		data[fmt.Sprintf("key%d", i)] = []byte(*key.Value)
 	}
 
 	// upsert

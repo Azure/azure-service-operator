@@ -14,7 +14,7 @@ import (
 func Execute() {
 	cmd, err := newRootCommand()
 	if err != nil {
-		klog.Fatalf("fatal error: commands failed to build! %v\n", err)
+		klog.Fatalf("fatal error: commands failed to build! %s\n", err)
 	}
 
 	if err := cmd.Execute(); err != nil {

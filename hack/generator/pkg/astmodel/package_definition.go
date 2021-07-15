@@ -42,7 +42,7 @@ func (p *PackageDefinition) GetDefinition(typeName TypeName) (TypeDefinition, er
 		}
 	}
 
-	return TypeDefinition{}, errors.Errorf("no error with name %v found", typeName)
+	return TypeDefinition{}, errors.Errorf("no error with name %s found", typeName)
 }
 
 // AddDefinition adds a Definition to the PackageDefinition
@@ -78,7 +78,7 @@ func (p *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinitio
 	for fileName, defs := range filesToGenerate {
 		codeFilePath := filepath.Join(
 			outputDir,
-			fmt.Sprintf("%v_types%v.go", fileName, CodeGeneratedFileSuffix))
+			fmt.Sprintf("%s_types%s.go", fileName, CodeGeneratedFileSuffix))
 
 		err := p.writeCodeFile(codeFilePath, defs, generatedPackages)
 		if err != nil {
@@ -87,7 +87,7 @@ func (p *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinitio
 
 		testFilePath := filepath.Join(
 			outputDir,
-			fmt.Sprintf("%v_types%v_test.go", fileName, CodeGeneratedFileSuffix))
+			fmt.Sprintf("%s_types%s_test.go", fileName, CodeGeneratedFileSuffix))
 
 		err = p.writeTestFile(testFilePath, defs, generatedPackages)
 		if err != nil {

@@ -108,7 +108,7 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) Stage {
 
 				transformed, err := visitor.VisitDefinition(def, resourceUpdater)
 				if err != nil {
-					return nil, errors.Wrapf(err, "error processing type %v", def.Name())
+					return nil, errors.Wrapf(err, "error processing type %s", def.Name())
 				}
 
 				result.Add(transformed)
@@ -176,14 +176,14 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 	case *astmodel.EnumType:
 		// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 		// but we still need it for controller-gen
-		name := fmt.Sprintf("enum%v", propIndex)
+		name := fmt.Sprintf("enum%d", propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
 			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
 	case *astmodel.ObjectType:
-		name := fmt.Sprintf("object%v", propIndex)
+		name := fmt.Sprintf("object%d", propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
 			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
@@ -202,14 +202,14 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 			primitiveTypeName = concreteType.Name()
 		}
 
-		name := fmt.Sprintf("%v%v", primitiveTypeName, propIndex)
+		name := fmt.Sprintf("%s%d", primitiveTypeName, propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
 			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
 	case *astmodel.ResourceType:
-		name := fmt.Sprintf("resource%v", propIndex)
+		name := fmt.Sprintf("resource%d", propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
 			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
@@ -421,7 +421,7 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 		if existingProp, ok := mergedProps[p.PropertyName()]; ok {
 			newType, err := s.intersectTypes(existingProp.PropertyType(), p.PropertyType())
 			if err != nil {
-				klog.Errorf("unable to combine properties: %s (%v)", p.PropertyName(), err)
+				klog.Errorf("unable to combine properties: %s (%s)", p.PropertyName(), err)
 				continue
 				// return nil, err
 			}

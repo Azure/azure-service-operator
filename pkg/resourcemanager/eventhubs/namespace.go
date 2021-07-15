@@ -11,6 +11,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/go-autorest/autorest"
 
@@ -381,7 +382,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 			return false, nil
 		}
 
-		return false, fmt.Errorf("EventhubNamespace create error %v", err)
+		return false, errors.Wrap(err, "EventhubNamespace create error")
 	}
 
 	// write information back to instance
@@ -424,7 +425,7 @@ func (ns *azureEventHubNamespaceManager) Delete(ctx context.Context, obj runtime
 		// some error we don't know about or can't handle happened
 		instance.Status.Provisioning = false
 
-		return true, fmt.Errorf("EventhubNamespace delete error %v", err)
+		return true, errors.Wrap(err, "EventhubNamespace delete error")
 
 	}
 

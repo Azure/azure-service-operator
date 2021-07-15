@@ -11,6 +11,7 @@ import (
 
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
 	_ "github.com/lib/pq" //the pg lib
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -86,14 +87,14 @@ func (m *PostgreSqlUserManager) GrantUserRoles(ctx context.Context, user string,
 	var errorStrings []string
 
 	if err := helpers.FindBadChars(user); err != nil {
-		return fmt.Errorf("Problem found with username: %v", err)
+		return errors.Wrap(err, "problem found with username")
 	}
 
 	for _, role := range roles {
 		tsql := fmt.Sprintf("GRANT %s TO %q", role, user)
 
 		if err := helpers.FindBadChars(role); err != nil {
-			return fmt.Errorf("Problem found with role: %v", err)
+			return errors.Wrap(err, "problem found with role")
 		}
 
 		_, err := db.ExecContext(ctx, tsql)
@@ -115,10 +116,10 @@ func (m *PostgreSqlUserManager) CreateUser(ctx context.Context, secret map[strin
 
 	// make an effort to prevent sql injection
 	if err := helpers.FindBadChars(newUser); err != nil {
-		return "", fmt.Errorf("Problem found with username: %v", err)
+		return "", errors.Wrap(err, "problem found with username")
 	}
 	if err := helpers.FindBadChars(newPassword); err != nil {
-		return "", fmt.Errorf("Problem found with password: %v", err)
+		return "", errors.Wrap(err, "problem found with password")
 	}
 
 	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD '%s'", newUser, newPassword)
@@ -137,10 +138,10 @@ func (m *PostgreSqlUserManager) UpdateUser(ctx context.Context, secret map[strin
 
 	// make an effort to prevent sql injection
 	if err := helpers.FindBadChars(user); err != nil {
-		return fmt.Errorf("Problem found with username: %v", err)
+		return errors.Wrap(err, "problem found with username")
 	}
 	if err := helpers.FindBadChars(newPassword); err != nil {
-		return fmt.Errorf("Problem found with password: %v", err)
+		return errors.Wrap(err, "problem found with password")
 	}
 
 	tsql := fmt.Sprintf("ALTER USER '%s' WITH PASSWORD '%s'", user, newPassword)
@@ -164,7 +165,7 @@ func (m *PostgreSqlUserManager) UserExists(ctx context.Context, db *sql.DB, user
 // DropUser drops a user from db
 func (m *PostgreSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
 	if err := helpers.FindBadChars(user); err != nil {
-		return fmt.Errorf("Problem found with username: %v", err)
+		return errors.Wrap(err, "problem found with username")
 	}
 
 	tsql := fmt.Sprintf("DROP USER IF EXISTS %q", user)

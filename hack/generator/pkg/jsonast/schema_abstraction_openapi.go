@@ -242,7 +242,7 @@ func enumValuesToLiterals(enumValues []interface{}) []string {
 		} else if enumFloat, ok := enumValue.(float64); ok {
 			result[i] = fmt.Sprintf("%g", enumFloat)
 		} else {
-			panic(fmt.Sprintf("unable to convert enum value (%v %T) to literal", enumValue, enumValue))
+			panic(fmt.Sprintf("unable to convert enum value (%s %T) to literal", enumValue, enumValue))
 		}
 	}
 
@@ -326,7 +326,7 @@ func objectNameFromPointer(ptr *jsonpointer.Pointer) string {
 	tokens := ptr.DecodedTokens()
 	if len(tokens) != 2 || tokens[0] != "definitions" {
 		// this condition is never violated by the swagger files
-		panic(fmt.Sprintf("not understood: %v", tokens))
+		panic(fmt.Sprintf("not understood: %s", tokens))
 	}
 
 	return tokens[1]

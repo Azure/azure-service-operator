@@ -46,7 +46,7 @@ func NewTargetedCodeGeneratorFromConfig(
 
 	result, err := NewCodeGeneratorFromConfig(configuration, idFactory)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating pipeline targeting %v", target)
+		return nil, errors.Wrapf(err, "creating pipeline targeting %s", target)
 	}
 
 	// Filter stages to use only those appropriate for our target
@@ -191,7 +191,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 // Generate produces the Go code corresponding to the configured JSON schema in the given output folder
 func (generator *CodeGenerator) Generate(ctx context.Context) error {
-	klog.V(1).Infof("Generator version: %v", pipeline.CombinedVersion())
+	klog.V(1).Infof("Generator version: %s", pipeline.CombinedVersion())
 
 	state := pipeline.NewState()
 	for i, stage := range generator.pipeline {

@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 
@@ -222,7 +223,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			return false, nil
 		}
 
-		return true, fmt.Errorf("AzureSqlDb CreateOrUpdate error %v", err)
+		return true, errors.Wrap(err, "AzureSqlDb CreateOrUpdate error")
 	}
 
 	return false, nil
@@ -247,7 +248,7 @@ func (db *AzureSqlDbManager) Delete(ctx context.Context, obj runtime.Object, opt
 		} else if isNotFound(azerr) {
 			return false, nil
 		}
-		return true, fmt.Errorf("AzureSqlDb delete error %v", err)
+		return true, errors.Wrap(err, "AzureSqlDb delete error")
 	}
 
 	return false, nil

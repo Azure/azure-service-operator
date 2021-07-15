@@ -85,7 +85,7 @@ func ConnectToSqlDB(ctx context.Context, driverName string, fullServer string, d
 
 	err = db.PingContext(ctx)
 	if err != nil {
-		return db, fmt.Errorf("error pinging the mysql db (%s:%d/%s): %v", fullServer, port, database, err)
+		return db, errors.Wrapf(err, "error pinging the mysql db (%s:%d/%s)", fullServer, port, database)
 	}
 
 	return db, err
@@ -124,7 +124,7 @@ func ConnectToSQLDBAsCurrentUser(
 
 	err = db.PingContext(ctx)
 	if err != nil {
-		return db, fmt.Errorf("error pinging the mysql db (%s:%d/%s) as %s: %v", fullServer, port, database, user, err)
+		return db, errors.Wrapf(err, "error pinging the mysql db (%s:%d/%s) as %s", fullServer, port, database, user)
 	}
 
 	return db, err
@@ -230,7 +230,7 @@ func (s StringSet) Add(value string) {
 func EnsureUserServerRoles(ctx context.Context, db *sql.DB, user string, roles []string) error {
 	var errorStrings []string
 	if err := helpers.FindBadChars(user); err != nil {
-		return fmt.Errorf("problem found with username: %v", err)
+		return errors.Wrap(err, "problem found with username")
 	}
 
 	desiredRoles := SliceToSet(roles)
@@ -262,7 +262,7 @@ func EnsureUserServerRoles(ctx context.Context, db *sql.DB, user string, roles [
 // privileges for subsequent databases (before reporting all errors).
 func EnsureUserDatabaseRoles(ctx context.Context, conn *sql.DB, user string, dbRoles map[string][]string) error {
 	if err := helpers.FindBadChars(user); err != nil {
-		return errors.Errorf("problem found with username: %v", err)
+		return errors.Errorf("problem found with username: %s", err)
 	}
 
 	desiredRoles := make(map[string]StringSet)
@@ -364,7 +364,7 @@ func UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) 
 func DropUser(ctx context.Context, db *sql.DB, user string) error {
 
 	if err := helpers.FindBadChars(user); err != nil {
-		return fmt.Errorf("problem found with username: %v", err)
+		return errors.Wrap(err, "problem found with username")
 	}
 	_, err := db.ExecContext(ctx, "DROP USER IF EXISTS ?", user)
 	return err

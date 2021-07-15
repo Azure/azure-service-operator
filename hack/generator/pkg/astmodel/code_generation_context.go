@@ -92,7 +92,7 @@ func (codeGenContext *CodeGenerationContext) GetGeneratedPackage(reference Packa
 
 	packageDef, ok := codeGenContext.generatedPackages[reference]
 	if !ok {
-		return nil, errors.Errorf("%v not imported", reference)
+		return nil, errors.Errorf("%s not imported", reference)
 	}
 	return packageDef, nil
 }
@@ -129,7 +129,7 @@ func (codeGenContext *CodeGenerationContext) GetTypesInPackage(packageRef Packag
 func (codeGenContext *CodeGenerationContext) GetTypesInCurrentPackage() Types {
 	def, ok := codeGenContext.GetTypesInPackage(codeGenContext.currentPackage)
 	if !ok {
-		msg := fmt.Sprintf("Should always have definitions for the current package %v", codeGenContext.currentPackage)
+		msg := fmt.Sprintf("Should always have definitions for the current package %s", codeGenContext.currentPackage)
 		panic(msg)
 	}
 

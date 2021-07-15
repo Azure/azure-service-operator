@@ -111,7 +111,7 @@ var _ = AfterSuite(func() {
 				log.Println("resource group deleted")
 				break
 			} else {
-				log.Println(fmt.Sprintf("cannot delete resource group: %v", err))
+				log.Println(fmt.Sprintf("cannot delete resource group: %s", err))
 				return
 			}
 		}

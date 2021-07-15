@@ -255,13 +255,14 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 
 		statused := ConvertToStatus(instance)
 		// if we expect this resource to end up with provisioned == true then failedProvisioning == true is unrecoverable
+		// TODO: Implement fmt.Stringer on Status types
 		if provisioned && statused.Status.FailedProvisioning {
 			if strings.Contains(statused.Status.Message, "already exists") || strings.Contains(statused.Status.Message, "AlreadyExists") {
 				t.Log("")
 				t.Log("-------")
 				t.Log("unexpected failed provisioning encountered")
-				t.Logf("%+v\n", statused.Status)
-				t.Logf("current time %v\n", time.Now())
+				t.Logf("%s (%s)\n", statused.Status.Message, statused.Status.State)
+				t.Logf("current time %s\n", time.Now().Format("2006-01-02 15:04:05"))
 				t.Log("-------")
 				t.Log("")
 			}
@@ -333,7 +334,7 @@ func EnsureSecretsWithValue(ctx context.Context, t *testing.T, tc TestContext, i
 			return err
 		}
 		if !strings.Contains(string(secrets[secretSubKey]), secretvalue) {
-			return fmt.Errorf("secret with key %+v not equal to %s", secretKey, secretvalue)
+			return fmt.Errorf("secret with key %s not equal to %s", secretKey, secretvalue)
 		}
 
 		return nil

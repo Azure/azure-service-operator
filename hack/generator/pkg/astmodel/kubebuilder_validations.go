@@ -37,18 +37,31 @@ func GenerateKubebuilderComment(validation KubeBuilderValidation) string {
 			// handle slice values which should look like "{"x","y","z"}
 			var values []string
 			for i := 0; i < value.Len(); i++ {
-				values = append(values, fmt.Sprintf("%v", value.Index(i)))
+				values = append(values, valueAsString(value.Index(i)))
 			}
 
 			return fmt.Sprintf("%s%s={%s}", prefix, validation.name, strings.Join(values, ","))
 		}
 
 		// everything else
-		return fmt.Sprintf("%s%s=%v", prefix, validation.name, validation.value)
+		return fmt.Sprintf("%s%s=%s", prefix, validation.name, valueAsString(value))
 	}
 
 	// validation without argument
 	return fmt.Sprintf("%s%s", prefix, validation.name)
+}
+
+func valueAsString(value reflect.Value) string {
+	switch v := value.Interface().(type) {
+	case int, int16, int32, int64:
+		return fmt.Sprintf("%d", v)
+	case bool:
+		return fmt.Sprintf("%t", v)
+	case string:
+		return v
+	default:
+		panic(fmt.Sprintf("unexpected value for kubebuilder comment - %s", value.Kind()))
+	}
 }
 
 func AddValidationComments(commentList *dst.Decorations, validations []KubeBuilderValidation) {
@@ -139,7 +152,7 @@ func ValidateMaximum(value *big.Rat) KubeBuilderValidation {
 	} else {
 		floatValue, ok := value.Float64()
 		if !ok {
-			klog.Warningf("inexact maximum: %s ⇒ %v", value.String(), floatValue)
+			klog.Warningf("inexact maximum: %s ⇒ %g", value.String(), floatValue)
 		}
 
 		return KubeBuilderValidation{MaximumValidationName, floatValue}
@@ -152,7 +165,7 @@ func ValidateMinimum(value *big.Rat) KubeBuilderValidation {
 	} else {
 		floatValue, ok := value.Float64()
 		if !ok {
-			klog.Warningf("inexact minimum: %s ⇒ %v", value.String(), floatValue)
+			klog.Warningf("inexact minimum: %s ⇒ %g", value.String(), floatValue)
 		}
 
 		return KubeBuilderValidation{MinimumValidationName, floatValue}
@@ -173,7 +186,7 @@ func ValidateMultipleOf(value *big.Rat) KubeBuilderValidation {
 	} else {
 		floatValue, ok := value.Float64()
 		if !ok {
-			klog.Warningf("inexact multiple-of: %s ⇒ %v", value.String(), floatValue)
+			klog.Warningf("inexact multiple-of: %s ⇒ %g", value.String(), floatValue)
 		}
 
 		return KubeBuilderValidation{MultipleOfValidationName, floatValue}

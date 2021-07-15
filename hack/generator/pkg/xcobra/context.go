@@ -44,7 +44,7 @@ func RunWithCtx(run func(ctx context.Context, cmd *cobra.Command, args []string)
 
 	go func() {
 		if sig, ok := <-signalChan; ok {
-			fmt.Fprintf(os.Stderr, "Received %v, cancelling...\n", sig)
+			fmt.Fprintf(os.Stderr, "Received %s, cancelling...\n", sig)
 			cancel()
 		}
 	}()

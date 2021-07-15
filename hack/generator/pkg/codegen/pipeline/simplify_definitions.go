@@ -30,7 +30,7 @@ func SimplifyDefinitions() Stage {
 				} else {
 					result.Add(d)
 					if !def.Type().Equals(d.Type()) {
-						klog.V(3).Infof("Simplified %v from %v to %v", def.Name(), def.Type(), d.Type())
+						klog.V(3).Infof("Simplified %s from %s to %s", def.Name(), def.Type(), d.Type())
 					}
 				}
 			}

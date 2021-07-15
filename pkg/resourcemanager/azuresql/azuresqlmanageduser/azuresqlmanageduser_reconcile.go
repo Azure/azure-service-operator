@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -89,7 +90,7 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 
 	userExists, err := s.UserExists(ctx, db, requestedUsername)
 	if err != nil {
-		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
+		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %s", err)
 		return false, nil
 	}
 
@@ -98,7 +99,7 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 
 		err = s.EnableUser(ctx, requestedUsername, instance.Spec.ManagedIdentityClientId, db)
 		if err != nil {
-			instance.Status.Message = fmt.Sprintf("failed enabling managed identity user, err: %v", err)
+			instance.Status.Message = fmt.Sprintf("failed enabling managed identity user, err: %s", err)
 			if strings.Contains(err.Error(), "The login already has an account under a different user name") {
 				instance.Status.SetFailedProvisioning(instance.Status.Message)
 				return true, nil
@@ -115,13 +116,13 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 
 	err = s.GrantUserRoles(ctx, requestedUsername, instance.Spec.Roles, db)
 	if err != nil {
-		instance.Status.Message = fmt.Sprintf("GrantUserRoles failed: %v", err)
-		return false, fmt.Errorf("GrantUserRoles failed: %v", err)
+		instance.Status.Message = fmt.Sprintf("GrantUserRoles failed: %s", err)
+		return false, errors.Wrap(err, "GrantUserRoles failed")
 	}
 
 	err = s.UpdateSecret(ctx, instance, secretClient)
 	if err != nil {
-		instance.Status.Message = fmt.Sprintf("Updating secret failed: %v", err)
+		instance.Status.Message = fmt.Sprintf("Updating secret failed: %s", err)
 		return false, fmt.Errorf("updating secret failed")
 	}
 
@@ -194,7 +195,7 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 
 	userExists, err := s.UserExists(ctx, db, requestedUsername)
 	if err != nil {
-		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
+		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %s", err)
 		return false, nil
 	}
 

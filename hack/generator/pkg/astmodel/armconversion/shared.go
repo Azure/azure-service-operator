@@ -7,6 +7,7 @@ package armconversion
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/dave/dst"
@@ -46,7 +47,19 @@ func (builder conversionBuilder) propertyConversionHandler(
 		}
 	}
 
-	panic(fmt.Sprintf("No property found for %s in method %s\nFrom: %+v\nTo: %+v", toProp.PropertyName(), builder.methodName, *builder.kubeType, *builder.armType))
+	var kubeDescription strings.Builder
+	builder.kubeType.WriteDebugDescription(&kubeDescription, nil)
+
+	var armDescription strings.Builder
+	builder.armType.WriteDebugDescription(&armDescription, nil)
+
+	message := fmt.Sprintf(
+		"No property found for %q in method %s()\nFrom: %s\nTo: %s",
+		toProp.PropertyName(),
+		builder.methodName,
+		kubeDescription.String(),
+		armDescription.String())
+	panic(message)
 }
 
 type propertyConversionHandler = func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt
@@ -82,7 +95,7 @@ func getReceiverObjectType(codeGenerationContext *astmodel.CodeGenerationContext
 	receiverType, ok := rt.Type().(*astmodel.ObjectType)
 	if !ok {
 		// Don't expect to have any wrapper types left at this point
-		panic(fmt.Sprintf("receiver for ARMConversionFunction is not of expected type. TypeName: %v, Type %T", receiver, rt.Type()))
+		panic(fmt.Sprintf("receiver for ARMConversionFunction is not of expected type. TypeName: %s, Type %T", receiver, rt.Type()))
 	}
 
 	return receiverType

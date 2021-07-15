@@ -85,7 +85,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 					return err
 				}
 
-				return errors.Wrapf(err, "unable to produce type for resource %v", resourceName)
+				return errors.Wrapf(err, "unable to produce type for resource %s", resourceName)
 			}
 
 			if resourceType == nil {
@@ -95,7 +95,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 
 			if existingResource, ok := resources[resourceName]; ok {
 				if !astmodel.TypeEquals(existingResource.Type(), resourceType) {
-					return errors.Errorf("resource already defined differently: %v", resourceName)
+					return errors.Errorf("resource already defined differently: %s", resourceName)
 				}
 			} else {
 				resources.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
@@ -107,7 +107,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 		// now add in the additional type definitions required by the resources
 		if existingDef, ok := otherTypes[def.Name()]; ok {
 			if !astmodel.TypeEquals(existingDef.Type(), def.Type()) {
-				klog.Errorf("type already defined differently: %v", def.Name())
+				klog.Errorf("type already defined differently: %s", def.Name())
 			}
 		} else {
 			otherTypes.Add(def)
@@ -274,7 +274,7 @@ func enumValuesToStrings(enumValues []interface{}) []string {
 		} else if enumFloat, ok := enumValue.(float64); ok {
 			result[i] = fmt.Sprintf("%g", enumFloat)
 		} else {
-			panic(fmt.Sprintf("unable to convert enum value (%v %T) to string", enumValue, enumValue))
+			panic(fmt.Sprintf("unable to convert enum value (%s %T) to string", enumValue, enumValue))
 		}
 	}
 

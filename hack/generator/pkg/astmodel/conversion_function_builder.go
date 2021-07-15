@@ -314,7 +314,9 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 	}
 
 	if _, ok := destinationType.KeyType().(*PrimitiveType); !ok {
-		panic(fmt.Sprintf("map had non-primitive key type: %v", destinationType.KeyType()))
+		var keyDescription strings.Builder
+		destinationType.KeyType().WriteDebugDescription(&keyDescription, nil)
+		panic(fmt.Sprintf("map had non-primitive key type: %s", keyDescription.String()))
 	}
 
 	depth := params.CountArraysAndMapsInConversionContext()

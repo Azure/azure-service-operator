@@ -70,7 +70,7 @@ func (pi PackageImport) Equals(ref PackageImport) bool {
 
 func (pi PackageImport) String() string {
 	if len(pi.name) > 0 {
-		return fmt.Sprintf("%v %v", pi.name, pi.packageReference)
+		return fmt.Sprintf("%s %s", pi.name, pi.packageReference)
 	}
 
 	return pi.packageReference.String()

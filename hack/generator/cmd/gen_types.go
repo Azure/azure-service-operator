@@ -30,7 +30,7 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 
 			cg, err := codegen.NewCodeGeneratorFromConfigFile(configFile)
 			if err != nil {
-				klog.Errorf("Error creating code generator: %v\n", err)
+				klog.Errorf("Error creating code generator: %s\n", err)
 				return err
 			}
 

@@ -161,11 +161,11 @@ func (def TypeDefinition) ApplyObjectTransformation(transform func(*ObjectType) 
 
 	newType, err := visitor.Visit(def.theType, nil)
 	if err != nil {
-		return TypeDefinition{}, errors.Wrapf(err, "transformation of %v failed", def.name)
+		return TypeDefinition{}, errors.Wrapf(err, "transformation of %s failed", def.name)
 	}
 
 	if !visited {
-		return TypeDefinition{}, errors.Errorf("transformation was not applied to %v (expected object type, found %v)", def.name, def.theType)
+		return TypeDefinition{}, errors.Errorf("transformation was not applied to %s (expected object type, found %s)", def.name, def.theType)
 	}
 
 	result := def.WithType(newType)

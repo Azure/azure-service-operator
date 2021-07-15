@@ -152,7 +152,7 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 	// Resolve any conflicts and report any that couldn't be fixed up automatically
 	err := requiredImports.ResolveConflicts()
 	if err != nil {
-		klog.Errorf("File %s: %v", file.packageReference, err)
+		klog.Errorf("File %s: %s", file.packageReference, err)
 	}
 
 	return requiredImports

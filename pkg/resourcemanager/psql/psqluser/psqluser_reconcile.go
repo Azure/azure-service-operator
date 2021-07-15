@@ -153,7 +153,7 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	userExists, err := m.UserExists(ctx, db, string(userSecret[PSecretUsernameKey]))
 	if err != nil {
-		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
+		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %s", err)
 		return false, nil
 	}
 

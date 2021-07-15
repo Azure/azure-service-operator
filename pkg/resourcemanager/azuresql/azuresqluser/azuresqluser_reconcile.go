@@ -191,7 +191,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 				switch formatName {
 				case "adonet":
 					formattedSecrets["adonet"] = []byte(fmt.Sprintf(
-						"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False;User ID=%v;Password=%v;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+						"Server=tcp:%s,1433;Initial Catalog=%s;Persist Security Info=False;User ID=%s;Password=%s;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
 						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 						user,
@@ -200,14 +200,14 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 				case "adonet-urlonly":
 					formattedSecrets["adonet-urlonly"] = []byte(fmt.Sprintf(
-						"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout",
+						"Server=tcp:%s,1433;Initial Catalog=%s;Persist Security Info=False; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout",
 						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 					))
 
 				case "jdbc":
 					formattedSecrets["jdbc"] = []byte(fmt.Sprintf(
-						"jdbc:sqlserver://%v:1433;database=%v;user=%v@%v;password=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
+						"jdbc:sqlserver://%s:1433;database=%s;user=%s@%s;password=%s;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
 						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 						user,
@@ -216,14 +216,14 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 					))
 				case "jdbc-urlonly":
 					formattedSecrets["jdbc-urlonly"] = []byte(fmt.Sprintf(
-						"jdbc:sqlserver://%v:1433;database=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
+						"jdbc:sqlserver://%s:1433;database=%s;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
 						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 					))
 
 				case "odbc":
 					formattedSecrets["odbc"] = []byte(fmt.Sprintf(
-						"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False;User ID=%v;Password=%v;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+						"Server=tcp:%s,1433;Initial Catalog=%s;Persist Security Info=False;User ID=%s;Password=%s;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
 						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 						user,
@@ -231,7 +231,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 					))
 				case "odbc-urlonly":
 					formattedSecrets["odbc-urlonly"] = []byte(fmt.Sprintf(
-						"Driver={ODBC Driver 13 for SQL Server};Server=tcp:%v,1433;Database=%v; Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;",
+						"Driver={ODBC Driver 13 for SQL Server};Server=tcp:%s,1433;Database=%s; Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;",
 						string(userSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 					))
@@ -273,7 +273,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	userExists, err := s.UserExists(ctx, db, string(userSecret[SecretUsernameKey]))
 	if err != nil {
-		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
+		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %s", err)
 		return false, nil
 	}
 
