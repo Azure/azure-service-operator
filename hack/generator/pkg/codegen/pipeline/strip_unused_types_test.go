@@ -40,7 +40,7 @@ func TestConnectionChecker_Avoids_Cycles(t *testing.T) {
 		makeName("D"):    makeSet("A"), // cyclic
 	}
 
-	graph := astmodel.NewReferenceGraph(roots, references)
+	graph := astmodel.MakeReferenceGraph(roots, references)
 	connectedSet := graph.Connected()
 
 	names := astmodel.NewTypeNameSet()

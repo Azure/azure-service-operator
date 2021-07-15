@@ -12,13 +12,13 @@ import (
 	gomegaformat "github.com/onsi/gomega/format"
 	"github.com/onsi/gomega/types"
 	"github.com/pkg/errors"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func actualAsObj(actual interface{}) (controllerutil.Object, error) {
-	obj, ok := actual.(controllerutil.Object)
+func actualAsObj(actual interface{}) (client.Object, error) {
+	obj, ok := actual.(client.Object)
 	if !ok {
-		return nil, errors.Errorf("expected controllerutil.Object, was: %T", actual)
+		return nil, errors.Errorf("expected client.Object, was: %T", actual)
 	}
 
 	return obj, nil

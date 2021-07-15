@@ -4,6 +4,8 @@
 package controllers
 
 import (
+	"context"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -17,8 +19,8 @@ type AzureVirtualMachineExtensionReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azurevirtualmachineextensions,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={azurevirtualmachineextensions/status,azurevirtualmachineextensions/finalizers},verbs=get;update;patch
 
-func (r *AzureVirtualMachineExtensionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureVirtualMachineExtension{})
+func (r *AzureVirtualMachineExtensionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.AzureVirtualMachineExtension{})
 }
 
 func (r *AzureVirtualMachineExtensionReconciler) SetupWithManager(mgr ctrl.Manager) error {

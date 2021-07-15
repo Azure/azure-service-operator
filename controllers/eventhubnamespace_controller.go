@@ -4,6 +4,8 @@
 package controllers
 
 import (
+	"context"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -18,8 +20,8 @@ type EventhubNamespaceReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={eventhubnamespaces/status,eventhubnamespaces/finalizers},verbs=get;update;patch
 
 //Reconcile reconciler for eventhubnamespace
-func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.EventhubNamespace{})
+func (r *EventhubNamespaceReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.EventhubNamespace{})
 }
 
 //SetupWithManager sets up the functions for the controller

@@ -23,7 +23,7 @@ type MySQLServerClient struct {
 	Scheme       *runtime.Scheme
 	// KubeReader is used to read secrets in the case the customer has specified a secret containing their
 	// MySQLServer admin username/password
-	KubeReader   client.Reader
+	KubeReader client.Reader
 }
 
 func NewMySQLServerClient(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme, kubeReader client.Reader) *MySQLServerClient {

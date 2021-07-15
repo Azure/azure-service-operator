@@ -145,6 +145,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Effects the "flatten" property of Properties:
 		pipeline.FlattenProperties(),
 
+		// Remove types which may not be needed after flattening
+		pipeline.StripUnreferencedTypeDefinitions(),
+
 		pipeline.AddCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddCrossplaneForProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddCrossplaneAtProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),

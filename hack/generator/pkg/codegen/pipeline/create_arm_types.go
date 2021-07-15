@@ -159,7 +159,12 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 	}
 
 	armName := astmodel.CreateARMTypeName(def.Name())
-	armDef, err := def.WithName(armName).ApplyObjectTransformations(removeValidations, convertObjectPropertiesForARM, addOneOfConversionFunctionIfNeeded, removeFlattening)
+	armDef, err := def.WithName(armName).ApplyObjectTransformations(
+		removeValidations,
+		convertObjectPropertiesForARM,
+		addOneOfConversionFunctionIfNeeded,
+		removeFlattening)
+
 	if err != nil {
 		return astmodel.TypeDefinition{},
 			errors.Wrapf(err, "creating ARM prototype %s from Kubernetes definition %s", armName, def.Name())
@@ -265,6 +270,22 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 			} else {
 				result = result.WithProperty(prop.WithType(newType))
 			}
+		}
+	}
+
+	// Also convert embedded properties if there are any
+	result = result.WithoutEmbeddedProperties() // Clear them out first so we're starting with a clean slate
+	for _, prop := range t.EmbeddedProperties() {
+		newType, err := c.convertARMPropertyTypeIfNeeded(prop.PropertyType())
+
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+		result, err = result.WithEmbeddedProperty(prop.WithType(newType))
+		if err != nil {
+			errs = append(errs, err)
+			continue
 		}
 	}
 

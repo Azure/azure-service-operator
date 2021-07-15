@@ -50,7 +50,7 @@ import (
 	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlFirewallManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqlaaduser"
-	mysqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
 	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	mysqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/vnetrule"
 	resourcemanagernic "github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
@@ -70,7 +70,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
-	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
+	"github.com/Azure/azure-service-operator/pkg/telemetry"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -117,7 +117,7 @@ func setup() error {
 		testEnv = &envtest.Environment{
 			CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
 			WebhookInstallOptions: envtest.WebhookInstallOptions{
-				DirectoryPaths: []string{
+				Paths: []string{
 					"../config/webhook",
 				},
 			},

@@ -4,6 +4,7 @@
 package appinsights
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"testing"
@@ -11,17 +12,17 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
-	"context"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -48,7 +49,10 @@ func TestAPIs(t *testing.T) {
 
 var _ = BeforeSuite(func() {
 
-	zaplogger := zap.LoggerTo(GinkgoWriter, true)
+	zaplogger := zap.New(func(o *zap.Options) {
+		o.DestWriter = GinkgoWriter
+		o.Development = true
+	})
 	logf.SetLogger(zaplogger)
 
 	By("bootstrapping test environment")

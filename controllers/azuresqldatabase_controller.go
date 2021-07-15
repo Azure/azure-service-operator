@@ -5,6 +5,9 @@ package controllers
 
 import (
 	"github.com/Azure/azure-service-operator/api/v1beta1"
+
+	"context"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
@@ -17,8 +20,8 @@ type AzureSqlDatabaseReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={azuresqldatabases/status,azuresqldatabases/finalizers},verbs=get;update;patch
 
 // Reconcile function does the main reconciliation loop of the operator
-func (r *AzureSqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &v1beta1.AzureSqlDatabase{})
+func (r *AzureSqlDatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	return r.Reconciler.Reconcile(ctx, req, &v1beta1.AzureSqlDatabase{})
 }
 
 // SetupWithManager function sets up the functions with the controller

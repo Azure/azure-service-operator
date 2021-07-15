@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"os"
@@ -32,7 +33,7 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 			"../config/crd/bases",
 		},
 		WebhookInstallOptions: envtest.WebhookInstallOptions{
-			DirectoryPaths: []string{
+			Paths: []string{
 				"../config/webhook",
 			},
 		},
@@ -93,10 +94,10 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		return nil, errors.Wrapf(err, "registering webhooks")
 	}
 
-	stopManager := make(chan struct{})
+	ctx, cancelFunc := context.WithCancel(context.TODO())
 	go func() {
-		// this blocks until the input chan is closed
-		err := mgr.Start(stopManager)
+		// this blocks until the input ctx is cancelled
+		err := mgr.Start(ctx)
 		if err != nil {
 			perTestContext.T.Errorf("error running controller-runtime manager: %s", err.Error())
 			os.Exit(1)
@@ -106,7 +107,7 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 	perTestContext.T.Cleanup(func() {
 
 		perTestContext.T.Log("Stopping controller-runtime manager")
-		close(stopManager)
+		cancelFunc()
 	})
 
 	waitForWebhooks(perTestContext.T, environment)

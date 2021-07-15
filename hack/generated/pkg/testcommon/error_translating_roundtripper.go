@@ -79,7 +79,8 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 	if len(matchingBodies) == 0 {
 		panic(fmt.Sprintf(
-			"\n*** Cannot find go-vcr recording for request from test %q (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
+			"\n*** Cannot find go-vcr recording for request from test %q (cassette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
+			w.t.Name(),
 			w.cassetteName,
 			req.Method,
 			req.URL.String(),
@@ -96,7 +97,8 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	}
 
 	panic(fmt.Sprintf(
-		"\n*** Cannot find go-vcr recording for request from test %q (body mismatch): %s %s\nShortest body diff: %s\n\n",
+		"\n*** Cannot find go-vcr recording for request from test %q (cassette: %q) (body mismatch): %s %s\nShortest body diff: %s\n\n",
+		w.t.Name(),
 		w.cassetteName,
 		req.Method,
 		req.URL.String(),

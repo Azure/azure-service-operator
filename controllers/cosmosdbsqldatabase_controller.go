@@ -4,6 +4,8 @@
 package controllers
 
 import (
+	"context"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -18,8 +20,8 @@ type CosmosDBSQLDatabaseReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={cosmosdbsqldatabases/status,cosmosdbsqldatabases/finalizers},verbs=get;update;patch
 
 // Reconcile function does the main reconciliation loop of the operator
-func (r *CosmosDBSQLDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &v1alpha1.CosmosDBSQLDatabase{})
+func (r *CosmosDBSQLDatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	return r.Reconciler.Reconcile(ctx, req, &v1alpha1.CosmosDBSQLDatabase{})
 }
 
 // SetupWithManager sets up the controller functions
