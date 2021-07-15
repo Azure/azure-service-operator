@@ -21,7 +21,7 @@ type KeyVaultReconciler struct {
 
 // Reconcile function runs the actual reconcilation loop of the controller
 func (r *KeyVaultReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.KeyVault{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.KeyVault{})
 }
 
 // SetupWithManager sets up the controller functions

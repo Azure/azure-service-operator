@@ -24,7 +24,7 @@ var _ reconcile.Reconciler = &APIMAPIReconciler{}
 
 // Reconcile attempts to set the desired state snapshot representation of the service in k8s
 func (r *APIMAPIReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.APIMgmtAPI{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.APIMgmtAPI{})
 }
 
 // SetupWithManager initializes the control loop for this operator

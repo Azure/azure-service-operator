@@ -20,7 +20,7 @@ type RedisCacheFirewallRuleReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={rediscachefirewallrules/status,rediscachefirewallrules/finalizers},verbs=get;update;patch
 
 func (r *RedisCacheFirewallRuleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.RedisCacheFirewallRule{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.RedisCacheFirewallRule{})
 }
 
 func (r *RedisCacheFirewallRuleReconciler) SetupWithManager(mgr ctrl.Manager) error {

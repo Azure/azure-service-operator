@@ -34,7 +34,7 @@ type EventhubReconciler struct {
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *EventhubReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.Eventhub{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.Eventhub{})
 }
 
 // SetupWithManager binds the reconciler to a manager instance

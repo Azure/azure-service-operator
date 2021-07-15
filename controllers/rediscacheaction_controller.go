@@ -20,7 +20,7 @@ type RedisCacheActionReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={rediscacheactions/status,rediscacheactions/finalizers},verbs=get;update;patch
 
 func (r *RedisCacheActionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.RedisCacheAction{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.RedisCacheAction{})
 }
 
 func (r *RedisCacheActionReconciler) SetupWithManager(mgr ctrl.Manager) error {

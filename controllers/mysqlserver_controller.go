@@ -20,7 +20,7 @@ type MySQLServerReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={mysqlservers/status,mysqlservers/finalizers},verbs=get;update;patch
 
 func (r *MySQLServerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &v1alpha2.MySQLServer{})
+	return r.Reconciler.Reconcile(ctx, req, &v1alpha2.MySQLServer{})
 }
 
 func (r *MySQLServerReconciler) SetupWithManager(mgr ctrl.Manager) error {

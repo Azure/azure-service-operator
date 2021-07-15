@@ -21,7 +21,7 @@ type CosmosDBSQLDatabaseReconciler struct {
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *CosmosDBSQLDatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &v1alpha1.CosmosDBSQLDatabase{})
+	return r.Reconciler.Reconcile(ctx, req, &v1alpha1.CosmosDBSQLDatabase{})
 }
 
 // SetupWithManager sets up the controller functions

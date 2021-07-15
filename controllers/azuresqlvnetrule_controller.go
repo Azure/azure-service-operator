@@ -20,7 +20,7 @@ type AzureSQLVNetRuleReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={azuresqlvnetrules/status,azuresqlvnetrules/finalizers},verbs=get;update;patch
 
 func (r *AzureSQLVNetRuleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureSQLVNetRule{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.AzureSQLVNetRule{})
 }
 
 func (r *AzureSQLVNetRuleReconciler) SetupWithManager(mgr ctrl.Manager) error {

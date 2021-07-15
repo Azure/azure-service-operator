@@ -20,7 +20,7 @@ type AzureSqlServerReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={azuresqlservers/status,azuresqlservers/finalizers},verbs=get;update;patch
 
 func (r *AzureSqlServerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &v1beta1.AzureSqlServer{})
+	return r.Reconciler.Reconcile(ctx, req, &v1beta1.AzureSqlServer{})
 }
 
 func (r *AzureSqlServerReconciler) SetupWithManager(mgr ctrl.Manager) error {

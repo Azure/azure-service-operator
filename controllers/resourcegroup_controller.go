@@ -29,7 +29,7 @@ type ResourceGroupReconciler struct {
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *ResourceGroupReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.ResourceGroup{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.ResourceGroup{})
 }
 
 // SetupWithManager function sets up the functions with the controller

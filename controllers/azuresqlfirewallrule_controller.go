@@ -21,7 +21,7 @@ type AzureSqlFirewallRuleReconciler struct {
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *AzureSqlFirewallRuleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (result ctrl.Result, err error) {
-	return r.Reconciler.Reconcile(req, &v1beta1.AzureSqlFirewallRule{})
+	return r.Reconciler.Reconcile(ctx, req, &v1beta1.AzureSqlFirewallRule{})
 }
 
 // SetupWithManager function sets up the functions with the controller

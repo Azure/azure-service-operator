@@ -20,7 +20,7 @@ type AzureLoadBalancerReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={azureloadbalancers/status,azureloadbalancers/finalizers},verbs=get;update;patch
 
 func (r *AzureLoadBalancerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureLoadBalancer{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.AzureLoadBalancer{})
 }
 
 func (r *AzureLoadBalancerReconciler) SetupWithManager(mgr ctrl.Manager) error {

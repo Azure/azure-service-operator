@@ -21,7 +21,7 @@ type AppInsightsReconciler struct {
 
 // Reconcile attempts to set the desired state snapshot representation of the service in k8s
 func (r *AppInsightsReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.AppInsights{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.AppInsights{})
 }
 
 // SetupWithManager initializes the control loop for this operator

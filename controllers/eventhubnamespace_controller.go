@@ -21,7 +21,7 @@ type EventhubNamespaceReconciler struct {
 
 //Reconcile reconciler for eventhubnamespace
 func (r *EventhubNamespaceReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.EventhubNamespace{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.EventhubNamespace{})
 }
 
 //SetupWithManager sets up the functions for the controller

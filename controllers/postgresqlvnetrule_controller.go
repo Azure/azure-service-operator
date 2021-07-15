@@ -20,7 +20,7 @@ type PostgreSQLVNetRuleReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={postgresqlvnetrules/status,postgresqlvnetrules/finalizers},verbs=get;update;patch
 
 func (r *PostgreSQLVNetRuleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.PostgreSQLVNetRule{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.PostgreSQLVNetRule{})
 }
 
 func (r *PostgreSQLVNetRuleReconciler) SetupWithManager(mgr ctrl.Manager) error {

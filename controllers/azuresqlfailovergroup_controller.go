@@ -21,7 +21,7 @@ type AzureSqlFailoverGroupReconciler struct {
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *AzureSqlFailoverGroupReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &v1beta1.AzureSqlFailoverGroup{})
+	return r.Reconciler.Reconcile(ctx, req, &v1beta1.AzureSqlFailoverGroup{})
 }
 
 func (r *AzureSqlFailoverGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {

@@ -20,7 +20,7 @@ type MySQLVNetRuleReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={mysqlvnetrules/status,mysqlvnetrules/finalizers},verbs=get;update;patch
 
 func (r *MySQLVNetRuleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.MySQLVNetRule{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.MySQLVNetRule{})
 }
 
 func (r *MySQLVNetRuleReconciler) SetupWithManager(mgr ctrl.Manager) error {

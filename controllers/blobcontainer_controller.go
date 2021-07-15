@@ -22,7 +22,7 @@ type BlobContainerReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={blobcontainers/status,blobcontainers/finalizers},verbs=get;update;patch
 
 func (r *BlobContainerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &v1alpha2.BlobContainer{})
+	return r.Reconciler.Reconcile(ctx, req, &v1alpha2.BlobContainer{})
 }
 
 func (r *BlobContainerReconciler) SetupWithManager(mgr ctrl.Manager) error {

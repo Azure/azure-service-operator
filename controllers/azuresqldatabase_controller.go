@@ -21,7 +21,7 @@ type AzureSqlDatabaseReconciler struct {
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *AzureSqlDatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &v1beta1.AzureSqlDatabase{})
+	return r.Reconciler.Reconcile(ctx, req, &v1beta1.AzureSqlDatabase{})
 }
 
 // SetupWithManager function sets up the functions with the controller

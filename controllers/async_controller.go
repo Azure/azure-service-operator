@@ -45,8 +45,8 @@ type AsyncReconciler struct {
 }
 
 // Reconcile reconciles the change request
-func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj client.Object) (result ctrl.Result, err error) {
-	ctx, cancel := context.WithTimeout(context.Background(), reconcileTimeout)
+func (r *AsyncReconciler) Reconcile(ctx context.Context, req ctrl.Request, obj client.Object) (result ctrl.Result, err error) {
+	ctx, cancel := context.WithTimeout(ctx, reconcileTimeout)
 	defer cancel()
 
 	if err := r.Get(ctx, req.NamespacedName, obj); err != nil {

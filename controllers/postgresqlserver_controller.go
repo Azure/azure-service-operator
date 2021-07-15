@@ -20,7 +20,7 @@ type PostgreSQLServerReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={postgresqlservers/status,postgresqlservers/finalizers},verbs=get;update;patch
 
 func (r *PostgreSQLServerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &v1alpha2.PostgreSQLServer{})
+	return r.Reconciler.Reconcile(ctx, req, &v1alpha2.PostgreSQLServer{})
 }
 
 func (r *PostgreSQLServerReconciler) SetupWithManager(mgr ctrl.Manager) error {

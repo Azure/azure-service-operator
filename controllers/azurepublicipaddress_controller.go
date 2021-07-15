@@ -20,7 +20,7 @@ type AzurePublicIPAddressReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={azurepublicipaddresses/status,azurepublicipaddresses/finalizers},verbs=get;update;patch
 
 func (r *AzurePublicIPAddressReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzurePublicIPAddress{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.AzurePublicIPAddress{})
 }
 
 func (r *AzurePublicIPAddressReconciler) SetupWithManager(mgr ctrl.Manager) error {

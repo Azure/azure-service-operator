@@ -20,7 +20,7 @@ type PostgreSQLFirewallRuleReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={postgresqlfirewallrules/status,postgresqlfirewallrules/finalizers},verbs=get;update;patch
 
 func (r *PostgreSQLFirewallRuleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.PostgreSQLFirewallRule{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.PostgreSQLFirewallRule{})
 }
 
 func (r *PostgreSQLFirewallRuleReconciler) SetupWithManager(mgr ctrl.Manager) error {

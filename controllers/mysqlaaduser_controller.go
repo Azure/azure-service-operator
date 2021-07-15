@@ -20,7 +20,7 @@ type MySQLAADUserReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={mysqlaadusers/status,mysqlaadusers/finalizers},verbs=get;update;patch
 
 func (r *MySQLAADUserReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha2.MySQLAADUser{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha2.MySQLAADUser{})
 }
 
 // SetupWithManager runs reconcile loop with manager

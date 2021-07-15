@@ -21,7 +21,7 @@ type ConsumerGroupReconciler struct {
 
 //Reconcile reconciler for consumergroup
 func (r *ConsumerGroupReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.ConsumerGroup{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.ConsumerGroup{})
 }
 
 func (r *ConsumerGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {

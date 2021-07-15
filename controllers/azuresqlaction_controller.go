@@ -21,7 +21,7 @@ type AzureSqlActionReconciler struct {
 
 // Reconcile function runs the actual reconcilation loop of the controller
 func (r *AzureSqlActionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureSqlAction{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.AzureSqlAction{})
 }
 
 func (r *AzureSqlActionReconciler) SetupWithManager(mgr ctrl.Manager) error {

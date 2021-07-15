@@ -20,7 +20,7 @@ type MySQLDatabaseReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={mysqldatabases/status,mysqldatabases/finalizers},verbs=get;update;patch
 
 func (r *MySQLDatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.MySQLDatabase{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.MySQLDatabase{})
 }
 
 func (r *MySQLDatabaseReconciler) SetupWithManager(mgr ctrl.Manager) error {

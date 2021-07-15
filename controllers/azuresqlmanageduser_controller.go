@@ -20,7 +20,7 @@ type AzureSQLManagedUserReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={azuresqlmanagedusers/status,azuresqlmanagedusers/finalizers},verbs=get;update;patch
 
 func (r *AzureSQLManagedUserReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureSQLManagedUser{})
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.AzureSQLManagedUser{})
 }
 
 func (r *AzureSQLManagedUserReconciler) SetupWithManager(mgr ctrl.Manager) error {
