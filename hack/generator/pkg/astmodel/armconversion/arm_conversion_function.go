@@ -6,8 +6,9 @@
 package armconversion
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/dave/dst"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // ARMConversionFunction represents an ARM conversion function for converting between a Kubernetes resource
@@ -53,7 +54,9 @@ func (c *ARMConversionFunction) RequiredPackageReferences() *astmodel.PackageRef
 	return result
 }
 
-// References this type has to the given type
+// References returns the set of types to which this function refers.
+// SHOULD include any types which this function references but its receiver doesn't.
+// SHOULD NOT include the receiver of this function.
 func (c *ARMConversionFunction) References() astmodel.TypeNameSet {
 	return c.armType.References()
 }

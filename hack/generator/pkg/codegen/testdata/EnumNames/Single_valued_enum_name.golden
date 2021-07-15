@@ -145,11 +145,6 @@ type AResourceList struct {
 	Items           []AResource `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"onlyonevalue"}
-type AResourceSpecName string
-
-const AResourceSpecNameOnlyonevalue = AResourceSpecName("onlyonevalue")
-
 type AResource_SpecARM struct {
 	APIVersion AResourceSpecAPIVersion `json:"apiVersion"`
 	Name       string                  `json:"name"`

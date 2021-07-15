@@ -24,6 +24,7 @@ createArmTypes                      azure      Create types for interaction with
 applyArmConversionInterface         azure      Add ARM conversion interfaces to Kubernetes types
 applyKubernetesResourceInterface    azure      Add the KubernetesResource interface to every resource
 flattenProperties                              Apply flattening to properties marked for flattening
+stripUnreferenced                              Strip unreferenced types
 addCrossplaneOwnerProperties        crossplane Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
 addCrossplaneForProviderProperty    crossplane Add a 'ForProvider' property on every spec
 addCrossplaneAtProviderProperty     crossplane Add an 'AtProvider' property on every status

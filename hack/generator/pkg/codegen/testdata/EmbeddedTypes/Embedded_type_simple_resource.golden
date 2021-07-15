@@ -13,10 +13,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-type EmbeddedTestTypeARM struct {
-	FancyProp int `json:"fancyProp"`
-}
-
 // +kubebuilder:rbac:groups=test.infra.azure.com,resources=fakeresources,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=test.infra.azure.com,resources={fakeresources/status,fakeresources/finalizers},verbs=get;update;patch
 
@@ -157,13 +153,13 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecARM struct {
-	EmbeddedTestType `json:",inline"`
-	APIVersion       FakeResourceSpecAPIVersion `json:"apiVersion"`
-	Color            *FakeResourceSpecColor     `json:"color,omitempty"`
-	Foo              FooARM                     `json:"foo"`
-	Name             string                     `json:"name"`
-	OptionalFoo      *FooARM                    `json:"optionalFoo,omitempty"`
-	Type             FakeResourceSpecType       `json:"type"`
+	EmbeddedTestTypeARM `json:",inline"`
+	APIVersion          FakeResourceSpecAPIVersion `json:"apiVersion"`
+	Color               *FakeResourceSpecColor     `json:"color,omitempty"`
+	Foo                 FooARM                     `json:"foo"`
+	Name                string                     `json:"name"`
+	OptionalFoo         *FooARM                    `json:"optionalFoo,omitempty"`
+	Type                FakeResourceSpecType       `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
@@ -183,41 +179,8 @@ func (fakeResourceSpecARM FakeResource_SpecARM) GetType() string {
 	return string(fakeResourceSpecARM.Type)
 }
 
-type EmbeddedTestType struct {
+type EmbeddedTestTypeARM struct {
 	FancyProp int `json:"fancyProp"`
-}
-
-var _ genruntime.ARMTransformer = &EmbeddedTestType{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (embeddedTestType *EmbeddedTestType) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
-	if embeddedTestType == nil {
-		return nil, nil
-	}
-	var result EmbeddedTestTypeARM
-
-	// Set property ‘FancyProp’:
-	result.FancyProp = embeddedTestType.FancyProp
-	return result, nil
-}
-
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embeddedTestType *EmbeddedTestType) CreateEmptyARMValue() interface{} {
-	return EmbeddedTestTypeARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embeddedTestType *EmbeddedTestType) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EmbeddedTestTypeARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EmbeddedTestTypeARM, got %T", armInput)
-	}
-
-	// Set property ‘FancyProp’:
-	embeddedTestType.FancyProp = typedInput.FancyProp
-
-	// No error
-	return nil
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
@@ -352,8 +315,45 @@ func (fakeResourceSpec *FakeResource_Spec) SetAzureName(azureName string) {
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooARM struct {
-	EmbeddedTestType `json:",inline"`
-	Name             *string `json:"name,omitempty"`
+	EmbeddedTestTypeARM `json:",inline"`
+	Name                *string `json:"name,omitempty"`
+}
+
+type EmbeddedTestType struct {
+	FancyProp int `json:"fancyProp"`
+}
+
+var _ genruntime.ARMTransformer = &EmbeddedTestType{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (embeddedTestType *EmbeddedTestType) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+	if embeddedTestType == nil {
+		return nil, nil
+	}
+	var result EmbeddedTestTypeARM
+
+	// Set property ‘FancyProp’:
+	result.FancyProp = embeddedTestType.FancyProp
+	return result, nil
+}
+
+// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (embeddedTestType *EmbeddedTestType) CreateEmptyARMValue() interface{} {
+	return EmbeddedTestTypeARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (embeddedTestType *EmbeddedTestType) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EmbeddedTestTypeARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EmbeddedTestTypeARM, got %T", armInput)
+	}
+
+	// Set property ‘FancyProp’:
+	embeddedTestType.FancyProp = typedInput.FancyProp
+
+	// No error
+	return nil
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo

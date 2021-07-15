@@ -153,7 +153,7 @@ func (p *PackageDefinition) writeTestFile(
 }
 
 func allocateTypesToFiles(types Types) map[string][]TypeDefinition {
-	graph := NewReferenceGraphWithResourcesAsRoots(types)
+	graph := MakeReferenceGraphWithResourcesAsRoots(types)
 
 	type Root struct {
 		depth int

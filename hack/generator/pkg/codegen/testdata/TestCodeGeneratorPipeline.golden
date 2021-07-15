@@ -19,6 +19,7 @@ replaceAnyTypeWithJSON                         Replace properties using interfac
 addCrossResourceReferences          azure      Replace cross-resource references with genruntime.ResourceReference
 applyKubernetesResourceInterface    azure      Add the KubernetesResource interface to every resource
 flattenProperties                              Apply flattening to properties marked for flattening
+stripUnused                                    Strip unused types for test
 simplifyDefinitions                            Flatten definitions by removing wrapper types
 jsonTestCases                       azure      Add test cases to verify JSON serialization
 markStorageVersion                             Mark the latest version of each resource as the storage version
