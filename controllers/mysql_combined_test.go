@@ -217,7 +217,7 @@ func TestMySQLUserSuppliedPassword(t *testing.T) {
 	// Create the secret
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: adminSecretName,
+			Name:      adminSecretName,
 			Namespace: "default",
 		},
 		StringData: map[string]string{

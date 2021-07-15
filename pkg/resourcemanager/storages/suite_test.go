@@ -53,7 +53,11 @@ func TestAPIs(t *testing.T) {
 }
 
 var _ = BeforeSuite(func() {
-	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
+	zaplogger := zap.New(func(o *zap.Options) {
+		o.DestWriter = GinkgoWriter
+		o.Development = true
+	})
+	logf.SetLogger(zaplogger)
 
 	By("bootstrapping test environment")
 

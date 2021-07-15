@@ -9,12 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
-	keyvaultsecretlib "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
-	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
-	multierror "github.com/hashicorp/go-multierror"
+	"github.com/hashicorp/go-multierror"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -23,6 +18,12 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+	keyvaultsecretlib "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
+	"github.com/Azure/azure-service-operator/pkg/telemetry"
 )
 
 const (
@@ -44,8 +45,8 @@ type AsyncReconciler struct {
 }
 
 // Reconcile reconciles the change request
-func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (result ctrl.Result, err error) {
-	ctx, cancel := context.WithTimeout(context.Background(), reconcileTimeout)
+func (r *AsyncReconciler) Reconcile(ctx context.Context, req ctrl.Request, obj client.Object) (result ctrl.Result, err error) {
+	ctx, cancel := context.WithTimeout(ctx, reconcileTimeout)
 	defer cancel()
 
 	if err := r.Get(ctx, req.NamespacedName, obj); err != nil {

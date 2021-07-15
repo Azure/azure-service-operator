@@ -5,6 +5,9 @@ package controllers
 
 import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+
+	"context"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
@@ -17,8 +20,8 @@ type AppInsightsReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={appinsights/status,appinsights/finalizers},verbs=get;update;patch
 
 // Reconcile attempts to set the desired state snapshot representation of the service in k8s
-func (r *AppInsightsReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.AppInsights{})
+func (r *AppInsightsReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.AppInsights{})
 }
 
 // SetupWithManager initializes the control loop for this operator

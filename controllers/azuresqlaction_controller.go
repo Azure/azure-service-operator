@@ -5,6 +5,9 @@ package controllers
 
 import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+
+	"context"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
@@ -17,8 +20,8 @@ type AzureSqlActionReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={azuresqlactions/status,azuresqlactions/finalizers},verbs=get;update;patch
 
 // Reconcile function runs the actual reconcilation loop of the controller
-func (r *AzureSqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureSqlAction{})
+func (r *AzureSqlActionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.AzureSqlAction{})
 }
 
 func (r *AzureSqlActionReconciler) SetupWithManager(mgr ctrl.Manager) error {
