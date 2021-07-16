@@ -9,6 +9,7 @@ import (
 	"context"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 	"k8s.io/api/core/v1"
@@ -268,5 +269,69 @@ func TestMySQLUserSuppliedPassword(t *testing.T) {
 	RunMySQLUserHappyPath(ctx, t, mySQLServerName, mySQLDBName, rgName)
 
 	EnsureDelete(ctx, t, tc, mySQLDBInstance)
+	EnsureDelete(ctx, t, tc, mySQLServerInstance)
+}
+
+func TestMySQLServerBlah(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+	assert := require.New(t)
+
+	// Add any setup steps that needs to be executed before each test
+	rgLocation := "westus2"
+	rgName := tc.resourceGroupName
+	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
+
+	adminSecretName := GenerateTestResourceNameWithRandom("mysqlsecret", 10)
+	adminUsername := helpers.GenerateRandomUsername(10)
+	adminPassword := helpers.NewPassword()
+	// Create the secret
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      adminSecretName,
+			Namespace: "default",
+			Labels: map[string]string{
+				"mysql-secret": mySQLServerName,
+			},
+		},
+		StringData: map[string]string{
+			"username": adminUsername,
+			"password": adminPassword,
+		},
+	}
+	updatedSecret := secret.DeepCopy()
+
+	err := tc.k8sClient.Create(ctx, secret)
+	assert.NoError(err)
+
+	// Create the mySQLServer object and expect the Reconcile to be created
+	mySQLServerInstance := v1alpha2.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
+	mySQLServerInstance.Spec.AdminSecret = adminSecretName
+	RequireInstance(ctx, t, tc, mySQLServerInstance)
+	//
+	//mySQLDBName := GenerateTestResourceNameWithRandom("mysql-db", 10)
+	//// Create the mySQLDB object and expect the Reconcile to be created
+	//mySQLDBInstance := &azurev1alpha1.MySQLDatabase{
+	//	ObjectMeta: metav1.ObjectMeta{
+	//		Name:      mySQLDBName,
+	//		Namespace: "default",
+	//	},
+	//	Spec: azurev1alpha1.MySQLDatabaseSpec{
+	//		Server:        mySQLServerName,
+	//		ResourceGroup: rgName,
+	//	},
+	//}
+	//EnsureInstance(ctx, t, tc, mySQLDBInstance)
+
+	time.Sleep(30 * time.Second)
+
+	updatedSecret.StringData["password"] = "mypassword"
+	err = tc.k8sClient.Update(ctx, updatedSecret)
+	assert.NoError(err)
+
+	time.Sleep(60 * time.Second)
+
+	//EnsureDelete(ctx, t, tc, mySQLDBInstance)
 	EnsureDelete(ctx, t, tc, mySQLServerInstance)
 }
