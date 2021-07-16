@@ -5,7 +5,7 @@ package controllers
 
 import (
 	"context"
-	"strings"
+	"time"
 
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -17,8 +17,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 )
-
-const MySQLServerAdminSecretLabel = "mysql-secret"
 
 // MySQLServerReconciler reconciles a MySQLServer object
 type MySQLServerReconciler struct {
@@ -47,6 +45,17 @@ func (r *MySQLServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	// TODO: before we delete and remove it from the adminSecret. BUT if we get updated to clear adminsecret
 	// TODO: we don't know that we previously had a secret and so will miss removing it...
 
+	adminSecretKey := ".spec.adminSecret"
+
+	// Add a field indexer
+	err := mgr.GetFieldIndexer().IndexField(context.Background(), &v1alpha2.MySQLServer{}, adminSecretKey, func(rawObj client.Object) []string {
+		obj := rawObj.(*v1alpha2.MySQLServer)
+		return []string{obj.Spec.AdminSecret}
+	})
+	if err != nil {
+		return err
+	}
+
 	// Where we construct the ctrl.Manager we may want to limit what secrets we watch with
 	// this feature: https://github.com/kubernetes-sigs/controller-runtime/blob/master/designs/use-selectors-at-cache.md,
 	// likely scoped by a label selector
@@ -56,19 +65,23 @@ func (r *MySQLServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 			return nil
 		}
 
-		// If the secret doesn't have our label, do nothing
-		label, ok := o.GetLabels()[MySQLServerAdminSecretLabel]
-		if !ok {
+		// TODO: This should be fast? We don't have a ctx we can use here... maybe need to file a bug?
+		ctx, _ := context.WithTimeout(context.Background(), 1 * time.Minute)
+		var matchingResources v1alpha2.MySQLServerList
+		err := mgr.GetClient().List(ctx, &matchingResources, client.MatchingFields{adminSecretKey: o.GetName()})
+		if err != nil {
+			// TODO: log the error at least
 			return nil
 		}
 
+
 		var result []reconcile.Request
 
-		for _, name := range strings.Split(label, ",") {
+		for _, matchingResource := range matchingResources.Items {
 			result = append(result, reconcile.Request{
 				NamespacedName: types.NamespacedName{
-					Namespace: o.GetNamespace(),
-					Name:      name,
+					Namespace: matchingResource.GetNamespace(),
+					Name:      matchingResource.GetName(),
 				},
 			})
 		}
