@@ -9,12 +9,13 @@ import (
 	"net"
 
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/telemetry"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/to"
 )
 
 // AzureVNetManager is the struct that the manager functions hang off
@@ -63,7 +64,8 @@ func (m *AzureVNetManager) CreateVNet(ctx context.Context, location string, reso
 		subnetsToAdd = append(subnetsToAdd, s)
 	}
 
-	future, err := client.CreateOrUpdate(
+	var future vnetwork.VirtualNetworksCreateOrUpdateFuture
+	future, err = client.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
 		resourceName,
@@ -78,9 +80,7 @@ func (m *AzureVNetManager) CreateVNet(ctx context.Context, location string, reso
 		},
 	)
 	if err != nil {
-		return vnetwork.VirtualNetwork{
-			Response: autorest.Response{Response: future.Response()},
-		}, err
+		return vnetwork.VirtualNetwork{}, err
 	}
 
 	return future.Result(client)
