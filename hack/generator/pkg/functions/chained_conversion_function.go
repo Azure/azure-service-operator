@@ -26,22 +26,22 @@ import (
 // preexisting AssignProperties*() method. Otherwise, we chain to that type to do the conversion to an intermediate
 // instance and then convert using that.
 //
-// func (s <spec>) ConvertFrom(spec <interfaceType>) error {
-// 	   source, ok := spec.(*<otherType>)
+// func (r <receiver>) ConvertFrom(instance <interfaceType>) error {
+// 	   source, ok := instance.(*<otherType>)
 // 	   if !ok {
 //         // Need indirect conversion
 //         source = &<otherType>{}
-//         source.ConvertFrom(spec)
+//         source.ConvertFrom(instance)
 //     }
 //
-//     return s.AssignPropertiesFrom(source)
+//     return r.AssignPropertiesFrom(source)
 // }
 //
 // If the two instances involved in conversion are not in the same "spoke" leading to our "hub" version, we'll reach
-// the hub type and then pivot to the reverse conversion. The implementation on the hub spec does this pivot:
+// the hub type and then pivot to the reverse conversion. The implementation on the hub instance does this pivot:
 //
-// func (s <spec>) ConvertFrom(spec <interfaceType>>) error {
-//     return spec.ConvertTo(s)
+// func (s <hubtype>) ConvertFrom(instance <interfaceType>>) error {
+//     return instance.ConvertTo(s)
 // }
 //
 type ChainedConversionFunction struct {
@@ -57,6 +57,10 @@ type ChainedConversionFunction struct {
 	// propertyAssignmentParameterType is the type of the parameter we need to pass to propertyAssignmentFunctionName
 	// when we generate calls. We initialize this from the supplied PropertyAssignmentFunction
 	propertyAssignmentParameterType astmodel.TypeName
+	// nameFrom is the name for this function when converting FROM a provided instance
+	nameFrom string
+	// nameTo is the name for this function when converting TO a provided instance
+	nameTo string
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
 	idFactory astmodel.IdentifierFactory
 }
@@ -66,7 +70,7 @@ var _ astmodel.Function = &ChainedConversionFunction{}
 
 // NewSpecConversionFunction creates a conversion function that populates our hub spec type from the current instance
 // hubSpec is the TypeName of our hub type
-// propertyFuntion is the function we use to copy properties across
+// propertyFunction is the function we will call to copy properties across between instances
 func NewSpecConversionFunction(
 	hubSpec astmodel.TypeName,
 	propertyFunction *PropertyAssignmentFunction,
@@ -76,6 +80,8 @@ func NewSpecConversionFunction(
 		propertyAssignmentFunctionName:  propertyFunction.Name(),
 		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
 		direction:                       propertyFunction.direction,
+		nameFrom:                        "ConvertSpecFrom",
+		nameTo:                          "ConvertSpecTo",
 		idFactory:                       idFactory,
 	}
 
@@ -83,7 +89,7 @@ func NewSpecConversionFunction(
 }
 
 func (fn *ChainedConversionFunction) Name() string {
-	return "ConvertSpec" + fn.direction.SelectString("From", "To")
+	return fn.direction.SelectString(fn.nameFrom, fn.nameTo)
 }
 
 func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
@@ -137,15 +143,16 @@ func (fn *ChainedConversionFunction) AsFunc(
 	return funcDetails.DefineFunc()
 }
 
-// bodyForPivot is used to do the conversion if we hit the hub Spec type without finding the conversion we need
+// bodyForPivot is used to do the conversion if we hit the hub package version without finding the conversion we need
 //
-// return spec.ConvertSpecTo(s)
+// return spec.ConvertTo(s)
 //
-// Note that the method called is in the *other* *direction*
+// Note that the method called is in the *other* *direction*; we restart the conversion at the extreme of the second
+// spoke, claling
 func (fn *ChainedConversionFunction) bodyForPivot(
 	receiverName string, parameterName string, _ *astmodel.CodeGenerationContext) []dst.Stmt {
 
-	fnNameForOtherDirection := "ConvertSpec" + fn.direction.SelectString("To", "From")
+	fnNameForOtherDirection := fn.direction.SelectString(fn.nameTo, fn.nameFrom)
 	parameter := dst.NewIdent(parameterName)
 
 	callAndReturn := astbuilder.Returns(
