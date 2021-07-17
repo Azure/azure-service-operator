@@ -16,29 +16,32 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 )
 
-// ChainedConversionFunction implements conversions to/from another Spec type that implements genruntime.ConvertibleSpec
+// ChainedConversionFunction implements conversions to/from another type that implements a conversion function
+//
+// We use this for Spec types, implementing genruntime.ConvertibleSpec.
+//
 // Existing PropertyAssignment functions are used to implement stepwise conversion.
 //
-// For most Spec types, we check to see if the type we're passed is one we can convert directly. If it is, we use the
-// preexisting AssignProperties*() method. Otherwise, we chain to that type to do the conversion.
+// For most types, we check to see if the type we're passed is one we can convert directly. If it is, we use the
+// preexisting AssignProperties*() method. Otherwise, we chain to that type to do the conversion to an intermediate
+// instance and then convert using that.
 //
-// func (s <spec>) ConvertFromSpec(spec genruntime.ConvertibleSpec) error {
-// 	   source, ok := spec.(*<otherSpecType>)
+// func (s <spec>) ConvertFrom(spec <interfaceType>) error {
+// 	   source, ok := spec.(*<otherType>)
 // 	   if !ok {
 //         // Need indirect conversion
-//         source = &<otherSpecType>{}
-//         source.ConvertFromSpec(spec)
+//         source = &<otherType>{}
+//         source.ConvertFrom(spec)
 //     }
 //
 //     return s.AssignPropertiesFrom(source)
 // }
 //
-// This chaining of conversion will only reach Specs associated with our hub type if the two specs we have are not
-// in the direct line of conversion. To handle this case, the implementation on the hub spec will pivot to complete the
-// conversion to the current version from the other direction.
+// If the two instances involved in conversion are not in the same "spoke" leading to our "hub" version, we'll reach
+// the hub type and then pivot to the reverse conversion. The implementation on the hub spec does this pivot:
 //
-// func (s <spec>) ConvertFromSpec(spec genruntime.ConvertibleSpec) error {
-//     return spec.ConvertToSpec(s)
+// func (s <spec>) ConvertFrom(spec <interfaceType>>) error {
+//     return spec.ConvertTo(s)
 // }
 //
 type ChainedConversionFunction struct {
