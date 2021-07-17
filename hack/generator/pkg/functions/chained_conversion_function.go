@@ -45,6 +45,12 @@ import (
 // }
 //
 type ChainedConversionFunction struct {
+	// nameFrom is the name for this function when converting FROM a provided instance
+	nameFrom string
+	// nameTo is the name for this function when converting TO a provided instance
+	nameTo string
+	// parameterType is common interface type for our parameter
+	parameterType astmodel.TypeName
 	// hubType is the TypeName of the hub type of our conversions, the central type of the hub-and-spoke model
 	hubType astmodel.TypeName
 	// direction is the direction of conversion - either FROM the supplied instance, or TO the supplied instance
@@ -57,10 +63,6 @@ type ChainedConversionFunction struct {
 	// propertyAssignmentParameterType is the type of the parameter we need to pass to propertyAssignmentFunctionName
 	// when we generate calls. We initialize this from the supplied PropertyAssignmentFunction
 	propertyAssignmentParameterType astmodel.TypeName
-	// nameFrom is the name for this function when converting FROM a provided instance
-	nameFrom string
-	// nameTo is the name for this function when converting TO a provided instance
-	nameTo string
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
 	idFactory astmodel.IdentifierFactory
 }
@@ -76,12 +78,13 @@ func NewSpecConversionFunction(
 	propertyFunction *PropertyAssignmentFunction,
 	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
+		nameFrom:                        "ConvertSpecFrom",
+		nameTo:                          "ConvertSpecTo",
+		parameterType:                   astmodel.ConvertibleSpecInterfaceType,
 		hubType:                         hubType,
 		propertyAssignmentFunctionName:  propertyFunction.Name(),
 		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
 		direction:                       propertyFunction.direction,
-		nameFrom:                        "ConvertSpecFrom",
-		nameTo:                          "ConvertSpecTo",
 		idFactory:                       idFactory,
 	}
 
@@ -98,12 +101,14 @@ func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.Packa
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
 		astmodel.GenRuntimeReference,
+		fn.parameterType.PackageReference,
 		fn.hubType.PackageReference,
 		fn.propertyAssignmentParameterType.PackageReference)
 }
 
 func (fn *ChainedConversionFunction) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet(
+		fn.parameterType,
 		fn.hubType,
 		fn.propertyAssignmentParameterType)
 }
@@ -124,28 +129,28 @@ func (fn *ChainedConversionFunction) AsFunc(
 	}
 
 	parameterName := fn.direction.SelectString("source", "destination")
+	funcDetails.AddParameter(parameterName, fn.parameterType.AsType(generationContext))
 
-	funcDetails.AddParameter(parameterName, astmodel.ConvertibleSpecInterfaceType.AsType(generationContext))
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(fn.declarationDocComment(receiver, parameterName))
 
 	if fn.hubType.Equals(receiver) {
-		// Body on the hub spec pivots the conversion
+		// Body on the hub type pivots the conversion
 		funcDetails.Body = fn.bodyForPivot(receiverName, parameterName, generationContext)
 	} else {
-		// Body on non-hub spec does a conversion
+		// Body on non-hub type does one step of a conversion
 		funcDetails.Body = fn.bodyForConvert(receiverName, parameterName, generationContext)
 	}
 
 	return funcDetails.DefineFunc()
 }
 
-// bodyForPivot is used to do the conversion if we hit the hub package version without finding the conversion we need
+// bodyForPivot is used to do the conversion if we hit the hub type without finding the conversion we need
 //
-// return spec.ConvertTo(s)
+// return instance.ConvertTo(s)
 //
 // Note that the method called is in the *other* *direction*; we restart the conversion at the extreme of the second
-// spoke, claling
+// spoke, invoking conversions back towards the hub again.
 func (fn *ChainedConversionFunction) bodyForPivot(
 	receiverName string, parameterName string, _ *astmodel.CodeGenerationContext) []dst.Stmt {
 
