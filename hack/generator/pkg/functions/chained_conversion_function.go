@@ -136,7 +136,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 
 	if fn.hubType.Equals(receiver) {
 		// Body on the hub type pivots the conversion
-		funcDetails.Body = fn.bodyForPivot(receiverName, parameterName, generationContext)
+		funcDetails.Body = fn.bodyForPivot(receiverName, parameterName)
 	} else {
 		// Body on non-hub type does one step of a conversion
 		funcDetails.Body = fn.bodyForConvert(receiverName, parameterName, generationContext)
@@ -151,8 +151,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 //
 // Note that the method called is in the *other* *direction*; we restart the conversion at the extreme of the second
 // spoke, invoking conversions back towards the hub again.
-func (fn *ChainedConversionFunction) bodyForPivot(
-	receiverName string, parameterName string, _ *astmodel.CodeGenerationContext) []dst.Stmt {
+func (fn *ChainedConversionFunction) bodyForPivot(receiverName string, parameterName string) []dst.Stmt {
 
 	fnNameForOtherDirection := fn.direction.SelectString(fn.nameTo, fn.nameFrom)
 	parameter := dst.NewIdent(parameterName)
