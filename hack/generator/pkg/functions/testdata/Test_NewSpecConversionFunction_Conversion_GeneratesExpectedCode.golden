@@ -20,38 +20,6 @@ type Person_Spec struct {
 	KnownAs string `json:"knownAs"`
 }
 
-// AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
-func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *personv20211231.Person_Spec) error {
-
-	// FamilyName
-	personSpec.FamilyName = source.FamilyName
-
-	// FullName
-	personSpec.FullName = source.FullName
-
-	// KnownAs
-	personSpec.KnownAs = source.KnownAs
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
-func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *personv20211231.Person_Spec) error {
-
-	// FamilyName
-	destination.FamilyName = personSpec.FamilyName
-
-	// FullName
-	destination.FullName = personSpec.FullName
-
-	// KnownAs
-	destination.KnownAs = personSpec.KnownAs
-
-	// No error
-	return nil
-}
-
 // ConvertSpecFrom populates our Person_Spec from the provided source
 func (personSpec *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*personv20211231.Person_Spec)

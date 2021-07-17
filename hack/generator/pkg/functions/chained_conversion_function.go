@@ -70,9 +70,11 @@ type ChainedConversionFunction struct {
 // Ensure we properly implement the function interface
 var _ astmodel.Function = &ChainedConversionFunction{}
 
-// NewSpecConversionFunction creates a conversion function that populates our hub spec type from the current instance
+// NewSpecConversionFunction creates a chained conversion function that converts between two Spec types implementing the
+// interface genruntime.ConvertibleSpec.
 // hubType is the TypeName of our hub type
-// propertyFunction is the function we will call to copy properties across between instances
+// propertyFunction is the function we will call to copy properties across between specs
+// idFactory is an identifier factory to use for generating local identifiers
 func NewSpecConversionFunction(
 	hubType astmodel.TypeName,
 	propertyFunction *PropertyAssignmentFunction,
@@ -90,6 +92,30 @@ func NewSpecConversionFunction(
 
 	return result
 }
+
+// NewStatusConversionFunction creates a chained conversion function that converts between two Status types implementing
+// the interface genruntime.ConvertibleStatus.
+// hubType is the TypeName of our hub type
+// propertyFunction is the function we will call to copy properties across between specs
+// idFactory is an identifier factory to use for generating local identifiers
+func NewStatusConversionFunction(
+	hubType astmodel.TypeName,
+	propertyFunction *PropertyAssignmentFunction,
+	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
+	result := &ChainedConversionFunction{
+		nameFrom:                        "ConvertStatusFrom",
+		nameTo:                          "ConvertStatusTo",
+		parameterType:                   astmodel.ConvertibleStatusInterfaceType,
+		hubType:                         hubType,
+		propertyAssignmentFunctionName:  propertyFunction.Name(),
+		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
+		direction:                       propertyFunction.direction,
+		idFactory:                       idFactory,
+	}
+
+	return result
+}
+
 
 func (fn *ChainedConversionFunction) Name() string {
 	return fn.direction.SelectString(fn.nameFrom, fn.nameTo)
