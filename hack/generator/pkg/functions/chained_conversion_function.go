@@ -47,8 +47,6 @@ import (
 type ChainedConversionFunction struct {
 	// hubSpec is the TypeName of the canonical hub spec type, the final target or original source for conversion
 	hubSpec astmodel.TypeName
-	// propertyFunction is a reference to the function we will call to copy properties across
-	propertyFunction *PropertyAssignmentFunction
 	// direction is the direction of conversion - either FROM the supplied instance, or TO the supplied instance
 	// We initialize this from the supplied property conversion function to guarantee consistency that the function
 	// we generate is using that function correctly
@@ -75,7 +73,6 @@ func NewSpecConversionFunction(
 	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
 		hubSpec:                         hubSpec,
-		propertyFunction:                propertyFunction,
 		propertyAssignmentFunctionName:  propertyFunction.Name(),
 		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
 		direction:                       propertyFunction.direction,
@@ -282,10 +279,6 @@ func (fn *ChainedConversionFunction) declarationDocComment(receiver astmodel.Typ
 func (fn *ChainedConversionFunction) Equals(otherFn astmodel.Function) bool {
 	rcf, ok := otherFn.(*ChainedConversionFunction)
 	if !ok {
-		return false
-	}
-
-	if !fn.propertyFunction.Equals(rcf.propertyFunction) {
 		return false
 	}
 
