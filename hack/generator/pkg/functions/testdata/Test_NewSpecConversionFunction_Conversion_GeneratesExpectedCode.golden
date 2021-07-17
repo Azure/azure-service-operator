@@ -56,7 +56,7 @@ func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *personv
 func (personSpec *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*personv20211231.Person_Spec)
 	if ok {
-		// Populate our spec from source
+		// Populate our instance from source
 		return personSpec.AssignPropertiesFromPersonSpec(src)
 	}
 
@@ -67,7 +67,7 @@ func (personSpec *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
-	// Update our spec from src
+	// Update our instance from src
 	err = personSpec.AssignPropertiesFromPersonSpec(src)
 	return err
 }
@@ -76,7 +76,7 @@ func (personSpec *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 func (personSpec *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*personv20211231.Person_Spec)
 	if ok {
-		// Populate destination from our spec
+		// Populate destination from our instance
 		return personSpec.AssignPropertiesToPersonSpec(dst)
 	}
 
@@ -87,7 +87,7 @@ func (personSpec *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
 
-	// Update dst from our spec
+	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
 	return err
 }

@@ -162,25 +162,25 @@ func (fn *ChainedConversionFunction) bodyForPivot(receiverName string, parameter
 	return astbuilder.Statements(callAndReturn)
 }
 
-// bodyForConvert generates a conversion when the type we know about isn't the hub spec type, but is closer to it in our
+// bodyForConvert generates a conversion when the type we know about isn't the hub type, but is closer to it in our
 // conversion graph.
 //
 // For ConvertFrom, we generate
 //
 // 	   src, ok := source.(*<intermediateType>)
 // 	   if ok {
-//         // Populate our spec from source
+//         // Populate our instance from source
 //         return s.AssignPropertiesFrom(source)
 //     }
 //
 //     // Convert to an intermediate form
 //     src = &<intermediateType>{}
-//     err := src.ConvertFromSpec(source)
+//     err := src.ConvertFrom(source)
 //     if err != nil {
 //         return errors.Wrapf(err, "...elided...")
 //     }
 //
-//     // Update our spec from src
+//     // Update our instance from src
 //     return s.AssignPropertiesFrom(src)
 //
 // For ConvertTo, we have essentially the same structure, but two-step conversion is done in the other order.
@@ -206,8 +206,8 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	astbuilder.AddComment(
 		&directConversion.Decorations().Start,
 		fn.direction.SelectString(
-			fmt.Sprintf("// Populate our spec from %s", parameter),
-			fmt.Sprintf("// Populate %s from our spec", parameter)))
+			fmt.Sprintf("// Populate our instance from %s", parameter),
+			fmt.Sprintf("// Populate %s from our instance", parameter)))
 
 	// if ok { ...elided... }
 	returnDirectConversion := astbuilder.IfOk(
@@ -224,7 +224,7 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	//
 	// Depending on the direction of conversion either
 	//
-	//     err := <local>.ConvertFromSpec(<parameter>)
+	//     err := <local>.ConvertFrom(<parameter>)
 	// or
 	//     err := <receiver>.AssignPropertiesTo(<local>)
 	//
@@ -257,8 +257,8 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	astbuilder.AddComment(
 		&finalStep.Decorations().Start,
 		fn.direction.SelectString(
-			fmt.Sprintf("// Update our spec from %s", local),
-			fmt.Sprintf("// Update %s from our spec", local)))
+			fmt.Sprintf("// Update our instance from %s", local),
+			fmt.Sprintf("// Update %s from our instance", local)))
 
 	returnErr := astbuilder.Returns(errIdent)
 
