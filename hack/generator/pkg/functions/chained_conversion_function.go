@@ -53,6 +53,9 @@ type ChainedConversionFunction struct {
 	// We initialize this from the supplied property conversion function to guarantee consistency that the function
 	// we generate is using that function correctly
 	direction conversions.Direction
+	// propertyAssignmentFunctionName is the name of a function we can call to copy properties from one instance to
+	// another. We initialize this from the supplied PropertyAssignmentFunction
+	propertyAssignmentFunctionName string
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
 	idFactory astmodel.IdentifierFactory
 }
@@ -68,10 +71,11 @@ func NewSpecConversionFunction(
 	propertyFunction *PropertyAssignmentFunction,
 	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
-		hubSpec:          hubSpec,
-		propertyFunction: propertyFunction,
-		direction:        propertyFunction.direction,
-		idFactory:        idFactory,
+		hubSpec:                        hubSpec,
+		propertyFunction:               propertyFunction,
+		propertyAssignmentFunctionName: propertyFunction.Name(),
+		direction:                      propertyFunction.direction,
+		idFactory:                      idFactory,
 	}
 
 	return result
@@ -193,7 +197,7 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 
 	// return <receiver>.AssignProperties(From|To)(<local>)
 	directConversion := astbuilder.Returns(
-		astbuilder.CallExpr(receiver, fn.propertyFunction.Name(), local))
+		astbuilder.CallExpr(receiver, fn.propertyAssignmentFunctionName, local))
 	astbuilder.AddComment(
 		&directConversion.Decorations().Start,
 		fn.direction.SelectString(
@@ -224,7 +228,7 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 		token.DEFINE,
 		fn.direction.SelectExpr(
 			astbuilder.CallExpr(local, fn.Name(), parameter),
-			astbuilder.CallExpr(receiver, fn.propertyFunction.Name(), local)))
+			astbuilder.CallExpr(receiver, fn.propertyAssignmentFunctionName, local)))
 
 	// if err != nil { ...elided...}
 	checkForError := astbuilder.CheckErrorAndWrap(
@@ -243,7 +247,7 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 		errIdent,
 		token.ASSIGN,
 		fn.direction.SelectExpr(
-			astbuilder.CallExpr(receiver, fn.propertyFunction.Name(), local),
+			astbuilder.CallExpr(receiver, fn.propertyAssignmentFunctionName, local),
 			astbuilder.CallExpr(local, fn.Name(), parameter)))
 	astbuilder.AddComment(
 		&finalStep.Decorations().Start,
@@ -286,5 +290,7 @@ func (fn *ChainedConversionFunction) Equals(otherFn astmodel.Function) bool {
 	}
 
 	return fn.Name() == rcf.Name() &&
+		fn.direction == rcf.direction &&
+		fn.propertyAssignmentFunctionName == rcf.propertyAssignmentFunctionName &&
 		fn.hubSpec.Equals(rcf.hubSpec)
 }
