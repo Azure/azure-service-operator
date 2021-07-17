@@ -45,8 +45,8 @@ import (
 // }
 //
 type ChainedConversionFunction struct {
-	// hubSpec is the TypeName of the canonical hub spec type, the final target or original source for conversion
-	hubSpec astmodel.TypeName
+	// hubType is the TypeName of the hub type of our conversions, the central type of the hub-and-spoke model
+	hubType astmodel.TypeName
 	// direction is the direction of conversion - either FROM the supplied instance, or TO the supplied instance
 	// We initialize this from the supplied property conversion function to guarantee consistency that the function
 	// we generate is using that function correctly
@@ -69,14 +69,14 @@ type ChainedConversionFunction struct {
 var _ astmodel.Function = &ChainedConversionFunction{}
 
 // NewSpecConversionFunction creates a conversion function that populates our hub spec type from the current instance
-// hubSpec is the TypeName of our hub type
+// hubType is the TypeName of our hub type
 // propertyFunction is the function we will call to copy properties across between instances
 func NewSpecConversionFunction(
-	hubSpec astmodel.TypeName,
+	hubType astmodel.TypeName,
 	propertyFunction *PropertyAssignmentFunction,
 	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
-		hubSpec:                         hubSpec,
+		hubType:                         hubType,
 		propertyAssignmentFunctionName:  propertyFunction.Name(),
 		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
 		direction:                       propertyFunction.direction,
@@ -93,21 +93,18 @@ func (fn *ChainedConversionFunction) Name() string {
 }
 
 func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
-	result := astmodel.NewPackageReferenceSet(
+	return astmodel.NewPackageReferenceSet(
 		astmodel.GitHubErrorsReference,
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
 		astmodel.GenRuntimeReference,
-		fn.hubSpec.PackageReference)
-
-	result.AddReference(fn.propertyAssignmentParameterType.PackageReference)
-
-	return result
+		fn.hubType.PackageReference,
+		fn.propertyAssignmentParameterType.PackageReference)
 }
 
 func (fn *ChainedConversionFunction) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet(
-		fn.hubSpec,
+		fn.hubType,
 		fn.propertyAssignmentParameterType)
 }
 
@@ -132,7 +129,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(fn.declarationDocComment(receiver, parameterName))
 
-	if fn.hubSpec.Equals(receiver) {
+	if fn.hubType.Equals(receiver) {
 		// Body on the hub spec pivots the conversion
 		funcDetails.Body = fn.bodyForPivot(receiverName, parameterName, generationContext)
 	} else {
@@ -293,5 +290,5 @@ func (fn *ChainedConversionFunction) Equals(otherFn astmodel.Function) bool {
 		fn.direction == rcf.direction &&
 		fn.propertyAssignmentFunctionName == rcf.propertyAssignmentFunctionName &&
 		fn.propertyAssignmentParameterType.Equals(rcf.propertyAssignmentParameterType) &&
-		fn.hubSpec.Equals(rcf.hubSpec)
+		fn.hubType.Equals(rcf.hubType)
 }
