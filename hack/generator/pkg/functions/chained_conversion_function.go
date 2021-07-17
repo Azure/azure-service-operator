@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// SpecConversionFunction implements conversions to/from another Spec type that implements genruntime.ConvertibleSpec
+// ChainedConversionFunction implements conversions to/from another Spec type that implements genruntime.ConvertibleSpec
 // Existing PropertyAssignment functions are used to implement stepwise conversion.
 //
 // For most Spec types, we check to see if the type we're passed is one we can convert directly. If it is, we use the
@@ -40,7 +40,7 @@ import (
 //     return spec.ConvertToSpec(s)
 // }
 //
-type SpecConversionFunction struct {
+type ChainedConversionFunction struct {
 	// hubSpec is the TypeName of the canonical hub spec type, the final target or original source for conversion
 	hubSpec astmodel.TypeName
 	// propertyFunction is a reference to the function we will call to copy properties across
@@ -50,7 +50,7 @@ type SpecConversionFunction struct {
 }
 
 // Ensure we properly implement the function interface
-var _ astmodel.Function = &SpecConversionFunction{}
+var _ astmodel.Function = &ChainedConversionFunction{}
 
 // NewSpecConversionFunction creates a conversion function that populates our hub spec type from the current instance
 // hubSpec is the TypeName of our hub type
@@ -58,8 +58,8 @@ var _ astmodel.Function = &SpecConversionFunction{}
 func NewSpecConversionFunction(
 	hubSpec astmodel.TypeName,
 	propertyFunction *PropertyAssignmentFunction,
-	idFactory astmodel.IdentifierFactory) *SpecConversionFunction {
-	result := &SpecConversionFunction{
+	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
+	result := &ChainedConversionFunction{
 		hubSpec:          hubSpec,
 		propertyFunction: propertyFunction,
 		idFactory:        idFactory,
@@ -68,11 +68,11 @@ func NewSpecConversionFunction(
 	return result
 }
 
-func (fn *SpecConversionFunction) Name() string {
+func (fn *ChainedConversionFunction) Name() string {
 	return "ConvertSpec" + fn.propertyFunction.direction.SelectString("From", "To")
 }
 
-func (fn *SpecConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
+func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	result := astmodel.NewPackageReferenceSet(
 		astmodel.GitHubErrorsReference,
 		astmodel.ControllerRuntimeConversion,
@@ -87,7 +87,7 @@ func (fn *SpecConversionFunction) RequiredPackageReferences() *astmodel.PackageR
 	return result
 }
 
-func (fn *SpecConversionFunction) References() astmodel.TypeNameSet {
+func (fn *ChainedConversionFunction) References() astmodel.TypeNameSet {
 	// Include the type of the parameter of the property assignment function
 	propertyFunctionParameterTypeName := fn.propertyFunction.otherDefinition.Name()
 
@@ -95,7 +95,7 @@ func (fn *SpecConversionFunction) References() astmodel.TypeNameSet {
 	return result
 }
 
-func (fn *SpecConversionFunction) AsFunc(
+func (fn *ChainedConversionFunction) AsFunc(
 	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 
 	// Create a sensible name for our receiver
@@ -132,7 +132,7 @@ func (fn *SpecConversionFunction) AsFunc(
 // return spec.ConvertSpecTo(s)
 //
 // Note that the method called is in the *other* *direction*
-func (fn *SpecConversionFunction) bodyForPivot(
+func (fn *ChainedConversionFunction) bodyForPivot(
 	receiverName string, parameterName string, _ *astmodel.CodeGenerationContext) []dst.Stmt {
 
 	fnNameForOtherDirection := "ConvertSpec" + fn.propertyFunction.direction.SelectString("To", "From")
@@ -167,7 +167,7 @@ func (fn *SpecConversionFunction) bodyForPivot(
 //
 // For ConvertTo, we have essentially the same structure, but two-step conversion is done in the other order.
 //
-func (fn *SpecConversionFunction) bodyForConvert(
+func (fn *ChainedConversionFunction) bodyForConvert(
 	receiverName string, parameterName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 
 	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
@@ -256,18 +256,18 @@ func (fn *SpecConversionFunction) bodyForConvert(
 
 // localVariableId returns a good identifier to use for a local variable in our function,
 // based which direction we are converting
-func (fn *SpecConversionFunction) localVariableId() string {
+func (fn *ChainedConversionFunction) localVariableId() string {
 	return fn.propertyFunction.direction.SelectString("src", "dst")
 }
 
-func (fn *SpecConversionFunction) declarationDocComment(receiver astmodel.TypeName, parameter string) string {
+func (fn *ChainedConversionFunction) declarationDocComment(receiver astmodel.TypeName, parameter string) string {
 	return fn.propertyFunction.direction.SelectString(
 		fmt.Sprintf("populates our %s from the provided %s", receiver.Name(), parameter),
 		fmt.Sprintf("populates the provided %s from our %s", parameter, receiver.Name()))
 }
 
-func (fn *SpecConversionFunction) Equals(otherFn astmodel.Function) bool {
-	rcf, ok := otherFn.(*SpecConversionFunction)
+func (fn *ChainedConversionFunction) Equals(otherFn astmodel.Function) bool {
+	rcf, ok := otherFn.(*ChainedConversionFunction)
 	if !ok {
 		return false
 	}

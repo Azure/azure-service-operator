@@ -10,9 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-// Test_SpecConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertTo() and
-// ConvertFrom() functions are directly converting to/from the Hub type, without any intermediate step.
-func Test_SpecConversionFunction_Conversion_GeneratesExpectedCode(t *testing.T) {
+// Test_NewSpecConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToSpec() and
+// ConvertFromSpec() functions are directly converting to/from the provided type, without any intermediate step.
+func Test_NewSpecConversionFunction_Conversion_GeneratesExpectedCode(t *testing.T) {
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
