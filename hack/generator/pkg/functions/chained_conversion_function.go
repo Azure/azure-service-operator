@@ -177,6 +177,10 @@ func (fn *ChainedConversionFunction) AsFunc(
 //
 // Note that the method called is in the *other* *direction*; we restart the conversion at the extreme of the second
 // spoke, invoking conversions back towards the hub again.
+//
+// TODO: If invoked with two unrelated instances (that don't share a common hub type), this will currently go into an
+// infinite call loop, at least until it encounteres a stack overflow. Need to change this to panic if called while
+// already active in order to provide a diagnostic.
 func (fn *ChainedConversionFunction) bodyForPivot(receiverName string, parameterName string) []dst.Stmt {
 
 	fnNameForOtherDirection := fn.direction.SelectString(fn.nameTo, fn.nameFrom)
