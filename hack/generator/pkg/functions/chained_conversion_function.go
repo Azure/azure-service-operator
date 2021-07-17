@@ -56,6 +56,9 @@ type ChainedConversionFunction struct {
 	// propertyAssignmentFunctionName is the name of a function we can call to copy properties from one instance to
 	// another. We initialize this from the supplied PropertyAssignmentFunction
 	propertyAssignmentFunctionName string
+	// propertyAssignmentParameterType is the type of the parameter we need to pass to propertyAssignmentFunctionName
+	// when we generate calls. We initialize this from the supplied PropertyAssignmentFunction
+	propertyAssignmentParameterType astmodel.TypeName
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
 	idFactory astmodel.IdentifierFactory
 }
@@ -71,11 +74,12 @@ func NewSpecConversionFunction(
 	propertyFunction *PropertyAssignmentFunction,
 	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
-		hubSpec:                        hubSpec,
-		propertyFunction:               propertyFunction,
-		propertyAssignmentFunctionName: propertyFunction.Name(),
-		direction:                      propertyFunction.direction,
-		idFactory:                      idFactory,
+		hubSpec:                         hubSpec,
+		propertyFunction:                propertyFunction,
+		propertyAssignmentFunctionName:  propertyFunction.Name(),
+		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
+		direction:                       propertyFunction.direction,
+		idFactory:                       idFactory,
 	}
 
 	return result
@@ -93,19 +97,15 @@ func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.Packa
 		astmodel.GenRuntimeReference,
 		fn.hubSpec.PackageReference)
 
-	// Include the package required by the parameter of the property assignment function
-	propertyFunctionParameterTypeName := fn.propertyFunction.otherDefinition.Name()
-	result.AddReference(propertyFunctionParameterTypeName.PackageReference)
+	result.AddReference(fn.propertyAssignmentParameterType.PackageReference)
 
 	return result
 }
 
 func (fn *ChainedConversionFunction) References() astmodel.TypeNameSet {
-	// Include the type of the parameter of the property assignment function
-	propertyFunctionParameterTypeName := fn.propertyFunction.otherDefinition.Name()
-
-	result := astmodel.NewTypeNameSet(fn.hubSpec, propertyFunctionParameterTypeName)
-	return result
+	return astmodel.NewTypeNameSet(
+		fn.hubSpec,
+		fn.propertyAssignmentParameterType)
 }
 
 func (fn *ChainedConversionFunction) AsFunc(
@@ -190,7 +190,7 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	local := dst.NewIdent(fn.localVariableId())
 	errIdent := dst.NewIdent("err")
 
-	intermediateType := fn.propertyFunction.otherDefinition.Name().AsType(generationContext)
+	intermediateType := fn.propertyAssignmentParameterType.AsType(generationContext)
 
 	// <local>, ok := <parameter>.(<intermediateType>)
 	typeAssert := astbuilder.TypeAssert(local, parameter, astbuilder.Dereference(intermediateType))
@@ -292,5 +292,6 @@ func (fn *ChainedConversionFunction) Equals(otherFn astmodel.Function) bool {
 	return fn.Name() == rcf.Name() &&
 		fn.direction == rcf.direction &&
 		fn.propertyAssignmentFunctionName == rcf.propertyAssignmentFunctionName &&
+		fn.propertyAssignmentParameterType.Equals(rcf.propertyAssignmentParameterType) &&
 		fn.hubSpec.Equals(rcf.hubSpec)
 }
