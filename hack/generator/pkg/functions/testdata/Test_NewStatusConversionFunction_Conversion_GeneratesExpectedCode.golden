@@ -30,7 +30,11 @@ func (personStatus *Person_Status) ConvertStatusFrom(source genruntime.Convertib
 
 	// Update our instance from src
 	err = personStatus.AssignPropertiesFromPersonStatus(src)
-	return err
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our Person_Status
@@ -50,5 +54,9 @@ func (personStatus *Person_Status) ConvertStatusTo(destination genruntime.Conver
 
 	// Update dst from our instance
 	err = dst.ConvertStatusTo(destination)
-	return err
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
 }

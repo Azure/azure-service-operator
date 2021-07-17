@@ -262,10 +262,10 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 			astbuilder.CallExpr(receiver, fn.propertyAssignmentFunctionName, local)))
 
 	// if err != nil { ...elided...}
-	checkForError := astbuilder.CheckErrorAndWrap(
+	checkInitialStepForError := astbuilder.CheckErrorAndWrap(
 		errorsPackage,
 		fmt.Sprintf("initial step of conversion in %s()", fn.Name()))
-	checkForError.Decorations().After = dst.EmptyLine
+	checkInitialStepForError.Decorations().After = dst.EmptyLine
 
 	//
 	// Depending on the direction of conversion, either
@@ -286,16 +286,24 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 			fmt.Sprintf("// Update our instance from %s", local),
 			fmt.Sprintf("// Update %s from our instance", local)))
 
-	returnErr := astbuilder.Returns(errIdent)
+	// if err != nil { ...elided...}
+	checkFinalStepForError := astbuilder.CheckErrorAndWrap(
+		errorsPackage,
+		fmt.Sprintf("final step of conversion in %s()", fn.Name()))
+	checkFinalStepForError.Decorations().After = dst.EmptyLine
+
+
+	returnNil := astbuilder.Returns(astbuilder.Nil())
 
 	return astbuilder.Statements(
 		typeAssert,
 		returnDirectConversion,
 		initializeLocal,
 		initialStep,
-		checkForError,
+		checkInitialStepForError,
 		finalStep,
-		returnErr)
+		checkFinalStepForError,
+		returnNil)
 }
 
 // localVariableId returns a good identifier to use for a local variable in our function,

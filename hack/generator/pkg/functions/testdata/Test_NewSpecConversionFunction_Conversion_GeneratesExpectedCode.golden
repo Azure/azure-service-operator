@@ -37,7 +37,11 @@ func (personSpec *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 
 	// Update our instance from src
 	err = personSpec.AssignPropertiesFromPersonSpec(src)
-	return err
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our Person_Spec
@@ -57,5 +61,9 @@ func (personSpec *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 
 	// Update dst from our instance
 	err = dst.ConvertSpecTo(destination)
-	return err
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
 }
