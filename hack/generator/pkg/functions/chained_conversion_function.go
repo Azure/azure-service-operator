@@ -13,6 +13,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 )
 
 // ChainedConversionFunction implements conversions to/from another Spec type that implements genruntime.ConvertibleSpec
@@ -45,6 +46,10 @@ type ChainedConversionFunction struct {
 	hubSpec astmodel.TypeName
 	// propertyFunction is a reference to the function we will call to copy properties across
 	propertyFunction *PropertyAssignmentFunction
+	// direction is the direction of conversion - either FROM the supplied instance, or TO the supplied instance
+	// We initialize this from the supplied property conversion function to guarantee consistency that the function
+	// we generate is using that function correctly
+	direction conversions.Direction
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
 	idFactory astmodel.IdentifierFactory
 }
@@ -62,6 +67,7 @@ func NewSpecConversionFunction(
 	result := &ChainedConversionFunction{
 		hubSpec:          hubSpec,
 		propertyFunction: propertyFunction,
+		direction:        propertyFunction.direction,
 		idFactory:        idFactory,
 	}
 
@@ -69,7 +75,7 @@ func NewSpecConversionFunction(
 }
 
 func (fn *ChainedConversionFunction) Name() string {
-	return "ConvertSpec" + fn.propertyFunction.direction.SelectString("From", "To")
+	return "ConvertSpec" + fn.direction.SelectString("From", "To")
 }
 
 func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
@@ -110,7 +116,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 		Name:          fn.Name(),
 	}
 
-	parameterName := fn.propertyFunction.direction.SelectString("source", "destination")
+	parameterName := fn.direction.SelectString("source", "destination")
 
 	funcDetails.AddParameter(parameterName, astmodel.ConvertibleSpecInterfaceType.AsType(generationContext))
 	funcDetails.AddReturns("error")
@@ -135,7 +141,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 func (fn *ChainedConversionFunction) bodyForPivot(
 	receiverName string, parameterName string, _ *astmodel.CodeGenerationContext) []dst.Stmt {
 
-	fnNameForOtherDirection := "ConvertSpec" + fn.propertyFunction.direction.SelectString("To", "From")
+	fnNameForOtherDirection := "ConvertSpec" + fn.direction.SelectString("To", "From")
 	parameter := dst.NewIdent(parameterName)
 
 	callAndReturn := astbuilder.Returns(
@@ -187,7 +193,7 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 		astbuilder.CallExpr(receiver, fn.propertyFunction.Name(), local))
 	astbuilder.AddComment(
 		&directConversion.Decorations().Start,
-		fn.propertyFunction.direction.SelectString(
+		fn.direction.SelectString(
 			fmt.Sprintf("// Populate our spec from %s", parameter),
 			fmt.Sprintf("// Populate %s from our spec", parameter)))
 
@@ -213,7 +219,7 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	initialStep := astbuilder.SimpleAssignment(
 		errIdent,
 		token.DEFINE,
-		fn.propertyFunction.direction.SelectExpr(
+		fn.direction.SelectExpr(
 			astbuilder.CallExpr(local, fn.Name(), parameter),
 			astbuilder.CallExpr(receiver, fn.propertyFunction.Name(), local)))
 
@@ -233,12 +239,12 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	finalStep := astbuilder.SimpleAssignment(
 		errIdent,
 		token.ASSIGN,
-		fn.propertyFunction.direction.SelectExpr(
+		fn.direction.SelectExpr(
 			astbuilder.CallExpr(receiver, fn.propertyFunction.Name(), local),
 			astbuilder.CallExpr(local, fn.Name(), parameter)))
 	astbuilder.AddComment(
 		&finalStep.Decorations().Start,
-		fn.propertyFunction.direction.SelectString(
+		fn.direction.SelectString(
 			fmt.Sprintf("// Update our spec from %s", local),
 			fmt.Sprintf("// Update %s from our spec", local)))
 
@@ -257,11 +263,11 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 // localVariableId returns a good identifier to use for a local variable in our function,
 // based which direction we are converting
 func (fn *ChainedConversionFunction) localVariableId() string {
-	return fn.propertyFunction.direction.SelectString("src", "dst")
+	return fn.direction.SelectString("src", "dst")
 }
 
 func (fn *ChainedConversionFunction) declarationDocComment(receiver astmodel.TypeName, parameter string) string {
-	return fn.propertyFunction.direction.SelectString(
+	return fn.direction.SelectString(
 		fmt.Sprintf("populates our %s from the provided %s", receiver.Name(), parameter),
 		fmt.Sprintf("populates the provided %s from our %s", parameter, receiver.Name()))
 }
