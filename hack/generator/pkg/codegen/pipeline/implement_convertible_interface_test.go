@@ -6,7 +6,6 @@
 package pipeline
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -36,29 +35,19 @@ func TestInjectConvertibleInterface(t *testing.T) {
 	types := make(astmodel.Types)
 	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
 
-	state := NewState().WithTypes(types)
+	initialState := NewState().WithTypes(types)
 
-	// Run CreateConversionGraph first to populate the conversion graph
-	createConversionGraph := CreateConversionGraph()
-	state, err := createConversionGraph.Run(context.TODO(), state)
+	finalState, err := RunTestPipeline(
+		initialState,
+		CreateConversionGraph(),                      // First create the conversion graph showing relationships
+		CreateStorageTypes(),                         // Then create the storage types
+		InjectPropertyAssignmentFunctions(idFactory), // After which we inject property assignment functions
+		ImplementConvertibleInterface(idFactory),     // And then we get to run the stage we're testing
+	)
 	g.Expect(err).To(Succeed())
 
-	// Run CreateStorageTypes to create additional resources into which we will inject
-	createStorageTypes := CreateStorageTypes()
-	state, err = createStorageTypes.Run(context.TODO(), state)
-	g.Expect(err).To(Succeed())
-
-	// Run InjectPropertyAssignmentFunctions to create those functions
-	injectPropertyFns := InjectPropertyAssignmentFunctions(idFactory)
-	state, err = injectPropertyFns.Run(context.TODO(), state)
-	g.Expect(err).To(Succeed())
-
-	// Now run our stage
-	injectFunctions := ImplementConvertibleInterface(idFactory)
-	state, err = injectFunctions.Run(context.TODO(), state)
-	g.Expect(err).To(Succeed())
-
-	// When verifying the golden file, check that the implementations of ConvertTo() and ConvertFrom() are what you
-	// expect - if you don't have expectations, check that they do the right thing.
-	test.AssertPackagesGenerateExpectedCode(t, state.Types())
+	// When verifying the golden file, check that the implementations of ConvertTo() and ConvertFrom() are correctly
+	// injected on the resources, but not on the other types. Verify that the code does what you expect. If you don't
+	// know what to expect, check that they do the right thing. :-)
+	test.AssertPackagesGenerateExpectedCode(t, finalState.types, t.Name())
 }
