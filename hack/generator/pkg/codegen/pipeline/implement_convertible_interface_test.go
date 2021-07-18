@@ -12,7 +12,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
@@ -35,26 +34,28 @@ func TestInjectConvertibleInterface(t *testing.T) {
 	types := make(astmodel.Types)
 	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
 
-	graph := storage.NewConversionGraph()
+	state := NewState().WithTypes(types)
 
 	// Run CreateConversionGraph first to populate the conversion graph
-	createConversionGraph := CreateConversionGraph(graph)
-	types, err := createConversionGraph.Run(context.TODO(), types)
+	createConversionGraph := CreateConversionGraph()
+	state, err := createConversionGraph.Run(context.TODO(), state)
 	g.Expect(err).To(Succeed())
 
-	// Run CreateStorageTypes to create additional resources
-	createStorageTypes := CreateStorageTypes(graph)
-	types, err = createStorageTypes.Run(context.TODO(), types)
+	// Run CreateStorageTypes to create additional resources into which we will inject
+	createStorageTypes := CreateStorageTypes()
+	state, err = createStorageTypes.Run(context.TODO(), state)
 	g.Expect(err).To(Succeed())
 
 	// Run InjectPropertyAssignmentFunctions to create those functions
-	injectPropertyFns := InjectPropertyAssignmentFunctions(graph, idFactory)
-	types, err = injectPropertyFns.Run(context.TODO(), types)
+	injectPropertyFns := InjectPropertyAssignmentFunctions(idFactory)
+	state, err = injectPropertyFns.Run(context.TODO(), state)
 
 	// Now run our stage
-	injectFunctions := ImplementConvertibleInterface(graph, idFactory)
-	types, err = injectFunctions.Run(context.TODO(), types)
+	injectFunctions := ImplementConvertibleInterface(idFactory)
+	state, err = injectFunctions.Run(context.TODO(), state)
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, types, t.Name())
+	// When verifying the golden file, check that the implementations of ConvertTo() and ConvertFrom() are what you
+	// expect - if you don't have expectations, check that they do the right thing.
+	test.AssertPackagesGenerateExpectedCode(t, state.Types(), t.Name())
 }

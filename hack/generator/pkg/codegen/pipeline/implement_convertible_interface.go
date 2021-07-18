@@ -20,16 +20,16 @@ const ImplementConvertibleInterfaceStageId = "implementConvertibleInterface"
 
 // ImplementConvertibleInterface injects the functions ConvertTo() and ConvertFrom() into each non-hub Resource
 // Type, providing the required implementation of the Convertible interface needed by the controller
-func ImplementConvertibleInterface(conversionGraph *storage.ConversionGraph, idFactory astmodel.IdentifierFactory) Stage {
+func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 
-	result := MakeStage(
+	stage := MakeStage(
 		ImplementConvertibleInterfaceStageId,
 		"Implement the Convertible interface on each non-hub Resource type",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, state *State) (*State, error) {
 			injector := astmodel.NewInterfaceInjector()
 
 			modifiedTypes := make(astmodel.Types)
-			resources := storage.FindResourceTypes(types)
+			resources := storage.FindResourceTypes(state.Types())
 			for name, def := range resources {
 				resource,ok := astmodel.AsResourceType(def.Type())
 				if !ok {
@@ -42,7 +42,8 @@ func ImplementConvertibleInterface(conversionGraph *storage.ConversionGraph, idF
 					continue
 				}
 
-				convertible := createConvertibleInterfaceImplementation(name, resource, conversionGraph, idFactory)
+				convertible := createConvertibleInterfaceImplementation(
+					name, resource, state.ConversionGraph(), idFactory)
 				if convertible.FunctionCount() > 0 {
 					modified, err := injector.Inject(def, convertible)
 					if err != nil {
@@ -53,12 +54,12 @@ func ImplementConvertibleInterface(conversionGraph *storage.ConversionGraph, idF
 				}
 			}
 
-			result := types.OverlayWith(modifiedTypes)
-			return result, nil
+			newTypes := state.Types().OverlayWith(modifiedTypes)
+			return state.WithTypes(newTypes), nil
 		})
 
-	result.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageId)
-	return result
+	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageId)
+	return stage
 }
 
 func createConvertibleInterfaceImplementation(

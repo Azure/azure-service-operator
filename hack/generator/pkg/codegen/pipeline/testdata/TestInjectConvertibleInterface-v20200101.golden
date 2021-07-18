@@ -25,14 +25,17 @@ var _ conversion.Convertible = &Person{}
 func (person *Person) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
 	var source v20200101storage.Person
+
 	err := source.ConvertFrom(hub)
 	if err != nil {
 		return errors.Wrap(err, "converting from hub to source")
 	}
+
 	err = person.AssignPropertiesFromPerson(&source)
 	if err != nil {
 		return errors.Wrap(err, "converting from source to person")
 	}
+
 	return nil
 }
 
@@ -48,6 +51,7 @@ func (person *Person) ConvertTo(hub conversion.Hub) error {
 	if err != nil {
 		return errors.Wrap(err, "converting from destination to hub")
 	}
+
 	return nil
 }
 
