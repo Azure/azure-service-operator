@@ -18,6 +18,8 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 )
 
+const AdminSecretKey = ".spec.adminSecret"
+
 // MySQLServerReconciler reconciles a MySQLServer object
 type MySQLServerReconciler struct {
 	Reconciler *AsyncReconciler
@@ -37,18 +39,8 @@ func (r *MySQLServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	// * We cannot use "Owns" - this reconciles the resources owner.
 	// * We must use Watches
 
-	// In order to actually make a change to the MySQLServer password, you must issue an update to the server which
-	// includes "administratorLogin": "<user>", "administratorLoginPassword": "<password>",
-
-	// TODO: There are some issues with the below because we need the controller to add an annotation to the
-	// TODO: secret but then if that resource is deleted we need to remove it. So we have to check in the finalizer
-	// TODO: before we delete and remove it from the adminSecret. BUT if we get updated to clear adminsecret
-	// TODO: we don't know that we previously had a secret and so will miss removing it...
-
-	adminSecretKey := ".spec.adminSecret"
-
-	// Add a field indexer
-	err := mgr.GetFieldIndexer().IndexField(context.Background(), &v1alpha2.MySQLServer{}, adminSecretKey, func(rawObj client.Object) []string {
+	// Add a field indexer which we will use to find servers by AdminSecret name
+	err := mgr.GetFieldIndexer().IndexField(context.Background(), &v1alpha2.MySQLServer{}, AdminSecretKey, func(rawObj client.Object) []string {
 		obj := rawObj.(*v1alpha2.MySQLServer)
 		return []string{obj.Spec.AdminSecret}
 	})
@@ -56,24 +48,35 @@ func (r *MySQLServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		return err
 	}
 
-	// Where we construct the ctrl.Manager we may want to limit what secrets we watch with
-	// this feature: https://github.com/kubernetes-sigs/controller-runtime/blob/master/designs/use-selectors-at-cache.md,
-	// likely scoped by a label selector
-	mapFunc := func(o client.Object) []reconcile.Request {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&v1alpha2.MySQLServer{}).
+		Watches(&source.Kind{Type: &corev1.Secret{}}, handler.EnqueueRequestsFromMapFunc(makeMapFunc(mgr))).
+		Complete(r)
+}
+
+// TODO: It may be possible where we construct the ctrl.Manager to limit what secrets we watch with
+// TODO: this feature: https://github.com/kubernetes-sigs/controller-runtime/blob/master/designs/use-selectors-at-cache.md,
+// TODO: likely scoped by a label selector? That requires additional work as we would need to manage that label
+// TODO: in the MySQLServer reconcile loop probably.
+func makeMapFunc(mgr ctrl.Manager) func(o client.Object) []reconcile.Request {
+	return func(o client.Object) []reconcile.Request {
 		// Safety check that we're looking at a secret, if not nothing to do
 		if _, ok := o.(*corev1.Secret); !ok {
 			return nil
 		}
 
-		// TODO: This should be fast? We don't have a ctx we can use here... maybe need to file a bug?
-		ctx, _ := context.WithTimeout(context.Background(), 1 * time.Minute)
+		// This should be fast since the list of items it's going through should always be cached
+		// locally with the shared informer.
+		// Unfortunately we don't have a ctx we can use here... maybe need to file a bug?
+		ctx, cancel := context.WithTimeout(context.Background(), 10 * time.Second)
+		defer cancel()
+
 		var matchingResources v1alpha2.MySQLServerList
-		err := mgr.GetClient().List(ctx, &matchingResources, client.MatchingFields{adminSecretKey: o.GetName()})
+		err := mgr.GetClient().List(ctx, &matchingResources, client.MatchingFields{AdminSecretKey: o.GetName()})
 		if err != nil {
 			// TODO: log the error at least
 			return nil
 		}
-
 
 		var result []reconcile.Request
 
@@ -88,9 +91,4 @@ func (r *MySQLServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 		return result
 	}
-
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&v1alpha2.MySQLServer{}).
-		Watches(&source.Kind{Type: &corev1.Secret{}}, handler.EnqueueRequestsFromMapFunc(mapFunc)).
-		Complete(r)
 }
