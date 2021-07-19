@@ -162,6 +162,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.CreateStorageTypes().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentFunctions(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ImplementConvertibleSpecInterface(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ImplementConvertibleStatusInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalGVKFunction(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.SimplifyDefinitions(),

@@ -1,0 +1,46 @@
+Expected Pipeline Stages for ARM Code Generation
+------------------------------------------------
+loadSchema                                     Load and walk schema
+addStatusFromSwagger                           Add information from Swagger specs for 'status' fields
+allof-anyof-objects                            Convert allOf and oneOf to object types
+flattenResources                               Flatten nested resource types
+augmentSpecWithStatus                          Merges information from Status into Spec
+stripUnreferenced                              Strip unreferenced types
+nameTypes                                      Name inner types for CRD
+propertyRewrites                               Modify property types using configured transforms
+determineResourceOwnership                     Determine ARM resource relationships
+removeAliases                                  Remove type aliases
+collapseCrossGroupReferences                   Finds and removes cross group references
+pluralizeNames                                 Improve resource pluralization
+stripUnreferenced                              Strip unreferenced types
+assertTypesStructureValid                      Verify that all local TypeNames refer to a type
+removeEmbeddedResources             azure      Remove properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.
+filterTypes                                    Apply export filters to reduce the number of generated types
+stripUnreferenced                              Strip unreferenced types
+replaceAnyTypeWithJSON                         Replace properties using interface{} with arbitrary JSON
+addCrossResourceReferences          azure      Replace cross-resource references with genruntime.ResourceReference
+reportTypesAndVersions              azure      Generate reports on types and versions in each package
+createArmTypes                      azure      Create types for interaction with ARM
+applyArmConversionInterface         azure      Add ARM conversion interfaces to Kubernetes types
+applyKubernetesResourceInterface    azure      Add the KubernetesResource interface to every resource
+flattenProperties                              Apply flattening to properties marked for flattening
+stripUnreferenced                              Strip unreferenced types
+addCrossplaneOwnerProperties        crossplane Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
+addCrossplaneForProviderProperty    crossplane Add a 'ForProvider' property on every spec
+addCrossplaneAtProviderProperty     crossplane Add an 'AtProvider' property on every status
+addCrossplaneEmbeddedResourceSpec   crossplane Add an embedded runtimev1alpha1.ResourceSpec to every spec type
+addCrossplaneEmbeddedResourceStatus crossplane Add an embedded runtimev1alpha1.ResourceStatus to every status type
+createConversionGraph               azure      Create the graph of conversions between versions of each resource group
+injectOriginalVersionFunction       azure      Inject the function OriginalVersion() into each Spec type
+createStorageTypes                  azure      Create storage versions of CRD types
+injectOriginalVersionProperty       azure      Inject the property OriginalVersion into each Storage Spec type
+injectPropertyAssignmentFunctions   azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
+injectOriginalGVKFunction           azure      Inject the function OriginalGVK() into each Resource type
+simplifyDefinitions                            Flatten definitions by removing wrapper types
+jsonTestCases                       azure      Add test cases to verify JSON serialization
+markStorageVersion                             Mark the latest version of each resource as the storage version
+rogueCheck                                     Check for rogue definitions using AnyTypes
+ensureArmTypeExistsForEveryType     azure      Check that an ARM type exists for both Spec and Status of each resource
+deleteGenerated                                Delete generated code from .
+exportPackages                                 Export packages to "."
+exportControllerResourceRegistrations azure      Export resource registrations to ""
