@@ -18,7 +18,8 @@ import (
 
 // ChainedConversionFunction implements conversions to/from another type that implements a conversion function
 //
-// We use this for Spec types, implementing genruntime.ConvertibleSpec.
+// We use this for Spec types, implementing genruntime.ConvertibleSpec, and for Status types, implementing
+// genruntime.ConvertibleStatus
 //
 // Existing PropertyAssignment functions are used to implement stepwise conversion.
 //
@@ -37,13 +38,6 @@ import (
 //     return r.AssignPropertiesFrom(source)
 // }
 //
-// If the two instances involved in conversion are not in the same "spoke" leading to our "hub" version, we'll reach
-// the hub type and then pivot to the reverse conversion. The implementation on the hub instance does this pivot:
-//
-// func (s <hubtype>) ConvertFrom(instance <interfaceType>>) error {
-//     return instance.ConvertTo(s)
-// }
-//
 type ChainedConversionFunction struct {
 	// nameFrom is the name for this function when converting FROM a provided instance
 	nameFrom string
@@ -51,8 +45,6 @@ type ChainedConversionFunction struct {
 	nameTo string
 	// parameterType is common interface type for our parameter
 	parameterType astmodel.TypeName
-	// hubType is the TypeName of the hub type of our conversions, the central type of the hub-and-spoke model
-	hubType astmodel.TypeName
 	// direction is the direction of conversion - either FROM the supplied instance, or TO the supplied instance
 	// We initialize this from the supplied property conversion function to guarantee consistency that the function
 	// we generate is using that function correctly
@@ -70,20 +62,18 @@ type ChainedConversionFunction struct {
 // Ensure we properly implement the function interface
 var _ astmodel.Function = &ChainedConversionFunction{}
 
-// NewSpecConversionFunction creates a chained conversion function that converts between two Spec types implementing the
-// interface genruntime.ConvertibleSpec.
+// NewSpecChainedConversionFunction creates a chained conversion function that converts between two Spec types implementing the
+// interface genruntime.ConvertibleSpec, using the provided property assignment function as a basis.
 // hubType is the TypeName of our hub type
 // propertyFunction is the function we will call to copy properties across between specs
 // idFactory is an identifier factory to use for generating local identifiers
-func NewSpecConversionFunction(
-	hubType astmodel.TypeName,
+func NewSpecChainedConversionFunction(
 	propertyFunction *PropertyAssignmentFunction,
 	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
 		nameFrom:                        "ConvertSpecFrom",
 		nameTo:                          "ConvertSpecTo",
 		parameterType:                   astmodel.ConvertibleSpecInterfaceType,
-		hubType:                         hubType,
 		propertyAssignmentFunctionName:  propertyFunction.Name(),
 		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
 		direction:                       propertyFunction.direction,
@@ -93,20 +83,18 @@ func NewSpecConversionFunction(
 	return result
 }
 
-// NewStatusConversionFunction creates a chained conversion function that converts between two Status types implementing
-// the interface genruntime.ConvertibleStatus.
+// NewStatusChainedConversionFunction creates a chained conversion function that converts between two Status types implementing
+// the interface genruntime.ConvertibleStatus, using the provided property assignment function as a basis.
 // hubType is the TypeName of our hub type
 // propertyFunction is the function we will call to copy properties across between specs
 // idFactory is an identifier factory to use for generating local identifiers
-func NewStatusConversionFunction(
-	hubType astmodel.TypeName,
+func NewStatusChainedConversionFunction(
 	propertyFunction *PropertyAssignmentFunction,
 	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
 		nameFrom:                        "ConvertStatusFrom",
 		nameTo:                          "ConvertStatusTo",
 		parameterType:                   astmodel.ConvertibleStatusInterfaceType,
-		hubType:                         hubType,
 		propertyAssignmentFunctionName:  propertyFunction.Name(),
 		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
 		direction:                       propertyFunction.direction,
@@ -128,14 +116,12 @@ func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.Packa
 		astmodel.FmtReference,
 		astmodel.GenRuntimeReference,
 		fn.parameterType.PackageReference,
-		fn.hubType.PackageReference,
 		fn.propertyAssignmentParameterType.PackageReference)
 }
 
 func (fn *ChainedConversionFunction) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet(
 		fn.parameterType,
-		fn.hubType,
 		fn.propertyAssignmentParameterType)
 }
 
@@ -159,37 +145,9 @@ func (fn *ChainedConversionFunction) AsFunc(
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(fn.declarationDocComment(receiver, parameterName))
-
-	if fn.hubType.Equals(receiver) {
-		// Body on the hub type pivots the conversion
-		funcDetails.Body = fn.bodyForPivot(receiverName, parameterName)
-	} else {
-		// Body on non-hub type does one step of a conversion
-		funcDetails.Body = fn.bodyForConvert(receiverName, parameterName, generationContext)
-	}
+	funcDetails.Body = fn.bodyForConvert(receiverName, parameterName, generationContext)
 
 	return funcDetails.DefineFunc()
-}
-
-// bodyForPivot is used to do the conversion if we hit the hub type without finding the conversion we need
-//
-// return instance.ConvertTo(s)
-//
-// Note that the method called is in the *other* *direction*; we restart the conversion at the extreme of the second
-// spoke, invoking conversions back towards the hub again.
-//
-// TODO: If invoked with two unrelated instances (that don't share a common hub type), this will currently go into an
-// infinite call loop, at least until it encounteres a stack overflow. Need to change this to panic if called while
-// already active in order to provide a diagnostic.
-func (fn *ChainedConversionFunction) bodyForPivot(receiverName string, parameterName string) []dst.Stmt {
-
-	fnNameForOtherDirection := fn.direction.SelectString(fn.nameTo, fn.nameFrom)
-	parameter := dst.NewIdent(parameterName)
-
-	callAndReturn := astbuilder.Returns(
-		astbuilder.CallExpr(dst.NewIdent(receiverName), fnNameForOtherDirection, parameter))
-
-	return astbuilder.Statements(callAndReturn)
 }
 
 // bodyForConvert generates a conversion when the type we know about isn't the hub type, but is closer to it in our
@@ -331,6 +289,5 @@ func (fn *ChainedConversionFunction) Equals(otherFn astmodel.Function) bool {
 	return fn.Name() == rcf.Name() &&
 		fn.direction == rcf.direction &&
 		fn.propertyAssignmentFunctionName == rcf.propertyAssignmentFunctionName &&
-		fn.propertyAssignmentParameterType.Equals(rcf.propertyAssignmentParameterType) &&
-		fn.hubType.Equals(rcf.hubType)
+		fn.propertyAssignmentParameterType.Equals(rcf.propertyAssignmentParameterType)
 }

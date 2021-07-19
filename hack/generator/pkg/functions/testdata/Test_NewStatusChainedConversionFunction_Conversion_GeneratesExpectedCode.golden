@@ -5,7 +5,7 @@ package v20200101
 
 import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	personv20211231 "github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231"
+	person "github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231"
 	"github.com/pkg/errors"
 )
 
@@ -15,14 +15,14 @@ type Person_Status struct {
 
 // ConvertStatusFrom populates our Person_Status from the provided source
 func (personStatus *Person_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*personv20211231.Person_Status)
+	src, ok := source.(*person.Person_Status)
 	if ok {
 		// Populate our instance from source
 		return personStatus.AssignPropertiesFromPersonStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &personv20211231.Person_Status{}
+	src = &person.Person_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -39,14 +39,14 @@ func (personStatus *Person_Status) ConvertStatusFrom(source genruntime.Convertib
 
 // ConvertStatusTo populates the provided destination from our Person_Status
 func (personStatus *Person_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*personv20211231.Person_Status)
+	dst, ok := destination.(*person.Person_Status)
 	if ok {
 		// Populate destination from our instance
 		return personStatus.AssignPropertiesToPersonStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &personv20211231.Person_Status{}
+	dst = &person.Person_Status{}
 	err := personStatus.AssignPropertiesToPersonStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")

@@ -10,20 +10,19 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-// Test_NewSpecConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToSpec() and
+// Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToSpec() and
 // ConvertFromSpec() functions are converting to/from spec types that aren't the hub  type
-func Test_NewSpecConversionFunction_Conversion_GeneratesExpectedCode(t *testing.T) {
+func Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode(t *testing.T) {
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type
-	personSpec2020 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
+	personSpec2020 := test.CreateSpec(
+		test.Pkg2020, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
 
 	// Create our downstream type
-	personSpec2021 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty, test.CityProperty)
-
-	// Create our hub type
-	personSpec2022 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty, test.CityProperty)
+	personSpec2021 := test.CreateSpec(
+		test.Pkg2021, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty, test.CityProperty)
 
 	// Create Property Assignment functions
 	types := make(astmodel.Types)
@@ -38,11 +37,11 @@ func Test_NewSpecConversionFunction_Conversion_GeneratesExpectedCode(t *testing.
 	g.Expect(err).To(Succeed())
 
 	// Create Spec Conversion Functions
-	convertSpecTo := NewSpecConversionFunction(personSpec2022.Name(), propertyAssignTo, idFactory)
-	convertSpecFrom := NewSpecConversionFunction(personSpec2022.Name(), propertyAssignFrom, idFactory)
+	convertSpecTo := NewSpecChainedConversionFunction(propertyAssignTo, idFactory)
+	convertSpecFrom := NewSpecChainedConversionFunction(propertyAssignFrom, idFactory)
 
 	// Inject these methods into personSpec2020
-	// We omit the PropertyAssignment functions to reduce the amount of clutter, those are tested elsewhare
+	// We omit the PropertyAssignment functions to reduce the amount of clutter, those are tested elsewhere
 	injector := astmodel.NewFunctionInjector()
 	personSpec2020, err = injector.Inject(personSpec2020, convertSpecTo, convertSpecFrom)
 	g.Expect(err).To(Succeed())
@@ -55,9 +54,9 @@ func Test_NewSpecConversionFunction_Conversion_GeneratesExpectedCode(t *testing.
 	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
 }
 
-// Test_NewStatusConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToStatus() and
-// ConvertFromStatus() functions are converting to/from status types that aren't the hub  type
-func Test_NewStatusConversionFunction_Conversion_GeneratesExpectedCode(t *testing.T) {
+// Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToStatus()
+// and ConvertFromStatus() functions are converting to/from status types that aren't the hub type
+func Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode(t *testing.T) {
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
@@ -66,9 +65,6 @@ func Test_NewStatusConversionFunction_Conversion_GeneratesExpectedCode(t *testin
 
 	// Create our downstream type
 	personStatus2021 := test.CreateStatus(test.Pkg2021, "Person")
-
-	// Create our hub type
-	personStatus2022 := test.CreateStatus(test.Pkg2022, "Person")
 
 	// Create Property Assignment functions
 	types := make(astmodel.Types)
@@ -83,11 +79,11 @@ func Test_NewStatusConversionFunction_Conversion_GeneratesExpectedCode(t *testin
 	g.Expect(err).To(Succeed())
 
 	// Create Spec Conversion Functions
-	convertSpecTo := NewStatusConversionFunction(personStatus2022.Name(), propertyAssignTo, idFactory)
-	convertSpecFrom := NewStatusConversionFunction(personStatus2022.Name(), propertyAssignFrom, idFactory)
+	convertSpecTo := NewStatusChainedConversionFunction(propertyAssignTo, idFactory)
+	convertSpecFrom := NewStatusChainedConversionFunction(propertyAssignFrom, idFactory)
 
 	// Inject these methods into personStatus2020
-	// We omit the PropertyAssignment functions to reduce the amount of clutter, those are tested elsewhare
+	// We omit the PropertyAssignment functions to reduce the amount of clutter, those are tested elsewhere
 	injector := astmodel.NewFunctionInjector()
 	personStatus2020, err = injector.Inject(personStatus2020, convertSpecTo, convertSpecFrom)
 	g.Expect(err).To(Succeed())
