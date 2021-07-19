@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 )
 
-// PiviotConversionFunction implements a pivot that's used when a conversion reaches a hub type but hasn't yet found the
+// PivotConversionFunction implements a pivot that's used when a conversion reaches a hub type but hasn't yet found the
 // innermost required conversion needed.
 //
 // We use this for Spec types, implementing genruntime.ConvertibleSpec, and for Status types, implementing
@@ -54,11 +54,11 @@ func NewSpecPivotConversionFunction(
 	direction conversions.Direction,
 	idFactory astmodel.IdentifierFactory) *PivotConversionFunction {
 	result := &PivotConversionFunction{
-		nameFrom:                        "ConvertSpecFrom",
-		nameTo:                          "ConvertSpecTo",
-		parameterType:                   astmodel.ConvertibleSpecInterfaceType,
-		direction:                       direction,
-		idFactory:                       idFactory,
+		nameFrom:      "ConvertSpecFrom",
+		nameTo:        "ConvertSpecTo",
+		parameterType: astmodel.ConvertibleSpecInterfaceType,
+		direction:     direction,
+		idFactory:     idFactory,
 	}
 
 	return result
@@ -72,16 +72,15 @@ func NewStatusPivotConversionFunction(
 	direction conversions.Direction,
 	idFactory astmodel.IdentifierFactory) *PivotConversionFunction {
 	result := &PivotConversionFunction{
-		nameFrom:                        "ConvertStatusFrom",
-		nameTo:                          "ConvertStatusTo",
-		parameterType:                   astmodel.ConvertibleStatusInterfaceType,
-		direction:                       direction,
-		idFactory:                       idFactory,
+		nameFrom:      "ConvertStatusFrom",
+		nameTo:        "ConvertStatusTo",
+		parameterType: astmodel.ConvertibleStatusInterfaceType,
+		direction:     direction,
+		idFactory:     idFactory,
 	}
 
 	return result
 }
-
 
 func (fn *PivotConversionFunction) Name() string {
 	return fn.direction.SelectString(fn.nameFrom, fn.nameTo)
@@ -121,7 +120,7 @@ func (fn *PivotConversionFunction) AsFunc(
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(fn.declarationDocComment(receiver, parameterName))
-	funcDetails.Body = fn.bodyForPivot(receiverName, parameterName)
+	funcDetails.Body = fn.bodyForPivot(receiverName, parameterName, generationContext)
 
 	return funcDetails.DefineFunc()
 }
@@ -133,18 +132,28 @@ func (fn *PivotConversionFunction) AsFunc(
 // Note that the method called is in the *other* *direction*; we restart the conversion at the extreme of the second
 // spoke, invoking conversions back towards the hub again.
 //
-// TODO: If invoked with two unrelated instances (that don't share a common hub type), this will currently go into an
-// infinite call loop, at least until it encounteres a stack overflow. Need to change this to panic if called while
-// already active in order to provide a diagnostic.
-func (fn *PivotConversionFunction) bodyForPivot(receiverName string, parameterName string) []dst.Stmt {
+func (fn *PivotConversionFunction) bodyForPivot(
+	receiverName string,
+	parameterName string,
+	generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+
+	errorsPkg := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 
 	fnNameForOtherDirection := fn.direction.SelectString(fn.nameTo, fn.nameFrom)
 	parameter := dst.NewIdent(parameterName)
+	receiver := dst.NewIdent(receiverName)
 
-	callAndReturn := astbuilder.Returns(
-		astbuilder.CallExpr(parameter, fnNameForOtherDirection, dst.NewIdent(receiverName)))
+	errorMessage := astbuilder.StringLiteralf(
+		"attempted conversion between unrelated implementations of %s",
+		fn.parameterType)
+	recursionCheck := astbuilder.ReturnIfExpr(
+		astbuilder.Equal(parameter, receiver),
+		astbuilder.CallQualifiedFunc(errorsPkg, "New", errorMessage))
+	recursionCheck.Decorations().After = dst.EmptyLine
 
-	return astbuilder.Statements(callAndReturn)
+	callAndReturn := astbuilder.Returns(astbuilder.CallExpr(parameter, fnNameForOtherDirection, receiver))
+
+	return astbuilder.Statements(recursionCheck, callAndReturn)
 }
 
 func (fn *PivotConversionFunction) declarationDocComment(receiver astmodel.TypeName, parameter string) string {

@@ -367,6 +367,18 @@ func Selector(expr dst.Expr, names ...string) *dst.SelectorExpr {
 		exprs...).(*dst.SelectorExpr)
 }
 
+// Equal generates a == comparison between the two expressions
+//
+// <lhs> == <rhs>
+//
+func Equal(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
+	return &dst.BinaryExpr{
+		X:  dst.Clone(lhs).(dst.Expr),
+		Op: token.EQL,
+		Y:  dst.Clone(rhs).(dst.Expr),
+	}
+}
+
 // NotEqual generates a != comparison between the two expressions
 //
 // <lhs> != <rhs>

@@ -29,6 +29,19 @@ func SimpleIfElse(condition dst.Expr, trueBranch []dst.Stmt, falseBranch []dst.S
 	return result
 }
 
+// IfEqual executes a series of statements if the supplied expressions are
+//
+// if <left> == <right> {
+//     <statements>
+// }
+//
+func IfEqual(left dst.Expr, right dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
+	return &dst.IfStmt{
+		Cond: Equal(left, right),
+		Body: StatementBlock(statements...),
+	}
+}
+
 // IfNotNil executes a series of statements if the supplied expression is not nil
 //
 // if <source> != nil {
