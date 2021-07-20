@@ -50,7 +50,7 @@ func Test_Properties_GivenEmptyObject_ReturnsEmptySlice(t *testing.T) {
 func Test_Properties_GivenObjectWithProperties_ReturnsExpectedSortedSlice(t *testing.T) {
 	g := NewGomegaWithT(t)
 	object := EmptyObjectType.WithProperties(fullName, familyName, knownAs, gender)
-	properties := object.Properties()
+	properties := object.Properties().AsSlice()
 	g.Expect(properties).To(HaveLen(4))
 	g.Expect(properties[0]).To(Equal(familyName))
 	g.Expect(properties[1]).To(Equal(fullName))
@@ -168,8 +168,9 @@ func Test_WithProperty_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
 	empty := EmptyObjectType
 	object := empty.WithProperty(fullName)
 	g.Expect(empty).NotTo(Equal(object)) // Ensure the original wasn't modified
-	g.Expect(object.properties).To(HaveLen(1))
-	g.Expect(object.Properties()[0]).To(Equal(fullName))
+	properties := object.Properties().AsSlice()
+	g.Expect(properties).To(HaveLen(1))
+	g.Expect(properties[0]).To(Equal(fullName))
 }
 
 func Test_WithProperty_GivenPopulatedObjectAndNewProperty_ReturnsExpectedObject(t *testing.T) {
@@ -181,11 +182,13 @@ func Test_WithProperty_GivenPopulatedObjectAndNewProperty_ReturnsExpectedObject(
 	modified := original.WithProperty(nickname)
 
 	g.Expect(original).NotTo(Equal(modified))
-	g.Expect(modified.Properties()).To(ContainElement(fullName))
-	g.Expect(modified.Properties()).To(ContainElement(familyName))
-	g.Expect(modified.Properties()).To(ContainElement(knownAs))
-	g.Expect(modified.Properties()).To(ContainElement(gender))
-	g.Expect(modified.Properties()).To(ContainElement(nickname))
+
+	modifiedProperties := modified.Properties()
+	g.Expect(modifiedProperties).To(ContainElement(fullName))
+	g.Expect(modifiedProperties).To(ContainElement(familyName))
+	g.Expect(modifiedProperties).To(ContainElement(knownAs))
+	g.Expect(modifiedProperties).To(ContainElement(gender))
+	g.Expect(modifiedProperties).To(ContainElement(nickname))
 }
 
 func Test_WithProperty_GivenPopulatedObjectAndReplacementProperty_ReturnsExpectedObject(t *testing.T) {
