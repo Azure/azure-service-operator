@@ -9,8 +9,7 @@ package astmodel
 // Provides readonly access as we need to use a TypeVisitor for modifications to preserve type wrapping
 type PropertyContainer interface {
 	// Properties returns all the properties from this container
-	// A sorted slice is returned to preserve immutability and provide determinism
-	Properties() []*PropertyDefinition
+	Properties() PropertySet
 
 	// Property returns the property and true if the named property is found, nil and false otherwise
 	Property(name PropertyName) (*PropertyDefinition, bool)

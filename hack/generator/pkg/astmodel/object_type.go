@@ -19,7 +19,7 @@ import (
 // ObjectType represents an (unnamed) object type
 type ObjectType struct {
 	embedded   map[TypeName]*PropertyDefinition
-	properties map[PropertyName]*PropertyDefinition
+	properties PropertySet
 	functions  map[string]Function
 	testcases  map[string]TestCase
 	InterfaceImplementer
@@ -44,7 +44,7 @@ var _ TestCaseContainer = &ObjectType{}
 func NewObjectType() *ObjectType {
 	return &ObjectType{
 		embedded:             make(map[TypeName]*PropertyDefinition),
-		properties:           make(map[PropertyName]*PropertyDefinition),
+		properties:           make(PropertySet),
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		InterfaceImplementer: MakeInterfaceImplementer(),
@@ -102,19 +102,8 @@ func defineField(fieldName string, fieldType dst.Expr, tag string) *dst.Field {
 }
 
 // Properties returns all the property definitions
-// A sorted slice is returned to preserve immutability and provide determinism
-func (objectType *ObjectType) Properties() []*PropertyDefinition {
-	var result []*PropertyDefinition
-	for _, property := range objectType.properties {
-		result = append(result, property)
-	}
-
-	// Sorted so that it's always consistent
-	sort.Slice(result, func(left int, right int) bool {
-		return result[left].propertyName < result[right].propertyName
-	})
-
-	return result
+func (objectType *ObjectType) Properties() PropertySet {
+	return objectType.properties.Copy()
 }
 
 // Property returns the details of a specific property based on its unique case sensitive name
