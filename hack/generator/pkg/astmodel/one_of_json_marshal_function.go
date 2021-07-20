@@ -61,7 +61,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 
 	var statements []dst.Stmt
 
-	for _, property := range f.oneOfObject.Properties() {
+	for _, property := range f.oneOfObject.Properties().AsSlice() {
 
 		ifStatement := dst.IfStmt{
 			Cond: astbuilder.NotNil(

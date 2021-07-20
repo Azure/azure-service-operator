@@ -167,7 +167,7 @@ func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContex
 		fields = append(fields, f.AsField(codeGenerationContext))
 	}
 
-	for _, f := range objectType.Properties() {
+	for _, f := range objectType.properties.AsSlice() {
 		fields = append(fields, f.AsField(codeGenerationContext))
 	}
 
@@ -549,7 +549,7 @@ func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, _ 
 // FindPropertyWithTagValue finds the property with the given tag and value if it exists. The boolean return
 // is false if no match can be found.
 func (objectType *ObjectType) FindPropertyWithTagValue(tag string, value string) (*PropertyDefinition, bool) {
-	for _, prop := range objectType.Properties() {
+	for _, prop := range objectType.properties {
 		values, ok := prop.Tag(tag)
 		if !ok {
 			continue

@@ -91,7 +91,7 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 		// based on their properties and copy across “flatten” when present, and
 		// also invoke the merger on the (Spec, Status) types of each property recursively
 		merger.Add(func(spec, status *astmodel.ObjectType) (astmodel.Type, error) {
-			props := spec.Properties()
+			props := spec.Properties().AsSlice()
 
 			changed := false
 			for ix, specProp := range props {

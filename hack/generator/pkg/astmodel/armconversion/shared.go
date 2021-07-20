@@ -107,7 +107,7 @@ func generateTypeConversionAssignments(
 	propertyHandler func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt) []dst.Stmt {
 
 	var result []dst.Stmt
-	for _, toField := range toType.Properties() {
+	for _, toField := range toType.Properties().AsSlice() {
 		fieldConversionStmts := propertyHandler(toField, fromType)
 		if len(fieldConversionStmts) > 0 {
 			result = append(result, &dst.EmptyStmt{

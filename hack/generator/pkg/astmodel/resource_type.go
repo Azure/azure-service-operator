@@ -458,7 +458,7 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 		}
 	}
 
-	for _, property := range resource.Properties() {
+	for _, property := range resource.Properties().AsSlice() {
 		f := property.AsField(codeGenerationContext)
 		if f != nil {
 			fields = append(fields, f)
