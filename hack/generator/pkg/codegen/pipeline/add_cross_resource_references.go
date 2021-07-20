@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
-var armIDDescriptionRegex = regexp.MustCompile("(?i).*/subscriptions/.*?/resourceGroups/.*")
+var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARM ID|Resource ID)")
 
 // TODO: For now not supporting array or map of references. Unsure if it actually ever happens in practice.
 
@@ -186,6 +186,10 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.batch", "v1alpha1api20210101"), "KeyVaultReference"),
 			propName: "Id",
 		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.batch", "v1alpha1api20210101"), "AutoStorageBaseProperties"),
+			propName: "StorageAccountId",
+		}: true,
 		// Document DB
 		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.documentdb", "v1alpha1api20210515"), "VirtualNetworkRule"),
@@ -196,15 +200,31 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20210401"), "VirtualNetworkRule"),
 			propName: "Id",
 		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20210401"), "EncryptionIdentity"),
+			propName: "UserAssignedIdentity",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20210401"), "ResourceAccessRule"),
+			propName: "ResourceId",
+		}: true,
 		// Service bus
 		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.servicebus", "v1alpha1api20210101preview"), "PrivateEndpoint"),
 			propName: "Id",
 		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.servicebus", "v1alpha1api20210101preview"), "UserAssignedIdentityProperties"),
+			propName: "UserAssignedIdentity",
+		}: true,
 		// Network
 		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.network", "v1alpha1api20201101"), "SubResource"),
 			propName: "Id",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.network", "v1alpha1api20201101"), "VirtualNetworkGateways_Spec_Properties"),
+			propName: "VNetExtendedLocationResourceId",
 		}: true,
 		// Compute
 		{
@@ -245,6 +265,15 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "SubResource"),
 			propName: "Id",
+		}: true,
+		// Disk (this is also under microsoft.compute)
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930"), "CreationData"),
+			propName: "SourceResourceId",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930"), "DiskProperties"),
+			propName: "DiskAccessId",
 		}: true,
 	}
 }

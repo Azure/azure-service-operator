@@ -51,6 +51,10 @@ type TypeTransformer struct {
 
 	// makeLocalPackageReferenceFunc is a function creating a local package reference
 	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference
+
+	// matchedProperties is a map of types that were matched to the property found on the type.
+	// This is used to ensure that the type transformer matched at least one property
+	matchedProperties map[astmodel.TypeName]string
 }
 
 // TODO: passing this here is a bit icky
@@ -106,6 +110,7 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 	if err != nil {
 		return err
 	}
+	transformer.matchedProperties = make(map[astmodel.TypeName]string)
 
 	if transformer.Remove {
 		if transformer.Property == "" {
@@ -209,6 +214,20 @@ func (r PropertyTransformResult) String() string {
 	)
 }
 
+func (transformer *TypeTransformer) MatchedRequiredProperties() bool {
+	// If this transformer applies to entire types (instead of just properties on types), we just defer to
+	// transformer.MatchedRequiredTypes
+	if transformer.Property == "" {
+		return transformer.MatchedRequiredTypes()
+	}
+
+	if !*transformer.MatchRequired {
+		return true
+	}
+
+	return transformer.HasMatches() && len(transformer.matchedProperties) != 0
+}
+
 // TransformProperty transforms the property on the given object type
 func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, objectType *astmodel.ObjectType) *PropertyTransformResult {
 	if !transformer.AppliesToType(name) {
@@ -238,6 +257,8 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 	if !found {
 		return nil
 	}
+
+	transformer.matchedProperties[name] = propName.String()
 
 	result := PropertyTransformResult{
 		TypeName: name,

@@ -109,6 +109,9 @@ func (config *Configuration) GetPropertyTransformersError() error {
 		if !filter.MatchedRequiredTypes() {
 			return errors.Errorf("Type transformer target: %q for property %q matched no types", filter.String(), filter.Property)
 		}
+		if !filter.MatchedRequiredProperties() {
+			return errors.Errorf("Type transformer target: %q for property %q matched types, but no types had the property", filter.String(), filter.Property)
+		}
 	}
 
 	return nil
