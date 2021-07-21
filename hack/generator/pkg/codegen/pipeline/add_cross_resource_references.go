@@ -19,7 +19,7 @@ import (
 )
 
 // AddCrossResourceReferencesStageID is the unique identifier for this pipeline stage
-const AddCrossResourceReferencesStageID ="addCrossResourceReferences"
+const AddCrossResourceReferencesStageID = "addCrossResourceReferences"
 
 var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARM ID|Resource ID)")
 
