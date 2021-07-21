@@ -117,8 +117,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// De-pluralize resource types
 		// (Must come after type aliases are resolved)
-		pipeline.ImproveResourcePluralization().
-			RequiresPrerequisiteStages("removeAliases"),
+		pipeline.ImproveResourcePluralization(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 
@@ -183,9 +182,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.EnsureARMTypeExistsForEveryResource().UsedFor(pipeline.ARMTarget),
 
 		pipeline.DeleteGeneratedCode(configuration.FullTypesOutputPath()),
-
-		pipeline.ExportPackages(configuration.FullTypesOutputPath()).
-			RequiresPrerequisiteStages("deleteGenerated"),
+		pipeline.ExportPackages(configuration.FullTypesOutputPath()),
 
 		pipeline.ExportControllerResourceRegistrations(configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
 	}

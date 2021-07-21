@@ -146,41 +146,43 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 	switch genPipeline {
 	case config.GenerationPipelineAzure:
 		codegen.RemoveStages(
-			"deleteGenerated",
-			"rogueCheck",
-			"createStorageTypes",
-			"injectOriginalGVKFunction",
-			"injectOriginalVersionFunction",
-			"injectOriginalVersionProperty",
-			"injectPropertyAssignmentFunctions",
-			//pipeline.InjectHubFunctionStageId,
-			"reportTypesAndVersions")
+			pipeline.DeleteGeneratedCodeStageID,
+			pipeline.CheckForAnyTypeStageID,
+			pipeline.CreateStorageTypesStageID,
+			pipeline.InjectOriginalGVKFunctionStageID,
+			pipeline.InjectOriginalVersionFunctionStageID,
+			pipeline.InjectOriginalVersionPropertyStageID,
+			pipeline.InjectPropertyAssignmentFunctionsStageID,
+			// TODO: Once the stage is enabled in the pipeline, we may need to remove it here for testing
+			//pipeline.InjectHubFunctionStageID,
+			pipeline.ReportOnTypesAndVersionsStageID)
 		if !testConfig.HasARMResources {
-			codegen.RemoveStages("createArmTypes", "applyArmConversionInterface")
+			codegen.RemoveStages(pipeline.CreateARMTypesStageID, pipeline.ApplyARMConversionInterfaceStageID)
+
 			// These stages treat the collection of types as a graph of types rooted by a resource type.
 			// In the degenerate case where there are no resources it behaves the same as stripUnreferenced - removing
 			// all types. Remove it in phases that have no resources to avoid this.
-			codegen.RemoveStages("removeEmbeddedResources", "collapseCrossGroupReferences")
+			codegen.RemoveStages(pipeline.RemoveEmbeddedResourcesStageID, pipeline.CollapseCrossGroupReferencesStageID)
 
-			codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
+			codegen.ReplaceStage(pipeline.StripUnreferencedTypeDefinitionsStageID, stripUnusedTypesPipelineStage())
 		} else {
-			codegen.ReplaceStage("addCrossResourceReferences", addCrossResourceReferencesForTest(idFactory))
+			codegen.ReplaceStage(pipeline.AddCrossResourceReferencesStageID, addCrossResourceReferencesForTest(idFactory))
 		}
 	case config.GenerationPipelineCrossplane:
-		codegen.RemoveStages("deleteGenerated", "rogueCheck")
+		codegen.RemoveStages(pipeline.DeleteGeneratedCodeStageID, pipeline.CheckForAnyTypeStageID)
 		if !testConfig.HasARMResources {
-			codegen.ReplaceStage("stripUnreferenced", stripUnusedTypesPipelineStage())
+			codegen.ReplaceStage(pipeline.StripUnreferencedTypeDefinitionsStageID, stripUnusedTypesPipelineStage())
 		}
 
 	default:
 		return nil, errors.Errorf("unknown pipeline kind %q", string(genPipeline))
 	}
 
-	codegen.ReplaceStage("loadSchema", loadTestSchemaIntoTypes(idFactory, cfg, path))
-	codegen.ReplaceStage("exportPackages", exportPackagesTestPipelineStage(t, testName))
+	codegen.ReplaceStage(pipeline.LoadSchemaIntoTypesStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
+	codegen.ReplaceStage(pipeline.ExportPackagesStageID, exportPackagesTestPipelineStage(t, testName))
 
 	if testConfig.InjectEmbeddedStruct {
-		codegen.InjectStageAfter("removeAliases", injectEmbeddedStructType())
+		codegen.InjectStageAfter(pipeline.RemoveTypeAliasesStageID, injectEmbeddedStructType())
 	}
 
 	codegen.RemoveStages()
@@ -296,7 +298,7 @@ func stripUnusedTypesPipelineStage() pipeline.Stage {
 // TODO: we have no way to give Swagger to the golden files tests currently.
 func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) pipeline.Stage {
 	return pipeline.MakeLegacyStage(
-		"addCrossResourceReferences",
+		pipeline.AddCrossResourceReferencesStageID,
 		"Add cross resource references for test",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			result := make(astmodel.Types)

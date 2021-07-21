@@ -11,25 +11,24 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
-// InjectHubFunctionStageId is the unique identifier for this pipeline stage
-const InjectHubFunctionStageId = "injectHubFunction"
+// InjectHubFunctionStageID is the unique identifier for this pipeline stage
+const InjectHubFunctionStageID = "injectHubFunction"
 
 // InjectHubFunction modifies the nominates storage version (aka hub version) of each resource by injecting a Hub()
 // function so that it satisfies the required interface.
 func InjectHubFunction(idFactory astmodel.IdentifierFactory) Stage {
 
-	result := MakeLegacyStage(
-		InjectHubFunctionStageId,
+	stage := MakeLegacyStage(
+		InjectHubFunctionStageID,
 		"Inject the function Hub() into each hub resource",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			injector := astmodel.NewFunctionInjector()
 			result := types.Copy()
 
-			resources := storage.FindResourceTypes(types)
+			resources := astmodel.FindResourceTypes(types)
 			for name, def := range resources {
 				rt, ok := astmodel.AsResourceType(def.Type())
 				if !ok {
@@ -50,6 +49,6 @@ func InjectHubFunction(idFactory astmodel.IdentifierFactory) Stage {
 			return result, nil
 		})
 
-	result.RequiresPrerequisiteStages(MarkStorageVersionStageId)
-	return result
+	stage.RequiresPrerequisiteStages(MarkStorageVersionStageId)
+	return stage
 }

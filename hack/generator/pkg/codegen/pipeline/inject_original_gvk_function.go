@@ -11,12 +11,11 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
-// injectOriginalGVKFunctionId is the unique identifier for this pipeline stage
-const injectOriginalGVKFunctionId = "injectOriginalGVKFunction"
+// InjectOriginalGVKFunctionStageID is the unique identifier for this pipeline stage
+const InjectOriginalGVKFunctionStageID = "injectOriginalGVKFunction"
 
 // InjectOriginalGVKFunction injects the function OriginalGVK() into each Resource type
 // This function allows us to recover the original version used to create each custom resource, giving the operator the
@@ -24,13 +23,13 @@ const injectOriginalGVKFunctionId = "injectOriginalGVKFunction"
 func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) Stage {
 
 	stage := MakeLegacyStage(
-		injectOriginalGVKFunctionId,
+		InjectOriginalGVKFunctionStageID,
 		"Inject the function OriginalGVK() into each Resource type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			injector := astmodel.NewFunctionInjector()
 			result := types.Copy()
 
-			resources := storage.FindResourceTypes(types)
+			resources := astmodel.FindResourceTypes(types)
 			for name, def := range resources {
 				var fn *functions.OriginalGVKFunction
 				if astmodel.IsStoragePackageReference(name.PackageReference) {
@@ -50,6 +49,6 @@ func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) Stage {
 			return result, nil
 		})
 
-	stage.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageId)
+	stage.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageID)
 	return stage
 }
