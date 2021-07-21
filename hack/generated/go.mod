@@ -43,7 +43,7 @@ require (
 	k8s.io/client-go v0.21.2
 	k8s.io/klog v1.0.0 // indirect
 	k8s.io/klog/v2 v2.8.0
-	sigs.k8s.io/controller-runtime v0.9.2
+	sigs.k8s.io/controller-runtime v0.9.1
 	sigs.k8s.io/structured-merge-diff/v3 v3.0.0 // indirect
 )
 
