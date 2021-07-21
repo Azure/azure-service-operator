@@ -98,7 +98,7 @@ func TestGroupConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitions(
 	g.Expect(ok).To(BeTrue())
 	g.Expect(pkg2021previewStorage).NotTo(BeNil())
 
-	// Check for expected transition for the storage variant of Pkg2020Preview - it goes BACK to Pkg2020
+	// Check for expected transition for the storage variant of Pkg2021Preview - it goes BACK to Pkg2020
 	ref, ok := graph.LookupTransition(pkg2021previewStorage)
 	g.Expect(ok).To(BeTrue())
 	g.Expect(ref).To(Equal(pkg2020storage))
