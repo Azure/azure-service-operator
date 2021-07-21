@@ -25,6 +25,7 @@ applyArmConversionInterface               azure      Add ARM conversion interfac
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnreferenced                                    Strip unreferenced types
+createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                        azure      Create storage versions of CRD types
 injectOriginalVersionProperty             azure      Inject the property OriginalVersion into each Storage Spec type
