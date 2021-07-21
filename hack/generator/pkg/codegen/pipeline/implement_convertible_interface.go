@@ -31,7 +31,7 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 			modifiedTypes := make(astmodel.Types)
 			resources := storage.FindResourceTypes(state.Types())
 			for name, def := range resources {
-				resource,ok := astmodel.AsResourceType(def.Type())
+				resource, ok := astmodel.AsResourceType(def.Type())
 				if !ok {
 					// Skip non-resources (though, they should be filtered out, above)
 					continue

@@ -51,6 +51,7 @@ func TestInjectConvertibleInterface(t *testing.T) {
 	// Run InjectPropertyAssignmentFunctions to create those functions
 	injectPropertyFns := InjectPropertyAssignmentFunctions(idFactory)
 	state, err = injectPropertyFns.Run(context.TODO(), state)
+	g.Expect(err).To(Succeed())
 
 	// Now run our stage
 	injectFunctions := ImplementConvertibleInterface(idFactory)
