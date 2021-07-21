@@ -11,7 +11,6 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
@@ -29,7 +28,7 @@ func InjectHubFunction(idFactory astmodel.IdentifierFactory) Stage {
 			injector := astmodel.NewFunctionInjector()
 			result := types.Copy()
 
-			resources := storage.FindResourceTypes(types)
+			resources := astmodel.FindResourceTypes(types)
 			for name, def := range resources {
 				rt, ok := astmodel.AsResourceType(def.Type())
 				if !ok {

@@ -262,3 +262,73 @@ func (types Types) Process(transformation func(definition TypeDefinition) (*Type
 
 	return result, nil
 }
+
+// FindResourceTypes walks the provided set of TypeDefinitions and returns all the resource types
+func FindResourceTypes(types Types) Types {
+	result := make(Types)
+
+	// Find all our resources and extract all their Specs
+	for _, def := range types {
+		_, ok := AsResourceType(def.Type())
+		if !ok {
+			continue
+		}
+
+		// We have a resource type
+		result.Add(def)
+	}
+
+	return result
+}
+
+// FindSpecTypes walks the provided set of TypeDefinitions and returns all the spec types
+func FindSpecTypes(types Types) Types {
+	result := make(Types)
+
+	// Find all our resources and extract all their Specs
+	for _, def := range types {
+		rt, ok := AsResourceType(def.Type())
+		if !ok {
+			continue
+		}
+
+		// We have a resource type
+		tn, ok := AsTypeName(rt.SpecType())
+		if !ok {
+			continue
+		}
+
+		// Add the named spec type to our results
+		if spec, ok := types.TryGet(tn); ok {
+			result.Add(spec)
+		}
+	}
+
+	return result
+}
+
+// FindStatusTypes walks the provided set of TypeDefinitions and returns all the status types
+func FindStatusTypes(types Types) Types {
+	result := make(Types)
+
+	// Find all our resources and extract all their Statuses
+	for _, def := range types {
+		rt, ok := AsResourceType(def.Type())
+		if !ok {
+			continue
+		}
+
+		// We have a resource type
+		tn, ok := AsTypeName(rt.StatusType())
+		if !ok {
+			continue
+		}
+
+		// Add the named status type to our results
+		if status, ok := types.TryGet(tn); ok {
+			result.Add(status)
+		}
+	}
+
+	return result
+}

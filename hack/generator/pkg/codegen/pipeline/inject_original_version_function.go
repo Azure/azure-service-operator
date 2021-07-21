@@ -11,7 +11,6 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
@@ -31,7 +30,7 @@ func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) Stage {
 			injector := astmodel.NewFunctionInjector()
 			result := types.Copy()
 
-			specs := storage.FindSpecTypes(types)
+			specs := astmodel.FindSpecTypes(types)
 			for name, def := range specs {
 				fn := functions.NewOriginalVersionFunction(idFactory)
 				defWithFn, err := injector.Inject(def, fn)

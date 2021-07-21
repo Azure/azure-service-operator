@@ -29,7 +29,7 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 			injector := astmodel.NewInterfaceInjector()
 
 			modifiedTypes := make(astmodel.Types)
-			resources := storage.FindResourceTypes(state.Types())
+			resources := astmodel.FindResourceTypes(state.Types())
 			for name, def := range resources {
 				resource, ok := astmodel.AsResourceType(def.Type())
 				if !ok {

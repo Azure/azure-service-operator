@@ -11,7 +11,6 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 )
 
 // InjectOriginalVersionPropertyStageID is the unique identifier for this pipeline stage
@@ -41,7 +40,7 @@ func InjectOriginalVersionProperty() Stage {
 				return !ot.HasFunctionWithName("OriginalVersion")
 			}
 
-			storageSpecs := storage.FindSpecTypes(types).Where(doesNotHaveOriginalVersionFunction)
+			storageSpecs := astmodel.FindSpecTypes(types).Where(doesNotHaveOriginalVersionFunction)
 
 			for name, def := range storageSpecs {
 				prop := astmodel.NewPropertyDefinition("OriginalVersion", "originalVersion", astmodel.StringType)
