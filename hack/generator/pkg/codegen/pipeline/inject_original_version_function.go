@@ -15,8 +15,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
-// injectOriginalVersionFunctionStageId is the unique identifier for this pipeline stage
-const injectOriginalVersionFunctionStageId = "injectOriginalVersionFunction"
+// InjectOriginalVersionFunctionStageId is the unique identifier for this pipeline stage
+const InjectOriginalVersionFunctionStageId = "injectOriginalVersionFunction"
 
 // InjectOriginalVersionFunction injects the function OriginalVersion() into each Spec type
 // This function allows us to recover the original version used to create each custom resource, giving the operator the
@@ -25,7 +25,7 @@ const injectOriginalVersionFunctionStageId = "injectOriginalVersionFunction"
 func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) Stage {
 
 	stage := MakeLegacyStage(
-		injectOriginalVersionFunctionStageId,
+		InjectOriginalVersionFunctionStageId,
 		"Inject the function OriginalVersion() into each Spec type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			injector := storage.NewFunctionInjector()

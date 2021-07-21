@@ -20,14 +20,19 @@ type TypeConverter struct {
 	visitor astmodel.TypeVisitor
 	// types contains all the types for this group
 	types astmodel.Types
+	// conversionGraph is the map of package conversions we use
+	conversionGraph *ConversionGraph
 	// propertyConverter is used to modify properties
 	propertyConverter *PropertyConverter
 }
 
 // NewTypeConverter creates a new instance of the utility type
-func NewTypeConverter(types astmodel.Types) *TypeConverter {
+func NewTypeConverter(
+	types astmodel.Types,
+	conversionGraph *ConversionGraph) *TypeConverter {
 	result := &TypeConverter{
 		types:             types,
+		conversionGraph:   conversionGraph,
 		propertyConverter: NewPropertyConverter(types),
 	}
 
@@ -105,7 +110,8 @@ func (t *TypeConverter) redirectTypeNamesToStoragePackage(
 		return result, nil
 	}
 
-	return name, nil
+	// Failed to redirect into a storage package, return an error
+	return nil, errors.Errorf("unable to redirect %s into a storage package", name)
 }
 
 // stripAllValidations removes all validations
@@ -129,15 +135,14 @@ func (t *TypeConverter) stripAllFlags(
 	return astmodel.IdentityVisitOfFlaggedType(tv, flaggedType, ctx)
 }
 
-func (_ *TypeConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astmodel.TypeName, bool) {
+func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astmodel.TypeName, bool) {
 	// Map the type name into our storage package
-	localRef, ok := name.PackageReference.AsLocalPackage()
+	ref, ok := t.conversionGraph.LookupTransition(name.PackageReference)
 	if !ok {
 		return astmodel.TypeName{}, false
 	}
 
-	storageRef := astmodel.MakeStoragePackageReference(localRef)
-	visitedName := astmodel.MakeTypeName(storageRef, name.Name())
+	visitedName := astmodel.MakeTypeName(ref, name.Name())
 	return visitedName, true
 }
 

@@ -26,9 +26,10 @@ func CreateStorageTypes() Stage {
 		func(ctx context.Context, state *State) (*State, error) {
 
 			// Predicate to isolate both resources and complex objects
-			isPropertyContainer := func(def astmodel.TypeDefinition) bool {
-				_, ok := astmodel.AsPropertyContainer(def.Type())
-				return ok
+			isResourceOrObject := func(def astmodel.TypeDefinition) bool {
+				_, isResource := astmodel.AsResourceType(def.Type())
+				_, isObject := astmodel.AsObjectType(def.Type())
+				return isResource || isObject
 			}
 
 			// Predicate to filter out ARM types
@@ -37,13 +38,12 @@ func CreateStorageTypes() Stage {
 			}
 
 			// Filter to the types we want to process
-			typesToConvert := state.Types().Where(isPropertyContainer).Where(isNotARMType)
+			typesToConvert := state.Types().Where(isResourceOrObject).Where(isNotARMType)
 
 			storageTypes := make(astmodel.Types)
-			typeConverter := storage.NewTypeConverter(state.Types())
+			typeConverter := storage.NewTypeConverter(state.Types(), state.ConversionGraph())
 
 			// Create storage variants
-			conversionGraph := storage.NewConversionGraph()
 			for name, def := range typesToConvert {
 				storageDef, err := typeConverter.ConvertDefinition(def)
 				if err != nil {
@@ -51,15 +51,14 @@ func CreateStorageTypes() Stage {
 				}
 
 				storageTypes.Add(storageDef)
-				conversionGraph.AddLink(name.PackageReference, storageDef.Name().PackageReference)
 			}
 
 			types := state.Types().Copy()
 			types.AddTypes(storageTypes)
 
-			return state.WithTypes(types).WithConversionGraph(conversionGraph), nil
+			return state.WithTypes(types), nil
 		})
 
-	result.RequiresPrerequisiteStages(injectOriginalVersionFunctionStageId)
+	result.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageId, CreateConversionGraphStageId)
 	return result
 }

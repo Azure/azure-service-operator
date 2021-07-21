@@ -56,6 +56,6 @@ func InjectOriginalVersionProperty() Stage {
 			return result, nil
 		})
 
-	stage.RequiresPrerequisiteStages(injectOriginalVersionFunctionStageId)
+	stage.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageId)
 	return stage
 }

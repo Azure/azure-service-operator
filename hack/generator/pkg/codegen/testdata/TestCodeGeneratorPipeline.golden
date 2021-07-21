@@ -20,6 +20,7 @@ addCrossResourceReferences          azure      Replace cross-resource references
 applyKubernetesResourceInterface    azure      Add the KubernetesResource interface to every resource
 flattenProperties                              Apply flattening to properties marked for flattening
 stripUnused                                    Strip unused types for test
+createConversionGraph               azure      Create the graph of conversions between versions of each resource group
 simplifyDefinitions                            Flatten definitions by removing wrapper types
 jsonTestCases                       azure      Add test cases to verify JSON serialization
 markStorageVersion                             Mark the latest version of each resource as the storage version
