@@ -15,6 +15,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
+// TestInjectConvertibleInterface checks that the pipeline stage does what we expect when run in relative isolation,
+// with only a few expected (and closely reated) stages in operation
 func TestInjectConvertibleInterface(t *testing.T) {
 	g := NewGomegaWithT(t)
 

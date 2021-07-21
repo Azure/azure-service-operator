@@ -24,8 +24,8 @@ func NewInterfaceInjector() *InterfaceInjector {
 }
 
 // Inject modifies the passed type definition by injecting the passed function
-func (fi *InterfaceInjector) Inject(def TypeDefinition, implementation *InterfaceImplementation) (TypeDefinition, error) {
-	result, err := fi.visitor.VisitDefinition(def, implementation)
+func (i *InterfaceInjector) Inject(def TypeDefinition, implementation *InterfaceImplementation) (TypeDefinition, error) {
+	result, err := i.visitor.VisitDefinition(def, implementation)
 	if err != nil {
 		return TypeDefinition{}, err
 	}
@@ -34,7 +34,7 @@ func (fi *InterfaceInjector) Inject(def TypeDefinition, implementation *Interfac
 
 // injectFunctionIntoObject takes the function provided as a context and includes it on the
 // provided object type
-func (_ *InterfaceInjector) injectInterfaceIntoObject(
+func (i *InterfaceInjector) injectInterfaceIntoObject(
 	_ *TypeVisitor, ot *ObjectType, ctx interface{}) (Type, error) {
 	implementation := ctx.(*InterfaceImplementation)
 	return ot.WithInterface(implementation), nil
@@ -42,7 +42,7 @@ func (_ *InterfaceInjector) injectInterfaceIntoObject(
 
 // injectFunctionIntoResource takes the function provided as a context and includes it on the
 // provided resource type
-func (_ *InterfaceInjector) injectInterfaceIntoResource(
+func (i *InterfaceInjector) injectInterfaceIntoResource(
 	_ *TypeVisitor, rt *ResourceType, ctx interface{}) (Type, error) {
 	fn := ctx.(*InterfaceImplementation)
 	return rt.WithInterface(fn), nil

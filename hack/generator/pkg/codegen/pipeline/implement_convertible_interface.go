@@ -62,6 +62,10 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 	return stage
 }
 
+// createConvertibleInterfaceImplementation creates the required implementation of conversion.Convertible, ready for
+// injection onto the resource. The ConvertTo() and ConvertFrom() methods chain the required conversion between resource
+// versions, but are dependent upon previously injected AssignPropertiesTo() and AssignPropertiesFrom() methods to
+// actually copy information across. See resource_conversion_function.go for more information.
 func createConvertibleInterfaceImplementation(
 	name astmodel.TypeName,
 	resource *astmodel.ResourceType,

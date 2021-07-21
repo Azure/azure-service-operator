@@ -20,26 +20,28 @@ import (
 //
 // Direct conversion from the hub type:
 //
-// func (r <receiver>) ConvertFrom(hub conversion.Hub) error {
+// func (<receiver> <receiverType>) Convert<From|To>(hub conversion.Hub) error {
 // 	source, ok := hub.(*<hub.Type>)
 // 	if !ok {
 // 		return fmt.Errorf("expected <hub.Type> but received %T instead", hub)
 // 	}
-// 	return person.AssignPropertiesFromPerson(source)
+// 	return <receiver>.AssignProperties<From|To><Type>(source)
 // }
 //
 // Indirect conversion, multiple steps via an intermediate instance
 //
 // func (r <receiver>) Convert<From|To>(hub conversion.Hub) error {
 // 	var source <vNext>
-// 	err := source.ConvertFrom(hub)
+// 	err := source.Convert<From|To>(hub)
 // 	if err != nil {
 // 		return errors.Wrap(err, "converting from hub to source")
 // 	}
-// 	err = person.AssignPropertiesFromPerson(&source)
+//
+// 	err = <receiver>.AssignProperties<From|To><Type>(&source)
 // 	if err != nil {
-// 		return errors.Wrap(err, "converting from source to person")
+// 		return errors.Wrap(err, "converting from source to <type>")
 // 	}
+//
 // 	return nil
 // }
 //
@@ -137,7 +139,7 @@ func (fn *ResourceConversionFunction) AsFunc(
 //     return errors.Errorf("expected <actualHubType> but received %T instead", <hubAsInterface>)
 // }
 //
-// return receiver.AssignProperties(To|From)<type>(<local>)
+// return <receiver>.AssignProperties(To|From)<type>(<local>)
 //
 func (fn *ResourceConversionFunction) directConversion(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
@@ -175,10 +177,12 @@ func (fn *ResourceConversionFunction) directConversion(
 // if err != nil {
 //     return errors.Wrap(err, "converting from hub to source")
 // }
+//
 // err = <receiver>.AssignPropertiesFrom<type>(&source)
 // if err != nil {
 //     return errors.Wrap(err, "converting from source to <type>")
 // }
+//
 // return nil
 //
 func (fn *ResourceConversionFunction) indirectConversionFromHub(
@@ -233,10 +237,12 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 // if err != nil {
 //     return errors.Wrap(err, "converting to destination from <type>")
 // }
+//
 // err := destination.ConvertTo(<hub>)
 // if err != nil {
 //     return errors.Wrap(err, "converting from destination to hub")
 // }
+//
 // return nil
 //
 func (fn *ResourceConversionFunction) indirectConversionToHub(
