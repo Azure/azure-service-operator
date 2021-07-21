@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package functions
 
 import (
@@ -47,7 +52,7 @@ func Test_NewStatusPivotConversionFunction_Conversion_GeneratesExpectedCode(t *t
 	personStatus2020 := test.CreateStatus(test.Pkg2020, "Person")
 
 	// Create Spec Conversion Functions
-	convertSpecTo := NewStatusPivotConversionFunction(conversions.ConvertTo,idFactory)
+	convertSpecTo := NewStatusPivotConversionFunction(conversions.ConvertTo, idFactory)
 	convertSpecFrom := NewStatusPivotConversionFunction(conversions.ConvertFrom, idFactory)
 
 	// Inject these methods into personStatus2020

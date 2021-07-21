@@ -6,6 +6,7 @@ package v20211231storage
 import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231storage"
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -36,11 +37,19 @@ var _ genruntime.ConvertibleSpec = &Person_Spec{}
 
 // ConvertSpecFrom populates our Person_Spec from the provided source
 func (personSpec *v20211231storage.Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == personSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+	}
+
 	return source.ConvertSpecTo(personSpec)
 }
 
 // ConvertSpecTo populates the provided destination from our Person_Spec
 func (personSpec *v20211231storage.Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == personSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+	}
+
 	return destination.ConvertSpecFrom(personSpec)
 }
 

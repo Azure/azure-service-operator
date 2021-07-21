@@ -104,7 +104,6 @@ func NewStatusChainedConversionFunction(
 	return result
 }
 
-
 func (fn *ChainedConversionFunction) Name() string {
 	return fn.direction.SelectString(fn.nameFrom, fn.nameTo)
 }
@@ -253,7 +252,6 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 		errorsPackage,
 		fmt.Sprintf("final step of conversion in %s()", fn.Name()))
 	checkFinalStepForError.Decorations().After = dst.EmptyLine
-
 
 	returnNil := astbuilder.Returns(astbuilder.Nil())
 

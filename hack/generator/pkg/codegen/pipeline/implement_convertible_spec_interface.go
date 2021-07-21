@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package pipeline
 
 import (
@@ -6,7 +11,6 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
@@ -22,7 +26,7 @@ func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) Sta
 			injector := astmodel.NewInterfaceInjector()
 
 			modifiedTypes := make(astmodel.Types)
-			specs := storage.FindSpecTypes(state.Types())
+			specs := astmodel.FindSpecTypes(state.Types())
 			for name, def := range specs {
 				convertible := createConvertibleSpecInterfaceImplementation(def, idFactory)
 				modified, err := injector.Inject(def, convertible)

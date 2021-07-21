@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package pipeline
 
 import (
@@ -11,9 +16,9 @@ import (
 func RunTestPipeline(state *State, stages ...Stage) (*State, error) {
 	resultState := state
 	for _, stage := range stages {
-	 	s, err := stage.Run(context.TODO(), resultState)
-	 	if err != nil {
-	 		return nil, errors.Wrapf(err, "running stage %q", stage.id)
+		s, err := stage.Run(context.TODO(), resultState)
+		if err != nil {
+			return nil, errors.Wrapf(err, "running stage %q", stage.id)
 		}
 
 		resultState = s
