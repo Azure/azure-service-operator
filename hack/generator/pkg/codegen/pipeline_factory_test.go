@@ -69,6 +69,15 @@ func writePipeline(title string, codegen *CodeGenerator) []byte {
 	fmt.Fprintln(&b, title)
 	fmt.Fprintln(&b, strings.Repeat("-", len(title)))
 
+	idWidth := 0
+	for _, s := range codegen.pipeline {
+		if len(s.Id()) > idWidth {
+			idWidth = len(s.Id())
+		}
+	}
+
+	format := fmt.Sprintf("%%-%ds %%-10s %%s\n", idWidth+4)
+
 	for _, s := range codegen.pipeline {
 		targets := ""
 		for _, t := range s.Targets() {
@@ -79,7 +88,7 @@ func writePipeline(title string, codegen *CodeGenerator) []byte {
 			targets = targets + t.String()
 		}
 
-		fmt.Fprintf(&b, "%-35s %-10s %s\n", s.Id(), targets, s.Description())
+		fmt.Fprintf(&b, format, s.Id(), targets, s.Description())
 	}
 
 	return b.Bytes()
