@@ -45,7 +45,7 @@ func TestNewTestCodeGeneratorCreatesRightPipeline(t *testing.T) {
 
 	result := writePipeline("Expected Pipeline Stages for Test Code Generation", codegen)
 
-	gold.Assert(t, "TestCodeGeneratorPipeline", result)
+	gold.Assert(t, t.Name(), result)
 }
 
 func writePipeline(title string, codegen *CodeGenerator) []byte {
