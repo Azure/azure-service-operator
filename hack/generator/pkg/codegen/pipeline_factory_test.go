@@ -14,6 +14,7 @@ import (
 	"github.com/sebdah/goldie/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 
 	. "github.com/onsi/gomega"
@@ -25,14 +26,13 @@ func TestNewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
 
 	idFactory := astmodel.NewIdentifierFactory()
 	configuration := config.NewConfiguration()
-	configuration.Pipeline = config.GenerationPipelineAzure
 
-	codegen, err := NewCodeGeneratorFromConfig(configuration, idFactory)
-	g.Expect(err).To(BeNil())
+	codegen, err := NewTargetedCodeGeneratorFromConfig(configuration, idFactory, pipeline.ARMTarget)
+	g.Expect(err).To(Succeed())
 
 	result := writePipeline("Expected Pipeline Stages for ARM Code Generation", codegen)
 
-	gold.Assert(t, "ARMCodeGeneratorPipeline", result)
+	gold.Assert(t, t.Name(), result)
 }
 
 func TestNewTestCodeGeneratorCreatesRightPipeline(t *testing.T) {
