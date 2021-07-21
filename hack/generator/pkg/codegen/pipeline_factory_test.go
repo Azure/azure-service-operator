@@ -32,6 +32,8 @@ func TestNewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
 
 	result := writePipeline("Expected Pipeline Stages for ARM Code Generation", codegen)
 
+	// When reviewing changes to the golden file, ensure they make sense in the context of an operator built to work
+	// against Azure ARM - we don't want to see any Crossplane specific stages showing up there.
 	gold.Assert(t, t.Name(), result)
 }
 
@@ -47,6 +49,8 @@ func TestNewCrossplaneCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) 
 
 	result := writePipeline("Expected Pipeline Stages for ARM Code Generation", codegen)
 
+	// When reviewing changes to the golden file, ensure they make sense in the context of an operator built to work
+	// with Crossplane - we don't want to see any Azure ARM specific stages showing up there.
 	gold.Assert(t, t.Name(), result)
 }
 
@@ -60,6 +64,8 @@ func TestNewTestCodeGeneratorCreatesRightPipeline(t *testing.T) {
 
 	result := writePipeline("Expected Pipeline Stages for Test Code Generation", codegen)
 
+	// When reviewing changes to the golden file, ensure they make sense in the context of the tests we are running
+	// of the entire pipeline; you may need to explicity exclude some stages.
 	gold.Assert(t, t.Name(), result)
 }
 
