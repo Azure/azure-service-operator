@@ -35,6 +35,21 @@ func TestNewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
 	gold.Assert(t, t.Name(), result)
 }
 
+func TestNewCrossplaneCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
+	gold := goldie.New(t)
+	g := NewGomegaWithT(t)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	configuration := config.NewConfiguration()
+
+	codegen, err := NewTargetedCodeGeneratorFromConfig(configuration, idFactory, pipeline.CrossplaneTarget)
+	g.Expect(err).To(Succeed())
+
+	result := writePipeline("Expected Pipeline Stages for ARM Code Generation", codegen)
+
+	gold.Assert(t, t.Name(), result)
+}
+
 func TestNewTestCodeGeneratorCreatesRightPipeline(t *testing.T) {
 	gold := goldie.New(t)
 	g := NewGomegaWithT(t)

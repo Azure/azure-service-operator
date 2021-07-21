@@ -1,0 +1,31 @@
+Expected Pipeline Stages for ARM Code Generation
+------------------------------------------------
+loadSchema                                     Load and walk schema
+addStatusFromSwagger                           Add information from Swagger specs for 'status' fields
+allof-anyof-objects                            Convert allOf and oneOf to object types
+flattenResources                               Flatten nested resource types
+augmentSpecWithStatus                          Merges information from Status into Spec
+stripUnreferenced                              Strip unreferenced types
+nameTypes                                      Name inner types for CRD
+propertyRewrites                               Modify property types using configured transforms
+determineResourceOwnership                     Determine ARM resource relationships
+removeAliases                                  Remove type aliases
+collapseCrossGroupReferences                   Finds and removes cross group references
+pluralizeNames                                 Improve resource pluralization
+stripUnreferenced                              Strip unreferenced types
+assertTypesStructureValid                      Verify that all local TypeNames refer to a type
+filterTypes                                    Apply export filters to reduce the number of generated types
+stripUnreferenced                              Strip unreferenced types
+replaceAnyTypeWithJSON                         Replace properties using interface{} with arbitrary JSON
+flattenProperties                              Apply flattening to properties marked for flattening
+stripUnreferenced                              Strip unreferenced types
+addCrossplaneOwnerProperties        crossplane Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
+addCrossplaneForProviderProperty    crossplane Add a 'ForProvider' property on every spec
+addCrossplaneAtProviderProperty     crossplane Add an 'AtProvider' property on every status
+addCrossplaneEmbeddedResourceSpec   crossplane Add an embedded runtimev1alpha1.ResourceSpec to every spec type
+addCrossplaneEmbeddedResourceStatus crossplane Add an embedded runtimev1alpha1.ResourceStatus to every status type
+simplifyDefinitions                            Flatten definitions by removing wrapper types
+markStorageVersion                             Mark the latest version of each resource as the storage version
+rogueCheck                                     Check for rogue definitions using AnyTypes
+deleteGenerated                                Delete generated code from .
+exportPackages                                 Export packages to "."
