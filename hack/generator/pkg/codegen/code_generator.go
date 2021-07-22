@@ -117,8 +117,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// De-pluralize resource types
 		// (Must come after type aliases are resolved)
-		pipeline.ImproveResourcePluralization().
-			RequiresPrerequisiteStages("removeAliases"),
+		pipeline.ImproveResourcePluralization(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 
@@ -175,6 +174,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 			   See https://github.com/kubernetes-sigs/controller-runtime/blob/master/pkg/webhook/conversion/conversion.go#L310
 
 			pipeline.InjectHubFunction(idFactory).UsedFor(pipeline.ARMTarget),
+			pipeline.ImplementConvertibleInterface(idFactory),
 		*/
 
 		// Safety checks at the end:
@@ -182,9 +182,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.EnsureARMTypeExistsForEveryResource().UsedFor(pipeline.ARMTarget),
 
 		pipeline.DeleteGeneratedCode(configuration.FullTypesOutputPath()),
-
-		pipeline.ExportPackages(configuration.FullTypesOutputPath()).
-			RequiresPrerequisiteStages("deleteGenerated"),
+		pipeline.ExportPackages(configuration.FullTypesOutputPath()),
 
 		pipeline.ExportControllerResourceRegistrations(configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
 	}

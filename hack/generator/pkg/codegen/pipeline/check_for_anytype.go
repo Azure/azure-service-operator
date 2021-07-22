@@ -16,6 +16,9 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
+// CheckForAnyTypeStageID is the unique identifier for this stage
+const CheckForAnyTypeStageID = "rogueCheck"
+
 // FilterOutDefinitionsUsingAnyType returns a stage that will check for any definitions
 // containing AnyTypes. It accepts a set of packages that we expect to contain types
 // with AnyTypes. Those packages will be quietly filtered out of the output of the
@@ -41,7 +44,7 @@ func checkForAnyType(description string, packages []string) Stage {
 	}
 
 	return MakeLegacyStage(
-		"rogueCheck",
+		CheckForAnyTypeStageID,
 		description,
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			var badNames []astmodel.TypeName

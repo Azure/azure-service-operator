@@ -13,11 +13,14 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
+// CollapseCrossGroupReferencesStageID is the unique identifier for this pipeline stage
+const CollapseCrossGroupReferencesStageID = "collapseCrossGroupReferences"
+
 // CollapseCrossGroupReferences finds and removes references between API groups. This isn't particularly common
 // but does occur in a few instances, for example from Microsoft.Compute -> Microsoft.Compute.Extensions.
 func CollapseCrossGroupReferences() Stage {
 	return MakeLegacyStage(
-		"collapseCrossGroupReferences",
+		CollapseCrossGroupReferencesStageID,
 		"Finds and removes cross group references",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			resources := astmodel.CollectResourceDefinitions(types)

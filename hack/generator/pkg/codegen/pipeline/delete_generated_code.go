@@ -23,10 +23,13 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
+// DeleteGeneratedCodeStageID is the unique identifier of this stage
+const DeleteGeneratedCodeStageID = "deleteGenerated"
+
 // DeleteGeneratedCode creates a pipeline stage for cleanup of our output folder prior to generating files
 func DeleteGeneratedCode(outputFolder string) Stage {
 	return MakeLegacyStage(
-		"deleteGenerated",
+		DeleteGeneratedCodeStageID,
 		"Delete generated code from "+outputFolder,
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			err := deleteGeneratedCodeFromFolder(ctx, outputFolder)

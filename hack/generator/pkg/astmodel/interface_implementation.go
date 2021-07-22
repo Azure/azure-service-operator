@@ -57,6 +57,11 @@ func (iface *InterfaceImplementation) References() TypeNameSet {
 	return results
 }
 
+// FunctionCount returns the number of included functions
+func (iface *InterfaceImplementation) FunctionCount() int {
+	return len(iface.functions)
+}
+
 // Equals determines if this interface is equal to another interface
 func (iface *InterfaceImplementation) Equals(other *InterfaceImplementation) bool {
 	if len(iface.functions) != len(other.functions) {

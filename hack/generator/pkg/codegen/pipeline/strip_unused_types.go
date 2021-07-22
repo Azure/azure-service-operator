@@ -11,9 +11,12 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
+// StripUnreferencedTypeDefinitionsStageID is the unique identifier for this pipeline stage
+const StripUnreferencedTypeDefinitionsStageID = "stripUnreferenced"
+
 func StripUnreferencedTypeDefinitions() Stage {
 	return MakeLegacyStage(
-		"stripUnreferenced",
+		StripUnreferencedTypeDefinitionsStageID,
 		"Strip unreferenced types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			resources := astmodel.CollectResourceDefinitions(defs)
