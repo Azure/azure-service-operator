@@ -346,6 +346,6 @@ func TestOneOfResourceSpec(t *testing.T) {
 	result := synth.oneOfObject(oneOf, names)
 	result, ok := astmodel.AsObjectType(result)
 	g.Expect(ok).To(BeTrue())
-	result = astmodel.NewObjectType().WithProperties(result.(*astmodel.ObjectType).Properties()...)
+	result = astmodel.NewObjectType().WithProperties(result.(*astmodel.ObjectType).Properties().AsSlice()...)
 	g.Expect(result).To(Equal(expected))
 }

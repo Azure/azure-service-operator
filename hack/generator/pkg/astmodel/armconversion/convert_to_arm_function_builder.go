@@ -207,7 +207,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 
 	// collect any fromProps that were flattened from the to-prop
 	var fromProps []*astmodel.PropertyDefinition
-	for _, prop := range fromType.Properties() {
+	for _, prop := range fromType.Properties().AsSlice() {
 		if prop.WasFlattenedFrom(toPropName) {
 			fromProps = append(fromProps, prop)
 		}

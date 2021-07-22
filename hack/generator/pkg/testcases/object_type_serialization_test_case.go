@@ -59,7 +59,7 @@ func (o ObjectSerializationTestCase) References() astmodel.TypeNameSet {
 // codeGenerationContext contains reference material to use when generating
 func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *astmodel.CodeGenerationContext) []dst.Decl {
 	var errs []error
-	properties := o.makePropertyMap()
+	properties := o.objectType.Properties()
 
 	// Find all the simple generators (those with no external dependencies)
 	simpleGenerators := o.createGenerators(properties, genContext, o.createIndependentGenerator)
@@ -666,14 +666,6 @@ func (o *ObjectSerializationTestCase) removeByPackage(
 	for _, name := range toRemove {
 		delete(properties, name)
 	}
-}
-
-func (o *ObjectSerializationTestCase) makePropertyMap() map[astmodel.PropertyName]*astmodel.PropertyDefinition {
-	result := make(map[astmodel.PropertyName]*astmodel.PropertyDefinition)
-	for _, prop := range o.objectType.Properties() {
-		result[prop.PropertyName()] = prop
-	}
-	return result
 }
 
 func (o ObjectSerializationTestCase) idOfSubjectGeneratorGlobal() string {
