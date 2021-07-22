@@ -33,7 +33,7 @@ func Test_NewResourceGroupDeployment(t *testing.T) {
 	resourceGroupSpec, err := resourceGroup.Spec.ConvertToARM(resourceGroup.Name, genruntime.MakeResolvedReferences(nil))
 	g.Expect(err).ToNot(HaveOccurred())
 
-	typedResourceGroupSpec := resourceGroupSpec.(resources.ResourceGroupSpecArm)
+	typedResourceGroupSpec := resourceGroupSpec.(resources.ResourceGroupSpecARM)
 
 	deploymentName := testContext.Namer.GenerateName("deployment")
 	deployment := armclient.NewSubscriptionDeployment(
