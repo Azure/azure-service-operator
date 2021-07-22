@@ -7,15 +7,17 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/azure"
+	"github.com/Azure/go-autorest/tracing"
+
 	"github.com/Azure/azure-service-operator/api"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/azure"
-	"github.com/Azure/go-autorest/tracing"
 )
 
 const (
@@ -151,6 +153,18 @@ func (client PollClient) PollLongRunningOperationIfNeededV1Alpha1(ctx context.Co
 	return result, err
 }
 
+func (client PollClient) PollLongRunningOperationIfNeededV1Alpha2(ctx context.Context, status *v1alpha2.ASOStatus, kind api.PollingURLKind) (LongRunningOperationPollResult, error) {
+	wrapper := v1beta1.ASOStatus(*status)
+	result, err := client.PollLongRunningOperationIfNeeded(ctx, &wrapper, kind)
+
+	// Propagate changes from wrapper to original type
+	status.PollingURL = wrapper.PollingURL
+	status.PollingURLKind = wrapper.PollingURLKind
+	status.Message = wrapper.Message
+
+	return result, err
+}
+
 func (client PollClient) PollLongRunningOperationIfNeeded(ctx context.Context, status *v1beta1.ASOStatus, kind api.PollingURLKind) (LongRunningOperationPollResult, error) {
 	// Before we attempt to issue a new update, check if there is a previously ongoing update
 	if status.PollingURL == "" {
@@ -199,7 +213,7 @@ func (client PollClient) PollLongRunningOperationIfNeeded(ctx context.Context, s
 		return PollResultCompletedSuccessfully, nil
 	}
 
-	// TODO: Unsure if this should be continue or tryagainlater. In th existing code it's continue
+	// TODO: Unsure if this should be continue or tryagainlater. In the existing code it's continue
 	// TODO: which is why I've made it that here
 	return PollResultCompletedSuccessfully, nil
 }
