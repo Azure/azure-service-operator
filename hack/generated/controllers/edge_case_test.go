@@ -16,7 +16,7 @@ import (
 	network "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.network/v1alpha1api20201101"
 	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	storage "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.storage/v1alpha1api20210401"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reconcilers"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
@@ -25,8 +25,14 @@ func waitForOwnerMissingError(tc testcommon.KubePerTestContext, obj client.Objec
 
 	tc.Eventually(func() string {
 		tc.GetResource(objectKey, obj)
-		return obj.GetAnnotations()[reconcilers.ResourceErrorAnnotation]
-	}).Should(MatchRegexp("owner.*is not ready"))
+		conditioner := obj.(conditions.Conditioner)
+		ready, ok := conditions.GetCondition(conditioner, conditions.ConditionTypeReady)
+		if !ok {
+			return ""
+		}
+
+		return ready.Reason
+	}).Should(Equal("WaitingForOwner"))
 }
 
 func doNotWait(_ testcommon.KubePerTestContext, _ client.Object) {}

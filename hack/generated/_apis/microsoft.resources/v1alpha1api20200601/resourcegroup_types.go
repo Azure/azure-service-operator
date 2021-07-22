@@ -9,6 +9,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 )
 
 // TODO: it doesn't really matter where these are (as long as they're in _apis, where is where we run controller-gen).
@@ -40,6 +41,18 @@ func (rg *ResourceGroup) Default() {
 	if rg.Spec.AzureName == "" {
 		rg.Spec.AzureName = rg.Name
 	}
+}
+
+var _ conditions.Conditioner = &ResourceGroup{}
+
+// GetConditions returns the conditions of the resource
+func (rg *ResourceGroup) GetConditions() conditions.Conditions {
+	return rg.Status.Conditions
+}
+
+// SetConditions sets the conditions on the resource status
+func (rg *ResourceGroup) SetConditions(conditions conditions.Conditions) {
+	rg.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &ResourceGroup{}
@@ -79,7 +92,11 @@ type ResourceGroupStatus struct {
 	// Tags are user defined key value pairs
 	Tags map[string]string `json:"tags,omitempty"`
 
+
 	ProvisioningState string `json:"provisioningState,omitempty"`
+
+	// Conditions describe the observed state of the resource
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ResourceGroupStatus{}

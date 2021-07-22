@@ -28,6 +28,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/ownerutil"
 
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
@@ -43,8 +44,6 @@ const (
 	// TODO: Delete these later in favor of something in status?
 	DeploymentIDAnnotation   = "deployment-id.infra.azure.com"
 	DeploymentNameAnnotation = "deployment-name.infra.azure.com"
-	ResourceStateAnnotation  = "resource-state.infra.azure.com"
-	ResourceErrorAnnotation  = "resource-error.infra.azure.com"
 	ResourceSigAnnotationKey = "resource-sig.infra.azure.com"
 )
 
@@ -81,6 +80,7 @@ type AzureDeploymentReconciler struct {
 	ARMClient            armclient.Applier
 	KubeClient           *kubeclient.Client
 	ResourceResolver     *genruntime.Resolver
+	PositiveConditions   *conditions.PositiveConditionBuilder
 	CreateDeploymentName func(obj metav1.Object) (string, error)
 }
 
@@ -93,6 +93,7 @@ func NewAzureDeploymentReconciler(
 	eventRecorder record.EventRecorder,
 	kubeClient *kubeclient.Client,
 	resourceResolver *genruntime.Resolver,
+	positiveConditions *conditions.PositiveConditionBuilder,
 	createDeploymentName func(obj metav1.Object) (string, error)) genruntime.Reconciler {
 
 	return &AzureDeploymentReconciler{
@@ -103,6 +104,7 @@ func NewAzureDeploymentReconciler(
 		CreateDeploymentName: createDeploymentName,
 		KubeClient:           kubeClient,
 		ResourceResolver:     resourceResolver,
+		PositiveConditions:   positiveConditions,
 	}
 }
 
@@ -146,13 +148,28 @@ func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, er
 	return result, nil
 }
 
-func (r *AzureDeploymentReconciler) IsTerminalProvisioningState() bool {
-	state := r.GetResourceProvisioningState()
-	return armclient.IsTerminalProvisioningState(state)
+func (r *AzureDeploymentReconciler) InTerminalState() bool {
+	ready := r.GetReadyCondition()
+
+	// No ready condition means we're not in a terminal state
+	if ready == nil {
+		return false
+	}
+
+	happyTerminalState := ready.Status == metav1.ConditionTrue
+	sadTerminalState := ready.Status != metav1.ConditionTrue && ready.Severity == conditions.ConditionSeverityError
+
+	return happyTerminalState || sadTerminalState
 }
 
-func (r *AzureDeploymentReconciler) GetResourceProvisioningState() armclient.ProvisioningState {
-	return armclient.ProvisioningState(r.obj.GetAnnotations()[ResourceStateAnnotation])
+func (r *AzureDeploymentReconciler) GetReadyCondition() *conditions.Condition {
+	for _, c := range r.obj.GetConditions() {
+		if c.Type == conditions.ConditionTypeReady {
+			return &c
+		}
+	}
+
+	return nil
 }
 
 func (r *AzureDeploymentReconciler) GetDeploymentID() (string, bool) {
@@ -181,15 +198,6 @@ func (r *AzureDeploymentReconciler) GetDeploymentNameOrDefault() string {
 
 func (r *AzureDeploymentReconciler) SetDeploymentName(name string) {
 	genruntime.AddAnnotation(r.obj, DeploymentNameAnnotation, name)
-}
-
-func (r *AzureDeploymentReconciler) SetResourceProvisioningState(state armclient.ProvisioningState) {
-	// TODO: It's almost certainly not safe to use this as our serialized format as it's not guaranteed backwards compatible?
-	genruntime.AddAnnotation(r.obj, ResourceStateAnnotation, string(state))
-}
-
-func (r *AzureDeploymentReconciler) SetResourceError(error string) {
-	genruntime.AddAnnotation(r.obj, ResourceErrorAnnotation, error)
 }
 
 func (r *AzureDeploymentReconciler) SetResourceSignature(sig string) {
@@ -238,6 +246,38 @@ func (r *AzureDeploymentReconciler) SpecSignature() (string, error) {
 	return hex.EncodeToString(hash[:]), nil
 }
 
+func (r *AzureDeploymentReconciler) makeReadyConditionFromError(deploymentError *armclient.DeploymentError) conditions.Condition {
+	// TODO: error classification probably should not be happening here.
+	var severity conditions.ConditionSeverity
+	errorDetails := ClassifyDeploymentError(deploymentError)
+	switch errorDetails.Classification {
+	case DeploymentErrorRetryable:
+		severity = conditions.ConditionSeverityWarning
+	case DeploymentErrorFatal:
+		severity = conditions.ConditionSeverityError
+		// This case purposefully does nothing as the fatal provisioning state was already set above
+	default:
+		// TODO: Is panic OK here?
+		panic(fmt.Sprintf("Unknown error classification %q", errorDetails.Classification))
+	}
+
+	return r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, errorDetails.Code, errorDetails.Message)
+}
+
+func (r *AzureDeploymentReconciler) createReadyConditionFromDeploymentStatus(deployment *armclient.Deployment) conditions.Condition {
+	if deployment.IsTerminalProvisioningState() {
+		if deployment.Properties.ProvisioningState == armclient.FailedProvisioningState {
+			// TODO: Need to guard against properties being nil here?
+			return r.makeReadyConditionFromError(deployment.Properties.Error)
+		} else {
+			return r.PositiveConditions.Ready.Succeeded()
+		}
+	}
+
+	// TODO: I think this is right
+	return r.PositiveConditions.Ready.Reconciling()
+}
+
 func (r *AzureDeploymentReconciler) UpdateBeforeCreatingDeployment(
 	deploymentName string,
 	deploymentID string) error {
@@ -251,7 +291,7 @@ func (r *AzureDeploymentReconciler) UpdateBeforeCreatingDeployment(
 		return errors.Wrap(err, "failed to compute resource spec hash")
 	}
 	r.SetResourceSignature(sig)
-	r.SetResourceProvisioningState("Running") // TODO: Improve this with Conditions
+	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Reconciling())
 
 	return nil
 }
@@ -263,34 +303,16 @@ func (r *AzureDeploymentReconciler) Update(
 	r.SetDeploymentID(deployment.ID)
 	r.SetDeploymentName(deployment.Name)
 
-	// TODO: Do we want to just use Azure's annotations here? I bet we don't? We probably want to map
-	// TODO: them onto something more robust? For now just use Azure's though.
-	r.SetResourceProvisioningState(deployment.Properties.ProvisioningState)
+	ready := r.createReadyConditionFromDeploymentStatus(deployment)
 
-	if deployment.IsTerminalProvisioningState() {
-		if deployment.Properties.ProvisioningState == armclient.FailedProvisioningState {
-			r.SetResourceError(deployment.Properties.Error.String())
-
-			// TODO: error classification probably should not be happening in the Update method.
-			errorClassification := ClassifyDeploymentError(deployment.Properties.Error)
-			switch errorClassification {
-			case DeploymentErrorRetryable:
-				// TODO: hackily set this to "" for now - when we deal with
-				// TODO: https://github.com/Azure/azure-service-operator/issues/1448 we should
-				// TODO: set this to a state that makes more sense
-				r.SetResourceProvisioningState("")
-			case DeploymentErrorFatal:
-				// This case purposefully does nothing as the fatal provisioning state was already set above
-			default:
-				// TODO: Is panic OK here?
-				panic(fmt.Sprintf("Unknown error classification %q", errorClassification))
-			}
-
-		} else if len(deployment.Properties.OutputResources) > 0 {
+	// Set the status if the deployment was successful
+	if ready.Status == metav1.ConditionTrue && deployment.IsTerminalProvisioningState() {
+		if len(deployment.Properties.OutputResources) > 0 {
 			resourceID := deployment.Properties.OutputResources[0].ID
 			genruntime.SetResourceID(r.obj, resourceID)
-			r.SetResourceError("") // This clears the error
 
+			// Modifications that impact status have to happen after this because this performs a full
+			// replace of status
 			if status != nil {
 				err := reflecthelpers.SetStatus(r.obj, status)
 				if err != nil {
@@ -301,39 +323,53 @@ func (r *AzureDeploymentReconciler) Update(
 			return errors.New("template deployment didn't have any output resources")
 		}
 	}
+	conditions.SetCondition(r.obj, ready)
 
 	return nil
 }
 
 func (r *AzureDeploymentReconciler) DetermineDeleteAction() (DeleteAction, DeleteActionFunc, error) {
-	state := r.GetResourceProvisioningState()
+	ready := r.GetReadyCondition()
 
-	if state == armclient.DeletingProvisioningState {
+	if ready != nil && ready.Reason == conditions.ReasonDeleting {
 		return DeleteActionMonitorDelete, r.MonitorDelete, nil
 	}
+
 	return DeleteActionBeginDelete, r.StartDeleteOfResource, nil
 }
 
 func (r *AzureDeploymentReconciler) DetermineCreateOrUpdateAction() (CreateOrUpdateAction, CreateOrUpdateActionFunc, error) {
-	state := r.GetResourceProvisioningState()
+	ready := r.GetReadyCondition()
 
 	hasChanged, err := r.HasResourceSpecHashChanged()
 	if err != nil {
 		return CreateOrUpdateActionNoAction, NoAction, errors.Wrap(err, "comparing resource hash")
 	}
 
-	if !hasChanged && r.IsTerminalProvisioningState() {
-		msg := fmt.Sprintf("Resource spec has not changed and resource is in terminal state: %q", state)
+	ongoingDeploymentID, hasOngoingDeployment := r.GetDeploymentID()
+
+	conditionString := "<nil>"
+	if ready != nil {
+		conditionString = ready.String()
+	}
+	r.log.V(3).Info(
+		"DetermineCreateOrUpdateAction",
+		"condition", conditionString,
+		"hasChanged", hasChanged,
+		"ongoingDeploymentID", ongoingDeploymentID)
+
+	if !hasChanged && r.InTerminalState() {
+		msg := fmt.Sprintf("Resource spec has not changed and resource has terminal Ready condition: %q", ready)
 		r.log.V(1).Info(msg)
 		return CreateOrUpdateActionNoAction, NoAction, nil
 	}
 
-	if state == armclient.DeletingProvisioningState {
+	if ready != nil && ready.Reason == conditions.ReasonDeleting {
 		return CreateOrUpdateActionNoAction, NoAction, errors.Errorf("resource is currently deleting; it can not be applied")
 	}
 
-	if depID, ok := r.GetDeploymentID(); ok {
-		r.log.V(3).Info("Have existing deployment ID, will monitor it", "deploymentID", depID)
+	if hasOngoingDeployment {
+		r.log.V(3).Info("Have existing deployment ID, will monitor it", "deploymentID", ongoingDeploymentID)
 		// There is an ongoing deployment we need to monitor
 		return CreateOrUpdateActionMonitorDeployment, r.MonitorDeployment, nil
 	}
@@ -406,8 +442,9 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
 	}
 
-	r.SetResourceProvisioningState(armclient.DeletingProvisioningState)
+	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Deleting())
 	err = r.CommitUpdate(ctx)
+
 	err = client.IgnoreNotFound(err)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -461,6 +498,8 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 		return ctrl.Result{}, err
 	}
 
+	r.log.Info("Starting new deployment to Azure", "action", string(CreateOrUpdateActionBeginDeployment))
+
 	// Update our state and commit BEFORE creating the Azure deployment in case
 	// we're not operating on the latest version of the object and the CommitUpdate fails
 	// we don't want to lose the deployment ID. If the deployment isn't successfully
@@ -483,7 +522,6 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 	}
 
 	// Try to create deployment:
-	r.log.Info("Starting new deployment to Azure", "action", string(CreateOrUpdateActionBeginDeployment))
 	err = r.ARMClient.CreateDeployment(ctx, deployment)
 
 	if err != nil {
@@ -499,8 +537,20 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 				// but is either running or has run to completion
 				return ctrl.Result{}, errors.Wrap(err, "received conflict when trying to create deployment")
 			case http.StatusBadRequest:
-				r.SetResourceError(err.Error())
-				r.SetResourceProvisioningState(armclient.FailedProvisioningState)
+				translatedError := TranslateAzureErrorToDeploymentError(reqErr)
+				ready := r.makeReadyConditionFromError(translatedError)
+
+				// We know that this is a fatal error (because of BadRequest HTTP StatusCode). If it turns
+				// out that the string code from Azure for this BadRequest somehow wasn't deemed fatal we want
+				// to know. This could happen if Azure is returning a weird code (bug in Azure?) or if our list
+				// of error classifications is incomplete.
+				if ready.Severity != conditions.ConditionSeverityError {
+					r.log.V(0).Info(
+						"BadRequest was misclassified as non-fatal error. Correcting it. This could be because of a bug, please report it",
+						"condition", ready.String())
+					ready.Severity = conditions.ConditionSeverityError
+				}
+				conditions.SetCondition(r.obj, ready)
 				sig, err := r.SpecSignature() // nolint:govet
 				if err != nil {
 					return ctrl.Result{}, errors.Wrap(err, "failed to compute resource spec hash")
@@ -659,8 +709,7 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 		// TODO: We need to figure out how we're handing these sorts of errors.
 		// TODO: See https://github.com/Azure/azure-service-operator/issues/1448
 		// TODO: For now just set an error so we at least see something
-
-		r.SetResourceError(fmt.Sprintf("owner %s is not ready", r.obj.Owner().Name))
+		conditions.SetCondition(r.obj, r.PositiveConditions.Ready.WaitingForOwner())
 		err = r.CommitUpdate(ctx)
 
 		err = client.IgnoreNotFound(err)
@@ -810,18 +859,18 @@ func (r *AzureDeploymentReconciler) CommitUpdate(ctx context.Context) error {
 	// fields such as status.location that may not be set but are not omitempty.
 	// This will cause the contents we have in Status.Location to be overwritten.
 	clone := r.obj.DeepCopyObject().(client.Object)
-	err := r.KubeClient.Client.Update(ctx, clone)
+	err := r.KubeClient.Client.Status().Update(ctx, clone)
 	if err != nil {
-		return errors.Wrap(err, "updating resource")
+		return errors.Wrap(err, "updating resource status")
 	}
 
 	// TODO: This is a hack so that we can update 2x in a row.
 	// TODO: Do away with this if/when we stop modifying spec.
 	r.obj.SetResourceVersion(clone.GetResourceVersion())
 
-	err = r.KubeClient.Client.Status().Update(ctx, r.obj)
+	err = r.KubeClient.Client.Update(ctx, r.obj)
 	if err != nil {
-		return errors.Wrap(err, "updating resource status")
+		return errors.Wrap(err, "updating resource")
 	}
 
 	r.logObj("updated resource")

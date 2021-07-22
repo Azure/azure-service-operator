@@ -8,14 +8,20 @@ package reconcilers_test
 import (
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reconcilers"
-	. "github.com/onsi/gomega"
 )
 
 var badRequestError = armclient.DeploymentError{
 	Code:    "BadRequest",
 	Message: "That was not a good request",
+}
+
+var badRequestError2 = armclient.DeploymentError{
+	Code:    "BadRequest",
+	Message: "There was something wrong with that request",
 }
 
 var resourceGroupNotFoundError = armclient.DeploymentError{
@@ -43,47 +49,97 @@ func newError(inner ...armclient.DeploymentError) *armclient.DeploymentError {
 
 func Test_NilError_IsRetryable(t *testing.T) {
 	g := NewGomegaWithT(t)
-	g.Expect(reconcilers.ClassifyDeploymentError(nil)).To(Equal(reconcilers.DeploymentErrorRetryable))
+	expected := reconcilers.DeploymentErrorDetails{
+		Classification: reconcilers.DeploymentErrorRetryable,
+		Code:           reconcilers.UnknownErrorCode,
+		Message:        reconcilers.UnknownErrorMessage,
+	}
+	g.Expect(reconcilers.ClassifyDeploymentError(nil)).To(Equal(expected))
 }
 
 func Test_EmptyErrorDetails_IsRetryable(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	err := newError()
-	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(reconcilers.DeploymentErrorRetryable))
+	expected := reconcilers.DeploymentErrorDetails{
+		Classification: reconcilers.DeploymentErrorRetryable,
+		Code:           err.Code,
+		Message:        err.Message,
+	}
+	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(expected))
 }
 
 func Test_BadRequest_IsNotRetryable(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	err := newError(badRequestError)
-	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(reconcilers.DeploymentErrorFatal))
+	expected := reconcilers.DeploymentErrorDetails{
+		Classification: reconcilers.DeploymentErrorFatal,
+		Code:           badRequestError.Code,
+		Message:        badRequestError.Message,
+	}
+	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(expected))
 }
 
 func Test_ResourceGroupNotFound_IsRetryable(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	err := newError(resourceGroupNotFoundError)
-	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(reconcilers.DeploymentErrorRetryable))
+	expected := reconcilers.DeploymentErrorDetails{
+		Classification: reconcilers.DeploymentErrorRetryable,
+		Code:           resourceGroupNotFoundError.Code,
+		Message:        resourceGroupNotFoundError.Message,
+	}
+	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(expected))
 }
 
 func Test_UnknownError_IsRetryable(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	err := newError(unknownError)
-	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(reconcilers.DeploymentErrorRetryable))
+	expected := reconcilers.DeploymentErrorDetails{
+		Classification: reconcilers.DeploymentErrorRetryable,
+		Code:           unknownError.Code,
+		Message:        unknownError.Message,
+	}
+	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(expected))
 }
 
 func Test_MultipleRetryableErrors_IsRetryable(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	err := newError(resourceGroupNotFoundError, resourceNotFound)
-	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(reconcilers.DeploymentErrorRetryable))
+	// expected to match the first error, if all errors are retryable
+	expected := reconcilers.DeploymentErrorDetails{
+		Classification: reconcilers.DeploymentErrorRetryable,
+		Code:           resourceGroupNotFoundError.Code,
+		Message:        resourceGroupNotFoundError.Message,
+	}
+	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(expected))
 }
 
 func Test_MultipleRetryableErrorsSingleFatalError_IsFatal(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	err := newError(resourceGroupNotFoundError, resourceNotFound, badRequestError)
-	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(reconcilers.DeploymentErrorFatal))
+	// Exported to match the first fatal error, if at least one error is fatal
+	expected := reconcilers.DeploymentErrorDetails{
+		Classification: reconcilers.DeploymentErrorFatal,
+		Code:           badRequestError.Code,
+		Message:        badRequestError.Message,
+	}
+	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(expected))
+}
+
+func Test_MultipleFatalErrors_IsFatal(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	err := newError(badRequestError, badRequestError2)
+	// Exported to match the first fatal error, if at least one error is fatal
+	expected := reconcilers.DeploymentErrorDetails{
+		Classification: reconcilers.DeploymentErrorFatal,
+		Code:           badRequestError.Code,
+		Message:        badRequestError.Message,
+	}
+	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(expected))
 }
