@@ -145,11 +145,10 @@ func CreateTypeConversion(
 	return nil, err
 }
 
+// NameOfPropertyAssignmentFunction returns the name of the property assignment function
 func NameOfPropertyAssignmentFunction(name astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
 	nameOfOtherType := idFactory.CreateIdentifier(name.Name(), astmodel.Exported)
-	return direction.SelectString(
-		"AssignPropertiesFrom"+nameOfOtherType,
-		"AssignPropertiesTo"+nameOfOtherType)
+	return "AssignProperties" + direction.SelectString("From", "To") + nameOfOtherType
 }
 
 // assignToOptional will generate a conversion where the destination is optional, if the

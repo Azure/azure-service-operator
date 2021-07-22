@@ -11,11 +11,10 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 )
 
-// InjectOriginalVersionPropertyId is the unique identifier for this pipeline stage
-const InjectOriginalVersionPropertyId = "injectOriginalVersionProperty"
+// InjectOriginalVersionPropertyStageID is the unique identifier for this pipeline stage
+const InjectOriginalVersionPropertyStageID = "injectOriginalVersionProperty"
 
 // InjectOriginalVersionProperty injects the property OriginalVersion into each Storage Spec type
 // This property gets populated by reading from the OriginalVersion() function previously injected into the API Spec
@@ -24,10 +23,10 @@ const InjectOriginalVersionPropertyId = "injectOriginalVersionProperty"
 func InjectOriginalVersionProperty() Stage {
 
 	stage := MakeLegacyStage(
-		InjectOriginalVersionPropertyId,
+		InjectOriginalVersionPropertyStageID,
 		"Inject the property OriginalVersion into each Storage Spec type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			injector := storage.NewPropertyInjector()
+			injector := astmodel.NewPropertyInjector()
 			result := types.Copy()
 
 			doesNotHaveOriginalVersionFunction := func(definition astmodel.TypeDefinition) bool {
@@ -41,7 +40,7 @@ func InjectOriginalVersionProperty() Stage {
 				return !ot.HasFunctionWithName("OriginalVersion")
 			}
 
-			storageSpecs := storage.FindSpecTypes(types).Where(doesNotHaveOriginalVersionFunction)
+			storageSpecs := astmodel.FindSpecTypes(types).Where(doesNotHaveOriginalVersionFunction)
 
 			for name, def := range storageSpecs {
 				prop := astmodel.NewPropertyDefinition("OriginalVersion", "originalVersion", astmodel.StringType)
@@ -56,6 +55,6 @@ func InjectOriginalVersionProperty() Stage {
 			return result, nil
 		})
 
-	stage.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageId)
+	stage.RequiresPrerequisiteStages(InjectOriginalVersionFunctionStageID)
 	return stage
 }

@@ -11,12 +11,11 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
-// InjectOriginalVersionFunctionStageId is the unique identifier for this pipeline stage
-const InjectOriginalVersionFunctionStageId = "injectOriginalVersionFunction"
+// InjectOriginalVersionFunctionStageID is the unique identifier for this pipeline stage
+const InjectOriginalVersionFunctionStageID = "injectOriginalVersionFunction"
 
 // InjectOriginalVersionFunction injects the function OriginalVersion() into each Spec type
 // This function allows us to recover the original version used to create each custom resource, giving the operator the
@@ -25,13 +24,13 @@ const InjectOriginalVersionFunctionStageId = "injectOriginalVersionFunction"
 func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) Stage {
 
 	stage := MakeLegacyStage(
-		InjectOriginalVersionFunctionStageId,
+		InjectOriginalVersionFunctionStageID,
 		"Inject the function OriginalVersion() into each Spec type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			injector := storage.NewFunctionInjector()
+			injector := astmodel.NewFunctionInjector()
 			result := types.Copy()
 
-			specs := storage.FindSpecTypes(types)
+			specs := astmodel.FindSpecTypes(types)
 			for name, def := range specs {
 				fn := functions.NewOriginalVersionFunction(idFactory)
 				defWithFn, err := injector.Inject(def, fn)
@@ -45,6 +44,6 @@ func InjectOriginalVersionFunction(idFactory astmodel.IdentifierFactory) Stage {
 			return result, nil
 		})
 
-	stage.RequiresPostrequisiteStages(CreateStorageTypesStageId, InjectOriginalVersionPropertyId)
+	stage.RequiresPostrequisiteStages(CreateStorageTypesStageID, InjectOriginalVersionPropertyStageID)
 	return stage
 }

@@ -20,11 +20,14 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/reporting"
 )
 
+// ReportOnTypesAndVersionsStageID is the unique identifier of this stage
+const ReportOnTypesAndVersionsStageID = "reportTypesAndVersions"
+
 // ReportOnTypesAndVersions creates a pipeline stage that removes any wrapper types prior to actual code generation
 func ReportOnTypesAndVersions(configuration *config.Configuration) Stage {
 
 	return MakeLegacyStage(
-		"reportTypesAndVersions",
+		ReportOnTypesAndVersionsStageID,
 		"Generate reports on types and versions in each package",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			report := NewPackagesMatrixReport()

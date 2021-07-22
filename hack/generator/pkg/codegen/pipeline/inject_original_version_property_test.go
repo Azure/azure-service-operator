@@ -12,7 +12,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
@@ -43,7 +42,7 @@ func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotI
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
-	fnInjector := storage.NewFunctionInjector()
+	fnInjector := astmodel.NewFunctionInjector()
 
 	// Define a test resource
 	spec := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, test.KnownAsProperty)

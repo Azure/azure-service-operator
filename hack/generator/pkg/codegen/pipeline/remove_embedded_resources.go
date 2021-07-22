@@ -12,9 +12,12 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/embeddedresources"
 )
 
+// RemoveEmbeddedResourcesStageID is the unique identifier for this pipeline stage
+const RemoveEmbeddedResourcesStageID = "removeEmbeddedResources"
+
 func RemoveEmbeddedResources() Stage {
 	return MakeLegacyStage(
-		"removeEmbeddedResources",
+		RemoveEmbeddedResourcesStageID,
 		"Remove properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 

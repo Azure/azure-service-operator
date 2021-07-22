@@ -15,11 +15,14 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
+// CreateARMTypesStageID is the unique identifier for this pipeline stage
+const CreateARMTypesStageID = "createArmTypes"
+
 // CreateARMTypes walks the type graph and builds new types for communicating
 // with ARM
 func CreateARMTypes(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
-		"createArmTypes",
+		CreateARMTypesStageID,
 		"Create types for interaction with ARM",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
 			armTypeCreator := &armTypeCreator{definitions: definitions, idFactory: idFactory}

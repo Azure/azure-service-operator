@@ -14,7 +14,7 @@ import (
 // ImproveResourcePluralization improves pluralization for resources
 func ImproveResourcePluralization() Stage {
 
-	return MakeLegacyStage(
+	stage := MakeLegacyStage(
 		"pluralizeNames",
 		"Improve resource pluralization",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
@@ -49,6 +49,9 @@ func ImproveResourcePluralization() Stage {
 			// rare since usually resources don't refer directly to other resources, but there are a few places it does happen.
 			return fixNameReferences(result, renames)
 		})
+
+	stage.RequiresPrerequisiteStages(RemoveTypeAliasesStageID)
+	return stage
 }
 
 func fixNameReferences(types astmodel.Types, renames map[astmodel.TypeName]astmodel.TypeName) (astmodel.Types, error) {
