@@ -132,7 +132,7 @@ func IdentityVisitOfObjectType(this *TypeVisitor, it *ObjectType, ctx interface{
 	// just map the property types
 	var errs []error
 	var newProps []*PropertyDefinition
-	for _, prop := range it.Properties() {
+	for _, prop := range it.Properties().AsSlice() {
 		p, err := this.Visit(prop.propertyType, ctx)
 		if err != nil {
 			errs = append(errs, err)

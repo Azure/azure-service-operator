@@ -83,7 +83,7 @@ func (t *TypeConverter) convertObjectType(
 	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
 
 	var errs []error
-	properties := object.Properties()
+	properties := object.Properties().AsSlice()
 	for i, prop := range properties {
 		p, err := t.propertyConverter.ConvertProperty(prop)
 		if err != nil {

@@ -24,7 +24,7 @@ type ResourceType struct {
 	status           Type
 	isStorageVersion bool
 	owner            *TypeName
-	properties       map[PropertyName]*PropertyDefinition
+	properties       PropertySet
 	functions        map[string]Function
 	testcases        map[string]TestCase
 	InterfaceImplementer
@@ -35,7 +35,7 @@ func NewResourceType(specType Type, statusType Type) *ResourceType {
 	result := &ResourceType{
 		isStorageVersion:     false,
 		owner:                nil,
-		properties:           make(map[PropertyName]*PropertyDefinition),
+		properties:           make(PropertySet),
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		InterfaceImplementer: MakeInterfaceImplementer(),
@@ -334,24 +334,13 @@ func (resource *ResourceType) WithoutProperty(name PropertyName) *ResourceType {
 }
 
 // Properties returns all the properties from this resource type
-// An ordered slice is returned to preserve immutability and provide determinism
-func (resource *ResourceType) Properties() []*PropertyDefinition {
-	result := []*PropertyDefinition{
-		resource.createSpecProperty(),
-	}
+func (resource *ResourceType) Properties() PropertySet {
+	result := resource.properties.Copy()
 
+	result.Add(resource.createSpecProperty())
 	if resource.status != nil {
-		result = append(result, resource.createStatusProperty())
+		result.Add(resource.createStatusProperty())
 	}
-
-	for _, property := range resource.properties {
-		result = append(result, property)
-	}
-
-	// Sorted so that it's always consistent
-	sort.Slice(result, func(left int, right int) bool {
-		return result[left].propertyName < result[right].propertyName
-	})
 
 	return result
 }
@@ -469,7 +458,7 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 		}
 	}
 
-	for _, property := range resource.Properties() {
+	for _, property := range resource.Properties().AsSlice() {
 		f := property.AsField(codeGenerationContext)
 		if f != nil {
 			fields = append(fields, f)
