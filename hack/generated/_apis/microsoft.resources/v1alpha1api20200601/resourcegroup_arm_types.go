@@ -4,7 +4,7 @@ package v1alpha1api20200601
 
 import "github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 
-type ResourceGroupStatusArm struct {
+type ResourceGroupStatusARM struct {
 	ID string `json:"id,omitempty"`
 
 	Name     string `json:"name,omitempty"`
@@ -16,14 +16,14 @@ type ResourceGroupStatusArm struct {
 	// Tags are user defined key value pairs
 	Tags map[string]string `json:"tags,omitempty"`
 
-	Properties *ResourceGroupStatusPropertiesArm `json:"properties,omitempty"` // TODO: Is this required or optional?
+	Properties *ResourceGroupStatusPropertiesARM `json:"properties,omitempty"`
 }
 
-type ResourceGroupStatusPropertiesArm struct {
-	ProvisioningState string `json:"provisioningState,omitempty"` // TODO: Wrong, needs to be in properties
+type ResourceGroupStatusPropertiesARM struct {
+	ProvisioningState string `json:"provisioningState,omitempty"`
 }
 
-type ResourceGroupSpecArm struct {
+type ResourceGroupSpecARM struct {
 
 	//APIVersion: API Version of the resource type, optional when apiProfile is used
 	//on the template
@@ -45,20 +45,20 @@ type ResourceGroupSpecArm struct {
 	Type ResourceGroupType `json:"type"`
 }
 
-var _ genruntime.ARMResourceSpec = &ResourceGroupSpecArm{}
+var _ genruntime.ARMResourceSpec = &ResourceGroupSpecARM{}
 
 // GetAPIVersion returns the APIVersion of the resource
-func (spec ResourceGroupSpecArm) GetAPIVersion() string {
+func (spec ResourceGroupSpecARM) GetAPIVersion() string {
 	return string(spec.APIVersion)
 }
 
 // GetName returns the Name of the resource
-func (spec ResourceGroupSpecArm) GetName() string {
+func (spec ResourceGroupSpecARM) GetName() string {
 	return spec.Name
 }
 
 // GetType returns the Type of the resource
-func (spec ResourceGroupSpecArm) GetType() string {
+func (spec ResourceGroupSpecARM) GetType() string {
 	return string(spec.Type)
 }
 

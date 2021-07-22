@@ -27,7 +27,7 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(string(armclient.SucceededProvisioningState)))
+	tc.Expect(rg.Status.ProvisioningState).To(Equal(string(armclient.SucceededProvisioningState)))
 	tc.Expect(rg.Status.ID).ToNot(BeNil())
 	armId := rg.Status.ID
 
