@@ -51,24 +51,6 @@ func MakeMySQLCheckNameAvailabilityAzureClient(creds config.Credentials) mysql.C
 	return nameAvailabilityClient
 }
 
-func (m *MySQLServerClient) CheckServerNameAvailability(ctx context.Context, servername string) (bool, error) {
-
-	client := MakeMySQLCheckNameAvailabilityAzureClient(m.Creds)
-
-	resourceType := "Microsoft.DBforMySQL/servers"
-
-	nameAvailabilityRequest := mysql.NameAvailabilityRequest{
-		Name: &servername,
-		Type: &resourceType,
-	}
-	_, err := client.Execute(ctx, nameAvailabilityRequest)
-	if err == nil { // Name available
-		return true, nil
-	}
-	return false, err
-
-}
-
 func (m *MySQLServerClient) CreateServerIfValid(
 	ctx context.Context,
 	instance v1alpha2.MySQLServer,
@@ -76,16 +58,9 @@ func (m *MySQLServerClient) CreateServerIfValid(
 	skuInfo mysql.Sku,
 	adminUser string,
 	adminPassword string,
-	createMode mysql.CreateMode,
-	hash string) (pollingURL string, server mysql.Server, err error) {
+	createMode mysql.CreateMode) (pollingURL string, server mysql.Server, err error) {
 
 	client := MakeMySQLServerAzureClient(m.Creds)
-
-	// Check if name is valid if this is the first create call
-	valid, err := m.CheckServerNameAvailability(ctx, instance.Name)
-	if !valid {
-		return "", server, err
-	}
 
 	var serverProperties mysql.BasicServerPropertiesForCreate
 	var skuData *mysql.Sku
@@ -101,7 +76,6 @@ func (m *MySQLServerClient) CreateServerIfValid(
 			CreateMode:     mysql.CreateModeReplica,
 			StorageProfile: storageProfile,
 		}
-
 	} else {
 		serverProperties = &mysql.ServerPropertiesForDefaultCreate{
 			AdministratorLogin:         &adminUser,
@@ -114,47 +88,23 @@ func (m *MySQLServerClient) CreateServerIfValid(
 		skuData = &skuInfo
 	}
 
-	if hash != instance.Status.SpecHash && instance.Status.SpecHash != "" {
-		res, err := client.Update(
-			ctx,
-			instance.Spec.ResourceGroup,
-			instance.Name,
-			mysql.ServerUpdateParameters{
-				Tags: tags,
-				Sku:  skuData,
-				ServerUpdateParametersProperties: &mysql.ServerUpdateParametersProperties{
-					StorageProfile: storageProfile,
-					Version:        mysql.ServerVersion(instance.Spec.ServerVersion),
-					SslEnforcement: mysql.SslEnforcementEnum(instance.Spec.SSLEnforcement),
-				},
-			},
-		)
-		if err != nil {
-			return "", mysql.Server{}, err
-		}
-
-		pollingURL = res.PollingURL()
-		server, err = res.Result(client)
-
-	} else {
-		res, err := client.Create(
-			ctx,
-			instance.Spec.ResourceGroup,
-			instance.Name,
-			mysql.ServerForCreate{
-				Location:   &instance.Spec.Location,
-				Tags:       tags,
-				Properties: serverProperties,
-				Sku:        skuData,
-			},
-		)
-		if err != nil {
-			return "", mysql.Server{}, err
-		}
-
-		pollingURL = res.PollingURL()
-		server, err = res.Result(client)
+	res, err := client.Create(
+		ctx,
+		instance.Spec.ResourceGroup,
+		instance.Name,
+		mysql.ServerForCreate{
+			Location:   &instance.Spec.Location,
+			Tags:       tags,
+			Properties: serverProperties,
+			Sku:        skuData,
+		},
+	)
+	if err != nil {
+		return "", mysql.Server{}, err
 	}
+
+	pollingURL = res.PollingURL()
+	server, err = res.Result(client)
 
 	return pollingURL, server, err
 
