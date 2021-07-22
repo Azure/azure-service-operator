@@ -72,40 +72,18 @@ type ResourceGroupStatus struct {
 	// Tags are user defined key value pairs
 	Tags map[string]string `json:"tags,omitempty"`
 
-	Properties *ResourceGroupStatusProperties `json:"properties,omitempty"` // TODO: Is this required or optional?
+	ProvisioningState string `json:"provisioningState,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ResourceGroupStatus{}
+var _ genruntime.FromARMConverter = &ResourceGroupStatus{}
 
 func (status *ResourceGroupStatus) CreateEmptyARMValue() interface{} {
-	return ResourceGroupStatusArm{}
+	return ResourceGroupStatusARM{}
 }
 
-// ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (status *ResourceGroupStatus) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
-	if status == nil {
-		return nil, nil
-	}
-	result := ResourceGroupStatusArm{}
-	result.ID = status.ID
-	result.Location = status.Location
-	result.ManagedBy = status.ManagedBy
-	result.Name = status.Name
-	result.Tags = status.Tags
-	if status.Properties != nil {
-		properties, err := status.Properties.ConvertToARM(name, resolvedReferences)
-		if err != nil {
-			return nil, err
-		}
-		propertiesTyped := properties.(ResourceGroupStatusPropertiesArm)
-		result.Properties = &propertiesTyped
-	}
-	return result, nil
-}
-
-// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceGroupStatusArm)
+	typedInput, ok := armInput.(ResourceGroupStatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected ResourceGroupStatusArm, got %T", armInput)
 	}
@@ -114,45 +92,12 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.KnownResourc
 	status.ManagedBy = typedInput.ManagedBy
 	status.Name = typedInput.Name
 	status.Tags = typedInput.Tags
-	var err error
+	// Set property ‘AccessTier’:
+	// copying flattened property:
 	if typedInput.Properties != nil {
-		properties := ResourceGroupStatusProperties{}
-		err = properties.PopulateFromARM(owner, *typedInput.Properties)
-		if err != nil {
-			return err
-		}
-		status.Properties = &properties
+		status.ProvisioningState = typedInput.Properties.ProvisioningState
 	}
-	return nil
-}
 
-type ResourceGroupStatusProperties struct {
-	ProvisioningState string `json:"provisioningState,omitempty"` // TODO: Wrong, needs to be in properties
-}
-
-var _ genruntime.ARMTransformer = &ResourceGroupStatusProperties{}
-
-func (p *ResourceGroupStatusProperties) CreateEmptyARMValue() interface{} {
-	return ResourceGroupStatusPropertiesArm{}
-}
-
-// ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (p *ResourceGroupStatusProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
-	if p == nil {
-		return nil, nil
-	}
-	result := ResourceGroupStatusPropertiesArm{}
-	result.ProvisioningState = p.ProvisioningState
-	return result, nil
-}
-
-// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
-func (p *ResourceGroupStatusProperties) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceGroupStatusPropertiesArm)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected ResourceGroupStatusPropertiesArm, got %T", armInput)
-	}
-	p.ProvisioningState = typedInput.ProvisioningState
 	return nil
 }
 
@@ -175,15 +120,15 @@ type ResourceGroupSpec struct {
 var _ genruntime.ARMTransformer = &ResourceGroupSpec{}
 
 func (spec *ResourceGroupSpec) CreateEmptyARMValue() interface{} {
-	return ResourceGroupSpecArm{}
+	return ResourceGroupSpecARM{}
 }
 
-// ConvertToArm converts from a Kubernetes CRD object to an ARM object
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
 func (spec *ResourceGroupSpec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
 	if spec == nil {
 		return nil, nil
 	}
-	result := ResourceGroupSpecArm{}
+	result := ResourceGroupSpecARM{}
 	result.APIVersion = "2020-06-01" // TODO: Update this to match what the codegenerated resources do with APIVersion eventually
 	result.Location = spec.Location
 	result.Name = name
@@ -193,9 +138,9 @@ func (spec *ResourceGroupSpec) ConvertToARM(name string, resolvedReferences genr
 	return result, nil
 }
 
-// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (spec *ResourceGroupSpec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceGroupSpecArm)
+	typedInput, ok := armInput.(ResourceGroupSpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected ResourceGroupSpecArm, got %T", armInput)
 	}
