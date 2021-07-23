@@ -129,6 +129,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// ARM types for resources etc:
 		pipeline.ApplyExportFilters(configuration),
 
+		pipeline.VerifyNoErroredTypes(),
+
 		pipeline.StripUnreferencedTypeDefinitions(),
 
 		pipeline.ReplaceAnyTypeWithJSON(),
