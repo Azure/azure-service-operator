@@ -272,6 +272,13 @@ tasks:
       - "cd {{.CONTROLLER_ROOT}} && kustomize build config/default  | kubectl apply -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
       - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh"
 
+  controller:install-cert-manager:
+    desc: Installs cert manager
+    cmds:
+      - "kubectl create namespace cert-manager"
+      - "kubectl label namespace cert-manager cert-manager.io/disable-validation=true"
+      - "kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml"  # TODO: Bump this version?
+
   controller:docker-push-local-reg:
     desc: Pushes the controller container image to a local registry
     deps: [controller:docker-build]
