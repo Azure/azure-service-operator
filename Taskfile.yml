@@ -11,11 +11,15 @@ vars:
   CONTROLLER_ROOT: ./hack/generated/
   CONTROLLER_PACKAGE: github.com/Azure/azure-service-operator/hack/generated
 
+  SCRIPTS_ROOT: ./scripts
+
   # TODO: Once the v2 controller is the main controller we can drive this from git tags
   # via e.g. `git describe --tags --dirty` which would give better info for dev builds.
   # When doing this, also update the generator (currently using SHORT_VERSION below).
   VERSION: v2.0.0-alpha
   CONTROLLER_DOCKER_IMAGE: azure-service-operator:{{.VERSION}}
+
+  LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE: localhost:5000/azure-service-operator:latest
 
   CROSSPLANE_APP: crossplane-gen
   CROSSPLANE_ROOT: ./hack/crossplane/
@@ -177,7 +181,7 @@ tasks:
     - "controllers/**/*.go"
     - "pkg/**/*.go"
     cmds:
-    - go build -ldflags "-X {{.CONTROLLER_PACKAGE}}/pkg/version.BuildVersion={{.VERSION}}" -o ./bin/{{.CONTROLLER_APP}}
+    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X {{.CONTROLLER_PACKAGE}}/pkg/version.BuildVersion={{.VERSION}}" -o ./bin/{{.CONTROLLER_APP}}
 
   controller:docker-build:
     desc: Generated the {{.CONTROLLER_APP}} Docker file.
@@ -185,6 +189,7 @@ tasks:
     deps: [controller:build]
     sources:
     - Dockerfile
+    - ./bin/{{.CONTROLLER_APP}}
     cmds:
     - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
     - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/{{.CONTROLLER_DOCKER_IMAGE}}.tar
@@ -249,6 +254,31 @@ tasks:
       - "{{.CONTROLLER_ROOT}}config/crd/kustomization.yaml"
     cmds:
       - "{{.GENERATOR_ROOT}}bin/{{.GENERATOR_APP}} gen-kustomize {{.CONTROLLER_ROOT}}config/crd"
+
+  controller:kind-delete:
+    desc: Deletes a kind cluster
+    cmds:
+      - "kind delete cluster --name=asov2"
+
+  controller:kind-create:
+    desc: Creates a kind cluster
+    cmds:
+      - "export KIND_CLUSTER_NAME=asov2 && {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
+
+  controller:install:
+    desc: Installs the controller, webhooks, and CRDs into the default kubectl cluster
+    deps: [controller:generate-kustomize]
+    cmds:
+      - "cd {{.CONTROLLER_ROOT}} && kustomize build config/default  | kubectl apply -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
+      - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh"
+
+  controller:docker-push-local-reg:
+    desc: Pushes the controller container image to a local registry
+    deps: [controller:docker-build]
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - "docker tag {{.CONTROLLER_DOCKER_IMAGE}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}"
+      - "docker push {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}"
 
   ############### Crossplane targets ###############
   crossplane:quick-checks:

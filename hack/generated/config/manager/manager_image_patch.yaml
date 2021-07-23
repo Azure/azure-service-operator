@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         # Change the value of image field below to your controller image URL
-        - image: kind-registry:5000/fake/k8s-infra-controller:latest
+        - image: localhost:5000/azure-service-operator:latest
           name: manager
           env:
             - name: AZURE_CLIENT_ID
