@@ -19,11 +19,14 @@ import (
 // results are generated
 func AssertFileGeneratesExpectedCode(t *testing.T, fileDef *astmodel.FileDefinition, testName string) {
 	g := goldie.New(t)
-	g.WithTestNameForDir(true)
+	err := g.WithTestNameForDir(true)
+	if err != nil {
+		t.Fatalf("Unable to configure goldie output folder %s", err)
+	}
 
 	buf := &bytes.Buffer{}
 	fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
-	err := fileWriter.SaveToWriter(buf)
+	err = fileWriter.SaveToWriter(buf)
 	if err != nil {
 		t.Fatalf("could not generate file: %s", err)
 	}
