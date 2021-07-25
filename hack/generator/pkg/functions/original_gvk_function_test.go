@@ -29,7 +29,7 @@ func Test_OriginalGVKFunction_ReadingOriginalVersionFromProperty_GeneratesExpect
 	resource := test.CreateResource(testPackage, "Person", spec, status, originalGVKFunction)
 
 	fileDef := test.CreateFileDefinition(resource)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
+	test.AssertFileGeneratesExpectedCode(t, fileDef, "OriginalGVKFunction")
 }
 
 func Test_OriginalGVKFunction_ReadingOriginalVersionFromFunction_GeneratesExpectedCode(t *testing.T) {
@@ -49,5 +49,5 @@ func Test_OriginalGVKFunction_ReadingOriginalVersionFromFunction_GeneratesExpect
 	resource := test.CreateResource(testPackage, "Person", spec, status, originalGVKFunction)
 
 	fileDef := test.CreateFileDefinition(resource)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
+	test.AssertFileGeneratesExpectedCode(t, fileDef, "OriginalGVKFunction")
 }
