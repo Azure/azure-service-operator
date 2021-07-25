@@ -36,5 +36,5 @@ func TestInjectOriginalVersionFunction(t *testing.T) {
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
 }

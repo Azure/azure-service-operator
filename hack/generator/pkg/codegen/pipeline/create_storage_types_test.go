@@ -51,5 +51,5 @@ func TestCreateStorageTypes(t *testing.T) {
 	finalState, err := createStorageTypesStage.Run(context.TODO(), initialState)
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
 }

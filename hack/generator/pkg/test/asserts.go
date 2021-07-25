@@ -19,6 +19,7 @@ import (
 // results are generated
 func AssertFileGeneratesExpectedCode(t *testing.T, fileDef *astmodel.FileDefinition, testName string) {
 	g := goldie.New(t)
+	g.WithTestNameForDir(true)
 
 	buf := &bytes.Buffer{}
 	fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
@@ -32,7 +33,7 @@ func AssertFileGeneratesExpectedCode(t *testing.T, fileDef *astmodel.FileDefinit
 
 // AssertPackagesGenerateExpectedCode creates a golden file for each package represented in the passed set of type
 // definitions, asserting that the generated content is expected
-func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types, prefix string) {
+func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types) {
 	// Group type definitions by package
 	groups := make(map[astmodel.PackageReference][]astmodel.TypeDefinition)
 	for _, def := range types {
@@ -48,7 +49,7 @@ func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types, pref
 			panic("Must only have types from local packages - fix your test")
 		}
 
-		fileName := fmt.Sprintf("%s-%s", prefix, local.Version())
+		fileName := fmt.Sprintf("%s-%s", local.Group(), local.Version())
 		file := CreateFileDefinition(defs...)
 		AssertFileGeneratesExpectedCode(t, file, fileName)
 	}
