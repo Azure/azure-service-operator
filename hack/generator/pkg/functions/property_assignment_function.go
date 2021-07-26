@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"go/token"
 	"sort"
 
 	"github.com/dave/dst"
@@ -20,6 +21,8 @@ import (
 // PropertyAssignmentFunction represents a function that assigns all the properties from one resource or object to
 // another. Performs a single step of the conversions required to/from the hub version.
 type PropertyAssignmentFunction struct {
+	// receiverDefinition is the type on which this function will be hosted
+	receiverDefinition astmodel.TypeDefinition
 	// otherDefinition is the type we are converting to (or from). This will be a type which is "closer"
 	// to the hub storage type, making this a building block of the final conversion.
 	otherDefinition astmodel.TypeDefinition
@@ -38,6 +41,8 @@ type PropertyAssignmentFunction struct {
 	receiverName string
 	// identifier to use for our parameter in generated code
 	parameterName string
+	// identifier to use for the property bag local variable in generated code
+	propertyBagName string
 }
 
 // StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
@@ -65,14 +70,17 @@ func NewPropertyAssignmentFunction(
 	idFactory := conversionContext.IDFactory()
 
 	result := &PropertyAssignmentFunction{
-		otherDefinition: otherDefinition,
-		idFactory:       idFactory,
-		direction:       direction,
-		conversions:     make(map[string]StoragePropertyConversion),
-		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
-		receiverName:    idFactory.CreateIdentifier(receiver.Name().Name(), astmodel.NotExported),
-		parameterName:   direction.SelectString("source", "destination"),
+		receiverDefinition: receiver,
+		otherDefinition:    otherDefinition,
+		idFactory:          idFactory,
+		direction:          direction,
+		conversions:        make(map[string]StoragePropertyConversion),
+		knownLocals:        astmodel.NewKnownLocalsSet(idFactory),
+		receiverName:       idFactory.CreateIdentifier(receiver.Name().Name(), astmodel.NotExported),
+		parameterName:      direction.SelectString("source", "destination"),
 	}
+
+	result.propertyBagName = result.knownLocals.CreateLocal("propertyBag", "", "Local")
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
@@ -95,6 +103,7 @@ func (fn *PropertyAssignmentFunction) Name() string {
 func (fn *PropertyAssignmentFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
 	result := astmodel.NewPackageReferenceSet(
 		astmodel.GitHubErrorsReference,
+		astmodel.GenRuntimeReference,
 		fn.otherDefinition.Name().PackageReference)
 
 	return result
@@ -179,11 +188,51 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	source := fn.direction.SelectString(parameter, receiver)
 	destination := fn.direction.SelectString(receiver, parameter)
 
+	bagPreamble := fn.propertyBagPrologue(source, generationContext)
 	assignments := fn.generateAssignments(dst.NewIdent(source), dst.NewIdent(destination), generationContext)
 
 	return astbuilder.Statements(
+		bagPreamble,
 		assignments,
 		astbuilder.ReturnNoError())
+}
+
+// propertyBagPrologue creates any introductory statements needed to set up our property bag before we start doing
+// assignments. We need to handle three cases:
+//   o If our source has a property bag, we clone it.
+//   o If our destination has a property bag (and our source does not), we create a new one.
+//   o If neither source nor destination has a property bag, we don't need to do anything.
+// source is the name of the source to read the property bag from
+func (fn *PropertyAssignmentFunction) propertyBagPrologue(
+	source string,
+	generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+
+	if srcBag := fn.findPropertyBag(fn.sourceType()); srcBag != nil {
+		cloneBag := astbuilder.SimpleAssignment(
+			dst.NewIdent(fn.propertyBagName),
+			token.DEFINE,
+			astbuilder.CallExpr(
+				astbuilder.Selector(dst.NewIdent(source), string(srcBag.PropertyName())),
+				"Clone"))
+		cloneBag.Decs.Before = dst.NewLine
+		astbuilder.AddComment(&cloneBag.Decorations().Start, "// Clone the existing property bag")
+
+		return astbuilder.Statements(cloneBag)
+	}
+
+	if dstBag := fn.findPropertyBag(fn.destinationType()); dstBag != nil {
+		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
+		createBag := astbuilder.SimpleAssignment(
+			dst.NewIdent(fn.propertyBagName),
+			token.DEFINE,
+			astbuilder.CallQualifiedFunc(genruntimePkg, "NewPropertyBag"))
+		createBag.Decs.Before = dst.NewLine
+		astbuilder.AddComment(&createBag.Decorations().Start, "// Create a new property bag")
+
+		return astbuilder.Statements(createBag)
+	}
+
+	return nil
 }
 
 // generateAssignments generates a sequence of statements to copy information between the two types
@@ -223,11 +272,8 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 // createConversions iterates through the properties on our receiver type, matching them up with
 // our other type and generating conversions where possible
 func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDefinition) error {
-	// When converting FROM, otherDefinition.Type() is our source
-	// When converting TO, receiver.Type() is our source
-	// and conversely for our destination
-	sourceType := fn.direction.SelectType(fn.otherDefinition.Type(), receiver.Type())
-	destinationType := fn.direction.SelectType(receiver.Type(), fn.otherDefinition.Type())
+	sourceType := fn.sourceType()
+	destinationType := fn.destinationType()
 
 	sourceEndpoints := conversions.NewReadableConversionEndpointSet()
 	sourceEndpoints.CreatePropertyEndpoints(sourceType, fn.knownLocals)
@@ -288,4 +334,34 @@ func (fn *PropertyAssignmentFunction) createConversion(
 
 		return conversion(reader, writer, generationContext)
 	}, nil
+}
+
+// findPropertyBag looks for a property bag on the specified type and returns it if found, or nil otherwise
+// We recognize the property bag by type, so that the name can vary to avoid collisions with other properties if needed.
+func (fn *PropertyAssignmentFunction) findPropertyBag(instance astmodel.Type) *astmodel.PropertyDefinition {
+	if container, ok := astmodel.AsPropertyContainer(instance); ok {
+		for _, prop := range container.Properties() {
+			if prop.PropertyType().Equals(astmodel.PropertyBagType) {
+				return prop
+			}
+		}
+	}
+
+	return nil
+}
+
+// sourceType returns the type we are reading information from
+// When converting FROM, otherDefinition.Type() is our source
+// When converting TO, receiverDefinition.Type() is our source
+// Our inverse is destinationType()
+func (fn *PropertyAssignmentFunction) sourceType() astmodel.Type {
+	return fn.direction.SelectType(fn.otherDefinition.Type(), fn.receiverDefinition.Type())
+}
+
+// destinationType returns the type we are writing information from
+// When converting FROM, receiverDefinition.Type() is our source
+// When converting TO, otherDefinition.Type() is our source
+// Our inverse is sourceType()
+func (fn *PropertyAssignmentFunction) destinationType() astmodel.Type {
+	return fn.direction.SelectType(fn.receiverDefinition.Type(), fn.otherDefinition.Type())
 }
