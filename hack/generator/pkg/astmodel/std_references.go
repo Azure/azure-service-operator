@@ -53,6 +53,7 @@ var (
 	ConvertibleStatusInterfaceType = MakeTypeName(GenRuntimeReference, "ConvertibleStatus")
 	ResourceReferenceTypeName      = MakeTypeName(GenRuntimeReference, "ResourceReference")
 	KnownResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "KnownResourceReference")
+	PropertyBagType                = MakeTypeName(GenRuntimeReference, "PropertyBag")
 	ToARMConverterInterfaceType    = MakeTypeName(GenRuntimeReference, "ToARMConverter")
 
 	// Type names - API Machinery
