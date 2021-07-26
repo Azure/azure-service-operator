@@ -70,31 +70,3 @@ func (r ReadableConversionEndpoint) Read(expr dst.Expr) dst.Expr {
 func (r ReadableConversionEndpoint) Endpoint() *TypedConversionEndpoint {
 	return r.endpoint
 }
-
-// CreateReadableEndpoints creates a map of all the readable endpoints found on a type
-func CreateReadableEndpoints(
-	instance astmodel.Type,
-	knownLocals *astmodel.KnownLocalsSet) map[string]ReadableConversionEndpoint {
-	result := make(map[string]ReadableConversionEndpoint)
-
-	propContainer, ok := astmodel.AsPropertyContainer(instance)
-	if ok {
-		for _, prop := range propContainer.Properties() {
-			endpoint := MakeReadableConversionEndpointForProperty(prop, knownLocals)
-			result[string(prop.PropertyName())] = endpoint
-		}
-	}
-
-	funcContainer, ok := astmodel.AsFunctionContainer(instance)
-	if ok {
-		for _, f := range funcContainer.Functions() {
-			valueFn, ok := f.(astmodel.ValueFunction)
-			if ok {
-				endpoint := MakeReadableConversionEndpointForValueFunction(valueFn, knownLocals)
-				result[f.Name()] = endpoint
-			}
-		}
-	}
-
-	return result
-}
