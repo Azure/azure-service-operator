@@ -24,7 +24,7 @@ type PropertyAssignmentFunction struct {
 	// to the hub storage type, making this a building block of the final conversion.
 	otherDefinition astmodel.TypeDefinition
 	// conversions is a map of all property conversions we are going to use, keyed by name of the
-	// receiver property
+	// receiver endpoint (which may be a property, function, or property bag item)
 	conversions map[string]StoragePropertyConversion
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
 	idFactory astmodel.IdentifierFactory
@@ -42,8 +42,9 @@ type PropertyAssignmentFunction struct {
 
 // StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
 // Different functions will be used, depending on the types of the properties to be converted.
-// source is an expression for the source value that will be read.
-// destination is an expression the target value that will be written.
+// source is an expression that returns the source we are converting from (a Resource or other Object)
+// destination is an expression that returns the destination we are converting to (again, a Resource or other Object)
+// The function returns a sequence of statements to carry out the stated conversion/copy
 type StoragePropertyConversion func(
 	source dst.Expr, destination dst.Expr, generationContext *astmodel.CodeGenerationContext) []dst.Stmt
 

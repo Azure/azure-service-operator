@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package conversions
 
 import (
@@ -7,7 +12,7 @@ import (
 // ReadableConversionEndpointSet is a set of uniquely named readable conversion endpoints
 type ReadableConversionEndpointSet map[string]ReadableConversionEndpoint
 
-// NewReadableConversionEndpointSet is a set of all the readable endpoints found on a type
+// NewReadableConversionEndpointSet returns a new set of readable conversion endpoints
 func NewReadableConversionEndpointSet() ReadableConversionEndpointSet {
 	return make(ReadableConversionEndpointSet)
 }
