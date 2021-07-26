@@ -42,7 +42,7 @@ func newConvertToARMFunctionBuilder(
 			receiverTypeExpr:      receiver.AsType(codeGenerationContext),
 			armTypeIdent:          c.armTypeName.Name(),
 			idFactory:             c.idFactory,
-			isSpecType:            c.isSpecType,
+			typeKind:              c.typeKind,
 			codeGenerationContext: codeGenerationContext,
 		},
 		resultIdent:           "result",
@@ -131,7 +131,7 @@ func (builder *convertToARMBuilder) namePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType) []dst.Stmt {
 
-	if toProp.PropertyName() != "Name" || !builder.isSpecType {
+	if toProp.PropertyName() != "Name" || builder.typeKind != TypeKindSpec {
 		return nil
 	}
 
@@ -339,7 +339,7 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 
 func (builder *convertToARMBuilder) fixedValuePropertyHandler(propertyName astmodel.PropertyName) propertyConversionHandler {
 	return func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt {
-		if toProp.PropertyName() != propertyName || !builder.isSpecType {
+		if toProp.PropertyName() != propertyName || builder.typeKind != TypeKindSpec {
 			return nil
 		}
 

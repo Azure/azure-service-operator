@@ -17,7 +17,7 @@ type ARMConversionFunction struct {
 	armTypeName astmodel.TypeName
 	armType     *astmodel.ObjectType
 	idFactory   astmodel.IdentifierFactory
-	isSpecType  bool
+	typeKind    TypeKind
 }
 
 type ConvertToARMFunction struct {

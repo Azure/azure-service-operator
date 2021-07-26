@@ -21,7 +21,7 @@ type conversionBuilder struct {
 	armTypeIdent               string
 	codeGenerationContext      *astmodel.CodeGenerationContext
 	idFactory                  astmodel.IdentifierFactory
-	isSpecType                 bool
+	typeKind                   TypeKind
 	methodName                 string
 	kubeType                   *astmodel.ObjectType
 	armType                    *astmodel.ObjectType
@@ -31,9 +31,9 @@ type conversionBuilder struct {
 type TypeKind int
 
 const (
-	OrdinaryType TypeKind = iota
-	SpecType
-	StatusType
+	TypeKindOrdinary TypeKind = iota
+	TypeKindSpec
+	TypeKindStatus
 )
 
 func (builder conversionBuilder) propertyConversionHandler(
@@ -142,14 +142,14 @@ func NewARMConversionImplementation(
 	typeKind TypeKind) *astmodel.InterfaceImplementation {
 
 	var convertToARMFunc *ConvertToARMFunction
-	if typeKind != StatusType {
+	if typeKind != TypeKindStatus {
 		// status type should not have ConvertToARM
 		convertToARMFunc = &ConvertToARMFunction{
 			ARMConversionFunction: ARMConversionFunction{
 				armTypeName: armTypeName,
 				armType:     armType,
 				idFactory:   idFactory,
-				isSpecType:  typeKind == SpecType,
+				typeKind:    typeKind,
 			},
 		}
 	}
@@ -159,7 +159,7 @@ func NewARMConversionImplementation(
 			armTypeName: armTypeName,
 			armType:     armType,
 			idFactory:   idFactory,
-			isSpecType:  typeKind == SpecType,
+			typeKind:    typeKind,
 		},
 	}
 
