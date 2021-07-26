@@ -50,55 +50,32 @@ type StoragePropertyConversion func(
 // Ensure that PropertyAssignmentFunction implements Function
 var _ astmodel.Function = &PropertyAssignmentFunction{}
 
-// NewPropertyAssignmentFromFunction creates a new PropertyAssignmentFunction to convert from the specified source
-func NewPropertyAssignmentFromFunction(
+// NewPropertyAssignmentFunction creates a new PropertyAssignmentFunction to convert with the specified type
+// receiver is the type definition that will be the receiver for this function
+// otherDefinition is the type definition to convert TO or FROM
+// conversionContext is our context for creating a conversion
+// direction specifies whether we are converting TO or FROM the other definition
+func NewPropertyAssignmentFunction(
 	receiver astmodel.TypeDefinition,
 	otherDefinition astmodel.TypeDefinition,
-	idFactory astmodel.IdentifierFactory,
 	conversionContext *conversions.PropertyConversionContext,
+	direction conversions.Direction,
 ) (*PropertyAssignmentFunction, error) {
+	idFactory := conversionContext.IDFactory()
+
 	result := &PropertyAssignmentFunction{
 		otherDefinition: otherDefinition,
 		idFactory:       idFactory,
-		direction:       conversions.ConvertFrom,
+		direction:       direction,
 		conversions:     make(map[string]StoragePropertyConversion),
 		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 		receiverName:    idFactory.CreateIdentifier(receiver.Name().Name(), astmodel.NotExported),
-		parameterName:   "source",
+		parameterName:   direction.SelectString("source", "destination"),
 	}
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
-		WithDirection(conversions.ConvertFrom)
-
-	err := result.createConversions(receiver)
-	if err != nil {
-		return nil, errors.Wrapf(err, "creating '%s()'", result.Name())
-	}
-
-	return result, nil
-}
-
-// NewPropertyAssignmentToFunction creates a new PropertyAssignmentFunction to convert to the specified destination
-func NewPropertyAssignmentToFunction(
-	receiver astmodel.TypeDefinition,
-	otherDefinition astmodel.TypeDefinition,
-	idFactory astmodel.IdentifierFactory,
-	conversionContext *conversions.PropertyConversionContext,
-) (*PropertyAssignmentFunction, error) {
-	result := &PropertyAssignmentFunction{
-		otherDefinition: otherDefinition,
-		idFactory:       idFactory,
-		direction:       conversions.ConvertTo,
-		conversions:     make(map[string]StoragePropertyConversion),
-		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
-		receiverName:    idFactory.CreateIdentifier(receiver.Name().Name(), astmodel.NotExported),
-		parameterName:   "destination",
-	}
-
-	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
-		WithKnownLocals(result.knownLocals).
-		WithDirection(conversions.ConvertTo)
+		WithDirection(direction)
 
 	err := result.createConversions(receiver)
 	if err != nil {
@@ -198,38 +175,14 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	parameter string,
 	generationContext *astmodel.CodeGenerationContext,
 ) []dst.Stmt {
-	switch fn.direction {
-	case conversions.ConvertFrom:
-		return fn.generateDirectConversionFrom(receiver, parameter, generationContext)
-	case conversions.ConvertTo:
-		return fn.generateDirectConversionTo(receiver, parameter, generationContext)
-	default:
-		panic(fmt.Sprintf("unexpected conversion direction %q", fn.direction))
-	}
-}
+	source := fn.direction.SelectString(parameter, receiver)
+	destination := fn.direction.SelectString(receiver, parameter)
 
-// generateDirectConversionFrom returns the method body required to directly copy information from
-// the parameter instance onto our receiver
-func (fn *PropertyAssignmentFunction) generateDirectConversionFrom(
-	receiver string,
-	parameter string,
-	generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
-	result := fn.generateAssignments(dst.NewIdent(parameter), dst.NewIdent(receiver), generationContext)
-	result = append(result, astbuilder.ReturnNoError())
-	return result
-}
+	assignments := fn.generateAssignments(dst.NewIdent(source), dst.NewIdent(destination), generationContext)
 
-// generateDirectConversionTo returns the method body required to directly copy information from
-// our receiver onto the parameter instance
-func (fn *PropertyAssignmentFunction) generateDirectConversionTo(
-	receiver string,
-	parameter string,
-	generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
-	result := fn.generateAssignments(dst.NewIdent(receiver), dst.NewIdent(parameter), generationContext)
-	result = append(result, astbuilder.ReturnNoError())
-	return result
+	return astbuilder.Statements(
+		assignments,
+		astbuilder.ReturnNoError())
 }
 
 // generateAssignments generates a sequence of statements to copy information between the two types

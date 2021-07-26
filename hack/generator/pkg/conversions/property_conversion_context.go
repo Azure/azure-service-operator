@@ -42,6 +42,11 @@ func (c *PropertyConversionContext) Types() astmodel.Types {
 	return c.types
 }
 
+// IDFactory returns a reference to our identifier factory
+func (c *PropertyConversionContext) IDFactory() astmodel.IdentifierFactory {
+	return c.idFactory
+}
+
 // WithFunctionName returns a new context with the specified function name included
 func (c *PropertyConversionContext) WithFunctionName(name string) *PropertyConversionContext {
 	result := c.clone()
