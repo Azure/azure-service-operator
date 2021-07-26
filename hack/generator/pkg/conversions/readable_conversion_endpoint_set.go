@@ -12,7 +12,7 @@ func NewReadableConversionEndpointSet() ReadableConversionEndpointSet {
 	return make(ReadableConversionEndpointSet)
 }
 
-func (set ReadableConversionEndpointSet) AddPropertyEndpoints(
+func (set ReadableConversionEndpointSet) CreatePropertyEndpoints(
 	instance astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) {
 	// Add an endpoint for each property we can read
@@ -21,7 +21,7 @@ func (set ReadableConversionEndpointSet) AddPropertyEndpoints(
 	})
 }
 
-func (set ReadableConversionEndpointSet) AddValueFunctionEndpoints(
+func (set ReadableConversionEndpointSet) CreateValueFunctionEndpoints(
 	instance astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) {
 	// Add more endpoints for any value functions we can read

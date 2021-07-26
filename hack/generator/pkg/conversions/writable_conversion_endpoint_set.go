@@ -12,7 +12,7 @@ func NewWritableConversionEndpointSet() WritableConversionEndpointSet {
 	return make(WritableConversionEndpointSet)
 }
 
-func (set WritableConversionEndpointSet) AddPropertyEndpoints(
+func (set WritableConversionEndpointSet) CreatePropertyEndpoints(
 	instance astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) {
 	// Add an endpoint for each property we can read

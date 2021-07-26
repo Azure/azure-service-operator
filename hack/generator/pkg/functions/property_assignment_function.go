@@ -275,8 +275,12 @@ func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDe
 	sourceType := fn.direction.SelectType(fn.otherDefinition.Type(), receiver.Type())
 	destinationType := fn.direction.SelectType(receiver.Type(), fn.otherDefinition.Type())
 
-	sourceEndpoints := conversions.CreateReadableEndpoints(sourceType, fn.knownLocals)
-	destinationEndpoints := conversions.CreateWritableEndpoints(destinationType, fn.knownLocals)
+	sourceEndpoints := conversions.NewReadableConversionEndpointSet()
+	sourceEndpoints.CreatePropertyEndpoints(sourceType, fn.knownLocals)
+	sourceEndpoints.CreateValueFunctionEndpoints(sourceType, fn.knownLocals)
+
+	destinationEndpoints := conversions.NewWritableConversionEndpointSet()
+	destinationEndpoints.CreatePropertyEndpoints(destinationType, fn.knownLocals)
 
 	// Flag receiver and parameter names as used
 	fn.knownLocals.Add(fn.receiverName)
