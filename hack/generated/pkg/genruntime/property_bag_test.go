@@ -140,3 +140,13 @@ func TestPropertyBag_WhenPropertyWrongType(t *testing.T) {
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(found).To(BeTrue())
 }
+
+func TestPropertyBag_Clone_GivenZeroPropertyBag_ReturnsEmptyClone(t *testing.T) {
+	g := NewWithT(t)
+
+	// Zero property bag
+	var bag PropertyBag
+
+	clone := bag.Clone()
+	g.Expect(clone).To(HaveLen(0))
+}
