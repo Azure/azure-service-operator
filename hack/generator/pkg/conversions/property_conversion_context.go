@@ -7,6 +7,15 @@ package conversions
 
 import "github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 
+type PropertyBagUse string
+
+const (
+	None      PropertyBagUse = "None"
+	Read      PropertyBagUse = "Read"
+	Write     PropertyBagUse = "Write"
+	ReadWrite PropertyBagUse = "ReadWrite"
+)
+
 // PropertyConversionContext captures additional supporting information that may be needed when a
 // storage conversion factory creates a conversion
 type PropertyConversionContext struct {
@@ -19,6 +28,10 @@ type PropertyConversionContext struct {
 	// knownLocals is a reference to our set of local variables
 	// (Pointer because it's a reference type, not because it's optional)
 	knownLocals *astmodel.KnownLocalsSet
+	// propertyBagUse is the kind of use we are making of our property bag (if any)
+	propertyBagUse PropertyBagUse
+	// propertyBagName is the name of the local variable used for a property bag (or "" if we don't have one)
+	propertyBagName string
 	// idFactory is used for generating method names
 	idFactory astmodel.IdentifierFactory
 }
@@ -26,9 +39,10 @@ type PropertyConversionContext struct {
 // NewPropertyConversionContext creates a new instance of a PropertyConversionContext
 func NewPropertyConversionContext(types astmodel.Types, idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
 	return &PropertyConversionContext{
-		types:       types,
-		idFactory:   idFactory,
-		knownLocals: astmodel.NewKnownLocalsSet(idFactory),
+		types:           types,
+		idFactory:       idFactory,
+		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
+		propertyBagName: "",
 	}
 }
 
@@ -68,6 +82,14 @@ func (c *PropertyConversionContext) WithDirection(dir Direction) *PropertyConver
 	return result
 }
 
+// WithPropertyBag returns a new context with the specified property bag name included
+func (c *PropertyConversionContext) WithPropertyBag(name string, use PropertyBagUse) *PropertyConversionContext {
+	result := c.clone()
+	result.propertyBagUse = use
+	result.propertyBagName = name
+	return result
+}
+
 // NestedContext returns a new context with a cloned knownLocals so that nested blocks
 // can declare and reuse locals independently of each other.
 func (c *PropertyConversionContext) NestedContext() *PropertyConversionContext {
@@ -101,13 +123,35 @@ func (c *PropertyConversionContext) TryCreateLocal(local string) bool {
 	return true
 }
 
+// ReadingFromPropertyBag returns true if we are currently reading values from the property bag
+func (c *PropertyConversionContext) ReadingFromPropertyBag() bool {
+	return c.propertyBagUse == Read || c.propertyBagUse == ReadWrite
+}
+
+// WritingToPropertyBag returns true if we are currently writing values into the property bag
+func (c *PropertyConversionContext) WritingToPropertyBag() bool {
+	return c.propertyBagUse == Write || c.propertyBagUse == ReadWrite
+}
+
+// PropertyBagName returns the name to use for a local property bag variable
+func (c *PropertyConversionContext) PropertyBagName() string {
+	return c.propertyBagName
+}
+
+// PropertyBagUse returns a value indicating how we are using the property bag
+func (c *PropertyConversionContext) PropertyBagUse() PropertyBagUse {
+	return c.propertyBagUse
+}
+
 // clone returns a new independent copy of this context
 func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 	return &PropertyConversionContext{
-		types:        c.types,
-		functionName: c.functionName,
-		direction:    c.direction,
-		idFactory:    c.idFactory,
-		knownLocals:  c.knownLocals.Clone(),
+		types:           c.types,
+		functionName:    c.functionName,
+		direction:       c.direction,
+		knownLocals:     c.knownLocals.Clone(),
+		propertyBagUse:  c.propertyBagUse,
+		propertyBagName: c.propertyBagName,
+		idFactory:       c.idFactory,
 	}
 }
