@@ -190,10 +190,12 @@ func (fn *PropertyAssignmentFunction) generateBody(
 
 	bagPreamble := fn.propertyBagPrologue(source, generationContext)
 	assignments := fn.generateAssignments(dst.NewIdent(source), dst.NewIdent(destination), generationContext)
+	bagPostamble := fn.propertyBagEpilogue(destination)
 
 	return astbuilder.Statements(
 		bagPreamble,
 		assignments,
+		bagPostamble,
 		astbuilder.ReturnNoError())
 }
 
@@ -230,6 +232,26 @@ func (fn *PropertyAssignmentFunction) propertyBagPrologue(
 		astbuilder.AddComment(&createBag.Decorations().Start, "// Create a new property bag")
 
 		return astbuilder.Statements(createBag)
+	}
+
+	return nil
+}
+
+// propertyBagEpilogue creates any concluding statements required to handle our property bag after assignments are
+// complete.
+//   o If the destination has a property bag, we need to store our current property bag there
+//   o Otherwise we do nothing
+func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
+	destination string) []dst.Stmt {
+	if dstBag := fn.findPropertyBag(fn.destinationType()); dstBag != nil {
+		setBag := astbuilder.SimpleAssignment(
+			astbuilder.Selector(dst.NewIdent(destination), string(dstBag.PropertyName())),
+			token.ASSIGN,
+			dst.NewIdent(fn.propertyBagName))
+		setBag.Decs.Before = dst.EmptyLine
+		astbuilder.AddComment(&setBag.Decorations().Start, "// Update the property bag")
+
+		return astbuilder.Statements(setBag)
 	}
 
 	return nil
