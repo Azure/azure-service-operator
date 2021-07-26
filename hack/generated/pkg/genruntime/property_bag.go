@@ -7,12 +7,18 @@ package genruntime
 
 import (
 	"encoding/json"
+
 	"github.com/pkg/errors"
 )
 
 // PropertyBag is used to stash additional information that's not directly supported by storage
 // resources, allowing for full fidelity round trip conversions
 type PropertyBag map[string]string
+
+// PropertyBag returns a new property bag, ready for use
+func NewPropertyBag() PropertyBag {
+	return make(PropertyBag)
+}
 
 // Clone creates an independent copy of the property bag
 func (bag PropertyBag) Clone() PropertyBag {
@@ -64,7 +70,7 @@ func (bag PropertyBag) Pull(property string, destination interface{}) (bool, err
 		data := []byte(value)
 		err := json.Unmarshal(data, destination)
 		if err != nil {
-			return true, errors.Wrapf(err, "pulling from PropertyBag into %q", property)
+			return true, errors.Wrapf(err, "pulling %q from PropertyBag", property)
 		}
 	}
 
