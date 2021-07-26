@@ -4,6 +4,7 @@
 package v20211231storage
 
 import (
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231storage"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -32,18 +33,21 @@ type Person_Spec struct {
 	FullName           *string                   `json:"fullName,omitempty"`
 	KnownAs            *string                   `json:"knownAs,omitempty"`
 	PostalAddress      *v20211231storage.Address `json:"postalAddress,omitempty"`
+	PropertyBag        genruntime.PropertyBag    `json:"$propertyBag"`
 	ResidentialAddress *v20211231storage.Address `json:"residentialAddress,omitempty"`
 }
 
 //Storage version of v20211231.Person_Status
 type Person_Status struct {
-	Status *string `json:"status,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
+	Status      *string                `json:"status,omitempty"`
 }
 
 //Storage version of v20211231.Address
 type Address struct {
-	City        *string `json:"city,omitempty"`
-	FullAddress *string `json:"fullAddress,omitempty"`
+	City        *string                `json:"city,omitempty"`
+	FullAddress *string                `json:"fullAddress,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
 }
 
 func init() {

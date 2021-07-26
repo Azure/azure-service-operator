@@ -5,6 +5,7 @@ package v20200101storage
 
 import (
 	"fmt"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20200101storage"
 	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231storage"
 	"github.com/pkg/errors"
@@ -98,7 +99,8 @@ type PersonList struct {
 
 //Storage version of v20200101.Person_Spec
 type Person_Spec struct {
-	FullName *string `json:"fullName,omitempty"`
+	FullName    *string                `json:"fullName,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
 }
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
@@ -133,7 +135,8 @@ func (personSpec *v20200101storage.Person_Spec) AssignPropertiesToPersonSpec(des
 
 //Storage version of v20200101.Person_Status
 type Person_Status struct {
-	Status *string `json:"status,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
+	Status      *string                `json:"status,omitempty"`
 }
 
 // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status

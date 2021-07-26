@@ -26,7 +26,7 @@ type TypeConverter struct {
 	propertyConverter *PropertyConverter
 }
 
-// NewTypeConverter creates a new instance of the utility type
+// NewTypeConverter creates a new converter for the creating of storage variants
 func NewTypeConverter(
 	types astmodel.Types,
 	conversionGraph *ConversionGraph) *TypeConverter {
@@ -83,22 +83,30 @@ func (t *TypeConverter) convertObjectType(
 	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
 
 	var errs []error
-	properties := object.Properties().AsSlice()
-	for i, prop := range properties {
+	properties := object.Properties()
+	for name, prop := range properties {
 		p, err := t.propertyConverter.ConvertProperty(prop)
 		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "property %s", prop.PropertyName()))
+			errs = append(errs, errors.Wrapf(err, "property %s", name))
 		} else {
-			properties[i] = p
+			properties[name] = p
 		}
 	}
+
+	bagName, err := t.selectPropertyBagName(object)
+	if err != nil {
+		errs = append(errs, err)
+	}
+
+	bagProperty := astmodel.NewPropertyDefinition(bagName, "$propertyBag", astmodel.PropertyBagType)
+	properties.Add(bagProperty)
 
 	if len(errs) > 0 {
 		err := kerrors.NewAggregate(errs)
 		return nil, err
 	}
 
-	objectType := astmodel.NewObjectType().WithProperties(properties...)
+	objectType := astmodel.NewObjectType().WithProperties(properties.AsSlice()...)
 
 	return astmodel.StorageFlag.ApplyTo(objectType), nil
 }
@@ -157,4 +165,26 @@ func (_ *TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDef
 	result = append(result, definition.Description()...)
 
 	return result
+}
+
+// selectPropertyBagName chooses a name for the property bag that doesn't clash with any existing property name
+// We have to allow for the possibility of a clash given that individual product teams choose their own property names
+// when they are building their ARM RPs.
+// We'll have a problem if a team introduces a clash by changing an EXISTING API version, but that shouldn't happen
+func (t *TypeConverter) selectPropertyBagName(object *astmodel.ObjectType) (astmodel.PropertyName, error) {
+	candidateNames := []astmodel.PropertyName{
+		"PropertyBag",
+		"ASOPropertyBag",
+		"ASOPropertyStash",
+	}
+
+	for _, name := range candidateNames {
+		if _, exists := object.Property(name); exists {
+			continue
+		}
+
+		return name, nil
+	}
+
+	return "", errors.New("failed to find non-clashing name for PropertyBag")
 }
