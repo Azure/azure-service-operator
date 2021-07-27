@@ -63,5 +63,5 @@ func TestInjectPropertyAssignmentFunctions(t *testing.T) {
 	finalState, err := injectFunctions.Run(context.TODO(), state)
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
 }

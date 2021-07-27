@@ -39,7 +39,7 @@ func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t 
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
 }
 
 func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile(t *testing.T) {
@@ -63,5 +63,5 @@ func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
 }

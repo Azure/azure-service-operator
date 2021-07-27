@@ -54,7 +54,7 @@ func Test_ResourceConversionFunction_DirectConversion_GeneratesExpectedCode(t *t
 
 	// Write to a file
 	fileDef := test.CreateFileDefinition(person2020)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
+	test.AssertFileGeneratesExpectedCode(t, fileDef, "ResourceConversionFunction")
 }
 
 // Test_ResourceConversionFunction_IndirectConversion_GeneratesExpectedCode tests the code when the ConvertTo() and
@@ -103,5 +103,5 @@ func Test_ResourceConversionFunction_IndirectConversion_GeneratesExpectedCode(t 
 
 	// Write to a file
 	fileDef := test.CreateFileDefinition(person2020)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
+	test.AssertFileGeneratesExpectedCode(t, fileDef, "ResourceConversionFunction")
 }
