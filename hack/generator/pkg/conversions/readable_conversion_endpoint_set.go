@@ -35,7 +35,7 @@ func (set ReadableConversionEndpointSet) CreateValueFunctionEndpoints(
 	})
 }
 
-func (set ReadableConversionEndpointSet) AddBagItemEndpoints(
+func (set ReadableConversionEndpointSet) CreateBagItemEndpoints(
 	instance astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) {
 	// Add a property bag item endpoint for each property we don't already support

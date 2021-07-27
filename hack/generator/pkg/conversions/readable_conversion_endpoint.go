@@ -85,6 +85,12 @@ func (r ReadableConversionEndpoint) String() string {
 
 // Read generates an expression to read our endpoint
 func (r ReadableConversionEndpoint) Read(expr dst.Expr) dst.Expr {
+	if r.reader== nil {
+		// If we don't have an expression to use, just return the original
+		// (this can happen if this endpoint represents a source that doesn't directly read from our source instance)
+		return expr
+	}
+
 	return r.reader(expr)
 }
 

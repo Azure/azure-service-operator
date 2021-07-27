@@ -86,7 +86,7 @@ func NewPropertyAssignmentFunction(
 		WithKnownLocals(result.knownLocals).
 		WithDirection(direction)
 
-	err := result.createConversions(receiver)
+	err := result.createConversions()
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating '%s()'", result.Name())
 	}
@@ -188,14 +188,14 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	source := fn.direction.SelectString(parameter, receiver)
 	destination := fn.direction.SelectString(receiver, parameter)
 
-	bagPreamble := fn.propertyBagPrologue(source, generationContext)
+	bagPrologue := fn.propertyBagPrologue(source, generationContext)
 	assignments := fn.generateAssignments(dst.NewIdent(source), dst.NewIdent(destination), generationContext)
-	bagPostamble := fn.propertyBagEpilogue(destination)
+	bagEpilogue := fn.propertyBagEpilogue(destination)
 
 	return astbuilder.Statements(
-		bagPreamble,
+		bagPrologue,
 		assignments,
-		bagPostamble,
+		bagEpilogue,
 		astbuilder.ReturnNoError())
 }
 
@@ -209,12 +209,12 @@ func (fn *PropertyAssignmentFunction) propertyBagPrologue(
 	source string,
 	generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 
-	if srcBag := fn.findPropertyBag(fn.sourceType()); srcBag != nil {
+	if prop, found := fn.findPropertyBagProperty(fn.sourceType()); found {
 		cloneBag := astbuilder.SimpleAssignment(
 			dst.NewIdent(fn.propertyBagName),
 			token.DEFINE,
 			astbuilder.CallExpr(
-				astbuilder.Selector(dst.NewIdent(source), string(srcBag.PropertyName())),
+				astbuilder.Selector(dst.NewIdent(source), string(prop.PropertyName())),
 				"Clone"))
 		cloneBag.Decs.Before = dst.NewLine
 		astbuilder.AddComment(&cloneBag.Decorations().Start, "// Clone the existing property bag")
@@ -222,7 +222,7 @@ func (fn *PropertyAssignmentFunction) propertyBagPrologue(
 		return astbuilder.Statements(cloneBag)
 	}
 
-	if dstBag := fn.findPropertyBag(fn.destinationType()); dstBag != nil {
+	if _, found := fn.findPropertyBagProperty(fn.destinationType()); found {
 		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 		createBag := astbuilder.SimpleAssignment(
 			dst.NewIdent(fn.propertyBagName),
@@ -243,9 +243,9 @@ func (fn *PropertyAssignmentFunction) propertyBagPrologue(
 //   o Otherwise we do nothing
 func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 	destination string) []dst.Stmt {
-	if dstBag := fn.findPropertyBag(fn.destinationType()); dstBag != nil {
+	if prop, found := fn.findPropertyBagProperty(fn.destinationType()); found {
 		setBag := astbuilder.SimpleAssignment(
-			astbuilder.Selector(dst.NewIdent(destination), string(dstBag.PropertyName())),
+			astbuilder.Selector(dst.NewIdent(destination), string(prop.PropertyName())),
 			token.ASSIGN,
 			dst.NewIdent(fn.propertyBagName))
 		setBag.Decs.Before = dst.EmptyLine
@@ -293,16 +293,9 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 
 // createConversions iterates through the properties on our receiver type, matching them up with
 // our other type and generating conversions where possible
-func (fn *PropertyAssignmentFunction) createConversions(receiver astmodel.TypeDefinition) error {
-	sourceType := fn.sourceType()
-	destinationType := fn.destinationType()
-
-	sourceEndpoints := conversions.NewReadableConversionEndpointSet()
-	sourceEndpoints.CreatePropertyEndpoints(sourceType, fn.knownLocals)
-	sourceEndpoints.CreateValueFunctionEndpoints(sourceType, fn.knownLocals)
-
-	destinationEndpoints := conversions.NewWritableConversionEndpointSet()
-	destinationEndpoints.CreatePropertyEndpoints(destinationType, fn.knownLocals)
+func (fn *PropertyAssignmentFunction) createConversions() error {
+	sourceEndpoints := fn.createReadingEndpoints()
+	destinationEndpoints := fn.createWritingEndpoints()
 
 	// Flag receiver and parameter names as used
 	fn.knownLocals.Add(fn.receiverName)
@@ -358,18 +351,18 @@ func (fn *PropertyAssignmentFunction) createConversion(
 	}, nil
 }
 
-// findPropertyBag looks for a property bag on the specified type and returns it if found, or nil otherwise
+// findPropertyBagProperty looks for a property bag on the specified type and returns it if found, or nil otherwise
 // We recognize the property bag by type, so that the name can vary to avoid collisions with other properties if needed.
-func (fn *PropertyAssignmentFunction) findPropertyBag(instance astmodel.Type) *astmodel.PropertyDefinition {
+func (fn *PropertyAssignmentFunction) findPropertyBagProperty(instance astmodel.Type) (*astmodel.PropertyDefinition, bool) {
 	if container, ok := astmodel.AsPropertyContainer(instance); ok {
 		for _, prop := range container.Properties() {
 			if prop.PropertyType().Equals(astmodel.PropertyBagType) {
-				return prop
+				return prop, true
 			}
 		}
 	}
 
-	return nil
+	return nil, false
 }
 
 // sourceType returns the type we are reading information from
@@ -387,3 +380,37 @@ func (fn *PropertyAssignmentFunction) sourceType() astmodel.Type {
 func (fn *PropertyAssignmentFunction) destinationType() astmodel.Type {
 	return fn.direction.SelectType(fn.receiverDefinition.Type(), fn.otherDefinition.Type())
 }
+
+// createReadingEndpoints creates a ReadableConversionEndpointSet containing all the readable endpoints we need for this
+// conversion. If the source has a property bag, we create additional endpoints to match any surplus properties present
+// on the DESTINATION type, so we can populate those from the property bag
+func (fn *PropertyAssignmentFunction) createReadingEndpoints() conversions.ReadableConversionEndpointSet {
+	sourceEndpoints := conversions.NewReadableConversionEndpointSet()
+	sourceEndpoints.CreatePropertyEndpoints(fn.sourceType(), fn.knownLocals)
+	sourceEndpoints.CreateValueFunctionEndpoints(fn.sourceType(), fn.knownLocals)
+
+	if _, found := fn.findPropertyBagProperty(fn.sourceType()); found {
+		// Add source endpoints for DESTINATION properties that don't already have matching source properties
+		sourceEndpoints.CreateBagItemEndpoints(fn.destinationType(), fn.knownLocals)
+	}
+
+	return sourceEndpoints
+}
+
+
+// createWritingEndpoints creates a WritableConversionEndpointSet containing all the writable endpoints we need for this
+// conversion. If the destination has a property bag, we create additional endpoints to match any surplus properties
+// present on the SOURCE type, so we can stash those in the property bag for later use.
+func (fn *PropertyAssignmentFunction) createWritingEndpoints() conversions.WritableConversionEndpointSet {
+	destinationEndpoints := conversions.NewWritableConversionEndpointSet()
+	destinationEndpoints.CreatePropertyEndpoints(fn.destinationType(), fn.knownLocals)
+
+	if _, found := fn.findPropertyBagProperty(fn.destinationType()); found {
+		// Add destination endpoints for SOURCE properties that don't already have matching destination properties
+		destinationEndpoints.CreateBagItemEndpoints(fn.sourceType(), fn.knownLocals)
+	}
+
+	return destinationEndpoints
+}
+
+
