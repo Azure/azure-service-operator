@@ -9,7 +9,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"time"
 
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -40,15 +39,12 @@ func main() {
 
 	ctrl.SetLogger(klogr.New())
 
-	syncPeriod := 30 * time.Minute
-
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:             scheme,
 		MetricsBindAddress: metricsAddr,
 		LeaderElection:     enableLeaderElection,
 		LeaderElectionID:   "controllers-leader-election-azinfra-generated",
 		Port:               9443,
-		SyncPeriod:         &syncPeriod, // TODO: Don't leave this set, just playing with it
 	})
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
