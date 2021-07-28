@@ -11,6 +11,13 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 )
 
+// TODO: it doesn't really matter where these are (as long as they're in _apis, where is where we run controller-gen).
+// These are the permissions required by the generic_controller. They're here because they can't go outside the _apis
+// directory.
+
+// +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;patch
+// +kubebuilder:rbac:groups=coordination.k8s.io,resources=leases,verbs=get;list;watch;create;update;patch;delete
+
 // +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources={resourcegroups/status,resourcegroups/finalizers},verbs=get;update;patch
 

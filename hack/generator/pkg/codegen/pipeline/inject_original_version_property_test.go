@@ -35,7 +35,7 @@ func TestInjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
 }
 
 func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotInjectIntoSpec(t *testing.T) {
@@ -63,5 +63,5 @@ func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotI
 
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), t.Name())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
 }

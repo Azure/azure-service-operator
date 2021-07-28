@@ -24,5 +24,5 @@ func Test_OriginalVersionFunction_GeneratesExpectedCode(t *testing.T) {
 	demoDef := astmodel.MakeTypeDefinition(demoName, demoType)
 
 	fileDef := test.CreateFileDefinition(demoDef)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
+	test.AssertFileGeneratesExpectedCode(t, fileDef, "OriginalVersionFunction")
 }

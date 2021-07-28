@@ -9,10 +9,7 @@ set -o pipefail
 
 REPO_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
 
-bins="${REPO_ROOT}/hack/tools/bin"
-k="$bins/kubectl"
-
-cat <<EOF | $k apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret
 metadata:

@@ -77,7 +77,7 @@ func (c *armConversionApplier) transformResourceSpecs() (astmodel.Types, error) 
 			return nil, err
 		}
 
-		specDefinition, err = c.addARMConversionInterface(specDefinition, armSpecDefinition, armconversion.SpecType)
+		specDefinition, err = c.addARMConversionInterface(specDefinition, armSpecDefinition, armconversion.TypeKindSpec)
 		if err != nil {
 			return nil, err
 		}
@@ -107,7 +107,7 @@ func (c *armConversionApplier) transformResourceStatuses() (astmodel.Types, erro
 				return nil, err
 			}
 
-			statusDefinition, err := c.addARMConversionInterface(td, armStatusDefinition, armconversion.StatusType)
+			statusDefinition, err := c.addARMConversionInterface(td, armStatusDefinition, armconversion.TypeKindStatus)
 			if err != nil {
 				return nil, err
 			}
@@ -155,7 +155,7 @@ func (c *armConversionApplier) transformTypes() (astmodel.Types, error) {
 			return nil, err
 		}
 
-		modifiedDef, err := c.addARMConversionInterface(td, armDefinition, armconversion.OrdinaryType)
+		modifiedDef, err := c.addARMConversionInterface(td, armDefinition, armconversion.TypeKindOrdinary)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to add ARM conversion interface to %q", td.Name())
 		}

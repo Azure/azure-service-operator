@@ -29,8 +29,6 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
 )
 
-// +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;patch
-
 // GenericReconciler reconciles resources
 type GenericReconciler struct {
 	Log                  logr.Logger

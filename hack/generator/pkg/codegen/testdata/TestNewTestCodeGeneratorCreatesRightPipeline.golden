@@ -14,6 +14,7 @@ pluralizeNames                                       Improve resource pluralizat
 stripUnused                                          Strip unused types for test
 assertTypesStructureValid                            Verify that all local TypeNames refer to a type
 filterTypes                                          Apply export filters to reduce the number of generated types
+verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
 addCrossResourceReferences                azure      Replace cross-resource references with genruntime.ResourceReference

@@ -1,11 +1,9 @@
-apiVersion: microsoft.batch.infra.azure.com/v1alpha1api20170901
+apiVersion: microsoft.batch.infra.azure.com/v1alpha1api20210101
 kind: BatchAccount
 metadata:
   name: samplekubebatch
   namespace: default
 spec:
-  apiVersion: 2017-09-01
   location: westcentralus
   owner:
     name: aso-sample-rg
-  properties: {} # TODO: This is awkward

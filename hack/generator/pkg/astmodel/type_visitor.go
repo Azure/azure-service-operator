@@ -128,47 +128,60 @@ func IdentityVisitOfPrimitiveType(_ *TypeVisitor, it *PrimitiveType, _ interface
 	return it, nil
 }
 
-func IdentityVisitOfObjectType(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
-	// just map the property types
-	var errs []error
-	var newProps []*PropertyDefinition
-	for _, prop := range it.Properties().AsSlice() {
-		p, err := this.Visit(prop.propertyType, ctx)
-		if err != nil {
-			errs = append(errs, err)
-		} else {
-			newProps = append(newProps, prop.WithType(p))
+func identityVisitObjectTypePerPropertyContext(_ *PropertyDefinition, ctx interface{}) interface{} {
+	return ctx
+}
+
+var IdentityVisitOfObjectType = MakeIdentityVisitOfObjectTypeWithPerPropertyContext(identityVisitObjectTypePerPropertyContext)
+
+// MakeIdentityVisitOfObjectTypeWithPerPropertyContext creates an visitor function which creates a per-property context before visiting each
+// property of the ObjectType
+func MakeIdentityVisitOfObjectTypeWithPerPropertyContext(
+	makeCtx func(prop *PropertyDefinition, ctx interface{}) interface{}) func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+
+	return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+		// just map the property types
+		var errs []error
+		var newProps []*PropertyDefinition
+		for _, prop := range it.Properties().AsSlice() {
+			p, err := this.Visit(prop.propertyType, ctx)
+			if err != nil {
+				errs = append(errs, err)
+			} else {
+				newProps = append(newProps, prop.WithType(p))
+			}
 		}
-	}
 
-	if len(errs) > 0 {
-		return nil, kerrors.NewAggregate(errs)
-	}
-
-	// map the embedded types too
-	var newEmbeddedProps []*PropertyDefinition
-	for _, prop := range it.EmbeddedProperties() {
-		p, err := this.Visit(prop.propertyType, ctx)
-		if err != nil {
-			errs = append(errs, err)
-		} else {
-			newEmbeddedProps = append(newEmbeddedProps, prop.WithType(p))
+		if len(errs) > 0 {
+			return nil, kerrors.NewAggregate(errs)
 		}
-	}
 
-	if len(errs) > 0 {
-		return nil, kerrors.NewAggregate(errs)
-	}
+		// map the embedded types too
+		var newEmbeddedProps []*PropertyDefinition
+		for _, prop := range it.EmbeddedProperties() {
+			newCtx := makeCtx(prop, ctx)
+			p, err := this.Visit(prop.propertyType, newCtx)
+			if err != nil {
+				errs = append(errs, err)
+			} else {
+				newEmbeddedProps = append(newEmbeddedProps, prop.WithType(p))
+			}
+		}
 
-	result := it.WithProperties(newProps...)
-	// Since it's possible that the type was renamed we need to clear the old embedded properties
-	result = result.WithoutEmbeddedProperties()
-	result, err := result.WithEmbeddedProperties(newEmbeddedProps...)
-	if err != nil {
-		return nil, err
-	}
+		if len(errs) > 0 {
+			return nil, kerrors.NewAggregate(errs)
+		}
 
-	return result, nil
+		result := it.WithProperties(newProps...)
+		// Since it's possible that the type was renamed we need to clear the old embedded properties
+		result = result.WithoutEmbeddedProperties()
+		result, err := result.WithEmbeddedProperties(newEmbeddedProps...)
+		if err != nil {
+			return nil, err
+		}
+
+		return result, nil
+	}
 }
 
 func IdentityVisitOfMapType(this *TypeVisitor, it *MapType, ctx interface{}) (Type, error) {

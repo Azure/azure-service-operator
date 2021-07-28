@@ -15,26 +15,28 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
+const ApplyExportFiltersStageID = "filterTypes"
+
 // ApplyExportFilters creates a Stage to reduce our set of types for export
 func ApplyExportFilters(configuration *config.Configuration) Stage {
-	return MakeLegacyStage(
-		"filterTypes",
+	return MakeStage(
+		ApplyExportFiltersStageID,
 		"Apply export filters to reduce the number of generated types",
-		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			return filterTypes(configuration, types)
+		func(ctx context.Context, state *State) (*State, error) {
+			return filterTypes(configuration, state)
 		})
 }
 
 // filterTypes applies the configuration include/exclude filters to the generated definitions
 func filterTypes(
 	configuration *config.Configuration,
-	definitions astmodel.Types) (astmodel.Types, error) {
+	state *State) (*State, error) {
 
 	newDefinitions := make(astmodel.Types)
 
-	filterer := configuration.BuildExportFilterer(definitions)
+	filterer := configuration.BuildExportFilterer(state.types)
 
-	for _, def := range definitions {
+	for _, def := range state.types {
 		defName := def.Name()
 		shouldExport, reason := filterer(defName)
 
@@ -61,5 +63,5 @@ func filterTypes(
 		return nil, err
 	}
 
-	return newDefinitions, nil
+	return state.WithTypes(newDefinitions), nil
 }

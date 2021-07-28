@@ -35,6 +35,16 @@ func NewErroredType(t Type, errors []string, warnings []string) *ErroredType {
 	return result.WithType(t) // using WithType ensures warnings and errors get merged if needed
 }
 
+// Errors returns the errors stored in this ErroredType
+func (e *ErroredType) Errors() []string {
+	return append([]string(nil), e.errors...)
+}
+
+// Warnings returns the warnings stored in this ErroredType
+func (e *ErroredType) Warnings() []string {
+	return append([]string(nil), e.warnings...)
+}
+
 func (e *ErroredType) InnerType() Type {
 	return e.inner
 }
