@@ -11,6 +11,7 @@ import (
 	"reflect"
 
 	"github.com/pkg/errors"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 )
@@ -183,6 +184,14 @@ func ValueOfPtr(ptr interface{}) interface{} {
 	val := reflect.Indirect(v)
 
 	return val.Interface()
+}
+
+// DeepCopyInto calls in.DeepCopyInto(out)
+func DeepCopyInto(in client.Object, out client.Object) {
+	inVal := reflect.ValueOf(in)
+
+	method := inVal.MethodByName("DeepCopyInto")
+	method.Call([]reflect.Value{reflect.ValueOf(out)})
 }
 
 // FindResourceReferences finds all ResourceReferences specified by a given genruntime.ARMTransformer (resource spec)
