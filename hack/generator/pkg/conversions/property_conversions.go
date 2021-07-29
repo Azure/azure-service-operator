@@ -274,8 +274,8 @@ func assignFromOptional(
 
 		stmt := astbuilder.SimpleIfElse(
 			checkForNil,
-			astbuilder.StatementBlock(writeActualValue...),
-			astbuilder.StatementBlock(writeZeroValue...))
+			writeActualValue,
+			writeZeroValue)
 
 		return astbuilder.Statements(cacheOriginal, stmt)
 	}
