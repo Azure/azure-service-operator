@@ -442,7 +442,6 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(conversionB
 			results,
 			astbuilder.SimpleAssignment(
 				params.GetDestination(),
-				token.ASSIGN,
 				dst.NewIdent(propertyLocalVar)))
 	} else {
 		results = append(
