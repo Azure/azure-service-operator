@@ -272,11 +272,10 @@ func assignFromOptional(
 		writeZeroValue := writer(
 			destinationEndpoint.Type().AsZero(conversionContext.Types(), generationContext))
 
-		stmt := &dst.IfStmt{
-			Cond: checkForNil,
-			Body: astbuilder.StatementBlock(writeActualValue...),
-			Else: astbuilder.StatementBlock(writeZeroValue...),
-		}
+		stmt := astbuilder.SimpleIfElse(
+			checkForNil,
+			astbuilder.StatementBlock(writeActualValue...),
+			astbuilder.StatementBlock(writeZeroValue...))
 
 		return astbuilder.Statements(cacheOriginal, stmt)
 	}
