@@ -60,7 +60,6 @@ func defaultAzureNameFunction(k *resourceFunction, codeGenerationContext *CodeGe
 				Body: astbuilder.StatementBlock(
 					astbuilder.SimpleAssignment(
 						azureNameProp,
-						token.ASSIGN,
 						nameProp)),
 			},
 		},

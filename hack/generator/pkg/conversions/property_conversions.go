@@ -570,7 +570,6 @@ func assignArrayFromArray(
 						X:     dst.NewIdent(tempId),
 						Index: dst.NewIdent(indexId),
 					},
-					token.ASSIGN,
 					expr),
 			}
 		}
@@ -654,7 +653,6 @@ func assignMapFromMap(
 						X:     dst.NewIdent(tempId),
 						Index: dst.NewIdent(keyId),
 					},
-					token.ASSIGN,
 					expr),
 			}
 		}

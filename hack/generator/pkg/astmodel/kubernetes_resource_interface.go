@@ -247,7 +247,6 @@ func setEnumAzureNameFunction(enumType TypeName) objectFunctionHandler {
 			Body: []dst.Stmt{
 				astbuilder.SimpleAssignment(
 					azureNameProp,
-					token.ASSIGN,
 					&dst.CallExpr{
 						// cast from the string value to the enum
 						Fun:  enumTypeAST,

@@ -304,16 +304,8 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 	for _, group := range importedPackageNames {
 		groupSchemeAssign := astbuilder.SimpleAssignment(
 			dst.NewIdent(ignore),
-			token.ASSIGN,
-			&dst.CallExpr{
-				Fun: &dst.SelectorExpr{
-					X:   dst.NewIdent(group),
-					Sel: dst.NewIdent(addToScheme),
-				},
-				Args: []dst.Expr{
-					dst.NewIdent(scheme),
-				},
-			})
+			astbuilder.CallQualifiedFunc(group, addToScheme, dst.NewIdent(scheme)))
+
 		groupVersionAssignments = append(groupVersionAssignments, groupSchemeAssign)
 	}
 

@@ -7,7 +7,6 @@ package conversions
 
 import (
 	"fmt"
-	"go/token"
 
 	"github.com/dave/dst"
 
@@ -39,7 +38,6 @@ func MakeWritableConversionEndpointForProperty(
 			return []dst.Stmt{
 				astbuilder.SimpleAssignment(
 					astbuilder.Selector(destination, propertyName),
-					token.ASSIGN,
 					value),
 			}
 		},

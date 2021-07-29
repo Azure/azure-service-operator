@@ -209,7 +209,6 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 
 	populateReceiverFromLocal := astbuilder.SimpleAssignment(
 		errIdent,
-		token.ASSIGN,
 		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), astbuilder.AddrOf(dst.NewIdent(localId))))
 	populateReceiverFromLocal.Decs.Before = dst.EmptyLine
 
@@ -268,7 +267,6 @@ func (fn *ResourceConversionFunction) indirectConversionToHub(
 
 	populateHubFromLocal := astbuilder.SimpleAssignment(
 		errIdent,
-		token.ASSIGN,
 		astbuilder.CallExpr(dst.NewIdent(localId), fn.Name(), dst.NewIdent("hub")))
 
 	checkForErrorsPopulatingHub := astbuilder.CheckErrorAndWrap(

@@ -6,8 +6,9 @@
 package astbuilder
 
 import (
-	"github.com/dave/dst"
 	"go/token"
+
+	"github.com/dave/dst"
 )
 
 // MakeList returns the call expression for making a slice
@@ -31,7 +32,6 @@ func MakeList(listType dst.Expr, len dst.Expr) *dst.CallExpr {
 func AppendList(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 	return SimpleAssignment(
 		dst.Clone(lhs).(dst.Expr),
-		token.ASSIGN,
 		CallFunc("append", dst.Clone(lhs).(dst.Expr), dst.Clone(rhs).(dst.Expr)))
 }
 

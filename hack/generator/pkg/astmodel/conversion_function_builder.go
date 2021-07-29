@@ -580,7 +580,7 @@ func AssignmentHandlerDefine(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 
 // AssignmentHandlerAssign is an assignment handler for standard assignments to existing variables, using =
 func AssignmentHandlerAssign(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
-	return astbuilder.SimpleAssignment(lhs, token.ASSIGN, rhs)
+	return astbuilder.SimpleAssignment(lhs, rhs)
 }
 
 // CreateLocal creates an unused local variable name.

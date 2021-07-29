@@ -265,7 +265,6 @@ func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.C
 	// err = json.Unmarshal(bin, &actual)
 	deserialize := astbuilder.SimpleAssignment(
 		dst.NewIdent("err"),
-		token.ASSIGN,
 		astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal",
 			dst.NewIdent(binId),
 			&dst.UnaryExpr{
@@ -403,7 +402,6 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 
 		createIndependentGenerator := astbuilder.SimpleAssignment(
 			dst.NewIdent(o.idOfSubjectGeneratorGlobal()),
-			token.ASSIGN,
 			astbuilder.CallQualifiedFunc(
 				genPackage,
 				"Struct",
@@ -440,7 +438,6 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 
 		createFullGenerator := astbuilder.SimpleAssignment(
 			dst.NewIdent(o.idOfSubjectGeneratorGlobal()),
-			token.ASSIGN,
 			astbuilder.CallQualifiedFunc(
 				genPackage,
 				"Struct",

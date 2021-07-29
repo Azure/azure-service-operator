@@ -295,7 +295,6 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *CodeGenerationCon
 					// Not using astbuilder.AppendList here as we want to tack on a "..." at the end
 					astbuilder.SimpleAssignment(
 						dst.NewIdent(validationsIdent),
-						token.ASSIGN,
 						appendFuncCall),
 				},
 			},
