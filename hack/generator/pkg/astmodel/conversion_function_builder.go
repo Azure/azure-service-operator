@@ -344,8 +344,8 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 	keyTypeAst := destinationType.KeyType().AsType(builder.CodeGenerationContext)
 	valueTypeAst := destinationType.ValueType().AsType(builder.CodeGenerationContext)
 
-	makeMapStatement := astbuilder.SimpleAssignment(
-		dst.Clone(destination).(dst.Expr),
+	makeMapStatement := astbuilder.SetVariable(
+		destination,
 		makeMapToken,
 		astbuilder.MakeMap(keyTypeAst, valueTypeAst))
 	rangeStatement := &dst.RangeStmt{

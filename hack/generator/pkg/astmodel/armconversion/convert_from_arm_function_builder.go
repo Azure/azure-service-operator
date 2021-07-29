@@ -431,7 +431,7 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(conversionB
 	results = append(results, newVariable)
 	results = append(
 		results,
-		astbuilder.SimpleAssignment(
+		astbuilder.SetVariable(
 			dst.NewIdent("err"),
 			tok,
 			astbuilder.CallQualifiedFunc(
