@@ -175,8 +175,6 @@ func assignToOptional(
 		return nil
 	}
 
-	local := destinationEndpoint.CreateLocal("", "Temp")
-
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		// Create a writer that uses the address of the passed expression
 		// If expr isn't a plain identifier (implying a local variable), we introduce one
@@ -185,6 +183,10 @@ func assignToOptional(
 			if _, ok := expr.(*dst.Ident); ok {
 				return writer(astbuilder.AddrOf(expr))
 			}
+
+			// Only obtain our local variable name after we know we need it
+			// (this avoids reserving the name and not using it, which can interact with other conversions)
+			local := destinationEndpoint.CreateLocal("", "Temp")
 
 			assignment := astbuilder.SimpleAssignment(
 				dst.NewIdent(local),
@@ -232,8 +234,6 @@ func assignFromOptional(
 		return nil
 	}
 
-	local := sourceEndpoint.CreateLocal("", "Read")
-
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		var cacheOriginal dst.Stmt
 		var actualReader dst.Expr
@@ -249,6 +249,11 @@ func assignFromOptional(
 			actualReader = reader
 		default:
 			// Something else, so we cache the original
+
+			// Only obtain our local variable name after we know we need it
+			// (this avoids reserving the name and not using it, which can interact with other conversions)
+			local := sourceEndpoint.CreateLocal("", "Read")
+
 			cacheOriginal = astbuilder.SimpleAssignment(
 				dst.NewIdent(local),
 				token.DEFINE,
