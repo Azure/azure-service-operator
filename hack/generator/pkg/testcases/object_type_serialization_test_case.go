@@ -179,7 +179,7 @@ func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.C
 
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.SimpleDeclaration(
-		dst.NewIdent(parametersLocal),
+		parametersLocal,
 		astbuilder.CallQualifiedFunc(gopterPackage, "DefaultTestParameters"))
 
 	// parameters.MaxSize = 10
@@ -191,7 +191,7 @@ func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.C
 
 	// properties := gopter.NewProperties(parameters)
 	defineProperties := astbuilder.SimpleDeclaration(
-		dst.NewIdent(propertiesLocal),
+		propertiesLocal,
 		astbuilder.CallQualifiedFunc(gopterPackage, "NewProperties", dst.NewIdent(parametersLocal)))
 
 	// partial expression: description of the test
@@ -278,7 +278,7 @@ func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.C
 	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	equateEmpty := astbuilder.CallQualifiedFunc(cmpoptsPackage, "EquateEmpty")
 	compare := astbuilder.SimpleDeclaration(
-		dst.NewIdent(matchId),
+		matchId,
 		astbuilder.CallQualifiedFunc(cmpPackage, "Equal",
 			dst.NewIdent(subjectId),
 			dst.NewIdent(actualId),
@@ -293,13 +293,13 @@ func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.C
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
 				astbuilder.SimpleDeclaration(
-					dst.NewIdent(actualFmtId),
+					actualFmtId,
 					astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualId))),
 				astbuilder.SimpleDeclaration(
-					dst.NewIdent(subjectFmtId),
+					subjectFmtId,
 					astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectId))),
 				astbuilder.SimpleDeclaration(
-					dst.NewIdent(resultId),
+					resultId,
 					astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtId), dst.NewIdent(actualFmtId))),
 				astbuilder.Returns(dst.NewIdent(resultId)),
 			},
@@ -384,7 +384,7 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 		// This serves to terminate any dependency cycles that might occur during creation of a more fully fledged generator
 
 		makeIndependentMap := astbuilder.SimpleDeclaration(
-			dst.NewIdent("independentGenerators"),
+			"independentGenerators",
 			astbuilder.MakeMap(
 				dst.NewIdent("string"),
 				astbuilder.QualifiedTypeName(gopterPackage, "Gen")))
@@ -410,7 +410,7 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 		// if we reuse or modify the map, chaos ensues.
 
 		makeAllMap := astbuilder.SimpleDeclaration(
-			dst.NewIdent("allGenerators"),
+			"allGenerators",
 			astbuilder.MakeMap(
 				dst.NewIdent("string"),
 				astbuilder.QualifiedTypeName(gopterPackage, "Gen")))

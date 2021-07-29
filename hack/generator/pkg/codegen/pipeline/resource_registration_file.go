@@ -262,9 +262,7 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 	ignore := "_"
 	addToScheme := "AddToScheme"
 
-	initSchemeVar := astbuilder.SimpleDeclaration(
-		dst.NewIdent(scheme),
-		astbuilder.CallQualifiedFunc(runtime, "NewScheme"))
+	initSchemeVar := astbuilder.SimpleDeclaration(scheme, astbuilder.CallQualifiedFunc(runtime, "NewScheme"))
 
 	clientGoSchemeAssign := astbuilder.SimpleAssignment(
 		dst.NewIdent(ignore),

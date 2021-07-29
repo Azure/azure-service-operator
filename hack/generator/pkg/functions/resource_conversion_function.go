@@ -197,7 +197,7 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 	declareLocal.Decorations().Before = dst.NewLine
 
 	populateLocalFromHub := astbuilder.SimpleDeclaration(
-		errIdent,
+		"err",
 		astbuilder.CallExpr(dst.NewIdent(localId), fn.Name(), dst.NewIdent("hub")))
 	populateLocalFromHub.Decs.Before = dst.EmptyLine
 
@@ -255,7 +255,7 @@ func (fn *ResourceConversionFunction) indirectConversionToHub(
 	declareLocal.Decorations().Before = dst.NewLine
 
 	populateLocalFromReceiver := astbuilder.SimpleDeclaration(
-		errIdent,
+		"err",
 		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), astbuilder.AddrOf(dst.NewIdent(localId))))
 
 	checkForErrorsPopulatingLocal := astbuilder.CheckErrorAndWrap(

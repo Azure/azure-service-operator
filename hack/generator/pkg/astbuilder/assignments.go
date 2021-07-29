@@ -30,12 +30,12 @@ func SimpleAssignment(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 
 // SimpleDeclaration performs a simple assignment like:
 //
-//     <lhs> := <rhs>
+//     <id> := <rhs>
 //
-func SimpleDeclaration(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
+func SimpleDeclaration(id string, rhs dst.Expr) *dst.AssignStmt {
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
-			dst.Clone(lhs).(dst.Expr),
+			dst.NewIdent(id),
 		},
 		Tok: token.DEFINE,
 		Rhs: []dst.Expr{
@@ -48,15 +48,15 @@ func SimpleDeclaration(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 // Only token.DEFINE and token.ASSIGN are supported, other values will panic.
 // Use SimpleAssignment or SimpleDeclaration by preference
 func SetVariable(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
-	if tok == token.ASSIGN {
-		return SimpleAssignment(lhs, rhs)
+	if tok != token.ASSIGN && tok != token.DEFINE {
+		panic(fmt.Sprintf("token %q not supported in VariableAssignment", tok))
 	}
 
-	if tok == token.DEFINE {
-		return SimpleDeclaration(lhs, rhs)
+	return &dst.AssignStmt{
+		Lhs: Expressions(lhs),
+		Tok: tok,
+		Rhs: Expressions(rhs),
 	}
-
-	panic(fmt.Sprintf("token %q not supported in VariableAssignment", tok))
 }
 
 // QualifiedAssignment performs a simple assignment like:

@@ -574,7 +574,7 @@ func IdentityDeepCopyJSON(builder *ConversionFunctionBuilder, params ConversionP
 
 // AssignmentHandlerDefine is an assignment handler for definitions, using :=
 func AssignmentHandlerDefine(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
-	return astbuilder.SimpleDeclaration(lhs, rhs)
+	return astbuilder.SetVariable(lhs, token.DEFINE, rhs)
 }
 
 // AssignmentHandlerAssign is an assignment handler for standard assignments to existing variables, using =
