@@ -7,7 +7,6 @@ package functions
 
 import (
 	"fmt"
-	"go/token"
 
 	"github.com/dave/dst"
 
@@ -197,9 +196,8 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 		localId, intermediateType.AsType(generationContext), "// intermediate variable for conversion")
 	declareLocal.Decorations().Before = dst.NewLine
 
-	populateLocalFromHub := astbuilder.SimpleAssignment(
+	populateLocalFromHub := astbuilder.SimpleDeclaration(
 		errIdent,
-		token.DEFINE,
 		astbuilder.CallExpr(dst.NewIdent(localId), fn.Name(), dst.NewIdent("hub")))
 	populateLocalFromHub.Decs.Before = dst.EmptyLine
 
@@ -256,9 +254,8 @@ func (fn *ResourceConversionFunction) indirectConversionToHub(
 		localId, intermediateType.AsType(generationContext), "// intermediate variable for conversion")
 	declareLocal.Decorations().Before = dst.NewLine
 
-	populateLocalFromReceiver := astbuilder.SimpleAssignment(
+	populateLocalFromReceiver := astbuilder.SimpleDeclaration(
 		errIdent,
-		token.DEFINE,
 		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), astbuilder.AddrOf(dst.NewIdent(localId))))
 
 	checkForErrorsPopulatingLocal := astbuilder.CheckErrorAndWrap(

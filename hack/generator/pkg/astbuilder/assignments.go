@@ -28,6 +28,22 @@ func SimpleAssignment(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 	}
 }
 
+// SimpleDeclaration performs a simple assignment like:
+//
+//     <lhs> := <rhs>
+//
+func SimpleDeclaration(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
+	return &dst.AssignStmt{
+		Lhs: []dst.Expr{
+			dst.Clone(lhs).(dst.Expr),
+		},
+		Tok: token.DEFINE,
+		Rhs: []dst.Expr{
+			dst.Clone(rhs).(dst.Expr),
+		},
+	}
+}
+
 // QualifiedAssignment performs a simple assignment like:
 //     <lhs>.<lhsSel> := <rhs>       // tok = token.DEFINE
 // or  <lhs>.<lhsSel> = <rhs>        // tok = token.ASSIGN

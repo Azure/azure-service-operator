@@ -178,9 +178,8 @@ func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.C
 	t := dst.NewIdent("t")
 
 	// parameters := gopter.DefaultTestParameters()
-	defineParameters := astbuilder.SimpleAssignment(
+	defineParameters := astbuilder.SimpleDeclaration(
 		dst.NewIdent(parametersLocal),
-		token.DEFINE,
 		astbuilder.CallQualifiedFunc(gopterPackage, "DefaultTestParameters"))
 
 	// parameters.MaxSize = 10
@@ -191,9 +190,8 @@ func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.C
 		astbuilder.IntLiteral(10))
 
 	// properties := gopter.NewProperties(parameters)
-	defineProperties := astbuilder.SimpleAssignment(
+	defineProperties := astbuilder.SimpleDeclaration(
 		dst.NewIdent(propertiesLocal),
-		token.DEFINE,
 		astbuilder.CallQualifiedFunc(gopterPackage, "NewProperties", dst.NewIdent(parametersLocal)))
 
 	// partial expression: description of the test
@@ -279,9 +277,8 @@ func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.C
 
 	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	equateEmpty := astbuilder.CallQualifiedFunc(cmpoptsPackage, "EquateEmpty")
-	compare := astbuilder.SimpleAssignment(
+	compare := astbuilder.SimpleDeclaration(
 		dst.NewIdent(matchId),
-		token.DEFINE,
 		astbuilder.CallQualifiedFunc(cmpPackage, "Equal",
 			dst.NewIdent(subjectId),
 			dst.NewIdent(actualId),
@@ -295,17 +292,14 @@ func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.C
 		},
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
-				astbuilder.SimpleAssignment(
+				astbuilder.SimpleDeclaration(
 					dst.NewIdent(actualFmtId),
-					token.DEFINE,
 					astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualId))),
-				astbuilder.SimpleAssignment(
+				astbuilder.SimpleDeclaration(
 					dst.NewIdent(subjectFmtId),
-					token.DEFINE,
 					astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectId))),
-				astbuilder.SimpleAssignment(
+				astbuilder.SimpleDeclaration(
 					dst.NewIdent(resultId),
-					token.DEFINE,
 					astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtId), dst.NewIdent(actualFmtId))),
 				astbuilder.Returns(dst.NewIdent(resultId)),
 			},
@@ -389,9 +383,8 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 		// Create a simple version of the generator that does not reference generators for related types
 		// This serves to terminate any dependency cycles that might occur during creation of a more fully fledged generator
 
-		makeIndependentMap := astbuilder.SimpleAssignment(
+		makeIndependentMap := astbuilder.SimpleDeclaration(
 			dst.NewIdent("independentGenerators"),
-			token.DEFINE,
 			astbuilder.MakeMap(
 				dst.NewIdent("string"),
 				astbuilder.QualifiedTypeName(gopterPackage, "Gen")))
@@ -416,9 +409,8 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 		// Have to call the factory method twice as the simple generator above has captured the map;
 		// if we reuse or modify the map, chaos ensues.
 
-		makeAllMap := astbuilder.SimpleAssignment(
+		makeAllMap := astbuilder.SimpleDeclaration(
 			dst.NewIdent("allGenerators"),
-			token.DEFINE,
 			astbuilder.MakeMap(
 				dst.NewIdent("string"),
 				astbuilder.QualifiedTypeName(gopterPackage, "Gen")))

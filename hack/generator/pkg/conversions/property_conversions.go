@@ -188,9 +188,8 @@ func assignToOptional(
 			// (this avoids reserving the name and not using it, which can interact with other conversions)
 			local := destinationEndpoint.CreateLocal("", "Temp")
 
-			assignment := astbuilder.SimpleAssignment(
+			assignment := astbuilder.SimpleDeclaration(
 				dst.NewIdent(local),
-				token.DEFINE,
 				expr)
 
 			writing := writer(astbuilder.AddrOf(dst.NewIdent(local)))
@@ -254,9 +253,8 @@ func assignFromOptional(
 			// (this avoids reserving the name and not using it, which can interact with other conversions)
 			local := sourceEndpoint.CreateLocal("", "Read")
 
-			cacheOriginal = astbuilder.SimpleAssignment(
+			cacheOriginal = astbuilder.SimpleDeclaration(
 				dst.NewIdent(local),
-				token.DEFINE,
 				reader)
 			actualReader = dst.NewIdent(local)
 		}
@@ -558,9 +556,8 @@ func assignArrayFromArray(
 		indexId := sourceEndpoint.CreateLocal("Index")
 		tempId := sourceEndpoint.CreateLocal("List")
 
-		declaration := astbuilder.SimpleAssignment(
+		declaration := astbuilder.SimpleDeclaration(
 			dst.NewIdent(tempId),
-			token.DEFINE,
 			astbuilder.MakeList(destinationArray.AsType(generationContext), astbuilder.CallFunc("len", reader)))
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {
@@ -574,7 +571,7 @@ func assignArrayFromArray(
 			}
 		}
 
-		avoidAliasing := astbuilder.SimpleAssignment(dst.NewIdent(itemId), token.DEFINE, dst.NewIdent(itemId))
+		avoidAliasing := astbuilder.SimpleDeclaration(dst.NewIdent(itemId), dst.NewIdent(itemId))
 		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
 		avoidAliasing.Decs.Before = dst.NewLine
 
@@ -641,9 +638,8 @@ func assignMapFromMap(
 		keyId := sourceEndpoint.CreateLocal("Key")
 		tempId := sourceEndpoint.CreateLocal("Map")
 
-		declaration := astbuilder.SimpleAssignment(
+		declaration := astbuilder.SimpleDeclaration(
 			dst.NewIdent(tempId),
-			token.DEFINE,
 			astbuilder.MakeMap(destinationMap.KeyType().AsType(generationContext), destinationMap.ValueType().AsType(generationContext)))
 
 		assignToItem := func(expr dst.Expr) []dst.Stmt {
@@ -657,7 +653,7 @@ func assignMapFromMap(
 			}
 		}
 
-		avoidAliasing := astbuilder.SimpleAssignment(dst.NewIdent(itemId), token.DEFINE, dst.NewIdent(itemId))
+		avoidAliasing := astbuilder.SimpleDeclaration(dst.NewIdent(itemId), dst.NewIdent(itemId))
 		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
 		avoidAliasing.Decs.Before = dst.NewLine
 
@@ -721,9 +717,8 @@ func assignEnumFromEnum(
 	local := destinationEndpoint.CreateLocal("", "As"+destinationName.Name(), "Value")
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, ctx *astmodel.CodeGenerationContext) []dst.Stmt {
 		result := []dst.Stmt{
-			astbuilder.SimpleAssignment(
+			astbuilder.SimpleDeclaration(
 				dst.NewIdent(local),
-				token.DEFINE,
 				astbuilder.CallFunc(destinationName.Name(), reader)),
 		}
 

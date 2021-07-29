@@ -262,29 +262,13 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 	ignore := "_"
 	addToScheme := "AddToScheme"
 
-	initSchemeVar := astbuilder.SimpleAssignment(
+	initSchemeVar := astbuilder.SimpleDeclaration(
 		dst.NewIdent(scheme),
-		token.DEFINE,
-		&dst.CallExpr{
-			Fun: &dst.SelectorExpr{
-				X:   dst.NewIdent(runtime),
-				Sel: dst.NewIdent("NewScheme"),
-			},
-			Args: []dst.Expr{},
-		})
+		astbuilder.CallQualifiedFunc(runtime, "NewScheme"))
 
 	clientGoSchemeAssign := astbuilder.SimpleAssignment(
 		dst.NewIdent(ignore),
-		token.ASSIGN,
-		&dst.CallExpr{
-			Fun: &dst.SelectorExpr{
-				X:   dst.NewIdent(clientGoScheme),
-				Sel: dst.NewIdent(addToScheme),
-			},
-			Args: []dst.Expr{
-				dst.NewIdent(scheme),
-			},
-		})
+		astbuilder.CallQualifiedFunc(clientGoScheme, addToScheme, dst.NewIdent(scheme)))
 
 	var importedPackageNames []string
 	for pkg := range r.getImportedPackages() {
