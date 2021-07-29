@@ -41,8 +41,6 @@ type PropertyAssignmentFunction struct {
 	receiverName string
 	// identifier to use for our parameter in generated code
 	parameterName string
-	// identifier to use for the property bag local variable in generated code
-	propertyBagName string
 }
 
 // StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
@@ -80,11 +78,12 @@ func NewPropertyAssignmentFunction(
 		parameterName:      direction.SelectString("source", "destination"),
 	}
 
-	result.propertyBagName = result.knownLocals.CreateLocal("propertyBag", "", "Local")
+	name, use := result.configureForPropertyBag()
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
-		WithDirection(direction)
+		WithDirection(direction).
+		WithPropertyBag(name, use)
 
 	err := result.createConversions()
 	if err != nil {
@@ -209,13 +208,19 @@ func (fn *PropertyAssignmentFunction) propertyBagPrologue(
 	source string,
 	generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 
+	// Don't refactor genruntimePkg out to this scope - calling MustGetImportedPackageName() flags the
+	// package as referenced, so we must only call that if we are actually going to reference the package
+
 	if prop, found := fn.findPropertyBagProperty(fn.sourceType()); found {
+		// Found a property bag on our source type, need to clone it to allow properties to remove values
+		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 		cloneBag := astbuilder.SimpleAssignment(
-			dst.NewIdent(fn.propertyBagName),
+			dst.NewIdent(fn.conversionContext.PropertyBagName()),
 			token.DEFINE,
-			astbuilder.CallExpr(
-				astbuilder.Selector(dst.NewIdent(source), string(prop.PropertyName())),
-				"Clone"))
+			astbuilder.CallQualifiedFunc(
+				genruntimePkg,
+				"NewPropertyBag",
+				astbuilder.Selector(dst.NewIdent(source), string(prop.PropertyName()))))
 		cloneBag.Decs.Before = dst.NewLine
 		astbuilder.AddComment(&cloneBag.Decorations().Start, "// Clone the existing property bag")
 
@@ -223,9 +228,10 @@ func (fn *PropertyAssignmentFunction) propertyBagPrologue(
 	}
 
 	if _, found := fn.findPropertyBagProperty(fn.destinationType()); found {
+		// Found a property bag on our destination type (and NOT on our source type), so we create a new one to populate
 		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 		createBag := astbuilder.SimpleAssignment(
-			dst.NewIdent(fn.propertyBagName),
+			dst.NewIdent(fn.conversionContext.PropertyBagName()),
 			token.DEFINE,
 			astbuilder.CallQualifiedFunc(genruntimePkg, "NewPropertyBag"))
 		createBag.Decs.Before = dst.NewLine
@@ -247,7 +253,7 @@ func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 		setBag := astbuilder.SimpleAssignment(
 			astbuilder.Selector(dst.NewIdent(destination), string(prop.PropertyName())),
 			token.ASSIGN,
-			dst.NewIdent(fn.propertyBagName))
+			dst.NewIdent(fn.conversionContext.PropertyBagName()))
 		setBag.Decs.Before = dst.EmptyLine
 		astbuilder.AddComment(&setBag.Decorations().Start, "// Update the property bag")
 
@@ -397,7 +403,6 @@ func (fn *PropertyAssignmentFunction) createReadingEndpoints() conversions.Reada
 	return sourceEndpoints
 }
 
-
 // createWritingEndpoints creates a WritableConversionEndpointSet containing all the writable endpoints we need for this
 // conversion. If the destination has a property bag, we create additional endpoints to match any surplus properties
 // present on the SOURCE type, so we can stash those in the property bag for later use.
@@ -413,4 +418,23 @@ func (fn *PropertyAssignmentFunction) createWritingEndpoints() conversions.Writa
 	return destinationEndpoints
 }
 
+// configureForPropertyBag returns the required configuration for use of a property bag, if one is found
+func (fn *PropertyAssignmentFunction) configureForPropertyBag() (string, conversions.PropertyBagUse) {
+	_, sourceHasBag := fn.findPropertyBagProperty(fn.sourceType())
+	_, destinationHasBag := fn.findPropertyBagProperty(fn.destinationType())
 
+	if !sourceHasBag && !destinationHasBag {
+		return "", conversions.None
+	}
+
+	name := fn.knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
+	if sourceHasBag && destinationHasBag {
+		return name, conversions.ReadWrite
+	}
+
+	if sourceHasBag {
+		return name, conversions.Read
+	}
+
+	return name, conversions.Write
+}
