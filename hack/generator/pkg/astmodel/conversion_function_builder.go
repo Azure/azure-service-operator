@@ -210,7 +210,6 @@ func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, 
 		innerStatements,
 		astbuilder.SimpleAssignment(
 			params.GetDestination(),
-			token.ASSIGN,
 			astbuilder.AddrOf(dst.NewIdent(tempVarIdent))))
 
 	result := &dst.IfStmt{
