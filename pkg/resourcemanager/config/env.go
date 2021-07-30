@@ -68,14 +68,12 @@ func ParseEnvironment() error {
 	}
 	targetNamespaces = ParseStringListFromEnvironment("AZURE_TARGET_NAMESPACES")
 
-	operatorMode = OperatorMode(envy.Get("AZURE_OPERATOR_MODE", "both"))
-	switch operatorMode {
-	case OperatorModeBoth, OperatorModeWebhooks, OperatorModeWatchers:
-	default:
-		return errors.Errorf(`operator mode must be one of "both", "webhooks" or "watchers" but was %q`, operatorMode)
+	operatorMode, err := ParseOperatorMode(envy.Get("AZURE_OPERATOR_MODE", "both"))
+	if err != nil {
+		return errors.Wrap(err, "reading AZURE_OPERATOR_MODE")
 	}
 
-	if operatorMode == OperatorModeWebhooks && len(targetNamespaces) > 0 {
+	if !operatorMode.IncludesWatchers() && len(targetNamespaces) > 0 {
 		return errors.Errorf("setting target namespaces doesn't make sense when in webhooks-only mode")
 	}
 
@@ -167,4 +165,14 @@ func ParseStringListFromEnvironment(variable string) []string {
 		items[i] = strings.TrimSpace(item)
 	}
 	return items
+}
+
+func ParseOperatorMode(value string) (OperatorMode, error) {
+	candidate := OperatorMode(value)
+	switch candidate {
+	case OperatorModeBoth, OperatorModeWebhooks, OperatorModeWatchers:
+	default:
+		return "", errors.Errorf(`operator mode value must be one of "both", "webhooks" or "watchers" but was %q`, value)
+	}
+	return candidate, nil
 }
