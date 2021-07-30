@@ -170,7 +170,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -206,7 +206,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -242,7 +242,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -278,7 +278,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -314,7 +314,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -350,7 +350,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -386,7 +386,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -422,7 +422,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -458,7 +458,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -494,7 +494,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "9"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -530,7 +530,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "10"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -566,7 +566,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "11"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -602,7 +602,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "12"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentActive","message":"Unable to edit or replace
@@ -638,14 +638,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "13"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50","name":"k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7710312963452076020","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.341665S","correlationId":"2364edee-8dc2-4e06-9a69-0e85e561e6a3","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50/operationStatuses/08585754758192975671?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_a8cca2aa-62b6-5334-9411-fc5cef8a6d50/operationStatuses/08585754758192975671?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -969,14 +969,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_60e5e6f9-e640-5fb6-8b79-138e46584a3c?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_60e5e6f9-e640-5fb6-8b79-138e46584a3c?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_60e5e6f9-e640-5fb6-8b79-138e46584a3c","name":"k8s_60e5e6f9-e640-5fb6-8b79-138e46584a3c","type":"Microsoft.Resources/deployments","properties":{"templateHash":"3884095019514062220","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.127917S","correlationId":"c5df7713-9f68-4f0a-8755-67d4f50e5a53","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/topics","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_60e5e6f9-e640-5fb6-8b79-138e46584a3c/operationStatuses/08585754757890506698?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_60e5e6f9-e640-5fb6-8b79-138e46584a3c/operationStatuses/08585754757890506698?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1036,14 +1036,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_3579a23c-d3a1-592c-98eb-506e54eae7d5?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_3579a23c-d3a1-592c-98eb-506e54eae7d5?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_3579a23c-d3a1-592c-98eb-506e54eae7d5","name":"k8s_3579a23c-d3a1-592c-98eb-506e54eae7d5","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15378866389158131073","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2707221S","correlationId":"d0efcbb1-a0df-47a2-b51d-57f5e8341683","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_3579a23c-d3a1-592c-98eb-506e54eae7d5/operationStatuses/08585754757889751292?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_3579a23c-d3a1-592c-98eb-506e54eae7d5/operationStatuses/08585754757889751292?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:

@@ -20,6 +20,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -34,7 +35,6 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/patch"
 )
 
 // TODO: I think we will want to pull some of this back into the Generic Controller so that it happens
@@ -110,6 +110,8 @@ func NewAzureDeploymentReconciler(
 }
 
 func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Result, error) {
+	r.logObj("reconciling resource")
+
 	action, actionFunc, err := r.DetermineCreateOrUpdateAction()
 	if err != nil {
 		r.log.Error(err, "error determining create or update action")
@@ -128,6 +130,8 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 }
 
 func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, error) {
+	r.logObj("deleting resource")
+
 	action, actionFunc, err := r.DetermineDeleteAction()
 	if err != nil {
 		r.log.Error(err, "error determining delete action")
@@ -254,12 +258,28 @@ func (r *AzureDeploymentReconciler) SpecSignature() (string, error) {
 	return hex.EncodeToString(hash[:]), nil
 }
 
+func (r *AzureDeploymentReconciler) UpdateBeforeCratingDeployment(
+	deploymentName string,
+	deploymentID string) error {
+
+	controllerutil.AddFinalizer(r.obj, GenericControllerFinalizer)
+	r.SetDeploymentID(deploymentID)
+	r.SetDeploymentName(deploymentName)
+
+	sig, err := r.SpecSignature() // nolint:govet
+	if err != nil {
+		return errors.Wrap(err, "failed to compute resource spec hash")
+	}
+	r.SetResourceSignature(sig)
+	r.SetResourceProvisioningState("Running") // TODO: Improve this with Conditions
+
+	return nil
+}
+
 func (r *AzureDeploymentReconciler) Update(
 	deployment *armclient.Deployment,
 	status genruntime.FromARMConverter) error {
 
-	// TODO: Should this happen in the controller?
-	controllerutil.AddFinalizer(r.obj, GenericControllerFinalizer)
 	r.SetDeploymentID(deployment.ID)
 	r.SetDeploymentName(deployment.Name)
 
@@ -332,8 +352,8 @@ func (r *AzureDeploymentReconciler) DetermineCreateOrUpdateAction() (CreateOrUpd
 		return CreateOrUpdateActionNoAction, NoAction, errors.Errorf("resource is currently deleting; it can not be applied")
 	}
 
-	if depId, ok := r.GetDeploymentID(); ok {
-		r.log.V(3).Info("Have existing deployment ID, will monitor it", "deploymentID", depId)
+	if depID, ok := r.GetDeploymentID(); ok {
+		r.log.V(3).Info("Have existing deployment ID, will monitor it", "deploymentID", depID)
 		// There is an ongoing deployment we need to monitor
 		return CreateOrUpdateActionMonitorDeployment, r.MonitorDeployment, nil
 	}
@@ -406,14 +426,11 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
 	}
 
-	err = r.Patch(ctx, func() error {
-		r.SetResourceProvisioningState(armclient.DeletingProvisioningState)
-		return nil
-	})
-
+	r.SetResourceProvisioningState(armclient.DeletingProvisioningState)
+	err = r.CommitUpdate(ctx)
 	err = client.IgnoreNotFound(err)
 	if err != nil {
-		return ctrl.Result{}, errors.Wrap(err, "patching after delete")
+		return ctrl.Result{}, err
 	}
 
 	// delete has started, check back to seen when the finalizer can be removed
@@ -464,6 +481,27 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 		return ctrl.Result{}, err
 	}
 
+	// Update our state and commit BEFORE creating the Azure deployment in case
+	// we're not operating on the latest version of the object and the CommitUpdate fails
+	// we don't want to lose the deployment ID. If the deployment isn't successfully
+	// created, we'll realize that in the MonitorDeployment phase and reset the ID to
+	// try again.
+	deploymentID, err := deployment.GetDeploymentARMID()
+	if err != nil {
+		return ctrl.Result{}, errors.Wrapf(err, "couldn't compute deployment ARM ID")
+	}
+	err = r.UpdateBeforeCratingDeployment(deployment.Name, deploymentID)
+	if err != nil {
+		return ctrl.Result{}, errors.Wrap(err, "updating obj")
+	}
+
+	err = r.CommitUpdate(ctx)
+	if err != nil {
+		// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
 	// Try to create deployment:
 	r.log.Info("Starting new deployment to Azure", "action", string(CreateOrUpdateActionBeginDeployment))
 	err = r.ARMClient.CreateDeployment(ctx, deployment)
@@ -481,22 +519,21 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 				// but is either running or has run to completion
 				return ctrl.Result{}, errors.Wrap(err, "received conflict when trying to create deployment")
 			case http.StatusBadRequest:
-				err = r.Patch(ctx, func() error {
-					r.SetResourceError(err.Error())
-					r.SetResourceProvisioningState(armclient.FailedProvisioningState)
-					sig, err := r.SpecSignature() // nolint:govet
-					if err != nil {
-						return errors.Wrap(err, "failed to compute resource spec hash")
-					}
-					r.SetResourceSignature(sig)
-
-					return nil
-				})
+				r.SetResourceError(err.Error())
+				r.SetResourceProvisioningState(armclient.FailedProvisioningState)
+				sig, err := r.SpecSignature() // nolint:govet
+				if err != nil {
+					return ctrl.Result{}, errors.Wrap(err, "failed to compute resource spec hash")
+				}
+				r.SetResourceSignature(sig)
+				r.SetDeploymentID("")
+				r.SetDeploymentName("")
+				err = r.CommitUpdate(ctx)
 
 				if err != nil {
 					// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
 					// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-					return ctrl.Result{}, errors.Wrap(client.IgnoreNotFound(err), "patching")
+					return ctrl.Result{}, client.IgnoreNotFound(err)
 				}
 
 				r.log.Error(reqErr, "Error creating deployment", "id", deployment.ID)
@@ -511,47 +548,49 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 		r.recorder.Eventf(r.obj, v1.EventTypeNormal, string(CreateOrUpdateActionBeginDeployment), "Created new deployment to Azure with ID %q", deployment.ID)
 	}
 
-	err = r.Patch(ctx, func() error {
-		sig, err := r.SpecSignature() // nolint:govet
-		if err != nil {
-			return errors.Wrap(err, "failed to compute resource spec hash")
-		}
-		r.SetResourceSignature(sig)
-
-		return r.Update(deployment, nil) // Status is always nil here
-	})
-
-	if err != nil {
-		// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		return ctrl.Result{}, errors.Wrap(client.IgnoreNotFound(err), "patching")
-	}
-
 	result := ctrl.Result{}
-	// TODO: This is going to be common... need a wrapper/helper somehow?
-	if !deployment.IsTerminalProvisioningState() {
-		result = ctrl.Result{Requeue: true}
-	}
+	// TODO: Right now, because we're adding spec signature and other annotations, another event will
+	// TODO: be triggered. As such, we don't want to requeue this event. If we stop modifying spec we
+	// TODO: WILL need to requeue this event. For determinism though we really only want one event
+	// TODO: active at once, so commenting this out for now.
+	//if !deployment.IsTerminalProvisioningState() {
+	//      result = ctrl.Result{Requeue: true}
+	//}
 
 	return result, err
 }
 
 // TODO: There's a bit too much duplicated code between this and create deployment -- should be a good way to combine them?
 func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl.Result, error) {
-	deployment, err := r.resourceSpecToDeployment(ctx)
-	if err != nil {
-		return ctrl.Result{}, err
+	deploymentID, deploymentIDOk := r.GetDeploymentID()
+	if !deploymentIDOk {
+		return ctrl.Result{}, errors.New("cannot MonitorDeployment with empty deploymentID")
 	}
 
-	id := deployment.ID // Preserve the ID in case it's overwritten
-	deployment, retryAfter, err := r.ARMClient.GetDeployment(ctx, id)
+	deployment, retryAfter, err := r.ARMClient.GetDeployment(ctx, deploymentID)
 	if err != nil {
+		// If the deployment doesn't exist, clear our ID/Name and return so we can try again
+		var reqErr *autorestAzure.RequestError
+		if errors.As(err, &reqErr) && reqErr.StatusCode == http.StatusNotFound {
+			r.SetDeploymentID("")
+			r.SetDeploymentName("")
+			err = r.CommitUpdate(ctx)
+			if err != nil {
+				// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+				// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+				return ctrl.Result{}, client.IgnoreNotFound(err)
+			}
+
+			// We just modified spec so don't need to requeue this
+			return ctrl.Result{}, nil
+		}
+
 		if retryAfter != 0 {
 			r.log.V(3).Info("Error performing GET on deployment, will retry", "delaySec", retryAfter/time.Second)
 			return ctrl.Result{RequeueAfter: retryAfter}, nil
 		}
 
-		return ctrl.Result{}, errors.Wrapf(err, "getting deployment %q from ARM", id)
+		return ctrl.Result{}, errors.Wrapf(err, "getting deployment %q from ARM", deploymentID)
 	}
 
 	var status genruntime.FromARMConverter
@@ -574,19 +613,17 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 		status = s
 	}
 
-	err = r.Patch(ctx, func() error {
-		updateErr := r.Update(deployment, status)
-		if updateErr != nil {
-			return errors.Wrap(updateErr, "updating obj")
-		}
+	err = r.Update(deployment, status)
+	if err != nil {
+		return ctrl.Result{}, errors.Wrap(err, "updating obj")
+	}
 
-		return nil
-	})
+	err = r.CommitUpdate(ctx)
 
 	if err != nil {
 		// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
 		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		return ctrl.Result{}, errors.Wrap(client.IgnoreNotFound(err), "patching")
+		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	// TODO: Could somehow have a method that grouped both of these calls
@@ -615,24 +652,22 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 		deployment.ID = ""
 		deployment.Name = ""
 
-		err = r.Patch(ctx, func() error {
-			updateErr := r.Update(deployment, status)
-			if updateErr != nil {
-				return errors.Wrap(updateErr, "updating obj")
-			}
+		err = r.Update(deployment, status)
+		if err != nil {
+			return ctrl.Result{}, errors.Wrap(err, "updating obj")
+		}
 
-			return nil
-		})
+		err = r.CommitUpdate(ctx)
+		if err != nil {
+			// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+			// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+			return ctrl.Result{}, client.IgnoreNotFound(err)
+		}
+
 		r.log.V(4).Info(
 			"Cleared deployment info from resource",
 			"DeploymentID", r.GetDeploymentIDOrDefault(),
 			"DeploymentName", r.GetDeploymentNameOrDefault())
-
-		if err != nil {
-			// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-			// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-			return ctrl.Result{}, errors.Wrap(client.IgnoreNotFound(err), "patching")
-		}
 	}
 
 	if deployment.IsTerminalProvisioningState() {
@@ -655,14 +690,13 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 		// TODO: We need to figure out how we're handing these sorts of errors.
 		// TODO: See https://github.com/Azure/azure-service-operator/issues/1448
 		// TODO: For now just set an error so we at least see something
-		err = r.Patch(ctx, func() error {
-			r.SetResourceError(fmt.Sprintf("owner %s is not ready", r.obj.Owner().Name))
-			return nil
-		})
+
+		r.SetResourceError(fmt.Sprintf("owner %s is not ready", r.obj.Owner().Name))
+		err = r.CommitUpdate(ctx)
 
 		err = client.IgnoreNotFound(err)
 		if err != nil {
-			return ctrl.Result{}, errors.Wrap(err, "patching resource error")
+			return ctrl.Result{}, errors.Wrap(err, "updating resource error")
 		}
 
 		// need to try again later
@@ -753,33 +787,19 @@ func (r *AzureDeploymentReconciler) resourceSpecToDeployment(ctx context.Context
 		return nil, err
 	}
 
-	// TODO: get other deployment details from status and avoid creating a new deployment
-	deploymentID, deploymentIDOk := r.GetDeploymentID()
-	deploymentName, deploymentNameOk := r.GetDeploymentName()
-	if deploymentIDOk != deploymentNameOk {
-		return nil, errors.Errorf(
-			"deploymentIDOk: %t (id: %s), deploymentNameOk: %t (name: %s) expected to match, but didn't",
-			deploymentIDOk,
-			deploymentID,
-			deploymentNameOk,
-			deploymentName)
+	// We need to fabricate a deployment name to use
+	deploymentName, err := (r.CreateDeploymentName)(r.obj)
+	if err != nil {
+		return nil, err
 	}
 
-	if !deploymentNameOk {
-		deploymentName, err = (r.CreateDeploymentName)(r.obj)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	deployment := r.createDeployment(deploySpec, deploymentName, deploymentID)
+	deployment := r.createDeployment(deploySpec, deploymentName)
 	return deployment, nil
 }
 
 func (r *AzureDeploymentReconciler) createDeployment(
 	deploySpec genruntime.DeployableResource,
-	deploymentName string,
-	deploymentID string) *armclient.Deployment {
+	deploymentName string) *armclient.Deployment {
 
 	var deployment *armclient.Deployment
 	switch res := deploySpec.(type) {
@@ -797,37 +817,47 @@ func (r *AzureDeploymentReconciler) createDeployment(
 		panic(fmt.Sprintf("unknown deployable resource kind: %T", deploySpec))
 	}
 
-	if deploymentID != "" {
-		deployment.ID = deploymentID
-	}
-
 	return deployment
 }
 
-func (r *AzureDeploymentReconciler) Patch(
-	ctx context.Context,
-	mutator func() error) error {
+// logObj logs the r.obj JSON payload
+func (r *AzureDeploymentReconciler) logObj(note string) {
+	if r.log.V(4).Enabled() {
+		objJson, err := json.Marshal(r.obj)
+		if err != nil {
+			r.log.Error(err, "failed to JSON serialize obj for logging purposes")
+		} else {
+			r.log.V(4).Info(note, "resource", string(objJson))
+		}
+	}
+}
 
-	// TODO: it's sorta awkward we have to reach into KubeClient to get its client here
-	patcher, err := patch.NewHelper(r.obj, r.KubeClient.Client)
+// CommitUpdate persists the contents of r.obj to etcd by using the Kubernetes client.
+// Note that after this method has been called, r.obj contains the result of the update
+// from APIServer (including an updated resourceVersion).
+func (r *AzureDeploymentReconciler) CommitUpdate(ctx context.Context) error {
+
+	// We must clone here because the result of this update could contain
+	// fields such as status.location that may not be set but are not omitempty.
+	// This will cause the contents we have in Status.Location to be overwritten.
+	clone := r.obj.DeepCopyObject().(client.Object)
+	err := r.KubeClient.Client.Update(ctx, clone)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "updating resource")
 	}
 
-	if err = mutator(); err != nil {
-		return err
+	// TODO: This is a hack so that we can update 2x in a row.
+	// TODO: Do away with this if/when we stop modifying spec.
+	r.obj.SetResourceVersion(clone.GetResourceVersion())
+
+	err = r.KubeClient.Client.Status().Update(ctx, r.obj)
+	if err != nil {
+		return errors.Wrap(err, "updating resource status")
 	}
 
-	if err = patcher.Patch(ctx, r.obj); err != nil {
-		// Don't wrap this error so that we can easily use apierrors to classify it elsewhere
-		return err
-	}
+	r.logObj("updated resource")
 
-	// fill resource with patched updates
-	return r.KubeClient.Client.Get(ctx, client.ObjectKey{
-		Namespace: r.obj.GetNamespace(),
-		Name:      r.obj.GetName(),
-	}, r.obj)
+	return nil
 }
 
 // isOwnerReady returns true if the owner is ready or if there is no owner required
@@ -856,25 +886,21 @@ func (r *AzureDeploymentReconciler) applyOwnership(ctx context.Context) error {
 		return nil
 	}
 
-	err = r.Patch(ctx, func() error {
-		ownerGvk := owner.GetObjectKind().GroupVersionKind()
+	ownerGvk := owner.GetObjectKind().GroupVersionKind()
 
-		ownerRef := metav1.OwnerReference{
-			APIVersion: strings.Join([]string{ownerGvk.Group, ownerGvk.Version}, "/"),
-			Kind:       ownerGvk.Kind,
-			Name:       owner.GetName(),
-			UID:        owner.GetUID(),
-		}
+	ownerRef := metav1.OwnerReference{
+		APIVersion: strings.Join([]string{ownerGvk.Group, ownerGvk.Version}, "/"),
+		Kind:       ownerGvk.Kind,
+		Name:       owner.GetName(),
+		UID:        owner.GetUID(),
+	}
 
-		r.obj.SetOwnerReferences(ownerutil.EnsureOwnerRef(r.obj.GetOwnerReferences(), ownerRef))
-
-		r.log.V(4).Info("Set owner reference", "ownerGvk", ownerGvk, "ownerName", owner.GetName())
-
-		return nil
-	})
+	r.obj.SetOwnerReferences(ownerutil.EnsureOwnerRef(r.obj.GetOwnerReferences(), ownerRef))
+	r.log.V(4).Info("Set owner reference", "ownerGvk", ownerGvk, "ownerName", owner.GetName())
+	err = r.CommitUpdate(ctx)
 
 	if err != nil {
-		return errors.Wrap(err, "patch owner references failed")
+		return errors.Wrap(err, "update owner references failed")
 	}
 
 	return nil
@@ -882,13 +908,20 @@ func (r *AzureDeploymentReconciler) applyOwnership(ctx context.Context) error {
 
 // TODO: it's not clear if we want to reserve updates of the resource to the controller itself (and keep KubeClient out of the AzureDeploymentReconciler)
 func (r *AzureDeploymentReconciler) deleteResourceSucceeded(ctx context.Context) error {
-	err := r.Patch(ctx, func() error {
-		controllerutil.RemoveFinalizer(r.obj, GenericControllerFinalizer)
-		return nil
-	})
+	controllerutil.RemoveFinalizer(r.obj, GenericControllerFinalizer)
+	err := r.CommitUpdate(ctx)
 
 	r.log.V(0).Info("Deleted resource")
 
-	// patcher will try to fetch the object after patching, so ignore not found errors
+	// We must also ignore conflict here because updating a resource that
+	// doesn't exist returns conflict unfortunately: https://github.com/kubernetes/kubernetes/issues/89985
+	return ignoreNotFoundAndConflict(err)
+}
+
+func ignoreNotFoundAndConflict(err error) error {
+	if apierrors.IsConflict(err) {
+		return nil
+	}
+
 	return client.IgnoreNotFound(err)
 }

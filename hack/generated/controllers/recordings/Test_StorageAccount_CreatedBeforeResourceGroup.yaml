@@ -10,7 +10,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-clgrrr''
@@ -44,7 +44,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-clgrrr''
@@ -78,7 +78,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-clgrrr''
@@ -112,7 +112,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-clgrrr''
@@ -146,7 +146,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-clgrrr''
@@ -180,7 +180,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-clgrrr''
@@ -214,7 +214,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-clgrrr''
@@ -315,7 +315,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-clgrrr''
@@ -349,14 +349,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d","name":"k8s_954772f9-e344-53bb-bcfb-f5e22580265d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7943108908549706733","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2628773S","correlationId":"2ce40ac0-bb69-4cb2-a4c7-8c9d743477c1","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d/operationStatuses/08585769507720927777?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-clgrrr/providers/Microsoft.Resources/deployments/k8s_954772f9-e344-53bb-bcfb-f5e22580265d/operationStatuses/08585769507720927777?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
