@@ -32,10 +32,9 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 	armId := rg.Status.ID
 
 	// Update the tags
-	patcher := tc.NewResourcePatcher(rg)
-
+	old := rg.DeepCopy()
 	rg.Spec.Tags["tag1"] = "value1"
-	patcher.Patch(rg)
+	tc.Patch(old, rg)
 
 	objectKey := client.ObjectKeyFromObject(rg)
 
