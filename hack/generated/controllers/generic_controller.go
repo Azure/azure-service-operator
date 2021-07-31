@@ -39,7 +39,7 @@ type GenericReconciler struct {
 	Name                 string
 	GVK                  schema.GroupVersionKind
 	Controller           controller.Controller
-	RequeueDelay         time.Duration
+	RequeueDelayOverride time.Duration
 	CreateDeploymentName func(obj metav1.Object) (string, error)
 }
 
@@ -54,11 +54,6 @@ type Options struct {
 }
 
 func (options *Options) setDefaults() {
-	// default requeue delay to 5 seconds
-	if options.RequeueDelay == 0 {
-		options.RequeueDelay = 5 * time.Second
-	}
-
 	// override deployment name generator, if provided
 	if options.CreateDeploymentName == nil {
 		options.CreateDeploymentName = createDeploymentName
@@ -135,7 +130,7 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 		Log:                  log.WithName(controllerName),
 		Recorder:             mgr.GetEventRecorderFor(controllerName),
 		GVK:                  gvk,
-		RequeueDelay:         options.RequeueDelay,
+		RequeueDelayOverride: options.RequeueDelay,
 		CreateDeploymentName: options.CreateDeploymentName,
 	}
 
@@ -225,10 +220,13 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, err
 	}
 
-	// TODO: This actually means we don't get exponential backoff which Kubernetes does by default,
-	// TODO: but we need this for test today to get fast reconciles.
-	if result.Requeue && result.RequeueAfter == time.Duration(0) {
-		result.RequeueAfter = gr.RequeueDelay
+	// If we have a requeue delay override, set it for all situations where
+	// we are requeueing.
+	hasRequeueDelayOverride := gr.RequeueDelayOverride != time.Duration(0)
+	isRequeueing := result.Requeue || result.RequeueAfter > time.Duration(0)
+	if hasRequeueDelayOverride && isRequeueing {
+		result.RequeueAfter = gr.RequeueDelayOverride
+		result.Requeue = true
 	}
 
 	return result, nil
