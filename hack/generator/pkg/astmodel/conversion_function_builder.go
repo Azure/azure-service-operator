@@ -344,7 +344,7 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 	keyTypeAst := destinationType.KeyType().AsType(builder.CodeGenerationContext)
 	valueTypeAst := destinationType.ValueType().AsType(builder.CodeGenerationContext)
 
-	makeMapStatement := astbuilder.SetVariable(
+	makeMapStatement := astbuilder.AssignmentStatement(
 		destination,
 		makeMapToken,
 		astbuilder.MakeMap(keyTypeAst, valueTypeAst))
@@ -574,7 +574,7 @@ func IdentityDeepCopyJSON(builder *ConversionFunctionBuilder, params ConversionP
 
 // AssignmentHandlerDefine is an assignment handler for definitions, using :=
 func AssignmentHandlerDefine(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
-	return astbuilder.SetVariable(lhs, token.DEFINE, rhs)
+	return astbuilder.AssignmentStatement(lhs, token.DEFINE, rhs)
 }
 
 // AssignmentHandlerAssign is an assignment handler for standard assignments to existing variables, using =

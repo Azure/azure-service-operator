@@ -46,10 +46,10 @@ func ShortDeclaration(id string, rhs dst.Expr) *dst.AssignStmt {
 	}
 }
 
-// SetVariable allows for either variable declaration or assignment by passing the required token
+// AssignmentStatement allows for either variable declaration or assignment by passing the required token
 // Only token.DEFINE and token.ASSIGN are supported, other values will panic.
 // Use SimpleAssignment or ShortDeclaration if possible; use this method only if you must.
-func SetVariable(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
+func AssignmentStatement(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
 	if tok != token.ASSIGN && tok != token.DEFINE {
 		panic(fmt.Sprintf("token %q not supported in VariableAssignment", tok))
 	}
