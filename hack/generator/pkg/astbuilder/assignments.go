@@ -16,6 +16,7 @@ import (
 //
 //     <lhs> = <rhs>
 //
+// See also ShortDeclaration
 func SimpleAssignment(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
@@ -28,11 +29,12 @@ func SimpleAssignment(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 	}
 }
 
-// SimpleDeclaration performs a simple assignment like:
+// ShortDeclaration performs a simple assignment like:
 //
 //     <id> := <rhs>
 //
-func SimpleDeclaration(id string, rhs dst.Expr) *dst.AssignStmt {
+// Method naming inspired by https://tour.golang.org/basics/10
+func ShortDeclaration(id string, rhs dst.Expr) *dst.AssignStmt {
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			dst.NewIdent(id),
@@ -46,7 +48,7 @@ func SimpleDeclaration(id string, rhs dst.Expr) *dst.AssignStmt {
 
 // SetVariable allows for either variable declaration or assignment by passing the required token
 // Only token.DEFINE and token.ASSIGN are supported, other values will panic.
-// Use SimpleAssignment or SimpleDeclaration by preference
+// Use SimpleAssignment or ShortDeclaration if possible; use this method only if you must.
 func SetVariable(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
 	if tok != token.ASSIGN && tok != token.DEFINE {
 		panic(fmt.Sprintf("token %q not supported in VariableAssignment", tok))

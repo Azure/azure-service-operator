@@ -266,7 +266,7 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *CodeGenerationCon
 		Tok:   token.DEFINE,
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
-				astbuilder.SimpleDeclaration("err", astbuilder.CallFunc(validationIdent, args...)),
+				astbuilder.ShortDeclaration("err", astbuilder.CallFunc(validationIdent, args...)),
 				astbuilder.CheckErrorAndSingleStatement(astbuilder.AppendList(dst.NewIdent(errsIdent), dst.NewIdent("err"))),
 			},
 		},
@@ -279,7 +279,7 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *CodeGenerationCon
 	appendFuncCall.Ellipsis = true
 
 	body := []dst.Stmt{
-		astbuilder.SimpleDeclaration(
+		astbuilder.ShortDeclaration(
 			validationsIdent,
 			astbuilder.CallQualifiedFunc(receiverIdent, implFunctionName)),
 		astbuilder.AssignToInterface(tempVarIdent, dst.NewIdent(receiverIdent)),

@@ -178,7 +178,7 @@ func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.C
 	t := dst.NewIdent("t")
 
 	// parameters := gopter.DefaultTestParameters()
-	defineParameters := astbuilder.SimpleDeclaration(
+	defineParameters := astbuilder.ShortDeclaration(
 		parametersLocal,
 		astbuilder.CallQualifiedFunc(gopterPackage, "DefaultTestParameters"))
 
@@ -190,7 +190,7 @@ func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.C
 		astbuilder.IntLiteral(10))
 
 	// properties := gopter.NewProperties(parameters)
-	defineProperties := astbuilder.SimpleDeclaration(
+	defineProperties := astbuilder.ShortDeclaration(
 		propertiesLocal,
 		astbuilder.CallQualifiedFunc(gopterPackage, "NewProperties", dst.NewIdent(parametersLocal)))
 
@@ -277,7 +277,7 @@ func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.C
 
 	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	equateEmpty := astbuilder.CallQualifiedFunc(cmpoptsPackage, "EquateEmpty")
-	compare := astbuilder.SimpleDeclaration(
+	compare := astbuilder.ShortDeclaration(
 		matchId,
 		astbuilder.CallQualifiedFunc(cmpPackage, "Equal",
 			dst.NewIdent(subjectId),
@@ -292,13 +292,13 @@ func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.C
 		},
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
-				astbuilder.SimpleDeclaration(
+				astbuilder.ShortDeclaration(
 					actualFmtId,
 					astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualId))),
-				astbuilder.SimpleDeclaration(
+				astbuilder.ShortDeclaration(
 					subjectFmtId,
 					astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectId))),
-				astbuilder.SimpleDeclaration(
+				astbuilder.ShortDeclaration(
 					resultId,
 					astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtId), dst.NewIdent(actualFmtId))),
 				astbuilder.Returns(dst.NewIdent(resultId)),
@@ -383,7 +383,7 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 		// Create a simple version of the generator that does not reference generators for related types
 		// This serves to terminate any dependency cycles that might occur during creation of a more fully fledged generator
 
-		makeIndependentMap := astbuilder.SimpleDeclaration(
+		makeIndependentMap := astbuilder.ShortDeclaration(
 			"independentGenerators",
 			astbuilder.MakeMap(
 				dst.NewIdent("string"),
@@ -409,7 +409,7 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 		// Have to call the factory method twice as the simple generator above has captured the map;
 		// if we reuse or modify the map, chaos ensues.
 
-		makeAllMap := astbuilder.SimpleDeclaration(
+		makeAllMap := astbuilder.ShortDeclaration(
 			"allGenerators",
 			astbuilder.MakeMap(
 				dst.NewIdent("string"),
