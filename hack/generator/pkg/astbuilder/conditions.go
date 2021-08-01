@@ -19,11 +19,11 @@ import (
 //     <falseBranch>
 // }
 //
-func SimpleIfElse(condition dst.Expr, trueBranch dst.Stmt, falseBranch dst.Stmt) *dst.IfStmt {
+func SimpleIfElse(condition dst.Expr, trueBranch []dst.Stmt, falseBranch []dst.Stmt) *dst.IfStmt {
 	result := &dst.IfStmt{
 		Cond: condition,
-		Body: EnsureStatementBlock(trueBranch),
-		Else: EnsureStatementBlock(falseBranch),
+		Body: StatementBlock(trueBranch...),
+		Else: StatementBlock(falseBranch...),
 	}
 
 	return result

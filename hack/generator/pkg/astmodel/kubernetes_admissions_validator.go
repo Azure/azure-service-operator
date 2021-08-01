@@ -266,7 +266,7 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *CodeGenerationCon
 		Tok:   token.DEFINE,
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
-				astbuilder.SimpleAssignment(dst.NewIdent("err"), token.DEFINE, astbuilder.CallFunc(validationIdent, args...)),
+				astbuilder.ShortDeclaration("err", astbuilder.CallFunc(validationIdent, args...)),
 				astbuilder.CheckErrorAndSingleStatement(astbuilder.AppendList(dst.NewIdent(errsIdent), dst.NewIdent("err"))),
 			},
 		},
@@ -279,9 +279,8 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *CodeGenerationCon
 	appendFuncCall.Ellipsis = true
 
 	body := []dst.Stmt{
-		astbuilder.SimpleAssignment(
-			dst.NewIdent(validationsIdent),
-			token.DEFINE,
+		astbuilder.ShortDeclaration(
+			validationsIdent,
 			astbuilder.CallQualifiedFunc(receiverIdent, implFunctionName)),
 		astbuilder.AssignToInterface(tempVarIdent, dst.NewIdent(receiverIdent)),
 		&dst.IfStmt{
@@ -295,7 +294,6 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *CodeGenerationCon
 					// Not using astbuilder.AppendList here as we want to tack on a "..." at the end
 					astbuilder.SimpleAssignment(
 						dst.NewIdent(validationsIdent),
-						token.ASSIGN,
 						appendFuncCall),
 				},
 			},

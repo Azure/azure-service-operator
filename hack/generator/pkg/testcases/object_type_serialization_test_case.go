@@ -178,9 +178,8 @@ func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.C
 	t := dst.NewIdent("t")
 
 	// parameters := gopter.DefaultTestParameters()
-	defineParameters := astbuilder.SimpleAssignment(
-		dst.NewIdent(parametersLocal),
-		token.DEFINE,
+	defineParameters := astbuilder.ShortDeclaration(
+		parametersLocal,
 		astbuilder.CallQualifiedFunc(gopterPackage, "DefaultTestParameters"))
 
 	// parameters.MaxSize = 10
@@ -191,9 +190,8 @@ func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.C
 		astbuilder.IntLiteral(10))
 
 	// properties := gopter.NewProperties(parameters)
-	defineProperties := astbuilder.SimpleAssignment(
-		dst.NewIdent(propertiesLocal),
-		token.DEFINE,
+	defineProperties := astbuilder.ShortDeclaration(
+		propertiesLocal,
 		astbuilder.CallQualifiedFunc(gopterPackage, "NewProperties", dst.NewIdent(parametersLocal)))
 
 	// partial expression: description of the test
@@ -265,7 +263,6 @@ func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.C
 	// err = json.Unmarshal(bin, &actual)
 	deserialize := astbuilder.SimpleAssignment(
 		dst.NewIdent("err"),
-		token.ASSIGN,
 		astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal",
 			dst.NewIdent(binId),
 			&dst.UnaryExpr{
@@ -280,9 +277,8 @@ func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.C
 
 	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	equateEmpty := astbuilder.CallQualifiedFunc(cmpoptsPackage, "EquateEmpty")
-	compare := astbuilder.SimpleAssignment(
-		dst.NewIdent(matchId),
-		token.DEFINE,
+	compare := astbuilder.ShortDeclaration(
+		matchId,
 		astbuilder.CallQualifiedFunc(cmpPackage, "Equal",
 			dst.NewIdent(subjectId),
 			dst.NewIdent(actualId),
@@ -296,17 +292,14 @@ func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.C
 		},
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
-				astbuilder.SimpleAssignment(
-					dst.NewIdent(actualFmtId),
-					token.DEFINE,
+				astbuilder.ShortDeclaration(
+					actualFmtId,
 					astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualId))),
-				astbuilder.SimpleAssignment(
-					dst.NewIdent(subjectFmtId),
-					token.DEFINE,
+				astbuilder.ShortDeclaration(
+					subjectFmtId,
 					astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectId))),
-				astbuilder.SimpleAssignment(
-					dst.NewIdent(resultId),
-					token.DEFINE,
+				astbuilder.ShortDeclaration(
+					resultId,
 					astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtId), dst.NewIdent(actualFmtId))),
 				astbuilder.Returns(dst.NewIdent(resultId)),
 			},
@@ -390,9 +383,8 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 		// Create a simple version of the generator that does not reference generators for related types
 		// This serves to terminate any dependency cycles that might occur during creation of a more fully fledged generator
 
-		makeIndependentMap := astbuilder.SimpleAssignment(
-			dst.NewIdent("independentGenerators"),
-			token.DEFINE,
+		makeIndependentMap := astbuilder.ShortDeclaration(
+			"independentGenerators",
 			astbuilder.MakeMap(
 				dst.NewIdent("string"),
 				astbuilder.QualifiedTypeName(gopterPackage, "Gen")))
@@ -403,7 +395,6 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 
 		createIndependentGenerator := astbuilder.SimpleAssignment(
 			dst.NewIdent(o.idOfSubjectGeneratorGlobal()),
-			token.ASSIGN,
 			astbuilder.CallQualifiedFunc(
 				genPackage,
 				"Struct",
@@ -418,9 +409,8 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 		// Have to call the factory method twice as the simple generator above has captured the map;
 		// if we reuse or modify the map, chaos ensues.
 
-		makeAllMap := astbuilder.SimpleAssignment(
-			dst.NewIdent("allGenerators"),
-			token.DEFINE,
+		makeAllMap := astbuilder.ShortDeclaration(
+			"allGenerators",
 			astbuilder.MakeMap(
 				dst.NewIdent("string"),
 				astbuilder.QualifiedTypeName(gopterPackage, "Gen")))
@@ -440,7 +430,6 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 
 		createFullGenerator := astbuilder.SimpleAssignment(
 			dst.NewIdent(o.idOfSubjectGeneratorGlobal()),
-			token.ASSIGN,
 			astbuilder.CallQualifiedFunc(
 				genPackage,
 				"Struct",
