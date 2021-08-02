@@ -81,6 +81,12 @@ spec:
               key: AZURE_SECRET_NAMING_VERSION
               name: azureoperatorsettings
               optional: true
+        - name: AZURE_TARGET_NAMESPACES
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_TARGET_NAMESPACES
+              name: azureoperatorsettings
+              optional: true
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:
@@ -107,6 +113,8 @@ spec:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: cert
           readOnly: true
+      nodeSelector:
+        kubernetes.io/os: linux
       terminationGracePeriodSeconds: 10
       volumes:
       - name: cert
