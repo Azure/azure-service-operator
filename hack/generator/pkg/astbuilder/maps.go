@@ -6,8 +6,9 @@
 package astbuilder
 
 import (
-	"github.com/dave/dst"
 	"go/token"
+
+	"github.com/dave/dst"
 )
 
 // MakeMap returns the call expression for making a map
@@ -36,7 +37,6 @@ func InsertMap(mapExpr dst.Expr, key dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 			X:     dst.Clone(mapExpr).(dst.Expr),
 			Index: dst.Clone(key).(dst.Expr),
 		},
-		token.ASSIGN,
 		dst.Clone(rhs).(dst.Expr))
 }
 

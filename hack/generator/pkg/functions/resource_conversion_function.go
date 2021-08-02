@@ -7,7 +7,6 @@ package functions
 
 import (
 	"fmt"
-	"go/token"
 
 	"github.com/dave/dst"
 
@@ -197,9 +196,8 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 		localId, intermediateType.AsType(generationContext), "// intermediate variable for conversion")
 	declareLocal.Decorations().Before = dst.NewLine
 
-	populateLocalFromHub := astbuilder.SimpleAssignment(
-		errIdent,
-		token.DEFINE,
+	populateLocalFromHub := astbuilder.ShortDeclaration(
+		"err",
 		astbuilder.CallExpr(dst.NewIdent(localId), fn.Name(), dst.NewIdent("hub")))
 	populateLocalFromHub.Decs.Before = dst.EmptyLine
 
@@ -209,7 +207,6 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 
 	populateReceiverFromLocal := astbuilder.SimpleAssignment(
 		errIdent,
-		token.ASSIGN,
 		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), astbuilder.AddrOf(dst.NewIdent(localId))))
 	populateReceiverFromLocal.Decs.Before = dst.EmptyLine
 
@@ -257,9 +254,8 @@ func (fn *ResourceConversionFunction) indirectConversionToHub(
 		localId, intermediateType.AsType(generationContext), "// intermediate variable for conversion")
 	declareLocal.Decorations().Before = dst.NewLine
 
-	populateLocalFromReceiver := astbuilder.SimpleAssignment(
-		errIdent,
-		token.DEFINE,
+	populateLocalFromReceiver := astbuilder.ShortDeclaration(
+		"err",
 		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), astbuilder.AddrOf(dst.NewIdent(localId))))
 
 	checkForErrorsPopulatingLocal := astbuilder.CheckErrorAndWrap(
@@ -268,7 +264,6 @@ func (fn *ResourceConversionFunction) indirectConversionToHub(
 
 	populateHubFromLocal := astbuilder.SimpleAssignment(
 		errIdent,
-		token.ASSIGN,
 		astbuilder.CallExpr(dst.NewIdent(localId), fn.Name(), dst.NewIdent("hub")))
 
 	checkForErrorsPopulatingHub := astbuilder.CheckErrorAndWrap(

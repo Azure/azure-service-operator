@@ -6,23 +6,58 @@
 package astbuilder
 
 import (
+	"fmt"
 	"go/token"
 
 	"github.com/dave/dst"
 )
 
 // SimpleAssignment performs a simple assignment like:
-//     <lhs> := <rhs>       // tok = token.DEFINE
-// or  <lhs> = <rhs>        // tok = token.ASSIGN
-func SimpleAssignment(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
+//
+//     <lhs> = <rhs>
+//
+// See also ShortDeclaration
+func SimpleAssignment(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			dst.Clone(lhs).(dst.Expr),
 		},
-		Tok: tok,
+		Tok: token.ASSIGN,
 		Rhs: []dst.Expr{
 			dst.Clone(rhs).(dst.Expr),
 		},
+	}
+}
+
+// ShortDeclaration performs a simple assignment like:
+//
+//     <id> := <rhs>
+//
+// Method naming inspired by https://tour.golang.org/basics/10
+func ShortDeclaration(id string, rhs dst.Expr) *dst.AssignStmt {
+	return &dst.AssignStmt{
+		Lhs: []dst.Expr{
+			dst.NewIdent(id),
+		},
+		Tok: token.DEFINE,
+		Rhs: []dst.Expr{
+			dst.Clone(rhs).(dst.Expr),
+		},
+	}
+}
+
+// AssignmentStatement allows for either variable declaration or assignment by passing the required token
+// Only token.DEFINE and token.ASSIGN are supported, other values will panic.
+// Use SimpleAssignment or ShortDeclaration if possible; use this method only if you must.
+func AssignmentStatement(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
+	if tok != token.ASSIGN && tok != token.DEFINE {
+		panic(fmt.Sprintf("token %q not supported in VariableAssignment", tok))
+	}
+
+	return &dst.AssignStmt{
+		Lhs: Expressions(lhs),
+		Tok: tok,
+		Rhs: Expressions(rhs),
 	}
 }
 
