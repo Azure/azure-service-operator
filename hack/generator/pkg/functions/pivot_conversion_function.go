@@ -28,6 +28,37 @@ import (
 //     return instance.ConvertTo(s)
 // }
 //
+// The pivot is needed when following the package references from resource version to resource version won't lead us to
+// encounter the other type that's involved in the conversion, as we can see if we're trying to convert between v1 and
+// v2:
+//
+//      ##################                  #################                  +---------------+
+//      #       v1       #                  #       v2      #                  |       v3      |
+//      #     Person     #                  #     Person    #                  |     Person    |
+//      ##################                  #################                  +---------------+
+//              |                                   |                                  |
+//              v                                   v                                  v
+//      +----------------+                  +---------------+                  +---------------+
+//      |    v1storage   |                  |    v2storage  |                  |    v3storage  |
+//      |     Person     |----------------->|     Person    |----------------->|     Person    |
+//      +----------------+                  +---------------+                  +---------------+
+//
+// Following package references from v1 leads us, in turn, to v1storage, v2storage, and finally v3storage (our hub
+// version), none of is the version we need to terminate the conversion path.
+//
+// By having a pivot conversion on v3, we can restart the conversion path with v2.
+//
+// The entire conversion works as follows:
+//
+// v1.Person.ConvertTo(v2.Person)
+// --> v1storage.Person.ConvertTo(v2.Person)
+//   --> v2storage.Person.ConvertTo(v2.Person)
+//     --> v3storage.Person.ConvertTo(v2.Person)              // Pivot!
+//       --> v2.Person.ConvertFrom(v3storage.Person)          // Change of direction
+//         --> v2storage.Person.ConvertFrom(v3storage.Person)
+//
+// Note that conversions like this always pivot through the hub version.
+//
 type PivotConversionFunction struct {
 	// nameFrom is the name for this function when converting FROM a provided instance
 	nameFrom string
@@ -48,7 +79,7 @@ var _ astmodel.Function = &PivotConversionFunction{}
 
 // NewSpecPivotConversionFunction creates a pivot conversion function that works to convert between two Spec types
 // implementing the interface genruntime.ConvertibleSpec.
-// hubType is the TypeName of our hub type
+// direction is the direction of our conversion
 // idFactory is an identifier factory to use for generating local identifiers
 func NewSpecPivotConversionFunction(
 	direction conversions.Direction,
@@ -66,7 +97,7 @@ func NewSpecPivotConversionFunction(
 
 // NewStatusPivotConversionFunction creates a pivot conversion function that works to convert between two Status types
 // implementing the interface genruntime.ConvertibleStatus.
-// hubType is the TypeName of our hub type
+// direction is the direction of our conversion
 // idFactory is an identifier factory to use for generating local identifiers
 func NewStatusPivotConversionFunction(
 	direction conversions.Direction,
@@ -163,7 +194,7 @@ func (fn *PivotConversionFunction) declarationDocComment(receiver astmodel.TypeN
 }
 
 func (fn *PivotConversionFunction) Equals(otherFn astmodel.Function) bool {
-	rcf, ok := otherFn.(*ChainedConversionFunction)
+	rcf, ok := otherFn.(*PivotConversionFunction)
 	if !ok {
 		return false
 	}
