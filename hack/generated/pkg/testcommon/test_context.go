@@ -292,5 +292,5 @@ func (tc PerTestContext) GenerateSSHKey(size int) (*string, error) {
 }
 
 func (tc PerTestContext) MakeARMId(resourceGroup string, provider string, params ...string) string {
-	return armclient.MakeResourceGroupScopeARMId(tc.AzureSubscription, resourceGroup, provider, params...)
+	return armclient.MakeResourceGroupScopeARMID(tc.AzureSubscription, resourceGroup, provider, params...)
 }

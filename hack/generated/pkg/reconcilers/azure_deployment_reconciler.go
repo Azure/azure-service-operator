@@ -258,7 +258,7 @@ func (r *AzureDeploymentReconciler) SpecSignature() (string, error) {
 	return hex.EncodeToString(hash[:]), nil
 }
 
-func (r *AzureDeploymentReconciler) UpdateBeforeCratingDeployment(
+func (r *AzureDeploymentReconciler) UpdateBeforeCreatingDeployment(
 	deploymentName string,
 	deploymentID string) error {
 
@@ -490,7 +490,7 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "couldn't compute deployment ARM ID")
 	}
-	err = r.UpdateBeforeCratingDeployment(deployment.Name, deploymentID)
+	err = r.UpdateBeforeCreatingDeployment(deployment.Name, deploymentID)
 	if err != nil {
 		return ctrl.Result{}, errors.Wrap(err, "updating obj")
 	}

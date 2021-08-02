@@ -312,7 +312,7 @@ func (atc *AzureTemplateClient) HeadResource(ctx context.Context, id string, api
 	}
 }
 
-func MakeSubscriptionScopeARMId(subscription string, provider string, params ...string) string {
+func MakeSubscriptionScopeARMID(subscription string, provider string, params ...string) string {
 	if len(params) == 0 {
 		panic("At least 2 params must be specified")
 	}
@@ -325,7 +325,7 @@ func MakeSubscriptionScopeARMId(subscription string, provider string, params ...
 	return fmt.Sprintf("/subscriptions/%s/providers/%s/%s", subscription, provider, suffix)
 }
 
-func MakeResourceGroupScopeARMId(subscription string, resourceGroup string, provider string, params ...string) string {
+func MakeResourceGroupScopeARMID(subscription string, resourceGroup string, provider string, params ...string) string {
 	if len(params) == 0 {
 		panic("At least 2 params must be specified")
 	}

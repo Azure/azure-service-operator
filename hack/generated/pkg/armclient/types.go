@@ -176,9 +176,9 @@ func (d *Deployment) GetDeploymentARMID() (string, error) {
 	var armID string
 	switch d.Scope {
 	case SubscriptionScope:
-		armID = MakeSubscriptionScopeARMId(d.SubscriptionId, "Microsoft.Resources", "deployments", d.Name)
+		armID = MakeSubscriptionScopeARMID(d.SubscriptionId, "Microsoft.Resources", "deployments", d.Name)
 	case ResourceGroupScope:
-		armID = MakeResourceGroupScopeARMId(d.SubscriptionId, d.ResourceGroup, "Microsoft.Resources", "deployments", d.Name)
+		armID = MakeResourceGroupScopeARMID(d.SubscriptionId, d.ResourceGroup, "Microsoft.Resources", "deployments", d.Name)
 	default:
 		return "", errors.Errorf("unknown scope %s", d.Scope)
 	}
