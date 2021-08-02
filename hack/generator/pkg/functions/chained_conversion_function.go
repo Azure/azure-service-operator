@@ -7,7 +7,6 @@ package functions
 
 import (
 	"fmt"
-	"go/token"
 
 	"github.com/dave/dst"
 
@@ -203,7 +202,6 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	// <local> = &<intermediateType>{}
 	initializeLocal := astbuilder.SimpleAssignment(
 		local,
-		token.ASSIGN,
 		astbuilder.AddrOf(astbuilder.NewCompositeLiteralDetails(intermediateType).Build()))
 	initializeLocal.Decs.Before = dst.EmptyLine
 	astbuilder.AddComment(&initializeLocal.Decs.Start, "// Convert to an intermediate form")
@@ -215,9 +213,8 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	// or
 	//     err := <receiver>.AssignPropertiesTo(<local>)
 	//
-	initialStep := astbuilder.SimpleAssignment(
-		errIdent,
-		token.DEFINE,
+	initialStep := astbuilder.ShortDeclaration(
+		"err",
 		fn.direction.SelectExpr(
 			astbuilder.CallExpr(local, fn.Name(), parameter),
 			astbuilder.CallExpr(receiver, fn.propertyAssignmentFunctionName, local)))
@@ -237,7 +234,6 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	//
 	finalStep := astbuilder.SimpleAssignment(
 		errIdent,
-		token.ASSIGN,
 		fn.direction.SelectExpr(
 			astbuilder.CallExpr(receiver, fn.propertyAssignmentFunctionName, local),
 			astbuilder.CallExpr(local, fn.Name(), parameter)))
