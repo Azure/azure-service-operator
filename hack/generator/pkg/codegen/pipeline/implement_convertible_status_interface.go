@@ -21,7 +21,7 @@ const ImplementConvertibleStatusInterfaceStageId = "implementConvertibleStatusIn
 func ImplementConvertibleStatusInterface(idFactory astmodel.IdentifierFactory) Stage {
 	stage := MakeStage(
 		ImplementConvertibleStatusInterfaceStageId,
-		"Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus",
+		"Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type",
 		func(ctx context.Context, state *State) (*State, error) {
 			injector := astmodel.NewInterfaceInjector()
 
@@ -45,6 +45,9 @@ func ImplementConvertibleStatusInterface(idFactory astmodel.IdentifierFactory) S
 	return stage
 }
 
+// createConvertibleStatusInterfaceImplementation creates both of the funcs required for a given status to implement the
+// genruntime.ConvertibleStatus interface. See ChainedConversionFunction and PivotConversionFunction for details of the
+// actual code generated.
 func createConvertibleStatusInterfaceImplementation(
 	status astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory) *astmodel.InterfaceImplementation {

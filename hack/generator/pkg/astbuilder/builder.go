@@ -26,9 +26,16 @@ func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
 }
 
 // CheckErrorAndWrap checks if the err is non-nil, and if it is returns it, wrapped with additional information
+// If no arguments are provided, will generate
 //
 // if err != nil {
-//      return errors.Wrap(f)(err, <message>, <args>)
+//      return errors.Wrap(err, <message>)
+// }
+//
+// otherwise will generate
+//
+// if err != nil {
+//      return errors.Wrapf(err, <message>, <args>)
 // }
 //
 func CheckErrorAndWrap(errorsPackage string, message string, args ...dst.Expr) dst.Stmt {
@@ -367,11 +374,11 @@ func Selector(expr dst.Expr, names ...string) *dst.SelectorExpr {
 		exprs...).(*dst.SelectorExpr)
 }
 
-// CompareEqual generates a == comparison between the two expressions
+// AreEqual generates a == comparison between the two expressions
 //
 // <lhs> == <rhs>
 //
-func CompareEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
+func AreEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 	return &dst.BinaryExpr{
 		X:  dst.Clone(lhs).(dst.Expr),
 		Op: token.EQL,
@@ -379,11 +386,11 @@ func CompareEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 	}
 }
 
-// NotEqual generates a != comparison between the two expressions
+// AreNotEqual generates a != comparison between the two expressions
 //
 // <lhs> != <rhs>
 //
-func NotEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
+func AreNotEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 	return &dst.BinaryExpr{
 		X:  dst.Clone(lhs).(dst.Expr),
 		Op: token.NEQ,
@@ -393,7 +400,7 @@ func NotEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 
 // NotNil generates an `x != nil` comparison
 func NotNil(x dst.Expr) *dst.BinaryExpr {
-	return NotEqual(x, Nil())
+	return AreNotEqual(x, Nil())
 }
 
 // Nil returns the nil identifier (not keyword!)

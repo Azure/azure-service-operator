@@ -21,7 +21,7 @@ const ImplementConvertibleSpecInterfaceStageId = "implementConvertibleSpecInterf
 func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) Stage {
 	stage := MakeStage(
 		ImplementConvertibleSpecInterfaceStageId,
-		"Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec",
+		"Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type",
 		func(ctx context.Context, state *State) (*State, error) {
 			injector := astmodel.NewInterfaceInjector()
 
@@ -45,6 +45,9 @@ func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) Sta
 	return stage
 }
 
+// createConvertibleSpecInterfaceImplementation creates both of the funcs required for a given spec to implement the
+// genruntime.ConvertibleSpec interface. See ChainedConversionFunction and PivotConversionFunction for details of the
+// actual code generated.
 func createConvertibleSpecInterfaceImplementation(
 	spec astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory) *astmodel.InterfaceImplementation {

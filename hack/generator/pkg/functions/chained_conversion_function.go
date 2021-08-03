@@ -38,10 +38,8 @@ import (
 // }
 //
 type ChainedConversionFunction struct {
-	// nameFrom is the name for this function when converting FROM a provided instance
-	nameFrom string
-	// nameTo is the name for this function when converting TO a provided instance
-	nameTo string
+	// name is the unique name for this function
+	name string
 	// parameterType is common interface type for our parameter
 	parameterType astmodel.TypeName
 	// direction is the direction of conversion - either FROM the supplied instance, or TO the supplied instance
@@ -70,8 +68,7 @@ func NewSpecChainedConversionFunction(
 	propertyFunction *PropertyAssignmentFunction,
 	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
-		nameFrom:                        "ConvertSpecFrom",
-		nameTo:                          "ConvertSpecTo",
+		name:                            propertyFunction.direction.SelectString("ConvertSpecFrom", "ConvertSpecTo"),
 		parameterType:                   astmodel.ConvertibleSpecInterfaceType,
 		propertyAssignmentFunctionName:  propertyFunction.Name(),
 		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
@@ -91,8 +88,7 @@ func NewStatusChainedConversionFunction(
 	propertyFunction *PropertyAssignmentFunction,
 	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
-		nameFrom:                        "ConvertStatusFrom",
-		nameTo:                          "ConvertStatusTo",
+		name:                        propertyFunction.direction.SelectString("ConvertStatusFrom", "ConvertStatusTo"),
 		parameterType:                   astmodel.ConvertibleStatusInterfaceType,
 		propertyAssignmentFunctionName:  propertyFunction.Name(),
 		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
@@ -104,7 +100,7 @@ func NewStatusChainedConversionFunction(
 }
 
 func (fn *ChainedConversionFunction) Name() string {
-	return fn.direction.SelectString(fn.nameFrom, fn.nameTo)
+	return fn.name
 }
 
 func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {

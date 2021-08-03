@@ -37,7 +37,7 @@ func SimpleIfElse(condition dst.Expr, trueBranch []dst.Stmt, falseBranch []dst.S
 //
 func IfEqual(left dst.Expr, right dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 	return &dst.IfStmt{
-		Cond: CompareEqual(left, right),
+		Cond: AreEqual(left, right),
 		Body: StatementBlock(statements...),
 	}
 }

@@ -178,7 +178,7 @@ func (fn *PivotConversionFunction) bodyForPivot(
 		"attempted conversion between unrelated implementations of %s",
 		fn.parameterType)
 	recursionCheck := astbuilder.ReturnIfExpr(
-		astbuilder.CompareEqual(parameter, receiver),
+		astbuilder.AreEqual(parameter, receiver),
 		astbuilder.CallQualifiedFunc(errorsPkg, "New", errorMessage))
 	recursionCheck.Decorations().After = dst.EmptyLine
 

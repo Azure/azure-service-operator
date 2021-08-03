@@ -255,7 +255,7 @@ func assignFromOptional(
 			actualReader = dst.NewIdent(local)
 		}
 
-		checkForNil := astbuilder.NotEqual(actualReader, astbuilder.Nil())
+		checkForNil := astbuilder.AreNotEqual(actualReader, astbuilder.Nil())
 
 		// If we have a value, need to convert it to our destination type
 		writeActualValue := conversion(
