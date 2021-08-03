@@ -267,7 +267,7 @@ func assignFromBagItem(
 			errIdent,
 			astbuilder.WrappedErrorf(
 				errorsPkg,
-				"pulling %q from propertyBag",
+				"pulling '%s' from propertyBag",
 				sourceEndpoint.Name()))
 		returnIfErr.Decorations().After = dst.EmptyLine
 

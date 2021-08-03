@@ -23,7 +23,7 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 		var name string
 		err := propertyBag.Pull("Name", &name)
 		if err != nil {
-			return errors.Wrap(err, "pulling \"Name\" from propertyBag")
+			return errors.Wrap(err, "pulling 'Name' from propertyBag")
 		}
 
 		person.Name = &name

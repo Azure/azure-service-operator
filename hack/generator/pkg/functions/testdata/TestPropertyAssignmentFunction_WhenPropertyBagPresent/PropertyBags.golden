@@ -6,6 +6,7 @@ package v20200101
 import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	person "github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231"
+	"github.com/pkg/errors"
 )
 
 type Person struct {
@@ -25,13 +26,33 @@ func (person *Person) AssignPropertiesFromPerson(source *person.Person) error {
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// FamilyName
-	person.FamilyName = source
+	if propertyBag.Contains("FamilyName") {
+		var familyName string
+		err := propertyBag.Pull("FamilyName", &familyName)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'FamilyName' from propertyBag")
+		}
+
+		person.FamilyName = familyName
+	} else {
+		person.FamilyName = ""
+	}
 
 	// FullName
 	person.FullName = source.FullName
 
 	// KnownAs
-	person.KnownAs = source
+	if propertyBag.Contains("KnownAs") {
+		var knownA string
+		err := propertyBag.Pull("KnownAs", &knownA)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'KnownAs' from propertyBag")
+		}
+
+		person.KnownAs = knownA
+	} else {
+		person.KnownAs = ""
+	}
 
 	// No error
 	return nil
