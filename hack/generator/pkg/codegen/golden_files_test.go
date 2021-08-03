@@ -155,6 +155,9 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			pipeline.InjectPropertyAssignmentFunctionsStageID,
 			// TODO: Once the stage is enabled in the pipeline, we may need to remove it here for testing
 			//pipeline.InjectHubFunctionStageID,
+			//pipeline.ImplementConvertibleInterfaceStageId,
+			pipeline.ImplementConvertibleSpecInterfaceStageId,
+			pipeline.ImplementConvertibleStatusInterfaceStageId,
 			pipeline.ReportOnTypesAndVersionsStageID)
 		if !testConfig.HasARMResources {
 			codegen.RemoveStages(pipeline.CreateARMTypesStageID, pipeline.ApplyARMConversionInterfaceStageID)

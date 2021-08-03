@@ -14,9 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-// TestInjectConvertibleInterface checks that the pipeline stage does what we expect when run in relative isolation,
-// with only a few expected (and closely reated) stages in operation
-func TestInjectConvertibleInterface(t *testing.T) {
+func TestInjectConvertibleStatusInterface(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
@@ -39,15 +37,16 @@ func TestInjectConvertibleInterface(t *testing.T) {
 
 	finalState, err := RunTestPipeline(
 		initialState,
-		CreateConversionGraph(),                      // First create the conversion graph showing relationships
-		CreateStorageTypes(),                         // Then create the storage types
-		InjectPropertyAssignmentFunctions(idFactory), // After which we inject property assignment functions
-		ImplementConvertibleInterface(idFactory),     // And then we get to run the stage we're testing
+		CreateConversionGraph(),                        // First create the conversion graph showing relationships
+		CreateStorageTypes(),                           // Then create the storage types
+		InjectPropertyAssignmentFunctions(idFactory),   // After which we inject property assignment functions
+		ImplementConvertibleStatusInterface(idFactory), // And then we get to run the stage we're testing
 	)
 	g.Expect(err).To(Succeed())
 
-	// When verifying the golden file, check that the implementations of ConvertTo() and ConvertFrom() are correctly
-	// injected on the resources, but not on the other types. Verify that the code does what you expect. If you don't
-	// know what to expect, check that they do the right thing. :-)
+	// When verifying the golden file, check that the implementations of ConvertStatusTo() and ConvertStatusFrom() are
+	// correctly injected on the specs, but not on the other types. Verify that the code does what you expect. If you
+	// don't know what to expect, check that the non-hub status types have chained conversions that use the property
+	// assignment functions, and that the hub spec type has a pivot conversion.
 	test.AssertPackagesGenerateExpectedCode(t, finalState.types)
 }

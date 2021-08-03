@@ -29,6 +29,19 @@ func SimpleIfElse(condition dst.Expr, trueBranch []dst.Stmt, falseBranch []dst.S
 	return result
 }
 
+// IfEqual executes a series of statements if the supplied expressions are
+//
+// if <left> == <right> {
+//     <statements>
+// }
+//
+func IfEqual(left dst.Expr, right dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
+	return &dst.IfStmt{
+		Cond: AreEqual(left, right),
+		Body: StatementBlock(statements...),
+	}
+}
+
 // IfNotNil executes a series of statements if the supplied expression is not nil
 //
 // if <source> != nil {
@@ -41,6 +54,35 @@ func IfNotNil(toCheck dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 			X:  dst.Clone(toCheck).(dst.Expr),
 			Op: token.NEQ,
 			Y:  Nil(),
+		},
+		Body: StatementBlock(statements...),
+	}
+}
+
+// IfOk checks a boolean ok variable and if it is ok runs the given statements
+//
+//	if ok {
+//		<statements>
+//	}
+//
+func IfOk(statements ...dst.Stmt) *dst.IfStmt {
+	return &dst.IfStmt{
+		Cond: dst.NewIdent("ok"),
+		Body: StatementBlock(statements...),
+	}
+}
+
+// IfNotOk checks a boolean ok variable and if it is not ok runs the given statements
+//
+//	if !ok {
+//		<statements>
+//	}
+//
+func IfNotOk(statements ...dst.Stmt) *dst.IfStmt {
+	return &dst.IfStmt{
+		Cond: &dst.UnaryExpr{
+			Op: token.NOT,
+			X:  dst.NewIdent("ok"),
 		},
 		Body: StatementBlock(statements...),
 	}

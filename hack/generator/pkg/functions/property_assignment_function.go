@@ -153,6 +153,11 @@ func (fn *PropertyAssignmentFunction) Equals(f astmodel.Function) bool {
 	return false
 }
 
+// Direction returns this functions direction of conversion
+func (fn *PropertyAssignmentFunction) Direction() conversions.Direction {
+	return fn.direction
+}
+
 // AsFunc renders this function as an AST for serialization to a Go source file
 func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 
