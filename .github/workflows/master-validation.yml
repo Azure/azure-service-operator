@@ -11,6 +11,7 @@ on:
 
 jobs:
   test-generator:
+    concurrency: live-resources # only permit one run at a time 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
