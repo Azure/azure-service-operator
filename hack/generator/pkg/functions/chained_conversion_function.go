@@ -88,7 +88,7 @@ func NewStatusChainedConversionFunction(
 	propertyFunction *PropertyAssignmentFunction,
 	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
-		name:                        propertyFunction.direction.SelectString("ConvertStatusFrom", "ConvertStatusTo"),
+		name:                            propertyFunction.direction.SelectString("ConvertStatusFrom", "ConvertStatusTo"),
 		parameterType:                   astmodel.ConvertibleStatusInterfaceType,
 		propertyAssignmentFunctionName:  propertyFunction.Name(),
 		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
