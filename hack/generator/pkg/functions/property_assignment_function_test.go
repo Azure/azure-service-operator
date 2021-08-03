@@ -85,6 +85,8 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	jsonObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", jsonObjectType)
 	optionalJSONObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", astmodel.NewOptionalType(jsonObjectType))
 
+	bagProperty := astmodel.NewPropertyDefinition("propertyBag", "$propertyBag", astmodel.PropertyBagType)
+
 	idFactory := astmodel.NewIdentifierFactory()
 	ageFunction := test.NewFakeFunction("Age", idFactory)
 	ageFunction.TypeReturned = astmodel.IntType
@@ -202,6 +204,11 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 		createPropertyAssignmentTest("CopyJSONObjectProperty", jsonObjectProperty, jsonObjectProperty),
 		createPropertyAssignmentTest("CopyOptionalJSONProperty", optionalJSONProperty, jsonProperty),
 		createPropertyAssignmentTest("CopyJSONObjectProperty", optionalJSONObjectProperty, jsonObjectProperty),
+
+		createPropertyAssignmentTest("CopyRequiredStringToPropertyBag", requiredStringProperty, bagProperty),
+		createPropertyAssignmentTest("CopyOptionalStringToPropertyBag", optionalStringProperty, bagProperty),
+		createPropertyAssignmentTest("CopyRequiredIntToPropertyBag", requiredIntProperty, bagProperty),
+		createPropertyAssignmentTest("CopyOptionalIntToPropertyBag", optionalIntProperty, bagProperty),
 	}
 }
 
