@@ -40,6 +40,8 @@ func init() {
 	propertyConversionFactories = []PropertyConversionFactory{
 		// Must handle BagItems first
 		assignFromBagItem,
+		assignToBagItemFromNonOptional,
+		assignToBagItemFromOptional,
 		// Primitive types and aliases
 		assignPrimitiveFromPrimitive,
 		assignAliasedPrimitiveFromAliasedPrimitive,
@@ -151,6 +153,143 @@ func CreateTypeConversion(
 func NameOfPropertyAssignmentFunction(name astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
 	nameOfOtherType := idFactory.CreateIdentifier(name.Name(), astmodel.Exported)
 	return "AssignProperties" + direction.SelectString("From", "To") + nameOfOtherType
+}
+
+// assignToBagItemFromNonOptional will generate a conversion where the destination is in our property bag and the source
+// is not an optional type
+//
+// <propertyBag>.Add(<propertyName>, <value>)
+//
+func assignToBagItemFromNonOptional(
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
+	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require destination to be a property bag item
+	destinationItem, destinationIsItem := AsBagItemType(destinationEndpoint.Type())
+	if !destinationIsItem {
+		// Destination is not optional
+		return nil
+	}
+
+	// If our source is optional, we can't do the conversion
+	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
+		return nil
+	}
+
+	// Require a conversion between the type of the bag item and our source
+	conversion, _ := CreateTypeConversion(
+		sourceEndpoint,
+		destinationEndpoint.WithType(destinationItem.Element()),
+		conversionContext)
+	if conversion == nil {
+		return nil
+	}
+
+	return func(reader dst.Expr, _ func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+		bagWriter := func(expr dst.Expr) []dst.Stmt {
+
+			write := astbuilder.InvokeQualifiedFunc(
+				conversionContext.PropertyBagName(),
+				"Add",
+				astbuilder.StringLiteralf(destinationEndpoint.Name()),
+				reader)
+
+			return astbuilder.Statements(write)
+		}
+
+		return conversion(reader, bagWriter, generationContext)
+	}
+}
+
+// assignToBagItemFromOptional will generate a conversion where the destination is in our property bag and the source is
+// an optional type
+//
+// In simple cases
+//
+// if source.<property> != nil {
+//     <propertyBag>.Add(<propertyName>, source.<property>)
+// }
+//
+// In more complex cases, a local variable is used
+//
+// <local> := <value>
+// if <local> != nil {
+//     <propertyBag>.Add(<propertyName>, <local>)
+// }
+//
+func assignToBagItemFromOptional(
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
+	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require destination to be a property bag item
+	destinationItem, destinationIsItem := AsBagItemType(destinationEndpoint.Type())
+	if !destinationIsItem {
+		// Destination is not optional
+		return nil
+	}
+
+	// If our source is NOT optional, we can't do the conversion
+	sourceOptional, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type())
+	if !sourceIsOptional {
+		return nil
+	}
+
+	// Require a conversion between the type of the bag item and the non-optional type of our source
+	conversion, _ := CreateTypeConversion(
+		sourceEndpoint.WithType(sourceOptional.BaseType()),
+		destinationEndpoint.WithType(destinationItem.Element()),
+		conversionContext)
+	if conversion == nil {
+		return nil
+	}
+
+	return func(reader dst.Expr, _ func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+		bagWriter := func(expr dst.Expr) []dst.Stmt {
+
+			write := astbuilder.InvokeQualifiedFunc(
+				conversionContext.PropertyBagName(),
+				"Add",
+				astbuilder.StringLiteralf(destinationEndpoint.Name()),
+				astbuilder.Dereference(reader))
+
+			return astbuilder.Statements(write)
+		}
+
+		var cacheOriginal dst.Stmt
+		var actualReader dst.Expr
+
+		// If the value we're reading is a local or a field, it's cheap to read and we can skip
+		// using a local (which makes the generated code easier to read). In other cases, we want
+		// to cache the value in a local to avoid repeating any expensive conversion.
+
+		switch reader.(type) {
+		case *dst.Ident, *dst.SelectorExpr:
+			// reading a local variable or a field
+			cacheOriginal = nil
+			actualReader = reader
+		default:
+			// Something else, so we cache the original
+
+			// Only obtain our local variable name after we know we need it
+			// (this avoids reserving the name and not using it, which can interact with other conversions)
+			local := sourceEndpoint.CreateLocal("", "Read")
+
+			cacheOriginal = astbuilder.ShortDeclaration(local, reader)
+			actualReader = dst.NewIdent(local)
+		}
+
+		// If we have a value, need to convert it to our destination type
+		writeValue := conversion(
+			astbuilder.Dereference(actualReader),
+			bagWriter,
+			generationContext)
+
+		stmt := astbuilder.IfNotNil(actualReader, writeValue...)
+
+		return astbuilder.Statements(cacheOriginal, stmt)
+	}
 }
 
 // assignToOptional will generate a conversion where the destination is optional, if the

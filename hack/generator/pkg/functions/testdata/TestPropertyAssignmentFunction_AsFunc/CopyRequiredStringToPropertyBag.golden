@@ -41,7 +41,7 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	destination.Name = person.Name
+	propertyBag.Add("Name", person.Name)
 
 	// Update the property bag
 	destination.propertyBag = propertyBag

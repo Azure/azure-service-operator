@@ -64,13 +64,13 @@ func (person *Person) AssignPropertiesToPerson(destination *person.Person) error
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FamilyName
-	destination.FamilyName = person.FamilyName
+	propertyBag.Add("FamilyName", person.FamilyName)
 
 	// FullName
 	destination.FullName = person.FullName
 
 	// KnownAs
-	destination.KnownAs = person.KnownAs
+	propertyBag.Add("KnownAs", person.KnownAs)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

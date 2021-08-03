@@ -42,9 +42,7 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 
 	// Age
 	if person.Age != nil {
-		destination.Age = *person.Age
-	} else {
-		destination.Age = 0
+		propertyBag.Add("Age", *person.Age)
 	}
 
 	// Update the property bag

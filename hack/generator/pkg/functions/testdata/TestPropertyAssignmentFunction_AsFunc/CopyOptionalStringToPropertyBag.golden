@@ -42,9 +42,7 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 
 	// Name
 	if person.Name != nil {
-		destination.Name = *person.Name
-	} else {
-		destination.Name = ""
+		propertyBag.Add("Name", *person.Name)
 	}
 
 	// Update the property bag
