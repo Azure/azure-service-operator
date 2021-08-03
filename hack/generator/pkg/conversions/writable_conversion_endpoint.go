@@ -59,7 +59,6 @@ func MakeWritableConversionEndpointWritingBagItem(
 			return []dst.Stmt{
 				astbuilder.SimpleAssignment(
 					astbuilder.Selector(destination, itemName),
-					token.ASSIGN,
 					value),
 			}
 		},
