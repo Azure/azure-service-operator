@@ -172,14 +172,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd","name":"k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10327330708938368071","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2140804S","correlationId":"099fc409-b13a-42c2-a7be-552e810a271d","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks/subnets","locations":[null]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd/operationStatuses/08585769448748410509?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd/operationStatuses/08585769448748410509?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -239,14 +239,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_e1186b24-3a53-5a25-a733-c451da546064?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_e1186b24-3a53-5a25-a733-c451da546064?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_e1186b24-3a53-5a25-a733-c451da546064","name":"k8s_e1186b24-3a53-5a25-a733-c451da546064","type":"Microsoft.Resources/deployments","properties":{"templateHash":"3492426219460149803","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2467487S","correlationId":"dc398e40-4528-466c-b05e-2ae8d0b46439","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_e1186b24-3a53-5a25-a733-c451da546064/operationStatuses/08585769448747413094?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_e1186b24-3a53-5a25-a733-c451da546064/operationStatuses/08585769448747413094?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -449,7 +449,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"DeploymentBeingDeleted","message":"The deployment ''k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd''
@@ -517,14 +517,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd","name":"k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10327330708938368071","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.4179312S","correlationId":"ebd18b5d-9a96-4eaa-b2f0-851e99c6c215","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks/subnets","locations":[null]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd/operationStatuses/08585769448682133641?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wdjbrj/providers/Microsoft.Resources/deployments/k8s_0513bd60-aa11-5045-a3a3-fcfcc5c828cd/operationStatuses/08585769448682133641?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:

@@ -26,7 +26,6 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/controllers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/patch"
 )
 
 const ResourceGroupDeletionWaitTime = 5 * time.Minute
@@ -302,9 +301,9 @@ func (ktc *KubePerTestContext) CreateResourceAndWaitForFailure(obj client.Object
 
 // PatchResourceAndWaitAfter patches the resource in K8s and waits for it to change into
 // the Provisioned state from the provided previousState.
-func (ktc *KubePerTestContext) PatchResourceAndWaitAfter(obj client.Object, patcher Patcher, previousState armclient.ProvisioningState) {
-	patcher.Patch(obj)
-	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisionedAfter(previousState))
+func (ktc *KubePerTestContext) PatchResourceAndWaitAfter(old client.Object, new client.Object, previousState armclient.ProvisioningState) {
+	ktc.Patch(old, new)
+	ktc.G.Eventually(new, ktc.RemainingTime()).Should(ktc.Match.BeProvisionedAfter(previousState))
 }
 
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
@@ -317,19 +316,8 @@ func (ktc *KubePerTestContext) UpdateResource(obj client.Object) {
 	ktc.G.Expect(ktc.KubeClient.Update(ktc.Ctx, obj)).To(gomega.Succeed())
 }
 
-func (ktc *KubePerTestContext) NewResourcePatcher(obj client.Object) Patcher {
-	result, err := patch.NewHelper(obj, ktc.KubeClient)
-	ktc.Expect(err).ToNot(gomega.HaveOccurred())
-	return Patcher{ktc, result}
-}
-
-type Patcher struct {
-	ktc    *KubePerTestContext
-	helper *patch.Helper
-}
-
-func (ph *Patcher) Patch(obj client.Object) {
-	ph.ktc.Expect(ph.helper.Patch(ph.ktc.Ctx, obj)).To(gomega.Succeed())
+func (ktc *KubePerTestContext) Patch(old client.Object, new client.Object) {
+	ktc.Expect(ktc.KubeClient.Patch(ktc.Ctx, new, client.MergeFrom(old))).To(gomega.Succeed())
 }
 
 // DeleteResourceAndWait deletes the given resource in K8s and waits for

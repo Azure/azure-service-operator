@@ -172,9 +172,9 @@ func Test_CreateStorageAccountThatAlreadyExists_ReconcilesSuccessfully(t *testin
 	tc.CreateResourcesAndWait(acct)
 
 	// Patch the account to remove the finalizer
-	patcher := tc.NewResourcePatcher(acct)
+	old := acct.DeepCopy()
 	controllerutil.RemoveFinalizer(acct, "generated.infra.azure.com/finalizer")
-	patcher.Patch(acct)
+	tc.Patch(old, acct)
 
 	// Delete the account
 	tc.DeleteResourceAndWait(acct)

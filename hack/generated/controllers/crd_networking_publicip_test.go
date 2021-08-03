@@ -44,11 +44,10 @@ func Test_PublicIP_CRUD(t *testing.T) {
 	armId := *publicIPAddress.Status.Id
 
 	// Perform a simple patch
-	patcher := tc.NewResourcePatcher(publicIPAddress)
-
+	old := publicIPAddress.DeepCopy()
 	idleTimeoutInMinutes := 7
 	publicIPAddress.Spec.IdleTimeoutInMinutes = &idleTimeoutInMinutes
-	patcher.Patch(publicIPAddress)
+	tc.Patch(old, publicIPAddress)
 
 	objectKey := client.ObjectKeyFromObject(publicIPAddress)
 

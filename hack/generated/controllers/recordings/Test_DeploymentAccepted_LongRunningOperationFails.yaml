@@ -172,14 +172,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9","name":"k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9","type":"Microsoft.Resources/deployments","properties":{"templateHash":"4617865276341083827","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1794764S","correlationId":"8e615ffe-96c4-4791-8a15-cd764f558d67","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9/operationStatuses/08585769627628002661?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9/operationStatuses/08585769627628002661?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
