@@ -7,7 +7,6 @@ package functions
 
 import (
 	"fmt"
-	"go/token"
 	"sort"
 
 	"github.com/dave/dst"
@@ -214,9 +213,8 @@ func (fn *PropertyAssignmentFunction) propertyBagPrologue(
 	if prop, found := fn.findPropertyBagProperty(fn.sourceType()); found {
 		// Found a property bag on our source type, need to clone it to allow properties to remove values
 		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
-		cloneBag := astbuilder.SimpleAssignment(
-			dst.NewIdent(fn.conversionContext.PropertyBagName()),
-			token.DEFINE,
+		cloneBag := astbuilder.ShortDeclaration(
+			fn.conversionContext.PropertyBagName(),
 			astbuilder.CallQualifiedFunc(
 				genruntimePkg,
 				"NewPropertyBag",
@@ -230,9 +228,8 @@ func (fn *PropertyAssignmentFunction) propertyBagPrologue(
 	if _, found := fn.findPropertyBagProperty(fn.destinationType()); found {
 		// Found a property bag on our destination type (and NOT on our source type), so we create a new one to populate
 		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
-		createBag := astbuilder.SimpleAssignment(
-			dst.NewIdent(fn.conversionContext.PropertyBagName()),
-			token.DEFINE,
+		createBag := astbuilder.ShortDeclaration(
+			fn.conversionContext.PropertyBagName(),
 			astbuilder.CallQualifiedFunc(genruntimePkg, "NewPropertyBag"))
 		createBag.Decs.Before = dst.NewLine
 		astbuilder.AddComment(&createBag.Decorations().Start, "// Create a new property bag")
@@ -252,7 +249,6 @@ func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 	if prop, found := fn.findPropertyBagProperty(fn.destinationType()); found {
 		setBag := astbuilder.SimpleAssignment(
 			astbuilder.Selector(dst.NewIdent(destination), string(prop.PropertyName())),
-			token.ASSIGN,
 			dst.NewIdent(fn.conversionContext.PropertyBagName()))
 		setBag.Decs.Before = dst.EmptyLine
 		astbuilder.AddComment(&setBag.Decorations().Start, "// Update the property bag")
