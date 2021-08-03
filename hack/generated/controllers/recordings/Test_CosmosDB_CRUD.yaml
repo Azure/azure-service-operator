@@ -172,14 +172,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-dnhfns/providers/Microsoft.Resources/deployments/k8s_f9f7e648-5320-5c32-8775-febefed1fa3a?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dnhfns/providers/Microsoft.Resources/deployments/k8s_f9f7e648-5320-5c32-8775-febefed1fa3a?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dnhfns/providers/Microsoft.Resources/deployments/k8s_f9f7e648-5320-5c32-8775-febefed1fa3a","name":"k8s_f9f7e648-5320-5c32-8775-febefed1fa3a","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10782151782485691123","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1823935S","correlationId":"6b2db4ab-5dc3-4df0-99a6-b79b6a30b5b9","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-dnhfns/providers/Microsoft.Resources/deployments/k8s_f9f7e648-5320-5c32-8775-febefed1fa3a/operationStatuses/08585771334810879607?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dnhfns/providers/Microsoft.Resources/deployments/k8s_f9f7e648-5320-5c32-8775-febefed1fa3a/operationStatuses/08585771334810879607?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:

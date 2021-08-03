@@ -172,14 +172,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_3119a36e-408b-539f-8bd5-508d7609da7b?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_3119a36e-408b-539f-8bd5-508d7609da7b?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_3119a36e-408b-539f-8bd5-508d7609da7b","name":"k8s_3119a36e-408b-539f-8bd5-508d7609da7b","type":"Microsoft.Resources/deployments","properties":{"templateHash":"9272858764458487451","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2342614S","correlationId":"9a0ce524-0474-4987-a8b4-11bcc0b817f1","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_3119a36e-408b-539f-8bd5-508d7609da7b/operationStatuses/08585770383969129702?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_3119a36e-408b-539f-8bd5-508d7609da7b/operationStatuses/08585770383969129702?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -348,14 +348,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_85e6d1ff-b4e9-59dd-a85f-449ca9012219?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_85e6d1ff-b4e9-59dd-a85f-449ca9012219?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_85e6d1ff-b4e9-59dd-a85f-449ca9012219","name":"k8s_85e6d1ff-b4e9-59dd-a85f-449ca9012219","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10999433376155706504","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.251313S","correlationId":"12f340f8-35c0-41f3-a55c-1fec0fcdf389","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_85e6d1ff-b4e9-59dd-a85f-449ca9012219/operationStatuses/08585770383868526284?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_85e6d1ff-b4e9-59dd-a85f-449ca9012219/operationStatuses/08585770383868526284?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -589,14 +589,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_44fe0b20-2216-5a9e-a8b2-998ee1f7bbbb?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_44fe0b20-2216-5a9e-a8b2-998ee1f7bbbb?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_44fe0b20-2216-5a9e-a8b2-998ee1f7bbbb","name":"k8s_44fe0b20-2216-5a9e-a8b2-998ee1f7bbbb","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14711829405121064090","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1598039S","correlationId":"f055065a-f185-40b9-b67e-46c786a78ad6","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks/subnets","locations":[null]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_44fe0b20-2216-5a9e-a8b2-998ee1f7bbbb/operationStatuses/08585770383719174625?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_44fe0b20-2216-5a9e-a8b2-998ee1f7bbbb/operationStatuses/08585770383719174625?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -656,14 +656,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_8f99abbe-cc26-5d71-93fd-e40cbf1fe74a?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_8f99abbe-cc26-5d71-93fd-e40cbf1fe74a?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_8f99abbe-cc26-5d71-93fd-e40cbf1fe74a","name":"k8s_8f99abbe-cc26-5d71-93fd-e40cbf1fe74a","type":"Microsoft.Resources/deployments","properties":{"templateHash":"1300028085162079446","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.3561972S","correlationId":"01a7b884-5870-45d2-bc1f-13c15b070c4b","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"loadBalancers","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_8f99abbe-cc26-5d71-93fd-e40cbf1fe74a/operationStatuses/08585770383718266539?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_8f99abbe-cc26-5d71-93fd-e40cbf1fe74a/operationStatuses/08585770383718266539?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1024,14 +1024,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d","name":"k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"3045422051839131465","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2466034S","correlationId":"5b89a038-0b15-4865-89f5-d9de6c7860a0","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"virtualMachineScaleSets","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d/operationStatuses/08585770383568353600?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d/operationStatuses/08585770383568353600?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1513,14 +1513,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d","name":"k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"16331775602936272336","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2023046S","correlationId":"a22f1d13-f7e2-4686-941f-39ff04dc9dbf","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"virtualMachineScaleSets","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d/operationStatuses/08585770382929654494?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ftrtka/providers/Microsoft.Resources/deployments/k8s_21a0d9a2-3c7b-53ab-8391-82df268fe02d/operationStatuses/08585770382929654494?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:

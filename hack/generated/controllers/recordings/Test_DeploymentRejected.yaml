@@ -206,7 +206,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-gavcvf/providers/Microsoft.Resources/deployments/k8s_45bded34-2991-5374-8651-ddd7842f7955?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gavcvf/providers/Microsoft.Resources/deployments/k8s_45bded34-2991-5374-8651-ddd7842f7955?api-version=2019-10-01
     method: PUT
   response:
     body: '{"error":{"code":"InvalidTemplateDeployment","message":"The template deployment

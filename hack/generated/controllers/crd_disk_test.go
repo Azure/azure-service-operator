@@ -48,10 +48,10 @@ func Test_Disk_CRUD(t *testing.T) {
 	armId := *disk.Status.Id
 
 	// Perform a simple patch.
-	patcher := tc.NewResourcePatcher(disk)
+	old := disk.DeepCopy()
 	networkAccessPolicy := compute.DiskPropertiesNetworkAccessPolicyDenyAll
 	disk.Spec.NetworkAccessPolicy = &networkAccessPolicy
-	patcher.Patch(disk)
+	tc.Patch(old, disk)
 
 	objectKey := client.ObjectKeyFromObject(disk)
 

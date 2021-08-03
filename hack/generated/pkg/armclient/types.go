@@ -7,7 +7,6 @@ package armclient
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/Azure/go-autorest/autorest/date"
 	"github.com/pkg/errors"
@@ -169,29 +168,31 @@ func (deploymentErr *DeploymentError) String() string {
 	return string(result)
 }
 
-func (d *Deployment) GetEntityPath() (string, error) {
+func (d *Deployment) GetDeploymentARMID() (string, error) {
 	if err := d.Validate(); err != nil {
 		return "", err
 	}
 
-	var entityPath string
+	var armID string
 	switch d.Scope {
 	case SubscriptionScope:
-		entityPath = fmt.Sprintf(
-			"subscriptions/%s/providers/Microsoft.Resources/deployments/%s?api-version=2019-10-01",
-			d.SubscriptionId,
-			d.Name)
+		armID = MakeSubscriptionScopeARMID(d.SubscriptionId, "Microsoft.Resources", "deployments", d.Name)
 	case ResourceGroupScope:
-		entityPath = fmt.Sprintf(
-			"subscriptions/%s/resourcegroups/%s/providers/Microsoft.Resources/deployments/%s?api-version=2019-10-01",
-			d.SubscriptionId,
-			d.ResourceGroup,
-			d.Name)
+		armID = MakeResourceGroupScopeARMID(d.SubscriptionId, d.ResourceGroup, "Microsoft.Resources", "deployments", d.Name)
 	default:
 		return "", errors.Errorf("unknown scope %s", d.Scope)
 	}
 
-	return entityPath, nil
+	return armID, nil
+}
+
+func (d *Deployment) GetEntityPath() (string, error) {
+	armID, err := d.GetDeploymentARMID()
+	if err != nil {
+		return "", err
+	}
+
+	return armID + "?api-version=2019-10-01", nil
 }
 
 func (d *Deployment) Validate() error {

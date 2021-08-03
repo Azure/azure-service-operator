@@ -9,7 +9,6 @@ import (
 	"bytes"
 	"crypto/rand"
 	"crypto/rsa"
-	"fmt"
 	"io"
 	"net/http"
 	"regexp"
@@ -293,14 +292,5 @@ func (tc PerTestContext) GenerateSSHKey(size int) (*string, error) {
 }
 
 func (tc PerTestContext) MakeARMId(resourceGroup string, provider string, params ...string) string {
-	if len(params) == 0 {
-		panic("At least 2 params must be specified")
-	}
-	if len(params)%2 != 0 {
-		panic("ARM Id params must come in resourceKind/name pairs")
-	}
-
-	suffix := strings.Join(params, "/")
-
-	return fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/%s/%s", tc.AzureSubscription, resourceGroup, provider, suffix)
+	return armclient.MakeResourceGroupScopeARMID(tc.AzureSubscription, resourceGroup, provider, params...)
 }
