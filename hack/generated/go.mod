@@ -7,6 +7,7 @@ require (
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.0
 	github.com/Azure/go-autorest/autorest/date v0.3.0
 	github.com/Azure/go-autorest/autorest/to v0.4.0
+	github.com/benbjohnson/clock v1.1.0
 	github.com/devigned/tab v0.1.1
 	github.com/dnaeon/go-vcr v1.1.0
 	github.com/go-logr/logr v0.4.0
