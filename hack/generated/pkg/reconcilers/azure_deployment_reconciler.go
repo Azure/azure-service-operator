@@ -12,7 +12,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
@@ -47,8 +46,6 @@ const (
 	ResourceStateAnnotation  = "resource-state.infra.azure.com"
 	ResourceErrorAnnotation  = "resource-error.infra.azure.com"
 	ResourceSigAnnotationKey = "resource-sig.infra.azure.com"
-	// PreserveDeploymentAnnotation is the key which tells the applier to keep or delete the deployment
-	PreserveDeploymentAnnotation = "x-preserve-deployment"
 )
 
 // TODO: Do we actually want this at the controller level or this level?
@@ -184,23 +181,6 @@ func (r *AzureDeploymentReconciler) GetDeploymentNameOrDefault() string {
 
 func (r *AzureDeploymentReconciler) SetDeploymentName(name string) {
 	genruntime.AddAnnotation(r.obj, DeploymentNameAnnotation, name)
-}
-
-func (r *AzureDeploymentReconciler) GetShouldPreserveDeployment() bool {
-	preserveDeploymentString, ok := r.obj.GetAnnotations()[PreserveDeploymentAnnotation]
-	if !ok {
-		return false
-	}
-
-	preserveDeployment, err := strconv.ParseBool(preserveDeploymentString)
-	// Anything other than an error is assumed to be false...
-	// TODO: Would we rather have any usage of this key imply true (regardless of value?)
-	if err != nil {
-		// TODO: Log here
-		return false
-	}
-
-	return preserveDeployment
 }
 
 func (r *AzureDeploymentReconciler) SetResourceProvisioningState(state armclient.ProvisioningState) {
@@ -497,7 +477,7 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 
 	err = r.CommitUpdate(ctx)
 	if err != nil {
-		// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
 		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
@@ -531,7 +511,7 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 				err = r.CommitUpdate(ctx)
 
 				if err != nil {
-					// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+					// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
 					// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
 					return ctrl.Result{}, client.IgnoreNotFound(err)
 				}
@@ -560,7 +540,40 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 	return result, err
 }
 
-// TODO: There's a bit too much duplicated code between this and create deployment -- should be a good way to combine them?
+func (r *AzureDeploymentReconciler) handleDeploymentFinished(ctx context.Context, deployment *armclient.Deployment) (ctrl.Result, error) {
+	var status genruntime.FromARMConverter
+	if deployment.IsSuccessful() {
+		// TODO: There's some overlap here with what Update does
+		if len(deployment.Properties.OutputResources) == 0 {
+			return ctrl.Result{}, errors.Errorf("template deployment didn't have any output resources")
+		}
+
+		resourceID, err := deployment.ResourceID()
+		if err != nil {
+			return ctrl.Result{}, errors.Wrap(err, "getting resource ID from resource")
+		}
+
+		status, _, err = r.getStatus(ctx, resourceID)
+		if err != nil {
+			return ctrl.Result{}, errors.Wrap(err, "getting status from ARM")
+		}
+	}
+
+	err := r.Update(deployment, status)
+	if err != nil {
+		return ctrl.Result{}, errors.Wrap(err, "updating obj")
+	}
+
+	err = r.CommitUpdate(ctx)
+	if err != nil {
+		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	return ctrl.Result{}, nil
+}
+
 func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl.Result, error) {
 	deploymentID, deploymentIDOk := r.GetDeploymentID()
 	if !deploymentIDOk {
@@ -576,7 +589,7 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 			r.SetDeploymentName("")
 			err = r.CommitUpdate(ctx)
 			if err != nil {
-				// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+				// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
 				// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
 				return ctrl.Result{}, client.IgnoreNotFound(err)
 			}
@@ -593,90 +606,46 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 		return ctrl.Result{}, errors.Wrapf(err, "getting deployment %q from ARM", deploymentID)
 	}
 
-	var status genruntime.FromARMConverter
-	if deployment.IsSuccessful() {
-		// TODO: There's some overlap here with what Update does
-		if len(deployment.Properties.OutputResources) == 0 {
-			return ctrl.Result{}, errors.Errorf("template deployment didn't have any output resources")
-		}
+	r.log.V(4).Info(
+		"Monitoring deployment",
+		"action", string(CreateOrUpdateActionMonitorDeployment),
+		"id", deploymentID,
+		"state", deployment.ProvisioningStateOrUnknown())
+	r.recorder.Event(
+		r.obj,
+		v1.EventTypeNormal,
+		string(CreateOrUpdateActionMonitorDeployment),
+		fmt.Sprintf("Monitoring Azure deployment ID=%q, state=%q", deploymentID, deployment.ProvisioningStateOrUnknown()))
 
-		resourceID, idErr := deployment.ResourceID()
-		if idErr != nil {
-			return ctrl.Result{}, errors.Wrap(idErr, "getting resource ID from resource")
-		}
-
-		s, _, statusErr := r.getStatus(ctx, resourceID)
-		if statusErr != nil {
-			return ctrl.Result{}, errors.Wrap(statusErr, "getting status from ARM")
-		}
-
-		status = s
+	// If the deployment isn't done yet, there's nothing to do just bail out
+	if !deployment.IsTerminalProvisioningState() {
+		r.log.V(3).Info("Deployment still running")
+		return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 	}
 
-	err = r.Update(deployment, status)
+	// The deployment is in a terminal state - let's handle it
+	r.log.Info(
+		"Deployment in terminal state",
+		"DeploymentID", deployment.ID,
+		"State", deployment.ProvisioningStateOrUnknown(),
+		"Error", deployment.ErrorOrEmpty())
+
+	// It is possible that we delete the deployment here and then are unable to persist the details of the created
+	// resource to etcd below. If this happens, a subsequent reconciliation will attempt to GET the deployment which will
+	// fail. That will trigger us to throw the deployment ID away and create a new one (which will end up being a no-op
+	// because the Azure resource already exists). Since it's expected that this sequence of events is rare, we don't
+	// try to optimize for preventing it with some sort of two phase commit or anything.
+	// TODO: Create a unit test that forces this specific sequence of events
+	r.log.V(4).Info("Deleting deployment", "DeploymentID", deployment.ID)
+	_, err = r.ARMClient.DeleteDeployment(ctx, deployment.ID)
 	if err != nil {
-		return ctrl.Result{}, errors.Wrap(err, "updating obj")
+		return ctrl.Result{}, errors.Wrapf(err, "failed deleting deployment %q", deployment.ID)
 	}
 
-	err = r.CommitUpdate(ctx)
+	deployment.ID = ""
+	deployment.Name = ""
 
-	if err != nil {
-		// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		return ctrl.Result{}, client.IgnoreNotFound(err)
-	}
-
-	// TODO: Could somehow have a method that grouped both of these calls
-	currentState := r.GetResourceProvisioningState()
-	r.log.V(4).Info("Monitoring deployment", "action", string(CreateOrUpdateActionMonitorDeployment), "id", deployment.ID, "state", currentState)
-	r.recorder.Event(r.obj, v1.EventTypeNormal, string(CreateOrUpdateActionMonitorDeployment), fmt.Sprintf("Monitoring Azure deployment ID=%q, state=%q", deployment.ID, currentState))
-
-	// We do two patches here because if we remove the deployment before we've actually confirmed we persisted
-	// the resource ID, then we will be unable to get the resource ID the next time around. Only once we have
-	// persisted the resource ID can we safely delete the deployment
-	retryAfter = time.Duration(0) // ARM can tell us how long to check after issuing DELETE
-	if deployment.IsTerminalProvisioningState() && !r.GetShouldPreserveDeployment() {
-		r.log.Info(
-			"Deployment in terminal state",
-			"DeploymentID", deployment.ID,
-			"State", deployment.ProvisioningStateOrUnknown(),
-			"Error", deployment.ErrorOrEmpty())
-
-		r.log.V(4).Info("Deleting deployment", "DeploymentID", deployment.ID)
-
-		retryAfter, err = r.ARMClient.DeleteDeployment(ctx, deployment.ID)
-		if err != nil {
-			return ctrl.Result{}, errors.Wrapf(err, "failed deleting deployment %q", deployment.ID)
-		}
-
-		deployment.ID = ""
-		deployment.Name = ""
-
-		err = r.Update(deployment, status)
-		if err != nil {
-			return ctrl.Result{}, errors.Wrap(err, "updating obj")
-		}
-
-		err = r.CommitUpdate(ctx)
-		if err != nil {
-			// This is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-			// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-			return ctrl.Result{}, client.IgnoreNotFound(err)
-		}
-
-		r.log.V(4).Info(
-			"Cleared deployment info from resource",
-			"DeploymentID", r.GetDeploymentIDOrDefault(),
-			"DeploymentName", r.GetDeploymentNameOrDefault())
-	}
-
-	if deployment.IsTerminalProvisioningState() {
-		// we are done
-		return ctrl.Result{}, nil
-	}
-
-	r.log.V(3).Info("Deployment still running")
-	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, err
+	return r.handleDeploymentFinished(ctx, deployment)
 }
 
 func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.Result, error) {
