@@ -209,6 +209,9 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 		createPropertyAssignmentTest("CopyOptionalStringToPropertyBag", optionalStringProperty, bagProperty),
 		createPropertyAssignmentTest("CopyRequiredIntToPropertyBag", requiredIntProperty, bagProperty),
 		createPropertyAssignmentTest("CopyOptionalIntToPropertyBag", optionalIntProperty, bagProperty),
+
+		createPropertyAssignmentTest("CopyRequiredObjectToPropertyBag", requiredCurrentRoleProperty, bagProperty, currentRole),
+		createPropertyAssignmentTest("CopyOptionalObjectToPropertyBag", optionalCurrentRoleProperty, bagProperty, currentRole),
 	}
 }
 
