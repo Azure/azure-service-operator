@@ -2,13 +2,17 @@ name: Add 'needs-triage' label to new issues
 
 on:
   issues:
-    types: 
-    -  opened
-
+    types:
+      - reopened
+      - opened
+      
 jobs:
-  add_label:
+  label_issues:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
-      - uses: actions-ecosystem/action-add-labels@v1
+      - name: Label issues
+        uses: andymckay/labeler@1825c391d68ade591efa053af2472e5b0e2e2d9e
         with:
-          labels: needs-triage
+          add-labels: "needs-triage"
