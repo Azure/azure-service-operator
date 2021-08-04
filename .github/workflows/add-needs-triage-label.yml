@@ -13,6 +13,6 @@ jobs:
       issues: write
     steps:
       - name: Label issues
-        uses: andymckay/labeler@1825c391d68ade591efa053af2472e5b0e2e2d9e
+        uses: andymckay/labeler@1825c391d68ade591efa053af2472e5b0e2e2d9e # this is v1.0.3
         with:
           add-labels: "needs-triage"
