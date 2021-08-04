@@ -71,12 +71,10 @@ func MakeReadableConversionEndpointReadingBagItem(
 		// We don't supply a reader function because we don't read the value from the source instance when dealing with
 		// a property bag item; instead we read it from a property bag that's stashed in a local variable.
 		// See AssignFromBagItem() for more details
-		reader: nil,
+		reader:      nil,
 		description: fmt.Sprintf("read %s from property bag", itemName),
 	}
 }
-
-
 
 // String returns a human readable description of the endpoint
 func (r ReadableConversionEndpoint) String() string {
@@ -85,7 +83,7 @@ func (r ReadableConversionEndpoint) String() string {
 
 // Read generates an expression to read our endpoint
 func (r ReadableConversionEndpoint) Read(expr dst.Expr) dst.Expr {
-	if r.reader== nil {
+	if r.reader == nil {
 		// If we don't have an expression to use, just return the original
 		// (this can happen if this endpoint represents a source that doesn't directly read from our source instance)
 		return expr

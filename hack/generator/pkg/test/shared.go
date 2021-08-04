@@ -21,25 +21,25 @@ var (
 	// Reusable Properties - any package version
 
 	FullNameProperty = astmodel.NewPropertyDefinition("FullName", "fullName", astmodel.StringType).
-		WithDescription("As would be used to address mail")
+				WithDescription("As would be used to address mail")
 
 	FamilyNameProperty = astmodel.NewPropertyDefinition("FamilyName", "familyName", astmodel.StringType).
-		WithDescription("Shared name of the family")
+				WithDescription("Shared name of the family")
 
 	KnownAsProperty = astmodel.NewPropertyDefinition("KnownAs", "knownAs", astmodel.StringType).
-		WithDescription("How the person is generally known")
+			WithDescription("How the person is generally known")
 
 	FullAddressProperty = astmodel.NewPropertyDefinition("FullAddress", "fullAddress", astmodel.StringType).
-		WithDescription("Full written address for map or postal use")
+				WithDescription("Full written address for map or postal use")
 
 	CityProperty = astmodel.NewPropertyDefinition("City", "city", astmodel.StringType).
-		WithDescription("City or town (or nearest)")
+			WithDescription("City or town (or nearest)")
 
 	StatusProperty = astmodel.NewPropertyDefinition("Status", "status", astmodel.StringType).
-		WithDescription("Current status")
+			WithDescription("Current status")
 
 	PropertyBagProperty = astmodel.NewPropertyDefinition("PropertyBag", "$propertyBag", astmodel.PropertyBagType).
-		WithDescription("Stash for extra properties")
+				WithDescription("Stash for extra properties")
 
 	// Reference Package 2020
 	Pkg2020 = MakeLocalPackageReference(Group, "v20200101")
