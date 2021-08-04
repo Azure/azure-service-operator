@@ -106,6 +106,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ApplyPropertyRewrites(configuration).
 			RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects"),
 
+		pipeline.MakeStatusPropertiesOptional(),
+
 		// Figure out resource owners:
 		pipeline.DetermineResourceOwnership(configuration),
 
