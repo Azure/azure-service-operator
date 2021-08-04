@@ -41,11 +41,6 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Role
-	var role Release
-	err := role.AssignPropertiesToRelease(&person.Role)
-	if err != nil {
-		return errors.Wrap(err, "populating Role from Role, calling AssignPropertiesToRelease()")
-	}
 	propertyBag.Add("Role", person.Role)
 
 	// Update the property bag
