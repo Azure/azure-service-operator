@@ -56,7 +56,7 @@ go get \
     k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
     sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.1 \
     sigs.k8s.io/kind@v0.9.0 \
-    sigs.k8s.io/kustomize/kustomize/v3@v3.8.6 
+    sigs.k8s.io/kustomize/kustomize/v3@v3.8.6
 
 if [ "$1" != "devcontainer" ]; then 
     echo "Installing golangci-lint…"
@@ -67,7 +67,7 @@ fi
 
 # Install go-task (task runner)
 echo "Installing go-task…"
-curl -sL "https://github.com/go-task/task/releases/download/v3.0.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
+curl -sL "https://github.com/go-task/task/releases/download/v3.7.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
 
 # Install kubebuilder
 os=$(go env GOOS)

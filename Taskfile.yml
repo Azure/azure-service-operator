@@ -1,5 +1,6 @@
-version: '3'
+version: '3.7'
 
+run: when_changed
 output: prefixed
 
 vars:
@@ -34,27 +35,24 @@ vars:
 tasks:
   default:
     desc: Perform all fast local pre-commit tasks.
-    cmds: 
-    - task: generator:quick-checks
-    - task: controller:generate-kustomize # required here to prevent it running twice in controller:quick-checks, remove once go-task dedupes dependencies
-    - task: controller:quick-checks
-    - task: crossplane:generate-crds
-    - task: crossplane:quick-checks
+    deps:
+    - generator:quick-checks
+    - controller:quick-checks
+    - crossplane:generate-crds
+    - crossplane:quick-checks
 
   ci:
     desc: Run all CI checks.
-    cmds: 
-    - task: generator:ci
-    - task: controller:generate-crds # required here to prevent it running twice in controller:ci, remove once go-task dedupes dependencies
-    - task: controller:ci
-    - task: crossplane:ci
+    deps: 
+    - generator:ci
+    - controller:ci
+    - crossplane:ci
 
   ci-live:
     desc: Run all CI checks with live Azure resources. Requires that auth environment variables are set.
-    cmds: 
-    - task: generator:ci
-    - task: controller:generate-crds # required here to prevent it running twice in controller:ci-live, remove once go-task dedupes dependencies
-    - task: controller:ci-live
+    deps: 
+    - generator:ci
+    - controller:ci-live
 
   ############### Generator targets ###############
   generator:quick-checks:
@@ -379,4 +377,4 @@ tasks:
     cmds:
       - cmd: echo "==> Checking format specifiers <=="
         silent: true
-      - cmd: git grep -e "%+v" -e "%v" --break --heading --line-number -I '*.go'; if [ $? -eq 0 ]; then exit -1; else exit 0; fi
+      - cmd: '! git grep -e "%+v" -e "%v" --break --heading --line-number -I "*.go"'
