@@ -68,7 +68,7 @@ func makeMapFunc(mgr ctrl.Manager) func(o client.Object) []reconcile.Request {
 		// This should be fast since the list of items it's going through should always be cached
 		// locally with the shared informer.
 		// Unfortunately we don't have a ctx we can use here... maybe need to file a bug?
-		ctx, cancel := context.WithTimeout(context.Background(), 10 * time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
 		var matchingResources v1alpha2.MySQLServerList
