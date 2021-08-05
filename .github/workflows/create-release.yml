@@ -20,6 +20,7 @@ jobs:
       - name: Build & run devcontainer image
         # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
         # so that we pick up the latest versions of everything
+        # NB: if you update this also update master-validation.yml
         id: devcontainer
         run: |
           docker build --tag devcontainer:latest .devcontainer
