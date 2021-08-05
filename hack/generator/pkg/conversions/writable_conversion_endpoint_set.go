@@ -63,7 +63,7 @@ func (set WritableConversionEndpointSet) addForEachProperty(
 
 			endpoint := factory(prop)
 			set[name] = endpoint
-			count ++
+			count++
 		}
 	}
 
