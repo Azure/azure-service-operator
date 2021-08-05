@@ -21,10 +21,10 @@ import (
 // ObjectSerializationTestCase represents a test that the object can be losslessly serialized to
 // JSON and back again
 type ObjectSerializationTestCase struct {
-	testName   string
-	subject    astmodel.TypeName
-	objectType *astmodel.ObjectType
-	idFactory  astmodel.IdentifierFactory
+	testName  string
+	subject   astmodel.TypeName
+	container astmodel.PropertyContainer
+	idFactory astmodel.IdentifierFactory
 }
 
 var _ astmodel.TestCase = &ObjectSerializationTestCase{}
@@ -32,14 +32,14 @@ var _ astmodel.TestCase = &ObjectSerializationTestCase{}
 // NewObjectSerializationTestCase creates a new test case for the JSON serialization round-trip-ability of the specified object type
 func NewObjectSerializationTestCase(
 	name astmodel.TypeName,
-	objectType *astmodel.ObjectType,
+	container astmodel.PropertyContainer,
 	idFactory astmodel.IdentifierFactory) *ObjectSerializationTestCase {
 	testName := fmt.Sprintf("%s_WhenSerializedToJson_DeserializesAsEqual", name.Name())
 	return &ObjectSerializationTestCase{
-		testName:   testName,
-		subject:    name,
-		objectType: objectType,
-		idFactory:  idFactory,
+		testName:  testName,
+		subject:   name,
+		container: container,
+		idFactory: idFactory,
 	}
 }
 
@@ -59,7 +59,7 @@ func (o ObjectSerializationTestCase) References() astmodel.TypeNameSet {
 // codeGenerationContext contains reference material to use when generating
 func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *astmodel.CodeGenerationContext) []dst.Decl {
 	var errs []error
-	properties := o.objectType.Properties()
+	properties := o.container.Properties()
 
 	// Find all the simple generators (those with no external dependencies)
 	simpleGenerators := o.createGenerators(properties, genContext, o.createIndependentGenerator)
@@ -87,10 +87,7 @@ func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext 
 
 	var result []dst.Decl
 
-	if len(simpleGenerators) == 0 && len(relatedGenerators) == 0 {
-		// No properties that we can generate to test - skip the testing completely
-		errs = append(errs, errors.Errorf("no property generators for %s", name))
-	} else {
+	if len(simpleGenerators) != 0 || len(relatedGenerators) != 0 {
 		result = append(result,
 			o.createTestRunner(genContext),
 			o.createTestMethod(genContext),
@@ -139,7 +136,7 @@ func (o ObjectSerializationTestCase) RequiredImports() *astmodel.PackageImportSe
 	result.AddImportOfReference(astmodel.PrettyReference)
 
 	// Merge references required for properties
-	for _, prop := range o.objectType.Properties() {
+	for _, prop := range o.container.Properties() {
 		for _, ref := range prop.PropertyType().RequiredPackageReferences().AsSlice() {
 			result.AddImportOfReference(ref)
 		}
@@ -160,7 +157,7 @@ func (o ObjectSerializationTestCase) Equals(other astmodel.TestCase) bool {
 
 	return o.testName == otherTC.testName &&
 		o.subject.Equals(otherTC.subject) &&
-		o.objectType.Equals(otherTC.objectType)
+		o.container == otherTC.container
 }
 
 // createTestRunner generates the AST for the test runner itself

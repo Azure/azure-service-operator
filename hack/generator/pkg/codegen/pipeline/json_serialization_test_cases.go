@@ -51,7 +51,8 @@ func makeObjectSerializationTestCaseFactory(idFactory astmodel.IdentifierFactory
 	}
 
 	result.visitor = astmodel.TypeVisitorBuilder{
-		VisitObjectType: result.injectTestCase,
+		VisitResourceType: result.injectTestCaseIntoResource,
+		VisitObjectType:   result.injectTestCaseIntoObject,
 	}.Build()
 
 	return result
@@ -61,7 +62,15 @@ func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefiniti
 	return s.visitor.VisitDefinition(def, def.Name())
 }
 
-func (s *objectSerializationTestCaseFactory) injectTestCase(
+func (s *objectSerializationTestCaseFactory) injectTestCaseIntoResource(
+	_ *astmodel.TypeVisitor, resource *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+	name := ctx.(astmodel.TypeName)
+	testcase := testcases.NewObjectSerializationTestCase(name, resource, s.idFactory)
+	result := resource.WithTestCase(testcase)
+	return result, nil
+}
+
+func (s *objectSerializationTestCaseFactory) injectTestCaseIntoObject(
 	_ *astmodel.TypeVisitor, objectType *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	name := ctx.(astmodel.TypeName)
 	testcase := testcases.NewObjectSerializationTestCase(name, objectType, s.idFactory)
