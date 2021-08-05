@@ -185,7 +185,7 @@ tasks:
     - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
 
   controller:docker-build-and-save:
-    desc: Generates the {{.CONTROLLER_APP}} Docker file.
+    desc: Builds the {{.CONTROLLER_APP}} Docker image and saves it using docker save.
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:docker-build]
     cmds:
