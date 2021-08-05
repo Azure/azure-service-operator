@@ -195,6 +195,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:docker-build]
     cmds:
+    - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
     - docker tag {{.CONTROLLER_DOCKER_IMAGE}} "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}"
     - docker push "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}"
 
