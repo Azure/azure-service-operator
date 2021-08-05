@@ -4,7 +4,7 @@ import re
 import subprocess
 import sys
 
-def to_semver(gitVersion):
+def to_semver(git_version: str):
     """Converts git version to semver.
 
     `git describe` will build tags which we then convert:
@@ -28,7 +28,7 @@ def to_semver(gitVersion):
     'v2.0.0-rc.0-rev.1-dirty'
     """
 
-    match = re.match(r"^(?P<version>[^-]+)(?P<prerelease>-[^-]+)?(-(?P<rev>\d+)-(?P<tag>[^-]+))?(?P<dirty>-dirty)?$", gitVersion)
+    match = re.match(r"^(?P<version>[^-]+)(?P<prerelease>-[^-]+)?(-(?P<rev>\d+)-(?P<tag>[^-]+))?(?P<dirty>-dirty)?$", git_version)
     gs = match.groupdict()
     version = gs['version']
 
@@ -54,13 +54,13 @@ if __name__ == "__main__":
         print(f"Running tests: {doctest.testmod()}")
         sys.exit(1)
 
-    versionPrefix = sys.argv[1]
+    version_prefix = sys.argv[1]
 
-    gitDescribe = subprocess.run(["git", "describe", "--tags", "--dirty", "--match", f"{versionPrefix}*"], capture_output=True, text=True)
+    git_describe = subprocess.run(["git", "describe", "--tags", "--dirty", "--match", f"{version_prefix}*"], capture_output=True, text=True)
 
-    if gitDescribe.returncode != 0:
-        print(f"git describe failed ({gitDescribe.returncode}): {gitDescribe.stderr}")
+    if git_describe.returncode != 0:
+        print(f"git describe failed ({git_describe.returncode}): {git_describe.stderr}")
         sys.exit(1)
 
-    gitVersion = gitDescribe.stdout.strip()
-    print(to_semver(gitVersion))
+    git_version = git_describe.stdout.strip()
+    print(to_semver(git_version))
