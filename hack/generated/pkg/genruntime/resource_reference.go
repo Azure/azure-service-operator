@@ -15,6 +15,7 @@ import (
 )
 
 // KnownResourceReference is a resource reference to a known type.
+// +kubebuilder:object:generate=true
 type KnownResourceReference struct {
 	// This is the name of the Kubernetes resource to reference.
 	Name string `json:"name"`
@@ -29,6 +30,7 @@ type KnownResourceReference struct {
 var _ fmt.Stringer = ResourceReference{}
 
 // ResourceReference represents a resource reference, either to a Kubernetes resource or directly to an Azure resource via ARMID
+// +kubebuilder:object:generate=true
 type ResourceReference struct {
 	// Group is the Kubernetes group of the resource.
 	Group string `json:"group,omitempty"`

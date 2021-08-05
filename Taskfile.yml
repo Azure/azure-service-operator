@@ -202,7 +202,7 @@ tasks:
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-crds]
+    deps: [controller:generate-kustomize]
     cmds:
     # -race fails at the moment in controller-runtime
     - go test -run '{{default ".*" .TEST_FILTER}}' ./...
@@ -210,7 +210,7 @@ tasks:
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-crds]
+    deps: [controller:generate-kustomize]
     cmds:
     # -race fails at the moment in controller-runtime
     - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
@@ -218,7 +218,7 @@ tasks:
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-crds, cleanup-azure-resources]
+    deps: [controller:generate-kustomize, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
     - RECORD_REPLAY=0 go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
@@ -249,9 +249,18 @@ tasks:
     vars:
       CRD_OPTIONS: "crd:crdVersions=v1,allowDangerousTypes=true"
 
+  controller:generate-genruntime-deepcopy:
+    desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
+    dir: "{{.CONTROLLER_ROOT}}"
+    sources:
+      - "pkg/genruntime/**/*.go"
+    cmds:
+      - find ./pkg/genruntime -type f -name "zz_generated.*" -delete
+      - cd pkg/genruntime && controller-gen object:headerFile=../../../boilerplate.go.txt paths="./..." || true
+
   controller:generate-kustomize:
     desc: Run {{.GENERATOR_APP}} to generate the Kustomize file for registering CRDs.
-    deps: [generator:build, controller:generate-crds]
+    deps: [controller:generate-crds, controller:generate-genruntime-deepcopy]
     sources:
       - "{{.GENERATOR_ROOT}}bin/{{.GENERATOR_APP}}"
       - "{{.CONTROLLER_ROOT}}config/crd/bases/**/*.yaml"
