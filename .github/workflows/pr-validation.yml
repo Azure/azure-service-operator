@@ -18,6 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
+          fetch-depth: 0 # required to access tags
           submodules: 'true'
 
       - name: Log in to GitHub Docker Registry
