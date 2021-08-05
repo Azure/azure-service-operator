@@ -75,6 +75,7 @@ const (
 var _ fmt.Stringer = Condition{}
 
 // Condition defines an extension to status (an observation) of a resource
+// +kubebuilder:object:generate=true
 type Condition struct {
 	// Type of condition.
 	// +kubebuilder:validation:Required
