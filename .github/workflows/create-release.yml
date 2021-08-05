@@ -25,6 +25,11 @@ jobs:
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
           docker start "$container_id"
           echo "::set-output name=id::$container_id"
+        
+      - name: Login to registry
+        run: |
+          container_id=${{steps.devcontainer.outputs.id}}
+          docker exec "$container_id" docker login -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} ${{ secrets.REGISTRY_LOGIN }}
 
       - name: Build & push docker image
         run: |
