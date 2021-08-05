@@ -85,6 +85,9 @@ func NewPropertyAssignmentFunction(
 	result.knownLocals.Add(result.receiverName)
 	result.knownLocals.Add(result.parameterName)
 
+	// Always assign a name for the property bag (see createPropertyBagPrologue to understand why)
+	propertyBagName := result.knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
+
 	// Create Endpoints for property conversion
 	sourceEndpoints, readsFromPropertyBag := result.createReadingEndpoints()
 	destinationEndpoints, writesToPropertyBag := result.createWritingEndpoints()
@@ -94,12 +97,8 @@ func NewPropertyAssignmentFunction(
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
 		WithKnownLocals(result.knownLocals).
-		WithDirection(direction)
-
-	if readsFromPropertyBag || writesToPropertyBag {
-		propertyBagName := result.knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
-		result.conversionContext = result.conversionContext.WithPropertyBag(propertyBagName)
-	}
+		WithDirection(direction).
+		WithPropertyBag(propertyBagName)
 
 	err := result.createConversions(sourceEndpoints, destinationEndpoints)
 	if err != nil {
@@ -227,15 +226,23 @@ func (fn *PropertyAssignmentFunction) createPropertyBagPrologue(
 	source string,
 	generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 
+	sourcePropertyBag, sourcePropertyBagFound := fn.findPropertyBagProperty(fn.sourceType())
+	_, destinationPropertyBagFound := fn.findPropertyBagProperty(fn.destinationType())
+
 	// If we're not using the property bag, don't declare one
-	if !fn.readsFromPropertyBag && !fn.writesToPropertyBag {
+	// We're using it if we are
+	// (a) reading from it; or
+	// (b) writing to it; or
+	// (c) we need one to store in the final object
+	//
+	if !fn.readsFromPropertyBag && !fn.writesToPropertyBag && !destinationPropertyBagFound {
 		return nil
 	}
 
-	// Don't refactor genruntimePkg out to this scope - calling MustGetImportedPackageName() flags the
-	// package as referenced, so we must only call that if we are actually going to reference the package
+	// Don't refactor the local genruntimePkg out to this scope - calling MustGetImportedPackageName() flags the
+	// package as referenced, so we must only call that if we are actually going to reference the genruntime package
 
-	if prop, found := fn.findPropertyBagProperty(fn.sourceType()); found {
+	if sourcePropertyBagFound {
 		// Found a property bag on our source type, need to clone it to allow removal of values
 		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 		cloneBag := astbuilder.ShortDeclaration(
@@ -243,14 +250,14 @@ func (fn *PropertyAssignmentFunction) createPropertyBagPrologue(
 			astbuilder.CallQualifiedFunc(
 				genruntimePkg,
 				"NewPropertyBag",
-				astbuilder.Selector(dst.NewIdent(source), string(prop.PropertyName()))))
+				astbuilder.Selector(dst.NewIdent(source), string(sourcePropertyBag.PropertyName()))))
 		cloneBag.Decs.Before = dst.NewLine
 		astbuilder.AddComment(&cloneBag.Decorations().Start, "// Clone the existing property bag")
 
 		return astbuilder.Statements(cloneBag)
 	}
 
-	if _, found := fn.findPropertyBagProperty(fn.destinationType()); found {
+	if destinationPropertyBagFound {
 		// Found a property bag on our destination type (and NOT on our source type), so we create a new one to populate
 		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 		createBag := astbuilder.ShortDeclaration(
@@ -271,11 +278,6 @@ func (fn *PropertyAssignmentFunction) createPropertyBagPrologue(
 //   o Otherwise we do nothing
 func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 	destination string) []dst.Stmt {
-
-	// If we're not writing to the property bag, don't store it
-	if !fn.writesToPropertyBag {
-		return nil
-	}
 
 	if prop, found := fn.findPropertyBagProperty(fn.destinationType()); found {
 		setBag := astbuilder.SimpleAssignment(

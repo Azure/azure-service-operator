@@ -5,6 +5,7 @@ package v20211231
 
 import (
 	"fmt"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231storage"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -114,10 +115,15 @@ func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s
 
 // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
 func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231storage.Person_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
 
 	// FullName
 	fullName := personSpec.FullName
 	destination.FullName = &fullName
+
+	// Update the property bag
+	destination.PropertyBag = propertyBag
 
 	// No error
 	return nil
@@ -143,10 +149,15 @@ func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v202
 
 // AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
 func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v20211231storage.Person_Status) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
 
 	// Status
 	status := personStatus.Status
 	destination.Status = &status
+
+	// Update the property bag
+	destination.PropertyBag = propertyBag
 
 	// No error
 	return nil
