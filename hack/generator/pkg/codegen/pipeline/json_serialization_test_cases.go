@@ -65,7 +65,7 @@ func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefiniti
 func (s *objectSerializationTestCaseFactory) injectTestCaseIntoResource(
 	_ *astmodel.TypeVisitor, resource *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 	name := ctx.(astmodel.TypeName)
-	testcase := testcases.NewObjectSerializationTestCase(name, resource, s.idFactory)
+	testcase := testcases.NewJSONSerializationTestCase(name, resource, s.idFactory)
 	result := resource.WithTestCase(testcase)
 	return result, nil
 }
@@ -73,7 +73,7 @@ func (s *objectSerializationTestCaseFactory) injectTestCaseIntoResource(
 func (s *objectSerializationTestCaseFactory) injectTestCaseIntoObject(
 	_ *astmodel.TypeVisitor, objectType *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	name := ctx.(astmodel.TypeName)
-	testcase := testcases.NewObjectSerializationTestCase(name, objectType, s.idFactory)
+	testcase := testcases.NewJSONSerializationTestCase(name, objectType, s.idFactory)
 	result := objectType.WithTestCase(testcase)
 	return result, nil
 }
