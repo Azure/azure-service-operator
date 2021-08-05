@@ -183,20 +183,21 @@ They're named with hashes but you can look at the `olm.sourceImage` annotation t
     ```
 6. Then recreating the subscription as above will restart the install/upgrade process.
 
-## Creating PRs to add the new version to the [community-operators](https://github.com/operator-framework/community-operators) repo
+## Creating PRs to add the new version to the operator repos
 
-The embedded OpenShift operator store and [OperatorHub](https://operatorhub.io) are both populated from the community-operators repository.
-The OpenShift store bundles are under the [`community-operators`](https://github.com/operator-framework/community-operators/tree/master/community-operators) directory, while OperatorHub ones are under [`upstream-community-operators`](https://github.com/operator-framework/community-operators/tree/master/upstream-community-operators).
+The embedded OpenShift operator store is populated from the [community-operators-prod](https://github.com/redhat-openshift-ecosystem/community-operators-prod) repository,
+while [OperatorHub](https://operatorhub.io) is populated from the [community-operators](https://github.com/k8s-operatorhub/community-operators) repository.
+(Under their respective `operators` directoryies.)
 
-Once the bundle has been tested, separate PRs should be created for each of the two destination directories.
+Once the bundle has been tested, PRs should be created for each repo.
 
-1. Create a fork and local clone of the [`community-operators`](https://github.com/operator-framework/community-operators) repo if you haven't already got one.
-2. Create a new branch, for example `upstream-azure-service-operator-${NEW_BUNDLE_VERSION}`.
+1. Create a fork and local clone of the repo if you haven't already got one.
+2. Create a new branch, for example `azure-service-operator-${NEW_BUNDLE_VERSION}`.
 3. Copy the manifests directory to the destination folder, renaming it with the new version number.
      ```sh
-     cp -r bundle/manifests ~/dev/community-operators/upstream-community-operators/azure-service-operator/${NEW_BUNDLE_VERSION}
+     cp -r bundle/manifests ~/dev/community-operators/operators/azure-service-operator/${NEW_BUNDLE_VERSION}
      ```
- 4. Edit the package file `community-operators/upstream-community-operators/azure-service-operator/azure-service-operator.package.yaml` to point to the new bundle version.
+ 4. Edit the package file `community-operators/operators/azure-service-operator/azure-service-operator.package.yaml` to point to the new bundle version.
      ```yaml
      channels:
      - currentCSV: azure-service-operator.v<new bundle version>
