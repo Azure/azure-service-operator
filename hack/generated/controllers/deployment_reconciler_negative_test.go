@@ -115,9 +115,9 @@ func Test_DeploymentAccepted_LongRunningOperationFails_SucceedsAfterUpdate(t *te
 	tc.CreateResourceAndWaitForFailure(acct)
 
 	// Remove the bad property and ensure we can successfully provision
-	patcher := tc.NewResourcePatcher(acct)
+	old := acct.DeepCopy()
 	acct.Spec.KeyPolicy = nil
-	tc.PatchResourceAndWaitAfter(acct, patcher, armclient.FailedProvisioningState)
+	tc.PatchResourceAndWaitAfter(old, acct, armclient.FailedProvisioningState)
 
 	// Ensure that the old failure information was cleared away
 	objectKey := client.ObjectKeyFromObject(acct)
@@ -172,9 +172,9 @@ func Test_DeploymentRejected_SucceedsAfterUpdate(t *testing.T) {
 	tc.CreateResourceAndWaitForFailure(vmss)
 
 	// Now fix the image reference and the VMSS should successfully deploy
-	patcher := tc.NewResourcePatcher(vmss)
+	old := vmss.DeepCopy()
 	vmss.Spec.VirtualMachineProfile.StorageProfile.ImageReference = originalImgRef
-	tc.PatchResourceAndWaitAfter(vmss, patcher, armclient.FailedProvisioningState)
+	tc.PatchResourceAndWaitAfter(old, vmss, armclient.FailedProvisioningState)
 
 	// Ensure that the old failure information was cleared away
 	objectKey := client.ObjectKeyFromObject(vmss)

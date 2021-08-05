@@ -198,7 +198,7 @@ func Test_VMSS_CRUD(t *testing.T) {
 	armId := *vmss.Status.Id
 
 	// Perform a simple patch to add a basic custom script extension
-	patcher := tc.NewResourcePatcher(vmss)
+	old := vmss.DeepCopy()
 	extensionName := "mycustomextension"
 	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile{
 		Extensions: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions{
@@ -215,7 +215,7 @@ func Test_VMSS_CRUD(t *testing.T) {
 			},
 		},
 	}
-	patcher.Patch(vmss)
+	tc.Patch(old, vmss)
 
 	objectKey := client.ObjectKeyFromObject(vmss)
 

@@ -172,14 +172,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-yrnuvw/providers/Microsoft.Resources/deployments/k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yrnuvw/providers/Microsoft.Resources/deployments/k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yrnuvw/providers/Microsoft.Resources/deployments/k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95","name":"k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95","type":"Microsoft.Resources/deployments","properties":{"templateHash":"6776039411878810950","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1607848S","correlationId":"ef5eafa7-3e14-4459-a8ba-5f14b3183563","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-yrnuvw/providers/Microsoft.Resources/deployments/k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95/operationStatuses/08585771333909571744?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yrnuvw/providers/Microsoft.Resources/deployments/k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95/operationStatuses/08585771333909571744?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -416,14 +416,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-yrnuvw/providers/Microsoft.Resources/deployments/k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yrnuvw/providers/Microsoft.Resources/deployments/k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95?api-version=2019-10-01
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yrnuvw/providers/Microsoft.Resources/deployments/k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95","name":"k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95","type":"Microsoft.Resources/deployments","properties":{"templateHash":"10541578940370475870","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1561411S","correlationId":"4efdca43-7586-4be1-9b52-d344b4e53ede","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-yrnuvw/providers/Microsoft.Resources/deployments/k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95/operationStatuses/08585771333759414348?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yrnuvw/providers/Microsoft.Resources/deployments/k8s_a744f804-5124-5fd1-b55c-b9d9edbc2b95/operationStatuses/08585771333759414348?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:

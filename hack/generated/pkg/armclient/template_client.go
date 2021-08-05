@@ -15,10 +15,11 @@ import (
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 )
 
 // TODO: Naming?
@@ -311,14 +312,28 @@ func (atc *AzureTemplateClient) HeadResource(ctx context.Context, id string, api
 	}
 }
 
-func MakeArmResourceId(subscriptionId string, segments ...string) (string, error) {
-	// There should be an even number of segments
-	if len(segments)%2 != 0 {
-		return "", errors.Errorf("expected even number of ARM resource ID segments, got: %d", len(segments))
+func MakeSubscriptionScopeARMID(subscription string, provider string, params ...string) string {
+	if len(params) == 0 {
+		panic("At least 2 params must be specified")
+	}
+	if len(params)%2 != 0 {
+		panic("ARM Id params must come in resourceKind/name pairs")
 	}
 
-	start := "/subscriptions/" + subscriptionId
-	remaining := strings.Join(segments, "/")
+	suffix := strings.Join(params, "/")
 
-	return start + "/" + remaining, nil
+	return fmt.Sprintf("/subscriptions/%s/providers/%s/%s", subscription, provider, suffix)
+}
+
+func MakeResourceGroupScopeARMID(subscription string, resourceGroup string, provider string, params ...string) string {
+	if len(params) == 0 {
+		panic("At least 2 params must be specified")
+	}
+	if len(params)%2 != 0 {
+		panic("ARM Id params must come in resourceKind/name pairs")
+	}
+
+	suffix := strings.Join(params, "/")
+
+	return fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/%s/%s", subscription, resourceGroup, provider, suffix)
 }

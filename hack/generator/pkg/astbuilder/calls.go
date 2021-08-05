@@ -71,3 +71,14 @@ func InvokeQualifiedFunc(qualifier string, funcName string, arguments ...dst.Exp
 		X: CallQualifiedFunc(qualifier, funcName, arguments...),
 	}
 }
+
+// InvokeExpr creates a statement to invoke the named function with the specified arguments
+//
+// <expr>.<funcName>(arguments...)
+//
+// If you want to use the result of the function call as a value, use CallExpr() instead
+func InvokeExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) dst.Stmt {
+	return &dst.ExprStmt{
+		X: CallExpr(expr, funcName, arguments...),
+	}
+}
