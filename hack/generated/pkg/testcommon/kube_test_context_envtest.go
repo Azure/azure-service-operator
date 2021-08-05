@@ -65,7 +65,7 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		return nil, errors.Wrapf(err, "creating controller-runtime manager")
 	}
 
-	var requeueDelay time.Duration // defaults to 5s when zero is passed
+	var requeueDelay time.Duration
 	if perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying {
 		perTestContext.T.Log("Minimizing requeue delay")
 		// skip requeue delays when replaying
