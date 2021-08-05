@@ -4,7 +4,6 @@
 package v20211231
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231storage"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -87,8 +86,6 @@ type Person_Spec struct {
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
 func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231storage.Person_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// FamilyName
 	if source.FamilyName != nil {
@@ -141,8 +138,6 @@ func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s
 
 // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
 func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231storage.Person_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
 
 	// FamilyName
 	familyName := personSpec.FamilyName
@@ -172,9 +167,6 @@ func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v202112
 	}
 	destination.ResidentialAddress = &residentialAddress
 
-	// Update the property bag
-	destination.PropertyBag = propertyBag
-
 	// No error
 	return nil
 }
@@ -185,8 +177,6 @@ type Person_Status struct {
 
 // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
 func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v20211231storage.Person_Status) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Status
 	if source.Status != nil {
@@ -201,15 +191,10 @@ func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v202
 
 // AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
 func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v20211231storage.Person_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
 
 	// Status
 	status := personStatus.Status
 	destination.Status = &status
-
-	// Update the property bag
-	destination.PropertyBag = propertyBag
 
 	// No error
 	return nil
@@ -225,8 +210,6 @@ type Address struct {
 
 // AssignPropertiesFromAddress populates our Address from the provided source Address
 func (address *Address) AssignPropertiesFromAddress(source *v20211231storage.Address) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// City
 	if source.City != nil {
@@ -248,8 +231,6 @@ func (address *Address) AssignPropertiesFromAddress(source *v20211231storage.Add
 
 // AssignPropertiesToAddress populates the provided destination Address from our Address
 func (address *Address) AssignPropertiesToAddress(destination *v20211231storage.Address) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
 
 	// City
 	city := address.City
@@ -258,9 +239,6 @@ func (address *Address) AssignPropertiesToAddress(destination *v20211231storage.
 	// FullAddress
 	fullAddress := address.FullAddress
 	destination.FullAddress = &fullAddress
-
-	// Update the property bag
-	destination.PropertyBag = propertyBag
 
 	// No error
 	return nil

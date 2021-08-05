@@ -4,7 +4,6 @@
 package v20200101
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20200101storage"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -116,8 +115,6 @@ type Person_Spec struct {
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
 func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20200101storage.Person_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// FullName
 	if source.FullName != nil {
@@ -132,15 +129,10 @@ func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20200101s
 
 // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
 func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v20200101storage.Person_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
 
 	// FullName
 	fullName := personSpec.FullName
 	destination.FullName = &fullName
-
-	// Update the property bag
-	destination.PropertyBag = propertyBag
 
 	// No error
 	return nil
@@ -152,8 +144,6 @@ type Person_Status struct {
 
 // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
 func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v20200101storage.Person_Status) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Status
 	if source.Status != nil {
@@ -168,15 +158,10 @@ func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v202
 
 // AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
 func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v20200101storage.Person_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
 
 	// Status
 	status := personStatus.Status
 	destination.Status = &status
-
-	// Update the property bag
-	destination.PropertyBag = propertyBag
 
 	// No error
 	return nil
