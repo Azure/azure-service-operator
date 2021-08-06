@@ -47,7 +47,7 @@ var propertyConversionFactories []PropertyConversionFactory
 
 func init() {
 	propertyConversionFactories = []PropertyConversionFactory{
-		// Must handle BagItems first
+		// Property bag items
 		pullFromBagItem,
 		writeToBagItem,
 		// Primitive types and aliases
