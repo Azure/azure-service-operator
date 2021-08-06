@@ -25,7 +25,7 @@ func actualAsObj(actual interface{}) (client.Object, error) {
 }
 
 type BeDeletedMatcher struct {
-	ensure *Ensure
+	verify *Verify
 	ctx    context.Context
 
 	subsequentMissingDeleteTimestamps int
@@ -44,7 +44,7 @@ func (m *BeDeletedMatcher) Match(actual interface{}) (bool, error) {
 		return false, err
 	}
 
-	return m.ensure.Deleted(m.ctx, obj)
+	return m.verify.Deleted(m.ctx, obj)
 }
 
 func (m *BeDeletedMatcher) message(actual interface{}, negate bool) string {

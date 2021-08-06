@@ -37,7 +37,7 @@ type KubePerTestContext struct {
 	Ctx        context.Context
 	KubeClient client.Client
 	G          gomega.Gomega
-	Ensure     *Ensure
+	Verify     *Verify
 	Match      *KubeMatcher
 	scheme     *runtime.Scheme
 }
@@ -136,16 +136,16 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) KubePerTestContext {
 		t.Fatal(err)
 	}
 
-	ensure := NewEnsure(kubeClient)
+	verify := NewVerify(kubeClient)
 
 	context := context.Background() // we could consider using context.WithTimeout(RemainingTime()) here
-	match := NewKubeMatcher(ensure, context)
+	match := NewKubeMatcher(verify, context)
 
 	result := KubePerTestContext{
 		KubeGlobalContext:   &ctx,
 		KubeBaseTestContext: *baseCtx,
 		KubeClient:          kubeClient,
-		Ensure:              ensure,
+		Verify:              verify,
 		Match:               match,
 		scheme:              scheme,
 		Ctx:                 context,
@@ -210,7 +210,7 @@ func (tc KubePerTestContext) CreateTestResourceGroup(rg *resources.ResourceGroup
 
 	if wait {
 		err = WaitFor(ctx, 2*time.Minute, func(ctx context.Context) (bool, error) {
-			return tc.Ensure.Provisioned(ctx, rg)
+			return tc.Verify.Provisioned(ctx, rg)
 		})
 
 		if err != nil {

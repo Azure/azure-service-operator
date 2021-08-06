@@ -27,7 +27,7 @@ func actualAsConditioner(actual interface{}) (conditions.Conditioner, error) {
 }
 
 type DesiredStateMatcher struct {
-	ensure *Ensure
+	verify *Verify
 	ctx    context.Context
 
 	readyGoalStatus     metav1.ConditionStatus
@@ -48,7 +48,7 @@ func (m *DesiredStateMatcher) Match(actual interface{}) (bool, error) {
 		return false, err
 	}
 
-	return m.ensure.HasState(m.ctx, obj, m.readyGoalStatus, m.readyGoalSeverity)
+	return m.verify.HasState(m.ctx, obj, m.readyGoalStatus, m.readyGoalSeverity)
 }
 
 func (m *DesiredStateMatcher) FailureMessage(actual interface{}) string {

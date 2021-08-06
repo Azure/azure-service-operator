@@ -18,18 +18,18 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 )
 
-type Ensure struct {
+type Verify struct {
 	kubeClient client.Client
 }
 
-func NewEnsure(c client.Client) *Ensure {
-	return &Ensure{
+func NewVerify(c client.Client) *Verify {
+	return &Verify{
 		kubeClient: c,
 	}
 }
 
-// HasState checks to ensure the provisioning state of the resource the target state.
-func (e *Ensure) HasState(ctx context.Context, obj client.Object, desiredState metav1.ConditionStatus, desiredSeverity conditions.ConditionSeverity) (bool, error) {
+// HasState verifies that the provisioning state of the resource the target state.
+func (e *Verify) HasState(ctx context.Context, obj client.Object, desiredState metav1.ConditionStatus, desiredSeverity conditions.ConditionSeverity) (bool, error) {
 	key := client.ObjectKeyFromObject(obj)
 
 	// In order to ensure that "old state" is cleared out from obj, we need to:
@@ -66,18 +66,18 @@ func (e *Ensure) HasState(ctx context.Context, obj client.Object, desiredState m
 	return ready.Status == desiredState && ready.Severity == desiredSeverity, nil
 }
 
-// Provisioned checks to ensure the provisioning state of the resource is successful.
-func (e *Ensure) Provisioned(ctx context.Context, obj client.Object) (bool, error) {
+// Provisioned verifies that the provisioning state of the resource is successful.
+func (e *Verify) Provisioned(ctx context.Context, obj client.Object) (bool, error) {
 	return e.HasState(ctx, obj, metav1.ConditionTrue, conditions.ConditionSeverityNone)
 }
 
-// Failed checks to ensure the provisioning state of the resource is failed.
-func (e *Ensure) Failed(ctx context.Context, obj client.Object) (bool, error) {
+// Failed verifies that the provisioning state of the resource is failed.
+func (e *Verify) Failed(ctx context.Context, obj client.Object) (bool, error) {
 	return e.HasState(ctx, obj, metav1.ConditionFalse, conditions.ConditionSeverityError)
 }
 
-// Deleted ensures that the object specified has been deleted
-func (e *Ensure) Deleted(ctx context.Context, obj client.Object) (bool, error) {
+// Deleted verifies that the object specified has been deleted
+func (e *Verify) Deleted(ctx context.Context, obj client.Object) (bool, error) {
 	key := client.ObjectKeyFromObject(obj)
 
 	// Note that obj won't be modified if it's already deleted, so
@@ -93,8 +93,8 @@ func (e *Ensure) Deleted(ctx context.Context, obj client.Object) (bool, error) {
 	return false, nil
 }
 
-// AllDeleted ensures that all of the specified objects are deleted
-func (e *Ensure) AllDeleted(ctx context.Context, objs []client.Object) (bool, error) {
+// AllDeleted verifies that all of the specified objects are deleted
+func (e *Verify) AllDeleted(ctx context.Context, objs []client.Object) (bool, error) {
 	for _, obj := range objs {
 		// It's possible that this is horribly inefficient. Should be good enough for now though
 		deleted, err := e.Deleted(ctx, obj)

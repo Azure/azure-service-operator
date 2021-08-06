@@ -17,19 +17,19 @@ import (
 // TODO: Would we rather these just be on testcontext? Might read better
 type KubeMatcher struct {
 	ctx    context.Context
-	ensure *Ensure
+	verify *Verify
 }
 
-func NewKubeMatcher(ensure *Ensure, ctx context.Context) *KubeMatcher {
+func NewKubeMatcher(verify *Verify, ctx context.Context) *KubeMatcher {
 	return &KubeMatcher{
-		ensure: ensure,
+		verify: verify,
 		ctx:    ctx,
 	}
 }
 
 func (m *KubeMatcher) BeProvisioned() types.GomegaMatcher {
 	return &DesiredStateMatcher{
-		ensure:            m.ensure,
+		verify:            m.verify,
 		ctx:               m.ctx,
 		readyGoalStatus:   metav1.ConditionTrue,
 		readyGoalSeverity: conditions.ConditionSeverityNone,
@@ -38,7 +38,7 @@ func (m *KubeMatcher) BeProvisioned() types.GomegaMatcher {
 
 func (m *KubeMatcher) BeProvisionedAfter(previousReadyCondition conditions.Condition) types.GomegaMatcher {
 	return &DesiredStateMatcher{
-		ensure:              m.ensure,
+		verify:              m.verify,
 		ctx:                 m.ctx,
 		readyGoalStatus:     metav1.ConditionTrue,
 		readyGoalSeverity:   conditions.ConditionSeverityNone,
@@ -48,7 +48,7 @@ func (m *KubeMatcher) BeProvisionedAfter(previousReadyCondition conditions.Condi
 
 func (m *KubeMatcher) BeFailed() types.GomegaMatcher {
 	return &DesiredStateMatcher{
-		ensure:            m.ensure,
+		verify:            m.verify,
 		ctx:               m.ctx,
 		readyGoalStatus:   metav1.ConditionFalse,
 		readyGoalSeverity: conditions.ConditionSeverityError,
@@ -57,7 +57,7 @@ func (m *KubeMatcher) BeFailed() types.GomegaMatcher {
 
 func (m *KubeMatcher) BeDeleted() types.GomegaMatcher {
 	return &BeDeletedMatcher{
-		ensure: m.ensure,
+		verify: m.verify,
 		ctx:    m.ctx,
 	}
 }
