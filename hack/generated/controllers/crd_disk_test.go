@@ -41,7 +41,7 @@ func Test_Disk_CRUD(t *testing.T) {
 	}
 	tc.CreateResourceAndWait(disk)
 
-	tc.Expect(disk.Status.Location).To(Equal(tc.AzureRegion))
+	tc.Expect(disk.Status.Location).To(Equal(&tc.AzureRegion))
 	tc.Expect(disk.Status.Sku.Name).To(BeEquivalentTo(&standardSkuName))
 	tc.Expect(*disk.Status.DiskSizeGB).To(BeNumerically(">=", 500))
 	tc.Expect(disk.Status.Id).ToNot(BeNil())

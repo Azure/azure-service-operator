@@ -43,7 +43,7 @@ func Test_StorageAccount_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(acct)
 
-	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
+	tc.Expect(acct.Status.Location).To(Equal(&tc.AzureRegion))
 	expectedKind := storage.StorageAccountStatusKindBlobStorage
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())

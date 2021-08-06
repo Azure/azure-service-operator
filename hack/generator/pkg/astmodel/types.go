@@ -300,7 +300,12 @@ func FindSpecTypes(types Types) Types {
 
 		// Add the named spec type to our results
 		if spec, ok := types.TryGet(tn); ok {
-			result.Add(spec)
+			// Use AddAllowDuplicates here because some resources share the same spec
+			// across multiple resources, which can trigger multiple adds of the same type
+			err := result.AddAllowDuplicates(spec)
+			if err != nil {
+				panic(err)
+			}
 		}
 	}
 
@@ -326,7 +331,12 @@ func FindStatusTypes(types Types) Types {
 
 		// Add the named status type to our results
 		if status, ok := types.TryGet(tn); ok {
-			result.Add(status)
+			// Use AddAllowDuplicates here because some resources share the same status
+			// across multiple resources, which can trigger multiple adds of the same type
+			err := result.AddAllowDuplicates(status)
+			if err != nil {
+				panic(err)
+			}
 		}
 	}
 
