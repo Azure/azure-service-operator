@@ -1034,6 +1034,8 @@ func (bResource *BResource) PopulateFromARM(owner genruntime.KnownResourceRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BResourceARM, got %T", armInput)
 	}
 
+	// no assignment for property ‘Reference’
+
 	// No error
 	return nil
 }
@@ -1075,6 +1077,8 @@ func (cResource *CResource) PopulateFromARM(owner genruntime.KnownResourceRefere
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CResourceARM, got %T", armInput)
 	}
+
+	// no assignment for property ‘Reference’
 
 	// No error
 	return nil

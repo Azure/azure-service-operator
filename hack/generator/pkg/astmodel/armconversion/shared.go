@@ -41,8 +41,8 @@ func (builder conversionBuilder) propertyConversionHandler(
 	fromType *astmodel.ObjectType) []dst.Stmt {
 
 	for _, conversionHandler := range builder.propertyConversionHandlers {
-		stmts := conversionHandler(toProp, fromType)
-		if len(stmts) > 0 {
+		stmts, matched := conversionHandler(toProp, fromType)
+		if matched {
 			return stmts
 		}
 	}
@@ -62,7 +62,7 @@ func (builder conversionBuilder) propertyConversionHandler(
 	panic(message)
 }
 
-type propertyConversionHandler = func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt
+type propertyConversionHandler = func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) ([]dst.Stmt, bool)
 
 var (
 	once              sync.Once
@@ -124,7 +124,7 @@ func generateTypeConversionAssignments(
 				Decs: dst.EmptyStmtDecorations{
 					NodeDecs: dst.NodeDecs{
 						Before: dst.EmptyLine,
-						End:    []string{fmt.Sprintf("// no assignment for property ‘%s’:", toField.PropertyName())},
+						End:    []string{fmt.Sprintf("// no assignment for property ‘%s’", toField.PropertyName())},
 					},
 				},
 			})
