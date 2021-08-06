@@ -324,6 +324,17 @@ func (tc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
 	tc.G.Eventually(obj, tc.RemainingTime()).Should(tc.Match.BeDeleted())
 }
 
+// DeleteResourcesAndWait deletes the resources in K8s and waits for them to be deleted
+func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
+	for _, obj := range objs {
+		tc.G.Expect(tc.KubeClient.Delete(tc.Ctx, obj)).To(gomega.Succeed())
+	}
+
+	for _, obj := range objs {
+		tc.G.Eventually(obj, tc.RemainingTime()).Should(tc.Match.BeDeleted())
+	}
+}
+
 type Subtest struct {
 	Name string
 	Test func(testContext KubePerTestContext)
