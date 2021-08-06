@@ -78,6 +78,7 @@ func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext 
 	// TODO: Add generators for these properties
 	o.removeByPackage(properties, astmodel.APIExtensionsReference)
 	o.removeByPackage(properties, astmodel.APIExtensionsJSONReference)
+	o.removeByPackage(properties, astmodel.GenRuntimeConditionsReference)
 
 	// Write errors for any properties we don't handle
 	for _, p := range properties {

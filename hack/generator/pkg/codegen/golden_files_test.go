@@ -158,7 +158,8 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			//pipeline.ImplementConvertibleInterfaceStageId,
 			pipeline.ImplementConvertibleSpecInterfaceStageId,
 			pipeline.ImplementConvertibleStatusInterfaceStageId,
-			pipeline.ReportOnTypesAndVersionsStageID)
+			pipeline.ReportOnTypesAndVersionsStageID,
+			pipeline.AddStatusConditionsStageID)
 		if !testConfig.HasARMResources {
 			codegen.RemoveStages(pipeline.CreateARMTypesStageID, pipeline.ApplyARMConversionInterfaceStageID)
 
