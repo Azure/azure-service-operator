@@ -54,6 +54,7 @@ var (
 	ConvertibleStatusInterfaceType = MakeTypeName(GenRuntimeReference, "ConvertibleStatus")
 	ResourceReferenceTypeName      = MakeTypeName(GenRuntimeReference, "ResourceReference")
 	KnownResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "KnownResourceReference")
+	PropertyBagType                = MakeTypeName(GenRuntimeReference, "PropertyBag")
 	ToARMConverterInterfaceType    = MakeTypeName(GenRuntimeReference, "ToARMConverter")
 	ConditionTypeName              = MakeTypeName(GenRuntimeConditionsReference, "Condition")
 	ConditionsTypeName             = MakeTypeName(GenRuntimeConditionsReference, "Conditions")
