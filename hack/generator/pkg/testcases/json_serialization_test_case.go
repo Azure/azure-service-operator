@@ -18,38 +18,38 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// ObjectSerializationTestCase represents a test that the object can be losslessly serialized to
+// JSONSerializationTestCase represents a test that the object can be losslessly serialized to
 // JSON and back again
-type ObjectSerializationTestCase struct {
-	testName   string
-	subject    astmodel.TypeName
-	objectType *astmodel.ObjectType
-	idFactory  astmodel.IdentifierFactory
+type JSONSerializationTestCase struct {
+	testName  string
+	subject   astmodel.TypeName
+	container astmodel.PropertyContainer
+	idFactory astmodel.IdentifierFactory
 }
 
-var _ astmodel.TestCase = &ObjectSerializationTestCase{}
+var _ astmodel.TestCase = &JSONSerializationTestCase{}
 
-// NewObjectSerializationTestCase creates a new test case for the JSON serialization round-trip-ability of the specified object type
-func NewObjectSerializationTestCase(
+// NewJSONSerializationTestCase creates a new test case for the JSON serialization round-trip-ability of the specified object type
+func NewJSONSerializationTestCase(
 	name astmodel.TypeName,
-	objectType *astmodel.ObjectType,
-	idFactory astmodel.IdentifierFactory) *ObjectSerializationTestCase {
+	container astmodel.PropertyContainer,
+	idFactory astmodel.IdentifierFactory) *JSONSerializationTestCase {
 	testName := fmt.Sprintf("%s_WhenSerializedToJson_DeserializesAsEqual", name.Name())
-	return &ObjectSerializationTestCase{
-		testName:   testName,
-		subject:    name,
-		objectType: objectType,
-		idFactory:  idFactory,
+	return &JSONSerializationTestCase{
+		testName:  testName,
+		subject:   name,
+		container: container,
+		idFactory: idFactory,
 	}
 }
 
 // Name returns the unique name of this test case
-func (o ObjectSerializationTestCase) Name() string {
+func (o *JSONSerializationTestCase) Name() string {
 	return o.testName
 }
 
 // References returns the set of types to which this test case refers.
-func (o ObjectSerializationTestCase) References() astmodel.TypeNameSet {
+func (o *JSONSerializationTestCase) References() astmodel.TypeNameSet {
 	result := astmodel.NewTypeNameSet()
 	return result
 }
@@ -57,9 +57,9 @@ func (o ObjectSerializationTestCase) References() astmodel.TypeNameSet {
 // AsFuncs renders the current test case and supporting methods as Go abstract syntax trees
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
-func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *astmodel.CodeGenerationContext) []dst.Decl {
+func (o *JSONSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *astmodel.CodeGenerationContext) []dst.Decl {
 	var errs []error
-	properties := o.objectType.Properties()
+	properties := o.container.Properties()
 
 	// Find all the simple generators (those with no external dependencies)
 	simpleGenerators := o.createGenerators(properties, genContext, o.createIndependentGenerator)
@@ -87,10 +87,7 @@ func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext 
 
 	var result []dst.Decl
 
-	if len(simpleGenerators) == 0 && len(relatedGenerators) == 0 {
-		// No properties that we can generate to test - skip the testing completely
-		errs = append(errs, errors.Errorf("no property generators for %s", name))
-	} else {
+	if len(simpleGenerators) != 0 || len(relatedGenerators) != 0 {
 		result = append(result,
 			o.createTestRunner(genContext),
 			o.createTestMethod(genContext),
@@ -122,7 +119,7 @@ func (o ObjectSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext 
 }
 
 // RequiredImports returns a set of the package imports required by this test case
-func (o ObjectSerializationTestCase) RequiredImports() *astmodel.PackageImportSet {
+func (o *JSONSerializationTestCase) RequiredImports() *astmodel.PackageImportSet {
 	result := astmodel.NewPackageImportSet()
 
 	// Standard Go Packages
@@ -139,7 +136,7 @@ func (o ObjectSerializationTestCase) RequiredImports() *astmodel.PackageImportSe
 	result.AddImportOfReference(astmodel.PrettyReference)
 
 	// Merge references required for properties
-	for _, prop := range o.objectType.Properties() {
+	for _, prop := range o.container.Properties() {
 		for _, ref := range prop.PropertyType().RequiredPackageReferences().AsSlice() {
 			result.AddImportOfReference(ref)
 		}
@@ -152,19 +149,19 @@ func (o ObjectSerializationTestCase) RequiredImports() *astmodel.PackageImportSe
 }
 
 // Equals determines if this TestCase is equal to another one
-func (o ObjectSerializationTestCase) Equals(other astmodel.TestCase) bool {
-	otherTC, ok := other.(*ObjectSerializationTestCase)
+func (o *JSONSerializationTestCase) Equals(other astmodel.TestCase) bool {
+	otherTC, ok := other.(*JSONSerializationTestCase)
 	if !ok {
 		return false
 	}
 
 	return o.testName == otherTC.testName &&
 		o.subject.Equals(otherTC.subject) &&
-		o.objectType.Equals(otherTC.objectType)
+		o.container == otherTC.container
 }
 
 // createTestRunner generates the AST for the test runner itself
-func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.CodeGenerationContext) dst.Decl {
+func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.CodeGenerationContext) dst.Decl {
 	const (
 		parametersLocal  = "parameters"
 		propertiesLocal  = "properties"
@@ -229,7 +226,7 @@ func (o ObjectSerializationTestCase) createTestRunner(codegenContext *astmodel.C
 }
 
 // createTestMethod generates the AST for a method to run a single test of JSON serialization
-func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.CodeGenerationContext) dst.Decl {
+func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.CodeGenerationContext) dst.Decl {
 	const (
 		binId        = "bin"
 		actualId     = "actual"
@@ -337,7 +334,7 @@ func (o ObjectSerializationTestCase) createTestMethod(codegenContext *astmodel.C
 	return fn.DefineFunc()
 }
 
-func (o ObjectSerializationTestCase) createGeneratorDeclaration(genContext *astmodel.CodeGenerationContext) dst.Decl {
+func (o *JSONSerializationTestCase) createGeneratorDeclaration(genContext *astmodel.CodeGenerationContext) dst.Decl {
 	comment := fmt.Sprintf(
 		"Generator of %s instances for property testing - lazily instantiated by %s()",
 		o.Subject(),
@@ -354,7 +351,7 @@ func (o ObjectSerializationTestCase) createGeneratorDeclaration(genContext *astm
 }
 
 // createGeneratorMethod generates the AST for a method used to populate our generator cache variable on demand
-func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGenerationContext, haveSimpleGenerators bool, haveRelatedGenerators bool) dst.Decl {
+func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGenerationContext, haveSimpleGenerators bool, haveRelatedGenerators bool) dst.Decl {
 	gopterPackage := ctx.MustGetImportedPackageName(astmodel.GopterReference)
 	genPackage := ctx.MustGetImportedPackageName(astmodel.GopterGenReference)
 
@@ -448,7 +445,7 @@ func (o ObjectSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGen
 }
 
 // createGeneratorsFactoryMethod generates the AST for a method creating gopter generators
-func (o ObjectSerializationTestCase) createGeneratorsFactoryMethod(
+func (o *JSONSerializationTestCase) createGeneratorsFactoryMethod(
 	methodName string, generators []dst.Stmt, ctx *astmodel.CodeGenerationContext) dst.Decl {
 
 	gopterPackage := ctx.MustGetImportedPackageName(astmodel.GopterReference)
@@ -473,7 +470,7 @@ func (o ObjectSerializationTestCase) createGeneratorsFactoryMethod(
 // properties is a map of properties needing generators; properties handled here are removed from the map.
 // genPackageName is the name for the gopter/gen package (not hard coded in case it's renamed for conflict resolution)
 // factory is a method for creating generators
-func (o ObjectSerializationTestCase) createGenerators(
+func (o *JSONSerializationTestCase) createGenerators(
 	properties map[astmodel.PropertyName]*astmodel.PropertyDefinition,
 	genContext *astmodel.CodeGenerationContext,
 	factory func(name string, propertyType astmodel.Type, genContext *astmodel.CodeGenerationContext) dst.Expr) []dst.Stmt {
@@ -518,7 +515,7 @@ func (o ObjectSerializationTestCase) createGenerators(
 }
 
 // is directly supported by a Gopter generator, returning nil if the property type isn't supported.
-func (o ObjectSerializationTestCase) createIndependentGenerator(
+func (o *JSONSerializationTestCase) createIndependentGenerator(
 	name string,
 	propertyType astmodel.Type,
 	genContext *astmodel.CodeGenerationContext) dst.Expr {
@@ -582,7 +579,7 @@ func (o ObjectSerializationTestCase) createIndependentGenerator(
 }
 
 // defined within the current package, returning nil if the property type isn't supported.
-func (o ObjectSerializationTestCase) createRelatedGenerator(
+func (o *JSONSerializationTestCase) createRelatedGenerator(
 	name string,
 	propertyType astmodel.Type,
 	genContext *astmodel.CodeGenerationContext) dst.Expr {
@@ -638,7 +635,7 @@ func (o ObjectSerializationTestCase) createRelatedGenerator(
 	return nil
 }
 
-func (o *ObjectSerializationTestCase) removeByPackage(
+func (o *JSONSerializationTestCase) removeByPackage(
 	properties map[astmodel.PropertyName]*astmodel.PropertyDefinition,
 	ref astmodel.PackageReference) {
 
@@ -658,30 +655,30 @@ func (o *ObjectSerializationTestCase) removeByPackage(
 	}
 }
 
-func (o ObjectSerializationTestCase) idOfSubjectGeneratorGlobal() string {
+func (o *JSONSerializationTestCase) idOfSubjectGeneratorGlobal() string {
 	return o.idOfGeneratorGlobal(o.subject)
 }
 
-func (o ObjectSerializationTestCase) idOfTestMethod() string {
+func (o *JSONSerializationTestCase) idOfTestMethod() string {
 	return o.idFactory.CreateIdentifier(
 		fmt.Sprintf("RunTestFor%s", o.Subject()),
 		astmodel.Exported)
 }
 
-func (o ObjectSerializationTestCase) idOfGeneratorGlobal(name astmodel.TypeName) string {
+func (o *JSONSerializationTestCase) idOfGeneratorGlobal(name astmodel.TypeName) string {
 	return o.idFactory.CreateIdentifier(
 		fmt.Sprintf("cached%sGenerator", name.Name()),
 		astmodel.NotExported)
 }
 
-func (o ObjectSerializationTestCase) idOfGeneratorMethod(typeName astmodel.TypeName) string {
+func (o *JSONSerializationTestCase) idOfGeneratorMethod(typeName astmodel.TypeName) string {
 	name := o.idFactory.CreateIdentifier(
 		fmt.Sprintf("%sGenerator", typeName.Name()),
 		astmodel.Exported)
 	return name
 }
 
-func (o ObjectSerializationTestCase) idOfIndependentGeneratorsFactoryMethod() string {
+func (o *JSONSerializationTestCase) idOfIndependentGeneratorsFactoryMethod() string {
 	return o.idFactory.CreateIdentifier(
 		fmt.Sprintf("AddIndependentPropertyGeneratorsFor%s", o.Subject()),
 		astmodel.Exported)
@@ -689,17 +686,17 @@ func (o ObjectSerializationTestCase) idOfIndependentGeneratorsFactoryMethod() st
 
 // idOfRelatedTypesGeneratorsFactoryMethod creates the identifier for the method that creates generators referencing
 // other types
-func (o ObjectSerializationTestCase) idOfRelatedGeneratorsFactoryMethod() string {
+func (o *JSONSerializationTestCase) idOfRelatedGeneratorsFactoryMethod() string {
 	return o.idFactory.CreateIdentifier(
 		fmt.Sprintf("AddRelatedPropertyGeneratorsFor%s", o.Subject()),
 		astmodel.Exported)
 }
 
-func (o ObjectSerializationTestCase) Subject() *dst.Ident {
+func (o *JSONSerializationTestCase) Subject() *dst.Ident {
 	return dst.NewIdent(o.subject.Name())
 }
 
-func (o ObjectSerializationTestCase) createEnumGenerator(enumName string, genPackageName string, enum *astmodel.EnumType) dst.Expr {
+func (o *JSONSerializationTestCase) createEnumGenerator(enumName string, genPackageName string, enum *astmodel.EnumType) dst.Expr {
 	var values []dst.Expr
 	for _, o := range enum.Options() {
 		id := astmodel.GetEnumValueId(enumName, o)
