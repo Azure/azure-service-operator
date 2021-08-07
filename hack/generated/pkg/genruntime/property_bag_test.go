@@ -44,7 +44,7 @@ func TestPropertyBag_NewPropertyBag_WithSingleItemBag_ReturnsBagWithExpectedLeng
 	g.Expect(bag).To(HaveLen(1))
 }
 
-func TestPropertyBag_NewPropertyBag_WithMultipleItemBag_ReturnsBagWithExpectedContent(t *testing.T) {
+func TestPropertyBag_NewPropertyBag_WithMultipleItemBag_ReturnsBagWithExpectedKeys(t *testing.T) {
 	g := NewWithT(t)
 	original := NewPropertyBag()
 	g.Expect(original.Add("Answer", 42)).To(Succeed())
@@ -58,7 +58,7 @@ func TestPropertyBag_NewPropertyBag_WithMultipleItemBag_ReturnsBagWithExpectedCo
 	g.Expect(bag).To(HaveLen(3))
 }
 
-func TestPropertyBag_NewPropertyBag_WithMultipleSingleItemBags_ReturnsBagWithExpectedContent(t *testing.T) {
+func TestPropertyBag_NewPropertyBag_WithMultipleSingleItemBags_ReturnsBagWithExpectedKeys(t *testing.T) {
 	g := NewWithT(t)
 	first := NewPropertyBag()
 	g.Expect(first.Add("Answer", 42)).To(Succeed())
@@ -74,7 +74,7 @@ func TestPropertyBag_NewPropertyBag_WithMultipleSingleItemBags_ReturnsBagWithExp
 	g.Expect(bag).To(HaveLen(3))
 }
 
-func TestPropertyBag_NewPropertyBag_WithOverlappingBags_ReturnsBagWithExpectedContent(t *testing.T) {
+func TestPropertyBag_NewPropertyBag_WithOverlappingBags_ReturnsBagWithExpectedKeys(t *testing.T) {
 	g := NewWithT(t)
 	first := NewPropertyBag()
 	g.Expect(first.Add("Answer", 42)).To(Succeed())
