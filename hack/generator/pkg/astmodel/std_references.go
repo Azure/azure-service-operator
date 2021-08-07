@@ -18,8 +18,9 @@ var (
 	TestingReference = MakeExternalPackageReference("testing")
 
 	// References to our Libraries
-	GenRuntimeReference     = MakeExternalPackageReference(genRuntimePathPrefix)
-	ReflectHelpersReference = MakeExternalPackageReference(reflectHelpersPath)
+	GenRuntimeReference           = MakeExternalPackageReference(genRuntimePathPrefix)
+	GenRuntimeConditionsReference = MakeExternalPackageReference(genRuntimePathPrefix + "/conditions")
+	ReflectHelpersReference       = MakeExternalPackageReference(reflectHelpersPath)
 
 	// References to other libraries
 	APIExtensionsReference       = MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1")
@@ -55,6 +56,9 @@ var (
 	KnownResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "KnownResourceReference")
 	PropertyBagType                = MakeTypeName(GenRuntimeReference, "PropertyBag")
 	ToARMConverterInterfaceType    = MakeTypeName(GenRuntimeReference, "ToARMConverter")
+	ConditionTypeName              = MakeTypeName(GenRuntimeConditionsReference, "Condition")
+	ConditionsTypeName             = MakeTypeName(GenRuntimeConditionsReference, "Conditions")
+	ConditionerTypeName            = MakeTypeName(GenRuntimeConditionsReference, "Conditioner")
 
 	// Type names - API Machinery
 	GroupVersionKindTypeName = MakeTypeName(APIMachinerySchemaReference, "GroupVersionKind")

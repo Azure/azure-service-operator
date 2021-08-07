@@ -8,6 +8,7 @@ augmentSpecWithStatus                              Merges information from Statu
 stripUnreferenced                                  Strip unreferenced types
 nameTypes                                          Name inner types for CRD
 propertyRewrites                                   Modify property types using configured transforms
+makeStatusPropertiesOptional                       Forces all status properties to be optional
 determineResourceOwnership                         Determine ARM resource relationships
 removeAliases                                      Remove type aliases
 collapseCrossGroupReferences                       Finds and removes cross group references
