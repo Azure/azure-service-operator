@@ -288,7 +288,7 @@ func (resource *ResourceType) Equals(other Type) bool {
 		}
 	}
 
-	// Check same annotations present
+	// Check same annotations present in the same order
 	for i, ourAnnotation := range resource.annotations {
 		otherAnnotation := otherResource.annotations[i]
 		if ourAnnotation != otherAnnotation {
