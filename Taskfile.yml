@@ -14,13 +14,12 @@ vars:
 
   SCRIPTS_ROOT: ./scripts
 
-  # TODO: Once the v2 controller is the main controller we can drive this from git tags
-  # via e.g. `git describe --tags --dirty` which would give better info for dev builds.
-  # When doing this, also update the generator (currently using SHORT_VERSION below).
-  VERSION: v2.0.0-alpha
-  CONTROLLER_DOCKER_IMAGE: azure-service-operator:{{.VERSION}}
+  VERSION: 
+    # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
+    sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
 
-  LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE: localhost:5000/azure-service-operator:latest
+  CONTROLLER_DOCKER_IMAGE: azureserviceoperator:{{.VERSION}}
+  LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE: localhost:5000/azureserviceoperator:latest
 
   CROSSPLANE_APP: crossplane-gen
   CROSSPLANE_ROOT: ./hack/crossplane/
@@ -105,14 +104,7 @@ tasks:
     dir: "{{.GENERATOR_ROOT}}"
     sources: ["**/*.go", "go.mod", "go.sum"]
     cmds:
-    - go build -ldflags "-X {{.GENERATOR_PACKAGE}}/pkg/codegen.GitCommit={{.SHORT_VERSION}} -X {{.GENERATOR_PACKAGE}}/pkg/codegen.GitTreeState={{.TREE_STATE}}" -o ./bin/{{.GENERATOR_APP}}
-    vars:
-      DATE:
-        sh: date +%FT%T%z
-      TREE_STATE:
-        sh: if [[ -z "$(git status --porcelain)" ]]; then echo "clean"; else echo "dirty"; fi
-      SHORT_VERSION:
-        sh: git rev-parse --short HEAD
+    - go build -ldflags "-X {{.GENERATOR_PACKAGE}}/pkg/codegen.Version={{.VERSION}}" -o ./bin/{{.GENERATOR_APP}}
 
   generator:diagrams:
     desc: Regenerate all GraphViz diagrams
@@ -182,7 +174,7 @@ tasks:
     - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X {{.CONTROLLER_PACKAGE}}/pkg/version.BuildVersion={{.VERSION}}" -o ./bin/{{.CONTROLLER_APP}}
 
   controller:docker-build:
-    desc: Generated the {{.CONTROLLER_APP}} Docker file.
+    desc: Builds the {{.CONTROLLER_APP}} Docker image.
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:build]
     sources:
@@ -190,7 +182,30 @@ tasks:
     - ./bin/{{.CONTROLLER_APP}}
     cmds:
     - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
+
+  controller:docker-build-and-save:
+    desc: Builds the {{.CONTROLLER_APP}} Docker image and saves it using docker save.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:docker-build]
+    cmds:
     - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/{{.CONTROLLER_DOCKER_IMAGE}}.tar
+
+  controller:docker-push-remote:
+    desc: Pushes the {{.CONTROLLER_APP}} Docker image to the remote repository specified by the DOCKER_PUSH_TARGET variable.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:docker-build]
+    cmds:
+    - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
+    - docker tag {{.CONTROLLER_DOCKER_IMAGE}} "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}"
+    - docker push "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}"
+
+  controller:docker-push-local:
+    desc: Pushes the controller container image to a local registry
+    deps: [controller:docker-build]
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+    - docker tag {{.CONTROLLER_DOCKER_IMAGE}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
+    - docker push {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
 
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
@@ -286,13 +301,6 @@ tasks:
       - "kubectl label namespace cert-manager cert-manager.io/disable-validation=true"
       - "kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml"  # TODO: Bump this version?
 
-  controller:docker-push-local-reg:
-    desc: Pushes the controller container image to a local registry
-    deps: [controller:docker-build]
-    dir: "{{.CONTROLLER_ROOT}}"
-    cmds:
-      - "docker tag {{.CONTROLLER_DOCKER_IMAGE}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}"
-      - "docker push {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}"
 
   ############### Crossplane targets ###############
   crossplane:quick-checks:

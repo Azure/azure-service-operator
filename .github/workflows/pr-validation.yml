@@ -1,4 +1,4 @@
-name: pr-validation
+name: Validate Pull Request
 on:
   push:
     branches:
@@ -18,6 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
+          fetch-depth: 0 # required to access tags
           submodules: 'true'
 
       - name: Log in to GitHub Docker Registry
@@ -60,7 +61,7 @@ jobs:
       - name: Build docker image
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:docker-build
+          docker exec "$container_id" task controller:docker-build-and-save
           docker cp "$container_id:/workspace/hack/generated/bin" .
           mv bin/*.tar azure-service-operator.tar
 
