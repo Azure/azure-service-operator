@@ -8,6 +8,7 @@ augmentSpecWithStatus                                Merges information from Sta
 stripUnreferenced                                    Strip unreferenced types
 nameTypes                                            Name inner types for CRD
 propertyRewrites                                     Modify property types using configured transforms
+makeStatusPropertiesOptional                         Forces all status properties to be optional
 determineResourceOwnership                           Determine ARM resource relationships
 removeAliases                                        Remove type aliases
 collapseCrossGroupReferences                         Finds and removes cross group references
@@ -26,6 +27,7 @@ applyArmConversionInterface               azure      Add ARM conversion interfac
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnreferenced                                    Strip unreferenced types
+addStatusConditions                       azure      Adds the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                        azure      Create storage versions of CRD types

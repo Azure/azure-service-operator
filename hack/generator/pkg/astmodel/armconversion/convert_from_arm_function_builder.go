@@ -65,6 +65,7 @@ func newConvertFromARMFunctionBuilder(
 		result.namePropertyHandler,
 		result.referencePropertyHandler,
 		result.ownerPropertyHandler,
+		result.conditionsPropertyHandler,
 		result.flattenedPropertyHandler,
 		result.propertiesWithSameNameHandler,
 	}
@@ -216,6 +217,24 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		token.ASSIGN,
 		dst.NewIdent(builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)))
 	return []dst.Stmt{result}
+}
+
+// conditionsPropertyHandler generates conversions for the "Conditions" status property. This property is set by the controller
+// after each reconcile and so does not need to be preserved.
+func (builder *convertFromARMBuilder) conditionsPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	_ *astmodel.ObjectType) []dst.Stmt {
+
+	isPropConditions := toProp.PropertyName() == builder.idFactory.CreatePropertyName(astmodel.ConditionsProperty, astmodel.Exported)
+	if !isPropConditions || builder.typeKind != TypeKindStatus {
+		return nil
+	}
+
+	// Returning an empty statement allows us to "consume" this match and not proceed to the next handler.
+	// There is nothing included in the generated code.
+	return []dst.Stmt{
+		&dst.EmptyStmt{},
+	}
 }
 
 // flattenedPropertyHandler generates conversions for properties that

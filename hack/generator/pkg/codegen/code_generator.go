@@ -106,6 +106,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ApplyPropertyRewrites(configuration).
 			RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects"),
 
+		pipeline.MakeStatusPropertiesOptional(),
+
 		// Figure out resource owners:
 		pipeline.DetermineResourceOwnership(configuration),
 
@@ -145,9 +147,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// Effects the "flatten" property of Properties:
 		pipeline.FlattenProperties(),
-
 		// Remove types which may not be needed after flattening
 		pipeline.StripUnreferencedTypeDefinitions(),
+
+		pipeline.AddStatusConditions(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddCrossplaneForProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
