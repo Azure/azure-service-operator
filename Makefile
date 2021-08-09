@@ -189,6 +189,7 @@ validate-cainjection-files:
 # Generate manifests for helm and package them up
 .PHONY: helm-chart-manifests
 helm-chart-manifests: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
+helm-chart-manifests: KUBE_RBAC_PROXY := gcr.io/kubebuilder/kube-rbac-proxy:v0.5.0
 helm-chart-manifests: generate
 	@echo "Latest released tag is $(LATEST_TAG)"
 	# substitute released tag into values file.
@@ -205,8 +206,11 @@ helm-chart-manifests: generate
 	find ./charts/azure-service-operator/templates/generated/*_customresourcedefinition_* -exec mv '{}' ./charts/azure-service-operator/crds \;
 	# remove namespace as we will let Helm manage it
 	rm charts/azure-service-operator/templates/generated/*_namespace_*
-	# replace hard coded ASO image with Helm templating
+	# replace hard coded ASO and kube-rbac images with Helm templating
 	perl -pi -e s,controller:latest,"{{ .Values.image.repository }}",g ./charts/azure-service-operator/templates/generated/*_deployment_*
+	# Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
+	grep -E $(KUBE_RBAC_PROXY) ./charts/azure-service-operator/templates/generated/*_deployment_*
+	perl -pi -e s,$(KUBE_RBAC_PROXY),"{{ .Values.image.kubeRBACProxy }}",g ./charts/azure-service-operator/templates/generated/*_deployment_*
 	# replace hard coded namespace with Helm templating
 	find ./charts/azure-service-operator/templates/generated/ -type f -exec perl -pi -e s,azureoperator-system,"{{ .Release.Namespace }}",g {} \;
 	# create unique names so each instance of the operator has its own role binding 
