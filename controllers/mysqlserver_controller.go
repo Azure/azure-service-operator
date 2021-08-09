@@ -50,7 +50,7 @@ func (r *MySQLServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&v1alpha2.MySQLServer{}).
-		Watches(&source.Kind{Type: &corev1.Secret{}}, handler.EnqueueRequestsFromMapFunc(makeMapFunc(mgr))).
+		Watches(&source.Kind{Type: &corev1.Secret{}}, handler.EnqueueRequestsFromMapFunc(r.makeMapFunc(mgr))).
 		Complete(r)
 }
 
@@ -58,7 +58,7 @@ func (r *MySQLServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 // TODO: this feature: https://github.com/kubernetes-sigs/controller-runtime/blob/master/designs/use-selectors-at-cache.md,
 // TODO: likely scoped by a label selector? That requires additional work as we would need to manage that label
 // TODO: in the MySQLServer reconcile loop probably.
-func makeMapFunc(mgr ctrl.Manager) func(o client.Object) []reconcile.Request {
+func (r *MySQLServerReconciler) makeMapFunc(mgr ctrl.Manager) func(o client.Object) []reconcile.Request {
 	return func(o client.Object) []reconcile.Request {
 		// Safety check that we're looking at a secret, if not nothing to do
 		if _, ok := o.(*corev1.Secret); !ok {
@@ -67,14 +67,14 @@ func makeMapFunc(mgr ctrl.Manager) func(o client.Object) []reconcile.Request {
 
 		// This should be fast since the list of items it's going through should always be cached
 		// locally with the shared informer.
-		// Unfortunately we don't have a ctx we can use here... maybe need to file a bug?
-		ctx, cancel := context.WithTimeout(context.Background(), 10 * time.Second)
+		// Unfortunately we don't have a ctx we can use here, see https://github.com/kubernetes-sigs/controller-runtime/issues/1628
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
 		var matchingResources v1alpha2.MySQLServerList
 		err := mgr.GetClient().List(ctx, &matchingResources, client.MatchingFields{AdminSecretKey: o.GetName()})
 		if err != nil {
-			// TODO: log the error at least
+			r.Reconciler.Telemetry.LogError("couldn't list MySQLServers in MapFunc", err)
 			return nil
 		}
 
