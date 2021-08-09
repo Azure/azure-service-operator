@@ -24,8 +24,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/hack/generated/controllers"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 )
 
 const ResourceGroupDeletionWaitTime = 5 * time.Minute
@@ -136,10 +136,7 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) KubePerTestContext {
 		t.Fatal(err)
 	}
 
-	ensure := NewEnsure(
-		kubeClient,
-		ctx.stateAnnotation,
-		ctx.errorAnnotation)
+	ensure := NewEnsure(kubeClient)
 
 	context := context.Background() // we could consider using context.WithTimeout(RemainingTime()) here
 	match := NewKubeMatcher(ensure, context)
@@ -225,13 +222,13 @@ func (tc KubePerTestContext) CreateTestResourceGroup(rg *resources.ResourceGroup
 }
 
 // Subtest replaces any testing.T-specific types with new values
-func (ktc KubePerTestContext) Subtest(t *testing.T) KubePerTestContext {
-	ktc.T = t
-	ktc.G = gomega.NewWithT(t)
-	ktc.Namer = ktc.NameConfig.NewResourceNamer(t.Name())
-	ktc.TestName = t.Name()
-	ktc.logger = NewTestLogger(t)
-	return ktc
+func (tc KubePerTestContext) Subtest(t *testing.T) KubePerTestContext {
+	tc.T = t
+	tc.G = gomega.NewWithT(t)
+	tc.Namer = tc.NameConfig.NewResourceNamer(t.Name())
+	tc.TestName = t.Name()
+	tc.logger = NewTestLogger(t)
+	return tc
 }
 
 var DefaultTimeout time.Duration = 2 * time.Minute
@@ -251,69 +248,69 @@ func RemainingTime(t *testing.T) time.Duration {
 	return DefaultTimeout
 }
 
-func (ktc *KubePerTestContext) RemainingTime() time.Duration {
-	return RemainingTime(ktc.T)
+func (tc *KubePerTestContext) RemainingTime() time.Duration {
+	return RemainingTime(tc.T)
 }
 
-func (ktc *KubePerTestContext) Expect(actual interface{}) gomega.Assertion {
-	return ktc.G.Expect(actual)
+func (tc *KubePerTestContext) Expect(actual interface{}) gomega.Assertion {
+	return tc.G.Expect(actual)
 }
 
-func (ktc *KubePerTestContext) Eventually(actual interface{}, intervals ...interface{}) gomega.AsyncAssertion {
+func (tc *KubePerTestContext) Eventually(actual interface{}, intervals ...interface{}) gomega.AsyncAssertion {
 	if len(intervals) > 0 {
-		return ktc.G.Eventually(actual, intervals...)
+		return tc.G.Eventually(actual, intervals...)
 	}
 
-	return ktc.G.Eventually(actual, ktc.RemainingTime())
+	return tc.G.Eventually(actual, tc.RemainingTime())
 }
 
-func (ktc *KubePerTestContext) CreateNewTestResourceGroupAndWait() *v1alpha1api20200601.ResourceGroup {
-	rg, err := ktc.CreateNewTestResourceGroup(WaitForCreation)
-	ktc.Expect(err).ToNot(gomega.HaveOccurred())
+func (tc *KubePerTestContext) CreateNewTestResourceGroupAndWait() *v1alpha1api20200601.ResourceGroup {
+	rg, err := tc.CreateNewTestResourceGroup(WaitForCreation)
+	tc.Expect(err).ToNot(gomega.HaveOccurred())
 	return rg
 }
 
 // CreateResourceAndWait creates the resource in K8s and waits for it to
 // change into the Provisioned state.
-func (ktc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
-	ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
-	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisioned())
+func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
+	tc.G.Expect(tc.KubeClient.Create(tc.Ctx, obj)).To(gomega.Succeed())
+	tc.G.Eventually(obj, tc.RemainingTime()).Should(tc.Match.BeProvisioned())
 }
 
 // CreateResourcesAndWait creates the resources in K8s and waits for them to
 // change into the Provisioned state.
-func (ktc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
+func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 	for _, obj := range objs {
-		ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
+		tc.G.Expect(tc.KubeClient.Create(tc.Ctx, obj)).To(gomega.Succeed())
 	}
 
 	for _, obj := range objs {
-		ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeProvisioned())
+		tc.G.Eventually(obj, tc.RemainingTime()).Should(tc.Match.BeProvisioned())
 	}
 }
 
 // CreateResourceAndWaitForFailure creates the resource in K8s and waits for it to
 // change into the Failed state.
-func (ktc *KubePerTestContext) CreateResourceAndWaitForFailure(obj client.Object) {
-	ktc.G.Expect(ktc.KubeClient.Create(ktc.Ctx, obj)).To(gomega.Succeed())
-	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeFailed())
+func (tc *KubePerTestContext) CreateResourceAndWaitForFailure(obj client.Object) {
+	tc.G.Expect(tc.KubeClient.Create(tc.Ctx, obj)).To(gomega.Succeed())
+	tc.G.Eventually(obj, tc.RemainingTime()).Should(tc.Match.BeFailed())
 }
 
 // PatchResourceAndWaitAfter patches the resource in K8s and waits for it to change into
 // the Provisioned state from the provided previousState.
-func (ktc *KubePerTestContext) PatchResourceAndWaitAfter(old client.Object, new client.Object, previousState armclient.ProvisioningState) {
+func (ktc *KubePerTestContext) PatchResourceAndWaitAfter(old client.Object, new client.Object, previousReadyCondition conditions.Condition) {
 	ktc.Patch(old, new)
-	ktc.G.Eventually(new, ktc.RemainingTime()).Should(ktc.Match.BeProvisionedAfter(previousState))
+	ktc.G.Eventually(new, ktc.RemainingTime()).Should(ktc.Match.BeProvisionedAfter(previousReadyCondition))
 }
 
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
-func (ktc *KubePerTestContext) GetResource(key types.NamespacedName, obj client.Object) {
-	ktc.G.Expect(ktc.KubeClient.Get(ktc.Ctx, key, obj)).To(gomega.Succeed())
+func (tc *KubePerTestContext) GetResource(key types.NamespacedName, obj client.Object) {
+	tc.G.Expect(tc.KubeClient.Get(tc.Ctx, key, obj)).To(gomega.Succeed())
 }
 
 // UpdateResource updates the given resource in K8s.
-func (ktc *KubePerTestContext) UpdateResource(obj client.Object) {
-	ktc.G.Expect(ktc.KubeClient.Update(ktc.Ctx, obj)).To(gomega.Succeed())
+func (tc *KubePerTestContext) UpdateResource(obj client.Object) {
+	tc.G.Expect(tc.KubeClient.Update(tc.Ctx, obj)).To(gomega.Succeed())
 }
 
 func (ktc *KubePerTestContext) Patch(old client.Object, new client.Object) {
@@ -322,9 +319,9 @@ func (ktc *KubePerTestContext) Patch(old client.Object, new client.Object) {
 
 // DeleteResourceAndWait deletes the given resource in K8s and waits for
 // it to update to the Deleted state.
-func (ktc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
-	ktc.G.Expect(ktc.KubeClient.Delete(ktc.Ctx, obj)).To(gomega.Succeed())
-	ktc.G.Eventually(obj, ktc.RemainingTime()).Should(ktc.Match.BeDeleted())
+func (tc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
+	tc.G.Expect(tc.KubeClient.Delete(tc.Ctx, obj)).To(gomega.Succeed())
+	tc.G.Eventually(obj, tc.RemainingTime()).Should(tc.Match.BeDeleted())
 }
 
 type Subtest struct {
@@ -334,19 +331,19 @@ type Subtest struct {
 
 // RunParallelSubtests runs the given tests in parallel. They are given
 // their own KubePerTestContext.
-func (ktc *KubePerTestContext) RunParallelSubtests(tests ...Subtest) {
+func (tc *KubePerTestContext) RunParallelSubtests(tests ...Subtest) {
 	// this looks super weird but is correct.
 	// parallel subtests do not run until their parent test completes,
 	// and then the parent test does not finish until all its subtests finish.
 	// so "subtests" will run and complete, then all the subtests will run
 	// in parallel, and then "subtests" will finish. ¯\_(ツ)_/¯
 	// See: https://blog.golang.org/subtests#TOC_7.2.
-	ktc.T.Run("subtests", func(t *testing.T) {
+	tc.T.Run("subtests", func(t *testing.T) {
 		for _, test := range tests {
 			test := test
 			t.Run(test.Name, func(t *testing.T) {
 				t.Parallel()
-				test.Test(ktc.Subtest(t))
+				test.Test(tc.Subtest(t))
 			})
 		}
 	})
