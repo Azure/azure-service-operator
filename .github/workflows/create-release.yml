@@ -33,10 +33,10 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" docker login -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} ${{ secrets.REGISTRY_LOGIN }}
 
-      - name: Run Kustomize & bundle output
+      - name: Run Kustomize 
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:bundle-config
+          docker exec "$container_id" task controller:run-kustomize
 
       - name: Build & push docker image
         run: |
@@ -50,5 +50,5 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
-          file: $GITHUB_WORKSPACE/hack/controller/bin/azureserviceoperator_*.tar.gz
+          file: $GITHUB_WORKSPACE/hack/controller/bin/azureserviceoperator_*.yaml
           file_glob: true

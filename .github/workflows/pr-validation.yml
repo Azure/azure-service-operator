@@ -60,16 +60,16 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task ci
 
-      - name: Build docker image & bundle CRDs
+      - name: Build docker image & build configuration YAML
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task controller:docker-build-and-save
-          docker exec "$container_id" task controller:bundle-config
+          docker exec "$container_id" task controller:run-kustomize
 
       - name: Archive outputs
         uses: actions/upload-artifact@v2
         with:
-          name: bundle
+          name: output
           path: hack/generated/bin/*
           if-no-files-found: error
 
