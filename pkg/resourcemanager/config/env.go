@@ -68,7 +68,7 @@ func ParseEnvironment() error {
 	}
 	targetNamespaces = ParseStringListFromEnvironment("AZURE_TARGET_NAMESPACES")
 
-	operatorMode, err := ParseOperatorMode(envy.Get("AZURE_OPERATOR_MODE", "both"))
+	operatorMode, err = ParseOperatorMode(envy.Get("AZURE_OPERATOR_MODE", "both"))
 	if err != nil {
 		return errors.Wrap(err, "reading AZURE_OPERATOR_MODE")
 	}
