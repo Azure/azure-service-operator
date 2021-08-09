@@ -5,7 +5,9 @@
 
 package reconcilers
 
-import "github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
+import (
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
+)
 
 type DeploymentErrorClassification string
 
@@ -14,32 +16,79 @@ const (
 	DeploymentErrorFatal     = DeploymentErrorClassification("fatal")
 )
 
-// TODO: need Some basic unit tests for this
+type DeploymentErrorDetails struct {
+	Classification DeploymentErrorClassification
+	Code           string
+	Message        string
+}
 
-func ClassifyDeploymentError(deploymentError *armclient.DeploymentError) DeploymentErrorClassification {
+const (
+	UnknownErrorCode    = "UnknownError"
+	UnknownErrorMessage = "There was an unknown deployment error"
+)
+
+func stringOrDefault(str string, def string) string {
+	if str == "" {
+		return def
+	}
+
+	return str
+}
+
+func stringPtrOrDefault(str *string, def string) string {
+	if str == nil {
+		return def
+	}
+
+	if *str == "" {
+		return def
+	}
+
+	return *str
+}
+
+func ClassifyDeploymentError(deploymentError *armclient.DeploymentError) DeploymentErrorDetails {
 	if deploymentError == nil {
 		// Default to retrying if we're asked to classify a nil error
-		return DeploymentErrorRetryable
+		return DeploymentErrorDetails{
+			Classification: DeploymentErrorRetryable,
+			Code:           UnknownErrorCode,
+			Message:        UnknownErrorMessage,
+		}
 	}
 
 	if len(deploymentError.Details) == 0 {
 		// Default to retrying if we're asked to classify an error with no details
-		return DeploymentErrorRetryable
+		return DeploymentErrorDetails{
+			Classification: DeploymentErrorRetryable,
+			Code:           stringOrDefault(deploymentError.Code, UnknownErrorCode),
+			Message:        stringOrDefault(deploymentError.Message, UnknownErrorMessage),
+		}
 	}
 
 	// Classify all of the details -- there may ALWAYS be only one but
 	// since the API technically allows a list just deal with it in case
 	// it actually happens in some rare case.
-	var classification DeploymentErrorClassification
+
+	// First check if any errors are fatal
 	for _, detail := range deploymentError.Details {
-		classification = classifyInnerDeploymentError(detail)
+		classification := classifyInnerDeploymentError(detail)
 		// A single fatal sub-error means the error as a whole is fatal
 		if classification == DeploymentErrorFatal {
-			return classification
+			return DeploymentErrorDetails{
+				Classification: classification,
+				Code:           stringOrDefault(detail.Code, UnknownErrorCode),
+				Message:        stringOrDefault(detail.Message, UnknownErrorMessage),
+			}
 		}
 	}
 
-	return classification
+	// Otherwise return the first error (which must have been retryable since we didn't return above)
+	return DeploymentErrorDetails{
+		Classification: DeploymentErrorRetryable,
+		Code:           stringOrDefault(deploymentError.Details[0].Code, UnknownErrorCode),
+		Message:        stringOrDefault(deploymentError.Details[0].Message, UnknownErrorMessage),
+	}
 }
 
 func classifyInnerDeploymentError(deploymentError armclient.DeploymentError) DeploymentErrorClassification {

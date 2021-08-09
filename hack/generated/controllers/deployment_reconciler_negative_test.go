@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/go-autorest/autorest/to"
@@ -16,8 +17,7 @@ import (
 	compute "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.compute/v1alpha1api20201201"
 	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
 	storage "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.storage/v1alpha1api20210401"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reconcilers"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
@@ -97,9 +97,13 @@ func Test_DeploymentAccepted_LongRunningOperationFails(t *testing.T) {
 	acct := newStorageAccountWithInvalidKeyExpiration(tc, rg)
 	tc.CreateResourceAndWaitForFailure(acct)
 
-	errAnnotation := acct.Annotations[reconcilers.ResourceErrorAnnotation]
-	tc.Expect(errAnnotation).To(ContainSubstring("InvalidValuesForRequestParameters"))
-	tc.Expect(errAnnotation).To(ContainSubstring("Values for request parameters are invalid: keyPolicy.keyExpirationPeriodInDays."))
+	ready, ok := conditions.GetCondition(acct, conditions.ConditionTypeReady)
+	tc.Expect(ok).To(BeTrue())
+
+	tc.Expect(ready.Status).To(Equal(metav1.ConditionFalse))
+	tc.Expect(ready.Severity).To(Equal(conditions.ConditionSeverityError))
+	tc.Expect(ready.Reason).To(Equal("InvalidValuesForRequestParameters"))
+	tc.Expect(ready.Message).To(ContainSubstring("Values for request parameters are invalid: keyPolicy.keyExpirationPeriodInDays."))
 }
 
 // There are two ways that a deployment can fail. It can be rejected when initially
@@ -117,14 +121,22 @@ func Test_DeploymentAccepted_LongRunningOperationFails_SucceedsAfterUpdate(t *te
 	// Remove the bad property and ensure we can successfully provision
 	old := acct.DeepCopy()
 	acct.Spec.KeyPolicy = nil
-	tc.PatchResourceAndWaitAfter(old, acct, armclient.FailedProvisioningState)
+	ready, ok := conditions.GetCondition(acct, conditions.ConditionTypeReady)
+	tc.Expect(ok).To(BeTrue())
+	tc.PatchResourceAndWaitAfter(old, acct, ready)
 
 	// Ensure that the old failure information was cleared away
 	objectKey := client.ObjectKeyFromObject(acct)
 	updated := &storage.StorageAccount{}
 	tc.GetResource(objectKey, updated)
 
-	tc.Expect(updated.Annotations).ToNot(HaveKey(reconcilers.ResourceErrorAnnotation))
+	ready, ok = conditions.GetCondition(acct, conditions.ConditionTypeReady)
+	tc.Expect(ok).To(BeTrue())
+
+	tc.Expect(ready.Status).To(Equal(metav1.ConditionTrue))
+	tc.Expect(ready.Severity).To(Equal(conditions.ConditionSeverityNone))
+	tc.Expect(ready.Reason).To(Equal(conditions.ReasonSucceeded))
+	tc.Expect(ready.Message).To(Equal(""))
 }
 
 // There are two ways that a deployment can fail. It can be rejected when initially
@@ -138,10 +150,13 @@ func Test_DeploymentRejected(t *testing.T) {
 	vmss := newVMSSWithInvalidPublisher(tc, rg)
 	tc.CreateResourceAndWaitForFailure(vmss)
 
-	errAnnotation := vmss.Annotations[reconcilers.ResourceErrorAnnotation]
-	tc.Expect(errAnnotation).To(ContainSubstring("InvalidTemplateDeployment"))
-	tc.Expect(errAnnotation).To(ContainSubstring("InvalidParameter"))
-	tc.Expect(errAnnotation).To(ContainSubstring("The value of parameter imageReference.publisher is invalid"))
+	ready, ok := conditions.GetCondition(vmss, conditions.ConditionTypeReady)
+	tc.Expect(ok).To(BeTrue())
+
+	tc.Expect(ready.Status).To(Equal(metav1.ConditionFalse))
+	tc.Expect(ready.Severity).To(Equal(conditions.ConditionSeverityError))
+	tc.Expect(ready.Reason).To(ContainSubstring("InvalidParameter"))
+	tc.Expect(ready.Message).To(ContainSubstring("The value of parameter imageReference.publisher is invalid"))
 }
 
 // There are two ways that a deployment can fail. It can be rejected when initially
@@ -171,15 +186,24 @@ func Test_DeploymentRejected_SucceedsAfterUpdate(t *testing.T) {
 
 	tc.CreateResourceAndWaitForFailure(vmss)
 
+	ready, ok := conditions.GetCondition(vmss, conditions.ConditionTypeReady)
+	tc.Expect(ok).To(BeTrue())
+
 	// Now fix the image reference and the VMSS should successfully deploy
 	old := vmss.DeepCopy()
 	vmss.Spec.VirtualMachineProfile.StorageProfile.ImageReference = originalImgRef
-	tc.PatchResourceAndWaitAfter(old, vmss, armclient.FailedProvisioningState)
+	tc.PatchResourceAndWaitAfter(old, vmss, ready)
 
 	// Ensure that the old failure information was cleared away
 	objectKey := client.ObjectKeyFromObject(vmss)
 	updated := &compute.VirtualMachineScaleSet{}
 	tc.GetResource(objectKey, updated)
 
-	tc.Expect(updated.Annotations).ToNot(HaveKey(reconcilers.ResourceErrorAnnotation))
+	ready, ok = conditions.GetCondition(updated, conditions.ConditionTypeReady)
+	tc.Expect(ok).To(BeTrue())
+
+	tc.Expect(ready.Status).To(Equal(metav1.ConditionTrue))
+	tc.Expect(ready.Severity).To(Equal(conditions.ConditionSeverityNone))
+	tc.Expect(ready.Reason).To(Equal(conditions.ReasonSucceeded))
+	tc.Expect(ready.Message).To(Equal(""))
 }
