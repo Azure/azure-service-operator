@@ -19,6 +19,7 @@ vars:
     sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
 
   CONTROLLER_DOCKER_IMAGE: azureserviceoperator:{{.VERSION}}
+  PUBLIC_REGISTRY: mcr.microsoft.com/k8s/
   LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE: localhost:5000/azureserviceoperator:latest
 
   CROSSPLANE_APP: crossplane-gen
@@ -188,7 +189,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:docker-build]
     cmds:
-    - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/{{.CONTROLLER_DOCKER_IMAGE}}.tar
+    - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/$(echo '{{.CONTROLLER_DOCKER_IMAGE}}' | sed -e 's/:/_/g').tar
 
   controller:docker-push-remote:
     desc: Pushes the {{.CONTROLLER_APP}} Docker image to the remote repository specified by the DOCKER_PUSH_TARGET variable.
@@ -276,6 +277,13 @@ tasks:
       - "{{.CONTROLLER_ROOT}}config/crd/kustomization.yaml"
     cmds:
       - "{{.GENERATOR_ROOT}}bin/{{.GENERATOR_APP}} gen-kustomize {{.CONTROLLER_ROOT}}config/crd"
+
+  controller:run-kustomize:
+    desc: Generates the CRD & configuration bundle.
+    deps: [controller:generate-kustomize]
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+    - kustomize build config/default | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
 
   controller:kind-delete:
     desc: Deletes a kind cluster
