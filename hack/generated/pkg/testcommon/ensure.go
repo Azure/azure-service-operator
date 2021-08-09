@@ -37,7 +37,7 @@ func (e *Ensure) HasState(ctx context.Context, obj client.Object, desiredState m
 	// 2. deserialize the kubeclient into newObj.
 	// 3. Use DeepCopyInto to copy newObj into obj (this ensures that nils from newObj make it onto obj, which
 	//    doesn't happen normally with JSON deserialization).
-	newObj, err := genruntime.NewObjectFromObject(obj, e.kubeClient.Scheme())
+	newObj, err := genruntime.NewObjectFromExemplar(obj, e.kubeClient.Scheme())
 	if err != nil {
 		return false, err
 	}

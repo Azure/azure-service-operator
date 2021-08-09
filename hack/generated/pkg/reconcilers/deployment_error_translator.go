@@ -11,6 +11,10 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 )
 
+// stringOrEmptyString takes the provided input value and transforms it into a string.
+// If the supplied value is nil, an empty string is returned.
+// If the supplied value is not a string, an empty string is returned.
+// If the supplied value is a non-nil string, the value (cast as a string) is returned
 func stringOrEmptyString(value interface{}) string {
 	if value == nil {
 		return ""
