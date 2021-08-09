@@ -277,6 +277,13 @@ tasks:
     cmds:
       - "{{.GENERATOR_ROOT}}bin/{{.GENERATOR_APP}} gen-kustomize {{.CONTROLLER_ROOT}}config/crd"
 
+  controller:bundle-config:
+    desc: Generates the CRD & configuration bundle.
+    deps: [controller:generate-kustomize]
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+    - tar czf bin/azureserviceoperator_{{.VERSION}}.tar.gz --owner=0 --group=0 config
+
   controller:kind-delete:
     desc: Deletes a kind cluster
     cmds:
