@@ -19,9 +19,7 @@ type KubeGlobalContext struct {
 
 	useEnvTest bool
 
-	namespace       string
-	stateAnnotation string
-	errorAnnotation string
+	namespace string
 }
 
 func (ctx KubeGlobalContext) Namespace() string {
@@ -32,15 +30,11 @@ func NewKubeContext(
 	useEnvTest bool,
 	recordReplay bool,
 	namespace string,
-	region string,
-	stateAnnotation string,
-	errorAnnotation string) KubeGlobalContext {
+	region string) KubeGlobalContext {
 	return KubeGlobalContext{
-		TestContext:     NewTestContext(region, recordReplay),
-		useEnvTest:      useEnvTest,
-		namespace:       namespace,
-		stateAnnotation: stateAnnotation,
-		errorAnnotation: errorAnnotation,
+		TestContext: NewTestContext(region, recordReplay),
+		useEnvTest:  useEnvTest,
+		namespace:   namespace,
 	}
 }
 
