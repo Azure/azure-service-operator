@@ -11,6 +11,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
+
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 )
 
 // TODO: These should become Status properties at some point.
@@ -36,6 +38,8 @@ type Reconciler interface { // TODO: Sorta awkward interface name
 // KubernetesResource is an Azure resource. This interface contains the common set of
 // methods that apply to all ASO resources.
 type KubernetesResource interface {
+	conditions.Conditioner
+
 	// Owner returns the ResourceReference of the owner, or nil if there is no owner
 	Owner() *ResourceReference
 

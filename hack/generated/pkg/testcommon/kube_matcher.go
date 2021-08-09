@@ -8,8 +8,10 @@ package testcommon
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/onsi/gomega/types"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 )
 
 // TODO: Would we rather these just be on testcontext? Might read better
@@ -27,26 +29,29 @@ func NewKubeMatcher(ensure *Ensure, ctx context.Context) *KubeMatcher {
 
 func (m *KubeMatcher) BeProvisioned() types.GomegaMatcher {
 	return &DesiredStateMatcher{
-		ensure:    m.ensure,
-		ctx:       m.ctx,
-		goalState: armclient.SucceededProvisioningState,
+		ensure:            m.ensure,
+		ctx:               m.ctx,
+		readyGoalStatus:   metav1.ConditionTrue,
+		readyGoalSeverity: conditions.ConditionSeverityNone,
 	}
 }
 
-func (m *KubeMatcher) BeProvisionedAfter(previousState armclient.ProvisioningState) types.GomegaMatcher {
+func (m *KubeMatcher) BeProvisionedAfter(previousReadyCondition conditions.Condition) types.GomegaMatcher {
 	return &DesiredStateMatcher{
-		ensure:        m.ensure,
-		ctx:           m.ctx,
-		goalState:     armclient.SucceededProvisioningState,
-		previousState: &previousState,
+		ensure:              m.ensure,
+		ctx:                 m.ctx,
+		readyGoalStatus:     metav1.ConditionTrue,
+		readyGoalSeverity:   conditions.ConditionSeverityNone,
+		readyPreviousStatus: &previousReadyCondition.Status,
 	}
 }
 
 func (m *KubeMatcher) BeFailed() types.GomegaMatcher {
 	return &DesiredStateMatcher{
-		ensure:    m.ensure,
-		ctx:       m.ctx,
-		goalState: armclient.FailedProvisioningState,
+		ensure:            m.ensure,
+		ctx:               m.ctx,
+		readyGoalStatus:   metav1.ConditionFalse,
+		readyGoalSeverity: conditions.ConditionSeverityError,
 	}
 }
 

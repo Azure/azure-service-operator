@@ -41,6 +41,11 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task controller:run-kustomize
 
+      - name: Run Kustomize 
+        run: |
+          container_id=${{steps.devcontainer.outputs.id}}
+          docker exec "$container_id" task controller:run-kustomize
+
       - name: Build & push docker image
         run: |
           container_id=${{steps.devcontainer.outputs.id}}

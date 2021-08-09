@@ -13,49 +13,67 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 )
 
 type Ensure struct {
-	kubeClient      client.Client
-	stateAnnotation string
-	errorAnnotation string
+	kubeClient client.Client
 }
 
-func NewEnsure(c client.Client, stateAnnotation string, errorAnnotation string) *Ensure {
+func NewEnsure(c client.Client) *Ensure {
 	return &Ensure{
-		kubeClient:      c,
-		stateAnnotation: stateAnnotation,
-		errorAnnotation: errorAnnotation,
+		kubeClient: c,
 	}
 }
 
 // HasState checks to ensure the provisioning state of the resource the target state.
-func (e *Ensure) HasState(ctx context.Context, obj client.Object, desiredState armclient.ProvisioningState) (bool, error) {
+func (e *Ensure) HasState(ctx context.Context, obj client.Object, desiredState metav1.ConditionStatus, desiredSeverity conditions.ConditionSeverity) (bool, error) {
 	key := client.ObjectKeyFromObject(obj)
-	err := e.kubeClient.Get(ctx, key, obj)
+
+	// In order to ensure that "old state" is cleared out from obj, we need to:
+	// 1. construct a newObj of the same type.
+	// 2. deserialize the kubeclient into newObj.
+	// 3. Use DeepCopyInto to copy newObj into obj (this ensures that nils from newObj make it onto obj, which
+	//    doesn't happen normally with JSON deserialization).
+	newObj, err := genruntime.NewObjectFromExemplar(obj, e.kubeClient.Scheme())
 	if err != nil {
 		return false, err
 	}
 
-	// Have to cast because return of kubeClient.Get is not a metav1.Object unfortunately.
-	metaObj, ok := obj.(metav1.Object)
-	if !ok {
-		return false, errors.Errorf("result of get was not metav1.Object, was: %T", obj)
+	err = e.kubeClient.Get(ctx, key, newObj)
+	if err != nil {
+		return false, err
 	}
 
-	state := metaObj.GetAnnotations()[e.stateAnnotation]
-	return state == string(desiredState), nil
+	// Assign the new stuff to obj by calling DeepCopyInto.
+	// This is relatively "safe" because DeepCopyObject() is a method required
+	// to reconcile a resource at all, and it internally uses DeepCopyInto. Places where
+	// this could fail are on types that don't use deepcopy-gen
+	reflecthelpers.DeepCopyInto(newObj, obj)
+
+	conditioner, ok := obj.(conditions.Conditioner)
+	if !ok {
+		return false, errors.Errorf("result of get was not conditions.Conditioner, was: %T", obj)
+	}
+
+	ready, ok := conditions.GetCondition(conditioner, conditions.ConditionTypeReady)
+	if !ok {
+		return false, nil
+	}
+
+	return ready.Status == desiredState && ready.Severity == desiredSeverity, nil
 }
 
 // Provisioned checks to ensure the provisioning state of the resource is successful.
 func (e *Ensure) Provisioned(ctx context.Context, obj client.Object) (bool, error) {
-	return e.HasState(ctx, obj, armclient.SucceededProvisioningState)
+	return e.HasState(ctx, obj, metav1.ConditionTrue, conditions.ConditionSeverityNone)
 }
 
 // Failed checks to ensure the provisioning state of the resource is failed.
 func (e *Ensure) Failed(ctx context.Context, obj client.Object) (bool, error) {
-	return e.HasState(ctx, obj, armclient.FailedProvisioningState)
+	return e.HasState(ctx, obj, metav1.ConditionFalse, conditions.ConditionSeverityError)
 }
 
 // Deleted ensures that the object specified has been deleted

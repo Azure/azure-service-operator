@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -25,6 +26,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reconcilers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
 )
@@ -40,6 +42,7 @@ type GenericReconciler struct {
 	GVK                  schema.GroupVersionKind
 	Controller           controller.Controller
 	RequeueDelayOverride time.Duration
+	PositiveConditions   *conditions.PositiveConditionBuilder
 	CreateDeploymentName func(obj metav1.Object) (string, error)
 }
 
@@ -131,6 +134,7 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 		Recorder:             mgr.GetEventRecorderFor(controllerName),
 		GVK:                  gvk,
 		RequeueDelayOverride: options.RequeueDelay,
+		PositiveConditions:   conditions.NewPositiveConditionBuilder(clock.New()),
 		CreateDeploymentName: options.CreateDeploymentName,
 	}
 
@@ -188,7 +192,10 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	// (actually a reference or shallow copy) of an object, you'll mess up other controllers (not just your own).
 	obj = obj.DeepCopyObject().(client.Object)
 
-	gr.Log.V(0).Info("Reconcile invoked", "kind", fmt.Sprintf("%T", obj))
+	gr.Log.V(0).Info(
+		"Reconcile invoked",
+		"kind", fmt.Sprintf("%T", obj),
+		"resourceVersion", obj.GetResourceVersion())
 
 	// The Go type for the Kubernetes object must understand how to
 	// convert itself to/from the corresponding Azure types.
@@ -205,6 +212,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		gr.Recorder,
 		gr.KubeClient,
 		gr.ResourceResolver,
+		gr.PositiveConditions,
 		// TODO: CreateDeploymentName probably shouldn't be on GenericReconciler
 		// TODO: (since it's supposed to be generic and there's no guarantee that for an arbitrary resource we even create a deployment)
 		gr.CreateDeploymentName)

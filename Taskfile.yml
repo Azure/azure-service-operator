@@ -19,6 +19,7 @@ vars:
     sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
 
   CONTROLLER_DOCKER_IMAGE: azureserviceoperator:{{.VERSION}}
+  PUBLIC_REGISTRY: mcr.microsoft.com/k8s/
   LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE: localhost:5000/azureserviceoperator:latest
 
   CROSSPLANE_APP: crossplane-gen
@@ -282,7 +283,7 @@ tasks:
     deps: [controller:generate-kustomize]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-    - kustomize build config/default | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
+    - kustomize build config/default | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
 
   controller:kind-delete:
     desc: Deletes a kind cluster
