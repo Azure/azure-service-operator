@@ -24,6 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
+	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
@@ -58,6 +59,14 @@ func setup() error {
 	if err != nil {
 		return err
 	}
+
+	if len(envy.Get("TEST_EMIT_ASO_LOGS", "")) > 0 {
+		ctrl.SetLogger(zap.New(func(o *zap.Options) {
+			o.Development = true
+		}))
+	}
+
+	log.Println("test config:", config.ConfigString())
 
 	resourceGroupName := GenerateTestResourceNameWithRandom(TestResourceGroupPrefix, 6)
 	resourceGroupLocation := config.DefaultLocation()
