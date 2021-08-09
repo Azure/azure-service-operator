@@ -188,7 +188,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:docker-build]
     cmds:
-    - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/{{.CONTROLLER_DOCKER_IMAGE}}.tar
+    - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/$(echo '{{.CONTROLLER_DOCKER_IMAGE}}' | sed -e 's/:/_/g').tar
 
   controller:docker-push-remote:
     desc: Pushes the {{.CONTROLLER_APP}} Docker image to the remote repository specified by the DOCKER_PUSH_TARGET variable.
