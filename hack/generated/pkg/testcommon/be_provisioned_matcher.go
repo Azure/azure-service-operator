@@ -11,16 +11,28 @@ import (
 
 	gomegaformat "github.com/onsi/gomega/format"
 	"github.com/onsi/gomega/types"
+	"github.com/pkg/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 )
+
+func actualAsConditioner(actual interface{}) (conditions.Conditioner, error) {
+	c, ok := actual.(conditions.Conditioner)
+	if !ok {
+		return nil, errors.Errorf("expected conditions.Conditioner, was: %T", actual)
+	}
+
+	return c, nil
+}
 
 type DesiredStateMatcher struct {
 	ensure *Ensure
 	ctx    context.Context
 
-	goalState     armclient.ProvisioningState
-	previousState *armclient.ProvisioningState
+	readyGoalStatus     metav1.ConditionStatus
+	readyGoalSeverity   conditions.ConditionSeverity
+	readyPreviousStatus *metav1.ConditionStatus
 }
 
 var _ types.GomegaMatcher = &DesiredStateMatcher{}
@@ -36,11 +48,11 @@ func (m *DesiredStateMatcher) Match(actual interface{}) (bool, error) {
 		return false, err
 	}
 
-	return m.ensure.HasState(m.ctx, obj, m.goalState)
+	return m.ensure.HasState(m.ctx, obj, m.readyGoalStatus, m.readyGoalSeverity)
 }
 
 func (m *DesiredStateMatcher) FailureMessage(actual interface{}) string {
-	obj, err := actualAsObj(actual)
+	conditioner, err := actualAsConditioner(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
 		// if Match returned an error. If we make it here somehow that contract
@@ -48,16 +60,21 @@ func (m *DesiredStateMatcher) FailureMessage(actual interface{}) string {
 		panic(err)
 	}
 
-	state := obj.GetAnnotations()[m.ensure.stateAnnotation]
-	errorString := obj.GetAnnotations()[m.ensure.errorAnnotation]
+	ready, ok := conditions.GetCondition(conditioner, conditions.ConditionTypeReady)
+
+	if !ok {
+		return gomegaformat.Message(
+			ready,
+			fmt.Sprintf("%q condition to exist", conditions.ConditionTypeReady))
+	}
 
 	return gomegaformat.Message(
-		state,
-		fmt.Sprintf("state to be %s. Error is: %s", string(m.goalState), errorString))
+		ready,
+		fmt.Sprintf("status to be %q, severity to be %q.", string(m.readyGoalStatus), string(m.readyGoalSeverity)))
 }
 
 func (m *DesiredStateMatcher) NegatedFailureMessage(actual interface{}) string {
-	obj, err := actualAsObj(actual)
+	conditioner, err := actualAsConditioner(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
 		// if Match returned an error. If we make it here somehow that contract
@@ -65,9 +82,17 @@ func (m *DesiredStateMatcher) NegatedFailureMessage(actual interface{}) string {
 		panic(err)
 	}
 
-	state := obj.GetAnnotations()[m.ensure.stateAnnotation]
+	ready, ok := conditions.GetCondition(conditioner, conditions.ConditionTypeReady)
 
-	return gomegaformat.Message(state, fmt.Sprintf("state not to be %s", string(m.goalState)))
+	if !ok {
+		return gomegaformat.Message(
+			ready,
+			fmt.Sprintf("%q condition to exist", conditions.ConditionTypeReady))
+	}
+
+	return gomegaformat.Message(
+		ready,
+		fmt.Sprintf("status not to be %q, severity not to be %q.", string(m.readyGoalStatus), string(m.readyGoalSeverity)))
 }
 
 // MatchMayChangeInTheFuture implements OracleMatcher which of course isn't exported so we can't type-assert we implement it
@@ -76,12 +101,17 @@ func (m *DesiredStateMatcher) MatchMayChangeInTheFuture(actual interface{}) bool
 		return false
 	}
 
-	obj, err := actualAsObj(actual)
+	conditioner, err := actualAsConditioner(actual)
 	if err != nil {
 		panic(err)
 	}
-	state := obj.GetAnnotations()[m.ensure.stateAnnotation]
-	provisioningState := armclient.ProvisioningState(state)
 
-	return !armclient.IsTerminalProvisioningState(provisioningState) || m.previousState != nil && *m.previousState == provisioningState
+	ready, ok := conditions.GetCondition(conditioner, conditions.ConditionTypeReady)
+	if !ok {
+		// If the condition doesn't exist yet then future change is possible
+		return true
+	}
+	isTerminalState := ready.Status == metav1.ConditionTrue || ready.Severity == conditions.ConditionSeverityError
+	isChangingFromOldState := m.readyPreviousStatus != nil && *m.readyPreviousStatus == ready.Status
+	return !isTerminalState || isChangingFromOldState
 }

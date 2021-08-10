@@ -1,11 +1,11 @@
 name: Create new release
 
 on:
-  # run when a release is published
-  # triggers for both prerelease and release
-  release:
-    types:
-    - published
+  # run when a release is published,
+  # which creates a new tag
+  push:
+    tags:
+    - v2*
 
 jobs:
   build-and-push:
@@ -24,14 +24,22 @@ jobs:
         id: devcontainer
         run: |
           docker build --tag devcontainer:latest .devcontainer
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
+          mkdir -p $HOME/.docker # in case it doesn’t exist
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.docker:/home/vscode/.docker devcontainer:latest)
           docker start "$container_id"
           echo "::set-output name=id::$container_id"
         
       - name: Login to registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.REGISTRY_LOGIN }}
+          username: ${{ secrets.AZURE_CLIENT_ID }}
+          password: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+      - name: Run Kustomize 
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" docker login -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} ${{ secrets.REGISTRY_LOGIN }}
+          docker exec "$container_id" task controller:run-kustomize
 
       - name: Build & push docker image
         run: |
@@ -39,3 +47,11 @@ jobs:
           docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-remote
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PRERELEASE }}
+
+      - name: Upload release assets
+        uses: svenstaro/upload-release-action@2f88c7710e85b1f8b5f6c3a2fcadaa7f865af713 # this is v2, but pinned
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          file: $GITHUB_WORKSPACE/hack/controller/bin/azureserviceoperator_*.yaml
+          file_glob: true

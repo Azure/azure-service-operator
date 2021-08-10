@@ -13,7 +13,6 @@ import (
 
 	"github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reconcilers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
@@ -35,9 +34,7 @@ func setup(options Options) {
 		options.useEnvTest,
 		options.recordReplay,
 		TestNamespace,
-		testcommon.DefaultTestRegion,
-		reconcilers.ResourceStateAnnotation,
-		reconcilers.ResourceErrorAnnotation)
+		testcommon.DefaultTestRegion)
 
 	log.Print("Done with test setup")
 }

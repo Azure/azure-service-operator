@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"strings"
 
-	multierror "github.com/hashicorp/go-multierror"
+	"github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -31,43 +31,8 @@ const DriverName = "mysql"
 // assume will exist).
 const SystemDatabase = "mysql"
 
-func GetMySQLAADResourceID() string {
-	// TODO: Switch this to use config.Environment().ResourceIdentifiers.OSSRDBMS
-	// TODO: when that change is in azure-go-sdk
-	// TODO: See: https://github.com/Azure/go-autorest/pull/635
-	envName := config.Environment().Name
-
-	if envName == "AzureUSGovernmentCloud" {
-		return "https://ossrdbms-aad.database.usgovcloudapi.net"
-	} else if envName == "AzureChinaCloud" {
-		return "https://ossrdbms-aad.database.chinacloudapi.cn"
-	} else if envName == "AzureGermanCloud" {
-		return "https://ossrdbms-aad.database.cloudapi.de"
-	}
-
-	return "https://ossrdbms-aad.database.windows.net"
-}
-
-func GetMySQLDatabaseDNSSuffix() string {
-	// TODO: We need an environment specific way of getting the DNS suffix
-	// TODO: which the Go SDK doesn't seem to have.
-	// TODO: see: https://github.com/Azure/azure-sdk-for-go/issues/13749
-	// TODO: In the meantime we'll fabricate our own
-	envName := config.Environment().Name
-
-	if envName == "AzureUSGovernmentCloud" {
-		return "mysql.database.usgovcloudapi.net"
-	} else if envName == "AzureChinaCloud" {
-		return "mysql.database.chinacloudapi.cn"
-	} else if envName == "AzureGermanCloud" {
-		return "mysql.database.cloudapi.de"
-	}
-
-	return "mysql.database.azure.com"
-}
-
 func GetFullSQLServerName(serverName string) string {
-	return serverName + "." + GetMySQLDatabaseDNSSuffix()
+	return serverName + "." + config.Environment().MySQLDatabaseDNSSuffix
 }
 
 func GetFullyQualifiedUserName(userName string, serverName string) string {
@@ -101,7 +66,9 @@ func ConnectToSQLDBAsCurrentUser(
 	user string,
 	clientID string) (*sql.DB, error) {
 
-	tokenProvider, err := iam.GetMSITokenProviderForResourceByClientID(GetMySQLAADResourceID(), clientID)
+	tokenProvider, err := iam.GetMSITokenProviderForResourceByClientID(
+		config.Environment().ResourceIdentifiers.OSSRDBMS,
+		clientID)
 	if err != nil {
 		return nil, err
 	}

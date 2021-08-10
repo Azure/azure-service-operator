@@ -198,10 +198,10 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 
 func (m *MySQLServerClient) calculateHash(spec azurev1alpha2.MySQLServerSpec, secret map[string][]byte) string {
 	return helpers.Hash256(struct {
-		Spec azurev1alpha2.MySQLServerSpec
+		Spec   azurev1alpha2.MySQLServerSpec
 		Secret map[string][]byte
 	}{
-		Spec: spec,
+		Spec:   spec,
 		Secret: secret,
 	})
 }
