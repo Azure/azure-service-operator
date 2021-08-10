@@ -191,14 +191,13 @@ tasks:
     cmds:
     - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/$(echo '{{.CONTROLLER_DOCKER_IMAGE}}' | sed -e 's/:/_/g').tar
 
-  controller:docker-push-remote:
-    desc: Pushes the {{.CONTROLLER_APP}} Docker image to the remote repository specified by the DOCKER_PUSH_TARGET variable.
+  controller:docker-tag-version:
+    desc: Tags the {{.CONTROLLER_APP}} Docker image with the appropriate version.
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:docker-build]
     cmds:
     - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
     - docker tag {{.CONTROLLER_DOCKER_IMAGE}} "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}"
-    - docker push "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}"
 
   controller:docker-push-local:
     desc: Pushes the controller container image to a local registry

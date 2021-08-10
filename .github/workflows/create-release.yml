@@ -25,7 +25,7 @@ jobs:
         run: |
           docker build --tag devcontainer:latest .devcontainer
           mkdir -p $HOME/.docker # in case it doesn’t exist
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.docker:/home/vscode/.docker devcontainer:latest)
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
           docker start "$container_id"
           echo "::set-output name=id::$container_id"
         
@@ -34,24 +34,10 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task controller:run-kustomize
 
-      - name: Build Docker image
+      - name: Build & tag Docker image
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:docker-build
-
-      # Do this after all user-defined code has been run so that
-      # creds cannot be stolen by Evil Dependencies™?
-      - name: Login to registry
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ secrets.REGISTRY_LOGIN }}
-          username: ${{ secrets.AZURE_CLIENT_ID }}
-          password: ${{ secrets.AZURE_CLIENT_SECRET }}
-
-      - name: Push Docker image
-        run: |
-          container_id=${{steps.devcontainer.outputs.id}}
-          docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-remote
+          docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-tag-version
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PRERELEASE }}
 
@@ -62,3 +48,14 @@ jobs:
           tag: ${{ github.ref }}
           file: $GITHUB_WORKSPACE/hack/controller/bin/azureserviceoperator_*.yaml
           file_glob: true
+
+      - name: Login to registry
+        # note that all creds are on host and never passed into devcontainer
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.REGISTRY_LOGIN }}
+          username: ${{ secrets.AZURE_CLIENT_ID }}
+          password: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+      - name: Push docker image
+        run: docker push --all-tags ${{ secrets.REGISTRY_PRERELEASE }}/azureserviceoperator
