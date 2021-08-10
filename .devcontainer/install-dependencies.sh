@@ -55,7 +55,7 @@ echo "Installing Go tools…"
 go get \
     k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
     sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.1 \
-    sigs.k8s.io/kind@v0.9.0 \
+    sigs.k8s.io/kind@v0.11.1 \
     sigs.k8s.io/kustomize/kustomize/v3@v3.8.6
 
 if [ "$1" != "devcontainer" ]; then 
