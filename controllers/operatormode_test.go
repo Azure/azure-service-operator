@@ -28,7 +28,8 @@ func TestOperatorModeWebhooks(t *testing.T) {
 	ctx := context.Background()
 	require := require.New(t)
 
-	operatorMode, err := config.ParseOperatorMode(envy.Get("AZURE_OPERATOR_MODE", "both"))
+	operatorMode, err := config.ParseOperatorMode(
+		envy.Get("AZURE_OPERATOR_MODE", config.OperatorModeBoth.String()))
 	require.Equal(nil, err)
 
 	rgName := tc.resourceGroupName
@@ -93,7 +94,8 @@ func TestOperatorModeWatchers(t *testing.T) {
 	require.Equal(nil, err)
 	defer EnsureDelete(ctx, t, tc, &instance)
 
-	operatorMode, err := config.ParseOperatorMode(envy.Get("AZURE_OPERATOR_MODE", "both"))
+	operatorMode, err := config.ParseOperatorMode(
+		envy.Get("AZURE_OPERATOR_MODE", config.OperatorModeBoth.String()))
 	require.Equal(nil, err)
 
 	names := types.NamespacedName{

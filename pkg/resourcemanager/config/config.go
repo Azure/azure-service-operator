@@ -9,6 +9,7 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/marstr/randname"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
@@ -39,20 +40,47 @@ var (
 )
 
 // OperatorMode determines whether we'll run watchers and/or webhooks.
-type OperatorMode string
+type OperatorMode int
 
 const (
-	OperatorModeBoth     = OperatorMode("both")
-	OperatorModeWebhooks = OperatorMode("webhooks")
-	OperatorModeWatchers = OperatorMode("watchers")
+	OperatorModeWatchers = OperatorMode(1 << iota)
+	OperatorModeWebhooks
+
+	OperatorModeBoth = OperatorModeWatchers | OperatorModeWebhooks
 )
 
 func (m OperatorMode) IncludesWebhooks() bool {
-	return m == OperatorModeWebhooks || m == OperatorModeBoth
+	return m&OperatorModeWebhooks > 0
 }
 
 func (m OperatorMode) IncludesWatchers() bool {
-	return m == OperatorModeWatchers || m == OperatorModeBoth
+	return m&OperatorModeWatchers > 0
+}
+
+func (m OperatorMode) String() string {
+	switch m {
+	case OperatorModeWatchers:
+		return "watchers"
+	case OperatorModeWebhooks:
+		return "webhooks"
+	case OperatorModeBoth:
+		return "both"
+	default:
+		panic(fmt.Sprintf("invalid operator mode value %d", m))
+	}
+}
+
+func ParseOperatorMode(value string) (OperatorMode, error) {
+	switch value {
+	case "watchers":
+		return OperatorModeWatchers, nil
+	case "webhooks":
+		return OperatorModeWebhooks, nil
+	case "both":
+		return OperatorModeBoth, nil
+	default:
+		return OperatorMode(0), errors.Errorf(`operator mode value must be one of "both", "webhooks" or "watchers" but was %q`, value)
+	}
 }
 
 // GlobalCredentials returns the configured credentials.
