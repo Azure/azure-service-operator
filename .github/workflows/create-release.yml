@@ -58,4 +58,4 @@ jobs:
           password: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       - name: Push docker image
-        run: docker push --all-tags ${{ secrets.REGISTRY_PRERELEASE }}/azureserviceoperator
+        run: docker push --all-tags ${{ secrets.REGISTRY_PUBLIC }}/azureserviceoperator
