@@ -175,6 +175,7 @@ func (_ *TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDef
 func (t *TypeConverter) selectPropertyBagName(object *astmodel.ObjectType) (astmodel.PropertyName, error) {
 	candidateNames := []astmodel.PropertyName{
 		"PropertyBag",
+		"PropertyStash",
 		"ASOPropertyBag",
 		"ASOPropertyStash",
 	}
@@ -187,5 +188,5 @@ func (t *TypeConverter) selectPropertyBagName(object *astmodel.ObjectType) (astm
 		return name, nil
 	}
 
-	return "", errors.New("failed to find non-clashing name for PropertyBag")
+	return "", errors.Errorf("failed to find non-clashing name for PropertyBag (tried %q)", candidateNames)
 }
