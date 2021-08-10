@@ -29,6 +29,18 @@ jobs:
           docker start "$container_id"
           echo "::set-output name=id::$container_id"
         
+      - name: Run Kustomize 
+        run: |
+          container_id=${{steps.devcontainer.outputs.id}}
+          docker exec "$container_id" task controller:run-kustomize
+
+      - name: Build Docker image
+        run: |
+          container_id=${{steps.devcontainer.outputs.id}}
+          docker exec "$container_id" task controller:docker-build
+
+      # Do this after all user-defined code has been run so that
+      # creds cannot be stolen by Evil Dependencies™?
       - name: Login to registry
         uses: docker/login-action@v1
         with:
@@ -36,12 +48,7 @@ jobs:
           username: ${{ secrets.AZURE_CLIENT_ID }}
           password: ${{ secrets.AZURE_CLIENT_SECRET }}
 
-      - name: Run Kustomize 
-        run: |
-          container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:run-kustomize
-
-      - name: Build & push docker image
+      - name: Push Docker image
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-remote
