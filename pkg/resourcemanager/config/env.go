@@ -74,7 +74,7 @@ func ParseEnvironment() error {
 	}
 
 	if !operatorMode.IncludesWatchers() && len(targetNamespaces) > 0 {
-		return errors.Errorf("setting target namespaces doesn't make sense when in webhooks-only mode")
+		return errors.Errorf("mode must include watchers to specify target namespaces")
 	}
 
 	secretNamingVersionInt, err := ParseIntFromEnvironment("AZURE_SECRET_NAMING_VERSION")
