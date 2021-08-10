@@ -20,6 +20,10 @@ def to_semver(git_version: str):
     Prerelease versions:
     >>> to_semver("v2.0.0-alpha.0") # exact tag match with prerelease
     'v2.0.0-alpha.0'
+    >>> to_semver("v2.0.0-alpha.0-pre.0") # exact tag match with multiple prerelease bits
+    'v2.0.0-alpha.0-pre.0'
+    >>> to_semver("v2.0.0-alpha.0-pre.0-1-g63121f04") # with multiple prerelease bits and commit
+    'v2.0.0-alpha.0-pre.0-rev.1'
     >>> to_semver("v2.0.0-alpha.1-dirty") # exact tag match, uncommitted changes
     'v2.0.0-alpha.1-dirty'
     >>> to_semver("v2.0.0-beta-1-g63121f04") # 1 commit since tag match
@@ -28,7 +32,7 @@ def to_semver(git_version: str):
     'v2.0.0-rc.0-rev.1-dirty'
     """
 
-    match = re.match(r"^(?P<version>[^-]+)(?P<prerelease>-[^-]+)?(-(?P<rev>\d+)-(?P<tag>[^-]+))?(?P<dirty>-dirty)?$", git_version)
+    match = re.match(r"^(?P<version>[^-]+)(?P<prerelease>-(?!\d).+?)?(-(?P<rev>\d+)-(?P<tag>[^-]+))?(?P<dirty>-dirty)?$", git_version)
     gs = match.groupdict()
     version = gs['version']
 
