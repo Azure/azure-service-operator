@@ -80,7 +80,7 @@ type Person_Spec struct {
 	FamilyName  *string                `json:"familyName,omitempty"`
 	FullName    *string                `json:"fullName,omitempty"`
 	KnownAs     *string                `json:"knownAs,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
@@ -193,7 +193,7 @@ func (personSpec *v20200101storage.Person_Spec) AssignPropertiesToPersonSpec(des
 
 //Storage version of v20200101.Person_Status
 type Person_Status struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 

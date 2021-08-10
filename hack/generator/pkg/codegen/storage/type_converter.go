@@ -98,7 +98,8 @@ func (t *TypeConverter) convertObjectType(
 		errs = append(errs, err)
 	}
 
-	bagProperty := astmodel.NewPropertyDefinition(bagName, "$propertyBag", astmodel.PropertyBagType)
+	bagProperty := astmodel.NewPropertyDefinition(bagName, "$propertyBag", astmodel.PropertyBagType).
+		WithTag("json", "omitempty")
 	properties.Add(bagProperty)
 
 	if len(errs) > 0 {

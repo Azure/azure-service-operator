@@ -33,13 +33,13 @@ type Person_Spec struct {
 	FullName           *string                   `json:"fullName,omitempty"`
 	KnownAs            *string                   `json:"knownAs,omitempty"`
 	PostalAddress      *v20211231storage.Address `json:"postalAddress,omitempty"`
-	PropertyBag        genruntime.PropertyBag    `json:"$propertyBag"`
+	PropertyBag        genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	ResidentialAddress *v20211231storage.Address `json:"residentialAddress,omitempty"`
 }
 
 //Storage version of v20211231.Person_Status
 type Person_Status struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
@@ -47,7 +47,7 @@ type Person_Status struct {
 type Address struct {
 	City        *string                `json:"city,omitempty"`
 	FullAddress *string                `json:"fullAddress,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

@@ -78,7 +78,7 @@ type PersonList struct {
 //Storage version of v20200101.Person_Spec
 type Person_Spec struct {
 	FullName    *string                `json:"fullName,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Person_Spec{}
@@ -173,7 +173,7 @@ func (personSpec *v20200101storage.Person_Spec) AssignPropertiesToPersonSpec(des
 
 //Storage version of v20200101.Person_Status
 type Person_Status struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 

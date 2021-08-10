@@ -31,12 +31,12 @@ type PersonList struct {
 //Storage version of v20211231.Person_Spec
 type Person_Spec struct {
 	FullName    *string                `json:"fullName,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v20211231.Person_Status
 type Person_Status struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
