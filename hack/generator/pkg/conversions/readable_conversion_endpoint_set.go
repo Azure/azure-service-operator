@@ -10,7 +10,7 @@ import (
 )
 
 // ReadableConversionEndpointSet is a set of uniquely named readable conversion endpoints
-type ReadableConversionEndpointSet map[string]ReadableConversionEndpoint
+type ReadableConversionEndpointSet map[string]*ReadableConversionEndpoint
 
 // NewReadableConversionEndpointSet returns a new set of readable conversion endpoints
 func NewReadableConversionEndpointSet() ReadableConversionEndpointSet {
@@ -23,8 +23,8 @@ func (set ReadableConversionEndpointSet) CreatePropertyEndpoints(
 	instance astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) int {
 	// Add an endpoint for each property we can read
-	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) ReadableConversionEndpoint {
-		return MakeReadableConversionEndpointReadingProperty(prop.PropertyName(), prop.PropertyType(), knownLocals)
+	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) *ReadableConversionEndpoint {
+		return NewReadableConversionEndpointReadingProperty(prop.PropertyName(), prop.PropertyType(), knownLocals)
 	})
 }
 
@@ -35,8 +35,8 @@ func (set ReadableConversionEndpointSet) CreateValueFunctionEndpoints(
 	instance astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) int {
 	// Add more endpoints for any value functions we can read
-	return set.addForEachValueFunction(instance, func(fn astmodel.ValueFunction) ReadableConversionEndpoint {
-		return MakeReadableConversionEndpointReadingValueFunction(fn.Name(), fn.ReturnType(), knownLocals)
+	return set.addForEachValueFunction(instance, func(fn astmodel.ValueFunction) *ReadableConversionEndpoint {
+		return NewReadableConversionEndpointReadingValueFunction(fn.Name(), fn.ReturnType(), knownLocals)
 	})
 }
 
@@ -46,9 +46,9 @@ func (set ReadableConversionEndpointSet) CreateBagItemEndpoints(
 	instance astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) int {
 	// Add a property bag item endpoint for each property we don't already support
-	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) ReadableConversionEndpoint {
+	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) *ReadableConversionEndpoint {
 		name := string(prop.PropertyName())
-		return MakeReadableConversionEndpointReadingBagItem(name, prop.PropertyType(), knownLocals)
+		return NewReadableConversionEndpointReadingPropertyBagMember(name, prop.PropertyType(), knownLocals)
 	})
 }
 
@@ -58,7 +58,7 @@ func (set ReadableConversionEndpointSet) CreateBagItemEndpoints(
 // Returns the count of new endpoints created.
 func (set ReadableConversionEndpointSet) addForEachProperty(
 	instance astmodel.Type,
-	factory func(definition *astmodel.PropertyDefinition) ReadableConversionEndpoint) int {
+	factory func(definition *astmodel.PropertyDefinition) *ReadableConversionEndpoint) int {
 	count := 0
 	if container, ok := astmodel.AsPropertyContainer(instance); ok {
 		for _, prop := range container.Properties() {
@@ -87,7 +87,7 @@ func (set ReadableConversionEndpointSet) addForEachProperty(
 // Returns the count of new endpoints created.
 func (set ReadableConversionEndpointSet) addForEachValueFunction(
 	instance astmodel.Type,
-	factory func(definition astmodel.ValueFunction) ReadableConversionEndpoint) int {
+	factory func(definition astmodel.ValueFunction) *ReadableConversionEndpoint) int {
 	count := 0
 	if container, ok := astmodel.AsFunctionContainer(instance); ok {
 		for _, fn := range container.Functions() {
