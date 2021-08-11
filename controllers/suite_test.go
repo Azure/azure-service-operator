@@ -201,13 +201,22 @@ func setup() error {
 	}
 
 	log.Println("Creating KV:", keyvaultName)
+	objID, err := resourcemanagerkeyvaults.GetObjectID(
+		context.Background(),
+		config.GlobalCredentials(),
+		config.GlobalCredentials().TenantID(),
+		config.GlobalCredentials().ClientID())
+	if err != nil {
+		return err
+	}
+
 	err = CreateVaultWithAccessPolicies(
 		context.Background(),
 		config.GlobalCredentials(),
 		resourceGroupName,
 		keyvaultName,
 		resourceGroupLocation,
-		config.GlobalCredentials().ClientID(),
+		objID,
 	)
 	if err != nil {
 		return err

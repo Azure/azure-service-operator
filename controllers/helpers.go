@@ -443,8 +443,37 @@ func GenerateRandomSshPublicKeyString() string {
 	return sshPublicKeyData
 }
 
+// TODO: This is only used for test
+func CreateKeyVaultTestAccessPolicies(creds config.Credentials, objectID *string) ([]keyvault.AccessPolicyEntry, error) {
+	id, err := uuid.FromString(creds.TenantID())
+	if err != nil {
+		return nil, errors.Wrapf(err, "couldn't convert tenantID to UUID")
+	}
+
+	apList := []keyvault.AccessPolicyEntry{
+		{
+			TenantID: &id,
+			ObjectID: objectID,
+			Permissions: &keyvault.Permissions{
+				Keys: &[]keyvault.KeyPermissions{
+					keyvault.KeyPermissionsCreate,
+				},
+				Secrets: &[]keyvault.SecretPermissions{
+					keyvault.SecretPermissionsSet,
+					keyvault.SecretPermissionsGet,
+					keyvault.SecretPermissionsDelete,
+					keyvault.SecretPermissionsList,
+					keyvault.SecretPermissionsRecover,
+				},
+			},
+		},
+	}
+
+	return apList, nil
+}
+
 //CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user - used in test
-func CreateVaultWithAccessPolicies(ctx context.Context, creds config.Credentials, groupName string, vaultName string, location string, clientID string) error {
+func CreateVaultWithAccessPolicies(ctx context.Context, creds config.Credentials, groupName string, vaultName string, location string, objectID *string) error {
 	vaultsClient, err := resourcemanagerkeyvaults.GetKeyVaultClient(creds)
 	if err != nil {
 		return errors.Wrapf(err, "couldn't get vaults client")
@@ -454,31 +483,9 @@ func CreateVaultWithAccessPolicies(ctx context.Context, creds config.Credentials
 		return errors.Wrapf(err, "couldn't convert tenantID to UUID")
 	}
 
-	apList := []keyvault.AccessPolicyEntry{}
-	ap := keyvault.AccessPolicyEntry{
-		TenantID: &id,
-		Permissions: &keyvault.Permissions{
-			Keys: &[]keyvault.KeyPermissions{
-				keyvault.KeyPermissionsCreate,
-			},
-			Secrets: &[]keyvault.SecretPermissions{
-				keyvault.SecretPermissionsSet,
-				keyvault.SecretPermissionsGet,
-				keyvault.SecretPermissionsDelete,
-				keyvault.SecretPermissionsList,
-			},
-		},
-	}
-	if clientID != "" {
-		objID, err := resourcemanagerkeyvaults.GetObjectID(ctx, creds, creds.TenantID(), clientID)
-		if err != nil {
-			return err
-		}
-		if objID != nil {
-			ap.ObjectID = objID
-			apList = append(apList, ap)
-		}
-
+	apList, err := CreateKeyVaultTestAccessPolicies(creds, objectID)
+	if err != nil {
+		return nil
 	}
 
 	params := keyvault.VaultCreateOrUpdateParameters{
