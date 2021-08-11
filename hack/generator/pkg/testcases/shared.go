@@ -18,3 +18,4 @@ func idOfGeneratorMethod(typeName astmodel.TypeName, idFactory astmodel.Identifi
 		astmodel.Exported)
 	return name
 }
+
