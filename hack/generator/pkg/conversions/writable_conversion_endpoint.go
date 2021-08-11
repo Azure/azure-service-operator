@@ -47,7 +47,7 @@ func MakeWritableConversionEndpointWritingProperty(
 }
 
 // MakeWritableConversionEndpointWritingBagItem creates a WritableConversionEndpoint that writes an item into a
-// property  bag
+// property bag
 func MakeWritableConversionEndpointWritingBagItem(
 	itemName string,
 	itemType astmodel.Type,
