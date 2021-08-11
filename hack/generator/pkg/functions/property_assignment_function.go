@@ -166,7 +166,7 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 		fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.otherDefinition.Name().Name()),
 		fmt.Sprintf("populates the provided destination %s from our %s", fn.otherDefinition.Name().Name(), receiver.Name()))
 
-	// We always use a pointer receiver so we can modify it
+	// We always use a pointer receiver, so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
 
 	funcDetails := &astbuilder.FuncDetails{
@@ -190,7 +190,7 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 	return funcDetails.DefineFunc()
 }
 
-// generateBody returns all of the statements required for the conversion function
+// generateBody returns the statements required for the conversion function
 // receiver is an expression for access our receiver type, used to qualify field access
 // parameter is an expression for access to our parameter passed to the function, also used for field access
 // generationContext is our code generation context, passed to allow resolving of identifiers in other packages
@@ -358,11 +358,11 @@ func (fn *PropertyAssignmentFunction) createConversions(
 	return nil
 }
 
-// createPropertyConversion tries to create a conversion between the two provided endpoints, using all of the
-// available conversion functions in priority order to do so. If no valid conversion can be created an error is returned.
+// createPropertyConversion tries to create a conversion between the two provided endpoints, using all the available
+// conversion functions in priority order. If no valid conversion can be created an error is returned.
 func (fn *PropertyAssignmentFunction) createConversion(
-	sourceEndpoint conversions.ReadableConversionEndpoint,
-	destinationEndpoint conversions.WritableConversionEndpoint) (StoragePropertyConversion, error) {
+	sourceEndpoint *conversions.ReadableConversionEndpoint,
+	destinationEndpoint *conversions.WritableConversionEndpoint) (StoragePropertyConversion, error) {
 
 	conversion, err := conversions.CreateTypeConversion(sourceEndpoint.Endpoint(), destinationEndpoint.Endpoint(), fn.conversionContext)
 	if err != nil {
