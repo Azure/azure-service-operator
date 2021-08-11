@@ -129,10 +129,10 @@ func (builder *convertToARMBuilder) functionBodyStatements() []dst.Stmt {
 
 func (builder *convertToARMBuilder) namePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) []dst.Stmt {
+	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
 
 	if toProp.PropertyName() != "Name" || builder.typeKind != TypeKindSpec {
-		return nil
+		return nil, false
 	}
 
 	// we do not read from AzureName() but instead use
@@ -144,25 +144,25 @@ func (builder *convertToARMBuilder) namePropertyHandler(
 		token.ASSIGN,
 		dst.NewIdent(nameParameterString))
 
-	return []dst.Stmt{result}
+	return []dst.Stmt{result}, true
 }
 
 func (builder *convertToARMBuilder) referencePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) []dst.Stmt {
+	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
 
 	// This is just an optimization to avoid scanning excess properties collections
 	isString := toProp.PropertyType().Equals(astmodel.StringType)
 	isOptionalString := toProp.PropertyType().Equals(astmodel.NewOptionalType(astmodel.StringType))
 	if !isString && !isOptionalString {
-		return nil
+		return nil, false
 	}
 
 	// Find the property which is referring to our toProp in its ARMReferenceTag. If we can't find it, that means
 	// there's not one and this handler doesn't apply
 	fromProp, foundReference := fromType.FindPropertyWithTagValue(astmodel.ARMReferenceTag, string(toProp.PropertyName()))
 	if !foundReference {
-		return nil
+		return nil, false
 	}
 
 	source := &dst.SelectorExpr{
@@ -185,7 +185,7 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 			ConversionContext: nil,
 			Locals:            builder.locals,
 		},
-	)
+	), true
 }
 
 // flattenedPropertyHandler generates conversions for properties that
@@ -201,7 +201,7 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 // to the type being converted.
 func (builder *convertToARMBuilder) flattenedPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) []dst.Stmt {
+	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
 
 	toPropName := toProp.PropertyName()
 
@@ -215,7 +215,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 
 	// there are none to copy; exit
 	if len(fromProps) == 0 {
-		return nil
+		return nil, false
 	}
 
 	allTypes := builder.codeGenerationContext.GetAllReachableTypes()
@@ -286,13 +286,13 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 
 		// we were unable to generate an inner conversion so we cannot generate the overall conversion
 		if len(stmts) == 0 {
-			return nil
+			return nil, false
 		}
 
 		result = append(result, stmts...)
 	}
 
-	return result
+	return result, true
 }
 
 // buildToPropInitializer builds an initializer for a given “to” property
@@ -338,9 +338,9 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 }
 
 func (builder *convertToARMBuilder) fixedValuePropertyHandler(propertyName astmodel.PropertyName) propertyConversionHandler {
-	return func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt {
+	return func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
 		if toProp.PropertyName() != propertyName || builder.typeKind != TypeKindSpec {
-			return nil
+			return nil, false
 		}
 
 		propertyType := toProp.PropertyType()
@@ -371,17 +371,17 @@ func (builder *convertToARMBuilder) fixedValuePropertyHandler(propertyName astmo
 			token.ASSIGN,
 			dst.NewIdent(optionId))
 
-		return []dst.Stmt{result}
+		return []dst.Stmt{result}, true
 	}
 }
 
 func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) []dst.Stmt {
+	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
 
 	fromProp, ok := fromType.Property(toProp.PropertyName())
 	if !ok {
-		return nil
+		return nil, false
 	}
 
 	source := astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(fromProp.PropertyName()))
@@ -397,7 +397,7 @@ func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 			ConversionContext: nil,
 			Locals:            builder.locals,
 		},
-	)
+	), true
 }
 
 // convertReferenceProperty handles conversion of reference properties.

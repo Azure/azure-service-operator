@@ -324,6 +324,10 @@ func (fakeResourceProperties *FakeResourceProperties) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResourcePropertiesARM, got %T", armInput)
 	}
 
+	// no assignment for property ‘Reference’
+
+	// no assignment for property ‘SubnetReference’
+
 	// No error
 	return nil
 }
