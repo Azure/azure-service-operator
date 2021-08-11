@@ -27,6 +27,7 @@ type ResourceType struct {
 	properties       PropertySet
 	functions        map[string]Function
 	testcases        map[string]TestCase
+	annotations      []string // TODO: Consider ensuring that these are actually kubebuilder annotations.
 	InterfaceImplementer
 }
 
@@ -256,6 +257,7 @@ func (resource *ResourceType) Equals(other Type) bool {
 		len(resource.functions) != len(otherResource.functions) ||
 		!TypeEquals(resource.spec, otherResource.spec) ||
 		!TypeEquals(resource.status, otherResource.status) ||
+		len(resource.annotations) != len(otherResource.annotations) ||
 		!resource.InterfaceImplementer.Equals(otherResource.InterfaceImplementer) {
 		return false
 	}
@@ -282,6 +284,14 @@ func (resource *ResourceType) Equals(other Type) bool {
 
 		if !ourCase.Equals(testcase) {
 			// Different testcase, even though same name; not-equal
+			return false
+		}
+	}
+
+	// Check same annotations present in the same order
+	for i, ourAnnotation := range resource.annotations {
+		otherAnnotation := otherResource.annotations[i]
+		if ourAnnotation != otherAnnotation {
 			return false
 		}
 	}
@@ -422,6 +432,13 @@ func (resource *ResourceType) WithOwner(owner *TypeName) *ResourceType {
 	return result
 }
 
+// WithAnnotation adds the annotation to the resource and returns a copy of the resource
+func (resource *ResourceType) WithAnnotation(annotation string) *ResourceType {
+	result := resource.copy()
+	result.annotations = append(result.annotations, annotation)
+	return result
+}
+
 // RequiredPackageReferences returns a list of packages required by this
 func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 	references := NewPackageReferenceSet(MetaV1PackageReference)
@@ -504,6 +521,11 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	if resource.isStorageVersion {
 		astbuilder.AddComment(&comments, "// +kubebuilder:storageversion")
+	}
+
+	// Add any custom kubebuilder annotations
+	if len(resource.annotations) > 0 {
+		astbuilder.AddComments(&comments, resource.annotations)
 	}
 
 	astbuilder.AddWrappedComments(&comments, declContext.Description, 200)
@@ -613,6 +635,7 @@ func (resource *ResourceType) copy() *ResourceType {
 		properties:           make(map[PropertyName]*PropertyDefinition),
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
+		annotations:          append([]string(nil), resource.annotations...),
 		InterfaceImplementer: resource.InterfaceImplementer.copy(),
 	}
 

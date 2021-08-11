@@ -147,3 +147,20 @@ func TestResourceType_WithoutStatusProperty_Panics(t *testing.T) {
 	base := NewResourceType(emptySpec, emptyStatus)
 	g.Expect(func() { base.WithoutProperty("Status") }).To(Panic())
 }
+
+/*
+ * WithAnnotation() tests
+ */
+
+func TestResourceType_WithAnnotation_ReturnsExpectedInstance(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	annotation := "kubebuilder:annotation:whatever"
+	base := NewResourceType(emptySpec, emptyStatus)
+	updated := base.WithAnnotation(annotation)
+
+	g.Expect(base).NotTo(Equal(updated)) // Ensure the original wasn't modified
+	g.Expect(base.Equals(updated)).To(BeFalse())
+	g.Expect(updated.annotations).To(HaveLen(1))
+	g.Expect(updated.annotations[0]).To(Equal(annotation))
+}
