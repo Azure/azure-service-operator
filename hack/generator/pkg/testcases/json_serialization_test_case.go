@@ -259,6 +259,7 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 
 	// var actual X
 	declare := astbuilder.NewVariable(actualId, o.subject.Name())
+	declare.Decorations().Before = dst.EmptyLine
 
 	// err = json.Unmarshal(bin, &actual)
 	deserialize := astbuilder.SimpleAssignment(
@@ -283,6 +284,7 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 			dst.NewIdent(subjectId),
 			dst.NewIdent(actualId),
 			equateEmpty))
+	compare.Decorations().Before = dst.EmptyLine
 
 	// if !match { result := diff.Diff(subject, actual); return result }
 	prettyPrint := &dst.IfStmt{
@@ -308,16 +310,12 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 
 	// return ""
 	ret := astbuilder.Returns(astbuilder.StringLiteral(""))
+	ret.Decorations().Before = dst.EmptyLine
 
 	// Create the function
 	fn := &astbuilder.FuncDetails{
 		Name: o.idOfTestMethod(),
-		Returns: []*dst.Field{
-			{
-				Type: dst.NewIdent("string"),
-			},
-		},
-		Body: []dst.Stmt{
+		Body: astbuilder.Statements(
 			serialize,
 			serializeFailed,
 			declare,
@@ -325,13 +323,14 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 			deserializeFailed,
 			compare,
 			prettyPrint,
-			ret,
-		},
+			ret),
 	}
+
 	fn.AddParameter("subject", o.Subject())
 	fn.AddComments(fmt.Sprintf(
 		"runs a test to see if a specific instance of %s round trips to JSON and back losslessly",
 		o.Subject()))
+	fn.AddReturns("string")
 
 	return fn.DefineFunc()
 }
@@ -368,10 +367,10 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 
 	fn.AddComments(
 		fmt.Sprintf("returns a generator of %s instances for property testing.", o.Subject()),
-		fmt.Sprintf("We first initialize %s with a simplified generator based on the fields with primitive types", o.idOfSubjectGeneratorGlobal()),
-		"then replacing it with a more complex one that also handles complex fields.",
-		"This ensures any cycles in the object graph properly terminate.",
-		"The call to gen.Struct() captures the map, so we have to create a new one for the second generator.")
+		fmt.Sprintf("// We first initialize %s with a simplified generator based on the fields with primitive types", o.idOfSubjectGeneratorGlobal()),
+		"// then replacing it with a more complex one that also handles complex fields.",
+		"// This ensures any cycles in the object graph properly terminate.",
+		"// The call to gen.Struct() captures the map, so we have to create a new one for the second generator.")
 
 	// If we have already cached our builder, return it immediately
 	earlyReturn := astbuilder.ReturnIfNotNil(
@@ -388,6 +387,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 			astbuilder.MakeMap(
 				dst.NewIdent("string"),
 				astbuilder.QualifiedTypeName(gopterPackage, "Gen")))
+		makeIndependentMap.Decorations().Before = dst.EmptyLine
 
 		addIndependentGenerators := astbuilder.InvokeFunc(
 			o.idOfIndependentGeneratorsFactoryMethod(),
@@ -468,7 +468,7 @@ func (o *JSONSerializationTestCase) createGeneratorsFactoryMethod(
 	return fn.DefineFunc()
 }
 
-// createGenerators creates AST fragments for gopter generators to create values for properties
+// createGenerators creates AST fragments for gopter generators to create values for properties.
 // properties is a map of properties needing generators; properties handled here are removed from the map.
 // genPackageName is the name for the gopter/gen package (not hard coded in case it's renamed for conflict resolution)
 // factory is a method for creating generators
@@ -663,7 +663,7 @@ func (o *JSONSerializationTestCase) idOfSubjectGeneratorGlobal() string {
 
 func (o *JSONSerializationTestCase) idOfTestMethod() string {
 	return o.idFactory.CreateIdentifier(
-		fmt.Sprintf("RunTestFor%s", o.Subject()),
+		fmt.Sprintf("RunJSONSerializationTestFor%s", o.Subject()),
 		astmodel.Exported)
 }
 
