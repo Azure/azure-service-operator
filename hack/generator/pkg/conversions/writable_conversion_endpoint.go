@@ -54,7 +54,7 @@ func MakeWritableConversionEndpointWritingBagItem(
 	knownLocals *astmodel.KnownLocalsSet,
 ) WritableConversionEndpoint {
 	return WritableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(NewBagItemType(itemType), itemName, knownLocals),
+		endpoint: NewStorageConversionEndpoint(NewPropertyBagMemberType(itemType), itemName, knownLocals),
 		writer: func(destination dst.Expr, value dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
 				astbuilder.SimpleAssignment(

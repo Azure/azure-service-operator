@@ -181,7 +181,7 @@ func writeToBagItem(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to be a property bag item
-	destinationBagItem, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type())
+	destinationBagItem, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type())
 	if !destinationIsBagItem {
 		// Destination is not optional
 		return nil
@@ -239,7 +239,7 @@ func assignToOptional(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to not be a bag item
-	if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 		return nil
 	}
 
@@ -307,7 +307,7 @@ func pullFromBagItem(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to be a bag item
-	sourceBagItem, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type())
+	sourceBagItem, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type())
 	if !sourceIsBagItem {
 		return nil
 	}
@@ -400,7 +400,7 @@ func assignFromOptional(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to not be a bag item
-	if _, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type()); sourceIsBagItem {
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
 		return nil
 	}
 
@@ -478,7 +478,7 @@ func assignToEnumeration(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to not be a bag item
-	if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 		return nil
 	}
 
@@ -533,12 +533,12 @@ func assignPrimitiveFromPrimitive(
 	_ *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to not be a bag item
-	if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 		return nil
 	}
 
 	// Require source to not be a bag item
-	if _, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type()); sourceIsBagItem {
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
 		return nil
 	}
 
@@ -585,12 +585,12 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to not be a bag item
-	if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 		return nil
 	}
 
 	// Require source to not be a bag item
-	if _, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type()); sourceIsBagItem {
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
 		return nil
 	}
 
@@ -645,7 +645,7 @@ func assignFromAliasedPrimitive(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require source to not be a bag item
-	if _, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type()); sourceIsBagItem {
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
 		return nil
 	}
 
@@ -692,7 +692,7 @@ func assignToAliasedPrimitive(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to not be a bag item
-	if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 		return nil
 	}
 
@@ -749,12 +749,12 @@ func assignArrayFromArray(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to not be a bag item
-	if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 		return nil
 	}
 
 	// Require source to not be a bag item
-	if _, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type()); sourceIsBagItem {
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
 		return nil
 	}
 
@@ -836,12 +836,12 @@ func assignMapFromMap(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to not be a bag item
-	if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 		return nil
 	}
 
 	// Require source to not be a bag item
-	if _, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type()); sourceIsBagItem {
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
 		return nil
 	}
 
@@ -929,12 +929,12 @@ func assignEnumFromEnum(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to not be a bag item
-	if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 		return nil
 	}
 
 	// Require source to not be a bag item
-	if _, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type()); sourceIsBagItem {
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
 		return nil
 	}
 
@@ -997,12 +997,12 @@ func assignPrimitiveFromEnum(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to not be a bag item
-	if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 		return nil
 	}
 
 	// Require source to not be a bag item
-	if _, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type()); sourceIsBagItem {
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
 		return nil
 	}
 
@@ -1069,12 +1069,12 @@ func assignObjectFromObject(
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
 	// Require destination to not be a bag item
-	if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 		return nil
 	}
 
 	// Require source to not be a bag item
-	if _, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type()); sourceIsBagItem {
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
 		return nil
 	}
 
@@ -1170,12 +1170,12 @@ func assignObjectFromObject(
 func AssignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
 	return func(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint, _ *PropertyConversionContext) PropertyConversion {
 		// Require destination to not be a bag item
-		if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+		if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 			return nil
 		}
 
 		// Require source to not be a bag item
-		if _, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type()); sourceIsBagItem {
+		if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
 			return nil
 		}
 
@@ -1231,12 +1231,12 @@ const (
 func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTypeMethodReturn) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
 	return func(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint, _ *PropertyConversionContext) PropertyConversion {
 		// Require destination to not be a bag item
-		if _, destinationIsBagItem := AsBagItemType(destinationEndpoint.Type()); destinationIsBagItem {
+		if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
 			return nil
 		}
 
 		// Require source to not be a bag item
-		if _, sourceIsBagItem := AsBagItemType(sourceEndpoint.Type()); sourceIsBagItem {
+		if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
 			return nil
 		}
 

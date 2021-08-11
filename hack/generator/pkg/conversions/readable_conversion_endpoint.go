@@ -67,7 +67,7 @@ func MakeReadableConversionEndpointReadingBagItem(
 	knownLocals *astmodel.KnownLocalsSet,
 ) ReadableConversionEndpoint {
 	return ReadableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(NewBagItemType(itemType), itemName, knownLocals),
+		endpoint: NewStorageConversionEndpoint(NewPropertyBagMemberType(itemType), itemName, knownLocals),
 		// We don't supply a reader function because we don't read the value from the source instance when dealing with
 		// a property bag item; instead we read it from a property bag that's stashed in a local variable.
 		// See AssignFromBagItem() for more details
