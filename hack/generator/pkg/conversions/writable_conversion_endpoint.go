@@ -20,20 +20,20 @@ type WritableConversionEndpoint struct {
 	// writer is a function that accepts an expression for the containing instance, another expression for the value to
 	// write, and returns a set of statements for writing the value to that instance
 	writer func(dst.Expr, dst.Expr) []dst.Stmt
-	// description is a human readable string for what is being written
+	// description is a human-readable string for what is being written
 	description string
 }
 
-var _ fmt.Stringer = WritableConversionEndpoint{}
+var _ fmt.Stringer = &WritableConversionEndpoint{}
 
-// MakeWritableConversionEndpointWritingProperty creates a WritableConversionEndpoint for a specific property
-func MakeWritableConversionEndpointWritingProperty(
+// NewWritableConversionEndpointWritingProperty creates a WritableConversionEndpoint for a specific property
+func NewWritableConversionEndpointWritingProperty(
 	propertyName astmodel.PropertyName,
 	propertyType astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet,
-) WritableConversionEndpoint {
+) *WritableConversionEndpoint {
 	name := string(propertyName)
-	return WritableConversionEndpoint{
+	return &WritableConversionEndpoint{
 		endpoint: NewStorageConversionEndpoint(propertyType, name, knownLocals),
 		writer: func(destination dst.Expr, value dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
@@ -46,14 +46,14 @@ func MakeWritableConversionEndpointWritingProperty(
 	}
 }
 
-// MakeWritableConversionEndpointWritingBagItem creates a WritableConversionEndpoint that writes an item into a
+// NewWritableConversionEndpointWritingPropertyBagMember creates a WritableConversionEndpoint that writes an item into a
 // property bag
-func MakeWritableConversionEndpointWritingBagItem(
+func NewWritableConversionEndpointWritingPropertyBagMember(
 	itemName string,
 	itemType astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet,
-) WritableConversionEndpoint {
-	return WritableConversionEndpoint{
+) *WritableConversionEndpoint {
+	return &WritableConversionEndpoint{
 		endpoint: NewStorageConversionEndpoint(NewPropertyBagMemberType(itemType), itemName, knownLocals),
 		writer: func(destination dst.Expr, value dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
@@ -66,16 +66,16 @@ func MakeWritableConversionEndpointWritingBagItem(
 	}
 }
 
-func (w WritableConversionEndpoint) String() string {
+func (w *WritableConversionEndpoint) String() string {
 	return w.description
 }
 
 // Write generates a series of statements to write the specified value to our destination endpoint
-func (w WritableConversionEndpoint) Write(destination dst.Expr, value dst.Expr) []dst.Stmt {
+func (w *WritableConversionEndpoint) Write(destination dst.Expr, value dst.Expr) []dst.Stmt {
 	return w.writer(destination, value)
 }
 
 // Endpoint provides access to the endpoint we write
-func (w WritableConversionEndpoint) Endpoint() *TypedConversionEndpoint {
+func (w *WritableConversionEndpoint) Endpoint() *TypedConversionEndpoint {
 	return w.endpoint
 }

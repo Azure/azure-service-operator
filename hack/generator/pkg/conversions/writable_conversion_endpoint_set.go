@@ -10,7 +10,7 @@ import (
 )
 
 // WritableConversionEndpointSet is a set of uniquely named writable conversion endpoints
-type WritableConversionEndpointSet map[string]WritableConversionEndpoint
+type WritableConversionEndpointSet map[string]*WritableConversionEndpoint
 
 // NewWritableConversionEndpointSet returns a new empty set of writable conversion endpoints
 func NewWritableConversionEndpointSet() WritableConversionEndpointSet {
@@ -23,8 +23,8 @@ func (set WritableConversionEndpointSet) CreatePropertyEndpoints(
 	instance astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) int {
 	// Add an endpoint for each property we can read
-	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) WritableConversionEndpoint {
-		return MakeWritableConversionEndpointWritingProperty(prop.PropertyName(), prop.PropertyType(), knownLocals)
+	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) *WritableConversionEndpoint {
+		return NewWritableConversionEndpointWritingProperty(prop.PropertyName(), prop.PropertyType(), knownLocals)
 	})
 }
 
@@ -34,9 +34,9 @@ func (set WritableConversionEndpointSet) CreateBagItemEndpoints(
 	instance astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) int {
 	// Add a property bag item endpoint for each property we don't already support
-	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) WritableConversionEndpoint {
+	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) *WritableConversionEndpoint {
 		name := string(prop.PropertyName())
-		return MakeWritableConversionEndpointWritingBagItem(name, prop.PropertyType(), knownLocals)
+		return NewWritableConversionEndpointWritingPropertyBagMember(name, prop.PropertyType(), knownLocals)
 	})
 }
 
@@ -46,7 +46,7 @@ func (set WritableConversionEndpointSet) CreateBagItemEndpoints(
 // Returns the count of writable endpoints added.
 func (set WritableConversionEndpointSet) addForEachProperty(
 	instance astmodel.Type,
-	factory func(definition *astmodel.PropertyDefinition) WritableConversionEndpoint) int {
+	factory func(definition *astmodel.PropertyDefinition) *WritableConversionEndpoint) int {
 	count := 0
 	if container, ok := astmodel.AsPropertyContainer(instance); ok {
 		for _, prop := range container.Properties() {
