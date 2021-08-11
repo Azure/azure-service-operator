@@ -116,7 +116,12 @@ func main() {
 		secretClient = k8sSecrets.New(mgr.GetClient(), config.SecretNamingVersion())
 	} else {
 		setupLog.Info("Instantiating secrets client for keyvault " + keyvaultName)
-		secretClient = keyvaultSecrets.New(keyvaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+		secretClient = keyvaultSecrets.New(
+			keyvaultName,
+			config.GlobalCredentials(),
+			config.SecretNamingVersion(),
+			config.PurgeDeletedKeyVaultSecrets(),
+			config.RecoverSoftDeletedKeyVaultSecrets())
 	}
 
 	if config.SelectedMode().IncludesWatchers() {

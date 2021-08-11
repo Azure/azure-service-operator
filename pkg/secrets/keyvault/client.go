@@ -64,7 +64,13 @@ func GetVaultsURL(vaultName string) string {
 // redundant since that's in the credentials, but it's used to
 // override the one specified in credentials so it might be right to
 // keep it. Confirm this.
-func New(keyVaultName string, creds config.Credentials, secretNamingVersion secrets.SecretNamingVersion) *SecretClient {
+func New(
+	keyVaultName string,
+	creds config.Credentials,
+	secretNamingVersion secrets.SecretNamingVersion,
+	purgeDeletedSecrets bool, // TODO: Should these be enums instead?
+	recoverSoftDeletedSecrets bool) *SecretClient {
+
 	keyvaultClient := keyvaults.New()
 	a, _ := iam.GetKeyvaultAuthorizer(creds)
 	keyvaultClient.Authorizer = a
@@ -74,9 +80,8 @@ func New(keyVaultName string, creds config.Credentials, secretNamingVersion secr
 		KeyVaultClient:      keyvaultClient,
 		KeyVaultName:        keyVaultName,
 		SecretNamingVersion: secretNamingVersion,
-		// TODO: Need to fill this from parameters (that come from config)
-		PurgeDeletedSecrets: false,
-		RecoverSoftDeletedSecrets: false,
+		PurgeDeletedSecrets: purgeDeletedSecrets,
+		RecoverSoftDeletedSecrets: recoverSoftDeletedSecrets,
 	}
 }
 

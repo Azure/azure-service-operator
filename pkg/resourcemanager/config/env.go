@@ -67,6 +67,8 @@ func ParseEnvironment() error {
 		return errors.Wrapf(err, "couldn't get POD_NAMESPACE env variable")
 	}
 	targetNamespaces = ParseStringListFromEnvironment("AZURE_TARGET_NAMESPACES")
+	purgeDeletedKeyVaultSecrets = ParseBoolFromEnvironment("PURGE_DELETED_KEYVAULT_SECRETS")
+	recoverSoftDeletedKeyVaultSecrets = ParseBoolFromEnvironment("RECOVER_SOFT_DELETED_KEYVAULT_SECRETS")
 
 	operatorMode, err = ParseOperatorMode(envy.Get("AZURE_OPERATOR_MODE", OperatorModeBoth.String()))
 	if err != nil {

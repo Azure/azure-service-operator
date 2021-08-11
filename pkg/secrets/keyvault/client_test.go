@@ -101,7 +101,12 @@ var _ = Describe("Keyvault Secrets Client", func() {
 					"sweet": []byte("potato"),
 				}
 
-				client := keyvaultsecrets.New(keyVaultName, config.GlobalCredentials(), secretNamingScheme)
+				client := keyvaultsecrets.New(
+					keyVaultName,
+					config.GlobalCredentials(),
+					secretNamingScheme,
+					config.PurgeDeletedKeyVaultSecrets(),
+					config.RecoverSoftDeletedKeyVaultSecrets())
 				key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"}
 
 				Context("creating secret with KeyVault client", func() {
@@ -164,7 +169,12 @@ var _ = Describe("Keyvault Secrets Client", func() {
 					"sweet": []byte("potato"),
 				}
 
-				client := keyvaultsecrets.New(keyVaultName, config.GlobalCredentials(), secretNamingScheme)
+				client := keyvaultsecrets.New(
+					keyVaultName,
+					config.GlobalCredentials(),
+					secretNamingScheme,
+					config.PurgeDeletedKeyVaultSecrets(),
+					config.RecoverSoftDeletedKeyVaultSecrets())
 				key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"}
 
 				Context("creating flattened secret with KeyVault client", func() {
@@ -276,10 +286,15 @@ var _ = Describe("Keyvault Secrets soft delete", func() {
 		Expect(err).NotTo(HaveOccurred())
 	})
 
-	It("Should delete and recreate soft-delete key when recreate soft-deleted key option is enabled", func() {
+	FIt("Should delete and recreate soft-delete key when recreate soft-deleted key option is enabled", func() {
 		Context("create, delete, and recreate soft deleted key", func() {
 			secretName := "kvsecret" + strconv.FormatInt(GinkgoRandomSeed(), 10)
-			client := keyvaultsecrets.New(softDeleteKVName, config.GlobalCredentials(), secrets.SecretNamingV2)
+			client := keyvaultsecrets.New(
+				softDeleteKVName,
+				config.GlobalCredentials(),
+				secrets.SecretNamingV2,
+				false,
+				true)
 
 			data := map[string][]byte{
 				"test":  []byte("data"),

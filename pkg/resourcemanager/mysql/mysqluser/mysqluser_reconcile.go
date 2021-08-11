@@ -9,11 +9,13 @@ import (
 	"reflect"
 	"strings"
 
-	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	_ "github.com/go-sql-driver/mysql" //sql drive link
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
@@ -43,7 +45,12 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 	adminSecretClient := s.SecretClient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
+		adminSecretClient = keyvaultSecrets.New(
+			instance.Spec.AdminSecretKeyVault,
+			s.Creds,
+			s.SecretClient.GetSecretNamingVersion(),
+			config.PurgeDeletedKeyVaultSecrets(),
+			config.RecoverSoftDeletedKeyVaultSecrets())
 	}
 
 	adminSecretKey := secrets.SecretKey{Name: instance.Spec.GetAdminSecretName(), Namespace: instance.Namespace, Kind: reflect.TypeOf(v1alpha2.MySQLServer{}).Name()}
@@ -188,7 +195,12 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 
 	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
+		adminSecretClient = keyvaultSecrets.New(
+			instance.Spec.AdminSecretKeyVault,
+			s.Creds,
+			s.SecretClient.GetSecretNamingVersion(),
+			config.PurgeDeletedKeyVaultSecrets(),
+			config.RecoverSoftDeletedKeyVaultSecrets())
 	}
 
 	adminSecret, err := adminSecretClient.Get(ctx, adminSecretKey)
