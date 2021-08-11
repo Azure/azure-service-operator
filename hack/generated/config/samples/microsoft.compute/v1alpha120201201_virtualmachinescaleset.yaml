@@ -1,4 +1,4 @@
-apiVersion: microsoft.compute.infra.azure.com/v1alpha1api20201201
+apiVersion: microsoft.compute.azure.com/v1alpha1api20201201
 kind: VirtualMachineScaleSet
 metadata:
   name: samplevmss
@@ -39,7 +39,7 @@ spec:
             - name: sampleipconfiguration
               subnet:
                 reference:
-                  group: microsoft.network.infra.azure.com
+                  group: microsoft.network.azure.com
                   kind: VirtualNetworksSubnet
                   namespace: default
                   name: samplesubnet

@@ -17,7 +17,7 @@ import (
 
 // TODO: These should become Status properties at some point.
 const (
-	ResourceIDAnnotation = "resource-id.infra.azure.com"
+	ResourceIDAnnotation = "resource-id.azure.com"
 )
 
 // MetaObject represents an arbitrary ASO custom resource

@@ -14,8 +14,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=fakeresources,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={fakeresources/status,fakeresources/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=test.azure.com,resources=fakeresources,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.azure.com,resources={fakeresources/status,fakeresources/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
@@ -26,7 +26,7 @@ type FakeResource struct {
 	Spec              FakeResource_Spec `json:"spec,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v1alpha1api20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=fakeresources,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.fakeresources.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.fakeresources.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Defaulter = &FakeResource{}
 
@@ -62,7 +62,7 @@ func (fakeResource *FakeResource) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: fakeResource.Namespace, Name: fakeResource.Spec.Owner.Name}
 }
 
-// +kubebuilder:webhook:path=/validate-test-infra-azure-com-v1alpha1api20200101-fakeresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=fakeresources,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.fakeresources.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-fakeresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.fakeresources.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &FakeResource{}
 
@@ -202,7 +202,7 @@ type FakeResource_Spec struct {
 	OptionalJson  *v1.JSON `json:"optionalJson,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"microsoft.resources.infra.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner genruntime.KnownResourceReference `group:"microsoft.resources.azure.com" json:"owner" kind:"ResourceGroup"`
 }
 
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}

@@ -16,7 +16,7 @@ import (
 const (
 	genRuntimePathPrefix  = "github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	GenRuntimePackageName = "genruntime"
-	GroupSuffix           = ".infra.azure.com"
+	GroupSuffix           = ".azure.com"
 )
 
 var MetaV1PackageReference = MakeExternalPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")

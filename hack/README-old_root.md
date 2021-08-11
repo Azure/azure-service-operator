@@ -40,22 +40,22 @@ $ k logs pod/aso-controller-manager-b98bc664-6h6sv -n azureoperator-system -c ma
 
 # let's create an Azure ResourceGroup in westus2 with the name "foo-2019"
 cat <<EOF | kubectl apply -f -
-apiVersion: microsoft.resources.infra.azure.com/v20191001
+apiVersion: microsoft.resources.azure.com/v20191001
 kind: ResourceGroup
 metadata:
   name: foo-2019
 spec:
   location: westus2
 EOF
-# resourcegroup.microsoft.resources.infra.azure.com/foo-2019 created
+# resourcegroup.microsoft.resources.azure.com/foo-2019 created
 
 # let's see what the ResourceGroup resource looks like
 $ k describe resourcegroups/foo-2019
 Name:         foo-2019
 Namespace:    default
 Labels:       <none>
-Annotations:  resource-sig.infra.azure.com: 56da597b51d66c934c510b22e183a69994a6654bbae92d88fdb46f962272220a
-API Version:  microsoft.resources.infra.azure.com/v20191001
+Annotations:  resource-sig.azure.com: 56da597b51d66c934c510b22e183a69994a6654bbae92d88fdb46f962272220a
+API Version:  microsoft.resources.azure.com/v20191001
 Kind:         ResourceGroup
 Metadata:
   Creation Timestamp:  2020-05-13T22:55:56Z
@@ -78,7 +78,7 @@ Events:
 
 # delete the ResourceGroup
 $ k delete resourcegroups/foo-2019
-# resourcegroup.microsoft.resources.infra.azure.com "foo-2019" deleted
+# resourcegroup.microsoft.resources.azure.com "foo-2019" deleted
 ```
 
 For samples of additional resources, see the [resource samples directory in the repo](https://github.com/Azure/k8s-infra/tree/master/config/samples).

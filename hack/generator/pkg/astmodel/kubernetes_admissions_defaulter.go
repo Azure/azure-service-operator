@@ -53,7 +53,7 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *InterfaceImplementation 
 		panic(fmt.Sprintf("expected resource name %s to be a local package reference", d.resourceName.String()))
 	}
 
-	group := lpr.group                // e.g. "microsoft.network.infra.azure.com"
+	group := lpr.group                // e.g. "microsoft.network.azure.com"
 	resource := d.resourceName.Name() // e.g. "backendaddresspools"
 	version := lpr.version            // e.g. "v1"
 
@@ -61,12 +61,12 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *InterfaceImplementation 
 	nonPluralResource := strings.ToLower(resource)
 	resource = strings.ToLower(d.resourceName.Plural().Name())
 
-	// e.g. "mutate-microsoft-network-infra-azure-com-v1-backendaddresspool"
+	// e.g. "mutate-microsoft-network-azure-com-v1-backendaddresspool"
 	// note that this must match _exactly_ how controller-runtime generates the path
 	// or it will not work!
 	path := fmt.Sprintf("/mutate-%s-%s-%s", strings.ReplaceAll(group, ".", "-"), version, nonPluralResource)
 
-	// e.g.  "default.v123.backendaddresspool.infra.azure.com"
+	// e.g.  "default.v123.backendaddresspool.azure.com"
 	name := fmt.Sprintf("default.%s.%s.%s", version, resource, group)
 
 	annotation := fmt.Sprintf(

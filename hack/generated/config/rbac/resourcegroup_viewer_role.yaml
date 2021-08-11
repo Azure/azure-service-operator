@@ -5,7 +5,7 @@ metadata:
   name: resourcegroup-viewer-role
 rules:
 - apiGroups:
-  - microsoft.resources.infra.azure.com
+  - microsoft.resources.azure.com
   resources:
   - resourcegroups
   verbs:
@@ -13,7 +13,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - microsoft.resources.infra.azure.com
+  - microsoft.resources.azure.com
   resources:
   - resourcegroups/status
   verbs:
