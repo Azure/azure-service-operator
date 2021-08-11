@@ -84,17 +84,13 @@ func (fn *ResourceConversionFunction) RequiredPackageReferences() *astmodel.Pack
 		fn.hub.PackageReference)
 
 	// Include the package required by the parameter of the property assignment function
-	propertyFunctionParameterTypeName := fn.propertyFunction.otherDefinition.Name()
-	result.AddReference(propertyFunctionParameterTypeName.PackageReference)
+	result.AddReference(fn.propertyFunction.ParameterType().PackageReference)
 
 	return result
 }
 
 func (fn *ResourceConversionFunction) References() astmodel.TypeNameSet {
-	// Include the type of the parameter of the property assignment function
-	propertyFunctionParameterTypeName := fn.propertyFunction.otherDefinition.Name()
-
-	result := astmodel.NewTypeNameSet(fn.hub, propertyFunctionParameterTypeName)
+	result := astmodel.NewTypeNameSet(fn.hub, fn.propertyFunction.ParameterType())
 	return result
 }
 
@@ -119,7 +115,7 @@ func (fn *ResourceConversionFunction) AsFunc(
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(fn.declarationDocComment(receiver))
 
-	if fn.hub.Equals(fn.propertyFunction.otherDefinition.Name()) {
+	if fn.hub.Equals(fn.propertyFunction.ParameterType()) {
 		// Not using an intermediate step
 		funcDetails.Body = fn.directConversion(receiverName, generationContext)
 	} else {
@@ -190,7 +186,7 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")
 
-	intermediateType := fn.propertyFunction.otherDefinition.Name()
+	intermediateType := fn.propertyFunction.ParameterType()
 
 	declareLocal := astbuilder.LocalVariableDeclaration(
 		localId, intermediateType.AsType(generationContext), "// intermediate variable for conversion")
@@ -248,7 +244,7 @@ func (fn *ResourceConversionFunction) indirectConversionToHub(
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")
 
-	intermediateType := fn.propertyFunction.otherDefinition.Name()
+	intermediateType := fn.propertyFunction.ParameterType()
 
 	declareLocal := astbuilder.LocalVariableDeclaration(
 		localId, intermediateType.AsType(generationContext), "// intermediate variable for conversion")
