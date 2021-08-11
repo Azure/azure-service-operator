@@ -207,7 +207,7 @@ Licensed under the MIT license.
 // +kubebuilder:object:generate=true
 // All object properties are optional by default, this will be overridden when needed:
 // +kubebuilder:validation:Optional
-// +groupName={{.GroupName}}.infra.azure.com
+// +groupName={{.GroupName}}.azure.com
 package {{.PackageName}}
 
 import (
@@ -217,7 +217,7 @@ import (
 
 var (
 	// GroupVersion is group version used to register these objects
-	GroupVersion = schema.GroupVersion{Group: "{{.GroupName}}.infra.azure.com", Version: "{{.PackageName}}"}
+	GroupVersion = schema.GroupVersion{Group: "{{.GroupName}}.azure.com", Version: "{{.PackageName}}"}
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme
 	SchemeBuilder = &scheme.Builder{GroupVersion: GroupVersion}

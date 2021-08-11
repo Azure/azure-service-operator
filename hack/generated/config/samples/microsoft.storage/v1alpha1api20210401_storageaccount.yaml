@@ -1,4 +1,4 @@
-apiVersion: microsoft.storage.infra.azure.com/v1alpha1api20210401
+apiVersion: microsoft.storage.azure.com/v1alpha1api20210401
 kind: StorageAccount
 metadata:
   name: samplekubestorage

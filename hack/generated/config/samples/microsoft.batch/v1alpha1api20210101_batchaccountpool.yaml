@@ -1,4 +1,4 @@
-apiVersion: microsoft.batch.infra.azure.com/v1alpha1api20210101
+apiVersion: microsoft.batch.azure.com/v1alpha1api20210101
 kind: BatchAccountsPool
 metadata:
   name: samplekubebatchpool

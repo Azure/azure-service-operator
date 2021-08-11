@@ -8,8 +8,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=test.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion

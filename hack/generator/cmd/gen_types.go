@@ -23,7 +23,7 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 		// TODO: arguments in cobra so this is the best we get... see:
 		// TODO: https://github.com/spf13/cobra/issues/395
 		Use:   "gen-types <config>",
-		Short: "generate K8s infrastructure resources from Azure deployment template schema",
+		Short: "generate K8s resources from Azure deployment template schema",
 		Args:  cobra.ExactArgs(1),
 		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
 			configFile := args[0]

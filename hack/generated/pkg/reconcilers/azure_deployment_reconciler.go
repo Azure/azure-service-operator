@@ -42,13 +42,13 @@ import (
 
 const (
 	// TODO: Delete these later in favor of something in status?
-	DeploymentIDAnnotation   = "deployment-id.infra.azure.com"
-	DeploymentNameAnnotation = "deployment-name.infra.azure.com"
-	ResourceSigAnnotationKey = "resource-sig.infra.azure.com"
+	DeploymentIDAnnotation   = "deployment-id.azure.com"
+	DeploymentNameAnnotation = "deployment-name.azure.com"
+	ResourceSigAnnotationKey = "resource-sig.azure.com"
 )
 
 // TODO: Do we actually want this at the controller level or this level?
-const GenericControllerFinalizer = "generated.infra.azure.com/finalizer"
+const GenericControllerFinalizer = "serviceoperator.azure.com/finalizer"
 
 type CreateOrUpdateAction string
 
