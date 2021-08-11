@@ -194,6 +194,7 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 
 	// partial expression: description of the test
 	testName := astbuilder.StringLiteralf("Round trip of %s via JSON returns original", o.Subject())
+	testName.Decs.Before = dst.NewLine
 
 	// partial expression: prop.ForAll(RunTestForX, XGenerator())
 	propForAll := astbuilder.CallQualifiedFunc(
@@ -201,6 +202,7 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 		"ForAll",
 		dst.NewIdent(o.idOfTestMethod()),
 		astbuilder.CallFunc(idOfGeneratorMethod(o.subject, o.idFactory)))
+	propForAll.Decs.Before = dst.NewLine
 
 	// properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
 	defineTestCase := astbuilder.InvokeQualifiedFunc(
