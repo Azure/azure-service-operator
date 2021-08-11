@@ -200,7 +200,7 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 		propPackage,
 		"ForAll",
 		dst.NewIdent(o.idOfTestMethod()),
-		astbuilder.CallFunc(o.idOfGeneratorMethod(o.subject)))
+		astbuilder.CallFunc(idOfGeneratorMethod(o.subject, o.idFactory)))
 
 	// properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
 	defineTestCase := astbuilder.InvokeQualifiedFunc(
@@ -338,7 +338,7 @@ func (o *JSONSerializationTestCase) createGeneratorDeclaration(genContext *astmo
 	comment := fmt.Sprintf(
 		"Generator of %s instances for property testing - lazily instantiated by %s()",
 		o.Subject(),
-		o.idOfGeneratorMethod(o.subject))
+		idOfGeneratorMethod(o.subject, o.idFactory))
 
 	gopterPackage := genContext.MustGetImportedPackageName(astmodel.GopterReference)
 
@@ -356,7 +356,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 	genPackage := ctx.MustGetImportedPackageName(astmodel.GopterGenReference)
 
 	fn := &astbuilder.FuncDetails{
-		Name: o.idOfGeneratorMethod(o.subject),
+		Name: idOfGeneratorMethod(o.subject, o.idFactory),
 		Returns: []*dst.Field{
 			{
 				Type: astbuilder.QualifiedTypeName(gopterPackage, "Gen"),
@@ -593,11 +593,11 @@ func (o *JSONSerializationTestCase) createRelatedGenerator(
 			// This is a type we're defining, so we can create a generator for it
 			if t.PackageReference.Equals(genContext.CurrentPackage()) {
 				// create a generator for a property referencing a type in this package
-				return astbuilder.CallFunc(o.idOfGeneratorMethod(t))
+				return astbuilder.CallFunc(idOfGeneratorMethod(t, o.idFactory))
 			}
 
 			importName := genContext.MustGetImportedPackageName(t.PackageReference)
-			return astbuilder.CallQualifiedFunc(importName, o.idOfGeneratorMethod(t))
+			return astbuilder.CallQualifiedFunc(importName, idOfGeneratorMethod(t, o.idFactory))
 		}
 
 		// TODO: Should we invoke a generator for stuff from our runtime package?
@@ -669,13 +669,6 @@ func (o *JSONSerializationTestCase) idOfGeneratorGlobal(name astmodel.TypeName) 
 	return o.idFactory.CreateIdentifier(
 		fmt.Sprintf("cached%sGenerator", name.Name()),
 		astmodel.NotExported)
-}
-
-func (o *JSONSerializationTestCase) idOfGeneratorMethod(typeName astmodel.TypeName) string {
-	name := o.idFactory.CreateIdentifier(
-		fmt.Sprintf("%sGenerator", typeName.Name()),
-		astmodel.Exported)
-	return name
 }
 
 func (o *JSONSerializationTestCase) idOfIndependentGeneratorsFactoryMethod() string {
