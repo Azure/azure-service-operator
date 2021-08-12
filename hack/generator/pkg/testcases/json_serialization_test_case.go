@@ -353,14 +353,15 @@ func (o *JSONSerializationTestCase) createGeneratorDeclaration(genContext *astmo
 
 // createGeneratorMethod generates the AST for a method used to populate our generator cache variable on demand
 func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGenerationContext, haveSimpleGenerators bool, haveRelatedGenerators bool) dst.Decl {
-	gopterPackage := ctx.MustGetImportedPackageName(astmodel.GopterReference)
-	genPackage := ctx.MustGetImportedPackageName(astmodel.GopterGenReference)
+	gopterPkg := ctx.MustGetImportedPackageName(astmodel.GopterReference)
+	genPkg := ctx.MustGetImportedPackageName(astmodel.GopterGenReference)
+	reflectPkg := ctx.MustGetImportedPackageName(astmodel.ReflectReference)
 
 	fn := &astbuilder.FuncDetails{
 		Name: idOfGeneratorMethod(o.subject, o.idFactory),
 		Returns: []*dst.Field{
 			{
-				Type: astbuilder.QualifiedTypeName(gopterPackage, "Gen"),
+				Type: astbuilder.QualifiedTypeName(gopterPkg, "Gen"),
 			},
 		},
 	}
@@ -386,7 +387,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 			"independentGenerators",
 			astbuilder.MakeMap(
 				dst.NewIdent("string"),
-				astbuilder.QualifiedTypeName(gopterPackage, "Gen")))
+				astbuilder.QualifiedTypeName(gopterPkg, "Gen")))
 		makeIndependentMap.Decorations().Before = dst.EmptyLine
 
 		addIndependentGenerators := astbuilder.InvokeFunc(
@@ -396,9 +397,9 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		createIndependentGenerator := astbuilder.SimpleAssignment(
 			dst.NewIdent(o.idOfSubjectGeneratorGlobal()),
 			astbuilder.CallQualifiedFunc(
-				genPackage,
+				genPkg,
 				"Struct",
-				astbuilder.CallQualifiedFunc("reflect", "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
+				astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
 				dst.NewIdent("independentGenerators")))
 
 		fn.AddStatements(makeIndependentMap, addIndependentGenerators, createIndependentGenerator)
@@ -413,7 +414,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 			"allGenerators",
 			astbuilder.MakeMap(
 				dst.NewIdent("string"),
-				astbuilder.QualifiedTypeName(gopterPackage, "Gen")))
+				astbuilder.QualifiedTypeName(gopterPkg, "Gen")))
 
 		fn.AddStatements(makeAllMap)
 
@@ -431,9 +432,9 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		createFullGenerator := astbuilder.SimpleAssignment(
 			dst.NewIdent(o.idOfSubjectGeneratorGlobal()),
 			astbuilder.CallQualifiedFunc(
-				genPackage,
+				genPkg,
 				"Struct",
-				astbuilder.CallQualifiedFunc("reflect", "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
+				astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
 				dst.NewIdent("allGenerators")))
 
 		fn.AddStatements(addRelatedGenerators, createFullGenerator)
