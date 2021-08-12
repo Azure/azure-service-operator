@@ -98,6 +98,8 @@ func (t *TypeConverter) convertObjectType(
 		errs = append(errs, err)
 	}
 
+	// We use the JSON identifier $propertyBag because it can't possibly conflict with any identifer generated from
+	// an ARM schema (none of those use the prefix `$`)
 	bagProperty := astmodel.NewPropertyDefinition(bagName, "$propertyBag", astmodel.PropertyBagType).
 		WithTag("json", "omitempty")
 	properties.Add(bagProperty)

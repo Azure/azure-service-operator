@@ -20,21 +20,26 @@ func NewWritableConversionEndpointSet() WritableConversionEndpointSet {
 // CreatePropertyEndpoints will create writable conversion endpoints for any properties found on the passed instance
 // type. Existing endpoints won't be overwritten. Returns the count of new endpoints created
 func (set WritableConversionEndpointSet) CreatePropertyEndpoints(
-	instance astmodel.Type,
+	destinationType astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) int {
 	// Add an endpoint for each property we can read
-	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) *WritableConversionEndpoint {
+	return set.addForEachProperty(destinationType, func(prop *astmodel.PropertyDefinition) *WritableConversionEndpoint {
 		return NewWritableConversionEndpointWritingProperty(prop.PropertyName(), prop.PropertyType(), knownLocals)
 	})
 }
 
-// CreateBagItemEndpoints will create additional property bag item endpoints for any property on the passed instance
+// CreatePropertyBagMemberEndpoints will create additional property bag item endpoints for any property on the passed instance
 // type that doesn't already have one. Returns the count of new endpoints created.
-func (set WritableConversionEndpointSet) CreateBagItemEndpoints(
-	instance astmodel.Type,
+//
+// Background: When our destination instance has a property bag, that bag can be used to stash properties from the
+// source where there is no matching destination property. We therefore iterate through each property on the *source*
+// type and create a WritableConversionEndpoint for each one so the value is stashed in the property bag.
+//
+func (set WritableConversionEndpointSet) CreatePropertyBagMemberEndpoints(
+	sourceType astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) int {
-	// Add a property bag item endpoint for each property we don't already support
-	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) *WritableConversionEndpoint {
+	// Add a property bag member endpoint for each property we don't already support
+	return set.addForEachProperty(sourceType, func(prop *astmodel.PropertyDefinition) *WritableConversionEndpoint {
 		name := string(prop.PropertyName())
 		return NewWritableConversionEndpointWritingPropertyBagMember(name, prop.PropertyType(), knownLocals)
 	})

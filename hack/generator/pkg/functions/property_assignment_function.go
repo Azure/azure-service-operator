@@ -423,8 +423,12 @@ func (fn *PropertyAssignmentFunction) createReadingEndpoints() (conversions.Read
 
 	readsFromPropertyBag := false
 	if _, found := fn.findPropertyBagProperty(fn.sourceType()); found {
-		// Add source endpoints for DESTINATION properties that don't already have matching source properties
-		count := sourceEndpoints.CreateBagItemEndpoints(fn.destinationType(), fn.knownLocals)
+		//
+		// Our source has a property bag, which might contain values we can use to populate destination properties
+		// To pull values from the bag, we need a readable endpoint for each *destination* property that doesn't already
+		// have one.
+		//
+		count := sourceEndpoints.CreatePropertyBagMemberEndpoints(fn.destinationType(), fn.knownLocals)
 		if count > 0 {
 			// Only flag that we're going to be reading from a property bag if this is actually going to happen
 			readsFromPropertyBag = true
@@ -444,8 +448,12 @@ func (fn *PropertyAssignmentFunction) createWritingEndpoints() (conversions.Writ
 
 	writesToPropertyBag := false
 	if _, found := fn.findPropertyBagProperty(fn.destinationType()); found {
-		// Add destination endpoints for SOURCE properties that don't already have matching destination properties
-		count := destinationEndpoints.CreateBagItemEndpoints(fn.sourceType(), fn.knownLocals)
+		//
+		// Our destination has a property bag, which can be used to stash source properties that don't have another
+		// destination. To add values to the bag, we need a writable endpoint for each *source* property that doesn't
+		// already have one.
+		//
+		count := destinationEndpoints.CreatePropertyBagMemberEndpoints(fn.sourceType(), fn.knownLocals)
 		if count > 0 {
 			// Only flag that we're going to be writing to a property bag if this is actually going to happen
 			writesToPropertyBag = true

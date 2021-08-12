@@ -20,10 +20,10 @@ func NewReadableConversionEndpointSet() ReadableConversionEndpointSet {
 // CreatePropertyEndpoints will create readable conversion endpoints for any properties found on the passed instance
 // type. Existing endpoints won't be overwritten. Returns the count of new endpoints created
 func (set ReadableConversionEndpointSet) CreatePropertyEndpoints(
-	instance astmodel.Type,
+	sourceType astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) int {
 	// Add an endpoint for each property we can read
-	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) *ReadableConversionEndpoint {
+	return set.addForEachProperty(sourceType, func(prop *astmodel.PropertyDefinition) *ReadableConversionEndpoint {
 		return NewReadableConversionEndpointReadingProperty(prop.PropertyName(), prop.PropertyType(), knownLocals)
 	})
 }
@@ -32,21 +32,26 @@ func (set ReadableConversionEndpointSet) CreatePropertyEndpoints(
 // on the passed instance type that don't collide with the names of existing endpoints. Returns the count of new
 // endpoints created
 func (set ReadableConversionEndpointSet) CreateValueFunctionEndpoints(
-	instance astmodel.Type,
+	sourceType astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) int {
 	// Add more endpoints for any value functions we can read
-	return set.addForEachValueFunction(instance, func(fn astmodel.ValueFunction) *ReadableConversionEndpoint {
+	return set.addForEachValueFunction(sourceType, func(fn astmodel.ValueFunction) *ReadableConversionEndpoint {
 		return NewReadableConversionEndpointReadingValueFunction(fn.Name(), fn.ReturnType(), knownLocals)
 	})
 }
 
-// CreateBagItemEndpoints will create additional property bag item endpoints for any property on the passed instance
-// type that doesn't already have one. Returns the count of new endpoints created.
-func (set ReadableConversionEndpointSet) CreateBagItemEndpoints(
-	instance astmodel.Type,
+// CreatePropertyBagMemberEndpoints will create additional property bag item endpoints for any property on the passed
+// instance type that doesn't already have one. Returns the count of new endpoints created.
+//
+// Background: When our source instance has a property bag, that bag might contain values we can write into properties
+// on our destination instance. We therefore iterate through each property on the *destination* type and create a
+// ReadableConversionEndpoint for each one that looks in the property bag for a value.
+//
+func (set ReadableConversionEndpointSet) CreatePropertyBagMemberEndpoints(
+	destinationType astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet) int {
 	// Add a property bag item endpoint for each property we don't already support
-	return set.addForEachProperty(instance, func(prop *astmodel.PropertyDefinition) *ReadableConversionEndpoint {
+	return set.addForEachProperty(destinationType, func(prop *astmodel.PropertyDefinition) *ReadableConversionEndpoint {
 		name := string(prop.PropertyName())
 		return NewReadableConversionEndpointReadingPropertyBagMember(name, prop.PropertyType(), knownLocals)
 	})
