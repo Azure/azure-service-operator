@@ -39,7 +39,7 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-tag-version
         env:
-          DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PRERELEASE }}
+          DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
 
       - name: Upload release assets
         uses: svenstaro/upload-release-action@2f88c7710e85b1f8b5f6c3a2fcadaa7f865af713 # this is v2, but pinned
