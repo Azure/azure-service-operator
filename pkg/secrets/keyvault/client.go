@@ -233,7 +233,7 @@ func (k *SecretClient) setSecret(ctx context.Context, secretBaseName string, sec
 
 	_, err := k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secret)
 	if err != nil {
-		if !isErrSecretWasSoftDeleted(err) {
+		if !isErrSecretWasSoftDeleted(err) || !k.RecoverSoftDeletedSecrets {
 			return errors.Wrapf(err, "error setting secret %q in %q", secretBaseName, vaultBaseURL)
 		}
 

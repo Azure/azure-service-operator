@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	"github.com/stretchr/testify/require"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -21,6 +21,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
@@ -337,4 +338,51 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	})
 
+}
+
+func TestAzureSqlServer_KeyVaultSoftDelete_CreateDeleteCreateAgain(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+	require := require.New(t)
+	//var err error
+
+	rgLocation := "westus2"
+
+	// Create a KeyVault with soft delete enabled that we can use to perform our tests
+	keyVaultName := GenerateAlphaNumTestResourceNameWithRandom("kv-softdelete", 5)
+	objID, err := resourcemanagerkeyvaults.GetObjectID(
+		context.Background(),
+		config.GlobalCredentials(),
+		config.GlobalCredentials().TenantID(),
+		config.GlobalCredentials().ClientID())
+	require.NoError(err)
+
+	err = CreateVaultWithAccessPolicies(
+		context.Background(),
+		config.GlobalCredentials(),
+		tc.resourceGroupName,
+		keyVaultName,
+		rgLocation,
+		objID)
+	require.NoError(err)
+
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver", 10)
+	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
+	sqlServerInstance := v1beta1.NewAzureSQLServer(sqlServerNamespacedName, tc.resourceGroupName, rgLocation)
+	sqlServerInstance.Spec.KeyVaultToStoreSecrets = keyVaultName
+
+	// create and wait
+	RequireInstance(ctx, t, tc, sqlServerInstance)
+
+	// TODO: do we need to ensure that there's a key here?
+
+	EnsureDelete(ctx, t, tc, sqlServerInstance)
+
+	// Recreate with the same name
+	sqlServerInstance = v1beta1.NewAzureSQLServer(sqlServerNamespacedName, tc.resourceGroupName, rgLocation)
+	sqlServerInstance.Spec.KeyVaultToStoreSecrets = keyVaultName
+	RequireInstance(ctx, t, tc, sqlServerInstance)
+
+	EnsureDelete(ctx, t, tc, sqlServerInstance)
 }
