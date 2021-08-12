@@ -1,4 +1,4 @@
-apiVersion: microsoft.network.infra.azure.com/v1alpha1api20201101
+apiVersion: microsoft.network.azure.com/v1alpha1api20201101
 kind: VirtualNetwork
 metadata:
   name: samplevnet

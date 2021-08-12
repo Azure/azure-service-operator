@@ -5,8 +5,8 @@ package v20200101
 
 import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-// +kubebuilder:rbac:groups=microsoft.person.infra.azure.com,resources=people,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.person.infra.azure.com,resources={people/status,people/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.person.azure.com,resources=people,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.person.azure.com,resources={people/status,people/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status

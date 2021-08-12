@@ -1,4 +1,4 @@
-apiVersion: microsoft.network.infra.azure.com/v1alpha1api20201101
+apiVersion: microsoft.network.azure.com/v1alpha1api20201101
 kind: LoadBalancer
 metadata:
   name: sampleloadbalancer
@@ -13,7 +13,7 @@ spec:
     - name: LoadBalancerFrontend
       publicIPAddress:
         reference:
-          group: microsoft.network.infra.azure.com
+          group: microsoft.network.azure.com
           kind: PublicIPAddress
           namespace: default
           name: samplepublicipaddress

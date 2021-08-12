@@ -21,7 +21,7 @@ const (
 
 // If we wanted to type-assert we'd have to solve some circular dependency problems... for now this is ok.
 const ResourceGroupKind = "ResourceGroup"
-const ResourceGroupGroup = "microsoft.resources.infra.azure.com"
+const ResourceGroupGroup = "microsoft.resources.azure.com"
 
 type ResourceHierarchy []MetaObject
 

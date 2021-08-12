@@ -13,8 +13,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=test.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
@@ -25,7 +25,7 @@ type A struct {
 	Spec              A_Spec `json:"spec,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v1alpha1api20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.as.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Defaulter = &A{}
 
@@ -61,7 +61,7 @@ func (a *A) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: a.Namespace, Name: a.Spec.Owner.Name}
 }
 
-// +kubebuilder:webhook:path=/validate-test-infra-azure-com-v1alpha1api20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.as.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &A{}
 
@@ -175,8 +175,8 @@ func (aSpecARM A_SpecARM) GetType() string {
 	return string(aSpecARM.Type)
 }
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=bs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={bs/status,bs/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=test.azure.com,resources=bs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.azure.com,resources={bs/status,bs/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
@@ -187,7 +187,7 @@ type B struct {
 	Spec              B_Spec `json:"spec,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v1alpha1api20200101-b,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.bs.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-b,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.bs.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Defaulter = &B{}
 
@@ -223,7 +223,7 @@ func (b *B) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: b.Namespace, Name: b.Spec.Owner.Name}
 }
 
-// +kubebuilder:webhook:path=/validate-test-infra-azure-com-v1alpha1api20200101-b,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.bs.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-b,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.bs.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &B{}
 
@@ -337,8 +337,8 @@ func (bSpecARM B_SpecARM) GetType() string {
 	return string(bSpecARM.Type)
 }
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=cs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={cs/status,cs/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=test.azure.com,resources=cs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.azure.com,resources={cs/status,cs/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
@@ -349,7 +349,7 @@ type C struct {
 	Spec              C_Spec `json:"spec,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v1alpha1api20200101-c,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=cs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.cs.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-c,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.cs.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Defaulter = &C{}
 
@@ -385,7 +385,7 @@ func (c *C) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: c.Namespace, Name: c.Spec.Owner.Name}
 }
 
-// +kubebuilder:webhook:path=/validate-test-infra-azure-com-v1alpha1api20200101-c,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=cs,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.cs.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-c,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.cs.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &C{}
 
@@ -499,8 +499,8 @@ func (cSpecARM C_SpecARM) GetType() string {
 	return string(cSpecARM.Type)
 }
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=ds,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={ds/status,ds/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=test.azure.com,resources=ds,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.azure.com,resources={ds/status,ds/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
@@ -511,7 +511,7 @@ type D struct {
 	Spec              D_Spec `json:"spec,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v1alpha1api20200101-d,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=ds,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.ds.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-d,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=ds,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.ds.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Defaulter = &D{}
 
@@ -547,7 +547,7 @@ func (d *D) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: d.Namespace, Name: d.Spec.Owner.Name}
 }
 
-// +kubebuilder:webhook:path=/validate-test-infra-azure-com-v1alpha1api20200101-d,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=ds,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.ds.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-d,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=ds,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.ds.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &D{}
 
@@ -677,7 +677,7 @@ type A_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"microsoft.resources.infra.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner genruntime.KnownResourceReference `group:"microsoft.resources.azure.com" json:"owner" kind:"ResourceGroup"`
 }
 
 var _ genruntime.ARMTransformer = &A_Spec{}
@@ -741,7 +741,7 @@ type B_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"test.infra.azure.com" json:"owner" kind:"A"`
+	Owner genruntime.KnownResourceReference `group:"test.azure.com" json:"owner" kind:"A"`
 }
 
 var _ genruntime.ARMTransformer = &B_Spec{}
@@ -805,7 +805,7 @@ type C_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"test.infra.azure.com" json:"owner" kind:"B"`
+	Owner genruntime.KnownResourceReference `group:"test.azure.com" json:"owner" kind:"B"`
 }
 
 var _ genruntime.ARMTransformer = &C_Spec{}
@@ -869,7 +869,7 @@ type D_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"test.infra.azure.com" json:"owner" kind:"B"`
+	Owner genruntime.KnownResourceReference `group:"test.azure.com" json:"owner" kind:"B"`
 }
 
 var _ genruntime.ARMTransformer = &D_Spec{}

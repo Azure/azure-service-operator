@@ -13,8 +13,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=test.infra.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=test.azure.com,resources=as,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.azure.com,resources={as/status,as/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
@@ -25,7 +25,7 @@ type A struct {
 	Spec              A_Spec `json:"spec,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-test-infra-azure-com-v1alpha1api20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.as.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Defaulter = &A{}
 
@@ -61,7 +61,7 @@ func (a *A) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: a.Namespace, Name: a.Spec.Owner.Name}
 }
 
-// +kubebuilder:webhook:path=/validate-test-infra-azure-com-v1alpha1api20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.infra.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.as.test.infra.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &A{}
 
@@ -198,7 +198,7 @@ type A_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	Owner      genruntime.KnownResourceReference `group:"microsoft.resources.infra.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner      genruntime.KnownResourceReference `group:"microsoft.resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	Properties *AProperties                      `json:"properties,omitempty"`
 }
 
