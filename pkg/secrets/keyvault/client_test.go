@@ -248,7 +248,6 @@ var _ = Describe("Keyvault Secrets Client", func() {
 				})
 			})
 
-
 		}
 	})
 })
@@ -315,12 +314,12 @@ var _ = Describe("Keyvault Secrets soft delete", func() {
 			Eventually(func() bool {
 				_, err = client.Get(ctx, secretKey)
 				return err == nil
-			}, time.Second * 60).Should(BeFalse())
+			}, time.Second*60).Should(BeFalse())
 
 			// Create the key again
 			Eventually(func() error {
 				return client.Upsert(ctx, secretKey, data)
-			}, time.Second * 60).Should(Succeed())
+			}, time.Second*60).Should(Succeed())
 		})
 	})
 })
@@ -343,8 +342,8 @@ func createKeyVaultSoftDeleteEnabled(ctx context.Context, creds config.Credentia
 
 	params := keyvault.VaultCreateOrUpdateParameters{
 		Properties: &keyvault.VaultProperties{
-			TenantID:       &id,
-			AccessPolicies: &accessPolicies,
+			TenantID:         &id,
+			AccessPolicies:   &accessPolicies,
 			EnableSoftDelete: to.BoolPtr(true),
 			Sku: &keyvault.Sku{
 				Family: to.StringPtr("A"),

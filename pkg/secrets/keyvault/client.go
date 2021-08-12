@@ -28,7 +28,7 @@ type SecretClient struct {
 	KeyVaultName        string
 	SecretNamingVersion secrets.SecretNamingVersion
 
-	PurgeDeletedSecrets bool
+	PurgeDeletedSecrets       bool
 	RecoverSoftDeletedSecrets bool
 }
 
@@ -77,10 +77,10 @@ func New(
 	keyvaultClient.AddToUserAgent(config.UserAgent())
 
 	return &SecretClient{
-		KeyVaultClient:      keyvaultClient,
-		KeyVaultName:        keyVaultName,
-		SecretNamingVersion: secretNamingVersion,
-		PurgeDeletedSecrets: purgeDeletedSecrets,
+		KeyVaultClient:            keyvaultClient,
+		KeyVaultName:              keyVaultName,
+		SecretNamingVersion:       secretNamingVersion,
+		PurgeDeletedSecrets:       purgeDeletedSecrets,
 		RecoverSoftDeletedSecrets: recoverSoftDeletedSecrets,
 	}
 }
