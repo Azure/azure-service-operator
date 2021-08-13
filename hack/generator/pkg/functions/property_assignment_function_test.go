@@ -85,6 +85,8 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	jsonObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", jsonObjectType)
 	optionalJSONObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", astmodel.NewOptionalType(jsonObjectType))
 
+	bagProperty := astmodel.NewPropertyDefinition("propertyBag", "$propertyBag", astmodel.PropertyBagType)
+
 	idFactory := astmodel.NewIdentifierFactory()
 	ageFunction := test.NewFakeFunction("Age", idFactory)
 	ageFunction.TypeReturned = astmodel.IntType
@@ -202,6 +204,17 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 		createPropertyAssignmentTest("CopyJSONObjectProperty", jsonObjectProperty, jsonObjectProperty),
 		createPropertyAssignmentTest("CopyOptionalJSONProperty", optionalJSONProperty, jsonProperty),
 		createPropertyAssignmentTest("CopyJSONObjectProperty", optionalJSONObjectProperty, jsonObjectProperty),
+
+		createPropertyAssignmentTest("CopyRequiredStringToPropertyBag", requiredStringProperty, bagProperty),
+		createPropertyAssignmentTest("CopyOptionalStringToPropertyBag", optionalStringProperty, bagProperty),
+		createPropertyAssignmentTest("CopyRequiredIntToPropertyBag", requiredIntProperty, bagProperty),
+		createPropertyAssignmentTest("CopyOptionalIntToPropertyBag", optionalIntProperty, bagProperty),
+
+		createPropertyAssignmentTest("CopyRequiredObjectToPropertyBag", requiredCurrentRoleProperty, bagProperty, currentRole),
+		createPropertyAssignmentTest("CopyOptionalObjectToPropertyBag", optionalCurrentRoleProperty, bagProperty, currentRole),
+
+		createPropertyAssignmentTest("CopySliceToPropertyBag", arrayOfRequiredIntProperty, bagProperty),
+		createPropertyAssignmentTest("CopyMapToPropertyBag", mapOfRequiredIntsProperty, bagProperty),
 	}
 }
 
@@ -219,21 +232,52 @@ func TestPropertyAssignmentFunction_AsFunc(t *testing.T) {
 
 func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCase, t *testing.T) {
 	g := NewGomegaWithT(t)
-
 	idFactory := astmodel.NewIdentifierFactory()
 
 	currentType, ok := astmodel.AsObjectType(c.currentObject.Type())
 	g.Expect(ok).To(BeTrue())
 
 	conversionContext := conversions.NewPropertyConversionContext(c.types, idFactory)
-	convertFrom, errs := NewPropertyAssignmentFromFunction(c.currentObject, c.otherObject, idFactory, conversionContext)
+	convertFrom, errs := NewPropertyAssignmentFunction(c.currentObject, c.otherObject, conversionContext, conversions.ConvertFrom)
 	g.Expect(errs).To(BeNil())
 
-	convertTo, errs := NewPropertyAssignmentToFunction(c.currentObject, c.otherObject, idFactory, conversionContext)
+	convertTo, errs := NewPropertyAssignmentFunction(c.currentObject, c.otherObject, conversionContext, conversions.ConvertTo)
 	g.Expect(errs).To(BeNil())
 
 	receiverDefinition := c.currentObject.WithType(currentType.WithFunction(convertFrom).WithFunction(convertTo))
 
 	fileDef := test.CreateFileDefinition(receiverDefinition)
 	test.AssertFileGeneratesExpectedCode(t, fileDef, c.name)
+}
+
+func TestPropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) {
+	g := NewGomegaWithT(t)
+	idFactory := astmodel.NewIdentifierFactory()
+	injector := astmodel.NewFunctionInjector()
+
+	person2020 := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Person",
+		test.FullNameProperty,
+		test.KnownAsProperty,
+		test.FamilyNameProperty)
+
+	person2021 := test.CreateObjectDefinition(
+		test.Pkg2021,
+		"Person",
+		test.FullNameProperty,
+		test.PropertyBagProperty)
+
+	conversionContext := conversions.NewPropertyConversionContext(make(astmodel.Types), idFactory)
+	assignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
+	g.Expect(err).To(Succeed())
+
+	assignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
+	g.Expect(err).To(Succeed())
+
+	receiverDefinition, err := injector.Inject(person2020, assignFrom, assignTo)
+	g.Expect(err).To(Succeed())
+
+	fileDef := test.CreateFileDefinition(receiverDefinition)
+	test.AssertFileGeneratesExpectedCode(t, fileDef, "PropertyBags")
 }

@@ -19,6 +19,8 @@ type PropertyConversionContext struct {
 	// knownLocals is a reference to our set of local variables
 	// (Pointer because it's a reference type, not because it's optional)
 	knownLocals *astmodel.KnownLocalsSet
+	// propertyBagName is the name of the local variable used for a property bag (or "" if we don't have one)
+	propertyBagName string
 	// idFactory is used for generating method names
 	idFactory astmodel.IdentifierFactory
 }
@@ -26,9 +28,10 @@ type PropertyConversionContext struct {
 // NewPropertyConversionContext creates a new instance of a PropertyConversionContext
 func NewPropertyConversionContext(types astmodel.Types, idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
 	return &PropertyConversionContext{
-		types:       types,
-		idFactory:   idFactory,
-		knownLocals: astmodel.NewKnownLocalsSet(idFactory),
+		types:           types,
+		idFactory:       idFactory,
+		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
+		propertyBagName: "",
 	}
 }
 
@@ -40,6 +43,11 @@ func (c *PropertyConversionContext) FunctionName() string {
 // Types returns the set of types available in this context
 func (c *PropertyConversionContext) Types() astmodel.Types {
 	return c.types
+}
+
+// IDFactory returns a reference to our identifier factory
+func (c *PropertyConversionContext) IDFactory() astmodel.IdentifierFactory {
+	return c.idFactory
 }
 
 // WithFunctionName returns a new context with the specified function name included
@@ -60,6 +68,13 @@ func (c *PropertyConversionContext) WithKnownLocals(knownLocals *astmodel.KnownL
 func (c *PropertyConversionContext) WithDirection(dir Direction) *PropertyConversionContext {
 	result := c.clone()
 	result.direction = dir
+	return result
+}
+
+// WithPropertyBag returns a new context with the specified property bag name included
+func (c *PropertyConversionContext) WithPropertyBag(name string) *PropertyConversionContext {
+	result := c.clone()
+	result.propertyBagName = name
 	return result
 }
 
@@ -96,13 +111,19 @@ func (c *PropertyConversionContext) TryCreateLocal(local string) bool {
 	return true
 }
 
+// PropertyBagName returns the name to use for a local property bag variable
+func (c *PropertyConversionContext) PropertyBagName() string {
+	return c.propertyBagName
+}
+
 // clone returns a new independent copy of this context
 func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 	return &PropertyConversionContext{
-		types:        c.types,
-		functionName: c.functionName,
-		direction:    c.direction,
-		idFactory:    c.idFactory,
-		knownLocals:  c.knownLocals.Clone(),
+		types:           c.types,
+		functionName:    c.functionName,
+		direction:       c.direction,
+		knownLocals:     c.knownLocals.Clone(),
+		propertyBagName: c.propertyBagName,
+		idFactory:       c.idFactory,
 	}
 }

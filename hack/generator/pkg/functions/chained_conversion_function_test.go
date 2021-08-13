@@ -35,10 +35,10 @@ func Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode(t *t
 	types.AddAll(personSpec2021)
 
 	conversionContext := conversions.NewPropertyConversionContext(types, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentToFunction(personSpec2020, personSpec2021, idFactory, conversionContext)
+	propertyAssignTo, err := NewPropertyAssignmentFunction(personSpec2020, personSpec2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFromFunction(personSpec2020, personSpec2021, idFactory, conversionContext)
+	propertyAssignFrom, err := NewPropertyAssignmentFunction(personSpec2020, personSpec2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
 	// Create Spec Conversion Functions
@@ -77,10 +77,10 @@ func Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode(t 
 	types.AddAll(personStatus2021)
 
 	conversionContext := conversions.NewPropertyConversionContext(types, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentToFunction(personStatus2020, personStatus2021, idFactory, conversionContext)
+	propertyAssignTo, err := NewPropertyAssignmentFunction(personStatus2020, personStatus2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFromFunction(personStatus2020, personStatus2021, idFactory, conversionContext)
+	propertyAssignFrom, err := NewPropertyAssignmentFunction(personStatus2020, personStatus2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
 	// Create Spec Conversion Functions

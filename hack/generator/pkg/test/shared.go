@@ -38,6 +38,9 @@ var (
 	StatusProperty = astmodel.NewPropertyDefinition("Status", "status", astmodel.StringType).
 			WithDescription("Current status")
 
+	PropertyBagProperty = astmodel.NewPropertyDefinition("PropertyBag", "$propertyBag", astmodel.PropertyBagType).
+				WithDescription("Stash for extra properties")
+
 	// Reference Package 2020
 	Pkg2020 = MakeLocalPackageReference(Group, "v20200101")
 

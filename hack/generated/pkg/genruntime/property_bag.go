@@ -13,11 +13,16 @@ import (
 
 // PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
 // resources, allowing for full fidelity round trip conversions
+// We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know
+// the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it
+// serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our
+// containing resource is hydrated. We only have the required type available when we are doing the conversion to a
+// related type.
 type PropertyBag map[string]string
 
 // PropertyBag returns a new property bag
 // originals is a (potentially empty) sequence of existing property bags who's content will be copied into the new
-// property bag. In the case of key overlaps, the bag later in the parameter list overwrites the earlier value.
+// property bag. In the case of key overlaps, values from bags later in the parameter list overwrite the earlier value.
 func NewPropertyBag(originals ...PropertyBag) PropertyBag {
 	result := make(PropertyBag)
 
