@@ -52,22 +52,19 @@ func RunJSONSerializationTestForPersonSpec(subject Person_Spec) string {
 
 //Generator of Person_Spec instances for property testing - lazily instantiated by
 //PersonSpecGenerator()
-var cachedPersonSpecGenerator gopter.Gen
+var personSpecGenerator gopter.Gen
 
 // PersonSpecGenerator returns a generator of Person_Spec instances for property testing.
-// We first initialize cachedPersonSpecGenerator with a simplified generator based on the fields with primitive types
-// then replacing it with a more complex one that also handles complex fields.
-// This ensures any cycles in the object graph properly terminate.
-// The call to gen.Struct() captures the map, so we have to create a new one for the second generator.
 func PersonSpecGenerator() gopter.Gen {
-	if cachedPersonSpecGenerator != nil {
-		return cachedPersonSpecGenerator
+	if personSpecGenerator != nil {
+		return personSpecGenerator
 	}
 
-	independentGenerators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPersonSpec(independentGenerators)
-	cachedPersonSpecGenerator = gen.Struct(reflect.TypeOf(Person_Spec{}), independentGenerators)
-	return cachedPersonSpecGenerator
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPersonSpec(generators)
+	personSpecGenerator = gen.Struct(reflect.TypeOf(Person_Spec{}), generators)
+
+	return personSpecGenerator
 }
 
 // AddIndependentPropertyGeneratorsForPersonSpec is a factory method for creating gopter generators
