@@ -173,6 +173,11 @@ exportFilters:
     version: v*api20201201
     name: VirtualMachineScaleSet
     because: "including VMSS"
+  - action: include-transitive
+    group: microsoft.managedidentity
+    version: v*20181130
+    name: UserAssignedIdentity
+    because: "including user assigned managed identity"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.
