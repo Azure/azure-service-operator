@@ -20,81 +20,79 @@ type ReadableConversionEndpoint struct {
 	// reader is a function that accepts an expression for the containing instance and returns an expression for reading
 	// the value from that instance
 	reader func(expr dst.Expr) dst.Expr
-	// description is a human readable string for what is being read
+	// description is a human-readable string for what is being read
 	description string
 }
 
-var _ fmt.Stringer = ReadableConversionEndpoint{}
+var _ fmt.Stringer = &ReadableConversionEndpoint{}
 
-// MakeReadableConversionEndpointForProperty creates a ReadableConversionEndpoint for a specific property
-func MakeReadableConversionEndpointForProperty(
-	prop *astmodel.PropertyDefinition,
+// NewReadableConversionEndpointReadingProperty creates a ReadableConversionEndpoint that reads a value from a specific
+// property
+func NewReadableConversionEndpointReadingProperty(
+	propertyName astmodel.PropertyName,
+	propertyType astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet,
-) ReadableConversionEndpoint {
-	propertyName := string(prop.PropertyName())
-	return ReadableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(prop.PropertyType(), propertyName, knownLocals),
+) *ReadableConversionEndpoint {
+	name := string(propertyName)
+	return &ReadableConversionEndpoint{
+		endpoint: NewStorageConversionEndpoint(propertyType, name, knownLocals),
 		reader: func(source dst.Expr) dst.Expr {
-			return astbuilder.Selector(source, propertyName)
+			return astbuilder.Selector(source, name)
 		},
-		description: fmt.Sprintf("read from property %s", propertyName),
+		description: fmt.Sprintf("read from property %s", name),
 	}
 }
 
-// MakeReadableConversionEndpointForValueFunction creates a ReadableConversionEndpoint for a specific value function
-func MakeReadableConversionEndpointForValueFunction(
-	fn astmodel.ValueFunction,
+// NewReadableConversionEndpointReadingValueFunction creates a ReadableConversionEndpoint that reads a value from a
+// specific single valued function
+func NewReadableConversionEndpointReadingValueFunction(
+	fnName string,
+	fnReturnType astmodel.Type,
 	knownLocals *astmodel.KnownLocalsSet,
-) ReadableConversionEndpoint {
-	functionName := fn.Name()
-	return ReadableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(fn.ReturnType(), functionName, knownLocals),
+) *ReadableConversionEndpoint {
+	return &ReadableConversionEndpoint{
+		endpoint: NewStorageConversionEndpoint(fnReturnType, fnName, knownLocals),
 		reader: func(source dst.Expr) dst.Expr {
-			return astbuilder.CallExpr(source, functionName)
+			return astbuilder.CallExpr(source, fnName)
 		},
-		description: fmt.Sprintf("call function %s()", functionName),
+		description: fmt.Sprintf("call function %s()", fnName),
 	}
 }
 
-// String returns a human readable description of the endpoint
-func (r ReadableConversionEndpoint) String() string {
+// NewReadableConversionEndpointReadingPropertyBagMember creates a ReadableConversionEndpoint that reads an item from a
+// property bag.
+func NewReadableConversionEndpointReadingPropertyBagMember(
+	itemName string,
+	itemType astmodel.Type,
+	knownLocals *astmodel.KnownLocalsSet,
+) *ReadableConversionEndpoint {
+	return &ReadableConversionEndpoint{
+		endpoint: NewStorageConversionEndpoint(NewPropertyBagMemberType(itemType), itemName, knownLocals),
+		// We don't supply a reader function because we don't read the value from the source instance when dealing with
+		// a property bag member; instead we read it from a property bag that's stashed in a local variable.
+		// See AssignFromBagItem() for more details
+		reader:      nil,
+		description: fmt.Sprintf("read %s from property bag", itemName),
+	}
+}
+
+// String returns a human-readable description of the endpoint
+func (r *ReadableConversionEndpoint) String() string {
 	return r.description
 }
 
 // Read generates an expression to read our endpoint
-func (r ReadableConversionEndpoint) Read(expr dst.Expr) dst.Expr {
+func (r *ReadableConversionEndpoint) Read(expr dst.Expr) dst.Expr {
+	if r.reader == nil {
+		// If we don't have an expression to use, just return the original
+		// (this can happen if this endpoint represents a source that doesn't directly read from our source instance)
+		return expr
+	}
+
 	return r.reader(expr)
 }
 
 // Endpoint provides access to the end point we read
-func (r ReadableConversionEndpoint) Endpoint() *TypedConversionEndpoint {
+func (r *ReadableConversionEndpoint) Endpoint() *TypedConversionEndpoint {
 	return r.endpoint
-}
-
-// CreateReadableEndpoints creates a map of all the readable endpoints found on a type
-func CreateReadableEndpoints(
-	instance astmodel.Type,
-	knownLocals *astmodel.KnownLocalsSet) map[string]ReadableConversionEndpoint {
-	result := make(map[string]ReadableConversionEndpoint)
-
-	propContainer, ok := astmodel.AsPropertyContainer(instance)
-	if ok {
-		for _, prop := range propContainer.Properties() {
-			endpoint := MakeReadableConversionEndpointForProperty(prop, knownLocals)
-			result[string(prop.PropertyName())] = endpoint
-		}
-	}
-
-	funcContainer, ok := astmodel.AsFunctionContainer(instance)
-	if ok {
-		for _, f := range funcContainer.Functions() {
-			valueFn, ok := f.(astmodel.ValueFunction)
-			if ok {
-				endpoint := MakeReadableConversionEndpointForValueFunction(valueFn, knownLocals)
-				result[f.Name()] = endpoint
-			}
-		}
-	}
-
-	return result
 }

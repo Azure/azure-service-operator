@@ -28,6 +28,15 @@ type PropertyConversion func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, 
 // source is the property conversion endpoint that will be read
 // destination is the property conversion endpoint that will be written
 // ctx contains additional information that may be needed when creating the property conversion
+//
+// Each conversion should be written with lead predicates to make sure that it only fires in the correct circumstances.
+// This requires, in particular, that most conversions check for optionality and bag items and exit early when those are
+// found.
+// Phrased another way, conversions should not rely on the order of listing in propertyConversionFactories in order to
+// generate the correct code; any conversion that relies on being "protected" from particular situations by having other
+// conversions earlier in the list held by propertyConversionFactories is brittle and likely to generate the incorrect
+// code if the order of items in the list is modified.
+//
 type PropertyConversionFactory func(
 	source *TypedConversionEndpoint,
 	destination *TypedConversionEndpoint,
@@ -38,6 +47,9 @@ var propertyConversionFactories []PropertyConversionFactory
 
 func init() {
 	propertyConversionFactories = []PropertyConversionFactory{
+		// Property bag items
+		pullFromBagItem,
+		writeToBagItem,
 		// Primitive types and aliases
 		assignPrimitiveFromPrimitive,
 		assignAliasedPrimitiveFromAliasedPrimitive,
@@ -55,7 +67,7 @@ func init() {
 		copyKnownType(astmodel.ConditionTypeName, "Copy", returnsValue),
 		copyKnownType(astmodel.JSONTypeName, "DeepCopy", returnsReference),
 		// Meta-conversions
-		assignFromOptional, // Must go before assignToOptional so we generate the right zero values
+		assignFromOptional,
 		assignToOptional,
 		assignToEnumeration,
 		assignFromAliasedPrimitive,
@@ -118,7 +130,6 @@ func init() {
 //     destination := ""
 // }
 //
-// TODO: Make this internal
 func CreateTypeConversion(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
@@ -152,6 +163,71 @@ func NameOfPropertyAssignmentFunction(name astmodel.TypeName, direction Directio
 	return "AssignProperties" + direction.SelectString("From", "To") + nameOfOtherType
 }
 
+// writeToBagItem will generate a conversion where the destination is in our property bag
+//
+// For non-optional sources, the value is directly added
+//
+// <propertyBag>.Add(<propertyName>, <source>)
+//
+// For optional sources, the value is only added if non-nil
+//
+// if <source> != nil {
+//     <propertyBag>.Add(<propertyName>, *<source>)
+// }
+//
+func writeToBagItem(
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
+	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require destination to be a property bag item
+	destinationBagItem, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type())
+	if !destinationIsBagItem {
+		// Destination is not optional
+		return nil
+	}
+
+	// Work out our source type, and whether it's optional
+	actualSourceType := sourceEndpoint.Type()
+	sourceOptional, sourceIsOptional := astmodel.AsOptionalType(actualSourceType)
+	if sourceIsOptional {
+		actualSourceType = sourceOptional.BaseType()
+	}
+
+	// Require the item in the bag to be exactly the same type as our source
+	// (We don't want to recursively do all the conversions because our property bag item SHOULD always contain
+	// exactly the expected type, so no conversion should be required. Plus, our conversions are designed to isolate
+	// the source and destination from each other (so that changes to one don't impact the other), but with the
+	// property bag everything gets immediately serialized so everything is already nicely isolated.
+	if !destinationBagItem.Element().Equals(actualSourceType) {
+		return nil
+	}
+
+	return func(reader dst.Expr, _ func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+		createAddToBag := func(expr dst.Expr) dst.Stmt {
+
+			addToBag := astbuilder.InvokeQualifiedFunc(
+				conversionContext.PropertyBagName(),
+				"Add",
+				astbuilder.StringLiteralf(destinationEndpoint.Name()),
+				expr)
+
+			return addToBag
+		}
+
+		var writer dst.Stmt
+		if sourceIsOptional {
+			writer = astbuilder.IfNotNil(
+				reader,
+				createAddToBag(astbuilder.Dereference(reader)))
+		} else {
+			writer = createAddToBag(reader)
+		}
+
+		return astbuilder.Statements(writer)
+	}
+}
+
 // assignToOptional will generate a conversion where the destination is optional, if the
 // underlying type of the destination is compatible with the source.
 //
@@ -162,10 +238,21 @@ func assignToOptional(
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
+
 	// Require destination to be optional
 	destinationOptional, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type())
 	if !destinationIsOptional {
 		// Destination is not optional
+		return nil
+	}
+
+	// Require source to be non-optional
+	// (to ensure that assignFromOptional triggers first when handling option to optional conversion)
+	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
 		return nil
 	}
 
@@ -200,6 +287,101 @@ func assignToOptional(
 	}
 }
 
+// pullFromBagItem will populate a property from a property bag
+//
+// if <propertyBag>.Contains(<sourceName>) {
+//     var <value> <destinationType>
+//     err := <propertyBag>.Pull(<sourceName>, &<value>)
+//     if err != nil {
+//         return errors.Wrapf(err, ...)
+//     }
+//
+//     <destination> = <value>
+// } else {
+//     <destination> = <zero>
+// }
+//
+func pullFromBagItem(
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
+	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require source to be a bag item
+	sourceBagItem, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type())
+	if !sourceIsBagItem {
+		return nil
+	}
+
+	// Work out our destination type, and whether it's optional
+	actualDestinationType := destinationEndpoint.Type()
+	destinationOptional, destinationIsOptional := astmodel.AsOptionalType(actualDestinationType)
+	if destinationIsOptional {
+		actualDestinationType = destinationOptional.BaseType()
+	}
+
+	// Require the item in the bag to be exactly the same type as our destination
+	// (We don't want to recursively do all the conversions because our property bag item SHOULD always contain
+	// exactly the expected type, so no conversion should be required. Plus, our conversions are designed to isolate
+	// the source and destination from each other (so that changes to one don't impact the other), but with the
+	// property bag everything gets immediately serialized so everything is already nicely isolated.
+	if !sourceBagItem.Element().Equals(actualDestinationType) {
+		return nil
+	}
+
+	local := sourceEndpoint.CreateLocal("", "Read")
+	errIdent := dst.NewIdent("err")
+
+	return func(_ dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+		// our first parameter is an expression to read the value from our original instance, but in this case we're
+		// going to read from the property bag, so we're ignoring it.
+
+		errorsPkg := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+
+		condition := astbuilder.CallQualifiedFunc(
+			conversionContext.PropertyBagName(),
+			"Contains",
+			astbuilder.StringLiteral(sourceEndpoint.Name()))
+
+		declare := astbuilder.NewVariableWithType(
+			local,
+			sourceBagItem.AsType(generationContext))
+
+		pull := astbuilder.ShortDeclaration(
+			"err",
+			astbuilder.CallQualifiedFunc(
+				conversionContext.PropertyBagName(),
+				"Pull",
+				astbuilder.StringLiteral(sourceEndpoint.Name()),
+				astbuilder.AddrOf(dst.NewIdent(local))))
+
+		returnIfErr := astbuilder.ReturnIfNotNil(
+			errIdent,
+			astbuilder.WrappedErrorf(
+				errorsPkg,
+				"pulling '%s' from propertyBag",
+				sourceEndpoint.Name()))
+		returnIfErr.Decorations().After = dst.EmptyLine
+
+		var reader dst.Expr
+		if destinationIsOptional {
+			reader = astbuilder.AddrOf(dst.NewIdent(local))
+		} else {
+			reader = dst.NewIdent(local)
+		}
+
+		assignValue := writer(reader)
+
+		assignZero := writer(destinationEndpoint.Type().AsZero(conversionContext.Types(), generationContext))
+
+		ifStatement := astbuilder.SimpleIfElse(
+			condition,
+			astbuilder.Statements(declare, pull, returnIfErr, assignValue),
+			assignZero)
+
+		return astbuilder.Statements(ifStatement)
+	}
+}
+
 // assignFromOptional will handle the case where the source type may be missing (nil)
 //
 // <original> := <source>
@@ -208,10 +390,19 @@ func assignToOptional(
 // } else {
 //    <destination> = <zero>
 // }
+//
+// Must trigger before assignToOptional so we generate the right zero values; to enforce this, assignToOptional includes
+// a predicate check that the source is NOT optional, allowing this conversion to trigger first.
+//
 func assignFromOptional(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil
+	}
 
 	// Require source to be optional
 	sourceOptional, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type())
@@ -286,6 +477,11 @@ func assignToEnumeration(
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
+
 	// Require destination to NOT be optional
 	_, dstIsOpt := astmodel.AsOptionalType(destinationEndpoint.Type())
 	if dstIsOpt {
@@ -336,6 +532,16 @@ func assignPrimitiveFromPrimitive(
 	destinationEndpoint *TypedConversionEndpoint,
 	_ *PropertyConversionContext) PropertyConversion {
 
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
+
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil
+	}
+
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
 		return nil
@@ -377,6 +583,16 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
+
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil
+	}
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -428,6 +644,11 @@ func assignFromAliasedPrimitive(
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil
+	}
+
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
 		return nil
@@ -469,6 +690,11 @@ func assignToAliasedPrimitive(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
 
 	// Require destination to be non-optional
 	if _, destinationIsOptional := astmodel.AsOptionalType(destinationEndpoint.Type()); destinationIsOptional {
@@ -522,6 +748,16 @@ func assignArrayFromArray(
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
+
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil
+	}
+
 	// Require source to be an array type
 	sourceArray, sourceIsArray := astmodel.AsArrayType(sourceEndpoint.Type())
 	if !sourceIsArray {
@@ -548,7 +784,10 @@ func assignArrayFromArray(
 	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-		// We create three obviously related identifiers to use for the conversion
+		// We create three obviously related identifiers to use for the array conversion
+		// These suffixes must not overlap with those used for map conversion.
+		// (If these suffixes overlap, the naming becomes difficult to read when converting maps containing slices or
+		// vice versa.)
 		itemId := sourceEndpoint.CreateLocal("Item")
 		indexId := sourceEndpoint.CreateLocal("Index")
 		tempId := sourceEndpoint.CreateLocal("List")
@@ -596,6 +835,16 @@ func assignMapFromMap(
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
 
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
+
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil
+	}
+
 	// Require source to be a map
 	sourceMap, sourceIsMap := astmodel.AsMapType(sourceEndpoint.Type())
 	if !sourceIsMap {
@@ -630,7 +879,10 @@ func assignMapFromMap(
 	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-		// We create three obviously related identifiers to use for the conversion
+		// We create three obviously related identifiers to use for the conversion.
+		// These suffixes must not overlap with those used for array conversion.
+		// (If these suffixes overlap, the naming becomes difficult to read when converting maps containing slices or
+		// vice versa.)
 		itemId := sourceEndpoint.CreateLocal("Value")
 		keyId := sourceEndpoint.CreateLocal("Key")
 		tempId := sourceEndpoint.CreateLocal("Map")
@@ -675,6 +927,16 @@ func assignEnumFromEnum(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
+
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil
+	}
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -733,6 +995,16 @@ func assignPrimitiveFromEnum(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
+
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil
+	}
 
 	// Require source to be non-optional
 	if _, srcOpt := astmodel.AsOptionalType(sourceEndpoint.Type()); srcOpt {
@@ -795,6 +1067,16 @@ func assignObjectFromObject(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
+
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil
+	}
 
 	// Require source to be non-optional
 	if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
@@ -887,6 +1169,16 @@ func assignObjectFromObject(
 // TODO: Make this internal once referenced ;-)
 func AssignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
 	return func(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint, _ *PropertyConversionContext) PropertyConversion {
+		// Require destination to not be a bag item
+		if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+			return nil
+		}
+
+		// Require source to not be a bag item
+		if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+			return nil
+		}
+
 		// Require source to be non-optional
 		if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
 			return nil
@@ -938,6 +1230,16 @@ const (
 //
 func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTypeMethodReturn) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
 	return func(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint, _ *PropertyConversionContext) PropertyConversion {
+		// Require destination to not be a bag item
+		if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+			return nil
+		}
+
+		// Require source to not be a bag item
+		if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+			return nil
+		}
+
 		// Require source to be non-optional
 		if _, sourceIsOptional := astmodel.AsOptionalType(sourceEndpoint.Type()); sourceIsOptional {
 			return nil

@@ -37,10 +37,10 @@ func Test_ResourceConversionFunction_DirectConversion_GeneratesExpectedCode(t *t
 	types.AddAll(person2021, personSpec2021, personStatus2021)
 
 	conversionContext := conversions.NewPropertyConversionContext(types, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentToFunction(person2020, person2021, idFactory, conversionContext)
+	propertyAssignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFromFunction(person2020, person2021, idFactory, conversionContext)
+	propertyAssignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
 	// Create Resource Conversion Functions
@@ -86,10 +86,10 @@ func Test_ResourceConversionFunction_IndirectConversion_GeneratesExpectedCode(t 
 	types.AddAll(person2022, personSpec2022, personStatus2022)
 
 	conversionContext := conversions.NewPropertyConversionContext(types, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentToFunction(person2020, person2021, idFactory, conversionContext)
+	propertyAssignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFromFunction(person2020, person2021, idFactory, conversionContext)
+	propertyAssignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
 	// Create Resource Conversion Functions

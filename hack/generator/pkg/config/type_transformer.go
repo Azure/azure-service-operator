@@ -238,7 +238,7 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 	var propName astmodel.PropertyName
 	var newProps []*astmodel.PropertyDefinition
 
-	for _, prop := range objectType.Properties() {
+	for _, prop := range objectType.Properties().AsSlice() {
 		if transformer.propertyNameMatches(prop.PropertyName()) &&
 			(transformer.ifType == nil || transformer.ifType.Equals(prop.PropertyType())) {
 

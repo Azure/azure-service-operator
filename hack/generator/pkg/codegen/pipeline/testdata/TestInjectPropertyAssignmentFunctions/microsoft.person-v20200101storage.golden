@@ -4,6 +4,7 @@
 package v20200101storage
 
 import (
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20200101storage"
 	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231storage"
 	"github.com/pkg/errors"
@@ -76,13 +77,16 @@ type PersonList struct {
 
 //Storage version of v20200101.Person_Spec
 type Person_Spec struct {
-	FamilyName *string `json:"familyName,omitempty"`
-	FullName   *string `json:"fullName,omitempty"`
-	KnownAs    *string `json:"knownAs,omitempty"`
+	FamilyName  *string                `json:"familyName,omitempty"`
+	FullName    *string                `json:"fullName,omitempty"`
+	KnownAs     *string                `json:"knownAs,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
 func (personSpec *v20200101storage.Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231storage.Person_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// FamilyName
 	if source.FamilyName != nil {
@@ -108,12 +112,27 @@ func (personSpec *v20200101storage.Person_Spec) AssignPropertiesFromPersonSpec(s
 		personSpec.KnownAs = nil
 	}
 
+	// PostalAddress
+	if source.PostalAddress != nil {
+		propertyBag.Add("PostalAddress", *source.PostalAddress)
+	}
+
+	// ResidentialAddress
+	if source.ResidentialAddress != nil {
+		propertyBag.Add("ResidentialAddress", *source.ResidentialAddress)
+	}
+
+	// Update the property bag
+	personSpec.PropertyBag = propertyBag
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
 func (personSpec *v20200101storage.Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231storage.Person_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(personSpec.PropertyBag)
 
 	// FamilyName
 	if personSpec.FamilyName != nil {
@@ -139,17 +158,49 @@ func (personSpec *v20200101storage.Person_Spec) AssignPropertiesToPersonSpec(des
 		destination.KnownAs = nil
 	}
 
+	// PostalAddress
+	if propertyBag.Contains("PostalAddress") {
+		var postalAddress v20211231storage.Address
+		err := propertyBag.Pull("PostalAddress", &postalAddress)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'PostalAddress' from propertyBag")
+		}
+
+		destination.PostalAddress = &postalAddress
+	} else {
+		destination.PostalAddress = nil
+	}
+
+	// ResidentialAddress
+	if propertyBag.Contains("ResidentialAddress") {
+		var residentialAddress v20211231storage.Address
+		err := propertyBag.Pull("ResidentialAddress", &residentialAddress)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ResidentialAddress' from propertyBag")
+		}
+
+		destination.ResidentialAddress = &residentialAddress
+	} else {
+		destination.ResidentialAddress = nil
+	}
+
+	// Update the property bag
+	destination.PropertyBag = propertyBag
+
 	// No error
 	return nil
 }
 
 //Storage version of v20200101.Person_Status
 type Person_Status struct {
-	Status *string `json:"status,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status      *string                `json:"status,omitempty"`
 }
 
 // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
 func (personStatus *v20200101storage.Person_Status) AssignPropertiesFromPersonStatus(source *v20211231storage.Person_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Status
 	if source.Status != nil {
@@ -159,12 +210,17 @@ func (personStatus *v20200101storage.Person_Status) AssignPropertiesFromPersonSt
 		personStatus.Status = nil
 	}
 
+	// Update the property bag
+	personStatus.PropertyBag = propertyBag
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
 func (personStatus *v20200101storage.Person_Status) AssignPropertiesToPersonStatus(destination *v20211231storage.Person_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(personStatus.PropertyBag)
 
 	// Status
 	if personStatus.Status != nil {
@@ -173,6 +229,9 @@ func (personStatus *v20200101storage.Person_Status) AssignPropertiesToPersonStat
 	} else {
 		destination.Status = nil
 	}
+
+	// Update the property bag
+	destination.PropertyBag = propertyBag
 
 	// No error
 	return nil
