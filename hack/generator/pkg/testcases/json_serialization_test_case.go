@@ -566,7 +566,7 @@ func (o *JSONSerializationTestCase) createIndependentGenerator(
 	case astmodel.IntType:
 		return astbuilder.CallQualifiedFunc(genPackage, "Int")
 	case astmodel.FloatType:
-		return astbuilder.CallQualifiedFunc(genPackage, "Float32")
+		return astbuilder.CallQualifiedFunc(genPackage, "Float64")
 	case astmodel.BoolType:
 		return astbuilder.CallQualifiedFunc(genPackage, "Bool")
 	}
