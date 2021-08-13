@@ -85,22 +85,19 @@ func (o *JSONSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *
 		errs = append(errs, errors.Errorf("no generator created for %s (%s)", p.PropertyName(), p.PropertyType()))
 	}
 
-	var result []dst.Decl
+	result := []dst.Decl{
+		o.createTestRunner(genContext),
+		o.createTestMethod(genContext),
+		o.createGeneratorDeclaration(genContext),
+		o.createGeneratorMethod(genContext, len(simpleGenerators) > 0, len(relatedGenerators) > 0),
+	}
 
-	if len(simpleGenerators) != 0 || len(relatedGenerators) != 0 {
-		result = append(result,
-			o.createTestRunner(genContext),
-			o.createTestMethod(genContext),
-			o.createGeneratorDeclaration(genContext),
-			o.createGeneratorMethod(genContext, len(simpleGenerators) > 0, len(relatedGenerators) > 0))
+	if len(simpleGenerators) > 0 {
+		result = append(result, o.createGeneratorsFactoryMethod(o.idOfIndependentGeneratorsFactoryMethod(), simpleGenerators, genContext))
+	}
 
-		if len(simpleGenerators) > 0 {
-			result = append(result, o.createGeneratorsFactoryMethod(o.idOfIndependentGeneratorsFactoryMethod(), simpleGenerators, genContext))
-		}
-
-		if len(relatedGenerators) > 0 {
-			result = append(result, o.createGeneratorsFactoryMethod(o.idOfRelatedGeneratorsFactoryMethod(), relatedGenerators, genContext))
-		}
+	if len(relatedGenerators) > 0 {
+		result = append(result, o.createGeneratorsFactoryMethod(o.idOfRelatedGeneratorsFactoryMethod(), relatedGenerators, genContext))
 	}
 
 	if len(errs) > 0 {
