@@ -154,6 +154,16 @@ exportFilters:
     name: LoadBalancer
     because: "including load balancer"
   - action: include-transitive
+    group: microsoft.network
+    version: v*api20201101
+    name: NetworkSecurityGroup
+    because: "including NSG"
+  - action: include-transitive
+    group: microsoft.network
+    version: v*api20201101
+    name: NetworkSecurityGroupsSecurityRule
+    because: "including NSG rules"
+  - action: include-transitive
     group: microsoft.compute
     version: v*api20200930
     name: Disk
