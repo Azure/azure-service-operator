@@ -1,0 +1,1902 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"name":"k8s_e43279b3-b41d-57a5-89a7-448951f38a02","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-bqrcuk","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
+      ''asotest-rg-bqrcuk'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e43279b3-b41d-57a5-89a7-448951f38a02?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e43279b3-b41d-57a5-89a7-448951f38a02","name":"k8s_e43279b3-b41d-57a5-89a7-448951f38a02","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"9341332886727039727","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.5903846S","correlationId":"37469b83-e752-446d-8019-df9d0a9d59bf","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e43279b3-b41d-57a5-89a7-448951f38a02/operationStatuses/08585733200692500218?api-version=2019-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "692"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e43279b3-b41d-57a5-89a7-448951f38a02?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e43279b3-b41d-57a5-89a7-448951f38a02","name":"k8s_e43279b3-b41d-57a5-89a7-448951f38a02","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"9341332886727039727","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.5903846S","correlationId":"37469b83-e752-446d-8019-df9d0a9d59bf","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e43279b3-b41d-57a5-89a7-448951f38a02?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e43279b3-b41d-57a5-89a7-448951f38a02","name":"k8s_e43279b3-b41d-57a5-89a7-448951f38a02","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"9341332886727039727","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.9509516S","correlationId":"37469b83-e752-446d-8019-df9d0a9d59bf","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-bqrcuk"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e43279b3-b41d-57a5-89a7-448951f38a02?api-version=2019-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtLUs4Uzo1RkU0MzI3OUIzOjJEQjQxRDoyRDU3QTU6MkQ4OUE3OjJENDQ4OTUxRjM4QTAyLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"k8s_1fa333da-a685-58de-9c19-f57216df5ba6","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","location":"westus2","name":"asotest-nsg-kdlrhu","type":"Microsoft.Network/networkSecurityGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/networkSecurityGroups'',
+      ''asotest-nsg-kdlrhu'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6","name":"k8s_1fa333da-a685-58de-9c19-f57216df5ba6","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14030507332840422704","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.225741S","correlationId":"8a1095e1-d82a-4412-b8d0-72a9b49884b9","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6/operationStatuses/08585733200597716569?api-version=2019-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "709"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6","name":"k8s_1fa333da-a685-58de-9c19-f57216df5ba6","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14030507332840422704","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.3529198S","correlationId":"8a1095e1-d82a-4412-b8d0-72a9b49884b9","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6","name":"k8s_1fa333da-a685-58de-9c19-f57216df5ba6","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14030507332840422704","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.5853798S","correlationId":"8a1095e1-d82a-4412-b8d0-72a9b49884b9","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "13"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6","name":"k8s_1fa333da-a685-58de-9c19-f57216df5ba6","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14030507332840422704","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT5.5476652S","correlationId":"8a1095e1-d82a-4412-b8d0-72a9b49884b9","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6?api-version=2019-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEQlFSQ1VLLUs4Uzo1RjFGQTMzM0RBOjJEQTY4NToyRDU4REU6MkQ5QzE5OjJERjU3MjE2REY1QkE2LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-nsg-kdlrhu\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu\",\r\n
+      \ \"etag\": \"W/\\\"3ce55f06-b0d5-4bad-9a1e-32f03fb6d8c1\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
+      \"6c19bf46-f1f7-4ea9-96f2-76fd6df44b67\",\r\n    \"securityRules\": [],\r\n
+      \   \"defaultSecurityRules\": [\r\n      {\r\n        \"name\": \"AllowVnetInBound\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/AllowVnetInBound\",\r\n
+      \       \"etag\": \"W/\\\"3ce55f06-b0d5-4bad-9a1e-32f03fb6d8c1\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
+      \         \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
+      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65000,\r\n          \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
+      \       \"etag\": \"W/\\\"3ce55f06-b0d5-4bad-9a1e-32f03fb6d8c1\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"AzureLoadBalancer\",\r\n          \"destinationAddressPrefix\":
+      \"*\",\r\n          \"access\": \"Allow\",\r\n          \"priority\": 65001,\r\n
+      \         \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\": [],\r\n
+      \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/DenyAllInBound\",\r\n
+      \       \"etag\": \"W/\\\"3ce55f06-b0d5-4bad-9a1e-32f03fb6d8c1\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
+      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
+      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
+      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Inbound\",\r\n
+      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
+      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
+      []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/AllowVnetOutBound\",\r\n
+      \       \"etag\": \"W/\\\"3ce55f06-b0d5-4bad-9a1e-32f03fb6d8c1\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
+      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65000,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/AllowInternetOutBound\",\r\n
+      \       \"etag\": \"W/\\\"3ce55f06-b0d5-4bad-9a1e-32f03fb6d8c1\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"*\",\r\n          \"destinationAddressPrefix\":
+      \"Internet\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65001,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/DenyAllOutBound\",\r\n
+      \       \"etag\": \"W/\\\"3ce55f06-b0d5-4bad-9a1e-32f03fb6d8c1\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
+      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
+      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
+      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Outbound\",\r\n
+      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
+      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
+      []\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"3ce55f06-b0d5-4bad-9a1e-32f03fb6d8c1"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"k8s_1fa333da-a685-58de-9c19-f57216df5ba6","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","location":"westus2","name":"asotest-nsg-kdlrhu","tags":{"foo":"bar"},"type":"Microsoft.Network/networkSecurityGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/networkSecurityGroups'',
+      ''asotest-nsg-kdlrhu'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6","name":"k8s_1fa333da-a685-58de-9c19-f57216df5ba6","type":"Microsoft.Resources/deployments","properties":{"templateHash":"8412118801352139756","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1974973S","correlationId":"f45b8ebc-b87d-48dd-82cf-b830ad7e82a9","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6/operationStatuses/08585733200398339552?api-version=2019-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "709"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6","name":"k8s_1fa333da-a685-58de-9c19-f57216df5ba6","type":"Microsoft.Resources/deployments","properties":{"templateHash":"8412118801352139756","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.3384764S","correlationId":"f45b8ebc-b87d-48dd-82cf-b830ad7e82a9","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6","name":"k8s_1fa333da-a685-58de-9c19-f57216df5ba6","type":"Microsoft.Resources/deployments","properties":{"templateHash":"8412118801352139756","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.5022138S","correlationId":"f45b8ebc-b87d-48dd-82cf-b830ad7e82a9","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_1fa333da-a685-58de-9c19-f57216df5ba6?api-version=2019-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEQlFSQ1VLLUs4Uzo1RjFGQTMzM0RBOjJEQTY4NToyRDU4REU6MkQ5QzE5OjJERjU3MjE2REY1QkE2LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-nsg-kdlrhu\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu\",\r\n
+      \ \"etag\": \"W/\\\"f7e1681e-e981-47a8-858e-c72f23538288\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"tags\": {\r\n    \"foo\": \"bar\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\":
+      \"Succeeded\",\r\n    \"resourceGuid\": \"6c19bf46-f1f7-4ea9-96f2-76fd6df44b67\",\r\n
+      \   \"securityRules\": [],\r\n    \"defaultSecurityRules\": [\r\n      {\r\n
+      \       \"name\": \"AllowVnetInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/AllowVnetInBound\",\r\n
+      \       \"etag\": \"W/\\\"f7e1681e-e981-47a8-858e-c72f23538288\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
+      \         \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
+      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65000,\r\n          \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
+      \       \"etag\": \"W/\\\"f7e1681e-e981-47a8-858e-c72f23538288\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"AzureLoadBalancer\",\r\n          \"destinationAddressPrefix\":
+      \"*\",\r\n          \"access\": \"Allow\",\r\n          \"priority\": 65001,\r\n
+      \         \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\": [],\r\n
+      \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/DenyAllInBound\",\r\n
+      \       \"etag\": \"W/\\\"f7e1681e-e981-47a8-858e-c72f23538288\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
+      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
+      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
+      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Inbound\",\r\n
+      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
+      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
+      []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/AllowVnetOutBound\",\r\n
+      \       \"etag\": \"W/\\\"f7e1681e-e981-47a8-858e-c72f23538288\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
+      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65000,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/AllowInternetOutBound\",\r\n
+      \       \"etag\": \"W/\\\"f7e1681e-e981-47a8-858e-c72f23538288\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"*\",\r\n          \"destinationAddressPrefix\":
+      \"Internet\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65001,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/defaultSecurityRules/DenyAllOutBound\",\r\n
+      \       \"etag\": \"W/\\\"f7e1681e-e981-47a8-858e-c72f23538288\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
+      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
+      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
+      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Outbound\",\r\n
+      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
+      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
+      []\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"f7e1681e-e981-47a8-858e-c72f23538288"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","name":"asotest-nsg-kdlrhu/asotest-rule1-usyexu","properties":{"access":"Allow","description":"The
+      first rule of networking is don''t talk about networking","destinationAddressPrefix":"*","destinationPortRange":"46-56","direction":"Inbound","priority":123,"protocol":"Tcp","sourceAddressPrefix":"*","sourcePortRange":"23-45"},"type":"Microsoft.Network/networkSecurityGroups/securityRules"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/networkSecurityGroups/securityRules'',
+      ''asotest-nsg-kdlrhu'', ''asotest-rule1-usyexu'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","name":"k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7328992491265736789","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1838137S","correlationId":"6aa30da4-a163-428f-979a-f7daf4b07427","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups/securityRules","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3/operationStatuses/08585733200297717914?api-version=2019-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "717"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"name":"k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","name":"asotest-nsg-kdlrhu/asotest-rule2-bkewmi","properties":{"access":"Deny","destinationAddressPrefix":"*","destinationPortRange":"*","direction":"Inbound","priority":124,"protocol":"Tcp","sourceAddressPrefix":"*","sourcePortRanges":["23-45","5000-5100"]},"type":"Microsoft.Network/networkSecurityGroups/securityRules"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/networkSecurityGroups/securityRules'',
+      ''asotest-nsg-kdlrhu'', ''asotest-rule2-bkewmi'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa","name":"k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14920308840582494347","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1346993S","correlationId":"e0e8ed2f-42c5-4f9e-892d-0fa86898cf88","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups/securityRules","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa/operationStatuses/08585733200292667427?api-version=2019-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "719"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","name":"k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7328992491265736789","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.7126263S","correlationId":"6aa30da4-a163-428f-979a-f7daf4b07427","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups/securityRules","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa","name":"k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14920308840582494347","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1346993S","correlationId":"e0e8ed2f-42c5-4f9e-892d-0fa86898cf88","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups/securityRules","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","name":"k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7328992491265736789","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.8508414S","correlationId":"6aa30da4-a163-428f-979a-f7daf4b07427","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups/securityRules","locations":[null]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule1-usyexu"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule1-usyexu"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3?api-version=2019-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEQlFSQ1VLLUs4Uzo1RkJEMEVCQTdFOjJEN0NGQzoyRDVCQUY6MkQ4MjU0OjJERkY2MDlGOEEzN0UzLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule1-usyexu?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-rule1-usyexu\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule1-usyexu\",\r\n
+      \ \"etag\": \"W/\\\"ab04f652-e338-4e43-8902-4057ad59d705\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"The
+      first rule of networking is don't talk about networking\",\r\n    \"protocol\":
+      \"Tcp\",\r\n    \"sourcePortRange\": \"23-45\",\r\n    \"destinationPortRange\":
+      \"46-56\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n    \"destinationAddressPrefix\":
+      \"*\",\r\n    \"access\": \"Allow\",\r\n    \"priority\": 123,\r\n    \"direction\":
+      \"Inbound\",\r\n    \"sourcePortRanges\": [],\r\n    \"destinationPortRanges\":
+      [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
+      []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"ab04f652-e338-4e43-8902-4057ad59d705"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa","name":"k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14920308840582494347","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT4.052805S","correlationId":"e0e8ed2f-42c5-4f9e-892d-0fa86898cf88","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups/securityRules","locations":[null]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule2-bkewmi"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule2-bkewmi"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_c5e6586e-31fb-5ab6-a5c6-349497b694fa?api-version=2019-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEQlFSQ1VLLUs4Uzo1RkM1RTY1ODZFOjJEMzFGQjoyRDVBQjY6MkRBNUM2OjJEMzQ5NDk3QjY5NEZBLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule2-bkewmi?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-rule2-bkewmi\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule2-bkewmi\",\r\n
+      \ \"etag\": \"W/\\\"ab04f652-e338-4e43-8902-4057ad59d705\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"protocol\": \"Tcp\",\r\n
+      \   \"destinationPortRange\": \"*\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n
+      \   \"destinationAddressPrefix\": \"*\",\r\n    \"access\": \"Deny\",\r\n    \"priority\":
+      124,\r\n    \"direction\": \"Inbound\",\r\n    \"sourcePortRanges\": [\r\n      \"23-45\",\r\n
+      \     \"5000-5100\"\r\n    ],\r\n    \"destinationPortRanges\": [],\r\n    \"sourceAddressPrefixes\":
+      [],\r\n    \"destinationAddressPrefixes\": []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"ab04f652-e338-4e43-8902-4057ad59d705"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","name":"asotest-nsg-kdlrhu/asotest-rule1-usyexu","properties":{"access":"Allow","description":"The
+      first rule of networking is don''t talk about networking","destinationAddressPrefix":"*","destinationPortRange":"46-56","direction":"Inbound","priority":100,"protocol":"Tcp","sourceAddressPrefix":"*","sourcePortRange":"23-45"},"type":"Microsoft.Network/networkSecurityGroups/securityRules"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/networkSecurityGroups/securityRules'',
+      ''asotest-nsg-kdlrhu'', ''asotest-rule1-usyexu'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","name":"k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","type":"Microsoft.Resources/deployments","properties":{"templateHash":"5260634138642122930","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1373666S","correlationId":"172e97cf-ca52-4b26-b99f-1228be5b1061","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups/securityRules","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3/operationStatuses/08585733200197713098?api-version=2019-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "718"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","name":"k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","type":"Microsoft.Resources/deployments","properties":{"templateHash":"5260634138642122930","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1373666S","correlationId":"172e97cf-ca52-4b26-b99f-1228be5b1061","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups/securityRules","locations":[null]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","name":"k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3","type":"Microsoft.Resources/deployments","properties":{"templateHash":"5260634138642122930","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT2.2626455S","correlationId":"172e97cf-ca52-4b26-b99f-1228be5b1061","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"networkSecurityGroups/securityRules","locations":[null]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule1-usyexu"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule1-usyexu"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Resources/deployments/k8s_bd0eba7e-7cfc-5baf-8254-ff609f8a37e3?api-version=2019-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEQlFSQ1VLLUs4Uzo1RkJEMEVCQTdFOjJEN0NGQzoyRDVCQUY6MkQ4MjU0OjJERkY2MDlGOEEzN0UzLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule1-usyexu?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-rule1-usyexu\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule1-usyexu\",\r\n
+      \ \"etag\": \"W/\\\"823b55b8-f865-492d-9270-7e95a8cccc4a\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"The
+      first rule of networking is don't talk about networking\",\r\n    \"protocol\":
+      \"Tcp\",\r\n    \"sourcePortRange\": \"23-45\",\r\n    \"destinationPortRange\":
+      \"46-56\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n    \"destinationAddressPrefix\":
+      \"*\",\r\n    \"access\": \"Allow\",\r\n    \"priority\": 100,\r\n    \"direction\":
+      \"Inbound\",\r\n    \"sourcePortRanges\": [],\r\n    \"destinationPortRanges\":
+      [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
+      []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"823b55b8-f865-492d-9270-7e95a8cccc4a"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule2-bkewmi?api-version=2020-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/aacd6ed0-0fb4-4e5f-8dbf-6e71c5139c4d?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/aacd6ed0-0fb4-4e5f-8dbf-6e71c5139c4d?api-version=2020-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule2-bkewmi?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":
+      \"Resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule2-bkewmi
+      not found.\",\r\n    \"details\": []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "295"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule1-usyexu?api-version=2020-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/9bd79fc3-fad1-4a3d-a04c-0afc3e761dc8?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/9bd79fc3-fad1-4a3d-a04c-0afc3e761dc8?api-version=2020-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule1-usyexu?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":
+      \"Resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu/securityRules/asotest-rule1-usyexu
+      not found.\",\r\n    \"details\": []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "295"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu?api-version=2020-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/55057284-0b5c-4565-ad31-ebe90f739c4b?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/55057284-0b5c-4565-ad31-ebe90f739c4b?api-version=2020-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":
+      \"Resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu
+      not found.\",\r\n    \"details\": []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "260"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu?api-version=2020-11-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/networkSecurityGroups/asotest-nsg-kdlrhu''
+      under resource group ''asotest-rg-bqrcuk'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "247"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRCUVJDVUstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "10"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "11"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "12"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "13"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk","name":"asotest-rg-bqrcuk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "14"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bqrcuk?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-bqrcuk''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
