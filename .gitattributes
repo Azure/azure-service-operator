@@ -1,4 +1,6 @@
-*.sh     text eol=LF
-Makefile text eol=LF
+*.sh     text eol=lf
+*.py     text eol=lf
+Makefile text eol=lf
+Taskfile text eol=lf
 *.{cmd,[cC][mM][dD]} text eol=crlf
 *.{bat,[bB][aA][tT]} text eol=crlf
