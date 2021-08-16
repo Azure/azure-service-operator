@@ -17,7 +17,7 @@ import (
 
 // AssertFileGeneratesExpectedCode serialises the given FileDefinition as a golden file test, checking that the expected
 // results are generated
-func AssertFileGeneratesExpectedCode(t *testing.T, fileDef *astmodel.FileDefinition, testName string) {
+func AssertFileGeneratesExpectedCode(t *testing.T, fileDef astmodel.GoSourceFile, testName string) {
 	g := goldie.New(t)
 	err := g.WithTestNameForDir(true)
 	if err != nil {
@@ -34,8 +34,8 @@ func AssertFileGeneratesExpectedCode(t *testing.T, fileDef *astmodel.FileDefinit
 	g.Assert(t, testName, buf.Bytes())
 }
 
-// AssertPackagesGenerateExpectedCode creates a golden file for each package represented in the passed set of type
-// definitions, asserting that the generated content is expected
+// AssertPackagesGenerateExpectedCode creates a golden file for each package represented in the set of type definitions,
+// asserting that the generated content is expected
 func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types) {
 	// Group type definitions by package
 	groups := make(map[astmodel.PackageReference][]astmodel.TypeDefinition)
