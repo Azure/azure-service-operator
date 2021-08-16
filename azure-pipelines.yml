@@ -127,9 +127,6 @@ jobs:
       displayName: Run envtest tests
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       continueOnError: 'false'
-      # There are some degenerate cases where a test failure means stuff takes super long and ends up timing out.
-      # Setting this to a value smaller than the overall job timeout means that we save some time in those instances.
-      timeoutInMinutes: 45
       env:
         GO111MODULE: on
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
