@@ -2,6 +2,6 @@
 *.py     text eol=lf
 *.golden eol=lf
 Makefile text eol=lf
-Taskfile text eol=lf
+Taskfile.{yml,yaml} text eol=lf
 *.{cmd,[cC][mM][dD]} text eol=crlf
 *.{bat,[bB][aA][tT]} text eol=crlf
