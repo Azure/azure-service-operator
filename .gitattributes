@@ -1,5 +1,6 @@
 *.sh     text eol=lf
 *.py     text eol=lf
+*.golden eol=lf
 Makefile text eol=lf
 Taskfile text eol=lf
 *.{cmd,[cC][mM][dD]} text eol=crlf
