@@ -68,7 +68,7 @@ func New(
 	keyVaultName string,
 	creds config.Credentials,
 	secretNamingVersion secrets.SecretNamingVersion,
-	purgeDeletedSecrets bool, // TODO: Should these be enums instead?
+	purgeDeletedSecrets bool,
 	recoverSoftDeletedSecrets bool) *SecretClient {
 
 	keyvaultClient := keyvaults.New()
@@ -204,9 +204,9 @@ func (k *SecretClient) Upsert(ctx context.Context, key secrets.SecretKey, data m
 }
 
 func isErrSecretWasSoftDeleted(err error) bool {
-	var azureErr = &azure.RequestError{}
+	var azureErr *azure.RequestError
 	if errors.As(err, &azureErr) {
-		if azureErr == nil && azureErr.ServiceError == nil {
+		if azureErr.ServiceError == nil {
 			return false
 		}
 		if len(azureErr.ServiceError.InnerError) == 0 {

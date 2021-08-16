@@ -13,11 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
-	"github.com/gofrs/uuid"
-	"github.com/pkg/errors"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/crypto/ssh"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -35,7 +31,6 @@ import (
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -441,69 +436,4 @@ func GenerateRandomSshPublicKeyString() string {
 	publicRsaKey, _ := ssh.NewPublicKey(&privateKey.PublicKey)
 	sshPublicKeyData := string(ssh.MarshalAuthorizedKey(publicRsaKey))
 	return sshPublicKeyData
-}
-
-// TODO: This is only used for test
-func CreateKeyVaultTestAccessPolicies(creds config.Credentials, objectID *string) ([]keyvault.AccessPolicyEntry, error) {
-	id, err := uuid.FromString(creds.TenantID())
-	if err != nil {
-		return nil, errors.Wrapf(err, "couldn't convert tenantID to UUID")
-	}
-
-	apList := []keyvault.AccessPolicyEntry{
-		{
-			TenantID: &id,
-			ObjectID: objectID,
-			Permissions: &keyvault.Permissions{
-				Keys: &[]keyvault.KeyPermissions{
-					keyvault.KeyPermissionsCreate,
-				},
-				Secrets: &[]keyvault.SecretPermissions{
-					keyvault.SecretPermissionsSet,
-					keyvault.SecretPermissionsGet,
-					keyvault.SecretPermissionsDelete,
-					keyvault.SecretPermissionsList,
-					keyvault.SecretPermissionsRecover,
-				},
-			},
-		},
-	}
-
-	return apList, nil
-}
-
-//CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user - used in test
-func CreateVaultWithAccessPolicies(ctx context.Context, creds config.Credentials, groupName string, vaultName string, location string, objectID *string) error {
-	vaultsClient, err := resourcemanagerkeyvaults.GetKeyVaultClient(creds)
-	if err != nil {
-		return errors.Wrapf(err, "couldn't get vaults client")
-	}
-	id, err := uuid.FromString(creds.TenantID())
-	if err != nil {
-		return errors.Wrapf(err, "couldn't convert tenantID to UUID")
-	}
-
-	apList, err := CreateKeyVaultTestAccessPolicies(creds, objectID)
-	if err != nil {
-		return nil
-	}
-
-	params := keyvault.VaultCreateOrUpdateParameters{
-		Properties: &keyvault.VaultProperties{
-			TenantID:       &id,
-			AccessPolicies: &apList,
-			Sku: &keyvault.Sku{
-				Family: to.StringPtr("A"),
-				Name:   keyvault.Standard,
-			},
-		},
-		Location: to.StringPtr(location),
-	}
-
-	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
-	if err != nil {
-		return err
-	}
-
-	return future.WaitForCompletionRef(ctx, vaultsClient.Client)
 }

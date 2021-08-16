@@ -35,6 +35,7 @@ import (
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
+	"github.com/Azure/azure-service-operator/test/common"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -54,11 +55,6 @@ func setup() error {
 
 	// Uncomment the below to run the tests in the old v1 naming mode
 	// envy.Set("AZURE_SECRET_NAMING_VERSION", "1")
-
-	// TODO: Should this just default to true?
-	// This being true isn't the default, but we're going to wait to test it so
-	// go ahead and set it to true here.
-	envy.Set("RECOVER_SOFT_DELETED_KEYVAULT_SECRETS", "True")
 
 	err := config.ParseEnvironment()
 	if err != nil {
@@ -215,7 +211,7 @@ func setup() error {
 		return err
 	}
 
-	err = CreateVaultWithAccessPolicies(
+	err = common.CreateVaultWithAccessPolicies(
 		context.Background(),
 		config.GlobalCredentials(),
 		resourceGroupName,

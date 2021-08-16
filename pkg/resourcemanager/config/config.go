@@ -20,23 +20,23 @@ var (
 	// shouldn't be set here, because mutable vars shouldn't be global.
 
 	// TODO: eliminate this!
-	creds                  credentials
-	locationDefault        string
-	authorizationServerURL string
-	cloudName              string
-	useDeviceFlow          bool
-	buildID                string
-	keepResources          bool
-	userAgent              string
-	baseURI                string
-	environment            *azure.Environment
-	podNamespace           string
-	targetNamespaces       []string
-	secretNamingVersion    secrets.SecretNamingVersion
-	operatorMode           OperatorMode
+	creds                             credentials
+	locationDefault                   string
+	authorizationServerURL            string
+	cloudName                         string
+	useDeviceFlow                     bool
+	buildID                           string
+	keepResources                     bool
+	userAgent                         string
+	baseURI                           string
+	environment                       *azure.Environment
+	podNamespace                      string
+	targetNamespaces                  []string
+	secretNamingVersion               secrets.SecretNamingVersion
+	operatorMode                      OperatorMode
 	purgeDeletedKeyVaultSecrets       bool
 	recoverSoftDeletedKeyVaultSecrets bool
-	testResourcePrefix string // used to generate resource names in tests, should probably exist in a test only package
+	testResourcePrefix                string // used to generate resource names in tests, should probably exist in a test only package
 )
 
 // GlobalCredentials returns the configured credentials.

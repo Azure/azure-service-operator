@@ -23,6 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
+	testcommon "github.com/Azure/azure-service-operator/test/common"
 )
 
 func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
@@ -345,12 +346,11 @@ func TestAzureSqlServer_KeyVaultSoftDelete_CreateDeleteCreateAgain(t *testing.T)
 	defer PanicRecover(t)
 	ctx := context.Background()
 	require := require.New(t)
-	//var err error
 
 	rgLocation := "westus2"
 
 	// Create a KeyVault with soft delete enabled that we can use to perform our tests
-	keyVaultName := GenerateAlphaNumTestResourceNameWithRandom("kv-softdelete", 5)
+	keyVaultName := GenerateAlphaNumTestResourceNameWithRandom("kvsoftdel", 5)
 	objID, err := resourcemanagerkeyvaults.GetObjectID(
 		context.Background(),
 		config.GlobalCredentials(),
@@ -358,7 +358,7 @@ func TestAzureSqlServer_KeyVaultSoftDelete_CreateDeleteCreateAgain(t *testing.T)
 		config.GlobalCredentials().ClientID())
 	require.NoError(err)
 
-	err = CreateVaultWithAccessPolicies(
+	err = testcommon.CreateKeyVaultSoftDeleteEnabled(
 		context.Background(),
 		config.GlobalCredentials(),
 		tc.resourceGroupName,
@@ -374,8 +374,6 @@ func TestAzureSqlServer_KeyVaultSoftDelete_CreateDeleteCreateAgain(t *testing.T)
 
 	// create and wait
 	RequireInstance(ctx, t, tc, sqlServerInstance)
-
-	// TODO: do we need to ensure that there's a key here?
 
 	EnsureDelete(ctx, t, tc, sqlServerInstance)
 

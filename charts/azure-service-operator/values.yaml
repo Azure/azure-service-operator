@@ -35,7 +35,7 @@ purgeDeletedKeyVaultSecrets: False
 # can occur when a Key Vault has soft delete enabled and an ASO resource was deleted and recreated with the same name.
 # This only applies to secrets that are stored in Azure Key Vault.
 # It does nothing if the secret is stored in Kubernetes.
-recoverSoftDeletedKeyVaultSecrets: False
+recoverSoftDeletedKeyVaultSecrets: True
 
 # image defines the container image the ASO pod should run
 # Note: This should use the latest released tag number explicitly. If
