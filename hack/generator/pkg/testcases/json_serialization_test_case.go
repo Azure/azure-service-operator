@@ -120,7 +120,8 @@ func (o *JSONSerializationTestCase) RequiredImports() *astmodel.PackageImportSet
 	result := astmodel.NewPackageImportSet()
 
 	// Standard Go Packages
-	result.AddImportsOfReferences(astmodel.JsonReference, astmodel.ReflectReference, astmodel.TestingReference)
+	result.AddImportsOfReferences(
+		astmodel.JsonReference, astmodel.OSReference, astmodel.ReflectReference, astmodel.TestingReference)
 
 	// Cmp
 	result.AddImportsOfReferences(astmodel.CmpReference, astmodel.CmpOptsReference)
@@ -167,6 +168,7 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 	)
 
 	gopterPackage := codegenContext.MustGetImportedPackageName(astmodel.GopterReference)
+	osPackage := codegenContext.MustGetImportedPackageName(astmodel.OSReference)
 	propPackage := codegenContext.MustGetImportedPackageName(astmodel.GopterPropReference)
 	testingPackage := codegenContext.MustGetImportedPackageName(astmodel.TestingReference)
 
@@ -208,8 +210,14 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 		testName,
 		propForAll)
 
-	// properties.TestingRun(t)
-	runTests := astbuilder.InvokeQualifiedFunc(propertiesLocal, testingRunMethod, t)
+	// properties.TestingRun(t, gopter.NewFormatedReporter(true, 160, os.Stdout))
+	createReporter := astbuilder.CallQualifiedFunc(
+		gopterPackage,
+		"NewFormatedReporter",
+		dst.NewIdent("true"),
+		astbuilder.IntLiteral(240),
+		astbuilder.Selector(dst.NewIdent(osPackage), "Stdout"))
+	runTests := astbuilder.InvokeQualifiedFunc(propertiesLocal, testingRunMethod, t, createReporter)
 
 	// Define our function
 	fn := astbuilder.NewTestFuncDetails(
