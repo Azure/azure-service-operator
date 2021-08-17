@@ -127,9 +127,6 @@ jobs:
       displayName: Run envtest tests
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       continueOnError: 'false'
-      # There are some degenerate cases where a test failure means stuff takes super long and ends up timing out.
-      # Setting this to a value smaller than the overall job timeout means that we save some time in those instances.
-      timeoutInMinutes: 45
       env:
         GO111MODULE: on
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
@@ -168,6 +165,46 @@ jobs:
         export KUBEBUILDER_ASSETS=$(go env GOPATH)/kubebuilder/bin
         make test-no-target-namespaces
       displayName: Run test for no target namespaces
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      continueOnError: 'false'
+      env:
+        GO111MODULE: on
+        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+        REQUEUE_AFTER: $(REQUEUE_AFTER)
+        BUILD_ID: $(Build.BuildId)
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+    # TODO: There is no way to run steps in parallel in Azure pipelines but ideally this step would run in parallel
+    # TODO: with the above testing step to reduce overall runtime
+    - script: |
+        set -e
+        export PATH=$PATH:$(go env GOPATH)/bin:$(go env GOPATH)/kubebuilder/bin
+        export KUBEBUILDER_ASSETS=$(go env GOPATH)/kubebuilder/bin
+        make test-webhooks-only-mode
+      displayName: Run webhooks-only mode tests
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      continueOnError: 'false'
+      env:
+        GO111MODULE: on
+        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+        REQUEUE_AFTER: $(REQUEUE_AFTER)
+        BUILD_ID: $(Build.BuildId)
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+    # TODO: There is no way to run steps in parallel in Azure pipelines but ideally this step would run in parallel
+    # TODO: with the above testing step to reduce overall runtime
+    - script: |
+        set -e
+        export PATH=$PATH:$(go env GOPATH)/bin:$(go env GOPATH)/kubebuilder/bin
+        export KUBEBUILDER_ASSETS=$(go env GOPATH)/kubebuilder/bin
+        make test-watchers-only-mode
+      displayName: Run watchers-only mode tests
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       continueOnError: 'false'
       env:

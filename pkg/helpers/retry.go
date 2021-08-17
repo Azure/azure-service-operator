@@ -18,16 +18,19 @@ func (s *StopErr) Error() string {
 }
 
 func Retry(timeout time.Duration, sleep time.Duration, fn func() error) error {
-	if err := fn(); err != nil {
+	started := time.Now()
+	for {
+		err := fn()
+		if err == nil {
+			return nil
+		}
 		// allow early exit
 		if v, ok := err.(*StopErr); ok {
 			return v.Err
 		}
-		if timeout > 0 {
-			time.Sleep(sleep)
-			return Retry(timeout-sleep, sleep, fn)
+		if time.Since(started) >= timeout {
+			return err
 		}
-		return err
+		time.Sleep(sleep)
 	}
-	return nil
 }

@@ -18,7 +18,6 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/crypto/ssh"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -221,14 +220,14 @@ func EnsureInstance(ctx context.Context, t *testing.T, tc TestContext, instance 
 }
 
 func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext, instance client.Object, message string, provisioned bool) {
-	assert := assert.New(t)
+	require := require.New(t)
 	typeOf := fmt.Sprintf("%T", instance)
 
 	err := tc.k8sClient.Create(ctx, instance)
-	assert.Equal(nil, err, fmt.Sprintf("create %s in k8s", typeOf))
+	require.Equal(nil, err, fmt.Sprintf("create %s in k8s", typeOf))
 
 	res, err := meta.Accessor(instance)
-	assert.Equal(nil, err, "not a metav1 object")
+	require.Equal(nil, err, "not a metav1 object")
 
 	names := types.NamespacedName{Name: res.GetName(), Namespace: res.GetNamespace()}
 
@@ -244,7 +243,7 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 		}
 		return nil
 	})
-	assert.Nil(err, "error waiting for %s to have finalizer", typeOf)
+	require.Nil(err, "error waiting for %s to have finalizer", typeOf)
 
 	// wait for provisioned and message to be as expected
 	err = helpers.Retry(tc.timeout, tc.retry, func() error {
@@ -285,24 +284,24 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 		}
 		return nil
 	})
-	assert.Nil(err, "wait for %s to provision", typeOf)
+	require.Nil(err, "wait for %s to provision", typeOf)
 
 }
 
 // EnsureDelete deletes the instance and waits for it to be gone or timeout
 func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance client.Object) {
-	assert := assert.New(t)
+	require := require.New(t)
 	typeOf := fmt.Sprintf("%T", instance)
 
 	err := tc.k8sClient.Delete(ctx, instance)
-	assert.Equal(nil, err, fmt.Sprintf("delete %s in k8s", typeOf))
+	require.Equal(nil, err, fmt.Sprintf("delete %s in k8s", typeOf))
 
 	res, err := meta.Accessor(instance)
-	assert.Equal(nil, err, "not a metav1 object")
+	require.Equal(nil, err, "not a metav1 object")
 
 	names := types.NamespacedName{Name: res.GetName(), Namespace: res.GetNamespace()}
 
-	assert.Eventually(func() bool {
+	require.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, names, instance)
 		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry, fmt.Sprintf("wait for %s to be gone from k8s", typeOf))
@@ -310,7 +309,7 @@ func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance cl
 }
 
 func EnsureSecrets(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, secretClient secrets.SecretClient, secretKey secrets.SecretKey) {
-	assert := assert.New(t)
+	require := require.New(t)
 	typeOf := fmt.Sprintf("%T", instance)
 
 	// Wait for secret
@@ -319,11 +318,11 @@ func EnsureSecrets(ctx context.Context, t *testing.T, tc TestContext, instance r
 		_, err := secretClient.Get(ctx, secretKey)
 		return err
 	})
-	assert.Nil(err, "error waiting for %s to have secret", typeOf)
+	require.Nil(err, "error waiting for %s to have secret", typeOf)
 
 }
 func EnsureSecretsWithValue(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, secretclient secrets.SecretClient, secretKey secrets.SecretKey, secretSubKey string, secretvalue string) {
-	assert := assert.New(t)
+	require := require.New(t)
 	typeOf := fmt.Sprintf("%T", instance)
 
 	// Wait for secret
@@ -339,7 +338,7 @@ func EnsureSecretsWithValue(ctx context.Context, t *testing.T, tc TestContext, i
 
 		return nil
 	})
-	assert.Nil(err, "error waiting for %s to have correct secret", typeOf)
+	require.Nil(err, "error waiting for %s to have correct secret", typeOf)
 }
 
 func RequireInstance(ctx context.Context, t *testing.T, tc TestContext, instance client.Object) {

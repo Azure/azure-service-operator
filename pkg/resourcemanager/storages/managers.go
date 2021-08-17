@@ -18,7 +18,7 @@ type StorageManagers struct {
 
 func NewAzureStorageManagers(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) StorageManagers {
 	return StorageManagers{
-		StorageAccount: storageaccount.New(creds, secretClient, scheme),
-		BlobContainer:  blobcontainer.New(creds),
+		StorageAccount: storageaccount.NewManager(creds, secretClient, scheme),
+		BlobContainer:  blobcontainer.NewManager(creds),
 	}
 }

@@ -72,6 +72,24 @@ test-no-target-namespaces: generate fmt vet manifests
 		-run TestTargetNamespaces \
 		./controllers/...
 
+# Check that we do the right thing in webhooks-only mode.
+.PHONY: test-webhooks-only-mode
+test-webhooks-only-mode: generate fmt vet manifests
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
+	AZURE_OPERATOR_MODE=webhooks \
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/webhooks-only-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
+		-run TestOperatorMode \
+		./controllers
+
+# Check that when there are no target namespaces all namespaces are watched
+.PHONY: test-watchers-only-mode
+test-watchers-only-mode: generate fmt vet manifests
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
+	AZURE_OPERATOR_MODE=watchers \
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/watchers-only-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
+		-run TestOperatorMode \
+		./controllers
+
 # Run subset of tests with v1 secret naming enabled to ensure no regression in old secret naming
 .PHONY: test-v1-secret-naming
 test-v1-secret-naming: generate fmt vet manifests
