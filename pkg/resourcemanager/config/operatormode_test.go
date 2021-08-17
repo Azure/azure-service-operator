@@ -25,7 +25,7 @@ func TestIncludesWatchers(t *testing.T) {
 }
 
 func TestRoundtripString(t *testing.T) {
-	values := []string{"both", "webhooks", "watchers"}
+	values := []string{"watchers-and-webhooks", "webhooks", "watchers"}
 	for _, value := range values {
 		mode, err := config.ParseOperatorMode(value)
 		require.Nil(t, err, value)
@@ -48,7 +48,7 @@ func TestRoundtripValue(t *testing.T) {
 
 func TestParseInvalid(t *testing.T) {
 	_, err := config.ParseOperatorMode("dimmer")
-	require.Contains(t, err.Error(), `operator mode value must be one of "both", "webhooks" or "watchers" but was "dimmer"`)
+	require.Contains(t, err.Error(), `operator mode value must be one of "watchers-and-webhooks", "webhooks" or "watchers" but was "dimmer"`)
 }
 
 func TestStringInvalid(t *testing.T) {

@@ -39,7 +39,7 @@ func (m OperatorMode) String() string {
 	case OperatorModeWebhooks:
 		return "webhooks"
 	case OperatorModeBoth:
-		return "both"
+		return "watchers-and-webhooks"
 	default:
 		panic(fmt.Sprintf("invalid operator mode value %d", m))
 	}
@@ -53,9 +53,9 @@ func ParseOperatorMode(value string) (OperatorMode, error) {
 		return OperatorModeWatchers, nil
 	case "webhooks":
 		return OperatorModeWebhooks, nil
-	case "both":
+	case "watchers-and-webhooks":
 		return OperatorModeBoth, nil
 	default:
-		return OperatorMode(0), errors.Errorf(`operator mode value must be one of "both", "webhooks" or "watchers" but was %q`, value)
+		return OperatorMode(0), errors.Errorf(`operator mode value must be one of "watchers-and-webhooks", "webhooks" or "watchers" but was %q`, value)
 	}
 }
