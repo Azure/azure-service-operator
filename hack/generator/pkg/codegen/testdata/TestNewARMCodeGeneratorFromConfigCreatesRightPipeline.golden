@@ -38,9 +38,9 @@ implementConvertibleSpecInterface         azure      Inject ConvertSpecTo() and 
 implementConvertibleStatusInterface       azure      Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type
 injectOriginalGVKFunction                 azure      Inject the function OriginalGVK() into each Resource type
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
+markStorageVersion                                   Mark the latest version of each resource as the storage version
 injectJSONTestCases                       azure      Add test cases to verify JSON serialization
 injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
-markStorageVersion                                   Mark the latest version of each resource as the storage version
 rogueCheck                                           Check for rogue definitions using AnyTypes
 ensureArmTypeExistsForEveryType           azure      Check that an ARM type exists for both Spec and Status of each resource
 deleteGenerated                                      Delete generated code from .
