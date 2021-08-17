@@ -11,17 +11,18 @@ import (
 	"github.com/kylelemons/godebug/diff"
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/prop"
+	"os"
 	"testing"
 )
 
-func Test_Person_Spec_WhenConvertedToPerson_Spec_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from Person_Spec to Person_Spec via AssignPropertiesToPersonSpec & AssignPropertiesFromPersonSpec returns original",
 		prop.ForAll(RunPropertyAssignmentTestForPersonSpec, PersonSpecGenerator()))
-	properties.TestingRun(t)
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
 // RunPropertyAssignmentTestForPersonSpec runs a test to see if a specific instance of github.com/Azure/azure-service-operator/testing/microsoft.person/v20200101/Person_Spec round trips to JSON and back losslessly

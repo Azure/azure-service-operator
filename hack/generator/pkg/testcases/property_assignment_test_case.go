@@ -62,9 +62,8 @@ func NewPropertyAssignmentTestCase(
 	}
 
 	result.testName = fmt.Sprintf(
-		"%s_WhenConvertedTo%s_RoundTripsWithoutLoss",
-		name.Name(),
-		result.toFn.ParameterType().Name())
+		"%s_WhenPropertiesConverted_RoundTripsWithoutLoss",
+		name.Name())
 
 	return result
 }
@@ -86,7 +85,7 @@ func (p *PropertyAssignmentTestCase) RequiredImports() *astmodel.PackageImportSe
 	result := astmodel.NewPackageImportSet()
 
 	// Standard Go Packages
-	result.AddImportsOfReferences(astmodel.TestingReference)
+	result.AddImportsOfReferences(astmodel.OSReference, astmodel.TestingReference)
 
 	// Cmp
 	result.AddImportsOfReferences(astmodel.CmpReference, astmodel.CmpOptsReference)
@@ -136,6 +135,7 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 	)
 
 	gopterPackage := codegenContext.MustGetImportedPackageName(astmodel.GopterReference)
+	osPackage := codegenContext.MustGetImportedPackageName(astmodel.OSReference)
 	propPackage := codegenContext.MustGetImportedPackageName(astmodel.GopterPropReference)
 	testingPackage := codegenContext.MustGetImportedPackageName(astmodel.TestingReference)
 
@@ -181,8 +181,14 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 		testName,
 		propForAll)
 
-	// properties.TestingRun(t)
-	runTests := astbuilder.InvokeQualifiedFunc(propertiesLocal, testingRunMethod, t)
+	// properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	createReporter := astbuilder.CallQualifiedFunc(
+		gopterPackage,
+		"NewFormatedReporter",
+		dst.NewIdent("false"),
+		astbuilder.IntLiteral(240),
+		astbuilder.Selector(dst.NewIdent(osPackage), "Stdout"))
+	runTests := astbuilder.InvokeQualifiedFunc(propertiesLocal, testingRunMethod, t, createReporter)
 
 	// Define our function
 	fn := astbuilder.NewTestFuncDetails(
@@ -212,7 +218,6 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 		resultId     = "result"
 	)
 
-	//jsonPackage := codegenContext.MustGetImportedPackageName(astmodel.JsonReference)
 	cmpPackage := codegenContext.MustGetImportedPackageName(astmodel.CmpReference)
 	cmpoptsPackage := codegenContext.MustGetImportedPackageName(astmodel.CmpOptsReference)
 	prettyPackage := codegenContext.MustGetImportedPackageName(astmodel.PrettyReference)

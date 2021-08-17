@@ -41,10 +41,10 @@ func TestPropertyAssignmentTestCase_AsFunc(t *testing.T) {
 	types := make(astmodel.Types)
 
 	conversionContext := conversions.NewPropertyConversionContext(types, idFactory)
-	convertFrom, err := functions.NewPropertyAssignmentFromFunction(currentSpec, otherSpec, idFactory, conversionContext)
+	convertFrom, err := functions.NewPropertyAssignmentFunction(currentSpec, otherSpec, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
-	convertTo, err := functions.NewPropertyAssignmentToFunction(currentSpec, otherSpec, idFactory, conversionContext)
+	convertTo, err := functions.NewPropertyAssignmentFunction(currentSpec, otherSpec, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
 	currentSpec, err = functionInjector.Inject(currentSpec, convertTo, convertFrom)
