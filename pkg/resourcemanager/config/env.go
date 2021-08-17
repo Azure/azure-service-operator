@@ -68,6 +68,15 @@ func ParseEnvironment() error {
 	}
 	targetNamespaces = ParseStringListFromEnvironment("AZURE_TARGET_NAMESPACES")
 
+	operatorMode, err = ParseOperatorMode(envy.Get("AZURE_OPERATOR_MODE", OperatorModeBoth.String()))
+	if err != nil {
+		return errors.Wrap(err, "reading AZURE_OPERATOR_MODE")
+	}
+
+	if !operatorMode.IncludesWatchers() && len(targetNamespaces) > 0 {
+		return errors.Errorf("mode must include watchers to specify target namespaces")
+	}
+
 	secretNamingVersionInt, err := ParseIntFromEnvironment("AZURE_SECRET_NAMING_VERSION")
 	if err != nil {
 		return errors.Wrapf(err, "couldn't get AZURE_SECRET_NAMING_VERSION env variable")
