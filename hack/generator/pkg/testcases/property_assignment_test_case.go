@@ -221,7 +221,6 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 		resultId     = "result"
 	)
 
-	//jsonPackage := codegenContext.MustGetImportedPackageName(astmodel.JsonReference)
 	cmpPackage := codegenContext.MustGetImportedPackageName(astmodel.CmpReference)
 	cmpoptsPackage := codegenContext.MustGetImportedPackageName(astmodel.CmpOptsReference)
 	prettyPackage := codegenContext.MustGetImportedPackageName(astmodel.PrettyReference)
