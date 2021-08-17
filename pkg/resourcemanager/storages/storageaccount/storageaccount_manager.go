@@ -16,8 +16,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
-// New returns an instance of the Storage Account Client
-func New(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureStorageManager {
+// NewManager returns an instance of the Storage Account Client
+func NewManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureStorageManager {
 	return &azureStorageManager{
 		Creds:        creds,
 		SecretClient: secretClient,
