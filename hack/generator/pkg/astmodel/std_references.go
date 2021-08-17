@@ -14,6 +14,7 @@ var (
 	ErrorsReference  = MakeExternalPackageReference("errors")
 	FmtReference     = MakeExternalPackageReference("fmt")
 	JsonReference    = MakeExternalPackageReference("encoding/json")
+	OSReference      = MakeExternalPackageReference("os")
 	ReflectReference = MakeExternalPackageReference("reflect")
 	TestingReference = MakeExternalPackageReference("testing")
 
