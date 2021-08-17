@@ -105,7 +105,8 @@ func (p *PropertyAssignmentTestCase) RequiredImports() *astmodel.PackageImportSe
 // AsFuncs renders the current test case and any supporting methods as Go abstract syntax trees
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
-func (p *PropertyAssignmentTestCase) AsFuncs(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext) []dst.Decl {
+func (p *PropertyAssignmentTestCase) AsFuncs(
+	receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext) []dst.Decl {
 	return []dst.Decl{
 		p.createTestRunner(codeGenerationContext),
 		p.createTestMethod(receiver, codeGenerationContext),
@@ -134,6 +135,8 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 		testingRunMethod = "TestingRun"
 	)
 
+	parametersLocalId := dst.NewIdent(parametersLocal)
+
 	gopterPackage := codegenContext.MustGetImportedPackageName(astmodel.GopterReference)
 	osPackage := codegenContext.MustGetImportedPackageName(astmodel.OSReference)
 	propPackage := codegenContext.MustGetImportedPackageName(astmodel.GopterPropReference)
@@ -148,7 +151,7 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 
 	// parameters.MaxSize = 10
 	configureMaxSize := astbuilder.QualifiedAssignment(
-		dst.NewIdent(parametersLocal),
+		parametersLocalId,
 		"MaxSize",
 		token.ASSIGN,
 		astbuilder.IntLiteral(10))
@@ -156,7 +159,7 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 	// properties := gopter.NewProperties(parameters)
 	defineProperties := astbuilder.ShortDeclaration(
 		propertiesLocal,
-		astbuilder.CallQualifiedFunc(gopterPackage, "NewProperties", dst.NewIdent(parametersLocal)))
+		astbuilder.CallQualifiedFunc(gopterPackage, "NewProperties", parametersLocalId))
 
 	// partial expression: description of the test
 	testName := astbuilder.StringLiteralf("Round trip from %s to %s via %s & %s returns original",
@@ -203,7 +206,7 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 	return fn.DefineFunc()
 }
 
-// createTestMethod generates the AST for a method to run a single test of JSON serialization
+// createTestMethod generates the AST for a method to run a single test conversion and back again
 func (p *PropertyAssignmentTestCase) createTestMethod(
 	subject astmodel.TypeName,
 	codegenContext *astmodel.CodeGenerationContext) dst.Decl {
@@ -317,8 +320,9 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 
 	fn.AddParameter("subject", p.subject.AsType(codegenContext))
 	fn.AddComments(fmt.Sprintf(
-		"runs a test to see if a specific instance of %s round trips to JSON and back losslessly",
-		p.subject))
+		"tests if a specific instance of %s can be assigned to %s and back losslessly",
+		p.subject.Name(),
+		p.fromFn.ParameterType().PackageReference.PackageName()))
 	fn.AddReturns("string")
 
 	return fn.DefineFunc()
