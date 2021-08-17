@@ -1,0 +1,1035 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.1
+  creationTimestamp: null
+  name: virtualnetworktaps.microsoft.network.azure.com
+spec:
+  group: microsoft.network.azure.com
+  names:
+    kind: VirtualNetworkTap
+    listKind: VirtualNetworkTapList
+    plural: virtualnetworktaps
+    singular: virtualnetworktap
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20201101
+    schema:
+      openAPIV3Schema:
+        description: 'Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkTaps'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn''t have to be.'
+                type: string
+              destinationLoadBalancerFrontEndIPConfiguration:
+                description: 'DestinationLoadBalancerFrontEndIPConfiguration: The reference to the private IP address on the internal Load Balancer that will receive the tap.'
+                properties:
+                  reference:
+                    description: 'Reference: Resource ID.'
+                    properties:
+                      armId:
+                        description: 'TODO: The below regex may be overly restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}. ARMID is mutually exclusive with Group, Kind, Namespace and Name.'
+                        pattern: (?i)^/subscriptions/([^/]+)/resourcegroups/([^/]+)/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))+$
+                        type: string
+                      group:
+                        description: Group is the Kubernetes group of the resource.
+                        type: string
+                      kind:
+                        description: Kind is the Kubernetes kind of the resource.
+                        type: string
+                      name:
+                        description: Name is the Kubernetes name of the resource.
+                        type: string
+                      namespace:
+                        description: Namespace is the Kubernetes namespace of the resource.
+                        type: string
+                    type: object
+                required:
+                - reference
+                type: object
+              destinationNetworkInterfaceIPConfiguration:
+                description: 'DestinationNetworkInterfaceIPConfiguration: The reference to the private IP Address of the collector nic that will receive the tap.'
+                properties:
+                  reference:
+                    description: 'Reference: Resource ID.'
+                    properties:
+                      armId:
+                        description: 'TODO: The below regex may be overly restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}. ARMID is mutually exclusive with Group, Kind, Namespace and Name.'
+                        pattern: (?i)^/subscriptions/([^/]+)/resourcegroups/([^/]+)/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))+$
+                        type: string
+                      group:
+                        description: Group is the Kubernetes group of the resource.
+                        type: string
+                      kind:
+                        description: Kind is the Kubernetes kind of the resource.
+                        type: string
+                      name:
+                        description: Name is the Kubernetes name of the resource.
+                        type: string
+                      namespace:
+                        description: Namespace is the Kubernetes namespace of the resource.
+                        type: string
+                    type: object
+                required:
+                - reference
+                type: object
+              destinationPort:
+                description: 'DestinationPort: The VXLAN destination port that will receive the tapped traffic.'
+                type: integer
+              location:
+                description: 'Location: Location to deploy resource to'
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Name-value pairs to add to the resource'
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: 'Generated from:'
+            properties:
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation) of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating details about the transition. This field may be empty.
+                      type: string
+                    reason:
+                      description: Reason for the condition's last transition. Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type of condition. For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False. This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              destinationLoadBalancerFrontEndIPConfiguration:
+                description: 'DestinationLoadBalancerFrontEndIPConfiguration: The reference to the private IP address on the internal Load Balancer that will receive the tap.'
+                properties:
+                  etag:
+                    description: 'Etag: A unique read-only string that changes whenever the resource is updated.'
+                    type: string
+                  id:
+                    description: 'Id: Resource ID.'
+                    type: string
+                  inboundNatPools:
+                    description: 'InboundNatPools: An array of references to inbound pools that use this frontend IP.'
+                    items:
+                      description: 'Generated from:'
+                      properties:
+                        id:
+                          description: 'Id: Resource ID.'
+                          type: string
+                      type: object
+                    type: array
+                  inboundNatRules:
+                    description: 'InboundNatRules: An array of references to inbound rules that use this frontend IP.'
+                    items:
+                      description: 'Generated from:'
+                      properties:
+                        id:
+                          description: 'Id: Resource ID.'
+                          type: string
+                      type: object
+                    type: array
+                  loadBalancingRules:
+                    description: 'LoadBalancingRules: An array of references to load balancing rules that use this frontend IP.'
+                    items:
+                      description: 'Generated from:'
+                      properties:
+                        id:
+                          description: 'Id: Resource ID.'
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: 'Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer. This name can be used to access the resource.'
+                    type: string
+                  outboundRules:
+                    description: 'OutboundRules: An array of references to outbound rules that use this frontend IP.'
+                    items:
+                      description: 'Generated from:'
+                      properties:
+                        id:
+                          description: 'Id: Resource ID.'
+                          type: string
+                      type: object
+                    type: array
+                  privateIPAddress:
+                    description: 'PrivateIPAddress: The private IP address of the IP configuration.'
+                    type: string
+                  privateIPAddressVersion:
+                    description: 'PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.'
+                    enum:
+                    - IPv4
+                    - IPv6
+                    type: string
+                  privateIPAllocationMethod:
+                    description: 'PrivateIPAllocationMethod: The Private IP allocation method.'
+                    enum:
+                    - Dynamic
+                    - Static
+                    type: string
+                  provisioningState:
+                    description: 'ProvisioningState: The provisioning state of the frontend IP configuration resource.'
+                    enum:
+                    - Deleting
+                    - Failed
+                    - Succeeded
+                    - Updating
+                    type: string
+                  publicIPAddress:
+                    description: 'PublicIPAddress: The reference to the Public IP resource.'
+                    properties:
+                      extendedLocation:
+                        description: 'ExtendedLocation: The extended location of the public ip address.'
+                        properties:
+                          name:
+                            description: 'Name: The name of the extended location.'
+                            type: string
+                          type:
+                            description: 'Type: The type of the extended location.'
+                            enum:
+                            - EdgeZone
+                            type: string
+                        required:
+                        - name
+                        - type
+                        type: object
+                      id:
+                        description: 'Id: Resource ID.'
+                        type: string
+                      sku:
+                        description: 'Sku: The public IP address SKU.'
+                        properties:
+                          name:
+                            description: 'Name: Name of a public IP address SKU.'
+                            enum:
+                            - Basic
+                            - Standard
+                            type: string
+                          tier:
+                            description: 'Tier: Tier of a public IP address SKU.'
+                            enum:
+                            - Global
+                            - Regional
+                            type: string
+                        type: object
+                      zones:
+                        description: 'Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.'
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  publicIPPrefix:
+                    description: 'PublicIPPrefix: The reference to the Public IP Prefix resource.'
+                    properties:
+                      id:
+                        description: 'Id: Resource ID.'
+                        type: string
+                    type: object
+                  subnet:
+                    description: 'Subnet: The reference to the subnet resource.'
+                    properties:
+                      id:
+                        description: 'Id: Resource ID.'
+                        type: string
+                    type: object
+                  type:
+                    description: 'Type: Type of the resource.'
+                    type: string
+                  zones:
+                    description: 'Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.'
+                    items:
+                      type: string
+                    type: array
+                type: object
+              destinationNetworkInterfaceIPConfiguration:
+                description: 'DestinationNetworkInterfaceIPConfiguration: The reference to the private IP Address of the collector nic that will receive the tap.'
+                properties:
+                  applicationGatewayBackendAddressPools:
+                    description: 'ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.'
+                    items:
+                      description: 'Generated from:'
+                      properties:
+                        backendAddresses:
+                          description: 'BackendAddresses: Backend addresses.'
+                          items:
+                            description: 'Generated from:'
+                            properties:
+                              fqdn:
+                                description: 'Fqdn: Fully qualified domain name (FQDN).'
+                                type: string
+                              ipAddress:
+                                description: 'IpAddress: IP address.'
+                                type: string
+                            type: object
+                          type: array
+                        etag:
+                          description: 'Etag: A unique read-only string that changes whenever the resource is updated.'
+                          type: string
+                        id:
+                          description: 'Id: Resource ID.'
+                          type: string
+                        name:
+                          description: 'Name: Name of the backend address pool that is unique within an Application Gateway.'
+                          type: string
+                        provisioningState:
+                          description: 'ProvisioningState: The provisioning state of the backend address pool resource.'
+                          enum:
+                          - Deleting
+                          - Failed
+                          - Succeeded
+                          - Updating
+                          type: string
+                        type:
+                          description: 'Type: Type of the resource.'
+                          type: string
+                      type: object
+                    type: array
+                  applicationSecurityGroups:
+                    description: 'ApplicationSecurityGroups: Application security groups in which the IP configuration is included.'
+                    items:
+                      description: 'Generated from:'
+                      properties:
+                        id:
+                          description: 'Id: Resource ID.'
+                          type: string
+                      type: object
+                    type: array
+                  etag:
+                    description: 'Etag: A unique read-only string that changes whenever the resource is updated.'
+                    type: string
+                  id:
+                    description: 'Id: Resource ID.'
+                    type: string
+                  loadBalancerBackendAddressPools:
+                    description: 'LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.'
+                    items:
+                      description: 'Generated from:'
+                      properties:
+                        id:
+                          description: 'Id: Resource ID.'
+                          type: string
+                      type: object
+                    type: array
+                  loadBalancerInboundNatRules:
+                    description: 'LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.'
+                    items:
+                      description: 'Generated from:'
+                      properties:
+                        id:
+                          description: 'Id: Resource ID.'
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: 'Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                    type: string
+                  primary:
+                    description: 'Primary: Whether this is a primary customer address on the network interface.'
+                    type: boolean
+                  privateIPAddress:
+                    description: 'PrivateIPAddress: Private IP address of the IP configuration.'
+                    type: string
+                  privateIPAddressVersion:
+                    description: 'PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.'
+                    enum:
+                    - IPv4
+                    - IPv6
+                    type: string
+                  privateIPAllocationMethod:
+                    description: 'PrivateIPAllocationMethod: The private IP address allocation method.'
+                    enum:
+                    - Dynamic
+                    - Static
+                    type: string
+                  privateLinkConnectionProperties:
+                    description: 'PrivateLinkConnectionProperties: PrivateLinkConnection properties for the network interface.'
+                    properties:
+                      fqdns:
+                        description: 'Fqdns: List of FQDNs for current private link connection.'
+                        items:
+                          type: string
+                        type: array
+                      groupId:
+                        description: 'GroupId: The group ID for current private link connection.'
+                        type: string
+                      requiredMemberName:
+                        description: 'RequiredMemberName: The required member name for current private link connection.'
+                        type: string
+                    type: object
+                  provisioningState:
+                    description: 'ProvisioningState: The provisioning state of the network interface IP configuration.'
+                    enum:
+                    - Deleting
+                    - Failed
+                    - Succeeded
+                    - Updating
+                    type: string
+                  publicIPAddress:
+                    description: 'PublicIPAddress: Public IP address bound to the IP configuration.'
+                    properties:
+                      extendedLocation:
+                        description: 'ExtendedLocation: The extended location of the public ip address.'
+                        properties:
+                          name:
+                            description: 'Name: The name of the extended location.'
+                            type: string
+                          type:
+                            description: 'Type: The type of the extended location.'
+                            enum:
+                            - EdgeZone
+                            type: string
+                        required:
+                        - name
+                        - type
+                        type: object
+                      id:
+                        description: 'Id: Resource ID.'
+                        type: string
+                      sku:
+                        description: 'Sku: The public IP address SKU.'
+                        properties:
+                          name:
+                            description: 'Name: Name of a public IP address SKU.'
+                            enum:
+                            - Basic
+                            - Standard
+                            type: string
+                          tier:
+                            description: 'Tier: Tier of a public IP address SKU.'
+                            enum:
+                            - Global
+                            - Regional
+                            type: string
+                        type: object
+                      zones:
+                        description: 'Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.'
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  subnet:
+                    description: 'Subnet: Subnet bound to the IP configuration.'
+                    properties:
+                      id:
+                        description: 'Id: Resource ID.'
+                        type: string
+                    type: object
+                  type:
+                    description: 'Type: Resource type.'
+                    type: string
+                type: object
+              destinationPort:
+                description: 'DestinationPort: The VXLAN destination port that will receive the tapped traffic.'
+                type: integer
+              etag:
+                description: 'Etag: A unique read-only string that changes whenever the resource is updated.'
+                type: string
+              id:
+                description: 'Id: Resource ID.'
+                type: string
+              location:
+                description: 'Location: Resource location.'
+                type: string
+              name:
+                description: 'Name: Resource name.'
+                type: string
+              networkInterfaceTapConfigurations:
+                description: 'NetworkInterfaceTapConfigurations: Specifies the list of resource IDs for the network interface IP configuration that needs to be tapped.'
+                items:
+                  description: 'Generated from:'
+                  properties:
+                    id:
+                      description: 'Id: Resource ID.'
+                      type: string
+                  type: object
+                type: array
+              provisioningState:
+                description: 'ProvisioningState: The provisioning state of the virtual network tap resource.'
+                enum:
+                - Deleting
+                - Failed
+                - Succeeded
+                - Updating
+                type: string
+              resourceGuid:
+                description: 'ResourceGuid: The resource GUID property of the virtual network tap resource.'
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+              type:
+                description: 'Type: Resource type.'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1alpha1api20201101storage
+    schema:
+      openAPIV3Schema:
+        description: 'Storage version of v1alpha1api20201101.VirtualNetworkTap Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkTaps'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1alpha1api20201101.VirtualNetworkTaps_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                type: object
+              azureName:
+                description: 'AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn''t have to be.'
+                type: string
+              destinationLoadBalancerFrontEndIPConfiguration:
+                description: 'Storage version of v1alpha1api20201101.SubResource Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                    type: object
+                  reference:
+                    description: 'Reference: Resource ID.'
+                    properties:
+                      armId:
+                        description: 'TODO: The below regex may be overly restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}. ARMID is mutually exclusive with Group, Kind, Namespace and Name.'
+                        pattern: (?i)^/subscriptions/([^/]+)/resourcegroups/([^/]+)/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))+$
+                        type: string
+                      group:
+                        description: Group is the Kubernetes group of the resource.
+                        type: string
+                      kind:
+                        description: Kind is the Kubernetes kind of the resource.
+                        type: string
+                      name:
+                        description: Name is the Kubernetes name of the resource.
+                        type: string
+                      namespace:
+                        description: Namespace is the Kubernetes namespace of the resource.
+                        type: string
+                    type: object
+                required:
+                - reference
+                type: object
+              destinationNetworkInterfaceIPConfiguration:
+                description: 'Storage version of v1alpha1api20201101.SubResource Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                    type: object
+                  reference:
+                    description: 'Reference: Resource ID.'
+                    properties:
+                      armId:
+                        description: 'TODO: The below regex may be overly restrictive ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}. ARMID is mutually exclusive with Group, Kind, Namespace and Name.'
+                        pattern: (?i)^/subscriptions/([^/]+)/resourcegroups/([^/]+)/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))+$
+                        type: string
+                      group:
+                        description: Group is the Kubernetes group of the resource.
+                        type: string
+                      kind:
+                        description: Kind is the Kubernetes kind of the resource.
+                        type: string
+                      name:
+                        description: Name is the Kubernetes name of the resource.
+                        type: string
+                      namespace:
+                        description: Namespace is the Kubernetes namespace of the resource.
+                        type: string
+                    type: object
+                required:
+                - reference
+                type: object
+              destinationPort:
+                type: integer
+              location:
+                type: string
+              originalVersion:
+                type: string
+              owner:
+                description: KnownResourceReference is a resource reference to a known type.
+                properties:
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: 'Storage version of v1alpha1api20201101.VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation) of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating details about the transition. This field may be empty.
+                      type: string
+                    reason:
+                      description: Reason for the condition's last transition. Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: Severity with which to treat failures of this type of condition. For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False. This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              destinationLoadBalancerFrontEndIPConfiguration:
+                description: 'Storage version of v1alpha1api20201101.FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                    type: object
+                  etag:
+                    type: string
+                  id:
+                    type: string
+                  inboundNatPools:
+                    items:
+                      description: 'Storage version of v1alpha1api20201101.SubResource_Status Generated from:'
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                          type: object
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  inboundNatRules:
+                    items:
+                      description: 'Storage version of v1alpha1api20201101.SubResource_Status Generated from:'
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                          type: object
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  loadBalancingRules:
+                    items:
+                      description: 'Storage version of v1alpha1api20201101.SubResource_Status Generated from:'
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                          type: object
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    type: string
+                  outboundRules:
+                    items:
+                      description: 'Storage version of v1alpha1api20201101.SubResource_Status Generated from:'
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                          type: object
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  privateIPAddress:
+                    type: string
+                  privateIPAddressVersion:
+                    type: string
+                  privateIPAllocationMethod:
+                    type: string
+                  provisioningState:
+                    type: string
+                  publicIPAddress:
+                    description: 'Storage version of v1alpha1api20201101.PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                        type: object
+                      extendedLocation:
+                        description: 'Storage version of v1alpha1api20201101.ExtendedLocation_Status Generated from:'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                            type: object
+                          name:
+                            type: string
+                          type:
+                            type: string
+                        type: object
+                      id:
+                        type: string
+                      sku:
+                        description: 'Storage version of v1alpha1api20201101.PublicIPAddressSku_Status Generated from:'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                            type: object
+                          name:
+                            type: string
+                          tier:
+                            type: string
+                        type: object
+                      zones:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  publicIPPrefix:
+                    description: 'Storage version of v1alpha1api20201101.SubResource_Status Generated from:'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                        type: object
+                      id:
+                        type: string
+                    type: object
+                  subnet:
+                    description: 'Storage version of v1alpha1api20201101.Subnet_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                        type: object
+                      id:
+                        type: string
+                    type: object
+                  type:
+                    type: string
+                  zones:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              destinationNetworkInterfaceIPConfiguration:
+                description: 'Storage version of v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                    type: object
+                  applicationGatewayBackendAddressPools:
+                    items:
+                      description: 'Storage version of v1alpha1api20201101.ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                          type: object
+                        backendAddresses:
+                          items:
+                            description: 'Storage version of v1alpha1api20201101.ApplicationGatewayBackendAddress_Status Generated from:'
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                                type: object
+                              fqdn:
+                                type: string
+                              ipAddress:
+                                type: string
+                            type: object
+                          type: array
+                        etag:
+                          type: string
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        provisioningState:
+                          type: string
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  applicationSecurityGroups:
+                    items:
+                      description: 'Storage version of v1alpha1api20201101.ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                          type: object
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  etag:
+                    type: string
+                  id:
+                    type: string
+                  loadBalancerBackendAddressPools:
+                    items:
+                      description: 'Storage version of v1alpha1api20201101.BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                          type: object
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  loadBalancerInboundNatRules:
+                    items:
+                      description: 'Storage version of v1alpha1api20201101.InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                          type: object
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    type: string
+                  primary:
+                    type: boolean
+                  privateIPAddress:
+                    type: string
+                  privateIPAddressVersion:
+                    type: string
+                  privateIPAllocationMethod:
+                    type: string
+                  privateLinkConnectionProperties:
+                    description: 'Storage version of v1alpha1api20201101.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status Generated from:'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                        type: object
+                      fqdns:
+                        items:
+                          type: string
+                        type: array
+                      groupId:
+                        type: string
+                      requiredMemberName:
+                        type: string
+                    type: object
+                  provisioningState:
+                    type: string
+                  publicIPAddress:
+                    description: 'Storage version of v1alpha1api20201101.PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                        type: object
+                      extendedLocation:
+                        description: 'Storage version of v1alpha1api20201101.ExtendedLocation_Status Generated from:'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                            type: object
+                          name:
+                            type: string
+                          type:
+                            type: string
+                        type: object
+                      id:
+                        type: string
+                      sku:
+                        description: 'Storage version of v1alpha1api20201101.PublicIPAddressSku_Status Generated from:'
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                            type: object
+                          name:
+                            type: string
+                          tier:
+                            type: string
+                        type: object
+                      zones:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  subnet:
+                    description: 'Storage version of v1alpha1api20201101.Subnet_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                        type: object
+                      id:
+                        type: string
+                    type: object
+                  type:
+                    type: string
+                type: object
+              destinationPort:
+                type: integer
+              etag:
+                type: string
+              id:
+                type: string
+              location:
+                type: string
+              name:
+                type: string
+              networkInterfaceTapConfigurations:
+                items:
+                  description: 'Storage version of v1alpha1api20201101.NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded Generated from:'
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage resources, allowing for full fidelity round trip conversions We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our containing resource is hydrated. We only have the required type available when we are doing the conversion to a related type.
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              provisioningState:
+                type: string
+              resourceGuid:
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

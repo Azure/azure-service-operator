@@ -1,13 +1,10 @@
 {
 	"folders": [
-		{ 
+		{
+			"path": "v2"
+		},
+		{
 			"path": "."
-		},
-		{
-			"path": "hack/generated"
-		},
-		{
-			"path": "hack/generator"
 		}
 	],
 	"settings": {

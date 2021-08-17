@@ -1,8 +1,0 @@
-_apis/*
-!_apis/microsoft.resources
-
-config/crd/bases/
-config/crd/kustomization.yaml
-config/webhook/manifests.yaml
-config/rbac/role.yaml
-controllers/controller_resources_gen.go

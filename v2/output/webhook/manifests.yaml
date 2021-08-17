@@ -1,0 +1,877 @@
+
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: mutating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-batch-azure-com-v1alpha1api20210101-batchaccount
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20210101.batchaccounts.microsoft.batch.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.batch.azure.com
+    apiVersions:
+    - v1alpha1api20210101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - batchaccounts
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-compute-azure-com-v1alpha1api20200930-disk
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20200930.disks.microsoft.compute.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.compute.azure.com
+    apiVersions:
+    - v1alpha1api20200930
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - disks
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-compute-azure-com-v1alpha1api20201201-virtualmachinescaleset
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20201201.virtualmachinescalesets.microsoft.compute.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.compute.azure.com
+    apiVersions:
+    - v1alpha1api20201201
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualmachinescalesets
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccount
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20210515.databaseaccounts.microsoft.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.documentdb.azure.com
+    apiVersions:
+    - v1alpha1api20210515
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - databaseaccounts
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-managedidentity-azure-com-v1alpha1api20181130-userassignedidentity
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20181130.userassignedidentities.microsoft.managedidentity.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.managedidentity.azure.com
+    apiVersions:
+    - v1alpha1api20181130
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - userassignedidentities
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-network-azure-com-v1alpha1api20201101-loadbalancer
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20201101.loadbalancers.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - loadbalancers
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-network-azure-com-v1alpha1api20201101-networksecuritygroup
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20201101.networksecuritygroups.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - networksecuritygroups
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-network-azure-com-v1alpha1api20201101-networksecuritygroupssecurityrule
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20201101.networksecuritygroupssecurityrules.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - networksecuritygroupssecurityrules
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-network-azure-com-v1alpha1api20201101-publicipaddress
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20201101.publicipaddresses.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - publicipaddresses
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworkgateway
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20201101.virtualnetworkgateways.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworkgateways
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworktap
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20201101.virtualnetworktaps.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworktaps
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetwork
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20201101.virtualnetworks.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworks
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworkssubnet
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20201101.virtualnetworkssubnets.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworkssubnets
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworksvirtualnetworkpeering
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20201101.virtualnetworksvirtualnetworkpeerings.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworksvirtualnetworkpeerings
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-resources-azure-com-v1alpha1api20200601-resourcegroup
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20200601.resourcegroups.microsoft.resources.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.resources.azure.com
+    apiVersions:
+    - v1alpha1api20200601
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - resourcegroups
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespace
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20210101preview.namespaces.microsoft.servicebus.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.servicebus.azure.com
+    apiVersions:
+    - v1alpha1api20210101preview
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - namespaces
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20210101preview.namespacesqueues.microsoft.servicebus.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.servicebus.azure.com
+    apiVersions:
+    - v1alpha1api20210101preview
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - namespacesqueues
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacestopic
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20210101preview.namespacestopics.microsoft.servicebus.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.servicebus.azure.com
+    apiVersions:
+    - v1alpha1api20210101preview
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - namespacestopics
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccount
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20210401.storageaccounts.microsoft.storage.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.storage.azure.com
+    apiVersions:
+    - v1alpha1api20210401
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - storageaccounts
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservice
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20210401.storageaccountsblobservices.microsoft.storage.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.storage.azure.com
+    apiVersions:
+    - v1alpha1api20210401
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - storageaccountsblobservices
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservicescontainer
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: default.v1alpha1api20210401.storageaccountsblobservicescontainers.microsoft.storage.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.storage.azure.com
+    apiVersions:
+    - v1alpha1api20210401
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - storageaccountsblobservicescontainers
+  sideEffects: None
+
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: validating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-batch-azure-com-v1alpha1api20210101-batchaccount
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20210101.batchaccounts.microsoft.batch.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.batch.azure.com
+    apiVersions:
+    - v1alpha1api20210101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - batchaccounts
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-compute-azure-com-v1alpha1api20200930-disk
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20200930.disks.microsoft.compute.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.compute.azure.com
+    apiVersions:
+    - v1alpha1api20200930
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - disks
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-compute-azure-com-v1alpha1api20201201-virtualmachinescaleset
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20201201.virtualmachinescalesets.microsoft.compute.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.compute.azure.com
+    apiVersions:
+    - v1alpha1api20201201
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualmachinescalesets
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccount
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20210515.databaseaccounts.microsoft.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.documentdb.azure.com
+    apiVersions:
+    - v1alpha1api20210515
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - databaseaccounts
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-managedidentity-azure-com-v1alpha1api20181130-userassignedidentity
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20181130.userassignedidentities.microsoft.managedidentity.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.managedidentity.azure.com
+    apiVersions:
+    - v1alpha1api20181130
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - userassignedidentities
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-network-azure-com-v1alpha1api20201101-loadbalancer
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20201101.loadbalancers.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - loadbalancers
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-network-azure-com-v1alpha1api20201101-networksecuritygroup
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20201101.networksecuritygroups.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - networksecuritygroups
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-network-azure-com-v1alpha1api20201101-networksecuritygroupssecurityrule
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20201101.networksecuritygroupssecurityrules.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - networksecuritygroupssecurityrules
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-network-azure-com-v1alpha1api20201101-publicipaddress
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20201101.publicipaddresses.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - publicipaddresses
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworkgateway
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20201101.virtualnetworkgateways.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworkgateways
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworktap
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20201101.virtualnetworktaps.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworktaps
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetwork
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20201101.virtualnetworks.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworks
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworkssubnet
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20201101.virtualnetworkssubnets.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworkssubnets
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworksvirtualnetworkpeering
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20201101.virtualnetworksvirtualnetworkpeerings.microsoft.network.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.azure.com
+    apiVersions:
+    - v1alpha1api20201101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworksvirtualnetworkpeerings
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespace
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20210101preview.namespaces.microsoft.servicebus.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.servicebus.azure.com
+    apiVersions:
+    - v1alpha1api20210101preview
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - namespaces
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20210101preview.namespacesqueues.microsoft.servicebus.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.servicebus.azure.com
+    apiVersions:
+    - v1alpha1api20210101preview
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - namespacesqueues
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacestopic
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20210101preview.namespacestopics.microsoft.servicebus.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.servicebus.azure.com
+    apiVersions:
+    - v1alpha1api20210101preview
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - namespacestopics
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccount
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20210401.storageaccounts.microsoft.storage.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.storage.azure.com
+    apiVersions:
+    - v1alpha1api20210401
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - storageaccounts
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservice
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20210401.storageaccountsblobservices.microsoft.storage.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.storage.azure.com
+    apiVersions:
+    - v1alpha1api20210401
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - storageaccountsblobservices
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservicescontainer
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1alpha1api20210401.storageaccountsblobservicescontainers.microsoft.storage.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.storage.azure.com
+    apiVersions:
+    - v1alpha1api20210401
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - storageaccountsblobservicescontainers
+  sideEffects: None

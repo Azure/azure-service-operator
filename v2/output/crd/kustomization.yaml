@@ -1,0 +1,22 @@
+resources:
+    - bases/microsoft.batch.azure.com_batchaccounts.yaml
+    - bases/microsoft.compute.azure.com_disks.yaml
+    - bases/microsoft.compute.azure.com_virtualmachinescalesets.yaml
+    - bases/microsoft.documentdb.azure.com_databaseaccounts.yaml
+    - bases/microsoft.managedidentity.azure.com_userassignedidentities.yaml
+    - bases/microsoft.network.azure.com_loadbalancers.yaml
+    - bases/microsoft.network.azure.com_networksecuritygroups.yaml
+    - bases/microsoft.network.azure.com_networksecuritygroupssecurityrules.yaml
+    - bases/microsoft.network.azure.com_publicipaddresses.yaml
+    - bases/microsoft.network.azure.com_virtualnetworkgateways.yaml
+    - bases/microsoft.network.azure.com_virtualnetworks.yaml
+    - bases/microsoft.network.azure.com_virtualnetworkssubnets.yaml
+    - bases/microsoft.network.azure.com_virtualnetworksvirtualnetworkpeerings.yaml
+    - bases/microsoft.network.azure.com_virtualnetworktaps.yaml
+    - bases/microsoft.resources.azure.com_resourcegroups.yaml
+    - bases/microsoft.servicebus.azure.com_namespaces.yaml
+    - bases/microsoft.servicebus.azure.com_namespacesqueues.yaml
+    - bases/microsoft.servicebus.azure.com_namespacestopics.yaml
+    - bases/microsoft.storage.azure.com_storageaccounts.yaml
+    - bases/microsoft.storage.azure.com_storageaccountsblobservices.yaml
+    - bases/microsoft.storage.azure.com_storageaccountsblobservicescontainers.yaml
