@@ -12,6 +12,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
 )
 
 // ResourceConversionFunction implements conversions to/from our hub type
@@ -125,6 +126,16 @@ func (fn *ResourceConversionFunction) AsFunc(
 	}
 
 	return funcDetails.DefineFunc()
+}
+
+// Direction returns this functions direction of conversion
+func (fn *ResourceConversionFunction) Direction() conversions.Direction {
+	return fn.propertyFunction.Direction()
+}
+
+// Hub returns the hub type we convert with
+func (fn *ResourceConversionFunction) Hub() astmodel.TypeName {
+	return fn.hub
 }
 
 // directConversion creates a simple direct conversion between the two types
