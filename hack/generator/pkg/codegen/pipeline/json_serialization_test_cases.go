@@ -48,22 +48,47 @@ func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
 }
 
 type objectSerializationTestCaseFactory struct {
-	injector  *astmodel.TestCaseInjector
-	idFactory astmodel.IdentifierFactory
+	injector     *astmodel.TestCaseInjector
+	idFactory    astmodel.IdentifierFactory
+	suppressions []string
 }
 
 func makeObjectSerializationTestCaseFactory(idFactory astmodel.IdentifierFactory) objectSerializationTestCaseFactory {
 	result := objectSerializationTestCaseFactory{
 		injector:  astmodel.NewTestCaseInjector(),
 		idFactory: idFactory,
+		suppressions: []string{
+			"DatabaseAccounts_SpecARM",
+			"DatabaseAccountCreateUpdatePropertiesARM",
+			"BackupPolicyARM",
+		},
 	}
 
 	return result
 }
 
+// NeedsTest returns true if we should generate a testcase for the specified definition
 func (s *objectSerializationTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
 	_, ok := astmodel.AsPropertyContainer(def.Type())
-	return ok
+	if !ok {
+		// Can only generate tests for property containers
+		return false
+	}
+
+	// Check for types that we need to suppress - these are ARM types that don't currently round trip because they're
+	// OneOf implementations that are only used in one direction.
+	//
+	// See https://github.com/Azure/azure-service-operator/issues/1721 for more information
+	//
+	result := true
+	for _, s := range s.suppressions {
+		if def.Name().Name() == s {
+			result = false
+			break
+		}
+	}
+
+	return result
 }
 
 func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
