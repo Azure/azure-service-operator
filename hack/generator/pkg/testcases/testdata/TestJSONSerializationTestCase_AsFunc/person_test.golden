@@ -24,7 +24,7 @@ func Test_Person_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties.Property(
 		"Round trip of Person_Spec via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForPersonSpec, PersonSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormattedReporter(true, 240, os.Stdout))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForPersonSpec runs a test to see if a specific instance of Person_Spec round trips to JSON and back losslessly
