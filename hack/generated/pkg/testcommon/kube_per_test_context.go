@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
@@ -27,8 +28,6 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 )
-
-const ResourceGroupDeletionWaitTime = 5 * time.Minute
 
 type KubePerTestContext struct {
 	*KubeGlobalContext
@@ -205,7 +204,7 @@ func (tc KubePerTestContext) CreateTestResourceGroup(rg *resources.ResourceGroup
 		// doesn't stop polling resources in "Deleting" state and so when running recordings
 		// different runs end up polling different numbers of times. Ensuring we reach a state
 		// the controller deems terminal (Deleted) resolves this issue.
-		tc.G.Eventually(rg, ResourceGroupDeletionWaitTime).Should(tc.Match.BeDeleted())
+		tc.G.Eventually(rg, tc.DefaultTimeout()).Should(tc.Match.BeDeleted())
 	})
 
 	if wait {
@@ -231,25 +230,34 @@ func (tc KubePerTestContext) Subtest(t *testing.T) KubePerTestContext {
 	return tc
 }
 
-var DefaultTimeout time.Duration = 2 * time.Minute
+// DefaultTimeoutReplaying is the default timeout for a single operation when replaying.
+var DefaultTimeoutReplaying = 2 * time.Minute
 
-// remainingTime returns how long is left until test timeout,
+// DefaultTimeoutRecording is the default timeout for a single operation when recording.
+// This is so high primarily because deleting an AKS cluster takes a long time.
+var DefaultTimeoutRecording = 15 * time.Minute
+
+func (tc *KubePerTestContext) DefaultTimeout() time.Duration {
+	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
+		return DefaultTimeoutReplaying
+	}
+
+	return DefaultTimeoutRecording
+}
+
+// RemainingTime returns how long is left until test timeout,
 // and can be used with gomega.Eventually to get better failure behaviour
 //
 // (If you hit the deadline 'go test' aborts everything and dumps
 // the current task stacks to output. If gomega.Eventually hits its
 // timeout it will produce a nicer error message and stack trace.)
-func RemainingTime(t *testing.T) time.Duration {
-	deadline, hasDeadline := t.Deadline()
+func (tc *KubePerTestContext) RemainingTime() time.Duration {
+	deadline, hasDeadline := tc.T.Deadline()
 	if hasDeadline {
 		return time.Until(deadline) - time.Second // give us 1 second to clean up
 	}
 
-	return DefaultTimeout
-}
-
-func (tc *KubePerTestContext) RemainingTime() time.Duration {
-	return RemainingTime(tc.T)
+	return tc.DefaultTimeout()
 }
 
 func (tc *KubePerTestContext) Expect(actual interface{}) gomega.Assertion {
