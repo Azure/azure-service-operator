@@ -521,6 +521,10 @@ func (objectType *ObjectType) TestCases() []TestCase {
 		result = append(result, tc)
 	}
 
+	sort.Slice(result, func(i int, j int) bool {
+		return result[i].Name() < result[j].Name()
+	})
+
 	return result
 }
 

@@ -18,63 +18,6 @@ import (
 	"testing"
 )
 
-func Test_Person_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Person via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPerson, PersonGenerator()))
-	properties.TestingRun(t)
-}
-
-// RunJSONSerializationTestForPerson runs a test to see if a specific instance of Person round trips to JSON and back losslessly
-func RunJSONSerializationTestForPerson(subject Person) string {
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	var actual Person
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-//Generator of Person instances for property testing - lazily instantiated by
-//PersonGenerator()
-var personGenerator gopter.Gen
-
-// PersonGenerator returns a generator of Person instances for property testing.
-func PersonGenerator() gopter.Gen {
-	if personGenerator != nil {
-		return personGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForPerson(generators)
-	personGenerator = gen.Struct(reflect.TypeOf(Person{}), generators)
-
-	return personGenerator
-}
-
-// AddRelatedPropertyGeneratorsForPerson is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPerson(gens map[string]gopter.Gen) {
-	gens["Spec"] = PersonSpecGenerator()
-	gens["Status"] = PersonStatusGenerator()
-}
-
 func Test_Person_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -112,6 +55,103 @@ func RunPropertyAssignmentTestForPerson(subject Person) string {
 	return ""
 }
 
+func Test_Person_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Person via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPerson, PersonGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPerson runs a test to see if a specific instance of Person round trips to JSON and back losslessly
+func RunJSONSerializationTestForPerson(subject Person) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Person
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+//Generator of Person instances for property testing - lazily instantiated by
+//PersonGenerator()
+var personGenerator gopter.Gen
+
+// PersonGenerator returns a generator of Person instances for property testing.
+func PersonGenerator() gopter.Gen {
+	if personGenerator != nil {
+		return personGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForPerson(generators)
+	personGenerator = gen.Struct(reflect.TypeOf(Person{}), generators)
+
+	return personGenerator
+}
+
+// AddRelatedPropertyGeneratorsForPerson is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPerson(gens map[string]gopter.Gen) {
+	gens["Spec"] = PersonSpecGenerator()
+	gens["Status"] = PersonStatusGenerator()
+}
+
+func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Person_Spec to Person_Spec via AssignPropertiesToPersonSpec & AssignPropertiesFromPersonSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPersonSpec, PersonSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPersonSpec tests if a specific instance of Person_Spec can be assigned to v20211231storage and back losslessly
+func RunPropertyAssignmentTestForPersonSpec(subject Person_Spec) string {
+	// Intermediate instance for conversion
+	var other v20211231storage.Person_Spec
+	err := subject.AssignPropertiesToPersonSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Result instance after conversion
+	var actual Person_Spec
+	err = actual.AssignPropertiesFromPersonSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Person_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -119,22 +159,25 @@ func Test_Person_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties.Property(
 		"Round trip of Person_Spec via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForPersonSpec, PersonSpecGenerator()))
-	properties.TestingRun(t)
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForPersonSpec runs a test to see if a specific instance of Person_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForPersonSpec(subject Person_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Person_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -185,99 +228,6 @@ func AddRelatedPropertyGeneratorsForPersonSpec(gens map[string]gopter.Gen) {
 	gens["ResidentialAddress"] = AddressGenerator()
 }
 
-func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Person_Spec to Person_Spec via AssignPropertiesToPersonSpec & AssignPropertiesFromPersonSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPersonSpec, PersonSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPersonSpec tests if a specific instance of Person_Spec can be assigned to v20211231storage and back losslessly
-func RunPropertyAssignmentTestForPersonSpec(subject Person_Spec) string {
-	// Intermediate instance for conversion
-	var other v20211231storage.Person_Spec
-	err := subject.AssignPropertiesToPersonSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Result instance after conversion
-	var actual Person_Spec
-	err = actual.AssignPropertiesFromPersonSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Person_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Person_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPersonStatus, PersonStatusGenerator()))
-	properties.TestingRun(t)
-}
-
-// RunJSONSerializationTestForPersonStatus runs a test to see if a specific instance of Person_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForPersonStatus(subject Person_Status) string {
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	var actual Person_Status
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-//Generator of Person_Status instances for property testing - lazily instantiated
-//by PersonStatusGenerator()
-var personStatusGenerator gopter.Gen
-
-// PersonStatusGenerator returns a generator of Person_Status instances for property testing.
-func PersonStatusGenerator() gopter.Gen {
-	if personStatusGenerator != nil {
-		return personStatusGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPersonStatus(generators)
-	personStatusGenerator = gen.Struct(reflect.TypeOf(Person_Status{}), generators)
-
-	return personStatusGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPersonStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPersonStatus(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.AlphaString()
-}
-
 func Test_Person_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -315,29 +265,32 @@ func RunPropertyAssignmentTestForPersonStatus(subject Person_Status) string {
 	return ""
 }
 
-func Test_Address_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Person_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Address via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAddress, AddressGenerator()))
-	properties.TestingRun(t)
+		"Round trip of Person_Status via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPersonStatus, PersonStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAddress runs a test to see if a specific instance of Address round trips to JSON and back losslessly
-func RunJSONSerializationTestForAddress(subject Address) string {
+// RunJSONSerializationTestForPersonStatus runs a test to see if a specific instance of Person_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForPersonStatus(subject Person_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
-	var actual Address
+	// Deserialize back into memory
+	var actual Person_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -349,27 +302,26 @@ func RunJSONSerializationTestForAddress(subject Address) string {
 	return ""
 }
 
-//Generator of Address instances for property testing - lazily instantiated by
-//AddressGenerator()
-var addressGenerator gopter.Gen
+//Generator of Person_Status instances for property testing - lazily instantiated
+//by PersonStatusGenerator()
+var personStatusGenerator gopter.Gen
 
-// AddressGenerator returns a generator of Address instances for property testing.
-func AddressGenerator() gopter.Gen {
-	if addressGenerator != nil {
-		return addressGenerator
+// PersonStatusGenerator returns a generator of Person_Status instances for property testing.
+func PersonStatusGenerator() gopter.Gen {
+	if personStatusGenerator != nil {
+		return personStatusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAddress(generators)
-	addressGenerator = gen.Struct(reflect.TypeOf(Address{}), generators)
+	AddIndependentPropertyGeneratorsForPersonStatus(generators)
+	personStatusGenerator = gen.Struct(reflect.TypeOf(Person_Status{}), generators)
 
-	return addressGenerator
+	return personStatusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAddress is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAddress(gens map[string]gopter.Gen) {
-	gens["City"] = gen.AlphaString()
-	gens["FullAddress"] = gen.AlphaString()
+// AddIndependentPropertyGeneratorsForPersonStatus is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPersonStatus(gens map[string]gopter.Gen) {
+	gens["Status"] = gen.AlphaString()
 }
 
 func Test_Address_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -407,4 +359,64 @@ func RunPropertyAssignmentTestForAddress(subject Address) string {
 	}
 
 	return ""
+}
+
+func Test_Address_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Address via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAddress, AddressGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAddress runs a test to see if a specific instance of Address round trips to JSON and back losslessly
+func RunJSONSerializationTestForAddress(subject Address) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Address
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+//Generator of Address instances for property testing - lazily instantiated by
+//AddressGenerator()
+var addressGenerator gopter.Gen
+
+// AddressGenerator returns a generator of Address instances for property testing.
+func AddressGenerator() gopter.Gen {
+	if addressGenerator != nil {
+		return addressGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAddress(generators)
+	addressGenerator = gen.Struct(reflect.TypeOf(Address{}), generators)
+
+	return addressGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAddress is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAddress(gens map[string]gopter.Gen) {
+	gens["City"] = gen.AlphaString()
+	gens["FullAddress"] = gen.AlphaString()
 }
