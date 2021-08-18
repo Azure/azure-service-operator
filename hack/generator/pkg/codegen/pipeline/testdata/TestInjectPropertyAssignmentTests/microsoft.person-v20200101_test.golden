@@ -308,3 +308,40 @@ func PersonStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPersonStatus(gens map[string]gopter.Gen) {
 	gens["Status"] = gen.AlphaString()
 }
+
+func Test_Person_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Person_Status to Person_Status via AssignPropertiesToPersonStatus & AssignPropertiesFromPersonStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPersonStatus, PersonStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPersonStatus tests if a specific instance of Person_Status can be assigned to v20200101storage and back losslessly
+func RunPropertyAssignmentTestForPersonStatus(subject Person_Status) string {
+	// Intermediate instance for conversion
+	var other v20200101storage.Person_Status
+	err := subject.AssignPropertiesToPersonStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Result instance after conversion
+	var actual Person_Status
+	err = actual.AssignPropertiesFromPersonStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
