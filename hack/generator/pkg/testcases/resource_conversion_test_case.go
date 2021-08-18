@@ -45,8 +45,13 @@ func NewResourceConversionTestCase(
 		idFactory: idFactory,
 	}
 
-	// Find Resource Conversion functions
-	for _, fn := range resourceType.Functions() {
+	conversionImplementation, ok := resourceType.FindInterface(astmodel.ConvertibleInterface)
+	if !ok {
+		panic(fmt.Sprintf("expected %s to implement conversions.Convertible including ConvertTo() and ConvertFrom()", name))
+	}
+
+	// Find ConvertTo and ConvertFrom functions from the implementation
+	for _, fn := range conversionImplementation.Functions() {
 		if rcfn, ok := fn.(*functions.ResourceConversionFunction); ok {
 			if rcfn.Direction() == conversions.ConvertFrom {
 				result.fromFn = rcfn
@@ -64,7 +69,7 @@ func NewResourceConversionTestCase(
 		panic(fmt.Sprintf("expected to find ConvertTo() on %s", name))
 	}
 	if !result.fromFn.Hub().Equals(result.toFn.Hub()) {
-		panic(fmt.Sprintf("expected to ConvertTo() and ConvertFrom() on %s to be consistent", name))
+
 	}
 
 	result.testName = fmt.Sprintf(

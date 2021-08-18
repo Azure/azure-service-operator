@@ -11,7 +11,6 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/testcases"
 )
 
@@ -47,6 +46,7 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) Sta
 
 	stage.RequiresPrerequisiteStages(
 		InjectPropertyAssignmentFunctionsStageID, // Need PropertyAssignmentFunctions to test
+		ImplementConvertibleInterfaceStageId,     // Need the conversions.Convertible interface to be present
 		InjectJsonSerializationTestsID,           // We reuse the generators from the JSON tests
 	)
 
@@ -71,14 +71,8 @@ func (s *resourceConversionTestCaseFactory) NeedsTest(def astmodel.TypeDefinitio
 		return false
 	}
 
-	// Check for conversion functions (our hub types don't have them and we don't want to inject tests there)
-	for _, fn := range resourceType.Functions() {
-		if _, ok := fn.(*functions.ResourceConversionFunction); ok {
-			return true
-		}
-	}
-
-	return false
+	_, found := resourceType.FindInterface(astmodel.ConvertibleInterface)
+	return found
 }
 
 func (s *resourceConversionTestCaseFactory) AddTestTo(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
