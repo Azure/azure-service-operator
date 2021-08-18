@@ -12,6 +12,7 @@ import (
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/gen"
 	"github.com/leanovate/gopter/prop"
+	"os"
 	"reflect"
 	"testing"
 )
@@ -23,22 +24,25 @@ func Test_Person_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties.Property(
 		"Round trip of Person via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForPerson, PersonGenerator()))
-	properties.TestingRun(t)
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForPerson runs a test to see if a specific instance of Person round trips to JSON and back losslessly
 func RunJSONSerializationTestForPerson(subject Person) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Person
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -80,22 +84,25 @@ func Test_Person_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties.Property(
 		"Round trip of Person_Spec via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForPersonSpec, PersonSpecGenerator()))
-	properties.TestingRun(t)
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForPersonSpec runs a test to see if a specific instance of Person_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForPersonSpec(subject Person_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Person_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -153,22 +160,25 @@ func Test_Person_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties.Property(
 		"Round trip of Person_Status via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForPersonStatus, PersonStatusGenerator()))
-	properties.TestingRun(t)
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForPersonStatus runs a test to see if a specific instance of Person_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForPersonStatus(subject Person_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Person_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -209,22 +219,25 @@ func Test_Address_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties.Property(
 		"Round trip of Address via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForAddress, AddressGenerator()))
-	properties.TestingRun(t)
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForAddress runs a test to see if a specific instance of Address round trips to JSON and back losslessly
 func RunJSONSerializationTestForAddress(subject Address) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Address
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)

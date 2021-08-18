@@ -257,6 +257,7 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 		token.DEFINE,
 		astbuilder.CallQualifiedFunc(jsonPackage, "Marshal", dst.NewIdent(subjectId)))
 	astbuilder.AddComment(&serialize.Decs.Start, "// Serialize to JSON")
+	serialize.Decorations().Before = dst.NewLine
 
 	// if err != nil { return err.Error() }
 	serializeFailed := astbuilder.ReturnIfNotNil(
