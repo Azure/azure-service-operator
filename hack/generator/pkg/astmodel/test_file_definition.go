@@ -84,6 +84,21 @@ func (file *TestFileDefinition) AsAst() (*dst.File, error) {
 	return result, nil
 }
 
+// TestCaseCount returns the number of test cases included in the file
+func (file *TestFileDefinition) TestCaseCount() int {
+	result := 0
+	for _, s := range file.definitions {
+		container, ok := AsTestCaseContainer(s.Type())
+		if !ok {
+			continue
+		}
+
+		result += len(container.TestCases())
+	}
+
+	return result
+}
+
 // disambiguates any conflicts
 func (file *TestFileDefinition) generateImports() *PackageImportSet {
 	var requiredImports = NewPackageImportSet()
