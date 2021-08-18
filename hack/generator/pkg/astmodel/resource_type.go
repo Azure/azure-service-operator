@@ -187,7 +187,7 @@ func (resource *ResourceType) WithStatus(statusType Type) *ResourceType {
 }
 
 func (resource *ResourceType) WithoutInterface(name TypeName) *ResourceType {
-	if !resource.InterfaceImplementer.HasInterface(name) {
+	if _, found := resource.InterfaceImplementer.FindInterface(name); !found {
 		return resource
 	}
 

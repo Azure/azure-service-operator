@@ -21,9 +21,9 @@ func MakeInterfaceImplementer() InterfaceImplementer {
 	return InterfaceImplementer{}
 }
 
-func (i InterfaceImplementer) HasInterface(name TypeName) bool {
-	_, ok := i.interfaces[name]
-	return ok
+func (i InterfaceImplementer) FindInterface(name TypeName) (*InterfaceImplementation, bool) {
+	result, ok := i.interfaces[name]
+	return result, ok
 }
 
 func (i InterfaceImplementer) WithoutInterface(name TypeName) InterfaceImplementer {
