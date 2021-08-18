@@ -324,8 +324,8 @@ func (p *ResourceConversionTestCase) createTestMethod(
 
 	fn.AddParameter("subject", p.subject.AsType(codegenContext))
 	fn.AddComments(fmt.Sprintf(
-		"runs a test to see if a specific instance of %s round trips to the hub storage version back losslessly",
-		p.subject))
+		"tests if a specific instance of %s round trips to the hub storage version and back losslessly",
+		p.subject.Name()))
 	fn.AddReturns("string")
 
 	return fn.DefineFunc()
