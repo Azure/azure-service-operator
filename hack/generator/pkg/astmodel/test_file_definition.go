@@ -36,19 +36,18 @@ func NewTestFileDefinition(
 
 // AsAst generates an array of declarations for the content of the file
 func (file *TestFileDefinition) AsAst() (*dst.File, error) {
-
 	// Create context from imports
 	codeGenContext := NewCodeGenerationContext(file.packageReference, file.generateImports(), file.generatedPackages)
 
 	// Emit all test cases:
 	var testcases []dst.Decl
 	for _, s := range file.definitions {
-		definer, ok := s.Type().(TestCaseContainer)
+		container, ok := AsTestCaseContainer(s.Type())
 		if !ok {
 			continue
 		}
 
-		for _, testcase := range definer.TestCases() {
+		for _, testcase := range container.TestCases() {
 			testcases = append(testcases, testcase.AsFuncs(s.name, codeGenContext)...)
 		}
 	}

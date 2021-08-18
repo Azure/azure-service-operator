@@ -32,3 +32,16 @@ type TestCase interface {
 type TestCaseContainer interface {
 	TestCases() []TestCase
 }
+
+// AsTestCaseContainer converts a type into a function container
+// Only use this readonly access as we must use a TypeVisitor for modifications to preserve type wrapping
+func AsTestCaseContainer(theType Type) (TestCaseContainer, bool) {
+	switch t := theType.(type) {
+	case TestCaseContainer:
+		return t, true
+	case MetaType:
+		return AsTestCaseContainer(t.Unwrap())
+	default:
+		return nil, false
+	}
+}
