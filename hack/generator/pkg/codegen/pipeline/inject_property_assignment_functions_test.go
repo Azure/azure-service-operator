@@ -6,7 +6,6 @@
 package pipeline
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -48,19 +47,11 @@ func TestInjectPropertyAssignmentFunctions(t *testing.T) {
 
 	state := NewState().WithTypes(types)
 
-	// Use CreateConversionGraph to create the conversion graph needed prior to injecting property assignment funcs
-	createConversionGraphStage := CreateConversionGraph()
-	state, err := createConversionGraphStage.Run(context.TODO(), state)
-	g.Expect(err).To(Succeed())
-
-	// Next, create storage types so we have targets for the assignment functions
-	createStorageTypesStage := CreateStorageTypes()
-	state, err = createStorageTypesStage.Run(context.TODO(), state)
-	g.Expect(err).To(Succeed())
-
-	// Now run our stage and inject property assignment functions
-	injectFunctions := InjectPropertyAssignmentFunctions(idFactory)
-	finalState, err := injectFunctions.Run(context.TODO(), state)
+	finalState, err := RunTestPipeline(
+		state,
+		CreateConversionGraph(),
+		CreateStorageTypes(),
+		InjectPropertyAssignmentFunctions(idFactory))
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
