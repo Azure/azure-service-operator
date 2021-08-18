@@ -32,7 +32,8 @@ func (i InterfaceImplementer) WithoutInterface(name TypeName) InterfaceImplement
 	return result
 }
 
-// WithInterface creates a new ObjectType with a function (method) attached to it
+// WithInterface creates a new InterfaceImplementation with the specified implementation included
+// Any existing implementation of the same interface will be replaced
 func (i InterfaceImplementer) WithInterface(iface *InterfaceImplementation) InterfaceImplementer {
 	result := i.copy()
 	result.interfaces[iface.Name()] = iface
