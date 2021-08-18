@@ -256,6 +256,7 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 		dst.NewIdent(binId),
 		token.DEFINE,
 		astbuilder.CallQualifiedFunc(jsonPackage, "Marshal", dst.NewIdent(subjectId)))
+	astbuilder.AddComment(&serialize.Decs.Start, "// Serialize to JSON")
 
 	// if err != nil { return err.Error() }
 	serializeFailed := astbuilder.ReturnIfNotNil(
@@ -265,6 +266,7 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 	// var actual X
 	declare := astbuilder.NewVariable(actualId, o.subject.Name())
 	declare.Decorations().Before = dst.EmptyLine
+	astbuilder.AddComment(&declare.Decorations().Start, "// Deserialize back into memory")
 
 	// err = json.Unmarshal(bin, &actual)
 	deserialize := astbuilder.SimpleAssignment(
@@ -290,6 +292,7 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 			dst.NewIdent(actualId),
 			equateEmpty))
 	compare.Decorations().Before = dst.EmptyLine
+	astbuilder.AddComment(&compare.Decorations().Start, "// Check for outcome")
 
 	// if !match { result := diff.Diff(subject, actual); return result }
 	prettyPrint := &dst.IfStmt{
