@@ -144,6 +144,47 @@ func Test_TypesExcept_GivenSubset_ReturnsExpectedSet(t *testing.T) {
 }
 
 /*
+ * Intersect() tests
+ */
+
+func Test_TypesIntersect_GivenEmptySet_ReturnsExpectedSet(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
+	empty := make(Types)
+	set := types.Intersect(empty)
+
+	g.Expect(len(set)).To(Equal(0))
+}
+
+func Test_TypesIntersect_GivenSelf_ReturnsSelf(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
+	set := types.Intersect(types)
+
+	g.Expect(len(set)).To(Equal(len(types)))
+	g.Expect(set).To(ContainElement(alphaDefinition))
+	g.Expect(set).To(ContainElement(betaDefinition))
+	g.Expect(set).To(ContainElement(gammaDefinition))
+	g.Expect(set).To(ContainElement(deltaDefinition))
+}
+
+func Test_TypesIntersect_GivenSubset_ReturnsExpectedSet(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	types := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition)
+	subset := createTestTypes(alphaDefinition, betaDefinition)
+	set := types.Intersect(subset)
+
+	g.Expect(len(set)).To(Equal(2))
+	g.Expect(set).To(ContainElement(alphaDefinition))
+	g.Expect(set).To(ContainElement(betaDefinition))
+	g.Expect(set).NotTo(ContainElement(gammaDefinition))
+	g.Expect(set).NotTo(ContainElement(deltaDefinition))
+}
+
+/*
  * Overlay() tests
  */
 
