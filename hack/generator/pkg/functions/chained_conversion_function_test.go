@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
+	. "github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
 // Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToSpec() and
@@ -22,12 +22,10 @@ func Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode(t *t
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type
-	personSpec2020 := test.CreateSpec(
-		test.Pkg2020, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
+	personSpec2020 := CreateSpec(Pkg2020, "Person", FullNameProperty, KnownAsProperty, FamilyNameProperty)
 
 	// Create our downstream type
-	personSpec2021 := test.CreateSpec(
-		test.Pkg2021, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty, test.CityProperty)
+	personSpec2021 := CreateSpec(Pkg2021, "Person", FullNameProperty, KnownAsProperty, FamilyNameProperty, CityProperty)
 
 	// Create Property Assignment functions
 	types := make(astmodel.Types)
@@ -48,15 +46,14 @@ func Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode(t *t
 	// Inject these methods into personSpec2020
 	// We omit the PropertyAssignment functions to reduce the amount of clutter, those are tested elsewhere
 	injector := astmodel.NewFunctionInjector()
-	personSpec2020, err = injector.Inject(personSpec2020, convertSpecTo, convertSpecFrom)
+	personSpec2020updated, err := injector.Inject(personSpec2020, convertSpecTo, convertSpecFrom)
 	g.Expect(err).To(Succeed())
 
-	// Write to a file
-	fileDef := test.CreateFileDefinition(personSpec2020)
-
-	// When verifying the golden file, check that the implementations of ConvertSpecTo() and ConvertSpecFrom() are
-	// what you expect - if you don't have expectations, check that they do the right thing.
-	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
+	/*
+	 * When verifying the golden file, look for the changes flagged between the reference and the updated definition
+	 * and check that the implementations of ConvertSpecTo() and ConvertSpecFrom() are what you expect.
+	 */
+	AssertTypeDefinitionGeneratesExpectedCode(t, personSpec2020updated, "Person", DiffWithTypeDefinition(personSpec2020))
 }
 
 // Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToStatus()
@@ -66,10 +63,10 @@ func Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode(t 
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type
-	personStatus2020 := test.CreateStatus(test.Pkg2020, "Person")
+	personStatus2020 := CreateStatus(Pkg2020, "Person")
 
 	// Create our downstream type
-	personStatus2021 := test.CreateStatus(test.Pkg2021, "Person")
+	personStatus2021 := CreateStatus(Pkg2021, "Person")
 
 	// Create Property Assignment functions
 	types := make(astmodel.Types)
@@ -90,13 +87,12 @@ func Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode(t 
 	// Inject these methods into personStatus2020
 	// We omit the PropertyAssignment functions to reduce the amount of clutter, those are tested elsewhere
 	injector := astmodel.NewFunctionInjector()
-	personStatus2020, err = injector.Inject(personStatus2020, convertSpecTo, convertSpecFrom)
+	personStatus2020updated, err := injector.Inject(personStatus2020, convertSpecTo, convertSpecFrom)
 	g.Expect(err).To(Succeed())
 
-	// Write to a file
-	fileDef := test.CreateFileDefinition(personStatus2020)
-
-	// When verifying the golden file, check that the implementations of ConvertStatusTo() and ConvertStatusFrom() are
-	// what you expect - if you don't have expectations, check that they do the right thing.
-	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
+	/*
+	 * When verifying the golden file, look for the changes flagged between the reference and the updated definition
+	 * and check that the implementations of ConvertSpecTo() and ConvertSpecFrom() are what you expect.
+	 */
+	AssertTypeDefinitionGeneratesExpectedCode(t, personStatus2020updated, "Person", DiffWithTypeDefinition(personStatus2020))
 }
