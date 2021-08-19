@@ -305,7 +305,6 @@ jobs:
           # Set tags to not available for the selected cluster so it doesn't get used in another run
           az resource tag --tags 'freeforpipeline=false' -g $(AKS_CLUSTER_RG) -n $clustername --resource-type Microsoft.ContainerService/managedClusters
         workingDirectory: '$(System.DefaultWorkingDirectory)'
-        failOnStandardError: true
       displayName: Deploy to AKS - Find available AKS cluster and connect to it
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
@@ -384,7 +383,6 @@ jobs:
         # Turn off this check until our aad-pod-identity dep is updated
         # so that it's not trying to install v1beta1
         # ClusterRoleBindings.
-        failOnStandardError: false
       
 
     - task: Docker@2
