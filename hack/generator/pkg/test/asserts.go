@@ -11,7 +11,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
-
 // AssertPackagesGenerateExpectedCode creates a golden file for each package represented in the set of type definitions,
 // asserting that the generated content is expected.
 // t is the current test
@@ -71,3 +70,4 @@ func AssertSingleTypeDefinitionGeneratesExpectedCode(
 	asserter.configure(options)
 	asserter.assert(fileName, def)
 }
+
