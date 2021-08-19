@@ -155,7 +155,12 @@ func assertSQLServerAdminSecretCreated(ctx context.Context, t *testing.T, sqlSer
 		}, tc.timeoutFast, tc.retry, "wait for server to have secret")
 	} else {
 		// Check that the user's secret is in the keyvault
-		keyVaultSecretClient := kvsecrets.New(sqlServerInstance.Spec.KeyVaultToStoreSecrets, config.GlobalCredentials(), config.SecretNamingVersion())
+		keyVaultSecretClient := kvsecrets.New(
+			sqlServerInstance.Spec.KeyVaultToStoreSecrets,
+			config.GlobalCredentials(),
+			config.SecretNamingVersion(),
+			config.PurgeDeletedKeyVaultSecrets(),
+			config.RecoverSoftDeletedKeyVaultSecrets())
 
 		assert.Eventually(t, func() bool {
 			expectedSecretName := makeSQLServerKeyVaultSecretName(sqlServerInstance)
@@ -294,7 +299,12 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 			EnsureInstance(ctx, t, tc, kvSqlUser1)
 
 			// Check that the user's secret is in the keyvault
-			keyVaultSecretClient := kvsecrets.New(tc.keyvaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+			keyVaultSecretClient := kvsecrets.New(
+				tc.keyvaultName,
+				config.GlobalCredentials(),
+				config.SecretNamingVersion(),
+				config.PurgeDeletedKeyVaultSecrets(),
+				config.RecoverSoftDeletedKeyVaultSecrets())
 
 			assert.Eventually(func() bool {
 				key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser1)
@@ -333,7 +343,12 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 			EnsureInstance(ctx, t, tc, kvSqlUser2)
 
 			// Check that the user's secret is in the keyvault
-			keyVaultSecretClient := kvsecrets.New(tc.keyvaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+			keyVaultSecretClient := kvsecrets.New(
+				tc.keyvaultName,
+				config.GlobalCredentials(),
+				config.SecretNamingVersion(),
+				config.PurgeDeletedKeyVaultSecrets(),
+				config.RecoverSoftDeletedKeyVaultSecrets())
 
 			assert.Eventually(func() bool {
 				key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser2)
@@ -350,7 +365,12 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 
 	t.Run("deploy sql action and roll user credentials", func(t *testing.T) {
 		keyVaultName := tc.keyvaultName
-		keyVaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+		keyVaultSecretClient := kvsecrets.New(
+			keyVaultName,
+			config.GlobalCredentials(),
+			config.SecretNamingVersion(),
+			config.PurgeDeletedKeyVaultSecrets(),
+			config.RecoverSoftDeletedKeyVaultSecrets())
 
 		key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser1)
 		oldSecret, err := keyVaultSecretClient.Get(ctx, key)
@@ -395,7 +415,12 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 		EnsureDelete(ctx, t, tc, kvSqlUser2)
 
 		// Check that the user's secret is in the keyvault
-		keyVaultSecretClient := kvsecrets.New(tc.keyvaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+		keyVaultSecretClient := kvsecrets.New(
+			tc.keyvaultName,
+			config.GlobalCredentials(),
+			config.SecretNamingVersion(),
+			config.PurgeDeletedKeyVaultSecrets(),
+			config.RecoverSoftDeletedKeyVaultSecrets())
 
 		assert.Eventually(func() bool {
 			key := secrets.SecretKey{Name: sqlUser.ObjectMeta.Name, Namespace: sqlUser.ObjectMeta.Namespace, Kind: "azuresqluser"}
@@ -519,7 +544,12 @@ func TestAzureSqlServerKVSecretAndUser_SecretNamedCorrectly(t *testing.T) {
 			EnsureInstance(ctx, t, tc, kvSqlUser1)
 
 			// Check that the user's secret is in the keyvault
-			keyVaultSecretClient := kvsecrets.New(tc.keyvaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+			keyVaultSecretClient := kvsecrets.New(
+				tc.keyvaultName,
+				config.GlobalCredentials(),
+				config.SecretNamingVersion(),
+				config.PurgeDeletedKeyVaultSecrets(),
+				config.RecoverSoftDeletedKeyVaultSecrets())
 
 			assert.Eventually(func() bool {
 				key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser1)

@@ -13,6 +13,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -62,7 +63,12 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, m.Creds, m.SecretClient.GetSecretNamingVersion())
+		adminSecretClient = keyvaultSecrets.New(
+			instance.Spec.AdminSecretKeyVault,
+			m.Creds,
+			m.SecretClient.GetSecretNamingVersion(),
+			config.PurgeDeletedKeyVaultSecrets(),
+			config.RecoverSoftDeletedKeyVaultSecrets())
 	}
 
 	// get admin creds for server
@@ -209,7 +215,12 @@ func (m *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 
 	// if the admin secret keyvault is not specified, fall back to configured secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, m.Creds, m.SecretClient.GetSecretNamingVersion())
+		adminSecretClient = keyvaultSecrets.New(
+			instance.Spec.AdminSecretKeyVault,
+			m.Creds,
+			m.SecretClient.GetSecretNamingVersion(),
+			config.PurgeDeletedKeyVaultSecrets(),
+			config.RecoverSoftDeletedKeyVaultSecrets())
 	}
 
 	adminSecret, err := adminSecretClient.Get(ctx, adminSecretKey)

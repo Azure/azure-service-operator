@@ -35,6 +35,7 @@ import (
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
+	"github.com/Azure/azure-service-operator/test/common"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -201,13 +202,22 @@ func setup() error {
 	}
 
 	log.Println("Creating KV:", keyvaultName)
-	err = CreateVaultWithAccessPolicies(
+	objID, err := resourcemanagerkeyvaults.GetObjectID(
+		context.Background(),
+		config.GlobalCredentials(),
+		config.GlobalCredentials().TenantID(),
+		config.GlobalCredentials().ClientID())
+	if err != nil {
+		return err
+	}
+
+	err = common.CreateVaultWithAccessPolicies(
 		context.Background(),
 		config.GlobalCredentials(),
 		resourceGroupName,
 		keyvaultName,
 		resourceGroupLocation,
-		config.GlobalCredentials().ClientID(),
+		objID,
 	)
 	if err != nil {
 		return err

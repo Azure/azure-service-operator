@@ -10,6 +10,7 @@ import (
 	"time"
 
 	keyvaults "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
+	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/Azure/go-autorest/autorest/date"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -26,6 +27,9 @@ type SecretClient struct {
 	KeyVaultClient      keyvaults.BaseClient
 	KeyVaultName        string
 	SecretNamingVersion secrets.SecretNamingVersion
+
+	PurgeDeletedSecrets       bool
+	RecoverSoftDeletedSecrets bool
 }
 
 var _ secrets.SecretClient = &SecretClient{}
@@ -60,15 +64,24 @@ func GetVaultsURL(vaultName string) string {
 // redundant since that's in the credentials, but it's used to
 // override the one specified in credentials so it might be right to
 // keep it. Confirm this.
-func New(keyVaultName string, creds config.Credentials, secretNamingVersion secrets.SecretNamingVersion) *SecretClient {
+func New(
+	keyVaultName string,
+	creds config.Credentials,
+	secretNamingVersion secrets.SecretNamingVersion,
+	purgeDeletedSecrets bool,
+	recoverSoftDeletedSecrets bool) *SecretClient {
+
 	keyvaultClient := keyvaults.New()
 	a, _ := iam.GetKeyvaultAuthorizer(creds)
 	keyvaultClient.Authorizer = a
 	keyvaultClient.AddToUserAgent(config.UserAgent())
+
 	return &SecretClient{
-		KeyVaultClient:      keyvaultClient,
-		KeyVaultName:        keyVaultName,
-		SecretNamingVersion: secretNamingVersion,
+		KeyVaultClient:            keyvaultClient,
+		KeyVaultName:              keyVaultName,
+		SecretNamingVersion:       secretNamingVersion,
+		PurgeDeletedSecrets:       purgeDeletedSecrets,
+		RecoverSoftDeletedSecrets: recoverSoftDeletedSecrets,
 	}
 }
 
@@ -113,7 +126,6 @@ func (k *SecretClient) Upsert(ctx context.Context, key secrets.SecretKey, data m
 		opt(options)
 	}
 
-	vaultBaseURL := GetVaultsURL(k.KeyVaultName)
 	secretBaseName, err := k.makeSecretName(key)
 	if err != nil {
 		return err
@@ -141,8 +153,6 @@ func (k *SecretClient) Upsert(ctx context.Context, key secrets.SecretKey, data m
 
 	// if the caller is looking for flat secrets iterate over the array and individually persist each string
 	if options.Flatten {
-		var err error
-
 		for formatName, formatValue := range data {
 			secretName := secretBaseName + "-" + formatName
 			stringSecret := string(formatValue)
@@ -163,14 +173,15 @@ func (k *SecretClient) Upsert(ctx context.Context, key secrets.SecretKey, data m
 				}
 			}*/
 
-			_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
+			err = k.setSecret(ctx, secretName, secretParams)
 			if err != nil {
-				return errors.Wrapf(err, "error setting secret %q in %q", secretBaseName, vaultBaseURL)
+				return err
 			}
 		}
 		// If flatten has not been declared, convert the map into a json string for persistence
 	} else {
-		jsonData, err := json.Marshal(data)
+		var jsonData []byte
+		jsonData, err = json.Marshal(data)
 		if err != nil {
 			return errors.Wrapf(err, "unable to marshal secret")
 		}
@@ -183,7 +194,57 @@ func (k *SecretClient) Upsert(ctx context.Context, key secrets.SecretKey, data m
 			SecretAttributes: &secretAttributes,
 		}
 
-		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secretParams)
+		err = k.setSecret(ctx, secretBaseName, secretParams)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func isErrSecretWasSoftDeleted(err error) bool {
+	var azureErr *azure.RequestError
+	if errors.As(err, &azureErr) {
+		if azureErr.ServiceError == nil {
+			return false
+		}
+		if len(azureErr.ServiceError.InnerError) == 0 {
+			return false
+		}
+
+		code, ok := azureErr.ServiceError.InnerError["code"]
+		if !ok {
+			return false
+		}
+
+		codeString, ok := code.(string)
+		if !ok {
+			return false
+		}
+
+		return codeString == errhelp.ObjectIsDeletedButRecoverable
+	}
+	return false
+}
+
+func (k *SecretClient) setSecret(ctx context.Context, secretBaseName string, secret keyvaults.SecretSetParameters) error {
+	vaultBaseURL := GetVaultsURL(k.KeyVaultName)
+
+	_, err := k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secret)
+	if err != nil {
+		if !isErrSecretWasSoftDeleted(err) || !k.RecoverSoftDeletedSecrets {
+			return errors.Wrapf(err, "error setting secret %q in %q", secretBaseName, vaultBaseURL)
+		}
+
+		// The secret was soft deleted and we can recover it
+		_, err := k.KeyVaultClient.RecoverDeletedSecret(ctx, vaultBaseURL, secretBaseName)
+		if err != nil {
+			return errors.Wrapf(err, "failed recovering deleted secret %q in %q", secretBaseName, vaultBaseURL)
+		}
+
+		// Now it's recovered?
+		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secret)
 		if err != nil {
 			return errors.Wrapf(err, "error setting secret %q in %q", secretBaseName, vaultBaseURL)
 		}
@@ -204,7 +265,20 @@ func (k *SecretClient) deleteKeyVaultSecret(ctx context.Context, secretName stri
 	}
 
 	// If Keyvault has softdelete enabled, we will need to purge the secret in addition to deleting it
-	_, err = k.KeyVaultClient.PurgeDeletedSecret(ctx, vaultBaseURL, secretName)
+	if k.PurgeDeletedSecrets {
+		err = k.purgeKeyVaultSecret(ctx, secretName)
+		if err != nil {
+			return errors.Wrapf(err, "error purging secret %q in %q", secretName, vaultBaseURL)
+		}
+	}
+
+	return nil
+}
+
+func (k *SecretClient) purgeKeyVaultSecret(ctx context.Context, secretName string) error {
+	vaultBaseURL := GetVaultsURL(k.KeyVaultName)
+
+	_, err := k.KeyVaultClient.PurgeDeletedSecret(ctx, vaultBaseURL, secretName)
 	for err != nil {
 		azerr := errhelp.NewAzureError(err)
 		if azerr.Type == errhelp.NotSupported { // Keyvault not softdelete enabled; ignore error
@@ -218,6 +292,7 @@ func (k *SecretClient) deleteKeyVaultSecret(ctx context.Context, secretName stri
 			return err
 		}
 	}
+
 	return err
 }
 

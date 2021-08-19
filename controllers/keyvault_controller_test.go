@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	uuid "github.com/gofrs/uuid"
+	"github.com/gofrs/uuid"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -126,7 +126,12 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 
 	//Add code to set secret and get secret from this keyvault using secretclient
 
-	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+	keyvaultSecretClient := kvsecrets.New(
+		keyVaultName,
+		config.GlobalCredentials(),
+		config.SecretNamingVersion(),
+		config.PurgeDeletedKeyVaultSecrets(),
+		config.RecoverSoftDeletedKeyVaultSecrets())
 	secretName := "test-key"
 	key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "test"}
 	datanew := map[string][]byte{
@@ -186,7 +191,12 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in azure")
 	//Add code to set secret and get secret from this keyvault using secretclient
 
-	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+	keyvaultSecretClient := kvsecrets.New(
+		keyVaultName,
+		config.GlobalCredentials(),
+		config.SecretNamingVersion(),
+		config.PurgeDeletedKeyVaultSecrets(),
+		config.RecoverSoftDeletedKeyVaultSecrets())
 	key := secrets.SecretKey{Name: "test-key", Namespace: "default", Kind: "test"}
 	datanew := map[string][]byte{
 		"test1": []byte("test2"),
@@ -333,7 +343,12 @@ func TestKeyvaultControllerWithVirtualNetworkRulesAndUpdate(t *testing.T) {
 		return result.Response.StatusCode == http.StatusOK
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in azure")
 
-	keyvaultSecretClient := kvsecrets.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+	keyvaultSecretClient := kvsecrets.New(
+		keyVaultName,
+		config.GlobalCredentials(),
+		config.SecretNamingVersion(),
+		config.PurgeDeletedKeyVaultSecrets(),
+		config.RecoverSoftDeletedKeyVaultSecrets())
 	secretName := "test-key"
 	key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "test"}
 	datanew := map[string][]byte{
