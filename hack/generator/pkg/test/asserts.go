@@ -6,33 +6,11 @@
 package test
 
 import (
-	"bytes"
 	"fmt"
 	"testing"
 
-	"github.com/sebdah/goldie/v2"
-
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
-
-// AssertFileGeneratesExpectedCode serialises the given FileDefinition as a golden file test, checking that the expected
-// results are generated
-func AssertFileGeneratesExpectedCode(t *testing.T, fileDef astmodel.GoSourceFile, testName string) {
-	g := goldie.New(t)
-	err := g.WithTestNameForDir(true)
-	if err != nil {
-		t.Fatalf("Unable to configure goldie output folder %s", err)
-	}
-
-	buf := &bytes.Buffer{}
-	fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
-	err = fileWriter.SaveToWriter(buf)
-	if err != nil {
-		t.Fatalf("could not generate file: %s", err)
-	}
-
-	g.Assert(t, testName, buf.Bytes())
-}
 
 // AssertPackagesGenerateExpectedCode creates a golden file for each package represented in the set of type definitions,
 // asserting that the generated content is expected
@@ -53,13 +31,33 @@ func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types) {
 		}
 
 		fileName := fmt.Sprintf("%s-%s", local.Group(), local.Version())
-		file := CreateFileDefinition(defs...)
-		AssertFileGeneratesExpectedCode(t, file, fileName)
-
-		// If any of our definitions include tests, write to a test file as well
-		testFile := CreateTestFileDefinition(defs...)
-		if testFile.TestCaseCount() > 0 {
-			AssertFileGeneratesExpectedCode(t, testFile, fileName+"_test")
-		}
+		AssertDefinitionsGenerateExpectedCode(t, fileName, defs)
 	}
 }
+
+// AssertDefinitionsGenerateExpectedCode serialises the given FileDefinition as a golden file test, checking that the expected
+// results are generated
+func AssertDefinitionsGenerateExpectedCode(
+	t *testing.T,
+	fileName string,
+	defs []astmodel.TypeDefinition,
+	options ...AssertionOption) {
+
+	asserter := newTypeAsserter(t)
+	asserter.configure(options)
+	asserter.assert(fileName, defs...)
+}
+
+// AssertSingleTypeDefinitionGeneratesExpectedCode serialises the given TypeDefinition as a golden file test, checking
+// that the expected results are generated
+func AssertSingleTypeDefinitionGeneratesExpectedCode(
+	t *testing.T,
+	fileName string,
+	def astmodel.TypeDefinition,
+	options ...AssertionOption) {
+
+	asserter := newTypeAsserter(t)
+	asserter.configure(options)
+	asserter.assert(fileName, def)
+}
+
