@@ -13,15 +13,15 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","name":"k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"1810455718805521926","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2859385S","correlationId":"17cb4783-8039-4373-bc9e-dea88b1e7a39","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","name":"k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"7567659791136990687","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.779823S","correlationId":"bbdc5954-d4c6-4c7a-bda7-2f6066c64ec7","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac/operationStatuses/08585771334883336495?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac/operationStatuses/08585722782675461676?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "692"
+      - "691"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -46,8 +46,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","name":"k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"1810455718805521926","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2859385S","correlationId":"17cb4783-8039-4373-bc9e-dea88b1e7a39","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","name":"k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"7567659791136990687","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT2.6062102S","correlationId":"bbdc5954-d4c6-4c7a-bda7-2f6066c64ec7","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -79,38 +79,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","name":"k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"1810455718805521926","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.7719708S","correlationId":"17cb4783-8039-4373-bc9e-dea88b1e7a39","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-efubcd"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd","name":"asotest-rg-efubcd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","name":"k8s_bfc1ef04-0b37-5023-a99d-356aaae0d4ac","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"7567659791136990687","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT4.9955263S","correlationId":"bbdc5954-d4c6-4c7a-bda7-2f6066c64ec7","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-efubcd"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd"}]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -158,10 +128,38 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14994"
     status: 202 Accepted
     code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd","name":"asotest-rg-efubcd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: '{"name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","location":"westus2","name":"asotest-publicip-gtnmfz","properties":{"publicIPAllocationMethod":"Static"},"sku":{"name":"Standard"},"type":"Microsoft.Network/publicIPAddresses"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/publicIPAddresses'',
@@ -176,10 +174,10 @@ interactions:
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15491574547254189196","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2588057S","correlationId":"f6f8540c-8477-4583-978d-d840a9ab71c0","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.7883999S","correlationId":"f4977338-f6e6-43ea-ad8d-0cc703e4dc5c","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7/operationStatuses/08585771334783040883?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7/operationStatuses/08585722782519829931?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -209,7 +207,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15491574547254189196","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.2588057S","correlationId":"f6f8540c-8477-4583-978d-d840a9ab71c0","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.7883999S","correlationId":"f4977338-f6e6-43ea-ad8d-0cc703e4dc5c","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -242,7 +240,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15491574547254189196","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT3.9891867S","correlationId":"f6f8540c-8477-4583-978d-d840a9ab71c0","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz"}]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.8307198S","correlationId":"f4977338-f6e6-43ea-ad8d-0cc703e4dc5c","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -250,128 +248,18 @@ interactions:
       - application/json; charset=utf-8
       Expires:
       - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
-      \ \"etag\": \"W/\\\"59734100-c057-495e-a6e4-f73da6068450\\\"\",\r\n  \"location\":
-      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"27ca4ad5-8014-489e-9553-b0e834ff3dc0\",\r\n    \"ipAddress\":
-      \"20.191.105.154\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
-      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
-      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
-      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"59734100-c057-495e-a6e4-f73da6068450"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Arm-Service-Request-Id:
-      - 0c494691-e54f-4033-9ae2-7eff112bf16f
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJERUZVQkNELUs4Uzo1RkNDMUY2RTlBOjJEQjI5MzoyRDUxODU6MkQ5QkYyOjJEQUVENUU3MjM2QUE3LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
       Pragma:
       - no-cache
       Retry-After:
-      - "15"
+      - "5"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14992"
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: '{"name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","location":"westus2","name":"asotest-publicip-gtnmfz","properties":{"idleTimeoutInMinutes":7,"publicIPAllocationMethod":"Static"},"sku":{"name":"Standard"},"type":"Microsoft.Network/publicIPAddresses"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/publicIPAddresses'',
-      ''asotest-publicip-gtnmfz'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"5578617341097693448","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.3247438S","correlationId":"1d7c32ca-95d8-4614-a800-aa1e39bd1681","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7/operationStatuses/08585771334683067807?api-version=2019-10-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "705"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -384,8 +272,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"5578617341097693448","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.4770877S","correlationId":"1d7c32ca-95d8-4614-a800-aa1e39bd1681","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15491574547254189196","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT8.2579861S","correlationId":"f4977338-f6e6-43ea-ad8d-0cc703e4dc5c","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -396,7 +284,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "5"
+      - "12"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -417,8 +305,147 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7?api-version=2019-10-01
     method: GET
   response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15491574547254189196","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT14.4382006S","correlationId":"f4977338-f6e6-43ea-ad8d-0cc703e4dc5c","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7?api-version=2019-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJERUZVQkNELUs4Uzo1RkNDMUY2RTlBOjJEQjI5MzoyRDUxODU6MkQ5QkYyOjJEQUVENUU3MjM2QUE3LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
+      \ \"etag\": \"W/\\\"54c24d46-ebb8-4258-93f2-a5a3c61ffa27\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"54c24d46-ebb8-4258-93f2-a5a3c61ffa27"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","location":"westus2","name":"asotest-publicip-gtnmfz","properties":{"idleTimeoutInMinutes":7,"publicIPAllocationMethod":"Static"},"sku":{"name":"Standard"},"type":"Microsoft.Network/publicIPAddresses"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/publicIPAddresses'',
+      ''asotest-publicip-gtnmfz'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7?api-version=2019-10-01
+    method: PUT
+  response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"5578617341097693448","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.4770877S","correlationId":"1d7c32ca-95d8-4614-a800-aa1e39bd1681","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.2248813S","correlationId":"5f381870-ece7-455a-a5fb-8639e157eca9","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7/operationStatuses/08585722782219678268?api-version=2019-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "705"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"5578617341097693448","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.2248813S","correlationId":"5f381870-ece7-455a-a5fb-8639e157eca9","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -446,12 +473,12 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "4"
+      - "5"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7?api-version=2019-10-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"5578617341097693448","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT4.8663468S","correlationId":"1d7c32ca-95d8-4614-a800-aa1e39bd1681","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz"}]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.4374651S","correlationId":"5f381870-ece7-455a-a5fb-8639e157eca9","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -461,6 +488,8 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
+      Retry-After:
+      - "15"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -477,40 +506,27 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7?api-version=2019-10-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
-      \ \"etag\": \"W/\\\"36e7cdd9-a2d6-4b1f-a111-92099a4072f1\\\"\",\r\n  \"location\":
-      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"27ca4ad5-8014-489e-9553-b0e834ff3dc0\",\r\n    \"ipAddress\":
-      \"20.191.105.154\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
-      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
-      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
-      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Resources/deployments/k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","name":"k8s_cc1f6e9a-b293-5185-9bf2-aed5e7236aa7","type":"Microsoft.Resources/deployments","properties":{"templateHash":"5578617341097693448","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT10.5221328S","correlationId":"5f381870-ece7-455a-a5fb-8639e157eca9","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"publicIPAddresses","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz"}]}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Etag:
-      - W/"36e7cdd9-a2d6-4b1f-a111-92099a4072f1"
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Arm-Service-Request-Id:
-      - 3a434218-c955-4f57-87b0-9bc518013018
     status: 200 OK
     code: 200
     duration: ""
@@ -543,10 +559,50 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14988"
     status: 202 Accepted
     code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
+      \ \"etag\": \"W/\\\"c3e8c1db-c5b0-4d1a-a2c5-cb46abe34496\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"c3e8c1db-c5b0-4d1a-a2c5-cb46abe34496"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -564,7 +620,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/996f03a9-14e9-4957-96a5-d86d1fe88e4c?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/7784299b-4412-48b4-82cd-ba104ae6c5c8?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -572,7 +628,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/996f03a9-14e9-4957-96a5-d86d1fe88e4c?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/7784299b-4412-48b4-82cd-ba104ae6c5c8?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -584,10 +640,6 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Arm-Service-Request-Id:
-      - b28587a2-0729-433a-a84f-d5dd0ffcffa9
-      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14986"
     status: 202 Accepted
     code: 202
     duration: ""
@@ -603,10 +655,10 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
-      \ \"etag\": \"W/\\\"dabab897-1dda-4aa7-b41c-525b6aa16709\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"5334949d-bbbd-4599-8131-3a9f1599f2e7\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
-      \   \"resourceGuid\": \"27ca4ad5-8014-489e-9553-b0e834ff3dc0\",\r\n    \"ipAddress\":
-      \"20.191.105.154\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
       \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
       \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
@@ -616,7 +668,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"dabab897-1dda-4aa7-b41c-525b6aa16709"
+      - W/"5334949d-bbbd-4599-8131-3a9f1599f2e7"
       Expires:
       - "-1"
       Pragma:
@@ -630,8 +682,6 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Arm-Service-Request-Id:
-      - 4bf942f3-c49a-463b-80db-321bfbb709a9
     status: 200 OK
     code: 200
     duration: ""
@@ -647,10 +697,10 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
-      \ \"etag\": \"W/\\\"dabab897-1dda-4aa7-b41c-525b6aa16709\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"5334949d-bbbd-4599-8131-3a9f1599f2e7\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
-      \   \"resourceGuid\": \"27ca4ad5-8014-489e-9553-b0e834ff3dc0\",\r\n    \"ipAddress\":
-      \"20.191.105.154\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
       \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
       \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
@@ -660,7 +710,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"dabab897-1dda-4aa7-b41c-525b6aa16709"
+      - W/"5334949d-bbbd-4599-8131-3a9f1599f2e7"
       Expires:
       - "-1"
       Pragma:
@@ -674,8 +724,6 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Arm-Service-Request-Id:
-      - 11f95286-8e33-4f5f-a5b2-b9ced751b0eb
     status: 200 OK
     code: 200
     duration: ""
@@ -687,6 +735,384 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
+      \ \"etag\": \"W/\\\"5334949d-bbbd-4599-8131-3a9f1599f2e7\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5334949d-bbbd-4599-8131-3a9f1599f2e7"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
+      \ \"etag\": \"W/\\\"5334949d-bbbd-4599-8131-3a9f1599f2e7\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5334949d-bbbd-4599-8131-3a9f1599f2e7"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
+      \ \"etag\": \"W/\\\"5334949d-bbbd-4599-8131-3a9f1599f2e7\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5334949d-bbbd-4599-8131-3a9f1599f2e7"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
+      \ \"etag\": \"W/\\\"5334949d-bbbd-4599-8131-3a9f1599f2e7\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5334949d-bbbd-4599-8131-3a9f1599f2e7"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
+      \ \"etag\": \"W/\\\"5334949d-bbbd-4599-8131-3a9f1599f2e7\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5334949d-bbbd-4599-8131-3a9f1599f2e7"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
+      \ \"etag\": \"W/\\\"5334949d-bbbd-4599-8131-3a9f1599f2e7\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5334949d-bbbd-4599-8131-3a9f1599f2e7"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "10"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
+      \ \"etag\": \"W/\\\"5334949d-bbbd-4599-8131-3a9f1599f2e7\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5334949d-bbbd-4599-8131-3a9f1599f2e7"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "11"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
+      \ \"etag\": \"W/\\\"5334949d-bbbd-4599-8131-3a9f1599f2e7\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5334949d-bbbd-4599-8131-3a9f1599f2e7"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "12"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-gtnmfz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz\",\r\n
+      \ \"etag\": \"W/\\\"5334949d-bbbd-4599-8131-3a9f1599f2e7\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"ec7f8b45-2eaf-493e-b539-3aff57843206\",\r\n    \"ipAddress\":
+      \"52.250.58.225\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5334949d-bbbd-4599-8131-3a9f1599f2e7"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "13"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
     method: GET
   response:
@@ -720,7 +1146,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "5"
+      - "14"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-gtnmfz?api-version=2020-11-01
     method: GET
   response:
@@ -776,8 +1202,6 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14985"
     status: 202 Accepted
     code: 202
     duration: ""
@@ -969,6 +1393,126 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd","name":"asotest-rg-efubcd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd","name":"asotest-rg-efubcd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd","name":"asotest-rg-efubcd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "10"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd","name":"asotest-rg-efubcd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "11"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-efubcd?api-version=2020-06-01
     method: GET
   response:

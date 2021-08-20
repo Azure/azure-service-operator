@@ -13,15 +13,15 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_13a60176-4205-5384-8361-e6ec1a354a89?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_13a60176-4205-5384-8361-e6ec1a354a89","name":"k8s_13a60176-4205-5384-8361-e6ec1a354a89","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"7519471580779855588","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.7810171S","correlationId":"5eae659c-03d0-48a0-b3ea-a8ccf99351f7","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_13a60176-4205-5384-8361-e6ec1a354a89","name":"k8s_13a60176-4205-5384-8361-e6ec1a354a89","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"17060760797260623791","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.4716952S","correlationId":"f8534761-17db-450c-becd-195cc90c7692","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_13a60176-4205-5384-8361-e6ec1a354a89/operationStatuses/08585769627722023739?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_13a60176-4205-5384-8361-e6ec1a354a89/operationStatuses/08585722783181541733?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "692"
+      - "693"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -46,8 +46,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_13a60176-4205-5384-8361-e6ec1a354a89?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_13a60176-4205-5384-8361-e6ec1a354a89","name":"k8s_13a60176-4205-5384-8361-e6ec1a354a89","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"7519471580779855588","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.7810171S","correlationId":"5eae659c-03d0-48a0-b3ea-a8ccf99351f7","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_13a60176-4205-5384-8361-e6ec1a354a89","name":"k8s_13a60176-4205-5384-8361-e6ec1a354a89","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"17060760797260623791","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.4716952S","correlationId":"f8534761-17db-450c-becd-195cc90c7692","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -79,38 +79,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_13a60176-4205-5384-8361-e6ec1a354a89?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_13a60176-4205-5384-8361-e6ec1a354a89","name":"k8s_13a60176-4205-5384-8361-e6ec1a354a89","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"7519471580779855588","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.7545264S","correlationId":"5eae659c-03d0-48a0-b3ea-a8ccf99351f7","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-znqxml"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_13a60176-4205-5384-8361-e6ec1a354a89","name":"k8s_13a60176-4205-5384-8361-e6ec1a354a89","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"17060760797260623791","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.3286996S","correlationId":"f8534761-17db-450c-becd-195cc90c7692","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-znqxml"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml"}]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -158,10 +128,38 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14999"
     status: 202 Accepted
     code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: '{"name":"k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststorqjrgcg","properties":{"accessTier":"Hot","keyPolicy":{"keyExpirationPeriodInDays":-260}},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
@@ -176,10 +174,10 @@ interactions:
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9","name":"k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9","type":"Microsoft.Resources/deployments","properties":{"templateHash":"4617865276341083827","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1794764S","correlationId":"8e615ffe-96c4-4791-8a15-cd764f558d67","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.6018279S","correlationId":"6a491820-d069-4c41-8b17-144c6165920f","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9/operationStatuses/08585769627628002661?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9/operationStatuses/08585722783027316631?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -209,7 +207,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9","name":"k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9","type":"Microsoft.Resources/deployments","properties":{"templateHash":"4617865276341083827","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1794764S","correlationId":"8e615ffe-96c4-4791-8a15-cd764f558d67","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.4856957S","correlationId":"6a491820-d069-4c41-8b17-144c6165920f","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -242,7 +240,40 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9","name":"k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9","type":"Microsoft.Resources/deployments","properties":{"templateHash":"4617865276341083827","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Failed","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.7089077S","correlationId":"8e615ffe-96c4-4791-8a15-cd764f558d67","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[],"error":{"code":"DeploymentFailed","message":"At
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.4856957S","correlationId":"6a491820-d069-4c41-8b17-144c6165920f","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml/providers/Microsoft.Resources/deployments/k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9","name":"k8s_d1825054-dc4c-5f3a-a7ea-8b17759f52e9","type":"Microsoft.Resources/deployments","properties":{"templateHash":"4617865276341083827","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Failed","timestamp":"2001-02-03T04:05:06Z","duration":"PT9.2456996S","correlationId":"6a491820-d069-4c41-8b17-144c6165920f","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[],"error":{"code":"DeploymentFailed","message":"At
       least one resource deployment operation failed. Please list deployment operations
       for details. Please see https://aka.ms/DeployOperations for usage details.","details":[{"code":"InvalidValuesForRequestParameters","message":"Values
       for request parameters are invalid: keyPolicy.keyExpirationPeriodInDays."}]}}}'
@@ -293,8 +324,6 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14998"
     status: 202 Accepted
     code: 202
     duration: ""
@@ -327,8 +356,6 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Deletes:
-      - "14997"
     status: 202 Accepted
     code: 202
     duration: ""
@@ -343,7 +370,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -373,7 +400,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -403,7 +430,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -433,7 +460,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -463,7 +490,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -493,7 +520,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -520,6 +547,96 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml","name":"asotest-rg-znqxml","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "10"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-znqxml?api-version=2020-06-01
     method: GET
   response:

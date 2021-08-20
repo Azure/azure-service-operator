@@ -30,7 +30,8 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 	// these paths are relative to the 'test/controller' directory,
 	// since we run `go test ..... test/controller`
 	environment := envtest.Environment{
-		ErrorIfCRDPathMissing: true,
+		AttachControlPlaneOutput: true,
+		ErrorIfCRDPathMissing:    true,
 		CRDDirectoryPaths: []string{
 			"../../config/crd/bases",
 		},
