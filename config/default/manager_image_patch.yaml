@@ -61,6 +61,18 @@ spec:
                 name: azureoperatorsettings
                 key: AZURE_SECRET_NAMING_VERSION
                 optional: true
+          - name: PURGE_DELETED_KEYVAULT_SECRETS
+            valueFrom:
+              secretKeyRef:
+                name: azureoperatorsettings
+                key: PURGE_DELETED_KEYVAULT_SECRETS
+                optional: true
+          - name: RECOVER_SOFT_DELETED_KEYVAULT_SECRETS
+            valueFrom:
+              secretKeyRef:
+                name: azureoperatorsettings
+                key: RECOVER_SOFT_DELETED_KEYVAULT_SECRETS
+                optional: true
           - name: AZURE_TARGET_NAMESPACES
             valueFrom:
               secretKeyRef:

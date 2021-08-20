@@ -68,6 +68,8 @@ const (
 	LongTermRetentionPolicyInvalid                 = "LongTermRetentionPolicyInvalid"
 	BackupRetentionPolicyInvalid                   = "InvalidBackupRetentionPeriod"
 	OperationIdNotFound                            = "OperationIdNotFound"
+	ObjectIsBeingDeleted                           = "ObjectIsBeingDeleted"
+	ObjectIsDeletedButRecoverable                  = "ObjectIsDeletedButRecoverable"
 )
 
 func NewAzureError(err error) *AzureError {

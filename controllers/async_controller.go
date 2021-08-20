@@ -78,7 +78,12 @@ func (r *AsyncReconciler) Reconcile(ctx context.Context, req ctrl.Request, obj c
 	keyVaultName := keyvaultsecretlib.GetKeyVaultName(obj)
 	if len(keyVaultName) != 0 {
 		// Instantiate the KeyVault Secret Client
-		keyvaultSecretClient = keyvaultsecretlib.New(keyVaultName, config.GlobalCredentials(), config.SecretNamingVersion())
+		keyvaultSecretClient = keyvaultsecretlib.New(
+			keyVaultName,
+			config.GlobalCredentials(),
+			config.SecretNamingVersion(),
+			config.PurgeDeletedKeyVaultSecrets(),
+			config.RecoverSoftDeletedKeyVaultSecrets())
 	}
 
 	// Check to see if the skipreconcile annotation is on
