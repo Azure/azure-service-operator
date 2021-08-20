@@ -9,6 +9,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -69,7 +70,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), ctrl.Log.WithName("controllers"), concurrency(1)); errs != nil {
+	if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), ctrl.Log.WithName("controllers"), makeControllerOptions()); errs != nil {
 		setupLog.Error(err, "failed to register gvks")
 		os.Exit(1)
 	}
@@ -86,10 +87,11 @@ func main() {
 	}
 }
 
-func concurrency(c int) controllers.Options {
+func makeControllerOptions() controllers.Options {
 	return controllers.Options{
 		Options: controller.Options{
-			MaxConcurrentReconciles: c,
+			MaxConcurrentReconciles: 1,
+			RateLimiter:             controllers.NewRateLimiter(1*time.Second, 1*time.Minute),
 		},
 	}
 }

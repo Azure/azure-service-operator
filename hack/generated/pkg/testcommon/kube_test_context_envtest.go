@@ -19,6 +19,7 @@ import (
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
 	"github.com/Azure/azure-service-operator/hack/generated/controllers"
@@ -84,6 +85,9 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 				return fmt.Sprintf("k8s_%s", result.String()), nil
 			},
 			RequeueDelay: requeueDelay,
+			Options: controller.Options{
+				RateLimiter: controllers.NewRateLimiter(5*time.Millisecond, 1*time.Minute),
+			},
 		})
 	if err != nil {
 		return nil, errors.Wrapf(err, "registering reconcilers")
