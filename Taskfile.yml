@@ -291,7 +291,7 @@ tasks:
       - "kind delete cluster --name=asov2"
 
   controller:kind-create:
-    desc: Creates a kind cluster
+    desc: Creates a kind cluster and local Docker registry. Images in the local registry can be pulled in the kind cluster
     cmds:
       - "export KIND_CLUSTER_NAME=asov2 && {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
 
