@@ -72,9 +72,10 @@ curl -sL "https://github.com/go-task/task/releases/download/v3.7.0/task_linux_am
 # Install kubebuilder
 os=$(go env GOOS)
 arch=$(go env GOARCH)
-echo "Installing kubebuilder ($os $arch)…"
-curl -L "https://go.kubebuilder.io/dl/2.3.1/${os}/${arch}" | tar -xz -C /tmp/
-mv "/tmp/kubebuilder_2.3.1_${os}_${arch}" "$KUBEBUILDER_DEST"
+kubebuilder_version=2.3.1
+echo "Installing kubebuilder ${kubebuilder_version} ($os $arch)…"
+curl -L "https://github.com/kubernetes-sigs/kubebuilder/releases/download/v${kubebuilder_version}/kubebuilder_${kubebuilder_version}_${os}_${arch}.tar.gz" | tar -xz -C /tmp/
+mv "/tmp/kubebuilder_${kubebuilder_version}_${os}_${arch}" "$KUBEBUILDER_DEST"
 
 echo "Installed tools: $(ls "$TOOL_DEST")"
 
