@@ -54,8 +54,7 @@ func RunJSONSerializationTestForPersonSpec(subject Person_Spec) string {
 	return ""
 }
 
-//Generator of Person_Spec instances for property testing - lazily instantiated by
-//PersonSpecGenerator()
+// Generator of Person_Spec instances for property testing - lazily instantiated by PersonSpecGenerator()
 var personSpecGenerator gopter.Gen
 
 // PersonSpecGenerator returns a generator of Person_Spec instances for property testing.

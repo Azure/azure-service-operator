@@ -30,6 +30,8 @@ func TestInjectJsonSerializationTests(t *testing.T) {
 	resourceV1 := test.CreateResource(test.Pkg2020, "Person", specV1, statusV1)
 
 	// Test Resource V2
+	// We need two resources to trigger creation of two storage types
+	// The v1 storage type will be a non-hub, and the v2 storage type will be a hub
 
 	specV2 := test.CreateSpec(
 		test.Pkg2021,

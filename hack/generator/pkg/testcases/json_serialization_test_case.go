@@ -346,7 +346,7 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 
 func (o *JSONSerializationTestCase) createGeneratorDeclaration(genContext *astmodel.CodeGenerationContext) dst.Decl {
 	comment := fmt.Sprintf(
-		"Generator of %s instances for property testing - lazily instantiated by %s()",
+		"// Generator of %s instances for property testing - lazily instantiated by %s()",
 		o.Subject(),
 		idOfGeneratorMethod(o.subject, o.idFactory))
 
