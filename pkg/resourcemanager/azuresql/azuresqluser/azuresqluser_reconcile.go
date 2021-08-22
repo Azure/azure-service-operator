@@ -39,7 +39,12 @@ func (s *AzureSqlUserManager) getAdminSecret(ctx context.Context, instance *v1al
 
 	// if the admin secret keyvault is not specified, fall back to global secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
-		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
+		adminSecretClient = keyvaultSecrets.New(
+			instance.Spec.AdminSecretKeyVault,
+			s.Creds,
+			s.SecretClient.GetSecretNamingVersion(),
+			config.PurgeDeletedKeyVaultSecrets(),
+			config.RecoverSoftDeletedKeyVaultSecrets())
 
 		// This is here for legacy reasons
 		if len(instance.Spec.AdminSecret) != 0 && s.SecretClient.GetSecretNamingVersion() == secrets.SecretNamingV1 {

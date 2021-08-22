@@ -16,6 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultsecretlib "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 )
@@ -47,7 +48,12 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.ServerSecretKeyVault) == 0 {
 				adminSecretClient = s.SecretClient
 			} else {
-				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
+				adminSecretClient = keyvaultsecretlib.New(
+					instance.Spec.ServerSecretKeyVault,
+					s.Creds,
+					s.SecretClient.GetSecretNamingVersion(),
+					config.PurgeDeletedKeyVaultSecrets(),
+					config.RecoverSoftDeletedKeyVaultSecrets())
 				err = keyvaultsecretlib.CheckKeyVaultAccessibility(ctx, adminSecretClient)
 				if err != nil {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet: " + err.Error()
@@ -96,7 +102,12 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.ServerSecretKeyVault) == 0 {
 				adminSecretClient = s.SecretClient
 			} else {
-				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
+				adminSecretClient = keyvaultsecretlib.New(
+					instance.Spec.ServerSecretKeyVault,
+					s.Creds,
+					s.SecretClient.GetSecretNamingVersion(),
+					config.PurgeDeletedKeyVaultSecrets(),
+					config.RecoverSoftDeletedKeyVaultSecrets())
 				err = keyvaultsecretlib.CheckKeyVaultAccessibility(ctx, adminSecretClient)
 				if err != nil {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet: " + err.Error()
@@ -109,7 +120,12 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			if len(instance.Spec.UserSecretKeyVault) == 0 {
 				userSecretClient = s.SecretClient
 			} else {
-				userSecretClient = keyvaultsecretlib.New(instance.Spec.UserSecretKeyVault, s.Creds, s.SecretClient.GetSecretNamingVersion())
+				userSecretClient = keyvaultsecretlib.New(
+					instance.Spec.UserSecretKeyVault,
+					s.Creds,
+					s.SecretClient.GetSecretNamingVersion(),
+					config.PurgeDeletedKeyVaultSecrets(),
+					config.RecoverSoftDeletedKeyVaultSecrets())
 				err = keyvaultsecretlib.CheckKeyVaultAccessibility(ctx, adminSecretClient)
 				if err != nil {
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet: " + err.Error()

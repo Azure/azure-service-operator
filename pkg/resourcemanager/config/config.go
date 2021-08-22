@@ -20,22 +20,23 @@ var (
 	// shouldn't be set here, because mutable vars shouldn't be global.
 
 	// TODO: eliminate this!
-	creds                  credentials
-	locationDefault        string
-	authorizationServerURL string
-	cloudName              string
-	useDeviceFlow          bool
-	buildID                string
-	keepResources          bool
-	userAgent              string
-	baseURI                string
-	environment            *azure.Environment
-	podNamespace           string
-	targetNamespaces       []string
-	secretNamingVersion    secrets.SecretNamingVersion
-	operatorMode           OperatorMode
-
-	testResourcePrefix string // used to generate resource names in tests, should probably exist in a test only package
+	creds                             credentials
+	locationDefault                   string
+	authorizationServerURL            string
+	cloudName                         string
+	useDeviceFlow                     bool
+	buildID                           string
+	keepResources                     bool
+	userAgent                         string
+	baseURI                           string
+	environment                       *azure.Environment
+	podNamespace                      string
+	targetNamespaces                  []string
+	secretNamingVersion               secrets.SecretNamingVersion
+	operatorMode                      OperatorMode
+	purgeDeletedKeyVaultSecrets       bool
+	recoverSoftDeletedKeyVaultSecrets bool
+	testResourcePrefix                string // used to generate resource names in tests, should probably exist in a test only package
 )
 
 // GlobalCredentials returns the configured credentials.
@@ -50,7 +51,7 @@ func Location() string {
 	return locationDefault
 }
 
-// DefaultLocation() returns the default location wherein to create new resources.
+// DefaultLocation returns the default location wherein to create new resources.
 // Some resource types are not available in all locations so another location might need
 // to be chosen.
 func DefaultLocation() string {
@@ -63,18 +64,18 @@ func AuthorizationServerURL() string {
 	return authorizationServerURL
 }
 
-// UseDeviceFlow() specifies if interactive auth should be used. Interactive
+// UseDeviceFlow specifies if interactive auth should be used. Interactive
 // auth uses the OAuth Device Flow grant type.
 func UseDeviceFlow() bool {
 	return useDeviceFlow
 }
 
-// KeepResources() specifies whether to keep resources created by samples.
+// KeepResources specifies whether to keep resources created by samples.
 func KeepResources() bool {
 	return keepResources
 }
 
-// UserAgent() specifies a string to append to the agent identifier.
+// UserAgent specifies a string to append to the agent identifier.
 func UserAgent() string {
 	if len(userAgent) > 0 {
 		return userAgent
@@ -133,11 +134,28 @@ func SecretNamingVersion() secrets.SecretNamingVersion {
 	return secretNamingVersion
 }
 
+// PurgeDeletedKeyVaultSecrets determines if the operator should issue a secret Purge request in addition
+// to Delete when deleting secrets in Azure Key Vault. This only applies to secrets that are stored in Azure Key Vault.
+// It does nothing if the secret is stored in Kubernetes.
+func PurgeDeletedKeyVaultSecrets() bool {
+	return purgeDeletedKeyVaultSecrets
+}
+
+// RecoverSoftDeletedKeyVaultSecrets determines if the operator should issue a secret Recover request when it
+// encounters an "ObjectIsDeletedButRecoverable" error from Azure Key Vault during secret creation. This error
+// can occur when a Key Vault has soft delete enabled and an ASO resource was deleted and recreated with the same name.
+// This only applies to secrets that are stored in Azure Key Vault.
+// It does nothing if the secret is stored in Kubernetes.
+func RecoverSoftDeletedKeyVaultSecrets() bool {
+	return recoverSoftDeletedKeyVaultSecrets
+}
+
 // ConfigString returns the parts of the configuration file with are not secrets as a string for easy logging
 func ConfigString() string {
 	creds := GlobalCredentials()
 	return fmt.Sprintf(
-		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %t, useManagedIdentity: %t, operatorMode: %s, targetNamespaces: %s, podNamespace: %q, secretNamingVersion: %q",
+		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %t, useManagedIdentity: %t, operatorMode: %s, targetNamespaces: %s,"+
+			" podNamespace: %q, secretNamingVersion: %q, purgeDeletedKeyVaultSecrets: %t, recoverSoftDeletedkeyVaultSecrets: %t",
 		creds.ClientID(),
 		creds.TenantID(),
 		creds.SubscriptionID(),
@@ -147,5 +165,7 @@ func ConfigString() string {
 		operatorMode,
 		targetNamespaces,
 		podNamespace,
-		SecretNamingVersion())
+		SecretNamingVersion(),
+		PurgeDeletedKeyVaultSecrets(),
+		RecoverSoftDeletedKeyVaultSecrets())
 }

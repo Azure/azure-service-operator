@@ -16,7 +16,8 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
+	keyvaultsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
+	testcommon "github.com/Azure/azure-service-operator/test/common"
 )
 
 func getExpectedSecretName(secretKey secrets.SecretKey, namingScheme secrets.SecretNamingVersion) string {
@@ -38,6 +39,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 	var keyVaultName string
 	var kvManager *kvhelper.AzureKeyVaultManager
 	var vaultBaseUrl string
+	var objID *string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -46,14 +48,22 @@ var _ = Describe("Keyvault Secrets Client", func() {
 		ctx = context.Background()
 
 		// Initialize service principal ID to give access to the keyvault
-		userID := config.GlobalCredentials().ClientID()
-
 		kvManager = kvhelper.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
 		keyVaultName = controllers.GenerateTestResourceNameWithRandom("kv", 5)
-		vaultBaseUrl = keyvault.GetVaultsURL(keyVaultName)
+		vaultBaseUrl = keyvaultsecrets.GetVaultsURL(keyVaultName)
 
 		// Create a keyvault
-		err := controllers.CreateVaultWithAccessPolicies(ctx, config.GlobalCredentials(), resourceGroupName, keyVaultName, config.DefaultLocation(), userID)
+		var err error
+		objID, err = kvhelper.GetObjectID(ctx, config.GlobalCredentials(), config.GlobalCredentials().TenantID(), config.GlobalCredentials().ClientID())
+		Expect(err).NotTo(HaveOccurred())
+
+		err = testcommon.CreateVaultWithAccessPolicies(
+			ctx,
+			config.GlobalCredentials(),
+			resourceGroupName,
+			keyVaultName,
+			config.DefaultLocation(),
+			objID)
 		Expect(err).NotTo(HaveOccurred())
 	})
 
@@ -88,7 +98,12 @@ var _ = Describe("Keyvault Secrets Client", func() {
 					"sweet": []byte("potato"),
 				}
 
-				client := keyvault.New(keyVaultName, config.GlobalCredentials(), secretNamingScheme)
+				client := keyvaultsecrets.New(
+					keyVaultName,
+					config.GlobalCredentials(),
+					secretNamingScheme,
+					config.PurgeDeletedKeyVaultSecrets(),
+					config.RecoverSoftDeletedKeyVaultSecrets())
 				key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"}
 
 				Context("creating secret with KeyVault client", func() {
@@ -151,7 +166,12 @@ var _ = Describe("Keyvault Secrets Client", func() {
 					"sweet": []byte("potato"),
 				}
 
-				client := keyvault.New(keyVaultName, config.GlobalCredentials(), secretNamingScheme)
+				client := keyvaultsecrets.New(
+					keyVaultName,
+					config.GlobalCredentials(),
+					secretNamingScheme,
+					config.PurgeDeletedKeyVaultSecrets(),
+					config.RecoverSoftDeletedKeyVaultSecrets())
 				key := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"}
 
 				Context("creating flattened secret with KeyVault client", func() {
@@ -224,6 +244,79 @@ var _ = Describe("Keyvault Secrets Client", func() {
 					}
 				})
 			})
+
 		}
+	})
+})
+
+var _ = Describe("Keyvault Secrets soft delete", func() {
+	// Create a context to use in the tests
+	ctx := context.Background()
+	var softDeleteKVName string
+	var kvManager *kvhelper.AzureKeyVaultManager
+	var objID *string
+
+	BeforeEach(func() {
+		var err error
+		// Initialize service principal ID to give access to the keyvault
+		kvManager = kvhelper.NewAzureKeyVaultManager(config.GlobalCredentials(), nil)
+		softDeleteKVName = controllers.GenerateTestResourceNameWithRandom("kv", 5)
+
+		objID, err = kvhelper.GetObjectID(ctx, config.GlobalCredentials(), config.GlobalCredentials().TenantID(), config.GlobalCredentials().ClientID())
+		Expect(err).NotTo(HaveOccurred())
+
+		err = testcommon.CreateKeyVaultSoftDeleteEnabled(
+			ctx,
+			config.GlobalCredentials(),
+			resourceGroupName,
+			softDeleteKVName,
+			config.DefaultLocation(),
+			objID)
+		Expect(err).NotTo(HaveOccurred())
+	})
+
+	AfterEach(func() {
+		// Add any teardown steps that needs to be executed after each test
+		// Delete the keyvault
+		_, err := kvManager.DeleteVault(ctx, resourceGroupName, softDeleteKVName)
+		Expect(err).NotTo(HaveOccurred())
+	})
+
+	It("Should delete and recreate soft-delete key when recreate soft-deleted key option is enabled", func() {
+		Context("create, delete, and recreate soft deleted key", func() {
+			secretName := "kvsecret" + strconv.FormatInt(GinkgoRandomSeed(), 10)
+			client := keyvaultsecrets.New(
+				softDeleteKVName,
+				config.GlobalCredentials(),
+				secrets.SecretNamingV2,
+				false,
+				true)
+
+			data := map[string][]byte{
+				"test":  []byte("data"),
+				"sweet": []byte("potato"),
+			}
+
+			secretKey := secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"}
+
+			// Create the key
+			err := client.Upsert(ctx, secretKey, data)
+			Expect(err).NotTo(HaveOccurred())
+
+			// Delete the key
+			err = client.Delete(ctx, secretKey)
+			Expect(err).NotTo(HaveOccurred())
+
+			// Wait for the key to be deleted.
+			Eventually(func() bool {
+				_, err = client.Get(ctx, secretKey)
+				return err == nil
+			}, time.Second*60).Should(BeFalse())
+
+			// Create the key again
+			Eventually(func() error {
+				return client.Upsert(ctx, secretKey, data)
+			}, time.Second*60).Should(Succeed())
+		})
 	})
 })
