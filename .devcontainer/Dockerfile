@@ -38,6 +38,11 @@ ENV KIND_CLUSTER_NAME=aso
 
 # install docker, from: https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker.md
 COPY library-scripts/docker-debian.sh /tmp/library-scripts/
-RUN bash /tmp/library-scripts/docker-debian.sh
+
+# these are all the default values except for the last one (USE_MOBY) which is what we want to set.
+# currently packages.microsoft.com does not have Moby packages for Debian Bullseye, which the 
+# devcontainer image is based on: https://github.com/microsoft/vscode-dev-containers/issues/1008
+RUN bash /tmp/library-scripts/docker-debian.sh true /var/run/docker-host.sock /var/run/docker.sock automatic false
+
 ENTRYPOINT ["/usr/local/share/docker-init.sh"]
 CMD ["sleep", "infinity"]
