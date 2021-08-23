@@ -357,7 +357,7 @@ install-test-tools: install-tools
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge \
-	&& go get sigs.k8s.io/kind@v0.9.0
+	&& go get sigs.k8s.io/kind@v0.11.1
 	rm -r $(TEST_TOOLS_MOD_DIR)
 
 .PHONY: install-tools
