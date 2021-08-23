@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
@@ -27,8 +28,6 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 )
-
-const ResourceGroupDeletionWaitTime = 5 * time.Minute
 
 type KubePerTestContext struct {
 	*KubeGlobalContext
@@ -205,7 +204,7 @@ func (tc KubePerTestContext) CreateTestResourceGroup(rg *resources.ResourceGroup
 		// doesn't stop polling resources in "Deleting" state and so when running recordings
 		// different runs end up polling different numbers of times. Ensuring we reach a state
 		// the controller deems terminal (Deleted) resolves this issue.
-		tc.G.Eventually(rg, ResourceGroupDeletionWaitTime).Should(tc.Match.BeDeleted())
+		tc.G.Eventually(rg, tc.DefaultTimeout(), tc.PollingInterval()).Should(tc.Match.BeDeleted())
 	})
 
 	if wait {
@@ -231,25 +230,52 @@ func (tc KubePerTestContext) Subtest(t *testing.T) KubePerTestContext {
 	return tc
 }
 
-var DefaultTimeout time.Duration = 2 * time.Minute
+// DefaultTimeoutReplaying is the default timeout for a single operation when replaying.
+var DefaultTimeoutReplaying = 2 * time.Minute
 
-// remainingTime returns how long is left until test timeout,
+// DefaultTimeoutRecording is the default timeout for a single operation when recording.
+// This is so high primarily because deleting an AKS cluster takes a long time.
+var DefaultTimeoutRecording = 15 * time.Minute
+
+func (tc *KubePerTestContext) DefaultTimeout() time.Duration {
+	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
+		return DefaultTimeoutReplaying
+	}
+
+	return DefaultTimeoutRecording
+}
+
+// PollingIntervalReplaying is the polling interval to use when replaying.
+// TODO: Setting this really low sometimes seems to cause
+// TODO: updating resource: Operation cannot be fulfilled: the object has been modified; please apply your changes to the latest version and try again
+// TODO: I don't know why -- possibly we're starving APIServer of cycles because of fast polling loops which prevents it from processing cache updates or something?
+var PollingIntervalReplaying = 200 * time.Millisecond
+
+// PollingIntervalRecording is the polling interval to use when recording.
+var PollingIntervalRecording = 5 * time.Second
+
+// PollingInterval returns the polling interval to use for Gomega Eventually
+func (tc *KubePerTestContext) PollingInterval() time.Duration {
+	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
+		return PollingIntervalReplaying
+	}
+
+	return PollingIntervalRecording
+}
+
+// RemainingTime returns how long is left until test timeout,
 // and can be used with gomega.Eventually to get better failure behaviour
 //
 // (If you hit the deadline 'go test' aborts everything and dumps
 // the current task stacks to output. If gomega.Eventually hits its
 // timeout it will produce a nicer error message and stack trace.)
-func RemainingTime(t *testing.T) time.Duration {
-	deadline, hasDeadline := t.Deadline()
+func (tc *KubePerTestContext) RemainingTime() time.Duration {
+	deadline, hasDeadline := tc.T.Deadline()
 	if hasDeadline {
 		return time.Until(deadline) - time.Second // give us 1 second to clean up
 	}
 
-	return DefaultTimeout
-}
-
-func (tc *KubePerTestContext) RemainingTime() time.Duration {
-	return RemainingTime(tc.T)
+	return tc.DefaultTimeout()
 }
 
 func (tc *KubePerTestContext) Expect(actual interface{}) gomega.Assertion {
@@ -261,7 +287,7 @@ func (tc *KubePerTestContext) Eventually(actual interface{}, intervals ...interf
 		return tc.G.Eventually(actual, intervals...)
 	}
 
-	return tc.G.Eventually(actual, tc.RemainingTime())
+	return tc.G.Eventually(actual, tc.RemainingTime(), tc.PollingInterval())
 }
 
 func (tc *KubePerTestContext) CreateNewTestResourceGroupAndWait() *v1alpha1api20200601.ResourceGroup {
@@ -274,7 +300,7 @@ func (tc *KubePerTestContext) CreateNewTestResourceGroupAndWait() *v1alpha1api20
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
 	tc.G.Expect(tc.KubeClient.Create(tc.Ctx, obj)).To(gomega.Succeed())
-	tc.G.Eventually(obj, tc.RemainingTime()).Should(tc.Match.BeProvisioned())
+	tc.Eventually(obj).Should(tc.Match.BeProvisioned())
 }
 
 // CreateResourcesAndWait creates the resources in K8s and waits for them to
@@ -285,7 +311,7 @@ func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 	}
 
 	for _, obj := range objs {
-		tc.G.Eventually(obj, tc.RemainingTime()).Should(tc.Match.BeProvisioned())
+		tc.Eventually(obj).Should(tc.Match.BeProvisioned())
 	}
 }
 
@@ -293,14 +319,14 @@ func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 // change into the Failed state.
 func (tc *KubePerTestContext) CreateResourceAndWaitForFailure(obj client.Object) {
 	tc.G.Expect(tc.KubeClient.Create(tc.Ctx, obj)).To(gomega.Succeed())
-	tc.G.Eventually(obj, tc.RemainingTime()).Should(tc.Match.BeFailed())
+	tc.Eventually(obj).Should(tc.Match.BeFailed())
 }
 
 // PatchResourceAndWaitAfter patches the resource in K8s and waits for it to change into
 // the Provisioned state from the provided previousState.
-func (ktc *KubePerTestContext) PatchResourceAndWaitAfter(old client.Object, new client.Object, previousReadyCondition conditions.Condition) {
-	ktc.Patch(old, new)
-	ktc.G.Eventually(new, ktc.RemainingTime()).Should(ktc.Match.BeProvisionedAfter(previousReadyCondition))
+func (tc *KubePerTestContext) PatchResourceAndWaitAfter(old client.Object, new client.Object, previousReadyCondition conditions.Condition) {
+	tc.Patch(old, new)
+	tc.Eventually(new).Should(tc.Match.BeProvisionedAfter(previousReadyCondition))
 }
 
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
@@ -313,15 +339,15 @@ func (tc *KubePerTestContext) UpdateResource(obj client.Object) {
 	tc.G.Expect(tc.KubeClient.Update(tc.Ctx, obj)).To(gomega.Succeed())
 }
 
-func (ktc *KubePerTestContext) Patch(old client.Object, new client.Object) {
-	ktc.Expect(ktc.KubeClient.Patch(ktc.Ctx, new, client.MergeFrom(old))).To(gomega.Succeed())
+func (tc *KubePerTestContext) Patch(old client.Object, new client.Object) {
+	tc.Expect(tc.KubeClient.Patch(tc.Ctx, new, client.MergeFrom(old))).To(gomega.Succeed())
 }
 
 // DeleteResourceAndWait deletes the given resource in K8s and waits for
 // it to update to the Deleted state.
 func (tc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
 	tc.G.Expect(tc.KubeClient.Delete(tc.Ctx, obj)).To(gomega.Succeed())
-	tc.G.Eventually(obj, tc.RemainingTime()).Should(tc.Match.BeDeleted())
+	tc.Eventually(obj).Should(tc.Match.BeDeleted())
 }
 
 // DeleteResourcesAndWait deletes the resources in K8s and waits for them to be deleted
@@ -331,7 +357,7 @@ func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
 	}
 
 	for _, obj := range objs {
-		tc.G.Eventually(obj, tc.RemainingTime()).Should(tc.Match.BeDeleted())
+		tc.Eventually(obj).Should(tc.Match.BeDeleted())
 	}
 }
 

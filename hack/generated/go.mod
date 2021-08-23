@@ -19,6 +19,7 @@ require (
 	github.com/onsi/gomega v1.14.0
 	github.com/pkg/errors v0.9.1
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83
+	golang.org/x/time v0.0.0-20210611083556-38a9dc6acbc6 // indirect
 	k8s.io/api v0.21.2
 	k8s.io/apiextensions-apiserver v0.21.2
 	k8s.io/apimachinery v0.21.2

@@ -71,6 +71,20 @@ func (types Types) AddTypes(otherTypes Types) {
 	}
 }
 
+// AddTypesAllowDuplicates adds multiple types to the set.
+// Multiple adds of a type with the same shape are allowed, but attempting to add two
+// types with the same name but different shape will trigger an error.
+func (types Types) AddTypesAllowDuplicates(otherTypes Types) error {
+	for _, t := range otherTypes {
+		err := types.AddAllowDuplicates(t)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // AddAllowDuplicates attempts to add the specified definition to the types collection.
 // Multiple adds of a type with the same shape are allowed, but attempting to add two
 // types with the same name but different shape will trigger an error.
@@ -113,6 +127,13 @@ func (types Types) Where(predicate func(definition TypeDefinition) bool) Types {
 	}
 
 	return result
+}
+
+// Intersect returns a new set of types including only those defined in both types and otherTypes.
+func (types Types) Intersect(otherTypes Types) Types {
+	return types.Where(func(def TypeDefinition) bool {
+		return otherTypes.Contains(def.Name())
+	})
 }
 
 // Except returns a new set of types including only those not defined in otherTypes
