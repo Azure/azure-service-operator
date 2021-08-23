@@ -87,13 +87,13 @@ func (a *typeAsserter) assertFile(
 			return
 		}
 
-		d := diff.Diff(base, content)
-		if len(d) > 0 {
+		changes := diff.Diff(base, content)
+		if len(changes) > 0 {
 			// Only use the diff if it's not empty
-			if strings.HasSuffix(content, "\n") {
-				content = d
+			if strings.HasSuffix(changes, "\n") {
+				content = changes
 			} else {
-				content = d + "\n"
+				content = changes + "\n"
 			}
 		}
 	}
