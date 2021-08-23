@@ -21,7 +21,6 @@ func Test_OriginalVersionFunction_GeneratesExpectedCode(t *testing.T) {
 	emptyDef := test.CreateObjectDefinition(test.Pkg2020, "Demo")
 	injector := astmodel.NewFunctionInjector()
 
-
 	originalVersionFunction := NewOriginalVersionFunction(idFactory)
 	demoDef, err := injector.Inject(emptyDef, originalVersionFunction)
 	g.Expect(err).To(Succeed())
@@ -29,5 +28,5 @@ func Test_OriginalVersionFunction_GeneratesExpectedCode(t *testing.T) {
 	/*
 	 * When verifying the golden file, check for what's changed
 	 */
-	test.AssertTypeDefinitionGeneratesExpectedCode(t, demoDef, "OriginalVersionFunction", test.DiffWithTypeDefinition(emptyDef))
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "OriginalVersionFunction", demoDef, test.DiffWith(emptyDef))
 }

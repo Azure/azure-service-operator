@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
-	. "github.com/Azure/azure-service-operator/hack/generator/pkg/test"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
 // Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToSpec() and
@@ -22,10 +22,21 @@ func Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode(t *t
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type
-	personSpec2020 := CreateSpec(Pkg2020, "Person", FullNameProperty, KnownAsProperty, FamilyNameProperty)
+	personSpec2020 := test.CreateSpec(
+		test.Pkg2020,
+		"Person",
+		test.FullNameProperty,
+		test.KnownAsProperty,
+		test.FamilyNameProperty)
 
 	// Create our downstream type
-	personSpec2021 := CreateSpec(Pkg2021, "Person", FullNameProperty, KnownAsProperty, FamilyNameProperty, CityProperty)
+	personSpec2021 := test.CreateSpec(
+		test.Pkg2021,
+		"Person",
+		test.FullNameProperty,
+		test.KnownAsProperty,
+		test.FamilyNameProperty,
+		test.CityProperty)
 
 	// Create Property Assignment functions
 	types := make(astmodel.Types)
@@ -33,10 +44,12 @@ func Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode(t *t
 	types.AddAll(personSpec2021)
 
 	conversionContext := conversions.NewPropertyConversionContext(types, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentFunction(personSpec2020, personSpec2021, conversionContext, conversions.ConvertTo)
+	propertyAssignTo, err := NewPropertyAssignmentFunction(
+		personSpec2020, personSpec2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFunction(personSpec2020, personSpec2021, conversionContext, conversions.ConvertFrom)
+	propertyAssignFrom, err := NewPropertyAssignmentFunction(
+		personSpec2020, personSpec2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
 	// Create Spec Conversion Functions
@@ -53,7 +66,8 @@ func Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode(t *t
 	 * When verifying the golden file, look for the changes flagged between the reference and the updated definition
 	 * and check that the implementations of ConvertSpecTo() and ConvertSpecFrom() are what you expect.
 	 */
-	AssertTypeDefinitionGeneratesExpectedCode(t, personSpec2020updated, "Person", DiffWithTypeDefinition(personSpec2020))
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(
+		t, "Person", personSpec2020updated, test.DiffWith(personSpec2020))
 }
 
 // Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToStatus()
@@ -63,10 +77,10 @@ func Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode(t 
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type
-	personStatus2020 := CreateStatus(Pkg2020, "Person")
+	personStatus2020 := test.CreateStatus(test.Pkg2020, "Person")
 
 	// Create our downstream type
-	personStatus2021 := CreateStatus(Pkg2021, "Person")
+	personStatus2021 := test.CreateStatus(test.Pkg2021, "Person")
 
 	// Create Property Assignment functions
 	types := make(astmodel.Types)
@@ -74,10 +88,12 @@ func Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode(t 
 	types.AddAll(personStatus2021)
 
 	conversionContext := conversions.NewPropertyConversionContext(types, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentFunction(personStatus2020, personStatus2021, conversionContext, conversions.ConvertTo)
+	propertyAssignTo, err := NewPropertyAssignmentFunction(
+		personStatus2020, personStatus2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFunction(personStatus2020, personStatus2021, conversionContext, conversions.ConvertFrom)
+	propertyAssignFrom, err := NewPropertyAssignmentFunction(
+		personStatus2020, personStatus2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
 	// Create Spec Conversion Functions
@@ -94,5 +110,6 @@ func Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode(t 
 	 * When verifying the golden file, look for the changes flagged between the reference and the updated definition
 	 * and check that the implementations of ConvertSpecTo() and ConvertSpecFrom() are what you expect.
 	 */
-	AssertTypeDefinitionGeneratesExpectedCode(t, personStatus2020updated, "Person", DiffWithTypeDefinition(personStatus2020))
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(
+		t, "Person", personStatus2020updated, test.DiffWith(personStatus2020))
 }

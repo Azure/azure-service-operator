@@ -48,13 +48,12 @@ func Test_ResourceConversionFunction_DirectConversion_GeneratesExpectedCode(t *t
 	convertFrom := NewResourceConversionFunction(person2021.Name(), propertyAssignFrom, idFactory)
 
 	// Inject these methods into person2020
+	// We omit the propertyAssignment functions as they are tested elsewhere
 	injector := astmodel.NewFunctionInjector()
-	person2020, err = injector.Inject(person2020, propertyAssignTo, propertyAssignFrom, convertTo, convertFrom)
+	modified, err := injector.Inject(person2020, convertTo, convertFrom)
 	g.Expect(err).To(Succeed())
 
-	// Write to a file
-	fileDef := test.CreateFileDefinition(person2020)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, "ResourceConversionFunction")
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "ResourceConversionFunction", modified, test.DiffWith(person2020))
 }
 
 // Test_ResourceConversionFunction_IndirectConversion_GeneratesExpectedCode tests the code when the ConvertTo() and
@@ -97,11 +96,10 @@ func Test_ResourceConversionFunction_IndirectConversion_GeneratesExpectedCode(t 
 	convertFrom := NewResourceConversionFunction(person2022.Name(), propertyAssignFrom, idFactory)
 
 	// Inject these methods into person2020
+	// We omit the propertyAssignment functions as they are tested elsewhere
 	injector := astmodel.NewFunctionInjector()
-	person2020, err = injector.Inject(person2020, propertyAssignTo, propertyAssignFrom, convertTo, convertFrom)
+	modified, err := injector.Inject(person2020, convertTo, convertFrom)
 	g.Expect(err).To(Succeed())
 
-	// Write to a file
-	fileDef := test.CreateFileDefinition(person2020)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, "ResourceConversionFunction")
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "ResourceConversionFunction", modified, test.DiffWith(person2020))
 }
