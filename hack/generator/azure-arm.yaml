@@ -64,6 +64,10 @@ typeFilters:
     group: microsoft.resources
     name: DeploymentScript*
     because: Some types use OneOf to model inheritance, which we don't currently support.
+  - action: prune
+    group: microsoft.resources
+    name: Tags
+    because: This type is defined recursively.
   - action: include
     group: microsoft.compute.extensions
     name: GenericExtension

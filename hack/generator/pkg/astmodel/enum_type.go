@@ -23,10 +23,14 @@ type EnumType struct {
 	baseType *PrimitiveType
 	// Options is the set of all unique values
 	options []EnumValue
+
+	// emitValidation determines if the enum includes kubebuilder validation when emitted.
+	// Statuses may use an enum type but without validation.
+	emitValidation bool
 }
 
 // EnumType must implement the Type interface correctly
-var _ Type = (*EnumType)(nil)
+var _ Type = &EnumType{}
 
 // NewEnumType defines a new enumeration including the legal values
 func NewEnumType(baseType *PrimitiveType, options ...EnumValue) *EnumType {
@@ -38,7 +42,21 @@ func NewEnumType(baseType *PrimitiveType, options ...EnumValue) *EnumType {
 		return options[left].Identifier < options[right].Identifier
 	})
 
-	return &EnumType{baseType: baseType, options: options}
+	return &EnumType{baseType: baseType, options: options, emitValidation: true}
+}
+
+// WithoutValidation returns a copy of this enum, without associated Kubebuilder annotations.
+func (enum *EnumType) WithoutValidation() *EnumType {
+	result := enum.clone()
+	result.emitValidation = false
+	return result
+}
+
+// WithValidation returns a copy of this enum, with associated Kubebuilder annotations.
+func (enum *EnumType) WithValidation() *EnumType {
+	result := enum.clone()
+	result.emitValidation = true
+	return result
 }
 
 // AsDeclarations converts the EnumType to a series of Go AST Decls
@@ -89,8 +107,10 @@ func (enum *EnumType) createBaseDeclaration(
 	astbuilder.AddWrappedComments(&declaration.Decs.Start, description, 120)
 	AddValidationComments(&declaration.Decs.Start, validations)
 
-	validationComment := GenerateKubebuilderComment(enum.CreateValidation())
-	astbuilder.AddComment(&declaration.Decs.Start, validationComment)
+	if enum.emitValidation {
+		validationComment := GenerateKubebuilderComment(enum.CreateValidation())
+		astbuilder.AddComment(&declaration.Decs.Start, validationComment)
+	}
 
 	return declaration
 }
@@ -132,6 +152,10 @@ func (enum *EnumType) Equals(t Type) bool {
 
 	if e, ok := t.(*EnumType); ok {
 		if !enum.baseType.Equals(e.baseType) {
+			return false
+		}
+
+		if enum.emitValidation != e.emitValidation {
 			return false
 		}
 
@@ -177,6 +201,15 @@ func (enum *EnumType) CreateValidation() KubeBuilderValidation {
 // BaseType returns the base type of the enum
 func (enum *EnumType) BaseType() *PrimitiveType {
 	return enum.baseType
+}
+
+func (enum *EnumType) clone() *EnumType {
+	result := *enum
+	result.emitValidation = enum.emitValidation
+	result.options = append([]EnumValue(nil), enum.options...)
+	result.baseType = enum.baseType
+
+	return &result
 }
 
 func GetEnumValueId(name string, value EnumValue) string {
