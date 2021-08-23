@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/conversions"
-	. "github.com/Azure/azure-service-operator/hack/generator/pkg/test"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
 // Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToSpec() and
@@ -77,10 +77,10 @@ func Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode(t 
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type
-	personStatus2020 := CreateStatus(Pkg2020, "Person")
+	personStatus2020 := test.CreateStatus(test.Pkg2020, "Person")
 
 	// Create our downstream type
-	personStatus2021 := CreateStatus(Pkg2021, "Person")
+	personStatus2021 := test.CreateStatus(test.Pkg2021, "Person")
 
 	// Create Property Assignment functions
 	types := make(astmodel.Types)
