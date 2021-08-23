@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"strings"
 
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
@@ -53,11 +54,8 @@ func makeFlatteningVisitor(defs astmodel.Types) astmodel.TypeVisitor {
 				return nil, err
 			}
 
-			// safety check:
-			if err := checkForDuplicateNames(newProps); err != nil {
-				klog.Warningf("Skipping flattening for %s: %s", name, err)
-				return removeFlattenFromObject(it), nil
-			}
+			// fix any colliding names:
+			newProps = fixCollisions(newProps)
 
 			if len(newProps) != len(it.Properties()) {
 				klog.V(4).Infof("Flattened properties in %s", name)
@@ -89,17 +87,42 @@ func removeFlatten(t astmodel.Type) astmodel.Type {
 	return t
 }
 
-func checkForDuplicateNames(props []*astmodel.PropertyDefinition) error {
-	names := make(map[astmodel.PropertyName]struct{})
-	for _, p := range props {
-		if _, ok := names[p.PropertyName()]; ok {
-			return errors.Errorf("flattening caused duplicate property name %q", p.PropertyName())
-		}
+func fixCollisions(props []*astmodel.PropertyDefinition) []*astmodel.PropertyDefinition {
+	names := make(map[astmodel.PropertyName]int)
 
-		names[p.PropertyName()] = struct{}{}
+	// collect all names
+	for _, p := range props {
+		n := p.PropertyName()
+		names[n] = names[n] + 1
 	}
 
-	return nil
+	result := make([]*astmodel.PropertyDefinition, len(props))
+	for ix, p := range props {
+
+		// check if there will be a collision
+		if names[p.PropertyName()] > 1 {
+			// rename the flattened one, not the top-level one
+			if p.WasFlattened() {
+				names := p.FlattenedFrom()
+				// FFS
+				stringNames := make([]string, len(names))
+				for i := range names {
+					if i < len(names)-1 { // the last entry in FlattenedFrom is the source property which might have a different name
+						stringNames[i] = string(names[i])
+					}
+				}
+
+				// disambiguate by prefixing with properties
+				newName := astmodel.PropertyName(strings.Join(stringNames, "") + string(p.PropertyName()))
+				newJsonName := strings.ToLower(strings.Join(stringNames, "_") + string(p.PropertyName()))
+				p = p.WithName(newName, newJsonName)
+			}
+		}
+
+		result[ix] = p
+	}
+
+	return result
 }
 
 // collectAndFlattenProperties walks the object type and extracts all properties, flattening any properties that require flattening
