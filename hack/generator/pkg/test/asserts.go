@@ -70,4 +70,3 @@ func AssertSingleTypeDefinitionGeneratesExpectedCode(
 	asserter.configure(options)
 	asserter.assert(fileName, def)
 }
-
