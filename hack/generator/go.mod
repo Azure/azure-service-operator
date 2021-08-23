@@ -12,12 +12,13 @@ require (
 	github.com/go-openapi/spec v0.19.3
 	github.com/gobuffalo/flect v0.2.3
 	github.com/kr/text v0.2.0 // indirect
+	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.9
 	github.com/mailru/easyjson v0.7.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/onsi/gomega v1.10.1
 	github.com/pkg/errors v0.9.1
-	github.com/sebdah/goldie/v2 v2.3.0
+	github.com/sebdah/goldie/v2 v2.5.3
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.6.1 // indirect
