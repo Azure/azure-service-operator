@@ -37,5 +37,5 @@ func TestJSONSerializationTestCase_AsFunc(t *testing.T) {
 	g.Expect(err).To(Succeed())
 
 	defs := []astmodel.TypeDefinition{currentSpec}
-	test.AssertDefinitionsGenerateExpectedCode(t, "person", defs, test.IncludeTestFiles(), test.ExcludeCodeFiles())
+	test.AssertTypeDefinitionsGenerateExpectedCode(t, "person", defs, test.IncludeTestFiles(), test.ExcludeCodeFiles())
 }

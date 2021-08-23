@@ -4,10 +4,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// AssertionOption represents options that can be used to customize the behavour of our custom render methods that
-// generate golden file output.
-// Diff* options highlight differences between reference and actual using traditional +/- notations on each line.
-// Exclude* options pare down the objects being rendered to reduce the amount of noise present in the golden file.
+// AssertionOption represents options that can be used to customize the behavour of the assert
 type AssertionOption interface {
 	// configure applies this option to the passed typeAsserter
 	configure(ta *typeAsserter)
@@ -32,6 +29,7 @@ type diffOption struct {
 
 var _ AssertionOption = &diffOption{}
 
+// configure sets up the typeAsserter with the types to use as a reference
 func (d *diffOption) configure(ta *typeAsserter) {
 	ta.addReferences(d.references...)
 }
@@ -40,15 +38,16 @@ func (d *diffOption) configure(ta *typeAsserter) {
  * includeTestFiles
  */
 
+// IncludeTestFiles creates an AssertionOption to also assert testcases
 func IncludeTestFiles() AssertionOption {
 	return &includeTestFiles{}
 }
 
-type includeTestFiles struct {
-}
+type includeTestFiles struct{}
 
 var _ AssertionOption = &includeTestFiles{}
 
+// configure sets up the typeAsserter to also write test files
 func (i *includeTestFiles) configure(ta *typeAsserter) {
 	ta.writeTests = true
 }
@@ -57,15 +56,16 @@ func (i *includeTestFiles) configure(ta *typeAsserter) {
  * excludeCodeFiles
  */
 
+// ExcludeCodeFiles creates an AssertionOption to suppress regular code files
 func ExcludeCodeFiles() AssertionOption {
 	return &excludeCodeFiles{}
 }
 
-type excludeCodeFiles struct {
-}
+type excludeCodeFiles struct{}
 
 var _ AssertionOption = &excludeCodeFiles{}
 
+// configure sets up the typeAsserter to exclude code files
 func (i *excludeCodeFiles) configure(ta *typeAsserter) {
 	ta.writeCode = false
 }

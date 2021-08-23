@@ -13,8 +13,11 @@ import (
 )
 
 // AssertPackagesGenerateExpectedCode creates a golden file for each package represented in the set of type definitions,
-// asserting that the generated content is expected
-func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types) {
+// asserting that the generated content is expected.
+// t is the current test
+// types is the set of type definitions to be asserted
+// options is an optional set of configuration options to control the assertion
+func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types, options ...AssertionOption) {
 	// Group type definitions by package
 	groups := make(map[astmodel.PackageReference][]astmodel.TypeDefinition)
 	for _, def := range types {
@@ -31,25 +34,33 @@ func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types) {
 		}
 
 		fileName := fmt.Sprintf("%s-%s", local.Group(), local.Version())
-		AssertDefinitionsGenerateExpectedCode(t, fileName, defs)
+		AssertTypeDefinitionsGenerateExpectedCode(t, fileName, defs, options...)
 	}
 }
 
-// AssertDefinitionsGenerateExpectedCode serialises the given FileDefinition as a golden file test, checking that the expected
+// AssertTypeDefinitionsGenerateExpectedCode serialises the given FileDefinition as a golden file test, checking that the expected
 // results are generated
-func AssertDefinitionsGenerateExpectedCode(
+// t is the current test
+// name is a unique name for the current assertion
+// defs is a set of type definitions to be asserted
+// options is an optional set of configuration options to control the assertion
+func AssertTypeDefinitionsGenerateExpectedCode(
 	t *testing.T,
-	fileName string,
+	name string,
 	defs []astmodel.TypeDefinition,
 	options ...AssertionOption) {
 
 	asserter := newTypeAsserter(t)
 	asserter.configure(options)
-	asserter.assert(fileName, defs...)
+	asserter.assert(name, defs...)
 }
 
 // AssertSingleTypeDefinitionGeneratesExpectedCode serialises the given TypeDefinition as a golden file test, checking
 // that the expected results are generated
+// t is the current test
+// name is a unique name for the current assertion
+// def is the type definition to be asserted
+// options is an optional set of configuration options to control the assertion
 func AssertSingleTypeDefinitionGeneratesExpectedCode(
 	t *testing.T,
 	fileName string,
@@ -60,4 +71,3 @@ func AssertSingleTypeDefinitionGeneratesExpectedCode(
 	asserter.configure(options)
 	asserter.assert(fileName, def)
 }
-
