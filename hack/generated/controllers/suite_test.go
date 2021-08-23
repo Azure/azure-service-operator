@@ -26,6 +26,10 @@ var globalTestContext testcommon.KubeGlobalContext
 func setup(options Options) {
 	log.Println("Running test setup")
 
+	// Note: These are set just so we have somewhat reasonable defaults. Almost all
+	// usage of Eventually is done through the testContext wrapper which understands
+	// replay vs record modes and passes a different timeout and polling interval for each,
+	// meaning that there are very few instances where these timeouts are actually used.
 	gomega.SetDefaultEventuallyTimeout(DefaultResourceTimeout)
 	gomega.SetDefaultEventuallyPollingInterval(5 * time.Second)
 
