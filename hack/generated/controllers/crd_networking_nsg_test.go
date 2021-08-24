@@ -13,7 +13,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	network "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.network/v1alpha1api20201101"
+	network "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 

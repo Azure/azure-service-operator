@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	storage "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.storage/v1alpha1api20210401"
+	storage "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.storage/v1alpha1api20210401"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
