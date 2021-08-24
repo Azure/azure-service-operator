@@ -11,6 +11,6 @@ Files are listed chronologically by month, and should contain the following sect
 * Experience Report
 * References
 
-For background information, check out [this Cognitect blog entry](https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions?utm_source=pocket_mylist).
+For background information, check out [this Cognitect blog entry](https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions).
 
 ADR documents should be updated over time to keep them relevant. 
