@@ -24,13 +24,9 @@ Pipeline introduced in [PR#171](https://github.com/Azure/k8s-infra/pull/171).
 
 Stage prerequisites introduced in [PR#366](https://github.com/Azure/k8s-infra/pull/366) and postrequisites in [PR#1541](https://github.com/Azure/azure-service-operator/pull/1541).
 
-Mini-pipelines for testing introduced in [PR#1649](https://github.com/Azure/azure-service-operator/pull/1649).
-
 ## Consequences
 
-Individual pipeline stages are independently tested, but some require considerable set up to create the expected initial state required for execution.
-
-TBC.
+Individual pipeline stages are independently tested, but some require considerable set up to create the expected initial state required for execution. The addition of mini-pipelines in [PR#1649](https://github.com/Azure/azure-service-operator/pull/1649) partially mitigates this.
 
 ## References
 
