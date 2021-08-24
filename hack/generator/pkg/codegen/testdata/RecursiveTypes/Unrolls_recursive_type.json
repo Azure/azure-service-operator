@@ -1,0 +1,25 @@
+{
+    "$comment": "Check that a type that references itself has its self reference removed",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "error": {
+            "$ref": "#/definitions/Error"
+        }
+    },
+    "definitions": {
+        "Error": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "error": {
+                    "$ref": "#/definitions/Error"
+                }
+            }
+        }
+    }
+}

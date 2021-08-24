@@ -49,10 +49,10 @@ type errorCollectingVisitor struct {
 }
 
 func newErrorCollectingVisitor() *errorCollectingVisitor {
-	includePropertyContext := astmodel.MakeIdentityVisitOfObjectTypeWithPerPropertyContext(
-		func(prop *astmodel.PropertyDefinition, ctx interface{}) interface{} {
+	includePropertyContext := astmodel.MakeIdentityVisitOfObjectType(
+		func(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
 			typedCtx := ctx.(erroredTypeVisitorContext)
-			return typedCtx.WithProperty(prop.PropertyName())
+			return typedCtx.WithProperty(prop.PropertyName()), nil
 		})
 
 	result := &errorCollectingVisitor{}
