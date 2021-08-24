@@ -169,6 +169,11 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 	// We always use a pointer receiver, so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
 
+	// Generation of our function body can result in modifications to our set of known local variable names, resulting
+	// in different results if we are rendered multiple times. To mitigate against this, checkpoint the set before
+	// code generation and restore to that point afterwards
+	knownLocalsCheckpoint := fn.conversionContext.KnownLocals().Checkpoint()
+
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: fn.receiverName,
 		ReceiverType:  receiverType,
@@ -186,6 +191,8 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(description)
+
+	fn.conversionContext.KnownLocals().Restore(knownLocalsCheckpoint)
 
 	return funcDetails.DefineFunc()
 }

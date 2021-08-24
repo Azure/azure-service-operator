@@ -116,6 +116,11 @@ func (c *PropertyConversionContext) PropertyBagName() string {
 	return c.propertyBagName
 }
 
+// KnownLocals returns a reference to our set of known local variables
+func (c *PropertyConversionContext) KnownLocals() *astmodel.KnownLocalsSet {
+	return c.knownLocals
+}
+
 // clone returns a new independent copy of this context
 func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 	return &PropertyConversionContext{
