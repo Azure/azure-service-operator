@@ -11,7 +11,13 @@
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
-		"terminal.integrated.shell.linux": "/bin/bash",
+		"terminal.integrated.defaultProfile.linux": "bash",
+		"terminal.integrated.profiles.linux": {
+			"bash": {
+				"path": "bash",
+				"icon": "terminal-bash"
+			},
+		},
 		"go.gopath": "/go",
 		"go.useLanguageServer": true,
 		"go.lintTool": "golangci-lint",
@@ -23,6 +29,7 @@
 			}
 		}
 	},
+
 	
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
