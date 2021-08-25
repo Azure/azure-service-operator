@@ -26,6 +26,7 @@ stripUnused                                          Strip unused types for test
 createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
 injectJSONTestCases                       azure      Add test cases to verify JSON serialization
+injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
 markStorageVersion                                   Mark the latest version of each resource as the storage version
 ensureArmTypeExistsForEveryType           azure      Check that an ARM type exists for both Spec and Status of each resource
 exportTestPackages                                   Export packages for test

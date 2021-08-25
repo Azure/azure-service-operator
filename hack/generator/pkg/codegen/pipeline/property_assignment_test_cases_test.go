@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-func TestInjectPropertyAssignmentFunctions(t *testing.T) {
+func TestInjectPropertyAssignmentTests(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
@@ -51,7 +51,9 @@ func TestInjectPropertyAssignmentFunctions(t *testing.T) {
 		state,
 		CreateConversionGraph(),
 		CreateStorageTypes(),
-		InjectPropertyAssignmentFunctions(idFactory))
+		InjectPropertyAssignmentFunctions(idFactory),
+		InjectJsonSerializationTests(idFactory),
+		InjectPropertyAssignmentTests(idFactory))
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
