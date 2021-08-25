@@ -5,7 +5,11 @@
 
 package conversions
 
-import "github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+import (
+	"github.com/gobuffalo/flect"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+)
 
 // PropertyConversionContext captures additional supporting information that may be needed when a
 // storage conversion factory creates a conversion
@@ -109,6 +113,12 @@ func (c *PropertyConversionContext) TryCreateLocal(local string) bool {
 
 	c.knownLocals.Add(local)
 	return true
+}
+
+// CreateLocal creates a new unique Go local variable with one of the specified suffixes.
+func (c *PropertyConversionContext) CreateLocal(nameHint string, suffixes ...string) string {
+	hint := flect.Singularize(nameHint)
+	return c.knownLocals.CreateLocal(hint, suffixes...)
 }
 
 // PropertyBagName returns the name to use for a local property bag variable

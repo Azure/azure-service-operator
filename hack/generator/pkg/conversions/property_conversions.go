@@ -274,7 +274,7 @@ func assignToOptional(
 
 			// Only obtain our local variable name after we know we need it
 			// (this avoids reserving the name and not using it, which can interact with other conversions)
-			local := destinationEndpoint.CreateLocal("", "Temp")
+			local := conversionContext.CreateLocal(destinationEndpoint.Name(), "", "Temp")
 
 			assignment := astbuilder.ShortDeclaration(local, expr)
 
@@ -328,7 +328,7 @@ func pullFromBagItem(
 		return nil
 	}
 
-	local := sourceEndpoint.CreateLocal("", "Read")
+	local := conversionContext.CreateLocal(sourceEndpoint.Name(), "", "Read")
 	errIdent := dst.NewIdent("err")
 
 	return func(_ dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
@@ -449,8 +449,7 @@ func assignFromOptional(
 
 			// Only obtain our local variable name after we know we need it
 			// (this avoids reserving the name and not using it, which can interact with other conversions)
-			local := sourceEndpoint.CreateLocal("", "Read")
-
+			local := conversionContext.CreateLocal(sourceEndpoint.Name(), "", "AsRead")
 			cacheOriginal = astbuilder.ShortDeclaration(local, reader)
 			actualReader = dst.NewIdent(local)
 		}
@@ -805,9 +804,9 @@ func assignArrayFromArray(
 		// These suffixes must not overlap with those used for map conversion.
 		// (If these suffixes overlap, the naming becomes difficult to read when converting maps containing slices or
 		// vice versa.)
-		itemId := sourceEndpoint.CreateLocal("Item")
-		indexId := sourceEndpoint.CreateLocal("Index")
-		tempId := sourceEndpoint.CreateLocal("List")
+		itemId := conversionContext.CreateLocal(sourceEndpoint.Name(), "Item")
+		indexId := conversionContext.CreateLocal(sourceEndpoint.Name(), "Index")
+		tempId := conversionContext.CreateLocal(sourceEndpoint.Name(), "List")
 
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
@@ -909,9 +908,9 @@ func assignMapFromMap(
 		// These suffixes must not overlap with those used for array conversion.
 		// (If these suffixes overlap, the naming becomes difficult to read when converting maps containing slices or
 		// vice versa.)
-		itemId := sourceEndpoint.CreateLocal("Value")
-		keyId := sourceEndpoint.CreateLocal("Key")
-		tempId := sourceEndpoint.CreateLocal("Map")
+		itemId := conversionContext.CreateLocal(sourceEndpoint.Name(), "Value")
+		keyId := conversionContext.CreateLocal(sourceEndpoint.Name(), "Key")
+		tempId := conversionContext.CreateLocal(sourceEndpoint.Name(), "Map")
 
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
@@ -1000,7 +999,7 @@ func assignEnumFromEnum(
 		return nil
 	}
 
-	local := destinationEndpoint.CreateLocal("", "As"+destinationName.Name(), "Value")
+	local := conversionContext.CreateLocal(destinationEndpoint.Name(), "", "As"+destinationName.Name(), "Value")
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, ctx *astmodel.CodeGenerationContext) []dst.Stmt {
 		result := []dst.Stmt{
 			astbuilder.ShortDeclaration(local, astbuilder.CallFunc(destinationName.Name(), reader)),
@@ -1134,7 +1133,7 @@ func assignObjectFromObject(
 		return nil
 	}
 
-	copyVar := destinationEndpoint.CreateLocal()
+	copyVar := conversionContext.CreateLocal(destinationEndpoint.Name())
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		// We have to do this at render time in order to ensure the first conversion generated

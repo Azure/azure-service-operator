@@ -429,8 +429,8 @@ func (fn *PropertyAssignmentFunction) destinationType() astmodel.Type {
 // read from a property bag, false otherwise.
 func (fn *PropertyAssignmentFunction) createReadingEndpoints() (conversions.ReadableConversionEndpointSet, bool) {
 	sourceEndpoints := conversions.NewReadableConversionEndpointSet()
-	sourceEndpoints.CreatePropertyEndpoints(fn.sourceType(), fn.knownLocals)
-	sourceEndpoints.CreateValueFunctionEndpoints(fn.sourceType(), fn.knownLocals)
+	sourceEndpoints.CreatePropertyEndpoints(fn.sourceType())
+	sourceEndpoints.CreateValueFunctionEndpoints(fn.sourceType())
 
 	readsFromPropertyBag := false
 	if _, found := fn.findPropertyBagProperty(fn.sourceType()); found {
@@ -439,7 +439,7 @@ func (fn *PropertyAssignmentFunction) createReadingEndpoints() (conversions.Read
 		// To pull values from the bag, we need a readable endpoint for each *destination* property that doesn't already
 		// have one.
 		//
-		count := sourceEndpoints.CreatePropertyBagMemberEndpoints(fn.destinationType(), fn.knownLocals)
+		count := sourceEndpoints.CreatePropertyBagMemberEndpoints(fn.destinationType())
 		if count > 0 {
 			// Only flag that we're going to be reading from a property bag if this is actually going to happen
 			readsFromPropertyBag = true
@@ -455,7 +455,7 @@ func (fn *PropertyAssignmentFunction) createReadingEndpoints() (conversions.Read
 // endpoints to write into a property bag, false otherwise.
 func (fn *PropertyAssignmentFunction) createWritingEndpoints() (conversions.WritableConversionEndpointSet, bool) {
 	destinationEndpoints := conversions.NewWritableConversionEndpointSet()
-	destinationEndpoints.CreatePropertyEndpoints(fn.destinationType(), fn.knownLocals)
+	destinationEndpoints.CreatePropertyEndpoints(fn.destinationType())
 
 	writesToPropertyBag := false
 	if _, found := fn.findPropertyBagProperty(fn.destinationType()); found {
@@ -464,7 +464,7 @@ func (fn *PropertyAssignmentFunction) createWritingEndpoints() (conversions.Writ
 		// destination. To add values to the bag, we need a writable endpoint for each *source* property that doesn't
 		// already have one.
 		//
-		count := destinationEndpoints.CreatePropertyBagMemberEndpoints(fn.sourceType(), fn.knownLocals)
+		count := destinationEndpoints.CreatePropertyBagMemberEndpoints(fn.sourceType())
 		if count > 0 {
 			// Only flag that we're going to be writing to a property bag if this is actually going to happen
 			writesToPropertyBag = true
