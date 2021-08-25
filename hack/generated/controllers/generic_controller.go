@@ -30,6 +30,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	. "github.com/Azure/azure-service-operator/hack/generated/pkg/logging"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reconcilers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
 )
@@ -121,7 +122,7 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 	if err != nil {
 		return errors.Wrapf(err, "creating GVK for obj %T", obj)
 	}
-	log.V(4).Info("Registering", "GVK", gvk)
+	log.V(Status).Info("Registering", "GVK", gvk)
 
 	// TODO: Do we need to add any index fields here? DavidJ's controller index's status.id - see its usage
 	// TODO: of IndexField
@@ -198,7 +199,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	// (actually a reference or shallow copy) of an object, you'll mess up other controllers (not just your own).
 	obj = obj.DeepCopyObject().(client.Object)
 
-	gr.Log.V(1).Info(
+	gr.Log.V(Verbose).Info(
 		"Reconcile invoked",
 		"kind", fmt.Sprintf("%T", obj),
 		"resourceVersion", obj.GetResourceVersion(),
