@@ -69,7 +69,7 @@ func NewResourceConversionTestCase(
 		panic(fmt.Sprintf("expected to find ConvertTo() on %s", name))
 	}
 	if !result.fromFn.Hub().Equals(result.toFn.Hub()) {
-
+		panic(fmt.Sprintf("expected ConverFrom() and ConvertTo() on %s to be consistent", name))
 	}
 
 	result.testName = fmt.Sprintf(

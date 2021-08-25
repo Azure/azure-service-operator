@@ -175,14 +175,12 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.MarkStorageVersion(),
 
 		/*
-		  Disabled until we have the Convertible interface implemented
-
-		   If we land with a partial implementation, the controller refuses to accept the webhooks
-		   See https://github.com/kubernetes-sigs/controller-runtime/blob/master/pkg/webhook/conversion/conversion.go#L310
-
-			pipeline.InjectHubFunction(idFactory).UsedFor(pipeline.ARMTarget),
-			pipeline.ImplementConvertibleInterface(idFactory),
-			pipeline.InjectResourceConversionTestCases(idFactory).UsedFor(pipeline.ARMTarget),
+		 * Disabled until we have the Convertible interface implemented
+		 * If we land with a partial implementation, the controller refuses to accept the webhooks
+		 * See https://github.com/kubernetes-sigs/controller-runtime/blob/master/pkg/webhook/conversion/conversion.go#L310
+		 * pipeline.InjectHubFunction(idFactory).UsedFor(pipeline.ARMTarget),
+		 * pipeline.ImplementConvertibleInterface(idFactory),
+		 * pipeline.InjectResourceConversionTestCases(idFactory).UsedFor(pipeline.ARMTarget),
 		*/
 
 		// Inject test cases
