@@ -230,7 +230,7 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 	declareOther := astbuilder.LocalVariableDeclaration(
 		otherId,
 		p.toFn.ParameterType().AsType(codegenContext),
-		"// Intermediate instance for conversion")
+		"// Use AssignPropertiesTo() for the first stage of conversion")
 	declareOther.Decorations().Before = dst.NewLine
 
 	// err := subject.AssignPropertiesTo(other)
@@ -250,7 +250,7 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 	declareResult := astbuilder.LocalVariableDeclaration(
 		actualId,
 		subject.AsType(codegenContext),
-		"// Result instance after conversion")
+		"// Use AssignPropertiesFrom() to convert back to our original type")
 	declareResult.Decorations().Before = dst.EmptyLine
 
 	// err = result.AssignPropertiesFrom(other)
@@ -276,6 +276,7 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 			dst.NewIdent(actualId),
 			equateEmpty))
 	compare.Decorations().Before = dst.EmptyLine
+	astbuilder.AddComment(&compare.Decorations().Start, "Check for a match")
 
 	// if !match { result := diff.Diff(subject, actual); return result }
 	prettyPrint := &dst.IfStmt{
