@@ -17,7 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
-// PropertyAssignmentTestCase represents a test that verifies we can convert from one object in our converstion graph
+// PropertyAssignmentTestCase represents a test that verifies we can convert from one object in our conversion graph
 // to the next one, and back again, with no loss of data (lossless conversion via the PropertyBag)
 type PropertyAssignmentTestCase struct {
 	testName  string                                // The name of this particular test
