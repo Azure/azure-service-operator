@@ -92,8 +92,7 @@ func RunJSONSerializationTestForPerson(subject Person) string {
 	return ""
 }
 
-//Generator of Person instances for property testing - lazily instantiated by
-//PersonGenerator()
+// Generator of Person instances for property testing - lazily instantiated by PersonGenerator()
 var personGenerator gopter.Gen
 
 // PersonGenerator returns a generator of Person instances for property testing.
@@ -189,8 +188,7 @@ func RunJSONSerializationTestForPersonSpec(subject Person_Spec) string {
 	return ""
 }
 
-//Generator of Person_Spec instances for property testing - lazily instantiated by
-//PersonSpecGenerator()
+// Generator of Person_Spec instances for property testing - lazily instantiated by PersonSpecGenerator()
 var personSpecGenerator gopter.Gen
 
 // PersonSpecGenerator returns a generator of Person_Spec instances for property testing.
@@ -287,8 +285,7 @@ func RunJSONSerializationTestForPersonStatus(subject Person_Status) string {
 	return ""
 }
 
-//Generator of Person_Status instances for property testing - lazily instantiated
-//by PersonStatusGenerator()
+// Generator of Person_Status instances for property testing - lazily instantiated by PersonStatusGenerator()
 var personStatusGenerator gopter.Gen
 
 // PersonStatusGenerator returns a generator of Person_Status instances for property testing.
