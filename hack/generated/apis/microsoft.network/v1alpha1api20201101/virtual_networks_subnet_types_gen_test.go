@@ -5,6 +5,7 @@ package v1alpha1api20201101
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,44 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_VirtualNetworksSubnet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksSubnet to VirtualNetworksSubnet via AssignPropertiesToVirtualNetworksSubnet & AssignPropertiesFromVirtualNetworksSubnet returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksSubnet, VirtualNetworksSubnetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworksSubnet tests if a specific instance of VirtualNetworksSubnet can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksSubnet(subject VirtualNetworksSubnet) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.VirtualNetworksSubnet
+	err := subject.AssignPropertiesToVirtualNetworksSubnet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworksSubnet
+	err = actual.AssignPropertiesFromVirtualNetworksSubnet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_VirtualNetworksSubnet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
@@ -29,17 +68,20 @@ func Test_VirtualNetworksSubnet_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForVirtualNetworksSubnet runs a test to see if a specific instance of VirtualNetworksSubnet round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSubnet(subject VirtualNetworksSubnet) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworksSubnet
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +93,8 @@ func RunJSONSerializationTestForVirtualNetworksSubnet(subject VirtualNetworksSub
 	return ""
 }
 
-//Generator of VirtualNetworksSubnet instances for property testing - lazily
-//instantiated by VirtualNetworksSubnetGenerator()
+// Generator of VirtualNetworksSubnet instances for property testing - lazily instantiated by
+//VirtualNetworksSubnetGenerator()
 var virtualNetworksSubnetGenerator gopter.Gen
 
 // VirtualNetworksSubnetGenerator returns a generator of VirtualNetworksSubnet instances for property testing.
@@ -74,6 +116,44 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSubnet(gens map[string]gopter
 	gens["Status"] = SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 }
 
+func Test_Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded to Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToSubnetStatusVirtualNetworksSubnetSubResourceEmbedded & AssignPropertiesFromSubnetStatusVirtualNetworksSubnetSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded, SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded tests if a specific instance of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(subject Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err := subject.AssignPropertiesToSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err = actual.AssignPropertiesFromSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -86,17 +166,20 @@ func Test_Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerialized
 
 // RunJSONSerializationTestForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(subject Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,9 +191,8 @@ func RunJSONSerializationTestForSubnetStatusVirtualNetworksSubnetSubResourceEmbe
 	return ""
 }
 
-//Generator of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instances
-//for property testing - lazily instantiated by
-//SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// Generator of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
+//instantiated by SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var subnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -166,6 +248,44 @@ func AddRelatedPropertyGeneratorsForSubnetStatusVirtualNetworksSubnetSubResource
 	gens["ServiceEndpoints"] = gen.SliceOf(ServiceEndpointPropertiesFormatStatusGenerator())
 }
 
+func Test_VirtualNetworksSubnets_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksSubnets_Spec to VirtualNetworksSubnets_Spec via AssignPropertiesToVirtualNetworksSubnetsSpec & AssignPropertiesFromVirtualNetworksSubnetsSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksSubnetsSpec, VirtualNetworksSubnetsSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworksSubnetsSpec tests if a specific instance of VirtualNetworksSubnets_Spec can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksSubnetsSpec(subject VirtualNetworksSubnets_Spec) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.VirtualNetworksSubnets_Spec
+	err := subject.AssignPropertiesToVirtualNetworksSubnetsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworksSubnets_Spec
+	err = actual.AssignPropertiesFromVirtualNetworksSubnetsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_VirtualNetworksSubnets_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -178,17 +298,20 @@ func Test_VirtualNetworksSubnets_Spec_WhenSerializedToJson_DeserializesAsEqual(t
 
 // RunJSONSerializationTestForVirtualNetworksSubnetsSpec runs a test to see if a specific instance of VirtualNetworksSubnets_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSubnetsSpec(subject VirtualNetworksSubnets_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworksSubnets_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -200,8 +323,8 @@ func RunJSONSerializationTestForVirtualNetworksSubnetsSpec(subject VirtualNetwor
 	return ""
 }
 
-//Generator of VirtualNetworksSubnets_Spec instances for property testing - lazily
-//instantiated by VirtualNetworksSubnetsSpecGenerator()
+// Generator of VirtualNetworksSubnets_Spec instances for property testing - lazily instantiated by
+//VirtualNetworksSubnetsSpecGenerator()
 var virtualNetworksSubnetsSpecGenerator gopter.Gen
 
 // VirtualNetworksSubnetsSpecGenerator returns a generator of VirtualNetworksSubnets_Spec instances for property testing.
@@ -248,6 +371,44 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSubnetsSpec(gens map[string]g
 	gens["ServiceEndpoints"] = gen.SliceOf(ServiceEndpointPropertiesFormatGenerator())
 }
 
+func Test_ApplicationGatewayIPConfiguration_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayIPConfiguration_Status to ApplicationGatewayIPConfiguration_Status via AssignPropertiesToApplicationGatewayIPConfigurationStatus & AssignPropertiesFromApplicationGatewayIPConfigurationStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayIPConfigurationStatus, ApplicationGatewayIPConfigurationStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayIPConfigurationStatus tests if a specific instance of ApplicationGatewayIPConfiguration_Status can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayIPConfigurationStatus(subject ApplicationGatewayIPConfiguration_Status) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Status
+	err := subject.AssignPropertiesToApplicationGatewayIPConfigurationStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayIPConfiguration_Status
+	err = actual.AssignPropertiesFromApplicationGatewayIPConfigurationStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ApplicationGatewayIPConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -260,17 +421,20 @@ func Test_ApplicationGatewayIPConfiguration_Status_WhenSerializedToJson_Deserial
 
 // RunJSONSerializationTestForApplicationGatewayIPConfigurationStatus runs a test to see if a specific instance of ApplicationGatewayIPConfiguration_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForApplicationGatewayIPConfigurationStatus(subject ApplicationGatewayIPConfiguration_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ApplicationGatewayIPConfiguration_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -282,8 +446,7 @@ func RunJSONSerializationTestForApplicationGatewayIPConfigurationStatus(subject 
 	return ""
 }
 
-//Generator of ApplicationGatewayIPConfiguration_Status instances for property
-//testing - lazily instantiated by
+// Generator of ApplicationGatewayIPConfiguration_Status instances for property testing - lazily instantiated by
 //ApplicationGatewayIPConfigurationStatusGenerator()
 var applicationGatewayIPConfigurationStatusGenerator gopter.Gen
 
@@ -323,6 +486,44 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayIPConfigurationStatus(gens
 	gens["Subnet"] = gen.PtrOf(SubResourceStatusGenerator())
 }
 
+func Test_Delegation_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Delegation_Status to Delegation_Status via AssignPropertiesToDelegationStatus & AssignPropertiesFromDelegationStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDelegationStatus, DelegationStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDelegationStatus tests if a specific instance of Delegation_Status can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForDelegationStatus(subject Delegation_Status) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.Delegation_Status
+	err := subject.AssignPropertiesToDelegationStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Delegation_Status
+	err = actual.AssignPropertiesFromDelegationStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Delegation_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -335,17 +536,20 @@ func Test_Delegation_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 
 // RunJSONSerializationTestForDelegationStatus runs a test to see if a specific instance of Delegation_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForDelegationStatus(subject Delegation_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Delegation_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -357,8 +561,7 @@ func RunJSONSerializationTestForDelegationStatus(subject Delegation_Status) stri
 	return ""
 }
 
-//Generator of Delegation_Status instances for property testing - lazily
-//instantiated by DelegationStatusGenerator()
+// Generator of Delegation_Status instances for property testing - lazily instantiated by DelegationStatusGenerator()
 var delegationStatusGenerator gopter.Gen
 
 // DelegationStatusGenerator returns a generator of Delegation_Status instances for property testing.
@@ -385,6 +588,44 @@ func AddIndependentPropertyGeneratorsForDelegationStatus(gens map[string]gopter.
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded to IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded & AssignPropertiesFromIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded, IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded tests if a specific instance of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(subject IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err := subject.AssignPropertiesToIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err = actual.AssignPropertiesFromIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -397,17 +638,20 @@ func Test_IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedde
 
 // RunJSONSerializationTestForIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(subject IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -419,10 +663,8 @@ func RunJSONSerializationTestForIPConfigurationProfileStatusVirtualNetworksSubne
 	return ""
 }
 
-//Generator of
-//IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// Generator of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing -
+//lazily instantiated by IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -447,6 +689,44 @@ func AddIndependentPropertyGeneratorsForIPConfigurationProfileStatusVirtualNetwo
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded to IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded & AssignPropertiesFromIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded, IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded tests if a specific instance of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(subject IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err := subject.AssignPropertiesToIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err = actual.AssignPropertiesFromIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -459,17 +739,20 @@ func Test_IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenS
 
 // RunJSONSerializationTestForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(subject IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -481,9 +764,8 @@ func RunJSONSerializationTestForIPConfigurationStatusVirtualNetworksSubnetSubRes
 	return ""
 }
 
-//Generator of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// Generator of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
+//instantiated by IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -523,6 +805,44 @@ func AddRelatedPropertyGeneratorsForIPConfigurationStatusVirtualNetworksSubnetSu
 	gens["PublicIPAddress"] = gen.PtrOf(PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator())
 }
 
+func Test_NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded to NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded & AssignPropertiesFromNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded, NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded tests if a specific instance of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(subject NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err := subject.AssignPropertiesToNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err = actual.AssignPropertiesFromNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -535,17 +855,20 @@ func Test_NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded_
 
 // RunJSONSerializationTestForNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(subject NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -557,10 +880,8 @@ func RunJSONSerializationTestForNetworkSecurityGroupStatusVirtualNetworksSubnetS
 	return ""
 }
 
-//Generator of
-//NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instances
-//for property testing - lazily instantiated by
-//NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// Generator of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing -
+//lazily instantiated by NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -581,6 +902,44 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroupStatusVirtualNetwork
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded to PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded & AssignPropertiesFromPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded, PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded tests if a specific instance of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(subject PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err := subject.AssignPropertiesToPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err = actual.AssignPropertiesFromPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -593,17 +952,20 @@ func Test_PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenS
 
 // RunJSONSerializationTestForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(subject PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -615,9 +977,8 @@ func RunJSONSerializationTestForPrivateEndpointStatusVirtualNetworksSubnetSubRes
 	return ""
 }
 
-//Generator of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// Generator of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
+//instantiated by PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var privateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -652,6 +1013,44 @@ func AddRelatedPropertyGeneratorsForPrivateEndpointStatusVirtualNetworksSubnetSu
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationStatusGenerator())
 }
 
+func Test_ResourceNavigationLink_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ResourceNavigationLink_Status to ResourceNavigationLink_Status via AssignPropertiesToResourceNavigationLinkStatus & AssignPropertiesFromResourceNavigationLinkStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForResourceNavigationLinkStatus, ResourceNavigationLinkStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForResourceNavigationLinkStatus tests if a specific instance of ResourceNavigationLink_Status can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForResourceNavigationLinkStatus(subject ResourceNavigationLink_Status) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.ResourceNavigationLink_Status
+	err := subject.AssignPropertiesToResourceNavigationLinkStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ResourceNavigationLink_Status
+	err = actual.AssignPropertiesFromResourceNavigationLinkStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ResourceNavigationLink_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -664,17 +1063,20 @@ func Test_ResourceNavigationLink_Status_WhenSerializedToJson_DeserializesAsEqual
 
 // RunJSONSerializationTestForResourceNavigationLinkStatus runs a test to see if a specific instance of ResourceNavigationLink_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForResourceNavigationLinkStatus(subject ResourceNavigationLink_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ResourceNavigationLink_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -686,8 +1088,8 @@ func RunJSONSerializationTestForResourceNavigationLinkStatus(subject ResourceNav
 	return ""
 }
 
-//Generator of ResourceNavigationLink_Status instances for property testing -
-//lazily instantiated by ResourceNavigationLinkStatusGenerator()
+// Generator of ResourceNavigationLink_Status instances for property testing - lazily instantiated by
+//ResourceNavigationLinkStatusGenerator()
 var resourceNavigationLinkStatusGenerator gopter.Gen
 
 // ResourceNavigationLinkStatusGenerator returns a generator of ResourceNavigationLink_Status instances for property testing.
@@ -714,6 +1116,44 @@ func AddIndependentPropertyGeneratorsForResourceNavigationLinkStatus(gens map[st
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded to RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded & AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded, RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded tests if a specific instance of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(subject RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err := subject.AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err = actual.AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -726,17 +1166,20 @@ func Test_RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerial
 
 // RunJSONSerializationTestForRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(subject RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -748,9 +1191,8 @@ func RunJSONSerializationTestForRouteTableStatusVirtualNetworksSubnetSubResource
 	return ""
 }
 
-//Generator of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// Generator of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
+//instantiated by RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var routeTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -771,6 +1213,44 @@ func AddIndependentPropertyGeneratorsForRouteTableStatusVirtualNetworksSubnetSub
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServiceAssociationLink_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServiceAssociationLink_Status to ServiceAssociationLink_Status via AssignPropertiesToServiceAssociationLinkStatus & AssignPropertiesFromServiceAssociationLinkStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceAssociationLinkStatus, ServiceAssociationLinkStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServiceAssociationLinkStatus tests if a specific instance of ServiceAssociationLink_Status can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForServiceAssociationLinkStatus(subject ServiceAssociationLink_Status) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.ServiceAssociationLink_Status
+	err := subject.AssignPropertiesToServiceAssociationLinkStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServiceAssociationLink_Status
+	err = actual.AssignPropertiesFromServiceAssociationLinkStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServiceAssociationLink_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -783,17 +1263,20 @@ func Test_ServiceAssociationLink_Status_WhenSerializedToJson_DeserializesAsEqual
 
 // RunJSONSerializationTestForServiceAssociationLinkStatus runs a test to see if a specific instance of ServiceAssociationLink_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForServiceAssociationLinkStatus(subject ServiceAssociationLink_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ServiceAssociationLink_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -805,8 +1288,8 @@ func RunJSONSerializationTestForServiceAssociationLinkStatus(subject ServiceAsso
 	return ""
 }
 
-//Generator of ServiceAssociationLink_Status instances for property testing -
-//lazily instantiated by ServiceAssociationLinkStatusGenerator()
+// Generator of ServiceAssociationLink_Status instances for property testing - lazily instantiated by
+//ServiceAssociationLinkStatusGenerator()
 var serviceAssociationLinkStatusGenerator gopter.Gen
 
 // ServiceAssociationLinkStatusGenerator returns a generator of ServiceAssociationLink_Status instances for property testing.
@@ -835,6 +1318,44 @@ func AddIndependentPropertyGeneratorsForServiceAssociationLinkStatus(gens map[st
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded to ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded & AssignPropertiesFromServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded, ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded tests if a specific instance of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(subject ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err := subject.AssignPropertiesToServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err = actual.AssignPropertiesFromServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -847,17 +1368,20 @@ func Test_ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
 
 // RunJSONSerializationTestForServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(subject ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -869,10 +1393,8 @@ func RunJSONSerializationTestForServiceEndpointPolicyStatusVirtualNetworksSubnet
 	return ""
 }
 
-//Generator of
-//ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instances
-//for property testing - lazily instantiated by
-//ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// Generator of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing -
+//lazily instantiated by ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -894,6 +1416,44 @@ func AddIndependentPropertyGeneratorsForServiceEndpointPolicyStatusVirtualNetwor
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServiceEndpointPropertiesFormat_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServiceEndpointPropertiesFormat to ServiceEndpointPropertiesFormat via AssignPropertiesToServiceEndpointPropertiesFormat & AssignPropertiesFromServiceEndpointPropertiesFormat returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceEndpointPropertiesFormat, ServiceEndpointPropertiesFormatGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServiceEndpointPropertiesFormat tests if a specific instance of ServiceEndpointPropertiesFormat can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForServiceEndpointPropertiesFormat(subject ServiceEndpointPropertiesFormat) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.ServiceEndpointPropertiesFormat
+	err := subject.AssignPropertiesToServiceEndpointPropertiesFormat(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServiceEndpointPropertiesFormat
+	err = actual.AssignPropertiesFromServiceEndpointPropertiesFormat(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServiceEndpointPropertiesFormat_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -906,17 +1466,20 @@ func Test_ServiceEndpointPropertiesFormat_WhenSerializedToJson_DeserializesAsEqu
 
 // RunJSONSerializationTestForServiceEndpointPropertiesFormat runs a test to see if a specific instance of ServiceEndpointPropertiesFormat round trips to JSON and back losslessly
 func RunJSONSerializationTestForServiceEndpointPropertiesFormat(subject ServiceEndpointPropertiesFormat) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ServiceEndpointPropertiesFormat
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -928,8 +1491,8 @@ func RunJSONSerializationTestForServiceEndpointPropertiesFormat(subject ServiceE
 	return ""
 }
 
-//Generator of ServiceEndpointPropertiesFormat instances for property testing -
-//lazily instantiated by ServiceEndpointPropertiesFormatGenerator()
+// Generator of ServiceEndpointPropertiesFormat instances for property testing - lazily instantiated by
+//ServiceEndpointPropertiesFormatGenerator()
 var serviceEndpointPropertiesFormatGenerator gopter.Gen
 
 // ServiceEndpointPropertiesFormatGenerator returns a generator of ServiceEndpointPropertiesFormat instances for property testing.
@@ -951,6 +1514,44 @@ func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat(gens map
 	gens["Service"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServiceEndpointPropertiesFormat_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServiceEndpointPropertiesFormat_Status to ServiceEndpointPropertiesFormat_Status via AssignPropertiesToServiceEndpointPropertiesFormatStatus & AssignPropertiesFromServiceEndpointPropertiesFormatStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceEndpointPropertiesFormatStatus, ServiceEndpointPropertiesFormatStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServiceEndpointPropertiesFormatStatus tests if a specific instance of ServiceEndpointPropertiesFormat_Status can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForServiceEndpointPropertiesFormatStatus(subject ServiceEndpointPropertiesFormat_Status) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Status
+	err := subject.AssignPropertiesToServiceEndpointPropertiesFormatStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServiceEndpointPropertiesFormat_Status
+	err = actual.AssignPropertiesFromServiceEndpointPropertiesFormatStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServiceEndpointPropertiesFormat_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -963,17 +1564,20 @@ func Test_ServiceEndpointPropertiesFormat_Status_WhenSerializedToJson_Deserializ
 
 // RunJSONSerializationTestForServiceEndpointPropertiesFormatStatus runs a test to see if a specific instance of ServiceEndpointPropertiesFormat_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForServiceEndpointPropertiesFormatStatus(subject ServiceEndpointPropertiesFormat_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ServiceEndpointPropertiesFormat_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -985,8 +1589,8 @@ func RunJSONSerializationTestForServiceEndpointPropertiesFormatStatus(subject Se
 	return ""
 }
 
-//Generator of ServiceEndpointPropertiesFormat_Status instances for property
-//testing - lazily instantiated by ServiceEndpointPropertiesFormatStatusGenerator()
+// Generator of ServiceEndpointPropertiesFormat_Status instances for property testing - lazily instantiated by
+//ServiceEndpointPropertiesFormatStatusGenerator()
 var serviceEndpointPropertiesFormatStatusGenerator gopter.Gen
 
 // ServiceEndpointPropertiesFormatStatusGenerator returns a generator of ServiceEndpointPropertiesFormat_Status instances for property testing.
@@ -1009,6 +1613,44 @@ func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormatStatus(ge
 	gens["Service"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_VirtualNetworksSubnets_Spec_Properties_Delegations_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksSubnets_Spec_Properties_Delegations to VirtualNetworksSubnets_Spec_Properties_Delegations via AssignPropertiesToVirtualNetworksSubnetsSpecPropertiesDelegations & AssignPropertiesFromVirtualNetworksSubnetsSpecPropertiesDelegations returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksSubnetsSpecPropertiesDelegations, VirtualNetworksSubnetsSpecPropertiesDelegationsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworksSubnetsSpecPropertiesDelegations tests if a specific instance of VirtualNetworksSubnets_Spec_Properties_Delegations can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksSubnetsSpecPropertiesDelegations(subject VirtualNetworksSubnets_Spec_Properties_Delegations) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.VirtualNetworksSubnets_Spec_Properties_Delegations
+	err := subject.AssignPropertiesToVirtualNetworksSubnetsSpecPropertiesDelegations(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworksSubnets_Spec_Properties_Delegations
+	err = actual.AssignPropertiesFromVirtualNetworksSubnetsSpecPropertiesDelegations(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_VirtualNetworksSubnets_Spec_Properties_Delegations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -1021,17 +1663,20 @@ func Test_VirtualNetworksSubnets_Spec_Properties_Delegations_WhenSerializedToJso
 
 // RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesDelegations runs a test to see if a specific instance of VirtualNetworksSubnets_Spec_Properties_Delegations round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesDelegations(subject VirtualNetworksSubnets_Spec_Properties_Delegations) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworksSubnets_Spec_Properties_Delegations
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1043,9 +1688,8 @@ func RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesDelegations(
 	return ""
 }
 
-//Generator of VirtualNetworksSubnets_Spec_Properties_Delegations instances for
-//property testing - lazily instantiated by
-//VirtualNetworksSubnetsSpecPropertiesDelegationsGenerator()
+// Generator of VirtualNetworksSubnets_Spec_Properties_Delegations instances for property testing - lazily instantiated
+//by VirtualNetworksSubnetsSpecPropertiesDelegationsGenerator()
 var virtualNetworksSubnetsSpecPropertiesDelegationsGenerator gopter.Gen
 
 // VirtualNetworksSubnetsSpecPropertiesDelegationsGenerator returns a generator of VirtualNetworksSubnets_Spec_Properties_Delegations instances for property testing.
@@ -1067,6 +1711,44 @@ func AddIndependentPropertyGeneratorsForVirtualNetworksSubnetsSpecPropertiesDele
 	gens["ServiceName"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded to PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded & AssignPropertiesFromPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded, PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded tests if a specific instance of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(subject PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err := subject.AssignPropertiesToPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err = actual.AssignPropertiesFromPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -1079,17 +1761,20 @@ func Test_PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded_WhenS
 
 // RunJSONSerializationTestForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded runs a test to see if a specific instance of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(subject PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1101,9 +1786,8 @@ func RunJSONSerializationTestForPublicIPAddressStatusVirtualNetworksSubnetSubRes
 	return ""
 }
 
-//Generator of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// Generator of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
+//instantiated by PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.

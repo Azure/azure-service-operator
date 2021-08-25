@@ -29,17 +29,20 @@ func Test_PublicIPAddress_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 
 // RunJSONSerializationTestForPublicIPAddress runs a test to see if a specific instance of PublicIPAddress round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddress(subject PublicIPAddress) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddress
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForPublicIPAddress(subject PublicIPAddress) string 
 	return ""
 }
 
-//Generator of PublicIPAddress instances for property testing - lazily
-//instantiated by PublicIPAddressGenerator()
+// Generator of PublicIPAddress instances for property testing - lazily instantiated by PublicIPAddressGenerator()
 var publicIPAddressGenerator gopter.Gen
 
 // PublicIPAddressGenerator returns a generator of PublicIPAddress instances for property testing.
@@ -86,17 +88,20 @@ func Test_PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded_WhenSeriali
 
 // RunJSONSerializationTestForPublicIPAddressStatusPublicIPAddressSubResourceEmbedded runs a test to see if a specific instance of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(subject PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,9 +113,8 @@ func RunJSONSerializationTestForPublicIPAddressStatusPublicIPAddressSubResourceE
 	return ""
 }
 
-//Generator of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// Generator of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily
+//instantiated by PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var publicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.
@@ -177,17 +181,20 @@ func Test_PublicIPAddresses_Spec_WhenSerializedToJson_DeserializesAsEqual(t *tes
 
 // RunJSONSerializationTestForPublicIPAddressesSpec runs a test to see if a specific instance of PublicIPAddresses_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressesSpec(subject PublicIPAddresses_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddresses_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -199,8 +206,8 @@ func RunJSONSerializationTestForPublicIPAddressesSpec(subject PublicIPAddresses_
 	return ""
 }
 
-//Generator of PublicIPAddresses_Spec instances for property testing - lazily
-//instantiated by PublicIPAddressesSpecGenerator()
+// Generator of PublicIPAddresses_Spec instances for property testing - lazily instantiated by
+//PublicIPAddressesSpecGenerator()
 var publicIPAddressesSpecGenerator gopter.Gen
 
 // PublicIPAddressesSpecGenerator returns a generator of PublicIPAddresses_Spec instances for property testing.
@@ -260,17 +267,20 @@ func Test_DdosSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForDdosSettings runs a test to see if a specific instance of DdosSettings round trips to JSON and back losslessly
 func RunJSONSerializationTestForDdosSettings(subject DdosSettings) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual DdosSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -282,8 +292,7 @@ func RunJSONSerializationTestForDdosSettings(subject DdosSettings) string {
 	return ""
 }
 
-//Generator of DdosSettings instances for property testing - lazily instantiated
-//by DdosSettingsGenerator()
+// Generator of DdosSettings instances for property testing - lazily instantiated by DdosSettingsGenerator()
 var ddosSettingsGenerator gopter.Gen
 
 // DdosSettingsGenerator returns a generator of DdosSettings instances for property testing.
@@ -331,17 +340,20 @@ func Test_DdosSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testin
 
 // RunJSONSerializationTestForDdosSettingsStatus runs a test to see if a specific instance of DdosSettings_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForDdosSettingsStatus(subject DdosSettings_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual DdosSettings_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -353,8 +365,7 @@ func RunJSONSerializationTestForDdosSettingsStatus(subject DdosSettings_Status) 
 	return ""
 }
 
-//Generator of DdosSettings_Status instances for property testing - lazily
-//instantiated by DdosSettingsStatusGenerator()
+// Generator of DdosSettings_Status instances for property testing - lazily instantiated by DdosSettingsStatusGenerator()
 var ddosSettingsStatusGenerator gopter.Gen
 
 // DdosSettingsStatusGenerator returns a generator of DdosSettings_Status instances for property testing.
@@ -402,17 +413,20 @@ func Test_IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded_WhenSeriali
 
 // RunJSONSerializationTestForIPConfigurationStatusPublicIPAddressSubResourceEmbedded runs a test to see if a specific instance of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForIPConfigurationStatusPublicIPAddressSubResourceEmbedded(subject IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -424,9 +438,8 @@ func RunJSONSerializationTestForIPConfigurationStatusPublicIPAddressSubResourceE
 	return ""
 }
 
-//Generator of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//IPConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// Generator of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily
+//instantiated by IPConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var ipConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // IPConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.
@@ -478,17 +491,20 @@ func Test_IpTag_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForIpTag runs a test to see if a specific instance of IpTag round trips to JSON and back losslessly
 func RunJSONSerializationTestForIpTag(subject IpTag) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IpTag
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -500,8 +516,7 @@ func RunJSONSerializationTestForIpTag(subject IpTag) string {
 	return ""
 }
 
-//Generator of IpTag instances for property testing - lazily instantiated by
-//IpTagGenerator()
+// Generator of IpTag instances for property testing - lazily instantiated by IpTagGenerator()
 var ipTagGenerator gopter.Gen
 
 // IpTagGenerator returns a generator of IpTag instances for property testing.
@@ -535,17 +550,20 @@ func Test_IpTag_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForIpTagStatus runs a test to see if a specific instance of IpTag_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForIpTagStatus(subject IpTag_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IpTag_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -557,8 +575,7 @@ func RunJSONSerializationTestForIpTagStatus(subject IpTag_Status) string {
 	return ""
 }
 
-//Generator of IpTag_Status instances for property testing - lazily instantiated
-//by IpTagStatusGenerator()
+// Generator of IpTag_Status instances for property testing - lazily instantiated by IpTagStatusGenerator()
 var ipTagStatusGenerator gopter.Gen
 
 // IpTagStatusGenerator returns a generator of IpTag_Status instances for property testing.
@@ -592,17 +609,20 @@ func Test_NatGateway_Status_PublicIPAddress_SubResourceEmbedded_WhenSerializedTo
 
 // RunJSONSerializationTestForNatGatewayStatusPublicIPAddressSubResourceEmbedded runs a test to see if a specific instance of NatGateway_Status_PublicIPAddress_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForNatGatewayStatusPublicIPAddressSubResourceEmbedded(subject NatGateway_Status_PublicIPAddress_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NatGateway_Status_PublicIPAddress_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -614,9 +634,8 @@ func RunJSONSerializationTestForNatGatewayStatusPublicIPAddressSubResourceEmbedd
 	return ""
 }
 
-//Generator of NatGateway_Status_PublicIPAddress_SubResourceEmbedded instances for
-//property testing - lazily instantiated by
-//NatGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// Generator of NatGateway_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily
+//instantiated by NatGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var natGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // NatGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of NatGateway_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.
@@ -664,17 +683,20 @@ func Test_PublicIPAddressDnsSettings_WhenSerializedToJson_DeserializesAsEqual(t 
 
 // RunJSONSerializationTestForPublicIPAddressDnsSettings runs a test to see if a specific instance of PublicIPAddressDnsSettings round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressDnsSettings(subject PublicIPAddressDnsSettings) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddressDnsSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -686,8 +708,8 @@ func RunJSONSerializationTestForPublicIPAddressDnsSettings(subject PublicIPAddre
 	return ""
 }
 
-//Generator of PublicIPAddressDnsSettings instances for property testing - lazily
-//instantiated by PublicIPAddressDnsSettingsGenerator()
+// Generator of PublicIPAddressDnsSettings instances for property testing - lazily instantiated by
+//PublicIPAddressDnsSettingsGenerator()
 var publicIPAddressDnsSettingsGenerator gopter.Gen
 
 // PublicIPAddressDnsSettingsGenerator returns a generator of PublicIPAddressDnsSettings instances for property testing.
@@ -722,17 +744,20 @@ func Test_PublicIPAddressDnsSettings_Status_WhenSerializedToJson_DeserializesAsE
 
 // RunJSONSerializationTestForPublicIPAddressDnsSettingsStatus runs a test to see if a specific instance of PublicIPAddressDnsSettings_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressDnsSettingsStatus(subject PublicIPAddressDnsSettings_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddressDnsSettings_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -744,8 +769,8 @@ func RunJSONSerializationTestForPublicIPAddressDnsSettingsStatus(subject PublicI
 	return ""
 }
 
-//Generator of PublicIPAddressDnsSettings_Status instances for property testing -
-//lazily instantiated by PublicIPAddressDnsSettingsStatusGenerator()
+// Generator of PublicIPAddressDnsSettings_Status instances for property testing - lazily instantiated by
+//PublicIPAddressDnsSettingsStatusGenerator()
 var publicIPAddressDnsSettingsStatusGenerator gopter.Gen
 
 // PublicIPAddressDnsSettingsStatusGenerator returns a generator of PublicIPAddressDnsSettings_Status instances for property testing.
@@ -780,17 +805,20 @@ func Test_PublicIPAddressSku_WhenSerializedToJson_DeserializesAsEqual(t *testing
 
 // RunJSONSerializationTestForPublicIPAddressSku runs a test to see if a specific instance of PublicIPAddressSku round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressSku(subject PublicIPAddressSku) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddressSku
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -802,8 +830,7 @@ func RunJSONSerializationTestForPublicIPAddressSku(subject PublicIPAddressSku) s
 	return ""
 }
 
-//Generator of PublicIPAddressSku instances for property testing - lazily
-//instantiated by PublicIPAddressSkuGenerator()
+// Generator of PublicIPAddressSku instances for property testing - lazily instantiated by PublicIPAddressSkuGenerator()
 var publicIPAddressSkuGenerator gopter.Gen
 
 // PublicIPAddressSkuGenerator returns a generator of PublicIPAddressSku instances for property testing.
@@ -837,17 +864,20 @@ func Test_PublicIPAddressSku_Status_WhenSerializedToJson_DeserializesAsEqual(t *
 
 // RunJSONSerializationTestForPublicIPAddressSkuStatus runs a test to see if a specific instance of PublicIPAddressSku_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressSkuStatus(subject PublicIPAddressSku_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddressSku_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -859,8 +889,8 @@ func RunJSONSerializationTestForPublicIPAddressSkuStatus(subject PublicIPAddress
 	return ""
 }
 
-//Generator of PublicIPAddressSku_Status instances for property testing - lazily
-//instantiated by PublicIPAddressSkuStatusGenerator()
+// Generator of PublicIPAddressSku_Status instances for property testing - lazily instantiated by
+//PublicIPAddressSkuStatusGenerator()
 var publicIPAddressSkuStatusGenerator gopter.Gen
 
 // PublicIPAddressSkuStatusGenerator returns a generator of PublicIPAddressSku_Status instances for property testing.
@@ -894,17 +924,20 @@ func Test_SubResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing
 
 // RunJSONSerializationTestForSubResourceStatus runs a test to see if a specific instance of SubResource_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForSubResourceStatus(subject SubResource_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SubResource_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -916,8 +949,7 @@ func RunJSONSerializationTestForSubResourceStatus(subject SubResource_Status) st
 	return ""
 }
 
-//Generator of SubResource_Status instances for property testing - lazily
-//instantiated by SubResourceStatusGenerator()
+// Generator of SubResource_Status instances for property testing - lazily instantiated by SubResourceStatusGenerator()
 var subResourceStatusGenerator gopter.Gen
 
 // SubResourceStatusGenerator returns a generator of SubResource_Status instances for property testing.
@@ -950,17 +982,20 @@ func Test_NatGatewaySku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForNatGatewaySkuStatus runs a test to see if a specific instance of NatGatewaySku_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForNatGatewaySkuStatus(subject NatGatewaySku_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NatGatewaySku_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -972,8 +1007,8 @@ func RunJSONSerializationTestForNatGatewaySkuStatus(subject NatGatewaySku_Status
 	return ""
 }
 
-//Generator of NatGatewaySku_Status instances for property testing - lazily
-//instantiated by NatGatewaySkuStatusGenerator()
+// Generator of NatGatewaySku_Status instances for property testing - lazily instantiated by
+//NatGatewaySkuStatusGenerator()
 var natGatewaySkuStatusGenerator gopter.Gen
 
 // NatGatewaySkuStatusGenerator returns a generator of NatGatewaySku_Status instances for property testing.
@@ -1006,17 +1041,20 @@ func Test_Subnet_Status_PublicIPAddress_SubResourceEmbedded_WhenSerializedToJson
 
 // RunJSONSerializationTestForSubnetStatusPublicIPAddressSubResourceEmbedded runs a test to see if a specific instance of Subnet_Status_PublicIPAddress_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForSubnetStatusPublicIPAddressSubResourceEmbedded(subject Subnet_Status_PublicIPAddress_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Subnet_Status_PublicIPAddress_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1028,9 +1066,8 @@ func RunJSONSerializationTestForSubnetStatusPublicIPAddressSubResourceEmbedded(s
 	return ""
 }
 
-//Generator of Subnet_Status_PublicIPAddress_SubResourceEmbedded instances for
-//property testing - lazily instantiated by
-//SubnetStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// Generator of Subnet_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily instantiated
+//by SubnetStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var subnetStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // SubnetStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of Subnet_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.

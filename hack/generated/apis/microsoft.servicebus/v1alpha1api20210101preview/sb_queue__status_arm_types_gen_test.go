@@ -29,17 +29,20 @@ func Test_SBQueue_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 
 // RunJSONSerializationTestForSBQueueStatusARM runs a test to see if a specific instance of SBQueue_StatusARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBQueueStatusARM(subject SBQueue_StatusARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SBQueue_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForSBQueueStatusARM(subject SBQueue_StatusARM) stri
 	return ""
 }
 
-//Generator of SBQueue_StatusARM instances for property testing - lazily
-//instantiated by SBQueueStatusARMGenerator()
+// Generator of SBQueue_StatusARM instances for property testing - lazily instantiated by SBQueueStatusARMGenerator()
 var sbQueueStatusARMGenerator gopter.Gen
 
 // SBQueueStatusARMGenerator returns a generator of SBQueue_StatusARM instances for property testing.
@@ -102,17 +104,20 @@ func Test_SBQueueProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t
 
 // RunJSONSerializationTestForSBQueuePropertiesStatusARM runs a test to see if a specific instance of SBQueueProperties_StatusARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBQueuePropertiesStatusARM(subject SBQueueProperties_StatusARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SBQueueProperties_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -124,8 +129,8 @@ func RunJSONSerializationTestForSBQueuePropertiesStatusARM(subject SBQueueProper
 	return ""
 }
 
-//Generator of SBQueueProperties_StatusARM instances for property testing - lazily
-//instantiated by SBQueuePropertiesStatusARMGenerator()
+// Generator of SBQueueProperties_StatusARM instances for property testing - lazily instantiated by
+//SBQueuePropertiesStatusARMGenerator()
 var sbQueuePropertiesStatusARMGenerator gopter.Gen
 
 // SBQueuePropertiesStatusARMGenerator returns a generator of SBQueueProperties_StatusARM instances for property testing.
@@ -191,17 +196,20 @@ func Test_MessageCountDetails_StatusARM_WhenSerializedToJson_DeserializesAsEqual
 
 // RunJSONSerializationTestForMessageCountDetailsStatusARM runs a test to see if a specific instance of MessageCountDetails_StatusARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForMessageCountDetailsStatusARM(subject MessageCountDetails_StatusARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual MessageCountDetails_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -213,8 +221,8 @@ func RunJSONSerializationTestForMessageCountDetailsStatusARM(subject MessageCoun
 	return ""
 }
 
-//Generator of MessageCountDetails_StatusARM instances for property testing -
-//lazily instantiated by MessageCountDetailsStatusARMGenerator()
+// Generator of MessageCountDetails_StatusARM instances for property testing - lazily instantiated by
+//MessageCountDetailsStatusARMGenerator()
 var messageCountDetailsStatusARMGenerator gopter.Gen
 
 // MessageCountDetailsStatusARMGenerator returns a generator of MessageCountDetails_StatusARM instances for property testing.

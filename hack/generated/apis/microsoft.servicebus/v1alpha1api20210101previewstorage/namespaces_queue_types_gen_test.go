@@ -29,17 +29,20 @@ func Test_NamespacesQueue_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 
 // RunJSONSerializationTestForNamespacesQueue runs a test to see if a specific instance of NamespacesQueue round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesQueue(subject NamespacesQueue) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NamespacesQueue
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForNamespacesQueue(subject NamespacesQueue) string 
 	return ""
 }
 
-//Generator of NamespacesQueue instances for property testing - lazily
-//instantiated by NamespacesQueueGenerator()
+// Generator of NamespacesQueue instances for property testing - lazily instantiated by NamespacesQueueGenerator()
 var namespacesQueueGenerator gopter.Gen
 
 // NamespacesQueueGenerator returns a generator of NamespacesQueue instances for property testing.
@@ -86,17 +88,20 @@ func Test_NamespacesQueues_Spec_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForNamespacesQueuesSpec runs a test to see if a specific instance of NamespacesQueues_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NamespacesQueues_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +113,8 @@ func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Sp
 	return ""
 }
 
-//Generator of NamespacesQueues_Spec instances for property testing - lazily
-//instantiated by NamespacesQueuesSpecGenerator()
+// Generator of NamespacesQueues_Spec instances for property testing - lazily instantiated by
+//NamespacesQueuesSpecGenerator()
 var namespacesQueuesSpecGenerator gopter.Gen
 
 // NamespacesQueuesSpecGenerator returns a generator of NamespacesQueues_Spec instances for property testing.
@@ -159,17 +164,20 @@ func Test_SBQueue_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 
 // RunJSONSerializationTestForSBQueueStatus runs a test to see if a specific instance of SBQueue_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBQueueStatus(subject SBQueue_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SBQueue_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -181,8 +189,7 @@ func RunJSONSerializationTestForSBQueueStatus(subject SBQueue_Status) string {
 	return ""
 }
 
-//Generator of SBQueue_Status instances for property testing - lazily instantiated
-//by SBQueueStatusGenerator()
+// Generator of SBQueue_Status instances for property testing - lazily instantiated by SBQueueStatusGenerator()
 var sbQueueStatusGenerator gopter.Gen
 
 // SBQueueStatusGenerator returns a generator of SBQueue_Status instances for property testing.
@@ -252,17 +259,20 @@ func Test_MessageCountDetails_Status_WhenSerializedToJson_DeserializesAsEqual(t 
 
 // RunJSONSerializationTestForMessageCountDetailsStatus runs a test to see if a specific instance of MessageCountDetails_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForMessageCountDetailsStatus(subject MessageCountDetails_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual MessageCountDetails_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -274,8 +284,8 @@ func RunJSONSerializationTestForMessageCountDetailsStatus(subject MessageCountDe
 	return ""
 }
 
-//Generator of MessageCountDetails_Status instances for property testing - lazily
-//instantiated by MessageCountDetailsStatusGenerator()
+// Generator of MessageCountDetails_Status instances for property testing - lazily instantiated by
+//MessageCountDetailsStatusGenerator()
 var messageCountDetailsStatusGenerator gopter.Gen
 
 // MessageCountDetailsStatusGenerator returns a generator of MessageCountDetails_Status instances for property testing.

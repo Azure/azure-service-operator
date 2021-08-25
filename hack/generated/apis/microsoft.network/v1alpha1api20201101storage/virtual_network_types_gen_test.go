@@ -29,17 +29,20 @@ func Test_VirtualNetwork_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 
 // RunJSONSerializationTestForVirtualNetwork runs a test to see if a specific instance of VirtualNetwork round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetwork(subject VirtualNetwork) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetwork
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForVirtualNetwork(subject VirtualNetwork) string {
 	return ""
 }
 
-//Generator of VirtualNetwork instances for property testing - lazily instantiated
-//by VirtualNetworkGenerator()
+// Generator of VirtualNetwork instances for property testing - lazily instantiated by VirtualNetworkGenerator()
 var virtualNetworkGenerator gopter.Gen
 
 // VirtualNetworkGenerator returns a generator of VirtualNetwork instances for property testing.
@@ -86,17 +88,20 @@ func Test_VirtualNetwork_Status_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForVirtualNetworkStatus runs a test to see if a specific instance of VirtualNetwork_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkStatus(subject VirtualNetwork_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetwork_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +113,8 @@ func RunJSONSerializationTestForVirtualNetworkStatus(subject VirtualNetwork_Stat
 	return ""
 }
 
-//Generator of VirtualNetwork_Status instances for property testing - lazily
-//instantiated by VirtualNetworkStatusGenerator()
+// Generator of VirtualNetwork_Status instances for property testing - lazily instantiated by
+//VirtualNetworkStatusGenerator()
 var virtualNetworkStatusGenerator gopter.Gen
 
 // VirtualNetworkStatusGenerator returns a generator of VirtualNetwork_Status instances for property testing.
@@ -172,17 +177,20 @@ func Test_VirtualNetworks_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForVirtualNetworksSpec runs a test to see if a specific instance of VirtualNetworks_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSpec(subject VirtualNetworks_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworks_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -194,8 +202,8 @@ func RunJSONSerializationTestForVirtualNetworksSpec(subject VirtualNetworks_Spec
 	return ""
 }
 
-//Generator of VirtualNetworks_Spec instances for property testing - lazily
-//instantiated by VirtualNetworksSpecGenerator()
+// Generator of VirtualNetworks_Spec instances for property testing - lazily instantiated by
+//VirtualNetworksSpecGenerator()
 var virtualNetworksSpecGenerator gopter.Gen
 
 // VirtualNetworksSpecGenerator returns a generator of VirtualNetworks_Spec instances for property testing.
@@ -253,17 +261,20 @@ func Test_AddressSpace_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForAddressSpace runs a test to see if a specific instance of AddressSpace round trips to JSON and back losslessly
 func RunJSONSerializationTestForAddressSpace(subject AddressSpace) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual AddressSpace
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -275,8 +286,7 @@ func RunJSONSerializationTestForAddressSpace(subject AddressSpace) string {
 	return ""
 }
 
-//Generator of AddressSpace instances for property testing - lazily instantiated
-//by AddressSpaceGenerator()
+// Generator of AddressSpace instances for property testing - lazily instantiated by AddressSpaceGenerator()
 var addressSpaceGenerator gopter.Gen
 
 // AddressSpaceGenerator returns a generator of AddressSpace instances for property testing.
@@ -309,17 +319,20 @@ func Test_AddressSpace_Status_WhenSerializedToJson_DeserializesAsEqual(t *testin
 
 // RunJSONSerializationTestForAddressSpaceStatus runs a test to see if a specific instance of AddressSpace_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForAddressSpaceStatus(subject AddressSpace_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual AddressSpace_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -331,8 +344,7 @@ func RunJSONSerializationTestForAddressSpaceStatus(subject AddressSpace_Status) 
 	return ""
 }
 
-//Generator of AddressSpace_Status instances for property testing - lazily
-//instantiated by AddressSpaceStatusGenerator()
+// Generator of AddressSpace_Status instances for property testing - lazily instantiated by AddressSpaceStatusGenerator()
 var addressSpaceStatusGenerator gopter.Gen
 
 // AddressSpaceStatusGenerator returns a generator of AddressSpace_Status instances for property testing.
@@ -365,17 +377,20 @@ func Test_DhcpOptions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForDhcpOptions runs a test to see if a specific instance of DhcpOptions round trips to JSON and back losslessly
 func RunJSONSerializationTestForDhcpOptions(subject DhcpOptions) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual DhcpOptions
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -387,8 +402,7 @@ func RunJSONSerializationTestForDhcpOptions(subject DhcpOptions) string {
 	return ""
 }
 
-//Generator of DhcpOptions instances for property testing - lazily instantiated by
-//DhcpOptionsGenerator()
+// Generator of DhcpOptions instances for property testing - lazily instantiated by DhcpOptionsGenerator()
 var dhcpOptionsGenerator gopter.Gen
 
 // DhcpOptionsGenerator returns a generator of DhcpOptions instances for property testing.
@@ -421,17 +435,20 @@ func Test_DhcpOptions_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing
 
 // RunJSONSerializationTestForDhcpOptionsStatus runs a test to see if a specific instance of DhcpOptions_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForDhcpOptionsStatus(subject DhcpOptions_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual DhcpOptions_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -443,8 +460,7 @@ func RunJSONSerializationTestForDhcpOptionsStatus(subject DhcpOptions_Status) st
 	return ""
 }
 
-//Generator of DhcpOptions_Status instances for property testing - lazily
-//instantiated by DhcpOptionsStatusGenerator()
+// Generator of DhcpOptions_Status instances for property testing - lazily instantiated by DhcpOptionsStatusGenerator()
 var dhcpOptionsStatusGenerator gopter.Gen
 
 // DhcpOptionsStatusGenerator returns a generator of DhcpOptions_Status instances for property testing.
@@ -477,17 +493,20 @@ func Test_Subnet_Status_VirtualNetwork_SubResourceEmbedded_WhenSerializedToJson_
 
 // RunJSONSerializationTestForSubnetStatusVirtualNetworkSubResourceEmbedded runs a test to see if a specific instance of Subnet_Status_VirtualNetwork_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForSubnetStatusVirtualNetworkSubResourceEmbedded(subject Subnet_Status_VirtualNetwork_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Subnet_Status_VirtualNetwork_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -499,8 +518,7 @@ func RunJSONSerializationTestForSubnetStatusVirtualNetworkSubResourceEmbedded(su
 	return ""
 }
 
-//Generator of Subnet_Status_VirtualNetwork_SubResourceEmbedded instances for
-//property testing - lazily instantiated by
+// Generator of Subnet_Status_VirtualNetwork_SubResourceEmbedded instances for property testing - lazily instantiated by
 //SubnetStatusVirtualNetworkSubResourceEmbeddedGenerator()
 var subnetStatusVirtualNetworkSubResourceEmbeddedGenerator gopter.Gen
 
@@ -534,17 +552,20 @@ func Test_VirtualNetworkBgpCommunities_WhenSerializedToJson_DeserializesAsEqual(
 
 // RunJSONSerializationTestForVirtualNetworkBgpCommunities runs a test to see if a specific instance of VirtualNetworkBgpCommunities round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkBgpCommunities(subject VirtualNetworkBgpCommunities) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkBgpCommunities
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -556,8 +577,8 @@ func RunJSONSerializationTestForVirtualNetworkBgpCommunities(subject VirtualNetw
 	return ""
 }
 
-//Generator of VirtualNetworkBgpCommunities instances for property testing -
-//lazily instantiated by VirtualNetworkBgpCommunitiesGenerator()
+// Generator of VirtualNetworkBgpCommunities instances for property testing - lazily instantiated by
+//VirtualNetworkBgpCommunitiesGenerator()
 var virtualNetworkBgpCommunitiesGenerator gopter.Gen
 
 // VirtualNetworkBgpCommunitiesGenerator returns a generator of VirtualNetworkBgpCommunities instances for property testing.
@@ -590,17 +611,20 @@ func Test_VirtualNetworkBgpCommunities_Status_WhenSerializedToJson_DeserializesA
 
 // RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatus runs a test to see if a specific instance of VirtualNetworkBgpCommunities_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatus(subject VirtualNetworkBgpCommunities_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkBgpCommunities_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -612,8 +636,8 @@ func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatus(subject Virtu
 	return ""
 }
 
-//Generator of VirtualNetworkBgpCommunities_Status instances for property testing
-//- lazily instantiated by VirtualNetworkBgpCommunitiesStatusGenerator()
+// Generator of VirtualNetworkBgpCommunities_Status instances for property testing - lazily instantiated by
+//VirtualNetworkBgpCommunitiesStatusGenerator()
 var virtualNetworkBgpCommunitiesStatusGenerator gopter.Gen
 
 // VirtualNetworkBgpCommunitiesStatusGenerator returns a generator of VirtualNetworkBgpCommunities_Status instances for property testing.
@@ -647,17 +671,20 @@ func Test_VirtualNetworkPeering_Status_SubResourceEmbedded_WhenSerializedToJson_
 
 // RunJSONSerializationTestForVirtualNetworkPeeringStatusSubResourceEmbedded runs a test to see if a specific instance of VirtualNetworkPeering_Status_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkPeeringStatusSubResourceEmbedded(subject VirtualNetworkPeering_Status_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkPeering_Status_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -669,8 +696,7 @@ func RunJSONSerializationTestForVirtualNetworkPeeringStatusSubResourceEmbedded(s
 	return ""
 }
 
-//Generator of VirtualNetworkPeering_Status_SubResourceEmbedded instances for
-//property testing - lazily instantiated by
+// Generator of VirtualNetworkPeering_Status_SubResourceEmbedded instances for property testing - lazily instantiated by
 //VirtualNetworkPeeringStatusSubResourceEmbeddedGenerator()
 var virtualNetworkPeeringStatusSubResourceEmbeddedGenerator gopter.Gen
 
@@ -704,17 +730,20 @@ func Test_VirtualNetworks_Spec_Properties_Subnets_WhenSerializedToJson_Deseriali
 
 // RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnets runs a test to see if a specific instance of VirtualNetworks_Spec_Properties_Subnets round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnets(subject VirtualNetworks_Spec_Properties_Subnets) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworks_Spec_Properties_Subnets
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -726,8 +755,8 @@ func RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnets(subject Vir
 	return ""
 }
 
-//Generator of VirtualNetworks_Spec_Properties_Subnets instances for property
-//testing - lazily instantiated by VirtualNetworksSpecPropertiesSubnetsGenerator()
+// Generator of VirtualNetworks_Spec_Properties_Subnets instances for property testing - lazily instantiated by
+//VirtualNetworksSpecPropertiesSubnetsGenerator()
 var virtualNetworksSpecPropertiesSubnetsGenerator gopter.Gen
 
 // VirtualNetworksSpecPropertiesSubnetsGenerator returns a generator of VirtualNetworks_Spec_Properties_Subnets instances for property testing.
@@ -784,17 +813,20 @@ func Test_VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations_WhenSer
 
 // RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations runs a test to see if a specific instance of VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations(subject VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -806,9 +838,8 @@ func RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsPropertiesDe
 	return ""
 }
 
-//Generator of VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
-//instances for property testing - lazily instantiated by
-//VirtualNetworksSpecPropertiesSubnetsPropertiesDelegationsGenerator()
+// Generator of VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations instances for property testing - lazily
+//instantiated by VirtualNetworksSpecPropertiesSubnetsPropertiesDelegationsGenerator()
 var virtualNetworksSpecPropertiesSubnetsPropertiesDelegationsGenerator gopter.Gen
 
 // VirtualNetworksSpecPropertiesSubnetsPropertiesDelegationsGenerator returns a generator of VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations instances for property testing.

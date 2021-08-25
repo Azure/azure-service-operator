@@ -29,17 +29,20 @@ func Test_VirtualNetworkPeering_StatusARM_WhenSerializedToJson_DeserializesAsEqu
 
 // RunJSONSerializationTestForVirtualNetworkPeeringStatusARM runs a test to see if a specific instance of VirtualNetworkPeering_StatusARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkPeeringStatusARM(subject VirtualNetworkPeering_StatusARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkPeering_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForVirtualNetworkPeeringStatusARM(subject VirtualNe
 	return ""
 }
 
-//Generator of VirtualNetworkPeering_StatusARM instances for property testing -
-//lazily instantiated by VirtualNetworkPeeringStatusARMGenerator()
+// Generator of VirtualNetworkPeering_StatusARM instances for property testing - lazily instantiated by
+//VirtualNetworkPeeringStatusARMGenerator()
 var virtualNetworkPeeringStatusARMGenerator gopter.Gen
 
 // VirtualNetworkPeeringStatusARMGenerator returns a generator of VirtualNetworkPeering_StatusARM instances for property testing.
@@ -102,17 +105,20 @@ func Test_VirtualNetworkPeeringPropertiesFormat_StatusARM_WhenSerializedToJson_D
 
 // RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormatStatusARM runs a test to see if a specific instance of VirtualNetworkPeeringPropertiesFormat_StatusARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormatStatusARM(subject VirtualNetworkPeeringPropertiesFormat_StatusARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkPeeringPropertiesFormat_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -124,8 +130,7 @@ func RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormatStatusARM(s
 	return ""
 }
 
-//Generator of VirtualNetworkPeeringPropertiesFormat_StatusARM instances for
-//property testing - lazily instantiated by
+// Generator of VirtualNetworkPeeringPropertiesFormat_StatusARM instances for property testing - lazily instantiated by
 //VirtualNetworkPeeringPropertiesFormatStatusARMGenerator()
 var virtualNetworkPeeringPropertiesFormatStatusARMGenerator gopter.Gen
 
@@ -182,17 +187,20 @@ func Test_VirtualNetworkBgpCommunities_StatusARM_WhenSerializedToJson_Deserializ
 
 // RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatusARM runs a test to see if a specific instance of VirtualNetworkBgpCommunities_StatusARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatusARM(subject VirtualNetworkBgpCommunities_StatusARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkBgpCommunities_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -204,8 +212,8 @@ func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatusARM(subject Vi
 	return ""
 }
 
-//Generator of VirtualNetworkBgpCommunities_StatusARM instances for property
-//testing - lazily instantiated by VirtualNetworkBgpCommunitiesStatusARMGenerator()
+// Generator of VirtualNetworkBgpCommunities_StatusARM instances for property testing - lazily instantiated by
+//VirtualNetworkBgpCommunitiesStatusARMGenerator()
 var virtualNetworkBgpCommunitiesStatusARMGenerator gopter.Gen
 
 // VirtualNetworkBgpCommunitiesStatusARMGenerator returns a generator of VirtualNetworkBgpCommunities_StatusARM instances for property testing.

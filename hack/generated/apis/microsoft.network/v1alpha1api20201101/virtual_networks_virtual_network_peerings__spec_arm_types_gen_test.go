@@ -29,17 +29,20 @@ func Test_VirtualNetworksVirtualNetworkPeerings_SpecARM_WhenSerializedToJson_Des
 
 // RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeeringsSpecARM runs a test to see if a specific instance of VirtualNetworksVirtualNetworkPeerings_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeeringsSpecARM(subject VirtualNetworksVirtualNetworkPeerings_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworksVirtualNetworkPeerings_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeeringsSpecARM(sub
 	return ""
 }
 
-//Generator of VirtualNetworksVirtualNetworkPeerings_SpecARM instances for
-//property testing - lazily instantiated by
+// Generator of VirtualNetworksVirtualNetworkPeerings_SpecARM instances for property testing - lazily instantiated by
 //VirtualNetworksVirtualNetworkPeeringsSpecARMGenerator()
 var virtualNetworksVirtualNetworkPeeringsSpecARMGenerator gopter.Gen
 
@@ -104,17 +106,20 @@ func Test_VirtualNetworkPeeringPropertiesFormatARM_WhenSerializedToJson_Deserial
 
 // RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormatARM runs a test to see if a specific instance of VirtualNetworkPeeringPropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormatARM(subject VirtualNetworkPeeringPropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkPeeringPropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -126,8 +131,7 @@ func RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormatARM(subject
 	return ""
 }
 
-//Generator of VirtualNetworkPeeringPropertiesFormatARM instances for property
-//testing - lazily instantiated by
+// Generator of VirtualNetworkPeeringPropertiesFormatARM instances for property testing - lazily instantiated by
 //VirtualNetworkPeeringPropertiesFormatARMGenerator()
 var virtualNetworkPeeringPropertiesFormatARMGenerator gopter.Gen
 
@@ -181,17 +185,20 @@ func Test_VirtualNetworkBgpCommunitiesARM_WhenSerializedToJson_DeserializesAsEqu
 
 // RunJSONSerializationTestForVirtualNetworkBgpCommunitiesARM runs a test to see if a specific instance of VirtualNetworkBgpCommunitiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesARM(subject VirtualNetworkBgpCommunitiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkBgpCommunitiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -203,8 +210,8 @@ func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesARM(subject VirtualN
 	return ""
 }
 
-//Generator of VirtualNetworkBgpCommunitiesARM instances for property testing -
-//lazily instantiated by VirtualNetworkBgpCommunitiesARMGenerator()
+// Generator of VirtualNetworkBgpCommunitiesARM instances for property testing - lazily instantiated by
+//VirtualNetworkBgpCommunitiesARMGenerator()
 var virtualNetworkBgpCommunitiesARMGenerator gopter.Gen
 
 // VirtualNetworkBgpCommunitiesARMGenerator returns a generator of VirtualNetworkBgpCommunitiesARM instances for property testing.

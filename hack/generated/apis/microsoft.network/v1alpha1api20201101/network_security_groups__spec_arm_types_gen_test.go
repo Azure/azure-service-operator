@@ -29,17 +29,20 @@ func Test_NetworkSecurityGroups_SpecARM_WhenSerializedToJson_DeserializesAsEqual
 
 // RunJSONSerializationTestForNetworkSecurityGroupsSpecARM runs a test to see if a specific instance of NetworkSecurityGroups_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkSecurityGroupsSpecARM(subject NetworkSecurityGroups_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkSecurityGroups_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForNetworkSecurityGroupsSpecARM(subject NetworkSecu
 	return ""
 }
 
-//Generator of NetworkSecurityGroups_SpecARM instances for property testing -
-//lazily instantiated by NetworkSecurityGroupsSpecARMGenerator()
+// Generator of NetworkSecurityGroups_SpecARM instances for property testing - lazily instantiated by
+//NetworkSecurityGroupsSpecARMGenerator()
 var networkSecurityGroupsSpecARMGenerator gopter.Gen
 
 // NetworkSecurityGroupsSpecARMGenerator returns a generator of NetworkSecurityGroups_SpecARM instances for property testing.

@@ -29,17 +29,20 @@ func Test_NetworkSecurityGroupsSecurityRules_SpecARM_WhenSerializedToJson_Deseri
 
 // RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSpecARM runs a test to see if a specific instance of NetworkSecurityGroupsSecurityRules_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSpecARM(subject NetworkSecurityGroupsSecurityRules_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkSecurityGroupsSecurityRules_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSpecARM(subjec
 	return ""
 }
 
-//Generator of NetworkSecurityGroupsSecurityRules_SpecARM instances for property
-//testing - lazily instantiated by
+// Generator of NetworkSecurityGroupsSecurityRules_SpecARM instances for property testing - lazily instantiated by
 //NetworkSecurityGroupsSecurityRulesSpecARMGenerator()
 var networkSecurityGroupsSecurityRulesSpecARMGenerator gopter.Gen
 
@@ -104,17 +106,20 @@ func Test_SecurityRulePropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqu
 
 // RunJSONSerializationTestForSecurityRulePropertiesFormatARM runs a test to see if a specific instance of SecurityRulePropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSecurityRulePropertiesFormatARM(subject SecurityRulePropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SecurityRulePropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -126,8 +131,8 @@ func RunJSONSerializationTestForSecurityRulePropertiesFormatARM(subject Security
 	return ""
 }
 
-//Generator of SecurityRulePropertiesFormatARM instances for property testing -
-//lazily instantiated by SecurityRulePropertiesFormatARMGenerator()
+// Generator of SecurityRulePropertiesFormatARM instances for property testing - lazily instantiated by
+//SecurityRulePropertiesFormatARMGenerator()
 var securityRulePropertiesFormatARMGenerator gopter.Gen
 
 // SecurityRulePropertiesFormatARMGenerator returns a generator of SecurityRulePropertiesFormatARM instances for property testing.
@@ -187,17 +192,20 @@ func Test_SubResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 
 // RunJSONSerializationTestForSubResourceARM runs a test to see if a specific instance of SubResourceARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSubResourceARM(subject SubResourceARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SubResourceARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -209,8 +217,7 @@ func RunJSONSerializationTestForSubResourceARM(subject SubResourceARM) string {
 	return ""
 }
 
-//Generator of SubResourceARM instances for property testing - lazily instantiated
-//by SubResourceARMGenerator()
+// Generator of SubResourceARM instances for property testing - lazily instantiated by SubResourceARMGenerator()
 var subResourceARMGenerator gopter.Gen
 
 // SubResourceARMGenerator returns a generator of SubResourceARM instances for property testing.

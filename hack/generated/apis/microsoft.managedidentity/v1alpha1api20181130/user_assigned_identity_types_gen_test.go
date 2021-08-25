@@ -5,6 +5,7 @@ package v1alpha1api20181130
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.managedidentity/v1alpha1api20181130storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,44 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_UserAssignedIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from UserAssignedIdentity to UserAssignedIdentity via AssignPropertiesToUserAssignedIdentity & AssignPropertiesFromUserAssignedIdentity returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentity, UserAssignedIdentityGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForUserAssignedIdentity tests if a specific instance of UserAssignedIdentity can be assigned to v1alpha1api20181130storage and back losslessly
+func RunPropertyAssignmentTestForUserAssignedIdentity(subject UserAssignedIdentity) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20181130storage.UserAssignedIdentity
+	err := subject.AssignPropertiesToUserAssignedIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual UserAssignedIdentity
+	err = actual.AssignPropertiesFromUserAssignedIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_UserAssignedIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
@@ -29,17 +68,20 @@ func Test_UserAssignedIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForUserAssignedIdentity runs a test to see if a specific instance of UserAssignedIdentity round trips to JSON and back losslessly
 func RunJSONSerializationTestForUserAssignedIdentity(subject UserAssignedIdentity) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual UserAssignedIdentity
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +93,8 @@ func RunJSONSerializationTestForUserAssignedIdentity(subject UserAssignedIdentit
 	return ""
 }
 
-//Generator of UserAssignedIdentity instances for property testing - lazily
-//instantiated by UserAssignedIdentityGenerator()
+// Generator of UserAssignedIdentity instances for property testing - lazily instantiated by
+//UserAssignedIdentityGenerator()
 var userAssignedIdentityGenerator gopter.Gen
 
 // UserAssignedIdentityGenerator returns a generator of UserAssignedIdentity instances for property testing.
@@ -74,6 +116,44 @@ func AddRelatedPropertyGeneratorsForUserAssignedIdentity(gens map[string]gopter.
 	gens["Status"] = IdentityStatusGenerator()
 }
 
+func Test_Identity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Identity_Status to Identity_Status via AssignPropertiesToIdentityStatus & AssignPropertiesFromIdentityStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIdentityStatus, IdentityStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIdentityStatus tests if a specific instance of Identity_Status can be assigned to v1alpha1api20181130storage and back losslessly
+func RunPropertyAssignmentTestForIdentityStatus(subject Identity_Status) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20181130storage.Identity_Status
+	err := subject.AssignPropertiesToIdentityStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Identity_Status
+	err = actual.AssignPropertiesFromIdentityStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Identity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -86,17 +166,20 @@ func Test_Identity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 
 // RunJSONSerializationTestForIdentityStatus runs a test to see if a specific instance of Identity_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForIdentityStatus(subject Identity_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Identity_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +191,7 @@ func RunJSONSerializationTestForIdentityStatus(subject Identity_Status) string {
 	return ""
 }
 
-//Generator of Identity_Status instances for property testing - lazily
-//instantiated by IdentityStatusGenerator()
+// Generator of Identity_Status instances for property testing - lazily instantiated by IdentityStatusGenerator()
 var identityStatusGenerator gopter.Gen
 
 // IdentityStatusGenerator returns a generator of Identity_Status instances for property testing.
@@ -137,6 +219,44 @@ func AddIndependentPropertyGeneratorsForIdentityStatus(gens map[string]gopter.Ge
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_UserAssignedIdentities_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from UserAssignedIdentities_Spec to UserAssignedIdentities_Spec via AssignPropertiesToUserAssignedIdentitiesSpec & AssignPropertiesFromUserAssignedIdentitiesSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentitiesSpec, UserAssignedIdentitiesSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForUserAssignedIdentitiesSpec tests if a specific instance of UserAssignedIdentities_Spec can be assigned to v1alpha1api20181130storage and back losslessly
+func RunPropertyAssignmentTestForUserAssignedIdentitiesSpec(subject UserAssignedIdentities_Spec) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20181130storage.UserAssignedIdentities_Spec
+	err := subject.AssignPropertiesToUserAssignedIdentitiesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual UserAssignedIdentities_Spec
+	err = actual.AssignPropertiesFromUserAssignedIdentitiesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_UserAssignedIdentities_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -149,17 +269,20 @@ func Test_UserAssignedIdentities_Spec_WhenSerializedToJson_DeserializesAsEqual(t
 
 // RunJSONSerializationTestForUserAssignedIdentitiesSpec runs a test to see if a specific instance of UserAssignedIdentities_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForUserAssignedIdentitiesSpec(subject UserAssignedIdentities_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual UserAssignedIdentities_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -171,8 +294,8 @@ func RunJSONSerializationTestForUserAssignedIdentitiesSpec(subject UserAssignedI
 	return ""
 }
 
-//Generator of UserAssignedIdentities_Spec instances for property testing - lazily
-//instantiated by UserAssignedIdentitiesSpecGenerator()
+// Generator of UserAssignedIdentities_Spec instances for property testing - lazily instantiated by
+//UserAssignedIdentitiesSpecGenerator()
 var userAssignedIdentitiesSpecGenerator gopter.Gen
 
 // UserAssignedIdentitiesSpecGenerator returns a generator of UserAssignedIdentities_Spec instances for property testing.
