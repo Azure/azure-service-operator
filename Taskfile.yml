@@ -411,4 +411,4 @@ tasks:
       silent: true
     vars:
       CHANGED:
-        sh: git diff-index --name-only HEAD
+        sh: git update-index --really-refresh
