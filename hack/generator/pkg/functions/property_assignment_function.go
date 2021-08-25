@@ -32,8 +32,6 @@ type PropertyAssignmentFunction struct {
 	idFactory astmodel.IdentifierFactory
 	// direction indicates the kind of conversion we are generating
 	direction conversions.Direction
-	// knownLocals is a cached set of local identifiers that have already been used, to avoid conflicts
-	knownLocals *astmodel.KnownLocalsSet
 	// conversionContext is additional information about the context in which this conversion was made
 	conversionContext *conversions.PropertyConversionContext
 	// identifier to use for our receiver in generated code
@@ -76,17 +74,17 @@ func NewPropertyAssignmentFunction(
 		idFactory:          idFactory,
 		direction:          direction,
 		conversions:        make(map[string]StoragePropertyConversion),
-		knownLocals:        astmodel.NewKnownLocalsSet(idFactory),
 		receiverName:       idFactory.CreateIdentifier(receiver.Name().Name(), astmodel.NotExported),
 		parameterName:      direction.SelectString("source", "destination"),
 	}
 
 	// Flag receiver and parameter names as used
-	result.knownLocals.Add(result.receiverName)
-	result.knownLocals.Add(result.parameterName)
+	knownLocals := astmodel.NewKnownLocalsSet(idFactory)
+	knownLocals.Add(result.receiverName)
+	knownLocals.Add(result.parameterName)
 
 	// Always assign a name for the property bag (see createPropertyBagPrologue to understand why)
-	propertyBagName := result.knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
+	propertyBagName := knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
 
 	// Create Endpoints for property conversion
 	sourceEndpoints, readsFromPropertyBag := result.createReadingEndpoints()
@@ -96,7 +94,7 @@ func NewPropertyAssignmentFunction(
 	result.writesToPropertyBag = writesToPropertyBag
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
-		WithKnownLocals(result.knownLocals).
+		WithKnownLocals(knownLocals).
 		WithDirection(direction).
 		WithPropertyBag(propertyBagName)
 
