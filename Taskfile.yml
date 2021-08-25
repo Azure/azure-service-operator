@@ -47,6 +47,8 @@ tasks:
     - generator:ci
     - controller:ci
     - crossplane:ci
+    cmds:
+    - task: verify-no-changes
 
   ci-live:
     desc: Run all CI checks with live Azure resources. Requires that auth environment variables are set.
@@ -401,3 +403,12 @@ tasks:
       - cmd: echo "==> Checking format specifiers <=="
         silent: true
       - cmd: '! git grep -e "%+v" -e "%v" --break --heading --line-number -I "*.go"'
+
+  verify-no-changes:
+    desc: Checks that there are no uncommitted modifications to files
+    cmds:
+    - cmd: 'if [ -n "{{.CHANGED}}" ]; then echo "Error: files were modified during the build (did you forget to commit generated files?):"; echo "{{.CHANGED}}" | sed "s/^/- /"; exit 1; fi'
+      silent: true
+    vars:
+      CHANGED:
+        sh: git diff-index --name-only HEAD
