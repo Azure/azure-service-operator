@@ -707,10 +707,7 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 	}
 
 	if !isOwnerReady {
-		// TODO: We need to figure out how we're handing these sorts of errors.
-		// TODO: See https://github.com/Azure/azure-service-operator/issues/1448
-		// TODO: For now just set an error so we at least see something
-		conditions.SetCondition(r.obj, r.PositiveConditions.Ready.WaitingForOwner())
+		conditions.SetCondition(r.obj, r.PositiveConditions.Ready.WaitingForOwner(r.obj.Owner().String()))
 		err = r.CommitUpdate(ctx)
 
 		err = client.IgnoreNotFound(err)
