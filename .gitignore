@@ -26,9 +26,11 @@ testlogs.txt
 config/crd/bases/*
 config/rbac/role.yaml
 
-# Kubernetes Generated files - skip generated files, except for vendored files
+# Kubernetes Generated files - skip generated files, except for vendored/hack/v2 files
 zz_generated.*
 !vendor/**/zz_generated.*
+!hack/**/zz_generated.*
+!v2/**/zz_generated.*
 
 # editor and IDE paraphernalia
 .idea
