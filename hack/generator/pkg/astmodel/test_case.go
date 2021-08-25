@@ -32,3 +32,17 @@ type TestCase interface {
 type TestCaseContainer interface {
 	TestCases() []TestCase
 }
+
+// AsTestCaseContainer unwraps a type into a TestCaseContainer if it is one.
+// Returns the container and true if the type is (or wraps) a TestContainer; nil and false if not.
+// Only use this for readonly access. A TypeVisitor must be used for modifications to preserve type wrapping.
+func AsTestCaseContainer(theType Type) (TestCaseContainer, bool) {
+	switch t := theType.(type) {
+	case TestCaseContainer:
+		return t, true
+	case MetaType:
+		return AsTestCaseContainer(t.Unwrap())
+	default:
+		return nil, false
+	}
+}

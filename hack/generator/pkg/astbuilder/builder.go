@@ -155,7 +155,7 @@ func VariableDeclaration(ident string, typ dst.Expr, comment string) *dst.GenDec
 		},
 	}
 
-	AddWrappedComment(&decl.Decs.Start, comment, 80)
+	AddWrappedComment(&decl.Decs.Start, comment, 120)
 
 	return decl
 }

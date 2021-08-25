@@ -247,9 +247,11 @@ func (tc *KubePerTestContext) DefaultTimeout() time.Duration {
 
 // PollingIntervalReplaying is the polling interval to use when replaying.
 // TODO: Setting this really low sometimes seems to cause
-// TODO: updating resource: Operation cannot be fulfilled: the object has been modified; please apply your changes to the latest version and try again
-// TODO: I don't know why -- possibly we're starving APIServer of cycles because of fast polling loops which prevents it from processing cache updates or something?
-var PollingIntervalReplaying = 200 * time.Millisecond
+// TODO: updating resource: Operation cannot be fulfilled: the object has been modified; please apply your changes to the latest version and try again.
+// TODO: This happens when the test sees a Status update and makes an update to the resource while racing with the Spec update
+// TODO: in azure_deployment_reconciler CommitUpdate. If we fix https://github.com/Azure/azure-service-operator/issues/1744 we can
+// TODO: shorten this interval.
+var PollingIntervalReplaying = 1 * time.Second
 
 // PollingIntervalRecording is the polling interval to use when recording.
 var PollingIntervalRecording = 5 * time.Second

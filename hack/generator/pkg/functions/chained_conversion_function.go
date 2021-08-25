@@ -71,7 +71,7 @@ func NewSpecChainedConversionFunction(
 		name:                            propertyFunction.direction.SelectString("ConvertSpecFrom", "ConvertSpecTo"),
 		parameterType:                   astmodel.ConvertibleSpecInterfaceType,
 		propertyAssignmentFunctionName:  propertyFunction.Name(),
-		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
+		propertyAssignmentParameterType: propertyFunction.ParameterType(),
 		direction:                       propertyFunction.direction,
 		idFactory:                       idFactory,
 	}
@@ -91,7 +91,7 @@ func NewStatusChainedConversionFunction(
 		name:                            propertyFunction.direction.SelectString("ConvertStatusFrom", "ConvertStatusTo"),
 		parameterType:                   astmodel.ConvertibleStatusInterfaceType,
 		propertyAssignmentFunctionName:  propertyFunction.Name(),
-		propertyAssignmentParameterType: propertyFunction.otherDefinition.Name(),
+		propertyAssignmentParameterType: propertyFunction.ParameterType(),
 		direction:                       propertyFunction.direction,
 		idFactory:                       idFactory,
 	}

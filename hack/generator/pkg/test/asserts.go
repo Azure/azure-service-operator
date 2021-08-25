@@ -55,5 +55,11 @@ func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types) {
 		fileName := fmt.Sprintf("%s-%s", local.Group(), local.Version())
 		file := CreateFileDefinition(defs...)
 		AssertFileGeneratesExpectedCode(t, file, fileName)
+
+		// If any of our definitions include tests, write to a test file as well
+		testFile := CreateTestFileDefinition(defs...)
+		if testFile.TestCaseCount() > 0 {
+			AssertFileGeneratesExpectedCode(t, testFile, fileName+"_test")
+		}
 	}
 }

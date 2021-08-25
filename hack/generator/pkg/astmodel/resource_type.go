@@ -176,8 +176,7 @@ func (resource *ResourceType) WithStatus(statusType Type) *ResourceType {
 	}
 
 	if specResource, ok := statusType.(*ResourceType); ok {
-		// type is a resource, take its StatusType instead
-		// so we don't nest resources
+		// type is a resource, take its StatusType instead, so we don't nest resources
 		return resource.WithStatus(specResource.StatusType())
 	}
 
@@ -187,7 +186,7 @@ func (resource *ResourceType) WithStatus(statusType Type) *ResourceType {
 }
 
 func (resource *ResourceType) WithoutInterface(name TypeName) *ResourceType {
-	if !resource.InterfaceImplementer.HasInterface(name) {
+	if _, found := resource.InterfaceImplementer.FindInterface(name); !found {
 		return resource
 	}
 
@@ -225,6 +224,10 @@ func (resource *ResourceType) TestCases() []TestCase {
 	for _, tc := range resource.testcases {
 		result = append(result, tc)
 	}
+
+	sort.Slice(result, func(i int, j int) bool {
+		return result[i].Name() < result[j].Name()
+	})
 
 	return result
 }

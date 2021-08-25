@@ -868,6 +868,7 @@ func (r *AzureDeploymentReconciler) CommitUpdate(ctx context.Context) error {
 	// TODO: Do away with this if/when we stop modifying spec.
 	r.obj.SetResourceVersion(clone.GetResourceVersion())
 
+	// TODO: We should stop updating spec at all, see: https://github.com/Azure/azure-service-operator/issues/1744
 	err = r.KubeClient.Client.Update(ctx, r.obj)
 	if err != nil {
 		return errors.Wrap(err, "updating resource")
