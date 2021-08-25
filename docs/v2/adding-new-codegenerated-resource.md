@@ -63,7 +63,7 @@ See [the code generator README](/hack/README.md) for how to run the code generat
 TODO: expand on common errors
 
 ## Examine the generated resource
-The Azure REST API specs and ARM template JSON schemas are not perfect. Sometimes they mark a `readonly` property as mutable or have another error or mistake. Have a look through the [generated code](/hack/generated/_apis/) in the directory named after the `group` of the resource that was added. In our `NetworkSecurityGroups` example, this is at `/hack/generated/_apis/microsoft.network/v1alpha1api20201101/network_security_group_types_gen.go`
+The Azure REST API specs and ARM template JSON schemas are not perfect. Sometimes they mark a `readonly` property as mutable or have another error or mistake. Have a look through the [generated code](/hack/generated/apis/) in the directory named after the `group` of the resource that was added. In our `NetworkSecurityGroups` example, this is at `/hack/generated/apis/microsoft.network/v1alpha1api20201101/network_security_group_types_gen.go`
 
 If you do identify properties which should be removed or changed, you can make customizations to the resource in the `typeTransformers` section of the code generation config. The most common issues have their own sections:
 

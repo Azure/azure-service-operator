@@ -281,27 +281,27 @@ spec:
 
     The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
-    Curious to see how it all works? Check out our [control flow diagrams](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/controlflow.md).
+    Curious to see how it all works? Check out our [control flow diagrams](https://github.com/Azure/azure-service-operator/blob/master/docs/v1/howto/controlflow.md).
 
     **Note**: The current version of Azure Service Operator only supports watching all namespaces in the cluster.
 
     ## Supported Azure Services
 
-    - [Resource Group](https://github.com/Azure/azure-service-operator/tree/master/docs/services/resourcegroup/resourcegroup.md)
-    - [Event Hubs](https://github.com/Azure/azure-service-operator/tree/master/docs/services/eventhub/eventhub.md)
-    - [Azure SQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/azuresql/azuresql.md)
-    - [Azure Database for PostgreSQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/postgresql/postgresql.md)
-    - [Azure Database for MySQL](https://github.com/Azure/azure-service-operator/tree/master/docs/services/mysql/mysql.md)
-    - [Azure Key Vault](https://github.com/Azure/azure-service-operator/tree/master/docs/services/keyvault/keyvault.md)
-    - [Azure Cache for Redis](https://github.com/Azure/azure-service-operator/tree/master/docs/services/rediscache/rediscache.md)
-    - [Storage Account](https://github.com/Azure/azure-service-operator/tree/master/docs/services/storage/storageaccount.md)
-    - [Blob Storage](https://github.com/Azure/azure-service-operator/tree/master/docs/services/storage/blobcontainer.md)
-    - [Virtual Network](https://github.com/Azure/azure-service-operator/tree/master/docs/services/virtualnetwork/virtualnetwork.md)
-    - [Application Insights](https://github.com/Azure/azure-service-operator/tree/master/docs/services/appinsights/appinsights.md)
-    - [API Management](https://github.com/Azure/azure-service-operator/tree/master/docs/services/apimgmt/apimgmt.md)
-    - [Cosmos DB](https://github.com/Azure/azure-service-operator/tree/master/docs/services/cosmosdb/cosmosdb.md)
-    - [Virtual Machine](https://github.com/Azure/azure-service-operator/tree/master/docs/services/virtualmachine/virtualmachine.md)
-    - [Virtual Machine Scale Set](https://github.com/Azure/azure-service-operator/tree/master/docs/services/vmscaleset/vmscaleset.md)
+    - [Resource Group](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/resourcegroup/resourcegroup.md)
+    - [Event Hubs](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/eventhub/eventhub.md)
+    - [Azure SQL](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/azuresql/azuresql.md)
+    - [Azure Database for PostgreSQL](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/postgresql/postgresql.md)
+    - [Azure Database for MySQL](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/mysql/mysql.md)
+    - [Azure Key Vault](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/keyvault/keyvault.md)
+    - [Azure Cache for Redis](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/rediscache/rediscache.md)
+    - [Storage Account](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/storage/storageaccount.md)
+    - [Blob Storage](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/storage/blobcontainer.md)
+    - [Virtual Network](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/virtualnetwork/virtualnetwork.md)
+    - [Application Insights](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/appinsights/appinsights.md)
+    - [API Management](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/apimgmt/apimgmt.md)
+    - [Cosmos DB](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/cosmosdb/cosmosdb.md)
+    - [Virtual Machine](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/virtualmachine/virtualmachine.md)
+    - [Virtual Machine Scale Set](https://github.com/Azure/azure-service-operator/tree/master/docs/v1/services/vmscaleset/vmscaleset.md)
 
     ## Instructions - Please read before installing
 
@@ -354,7 +354,7 @@ spec:
         az account show
         ```
 
-    4. Next, we'll create a Service Principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/managedidentity.md).
+    4. Next, we'll create a Service Principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](https://github.com/Azure/azure-service-operator/blob/master/docs/v1/howto/managedidentity.md).
 
         ```sh
         az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
@@ -411,11 +411,11 @@ spec:
 
     Please see the [FAQ](https://github.com/Azure/azure-service-operator/blob/master/docs/faq.md) for answers to commonly asked questions about the Azure Service Operator.
 
-    Have more questions? Feel free to consult our documentation [here](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/contents.md).
+    Have more questions? Feel free to consult our documentation [here](https://github.com/Azure/azure-service-operator/blob/master/docs/v1/howto/contents.md).
 
     ## Contributing
 
-    The [contribution guide](https://github.com/Azure/azure-service-operator/blob/master/CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](https://github.com/Azure/azure-service-operator/blob/master/docs/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
+    The [contribution guide](https://github.com/Azure/azure-service-operator/blob/master/CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](https://github.com/Azure/azure-service-operator/blob/master/docs/v1/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
 
     ## Support
 

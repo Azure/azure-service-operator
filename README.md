@@ -1,144 +1,51 @@
 # Azure Service Operator (for Kubernetes)
 
 [![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
+![v2 Status](https://github.com/azure/azure-service-operator/actions/workflows/master-validation.yml/badge.svg?branch=master)
 
-> Note: The API is expected to change (while adhering to semantic versioning). Alpha and Beta resources are generally not recommended for production environments.
+> Note: The API is expected to change (while adhering to semantic versioning). Alpha and Beta resources are generally not recommended for production environments. Alpha, Beta, and Stable mean roughly the same for this project as they do for [all Kubernetes features](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
 
-The **Azure Service Operator** helps you provision Azure resources and connect your applications to them from within Kubernetes.
+## What is it?
+**Azure Service Operator** (ASO) helps you provision Azure resources and connect your applications to them from within Kubernetes.
+
+If you want to use Azure resources but would prefer to manage those resources using Kubernetes tooling and primitives (for example `kubectl apply`), then Azure Service Operator might be for you.
 
 ## Overview
 
-The Azure Service Operator comprises of:
+The Azure Service Operator consists of:
 
 - The Custom Resource Definitions (CRDs) for each of the Azure services a Kubernetes user can provision.
-- The Kubernetes controller that watches for requests to create Custom Resources for each of these CRDs and creates them.
+- The Kubernetes controller that manages the Azure resources represented by the user specified Custom Resources. The controller attempts to synchronize the desired state in the user specified Custom Resource with the actual state of that resource in Azure, creating it if it doesn't exist, updating it if it has been changed, or deleting it.
 
-The project was built using [Kubebuilder](https://book.kubebuilder.io/).
+## Versions of Azure Service Operator
+There are two major versions of Azure Service Operator: v1 and v2. Consult the below table and descriptions to learn more about which you should use.
 
-Curious to see how it all works? Check out our [control flow diagrams](/docs/howto/controlflow.md).
+> Note: ASO v1 and v2 are two totally independent operators. Each has its own unique set of CRDs and controllers. They can be deployed side by side in the same cluster.
 
-## Supported Azure Services
+| ASO Version | Lifecycle stage | Development status                | Installation options                                                                                                                                                           |
+| ----------- | --------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| v1          | Beta            | Bug and security fixes primarily. | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases) |
+| v2          | Alpha           | Under active development.         | [GitHub release 2.x](https://github.com/Azure/azure-service-operator/releases)                                                                                                 |
 
-- [Resource Group](/docs/services/resourcegroup/resourcegroup.md)
-- [Event Hubs](/docs/services/eventhub/eventhub.md)
-- [Azure SQL](/docs/services/azuresql/azuresql.md)
-- [Azure Database for PostgreSQL](/docs/services/postgresql/postgresql.md)
-- [Azure Database for MySQL](/docs/services/mysql/mysql.md)
-- [Azure Key Vault](/docs/services/keyvault/keyvault.md)
-- [Azure Cache for Redis](/docs/services/rediscache/rediscache.md)
-- [Storage Account](/docs/services/storage/storageaccount.md)
-- [Blob Storage](/docs/services/storage/blobcontainer.md)
-- [Virtual Network](/docs/services/virtualnetwork/virtualnetwork.md)
-- [Application Insights](/docs/services/appinsights/appinsights.md)
-- [API Management](/docs/services/apimgmt/apimgmt.md)
-- [Cosmos DB](/docs/services/cosmosdb/cosmosdb.md)
-- [Virtual Machine](/docs/services/virtualmachine/virtualmachine.md)
-- [Virtual Machine Scale Set](/docs/services/vmscaleset/vmscaleset.md)
+### ASO v1
+Azure Service Operator v1 is no longer under active development. Bug and security fixes are still made. Some features may be added if the scope is small and the impact is large, but we are winding down investment into ASO v1. If you are already using ASO v1 a migration path/tool will be provided to eventually move ASO v1 resources to ASO v2. In the meantime you can continue using ASO v1 as you have been.
 
-## Quickstart
+[Learn more about Azure Service Operator v1](/docs/v1/README.md)
 
-![Deploying ASO](/docs/images/asodeploy.gif)
+### ASO v2
+Azure Service Operator v2 was built based on the lessons learned from ASO v1, with the following improvements:
 
-Ready to quickly deploy the latest version of Azure Service Operator on your Kubernetes cluster and start exploring? Follow these steps.
+* Supports code-generated CRDs based on [Azure OpenAPI specifications](https://github.com/Azure/azure-rest-api-specs). This enables us to quickly add new resources as they are requested.
+* More powerful `Status`. You can view the actual state of the resource in Azure through ASO v2, which enables you to see server-side applied defaults and more easily debug issues.
+* Dedicated storage versions. This enables faster (and less error prone) support for new Azure API versions, even if there were significant changes in resource shape.
+* Uniformity. ASO v2 resources are very uniform due to their code-generated nature. 
+* Clearer resource states. The state a resource is in is exposed via a [Ready condition](/docs/v2/design/resource-states.md). 
 
-0. Before starting, you must have a Kubernetes cluster (at least version 1.16) [created and running](https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/). Check your connection and version with:
-
-   ```console
-   $ kubectl version
-   Client Version: version.Info{Major:"1", Minor:"19", GitVersion:"v1.19.2", GitCommit:"f5743093fd1c663cb0cbc89748f730662345d44d", GitTreeState:"clean", BuildDate:"2020-09-16T13:41:02Z", GoVersion:"go1.15", Compiler:"gc", Platform:"linux/amd64"}
-   Server Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.2", GitCommit:"52c56ce7a8272c798dbc29846288d7cd9fbae032", GitTreeState:"clean", BuildDate:"2020-04-30T20:19:45Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}
-    ```
-    You'll also need to have the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) installed (>= 2.13.0).
-
-1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
-
-    ```sh
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
-    ```
-2.  Install [Helm](https://helm.sh/docs/intro/install/), and add the Helm repo for Azure Service Operator. Please note that the instructions here use Helm 3.
-
-    ```sh
-    helm repo add aso https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
-    ```
-3. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
-   For more information about other forms of authentication supported by ASO, see [the authentication section of the deployment documentation](./docs/howto/deploy.md#Authentication). 
-
-    First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
-    ```yaml
-    AZURE_TENANT_ID=<your-tenant-id-goes-here>
-    AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
-    ```
-
-    You can find these values by using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest):
-    ```sh
-    az account show
-    ```
-    Next, we'll create a service principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md).
-
-    ```sh
-    az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
-        --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
-    ```
-
-    This should give you output like the following:
-    ```sh
-    "appId": "xxxxxxxxxx",
-    "displayName": "azure-service-operator",
-    "name": "http://azure-service-operator",
-    "password": "xxxxxxxxxxx",
-    "tenant": "xxxxxxxxxxxxx"
-    ```
-
-    Once you have created a service principal, set the following variables to your app ID and password values:
-    ```sh 
-    AZURE_CLIENT_ID=<your-client-id> # This is the appID from the service principal we created.
-    AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
-    ```
-
-4. Install the Azure Service Operator on your cluster using Helm.
-
-    ```sh
-    helm upgrade --install aso aso/azure-service-operator \
-            --create-namespace \
-            --namespace=azureoperator-system \
-            --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-            --set azureTenantID=$AZURE_TENANT_ID \
-            --set azureClientID=$AZURE_CLIENT_ID \
-            --set azureClientSecret=$AZURE_CLIENT_SECRET
-    ```
-
-    If you would like to install an older version you can list the available versions:
-    ```sh
-    helm search repo aso --versions
-    ```
-
-    You should now see the Azure service operator pods running in your cluster, like the below.
-
-    ```console
-    $ kubectl get pods -n azureoperator-system
-    NAME                                                READY   STATUS    RESTARTS   AGE
-    azureoperator-controller-manager-7dd75bbd97-mk4s9   2/2     Running   0          35s
-    ```
-
-To deploy an Azure service through the operator, check out the set of [supported Azure services](#supported-azure-services) and the sample YAML files in the `config/samples` [folder](config/samples) to create the resources using the following command.
-
-```sh
-kubectl apply -f <YAML file>
-```
-
-## About the project
-
-This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](docs/howto/helmdeploy.md).
-
-Please see the [FAQ](docs/faq.md) for answers to commonly asked questions about the Azure Service Operator.
-
-Have more questions? Feel free to consult our documentation [here](docs/howto/contents.md).
-
-[Azure Service Operator community calls](https://docs.google.com/document/d/1MEx5W8X_BwxvVJ4NRfgublQJ2sTrw5dSqrJ8Z4YxV94/edit?usp=sharing) are held monthly on the first Wednesday of the month at 4 PM PST. Recordings are available on our [Azure Upstream YouTube channel](https://www.youtube.com/channel/UCkbyQgJQfYry4r3zWiUNZwQ).
+[Learn more about Azure Service Operator v2](/hack/README.md)
 
 ## Contributing
 
-The [contribution guide](CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](docs/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
+The [contribution guide](CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](/docs/v1/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
 
 ## Support
 

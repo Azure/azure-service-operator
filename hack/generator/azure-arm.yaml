@@ -3,7 +3,7 @@ schemaUrlRewrite:
   from: 'https://schema.management.azure.com/schemas/'
   to: 'specs/azure-resource-manager-schemas/schemas/'
 destinationGoModuleFile: ../generated/go.mod
-typesOutputPath: _apis
+typesOutputPath: apis
 typeRegistrationOutputFile: controllers/controller_resources_gen.go
 pipeline: azure
 typeFilters:
