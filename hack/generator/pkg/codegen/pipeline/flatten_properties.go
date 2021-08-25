@@ -87,6 +87,19 @@ func removeFlatten(t astmodel.Type) astmodel.Type {
 	return t
 }
 
+// fixCollisions renames properties to avoid collisions created while flattening.
+//
+// For example:
+//
+// If we have a structure like:
+// - `Type`
+// - `Properties` (marked to flatten)
+//   - `Type`
+//
+// We will flatten it and rename the second property, resulting in:
+// - `Type`
+// - `PropertiesType`
+//
 func fixCollisions(props []*astmodel.PropertyDefinition) []*astmodel.PropertyDefinition {
 	names := make(map[astmodel.PropertyName]int)
 
