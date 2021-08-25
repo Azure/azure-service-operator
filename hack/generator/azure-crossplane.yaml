@@ -3,7 +3,7 @@ schemaUrlRewrite:
   from: 'https://schema.management.azure.com/schemas/'
   to: 'specs/azure-resource-manager-schemas/schemas/'
 destinationGoModuleFile: ../crossplane/go.mod
-typesOutputPath: _apis
+typesOutputPath: apis
 pipeline: crossplane
 typeFilters:
   - action: prune

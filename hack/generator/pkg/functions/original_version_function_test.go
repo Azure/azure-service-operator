@@ -18,7 +18,7 @@ func Test_OriginalVersionFunction_GeneratesExpectedCode(t *testing.T) {
 	originalVersionFunction := NewOriginalVersionFunction(idFactory)
 	demoType := astmodel.NewObjectType().WithFunction(originalVersionFunction)
 
-	demoPkg := astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/hack/generated/_apis", "Person", "vDemo")
+	demoPkg := astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/hack/generated/apis", "Person", "vDemo")
 	demoName := astmodel.MakeTypeName(demoPkg, "Demo")
 
 	demoDef := astmodel.MakeTypeDefinition(demoName, demoType)

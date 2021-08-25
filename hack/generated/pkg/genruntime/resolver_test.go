@@ -19,9 +19,9 @@ import (
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	batch "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.batch/v1alpha1api20210101"
-	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
-	storage "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.storage/v1alpha1api20210401"
+	batch "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.batch/v1alpha1api20210101"
+	resources "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.resources/v1alpha1api20200601"
+	storage "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.storage/v1alpha1api20210401"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
 )

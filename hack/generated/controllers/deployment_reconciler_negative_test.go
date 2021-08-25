@@ -14,9 +14,9 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 
-	compute "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.compute/v1alpha1api20201201"
-	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
-	storage "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.storage/v1alpha1api20210401"
+	compute "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.compute/v1alpha1api20201201"
+	resources "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.resources/v1alpha1api20200601"
+	storage "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.storage/v1alpha1api20210401"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
