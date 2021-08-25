@@ -1,77 +1,158 @@
-# Azure Service Operator
+# Azure Service Operator v2
 
-## Developer setup (with VS Code)
-This repository contains a [devcontainer](https://code.visualstudio.com/docs/remote/containers) configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled. 
+## Project Status
+This project is an alpha. We follow the [Kubernetes definition of alpha](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
 
-This is the recommended setup, especially if you are using Windows as your development platform.
+## Why use Azure Service Operator v2?
+- **K8s Native:** we provide CRDs and Golang API structures to deploy and manage Azure resources through Kubernetes.
+- **Azure Native:** our CRDs understand Azure resource lifecycle and model it using K8s garbage collection via ownership references.
+- **Cloud Scale:** we generate K8s CRDs from Azure Resource Manager schemas to move as fast as Azure.
+- **Async Reconciliation:** we don't block on resource creation.
 
-If you want to use this:
+## Getting Started
+### Prerequisites
+1. A Kubernetes cluster (at least version 1.16) [created and running](https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/). You can check your cluster version with `kubectl version`. If you want to try it out quickly, spin up a local cluster using [Kind](https://kind.sigs.k8s.io).
+2. An Azure Subscription to provision resources into.
+3. An Azure Service Principal for the operator to use, or the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) to create one. How to create a Service Principal is covered in [installation](#installation).
 
-0. Make sure you have installed [the prerequisites to use Docker](https://code.visualstudio.com/docs/remote/containers#_system-requirements), including WSL if on Windows.
-1. Install VS Code and the [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) extension (check installation instructions there).
-2. Run the VS Code command (with `Ctrl-Shift-P`): `Remote Containers: Clone Repository in Container Volume...`
-  
-   **Note**: in Windows, it is important to clone directly into a container instead of cloning first and then loading that with the `Remote Containers` extension, as the tooling performs a lot of file I/O, and if this is performed against a volume mounted in WSL then it is unusably slow.
+### Installation
+1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
 
-   To complete the clone:
-   1. Select "`GitHub`".
-   2. Search for "`Azure/azure-service-operator`".
-   3. Choose either of the following options about where to create the volume.
-   4. The window will reload and run the `Dockerfile` setup. The first time, this will take some minutes to complete as it installs all dependencies.
+    ```bash
+    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
+    ```
 
-3. To validate everything is working correctly, you can open a terminal in VS Code and run `task -l`. This will show a list of all `task` commands. Running `task` by itself (or `task default`) will run quick local pre-checkin tests and validation.
+2. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
+   
+   First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
+   ```yaml
+   AZURE_TENANT_ID=<your-tenant-id-goes-here>
+   AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
+   ```
 
-## Without VS Code
+   You can find these values by using the Azure CLI: `az account show`
 
-### Option 1: Dockerfile
+   Next, create a service principal with Contributor permissions for your subscription.
 
-The same `Dockerfile` that the VS Code `devcontainer` extension uses can also be used outside of VS Code; it is stored in the root `.devcontainer` directory and can be used to create a development container with all the tooling preinstalled:
+   ```bash
+   az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
+       --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
+   ```
 
-```console
-$ docker build $(git rev-parse --show-toplevel)/.devcontainer -t asodev:latest
-… image will be created …
+   This should give you output like the following:
+   ```bash
+   "appId": "xxxxxxxxxx",
+   "displayName": "azure-service-operator",
+   "name": "http://azure-service-operator",
+   "password": "xxxxxxxxxxx",
+   "tenant": "xxxxxxxxxxxxx"
+   ```
 
-$ # After that you can start a terminal in the development container with:
-$ docker run -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) -it asodev:latest
+   Once you have created a service principal, set the following variables to your app ID and password values:
+   ```bash 
+   AZURE_CLIENT_ID=<your-client-id> # This is the appID from the service principal we created.
+   AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
+   ```
+3. Download [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator and install it into your cluster.
+   ```bash
+   kubectl apply -f azureserviceoperator_v2.0.0-alpha.0.yaml
+   ```
+4. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command:
+   ```bash
+   cat <<EOF | kubectl apply -f -
+   apiVersion: v1
+   kind: Secret
+   metadata:
+   name: aso-controller-settings
+   namespace: azureoperator-system
+   stringData:
+     AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+     AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+     AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+     AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
+   EOF
+   ```
+
+### Usage
+
+Once the controller has been installed in your cluster, you should be able to run the following:
+
+```bash
+$ kubectl get pods -n azureoperator-system
+NAME                                                READY   STATUS    RESTARTS   AGE
+azureoperator-controller-manager-5b4bfc59df-lfpqf   2/2     Running   0          24s
+
+# check out the logs for the running controller
+$ kubectl logs -n azureoperator-system azureoperator-controller-manager-5b4bfc59df-lfpqf manager 
+
+# let's create an Azure ResourceGroup in westcentralus with the name "aso-sample-rg"
+cat <<EOF | kubectl apply -f -
+apiVersion: microsoft.resources.azure.com/v1alpha1api20200601
+kind: ResourceGroup
+metadata:
+  name: aso-sample-rg
+  namespace: default
+spec:
+  location: westcentralus
+EOF
+# resourcegroup.microsoft.resources.azure.com/aso-sample-rg created
+
+# let's see what the ResourceGroup resource looks like
+$ kubectl describe resourcegroups/aso-sample-rg
+Name:         aso-sample-rg
+Namespace:    default
+Labels:       <none>
+Annotations:  resource-id.azure.com: /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
+              resource-sig.azure.com: 1e3a37c42f6beadbe23d53cf0d271f02d2805d6e295a7e13d5f07bda1fc5b800
+API Version:  microsoft.resources.azure.com/v1alpha1api20200601
+Kind:         ResourceGroup
+Metadata:
+  Creation Timestamp:  2021-08-23T23:59:06Z
+  Finalizers:
+    serviceoperator.azure.com/finalizer
+  Generation:  1
+Spec:
+  Azure Name:  aso-sample-rg
+  Location:    westcentralus
+Status:
+  Conditions:
+    Last Transition Time:  2021-08-23T23:59:13Z
+    Reason:                Succeeded
+    Status:                True
+    Type:                  Ready
+  Id:                      /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
+  Location:                westcentralus
+  Name:                    aso-sample-rg
+  Provisioning State:      Succeeded
+Events:
+  Type    Reason             Age   From                     Message
+  ----    ------             ----  ----                     -------
+  Normal  BeginDeployment    32s   ResourceGroupController  Created new deployment to Azure with ID "/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79"
+  Normal  MonitorDeployment  32s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Accepted"
+  Normal  MonitorDeployment  27s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Succeeded"
+
+
+# delete the ResourceGroup
+$ kubectl delete resourcegroups/aso-sample-rg
+# resourcegroup.microsoft.resources.azure.com "aso-sample-rg" deleted
 ```
 
-It is not recommended to mount the source like this on Windows (WSL2) as the cross-VM file operations are very slow.
+For samples of additional resources, see the [resource samples directory](./generated/config/samples).
 
-### Option 2: ./dev.sh
+### Tearing it down
+**Warning: if you `kubectl delete` an Azure resource, it will delete the Azure resource. This can
+be dangerous if you were to do this with an existing resource group which contains resources you do
+not wish to be deleted.**
 
-If you are using Linux, instead of using VS Code you can run the `dev.sh` script in the root of the repository. This will install all required tooling into the `hack/tools` directory and then start a new shell with the `PATH` updated to use it.
+If you want to delete the resources you've created, just `kubectl delete` each of the Azure
+resources.
 
-## Running integration tests
-
-Basic use: run `task controller:test-integration-envtest`.
-
-### Record/replay
-
-The task `controller:test-integration-envtest` runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the [go-vcr](https://github.com/dnaeon/go-vcr) library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings. 
-
-To do this, delete the recordings for the failing tests (under `{test-dir}/recordings/{test-name}.yml`), and re-run `controller:test-integration-envtest`. If the test passes, a new recording will be saved, which you can commit to include with your change. All authentication and subscription information is removed from the recording.
-
-To run the test and produce a new recording you will also need to have set the required authentication environment variables for an Azure Service Principal: `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, and `AZURE_CLIENT_SECRET`. This Service Principal will need access to the subscription to create and delete resources.
-
-If you need to create a new Azure Service Principal, run the following commands:
-
-```console
-$ az login
-… follow the instructions …
-$ az account set --subscription {the subscription ID you would like to use}
-Creating a role assignment under the scope of "/subscriptions/{subscription ID you chose}"
-…
-$ az ad sp create-for-rbac --role contributor --name {the name you would like to use}
-{
-  "appId": "…",
-  "displayName": "{name you chose}",
-  "name": "{name you chose}",
-  "password": "…",
-  "tenant": "…"
-}
+As for deleting controller components, just `kubectl delete -f` the release manifests you created
+to get started. For example, creating and deleting cert-manager.
+```bash
+# remove the cert-manager components
+kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
 ```
-The output contains `appId` (`AZURE_CLIENT_ID`), `password` (`AZURE_CLIENT_SECRET`), and `tenant` (`AZURE_TENANT_ID`). Store these somewhere safe as the password cannot be viewed again, only reset. The Service Principal will be created as a “contributor” to your subscription which means it can create and delete resources, so **ensure you keep the secrets secure**.
 
-### Running live tests
-
-If you want to skip all recordings and run all tests directly against live Azure resources, you can use the `controller:test-integration-envtest-live` task. This will also require you to set the authentication environment variables, as detailed above.
+## How to contribute
+To get started developing or contributing to the project, follow the instructions in the [contributing guide](./CONTRIBUTING.md).

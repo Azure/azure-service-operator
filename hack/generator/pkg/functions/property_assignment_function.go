@@ -110,7 +110,7 @@ func NewPropertyAssignmentFunction(
 
 // Name returns the name of this function
 func (fn *PropertyAssignmentFunction) Name() string {
-	return conversions.NameOfPropertyAssignmentFunction(fn.otherDefinition.Name(), fn.direction, fn.idFactory)
+	return conversions.NameOfPropertyAssignmentFunction(fn.ParameterType(), fn.direction, fn.idFactory)
 }
 
 // RequiredPackageReferences returns the set of package references required by this function
@@ -125,7 +125,7 @@ func (fn *PropertyAssignmentFunction) RequiredPackageReferences() *astmodel.Pack
 
 // References returns the set of types referenced by this function
 func (fn *PropertyAssignmentFunction) References() astmodel.TypeNameSet {
-	return astmodel.NewTypeNameSet(fn.otherDefinition.Name())
+	return astmodel.NewTypeNameSet(fn.ParameterType())
 }
 
 // Equals checks to see if the supplied function is the same as this one
@@ -163,8 +163,8 @@ func (fn *PropertyAssignmentFunction) Direction() conversions.Direction {
 func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 
 	description := fn.direction.SelectString(
-		fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.otherDefinition.Name().Name()),
-		fmt.Sprintf("populates the provided destination %s from our %s", fn.otherDefinition.Name().Name(), receiver.Name()))
+		fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.ParameterType().Name()),
+		fmt.Sprintf("populates the provided destination %s from our %s", fn.ParameterType().Name(), receiver.Name()))
 
 	// We always use a pointer receiver, so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
@@ -176,18 +176,22 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 		Body:          fn.generateBody(fn.receiverName, fn.parameterName, generationContext),
 	}
 
-	parameterPackage := generationContext.MustGetImportedPackageName(fn.otherDefinition.Name().PackageReference)
+	parameterPackage := generationContext.MustGetImportedPackageName(fn.ParameterType().PackageReference)
 
 	funcDetails.AddParameter(
 		fn.parameterName,
 		&dst.StarExpr{
-			X: astbuilder.Selector(dst.NewIdent(parameterPackage), fn.otherDefinition.Name().Name()),
+			X: astbuilder.Selector(dst.NewIdent(parameterPackage), fn.ParameterType().Name()),
 		})
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(description)
 
 	return funcDetails.DefineFunc()
+}
+
+func (fn *PropertyAssignmentFunction) ParameterType() astmodel.TypeName {
+	return fn.otherDefinition.Name()
 }
 
 // generateBody returns the statements required for the conversion function

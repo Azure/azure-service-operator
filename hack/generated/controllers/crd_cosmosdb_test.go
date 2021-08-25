@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	documentdb "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.documentdb/v1alpha1api20210515"
+	documentdb "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.documentdb/v1alpha1api20210515"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 

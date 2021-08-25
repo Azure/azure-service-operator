@@ -325,15 +325,18 @@ endif
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
 .PHONY: install-kubebuilder
+install-kubebuilder: OS := $(shell go env GOOS)
+install-kubebuilder: ARCH := $(shell go env GOARCH)
+install-kubebuilder: KUBEBUILDER_VERSION := 2.3.1
+install-kubebuilder: KUBEBUILDER_DEST := $(shell go env GOPATH)/kubebuilder
 install-kubebuilder:
 ifeq (,$(shell which kubebuilder))
 	@echo "installing kubebuilder"
-	# download kubebuilder and extract it to tmp
-	curl -sL https://go.kubebuilder.io/dl/2.3.1/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C $(TMPDIR)
-	# move to a long-term location and put it on your path
-	# (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
-	mv $(TMPDIR)/kubebuilder_2.3.1_$(shell go env GOOS)_$(shell go env GOARCH) $(shell go env GOPATH)/kubebuilder
-	export PATH=$$PATH:$(shell go env GOPATH)/kubebuilder/bin
+
+	@echo "Installing kubebuilder ${KUBEBUILDER_VERSION} (${OS} ${ARCH})..."
+	curl -L "https://github.com/kubernetes-sigs/kubebuilder/releases/download/v${KUBEBUILDER_VERSION}/kubebuilder_${KUBEBUILDER_VERSION}_${OS}_${ARCH}.tar.gz" | tar -xz -C $(TMPDIR)/
+	mv "$(TMPDIR)/kubebuilder_${KUBEBUILDER_VERSION}_${OS}_${ARCH}" "${KUBEBUILDER_DEST}"
+	export PATH=$$PATH:${KUBEBUILDER_DEST}/bin
 else
 	@echo "kubebuilder has been installed"
 endif
@@ -357,7 +360,7 @@ install-test-tools: install-tools
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge \
-	&& go get sigs.k8s.io/kind@v0.9.0
+	&& go get sigs.k8s.io/kind@v0.11.1
 	rm -r $(TEST_TOOLS_MOD_DIR)
 
 .PHONY: install-tools

@@ -465,7 +465,7 @@ func (objectType *ObjectType) WithInterface(iface *InterfaceImplementation) *Obj
 
 // WithoutInterface removes the specified interface
 func (objectType *ObjectType) WithoutInterface(name TypeName) *ObjectType {
-	if !objectType.InterfaceImplementer.HasInterface(name) {
+	if _, found := objectType.InterfaceImplementer.FindInterface(name); !found {
 		return objectType
 	}
 
@@ -520,6 +520,10 @@ func (objectType *ObjectType) TestCases() []TestCase {
 	for _, tc := range objectType.testcases {
 		result = append(result, tc)
 	}
+
+	sort.Slice(result, func(i int, j int) bool {
+		return result[i].Name() < result[j].Name()
+	})
 
 	return result
 }
