@@ -12,6 +12,8 @@ import (
 	"github.com/dave/dst"
 )
 
+// InterfaceImplementer represents a container that may contain multiple interface implementations
+// Both resources and objects are examples of interface implementers
 type InterfaceImplementer struct {
 	interfaces map[TypeName]*InterfaceImplementation
 }
@@ -21,18 +23,22 @@ func MakeInterfaceImplementer() InterfaceImplementer {
 	return InterfaceImplementer{}
 }
 
-func (i InterfaceImplementer) HasInterface(name TypeName) bool {
-	_, ok := i.interfaces[name]
-	return ok
+// FindInterface is used to find a particular interface implementation when given the type name of the interface being
+// implemented.
+func (i InterfaceImplementer) FindInterface(name TypeName) (*InterfaceImplementation, bool) {
+	result, ok := i.interfaces[name]
+	return result, ok
 }
 
+// WithoutInterface returns a new interface implementer that doesn't contain the specified interface
 func (i InterfaceImplementer) WithoutInterface(name TypeName) InterfaceImplementer {
 	result := i.copy()
 	delete(result.interfaces, name)
 	return result
 }
 
-// WithInterface creates a new ObjectType with a function (method) attached to it
+// WithInterface creates a new InterfaceImplementer with the specified implementation included.
+// Any existing implementation of the same interface will be replaced.
 func (i InterfaceImplementer) WithInterface(iface *InterfaceImplementation) InterfaceImplementer {
 	result := i.copy()
 	result.interfaces[iface.Name()] = iface
