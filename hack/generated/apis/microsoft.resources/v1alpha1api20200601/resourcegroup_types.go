@@ -12,8 +12,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 )
 
-// TODO: it doesn't really matter where these are (as long as they're in _apis, where is where we run controller-gen).
-// These are the permissions required by the generic_controller. They're here because they can't go outside the _apis
+// TODO: it doesn't really matter where these are (as long as they're in 'apis', where is where we run controller-gen).
+// These are the permissions required by the generic_controller. They're here because they can't go outside the 'apis'
 // directory.
 
 // +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;patch
@@ -95,7 +95,6 @@ type ResourceGroupStatus struct {
 	// Tags are user defined key value pairs
 	Tags map[string]string `json:"tags,omitempty"`
 
-
 	ProvisioningState string `json:"provisioningState,omitempty"`
 
 	// Conditions describe the observed state of the resource
@@ -129,8 +128,8 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.KnownResourc
 }
 
 type ResourceGroupSpec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name
+	// of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required

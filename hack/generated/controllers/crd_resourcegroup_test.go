@@ -12,7 +12,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	resources "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.resources/v1alpha1api20200601"
+	resources "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 )
 

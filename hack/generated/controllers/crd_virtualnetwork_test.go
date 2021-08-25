@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	network "github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.network/v1alpha1api20201101"
+	network "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
