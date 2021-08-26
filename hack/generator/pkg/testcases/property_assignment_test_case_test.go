@@ -55,9 +55,8 @@ func TestPropertyAssignmentTestCase_AsFunc(t *testing.T) {
 
 	testcase := NewPropertyAssignmentTestCase(currentSpec.Name(), container, idFactory)
 
-	currentSpec, err = testCaseInjector.Inject(currentSpec, testcase)
+	modifiedSpec, err := testCaseInjector.Inject(currentSpec, testcase)
 	g.Expect(err).To(Succeed())
 
-	fileDef := test.CreateTestFileDefinition(currentSpec)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, "person_test")
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "person_test", modifiedSpec, test.DiffWith(currentSpec), test.IncludeTestFiles())
 }

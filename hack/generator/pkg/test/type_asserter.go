@@ -86,7 +86,11 @@ func (a *typeAsserter) assertFile(
 			return
 		}
 
-		content = diff.Diff(base, content)
+		d := diff.Diff(base, content)
+		if len(d) > 0 {
+			// Only use the diff if it's not empty
+			content = d
+		}
 	}
 
 	g.Assert(a.t, name, []byte(content))
