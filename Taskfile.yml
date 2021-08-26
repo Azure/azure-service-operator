@@ -58,9 +58,13 @@ tasks:
 
   ############### Generator targets ###############
   generator:quick-checks:
-    deps: [header-check, specifier-check, generator:format-code, generator:test]
-    # Lint is forced to the end because it expects the code is formatted
     cmds:
+    - task: generator:test
+    # these three are placed after generator:test so the code is generated beforehand
+    - task: header-check
+    - task: specifier-check
+    - task: generator:format-code
+    # Lint is forced to the end because it expects the code is formatted
     - task: generator:lint
 
   generator:ci:
