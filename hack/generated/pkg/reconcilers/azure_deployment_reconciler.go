@@ -108,12 +108,20 @@ func NewAzureDeploymentReconciler(
 	}
 }
 
-func (r *AzureDeploymentReconciler) checkForFatalReconciliationError(err error) {
+func (r *AzureDeploymentReconciler) checkForFatalReconciliationError(ctx context.Context, err error) error {
 	var fatal FatalReconciliationError
-	if errors.As(err, &fatal) {
-		r.SetResourceProvisioningState(armclient.FailedProvisioningState)
-		r.SetResourceError(fatal.Message)
+	if !errors.As(err, &fatal) {
+		return nil
 	}
+
+	condition := r.PositiveConditions.MakeFalseCondition(
+		conditions.ConditionTypeReady,
+		conditions.ConditionSeverityError,
+		conditions.ReasonReconciliationFailedPermanently,
+		fatal.Message)
+
+	conditions.SetCondition(r.obj, condition)
+	return r.CommitUpdate(ctx)
 }
 
 func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Result, error) {
@@ -124,7 +132,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 		r.log.Error(err, "error determining create or update action")
 		r.recorder.Event(r.obj, v1.EventTypeWarning, "DetermineCreateOrUpdateActionError", err.Error())
 
-		r.checkForFatalReconciliationError(err)
+		err = r.checkForFatalReconciliationError(ctx, err)
 
 		return ctrl.Result{}, err
 	}
@@ -136,7 +144,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 		r.log.Error(err, "Error during CreateOrUpdate", "action", action)
 		r.recorder.Event(r.obj, v1.EventTypeWarning, "CreateOrUpdateActionError", err.Error())
 
-		r.checkForFatalReconciliationError(err)
+		err = r.checkForFatalReconciliationError(ctx, err)
 
 		return ctrl.Result{}, err
 	}
@@ -152,7 +160,7 @@ func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, er
 		r.log.Error(err, "error determining delete action")
 		r.recorder.Event(r.obj, v1.EventTypeWarning, "DetermineDeleteActionError", err.Error())
 
-		r.checkForFatalReconciliationError(err)
+		err = r.checkForFatalReconciliationError(ctx, err)
 
 		return ctrl.Result{}, err
 	}
@@ -162,7 +170,7 @@ func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, er
 		r.log.Error(err, "Error during Delete", "action", action)
 		r.recorder.Event(r.obj, v1.EventTypeWarning, "DeleteActionError", err.Error())
 
-		r.checkForFatalReconciliationError(err)
+		err = r.checkForFatalReconciliationError(ctx, err)
 
 		return ctrl.Result{}, err
 	}

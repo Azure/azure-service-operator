@@ -6,9 +6,10 @@ Licensed under the MIT license.
 package conditions
 
 const (
-	ReasonReconciling     = "Reconciling"
-	ReasonWaitingForOwner = "WaitingForOwner"
-	ReasonDeleting        = "Deleting"
+	ReasonReconciling                     = "Reconciling"
+	ReasonWaitingForOwner                 = "WaitingForOwner"
+	ReasonDeleting                        = "Deleting"
+	ReasonReconciliationFailedPermanently = "ReconciliationFailedPermanently"
 )
 
 func NewReadyConditionBuilder(builder PositiveConditionBuilderInterface) *ReadyConditionBuilder {
