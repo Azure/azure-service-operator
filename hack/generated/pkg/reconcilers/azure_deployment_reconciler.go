@@ -108,6 +108,9 @@ func NewAzureDeploymentReconciler(
 	}
 }
 
+// checkForFatalReconciliationError:
+// - at the moment this is only raised during tests if we determine that a record-replay
+//   test has gone off the rails, but it will be useful for scenarios in the real world as well
 func (r *AzureDeploymentReconciler) checkForFatalReconciliationError(ctx context.Context, err error) error {
 	var fatal FatalReconciliationError
 	if !errors.As(err, &fatal) {
@@ -164,6 +167,8 @@ func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, er
 
 		return ctrl.Result{}, err
 	}
+
+	r.log.V(1).Info("Deleting Azure resource %s, will perform: %s", r.obj.AzureName(), action)
 
 	result, err := actionFunc(ctx)
 	if err != nil {
