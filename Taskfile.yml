@@ -139,7 +139,7 @@ tasks:
     deps: [controller:generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
-    - golangci-lint run -v --fast=false ./...
+    - golangci-lint run -v --fast=false --timeout 5m ./...
 
   controller:format-code:
     desc: Ensure all code is correctly formatted.
