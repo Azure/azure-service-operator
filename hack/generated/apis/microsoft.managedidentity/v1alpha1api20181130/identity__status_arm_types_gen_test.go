@@ -29,17 +29,20 @@ func Test_Identity_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing
 
 // RunJSONSerializationTestForIdentityStatusARM runs a test to see if a specific instance of Identity_StatusARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForIdentityStatusARM(subject Identity_StatusARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Identity_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForIdentityStatusARM(subject Identity_StatusARM) st
 	return ""
 }
 
-//Generator of Identity_StatusARM instances for property testing - lazily
-//instantiated by IdentityStatusARMGenerator()
+// Generator of Identity_StatusARM instances for property testing - lazily instantiated by IdentityStatusARMGenerator()
 var identityStatusARMGenerator gopter.Gen
 
 // IdentityStatusARMGenerator returns a generator of Identity_StatusARM instances for property testing.
@@ -103,17 +105,20 @@ func Test_UserAssignedIdentityProperties_StatusARM_WhenSerializedToJson_Deserial
 
 // RunJSONSerializationTestForUserAssignedIdentityPropertiesStatusARM runs a test to see if a specific instance of UserAssignedIdentityProperties_StatusARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForUserAssignedIdentityPropertiesStatusARM(subject UserAssignedIdentityProperties_StatusARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual UserAssignedIdentityProperties_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -125,8 +130,7 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertiesStatusARM(subject 
 	return ""
 }
 
-//Generator of UserAssignedIdentityProperties_StatusARM instances for property
-//testing - lazily instantiated by
+// Generator of UserAssignedIdentityProperties_StatusARM instances for property testing - lazily instantiated by
 //UserAssignedIdentityPropertiesStatusARMGenerator()
 var userAssignedIdentityPropertiesStatusARMGenerator gopter.Gen
 

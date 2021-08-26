@@ -5,6 +5,7 @@ package v1alpha1api20210101preview
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.servicebus/v1alpha1api20210101previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,44 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_NamespacesQueue_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesQueue to NamespacesQueue via AssignPropertiesToNamespacesQueue & AssignPropertiesFromNamespacesQueue returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesQueue, NamespacesQueueGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesQueue tests if a specific instance of NamespacesQueue can be assigned to v1alpha1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespacesQueue(subject NamespacesQueue) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210101previewstorage.NamespacesQueue
+	err := subject.AssignPropertiesToNamespacesQueue(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesQueue
+	err = actual.AssignPropertiesFromNamespacesQueue(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_NamespacesQueue_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
@@ -29,17 +68,20 @@ func Test_NamespacesQueue_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 
 // RunJSONSerializationTestForNamespacesQueue runs a test to see if a specific instance of NamespacesQueue round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesQueue(subject NamespacesQueue) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NamespacesQueue
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +93,7 @@ func RunJSONSerializationTestForNamespacesQueue(subject NamespacesQueue) string 
 	return ""
 }
 
-//Generator of NamespacesQueue instances for property testing - lazily
-//instantiated by NamespacesQueueGenerator()
+// Generator of NamespacesQueue instances for property testing - lazily instantiated by NamespacesQueueGenerator()
 var namespacesQueueGenerator gopter.Gen
 
 // NamespacesQueueGenerator returns a generator of NamespacesQueue instances for property testing.
@@ -74,6 +115,44 @@ func AddRelatedPropertyGeneratorsForNamespacesQueue(gens map[string]gopter.Gen) 
 	gens["Status"] = SBQueueStatusGenerator()
 }
 
+func Test_NamespacesQueues_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesQueues_Spec to NamespacesQueues_Spec via AssignPropertiesToNamespacesQueuesSpec & AssignPropertiesFromNamespacesQueuesSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesQueuesSpec, NamespacesQueuesSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesQueuesSpec tests if a specific instance of NamespacesQueues_Spec can be assigned to v1alpha1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespacesQueuesSpec(subject NamespacesQueues_Spec) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210101previewstorage.NamespacesQueues_Spec
+	err := subject.AssignPropertiesToNamespacesQueuesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesQueues_Spec
+	err = actual.AssignPropertiesFromNamespacesQueuesSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NamespacesQueues_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -86,17 +165,20 @@ func Test_NamespacesQueues_Spec_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForNamespacesQueuesSpec runs a test to see if a specific instance of NamespacesQueues_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NamespacesQueues_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +190,8 @@ func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Sp
 	return ""
 }
 
-//Generator of NamespacesQueues_Spec instances for property testing - lazily
-//instantiated by NamespacesQueuesSpecGenerator()
+// Generator of NamespacesQueues_Spec instances for property testing - lazily instantiated by
+//NamespacesQueuesSpecGenerator()
 var namespacesQueuesSpecGenerator gopter.Gen
 
 // NamespacesQueuesSpecGenerator returns a generator of NamespacesQueues_Spec instances for property testing.
@@ -146,6 +228,44 @@ func AddIndependentPropertyGeneratorsForNamespacesQueuesSpec(gens map[string]gop
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
+func Test_SBQueue_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SBQueue_Status to SBQueue_Status via AssignPropertiesToSBQueueStatus & AssignPropertiesFromSBQueueStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSBQueueStatus, SBQueueStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSBQueueStatus tests if a specific instance of SBQueue_Status can be assigned to v1alpha1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForSBQueueStatus(subject SBQueue_Status) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210101previewstorage.SBQueue_Status
+	err := subject.AssignPropertiesToSBQueueStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SBQueue_Status
+	err = actual.AssignPropertiesFromSBQueueStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SBQueue_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -158,17 +278,20 @@ func Test_SBQueue_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 
 // RunJSONSerializationTestForSBQueueStatus runs a test to see if a specific instance of SBQueue_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBQueueStatus(subject SBQueue_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SBQueue_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -180,8 +303,7 @@ func RunJSONSerializationTestForSBQueueStatus(subject SBQueue_Status) string {
 	return ""
 }
 
-//Generator of SBQueue_Status instances for property testing - lazily instantiated
-//by SBQueueStatusGenerator()
+// Generator of SBQueue_Status instances for property testing - lazily instantiated by SBQueueStatusGenerator()
 var sbQueueStatusGenerator gopter.Gen
 
 // SBQueueStatusGenerator returns a generator of SBQueue_Status instances for property testing.
@@ -239,6 +361,44 @@ func AddRelatedPropertyGeneratorsForSBQueueStatus(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
 }
 
+func Test_MessageCountDetails_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MessageCountDetails_Status to MessageCountDetails_Status via AssignPropertiesToMessageCountDetailsStatus & AssignPropertiesFromMessageCountDetailsStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMessageCountDetailsStatus, MessageCountDetailsStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMessageCountDetailsStatus tests if a specific instance of MessageCountDetails_Status can be assigned to v1alpha1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForMessageCountDetailsStatus(subject MessageCountDetails_Status) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210101previewstorage.MessageCountDetails_Status
+	err := subject.AssignPropertiesToMessageCountDetailsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MessageCountDetails_Status
+	err = actual.AssignPropertiesFromMessageCountDetailsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_MessageCountDetails_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -251,17 +411,20 @@ func Test_MessageCountDetails_Status_WhenSerializedToJson_DeserializesAsEqual(t 
 
 // RunJSONSerializationTestForMessageCountDetailsStatus runs a test to see if a specific instance of MessageCountDetails_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForMessageCountDetailsStatus(subject MessageCountDetails_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual MessageCountDetails_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -273,8 +436,8 @@ func RunJSONSerializationTestForMessageCountDetailsStatus(subject MessageCountDe
 	return ""
 }
 
-//Generator of MessageCountDetails_Status instances for property testing - lazily
-//instantiated by MessageCountDetailsStatusGenerator()
+// Generator of MessageCountDetails_Status instances for property testing - lazily instantiated by
+//MessageCountDetailsStatusGenerator()
 var messageCountDetailsStatusGenerator gopter.Gen
 
 // MessageCountDetailsStatusGenerator returns a generator of MessageCountDetails_Status instances for property testing.

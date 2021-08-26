@@ -5,6 +5,7 @@ package v1alpha1api20210101preview
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.servicebus/v1alpha1api20210101previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,44 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_NamespacesTopic_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesTopic to NamespacesTopic via AssignPropertiesToNamespacesTopic & AssignPropertiesFromNamespacesTopic returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesTopic, NamespacesTopicGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesTopic tests if a specific instance of NamespacesTopic can be assigned to v1alpha1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespacesTopic(subject NamespacesTopic) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210101previewstorage.NamespacesTopic
+	err := subject.AssignPropertiesToNamespacesTopic(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesTopic
+	err = actual.AssignPropertiesFromNamespacesTopic(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_NamespacesTopic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
@@ -29,17 +68,20 @@ func Test_NamespacesTopic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 
 // RunJSONSerializationTestForNamespacesTopic runs a test to see if a specific instance of NamespacesTopic round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesTopic(subject NamespacesTopic) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NamespacesTopic
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +93,7 @@ func RunJSONSerializationTestForNamespacesTopic(subject NamespacesTopic) string 
 	return ""
 }
 
-//Generator of NamespacesTopic instances for property testing - lazily
-//instantiated by NamespacesTopicGenerator()
+// Generator of NamespacesTopic instances for property testing - lazily instantiated by NamespacesTopicGenerator()
 var namespacesTopicGenerator gopter.Gen
 
 // NamespacesTopicGenerator returns a generator of NamespacesTopic instances for property testing.
@@ -74,6 +115,44 @@ func AddRelatedPropertyGeneratorsForNamespacesTopic(gens map[string]gopter.Gen) 
 	gens["Status"] = SBTopicStatusGenerator()
 }
 
+func Test_NamespacesTopics_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesTopics_Spec to NamespacesTopics_Spec via AssignPropertiesToNamespacesTopicsSpec & AssignPropertiesFromNamespacesTopicsSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesTopicsSpec, NamespacesTopicsSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesTopicsSpec tests if a specific instance of NamespacesTopics_Spec can be assigned to v1alpha1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespacesTopicsSpec(subject NamespacesTopics_Spec) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210101previewstorage.NamespacesTopics_Spec
+	err := subject.AssignPropertiesToNamespacesTopicsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesTopics_Spec
+	err = actual.AssignPropertiesFromNamespacesTopicsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NamespacesTopics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -86,17 +165,20 @@ func Test_NamespacesTopics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForNamespacesTopicsSpec runs a test to see if a specific instance of NamespacesTopics_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesTopicsSpec(subject NamespacesTopics_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NamespacesTopics_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +190,8 @@ func RunJSONSerializationTestForNamespacesTopicsSpec(subject NamespacesTopics_Sp
 	return ""
 }
 
-//Generator of NamespacesTopics_Spec instances for property testing - lazily
-//instantiated by NamespacesTopicsSpecGenerator()
+// Generator of NamespacesTopics_Spec instances for property testing - lazily instantiated by
+//NamespacesTopicsSpecGenerator()
 var namespacesTopicsSpecGenerator gopter.Gen
 
 // NamespacesTopicsSpecGenerator returns a generator of NamespacesTopics_Spec instances for property testing.
@@ -141,6 +223,44 @@ func AddIndependentPropertyGeneratorsForNamespacesTopicsSpec(gens map[string]gop
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
+func Test_SBTopic_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SBTopic_Status to SBTopic_Status via AssignPropertiesToSBTopicStatus & AssignPropertiesFromSBTopicStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSBTopicStatus, SBTopicStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSBTopicStatus tests if a specific instance of SBTopic_Status can be assigned to v1alpha1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForSBTopicStatus(subject SBTopic_Status) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20210101previewstorage.SBTopic_Status
+	err := subject.AssignPropertiesToSBTopicStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SBTopic_Status
+	err = actual.AssignPropertiesFromSBTopicStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SBTopic_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -153,17 +273,20 @@ func Test_SBTopic_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 
 // RunJSONSerializationTestForSBTopicStatus runs a test to see if a specific instance of SBTopic_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBTopicStatus(subject SBTopic_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SBTopic_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -175,8 +298,7 @@ func RunJSONSerializationTestForSBTopicStatus(subject SBTopic_Status) string {
 	return ""
 }
 
-//Generator of SBTopic_Status instances for property testing - lazily instantiated
-//by SBTopicStatusGenerator()
+// Generator of SBTopic_Status instances for property testing - lazily instantiated by SBTopicStatusGenerator()
 var sbTopicStatusGenerator gopter.Gen
 
 // SBTopicStatusGenerator returns a generator of SBTopic_Status instances for property testing.

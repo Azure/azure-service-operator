@@ -154,8 +154,8 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			pipeline.InjectOriginalVersionPropertyStageID,
 			pipeline.InjectPropertyAssignmentFunctionsStageID,
 			// TODO: Once the stage is enabled in the pipeline, we may need to remove it here for testing
-			//pipeline.InjectHubFunctionStageID,
-			//pipeline.ImplementConvertibleInterfaceStageId,
+			// pipeline.InjectHubFunctionStageID,
+			// pipeline.ImplementConvertibleInterfaceStageId,
 			pipeline.ImplementConvertibleSpecInterfaceStageId,
 			pipeline.ImplementConvertibleStatusInterfaceStageId,
 			pipeline.ReportOnTypesAndVersionsStageID,
@@ -254,7 +254,7 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Sta
 			// Fabricate a single package definition
 			pkgs := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 
-			packageDefinition := astmodel.NewPackageDefinition(pr.Group(), pr.PackageName(), "1")
+			packageDefinition := astmodel.NewPackageDefinition(pr.Group(), pr.PackageName())
 			for _, def := range defs {
 				packageDefinition.AddDefinition(def)
 			}

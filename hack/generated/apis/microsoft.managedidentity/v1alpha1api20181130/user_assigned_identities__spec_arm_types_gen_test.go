@@ -29,17 +29,20 @@ func Test_UserAssignedIdentities_SpecARM_WhenSerializedToJson_DeserializesAsEqua
 
 // RunJSONSerializationTestForUserAssignedIdentitiesSpecARM runs a test to see if a specific instance of UserAssignedIdentities_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForUserAssignedIdentitiesSpecARM(subject UserAssignedIdentities_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual UserAssignedIdentities_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForUserAssignedIdentitiesSpecARM(subject UserAssign
 	return ""
 }
 
-//Generator of UserAssignedIdentities_SpecARM instances for property testing -
-//lazily instantiated by UserAssignedIdentitiesSpecARMGenerator()
+// Generator of UserAssignedIdentities_SpecARM instances for property testing - lazily instantiated by
+//UserAssignedIdentitiesSpecARMGenerator()
 var userAssignedIdentitiesSpecARMGenerator gopter.Gen
 
 // UserAssignedIdentitiesSpecARMGenerator returns a generator of UserAssignedIdentities_SpecARM instances for property testing.
