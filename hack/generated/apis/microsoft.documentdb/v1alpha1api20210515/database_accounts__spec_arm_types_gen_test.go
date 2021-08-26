@@ -29,17 +29,20 @@ func Test_ManagedServiceIdentityARM_WhenSerializedToJson_DeserializesAsEqual(t *
 
 // RunJSONSerializationTestForManagedServiceIdentityARM runs a test to see if a specific instance of ManagedServiceIdentityARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForManagedServiceIdentityARM(subject ManagedServiceIdentityARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ManagedServiceIdentityARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForManagedServiceIdentityARM(subject ManagedService
 	return ""
 }
 
-//Generator of ManagedServiceIdentityARM instances for property testing - lazily
-//instantiated by ManagedServiceIdentityARMGenerator()
+// Generator of ManagedServiceIdentityARM instances for property testing - lazily instantiated by
+//ManagedServiceIdentityARMGenerator()
 var managedServiceIdentityARMGenerator gopter.Gen
 
 // ManagedServiceIdentityARMGenerator returns a generator of ManagedServiceIdentityARM instances for property testing.
@@ -85,17 +88,20 @@ func Test_AnalyticalStorageConfigurationARM_WhenSerializedToJson_DeserializesAsE
 
 // RunJSONSerializationTestForAnalyticalStorageConfigurationARM runs a test to see if a specific instance of AnalyticalStorageConfigurationARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForAnalyticalStorageConfigurationARM(subject AnalyticalStorageConfigurationARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual AnalyticalStorageConfigurationARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -107,8 +113,8 @@ func RunJSONSerializationTestForAnalyticalStorageConfigurationARM(subject Analyt
 	return ""
 }
 
-//Generator of AnalyticalStorageConfigurationARM instances for property testing -
-//lazily instantiated by AnalyticalStorageConfigurationARMGenerator()
+// Generator of AnalyticalStorageConfigurationARM instances for property testing - lazily instantiated by
+//AnalyticalStorageConfigurationARMGenerator()
 var analyticalStorageConfigurationARMGenerator gopter.Gen
 
 // AnalyticalStorageConfigurationARMGenerator returns a generator of AnalyticalStorageConfigurationARM instances for property testing.
@@ -141,17 +147,20 @@ func Test_ApiPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 
 // RunJSONSerializationTestForApiPropertiesARM runs a test to see if a specific instance of ApiPropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForApiPropertiesARM(subject ApiPropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ApiPropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -163,8 +172,7 @@ func RunJSONSerializationTestForApiPropertiesARM(subject ApiPropertiesARM) strin
 	return ""
 }
 
-//Generator of ApiPropertiesARM instances for property testing - lazily
-//instantiated by ApiPropertiesARMGenerator()
+// Generator of ApiPropertiesARM instances for property testing - lazily instantiated by ApiPropertiesARMGenerator()
 var apiPropertiesARMGenerator gopter.Gen
 
 // ApiPropertiesARMGenerator returns a generator of ApiPropertiesARM instances for property testing.
@@ -197,17 +205,20 @@ func Test_CapabilityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForCapabilityARM runs a test to see if a specific instance of CapabilityARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForCapabilityARM(subject CapabilityARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual CapabilityARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -219,8 +230,7 @@ func RunJSONSerializationTestForCapabilityARM(subject CapabilityARM) string {
 	return ""
 }
 
-//Generator of CapabilityARM instances for property testing - lazily instantiated
-//by CapabilityARMGenerator()
+// Generator of CapabilityARM instances for property testing - lazily instantiated by CapabilityARMGenerator()
 var capabilityARMGenerator gopter.Gen
 
 // CapabilityARMGenerator returns a generator of CapabilityARM instances for property testing.
@@ -253,17 +263,20 @@ func Test_ConsistencyPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForConsistencyPolicyARM runs a test to see if a specific instance of ConsistencyPolicyARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForConsistencyPolicyARM(subject ConsistencyPolicyARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ConsistencyPolicyARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -275,8 +288,8 @@ func RunJSONSerializationTestForConsistencyPolicyARM(subject ConsistencyPolicyAR
 	return ""
 }
 
-//Generator of ConsistencyPolicyARM instances for property testing - lazily
-//instantiated by ConsistencyPolicyARMGenerator()
+// Generator of ConsistencyPolicyARM instances for property testing - lazily instantiated by
+//ConsistencyPolicyARMGenerator()
 var consistencyPolicyARMGenerator gopter.Gen
 
 // ConsistencyPolicyARMGenerator returns a generator of ConsistencyPolicyARM instances for property testing.
@@ -311,17 +324,20 @@ func Test_CorsPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForCorsPolicyARM runs a test to see if a specific instance of CorsPolicyARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForCorsPolicyARM(subject CorsPolicyARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual CorsPolicyARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -333,8 +349,7 @@ func RunJSONSerializationTestForCorsPolicyARM(subject CorsPolicyARM) string {
 	return ""
 }
 
-//Generator of CorsPolicyARM instances for property testing - lazily instantiated
-//by CorsPolicyARMGenerator()
+// Generator of CorsPolicyARM instances for property testing - lazily instantiated by CorsPolicyARMGenerator()
 var corsPolicyARMGenerator gopter.Gen
 
 // CorsPolicyARMGenerator returns a generator of CorsPolicyARM instances for property testing.
@@ -371,17 +386,20 @@ func Test_IpAddressOrRangeARM_WhenSerializedToJson_DeserializesAsEqual(t *testin
 
 // RunJSONSerializationTestForIpAddressOrRangeARM runs a test to see if a specific instance of IpAddressOrRangeARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForIpAddressOrRangeARM(subject IpAddressOrRangeARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IpAddressOrRangeARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -393,8 +411,8 @@ func RunJSONSerializationTestForIpAddressOrRangeARM(subject IpAddressOrRangeARM)
 	return ""
 }
 
-//Generator of IpAddressOrRangeARM instances for property testing - lazily
-//instantiated by IpAddressOrRangeARMGenerator()
+// Generator of IpAddressOrRangeARM instances for property testing - lazily instantiated by
+//IpAddressOrRangeARMGenerator()
 var ipAddressOrRangeARMGenerator gopter.Gen
 
 // IpAddressOrRangeARMGenerator returns a generator of IpAddressOrRangeARM instances for property testing.
@@ -427,17 +445,20 @@ func Test_LocationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForLocationARM runs a test to see if a specific instance of LocationARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLocationARM(subject LocationARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LocationARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -449,8 +470,7 @@ func RunJSONSerializationTestForLocationARM(subject LocationARM) string {
 	return ""
 }
 
-//Generator of LocationARM instances for property testing - lazily instantiated by
-//LocationARMGenerator()
+// Generator of LocationARM instances for property testing - lazily instantiated by LocationARMGenerator()
 var locationARMGenerator gopter.Gen
 
 // LocationARMGenerator returns a generator of LocationARM instances for property testing.
@@ -485,17 +505,20 @@ func Test_VirtualNetworkRuleARM_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForVirtualNetworkRuleARM runs a test to see if a specific instance of VirtualNetworkRuleARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkRuleARM(subject VirtualNetworkRuleARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkRuleARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -507,8 +530,8 @@ func RunJSONSerializationTestForVirtualNetworkRuleARM(subject VirtualNetworkRule
 	return ""
 }
 
-//Generator of VirtualNetworkRuleARM instances for property testing - lazily
-//instantiated by VirtualNetworkRuleARMGenerator()
+// Generator of VirtualNetworkRuleARM instances for property testing - lazily instantiated by
+//VirtualNetworkRuleARMGenerator()
 var virtualNetworkRuleARMGenerator gopter.Gen
 
 // VirtualNetworkRuleARMGenerator returns a generator of VirtualNetworkRuleARM instances for property testing.
@@ -542,17 +565,20 @@ func Test_ContinuousModeBackupPolicyARM_WhenSerializedToJson_DeserializesAsEqual
 
 // RunJSONSerializationTestForContinuousModeBackupPolicyARM runs a test to see if a specific instance of ContinuousModeBackupPolicyARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForContinuousModeBackupPolicyARM(subject ContinuousModeBackupPolicyARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ContinuousModeBackupPolicyARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -564,8 +590,8 @@ func RunJSONSerializationTestForContinuousModeBackupPolicyARM(subject Continuous
 	return ""
 }
 
-//Generator of ContinuousModeBackupPolicyARM instances for property testing -
-//lazily instantiated by ContinuousModeBackupPolicyARMGenerator()
+// Generator of ContinuousModeBackupPolicyARM instances for property testing - lazily instantiated by
+//ContinuousModeBackupPolicyARMGenerator()
 var continuousModeBackupPolicyARMGenerator gopter.Gen
 
 // ContinuousModeBackupPolicyARMGenerator returns a generator of ContinuousModeBackupPolicyARM instances for property testing.
@@ -598,17 +624,20 @@ func Test_PeriodicModeBackupPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t
 
 // RunJSONSerializationTestForPeriodicModeBackupPolicyARM runs a test to see if a specific instance of PeriodicModeBackupPolicyARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForPeriodicModeBackupPolicyARM(subject PeriodicModeBackupPolicyARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PeriodicModeBackupPolicyARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -620,8 +649,8 @@ func RunJSONSerializationTestForPeriodicModeBackupPolicyARM(subject PeriodicMode
 	return ""
 }
 
-//Generator of PeriodicModeBackupPolicyARM instances for property testing - lazily
-//instantiated by PeriodicModeBackupPolicyARMGenerator()
+// Generator of PeriodicModeBackupPolicyARM instances for property testing - lazily instantiated by
+//PeriodicModeBackupPolicyARMGenerator()
 var periodicModeBackupPolicyARMGenerator gopter.Gen
 
 // PeriodicModeBackupPolicyARMGenerator returns a generator of PeriodicModeBackupPolicyARM instances for property testing.
@@ -668,17 +697,20 @@ func Test_PeriodicModePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *
 
 // RunJSONSerializationTestForPeriodicModePropertiesARM runs a test to see if a specific instance of PeriodicModePropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForPeriodicModePropertiesARM(subject PeriodicModePropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PeriodicModePropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -690,8 +722,8 @@ func RunJSONSerializationTestForPeriodicModePropertiesARM(subject PeriodicModePr
 	return ""
 }
 
-//Generator of PeriodicModePropertiesARM instances for property testing - lazily
-//instantiated by PeriodicModePropertiesARMGenerator()
+// Generator of PeriodicModePropertiesARM instances for property testing - lazily instantiated by
+//PeriodicModePropertiesARMGenerator()
 var periodicModePropertiesARMGenerator gopter.Gen
 
 // PeriodicModePropertiesARMGenerator returns a generator of PeriodicModePropertiesARM instances for property testing.

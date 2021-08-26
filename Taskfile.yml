@@ -47,6 +47,8 @@ tasks:
     - generator:ci
     - controller:ci
     - crossplane:ci
+    cmds:
+    - task: verify-no-changes
 
   ci-live:
     desc: Run all CI checks with live Azure resources. Requires that auth environment variables are set.
@@ -54,33 +56,47 @@ tasks:
     - generator:ci
     - controller:ci-live
 
-  ############### Generator targets ###############
-  generator:quick-checks:
-    deps: [header-check, specifier-check, generator:format-code, generator:test]
-    # Lint is forced to the end because it expects the code is formatted
+  format-code:
+    desc: Ensure all code is formatted
+    dir: hack
     cmds:
+    - gofmt -l -s -w .
+
+  ############### Generator targets ###############
+  basic-checks:
+    deps: [header-check, specifier-check, format-code]
+
+  generator:quick-checks:
+    cmds:
+    - task: generator:unit-tests
+    - task: basic-checks
+    # Lint is forced to the end because it expects the code is formatted
     - task: generator:lint
 
   generator:ci:
-    deps: [header-check, specifier-check, generator:lint-full, generator:test-cover]
+    cmds:
+    - task: generator:unit-tests-cover
+    - task: basic-checks
+    # lint must be after format-code
+    - task: generator:lint-full
 
-  generator:test:
+  generator:unit-tests:
     desc: Run {{.GENERATOR_APP}} unit tests.
     dir: "{{.GENERATOR_ROOT}}"
     cmds:
     - go test ./... -tags=noexit -run '{{default ".*" .TEST_FILTER}}'
+
+  generator:unit-tests-cover:
+    desc: Run {{.GENERATOR_APP}} unit tests and output coverage.
+    dir: "{{.GENERATOR_ROOT}}"
+    cmds:
+    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}'
 
   generator:update-golden-tests:
     desc: Update {{.GENERATOR_APP}} golden test outputs.
     dir: "{{.GENERATOR_ROOT}}"
     cmds:
     - go test ./pkg/codegen -run ^TestGolden$ -update
-
-  generator:format-code:
-    desc: Ensure all code is correctly formatted.
-    dir: "{{.GENERATOR_ROOT}}"
-    cmds: 
-    - gofmt -l -s -w .
 
   generator:lint:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
@@ -93,12 +109,6 @@ tasks:
     dir: "{{.GENERATOR_ROOT}}"
     cmds:
     - golangci-lint run -v --fast=false
-
-  generator:test-cover:
-    desc: Run {{.GENERATOR_APP}} unit tests and output coverage.
-    dir: "{{.GENERATOR_ROOT}}"
-    cmds:
-    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}'
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
@@ -116,16 +126,26 @@ tasks:
 
   ############### Controller targets ###############
   controller:quick-checks:
-    deps: [header-check, specifier-check, controller:format-code, controller:test]
-    # Lint is forced to the end because it expects the code is formatted
     cmds:
+      - task: controller:test
+      # checks must be after test as that will generate code
+      - task: basic-checks
+      # Lint is forced to the end because it expects the code is formatted
       - task: controller:lint
 
   controller:ci:
-    deps: [header-check, specifier-check, controller:lint-full, controller:test-integration-envtest-cover]
+    cmds:
+    - task: controller:test-integration-envtest-cover
+    # checks must be after test as that will generate code
+    - task: basic-checks
+    # lint must be at end after code is formatted
+    - task: controller:lint-full
 
   controller:ci-live:
-    deps: [header-check, specifier-check, controller:lint-full, controller:test-integration-envtest-live]
+    cmds:
+    - task: controller:test-integration-envtest-live
+    - task: basic-checks
+    - task: controller:lint-full
 
   controller:lint:
     desc: Run fast lint checks.
@@ -140,12 +160,6 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
     - golangci-lint run -v --fast=false --timeout 5m ./...
-
-  controller:format-code:
-    desc: Ensure all code is correctly formatted.
-    dir: "{{.CONTROLLER_ROOT}}"
-    cmds: 
-    - gofmt -l -s -w $({{.GENERATED_DIRS_TO_FMT_CMD}})
 
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.
@@ -311,10 +325,8 @@ tasks:
 
   ############### Crossplane targets ###############
   crossplane:quick-checks:
-    deps: [header-check, specifier-check, crossplane:format-code]
-    # Lint is forced to the end because it expects the code is formatted
     cmds:
-      # - task: crossplane:lint
+      - task: basic-checks
 
 # TODO: We currently have no tests
 #  crossplane:test:
@@ -328,12 +340,6 @@ tasks:
 #    dir: "{{.CROSSPLANE_ROOT}}"
 #    cmds:
 #      - go test ./pkg/codegen -run ^TestGolden$ -update
-
-  crossplane:format-code:
-    desc: Ensure all code is correctly formatted.
-    dir: "{{.CROSSPLANE_ROOT}}"
-    cmds:
-      - gofmt -l -s -w .
 
   # TODO: No non-generated code in this directory at the moment
   # crossplane:lint:
@@ -401,3 +407,12 @@ tasks:
       - cmd: echo "==> Checking format specifiers <=="
         silent: true
       - cmd: '! git grep -e "%+v" -e "%v" --break --heading --line-number -I "*.go"'
+
+  verify-no-changes:
+    desc: Checks that there are no uncommitted modifications to files
+    cmds:
+    - cmd: 'if [ -n "{{.CHANGED}}" ]; then echo "Error: files were modified during the build (did you forget to commit generated files?):"; echo "{{.CHANGED}}"; exit 1; fi'
+      silent: true
+    vars:
+      CHANGED:
+        sh: git status --porcelain

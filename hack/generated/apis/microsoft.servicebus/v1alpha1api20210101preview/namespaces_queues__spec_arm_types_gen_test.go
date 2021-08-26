@@ -29,17 +29,20 @@ func Test_NamespacesQueues_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *t
 
 // RunJSONSerializationTestForNamespacesQueuesSpecARM runs a test to see if a specific instance of NamespacesQueues_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesQueuesSpecARM(subject NamespacesQueues_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NamespacesQueues_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForNamespacesQueuesSpecARM(subject NamespacesQueues
 	return ""
 }
 
-//Generator of NamespacesQueues_SpecARM instances for property testing - lazily
-//instantiated by NamespacesQueuesSpecARMGenerator()
+// Generator of NamespacesQueues_SpecARM instances for property testing - lazily instantiated by
+//NamespacesQueuesSpecARMGenerator()
 var namespacesQueuesSpecARMGenerator gopter.Gen
 
 // NamespacesQueuesSpecARMGenerator returns a generator of NamespacesQueues_SpecARM instances for property testing.
@@ -103,17 +106,20 @@ func Test_SBQueuePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForSBQueuePropertiesARM runs a test to see if a specific instance of SBQueuePropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBQueuePropertiesARM(subject SBQueuePropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SBQueuePropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -125,8 +131,8 @@ func RunJSONSerializationTestForSBQueuePropertiesARM(subject SBQueuePropertiesAR
 	return ""
 }
 
-//Generator of SBQueuePropertiesARM instances for property testing - lazily
-//instantiated by SBQueuePropertiesARMGenerator()
+// Generator of SBQueuePropertiesARM instances for property testing - lazily instantiated by
+//SBQueuePropertiesARMGenerator()
 var sbQueuePropertiesARMGenerator gopter.Gen
 
 // SBQueuePropertiesARMGenerator returns a generator of SBQueuePropertiesARM instances for property testing.

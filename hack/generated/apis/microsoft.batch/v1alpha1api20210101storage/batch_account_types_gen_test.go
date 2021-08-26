@@ -29,17 +29,20 @@ func Test_BatchAccount_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForBatchAccount runs a test to see if a specific instance of BatchAccount round trips to JSON and back losslessly
 func RunJSONSerializationTestForBatchAccount(subject BatchAccount) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual BatchAccount
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForBatchAccount(subject BatchAccount) string {
 	return ""
 }
 
-//Generator of BatchAccount instances for property testing - lazily instantiated
-//by BatchAccountGenerator()
+// Generator of BatchAccount instances for property testing - lazily instantiated by BatchAccountGenerator()
 var batchAccountGenerator gopter.Gen
 
 // BatchAccountGenerator returns a generator of BatchAccount instances for property testing.
@@ -86,17 +88,20 @@ func Test_BatchAccount_Status_WhenSerializedToJson_DeserializesAsEqual(t *testin
 
 // RunJSONSerializationTestForBatchAccountStatus runs a test to see if a specific instance of BatchAccount_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForBatchAccountStatus(subject BatchAccount_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual BatchAccount_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +113,7 @@ func RunJSONSerializationTestForBatchAccountStatus(subject BatchAccount_Status) 
 	return ""
 }
 
-//Generator of BatchAccount_Status instances for property testing - lazily
-//instantiated by BatchAccountStatusGenerator()
+// Generator of BatchAccount_Status instances for property testing - lazily instantiated by BatchAccountStatusGenerator()
 var batchAccountStatusGenerator gopter.Gen
 
 // BatchAccountStatusGenerator returns a generator of BatchAccount_Status instances for property testing.
@@ -174,17 +178,20 @@ func Test_BatchAccounts_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing
 
 // RunJSONSerializationTestForBatchAccountsSpec runs a test to see if a specific instance of BatchAccounts_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForBatchAccountsSpec(subject BatchAccounts_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual BatchAccounts_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -196,8 +203,7 @@ func RunJSONSerializationTestForBatchAccountsSpec(subject BatchAccounts_Spec) st
 	return ""
 }
 
-//Generator of BatchAccounts_Spec instances for property testing - lazily
-//instantiated by BatchAccountsSpecGenerator()
+// Generator of BatchAccounts_Spec instances for property testing - lazily instantiated by BatchAccountsSpecGenerator()
 var batchAccountsSpecGenerator gopter.Gen
 
 // BatchAccountsSpecGenerator returns a generator of BatchAccounts_Spec instances for property testing.
@@ -252,17 +258,20 @@ func Test_AutoStorageBaseProperties_WhenSerializedToJson_DeserializesAsEqual(t *
 
 // RunJSONSerializationTestForAutoStorageBaseProperties runs a test to see if a specific instance of AutoStorageBaseProperties round trips to JSON and back losslessly
 func RunJSONSerializationTestForAutoStorageBaseProperties(subject AutoStorageBaseProperties) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual AutoStorageBaseProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -274,8 +283,8 @@ func RunJSONSerializationTestForAutoStorageBaseProperties(subject AutoStorageBas
 	return ""
 }
 
-//Generator of AutoStorageBaseProperties instances for property testing - lazily
-//instantiated by AutoStorageBasePropertiesGenerator()
+// Generator of AutoStorageBaseProperties instances for property testing - lazily instantiated by
+//AutoStorageBasePropertiesGenerator()
 var autoStorageBasePropertiesGenerator gopter.Gen
 
 // AutoStorageBasePropertiesGenerator returns a generator of AutoStorageBaseProperties instances for property testing.
@@ -302,17 +311,20 @@ func Test_AutoStorageProperties_Status_WhenSerializedToJson_DeserializesAsEqual(
 
 // RunJSONSerializationTestForAutoStoragePropertiesStatus runs a test to see if a specific instance of AutoStorageProperties_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForAutoStoragePropertiesStatus(subject AutoStorageProperties_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual AutoStorageProperties_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -324,8 +336,8 @@ func RunJSONSerializationTestForAutoStoragePropertiesStatus(subject AutoStorageP
 	return ""
 }
 
-//Generator of AutoStorageProperties_Status instances for property testing -
-//lazily instantiated by AutoStoragePropertiesStatusGenerator()
+// Generator of AutoStorageProperties_Status instances for property testing - lazily instantiated by
+//AutoStoragePropertiesStatusGenerator()
 var autoStoragePropertiesStatusGenerator gopter.Gen
 
 // AutoStoragePropertiesStatusGenerator returns a generator of AutoStorageProperties_Status instances for property testing.
@@ -359,17 +371,20 @@ func Test_BatchAccountIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForBatchAccountIdentity runs a test to see if a specific instance of BatchAccountIdentity round trips to JSON and back losslessly
 func RunJSONSerializationTestForBatchAccountIdentity(subject BatchAccountIdentity) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual BatchAccountIdentity
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -381,8 +396,8 @@ func RunJSONSerializationTestForBatchAccountIdentity(subject BatchAccountIdentit
 	return ""
 }
 
-//Generator of BatchAccountIdentity instances for property testing - lazily
-//instantiated by BatchAccountIdentityGenerator()
+// Generator of BatchAccountIdentity instances for property testing - lazily instantiated by
+//BatchAccountIdentityGenerator()
 var batchAccountIdentityGenerator gopter.Gen
 
 // BatchAccountIdentityGenerator returns a generator of BatchAccountIdentity instances for property testing.
@@ -415,17 +430,20 @@ func Test_BatchAccountIdentity_Status_WhenSerializedToJson_DeserializesAsEqual(t
 
 // RunJSONSerializationTestForBatchAccountIdentityStatus runs a test to see if a specific instance of BatchAccountIdentity_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForBatchAccountIdentityStatus(subject BatchAccountIdentity_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual BatchAccountIdentity_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -437,8 +455,8 @@ func RunJSONSerializationTestForBatchAccountIdentityStatus(subject BatchAccountI
 	return ""
 }
 
-//Generator of BatchAccountIdentity_Status instances for property testing - lazily
-//instantiated by BatchAccountIdentityStatusGenerator()
+// Generator of BatchAccountIdentity_Status instances for property testing - lazily instantiated by
+//BatchAccountIdentityStatusGenerator()
 var batchAccountIdentityStatusGenerator gopter.Gen
 
 // BatchAccountIdentityStatusGenerator returns a generator of BatchAccountIdentity_Status instances for property testing.
@@ -487,17 +505,20 @@ func Test_EncryptionProperties_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForEncryptionProperties runs a test to see if a specific instance of EncryptionProperties round trips to JSON and back losslessly
 func RunJSONSerializationTestForEncryptionProperties(subject EncryptionProperties) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual EncryptionProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -509,8 +530,8 @@ func RunJSONSerializationTestForEncryptionProperties(subject EncryptionPropertie
 	return ""
 }
 
-//Generator of EncryptionProperties instances for property testing - lazily
-//instantiated by EncryptionPropertiesGenerator()
+// Generator of EncryptionProperties instances for property testing - lazily instantiated by
+//EncryptionPropertiesGenerator()
 var encryptionPropertiesGenerator gopter.Gen
 
 // EncryptionPropertiesGenerator returns a generator of EncryptionProperties instances for property testing.
@@ -557,17 +578,20 @@ func Test_EncryptionProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t
 
 // RunJSONSerializationTestForEncryptionPropertiesStatus runs a test to see if a specific instance of EncryptionProperties_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForEncryptionPropertiesStatus(subject EncryptionProperties_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual EncryptionProperties_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -579,8 +603,8 @@ func RunJSONSerializationTestForEncryptionPropertiesStatus(subject EncryptionPro
 	return ""
 }
 
-//Generator of EncryptionProperties_Status instances for property testing - lazily
-//instantiated by EncryptionPropertiesStatusGenerator()
+// Generator of EncryptionProperties_Status instances for property testing - lazily instantiated by
+//EncryptionPropertiesStatusGenerator()
 var encryptionPropertiesStatusGenerator gopter.Gen
 
 // EncryptionPropertiesStatusGenerator returns a generator of EncryptionProperties_Status instances for property testing.
@@ -627,17 +651,20 @@ func Test_KeyVaultReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 
 // RunJSONSerializationTestForKeyVaultReference runs a test to see if a specific instance of KeyVaultReference round trips to JSON and back losslessly
 func RunJSONSerializationTestForKeyVaultReference(subject KeyVaultReference) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual KeyVaultReference
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -649,8 +676,7 @@ func RunJSONSerializationTestForKeyVaultReference(subject KeyVaultReference) str
 	return ""
 }
 
-//Generator of KeyVaultReference instances for property testing - lazily
-//instantiated by KeyVaultReferenceGenerator()
+// Generator of KeyVaultReference instances for property testing - lazily instantiated by KeyVaultReferenceGenerator()
 var keyVaultReferenceGenerator gopter.Gen
 
 // KeyVaultReferenceGenerator returns a generator of KeyVaultReference instances for property testing.
@@ -683,17 +709,20 @@ func Test_KeyVaultReference_Status_WhenSerializedToJson_DeserializesAsEqual(t *t
 
 // RunJSONSerializationTestForKeyVaultReferenceStatus runs a test to see if a specific instance of KeyVaultReference_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForKeyVaultReferenceStatus(subject KeyVaultReference_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual KeyVaultReference_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -705,8 +734,8 @@ func RunJSONSerializationTestForKeyVaultReferenceStatus(subject KeyVaultReferenc
 	return ""
 }
 
-//Generator of KeyVaultReference_Status instances for property testing - lazily
-//instantiated by KeyVaultReferenceStatusGenerator()
+// Generator of KeyVaultReference_Status instances for property testing - lazily instantiated by
+//KeyVaultReferenceStatusGenerator()
 var keyVaultReferenceStatusGenerator gopter.Gen
 
 // KeyVaultReferenceStatusGenerator returns a generator of KeyVaultReference_Status instances for property testing.
@@ -740,17 +769,20 @@ func Test_PrivateEndpointConnection_Status_WhenSerializedToJson_DeserializesAsEq
 
 // RunJSONSerializationTestForPrivateEndpointConnectionStatus runs a test to see if a specific instance of PrivateEndpointConnection_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForPrivateEndpointConnectionStatus(subject PrivateEndpointConnection_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PrivateEndpointConnection_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -762,8 +794,8 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatus(subject PrivateE
 	return ""
 }
 
-//Generator of PrivateEndpointConnection_Status instances for property testing -
-//lazily instantiated by PrivateEndpointConnectionStatusGenerator()
+// Generator of PrivateEndpointConnection_Status instances for property testing - lazily instantiated by
+//PrivateEndpointConnectionStatusGenerator()
 var privateEndpointConnectionStatusGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusGenerator returns a generator of PrivateEndpointConnection_Status instances for property testing.
@@ -815,17 +847,20 @@ func Test_VirtualMachineFamilyCoreQuota_Status_WhenSerializedToJson_Deserializes
 
 // RunJSONSerializationTestForVirtualMachineFamilyCoreQuotaStatus runs a test to see if a specific instance of VirtualMachineFamilyCoreQuota_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualMachineFamilyCoreQuotaStatus(subject VirtualMachineFamilyCoreQuota_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualMachineFamilyCoreQuota_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -837,8 +872,8 @@ func RunJSONSerializationTestForVirtualMachineFamilyCoreQuotaStatus(subject Virt
 	return ""
 }
 
-//Generator of VirtualMachineFamilyCoreQuota_Status instances for property testing
-//- lazily instantiated by VirtualMachineFamilyCoreQuotaStatusGenerator()
+// Generator of VirtualMachineFamilyCoreQuota_Status instances for property testing - lazily instantiated by
+//VirtualMachineFamilyCoreQuotaStatusGenerator()
 var virtualMachineFamilyCoreQuotaStatusGenerator gopter.Gen
 
 // VirtualMachineFamilyCoreQuotaStatusGenerator returns a generator of VirtualMachineFamilyCoreQuota_Status instances for property testing.
@@ -872,17 +907,20 @@ func Test_BatchAccountIdentity_Status_UserAssignedIdentities_WhenSerializedToJso
 
 // RunJSONSerializationTestForBatchAccountIdentityStatusUserAssignedIdentities runs a test to see if a specific instance of BatchAccountIdentity_Status_UserAssignedIdentities round trips to JSON and back losslessly
 func RunJSONSerializationTestForBatchAccountIdentityStatusUserAssignedIdentities(subject BatchAccountIdentity_Status_UserAssignedIdentities) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual BatchAccountIdentity_Status_UserAssignedIdentities
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -894,9 +932,8 @@ func RunJSONSerializationTestForBatchAccountIdentityStatusUserAssignedIdentities
 	return ""
 }
 
-//Generator of BatchAccountIdentity_Status_UserAssignedIdentities instances for
-//property testing - lazily instantiated by
-//BatchAccountIdentityStatusUserAssignedIdentitiesGenerator()
+// Generator of BatchAccountIdentity_Status_UserAssignedIdentities instances for property testing - lazily instantiated
+//by BatchAccountIdentityStatusUserAssignedIdentitiesGenerator()
 var batchAccountIdentityStatusUserAssignedIdentitiesGenerator gopter.Gen
 
 // BatchAccountIdentityStatusUserAssignedIdentitiesGenerator returns a generator of BatchAccountIdentity_Status_UserAssignedIdentities instances for property testing.
@@ -930,17 +967,20 @@ func Test_KeyVaultProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing
 
 // RunJSONSerializationTestForKeyVaultProperties runs a test to see if a specific instance of KeyVaultProperties round trips to JSON and back losslessly
 func RunJSONSerializationTestForKeyVaultProperties(subject KeyVaultProperties) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual KeyVaultProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -952,8 +992,7 @@ func RunJSONSerializationTestForKeyVaultProperties(subject KeyVaultProperties) s
 	return ""
 }
 
-//Generator of KeyVaultProperties instances for property testing - lazily
-//instantiated by KeyVaultPropertiesGenerator()
+// Generator of KeyVaultProperties instances for property testing - lazily instantiated by KeyVaultPropertiesGenerator()
 var keyVaultPropertiesGenerator gopter.Gen
 
 // KeyVaultPropertiesGenerator returns a generator of KeyVaultProperties instances for property testing.
@@ -986,17 +1025,20 @@ func Test_KeyVaultProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *
 
 // RunJSONSerializationTestForKeyVaultPropertiesStatus runs a test to see if a specific instance of KeyVaultProperties_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForKeyVaultPropertiesStatus(subject KeyVaultProperties_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual KeyVaultProperties_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1008,8 +1050,8 @@ func RunJSONSerializationTestForKeyVaultPropertiesStatus(subject KeyVaultPropert
 	return ""
 }
 
-//Generator of KeyVaultProperties_Status instances for property testing - lazily
-//instantiated by KeyVaultPropertiesStatusGenerator()
+// Generator of KeyVaultProperties_Status instances for property testing - lazily instantiated by
+//KeyVaultPropertiesStatusGenerator()
 var keyVaultPropertiesStatusGenerator gopter.Gen
 
 // KeyVaultPropertiesStatusGenerator returns a generator of KeyVaultProperties_Status instances for property testing.
@@ -1042,17 +1084,20 @@ func Test_PrivateEndpoint_Status_WhenSerializedToJson_DeserializesAsEqual(t *tes
 
 // RunJSONSerializationTestForPrivateEndpointStatus runs a test to see if a specific instance of PrivateEndpoint_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForPrivateEndpointStatus(subject PrivateEndpoint_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PrivateEndpoint_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1064,8 +1109,8 @@ func RunJSONSerializationTestForPrivateEndpointStatus(subject PrivateEndpoint_St
 	return ""
 }
 
-//Generator of PrivateEndpoint_Status instances for property testing - lazily
-//instantiated by PrivateEndpointStatusGenerator()
+// Generator of PrivateEndpoint_Status instances for property testing - lazily instantiated by
+//PrivateEndpointStatusGenerator()
 var privateEndpointStatusGenerator gopter.Gen
 
 // PrivateEndpointStatusGenerator returns a generator of PrivateEndpoint_Status instances for property testing.
@@ -1098,17 +1143,20 @@ func Test_PrivateLinkServiceConnectionState_Status_WhenSerializedToJson_Deserial
 
 // RunJSONSerializationTestForPrivateLinkServiceConnectionStateStatus runs a test to see if a specific instance of PrivateLinkServiceConnectionState_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForPrivateLinkServiceConnectionStateStatus(subject PrivateLinkServiceConnectionState_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PrivateLinkServiceConnectionState_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1120,8 +1168,7 @@ func RunJSONSerializationTestForPrivateLinkServiceConnectionStateStatus(subject 
 	return ""
 }
 
-//Generator of PrivateLinkServiceConnectionState_Status instances for property
-//testing - lazily instantiated by
+// Generator of PrivateLinkServiceConnectionState_Status instances for property testing - lazily instantiated by
 //PrivateLinkServiceConnectionStateStatusGenerator()
 var privateLinkServiceConnectionStateStatusGenerator gopter.Gen
 

@@ -29,17 +29,20 @@ func Test_NamespacesTopic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 
 // RunJSONSerializationTestForNamespacesTopic runs a test to see if a specific instance of NamespacesTopic round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesTopic(subject NamespacesTopic) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NamespacesTopic
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForNamespacesTopic(subject NamespacesTopic) string 
 	return ""
 }
 
-//Generator of NamespacesTopic instances for property testing - lazily
-//instantiated by NamespacesTopicGenerator()
+// Generator of NamespacesTopic instances for property testing - lazily instantiated by NamespacesTopicGenerator()
 var namespacesTopicGenerator gopter.Gen
 
 // NamespacesTopicGenerator returns a generator of NamespacesTopic instances for property testing.
@@ -86,17 +88,20 @@ func Test_NamespacesTopics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForNamespacesTopicsSpec runs a test to see if a specific instance of NamespacesTopics_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesTopicsSpec(subject NamespacesTopics_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NamespacesTopics_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +113,8 @@ func RunJSONSerializationTestForNamespacesTopicsSpec(subject NamespacesTopics_Sp
 	return ""
 }
 
-//Generator of NamespacesTopics_Spec instances for property testing - lazily
-//instantiated by NamespacesTopicsSpecGenerator()
+// Generator of NamespacesTopics_Spec instances for property testing - lazily instantiated by
+//NamespacesTopicsSpecGenerator()
 var namespacesTopicsSpecGenerator gopter.Gen
 
 // NamespacesTopicsSpecGenerator returns a generator of NamespacesTopics_Spec instances for property testing.
@@ -154,17 +159,20 @@ func Test_SBTopic_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 
 // RunJSONSerializationTestForSBTopicStatus runs a test to see if a specific instance of SBTopic_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBTopicStatus(subject SBTopic_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SBTopic_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -176,8 +184,7 @@ func RunJSONSerializationTestForSBTopicStatus(subject SBTopic_Status) string {
 	return ""
 }
 
-//Generator of SBTopic_Status instances for property testing - lazily instantiated
-//by SBTopicStatusGenerator()
+// Generator of SBTopic_Status instances for property testing - lazily instantiated by SBTopicStatusGenerator()
 var sbTopicStatusGenerator gopter.Gen
 
 // SBTopicStatusGenerator returns a generator of SBTopic_Status instances for property testing.

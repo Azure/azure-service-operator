@@ -29,17 +29,20 @@ func Test_LoadBalancers_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForLoadBalancersSpecARM runs a test to see if a specific instance of LoadBalancers_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancersSpecARM(subject LoadBalancers_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancers_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForLoadBalancersSpecARM(subject LoadBalancers_SpecA
 	return ""
 }
 
-//Generator of LoadBalancers_SpecARM instances for property testing - lazily
-//instantiated by LoadBalancersSpecARMGenerator()
+// Generator of LoadBalancers_SpecARM instances for property testing - lazily instantiated by
+//LoadBalancersSpecARMGenerator()
 var loadBalancersSpecARMGenerator gopter.Gen
 
 // LoadBalancersSpecARMGenerator returns a generator of LoadBalancers_SpecARM instances for property testing.
@@ -105,17 +108,20 @@ func Test_ExtendedLocationARM_WhenSerializedToJson_DeserializesAsEqual(t *testin
 
 // RunJSONSerializationTestForExtendedLocationARM runs a test to see if a specific instance of ExtendedLocationARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForExtendedLocationARM(subject ExtendedLocationARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ExtendedLocationARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -127,8 +133,8 @@ func RunJSONSerializationTestForExtendedLocationARM(subject ExtendedLocationARM)
 	return ""
 }
 
-//Generator of ExtendedLocationARM instances for property testing - lazily
-//instantiated by ExtendedLocationARMGenerator()
+// Generator of ExtendedLocationARM instances for property testing - lazily instantiated by
+//ExtendedLocationARMGenerator()
 var extendedLocationARMGenerator gopter.Gen
 
 // ExtendedLocationARMGenerator returns a generator of ExtendedLocationARM instances for property testing.
@@ -162,17 +168,20 @@ func Test_LoadBalancerSkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing
 
 // RunJSONSerializationTestForLoadBalancerSkuARM runs a test to see if a specific instance of LoadBalancerSkuARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancerSkuARM(subject LoadBalancerSkuARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancerSkuARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -184,8 +193,7 @@ func RunJSONSerializationTestForLoadBalancerSkuARM(subject LoadBalancerSkuARM) s
 	return ""
 }
 
-//Generator of LoadBalancerSkuARM instances for property testing - lazily
-//instantiated by LoadBalancerSkuARMGenerator()
+// Generator of LoadBalancerSkuARM instances for property testing - lazily instantiated by LoadBalancerSkuARMGenerator()
 var loadBalancerSkuARMGenerator gopter.Gen
 
 // LoadBalancerSkuARMGenerator returns a generator of LoadBalancerSkuARM instances for property testing.
@@ -219,17 +227,20 @@ func Test_LoadBalancers_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEq
 
 // RunJSONSerializationTestForLoadBalancersSpecPropertiesARM runs a test to see if a specific instance of LoadBalancers_Spec_PropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancersSpecPropertiesARM(subject LoadBalancers_Spec_PropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancers_Spec_PropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -241,8 +252,8 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesARM(subject LoadBalan
 	return ""
 }
 
-//Generator of LoadBalancers_Spec_PropertiesARM instances for property testing -
-//lazily instantiated by LoadBalancersSpecPropertiesARMGenerator()
+// Generator of LoadBalancers_Spec_PropertiesARM instances for property testing - lazily instantiated by
+//LoadBalancersSpecPropertiesARMGenerator()
 var loadBalancersSpecPropertiesARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesARMGenerator returns a generator of LoadBalancers_Spec_PropertiesARM instances for property testing.
@@ -280,17 +291,20 @@ func Test_LoadBalancers_Spec_Properties_BackendAddressPoolsARM_WhenSerializedToJ
 
 // RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsARM runs a test to see if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPoolsARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsARM(subject LoadBalancers_Spec_Properties_BackendAddressPoolsARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancers_Spec_Properties_BackendAddressPoolsARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -302,9 +316,8 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsAR
 	return ""
 }
 
-//Generator of LoadBalancers_Spec_Properties_BackendAddressPoolsARM instances for
-//property testing - lazily instantiated by
-//LoadBalancersSpecPropertiesBackendAddressPoolsARMGenerator()
+// Generator of LoadBalancers_Spec_Properties_BackendAddressPoolsARM instances for property testing - lazily
+//instantiated by LoadBalancersSpecPropertiesBackendAddressPoolsARMGenerator()
 var loadBalancersSpecPropertiesBackendAddressPoolsARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesBackendAddressPoolsARMGenerator returns a generator of LoadBalancers_Spec_Properties_BackendAddressPoolsARM instances for property testing.
@@ -351,17 +364,20 @@ func Test_LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM_WhenSerializ
 
 // RunJSONSerializationTestForLoadBalancersSpecPropertiesFrontendIPConfigurationsARM runs a test to see if a specific instance of LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancersSpecPropertiesFrontendIPConfigurationsARM(subject LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -373,9 +389,8 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesFrontendIPConfigurati
 	return ""
 }
 
-//Generator of LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM instances
-//for property testing - lazily instantiated by
-//LoadBalancersSpecPropertiesFrontendIPConfigurationsARMGenerator()
+// Generator of LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM instances for property testing - lazily
+//instantiated by LoadBalancersSpecPropertiesFrontendIPConfigurationsARMGenerator()
 var loadBalancersSpecPropertiesFrontendIPConfigurationsARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesFrontendIPConfigurationsARMGenerator returns a generator of LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM instances for property testing.
@@ -423,17 +438,20 @@ func Test_LoadBalancers_Spec_Properties_InboundNatPoolsARM_WhenSerializedToJson_
 
 // RunJSONSerializationTestForLoadBalancersSpecPropertiesInboundNatPoolsARM runs a test to see if a specific instance of LoadBalancers_Spec_Properties_InboundNatPoolsARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancersSpecPropertiesInboundNatPoolsARM(subject LoadBalancers_Spec_Properties_InboundNatPoolsARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancers_Spec_Properties_InboundNatPoolsARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -445,8 +463,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesInboundNatPoolsARM(su
 	return ""
 }
 
-//Generator of LoadBalancers_Spec_Properties_InboundNatPoolsARM instances for
-//property testing - lazily instantiated by
+// Generator of LoadBalancers_Spec_Properties_InboundNatPoolsARM instances for property testing - lazily instantiated by
 //LoadBalancersSpecPropertiesInboundNatPoolsARMGenerator()
 var loadBalancersSpecPropertiesInboundNatPoolsARMGenerator gopter.Gen
 
@@ -494,17 +511,20 @@ func Test_LoadBalancers_Spec_Properties_LoadBalancingRulesARM_WhenSerializedToJs
 
 // RunJSONSerializationTestForLoadBalancersSpecPropertiesLoadBalancingRulesARM runs a test to see if a specific instance of LoadBalancers_Spec_Properties_LoadBalancingRulesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancersSpecPropertiesLoadBalancingRulesARM(subject LoadBalancers_Spec_Properties_LoadBalancingRulesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancers_Spec_Properties_LoadBalancingRulesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -516,9 +536,8 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesLoadBalancingRulesARM
 	return ""
 }
 
-//Generator of LoadBalancers_Spec_Properties_LoadBalancingRulesARM instances for
-//property testing - lazily instantiated by
-//LoadBalancersSpecPropertiesLoadBalancingRulesARMGenerator()
+// Generator of LoadBalancers_Spec_Properties_LoadBalancingRulesARM instances for property testing - lazily instantiated
+//by LoadBalancersSpecPropertiesLoadBalancingRulesARMGenerator()
 var loadBalancersSpecPropertiesLoadBalancingRulesARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesLoadBalancingRulesARMGenerator returns a generator of LoadBalancers_Spec_Properties_LoadBalancingRulesARM instances for property testing.
@@ -565,17 +584,20 @@ func Test_LoadBalancers_Spec_Properties_OutboundRulesARM_WhenSerializedToJson_De
 
 // RunJSONSerializationTestForLoadBalancersSpecPropertiesOutboundRulesARM runs a test to see if a specific instance of LoadBalancers_Spec_Properties_OutboundRulesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancersSpecPropertiesOutboundRulesARM(subject LoadBalancers_Spec_Properties_OutboundRulesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancers_Spec_Properties_OutboundRulesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -587,8 +609,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesOutboundRulesARM(subj
 	return ""
 }
 
-//Generator of LoadBalancers_Spec_Properties_OutboundRulesARM instances for
-//property testing - lazily instantiated by
+// Generator of LoadBalancers_Spec_Properties_OutboundRulesARM instances for property testing - lazily instantiated by
 //LoadBalancersSpecPropertiesOutboundRulesARMGenerator()
 var loadBalancersSpecPropertiesOutboundRulesARMGenerator gopter.Gen
 
@@ -636,17 +657,20 @@ func Test_LoadBalancers_Spec_Properties_ProbesARM_WhenSerializedToJson_Deseriali
 
 // RunJSONSerializationTestForLoadBalancersSpecPropertiesProbesARM runs a test to see if a specific instance of LoadBalancers_Spec_Properties_ProbesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancersSpecPropertiesProbesARM(subject LoadBalancers_Spec_Properties_ProbesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancers_Spec_Properties_ProbesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -658,8 +682,8 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesProbesARM(subject Loa
 	return ""
 }
 
-//Generator of LoadBalancers_Spec_Properties_ProbesARM instances for property
-//testing - lazily instantiated by LoadBalancersSpecPropertiesProbesARMGenerator()
+// Generator of LoadBalancers_Spec_Properties_ProbesARM instances for property testing - lazily instantiated by
+//LoadBalancersSpecPropertiesProbesARMGenerator()
 var loadBalancersSpecPropertiesProbesARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesProbesARMGenerator returns a generator of LoadBalancers_Spec_Properties_ProbesARM instances for property testing.
@@ -706,17 +730,20 @@ func Test_FrontendIPConfigurationPropertiesFormatARM_WhenSerializedToJson_Deseri
 
 // RunJSONSerializationTestForFrontendIPConfigurationPropertiesFormatARM runs a test to see if a specific instance of FrontendIPConfigurationPropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForFrontendIPConfigurationPropertiesFormatARM(subject FrontendIPConfigurationPropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual FrontendIPConfigurationPropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -728,8 +755,7 @@ func RunJSONSerializationTestForFrontendIPConfigurationPropertiesFormatARM(subje
 	return ""
 }
 
-//Generator of FrontendIPConfigurationPropertiesFormatARM instances for property
-//testing - lazily instantiated by
+// Generator of FrontendIPConfigurationPropertiesFormatARM instances for property testing - lazily instantiated by
 //FrontendIPConfigurationPropertiesFormatARMGenerator()
 var frontendIPConfigurationPropertiesFormatARMGenerator gopter.Gen
 
@@ -781,17 +807,20 @@ func Test_InboundNatPoolPropertiesFormatARM_WhenSerializedToJson_DeserializesAsE
 
 // RunJSONSerializationTestForInboundNatPoolPropertiesFormatARM runs a test to see if a specific instance of InboundNatPoolPropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForInboundNatPoolPropertiesFormatARM(subject InboundNatPoolPropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual InboundNatPoolPropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -803,8 +832,8 @@ func RunJSONSerializationTestForInboundNatPoolPropertiesFormatARM(subject Inboun
 	return ""
 }
 
-//Generator of InboundNatPoolPropertiesFormatARM instances for property testing -
-//lazily instantiated by InboundNatPoolPropertiesFormatARMGenerator()
+// Generator of InboundNatPoolPropertiesFormatARM instances for property testing - lazily instantiated by
+//InboundNatPoolPropertiesFormatARMGenerator()
 var inboundNatPoolPropertiesFormatARMGenerator gopter.Gen
 
 // InboundNatPoolPropertiesFormatARMGenerator returns a generator of InboundNatPoolPropertiesFormatARM instances for property testing.
@@ -857,17 +886,20 @@ func Test_LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM_WhenSe
 
 // RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesARM runs a test to see if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesARM(subject LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -879,9 +911,8 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPr
 	return ""
 }
 
-//Generator of LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM
-//instances for property testing - lazily instantiated by
-//LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesARMGenerator()
+// Generator of LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM instances for property testing - lazily
+//instantiated by LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesARMGenerator()
 var loadBalancersSpecPropertiesBackendAddressPoolsPropertiesARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesARMGenerator returns a generator of LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM instances for property testing.
@@ -928,17 +959,20 @@ func Test_LoadBalancingRulePropertiesFormatARM_WhenSerializedToJson_Deserializes
 
 // RunJSONSerializationTestForLoadBalancingRulePropertiesFormatARM runs a test to see if a specific instance of LoadBalancingRulePropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancingRulePropertiesFormatARM(subject LoadBalancingRulePropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancingRulePropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -950,8 +984,8 @@ func RunJSONSerializationTestForLoadBalancingRulePropertiesFormatARM(subject Loa
 	return ""
 }
 
-//Generator of LoadBalancingRulePropertiesFormatARM instances for property testing
-//- lazily instantiated by LoadBalancingRulePropertiesFormatARMGenerator()
+// Generator of LoadBalancingRulePropertiesFormatARM instances for property testing - lazily instantiated by
+//LoadBalancingRulePropertiesFormatARMGenerator()
 var loadBalancingRulePropertiesFormatARMGenerator gopter.Gen
 
 // LoadBalancingRulePropertiesFormatARMGenerator returns a generator of LoadBalancingRulePropertiesFormatARM instances for property testing.
@@ -1007,17 +1041,20 @@ func Test_OutboundRulePropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqu
 
 // RunJSONSerializationTestForOutboundRulePropertiesFormatARM runs a test to see if a specific instance of OutboundRulePropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForOutboundRulePropertiesFormatARM(subject OutboundRulePropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual OutboundRulePropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1029,8 +1066,8 @@ func RunJSONSerializationTestForOutboundRulePropertiesFormatARM(subject Outbound
 	return ""
 }
 
-//Generator of OutboundRulePropertiesFormatARM instances for property testing -
-//lazily instantiated by OutboundRulePropertiesFormatARMGenerator()
+// Generator of OutboundRulePropertiesFormatARM instances for property testing - lazily instantiated by
+//OutboundRulePropertiesFormatARMGenerator()
 var outboundRulePropertiesFormatARMGenerator gopter.Gen
 
 // OutboundRulePropertiesFormatARMGenerator returns a generator of OutboundRulePropertiesFormatARM instances for property testing.
@@ -1081,17 +1118,20 @@ func Test_ProbePropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *t
 
 // RunJSONSerializationTestForProbePropertiesFormatARM runs a test to see if a specific instance of ProbePropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForProbePropertiesFormatARM(subject ProbePropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ProbePropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1103,8 +1143,8 @@ func RunJSONSerializationTestForProbePropertiesFormatARM(subject ProbeProperties
 	return ""
 }
 
-//Generator of ProbePropertiesFormatARM instances for property testing - lazily
-//instantiated by ProbePropertiesFormatARMGenerator()
+// Generator of ProbePropertiesFormatARM instances for property testing - lazily instantiated by
+//ProbePropertiesFormatARMGenerator()
 var probePropertiesFormatARMGenerator gopter.Gen
 
 // ProbePropertiesFormatARMGenerator returns a generator of ProbePropertiesFormatARM instances for property testing.
@@ -1141,17 +1181,20 @@ func Test_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalan
 
 // RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesARM runs a test to see if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesARM(subject LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1163,9 +1206,8 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPr
 	return ""
 }
 
-//Generator of
-//LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM
-//instances for property testing - lazily instantiated by
+// Generator of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM instances
+//for property testing - lazily instantiated by
 //LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesARMGenerator()
 var loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesARMGenerator gopter.Gen
 
@@ -1213,17 +1255,20 @@ func Test_LoadBalancerBackendAddressPropertiesFormatARM_WhenSerializedToJson_Des
 
 // RunJSONSerializationTestForLoadBalancerBackendAddressPropertiesFormatARM runs a test to see if a specific instance of LoadBalancerBackendAddressPropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForLoadBalancerBackendAddressPropertiesFormatARM(subject LoadBalancerBackendAddressPropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LoadBalancerBackendAddressPropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1235,8 +1280,7 @@ func RunJSONSerializationTestForLoadBalancerBackendAddressPropertiesFormatARM(su
 	return ""
 }
 
-//Generator of LoadBalancerBackendAddressPropertiesFormatARM instances for
-//property testing - lazily instantiated by
+// Generator of LoadBalancerBackendAddressPropertiesFormatARM instances for property testing - lazily instantiated by
 //LoadBalancerBackendAddressPropertiesFormatARMGenerator()
 var loadBalancerBackendAddressPropertiesFormatARMGenerator gopter.Gen
 
