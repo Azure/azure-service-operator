@@ -5,6 +5,7 @@ package v1alpha1api20201101
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,44 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_NetworkSecurityGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroup to NetworkSecurityGroup via AssignPropertiesToNetworkSecurityGroup & AssignPropertiesFromNetworkSecurityGroup returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroup, NetworkSecurityGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroup tests if a specific instance of NetworkSecurityGroup can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroup(subject NetworkSecurityGroup) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.NetworkSecurityGroup
+	err := subject.AssignPropertiesToNetworkSecurityGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroup
+	err = actual.AssignPropertiesFromNetworkSecurityGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_NetworkSecurityGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
@@ -29,17 +68,20 @@ func Test_NetworkSecurityGroup_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForNetworkSecurityGroup runs a test to see if a specific instance of NetworkSecurityGroup round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkSecurityGroup(subject NetworkSecurityGroup) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkSecurityGroup
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +93,8 @@ func RunJSONSerializationTestForNetworkSecurityGroup(subject NetworkSecurityGrou
 	return ""
 }
 
-//Generator of NetworkSecurityGroup instances for property testing - lazily
-//instantiated by NetworkSecurityGroupGenerator()
+// Generator of NetworkSecurityGroup instances for property testing - lazily instantiated by
+//NetworkSecurityGroupGenerator()
 var networkSecurityGroupGenerator gopter.Gen
 
 // NetworkSecurityGroupGenerator returns a generator of NetworkSecurityGroup instances for property testing.
@@ -74,6 +116,44 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroup(gens map[string]gopter.
 	gens["Status"] = NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 }
 
+func Test_NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded to NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded via AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded & AssignPropertiesFromNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded, NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded tests if a specific instance of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(subject NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
+	err := subject.AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
+	err = actual.AssignPropertiesFromNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -86,17 +166,20 @@ func Test_NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded_W
 
 // RunJSONSerializationTestForNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded runs a test to see if a specific instance of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(subject NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,10 +191,8 @@ func RunJSONSerializationTestForNetworkSecurityGroupStatusNetworkSecurityGroupSu
 	return ""
 }
 
-//Generator of
-//NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instances
-//for property testing - lazily instantiated by
-//NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// Generator of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing -
+//lazily instantiated by NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.
@@ -157,6 +238,44 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroupStatusNetworkSecurityGro
 	gens["Subnets"] = gen.SliceOf(SubnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator())
 }
 
+func Test_NetworkSecurityGroups_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroups_Spec to NetworkSecurityGroups_Spec via AssignPropertiesToNetworkSecurityGroupsSpec & AssignPropertiesFromNetworkSecurityGroupsSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroupsSpec, NetworkSecurityGroupsSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroupsSpec tests if a specific instance of NetworkSecurityGroups_Spec can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroupsSpec(subject NetworkSecurityGroups_Spec) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.NetworkSecurityGroups_Spec
+	err := subject.AssignPropertiesToNetworkSecurityGroupsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroups_Spec
+	err = actual.AssignPropertiesFromNetworkSecurityGroupsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkSecurityGroups_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -169,17 +288,20 @@ func Test_NetworkSecurityGroups_Spec_WhenSerializedToJson_DeserializesAsEqual(t 
 
 // RunJSONSerializationTestForNetworkSecurityGroupsSpec runs a test to see if a specific instance of NetworkSecurityGroups_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkSecurityGroupsSpec(subject NetworkSecurityGroups_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkSecurityGroups_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -191,8 +313,8 @@ func RunJSONSerializationTestForNetworkSecurityGroupsSpec(subject NetworkSecurit
 	return ""
 }
 
-//Generator of NetworkSecurityGroups_Spec instances for property testing - lazily
-//instantiated by NetworkSecurityGroupsSpecGenerator()
+// Generator of NetworkSecurityGroups_Spec instances for property testing - lazily instantiated by
+//NetworkSecurityGroupsSpecGenerator()
 var networkSecurityGroupsSpecGenerator gopter.Gen
 
 // NetworkSecurityGroupsSpecGenerator returns a generator of NetworkSecurityGroups_Spec instances for property testing.
@@ -215,6 +337,44 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSpec(gens map[strin
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
+func Test_FlowLog_Status_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlowLog_Status_SubResourceEmbedded to FlowLog_Status_SubResourceEmbedded via AssignPropertiesToFlowLogStatusSubResourceEmbedded & AssignPropertiesFromFlowLogStatusSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlowLogStatusSubResourceEmbedded, FlowLogStatusSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlowLogStatusSubResourceEmbedded tests if a specific instance of FlowLog_Status_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForFlowLogStatusSubResourceEmbedded(subject FlowLog_Status_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.FlowLog_Status_SubResourceEmbedded
+	err := subject.AssignPropertiesToFlowLogStatusSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlowLog_Status_SubResourceEmbedded
+	err = actual.AssignPropertiesFromFlowLogStatusSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FlowLog_Status_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -227,17 +387,20 @@ func Test_FlowLog_Status_SubResourceEmbedded_WhenSerializedToJson_DeserializesAs
 
 // RunJSONSerializationTestForFlowLogStatusSubResourceEmbedded runs a test to see if a specific instance of FlowLog_Status_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForFlowLogStatusSubResourceEmbedded(subject FlowLog_Status_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual FlowLog_Status_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -249,8 +412,8 @@ func RunJSONSerializationTestForFlowLogStatusSubResourceEmbedded(subject FlowLog
 	return ""
 }
 
-//Generator of FlowLog_Status_SubResourceEmbedded instances for property testing -
-//lazily instantiated by FlowLogStatusSubResourceEmbeddedGenerator()
+// Generator of FlowLog_Status_SubResourceEmbedded instances for property testing - lazily instantiated by
+//FlowLogStatusSubResourceEmbeddedGenerator()
 var flowLogStatusSubResourceEmbeddedGenerator gopter.Gen
 
 // FlowLogStatusSubResourceEmbeddedGenerator returns a generator of FlowLog_Status_SubResourceEmbedded instances for property testing.
@@ -271,6 +434,44 @@ func AddIndependentPropertyGeneratorsForFlowLogStatusSubResourceEmbedded(gens ma
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded to NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded via AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded & AssignPropertiesFromNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded, NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded tests if a specific instance of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(subject NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
+	err := subject.AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
+	err = actual.AssignPropertiesFromNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -283,17 +484,20 @@ func Test_NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenS
 
 // RunJSONSerializationTestForNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded runs a test to see if a specific instance of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(subject NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -305,9 +509,8 @@ func RunJSONSerializationTestForNetworkInterfaceStatusNetworkSecurityGroupSubRes
 	return ""
 }
 
-//Generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// Generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing - lazily
+//instantiated by NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var networkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.
@@ -342,6 +545,44 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceStatusNetworkSecurityGroupSu
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationStatusGenerator())
 }
 
+func Test_SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded to SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded via AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded & AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded, SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded tests if a specific instance of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(subject SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
+	err := subject.AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
+	err = actual.AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -354,17 +595,20 @@ func Test_SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenSeria
 
 // RunJSONSerializationTestForSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded runs a test to see if a specific instance of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(subject SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -376,9 +620,8 @@ func RunJSONSerializationTestForSecurityRuleStatusNetworkSecurityGroupSubResourc
 	return ""
 }
 
-//Generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// Generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing - lazily
+//instantiated by SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var securityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.
@@ -399,6 +642,44 @@ func AddIndependentPropertyGeneratorsForSecurityRuleStatusNetworkSecurityGroupSu
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded to Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded via AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded & AssignPropertiesFromSubnetStatusNetworkSecurityGroupSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubnetStatusNetworkSecurityGroupSubResourceEmbedded, SubnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubnetStatusNetworkSecurityGroupSubResourceEmbedded tests if a specific instance of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForSubnetStatusNetworkSecurityGroupSubResourceEmbedded(subject Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
+	err := subject.AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
+	err = actual.AssignPropertiesFromSubnetStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -411,17 +692,20 @@ func Test_Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenSerializedT
 
 // RunJSONSerializationTestForSubnetStatusNetworkSecurityGroupSubResourceEmbedded runs a test to see if a specific instance of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForSubnetStatusNetworkSecurityGroupSubResourceEmbedded(subject Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -433,9 +717,8 @@ func RunJSONSerializationTestForSubnetStatusNetworkSecurityGroupSubResourceEmbed
 	return ""
 }
 
-//Generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instances
-//for property testing - lazily instantiated by
-//SubnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// Generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing - lazily
+//instantiated by SubnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var subnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // SubnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.

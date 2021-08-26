@@ -29,17 +29,20 @@ func Test_VirtualNetworksVirtualNetworkPeering_WhenSerializedToJson_Deserializes
 
 // RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeering runs a test to see if a specific instance of VirtualNetworksVirtualNetworkPeering round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeering(subject VirtualNetworksVirtualNetworkPeering) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworksVirtualNetworkPeering
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeering(subject Vir
 	return ""
 }
 
-//Generator of VirtualNetworksVirtualNetworkPeering instances for property testing
-//- lazily instantiated by VirtualNetworksVirtualNetworkPeeringGenerator()
+// Generator of VirtualNetworksVirtualNetworkPeering instances for property testing - lazily instantiated by
+//VirtualNetworksVirtualNetworkPeeringGenerator()
 var virtualNetworksVirtualNetworkPeeringGenerator gopter.Gen
 
 // VirtualNetworksVirtualNetworkPeeringGenerator returns a generator of VirtualNetworksVirtualNetworkPeering instances for property testing.
@@ -86,17 +89,20 @@ func Test_VirtualNetworkPeering_Status_WhenSerializedToJson_DeserializesAsEqual(
 
 // RunJSONSerializationTestForVirtualNetworkPeeringStatus runs a test to see if a specific instance of VirtualNetworkPeering_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkPeeringStatus(subject VirtualNetworkPeering_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkPeering_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +114,8 @@ func RunJSONSerializationTestForVirtualNetworkPeeringStatus(subject VirtualNetwo
 	return ""
 }
 
-//Generator of VirtualNetworkPeering_Status instances for property testing -
-//lazily instantiated by VirtualNetworkPeeringStatusGenerator()
+// Generator of VirtualNetworkPeering_Status instances for property testing - lazily instantiated by
+//VirtualNetworkPeeringStatusGenerator()
 var virtualNetworkPeeringStatusGenerator gopter.Gen
 
 // VirtualNetworkPeeringStatusGenerator returns a generator of VirtualNetworkPeering_Status instances for property testing.
@@ -169,17 +175,20 @@ func Test_VirtualNetworksVirtualNetworkPeerings_Spec_WhenSerializedToJson_Deseri
 
 // RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeeringsSpec runs a test to see if a specific instance of VirtualNetworksVirtualNetworkPeerings_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeeringsSpec(subject VirtualNetworksVirtualNetworkPeerings_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworksVirtualNetworkPeerings_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -191,8 +200,7 @@ func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeeringsSpec(subjec
 	return ""
 }
 
-//Generator of VirtualNetworksVirtualNetworkPeerings_Spec instances for property
-//testing - lazily instantiated by
+// Generator of VirtualNetworksVirtualNetworkPeerings_Spec instances for property testing - lazily instantiated by
 //VirtualNetworksVirtualNetworkPeeringsSpecGenerator()
 var virtualNetworksVirtualNetworkPeeringsSpecGenerator gopter.Gen
 

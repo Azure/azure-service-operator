@@ -29,17 +29,20 @@ func Test_VirtualNetworkTaps_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t 
 
 // RunJSONSerializationTestForVirtualNetworkTapsSpecARM runs a test to see if a specific instance of VirtualNetworkTaps_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkTapsSpecARM(subject VirtualNetworkTaps_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkTaps_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForVirtualNetworkTapsSpecARM(subject VirtualNetwork
 	return ""
 }
 
-//Generator of VirtualNetworkTaps_SpecARM instances for property testing - lazily
-//instantiated by VirtualNetworkTapsSpecARMGenerator()
+// Generator of VirtualNetworkTaps_SpecARM instances for property testing - lazily instantiated by
+//VirtualNetworkTapsSpecARMGenerator()
 var virtualNetworkTapsSpecARMGenerator gopter.Gen
 
 // VirtualNetworkTapsSpecARMGenerator returns a generator of VirtualNetworkTaps_SpecARM instances for property testing.
@@ -103,17 +106,20 @@ func Test_VirtualNetworkTapPropertiesFormatARM_WhenSerializedToJson_Deserializes
 
 // RunJSONSerializationTestForVirtualNetworkTapPropertiesFormatARM runs a test to see if a specific instance of VirtualNetworkTapPropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkTapPropertiesFormatARM(subject VirtualNetworkTapPropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkTapPropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -125,8 +131,8 @@ func RunJSONSerializationTestForVirtualNetworkTapPropertiesFormatARM(subject Vir
 	return ""
 }
 
-//Generator of VirtualNetworkTapPropertiesFormatARM instances for property testing
-//- lazily instantiated by VirtualNetworkTapPropertiesFormatARMGenerator()
+// Generator of VirtualNetworkTapPropertiesFormatARM instances for property testing - lazily instantiated by
+//VirtualNetworkTapPropertiesFormatARMGenerator()
 var virtualNetworkTapPropertiesFormatARMGenerator gopter.Gen
 
 // VirtualNetworkTapPropertiesFormatARMGenerator returns a generator of VirtualNetworkTapPropertiesFormatARM instances for property testing.

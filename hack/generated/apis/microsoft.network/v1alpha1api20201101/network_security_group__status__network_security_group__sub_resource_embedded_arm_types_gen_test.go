@@ -29,17 +29,20 @@ func Test_NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedAR
 
 // RunJSONSerializationTestForNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedARM runs a test to see if a specific instance of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedARM(subject NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,10 +54,8 @@ func RunJSONSerializationTestForNetworkSecurityGroupStatusNetworkSecurityGroupSu
 	return ""
 }
 
-//Generator of
-//NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM
-//instances for property testing - lazily instantiated by
-//NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
+// Generator of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing -
+//lazily instantiated by NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
 var networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
 
 // NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.
@@ -106,17 +107,20 @@ func Test_NetworkSecurityGroupPropertiesFormat_StatusARM_WhenSerializedToJson_De
 
 // RunJSONSerializationTestForNetworkSecurityGroupPropertiesFormatStatusARM runs a test to see if a specific instance of NetworkSecurityGroupPropertiesFormat_StatusARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkSecurityGroupPropertiesFormatStatusARM(subject NetworkSecurityGroupPropertiesFormat_StatusARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkSecurityGroupPropertiesFormat_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -128,8 +132,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupPropertiesFormatStatusARM(su
 	return ""
 }
 
-//Generator of NetworkSecurityGroupPropertiesFormat_StatusARM instances for
-//property testing - lazily instantiated by
+// Generator of NetworkSecurityGroupPropertiesFormat_StatusARM instances for property testing - lazily instantiated by
 //NetworkSecurityGroupPropertiesFormatStatusARMGenerator()
 var networkSecurityGroupPropertiesFormatStatusARMGenerator gopter.Gen
 
@@ -182,17 +185,20 @@ func Test_FlowLog_Status_SubResourceEmbeddedARM_WhenSerializedToJson_Deserialize
 
 // RunJSONSerializationTestForFlowLogStatusSubResourceEmbeddedARM runs a test to see if a specific instance of FlowLog_Status_SubResourceEmbeddedARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForFlowLogStatusSubResourceEmbeddedARM(subject FlowLog_Status_SubResourceEmbeddedARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual FlowLog_Status_SubResourceEmbeddedARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -204,8 +210,8 @@ func RunJSONSerializationTestForFlowLogStatusSubResourceEmbeddedARM(subject Flow
 	return ""
 }
 
-//Generator of FlowLog_Status_SubResourceEmbeddedARM instances for property
-//testing - lazily instantiated by FlowLogStatusSubResourceEmbeddedARMGenerator()
+// Generator of FlowLog_Status_SubResourceEmbeddedARM instances for property testing - lazily instantiated by
+//FlowLogStatusSubResourceEmbeddedARMGenerator()
 var flowLogStatusSubResourceEmbeddedARMGenerator gopter.Gen
 
 // FlowLogStatusSubResourceEmbeddedARMGenerator returns a generator of FlowLog_Status_SubResourceEmbeddedARM instances for property testing.
@@ -238,17 +244,20 @@ func Test_NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM_Wh
 
 // RunJSONSerializationTestForNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedARM runs a test to see if a specific instance of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedARM(subject NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -260,9 +269,8 @@ func RunJSONSerializationTestForNetworkInterfaceStatusNetworkSecurityGroupSubRes
 	return ""
 }
 
-//Generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM
-//instances for property testing - lazily instantiated by
-//NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
+// Generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing -
+//lazily instantiated by NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
 var networkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
 
 // NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.
@@ -309,17 +317,20 @@ func Test_SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM_WhenSe
 
 // RunJSONSerializationTestForSecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedARM runs a test to see if a specific instance of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedARM(subject SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -331,9 +342,8 @@ func RunJSONSerializationTestForSecurityRuleStatusNetworkSecurityGroupSubResourc
 	return ""
 }
 
-//Generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM
-//instances for property testing - lazily instantiated by
-//SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
+// Generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing - lazily
+//instantiated by SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
 var securityRuleStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
 
 // SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.
@@ -366,17 +376,20 @@ func Test_Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM_WhenSerializ
 
 // RunJSONSerializationTestForSubnetStatusNetworkSecurityGroupSubResourceEmbeddedARM runs a test to see if a specific instance of Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSubnetStatusNetworkSecurityGroupSubResourceEmbeddedARM(subject Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -388,9 +401,8 @@ func RunJSONSerializationTestForSubnetStatusNetworkSecurityGroupSubResourceEmbed
 	return ""
 }
 
-//Generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances
-//for property testing - lazily instantiated by
-//SubnetStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
+// Generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing - lazily
+//instantiated by SubnetStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
 var subnetStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
 
 // SubnetStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.

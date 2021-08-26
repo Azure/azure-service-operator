@@ -29,17 +29,20 @@ func Test_UserAssignedIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForUserAssignedIdentity runs a test to see if a specific instance of UserAssignedIdentity round trips to JSON and back losslessly
 func RunJSONSerializationTestForUserAssignedIdentity(subject UserAssignedIdentity) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual UserAssignedIdentity
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForUserAssignedIdentity(subject UserAssignedIdentit
 	return ""
 }
 
-//Generator of UserAssignedIdentity instances for property testing - lazily
-//instantiated by UserAssignedIdentityGenerator()
+// Generator of UserAssignedIdentity instances for property testing - lazily instantiated by
+//UserAssignedIdentityGenerator()
 var userAssignedIdentityGenerator gopter.Gen
 
 // UserAssignedIdentityGenerator returns a generator of UserAssignedIdentity instances for property testing.
@@ -86,17 +89,20 @@ func Test_Identity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 
 // RunJSONSerializationTestForIdentityStatus runs a test to see if a specific instance of Identity_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForIdentityStatus(subject Identity_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Identity_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +114,7 @@ func RunJSONSerializationTestForIdentityStatus(subject Identity_Status) string {
 	return ""
 }
 
-//Generator of Identity_Status instances for property testing - lazily
-//instantiated by IdentityStatusGenerator()
+// Generator of Identity_Status instances for property testing - lazily instantiated by IdentityStatusGenerator()
 var identityStatusGenerator gopter.Gen
 
 // IdentityStatusGenerator returns a generator of Identity_Status instances for property testing.
@@ -149,17 +154,20 @@ func Test_UserAssignedIdentities_Spec_WhenSerializedToJson_DeserializesAsEqual(t
 
 // RunJSONSerializationTestForUserAssignedIdentitiesSpec runs a test to see if a specific instance of UserAssignedIdentities_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForUserAssignedIdentitiesSpec(subject UserAssignedIdentities_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual UserAssignedIdentities_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -171,8 +179,8 @@ func RunJSONSerializationTestForUserAssignedIdentitiesSpec(subject UserAssignedI
 	return ""
 }
 
-//Generator of UserAssignedIdentities_Spec instances for property testing - lazily
-//instantiated by UserAssignedIdentitiesSpecGenerator()
+// Generator of UserAssignedIdentities_Spec instances for property testing - lazily instantiated by
+//UserAssignedIdentitiesSpecGenerator()
 var userAssignedIdentitiesSpecGenerator gopter.Gen
 
 // UserAssignedIdentitiesSpecGenerator returns a generator of UserAssignedIdentities_Spec instances for property testing.

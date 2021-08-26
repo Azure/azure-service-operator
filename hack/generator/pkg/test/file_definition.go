@@ -20,7 +20,7 @@ func CreateFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.File
 		panic(errors.Wrap(err, "Expected first definition to have a local package reference - fix your test!"))
 	}
 
-	pkgDefinition := astmodel.NewPackageDefinition(ref.Group(), ref.PackageName(), ref.Version())
+	pkgDefinition := astmodel.NewPackageDefinition(ref.Group(), ref.PackageName())
 	for _, def := range definitions {
 		pkgDefinition.AddDefinition(def)
 	}
@@ -42,7 +42,7 @@ func CreateTestFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.
 		panic(errors.Wrap(err, "Expected first definition to have a local package reference - fix your test!"))
 	}
 
-	pkgDefinition := astmodel.NewPackageDefinition(ref.Group(), ref.PackageName(), ref.Version())
+	pkgDefinition := astmodel.NewPackageDefinition(ref.Group(), ref.PackageName())
 	for _, def := range definitions {
 		pkgDefinition.AddDefinition(def)
 	}

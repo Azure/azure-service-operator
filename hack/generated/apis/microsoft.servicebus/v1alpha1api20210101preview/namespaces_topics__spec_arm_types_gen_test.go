@@ -29,17 +29,20 @@ func Test_NamespacesTopics_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *t
 
 // RunJSONSerializationTestForNamespacesTopicsSpecARM runs a test to see if a specific instance of NamespacesTopics_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesTopicsSpecARM(subject NamespacesTopics_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NamespacesTopics_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForNamespacesTopicsSpecARM(subject NamespacesTopics
 	return ""
 }
 
-//Generator of NamespacesTopics_SpecARM instances for property testing - lazily
-//instantiated by NamespacesTopicsSpecARMGenerator()
+// Generator of NamespacesTopics_SpecARM instances for property testing - lazily instantiated by
+//NamespacesTopicsSpecARMGenerator()
 var namespacesTopicsSpecARMGenerator gopter.Gen
 
 // NamespacesTopicsSpecARMGenerator returns a generator of NamespacesTopics_SpecARM instances for property testing.
@@ -103,17 +106,20 @@ func Test_SBTopicPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForSBTopicPropertiesARM runs a test to see if a specific instance of SBTopicPropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBTopicPropertiesARM(subject SBTopicPropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SBTopicPropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -125,8 +131,8 @@ func RunJSONSerializationTestForSBTopicPropertiesARM(subject SBTopicPropertiesAR
 	return ""
 }
 
-//Generator of SBTopicPropertiesARM instances for property testing - lazily
-//instantiated by SBTopicPropertiesARMGenerator()
+// Generator of SBTopicPropertiesARM instances for property testing - lazily instantiated by
+//SBTopicPropertiesARMGenerator()
 var sbTopicPropertiesARMGenerator gopter.Gen
 
 // SBTopicPropertiesARMGenerator returns a generator of SBTopicPropertiesARM instances for property testing.

@@ -5,6 +5,7 @@ package v1alpha1api20201101
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,44 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_VirtualNetworkTap_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworkTap to VirtualNetworkTap via AssignPropertiesToVirtualNetworkTap & AssignPropertiesFromVirtualNetworkTap returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkTap, VirtualNetworkTapGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworkTap tests if a specific instance of VirtualNetworkTap can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkTap(subject VirtualNetworkTap) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.VirtualNetworkTap
+	err := subject.AssignPropertiesToVirtualNetworkTap(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworkTap
+	err = actual.AssignPropertiesFromVirtualNetworkTap(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_VirtualNetworkTap_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
@@ -29,17 +68,20 @@ func Test_VirtualNetworkTap_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 
 // RunJSONSerializationTestForVirtualNetworkTap runs a test to see if a specific instance of VirtualNetworkTap round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkTap(subject VirtualNetworkTap) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkTap
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +93,7 @@ func RunJSONSerializationTestForVirtualNetworkTap(subject VirtualNetworkTap) str
 	return ""
 }
 
-//Generator of VirtualNetworkTap instances for property testing - lazily
-//instantiated by VirtualNetworkTapGenerator()
+// Generator of VirtualNetworkTap instances for property testing - lazily instantiated by VirtualNetworkTapGenerator()
 var virtualNetworkTapGenerator gopter.Gen
 
 // VirtualNetworkTapGenerator returns a generator of VirtualNetworkTap instances for property testing.
@@ -74,6 +115,44 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkTap(gens map[string]gopter.Gen
 	gens["Status"] = VirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
 }
 
+func Test_VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded to VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded via AssignPropertiesToVirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbedded & AssignPropertiesFromVirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbedded, VirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbedded tests if a specific instance of VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbedded(subject VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := subject.AssignPropertiesToVirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded
+	err = actual.AssignPropertiesFromVirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -86,17 +165,20 @@ func Test_VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSer
 
 // RunJSONSerializationTestForVirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbedded runs a test to see if a specific instance of VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbedded(subject VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,9 +190,8 @@ func RunJSONSerializationTestForVirtualNetworkTapStatusVirtualNetworkTapSubResou
 	return ""
 }
 
-//Generator of VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//VirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
+// Generator of VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing - lazily
+//instantiated by VirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
 var virtualNetworkTapStatusVirtualNetworkTapSubResourceEmbeddedGenerator gopter.Gen
 
 // VirtualNetworkTapStatusVirtualNetworkTapSubResourceEmbeddedGenerator returns a generator of VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing.
@@ -155,6 +236,44 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkTapStatusVirtualNetworkTapSubR
 	gens["NetworkInterfaceTapConfigurations"] = gen.SliceOf(NetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator())
 }
 
+func Test_VirtualNetworkTaps_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworkTaps_Spec to VirtualNetworkTaps_Spec via AssignPropertiesToVirtualNetworkTapsSpec & AssignPropertiesFromVirtualNetworkTapsSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkTapsSpec, VirtualNetworkTapsSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworkTapsSpec tests if a specific instance of VirtualNetworkTaps_Spec can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkTapsSpec(subject VirtualNetworkTaps_Spec) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.VirtualNetworkTaps_Spec
+	err := subject.AssignPropertiesToVirtualNetworkTapsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworkTaps_Spec
+	err = actual.AssignPropertiesFromVirtualNetworkTapsSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_VirtualNetworkTaps_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -167,17 +286,20 @@ func Test_VirtualNetworkTaps_Spec_WhenSerializedToJson_DeserializesAsEqual(t *te
 
 // RunJSONSerializationTestForVirtualNetworkTapsSpec runs a test to see if a specific instance of VirtualNetworkTaps_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkTapsSpec(subject VirtualNetworkTaps_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkTaps_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -189,8 +311,8 @@ func RunJSONSerializationTestForVirtualNetworkTapsSpec(subject VirtualNetworkTap
 	return ""
 }
 
-//Generator of VirtualNetworkTaps_Spec instances for property testing - lazily
-//instantiated by VirtualNetworkTapsSpecGenerator()
+// Generator of VirtualNetworkTaps_Spec instances for property testing - lazily instantiated by
+//VirtualNetworkTapsSpecGenerator()
 var virtualNetworkTapsSpecGenerator gopter.Gen
 
 // VirtualNetworkTapsSpecGenerator returns a generator of VirtualNetworkTaps_Spec instances for property testing.
@@ -229,6 +351,44 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkTapsSpec(gens map[string]gopte
 	gens["DestinationNetworkInterfaceIPConfiguration"] = gen.PtrOf(SubResourceGenerator())
 }
 
+func Test_FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded to FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded via AssignPropertiesToFrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded & AssignPropertiesFromFrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded, FrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForFrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded(subject FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := subject.AssignPropertiesToFrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded
+	err = actual.AssignPropertiesFromFrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -241,17 +401,20 @@ func Test_FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded_W
 
 // RunJSONSerializationTestForFrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded runs a test to see if a specific instance of FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForFrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded(subject FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -263,10 +426,8 @@ func RunJSONSerializationTestForFrontendIPConfigurationStatusVirtualNetworkTapSu
 	return ""
 }
 
-//Generator of
-//FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded instances
-//for property testing - lazily instantiated by
-//FrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
+// Generator of FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing -
+//lazily instantiated by FrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
 var frontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator gopter.Gen
 
 // FrontendIPConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator returns a generator of FrontendIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing.
@@ -315,6 +476,44 @@ func AddRelatedPropertyGeneratorsForFrontendIPConfigurationStatusVirtualNetworkT
 	gens["Subnet"] = gen.PtrOf(SubnetStatusVirtualNetworkTapSubResourceEmbeddedGenerator())
 }
 
+func Test_NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded to NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded via AssignPropertiesToNetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded & AssignPropertiesFromNetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded, NetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded(subject NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := subject.AssignPropertiesToNetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded
+	err = actual.AssignPropertiesFromNetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -327,17 +526,20 @@ func Test_NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEm
 
 // RunJSONSerializationTestForNetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded runs a test to see if a specific instance of NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbedded(subject NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -349,10 +551,8 @@ func RunJSONSerializationTestForNetworkInterfaceIPConfigurationStatusVirtualNetw
 	return ""
 }
 
-//Generator of
-//NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//NetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
+// Generator of NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded instances for property
+//testing - lazily instantiated by NetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
 var networkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkInterfaceIPConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator returns a generator of NetworkInterfaceIPConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing.
@@ -401,6 +601,44 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationStatusVirtual
 	gens["Subnet"] = gen.PtrOf(SubnetStatusVirtualNetworkTapSubResourceEmbeddedGenerator())
 }
 
+func Test_NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded to NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded via AssignPropertiesToNetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbedded & AssignPropertiesFromNetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbedded, NetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbedded tests if a specific instance of NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbedded(subject NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := subject.AssignPropertiesToNetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded
+	err = actual.AssignPropertiesFromNetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -413,17 +651,20 @@ func Test_NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceE
 
 // RunJSONSerializationTestForNetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbedded runs a test to see if a specific instance of NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbedded(subject NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -435,10 +676,8 @@ func RunJSONSerializationTestForNetworkInterfaceTapConfigurationStatusVirtualNet
 	return ""
 }
 
-//Generator of
-//NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//NetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
+// Generator of NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded instances for property
+//testing - lazily instantiated by NetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
 var networkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkInterfaceTapConfigurationStatusVirtualNetworkTapSubResourceEmbeddedGenerator returns a generator of NetworkInterfaceTapConfiguration_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing.
@@ -459,6 +698,44 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceTapConfigurationStatusVi
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded to ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded via AssignPropertiesToApplicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded & AssignPropertiesFromApplicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded, ApplicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded tests if a specific instance of ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded(subject ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := subject.AssignPropertiesToApplicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded
+	err = actual.AssignPropertiesFromApplicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -471,17 +748,20 @@ func Test_ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResou
 
 // RunJSONSerializationTestForApplicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded runs a test to see if a specific instance of ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForApplicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded(subject ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -493,9 +773,8 @@ func RunJSONSerializationTestForApplicationGatewayBackendAddressPoolStatusVirtua
 	return ""
 }
 
-//Generator of
-//ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
+// Generator of ApplicationGatewayBackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded instances for property
+//testing - lazily instantiated by
 //ApplicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
 var applicationGatewayBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbeddedGenerator gopter.Gen
 
@@ -535,6 +814,44 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPoolStatusVi
 	gens["BackendAddresses"] = gen.SliceOf(ApplicationGatewayBackendAddressStatusGenerator())
 }
 
+func Test_ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded to ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded via AssignPropertiesToApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbedded & AssignPropertiesFromApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbedded, ApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbedded(subject ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := subject.AssignPropertiesToApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded
+	err = actual.AssignPropertiesFromApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -547,17 +864,20 @@ func Test_ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded_
 
 // RunJSONSerializationTestForApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbedded runs a test to see if a specific instance of ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbedded(subject ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -569,10 +889,8 @@ func RunJSONSerializationTestForApplicationSecurityGroupStatusVirtualNetworkTapS
 	return ""
 }
 
-//Generator of
-//ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded instances
-//for property testing - lazily instantiated by
-//ApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
+// Generator of ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing -
+//lazily instantiated by ApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
 var applicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbeddedGenerator gopter.Gen
 
 // ApplicationSecurityGroupStatusVirtualNetworkTapSubResourceEmbeddedGenerator returns a generator of ApplicationSecurityGroup_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing.
@@ -593,6 +911,44 @@ func AddIndependentPropertyGeneratorsForApplicationSecurityGroupStatusVirtualNet
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded to BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded via AssignPropertiesToBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded & AssignPropertiesFromBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded, BackendAddressPoolStatusVirtualNetworkTapSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded tests if a specific instance of BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded(subject BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := subject.AssignPropertiesToBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded
+	err = actual.AssignPropertiesFromBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -605,17 +961,20 @@ func Test_BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSe
 
 // RunJSONSerializationTestForBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded runs a test to see if a specific instance of BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForBackendAddressPoolStatusVirtualNetworkTapSubResourceEmbedded(subject BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -627,9 +986,8 @@ func RunJSONSerializationTestForBackendAddressPoolStatusVirtualNetworkTapSubReso
 	return ""
 }
 
-//Generator of BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//BackendAddressPoolStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
+// Generator of BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing - lazily
+//instantiated by BackendAddressPoolStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
 var backendAddressPoolStatusVirtualNetworkTapSubResourceEmbeddedGenerator gopter.Gen
 
 // BackendAddressPoolStatusVirtualNetworkTapSubResourceEmbeddedGenerator returns a generator of BackendAddressPool_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing.
@@ -650,6 +1008,44 @@ func AddIndependentPropertyGeneratorsForBackendAddressPoolStatusVirtualNetworkTa
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded to InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded via AssignPropertiesToInboundNatRuleStatusVirtualNetworkTapSubResourceEmbedded & AssignPropertiesFromInboundNatRuleStatusVirtualNetworkTapSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForInboundNatRuleStatusVirtualNetworkTapSubResourceEmbedded, InboundNatRuleStatusVirtualNetworkTapSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForInboundNatRuleStatusVirtualNetworkTapSubResourceEmbedded tests if a specific instance of InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForInboundNatRuleStatusVirtualNetworkTapSubResourceEmbedded(subject InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := subject.AssignPropertiesToInboundNatRuleStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded
+	err = actual.AssignPropertiesFromInboundNatRuleStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -662,17 +1058,20 @@ func Test_InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerial
 
 // RunJSONSerializationTestForInboundNatRuleStatusVirtualNetworkTapSubResourceEmbedded runs a test to see if a specific instance of InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForInboundNatRuleStatusVirtualNetworkTapSubResourceEmbedded(subject InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -684,9 +1083,8 @@ func RunJSONSerializationTestForInboundNatRuleStatusVirtualNetworkTapSubResource
 	return ""
 }
 
-//Generator of InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//InboundNatRuleStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
+// Generator of InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing - lazily
+//instantiated by InboundNatRuleStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
 var inboundNatRuleStatusVirtualNetworkTapSubResourceEmbeddedGenerator gopter.Gen
 
 // InboundNatRuleStatusVirtualNetworkTapSubResourceEmbeddedGenerator returns a generator of InboundNatRule_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing.
@@ -707,6 +1105,44 @@ func AddIndependentPropertyGeneratorsForInboundNatRuleStatusVirtualNetworkTapSub
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status to NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status via AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus & AssignPropertiesFromNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus, NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus tests if a specific instance of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus(subject NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status
+	err := subject.AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status
+	err = actual.AssignPropertiesFromNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -719,17 +1155,20 @@ func Test_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status_
 
 // RunJSONSerializationTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus runs a test to see if a specific instance of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus(subject NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -741,10 +1180,8 @@ func RunJSONSerializationTestForNetworkInterfaceIPConfigurationPrivateLinkConnec
 	return ""
 }
 
-//Generator of
-//NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status instances
-//for property testing - lazily instantiated by
-//NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusGenerator()
+// Generator of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status instances for property testing -
+//lazily instantiated by NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusGenerator()
 var networkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusGenerator gopter.Gen
 
 // NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusGenerator returns a generator of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status instances for property testing.
@@ -767,6 +1204,44 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPrivateLi
 	gens["RequiredMemberName"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded to PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded via AssignPropertiesToPublicIPAddressStatusVirtualNetworkTapSubResourceEmbedded & AssignPropertiesFromPublicIPAddressStatusVirtualNetworkTapSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPublicIPAddressStatusVirtualNetworkTapSubResourceEmbedded, PublicIPAddressStatusVirtualNetworkTapSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPublicIPAddressStatusVirtualNetworkTapSubResourceEmbedded tests if a specific instance of PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForPublicIPAddressStatusVirtualNetworkTapSubResourceEmbedded(subject PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := subject.AssignPropertiesToPublicIPAddressStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded
+	err = actual.AssignPropertiesFromPublicIPAddressStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -779,17 +1254,20 @@ func Test_PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSeria
 
 // RunJSONSerializationTestForPublicIPAddressStatusVirtualNetworkTapSubResourceEmbedded runs a test to see if a specific instance of PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressStatusVirtualNetworkTapSubResourceEmbedded(subject PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -801,9 +1279,8 @@ func RunJSONSerializationTestForPublicIPAddressStatusVirtualNetworkTapSubResourc
 	return ""
 }
 
-//Generator of PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded
-//instances for property testing - lazily instantiated by
-//PublicIPAddressStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
+// Generator of PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing - lazily
+//instantiated by PublicIPAddressStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
 var publicIPAddressStatusVirtualNetworkTapSubResourceEmbeddedGenerator gopter.Gen
 
 // PublicIPAddressStatusVirtualNetworkTapSubResourceEmbeddedGenerator returns a generator of PublicIPAddress_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing.
@@ -840,6 +1317,44 @@ func AddRelatedPropertyGeneratorsForPublicIPAddressStatusVirtualNetworkTapSubRes
 	gens["Sku"] = gen.PtrOf(PublicIPAddressSkuStatusGenerator())
 }
 
+func Test_Subnet_Status_VirtualNetworkTap_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Subnet_Status_VirtualNetworkTap_SubResourceEmbedded to Subnet_Status_VirtualNetworkTap_SubResourceEmbedded via AssignPropertiesToSubnetStatusVirtualNetworkTapSubResourceEmbedded & AssignPropertiesFromSubnetStatusVirtualNetworkTapSubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubnetStatusVirtualNetworkTapSubResourceEmbedded, SubnetStatusVirtualNetworkTapSubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubnetStatusVirtualNetworkTapSubResourceEmbedded tests if a specific instance of Subnet_Status_VirtualNetworkTap_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForSubnetStatusVirtualNetworkTapSubResourceEmbedded(subject Subnet_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.Subnet_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := subject.AssignPropertiesToSubnetStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Subnet_Status_VirtualNetworkTap_SubResourceEmbedded
+	err = actual.AssignPropertiesFromSubnetStatusVirtualNetworkTapSubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Subnet_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -852,17 +1367,20 @@ func Test_Subnet_Status_VirtualNetworkTap_SubResourceEmbedded_WhenSerializedToJs
 
 // RunJSONSerializationTestForSubnetStatusVirtualNetworkTapSubResourceEmbedded runs a test to see if a specific instance of Subnet_Status_VirtualNetworkTap_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForSubnetStatusVirtualNetworkTapSubResourceEmbedded(subject Subnet_Status_VirtualNetworkTap_SubResourceEmbedded) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Subnet_Status_VirtualNetworkTap_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -874,9 +1392,8 @@ func RunJSONSerializationTestForSubnetStatusVirtualNetworkTapSubResourceEmbedded
 	return ""
 }
 
-//Generator of Subnet_Status_VirtualNetworkTap_SubResourceEmbedded instances for
-//property testing - lazily instantiated by
-//SubnetStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
+// Generator of Subnet_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing - lazily instantiated
+//by SubnetStatusVirtualNetworkTapSubResourceEmbeddedGenerator()
 var subnetStatusVirtualNetworkTapSubResourceEmbeddedGenerator gopter.Gen
 
 // SubnetStatusVirtualNetworkTapSubResourceEmbeddedGenerator returns a generator of Subnet_Status_VirtualNetworkTap_SubResourceEmbedded instances for property testing.
@@ -897,6 +1414,44 @@ func AddIndependentPropertyGeneratorsForSubnetStatusVirtualNetworkTapSubResource
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ApplicationGatewayBackendAddress_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayBackendAddress_Status to ApplicationGatewayBackendAddress_Status via AssignPropertiesToApplicationGatewayBackendAddressStatus & AssignPropertiesFromApplicationGatewayBackendAddressStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayBackendAddressStatus, ApplicationGatewayBackendAddressStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayBackendAddressStatus tests if a specific instance of ApplicationGatewayBackendAddress_Status can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayBackendAddressStatus(subject ApplicationGatewayBackendAddress_Status) string {
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201101storage.ApplicationGatewayBackendAddress_Status
+	err := subject.AssignPropertiesToApplicationGatewayBackendAddressStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayBackendAddress_Status
+	err = actual.AssignPropertiesFromApplicationGatewayBackendAddressStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ApplicationGatewayBackendAddress_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
@@ -909,17 +1464,20 @@ func Test_ApplicationGatewayBackendAddress_Status_WhenSerializedToJson_Deseriali
 
 // RunJSONSerializationTestForApplicationGatewayBackendAddressStatus runs a test to see if a specific instance of ApplicationGatewayBackendAddress_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForApplicationGatewayBackendAddressStatus(subject ApplicationGatewayBackendAddress_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ApplicationGatewayBackendAddress_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -931,8 +1489,7 @@ func RunJSONSerializationTestForApplicationGatewayBackendAddressStatus(subject A
 	return ""
 }
 
-//Generator of ApplicationGatewayBackendAddress_Status instances for property
-//testing - lazily instantiated by
+// Generator of ApplicationGatewayBackendAddress_Status instances for property testing - lazily instantiated by
 //ApplicationGatewayBackendAddressStatusGenerator()
 var applicationGatewayBackendAddressStatusGenerator gopter.Gen
 

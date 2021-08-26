@@ -29,17 +29,20 @@ func Test_Namespaces_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing
 
 // RunJSONSerializationTestForNamespacesSpecARM runs a test to see if a specific instance of Namespaces_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesSpecARM(subject Namespaces_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Namespaces_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForNamespacesSpecARM(subject Namespaces_SpecARM) st
 	return ""
 }
 
-//Generator of Namespaces_SpecARM instances for property testing - lazily
-//instantiated by NamespacesSpecARMGenerator()
+// Generator of Namespaces_SpecARM instances for property testing - lazily instantiated by NamespacesSpecARMGenerator()
 var namespacesSpecARMGenerator gopter.Gen
 
 // NamespacesSpecARMGenerator returns a generator of Namespaces_SpecARM instances for property testing.
@@ -105,17 +107,20 @@ func Test_IdentityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForIdentityARM runs a test to see if a specific instance of IdentityARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForIdentityARM(subject IdentityARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IdentityARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -127,8 +132,7 @@ func RunJSONSerializationTestForIdentityARM(subject IdentityARM) string {
 	return ""
 }
 
-//Generator of IdentityARM instances for property testing - lazily instantiated by
-//IdentityARMGenerator()
+// Generator of IdentityARM instances for property testing - lazily instantiated by IdentityARMGenerator()
 var identityARMGenerator gopter.Gen
 
 // IdentityARMGenerator returns a generator of IdentityARM instances for property testing.
@@ -161,17 +165,20 @@ func Test_Namespaces_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual
 
 // RunJSONSerializationTestForNamespacesSpecPropertiesARM runs a test to see if a specific instance of Namespaces_Spec_PropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespacesSpecPropertiesARM(subject Namespaces_Spec_PropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual Namespaces_Spec_PropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -183,8 +190,8 @@ func RunJSONSerializationTestForNamespacesSpecPropertiesARM(subject Namespaces_S
 	return ""
 }
 
-//Generator of Namespaces_Spec_PropertiesARM instances for property testing -
-//lazily instantiated by NamespacesSpecPropertiesARMGenerator()
+// Generator of Namespaces_Spec_PropertiesARM instances for property testing - lazily instantiated by
+//NamespacesSpecPropertiesARMGenerator()
 var namespacesSpecPropertiesARMGenerator gopter.Gen
 
 // NamespacesSpecPropertiesARMGenerator returns a generator of Namespaces_Spec_PropertiesARM instances for property testing.
@@ -231,17 +238,20 @@ func Test_SBSkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForSBSkuARM runs a test to see if a specific instance of SBSkuARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBSkuARM(subject SBSkuARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SBSkuARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -253,8 +263,7 @@ func RunJSONSerializationTestForSBSkuARM(subject SBSkuARM) string {
 	return ""
 }
 
-//Generator of SBSkuARM instances for property testing - lazily instantiated by
-//SBSkuARMGenerator()
+// Generator of SBSkuARM instances for property testing - lazily instantiated by SBSkuARMGenerator()
 var sbSkuARMGenerator gopter.Gen
 
 // SBSkuARMGenerator returns a generator of SBSkuARM instances for property testing.
@@ -289,17 +298,20 @@ func Test_EncryptionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForEncryptionARM runs a test to see if a specific instance of EncryptionARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForEncryptionARM(subject EncryptionARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual EncryptionARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -311,8 +323,7 @@ func RunJSONSerializationTestForEncryptionARM(subject EncryptionARM) string {
 	return ""
 }
 
-//Generator of EncryptionARM instances for property testing - lazily instantiated
-//by EncryptionARMGenerator()
+// Generator of EncryptionARM instances for property testing - lazily instantiated by EncryptionARMGenerator()
 var encryptionARMGenerator gopter.Gen
 
 // EncryptionARMGenerator returns a generator of EncryptionARM instances for property testing.
@@ -360,17 +371,20 @@ func Test_KeyVaultPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForKeyVaultPropertiesARM runs a test to see if a specific instance of KeyVaultPropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForKeyVaultPropertiesARM(subject KeyVaultPropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual KeyVaultPropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -382,8 +396,8 @@ func RunJSONSerializationTestForKeyVaultPropertiesARM(subject KeyVaultProperties
 	return ""
 }
 
-//Generator of KeyVaultPropertiesARM instances for property testing - lazily
-//instantiated by KeyVaultPropertiesARMGenerator()
+// Generator of KeyVaultPropertiesARM instances for property testing - lazily instantiated by
+//KeyVaultPropertiesARMGenerator()
 var keyVaultPropertiesARMGenerator gopter.Gen
 
 // KeyVaultPropertiesARMGenerator returns a generator of KeyVaultPropertiesARM instances for property testing.
@@ -432,17 +446,20 @@ func Test_UserAssignedIdentityPropertiesARM_WhenSerializedToJson_DeserializesAsE
 
 // RunJSONSerializationTestForUserAssignedIdentityPropertiesARM runs a test to see if a specific instance of UserAssignedIdentityPropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForUserAssignedIdentityPropertiesARM(subject UserAssignedIdentityPropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual UserAssignedIdentityPropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -454,8 +471,8 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertiesARM(subject UserAs
 	return ""
 }
 
-//Generator of UserAssignedIdentityPropertiesARM instances for property testing -
-//lazily instantiated by UserAssignedIdentityPropertiesARMGenerator()
+// Generator of UserAssignedIdentityPropertiesARM instances for property testing - lazily instantiated by
+//UserAssignedIdentityPropertiesARMGenerator()
 var userAssignedIdentityPropertiesARMGenerator gopter.Gen
 
 // UserAssignedIdentityPropertiesARMGenerator returns a generator of UserAssignedIdentityPropertiesARM instances for property testing.

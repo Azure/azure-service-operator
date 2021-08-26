@@ -64,7 +64,7 @@ func CreatePackagesForDefinitions(definitions astmodel.Types) (map[astmodel.Pack
 		if pkg, ok := packages[pkgRef]; ok {
 			pkg.AddDefinition(def)
 		} else {
-			pkg = astmodel.NewPackageDefinition(groupName, pkgName, Version)
+			pkg = astmodel.NewPackageDefinition(groupName, pkgName)
 			pkg.AddDefinition(def)
 			packages[pkgRef] = pkg
 		}

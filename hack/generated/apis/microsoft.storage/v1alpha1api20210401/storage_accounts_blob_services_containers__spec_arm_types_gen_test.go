@@ -29,17 +29,20 @@ func Test_StorageAccountsBlobServicesContainers_SpecARM_WhenSerializedToJson_Des
 
 // RunJSONSerializationTestForStorageAccountsBlobServicesContainersSpecARM runs a test to see if a specific instance of StorageAccountsBlobServicesContainers_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForStorageAccountsBlobServicesContainersSpecARM(subject StorageAccountsBlobServicesContainers_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual StorageAccountsBlobServicesContainers_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForStorageAccountsBlobServicesContainersSpecARM(sub
 	return ""
 }
 
-//Generator of StorageAccountsBlobServicesContainers_SpecARM instances for
-//property testing - lazily instantiated by
+// Generator of StorageAccountsBlobServicesContainers_SpecARM instances for property testing - lazily instantiated by
 //StorageAccountsBlobServicesContainersSpecARMGenerator()
 var storageAccountsBlobServicesContainersSpecARMGenerator gopter.Gen
 
@@ -104,17 +106,20 @@ func Test_ContainerPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *tes
 
 // RunJSONSerializationTestForContainerPropertiesARM runs a test to see if a specific instance of ContainerPropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForContainerPropertiesARM(subject ContainerPropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ContainerPropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -126,8 +131,8 @@ func RunJSONSerializationTestForContainerPropertiesARM(subject ContainerProperti
 	return ""
 }
 
-//Generator of ContainerPropertiesARM instances for property testing - lazily
-//instantiated by ContainerPropertiesARMGenerator()
+// Generator of ContainerPropertiesARM instances for property testing - lazily instantiated by
+//ContainerPropertiesARMGenerator()
 var containerPropertiesARMGenerator gopter.Gen
 
 // ContainerPropertiesARMGenerator returns a generator of ContainerPropertiesARM instances for property testing.
@@ -177,17 +182,20 @@ func Test_ImmutableStorageWithVersioningARM_WhenSerializedToJson_DeserializesAsE
 
 // RunJSONSerializationTestForImmutableStorageWithVersioningARM runs a test to see if a specific instance of ImmutableStorageWithVersioningARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForImmutableStorageWithVersioningARM(subject ImmutableStorageWithVersioningARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ImmutableStorageWithVersioningARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -199,8 +207,8 @@ func RunJSONSerializationTestForImmutableStorageWithVersioningARM(subject Immuta
 	return ""
 }
 
-//Generator of ImmutableStorageWithVersioningARM instances for property testing -
-//lazily instantiated by ImmutableStorageWithVersioningARMGenerator()
+// Generator of ImmutableStorageWithVersioningARM instances for property testing - lazily instantiated by
+//ImmutableStorageWithVersioningARMGenerator()
 var immutableStorageWithVersioningARMGenerator gopter.Gen
 
 // ImmutableStorageWithVersioningARMGenerator returns a generator of ImmutableStorageWithVersioningARM instances for property testing.

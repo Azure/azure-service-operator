@@ -29,17 +29,20 @@ func Test_VirtualNetworkGateway_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForVirtualNetworkGateway runs a test to see if a specific instance of VirtualNetworkGateway round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkGateway(subject VirtualNetworkGateway) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkGateway
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForVirtualNetworkGateway(subject VirtualNetworkGate
 	return ""
 }
 
-//Generator of VirtualNetworkGateway instances for property testing - lazily
-//instantiated by VirtualNetworkGatewayGenerator()
+// Generator of VirtualNetworkGateway instances for property testing - lazily instantiated by
+//VirtualNetworkGatewayGenerator()
 var virtualNetworkGatewayGenerator gopter.Gen
 
 // VirtualNetworkGatewayGenerator returns a generator of VirtualNetworkGateway instances for property testing.
@@ -86,17 +89,20 @@ func Test_VirtualNetworkGateway_Status_WhenSerializedToJson_DeserializesAsEqual(
 
 // RunJSONSerializationTestForVirtualNetworkGatewayStatus runs a test to see if a specific instance of VirtualNetworkGateway_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkGatewayStatus(subject VirtualNetworkGateway_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkGateway_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +114,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewayStatus(subject VirtualNetwo
 	return ""
 }
 
-//Generator of VirtualNetworkGateway_Status instances for property testing -
-//lazily instantiated by VirtualNetworkGatewayStatusGenerator()
+// Generator of VirtualNetworkGateway_Status instances for property testing - lazily instantiated by
+//VirtualNetworkGatewayStatusGenerator()
 var virtualNetworkGatewayStatusGenerator gopter.Gen
 
 // VirtualNetworkGatewayStatusGenerator returns a generator of VirtualNetworkGateway_Status instances for property testing.
@@ -178,17 +184,20 @@ func Test_VirtualNetworkGateways_Spec_WhenSerializedToJson_DeserializesAsEqual(t
 
 // RunJSONSerializationTestForVirtualNetworkGatewaysSpec runs a test to see if a specific instance of VirtualNetworkGateways_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkGatewaysSpec(subject VirtualNetworkGateways_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkGateways_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -200,8 +209,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpec(subject VirtualNetwor
 	return ""
 }
 
-//Generator of VirtualNetworkGateways_Spec instances for property testing - lazily
-//instantiated by VirtualNetworkGatewaysSpecGenerator()
+// Generator of VirtualNetworkGateways_Spec instances for property testing - lazily instantiated by
+//VirtualNetworkGatewaysSpecGenerator()
 var virtualNetworkGatewaysSpecGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecGenerator returns a generator of VirtualNetworkGateways_Spec instances for property testing.
@@ -264,17 +273,20 @@ func Test_BgpSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForBgpSettings runs a test to see if a specific instance of BgpSettings round trips to JSON and back losslessly
 func RunJSONSerializationTestForBgpSettings(subject BgpSettings) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual BgpSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -286,8 +298,7 @@ func RunJSONSerializationTestForBgpSettings(subject BgpSettings) string {
 	return ""
 }
 
-//Generator of BgpSettings instances for property testing - lazily instantiated by
-//BgpSettingsGenerator()
+// Generator of BgpSettings instances for property testing - lazily instantiated by BgpSettingsGenerator()
 var bgpSettingsGenerator gopter.Gen
 
 // BgpSettingsGenerator returns a generator of BgpSettings instances for property testing.
@@ -336,17 +347,20 @@ func Test_BgpSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing
 
 // RunJSONSerializationTestForBgpSettingsStatus runs a test to see if a specific instance of BgpSettings_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForBgpSettingsStatus(subject BgpSettings_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual BgpSettings_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -358,8 +372,7 @@ func RunJSONSerializationTestForBgpSettingsStatus(subject BgpSettings_Status) st
 	return ""
 }
 
-//Generator of BgpSettings_Status instances for property testing - lazily
-//instantiated by BgpSettingsStatusGenerator()
+// Generator of BgpSettings_Status instances for property testing - lazily instantiated by BgpSettingsStatusGenerator()
 var bgpSettingsStatusGenerator gopter.Gen
 
 // BgpSettingsStatusGenerator returns a generator of BgpSettings_Status instances for property testing.
@@ -408,17 +421,20 @@ func Test_VirtualNetworkGatewayIPConfiguration_Status_WhenSerializedToJson_Deser
 
 // RunJSONSerializationTestForVirtualNetworkGatewayIPConfigurationStatus runs a test to see if a specific instance of VirtualNetworkGatewayIPConfiguration_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkGatewayIPConfigurationStatus(subject VirtualNetworkGatewayIPConfiguration_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkGatewayIPConfiguration_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -430,8 +446,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewayIPConfigurationStatus(subje
 	return ""
 }
 
-//Generator of VirtualNetworkGatewayIPConfiguration_Status instances for property
-//testing - lazily instantiated by
+// Generator of VirtualNetworkGatewayIPConfiguration_Status instances for property testing - lazily instantiated by
 //VirtualNetworkGatewayIPConfigurationStatusGenerator()
 var virtualNetworkGatewayIPConfigurationStatusGenerator gopter.Gen
 
@@ -485,17 +500,20 @@ func Test_VirtualNetworkGatewaySku_WhenSerializedToJson_DeserializesAsEqual(t *t
 
 // RunJSONSerializationTestForVirtualNetworkGatewaySku runs a test to see if a specific instance of VirtualNetworkGatewaySku round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkGatewaySku(subject VirtualNetworkGatewaySku) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkGatewaySku
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -507,8 +525,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewaySku(subject VirtualNetworkG
 	return ""
 }
 
-//Generator of VirtualNetworkGatewaySku instances for property testing - lazily
-//instantiated by VirtualNetworkGatewaySkuGenerator()
+// Generator of VirtualNetworkGatewaySku instances for property testing - lazily instantiated by
+//VirtualNetworkGatewaySkuGenerator()
 var virtualNetworkGatewaySkuGenerator gopter.Gen
 
 // VirtualNetworkGatewaySkuGenerator returns a generator of VirtualNetworkGatewaySku instances for property testing.
@@ -542,17 +560,20 @@ func Test_VirtualNetworkGatewaySku_Status_WhenSerializedToJson_DeserializesAsEqu
 
 // RunJSONSerializationTestForVirtualNetworkGatewaySkuStatus runs a test to see if a specific instance of VirtualNetworkGatewaySku_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkGatewaySkuStatus(subject VirtualNetworkGatewaySku_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkGatewaySku_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -564,8 +585,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewaySkuStatus(subject VirtualNe
 	return ""
 }
 
-//Generator of VirtualNetworkGatewaySku_Status instances for property testing -
-//lazily instantiated by VirtualNetworkGatewaySkuStatusGenerator()
+// Generator of VirtualNetworkGatewaySku_Status instances for property testing - lazily instantiated by
+//VirtualNetworkGatewaySkuStatusGenerator()
 var virtualNetworkGatewaySkuStatusGenerator gopter.Gen
 
 // VirtualNetworkGatewaySkuStatusGenerator returns a generator of VirtualNetworkGatewaySku_Status instances for property testing.
@@ -600,17 +621,20 @@ func Test_VirtualNetworkGateways_Spec_Properties_IpConfigurations_WhenSerialized
 
 // RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurations runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_IpConfigurations round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurations(subject VirtualNetworkGateways_Spec_Properties_IpConfigurations) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkGateways_Spec_Properties_IpConfigurations
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -622,9 +646,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurat
 	return ""
 }
 
-//Generator of VirtualNetworkGateways_Spec_Properties_IpConfigurations instances
-//for property testing - lazily instantiated by
-//VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator()
+// Generator of VirtualNetworkGateways_Spec_Properties_IpConfigurations instances for property testing - lazily
+//instantiated by VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator()
 var virtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_IpConfigurations instances for property testing.
@@ -673,17 +696,20 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_WhenSeri
 
 // RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -695,9 +721,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 	return ""
 }
 
-//Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-//instances for property testing - lazily instantiated by
-//VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator()
+// Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instances for property testing - lazily
+//instantiated by VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator()
 var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instances for property testing.
@@ -754,17 +779,20 @@ func Test_VpnClientConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual
 
 // RunJSONSerializationTestForVpnClientConfigurationStatus runs a test to see if a specific instance of VpnClientConfiguration_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForVpnClientConfigurationStatus(subject VpnClientConfiguration_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VpnClientConfiguration_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -776,8 +804,8 @@ func RunJSONSerializationTestForVpnClientConfigurationStatus(subject VpnClientCo
 	return ""
 }
 
-//Generator of VpnClientConfiguration_Status instances for property testing -
-//lazily instantiated by VpnClientConfigurationStatusGenerator()
+// Generator of VpnClientConfiguration_Status instances for property testing - lazily instantiated by
+//VpnClientConfigurationStatusGenerator()
 var vpnClientConfigurationStatusGenerator gopter.Gen
 
 // VpnClientConfigurationStatusGenerator returns a generator of VpnClientConfiguration_Status instances for property testing.
@@ -834,17 +862,20 @@ func Test_IPConfigurationBgpPeeringAddress_WhenSerializedToJson_DeserializesAsEq
 
 // RunJSONSerializationTestForIPConfigurationBgpPeeringAddress runs a test to see if a specific instance of IPConfigurationBgpPeeringAddress round trips to JSON and back losslessly
 func RunJSONSerializationTestForIPConfigurationBgpPeeringAddress(subject IPConfigurationBgpPeeringAddress) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IPConfigurationBgpPeeringAddress
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -856,8 +887,8 @@ func RunJSONSerializationTestForIPConfigurationBgpPeeringAddress(subject IPConfi
 	return ""
 }
 
-//Generator of IPConfigurationBgpPeeringAddress instances for property testing -
-//lazily instantiated by IPConfigurationBgpPeeringAddressGenerator()
+// Generator of IPConfigurationBgpPeeringAddress instances for property testing - lazily instantiated by
+//IPConfigurationBgpPeeringAddressGenerator()
 var ipConfigurationBgpPeeringAddressGenerator gopter.Gen
 
 // IPConfigurationBgpPeeringAddressGenerator returns a generator of IPConfigurationBgpPeeringAddress instances for property testing.
@@ -891,17 +922,20 @@ func Test_IPConfigurationBgpPeeringAddress_Status_WhenSerializedToJson_Deseriali
 
 // RunJSONSerializationTestForIPConfigurationBgpPeeringAddressStatus runs a test to see if a specific instance of IPConfigurationBgpPeeringAddress_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForIPConfigurationBgpPeeringAddressStatus(subject IPConfigurationBgpPeeringAddress_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IPConfigurationBgpPeeringAddress_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -913,8 +947,7 @@ func RunJSONSerializationTestForIPConfigurationBgpPeeringAddressStatus(subject I
 	return ""
 }
 
-//Generator of IPConfigurationBgpPeeringAddress_Status instances for property
-//testing - lazily instantiated by
+// Generator of IPConfigurationBgpPeeringAddress_Status instances for property testing - lazily instantiated by
 //IPConfigurationBgpPeeringAddressStatusGenerator()
 var ipConfigurationBgpPeeringAddressStatusGenerator gopter.Gen
 
@@ -951,17 +984,20 @@ func Test_IpsecPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForIpsecPolicy runs a test to see if a specific instance of IpsecPolicy round trips to JSON and back losslessly
 func RunJSONSerializationTestForIpsecPolicy(subject IpsecPolicy) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IpsecPolicy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -973,8 +1009,7 @@ func RunJSONSerializationTestForIpsecPolicy(subject IpsecPolicy) string {
 	return ""
 }
 
-//Generator of IpsecPolicy instances for property testing - lazily instantiated by
-//IpsecPolicyGenerator()
+// Generator of IpsecPolicy instances for property testing - lazily instantiated by IpsecPolicyGenerator()
 var ipsecPolicyGenerator gopter.Gen
 
 // IpsecPolicyGenerator returns a generator of IpsecPolicy instances for property testing.
@@ -1014,17 +1049,20 @@ func Test_IpsecPolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing
 
 // RunJSONSerializationTestForIpsecPolicyStatus runs a test to see if a specific instance of IpsecPolicy_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForIpsecPolicyStatus(subject IpsecPolicy_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IpsecPolicy_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1036,8 +1074,7 @@ func RunJSONSerializationTestForIpsecPolicyStatus(subject IpsecPolicy_Status) st
 	return ""
 }
 
-//Generator of IpsecPolicy_Status instances for property testing - lazily
-//instantiated by IpsecPolicyStatusGenerator()
+// Generator of IpsecPolicy_Status instances for property testing - lazily instantiated by IpsecPolicyStatusGenerator()
 var ipsecPolicyStatusGenerator gopter.Gen
 
 // IpsecPolicyStatusGenerator returns a generator of IpsecPolicy_Status instances for property testing.
@@ -1077,17 +1114,20 @@ func Test_RadiusServer_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForRadiusServer runs a test to see if a specific instance of RadiusServer round trips to JSON and back losslessly
 func RunJSONSerializationTestForRadiusServer(subject RadiusServer) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual RadiusServer
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1099,8 +1139,7 @@ func RunJSONSerializationTestForRadiusServer(subject RadiusServer) string {
 	return ""
 }
 
-//Generator of RadiusServer instances for property testing - lazily instantiated
-//by RadiusServerGenerator()
+// Generator of RadiusServer instances for property testing - lazily instantiated by RadiusServerGenerator()
 var radiusServerGenerator gopter.Gen
 
 // RadiusServerGenerator returns a generator of RadiusServer instances for property testing.
@@ -1135,17 +1174,20 @@ func Test_RadiusServer_Status_WhenSerializedToJson_DeserializesAsEqual(t *testin
 
 // RunJSONSerializationTestForRadiusServerStatus runs a test to see if a specific instance of RadiusServer_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForRadiusServerStatus(subject RadiusServer_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual RadiusServer_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1157,8 +1199,7 @@ func RunJSONSerializationTestForRadiusServerStatus(subject RadiusServer_Status) 
 	return ""
 }
 
-//Generator of RadiusServer_Status instances for property testing - lazily
-//instantiated by RadiusServerStatusGenerator()
+// Generator of RadiusServer_Status instances for property testing - lazily instantiated by RadiusServerStatusGenerator()
 var radiusServerStatusGenerator gopter.Gen
 
 // RadiusServerStatusGenerator returns a generator of RadiusServer_Status instances for property testing.
@@ -1193,17 +1234,20 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClien
 
 // RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1215,9 +1259,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 	return ""
 }
 
-//Generator of
-//VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
-//instances for property testing - lazily instantiated by
+// Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instances for
+//property testing - lazily instantiated by
 //VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator()
 var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator gopter.Gen
 
@@ -1252,17 +1295,20 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClien
 
 // RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1274,9 +1320,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 	return ""
 }
 
-//Generator of
-//VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-//instances for property testing - lazily instantiated by
+// Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instances for
+//property testing - lazily instantiated by
 //VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator()
 var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator gopter.Gen
 
@@ -1311,17 +1356,20 @@ func Test_VpnClientRevokedCertificate_Status_WhenSerializedToJson_DeserializesAs
 
 // RunJSONSerializationTestForVpnClientRevokedCertificateStatus runs a test to see if a specific instance of VpnClientRevokedCertificate_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForVpnClientRevokedCertificateStatus(subject VpnClientRevokedCertificate_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VpnClientRevokedCertificate_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1333,8 +1381,8 @@ func RunJSONSerializationTestForVpnClientRevokedCertificateStatus(subject VpnCli
 	return ""
 }
 
-//Generator of VpnClientRevokedCertificate_Status instances for property testing -
-//lazily instantiated by VpnClientRevokedCertificateStatusGenerator()
+// Generator of VpnClientRevokedCertificate_Status instances for property testing - lazily instantiated by
+//VpnClientRevokedCertificateStatusGenerator()
 var vpnClientRevokedCertificateStatusGenerator gopter.Gen
 
 // VpnClientRevokedCertificateStatusGenerator returns a generator of VpnClientRevokedCertificate_Status instances for property testing.
@@ -1371,17 +1419,20 @@ func Test_VpnClientRootCertificate_Status_WhenSerializedToJson_DeserializesAsEqu
 
 // RunJSONSerializationTestForVpnClientRootCertificateStatus runs a test to see if a specific instance of VpnClientRootCertificate_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForVpnClientRootCertificateStatus(subject VpnClientRootCertificate_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VpnClientRootCertificate_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1393,8 +1444,8 @@ func RunJSONSerializationTestForVpnClientRootCertificateStatus(subject VpnClient
 	return ""
 }
 
-//Generator of VpnClientRootCertificate_Status instances for property testing -
-//lazily instantiated by VpnClientRootCertificateStatusGenerator()
+// Generator of VpnClientRootCertificate_Status instances for property testing - lazily instantiated by
+//VpnClientRootCertificateStatusGenerator()
 var vpnClientRootCertificateStatusGenerator gopter.Gen
 
 // VpnClientRootCertificateStatusGenerator returns a generator of VpnClientRootCertificate_Status instances for property testing.
