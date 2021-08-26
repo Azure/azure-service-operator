@@ -29,17 +29,20 @@ func Test_StorageAccountsBlobServicesContainer_WhenSerializedToJson_Deserializes
 
 // RunJSONSerializationTestForStorageAccountsBlobServicesContainer runs a test to see if a specific instance of StorageAccountsBlobServicesContainer round trips to JSON and back losslessly
 func RunJSONSerializationTestForStorageAccountsBlobServicesContainer(subject StorageAccountsBlobServicesContainer) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual StorageAccountsBlobServicesContainer
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForStorageAccountsBlobServicesContainer(subject Sto
 	return ""
 }
 
-//Generator of StorageAccountsBlobServicesContainer instances for property testing
-//- lazily instantiated by StorageAccountsBlobServicesContainerGenerator()
+// Generator of StorageAccountsBlobServicesContainer instances for property testing - lazily instantiated by
+//StorageAccountsBlobServicesContainerGenerator()
 var storageAccountsBlobServicesContainerGenerator gopter.Gen
 
 // StorageAccountsBlobServicesContainerGenerator returns a generator of StorageAccountsBlobServicesContainer instances for property testing.
@@ -86,17 +89,20 @@ func Test_BlobContainer_Status_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForBlobContainerStatus runs a test to see if a specific instance of BlobContainer_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForBlobContainerStatus(subject BlobContainer_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual BlobContainer_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +114,8 @@ func RunJSONSerializationTestForBlobContainerStatus(subject BlobContainer_Status
 	return ""
 }
 
-//Generator of BlobContainer_Status instances for property testing - lazily
-//instantiated by BlobContainerStatusGenerator()
+// Generator of BlobContainer_Status instances for property testing - lazily instantiated by
+//BlobContainerStatusGenerator()
 var blobContainerStatusGenerator gopter.Gen
 
 // BlobContainerStatusGenerator returns a generator of BlobContainer_Status instances for property testing.
@@ -175,17 +181,20 @@ func Test_StorageAccountsBlobServicesContainers_Spec_WhenSerializedToJson_Deseri
 
 // RunJSONSerializationTestForStorageAccountsBlobServicesContainersSpec runs a test to see if a specific instance of StorageAccountsBlobServicesContainers_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForStorageAccountsBlobServicesContainersSpec(subject StorageAccountsBlobServicesContainers_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual StorageAccountsBlobServicesContainers_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -197,8 +206,7 @@ func RunJSONSerializationTestForStorageAccountsBlobServicesContainersSpec(subjec
 	return ""
 }
 
-//Generator of StorageAccountsBlobServicesContainers_Spec instances for property
-//testing - lazily instantiated by
+// Generator of StorageAccountsBlobServicesContainers_Spec instances for property testing - lazily instantiated by
 //StorageAccountsBlobServicesContainersSpecGenerator()
 var storageAccountsBlobServicesContainersSpecGenerator gopter.Gen
 
@@ -253,17 +261,20 @@ func Test_ImmutabilityPolicyProperties_Status_WhenSerializedToJson_DeserializesA
 
 // RunJSONSerializationTestForImmutabilityPolicyPropertiesStatus runs a test to see if a specific instance of ImmutabilityPolicyProperties_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForImmutabilityPolicyPropertiesStatus(subject ImmutabilityPolicyProperties_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ImmutabilityPolicyProperties_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -275,8 +286,8 @@ func RunJSONSerializationTestForImmutabilityPolicyPropertiesStatus(subject Immut
 	return ""
 }
 
-//Generator of ImmutabilityPolicyProperties_Status instances for property testing
-//- lazily instantiated by ImmutabilityPolicyPropertiesStatusGenerator()
+// Generator of ImmutabilityPolicyProperties_Status instances for property testing - lazily instantiated by
+//ImmutabilityPolicyPropertiesStatusGenerator()
 var immutabilityPolicyPropertiesStatusGenerator gopter.Gen
 
 // ImmutabilityPolicyPropertiesStatusGenerator returns a generator of ImmutabilityPolicyProperties_Status instances for property testing.
@@ -326,17 +337,20 @@ func Test_ImmutableStorageWithVersioning_WhenSerializedToJson_DeserializesAsEqua
 
 // RunJSONSerializationTestForImmutableStorageWithVersioning runs a test to see if a specific instance of ImmutableStorageWithVersioning round trips to JSON and back losslessly
 func RunJSONSerializationTestForImmutableStorageWithVersioning(subject ImmutableStorageWithVersioning) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ImmutableStorageWithVersioning
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -348,8 +362,8 @@ func RunJSONSerializationTestForImmutableStorageWithVersioning(subject Immutable
 	return ""
 }
 
-//Generator of ImmutableStorageWithVersioning instances for property testing -
-//lazily instantiated by ImmutableStorageWithVersioningGenerator()
+// Generator of ImmutableStorageWithVersioning instances for property testing - lazily instantiated by
+//ImmutableStorageWithVersioningGenerator()
 var immutableStorageWithVersioningGenerator gopter.Gen
 
 // ImmutableStorageWithVersioningGenerator returns a generator of ImmutableStorageWithVersioning instances for property testing.
@@ -382,17 +396,20 @@ func Test_ImmutableStorageWithVersioning_Status_WhenSerializedToJson_Deserialize
 
 // RunJSONSerializationTestForImmutableStorageWithVersioningStatus runs a test to see if a specific instance of ImmutableStorageWithVersioning_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForImmutableStorageWithVersioningStatus(subject ImmutableStorageWithVersioning_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ImmutableStorageWithVersioning_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -404,8 +421,8 @@ func RunJSONSerializationTestForImmutableStorageWithVersioningStatus(subject Imm
 	return ""
 }
 
-//Generator of ImmutableStorageWithVersioning_Status instances for property
-//testing - lazily instantiated by ImmutableStorageWithVersioningStatusGenerator()
+// Generator of ImmutableStorageWithVersioning_Status instances for property testing - lazily instantiated by
+//ImmutableStorageWithVersioningStatusGenerator()
 var immutableStorageWithVersioningStatusGenerator gopter.Gen
 
 // ImmutableStorageWithVersioningStatusGenerator returns a generator of ImmutableStorageWithVersioning_Status instances for property testing.
@@ -440,17 +457,20 @@ func Test_LegalHoldProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t 
 
 // RunJSONSerializationTestForLegalHoldPropertiesStatus runs a test to see if a specific instance of LegalHoldProperties_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForLegalHoldPropertiesStatus(subject LegalHoldProperties_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LegalHoldProperties_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -462,8 +482,8 @@ func RunJSONSerializationTestForLegalHoldPropertiesStatus(subject LegalHoldPrope
 	return ""
 }
 
-//Generator of LegalHoldProperties_Status instances for property testing - lazily
-//instantiated by LegalHoldPropertiesStatusGenerator()
+// Generator of LegalHoldProperties_Status instances for property testing - lazily instantiated by
+//LegalHoldPropertiesStatusGenerator()
 var legalHoldPropertiesStatusGenerator gopter.Gen
 
 // LegalHoldPropertiesStatusGenerator returns a generator of LegalHoldProperties_Status instances for property testing.
@@ -510,17 +530,20 @@ func Test_TagProperty_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing
 
 // RunJSONSerializationTestForTagPropertyStatus runs a test to see if a specific instance of TagProperty_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForTagPropertyStatus(subject TagProperty_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual TagProperty_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -532,8 +555,7 @@ func RunJSONSerializationTestForTagPropertyStatus(subject TagProperty_Status) st
 	return ""
 }
 
-//Generator of TagProperty_Status instances for property testing - lazily
-//instantiated by TagPropertyStatusGenerator()
+// Generator of TagProperty_Status instances for property testing - lazily instantiated by TagPropertyStatusGenerator()
 var tagPropertyStatusGenerator gopter.Gen
 
 // TagPropertyStatusGenerator returns a generator of TagProperty_Status instances for property testing.
@@ -570,17 +592,20 @@ func Test_UpdateHistoryProperty_Status_WhenSerializedToJson_DeserializesAsEqual(
 
 // RunJSONSerializationTestForUpdateHistoryPropertyStatus runs a test to see if a specific instance of UpdateHistoryProperty_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForUpdateHistoryPropertyStatus(subject UpdateHistoryProperty_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual UpdateHistoryProperty_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -592,8 +617,8 @@ func RunJSONSerializationTestForUpdateHistoryPropertyStatus(subject UpdateHistor
 	return ""
 }
 
-//Generator of UpdateHistoryProperty_Status instances for property testing -
-//lazily instantiated by UpdateHistoryPropertyStatusGenerator()
+// Generator of UpdateHistoryProperty_Status instances for property testing - lazily instantiated by
+//UpdateHistoryPropertyStatusGenerator()
 var updateHistoryPropertyStatusGenerator gopter.Gen
 
 // UpdateHistoryPropertyStatusGenerator returns a generator of UpdateHistoryProperty_Status instances for property testing.

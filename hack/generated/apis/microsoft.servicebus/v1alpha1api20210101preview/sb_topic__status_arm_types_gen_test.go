@@ -29,17 +29,20 @@ func Test_SBTopic_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 
 // RunJSONSerializationTestForSBTopicStatusARM runs a test to see if a specific instance of SBTopic_StatusARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBTopicStatusARM(subject SBTopic_StatusARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SBTopic_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,7 @@ func RunJSONSerializationTestForSBTopicStatusARM(subject SBTopic_StatusARM) stri
 	return ""
 }
 
-//Generator of SBTopic_StatusARM instances for property testing - lazily
-//instantiated by SBTopicStatusARMGenerator()
+// Generator of SBTopic_StatusARM instances for property testing - lazily instantiated by SBTopicStatusARMGenerator()
 var sbTopicStatusARMGenerator gopter.Gen
 
 // SBTopicStatusARMGenerator returns a generator of SBTopic_StatusARM instances for property testing.
@@ -102,17 +104,20 @@ func Test_SBTopicProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t
 
 // RunJSONSerializationTestForSBTopicPropertiesStatusARM runs a test to see if a specific instance of SBTopicProperties_StatusARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBTopicPropertiesStatusARM(subject SBTopicProperties_StatusARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual SBTopicProperties_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -124,8 +129,8 @@ func RunJSONSerializationTestForSBTopicPropertiesStatusARM(subject SBTopicProper
 	return ""
 }
 
-//Generator of SBTopicProperties_StatusARM instances for property testing - lazily
-//instantiated by SBTopicPropertiesStatusARMGenerator()
+// Generator of SBTopicProperties_StatusARM instances for property testing - lazily instantiated by
+//SBTopicPropertiesStatusARMGenerator()
 var sbTopicPropertiesStatusARMGenerator gopter.Gen
 
 // SBTopicPropertiesStatusARMGenerator returns a generator of SBTopicProperties_StatusARM instances for property testing.

@@ -29,17 +29,20 @@ func Test_VirtualNetworks_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *te
 
 // RunJSONSerializationTestForVirtualNetworksSpecARM runs a test to see if a specific instance of VirtualNetworks_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSpecARM(subject VirtualNetworks_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworks_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForVirtualNetworksSpecARM(subject VirtualNetworks_S
 	return ""
 }
 
-//Generator of VirtualNetworks_SpecARM instances for property testing - lazily
-//instantiated by VirtualNetworksSpecARMGenerator()
+// Generator of VirtualNetworks_SpecARM instances for property testing - lazily instantiated by
+//VirtualNetworksSpecARMGenerator()
 var virtualNetworksSpecARMGenerator gopter.Gen
 
 // VirtualNetworksSpecARMGenerator returns a generator of VirtualNetworks_SpecARM instances for property testing.
@@ -104,17 +107,20 @@ func Test_VirtualNetworks_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAs
 
 // RunJSONSerializationTestForVirtualNetworksSpecPropertiesARM runs a test to see if a specific instance of VirtualNetworks_Spec_PropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSpecPropertiesARM(subject VirtualNetworks_Spec_PropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworks_Spec_PropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -126,8 +132,8 @@ func RunJSONSerializationTestForVirtualNetworksSpecPropertiesARM(subject Virtual
 	return ""
 }
 
-//Generator of VirtualNetworks_Spec_PropertiesARM instances for property testing -
-//lazily instantiated by VirtualNetworksSpecPropertiesARMGenerator()
+// Generator of VirtualNetworks_Spec_PropertiesARM instances for property testing - lazily instantiated by
+//VirtualNetworksSpecPropertiesARMGenerator()
 var virtualNetworksSpecPropertiesARMGenerator gopter.Gen
 
 // VirtualNetworksSpecPropertiesARMGenerator returns a generator of VirtualNetworks_Spec_PropertiesARM instances for property testing.
@@ -180,17 +186,20 @@ func Test_DhcpOptionsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 
 // RunJSONSerializationTestForDhcpOptionsARM runs a test to see if a specific instance of DhcpOptionsARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForDhcpOptionsARM(subject DhcpOptionsARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual DhcpOptionsARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -202,8 +211,7 @@ func RunJSONSerializationTestForDhcpOptionsARM(subject DhcpOptionsARM) string {
 	return ""
 }
 
-//Generator of DhcpOptionsARM instances for property testing - lazily instantiated
-//by DhcpOptionsARMGenerator()
+// Generator of DhcpOptionsARM instances for property testing - lazily instantiated by DhcpOptionsARMGenerator()
 var dhcpOptionsARMGenerator gopter.Gen
 
 // DhcpOptionsARMGenerator returns a generator of DhcpOptionsARM instances for property testing.
@@ -236,17 +244,20 @@ func Test_VirtualNetworks_Spec_Properties_SubnetsARM_WhenSerializedToJson_Deseri
 
 // RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsARM runs a test to see if a specific instance of VirtualNetworks_Spec_Properties_SubnetsARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsARM(subject VirtualNetworks_Spec_Properties_SubnetsARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworks_Spec_Properties_SubnetsARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -258,8 +269,7 @@ func RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsARM(subject 
 	return ""
 }
 
-//Generator of VirtualNetworks_Spec_Properties_SubnetsARM instances for property
-//testing - lazily instantiated by
+// Generator of VirtualNetworks_Spec_Properties_SubnetsARM instances for property testing - lazily instantiated by
 //VirtualNetworksSpecPropertiesSubnetsARMGenerator()
 var virtualNetworksSpecPropertiesSubnetsARMGenerator gopter.Gen
 
@@ -307,17 +317,20 @@ func Test_VirtualNetworks_Spec_Properties_Subnets_PropertiesARM_WhenSerializedTo
 
 // RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsPropertiesARM runs a test to see if a specific instance of VirtualNetworks_Spec_Properties_Subnets_PropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsPropertiesARM(subject VirtualNetworks_Spec_Properties_Subnets_PropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworks_Spec_Properties_Subnets_PropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -329,9 +342,8 @@ func RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsPropertiesAR
 	return ""
 }
 
-//Generator of VirtualNetworks_Spec_Properties_Subnets_PropertiesARM instances for
-//property testing - lazily instantiated by
-//VirtualNetworksSpecPropertiesSubnetsPropertiesARMGenerator()
+// Generator of VirtualNetworks_Spec_Properties_Subnets_PropertiesARM instances for property testing - lazily
+//instantiated by VirtualNetworksSpecPropertiesSubnetsPropertiesARMGenerator()
 var virtualNetworksSpecPropertiesSubnetsPropertiesARMGenerator gopter.Gen
 
 // VirtualNetworksSpecPropertiesSubnetsPropertiesARMGenerator returns a generator of VirtualNetworks_Spec_Properties_Subnets_PropertiesARM instances for property testing.
@@ -387,17 +399,20 @@ func Test_VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM_When
 
 // RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsPropertiesDelegationsARM runs a test to see if a specific instance of VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsPropertiesDelegationsARM(subject VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -409,9 +424,8 @@ func RunJSONSerializationTestForVirtualNetworksSpecPropertiesSubnetsPropertiesDe
 	return ""
 }
 
-//Generator of VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM
-//instances for property testing - lazily instantiated by
-//VirtualNetworksSpecPropertiesSubnetsPropertiesDelegationsARMGenerator()
+// Generator of VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM instances for property testing -
+//lazily instantiated by VirtualNetworksSpecPropertiesSubnetsPropertiesDelegationsARMGenerator()
 var virtualNetworksSpecPropertiesSubnetsPropertiesDelegationsARMGenerator gopter.Gen
 
 // VirtualNetworksSpecPropertiesSubnetsPropertiesDelegationsARMGenerator returns a generator of VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM instances for property testing.

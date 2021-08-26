@@ -29,17 +29,20 @@ func Test_PublicIPAddresses_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *
 
 // RunJSONSerializationTestForPublicIPAddressesSpecARM runs a test to see if a specific instance of PublicIPAddresses_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressesSpecARM(subject PublicIPAddresses_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddresses_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForPublicIPAddressesSpecARM(subject PublicIPAddress
 	return ""
 }
 
-//Generator of PublicIPAddresses_SpecARM instances for property testing - lazily
-//instantiated by PublicIPAddressesSpecARMGenerator()
+// Generator of PublicIPAddresses_SpecARM instances for property testing - lazily instantiated by
+//PublicIPAddressesSpecARMGenerator()
 var publicIPAddressesSpecARMGenerator gopter.Gen
 
 // PublicIPAddressesSpecARMGenerator returns a generator of PublicIPAddresses_SpecARM instances for property testing.
@@ -106,17 +109,20 @@ func Test_PublicIPAddressPropertiesFormatARM_WhenSerializedToJson_DeserializesAs
 
 // RunJSONSerializationTestForPublicIPAddressPropertiesFormatARM runs a test to see if a specific instance of PublicIPAddressPropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressPropertiesFormatARM(subject PublicIPAddressPropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddressPropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -128,8 +134,8 @@ func RunJSONSerializationTestForPublicIPAddressPropertiesFormatARM(subject Publi
 	return ""
 }
 
-//Generator of PublicIPAddressPropertiesFormatARM instances for property testing -
-//lazily instantiated by PublicIPAddressPropertiesFormatARMGenerator()
+// Generator of PublicIPAddressPropertiesFormatARM instances for property testing - lazily instantiated by
+//PublicIPAddressPropertiesFormatARMGenerator()
 var publicIPAddressPropertiesFormatARMGenerator gopter.Gen
 
 // PublicIPAddressPropertiesFormatARMGenerator returns a generator of PublicIPAddressPropertiesFormatARM instances for property testing.
@@ -182,17 +188,20 @@ func Test_PublicIPAddressSkuARM_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForPublicIPAddressSkuARM runs a test to see if a specific instance of PublicIPAddressSkuARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressSkuARM(subject PublicIPAddressSkuARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddressSkuARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -204,8 +213,8 @@ func RunJSONSerializationTestForPublicIPAddressSkuARM(subject PublicIPAddressSku
 	return ""
 }
 
-//Generator of PublicIPAddressSkuARM instances for property testing - lazily
-//instantiated by PublicIPAddressSkuARMGenerator()
+// Generator of PublicIPAddressSkuARM instances for property testing - lazily instantiated by
+//PublicIPAddressSkuARMGenerator()
 var publicIPAddressSkuARMGenerator gopter.Gen
 
 // PublicIPAddressSkuARMGenerator returns a generator of PublicIPAddressSkuARM instances for property testing.
@@ -239,17 +248,20 @@ func Test_DdosSettingsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 
 // RunJSONSerializationTestForDdosSettingsARM runs a test to see if a specific instance of DdosSettingsARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForDdosSettingsARM(subject DdosSettingsARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual DdosSettingsARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -261,8 +273,7 @@ func RunJSONSerializationTestForDdosSettingsARM(subject DdosSettingsARM) string 
 	return ""
 }
 
-//Generator of DdosSettingsARM instances for property testing - lazily
-//instantiated by DdosSettingsARMGenerator()
+// Generator of DdosSettingsARM instances for property testing - lazily instantiated by DdosSettingsARMGenerator()
 var ddosSettingsARMGenerator gopter.Gen
 
 // DdosSettingsARMGenerator returns a generator of DdosSettingsARM instances for property testing.
@@ -310,17 +321,20 @@ func Test_IpTagARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForIpTagARM runs a test to see if a specific instance of IpTagARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForIpTagARM(subject IpTagARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual IpTagARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -332,8 +346,7 @@ func RunJSONSerializationTestForIpTagARM(subject IpTagARM) string {
 	return ""
 }
 
-//Generator of IpTagARM instances for property testing - lazily instantiated by
-//IpTagARMGenerator()
+// Generator of IpTagARM instances for property testing - lazily instantiated by IpTagARMGenerator()
 var ipTagARMGenerator gopter.Gen
 
 // IpTagARMGenerator returns a generator of IpTagARM instances for property testing.
@@ -367,17 +380,20 @@ func Test_PublicIPAddressDnsSettingsARM_WhenSerializedToJson_DeserializesAsEqual
 
 // RunJSONSerializationTestForPublicIPAddressDnsSettingsARM runs a test to see if a specific instance of PublicIPAddressDnsSettingsARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForPublicIPAddressDnsSettingsARM(subject PublicIPAddressDnsSettingsARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual PublicIPAddressDnsSettingsARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -389,8 +405,8 @@ func RunJSONSerializationTestForPublicIPAddressDnsSettingsARM(subject PublicIPAd
 	return ""
 }
 
-//Generator of PublicIPAddressDnsSettingsARM instances for property testing -
-//lazily instantiated by PublicIPAddressDnsSettingsARMGenerator()
+// Generator of PublicIPAddressDnsSettingsARM instances for property testing - lazily instantiated by
+//PublicIPAddressDnsSettingsARMGenerator()
 var publicIPAddressDnsSettingsARMGenerator gopter.Gen
 
 // PublicIPAddressDnsSettingsARMGenerator returns a generator of PublicIPAddressDnsSettingsARM instances for property testing.

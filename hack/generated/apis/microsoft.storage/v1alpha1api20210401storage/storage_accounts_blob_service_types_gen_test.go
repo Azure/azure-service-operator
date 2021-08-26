@@ -29,17 +29,20 @@ func Test_StorageAccountsBlobService_WhenSerializedToJson_DeserializesAsEqual(t 
 
 // RunJSONSerializationTestForStorageAccountsBlobService runs a test to see if a specific instance of StorageAccountsBlobService round trips to JSON and back losslessly
 func RunJSONSerializationTestForStorageAccountsBlobService(subject StorageAccountsBlobService) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual StorageAccountsBlobService
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForStorageAccountsBlobService(subject StorageAccoun
 	return ""
 }
 
-//Generator of StorageAccountsBlobService instances for property testing - lazily
-//instantiated by StorageAccountsBlobServiceGenerator()
+// Generator of StorageAccountsBlobService instances for property testing - lazily instantiated by
+//StorageAccountsBlobServiceGenerator()
 var storageAccountsBlobServiceGenerator gopter.Gen
 
 // StorageAccountsBlobServiceGenerator returns a generator of StorageAccountsBlobService instances for property testing.
@@ -86,17 +89,20 @@ func Test_BlobServiceProperties_Status_WhenSerializedToJson_DeserializesAsEqual(
 
 // RunJSONSerializationTestForBlobServicePropertiesStatus runs a test to see if a specific instance of BlobServiceProperties_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForBlobServicePropertiesStatus(subject BlobServiceProperties_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual BlobServiceProperties_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -108,8 +114,8 @@ func RunJSONSerializationTestForBlobServicePropertiesStatus(subject BlobServiceP
 	return ""
 }
 
-//Generator of BlobServiceProperties_Status instances for property testing -
-//lazily instantiated by BlobServicePropertiesStatusGenerator()
+// Generator of BlobServiceProperties_Status instances for property testing - lazily instantiated by
+//BlobServicePropertiesStatusGenerator()
 var blobServicePropertiesStatusGenerator gopter.Gen
 
 // BlobServicePropertiesStatusGenerator returns a generator of BlobServiceProperties_Status instances for property testing.
@@ -167,17 +173,20 @@ func Test_StorageAccountsBlobServices_Spec_WhenSerializedToJson_DeserializesAsEq
 
 // RunJSONSerializationTestForStorageAccountsBlobServicesSpec runs a test to see if a specific instance of StorageAccountsBlobServices_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForStorageAccountsBlobServicesSpec(subject StorageAccountsBlobServices_Spec) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual StorageAccountsBlobServices_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -189,8 +198,8 @@ func RunJSONSerializationTestForStorageAccountsBlobServicesSpec(subject StorageA
 	return ""
 }
 
-//Generator of StorageAccountsBlobServices_Spec instances for property testing -
-//lazily instantiated by StorageAccountsBlobServicesSpecGenerator()
+// Generator of StorageAccountsBlobServices_Spec instances for property testing - lazily instantiated by
+//StorageAccountsBlobServicesSpecGenerator()
 var storageAccountsBlobServicesSpecGenerator gopter.Gen
 
 // StorageAccountsBlobServicesSpecGenerator returns a generator of StorageAccountsBlobServices_Spec instances for property testing.
@@ -247,17 +256,20 @@ func Test_ChangeFeed_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForChangeFeed runs a test to see if a specific instance of ChangeFeed round trips to JSON and back losslessly
 func RunJSONSerializationTestForChangeFeed(subject ChangeFeed) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ChangeFeed
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -269,8 +281,7 @@ func RunJSONSerializationTestForChangeFeed(subject ChangeFeed) string {
 	return ""
 }
 
-//Generator of ChangeFeed instances for property testing - lazily instantiated by
-//ChangeFeedGenerator()
+// Generator of ChangeFeed instances for property testing - lazily instantiated by ChangeFeedGenerator()
 var changeFeedGenerator gopter.Gen
 
 // ChangeFeedGenerator returns a generator of ChangeFeed instances for property testing.
@@ -304,17 +315,20 @@ func Test_ChangeFeed_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 
 // RunJSONSerializationTestForChangeFeedStatus runs a test to see if a specific instance of ChangeFeed_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForChangeFeedStatus(subject ChangeFeed_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ChangeFeed_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -326,8 +340,7 @@ func RunJSONSerializationTestForChangeFeedStatus(subject ChangeFeed_Status) stri
 	return ""
 }
 
-//Generator of ChangeFeed_Status instances for property testing - lazily
-//instantiated by ChangeFeedStatusGenerator()
+// Generator of ChangeFeed_Status instances for property testing - lazily instantiated by ChangeFeedStatusGenerator()
 var changeFeedStatusGenerator gopter.Gen
 
 // ChangeFeedStatusGenerator returns a generator of ChangeFeed_Status instances for property testing.
@@ -361,17 +374,20 @@ func Test_CorsRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForCorsRules runs a test to see if a specific instance of CorsRules round trips to JSON and back losslessly
 func RunJSONSerializationTestForCorsRules(subject CorsRules) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual CorsRules
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -383,8 +399,7 @@ func RunJSONSerializationTestForCorsRules(subject CorsRules) string {
 	return ""
 }
 
-//Generator of CorsRules instances for property testing - lazily instantiated by
-//CorsRulesGenerator()
+// Generator of CorsRules instances for property testing - lazily instantiated by CorsRulesGenerator()
 var corsRulesGenerator gopter.Gen
 
 // CorsRulesGenerator returns a generator of CorsRules instances for property testing.
@@ -417,17 +432,20 @@ func Test_CorsRules_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 
 // RunJSONSerializationTestForCorsRulesStatus runs a test to see if a specific instance of CorsRules_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForCorsRulesStatus(subject CorsRules_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual CorsRules_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -439,8 +457,7 @@ func RunJSONSerializationTestForCorsRulesStatus(subject CorsRules_Status) string
 	return ""
 }
 
-//Generator of CorsRules_Status instances for property testing - lazily
-//instantiated by CorsRulesStatusGenerator()
+// Generator of CorsRules_Status instances for property testing - lazily instantiated by CorsRulesStatusGenerator()
 var corsRulesStatusGenerator gopter.Gen
 
 // CorsRulesStatusGenerator returns a generator of CorsRules_Status instances for property testing.
@@ -473,17 +490,20 @@ func Test_DeleteRetentionPolicy_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForDeleteRetentionPolicy runs a test to see if a specific instance of DeleteRetentionPolicy round trips to JSON and back losslessly
 func RunJSONSerializationTestForDeleteRetentionPolicy(subject DeleteRetentionPolicy) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual DeleteRetentionPolicy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -495,8 +515,8 @@ func RunJSONSerializationTestForDeleteRetentionPolicy(subject DeleteRetentionPol
 	return ""
 }
 
-//Generator of DeleteRetentionPolicy instances for property testing - lazily
-//instantiated by DeleteRetentionPolicyGenerator()
+// Generator of DeleteRetentionPolicy instances for property testing - lazily instantiated by
+//DeleteRetentionPolicyGenerator()
 var deleteRetentionPolicyGenerator gopter.Gen
 
 // DeleteRetentionPolicyGenerator returns a generator of DeleteRetentionPolicy instances for property testing.
@@ -530,17 +550,20 @@ func Test_DeleteRetentionPolicy_Status_WhenSerializedToJson_DeserializesAsEqual(
 
 // RunJSONSerializationTestForDeleteRetentionPolicyStatus runs a test to see if a specific instance of DeleteRetentionPolicy_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForDeleteRetentionPolicyStatus(subject DeleteRetentionPolicy_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual DeleteRetentionPolicy_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -552,8 +575,8 @@ func RunJSONSerializationTestForDeleteRetentionPolicyStatus(subject DeleteRetent
 	return ""
 }
 
-//Generator of DeleteRetentionPolicy_Status instances for property testing -
-//lazily instantiated by DeleteRetentionPolicyStatusGenerator()
+// Generator of DeleteRetentionPolicy_Status instances for property testing - lazily instantiated by
+//DeleteRetentionPolicyStatusGenerator()
 var deleteRetentionPolicyStatusGenerator gopter.Gen
 
 // DeleteRetentionPolicyStatusGenerator returns a generator of DeleteRetentionPolicy_Status instances for property testing.
@@ -587,17 +610,20 @@ func Test_LastAccessTimeTrackingPolicy_WhenSerializedToJson_DeserializesAsEqual(
 
 // RunJSONSerializationTestForLastAccessTimeTrackingPolicy runs a test to see if a specific instance of LastAccessTimeTrackingPolicy round trips to JSON and back losslessly
 func RunJSONSerializationTestForLastAccessTimeTrackingPolicy(subject LastAccessTimeTrackingPolicy) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LastAccessTimeTrackingPolicy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -609,8 +635,8 @@ func RunJSONSerializationTestForLastAccessTimeTrackingPolicy(subject LastAccessT
 	return ""
 }
 
-//Generator of LastAccessTimeTrackingPolicy instances for property testing -
-//lazily instantiated by LastAccessTimeTrackingPolicyGenerator()
+// Generator of LastAccessTimeTrackingPolicy instances for property testing - lazily instantiated by
+//LastAccessTimeTrackingPolicyGenerator()
 var lastAccessTimeTrackingPolicyGenerator gopter.Gen
 
 // LastAccessTimeTrackingPolicyGenerator returns a generator of LastAccessTimeTrackingPolicy instances for property testing.
@@ -646,17 +672,20 @@ func Test_LastAccessTimeTrackingPolicy_Status_WhenSerializedToJson_DeserializesA
 
 // RunJSONSerializationTestForLastAccessTimeTrackingPolicyStatus runs a test to see if a specific instance of LastAccessTimeTrackingPolicy_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForLastAccessTimeTrackingPolicyStatus(subject LastAccessTimeTrackingPolicy_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual LastAccessTimeTrackingPolicy_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -668,8 +697,8 @@ func RunJSONSerializationTestForLastAccessTimeTrackingPolicyStatus(subject LastA
 	return ""
 }
 
-//Generator of LastAccessTimeTrackingPolicy_Status instances for property testing
-//- lazily instantiated by LastAccessTimeTrackingPolicyStatusGenerator()
+// Generator of LastAccessTimeTrackingPolicy_Status instances for property testing - lazily instantiated by
+//LastAccessTimeTrackingPolicyStatusGenerator()
 var lastAccessTimeTrackingPolicyStatusGenerator gopter.Gen
 
 // LastAccessTimeTrackingPolicyStatusGenerator returns a generator of LastAccessTimeTrackingPolicy_Status instances for property testing.
@@ -705,17 +734,20 @@ func Test_RestorePolicyProperties_WhenSerializedToJson_DeserializesAsEqual(t *te
 
 // RunJSONSerializationTestForRestorePolicyProperties runs a test to see if a specific instance of RestorePolicyProperties round trips to JSON and back losslessly
 func RunJSONSerializationTestForRestorePolicyProperties(subject RestorePolicyProperties) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual RestorePolicyProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -727,8 +759,8 @@ func RunJSONSerializationTestForRestorePolicyProperties(subject RestorePolicyPro
 	return ""
 }
 
-//Generator of RestorePolicyProperties instances for property testing - lazily
-//instantiated by RestorePolicyPropertiesGenerator()
+// Generator of RestorePolicyProperties instances for property testing - lazily instantiated by
+//RestorePolicyPropertiesGenerator()
 var restorePolicyPropertiesGenerator gopter.Gen
 
 // RestorePolicyPropertiesGenerator returns a generator of RestorePolicyProperties instances for property testing.
@@ -762,17 +794,20 @@ func Test_RestorePolicyProperties_Status_WhenSerializedToJson_DeserializesAsEqua
 
 // RunJSONSerializationTestForRestorePolicyPropertiesStatus runs a test to see if a specific instance of RestorePolicyProperties_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForRestorePolicyPropertiesStatus(subject RestorePolicyProperties_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual RestorePolicyProperties_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -784,8 +819,8 @@ func RunJSONSerializationTestForRestorePolicyPropertiesStatus(subject RestorePol
 	return ""
 }
 
-//Generator of RestorePolicyProperties_Status instances for property testing -
-//lazily instantiated by RestorePolicyPropertiesStatusGenerator()
+// Generator of RestorePolicyProperties_Status instances for property testing - lazily instantiated by
+//RestorePolicyPropertiesStatusGenerator()
 var restorePolicyPropertiesStatusGenerator gopter.Gen
 
 // RestorePolicyPropertiesStatusGenerator returns a generator of RestorePolicyProperties_Status instances for property testing.
@@ -821,17 +856,20 @@ func Test_CorsRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 
 // RunJSONSerializationTestForCorsRule runs a test to see if a specific instance of CorsRule round trips to JSON and back losslessly
 func RunJSONSerializationTestForCorsRule(subject CorsRule) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual CorsRule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -843,8 +881,7 @@ func RunJSONSerializationTestForCorsRule(subject CorsRule) string {
 	return ""
 }
 
-//Generator of CorsRule instances for property testing - lazily instantiated by
-//CorsRuleGenerator()
+// Generator of CorsRule instances for property testing - lazily instantiated by CorsRuleGenerator()
 var corsRuleGenerator gopter.Gen
 
 // CorsRuleGenerator returns a generator of CorsRule instances for property testing.
@@ -881,17 +918,20 @@ func Test_CorsRule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 
 // RunJSONSerializationTestForCorsRuleStatus runs a test to see if a specific instance of CorsRule_Status round trips to JSON and back losslessly
 func RunJSONSerializationTestForCorsRuleStatus(subject CorsRule_Status) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual CorsRule_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -903,8 +943,7 @@ func RunJSONSerializationTestForCorsRuleStatus(subject CorsRule_Status) string {
 	return ""
 }
 
-//Generator of CorsRule_Status instances for property testing - lazily
-//instantiated by CorsRuleStatusGenerator()
+// Generator of CorsRule_Status instances for property testing - lazily instantiated by CorsRuleStatusGenerator()
 var corsRuleStatusGenerator gopter.Gen
 
 // CorsRuleStatusGenerator returns a generator of CorsRule_Status instances for property testing.

@@ -29,17 +29,20 @@ func Test_VirtualNetworksSubnets_SpecARM_WhenSerializedToJson_DeserializesAsEqua
 
 // RunJSONSerializationTestForVirtualNetworksSubnetsSpecARM runs a test to see if a specific instance of VirtualNetworksSubnets_SpecARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSubnetsSpecARM(subject VirtualNetworksSubnets_SpecARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworksSubnets_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -51,8 +54,8 @@ func RunJSONSerializationTestForVirtualNetworksSubnetsSpecARM(subject VirtualNet
 	return ""
 }
 
-//Generator of VirtualNetworksSubnets_SpecARM instances for property testing -
-//lazily instantiated by VirtualNetworksSubnetsSpecARMGenerator()
+// Generator of VirtualNetworksSubnets_SpecARM instances for property testing - lazily instantiated by
+//VirtualNetworksSubnetsSpecARMGenerator()
 var virtualNetworksSubnetsSpecARMGenerator gopter.Gen
 
 // VirtualNetworksSubnetsSpecARMGenerator returns a generator of VirtualNetworksSubnets_SpecARM instances for property testing.
@@ -103,17 +106,20 @@ func Test_VirtualNetworksSubnets_Spec_PropertiesARM_WhenSerializedToJson_Deseria
 
 // RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesARM runs a test to see if a specific instance of VirtualNetworksSubnets_Spec_PropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesARM(subject VirtualNetworksSubnets_Spec_PropertiesARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworksSubnets_Spec_PropertiesARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -125,8 +131,7 @@ func RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesARM(subject 
 	return ""
 }
 
-//Generator of VirtualNetworksSubnets_Spec_PropertiesARM instances for property
-//testing - lazily instantiated by
+// Generator of VirtualNetworksSubnets_Spec_PropertiesARM instances for property testing - lazily instantiated by
 //VirtualNetworksSubnetsSpecPropertiesARMGenerator()
 var virtualNetworksSubnetsSpecPropertiesARMGenerator gopter.Gen
 
@@ -183,17 +188,20 @@ func Test_ServiceEndpointPropertiesFormatARM_WhenSerializedToJson_DeserializesAs
 
 // RunJSONSerializationTestForServiceEndpointPropertiesFormatARM runs a test to see if a specific instance of ServiceEndpointPropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForServiceEndpointPropertiesFormatARM(subject ServiceEndpointPropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ServiceEndpointPropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -205,8 +213,8 @@ func RunJSONSerializationTestForServiceEndpointPropertiesFormatARM(subject Servi
 	return ""
 }
 
-//Generator of ServiceEndpointPropertiesFormatARM instances for property testing -
-//lazily instantiated by ServiceEndpointPropertiesFormatARMGenerator()
+// Generator of ServiceEndpointPropertiesFormatARM instances for property testing - lazily instantiated by
+//ServiceEndpointPropertiesFormatARMGenerator()
 var serviceEndpointPropertiesFormatARMGenerator gopter.Gen
 
 // ServiceEndpointPropertiesFormatARMGenerator returns a generator of ServiceEndpointPropertiesFormatARM instances for property testing.
@@ -240,17 +248,20 @@ func Test_VirtualNetworksSubnets_Spec_Properties_DelegationsARM_WhenSerializedTo
 
 // RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesDelegationsARM runs a test to see if a specific instance of VirtualNetworksSubnets_Spec_Properties_DelegationsARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesDelegationsARM(subject VirtualNetworksSubnets_Spec_Properties_DelegationsARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual VirtualNetworksSubnets_Spec_Properties_DelegationsARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -262,9 +273,8 @@ func RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesDelegationsA
 	return ""
 }
 
-//Generator of VirtualNetworksSubnets_Spec_Properties_DelegationsARM instances for
-//property testing - lazily instantiated by
-//VirtualNetworksSubnetsSpecPropertiesDelegationsARMGenerator()
+// Generator of VirtualNetworksSubnets_Spec_Properties_DelegationsARM instances for property testing - lazily
+//instantiated by VirtualNetworksSubnetsSpecPropertiesDelegationsARMGenerator()
 var virtualNetworksSubnetsSpecPropertiesDelegationsARMGenerator gopter.Gen
 
 // VirtualNetworksSubnetsSpecPropertiesDelegationsARMGenerator returns a generator of VirtualNetworksSubnets_Spec_Properties_DelegationsARM instances for property testing.
@@ -311,17 +321,20 @@ func Test_ServiceDelegationPropertiesFormatARM_WhenSerializedToJson_Deserializes
 
 // RunJSONSerializationTestForServiceDelegationPropertiesFormatARM runs a test to see if a specific instance of ServiceDelegationPropertiesFormatARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForServiceDelegationPropertiesFormatARM(subject ServiceDelegationPropertiesFormatARM) string {
+	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Deserialize back into memory
 	var actual ServiceDelegationPropertiesFormatARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
 	}
 
+	// Check for outcome
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -333,8 +346,8 @@ func RunJSONSerializationTestForServiceDelegationPropertiesFormatARM(subject Ser
 	return ""
 }
 
-//Generator of ServiceDelegationPropertiesFormatARM instances for property testing
-//- lazily instantiated by ServiceDelegationPropertiesFormatARMGenerator()
+// Generator of ServiceDelegationPropertiesFormatARM instances for property testing - lazily instantiated by
+//ServiceDelegationPropertiesFormatARMGenerator()
 var serviceDelegationPropertiesFormatARMGenerator gopter.Gen
 
 // ServiceDelegationPropertiesFormatARMGenerator returns a generator of ServiceDelegationPropertiesFormatARM instances for property testing.
