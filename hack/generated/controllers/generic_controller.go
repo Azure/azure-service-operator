@@ -24,6 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
@@ -143,6 +144,9 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 
 	c, err := ctrl.NewControllerManagedBy(mgr).
 		For(obj).
+		// Note: These predicates prevent status updates from triggering a reconcile.
+		// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
+		WithEventFilter(predicate.Or(predicate.GenerationChangedPredicate{}, predicate.AnnotationChangedPredicate{})).
 		WithOptions(options.Options).
 		Build(reconciler)
 	if err != nil {
@@ -197,7 +201,8 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	gr.Log.V(0).Info(
 		"Reconcile invoked",
 		"kind", fmt.Sprintf("%T", obj),
-		"resourceVersion", obj.GetResourceVersion())
+		"resourceVersion", obj.GetResourceVersion(),
+		"generation", obj.GetGeneration())
 
 	// The Go type for the Kubernetes object must understand how to
 	// convert itself to/from the corresponding Azure types.

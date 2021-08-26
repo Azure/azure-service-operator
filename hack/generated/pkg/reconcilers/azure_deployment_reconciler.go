@@ -485,6 +485,8 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 		return ctrl.Result{}, err
 	}
 
+	// Note: We requeue here because we've only changed the status and status updates don't trigger another reconcile
+	// because we use predicate.GenerationChangedPredicate and predicate.AnnotationChangedPredicate
 	// delete has started, check back to seen when the finalizer can be removed
 	r.log.V(3).Info("Resource deletion started")
 
@@ -523,8 +525,7 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 	// TODO: Transfer the below into controller?
 	err = r.deleteResourceSucceeded(ctx)
 
-	// patcher will try to fetch the object after patching, so ignore not found errors
-	return ctrl.Result{}, client.IgnoreNotFound(err)
+	return ctrl.Result{}, err
 }
 
 func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.Result, error) {
@@ -964,11 +965,15 @@ func (r *AzureDeploymentReconciler) deleteResourceSucceeded(ctx context.Context)
 	controllerutil.RemoveFinalizer(r.obj, GenericControllerFinalizer)
 	err := r.CommitUpdate(ctx)
 
-	r.log.V(0).Info("Deleted resource")
-
 	// We must also ignore conflict here because updating a resource that
 	// doesn't exist returns conflict unfortunately: https://github.com/kubernetes/kubernetes/issues/89985
-	return ignoreNotFoundAndConflict(err)
+	err = ignoreNotFoundAndConflict(err)
+	if err != nil {
+		return err
+	}
+
+	r.log.V(0).Info("Deleted resource")
+	return nil
 }
 
 func ignoreNotFoundAndConflict(err error) error {
