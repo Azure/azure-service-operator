@@ -137,7 +137,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 		return ctrl.Result{}, err
 	}
 
-	r.log.Info("Reconciling Azure resource %s, will perform: %s", r.obj.AzureName(), action)
+	r.log.V(1).Info("Reconciling Azure resource %s, will perform: %s", r.obj.AzureName(), action)
 
 	result, err := actionFunc(ctx)
 	if err != nil {
