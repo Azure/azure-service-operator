@@ -81,7 +81,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 	if len(matchingBodies) == 0 {
 		return nil, reconcilers.FatalReconciliationError{
-			Message: fmt.Sprintf("\ncannot find go-vcr recording for request from test %q (casette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
+			Message: fmt.Sprintf("cannot find go-vcr recording for request from test %q (casette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
 				w.t.Name(),
 				w.cassetteName,
 				req.Method,
@@ -100,7 +100,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	}
 
 	return nil, reconcilers.FatalReconciliationError{
-		Message: fmt.Sprintf("\ncannot find go-vcr recording for request from test %q (casette: %q) (body mismatch): %s %s\nShortest body diff: %s\n\n",
+		Message: fmt.Sprintf("cannot find go-vcr recording for request from test %q (casette: %q) (body mismatch): %s %s\nShortest body diff: %s\n\n",
 			w.t.Name(),
 			w.cassetteName,
 			req.Method,
