@@ -13,13 +13,11 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 )
 
-var (
-	validARMIDRef                    = genruntime.ResourceReference{ARMID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/microsoft.compute/VirtualMachine/myvm"}
-	validKubRef                      = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Namespace: "default", Name: "myrg"}
-	invalidRefBothSpecified          = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Namespace: "default", Name: "myrg", ARMID: "oops"}
-	invalidRefNeitherSpecified       = genruntime.ResourceReference{}
-	invalidRefIncompleteKubReference = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Namespace: "default", Name: "myrg"}
-)
+var validARMIDRef = genruntime.ResourceReference{ARMID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/microsoft.compute/VirtualMachine/myvm"}
+var validKubRef = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Namespace: "default", Name: "myrg"}
+var invalidRefBothSpecified = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Namespace: "default", Name: "myrg", ARMID: "oops"}
+var invalidRefNeitherSpecified = genruntime.ResourceReference{}
+var invalidRefIncompleteKubReference = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Namespace: "default", Name: "myrg"}
 
 func Test_ResourceReference_Validate(t *testing.T) {
 	tests := []struct {
