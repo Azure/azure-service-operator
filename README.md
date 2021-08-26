@@ -45,7 +45,7 @@ Azure Service Operator v2 was built based on the lessons learned from ASO v1, wi
 
 ## Contributing
 
-The [contribution guide](CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](/docs/v1/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
+The [contribution guide](CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators.
 
 ## Support
 
