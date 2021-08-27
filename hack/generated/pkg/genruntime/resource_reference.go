@@ -66,7 +66,7 @@ func (ref ResourceReference) String() string {
 	}
 
 	if ref.IsKubernetesReference() {
-		return fmt.Sprintf("%s/%s, GroupKind: %s/%s", ref.Namespace, ref.Name, ref.Group, ref.Kind)
+		return fmt.Sprintf("%s/%s, Group/Kind: %s/%s", ref.Namespace, ref.Name, ref.Group, ref.Kind)
 	}
 
 	// Printing all the fields here just in case something weird happens and we have an ARMID and also Kubernetes reference stuff
