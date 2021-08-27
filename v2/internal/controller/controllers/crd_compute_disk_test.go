@@ -29,7 +29,7 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("disk"),
 		Spec: compute.Disks_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute.DiskSku{
 				Name: &standardSkuName,
 			},

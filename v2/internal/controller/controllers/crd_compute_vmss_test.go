@@ -68,7 +68,7 @@ func newLoadBalancerForVMSS(tc testcommon.KubePerTestContext, rg *resources.Reso
 		ObjectMeta: tc.MakeObjectMetaWithName(lbName),
 		Spec: network.LoadBalancers_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
@@ -120,7 +120,7 @@ func newVMSS(
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),
 		Spec: compute.VirtualMachineScaleSets_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute.Sku{
 				Name:     to.StringPtr("STANDARD_D1_v2"),
 				Capacity: to.IntPtr(1),
@@ -186,9 +186,9 @@ func Test_Compute_VMSS_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	vnet := newVNETForVMSS(tc, testcommon.AsOwner(rg.ObjectMeta))
-	subnet := newSubnetForVMSS(tc, testcommon.AsOwner(vnet.ObjectMeta))
-	publicIPAddress := newPublicIPAddressForVMSS(tc, testcommon.AsOwner(rg.ObjectMeta))
+	vnet := newVNETForVMSS(tc, testcommon.AsOwner(rg))
+	subnet := newSubnetForVMSS(tc, testcommon.AsOwner(vnet))
+	publicIPAddress := newPublicIPAddressForVMSS(tc, testcommon.AsOwner(rg))
 	loadBalancer := newLoadBalancerForVMSS(tc, rg, publicIPAddress)
 	tc.CreateResourcesAndWait(vnet, subnet, loadBalancer, publicIPAddress)
 	vmss := newVMSS(tc, rg, loadBalancer, subnet)

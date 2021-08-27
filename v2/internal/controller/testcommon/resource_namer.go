@@ -9,6 +9,8 @@ import (
 	"hash/fnv"
 	"math/rand"
 	"strings"
+
+	"github.com/google/uuid"
 )
 
 type ResourceNameConfig struct {
@@ -93,4 +95,8 @@ func (n ResourceNamer) GeneratePassword() string {
 	// generated passwords from the recordings. If you change it make sure to change the passwordMatcher
 	// in test_context.go as well.
 	return "pass" + n.makeRandomStringOfLength(n.randomChars) + "pass"
+}
+
+func (n ResourceNamer) GenerateUUID() (uuid.UUID, error) {
+	return uuid.NewRandomFromReader(n.rand)
 }

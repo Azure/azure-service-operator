@@ -6,8 +6,8 @@ Licensed under the MIT license.
 package testcommon
 
 import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/rest"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -53,8 +53,8 @@ type KubeBaseTestContext struct {
 	KubeConfig *rest.Config
 }
 
-func AsOwner(obj metav1.ObjectMeta) genruntime.KnownResourceReference {
+func AsOwner(obj client.Object) genruntime.KnownResourceReference {
 	return genruntime.KnownResourceReference{
-		Name: obj.Name,
+		Name: obj.GetName(),
 	}
 }

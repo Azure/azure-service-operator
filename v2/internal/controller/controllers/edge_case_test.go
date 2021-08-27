@@ -54,7 +54,7 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Kind:     storage.StorageAccountsSpecKindBlobStorage,
 			Sku: storage.Sku{
 				Name: storage.SkuNameStandardLRS,
@@ -85,7 +85,7 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 	vnet := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Location: testcommon.DefaultTestRegion,
 			AddressSpace: network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/16"},
@@ -96,7 +96,7 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 	subnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnets_Spec{
-			Owner:         testcommon.AsOwner(vnet.ObjectMeta),
+			Owner:         testcommon.AsOwner(vnet),
 			AddressPrefix: "10.0.0.0/24",
 		},
 	}
@@ -164,7 +164,7 @@ func Test_CreateStorageAccountThatAlreadyExists_ReconcilesSuccessfully(t *testin
 		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Kind:     storage.StorageAccountsSpecKindBlobStorage,
 			Sku: storage.Sku{
 				Name: storage.SkuNameStandardLRS,

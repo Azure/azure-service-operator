@@ -10,7 +10,6 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	network "github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101"
@@ -29,7 +28,7 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("nsg")),
 		Spec: network.NetworkSecurityGroups_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 		},
 	}
 
@@ -59,7 +58,7 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "SecurityRules CRUD",
 			Test: func(testContext testcommon.KubePerTestContext) {
-				NetworkSecurityGroup_SecurityRules_CRUD(testContext, nsg.ObjectMeta)
+				NetworkSecurityGroup_SecurityRules_CRUD(testContext, nsg)
 			},
 		},
 	)
@@ -73,7 +72,7 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func NetworkSecurityGroup_SecurityRules_CRUD(tc testcommon.KubePerTestContext, nsg metav1.ObjectMeta) {
+func NetworkSecurityGroup_SecurityRules_CRUD(tc testcommon.KubePerTestContext, nsg client.Object) {
 	rule1 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
 		Spec: network.NetworkSecurityGroupsSecurityRules_Spec{

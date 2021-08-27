@@ -221,6 +221,18 @@ func (schema GoJSONSchema) refTypeName() (astmodel.TypeName, error) {
 
 	version := schema.refVersion()
 
+	// HACK: There are situations where the same service Swagger is split across
+	// many Swagger files in multiple locations. The ARM JSON Schema code generator
+	// deals with this by appending a suffix to files that are both describing the same
+	// service. This suffix isn't actually part of the group, but we don't have a good way
+	// of stripping it. It just so happens that all Microsoft Services are "Microsoft.X" and so
+	// anything "Microsoft.X.Y" is really just a "piece" of "Microsoft.X". The sole exception to that
+	// is "Microsoft.Compute.Extensions" which describes compute extensions.
+	groupSplit := strings.Split(group, ".")
+	if len(groupSplit) >= 3 && group != "Microsoft.Compute.Extensions" {
+		group = strings.Join(groupSplit[:2], ".")
+	}
+
 	// produce a usable name:
 	return astmodel.MakeTypeName(
 		schema.makeLocalPackageReference(

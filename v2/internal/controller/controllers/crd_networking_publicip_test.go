@@ -30,7 +30,7 @@ func Test_Networking_PublicIP_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
 		Spec: network.PublicIPAddresses_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Sku: &network.PublicIPAddressSku{
 				Name: &sku,
 			},
