@@ -53,6 +53,12 @@ Please search open issues [here](https://github.com/Azure/azure-service-operator
 
 For more information, see [SUPPORT.md](SUPPORT.md).
 
+## Repository Visualization
+
+An experimental overview of the repository, based on the [Visualizing a codebase](https://next.github.com/projects/repo-visualization) blog post from GitHub.
+
+![Visualization of the codebase](./diagram.svg)
+
 ## Code of conduct
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
