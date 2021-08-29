@@ -14,16 +14,16 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// MarkStorageVersionStageId is the unique identifier for this pipeline stage
-const MarkStorageVersionStageId = "markStorageVersion"
+// MarkLatestAPIVersionAsHubVersionID is the unique identifier for this pipeline stage
+const MarkLatestAPIVersionAsHubVersionID = "markStorageVersion"
 
-// MarkStorageVersion creates a Stage to mark a particular version as a storage version
-func MarkStorageVersion() Stage {
+// MarkLatestAPIVersionAsHubVersion creates a Stage to mark a particular version as a storage version
+func MarkLatestAPIVersionAsHubVersion() Stage {
 	return MakeLegacyStage(
-		MarkStorageVersionStageId,
+		MarkLatestAPIVersionAsHubVersionID,
 		"Mark the latest version of each resource as the storage version",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			updatedDefs, err := MarkLatestResourceVersionsForStorage(types)
+			updatedDefs, err := markLatestAPIVersionsAsHubs(types)
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to mark latest resource version as storage version")
 			}
@@ -32,8 +32,8 @@ func MarkStorageVersion() Stage {
 		})
 }
 
-// MarkLatestResourceVersionsForStorage marks the latest version of each resource as the storage version
-func MarkLatestResourceVersionsForStorage(types astmodel.Types) (astmodel.Types, error) {
+// markLatestAPIVersionsAsHubs marks the latest version of each resource as the storage version
+func markLatestAPIVersionsAsHubs(types astmodel.Types) (astmodel.Types, error) {
 
 	result := make(astmodel.Types)
 	resourceLookup, err := groupResourcesByVersion(types)

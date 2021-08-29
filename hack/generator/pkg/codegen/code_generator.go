@@ -175,7 +175,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.SimplifyDefinitions(),
 
 		// Flag our hub versions for storage
-		pipeline.MarkStorageVersion().UsedFor(pipeline.CrossplaneTarget),
+		pipeline.MarkLatestAPIVersionAsHubVersion().UsedFor(pipeline.CrossplaneTarget),
 		pipeline.MarkLatestStorageVariantAsHubVersion().UsedFor(pipeline.ARMTarget),
 
 		pipeline.InjectHubFunction(idFactory).UsedFor(pipeline.ARMTarget),
