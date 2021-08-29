@@ -8,21 +8,25 @@ package functions
 import (
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
 func Test_OriginalVersionFunction_GeneratesExpectedCode(t *testing.T) {
+	g := NewWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
+	emptyDef := test.CreateObjectDefinition(test.Pkg2020, "Demo")
+	injector := astmodel.NewFunctionInjector()
+
 	originalVersionFunction := NewOriginalVersionFunction(idFactory)
-	demoType := astmodel.NewObjectType().WithFunction(originalVersionFunction)
+	demoDef, err := injector.Inject(emptyDef, originalVersionFunction)
+	g.Expect(err).To(Succeed())
 
-	demoPkg := astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/hack/generated/apis", "Person", "vDemo")
-	demoName := astmodel.MakeTypeName(demoPkg, "Demo")
-
-	demoDef := astmodel.MakeTypeDefinition(demoName, demoType)
-
-	fileDef := test.CreateFileDefinition(demoDef)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, "OriginalVersionFunction")
+	/*
+	 * When verifying the golden file, check for what's changed
+	 */
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "OriginalVersionFunction", demoDef, test.DiffWith(emptyDef))
 }

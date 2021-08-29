@@ -198,7 +198,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	// (actually a reference or shallow copy) of an object, you'll mess up other controllers (not just your own).
 	obj = obj.DeepCopyObject().(client.Object)
 
-	gr.Log.V(0).Info(
+	gr.Log.V(1).Info(
 		"Reconcile invoked",
 		"kind", fmt.Sprintf("%T", obj),
 		"resourceVersion", obj.GetResourceVersion(),

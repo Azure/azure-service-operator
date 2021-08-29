@@ -28,6 +28,5 @@ func Test_HubFunction_GeneratesExpectedCode(t *testing.T) {
 	status := test.CreateStatus(testPackage, "Person")
 	resource := test.CreateResource(testPackage, "Person", spec, status, hubFunction)
 
-	fileDef := test.CreateFileDefinition(resource)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, "HubFunction")
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "HubFunction", resource)
 }
