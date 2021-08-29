@@ -81,19 +81,19 @@ func NewResourceConversionTestCase(
 }
 
 // Name returns the unique name of this test case
-func (p *ResourceConversionTestCase) Name() string {
-	return p.testName
+func (tc *ResourceConversionTestCase) Name() string {
+	return tc.testName
 }
 
 // References returns the set of types to which this test case refers.
-func (p *ResourceConversionTestCase) References() astmodel.TypeNameSet {
+func (tc *ResourceConversionTestCase) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet(
-		p.subject,
-		p.toFn.Hub())
+		tc.subject,
+		tc.toFn.Hub())
 }
 
 // RequiredImports returns a set of the package imports required by this test case
-func (p *ResourceConversionTestCase) RequiredImports() *astmodel.PackageImportSet {
+func (tc *ResourceConversionTestCase) RequiredImports() *astmodel.PackageImportSet {
 	result := astmodel.NewPackageImportSet()
 
 	// Standard Go Packages
@@ -109,7 +109,7 @@ func (p *ResourceConversionTestCase) RequiredImports() *astmodel.PackageImportSe
 	result.AddImportOfReference(astmodel.DiffReference)
 	result.AddImportOfReference(astmodel.PrettyReference)
 
-	result.AddImportOfReference(p.toFn.Hub().PackageReference)
+	result.AddImportOfReference(tc.toFn.Hub().PackageReference)
 
 	return result
 }
@@ -117,28 +117,35 @@ func (p *ResourceConversionTestCase) RequiredImports() *astmodel.PackageImportSe
 // AsFuncs renders the current test case and any supporting methods as Go abstract syntax trees
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
-func (p *ResourceConversionTestCase) AsFuncs(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext) []dst.Decl {
+func (tc *ResourceConversionTestCase) AsFuncs(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext) []dst.Decl {
 	return []dst.Decl{
-		p.createTestRunner(codeGenerationContext),
-		p.createTestMethod(receiver, codeGenerationContext),
+		tc.createTestRunner(codeGenerationContext),
+		tc.createTestMethod(receiver, codeGenerationContext),
 	}
 }
 
 // Equals determines if this TestCase is equal to another one
-func (p *ResourceConversionTestCase) Equals(other astmodel.TestCase) bool {
+func (tc *ResourceConversionTestCase) Equals(other astmodel.TestCase) bool {
 	fn, ok := other.(*ResourceConversionTestCase)
 	if !ok {
 		return false
 	}
 
-	return p.testName == fn.testName &&
-		p.subject.Equals(fn.subject) &&
-		p.toFn.Equals(fn.toFn) &&
-		p.fromFn.Equals(fn.fromFn)
+	return tc.testName == fn.testName &&
+		tc.subject.Equals(fn.subject) &&
+		tc.toFn.Equals(fn.toFn) &&
+		tc.fromFn.Equals(fn.fromFn)
 }
 
 // createTestRunner generates the AST for the test runner itself
-func (p *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.CodeGenerationContext) dst.Decl {
+//
+// parameters := gopter.DefaultTestParameters()
+// parameters.MaxSize = 10
+// properties := gopter.NewProperties(parameters)
+// properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
+// properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+//
+func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.CodeGenerationContext) dst.Decl {
 	const (
 		parametersLocal  = "parameters"
 		propertiesLocal  = "properties"
@@ -171,15 +178,15 @@ func (p *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.C
 		astbuilder.CallQualifiedFunc(gopterPackage, "NewProperties", dst.NewIdent(parametersLocal)))
 
 	// partial expression: description of the test
-	testName := astbuilder.StringLiteralf("Round trip from %s to hub returns original", p.subject.Name())
+	testName := astbuilder.StringLiteralf("Round trip from %s to hub returns original", tc.subject.Name())
 	testName.Decs.Before = dst.NewLine
 
 	// partial expression: prop.ForAll(RunTestForX, XGenerator())
 	propForAll := astbuilder.CallQualifiedFunc(
 		propPackage,
 		"ForAll",
-		dst.NewIdent(p.idOfTestMethod()),
-		astbuilder.CallFunc(idOfGeneratorMethod(p.subject, p.idFactory)))
+		dst.NewIdent(tc.idOfTestMethod()),
+		astbuilder.CallFunc(idOfGeneratorMethod(tc.subject, tc.idFactory)))
 	propForAll.Decs.Before = dst.NewLine
 
 	// properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
@@ -201,7 +208,7 @@ func (p *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.C
 	// Define our function
 	fn := astbuilder.NewTestFuncDetails(
 		testingPackage,
-		p.testName,
+		tc.testName,
 		defineParameters,
 		configureMaxSize,
 		defineProperties,
@@ -212,7 +219,28 @@ func (p *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.C
 }
 
 // createTestMethod generates the AST for a method to run a single test of round trip conversion
-func (p *ResourceConversionTestCase) createTestMethod(
+//
+// var hub OtherType
+// err := subject.ConvertTo(&hub)
+// if err != nil {
+//     return err.Error()
+// }
+//
+// var result OurType
+// err = result.ConvertFrom(&hub)
+// if err != nil {
+//     return err.Error()
+// }
+//
+// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+// if !match {
+//     result := diff.Diff(subject, actual);
+//     return result
+// }
+//
+// return ""
+//
+func (tc *ResourceConversionTestCase) createTestMethod(
 	subject astmodel.TypeName,
 	codegenContext *astmodel.CodeGenerationContext) dst.Decl {
 	const (
@@ -234,7 +262,7 @@ func (p *ResourceConversionTestCase) createTestMethod(
 	// var hub OtherType
 	declareOther := astbuilder.LocalVariableDeclaration(
 		hubId,
-		p.toFn.Hub().AsType(codegenContext),
+		tc.toFn.Hub().AsType(codegenContext),
 		"// Convert to our hub version")
 	declareOther.Decorations().Before = dst.NewLine
 
@@ -243,7 +271,7 @@ func (p *ResourceConversionTestCase) createTestMethod(
 		errId,
 		astbuilder.CallQualifiedFunc(
 			subjectId,
-			p.toFn.Name(),
+			tc.toFn.Name(),
 			astbuilder.AddrOf(dst.NewIdent(hubId))))
 
 	// if err != nil { return err.Error() }
@@ -263,7 +291,7 @@ func (p *ResourceConversionTestCase) createTestMethod(
 		dst.NewIdent(errId),
 		astbuilder.CallQualifiedFunc(
 			actualId,
-			p.fromFn.Name(),
+			tc.fromFn.Name(),
 			astbuilder.AddrOf(dst.NewIdent(hubId))))
 
 	// if err != nil { return err.Error() }
@@ -310,7 +338,7 @@ func (p *ResourceConversionTestCase) createTestMethod(
 
 	// Create the function
 	fn := &astbuilder.FuncDetails{
-		Name: p.idOfTestMethod(),
+		Name: tc.idOfTestMethod(),
 		Body: astbuilder.Statements(
 			declareOther,
 			assignTo,
@@ -323,17 +351,17 @@ func (p *ResourceConversionTestCase) createTestMethod(
 			ret),
 	}
 
-	fn.AddParameter("subject", p.subject.AsType(codegenContext))
+	fn.AddParameter("subject", tc.subject.AsType(codegenContext))
 	fn.AddComments(fmt.Sprintf(
 		"tests if a specific instance of %s round trips to the hub storage version and back losslessly",
-		p.subject.Name()))
+		tc.subject.Name()))
 	fn.AddReturns("string")
 
 	return fn.DefineFunc()
 }
 
-func (p *ResourceConversionTestCase) idOfTestMethod() string {
-	return p.idFactory.CreateIdentifier(
-		fmt.Sprintf("RunResourceConversionTestFor%s", p.subject.Name()),
+func (tc *ResourceConversionTestCase) idOfTestMethod() string {
+	return tc.idFactory.CreateIdentifier(
+		fmt.Sprintf("RunResourceConversionTestFor%s", tc.subject.Name()),
 		astmodel.Exported)
 }
