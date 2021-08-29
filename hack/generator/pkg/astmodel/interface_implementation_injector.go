@@ -23,13 +23,14 @@ func NewInterfaceImplementationInjector() *InterfaceImplementationInjector {
 	return result
 }
 
-// Inject modifies the passed type definition by injecting the passed function
-func (fi *InterfaceImplementationInjector) Inject(def TypeDefinition, implementations ...*InterfaceImplementation) (TypeDefinition, error) {
+// Inject modifies the passed type definition by injecting the passed interface implementation
+func (injector *InterfaceImplementationInjector) Inject(
+	def TypeDefinition, implementations ...*InterfaceImplementation) (TypeDefinition, error) {
 	result := def
 
-	for _, fn := range implementations {
+	for _, impl := range implementations {
 		var err error
-		result, err = fi.visitor.VisitDefinition(result, fn)
+		result, err = injector.visitor.VisitDefinition(result, impl)
 		if err != nil {
 			return TypeDefinition{}, err
 		}
@@ -38,18 +39,18 @@ func (fi *InterfaceImplementationInjector) Inject(def TypeDefinition, implementa
 	return result, nil
 }
 
-// injectInterfaceImplementationIntoObject takes the function provided as a context and includes it on the
-// provided object type
+// injectInterfaceImplementationIntoObject takes the interface implementationprovided as a context and includes it on
+// the provided object type
 func (_ *InterfaceImplementationInjector) injectInterfaceImplementationIntoObject(
 	_ *TypeVisitor, ot *ObjectType, ctx interface{}) (Type, error) {
-	fn := ctx.(*InterfaceImplementation)
-	return ot.WithInterface(fn), nil
+	impl := ctx.(*InterfaceImplementation)
+	return ot.WithInterface(impl), nil
 }
 
-// injectInterfaceImplementationIntoResource takes the function provided as a context and includes it on the
-// provided resource type
+// injectInterfaceImplementationIntoResource takes the interface implementation provided as a context and includes it on
+// the provided resource type
 func (_ *InterfaceImplementationInjector) injectInterfaceImplementationIntoResource(
 	_ *TypeVisitor, rt *ResourceType, ctx interface{}) (Type, error) {
-	fn := ctx.(*InterfaceImplementation)
-	return rt.WithInterface(fn), nil
+	impl := ctx.(*InterfaceImplementation)
+	return rt.WithInterface(impl), nil
 }

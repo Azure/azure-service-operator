@@ -10,6 +10,7 @@ import (
 	"go/token"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
@@ -30,15 +31,11 @@ type ResourceConversionTestCase struct {
 
 var _ astmodel.TestCase = &ResourceConversionTestCase{}
 
+// NewResourceConversionTestCase creates a new test case for the specified resource
 func NewResourceConversionTestCase(
-	resource astmodel.TypeDefinition,
-	idFactory astmodel.IdentifierFactory) *ResourceConversionTestCase {
-
-	name := resource.Name()
-	resourceType, ok := astmodel.AsResourceType(resource.Type())
-	if !ok {
-		panic(fmt.Sprintf("expected %s to be a resource type", name))
-	}
+	name astmodel.TypeName,
+	resourceType *astmodel.ResourceType,
+	idFactory astmodel.IdentifierFactory) (*ResourceConversionTestCase, error) {
 
 	result := &ResourceConversionTestCase{
 		subject:   name,
@@ -47,36 +44,40 @@ func NewResourceConversionTestCase(
 
 	conversionImplementation, ok := resourceType.FindInterface(astmodel.ConvertibleInterface)
 	if !ok {
-		panic(fmt.Sprintf("expected %s to implement conversions.Convertible including ConvertTo() and ConvertFrom()", name))
+		return nil, errors.Errorf("expected %s to implement conversions.Convertible including ConvertTo() and ConvertFrom()", name)
 	}
 
 	// Find ConvertTo and ConvertFrom functions from the implementation
-	for _, fn := range conversionImplementation.Functions() {
-		if rcfn, ok := fn.(*functions.ResourceConversionFunction); ok {
-			if rcfn.Direction() == conversions.ConvertFrom {
-				result.fromFn = rcfn
-			} else if rcfn.Direction() == conversions.ConvertTo {
-				result.toFn = rcfn
+	for _, implementationFunction := range conversionImplementation.Functions() {
+		if fn, ok := implementationFunction.(*functions.ResourceConversionFunction); ok {
+			if fn.Direction() == conversions.ConvertFrom {
+				result.fromFn = fn
+			} else if fn.Direction() == conversions.ConvertTo {
+				result.toFn = fn
 			}
 		}
 	}
 
 	// Fail fast if something goes wrong
 	if result.fromFn == nil {
-		panic(fmt.Sprintf("expected to find ConvertFrom() on %s", name))
+		return nil, errors.Errorf("expected to find function ConvertFrom() on %s", name)
 	}
 	if result.toFn == nil {
-		panic(fmt.Sprintf("expected to find ConvertTo() on %s", name))
+		return nil, errors.Errorf("expected to find function ConvertTo() on %s", name)
 	}
 	if !result.fromFn.Hub().Equals(result.toFn.Hub()) {
-		panic(fmt.Sprintf("expected ConverFrom() and ConvertTo() on %s to be consistent", name))
+		return nil, errors.Errorf(
+			"expected ConvertFrom(%s) and ConvertTo(%s) on %s to have the same parameter type",
+			result.fromFn.Hub(),
+			result.toFn.Hub(),
+			name)
 	}
 
 	result.testName = fmt.Sprintf(
 		"%s_WhenConvertedToHub_RoundTripsWithoutLoss",
 		name.Name())
 
-	return result
+	return result, nil
 }
 
 // Name returns the unique name of this test case

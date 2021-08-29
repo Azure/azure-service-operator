@@ -83,7 +83,7 @@ func (iface *InterfaceImplementation) Functions() []Function {
 	return functions
 }
 
-// HasFunctionWithName determines if this resource has a function with the given name
+// HasFunctionWithName determines if this interface has a function with the given name
 func (iface *InterfaceImplementation) HasFunctionWithName(functionName string) bool {
 	_, found := iface.functions[functionName]
 	return found

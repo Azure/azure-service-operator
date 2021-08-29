@@ -14,14 +14,15 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/testcases"
 )
 
-// InjectPropertyAssignmentTestsID is the unique identifier for this stage
+// InjectResourceConversionTestsID is the unique identifier for this stage
 const InjectResourceConversionTestsID = "injectResourceConversionTestCases"
 
+// InjectResourceConversionTestCases is a pipeline stage to inject test cases
 func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) Stage {
 
 	stage := MakeStage(
 		InjectResourceConversionTestsID,
-		"Add test cases to verify Resource Conversion functions",
+		"Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected",
 		func(ctx context.Context, state *State) (*State, error) {
 			factory := makeResourceConversionTestCaseFactory(idFactory)
 			modifiedTypes := make(astmodel.Types)
@@ -53,11 +54,13 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) Sta
 	return stage
 }
 
+// resourceConversionTestCaseFactory is a factory for injecting test cases where needed
 type resourceConversionTestCaseFactory struct {
 	injector  *astmodel.TestCaseInjector
 	idFactory astmodel.IdentifierFactory
 }
 
+// makeResourceConversionTestCaseFactory creates a new factory to inject the test cases
 func makeResourceConversionTestCaseFactory(idFactory astmodel.IdentifierFactory) resourceConversionTestCaseFactory {
 	return resourceConversionTestCaseFactory{
 		injector:  astmodel.NewTestCaseInjector(),
@@ -65,7 +68,8 @@ func makeResourceConversionTestCaseFactory(idFactory astmodel.IdentifierFactory)
 	}
 }
 
-func (s *resourceConversionTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
+// NeedsTest will return true if the passed TypeDefinition is a resource implementing conversion.Convertible
+func (_ *resourceConversionTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
 	resourceType, ok := astmodel.AsResourceType(def.Type())
 	if !ok {
 		return false
@@ -75,12 +79,17 @@ func (s *resourceConversionTestCaseFactory) NeedsTest(def astmodel.TypeDefinitio
 	return found
 }
 
-func (s *resourceConversionTestCaseFactory) AddTestTo(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-	_, ok := astmodel.AsResourceType(def.Type())
+// AddTestTo modifies the passed TypeDefinition by injecting the required test case
+func (factory *resourceConversionTestCaseFactory) AddTestTo(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	resource, ok := astmodel.AsResourceType(def.Type())
 	if !ok {
 		return astmodel.TypeDefinition{}, errors.Errorf("expected %s to be a resourceType", def.Name())
 	}
 
-	testCase := testcases.NewResourceConversionTestCase(def, s.idFactory)
-	return s.injector.Inject(def, testCase)
+	testCase, err := testcases.NewResourceConversionTestCase(def.Name(), resource, factory.idFactory)
+	if err != nil {
+		return astmodel.TypeDefinition{}, errors.Wrapf(err, "adding resource conversion test case to %s", def.Name())
+	}
+
+	return factory.injector.Inject(def, testCase)
 }
