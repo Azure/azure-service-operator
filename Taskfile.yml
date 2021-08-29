@@ -159,7 +159,7 @@ tasks:
     deps: [controller:generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
-    - golangci-lint run -v --fast=false ./...
+    - golangci-lint run -v --fast=false --timeout 5m ./...
 
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.

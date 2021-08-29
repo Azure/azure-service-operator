@@ -238,16 +238,15 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 	g.Expect(ok).To(BeTrue())
 
 	conversionContext := conversions.NewPropertyConversionContext(c.types, idFactory)
-	convertFrom, errs := NewPropertyAssignmentFunction(c.currentObject, c.otherObject, conversionContext, conversions.ConvertFrom)
-	g.Expect(errs).To(BeNil())
+	assignFrom, err := NewPropertyAssignmentFunction(c.currentObject, c.otherObject, conversionContext, conversions.ConvertFrom)
+	g.Expect(err).To(BeNil())
 
-	convertTo, errs := NewPropertyAssignmentFunction(c.currentObject, c.otherObject, conversionContext, conversions.ConvertTo)
-	g.Expect(errs).To(BeNil())
+	assignTo, err := NewPropertyAssignmentFunction(c.currentObject, c.otherObject, conversionContext, conversions.ConvertTo)
+	g.Expect(err).To(BeNil())
 
-	receiverDefinition := c.currentObject.WithType(currentType.WithFunction(convertFrom).WithFunction(convertTo))
+	receiverDefinition := c.currentObject.WithType(currentType.WithFunction(assignFrom).WithFunction(assignTo))
 
-	fileDef := test.CreateFileDefinition(receiverDefinition)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, c.name)
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, c.name, receiverDefinition)
 }
 
 func TestPropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) {
@@ -278,6 +277,5 @@ func TestPropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) {
 	receiverDefinition, err := injector.Inject(person2020, assignFrom, assignTo)
 	g.Expect(err).To(Succeed())
 
-	fileDef := test.CreateFileDefinition(receiverDefinition)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, "PropertyBags")
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "PropertyBags", receiverDefinition)
 }
