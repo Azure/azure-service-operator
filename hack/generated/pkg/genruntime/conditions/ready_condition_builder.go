@@ -5,6 +5,8 @@ Licensed under the MIT license.
 
 package conditions
 
+import "fmt"
+
 const (
 	ReasonReconciling                     = "Reconciling"
 	ReasonWaitingForOwner                 = "WaitingForOwner"
@@ -30,12 +32,12 @@ func (b *ReadyConditionBuilder) Reconciling() Condition {
 		"The resource is in the process of being reconciled by the operator")
 }
 
-func (b *ReadyConditionBuilder) WaitingForOwner() Condition {
+func (b *ReadyConditionBuilder) WaitingForOwner(ownerDetails string) Condition {
 	return b.builder.MakeFalseCondition(
 		ConditionTypeReady,
 		ConditionSeverityWarning,
 		ReasonWaitingForOwner,
-		"The owner of this resource cannot be found in Kubernetes. Process is blocked until the owner is created.")
+		fmt.Sprintf("Owner %q cannot be found. Progress is blocked until the owner is created.", ownerDetails))
 }
 
 func (b *ReadyConditionBuilder) Deleting() Condition {

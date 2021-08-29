@@ -36,6 +36,6 @@ func TestJSONSerializationTestCase_AsFunc(t *testing.T) {
 	currentSpec, err := testCaseInjector.Inject(currentSpec, testcase)
 	g.Expect(err).To(Succeed())
 
-	fileDef := test.CreateTestFileDefinition(currentSpec)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, "person_test")
+	defs := []astmodel.TypeDefinition{currentSpec}
+	test.AssertTypeDefinitionsGenerateExpectedCode(t, "person", defs, test.IncludeTestFiles(), test.ExcludeCodeFiles())
 }

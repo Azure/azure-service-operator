@@ -23,11 +23,20 @@ func Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode(t *t
 
 	// Create our upstream type
 	personSpec2020 := test.CreateSpec(
-		test.Pkg2020, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
+		test.Pkg2020,
+		"Person",
+		test.FullNameProperty,
+		test.KnownAsProperty,
+		test.FamilyNameProperty)
 
 	// Create our downstream type
 	personSpec2021 := test.CreateSpec(
-		test.Pkg2021, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty, test.CityProperty)
+		test.Pkg2021,
+		"Person",
+		test.FullNameProperty,
+		test.KnownAsProperty,
+		test.FamilyNameProperty,
+		test.CityProperty)
 
 	// Create Property Assignment functions
 	types := make(astmodel.Types)
@@ -35,10 +44,12 @@ func Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode(t *t
 	types.AddAll(personSpec2021)
 
 	conversionContext := conversions.NewPropertyConversionContext(types, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentFunction(personSpec2020, personSpec2021, conversionContext, conversions.ConvertTo)
+	propertyAssignTo, err := NewPropertyAssignmentFunction(
+		personSpec2020, personSpec2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFunction(personSpec2020, personSpec2021, conversionContext, conversions.ConvertFrom)
+	propertyAssignFrom, err := NewPropertyAssignmentFunction(
+		personSpec2020, personSpec2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
 	// Create Spec Conversion Functions
@@ -48,15 +59,15 @@ func Test_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode(t *t
 	// Inject these methods into personSpec2020
 	// We omit the PropertyAssignment functions to reduce the amount of clutter, those are tested elsewhere
 	injector := astmodel.NewFunctionInjector()
-	personSpec2020, err = injector.Inject(personSpec2020, convertSpecTo, convertSpecFrom)
+	personSpec2020updated, err := injector.Inject(personSpec2020, convertSpecTo, convertSpecFrom)
 	g.Expect(err).To(Succeed())
 
-	// Write to a file
-	fileDef := test.CreateFileDefinition(personSpec2020)
-
-	// When verifying the golden file, check that the implementations of ConvertSpecTo() and ConvertSpecFrom() are
-	// what you expect - if you don't have expectations, check that they do the right thing.
-	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
+	/*
+	 * When verifying the golden file, look for the changes flagged between the reference and the updated definition
+	 * and check that the implementations of ConvertSpecTo() and ConvertSpecFrom() are what you expect.
+	 */
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(
+		t, "Person", personSpec2020updated, test.DiffWith(personSpec2020))
 }
 
 // Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToStatus()
@@ -77,10 +88,12 @@ func Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode(t 
 	types.AddAll(personStatus2021)
 
 	conversionContext := conversions.NewPropertyConversionContext(types, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentFunction(personStatus2020, personStatus2021, conversionContext, conversions.ConvertTo)
+	propertyAssignTo, err := NewPropertyAssignmentFunction(
+		personStatus2020, personStatus2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFunction(personStatus2020, personStatus2021, conversionContext, conversions.ConvertFrom)
+	propertyAssignFrom, err := NewPropertyAssignmentFunction(
+		personStatus2020, personStatus2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
 	// Create Spec Conversion Functions
@@ -90,13 +103,13 @@ func Test_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode(t 
 	// Inject these methods into personStatus2020
 	// We omit the PropertyAssignment functions to reduce the amount of clutter, those are tested elsewhere
 	injector := astmodel.NewFunctionInjector()
-	personStatus2020, err = injector.Inject(personStatus2020, convertSpecTo, convertSpecFrom)
+	personStatus2020updated, err := injector.Inject(personStatus2020, convertSpecTo, convertSpecFrom)
 	g.Expect(err).To(Succeed())
 
-	// Write to a file
-	fileDef := test.CreateFileDefinition(personStatus2020)
-
-	// When verifying the golden file, check that the implementations of ConvertStatusTo() and ConvertStatusFrom() are
-	// what you expect - if you don't have expectations, check that they do the right thing.
-	test.AssertFileGeneratesExpectedCode(t, fileDef, t.Name())
+	/*
+	 * When verifying the golden file, look for the changes flagged between the reference and the updated definition
+	 * and check that the implementations of ConvertSpecTo() and ConvertSpecFrom() are what you expect.
+	 */
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(
+		t, "Person", personStatus2020updated, test.DiffWith(personStatus2020))
 }
