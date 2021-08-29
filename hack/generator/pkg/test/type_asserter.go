@@ -7,6 +7,7 @@ package test
 
 import (
 	"bytes"
+	"strings"
 	"testing"
 
 	"github.com/kylelemons/godebug/diff"
@@ -89,7 +90,11 @@ func (a *typeAsserter) assertFile(
 		d := diff.Diff(base, content)
 		if len(d) > 0 {
 			// Only use the diff if it's not empty
-			content = d
+			if strings.HasSuffix(content, "\n") {
+				content = d
+			} else {
+				content = d + "\n"
+			}
 		}
 	}
 
