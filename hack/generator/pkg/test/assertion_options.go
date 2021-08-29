@@ -43,7 +43,7 @@ func (d *diffOption) configure(ta *typeAsserter) {
  * includeTestFiles
  */
 
-// IncludeTestFiles creates an AssertionOption to also assert testcases
+// IncludeTestFiles creates an AssertionOption to also assert generated tests 
 func IncludeTestFiles() AssertionOption {
 	return &includeTestFiles{}
 }
