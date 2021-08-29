@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-func TestResourceConversionTestCase_AsFunc(t *testing.T) {
+func TestGolden_ResourceConversionTestCase_AsFunc(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
@@ -69,11 +69,18 @@ func TestResourceConversionTestCase_AsFunc(t *testing.T) {
 	person2020, err = interfaceInjector.Inject(person2020, implementation)
 	g.Expect(err).To(Succeed())
 
-	testcase := NewResourceConversionTestCase(person2020, idFactory)
-
-	person2020, err = testCaseInjector.Inject(person2020, testcase)
+	resource, _ := astmodel.AsResourceType(person2020.Type())
+	testcase, err := NewResourceConversionTestCase(person2020.Name(), resource, idFactory)
 	g.Expect(err).To(Succeed())
 
-	fileDef := test.CreateTestFileDefinition(person2020)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, "person_test")
+	person2020modified, err := testCaseInjector.Inject(person2020, testcase)
+	g.Expect(err).To(Succeed())
+
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(
+		t,
+		"person",
+		person2020modified,
+		test.DiffWith(person2020),
+		test.IncludeTestFiles(),
+		test.ExcludeCodeFiles())
 }

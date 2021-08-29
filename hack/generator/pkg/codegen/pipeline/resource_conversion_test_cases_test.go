@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-func TestInjectResourceConversionTestCases(t *testing.T) {
+func TestGolden_InjectResourceConversionTestCases(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
@@ -45,16 +45,19 @@ func TestInjectResourceConversionTestCases(t *testing.T) {
 	types := make(astmodel.Types)
 	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
 
-	state := NewState().WithTypes(types)
-
-	finalState, err := RunTestPipeline(
-		state,
+	initialState, err := RunTestPipeline(
+		NewState().WithTypes(types),
 		CreateConversionGraph(),
 		CreateStorageTypes(),
 		InjectPropertyAssignmentFunctions(idFactory),
 		ImplementConvertibleInterface(idFactory),
 		InjectJsonSerializationTests(idFactory),
 		InjectPropertyAssignmentTests(idFactory),
+	)
+	g.Expect(err).To(Succeed())
+
+	finalState, err := RunTestPipeline(
+		initialState,
 		InjectResourceConversionTestCases(idFactory))
 	g.Expect(err).To(Succeed())
 
