@@ -130,6 +130,15 @@ func (r *AzureDeploymentReconciler) checkForFatalReconciliationError(ctx context
 func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Result, error) {
 	r.logObj("reconciling resource")
 
+	if ready := r.GetReadyCondition(); ready != nil {
+		if ready.Severity == conditions.ConditionSeverityError &&
+			ready.Reason == conditions.ReasonReconciliationFailedPermanently {
+			// can't do anything to this resource
+			r.log.V(Info).Info("Resource in terminal state, cannot reconcile")
+			return ctrl.Result{}, nil
+		}
+	}
+
 	action, actionFunc, err := r.DetermineCreateOrUpdateAction()
 	if err != nil {
 		r.log.Error(err, "error determining create or update action")
@@ -157,6 +166,15 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 
 func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, error) {
 	r.logObj("reconciling resource")
+
+	if ready := r.GetReadyCondition(); ready != nil {
+		if ready.Severity == conditions.ConditionSeverityError &&
+			ready.Reason == conditions.ReasonReconciliationFailedPermanently {
+			// can't do anything to this resource
+			r.log.V(Info).Info("Resource in terminal state, cannot reconcile")
+			return ctrl.Result{}, nil
+		}
+	}
 
 	action, actionFunc, err := r.DetermineDeleteAction()
 	if err != nil {
