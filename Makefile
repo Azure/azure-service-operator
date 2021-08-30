@@ -397,10 +397,13 @@ generate-operator-bundle: manifests
 	@echo "Previous bundle version is $(PREVIOUS_BUNDLE_VERSION)"
 	rm -rf "bundle/manifests"
 	kustomize build config/operator-bundle | operator-sdk generate bundle --version $(LATEST_TAG) --channels stable --default-channel stable --overwrite --kustomize-dir config/operator-bundle
-	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
-	scripts/add-openshift-cert-handling.sh
+	# Building the docker bundle requires a tests/scorecard directory.
+	mkdir -p bundle/tests/scorecard
 	# Inject the container reference into the bundle.
 	scripts/inject-container-reference.sh "$(PUBLIC_REPO):$(LATEST_TAG)"
+	# Update webhooks to use operator namespace and remove
+	# cert-manager annotations.
+	scripts/update-webhook-references-in-operator-bundle.sh
 	# Include the replaces field with the old version.
 	yq eval -i ".spec.replaces = \"azure-service-operator.v$(PREVIOUS_BUNDLE_VERSION)\"" bundle/manifests/azure-service-operator.clusterserviceversion.yaml
 	# Rename the csv to simplify adding to the community-operators repo for a PR
