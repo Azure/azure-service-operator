@@ -6,37 +6,18 @@
 package test
 
 import (
-	"bytes"
 	"fmt"
 	"testing"
-
-	"github.com/sebdah/goldie/v2"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// AssertFileGeneratesExpectedCode serialises the given FileDefinition as a golden file test, checking that the expected
-// results are generated
-func AssertFileGeneratesExpectedCode(t *testing.T, fileDef astmodel.GoSourceFile, testName string) {
-	g := goldie.New(t)
-	err := g.WithTestNameForDir(true)
-	if err != nil {
-		t.Fatalf("Unable to configure goldie output folder %s", err)
-	}
-
-	buf := &bytes.Buffer{}
-	fileWriter := astmodel.NewGoSourceFileWriter(fileDef)
-	err = fileWriter.SaveToWriter(buf)
-	if err != nil {
-		t.Fatalf("could not generate file: %s", err)
-	}
-
-	g.Assert(t, testName, buf.Bytes())
-}
-
 // AssertPackagesGenerateExpectedCode creates a golden file for each package represented in the set of type definitions,
-// asserting that the generated content is expected
-func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types) {
+// asserting that the generated content is expected.
+// t is the current test
+// types is the set of type definitions to be asserted
+// options is an optional set of configuration options to control the assertion
+func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types, options ...AssertionOption) {
 	// Group type definitions by package
 	groups := make(map[astmodel.PackageReference][]astmodel.TypeDefinition)
 	for _, def := range types {
@@ -53,13 +34,40 @@ func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types) {
 		}
 
 		fileName := fmt.Sprintf("%s-%s", local.Group(), local.Version())
-		file := CreateFileDefinition(defs...)
-		AssertFileGeneratesExpectedCode(t, file, fileName)
-
-		// If any of our definitions include tests, write to a test file as well
-		testFile := CreateTestFileDefinition(defs...)
-		if testFile.TestCaseCount() > 0 {
-			AssertFileGeneratesExpectedCode(t, testFile, fileName+"_test")
-		}
+		AssertTypeDefinitionsGenerateExpectedCode(t, fileName, defs, options...)
 	}
+}
+
+// AssertTypeDefinitionsGenerateExpectedCode serialises the given FileDefinition as a golden file test, checking that the expected
+// results are generated
+// t is the current test
+// name is a unique name for the current assertion
+// defs is a set of type definitions to be asserted
+// options is an optional set of configuration options to control the assertion
+func AssertTypeDefinitionsGenerateExpectedCode(
+	t *testing.T,
+	name string,
+	defs []astmodel.TypeDefinition,
+	options ...AssertionOption) {
+
+	asserter := newTypeAsserter(t)
+	asserter.configure(options)
+	asserter.assert(name, defs...)
+}
+
+// AssertSingleTypeDefinitionGeneratesExpectedCode serialises the given TypeDefinition as a golden file test, checking
+// that the expected results are generated
+// t is the current test
+// name is a unique name for the current assertion
+// def is the type definition to be asserted
+// options is an optional set of configuration options to control the assertion
+func AssertSingleTypeDefinitionGeneratesExpectedCode(
+	t *testing.T,
+	fileName string,
+	def astmodel.TypeDefinition,
+	options ...AssertionOption) {
+
+	asserter := newTypeAsserter(t)
+	asserter.configure(options)
+	asserter.assert(fileName, def)
 }

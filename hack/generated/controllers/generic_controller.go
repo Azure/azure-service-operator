@@ -24,11 +24,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	. "github.com/Azure/azure-service-operator/hack/generated/pkg/logging"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reconcilers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
 )
@@ -120,7 +122,7 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 	if err != nil {
 		return errors.Wrapf(err, "creating GVK for obj %T", obj)
 	}
-	log.V(4).Info("Registering", "GVK", gvk)
+	log.V(Status).Info("Registering", "GVK", gvk)
 
 	// TODO: Do we need to add any index fields here? DavidJ's controller index's status.id - see its usage
 	// TODO: of IndexField
@@ -142,6 +144,9 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 
 	c, err := ctrl.NewControllerManagedBy(mgr).
 		For(obj).
+		// Note: These predicates prevent status updates from triggering a reconcile.
+		// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
+		WithEventFilter(predicate.Or(predicate.GenerationChangedPredicate{}, predicate.AnnotationChangedPredicate{})).
 		WithOptions(options.Options).
 		Build(reconciler)
 
@@ -194,10 +199,11 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	// (actually a reference or shallow copy) of an object, you'll mess up other controllers (not just your own).
 	obj = obj.DeepCopyObject().(client.Object)
 
-	gr.Log.V(0).Info(
+	gr.Log.V(Verbose).Info(
 		"Reconcile invoked",
 		"kind", fmt.Sprintf("%T", obj),
-		"resourceVersion", obj.GetResourceVersion())
+		"resourceVersion", obj.GetResourceVersion(),
+		"generation", obj.GetGeneration())
 
 	// The Go type for the Kubernetes object must understand how to
 	// convert itself to/from the corresponding Azure types.

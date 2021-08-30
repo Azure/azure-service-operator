@@ -3,52 +3,47 @@
 // Licensed under the MIT license.
 package v20200101
 
-import (
-	person "github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231"
-	"github.com/google/go-cmp/cmp"
-	"github.com/google/go-cmp/cmp/cmpopts"
-	"github.com/kr/pretty"
-	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"testing"
-)
+import person "github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231"
 
-func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Person_Spec to Person_Spec via AssignPropertiesToPersonSpec & AssignPropertiesFromPersonSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPersonSpec, PersonSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+type Person_Spec struct {
+	//FamilyName: Shared name of the family
+	FamilyName string `json:"familyName"`
+
+	//FullName: As would be used to address mail
+	FullName string `json:"fullName"`
+
+	//KnownAs: How the person is generally known
+	KnownAs string `json:"knownAs"`
 }
 
-// RunPropertyAssignmentTestForPersonSpec tests if a specific instance of Person_Spec can be assigned to v20211231 and back losslessly
-func RunPropertyAssignmentTestForPersonSpec(subject Person_Spec) string {
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other person.Person_Spec
-	err := subject.AssignPropertiesToPersonSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+// AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
+func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *person.Person_Spec) error {
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Person_Spec
-	err = actual.AssignPropertiesFromPersonSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+	// FamilyName
+	personSpec.FamilyName = source.FamilyName
 
-	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
+	// FullName
+	personSpec.FullName = source.FullName
 
-	return ""
+	// KnownAs
+	personSpec.KnownAs = source.KnownAs
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
+func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *person.Person_Spec) error {
+
+	// FamilyName
+	destination.FamilyName = personSpec.FamilyName
+
+	// FullName
+	destination.FullName = personSpec.FullName
+
+	// KnownAs
+	destination.KnownAs = personSpec.KnownAs
+
+	// No error
+	return nil
 }

@@ -63,8 +63,8 @@ This project is an alpha. We follow the [Kubernetes definition of alpha](https:/
    apiVersion: v1
    kind: Secret
    metadata:
-   name: aso-controller-settings
-   namespace: azureoperator-system
+     name: aso-controller-settings
+     namespace: azureoperator-system
    stringData:
      AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
      AZURE_TENANT_ID: "$AZURE_TENANT_ID"

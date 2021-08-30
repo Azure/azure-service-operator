@@ -28,8 +28,7 @@ func Test_OriginalGVKFunction_ReadingOriginalVersionFromProperty_GeneratesExpect
 	status := test.CreateStatus(testPackage, "Person")
 	resource := test.CreateResource(testPackage, "Person", spec, status, originalGVKFunction)
 
-	fileDef := test.CreateFileDefinition(resource)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, "OriginalGVKFunction")
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "OriginalGVKFunction", resource)
 }
 
 func Test_OriginalGVKFunction_ReadingOriginalVersionFromFunction_GeneratesExpectedCode(t *testing.T) {
@@ -48,6 +47,5 @@ func Test_OriginalGVKFunction_ReadingOriginalVersionFromFunction_GeneratesExpect
 	status := test.CreateStatus(testPackage, "Person")
 	resource := test.CreateResource(testPackage, "Person", spec, status, originalGVKFunction)
 
-	fileDef := test.CreateFileDefinition(resource)
-	test.AssertFileGeneratesExpectedCode(t, fileDef, "OriginalGVKFunction")
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "OriginalGVKFunction", resource)
 }

@@ -159,7 +159,7 @@ tasks:
     deps: [controller:generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
-    - golangci-lint run -v --fast=false ./...
+    - golangci-lint run -v --fast=false --timeout 5m ./...
 
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.
@@ -411,7 +411,7 @@ tasks:
   verify-no-changes:
     desc: Checks that there are no uncommitted modifications to files
     cmds:
-    - cmd: 'if [ -n "{{.CHANGED}}" ]; then echo "Error: files were modified during the build (did you forget to commit generated files?):"; echo "{{.CHANGED}}"; exit 1; fi'
+    - cmd: 'if [ -n "{{.CHANGED}}" ]; then echo "Error: files were modified during the build (did you forget to commit generated files?):"; echo "{{.CHANGED}}"; git diff; exit 1; fi'
       silent: true
     vars:
       CHANGED:
