@@ -38,7 +38,7 @@ func (endpoint *TypedConversionEndpoint) Type() astmodel.Type {
 // WithType creates a new endpoint with a different type
 func (endpoint *TypedConversionEndpoint) WithType(theType astmodel.Type) *TypedConversionEndpoint {
 	return &TypedConversionEndpoint{
-		theType:     theType,
-		name:        endpoint.name,
+		theType: theType,
+		name:    endpoint.name,
 	}
 }
