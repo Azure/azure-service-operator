@@ -376,16 +376,16 @@ install-tools:
     CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 
 # Operator-sdk release version
-RELEASE_VERSION ?= v1.0.1
+RELEASE_VERSION ?= v1.11.0
 
 .PHONY: install-operator-sdk
 install-operator-sdk:
 ifeq ($(shell uname -s), Darwin)
-	curl -LO https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin
-	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin
+	curl -LO https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk_darwin_amd64
+	chmod +x operator-sdk_darwin_amd64 && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk_darwin_amd64 /usr/local/bin/operator-sdk && rm operator-sdk_darwin_amd64
 else
-	curl -LO https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
-	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
+	curl -LO https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk_linux_amd64
+	chmod +x operator-sdk_linux_amd64 && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk_linux_amd64 /usr/local/bin/operator-sdk && rm operator-sdk_linux_amd64
 endif
 
 PREVIOUS_BUNDLE_VERSION ?= 1.0.27207
