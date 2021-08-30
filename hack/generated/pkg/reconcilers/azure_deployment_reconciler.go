@@ -28,11 +28,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/ownerutil"
-
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	. "github.com/Azure/azure-service-operator/hack/generated/pkg/logging"
+	"github.com/Azure/azure-service-operator/hack/generated/pkg/ownerutil"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
 )
@@ -140,7 +140,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 		return ctrl.Result{}, err
 	}
 
-	r.log.V(1).Info("Reconciling Azure resource %s, will perform: %s", r.obj.AzureName(), action)
+	r.log.V(Info).Info("Reconciling Azure resource %s, will perform: %s", r.obj.AzureName(), action)
 
 	result, err := actionFunc(ctx)
 	if err != nil {
@@ -156,7 +156,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 }
 
 func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, error) {
-	r.logObj("deleting resource")
+	r.logObj("reconciling resource")
 
 	action, actionFunc, err := r.DetermineDeleteAction()
 	if err != nil {
@@ -168,7 +168,7 @@ func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, er
 		return ctrl.Result{}, err
 	}
 
-	r.log.V(1).Info("Deleting Azure resource %s, will perform: %s", r.obj.AzureName(), action)
+	r.log.V(Info).Info("Deleting Azure resource %s, will perform: %s", r.obj.AzureName(), action)
 
 	result, err := actionFunc(ctx)
 	if err != nil {
@@ -387,15 +387,15 @@ func (r *AzureDeploymentReconciler) DetermineCreateOrUpdateAction() (CreateOrUpd
 	if ready != nil {
 		conditionString = ready.String()
 	}
-	r.log.V(3).Info(
+	r.log.V(Verbose).Info(
 		"DetermineCreateOrUpdateAction",
 		"condition", conditionString,
 		"hasChanged", hasChanged,
 		"ongoingDeploymentID", ongoingDeploymentID)
 
 	if !hasChanged && r.InTerminalState() {
-		msg := fmt.Sprintf("Resource spec has not changed and resource has terminal Ready condition: %q", ready)
-		r.log.V(1).Info(msg)
+		msg := fmt.Sprintf("Nothing to do. Spec has not changed and resource has terminal Ready condition: %q.", ready)
+		r.log.V(Info).Info(msg)
 		return CreateOrUpdateActionNoAction, NoAction, nil
 	}
 
@@ -404,8 +404,6 @@ func (r *AzureDeploymentReconciler) DetermineCreateOrUpdateAction() (CreateOrUpd
 	}
 
 	if hasOngoingDeployment {
-		r.log.V(3).Info("Have existing deployment ID, will monitor it", "deploymentID", ongoingDeploymentID)
-		// There is an ongoing deployment we need to monitor
 		return CreateOrUpdateActionMonitorDeployment, r.MonitorDeployment, nil
 	}
 
@@ -437,7 +435,7 @@ func NoAction(_ context.Context) (ctrl.Result, error) {
 // marked with the provisioning state of "Deleting".
 func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (ctrl.Result, error) {
 	msg := "Starting delete of resource"
-	r.log.Info(msg)
+	r.log.V(Status).Info(msg)
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
 	// If we have no resourceID to begin with, the Azure resource was never created
@@ -488,8 +486,6 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 	// Note: We requeue here because we've only changed the status and status updates don't trigger another reconcile
 	// because we use predicate.GenerationChangedPredicate and predicate.AnnotationChangedPredicate
 	// delete has started, check back to seen when the finalizer can be removed
-	r.log.V(3).Info("Resource deletion started")
-
 	// Normally don't need to set both of these fields but because retryAfter can be 0 we do
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }
@@ -498,7 +494,7 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 // the finalizer will be removed.
 func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Result, error) {
 	msg := "Continue monitoring deletion"
-	r.log.V(1).Info(msg)
+	r.log.V(Verbose).Info(msg)
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionMonitorDelete), msg)
 
 	resource, err := r.constructArmResource(ctx)
@@ -510,7 +506,7 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 	found, retryAfter, err := r.ARMClient.HeadResource(ctx, resource.GetID(), resource.Spec().GetAPIVersion())
 	if err != nil {
 		if retryAfter != 0 {
-			r.log.V(3).Info("Error performing HEAD on resource, will retry", "delaySec", retryAfter/time.Second)
+			r.log.V(Info).Info("Error performing HEAD on resource, will retry", "delaySec", retryAfter/time.Second)
 			return ctrl.Result{RequeueAfter: retryAfter}, nil
 		}
 
@@ -518,7 +514,7 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 	}
 
 	if found {
-		r.log.V(1).Info("Found resource: continuing to wait for deletion...")
+		r.log.V(Verbose).Info("Found resource: continuing to wait for deletion...")
 		return ctrl.Result{Requeue: true}, nil
 	}
 
@@ -534,7 +530,7 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 		return ctrl.Result{}, err
 	}
 
-	r.log.Info("Starting new deployment to Azure", "action", string(CreateOrUpdateActionBeginDeployment))
+	r.log.V(Status).Info("Starting new deployment to Azure")
 
 	// Update our state and commit BEFORE creating the Azure deployment in case
 	// we're not operating on the latest version of the object and the CommitUpdate fails
@@ -581,7 +577,7 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 				// to know. This could happen if Azure is returning a weird code (bug in Azure?) or if our list
 				// of error classifications is incomplete.
 				if ready.Severity != conditions.ConditionSeverityError {
-					r.log.V(0).Info(
+					r.log.V(Status).Info(
 						"BadRequest was misclassified as non-fatal error. Correcting it. This could be because of a bug, please report it",
 						"condition", ready.String())
 					ready.Severity = conditions.ConditionSeverityError
@@ -610,7 +606,7 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 			}
 		}
 	} else {
-		r.log.Info("Created deployment in Azure", "id", deployment.ID)
+		r.log.V(Status).Info("Created deployment in Azure", "id", deployment.ID)
 		r.recorder.Eventf(r.obj, v1.EventTypeNormal, string(CreateOrUpdateActionBeginDeployment), "Created new deployment to Azure with ID %q", deployment.ID)
 	}
 
@@ -671,6 +667,9 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 		// If the deployment doesn't exist, clear our ID/Name and return so we can try again
 		var reqErr *autorestAzure.RequestError
 		if errors.As(err, &reqErr) && reqErr.StatusCode == http.StatusNotFound {
+			r.log.V(Info).Info(
+				"Deployment doesn't exist, clearing state and requeuing",
+				"id", deploymentID)
 			r.SetDeploymentID("")
 			r.SetDeploymentName("")
 			err = r.CommitUpdate(ctx)
@@ -685,14 +684,14 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 		}
 
 		if retryAfter != 0 {
-			r.log.V(3).Info("Error performing GET on deployment, will retry", "delaySec", retryAfter/time.Second)
+			r.log.V(Info).Info("Error performing GET on deployment, will retry", "delaySec", retryAfter/time.Second)
 			return ctrl.Result{RequeueAfter: retryAfter}, nil
 		}
 
 		return ctrl.Result{}, errors.Wrapf(err, "getting deployment %q from ARM", deploymentID)
 	}
 
-	r.log.V(4).Info(
+	r.log.V(Verbose).Info(
 		"Monitoring deployment",
 		"action", string(CreateOrUpdateActionMonitorDeployment),
 		"id", deploymentID,
@@ -705,12 +704,12 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 
 	// If the deployment isn't done yet, there's nothing to do just bail out
 	if !deployment.IsTerminalProvisioningState() {
-		r.log.V(3).Info("Deployment still running")
+		r.log.V(Verbose).Info("Deployment still running")
 		return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 	}
 
 	// The deployment is in a terminal state - let's handle it
-	r.log.Info(
+	r.log.V(Status).Info(
 		"Deployment in terminal state",
 		"DeploymentID", deployment.ID,
 		"State", deployment.ProvisioningStateOrUnknown(),
@@ -722,7 +721,7 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 	// because the Azure resource already exists). Since it's expected that this sequence of events is rare, we don't
 	// try to optimize for preventing it with some sort of two phase commit or anything.
 	// TODO: Create a unit test that forces this specific sequence of events
-	r.log.V(4).Info("Deleting deployment", "DeploymentID", deployment.ID)
+	r.log.V(Info).Info("Deleting deployment", "DeploymentID", deployment.ID)
 	_, err = r.ARMClient.DeleteDeployment(ctx, deployment.ID)
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "failed deleting deployment %q", deployment.ID)
@@ -735,7 +734,7 @@ func (r *AzureDeploymentReconciler) MonitorDeployment(ctx context.Context) (ctrl
 }
 
 func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.Result, error) {
-	r.log.V(1).Info("applying ownership", "action", CreateOrUpdateActionManageOwnership)
+	r.log.V(Info).Info("applying ownership", "action", CreateOrUpdateActionManageOwnership)
 	isOwnerReady, err := r.isOwnerReady(ctx)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -795,13 +794,13 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 
 	// Get the resource
 	retryAfter, err := r.ARMClient.GetResource(ctx, id, deployableSpec.Spec().GetAPIVersion(), armStatus)
-	if r.log.V(4).Enabled() {
+	if r.log.V(Debug).Enabled() {
 		statusBytes, marshalErr := json.Marshal(armStatus)
 		if marshalErr != nil {
 			return nil, zeroDuration, errors.Wrapf(err, "serializing ARM status to JSON for debugging")
 		}
 
-		r.log.V(4).Info("Got ARM status", "status", string(statusBytes))
+		r.log.V(Debug).Info("Got ARM status", "status", string(statusBytes))
 	}
 
 	if err != nil {
@@ -873,12 +872,12 @@ func (r *AzureDeploymentReconciler) createDeployment(
 
 // logObj logs the r.obj JSON payload
 func (r *AzureDeploymentReconciler) logObj(note string) {
-	if r.log.V(4).Enabled() {
+	if r.log.V(Debug).Enabled() {
 		objJson, err := json.Marshal(r.obj)
 		if err != nil {
 			r.log.Error(err, "failed to JSON serialize obj for logging purposes")
 		} else {
-			r.log.V(4).Info(note, "resource", string(objJson))
+			r.log.V(Debug).Info(note, "resource", string(objJson))
 		}
 	}
 }
@@ -917,7 +916,7 @@ func (r *AzureDeploymentReconciler) isOwnerReady(ctx context.Context) (bool, err
 	if err != nil {
 		var typedErr *genruntime.ReferenceNotFound
 		if errors.As(err, &typedErr) {
-			r.log.V(4).Info("Owner does not yet exist", "NamespacedName", typedErr.NamespacedName)
+			r.log.V(Info).Info("Owner does not yet exist", "NamespacedName", typedErr.NamespacedName)
 			return false, nil
 		}
 
@@ -947,7 +946,7 @@ func (r *AzureDeploymentReconciler) applyOwnership(ctx context.Context) error {
 	}
 
 	r.obj.SetOwnerReferences(ownerutil.EnsureOwnerRef(r.obj.GetOwnerReferences(), ownerRef))
-	r.log.V(4).Info("Set owner reference", "ownerGvk", ownerGvk, "ownerName", owner.GetName())
+	r.log.V(Info).Info("Set owner reference", "ownerGvk", ownerGvk, "ownerName", owner.GetName())
 	err = r.CommitUpdate(ctx)
 
 	if err != nil {
@@ -969,7 +968,7 @@ func (r *AzureDeploymentReconciler) deleteResourceSucceeded(ctx context.Context)
 		return err
 	}
 
-	r.log.V(0).Info("Deleted resource")
+	r.log.V(Status).Info("Deleted resource")
 	return nil
 }
 
