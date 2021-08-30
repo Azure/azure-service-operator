@@ -73,10 +73,12 @@ func (locals *KnownLocalsSet) tryCreateLocal(name string) (string, bool) {
 	return id, true
 }
 
-// Add allows identifiers that have already been used to be registered, avoiding duplicates
-func (locals *KnownLocalsSet) Add(local string) {
-	name := locals.idFactory.CreateIdentifier(local, NotExported)
-	locals.names[name] = struct{}{}
+// Add allows one or more identifiers that have already been used to be registered, avoiding duplicates
+func (locals *KnownLocalsSet) Add(identifiers ...string) {
+	for _, id := range identifiers {
+		name := locals.idFactory.CreateIdentifier(id, NotExported)
+		locals.names[name] = struct{}{}
+	}
 }
 
 // HasName returns true if the specified name exists in the set, false otherwise

@@ -80,8 +80,7 @@ func NewPropertyAssignmentFunction(
 
 	// Flag receiver and parameter names as used
 	knownLocals := astmodel.NewKnownLocalsSet(idFactory)
-	knownLocals.Add(result.receiverName)
-	knownLocals.Add(result.parameterName)
+	knownLocals.Add(result.receiverName, result.parameterName)
 
 	// Always assign a name for the property bag (see createPropertyBagPrologue to understand why)
 	propertyBagName := knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
