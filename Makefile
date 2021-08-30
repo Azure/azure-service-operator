@@ -399,6 +399,9 @@ generate-operator-bundle: manifests
 	kustomize build config/operator-bundle | operator-sdk generate bundle --version $(LATEST_TAG) --channels stable --default-channel stable --overwrite --kustomize-dir config/operator-bundle
 	# Building the docker bundle requires a tests/scorecard directory.
 	mkdir -p bundle/tests/scorecard
+	# Remove the webhook service - OLM will create one when installing
+	# the bundle.
+	rm bundle/manifests/azureoperator-webhook-service_v1_service.yaml
 	# Inject the container reference into the bundle.
 	scripts/inject-container-reference.sh "$(PUBLIC_REPO):$(LATEST_TAG)"
 	# Update webhooks to use operator namespace and remove
