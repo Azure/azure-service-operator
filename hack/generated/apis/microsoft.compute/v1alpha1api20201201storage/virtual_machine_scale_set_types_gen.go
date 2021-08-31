@@ -55,6 +55,11 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) GetStatus() genruntime.Con
 	return &virtualMachineScaleSet.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
+func (virtualMachineScaleSet *VirtualMachineScaleSet) GetType() string {
+	return "Microsoft.Compute/virtualMachineScaleSets"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualMachineScaleSet *VirtualMachineScaleSet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualMachineScaleSet.Spec)

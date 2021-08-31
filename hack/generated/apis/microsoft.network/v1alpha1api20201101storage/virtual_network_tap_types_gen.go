@@ -54,6 +54,11 @@ func (virtualNetworkTap *VirtualNetworkTap) GetStatus() genruntime.ConvertibleSt
 	return &virtualNetworkTap.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworkTaps"
+func (virtualNetworkTap *VirtualNetworkTap) GetType() string {
+	return "Microsoft.Network/virtualNetworkTaps"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworkTap *VirtualNetworkTap) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworkTap.Spec)
