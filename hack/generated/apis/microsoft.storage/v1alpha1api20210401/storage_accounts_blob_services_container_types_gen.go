@@ -78,6 +78,11 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	return storageAccountsBlobServicesContainer.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetSpec() genruntime.ConvertibleSpec {
 	return &storageAccountsBlobServicesContainer.Spec

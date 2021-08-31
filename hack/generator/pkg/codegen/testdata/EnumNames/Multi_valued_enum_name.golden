@@ -55,6 +55,11 @@ func (aResource *AResource) AzureName() string {
 	return string(aResource.Spec.AzureName)
 }
 
+// GetResourceKind returns the kind of the resource
+func (aResource *AResource) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (aResource *AResource) GetSpec() genruntime.ConvertibleSpec {
 	return &aResource.Spec

@@ -65,11 +65,15 @@ func AddKubernetesResourceInterfaceImpls(
 	getTypeFunction := functions.NewObjectFunction("Get"+astmodel.TypeProperty, idFactory, newGetTypeFunction(resourceARMType))
 	getTypeFunction.AddPackageReference(astmodel.GenRuntimeReference)
 
+	getResourceKindFunction := functions.NewObjectFunction("GetResourceKind", idFactory, newGetResourceKindFunction(r))
+	getResourceKindFunction.AddPackageReference(astmodel.GenRuntimeReference)
+
 	fns := []astmodel.Function{
 		getAzureNameProperty,
 		getOwnerProperty,
 		getSpecFunction,
 		getTypeFunction,
+		getResourceKindFunction,
 	}
 
 	if r.StatusType() != nil {
@@ -377,6 +381,43 @@ func newGetTypeFunction(armType string) func(k *functions.ObjectFunction, codeGe
 	}
 }
 
+// newGetResourceKindFunction creates a function that returns the kind of resource.
+// The generated function is a simple getter which will return either genruntime.ResourceKindNormal or genruntime.ResourceKindExtension:
+//	func (<receiver> *<receiver>) Kind() genruntime.ResourceKind {
+//		return genruntime.ResourceKindNormal
+//	}
+func newGetResourceKindFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	return func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+		receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+		receiverType := astmodel.NewOptionalType(receiver)
+
+		var resourceKind string
+		switch r.Kind() {
+		case astmodel.ResourceKindNormal:
+			resourceKind = "ResourceKindNormal"
+		case astmodel.ResourceKindExtension:
+			resourceKind = "ResourceKindExtension"
+		default:
+			panic(fmt.Sprintf("unknown resource kind %s", r.Kind()))
+		}
+
+		fn := &astbuilder.FuncDetails{
+			Name:          methodName,
+			ReceiverIdent: receiverIdent,
+			ReceiverType:  receiverType.AsType(codeGenerationContext),
+			Params:        nil,
+			Body: astbuilder.Statements(
+				astbuilder.Returns(
+					astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimeReference.PackageName()), resourceKind))),
+		}
+
+		fn.AddComments("returns the kind of the resource")
+		fn.AddReturn(astmodel.ResourceKindType.AsType(codeGenerationContext))
+
+		return fn.DefineFunc()
+	}
+}
+
 func lookupGroupAndKindStmt(
 	groupIdent string,
 	kindIdent string,
@@ -391,7 +432,7 @@ func lookupGroupAndKindStmt(
 		Rhs: []dst.Expr{
 			&dst.CallExpr{
 				Fun: &dst.SelectorExpr{
-					X:   dst.NewIdent(astmodel.GenRuntimePackageName),
+					X:   dst.NewIdent(astmodel.GenRuntimeReference.PackageName()),
 					Sel: dst.NewIdent("LookupOwnerGroupKind"),
 				},
 				Args: []dst.Expr{
@@ -415,7 +456,7 @@ func createResourceReference(
 	return astbuilder.AddrOf(
 		&dst.CompositeLit{
 			Type: &dst.SelectorExpr{
-				X:   dst.NewIdent(astmodel.GenRuntimePackageName),
+				X:   dst.NewIdent(astmodel.GenRuntimeReference.PackageName()),
 				Sel: dst.NewIdent("ResourceReference"),
 			},
 			Elts: []dst.Expr{

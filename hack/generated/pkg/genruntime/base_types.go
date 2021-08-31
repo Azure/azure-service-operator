@@ -15,6 +15,15 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 )
 
+type ResourceKind string
+
+const (
+	// ResourceKindNormal is a standard ARM resource.
+	ResourceKindNormal = ResourceKind("normal")
+	// ResourceKindExtension is an extension resource. Extension resources can have any resource as their parent.
+	ResourceKindExtension = ResourceKind("extension")
+)
+
 // TODO: These should become Status properties at some point.
 const (
 	ResourceIDAnnotation = "resource-id.azure.com"
@@ -48,6 +57,9 @@ type KubernetesResource interface {
 	// GetType returns the type of the resource according to Azure. For example Microsoft.Resources/resourceGroups or
 	// Microsoft.Network/networkSecurityGroups/securityRules
 	GetType() string
+
+	// GetResourceKind returns the ResourceKind of the resource.
+	GetResourceKind() ResourceKind
 
 	// Some types, but not all, have a corresponding:
 	// 	SetAzureName(name string)

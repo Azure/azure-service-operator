@@ -76,6 +76,11 @@ func (disk *Disk) AzureName() string {
 	return disk.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (disk *Disk) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (disk *Disk) GetSpec() genruntime.ConvertibleSpec {
 	return &disk.Spec

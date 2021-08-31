@@ -76,6 +76,11 @@ func (virtualNetwork *VirtualNetwork) AzureName() string {
 	return virtualNetwork.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualNetwork *VirtualNetwork) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualNetwork *VirtualNetwork) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualNetwork.Spec

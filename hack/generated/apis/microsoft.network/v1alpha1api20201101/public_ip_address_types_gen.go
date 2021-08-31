@@ -76,6 +76,11 @@ func (publicIPAddress *PublicIPAddress) AzureName() string {
 	return publicIPAddress.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (publicIPAddress *PublicIPAddress) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (publicIPAddress *PublicIPAddress) GetSpec() genruntime.ConvertibleSpec {
 	return &publicIPAddress.Spec

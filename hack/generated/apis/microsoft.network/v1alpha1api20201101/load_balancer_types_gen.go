@@ -76,6 +76,11 @@ func (loadBalancer *LoadBalancer) AzureName() string {
 	return loadBalancer.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (loadBalancer *LoadBalancer) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (loadBalancer *LoadBalancer) GetSpec() genruntime.ConvertibleSpec {
 	return &loadBalancer.Spec

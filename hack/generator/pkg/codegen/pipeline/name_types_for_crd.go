@@ -179,11 +179,8 @@ func nameInnerTypes(
 
 		resourceName := astmodel.MakeTypeName(def.Name().PackageReference, nameHint)
 
-		// TODO: Should we have some better "clone" sort of thing in resource?
-		newResource := astmodel.NewResourceType(spec, status).WithOwner(it.Owner())
-		resource := astmodel.MakeTypeDefinition(resourceName, newResource)
-		resource = resource.WithDescription(getDescription(resourceName))
-
+		it = it.WithSpec(spec).WithStatus(status)
+		resource := astmodel.MakeTypeDefinition(resourceName, it).WithDescription(getDescription(resourceName))
 		resultTypes = append(resultTypes, resource)
 
 		return resource.Name(), nil

@@ -55,6 +55,11 @@ func (a *A) AzureName() string {
 	return a.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (a *A) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (a *A) GetSpec() genruntime.ConvertibleSpec {
 	return &a.Spec
@@ -225,6 +230,11 @@ var _ genruntime.KubernetesResource = &B{}
 // AzureName returns the Azure name of the resource
 func (b *B) AzureName() string {
 	return b.Spec.AzureName
+}
+
+// GetResourceKind returns the kind of the resource
+func (b *B) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
@@ -399,6 +409,11 @@ func (c *C) AzureName() string {
 	return c.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (c *C) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (c *C) GetSpec() genruntime.ConvertibleSpec {
 	return &c.Spec
@@ -569,6 +584,11 @@ var _ genruntime.KubernetesResource = &D{}
 // AzureName returns the Azure name of the resource
 func (d *D) AzureName() string {
 	return d.Spec.AzureName
+}
+
+// GetResourceKind returns the kind of the resource
+func (d *D) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource

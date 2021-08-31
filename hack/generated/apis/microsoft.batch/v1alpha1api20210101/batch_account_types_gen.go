@@ -76,6 +76,11 @@ func (batchAccount *BatchAccount) AzureName() string {
 	return batchAccount.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (batchAccount *BatchAccount) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (batchAccount *BatchAccount) GetSpec() genruntime.ConvertibleSpec {
 	return &batchAccount.Spec
