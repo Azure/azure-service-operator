@@ -340,7 +340,7 @@ func (objectType *ObjectType) Equals(t Type) bool {
 }
 
 // WithProperty creates a new ObjectType with another property attached to it
-// Properties are unique by name, so this can be used to Add and Replace a property
+// Properties are unique by name, so this can be used to Add and to Replace a property
 func (objectType *ObjectType) WithProperty(property *PropertyDefinition) *ObjectType {
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
