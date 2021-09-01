@@ -31,3 +31,15 @@ spec:
                 secretKeyRef:
                   name: aso-controller-settings
                   key: AZURE_SUBSCRIPTION_ID
+            - name: AZURE_TARGET_NAMESPACES
+              valueFrom:
+                secretKeyRef:
+                  name: aso-controller-settings
+                  key: AZURE_TARGET_NAMESPACES
+                  optional: true
+            # Used for setting the operator-namespace annotation (and
+            # for aad-pod-identity once we support it).
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace

@@ -9,6 +9,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/Azure/go-autorest/autorest/azure/auth"
@@ -17,6 +18,7 @@ import (
 	"k8s.io/klog/v2"
 	"k8s.io/klog/v2/klogr"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
 	"github.com/Azure/azure-service-operator/v2/internal/controller/armclient"
@@ -41,9 +43,16 @@ func main() {
 
 	ctrl.SetLogger(klogr.New())
 
+	targetNamespaces := parseTargetNamespaces(os.Getenv(targetNamespacesVar))
+	var cacheFunc cache.NewCacheFunc
+	if targetNamespaces != nil {
+		cacheFunc = cache.MultiNamespacedCacheBuilder(targetNamespaces)
+	}
+
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:             scheme,
 		MetricsBindAddress: metricsAddr,
+		NewCache:           cacheFunc,
 		LeaderElection:     enableLeaderElection,
 		LeaderElectionID:   "controllers-leader-election-azinfra-generated",
 		Port:               9443,
@@ -97,4 +106,18 @@ func makeControllerOptions(log logr.Logger) controllers.Options {
 			RateLimiter:             controllers.NewRateLimiter(1*time.Second, 1*time.Minute),
 		},
 	}
+}
+
+const targetNamespacesVar = "AZURE_TARGET_NAMESPACES"
+
+func parseTargetNamespaces(fromEnv string) []string {
+	if len(strings.TrimSpace(fromEnv)) == 0 {
+		return nil
+	}
+	items := strings.Split(fromEnv, ",")
+	// Remove any whitespace used to separate items.
+	for i, item := range items {
+		items[i] = strings.TrimSpace(item)
+	}
+	return items
 }
