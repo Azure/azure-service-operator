@@ -16,7 +16,9 @@ type Disks_SpecARM struct {
 	//Location: Location to deploy resource to
 	Location string `json:"location,omitempty"`
 
-	//Name: Name of the resource
+	//Name: The name of the managed disk that is being created. The name can't be
+	//changed after the disk is created. Supported characters for the name are a-z,
+	//A-Z, 0-9 and _. The maximum name length is 80 characters.
 	Name string `json:"name"`
 
 	//Properties: Disk resource properties.

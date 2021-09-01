@@ -15,16 +15,20 @@ type BatchAccounts_SpecARM struct {
 	//configuration.
 	Identity *BatchAccountIdentityARM `json:"identity,omitempty"`
 
-	//Location: Location to deploy resource to
+	//Location: The region in which to create the account.
 	Location string `json:"location,omitempty"`
 
-	//Name: Name of the resource
+	//Name: A name for the Batch account which must be unique within the region. Batch
+	//account names must be between 3 and 24 characters in length and must use only
+	//numbers and lowercase letters. This name is used as part of the DNS name that is
+	//used to access the Batch service in the region in which the account is created.
+	//For example: http://accountname.region.batch.azure.com/.
 	Name string `json:"name"`
 
 	//Properties: The properties of a Batch account.
 	Properties BatchAccountCreatePropertiesARM `json:"properties"`
 
-	//Tags: Name-value pairs to add to the resource
+	//Tags: The user-specified tags associated with the account.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	//Type: Resource type

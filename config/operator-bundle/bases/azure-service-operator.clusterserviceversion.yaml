@@ -307,41 +307,7 @@ spec:
 
     Before you begin, verify you're running the Azure CLI version 2.0.53 or later. Run `az --version` to find the version. If you need to install or upgrade, see [Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
 
-    1. Azure Service Operator requires self-signed certificates for CRD Conversion Webhooks. We can generate these self-signed certificates by installing the [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) project into our cluster by running the following command:
-        ```sh
-        kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
-        ```
-        You can use the below command to check if the cert-manager pods are ready. The cert-manager pods should be running before proceeding to the next step.
-        ```sh
-        kubectl rollout status -n cert-manager deploy/cert-manager-webhook
-        ```
-
-    2. After cert-manager has been successfully installed, create the `Issuer` and `Certificate` cert-manager resources:
-
-        ```yaml
-        apiVersion: cert-manager.io/v1alpha2
-        kind: Issuer
-        metadata:
-          name: azureoperator-selfsigned-issuer
-          namespace: operators
-        spec:
-          selfSigned: {}
-        ---
-        apiVersion: cert-manager.io/v1alpha2
-        kind: Certificate
-        metadata:
-          name: azureoperator-serving-cert
-          namespace: operators
-        spec:
-          dnsNames:
-          - azureoperator-webhook-service.operators.svc
-          - azureoperator-webhook-service.operators.svc.cluster.local
-          issuerRef:
-            kind: Issuer
-            name: azureoperator-selfsigned-issuer
-          secretName: webhook-server-cert
-        ```
-    3. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
+    1. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
 
         First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
         ```yaml
@@ -354,7 +320,7 @@ spec:
         az account show
         ```
 
-    4. Next, we'll create a Service Principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](https://github.com/Azure/azure-service-operator/blob/master/docs/v1/howto/managedidentity.md).
+    2. Next, we'll create a Service Principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](https://github.com/Azure/azure-service-operator/blob/master/docs/v1/howto/managedidentity.md).
 
         ```sh
         az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
@@ -370,7 +336,7 @@ spec:
         "tenant": "xxxxxxxxxxxxx"
         ```
 
-    5.  Once you have created a Service Principal, gather the following values:
+    3.  Once you have created a Service Principal, gather the following values:
 
         `AZURE_TENANT_ID` is the Tenant ID from Step 1.
 
@@ -382,7 +348,7 @@ spec:
 
         `AZURE_CLOUD_ENV` is the Azure Environment you'd like to use, i.e. AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud.
 
-    6.  Set those values in a `Secret` called `azureoperatorsettings` within the `operators` Namespace:
+    4.  Set those values in a `Secret` called `azureoperatorsettings` within the `operators` Namespace:
         ```yaml
         apiVersion: v1
         kind: Secret
@@ -397,7 +363,7 @@ spec:
           AZURE_CLOUD_ENV: <your-azure-cloud-environment>
         ```
 
-    7. Now you can proceed to install the Azure Service Operator to the `operators` Namespace via the Install button on the top right of this page. After the operator is installed, you will then see the Azure Service Operator pod running in your cluster:
+    5. Now you can proceed to install the Azure Service Operator to the `operators` Namespace via the Install button on the top right of this page. After the operator is installed, you will then see the Azure Service Operator pod running in your cluster:
 
         ```console
         $ kubectl get pods -n operators

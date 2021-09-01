@@ -2868,7 +2868,7 @@ type ResourceNavigationLink_Status struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	//Id: Resource navigation link identifier.
 	Id *string `json:"id,omitempty"`
 
 	//Link: Link to the external resource.

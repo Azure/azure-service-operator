@@ -50,7 +50,7 @@ type RedisParameters struct {
 	//enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
-	//Location: Location to deploy resource to
+	//Location: The geo-location where the resource lives
 	Location string `json:"location,omitempty"`
 
 	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
@@ -58,7 +58,7 @@ type RedisParameters struct {
 	MinimumTlsVersion *RedisCreatePropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: Name of the resource
+	//Name: The name of the Redis cache.
 	Name string `json:"name"`
 
 	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
