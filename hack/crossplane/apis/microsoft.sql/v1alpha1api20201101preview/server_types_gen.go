@@ -134,7 +134,7 @@ type ServersParameters struct {
 	MinimalTlsVersion *string `json:"minimalTlsVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: Name of the resource
+	//Name: The name of the server.
 	Name string `json:"name"`
 
 	//PrimaryUserAssignedIdentityId: The resource id of a user assigned identity to be

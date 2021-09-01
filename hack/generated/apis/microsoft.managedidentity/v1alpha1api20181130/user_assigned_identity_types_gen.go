@@ -565,7 +565,7 @@ type UserAssignedIdentities_Spec struct {
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//Location: Location to deploy resource to
+	//Location: The Azure region where the identity lives.
 	Location string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
