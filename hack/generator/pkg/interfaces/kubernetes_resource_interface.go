@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package astmodel
+package interfaces
 
 import (
 	"fmt"
@@ -13,43 +13,37 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
-)
-
-// These are some magical field names which we're going to use or generate
-const (
-	AzureNameProperty = "AzureName"
-	SetAzureNameFunc  = "SetAzureName"
-	OwnerProperty     = "Owner"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // AddKubernetesResourceInterfaceImpls adds the required interfaces for
 // the resource to be a Kubernetes resource
 func AddKubernetesResourceInterfaceImpls(
-	resourceName TypeName,
-	r *ResourceType,
-	idFactory IdentifierFactory,
-	types Types) (*ResourceType, error) {
+	resourceName astmodel.TypeName,
+	r *astmodel.ResourceType,
+	idFactory astmodel.IdentifierFactory,
+	types astmodel.Types) (*astmodel.ResourceType, error) {
 
 	resolvedSpec, err := types.FullyResolve(r.SpecType())
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to resolve resource spec type")
 	}
 
-	spec, ok := AsObjectType(resolvedSpec)
+	spec, ok := astmodel.AsObjectType(resolvedSpec)
 	if !ok {
 		return nil, errors.Errorf("resource spec %q did not contain an object", r.SpecType().String())
 	}
 
 	// Check the spec first to ensure it looks how we expect
-	ownerProperty := idFactory.CreatePropertyName(OwnerProperty, Exported)
+	ownerProperty := idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported)
 	_, ok = spec.Property(ownerProperty)
 	if !ok {
 		return nil, errors.Errorf("resource spec doesn't have %q property", ownerProperty)
 	}
 
-	azureNameProp, ok := spec.Property(AzureNameProperty)
+	azureNameProp, ok := spec.Property(astmodel.AzureNameProperty)
 	if !ok {
-		return nil, errors.Errorf("resource spec doesn't have %q property", AzureNameProperty)
+		return nil, errors.Errorf("resource spec doesn't have %q property", astmodel.AzureNameProperty)
 	}
 
 	getNameFunction, setNameFunction, err := getAzureNameFunctionsForType(&r, spec, azureNameProp.PropertyType(), types)
@@ -57,24 +51,22 @@ func AddKubernetesResourceInterfaceImpls(
 		return nil, err
 	}
 
-	getAzureNameProperty := &objectFunction{
-		name:             AzureNameProperty,
-		o:                spec,
-		idFactory:        idFactory,
-		asFunc:           getNameFunction,
-		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
-	}
+	getAzureNameProperty := astmodel.NewObjectFunction(
+		astmodel.AzureNameProperty,
+		spec,
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference),
+		idFactory,
+		getNameFunction)
 
-	getOwnerProperty := &objectFunction{
-		name:             OwnerProperty,
-		o:                spec,
-		idFactory:        idFactory,
-		asFunc:           ownerFunction,
-		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
-	}
+	getOwnerProperty := astmodel.NewObjectFunction(
+		astmodel.OwnerProperty,
+		spec,
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference),
+		idFactory,
+		ownerFunction)
 
-	r = r.WithInterface(NewInterfaceImplementation(
-		MakeTypeName(GenRuntimeReference, "KubernetesResource"),
+	r = r.WithInterface(astmodel.NewInterfaceImplementation(
+		astmodel.KubernetesResourceType,
 		getAzureNameProperty,
 		getOwnerProperty))
 
@@ -88,29 +80,28 @@ func AddKubernetesResourceInterfaceImpls(
 			return nil, err
 		}
 
-		specObj := spec.(*ObjectType)
+		specObj := spec.(*astmodel.ObjectType)
 
 		r = r.WithSpec(specObj.WithFunction(
-			&objectFunction{
-				name:             SetAzureNameFunc,
-				o:                specObj,
-				idFactory:        idFactory,
-				asFunc:           setNameFunction,
-				requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
-			}))
+			astmodel.NewObjectFunction(
+				astmodel.SetAzureNameFunc,
+				specObj,
+				astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference),
+				idFactory,
+				setNameFunction)))
 	}
 
 	// Add defaults
-	defaulterBuilder := NewDefaulterBuilder(resourceName, r, idFactory)
+	defaulterBuilder := astmodel.NewDefaulterBuilder(resourceName, r, idFactory)
 	if setNameFunction != nil {
-		defaulterBuilder.AddDefault(NewDefaultAzureNameFunction(r, idFactory))
+		defaulterBuilder.AddDefault(astmodel.NewDefaultAzureNameFunction(r, idFactory))
 	}
 	r = r.WithInterface(defaulterBuilder.ToInterfaceImplementation())
 
 	// Add validations
-	validatorBuilder := NewValidatorBuilder(resourceName, r, idFactory)
-	validatorBuilder.AddValidation(ValidationKindCreate, NewValidateResourceReferencesFunction(r, idFactory))
-	validatorBuilder.AddValidation(ValidationKindUpdate, NewValidateResourceReferencesFunction(r, idFactory))
+	validatorBuilder := astmodel.NewValidatorBuilder(resourceName, r, idFactory)
+	validatorBuilder.AddValidation(astmodel.ValidationKindCreate, astmodel.NewValidateResourceReferencesFunction(r, idFactory))
+	validatorBuilder.AddValidation(astmodel.ValidationKindUpdate, astmodel.NewValidateResourceReferencesFunction(r, idFactory))
 
 	r = r.WithInterface(validatorBuilder.ToInterfaceImplementation())
 
@@ -119,18 +110,18 @@ func AddKubernetesResourceInterfaceImpls(
 
 // note that this can, as a side-effect, update the resource type
 // it is a bit ugly!
-func getAzureNameFunctionsForType(r **ResourceType, spec *ObjectType, t Type, types Types) (objectFunctionHandler, objectFunctionHandler, error) {
+func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.ObjectType, t astmodel.Type, types astmodel.Types) (astmodel.ObjectFunctionHandler, astmodel.ObjectFunctionHandler, error) {
 	// handle different types of AzureName property
 	switch azureNamePropType := t.(type) {
-	case *ValidatedType:
-		if !azureNamePropType.ElementType().Equals(StringType) {
+	case *astmodel.ValidatedType:
+		if !azureNamePropType.ElementType().Equals(astmodel.StringType) {
 			return nil, nil, errors.Errorf("unable to handle non-string validated types in AzureName property")
 		}
 
-		validations := azureNamePropType.Validations().(StringValidations)
+		validations := azureNamePropType.Validations().(astmodel.StringValidations)
 		if validations.Pattern != nil {
 			if validations.Pattern.String() == "^.*/default$" {
-				*r = (*r).WithSpec(spec.WithoutProperty(AzureNameProperty))
+				*r = (*r).WithSpec(spec.WithoutProperty(astmodel.AzureNameProperty))
 				return fixedValueGetAzureNameFunction("default"), nil, nil // no SetAzureName for this case
 			} else {
 				// ignoring for now:
@@ -143,15 +134,15 @@ func getAzureNameFunctionsForType(r **ResourceType, spec *ObjectType, t Type, ty
 			return getStringAzureNameFunction, setStringAzureNameFunction, nil
 		}
 
-	case TypeName:
+	case astmodel.TypeName:
 		// resolve property type if it is a typename
 		resolvedPropType, err := types.FullyResolve(azureNamePropType)
 		if err != nil {
 			return nil, nil, errors.Wrapf(err, "unable to resolve type of resource Name property: %s", azureNamePropType.String())
 		}
 
-		if t, ok := resolvedPropType.(*EnumType); ok {
-			if !t.BaseType().Equals(StringType) {
+		if t, ok := resolvedPropType.(*astmodel.EnumType); ok {
+			if !t.BaseType().Equals(astmodel.StringType) {
 				return nil, nil, errors.Errorf("unable to handle non-string enum base type in Name property")
 			}
 
@@ -160,7 +151,7 @@ func getAzureNameFunctionsForType(r **ResourceType, spec *ObjectType, t Type, ty
 				// if there is only one possible value,
 				// we make an AzureName function that returns it, and do not
 				// provide an AzureName property on the spec
-				*r = (*r).WithSpec(spec.WithoutProperty(AzureNameProperty))
+				*r = (*r).WithSpec(spec.WithoutProperty(astmodel.AzureNameProperty))
 				return fixedValueGetAzureNameFunction(options[0].Value), nil, nil // no SetAzureName for this case
 			} else {
 				// with multiple values, provide an AzureName function that casts from the
@@ -171,8 +162,8 @@ func getAzureNameFunctionsForType(r **ResourceType, spec *ObjectType, t Type, ty
 			return nil, nil, errors.Errorf("unable to produce AzureName()/SetAzureName() for Name property with type %s", resolvedPropType.String())
 		}
 
-	case *PrimitiveType:
-		if !azureNamePropType.Equals(StringType) {
+	case *astmodel.PrimitiveType:
+		if !azureNamePropType.Equals(astmodel.StringType) {
 			return nil, nil, errors.Errorf("cannot use type %s as type of AzureName property", azureNamePropType.String())
 		}
 
@@ -185,9 +176,9 @@ func getAzureNameFunctionsForType(r **ResourceType, spec *ObjectType, t Type, ty
 
 // getEnumAzureNameFunction adds an AzureName() function that casts the AzureName property
 // with an enum value to a string
-func getEnumAzureNameFunction(enumType TypeName) objectFunctionHandler {
-	return func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := f.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+func getEnumAzureNameFunction(enumType astmodel.TypeName) astmodel.ObjectFunctionHandler {
+	return func(f *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 		receiverType := receiver.AsType(codeGenerationContext)
 
 		fn := &astbuilder.FuncDetails{
@@ -211,7 +202,7 @@ func getEnumAzureNameFunction(enumType TypeName) objectFunctionHandler {
 										X:   dst.NewIdent(receiverIdent),
 										Sel: dst.NewIdent("Spec"),
 									},
-									Sel: dst.NewIdent(AzureNameProperty),
+									Sel: dst.NewIdent(astmodel.AzureNameProperty),
 								},
 							},
 						},
@@ -228,14 +219,14 @@ func getEnumAzureNameFunction(enumType TypeName) objectFunctionHandler {
 
 // setEnumAzureNameFunction returns a function that sets the AzureName property to the result of casting
 // the argument string to the given enum type
-func setEnumAzureNameFunction(enumType TypeName) objectFunctionHandler {
-	return func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := f.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+func setEnumAzureNameFunction(enumType astmodel.TypeName) astmodel.ObjectFunctionHandler {
+	return func(f *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 		receiverType := receiver.AsType(codeGenerationContext)
 
 		azureNameProp := &dst.SelectorExpr{
 			X:   dst.NewIdent(receiverIdent),
-			Sel: dst.NewIdent(AzureNameProperty),
+			Sel: dst.NewIdent(astmodel.AzureNameProperty),
 		}
 
 		enumTypeAST := dst.NewIdent(enumType.Name())
@@ -263,7 +254,7 @@ func setEnumAzureNameFunction(enumType TypeName) objectFunctionHandler {
 }
 
 // fixedValueGetAzureNameFunction adds an AzureName() function that returns a fixed value
-func fixedValueGetAzureNameFunction(fixedValue string) objectFunctionHandler {
+func fixedValueGetAzureNameFunction(fixedValue string) astmodel.ObjectFunctionHandler {
 	// ensure fixedValue is quoted. This is always the case with enum values we pass,
 	// but let's be safe:
 	if len(fixedValue) == 0 {
@@ -274,8 +265,8 @@ func fixedValueGetAzureNameFunction(fixedValue string) objectFunctionHandler {
 		fixedValue = fmt.Sprintf("%q", fixedValue)
 	}
 
-	return func(f *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := f.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+	return func(f *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 		receiverType := receiver.AsType(codeGenerationContext)
 
 		fn := &astbuilder.FuncDetails{
@@ -306,13 +297,13 @@ func fixedValueGetAzureNameFunction(fixedValue string) objectFunctionHandler {
 }
 
 // IsKubernetesResourceProperty returns true if the supplied property name is one of our "magical" names
-func IsKubernetesResourceProperty(name PropertyName) bool {
-	return name == AzureNameProperty || name == OwnerProperty
+func IsKubernetesResourceProperty(name astmodel.PropertyName) bool {
+	return name == astmodel.AzureNameProperty || name == astmodel.OwnerProperty
 }
 
 // ownerFunction returns a function that returns the owner of the resource
-func ownerFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+func ownerFunction(k *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -325,7 +316,7 @@ func ownerFunction(k *objectFunction, codeGenerationContext *CodeGenerationConte
 			{
 				Type: &dst.StarExpr{
 					X: &dst.SelectorExpr{
-						X:   dst.NewIdent(GenRuntimePackageName),
+						X:   dst.NewIdent(astmodel.GenRuntimePackageName),
 						Sel: dst.NewIdent("ResourceReference"),
 					},
 				},
@@ -371,7 +362,7 @@ func lookupGroupAndKindStmt(
 		Rhs: []dst.Expr{
 			&dst.CallExpr{
 				Fun: &dst.SelectorExpr{
-					X:   dst.NewIdent(GenRuntimePackageName),
+					X:   dst.NewIdent(astmodel.GenRuntimePackageName),
 					Sel: dst.NewIdent("LookupOwnerGroupKind"),
 				},
 				Args: []dst.Expr{
@@ -395,7 +386,7 @@ func createResourceReference(
 	return astbuilder.AddrOf(
 		&dst.CompositeLit{
 			Type: &dst.SelectorExpr{
-				X:   dst.NewIdent(GenRuntimePackageName),
+				X:   dst.NewIdent(astmodel.GenRuntimePackageName),
 				Sel: dst.NewIdent("ResourceReference"),
 			},
 			Elts: []dst.Expr{
@@ -419,7 +410,7 @@ func createResourceReference(
 					Value: &dst.SelectorExpr{
 						X: &dst.SelectorExpr{
 							X:   specSelector,
-							Sel: dst.NewIdent(OwnerProperty),
+							Sel: dst.NewIdent(astmodel.OwnerProperty),
 						},
 						Sel: dst.NewIdent("Name"),
 					},
@@ -430,8 +421,8 @@ func createResourceReference(
 
 // setStringAzureNameFunction returns a function that sets the Name property of
 // the resource spec to the argument string
-func setStringAzureNameFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+func setStringAzureNameFunction(k *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
@@ -443,7 +434,7 @@ func setStringAzureNameFunction(k *objectFunction, codeGenerationContext *CodeGe
 		Body: []dst.Stmt{
 			astbuilder.QualifiedAssignment(
 				dst.NewIdent(receiverIdent),
-				AzureNameProperty,
+				astmodel.AzureNameProperty,
 				token.ASSIGN,
 				dst.NewIdent("azureName")),
 		},
@@ -455,8 +446,8 @@ func setStringAzureNameFunction(k *objectFunction, codeGenerationContext *CodeGe
 }
 
 // getStringAzureNameFunction returns a function that returns the Name property of the resource spec
-func getStringAzureNameFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+func getStringAzureNameFunction(k *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
@@ -478,7 +469,7 @@ func getStringAzureNameFunction(k *objectFunction, codeGenerationContext *CodeGe
 							X:   dst.NewIdent(receiverIdent),
 							Sel: dst.NewIdent("Spec"),
 						},
-						Sel: dst.NewIdent(AzureNameProperty),
+						Sel: dst.NewIdent(astmodel.AzureNameProperty),
 					},
 				},
 			},
