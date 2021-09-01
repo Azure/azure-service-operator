@@ -376,16 +376,16 @@ install-tools:
     CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 
 # Operator-sdk release version
-RELEASE_VERSION ?= v1.0.1
+RELEASE_VERSION ?= v1.11.0
 
 .PHONY: install-operator-sdk
 install-operator-sdk:
 ifeq ($(shell uname -s), Darwin)
-	curl -LO https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin
-	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin
+	curl -LO https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk_darwin_amd64
+	chmod +x operator-sdk_darwin_amd64 && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk_darwin_amd64 /usr/local/bin/operator-sdk && rm operator-sdk_darwin_amd64
 else
-	curl -LO https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
-	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
+	curl -LO https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk_linux_amd64
+	chmod +x operator-sdk_linux_amd64 && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk_linux_amd64 /usr/local/bin/operator-sdk && rm operator-sdk_linux_amd64
 endif
 
 PREVIOUS_BUNDLE_VERSION ?= 1.0.27207
@@ -397,10 +397,16 @@ generate-operator-bundle: manifests
 	@echo "Previous bundle version is $(PREVIOUS_BUNDLE_VERSION)"
 	rm -rf "bundle/manifests"
 	kustomize build config/operator-bundle | operator-sdk generate bundle --version $(LATEST_TAG) --channels stable --default-channel stable --overwrite --kustomize-dir config/operator-bundle
-	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
-	scripts/add-openshift-cert-handling.sh
+	# Building the docker bundle requires a tests/scorecard directory.
+	mkdir -p bundle/tests/scorecard
+	# Remove the webhook service - OLM will create one when installing
+	# the bundle.
+	rm bundle/manifests/azureoperator-webhook-service_v1_service.yaml
 	# Inject the container reference into the bundle.
 	scripts/inject-container-reference.sh "$(PUBLIC_REPO):$(LATEST_TAG)"
+	# Update webhooks to use operator namespace and remove
+	# cert-manager annotations.
+	scripts/update-webhook-references-in-operator-bundle.sh
 	# Include the replaces field with the old version.
 	yq eval -i ".spec.replaces = \"azure-service-operator.v$(PREVIOUS_BUNDLE_VERSION)\"" bundle/manifests/azure-service-operator.clusterserviceversion.yaml
 	# Rename the csv to simplify adding to the community-operators repo for a PR

@@ -305,7 +305,7 @@ type ServersDatabasesParameters struct {
 	MinCapacity *float64 `json:"minCapacity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: Name of the resource
+	//Name: The name of the database.
 	Name string `json:"name"`
 
 	//ReadScale: The state of read-only routing. If enabled, connections that have
