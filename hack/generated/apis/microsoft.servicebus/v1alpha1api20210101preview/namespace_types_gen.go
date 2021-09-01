@@ -240,7 +240,7 @@ type Namespaces_Spec struct {
 	//Keys
 	Identity *Identity `json:"identity,omitempty"`
 
-	//Location: Location to deploy resource to
+	//Location: The Geo-location where the resource lives
 	Location string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required

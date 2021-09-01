@@ -13,7 +13,8 @@ type StorageAccountsBlobServices_SpecARM struct {
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: Name of the resource
+	//Name: The name of the blob Service within the specified storage account. Blob
+	//Service Name must be 'default'
 	Name string `json:"name"`
 
 	//Properties: The properties of a storage account’s Blob service.
