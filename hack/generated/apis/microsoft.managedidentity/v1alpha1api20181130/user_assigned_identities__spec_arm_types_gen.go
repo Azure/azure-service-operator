@@ -10,10 +10,10 @@ type UserAssignedIdentities_SpecARM struct {
 	//on the template
 	APIVersion UserAssignedIdentitiesSpecAPIVersion `json:"apiVersion"`
 
-	//Location: Location to deploy resource to
+	//Location: The Azure region where the identity lives.
 	Location string `json:"location,omitempty"`
 
-	//Name: Name of the resource
+	//Name: The name of the identity resource.
 	Name string `json:"name"`
 
 	//Tags: Name-value pairs to add to the resource
