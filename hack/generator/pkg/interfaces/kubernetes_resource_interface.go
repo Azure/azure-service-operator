@@ -185,30 +185,9 @@ func getEnumAzureNameFunction(enumType astmodel.TypeName) astmodel.ObjectFunctio
 			Name:          methodName,
 			ReceiverIdent: receiverIdent,
 			ReceiverType:  &dst.StarExpr{X: receiverType},
-			Body: []dst.Stmt{
-				&dst.ReturnStmt{
-					Decs: dst.ReturnStmtDecorations{
-						NodeDecs: dst.NodeDecs{
-							Before: dst.NewLine,
-						},
-					},
-					Results: []dst.Expr{
-						&dst.CallExpr{
-							// cast from the enum value to string
-							Fun: dst.NewIdent("string"),
-							Args: []dst.Expr{
-								&dst.SelectorExpr{
-									X: &dst.SelectorExpr{
-										X:   dst.NewIdent(receiverIdent),
-										Sel: dst.NewIdent("Spec"),
-									},
-									Sel: dst.NewIdent(astmodel.AzureNameProperty),
-								},
-							},
-						},
-					},
-				},
-			},
+			Body: astbuilder.Statements(
+				astbuilder.Returns(
+					astbuilder.CallFunc("string", astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec", astmodel.AzureNameProperty)))),
 		}
 
 		fn.AddComments(fmt.Sprintf("returns the Azure name of the resource (string representation of %s)", enumType.String()))
@@ -224,12 +203,7 @@ func setEnumAzureNameFunction(enumType astmodel.TypeName) astmodel.ObjectFunctio
 		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 		receiverType := receiver.AsType(codeGenerationContext)
 
-		azureNameProp := &dst.SelectorExpr{
-			X:   dst.NewIdent(receiverIdent),
-			Sel: dst.NewIdent(astmodel.AzureNameProperty),
-		}
-
-		enumTypeAST := dst.NewIdent(enumType.Name())
+		azureNameProp := astbuilder.Selector(dst.NewIdent(receiverIdent), astmodel.AzureNameProperty)
 
 		fn := &astbuilder.FuncDetails{
 			Name:          methodName,
@@ -238,11 +212,7 @@ func setEnumAzureNameFunction(enumType astmodel.TypeName) astmodel.ObjectFunctio
 			Body: []dst.Stmt{
 				astbuilder.SimpleAssignment(
 					azureNameProp,
-					&dst.CallExpr{
-						// cast from the string value to the enum
-						Fun:  enumTypeAST,
-						Args: []dst.Expr{dst.NewIdent("azureName")},
-					},
+					astbuilder.CallFunc(enumType.Name(), dst.NewIdent("azureName")),
 				),
 			},
 		}
