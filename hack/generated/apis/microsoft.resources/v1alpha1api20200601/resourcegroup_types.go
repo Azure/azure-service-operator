@@ -141,7 +141,9 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.KnownResourc
 func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*ResourceGroupStatus)
 	if !ok {
-		return errors.Errorf("cannot convert ResourceGroupStatus to %T", destination)
+		return errors.Errorf(
+			"cannot convert ResourceGroupStatus, expected destination to be a *ResourceGroupStatus but received %T",
+			destination)
 	}
 
 	dst.ID = status.ID
@@ -166,7 +168,9 @@ func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.Conver
 func (status *ResourceGroupStatus) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	src, ok := source.(*ResourceGroupStatus)
 	if !ok {
-		return errors.Errorf("cannot convert ResourceGroupStatus from %T", source)
+		return errors.Errorf(
+			"cannot convert ResourceGroupStatus, expected source to be a *ResourceGroupStatus but received %T",
+			source)
 	}
 
 	status.ID = src.ID
@@ -246,7 +250,9 @@ func (spec *ResourceGroupSpec) SetAzureName(azureName string) { spec.AzureName =
 func (spec *ResourceGroupSpec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*ResourceGroupSpec)
 	if !ok {
-		return errors.Errorf("cannot convert ResourceGroupSpec to %T", destination)
+		return errors.Errorf(
+			"cannot convert ResourceGroupSpec, expected destination to be a *ResouceGroupSpec but received %T",
+			destination)
 	}
 
 	dst.AzureName = spec.AzureName
@@ -265,7 +271,9 @@ func (spec *ResourceGroupSpec) ConvertSpecTo(destination genruntime.ConvertibleS
 func (spec *ResourceGroupSpec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*ResourceGroupSpec)
 	if !ok {
-		return errors.Errorf("cannot convert ResourceGroupSpec from %T", source)
+		return errors.Errorf(
+			"cannot convert ResourceGroupSpec, expected source to be a *ResourceGroupSpec but received %T",
+			source)
 	}
 
 	spec.AzureName = src.AzureName
