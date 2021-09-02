@@ -14,6 +14,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"golang.org/x/time/rate"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/conversion"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +44,7 @@ type GenericReconciler struct {
 	ResourceResolver     *genruntime.Resolver
 	Recorder             record.EventRecorder
 	Name                 string
+	PodNamespace         string
 	GVK                  schema.GroupVersionKind
 	Controller           controller.Controller
 	RequeueDelayOverride time.Duration
@@ -58,6 +60,7 @@ type Options struct {
 	// options specific to our controller
 	RequeueDelay         time.Duration
 	CreateDeploymentName func(obj metav1.Object) (string, error)
+	PodNamespace         string
 }
 
 func (options *Options) setDefaults() {
@@ -135,6 +138,7 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 		KubeClient:           kubeClient,
 		ResourceResolver:     genruntime.NewResolver(kubeClient, reconciledResourceLookup),
 		Name:                 t.Name(),
+		PodNamespace:         options.PodNamespace,
 		Log:                  options.Log.WithName(controllerName),
 		Recorder:             mgr.GetEventRecorderFor(controllerName),
 		GVK:                  gvk,
@@ -179,6 +183,8 @@ func MakeResourceGVKLookup(mgr ctrl.Manager, objs []client.Object) (map[schema.G
 	return result, nil
 }
 
+const namespaceAnnotation = "azure.microsoft.com/operator-namespace"
+
 // Reconcile will take state in K8s and apply it to Azure
 func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	obj, err := gr.KubeClient.GetObjectOrDefault(ctx, req.NamespacedName, gr.GVK)
@@ -210,6 +216,27 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		"kind", fmt.Sprintf("%T", obj),
 		"resourceVersion", obj.GetResourceVersion(),
 		"generation", obj.GetGeneration())
+
+	// Ensure the resource is tagged with the operator's namespace.
+	annotations := metaObj.GetAnnotations()
+	reconcilerNamespace := annotations[namespaceAnnotation]
+	if reconcilerNamespace != gr.PodNamespace && reconcilerNamespace != "" {
+		// We don't want to get into a fight with another operator -
+		// so if we see another operator already has this object leave
+		// it alone. This will do the right thing in the case of two
+		// operators trying to manage the same namespace. It makes
+		// moving objects between namespaces or changing which
+		// operator owns a namespace fiddlier (since you'd need to
+		// remove the annotation) but those operations are likely to
+		// be rare.
+		message := fmt.Sprintf("Operators in %q and %q are both configured to manage this resource", gr.PodNamespace, reconcilerNamespace)
+		gr.Recorder.Event(obj, corev1.EventTypeWarning, "Overlap", message)
+		return ctrl.Result{}, gr.KubeClient.Client.Update(ctx, obj)
+	} else if reconcilerNamespace == "" && gr.PodNamespace != "" {
+		// Set the annotation to this operator's namespace and go around again.
+		genruntime.AddAnnotation(metaObj, namespaceAnnotation, gr.PodNamespace)
+		return ctrl.Result{}, gr.KubeClient.Client.Update(ctx, obj)
+	}
 
 	// TODO: We need some factory-lookup here
 	reconciler := reconcilers.NewAzureDeploymentReconciler(
