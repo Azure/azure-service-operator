@@ -78,6 +78,16 @@ func (networkSecurityGroup *NetworkSecurityGroup) AzureName() string {
 	return networkSecurityGroup.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (networkSecurityGroup *NetworkSecurityGroup) GetSpec() genruntime.ConvertibleSpec {
+	return &networkSecurityGroup.Spec
+}
+
+// GetStatus returns the current status of this resource
+func (networkSecurityGroup *NetworkSecurityGroup) GetStatus() genruntime.ConvertibleStatus {
+	return &networkSecurityGroup.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (networkSecurityGroup *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroup.Spec)

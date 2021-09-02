@@ -44,6 +44,16 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) AzureName() string {
 	return virtualNetworksSubnet.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (virtualNetworksSubnet *VirtualNetworksSubnet) GetSpec() genruntime.ConvertibleSpec {
+	return &virtualNetworksSubnet.Spec
+}
+
+// GetStatus returns the current status of this resource
+func (virtualNetworksSubnet *VirtualNetworksSubnet) GetStatus() genruntime.ConvertibleStatus {
+	return &virtualNetworksSubnet.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworksSubnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksSubnet.Spec)

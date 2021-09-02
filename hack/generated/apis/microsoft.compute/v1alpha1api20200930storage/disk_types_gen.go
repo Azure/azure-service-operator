@@ -45,6 +45,16 @@ func (disk *Disk) AzureName() string {
 	return disk.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (disk *Disk) GetSpec() genruntime.ConvertibleSpec {
+	return &disk.Spec
+}
+
+// GetStatus returns the current status of this resource
+func (disk *Disk) GetStatus() genruntime.ConvertibleStatus {
+	return &disk.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (disk *Disk) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(disk.Spec)

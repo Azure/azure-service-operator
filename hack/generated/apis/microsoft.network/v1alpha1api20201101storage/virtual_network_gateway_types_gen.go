@@ -44,6 +44,16 @@ func (virtualNetworkGateway *VirtualNetworkGateway) AzureName() string {
 	return virtualNetworkGateway.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (virtualNetworkGateway *VirtualNetworkGateway) GetSpec() genruntime.ConvertibleSpec {
+	return &virtualNetworkGateway.Spec
+}
+
+// GetStatus returns the current status of this resource
+func (virtualNetworkGateway *VirtualNetworkGateway) GetStatus() genruntime.ConvertibleStatus {
+	return &virtualNetworkGateway.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworkGateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworkGateway.Spec)

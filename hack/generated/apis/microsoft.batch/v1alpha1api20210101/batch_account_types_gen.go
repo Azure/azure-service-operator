@@ -76,6 +76,16 @@ func (batchAccount *BatchAccount) AzureName() string {
 	return batchAccount.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (batchAccount *BatchAccount) GetSpec() genruntime.ConvertibleSpec {
+	return &batchAccount.Spec
+}
+
+// GetStatus returns the current status of this resource
+func (batchAccount *BatchAccount) GetStatus() genruntime.ConvertibleStatus {
+	return &batchAccount.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (batchAccount *BatchAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(batchAccount.Spec)

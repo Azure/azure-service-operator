@@ -44,6 +44,16 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Azur
 	return networkSecurityGroupsSecurityRule.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetSpec() genruntime.ConvertibleSpec {
+	return &networkSecurityGroupsSecurityRule.Spec
+}
+
+// GetStatus returns the current status of this resource
+func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetStatus() genruntime.ConvertibleStatus {
+	return &networkSecurityGroupsSecurityRule.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroupsSecurityRule.Spec)

@@ -76,6 +76,16 @@ func (namespacesQueue *NamespacesQueue) AzureName() string {
 	return namespacesQueue.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (namespacesQueue *NamespacesQueue) GetSpec() genruntime.ConvertibleSpec {
+	return &namespacesQueue.Spec
+}
+
+// GetStatus returns the current status of this resource
+func (namespacesQueue *NamespacesQueue) GetStatus() genruntime.ConvertibleStatus {
+	return &namespacesQueue.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (namespacesQueue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesQueue.Spec)

@@ -78,6 +78,16 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	return storageAccountsBlobServicesContainer.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetSpec() genruntime.ConvertibleSpec {
+	return &storageAccountsBlobServicesContainer.Spec
+}
+
+// GetStatus returns the current status of this resource
+func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetStatus() genruntime.ConvertibleStatus {
+	return &storageAccountsBlobServicesContainer.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccountsBlobServicesContainer.Spec)
