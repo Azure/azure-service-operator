@@ -1465,7 +1465,7 @@ type Disks_Spec struct {
 var _ genruntime.ARMTransformer = &Disks_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (disksSpec *Disks_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (disksSpec *Disks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if disksSpec == nil {
 		return nil, nil
 	}
@@ -1476,7 +1476,7 @@ func (disksSpec *Disks_Spec) ConvertToARM(name string, resolvedReferences genrun
 
 	// Set property ‘ExtendedLocation’:
 	if disksSpec.ExtendedLocation != nil {
-		extendedLocationARM, err := (*disksSpec.ExtendedLocation).ConvertToARM(name, resolvedReferences)
+		extendedLocationARM, err := (*disksSpec.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1488,20 +1488,20 @@ func (disksSpec *Disks_Spec) ConvertToARM(name string, resolvedReferences genrun
 	result.Location = disksSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if disksSpec.BurstingEnabled != nil {
 		burstingEnabled := *disksSpec.BurstingEnabled
 		result.Properties.BurstingEnabled = &burstingEnabled
 	}
-	creationDataARM, err := disksSpec.CreationData.ConvertToARM(name, resolvedReferences)
+	creationDataARM, err := disksSpec.CreationData.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
 	result.Properties.CreationData = creationDataARM.(CreationDataARM)
 	if disksSpec.DiskAccessReference != nil {
-		diskAccessIdARMID, err := resolvedReferences.ARMIDOrErr(*disksSpec.DiskAccessReference)
+		diskAccessIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*disksSpec.DiskAccessReference)
 		if err != nil {
 			return nil, err
 		}
@@ -1529,7 +1529,7 @@ func (disksSpec *Disks_Spec) ConvertToARM(name string, resolvedReferences genrun
 		result.Properties.DiskSizeGB = &diskSizeGB
 	}
 	if disksSpec.Encryption != nil {
-		encryptionARM, err := (*disksSpec.Encryption).ConvertToARM(name, resolvedReferences)
+		encryptionARM, err := (*disksSpec.Encryption).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1537,7 +1537,7 @@ func (disksSpec *Disks_Spec) ConvertToARM(name string, resolvedReferences genrun
 		result.Properties.Encryption = &encryption
 	}
 	if disksSpec.EncryptionSettingsCollection != nil {
-		encryptionSettingsCollectionARM, err := (*disksSpec.EncryptionSettingsCollection).ConvertToARM(name, resolvedReferences)
+		encryptionSettingsCollectionARM, err := (*disksSpec.EncryptionSettingsCollection).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1561,7 +1561,7 @@ func (disksSpec *Disks_Spec) ConvertToARM(name string, resolvedReferences genrun
 		result.Properties.OsType = &osType
 	}
 	if disksSpec.PurchasePlan != nil {
-		purchasePlanARM, err := (*disksSpec.PurchasePlan).ConvertToARM(name, resolvedReferences)
+		purchasePlanARM, err := (*disksSpec.PurchasePlan).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1575,7 +1575,7 @@ func (disksSpec *Disks_Spec) ConvertToARM(name string, resolvedReferences genrun
 
 	// Set property ‘Sku’:
 	if disksSpec.Sku != nil {
-		skuARM, err := (*disksSpec.Sku).ConvertToARM(name, resolvedReferences)
+		skuARM, err := (*disksSpec.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2293,7 +2293,7 @@ type CreationData struct {
 var _ genruntime.ARMTransformer = &CreationData{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (creationData *CreationData) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (creationData *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if creationData == nil {
 		return nil, nil
 	}
@@ -2304,7 +2304,7 @@ func (creationData *CreationData) ConvertToARM(name string, resolvedReferences g
 
 	// Set property ‘GalleryImageReference’:
 	if creationData.GalleryImageReference != nil {
-		galleryImageReferenceARM, err := (*creationData.GalleryImageReference).ConvertToARM(name, resolvedReferences)
+		galleryImageReferenceARM, err := (*creationData.GalleryImageReference).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2314,7 +2314,7 @@ func (creationData *CreationData) ConvertToARM(name string, resolvedReferences g
 
 	// Set property ‘ImageReference’:
 	if creationData.ImageReference != nil {
-		imageReferenceARM, err := (*creationData.ImageReference).ConvertToARM(name, resolvedReferences)
+		imageReferenceARM, err := (*creationData.ImageReference).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2330,7 +2330,7 @@ func (creationData *CreationData) ConvertToARM(name string, resolvedReferences g
 
 	// Set property ‘SourceResourceId’:
 	if creationData.SourceResourceReference != nil {
-		sourceResourceReferenceARMID, err := resolvedReferences.ARMIDOrErr(*creationData.SourceResourceReference)
+		sourceResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*creationData.SourceResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2925,7 +2925,7 @@ type DiskSku struct {
 var _ genruntime.ARMTransformer = &DiskSku{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (diskSku *DiskSku) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (diskSku *DiskSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if diskSku == nil {
 		return nil, nil
 	}
@@ -3109,7 +3109,7 @@ type Encryption struct {
 var _ genruntime.ARMTransformer = &Encryption{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (encryption *Encryption) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if encryption == nil {
 		return nil, nil
 	}
@@ -3231,7 +3231,7 @@ type EncryptionSettingsCollection struct {
 var _ genruntime.ARMTransformer = &EncryptionSettingsCollection{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (encryptionSettingsCollection *EncryptionSettingsCollection) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (encryptionSettingsCollection *EncryptionSettingsCollection) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if encryptionSettingsCollection == nil {
 		return nil, nil
 	}
@@ -3242,7 +3242,7 @@ func (encryptionSettingsCollection *EncryptionSettingsCollection) ConvertToARM(n
 
 	// Set property ‘EncryptionSettings’:
 	for _, item := range encryptionSettingsCollection.EncryptionSettings {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3598,7 +3598,7 @@ type ExtendedLocation struct {
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (extendedLocation *ExtendedLocation) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (extendedLocation *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if extendedLocation == nil {
 		return nil, nil
 	}
@@ -3818,7 +3818,7 @@ type PurchasePlan struct {
 var _ genruntime.ARMTransformer = &PurchasePlan{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (purchasePlan *PurchasePlan) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (purchasePlan *PurchasePlan) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if purchasePlan == nil {
 		return nil, nil
 	}
@@ -4163,7 +4163,7 @@ type EncryptionSettingsElement struct {
 var _ genruntime.ARMTransformer = &EncryptionSettingsElement{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (encryptionSettingsElement *EncryptionSettingsElement) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (encryptionSettingsElement *EncryptionSettingsElement) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if encryptionSettingsElement == nil {
 		return nil, nil
 	}
@@ -4171,7 +4171,7 @@ func (encryptionSettingsElement *EncryptionSettingsElement) ConvertToARM(name st
 
 	// Set property ‘DiskEncryptionKey’:
 	if encryptionSettingsElement.DiskEncryptionKey != nil {
-		diskEncryptionKeyARM, err := (*encryptionSettingsElement.DiskEncryptionKey).ConvertToARM(name, resolvedReferences)
+		diskEncryptionKeyARM, err := (*encryptionSettingsElement.DiskEncryptionKey).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4181,7 +4181,7 @@ func (encryptionSettingsElement *EncryptionSettingsElement) ConvertToARM(name st
 
 	// Set property ‘KeyEncryptionKey’:
 	if encryptionSettingsElement.KeyEncryptionKey != nil {
-		keyEncryptionKeyARM, err := (*encryptionSettingsElement.KeyEncryptionKey).ConvertToARM(name, resolvedReferences)
+		keyEncryptionKeyARM, err := (*encryptionSettingsElement.KeyEncryptionKey).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4448,14 +4448,14 @@ type ImageDiskReference struct {
 var _ genruntime.ARMTransformer = &ImageDiskReference{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (imageDiskReference *ImageDiskReference) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (imageDiskReference *ImageDiskReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if imageDiskReference == nil {
 		return nil, nil
 	}
 	var result ImageDiskReferenceARM
 
 	// Set property ‘Id’:
-	referenceARMID, err := resolvedReferences.ARMIDOrErr(imageDiskReference.Reference)
+	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(imageDiskReference.Reference)
 	if err != nil {
 		return nil, err
 	}
@@ -4635,7 +4635,7 @@ type KeyVaultAndKeyReference struct {
 var _ genruntime.ARMTransformer = &KeyVaultAndKeyReference{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (keyVaultAndKeyReference *KeyVaultAndKeyReference) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (keyVaultAndKeyReference *KeyVaultAndKeyReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if keyVaultAndKeyReference == nil {
 		return nil, nil
 	}
@@ -4645,7 +4645,7 @@ func (keyVaultAndKeyReference *KeyVaultAndKeyReference) ConvertToARM(name string
 	result.KeyUrl = keyVaultAndKeyReference.KeyUrl
 
 	// Set property ‘SourceVault’:
-	sourceVaultARM, err := keyVaultAndKeyReference.SourceVault.ConvertToARM(name, resolvedReferences)
+	sourceVaultARM, err := keyVaultAndKeyReference.SourceVault.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
@@ -4835,7 +4835,7 @@ type KeyVaultAndSecretReference struct {
 var _ genruntime.ARMTransformer = &KeyVaultAndSecretReference{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (keyVaultAndSecretReference *KeyVaultAndSecretReference) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (keyVaultAndSecretReference *KeyVaultAndSecretReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if keyVaultAndSecretReference == nil {
 		return nil, nil
 	}
@@ -4845,7 +4845,7 @@ func (keyVaultAndSecretReference *KeyVaultAndSecretReference) ConvertToARM(name 
 	result.SecretUrl = keyVaultAndSecretReference.SecretUrl
 
 	// Set property ‘SourceVault’:
-	sourceVaultARM, err := keyVaultAndSecretReference.SourceVault.ConvertToARM(name, resolvedReferences)
+	sourceVaultARM, err := keyVaultAndSecretReference.SourceVault.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
@@ -5029,7 +5029,7 @@ type SourceVault struct {
 var _ genruntime.ARMTransformer = &SourceVault{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sourceVault *SourceVault) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (sourceVault *SourceVault) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sourceVault == nil {
 		return nil, nil
 	}
@@ -5037,7 +5037,7 @@ func (sourceVault *SourceVault) ConvertToARM(name string, resolvedReferences gen
 
 	// Set property ‘Id’:
 	if sourceVault.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*sourceVault.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*sourceVault.Reference)
 		if err != nil {
 			return nil, err
 		}

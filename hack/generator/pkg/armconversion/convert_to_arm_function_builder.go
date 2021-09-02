@@ -16,8 +16,7 @@ import (
 )
 
 const (
-	nameParameterString               = "name"
-	resolvedReferencesParameterString = "resolvedReferences"
+	resolvedParameterString = "resolved"
 )
 
 type convertToARMBuilder struct {
@@ -64,6 +63,7 @@ func newConvertToARMFunctionBuilder(
 
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		result.namePropertyHandler,
+		result.scopePropertyHandler,
 		result.referencePropertyHandler,
 		result.fixedValuePropertyHandler(astmodel.TypeProperty),
 		result.fixedValuePropertyHandler(astmodel.APIVersionProperty),
@@ -84,10 +84,7 @@ func (builder *convertToARMBuilder) functionDeclaration() *dst.FuncDecl {
 		Body: builder.functionBodyStatements(),
 	}
 
-	fn.AddParameter(nameParameterString, dst.NewIdent("string"))
-	fn.AddParameter(
-		resolvedReferencesParameterString,
-		astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimeReference.PackageName()), "ResolvedReferences"))
+	fn.AddParameter(resolvedParameterString, astmodel.ConvertToARMResolvedDetailsTypeName.AsType(builder.codeGenerationContext))
 	fn.AddReturns("interface{}", "error")
 	fn.AddComments("converts from a Kubernetes CRD object to an ARM object")
 
@@ -142,7 +139,25 @@ func (builder *convertToARMBuilder) namePropertyHandler(
 		dst.NewIdent(builder.resultIdent),
 		string(toProp.PropertyName()),
 		token.ASSIGN,
-		dst.NewIdent(nameParameterString))
+		astbuilder.Selector(dst.NewIdent(resolvedParameterString), "Name"))
+
+	return []dst.Stmt{result}, true
+}
+
+func (builder *convertToARMBuilder) scopePropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
+
+	if toProp.PropertyName() != "Scope" || builder.typeKind != TypeKindSpec {
+		return nil, false
+	}
+
+	// Read from the provided scope
+	result := astbuilder.QualifiedAssignment(
+		dst.NewIdent(builder.resultIdent),
+		string(toProp.PropertyName()),
+		token.ASSIGN,
+		astbuilder.Selector(dst.NewIdent(resolvedParameterString), "Scope"))
 
 	return []dst.Stmt{result}, true
 }
@@ -417,8 +432,8 @@ func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.Convers
 	armIDLookup := astbuilder.SimpleAssignmentWithErr(
 		dst.NewIdent(localVarName),
 		token.DEFINE,
-		astbuilder.CallQualifiedFunc(
-			resolvedReferencesParameterString,
+		astbuilder.CallExpr(
+			astbuilder.Selector(dst.NewIdent(resolvedParameterString), "ResolvedReferences"),
 			"ARMIDOrErr",
 			params.Source))
 
@@ -492,8 +507,7 @@ func callToARMFunction(source dst.Expr, destination dst.Expr, methodName string)
 			&dst.CallExpr{
 				Fun: astbuilder.Selector(source, methodName),
 				Args: []dst.Expr{
-					dst.NewIdent(nameParameterString),
-					dst.NewIdent(resolvedReferencesParameterString),
+					dst.NewIdent(resolvedParameterString),
 				},
 			},
 		},

@@ -617,7 +617,7 @@ type UserAssignedIdentities_Spec struct {
 var _ genruntime.ARMTransformer = &UserAssignedIdentities_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if userAssignedIdentitiesSpec == nil {
 		return nil, nil
 	}
@@ -630,7 +630,7 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(name
 	result.Location = userAssignedIdentitiesSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Tags’:
 	if userAssignedIdentitiesSpec.Tags != nil {

@@ -1705,7 +1705,7 @@ type ManagedClusters_Spec struct {
 var _ genruntime.ARMTransformer = &ManagedClusters_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClustersSpec == nil {
 		return nil, nil
 	}
@@ -1716,7 +1716,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 
 	// Set property ‘ExtendedLocation’:
 	if managedClustersSpec.ExtendedLocation != nil {
-		extendedLocationARM, err := (*managedClustersSpec.ExtendedLocation).ConvertToARM(name, resolvedReferences)
+		extendedLocationARM, err := (*managedClustersSpec.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1726,7 +1726,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 
 	// Set property ‘Identity’:
 	if managedClustersSpec.Identity != nil {
-		identityARM, err := (*managedClustersSpec.Identity).ConvertToARM(name, resolvedReferences)
+		identityARM, err := (*managedClustersSpec.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1738,11 +1738,11 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 	result.Location = managedClustersSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if managedClustersSpec.AadProfile != nil {
-		aadProfileARM, err := (*managedClustersSpec.AadProfile).ConvertToARM(name, resolvedReferences)
+		aadProfileARM, err := (*managedClustersSpec.AadProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1752,7 +1752,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 	if managedClustersSpec.AddonProfiles != nil {
 		result.Properties.AddonProfiles = make(map[string]ManagedClusterAddonProfileARM)
 		for key, value := range managedClustersSpec.AddonProfiles {
-			valueARM, err := value.ConvertToARM(name, resolvedReferences)
+			valueARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
@@ -1760,14 +1760,14 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 		}
 	}
 	for _, item := range managedClustersSpec.AgentPoolProfiles {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.AgentPoolProfiles = append(result.Properties.AgentPoolProfiles, itemARM.(ManagedClusterAgentPoolProfileARM))
 	}
 	if managedClustersSpec.ApiServerAccessProfile != nil {
-		apiServerAccessProfileARM, err := (*managedClustersSpec.ApiServerAccessProfile).ConvertToARM(name, resolvedReferences)
+		apiServerAccessProfileARM, err := (*managedClustersSpec.ApiServerAccessProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1775,7 +1775,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 		result.Properties.ApiServerAccessProfile = &apiServerAccessProfile
 	}
 	if managedClustersSpec.AutoScalerProfile != nil {
-		autoScalerProfileARM, err := (*managedClustersSpec.AutoScalerProfile).ConvertToARM(name, resolvedReferences)
+		autoScalerProfileARM, err := (*managedClustersSpec.AutoScalerProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1783,7 +1783,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 		result.Properties.AutoScalerProfile = &autoScalerProfile
 	}
 	if managedClustersSpec.AutoUpgradeProfile != nil {
-		autoUpgradeProfileARM, err := (*managedClustersSpec.AutoUpgradeProfile).ConvertToARM(name, resolvedReferences)
+		autoUpgradeProfileARM, err := (*managedClustersSpec.AutoUpgradeProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1795,7 +1795,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 		result.Properties.DisableLocalAccounts = &disableLocalAccounts
 	}
 	if managedClustersSpec.DiskEncryptionSetIDReference != nil {
-		diskEncryptionSetIDARMID, err := resolvedReferences.ARMIDOrErr(*managedClustersSpec.DiskEncryptionSetIDReference)
+		diskEncryptionSetIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*managedClustersSpec.DiskEncryptionSetIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -1819,7 +1819,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 		result.Properties.FqdnSubdomain = &fqdnSubdomain
 	}
 	if managedClustersSpec.HttpProxyConfig != nil {
-		httpProxyConfigARM, err := (*managedClustersSpec.HttpProxyConfig).ConvertToARM(name, resolvedReferences)
+		httpProxyConfigARM, err := (*managedClustersSpec.HttpProxyConfig).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1829,7 +1829,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 	if managedClustersSpec.IdentityProfile != nil {
 		result.Properties.IdentityProfile = make(map[string]Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM)
 		for key, value := range managedClustersSpec.IdentityProfile {
-			valueARM, err := value.ConvertToARM(name, resolvedReferences)
+			valueARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
@@ -1841,7 +1841,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 		result.Properties.KubernetesVersion = &kubernetesVersion
 	}
 	if managedClustersSpec.LinuxProfile != nil {
-		linuxProfileARM, err := (*managedClustersSpec.LinuxProfile).ConvertToARM(name, resolvedReferences)
+		linuxProfileARM, err := (*managedClustersSpec.LinuxProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1849,7 +1849,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 		result.Properties.LinuxProfile = &linuxProfile
 	}
 	if managedClustersSpec.NetworkProfile != nil {
-		networkProfileARM, err := (*managedClustersSpec.NetworkProfile).ConvertToARM(name, resolvedReferences)
+		networkProfileARM, err := (*managedClustersSpec.NetworkProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1861,7 +1861,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 		result.Properties.NodeResourceGroup = &nodeResourceGroup
 	}
 	if managedClustersSpec.PodIdentityProfile != nil {
-		podIdentityProfileARM, err := (*managedClustersSpec.PodIdentityProfile).ConvertToARM(name, resolvedReferences)
+		podIdentityProfileARM, err := (*managedClustersSpec.PodIdentityProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1869,14 +1869,14 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 		result.Properties.PodIdentityProfile = &podIdentityProfile
 	}
 	for _, item := range managedClustersSpec.PrivateLinkResources {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.PrivateLinkResources = append(result.Properties.PrivateLinkResources, itemARM.(PrivateLinkResourceARM))
 	}
 	if managedClustersSpec.ServicePrincipalProfile != nil {
-		servicePrincipalProfileARM, err := (*managedClustersSpec.ServicePrincipalProfile).ConvertToARM(name, resolvedReferences)
+		servicePrincipalProfileARM, err := (*managedClustersSpec.ServicePrincipalProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1884,7 +1884,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 		result.Properties.ServicePrincipalProfile = &servicePrincipalProfile
 	}
 	if managedClustersSpec.WindowsProfile != nil {
-		windowsProfileARM, err := (*managedClustersSpec.WindowsProfile).ConvertToARM(name, resolvedReferences)
+		windowsProfileARM, err := (*managedClustersSpec.WindowsProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1894,7 +1894,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 
 	// Set property ‘Sku’:
 	if managedClustersSpec.Sku != nil {
-		skuARM, err := (*managedClustersSpec.Sku).ConvertToARM(name, resolvedReferences)
+		skuARM, err := (*managedClustersSpec.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2892,7 +2892,7 @@ type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadd
 var _ genruntime.ARMTransformer = &Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties == nil {
 		return nil, nil
 	}
@@ -2912,7 +2912,7 @@ func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofilead
 
 	// Set property ‘ResourceId’:
 	if componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference != nil {
-		resourceReferenceARMID, err := resolvedReferences.ARMIDOrErr(*componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3034,7 +3034,7 @@ type ContainerServiceLinuxProfile struct {
 var _ genruntime.ARMTransformer = &ContainerServiceLinuxProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if containerServiceLinuxProfile == nil {
 		return nil, nil
 	}
@@ -3044,7 +3044,7 @@ func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) ConvertToARM(n
 	result.AdminUsername = containerServiceLinuxProfile.AdminUsername
 
 	// Set property ‘Ssh’:
-	sshARM, err := containerServiceLinuxProfile.Ssh.ConvertToARM(name, resolvedReferences)
+	sshARM, err := containerServiceLinuxProfile.Ssh.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
@@ -3269,7 +3269,7 @@ type ContainerServiceNetworkProfile struct {
 var _ genruntime.ARMTransformer = &ContainerServiceNetworkProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if containerServiceNetworkProfile == nil {
 		return nil, nil
 	}
@@ -3289,7 +3289,7 @@ func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) ConvertToA
 
 	// Set property ‘LoadBalancerProfile’:
 	if containerServiceNetworkProfile.LoadBalancerProfile != nil {
-		loadBalancerProfileARM, err := (*containerServiceNetworkProfile.LoadBalancerProfile).ConvertToARM(name, resolvedReferences)
+		loadBalancerProfileARM, err := (*containerServiceNetworkProfile.LoadBalancerProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3929,7 +3929,7 @@ type ExtendedLocation struct {
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (extendedLocation *ExtendedLocation) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (extendedLocation *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if extendedLocation == nil {
 		return nil, nil
 	}
@@ -4147,7 +4147,7 @@ type ManagedClusterAADProfile struct {
 var _ genruntime.ARMTransformer = &ManagedClusterAADProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterAADProfile *ManagedClusterAADProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterAADProfile *ManagedClusterAADProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterAADProfile == nil {
 		return nil, nil
 	}
@@ -4631,7 +4631,7 @@ type ManagedClusterAPIServerAccessProfile struct {
 var _ genruntime.ARMTransformer = &ManagedClusterAPIServerAccessProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterAPIServerAccessProfile == nil {
 		return nil, nil
 	}
@@ -4941,7 +4941,7 @@ type ManagedClusterAddonProfile struct {
 var _ genruntime.ARMTransformer = &ManagedClusterAddonProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterAddonProfile *ManagedClusterAddonProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterAddonProfile *ManagedClusterAddonProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterAddonProfile == nil {
 		return nil, nil
 	}
@@ -5175,7 +5175,7 @@ type ManagedClusterAgentPoolProfile struct {
 var _ genruntime.ARMTransformer = &ManagedClusterAgentPoolProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterAgentPoolProfile == nil {
 		return nil, nil
 	}
@@ -5230,7 +5230,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) ConvertToA
 
 	// Set property ‘KubeletConfig’:
 	if managedClusterAgentPoolProfile.KubeletConfig != nil {
-		kubeletConfigARM, err := (*managedClusterAgentPoolProfile.KubeletConfig).ConvertToARM(name, resolvedReferences)
+		kubeletConfigARM, err := (*managedClusterAgentPoolProfile.KubeletConfig).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5246,7 +5246,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) ConvertToA
 
 	// Set property ‘LinuxOSConfig’:
 	if managedClusterAgentPoolProfile.LinuxOSConfig != nil {
-		linuxOSConfigARM, err := (*managedClusterAgentPoolProfile.LinuxOSConfig).ConvertToARM(name, resolvedReferences)
+		linuxOSConfigARM, err := (*managedClusterAgentPoolProfile.LinuxOSConfig).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5291,7 +5291,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) ConvertToA
 
 	// Set property ‘NodePublicIPPrefixID’:
 	if managedClusterAgentPoolProfile.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDReferenceARMID, err := resolvedReferences.ARMIDOrErr(*managedClusterAgentPoolProfile.NodePublicIPPrefixIDReference)
+		nodePublicIPPrefixIDReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*managedClusterAgentPoolProfile.NodePublicIPPrefixIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -5336,7 +5336,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) ConvertToA
 
 	// Set property ‘PodSubnetID’:
 	if managedClusterAgentPoolProfile.PodSubnetIDReference != nil {
-		podSubnetIDReferenceARMID, err := resolvedReferences.ARMIDOrErr(*managedClusterAgentPoolProfile.PodSubnetIDReference)
+		podSubnetIDReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*managedClusterAgentPoolProfile.PodSubnetIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -5384,7 +5384,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) ConvertToA
 
 	// Set property ‘UpgradeSettings’:
 	if managedClusterAgentPoolProfile.UpgradeSettings != nil {
-		upgradeSettingsARM, err := (*managedClusterAgentPoolProfile.UpgradeSettings).ConvertToARM(name, resolvedReferences)
+		upgradeSettingsARM, err := (*managedClusterAgentPoolProfile.UpgradeSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5400,7 +5400,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) ConvertToA
 
 	// Set property ‘VnetSubnetID’:
 	if managedClusterAgentPoolProfile.VnetSubnetIDReference != nil {
-		vnetSubnetIDReferenceARMID, err := resolvedReferences.ARMIDOrErr(*managedClusterAgentPoolProfile.VnetSubnetIDReference)
+		vnetSubnetIDReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*managedClusterAgentPoolProfile.VnetSubnetIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -7287,7 +7287,7 @@ type ManagedClusterAutoUpgradeProfile struct {
 var _ genruntime.ARMTransformer = &ManagedClusterAutoUpgradeProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterAutoUpgradeProfile == nil {
 		return nil, nil
 	}
@@ -7441,7 +7441,7 @@ type ManagedClusterHTTPProxyConfig struct {
 var _ genruntime.ARMTransformer = &ManagedClusterHTTPProxyConfig{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterHTTPProxyConfig == nil {
 		return nil, nil
 	}
@@ -7751,7 +7751,7 @@ type ManagedClusterIdentity struct {
 var _ genruntime.ARMTransformer = &ManagedClusterIdentity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterIdentity *ManagedClusterIdentity) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterIdentity *ManagedClusterIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterIdentity == nil {
 		return nil, nil
 	}
@@ -8046,7 +8046,7 @@ type ManagedClusterPodIdentityProfile struct {
 var _ genruntime.ARMTransformer = &ManagedClusterPodIdentityProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterPodIdentityProfile == nil {
 		return nil, nil
 	}
@@ -8066,7 +8066,7 @@ func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) Conver
 
 	// Set property ‘UserAssignedIdentities’:
 	for _, item := range managedClusterPodIdentityProfile.UserAssignedIdentities {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8075,7 +8075,7 @@ func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) Conver
 
 	// Set property ‘UserAssignedIdentityExceptions’:
 	for _, item := range managedClusterPodIdentityProfile.UserAssignedIdentityExceptions {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8482,7 +8482,7 @@ type ManagedClusterPropertiesAutoScalerProfile struct {
 var _ genruntime.ARMTransformer = &ManagedClusterPropertiesAutoScalerProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterPropertiesAutoScalerProfile == nil {
 		return nil, nil
 	}
@@ -9445,7 +9445,7 @@ type ManagedClusterSKU struct {
 var _ genruntime.ARMTransformer = &ManagedClusterSKU{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterSKU *ManagedClusterSKU) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterSKU *ManagedClusterSKU) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterSKU == nil {
 		return nil, nil
 	}
@@ -9647,7 +9647,7 @@ type ManagedClusterServicePrincipalProfile struct {
 var _ genruntime.ARMTransformer = &ManagedClusterServicePrincipalProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterServicePrincipalProfile == nil {
 		return nil, nil
 	}
@@ -9857,7 +9857,7 @@ type ManagedClusterWindowsProfile struct {
 var _ genruntime.ARMTransformer = &ManagedClusterWindowsProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterWindowsProfile == nil {
 		return nil, nil
 	}
@@ -10238,7 +10238,7 @@ type PrivateLinkResource struct {
 var _ genruntime.ARMTransformer = &PrivateLinkResource{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (privateLinkResource *PrivateLinkResource) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (privateLinkResource *PrivateLinkResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if privateLinkResource == nil {
 		return nil, nil
 	}
@@ -10252,7 +10252,7 @@ func (privateLinkResource *PrivateLinkResource) ConvertToARM(name string, resolv
 
 	// Set property ‘Id’:
 	if privateLinkResource.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*privateLinkResource.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*privateLinkResource.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -10699,7 +10699,7 @@ type ContainerServiceSshConfiguration struct {
 var _ genruntime.ARMTransformer = &ContainerServiceSshConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if containerServiceSshConfiguration == nil {
 		return nil, nil
 	}
@@ -10707,7 +10707,7 @@ func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) Conver
 
 	// Set property ‘PublicKeys’:
 	for _, item := range containerServiceSshConfiguration.PublicKeys {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11090,7 +11090,7 @@ type ManagedClusterLoadBalancerProfile struct {
 var _ genruntime.ARMTransformer = &ManagedClusterLoadBalancerProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterLoadBalancerProfile == nil {
 		return nil, nil
 	}
@@ -11104,7 +11104,7 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Conv
 
 	// Set property ‘EffectiveOutboundIPs’:
 	for _, item := range managedClusterLoadBalancerProfile.EffectiveOutboundIPs {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11119,7 +11119,7 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Conv
 
 	// Set property ‘ManagedOutboundIPs’:
 	if managedClusterLoadBalancerProfile.ManagedOutboundIPs != nil {
-		managedOutboundIPsARM, err := (*managedClusterLoadBalancerProfile.ManagedOutboundIPs).ConvertToARM(name, resolvedReferences)
+		managedOutboundIPsARM, err := (*managedClusterLoadBalancerProfile.ManagedOutboundIPs).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11129,7 +11129,7 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Conv
 
 	// Set property ‘OutboundIPPrefixes’:
 	if managedClusterLoadBalancerProfile.OutboundIPPrefixes != nil {
-		outboundIPPrefixesARM, err := (*managedClusterLoadBalancerProfile.OutboundIPPrefixes).ConvertToARM(name, resolvedReferences)
+		outboundIPPrefixesARM, err := (*managedClusterLoadBalancerProfile.OutboundIPPrefixes).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11139,7 +11139,7 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Conv
 
 	// Set property ‘OutboundIPs’:
 	if managedClusterLoadBalancerProfile.OutboundIPs != nil {
-		outboundIPsARM, err := (*managedClusterLoadBalancerProfile.OutboundIPs).ConvertToARM(name, resolvedReferences)
+		outboundIPsARM, err := (*managedClusterLoadBalancerProfile.OutboundIPs).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11644,7 +11644,7 @@ type ManagedClusterPodIdentity struct {
 var _ genruntime.ARMTransformer = &ManagedClusterPodIdentity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterPodIdentity *ManagedClusterPodIdentity) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterPodIdentity *ManagedClusterPodIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterPodIdentity == nil {
 		return nil, nil
 	}
@@ -11657,7 +11657,7 @@ func (managedClusterPodIdentity *ManagedClusterPodIdentity) ConvertToARM(name st
 	}
 
 	// Set property ‘Identity’:
-	identityARM, err := managedClusterPodIdentity.Identity.ConvertToARM(name, resolvedReferences)
+	identityARM, err := managedClusterPodIdentity.Identity.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
@@ -11802,7 +11802,7 @@ type ManagedClusterPodIdentityException struct {
 var _ genruntime.ARMTransformer = &ManagedClusterPodIdentityException{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterPodIdentityException == nil {
 		return nil, nil
 	}
@@ -12258,7 +12258,7 @@ type ContainerServiceSshPublicKey struct {
 var _ genruntime.ARMTransformer = &ContainerServiceSshPublicKey{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if containerServiceSshPublicKey == nil {
 		return nil, nil
 	}
@@ -12390,7 +12390,7 @@ type ManagedClusterLoadBalancerProfileManagedOutboundIPs struct {
 var _ genruntime.ARMTransformer = &ManagedClusterLoadBalancerProfileManagedOutboundIPs{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterLoadBalancerProfileManagedOutboundIPs == nil {
 		return nil, nil
 	}
@@ -12470,7 +12470,7 @@ type ManagedClusterLoadBalancerProfileOutboundIPPrefixes struct {
 var _ genruntime.ARMTransformer = &ManagedClusterLoadBalancerProfileOutboundIPPrefixes{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterLoadBalancerProfileOutboundIPPrefixes == nil {
 		return nil, nil
 	}
@@ -12478,7 +12478,7 @@ func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBal
 
 	// Set property ‘PublicIPPrefixes’:
 	for _, item := range managedClusterLoadBalancerProfileOutboundIPPrefixes.PublicIPPrefixes {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12569,7 +12569,7 @@ type ManagedClusterLoadBalancerProfileOutboundIPs struct {
 var _ genruntime.ARMTransformer = &ManagedClusterLoadBalancerProfileOutboundIPs{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPs) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPs) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClusterLoadBalancerProfileOutboundIPs == nil {
 		return nil, nil
 	}
@@ -12577,7 +12577,7 @@ func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerPr
 
 	// Set property ‘PublicIPs’:
 	for _, item := range managedClusterLoadBalancerProfileOutboundIPs.PublicIPs {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12980,7 +12980,7 @@ type ResourceReference struct {
 var _ genruntime.ARMTransformer = &ResourceReference{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resourceReference *ResourceReference) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (resourceReference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if resourceReference == nil {
 		return nil, nil
 	}
@@ -12988,7 +12988,7 @@ func (resourceReference *ResourceReference) ConvertToARM(name string, resolvedRe
 
 	// Set property ‘Id’:
 	if resourceReference.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*resourceReference.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resourceReference.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -13131,7 +13131,7 @@ type UserAssignedIdentity struct {
 var _ genruntime.ARMTransformer = &UserAssignedIdentity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (userAssignedIdentity *UserAssignedIdentity) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (userAssignedIdentity *UserAssignedIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if userAssignedIdentity == nil {
 		return nil, nil
 	}
@@ -13151,7 +13151,7 @@ func (userAssignedIdentity *UserAssignedIdentity) ConvertToARM(name string, reso
 
 	// Set property ‘ResourceId’:
 	if userAssignedIdentity.ResourceReference != nil {
-		resourceReferenceARMID, err := resolvedReferences.ARMIDOrErr(*userAssignedIdentity.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*userAssignedIdentity.ResourceReference)
 		if err != nil {
 			return nil, err
 		}

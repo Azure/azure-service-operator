@@ -49,19 +49,12 @@ func ConvertResourceToDeployableResource(
 		return nil, err
 	}
 
-	// Find all of the references
-	refs, err := FindResourceReferences(armTransformer)
+	resolved, err := makeResolvedDetails(ctx, resolver, resourceHierarchy, armTransformer, metaObject)
 	if err != nil {
-		return nil, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
+		return nil, err
 	}
 
-	// resolve them
-	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, refs)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed resolving ARM IDs for references")
-	}
-
-	armSpec, err := armTransformer.ConvertToARM(resourceHierarchy.FullAzureName(), genruntime.MakeResolvedReferences(resolvedRefs))
+	armSpec, err := armTransformer.ConvertToARM(resolved)
 	if err != nil {
 		return nil, errors.Wrapf(err, "transforming resource %s to ARM", metaObject.GetName())
 	}
@@ -207,4 +200,41 @@ func FindResourceReferences(transformer genruntime.ARMTransformer) (map[genrunti
 	}
 
 	return result, nil
+}
+
+// TODO: This method is a bit busy...
+func makeResolvedDetails(
+	ctx context.Context,
+	resolver *genruntime.Resolver,
+	resourceHierarchy genruntime.ResourceHierarchy,
+	armTransformer genruntime.ARMTransformer,
+	metaObject genruntime.MetaObject) (genruntime.ConvertToARMResolvedDetails, error) {
+
+	// Find all of the references
+	refs, err := FindResourceReferences(armTransformer)
+	if err != nil {
+		return genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
+	}
+
+	// resolve them
+	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, refs)
+	if err != nil {
+		return genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
+	}
+
+	resolved := genruntime.ConvertToARMResolvedDetails{
+		Name:               resourceHierarchy.FullAzureName(),
+		ResolvedReferences: genruntime.MakeResolvedReferences(resolvedRefs),
+	}
+
+	// Augment with Scope information if the resource is an extension resource
+	if metaObject.GetResourceKind() == genruntime.ResourceKindExtension {
+		scope, err := resourceHierarchy.Scope()
+		if err != nil {
+			return genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "couldn't get resource scope")
+		}
+		resolved.Scope = &scope
+	}
+
+	return resolved, nil
 }
