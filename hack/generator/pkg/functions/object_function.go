@@ -10,24 +10,22 @@ import (
 // that only need information about the object they are operating on
 type ObjectFunction struct {
 	name             string
-	o                *astmodel.ObjectType
 	idFactory        astmodel.IdentifierFactory
 	asFunc           ObjectFunctionHandler
 	requiredPackages *astmodel.PackageReferenceSet
+	referencedTypes  astmodel.TypeNameSet
 }
 
 // NewObjectFunction creates a new object function
 func NewObjectFunction(
 	name string,
-	objectType *astmodel.ObjectType,
-	requiredPackages *astmodel.PackageReferenceSet,
 	idFactory astmodel.IdentifierFactory,
 	asFunc ObjectFunctionHandler) *ObjectFunction {
 	return &ObjectFunction{
 		name:             name,
-		o:                objectType,
 		asFunc:           asFunc,
-		requiredPackages: requiredPackages,
+		requiredPackages: astmodel.NewPackageReferenceSet(),
+		referencedTypes:  astmodel.NewTypeNameSet(),
 		idFactory:        idFactory,
 	}
 }
@@ -36,38 +34,52 @@ type ObjectFunctionHandler func(f *ObjectFunction, codeGenerationContext *astmod
 
 // Name returns the unique name of this function
 // (You can't have two functions with the same name on the same object or resource)
-func (k *ObjectFunction) Name() string {
-	return k.name
+func (fn *ObjectFunction) Name() string {
+	return fn.name
 }
 
-func (k *ObjectFunction) IdFactory() astmodel.IdentifierFactory {
-	return k.idFactory
+func (fn *ObjectFunction) IdFactory() astmodel.IdentifierFactory {
+	return fn.idFactory
 }
 
 // RequiredPackageReferences returns the set of required packages for this function
-func (k *ObjectFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
-	return k.requiredPackages
+func (fn *ObjectFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
+	return fn.requiredPackages
 }
 
 // References returns the set of types to which this function refers.
 // SHOULD include any types which this function references but its receiver doesn't.
 // SHOULD NOT include the receiver of this function.
-func (k *ObjectFunction) References() astmodel.TypeNameSet {
-	return nil
+func (fn *ObjectFunction) References() astmodel.TypeNameSet {
+	return fn.referencedTypes
 }
 
 // AsFunc renders the current instance as a Go abstract syntax tree
-func (k *ObjectFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-	return k.asFunc(k, codeGenerationContext, receiver, k.name)
+func (fn *ObjectFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name)
 }
 
 // Equals checks if this function is equal to the passed in function
-func (k *ObjectFunction) Equals(f astmodel.Function) bool {
+func (fn *ObjectFunction) Equals(f astmodel.Function) bool {
 	typedF, ok := f.(*ObjectFunction)
 	if !ok {
 		return false
 	}
 
 	// TODO: We're not actually checking function structure here
-	return k.o.Equals(typedF.o) && k.name == typedF.name
+	return fn.name == typedF.name
+}
+
+// AddPackageReference adds one or more required package references
+func (fn *ObjectFunction) AddPackageReference(refs ...astmodel.PackageReference) {
+	for _, ref := range refs {
+		fn.requiredPackages.AddReference(ref)
+	}
+}
+
+// AddReferencedTypes adds one or more types that are required
+func (fn *ObjectFunction) AddReferencedTypes(types ...astmodel.TypeName) {
+	for _, t := range types {
+		fn.referencedTypes.Add(t)
+	}
 }

@@ -52,25 +52,14 @@ func AddKubernetesResourceInterfaceImpls(
 		return nil, err
 	}
 
-	getAzureNameProperty := functions.NewObjectFunction(
-		astmodel.AzureNameProperty,
-		spec,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference),
-		idFactory,
-		getNameFunction)
+	getAzureNameProperty := functions.NewObjectFunction(astmodel.AzureNameProperty, idFactory, getNameFunction)
+	getAzureNameProperty.AddPackageReference(astmodel.GenRuntimeReference)
 
-	getOwnerProperty := functions.NewObjectFunction(
-		astmodel.OwnerProperty,
-		spec,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference),
-		idFactory,
-		ownerFunction)
+	getOwnerProperty := functions.NewObjectFunction(astmodel.OwnerProperty, idFactory, ownerFunction)
+	getOwnerProperty.AddPackageReference(astmodel.GenRuntimeReference)
 
-	getSpecFunction := functions.NewGetterFunction(
-		"Spec", astmodel.ConvertibleSpecInterfaceType, "returns the spec from our resource", idFactory)
-
-	getStatusFunction := functions.NewGetterFunction(
-		"Status", astmodel.ConvertibleStatusInterfaceType, "returns that status for our resource", idFactory)
+	getSpecFunction := functions.NewObjectFunction("GetSpec", idFactory, createGetSpecFunction)
+	getStatusFunction := functions.NewObjectFunction("GetStatus", idFactory, createGetStatusFunction)
 
 	kubernetesResourceImplementation := astmodel.NewInterfaceImplementation(
 		astmodel.KubernetesResourceType,
@@ -93,13 +82,10 @@ func AddKubernetesResourceInterfaceImpls(
 
 		specObj := spec.(*astmodel.ObjectType)
 
-		r = r.WithSpec(specObj.WithFunction(
-			functions.NewObjectFunction(
-				astmodel.SetAzureNameFunc,
-				specObj,
-				astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference),
-				idFactory,
-				setNameFunction)))
+		setFn := functions.NewObjectFunction(astmodel.SetAzureNameFunc, idFactory, setNameFunction)
+		setFn.AddPackageReference(astmodel.GenRuntimeReference)
+
+		r = r.WithSpec(specObj.WithFunction(setFn))
 	}
 
 	// Add defaults
@@ -325,6 +311,44 @@ func ownerFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.
 	}
 
 	fn.AddComments("returns the ResourceReference of the owner, or nil if there is no owner")
+
+	return fn.DefineFunc()
+}
+
+func createGetSpecFunction(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, _ string) *dst.FuncDecl {
+	receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverType := astmodel.NewOptionalType(receiver)
+
+	fn := &astbuilder.FuncDetails{
+		ReceiverIdent: receiverIdent,
+		ReceiverType:  receiverType.AsType(codeGenerationContext),
+		Name:          "GetSpec",
+		Body: astbuilder.Statements(
+			astbuilder.Returns(
+				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))),
+	}
+
+	fn.AddReturn(astmodel.ConvertibleSpecInterfaceType.AsType(codeGenerationContext))
+	fn.AddComments("returns the specification of this resource")
+
+	return fn.DefineFunc()
+}
+
+func createGetStatusFunction(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, _ string) *dst.FuncDecl {
+	receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverType := astmodel.NewOptionalType(receiver)
+
+	fn := &astbuilder.FuncDetails{
+		ReceiverIdent: receiverIdent,
+		ReceiverType:  receiverType.AsType(codeGenerationContext),
+		Name:          "GetStatus",
+		Body: astbuilder.Statements(
+			astbuilder.Returns(
+				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")))),
+	}
+
+	fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsType(codeGenerationContext))
+	fn.AddComments("returns the current status of this resource")
 
 	return fn.DefineFunc()
 }
