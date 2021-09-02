@@ -1042,8 +1042,8 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 
 	// Location
 	if source.Location != nil {
-		locationTemp := *source.Location
-		databaseAccountGetResultsStatus.Location = &locationTemp
+		location := *source.Location
+		databaseAccountGetResultsStatus.Location = &location
 	} else {
 		databaseAccountGetResultsStatus.Location = nil
 	}
@@ -1424,8 +1424,8 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 
 	// Location
 	if databaseAccountGetResultsStatus.Location != nil {
-		locationTemp := *databaseAccountGetResultsStatus.Location
-		destination.Location = &locationTemp
+		location := *databaseAccountGetResultsStatus.Location
+		destination.Location = &location
 	} else {
 		destination.Location = nil
 	}
@@ -2354,8 +2354,8 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseA
 
 	// Location
 	if source.Location != nil {
-		locationTemp := *source.Location
-		databaseAccountsSpec.Location = &locationTemp
+		location := *source.Location
+		databaseAccountsSpec.Location = &location
 	} else {
 		databaseAccountsSpec.Location = nil
 	}
@@ -2633,8 +2633,8 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAcc
 
 	// Location
 	if databaseAccountsSpec.Location != nil {
-		locationTemp := *databaseAccountsSpec.Location
-		destination.Location = &locationTemp
+		location := *databaseAccountsSpec.Location
+		destination.Location = &location
 	} else {
 		destination.Location = nil
 	}

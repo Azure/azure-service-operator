@@ -14,8 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-// TestAddStatusConditions checks that the Add Status Conditions pipeline stage does what we expect
-func TestAddStatusConditions(t *testing.T) {
+// TestGolden_AddStatusConditions checks that the Add Status Conditions pipeline stage does what we expect
+func TestGolden_AddStatusConditions(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
@@ -28,7 +28,6 @@ func TestAddStatusConditions(t *testing.T) {
 	types.AddAll(resourceV1, spec, status)
 
 	initialState := NewState().WithTypes(types)
-
 	finalState, err := RunTestPipeline(
 		initialState,
 		AddStatusConditions(idFactory))
@@ -36,5 +35,5 @@ func TestAddStatusConditions(t *testing.T) {
 
 	// When verifying the golden file, check to ensure that the Conditions property on the Status type looks correct,
 	// and that the conditions.Conditioner interface is properly implemented on the resource.
-	test.AssertPackagesGenerateExpectedCode(t, finalState.types)
+	test.AssertPackagesGenerateExpectedCode(t, finalState.types, test.DiffWithTypes(types))
 }

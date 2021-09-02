@@ -2008,8 +2008,8 @@ func (bgpSettings *BgpSettings) AssignPropertiesFromBgpSettings(source *v1alpha1
 
 	// BgpPeeringAddress
 	if source.BgpPeeringAddress != nil {
-		bgpPeeringAddressTemp := *source.BgpPeeringAddress
-		bgpSettings.BgpPeeringAddress = &bgpPeeringAddressTemp
+		bgpPeeringAddress := *source.BgpPeeringAddress
+		bgpSettings.BgpPeeringAddress = &bgpPeeringAddress
 	} else {
 		bgpSettings.BgpPeeringAddress = nil
 	}
@@ -2055,8 +2055,8 @@ func (bgpSettings *BgpSettings) AssignPropertiesToBgpSettings(destination *v1alp
 
 	// BgpPeeringAddress
 	if bgpSettings.BgpPeeringAddress != nil {
-		bgpPeeringAddressTemp := *bgpSettings.BgpPeeringAddress
-		destination.BgpPeeringAddress = &bgpPeeringAddressTemp
+		bgpPeeringAddress := *bgpSettings.BgpPeeringAddress
+		destination.BgpPeeringAddress = &bgpPeeringAddress
 	} else {
 		destination.BgpPeeringAddress = nil
 	}
@@ -2166,8 +2166,8 @@ func (bgpSettingsStatus *BgpSettings_Status) AssignPropertiesFromBgpSettingsStat
 
 	// BgpPeeringAddress
 	if source.BgpPeeringAddress != nil {
-		bgpPeeringAddressTemp := *source.BgpPeeringAddress
-		bgpSettingsStatus.BgpPeeringAddress = &bgpPeeringAddressTemp
+		bgpPeeringAddress := *source.BgpPeeringAddress
+		bgpSettingsStatus.BgpPeeringAddress = &bgpPeeringAddress
 	} else {
 		bgpSettingsStatus.BgpPeeringAddress = nil
 	}
@@ -2213,8 +2213,8 @@ func (bgpSettingsStatus *BgpSettings_Status) AssignPropertiesToBgpSettingsStatus
 
 	// BgpPeeringAddress
 	if bgpSettingsStatus.BgpPeeringAddress != nil {
-		bgpPeeringAddressTemp := *bgpSettingsStatus.BgpPeeringAddress
-		destination.BgpPeeringAddress = &bgpPeeringAddressTemp
+		bgpPeeringAddress := *bgpSettingsStatus.BgpPeeringAddress
+		destination.BgpPeeringAddress = &bgpPeeringAddress
 	} else {
 		destination.BgpPeeringAddress = nil
 	}
