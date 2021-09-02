@@ -105,6 +105,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// that objects are all expanded
 		pipeline.ApplyPropertyRewrites(configuration).
 			RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects"),
+		pipeline.RemoveResourceScope(),
 
 		pipeline.MakeStatusPropertiesOptional(),
 		pipeline.RemoveStatusValidations(),
