@@ -29,8 +29,6 @@ type Function interface {
 	Equals(f Function) bool
 }
 
-var _ Function = &ObjectFunction{}
-
 type resourceFunctionHandler func(f *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl
 
 // resourceFunction is a simple helper that implements the Function interface. It is intended for use for functions

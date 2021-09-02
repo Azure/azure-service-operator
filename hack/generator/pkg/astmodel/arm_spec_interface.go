@@ -52,7 +52,7 @@ func NewARMSpecInterfaceImpl(
 		return nil, err
 	}
 
-	getNameFunc := &ObjectFunction{
+	getNameFunc := &objectFunction{
 		name:             "Get" + NameProperty,
 		o:                spec,
 		idFactory:        idFactory,
@@ -60,7 +60,7 @@ func NewARMSpecInterfaceImpl(
 		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
 	}
 
-	getTypeFunc := &ObjectFunction{
+	getTypeFunc := &objectFunction{
 		name:             "Get" + TypeProperty,
 		o:                spec,
 		idFactory:        idFactory,
@@ -68,7 +68,7 @@ func NewARMSpecInterfaceImpl(
 		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
 	}
 
-	getAPIVersionFunc := &ObjectFunction{
+	getAPIVersionFunc := &objectFunction{
 		name:             "Get" + APIVersionProperty,
 		o:                spec,
 		idFactory:        idFactory,
@@ -85,7 +85,7 @@ func NewARMSpecInterfaceImpl(
 	return result, nil
 }
 
-func getNameFunction(k *ObjectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func getNameFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		k,
 		codeGenerationContext,
@@ -95,7 +95,7 @@ func getNameFunction(k *ObjectFunction, codeGenerationContext *CodeGenerationCon
 		false)
 }
 
-func getTypeFunction(k *ObjectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func getTypeFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		k,
 		codeGenerationContext,
@@ -105,7 +105,7 @@ func getTypeFunction(k *ObjectFunction, codeGenerationContext *CodeGenerationCon
 		true)
 }
 
-func getAPIVersionFunction(k *ObjectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func getAPIVersionFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		k,
 		codeGenerationContext,
@@ -116,7 +116,7 @@ func getAPIVersionFunction(k *ObjectFunction, codeGenerationContext *CodeGenerat
 }
 
 func armSpecInterfaceSimpleGetFunction(
-	k *ObjectFunction,
+	k *objectFunction,
 	codeGenerationContext *CodeGenerationContext,
 	receiver TypeName,
 	methodName string,

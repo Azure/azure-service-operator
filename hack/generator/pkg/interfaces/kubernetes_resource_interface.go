@@ -14,6 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
 // AddKubernetesResourceInterfaceImpls adds the required interfaces for
@@ -51,24 +52,34 @@ func AddKubernetesResourceInterfaceImpls(
 		return nil, err
 	}
 
-	getAzureNameProperty := astmodel.NewObjectFunction(
+	getAzureNameProperty := functions.NewObjectFunction(
 		astmodel.AzureNameProperty,
 		spec,
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference),
 		idFactory,
 		getNameFunction)
 
-	getOwnerProperty := astmodel.NewObjectFunction(
+	getOwnerProperty := functions.NewObjectFunction(
 		astmodel.OwnerProperty,
 		spec,
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference),
 		idFactory,
 		ownerFunction)
 
-	r = r.WithInterface(astmodel.NewInterfaceImplementation(
+	getSpecFunction := functions.NewGetterFunction(
+		"Spec", astmodel.ConvertibleSpecInterfaceType, "returns the spec from our resource", idFactory)
+
+	getStatusFunction := functions.NewGetterFunction(
+		"Status", astmodel.ConvertibleStatusInterfaceType, "returns that status for our resource", idFactory)
+
+	kubernetesResourceImplementation := astmodel.NewInterfaceImplementation(
 		astmodel.KubernetesResourceType,
 		getAzureNameProperty,
-		getOwnerProperty))
+		getOwnerProperty,
+		getSpecFunction,
+		getStatusFunction)
+
+	r = r.WithInterface(kubernetesResourceImplementation)
 
 	if setNameFunction != nil {
 		// this function applies to Spec not the resource
@@ -83,7 +94,7 @@ func AddKubernetesResourceInterfaceImpls(
 		specObj := spec.(*astmodel.ObjectType)
 
 		r = r.WithSpec(specObj.WithFunction(
-			astmodel.NewObjectFunction(
+			functions.NewObjectFunction(
 				astmodel.SetAzureNameFunc,
 				specObj,
 				astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference),
@@ -110,7 +121,7 @@ func AddKubernetesResourceInterfaceImpls(
 
 // note that this can, as a side-effect, update the resource type
 // it is a bit ugly!
-func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.ObjectType, t astmodel.Type, types astmodel.Types) (astmodel.ObjectFunctionHandler, astmodel.ObjectFunctionHandler, error) {
+func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.ObjectType, t astmodel.Type, types astmodel.Types) (functions.ObjectFunctionHandler, functions.ObjectFunctionHandler, error) {
 	// handle different types of AzureName property
 	switch azureNamePropType := t.(type) {
 	case *astmodel.ValidatedType:
@@ -176,8 +187,8 @@ func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.Obje
 
 // getEnumAzureNameFunction adds an AzureName() function that casts the AzureName property
 // with an enum value to a string
-func getEnumAzureNameFunction(enumType astmodel.TypeName) astmodel.ObjectFunctionHandler {
-	return func(f *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func getEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFunctionHandler {
+	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 		receiverType := receiver.AsType(codeGenerationContext)
 
@@ -198,8 +209,8 @@ func getEnumAzureNameFunction(enumType astmodel.TypeName) astmodel.ObjectFunctio
 
 // setEnumAzureNameFunction returns a function that sets the AzureName property to the result of casting
 // the argument string to the given enum type
-func setEnumAzureNameFunction(enumType astmodel.TypeName) astmodel.ObjectFunctionHandler {
-	return func(f *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func setEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFunctionHandler {
+	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 		receiverType := receiver.AsType(codeGenerationContext)
 
@@ -224,7 +235,7 @@ func setEnumAzureNameFunction(enumType astmodel.TypeName) astmodel.ObjectFunctio
 }
 
 // fixedValueGetAzureNameFunction adds an AzureName() function that returns a fixed value
-func fixedValueGetAzureNameFunction(fixedValue string) astmodel.ObjectFunctionHandler {
+func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionHandler {
 	// ensure fixedValue is quoted. This is always the case with enum values we pass,
 	// but let's be safe:
 	if len(fixedValue) == 0 {
@@ -235,7 +246,7 @@ func fixedValueGetAzureNameFunction(fixedValue string) astmodel.ObjectFunctionHa
 		fixedValue = fmt.Sprintf("%q", fixedValue)
 	}
 
-	return func(f *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 		receiverType := receiver.AsType(codeGenerationContext)
 
@@ -272,7 +283,7 @@ func IsKubernetesResourceProperty(name astmodel.PropertyName) bool {
 }
 
 // ownerFunction returns a function that returns the owner of the resource
-func ownerFunction(k *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func ownerFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 
 	fn := &astbuilder.FuncDetails{
@@ -391,7 +402,7 @@ func createResourceReference(
 
 // setStringAzureNameFunction returns a function that sets the Name property of
 // the resource spec to the argument string
-func setStringAzureNameFunction(k *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func setStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -416,7 +427,7 @@ func setStringAzureNameFunction(k *astmodel.ObjectFunction, codeGenerationContex
 }
 
 // getStringAzureNameFunction returns a function that returns the Name property of the resource spec
-func getStringAzureNameFunction(k *astmodel.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func getStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 	receiverType := receiver.AsType(codeGenerationContext)
 
