@@ -137,6 +137,7 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.KnownResourc
 	return nil
 }
 
+// ConvertSpecTo copies information from the current instance onto the supplied destination
 func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*ResourceGroupStatus)
 	if !ok {
@@ -161,6 +162,7 @@ func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.Conver
 	return nil
 }
 
+// ConvertSpecFrom copies information from the supplied source onto the current instance
 func (status *ResourceGroupStatus) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	src, ok := source.(*ResourceGroupStatus)
 	if !ok {
@@ -240,6 +242,7 @@ func (spec *ResourceGroupSpec) PopulateFromARM(owner genruntime.KnownResourceRef
 // SetAzureName sets the Azure name of the resource
 func (spec *ResourceGroupSpec) SetAzureName(azureName string) { spec.AzureName = azureName }
 
+// ConvertSpecTo copies information from the current instance over to the supplied destination
 func (spec *ResourceGroupSpec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*ResourceGroupSpec)
 	if !ok {
@@ -258,6 +261,7 @@ func (spec *ResourceGroupSpec) ConvertSpecTo(destination genruntime.ConvertibleS
 	return nil
 }
 
+// ConvertSpecFrom copies information from the supplied source onto the current instance
 func (spec *ResourceGroupSpec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*ResourceGroupSpec)
 	if !ok {
