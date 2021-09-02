@@ -5,7 +5,7 @@
 
 package astmodel
 
-// TypeSet represesents a set of types
+// TypeSet represents a set of types
 type TypeSet struct {
 	types []Type
 }
