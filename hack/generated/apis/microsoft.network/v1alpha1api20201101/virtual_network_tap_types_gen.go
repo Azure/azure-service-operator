@@ -81,7 +81,7 @@ func (virtualNetworkTap *VirtualNetworkTap) GetSpec() genruntime.ConvertibleSpec
 	return &virtualNetworkTap.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (virtualNetworkTap *VirtualNetworkTap) GetStatus() genruntime.ConvertibleStatus {
 	return &virtualNetworkTap.Status
 }

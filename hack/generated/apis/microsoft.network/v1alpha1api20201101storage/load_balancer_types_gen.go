@@ -49,7 +49,7 @@ func (loadBalancer *LoadBalancer) GetSpec() genruntime.ConvertibleSpec {
 	return &loadBalancer.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (loadBalancer *LoadBalancer) GetStatus() genruntime.ConvertibleStatus {
 	return &loadBalancer.Status
 }

@@ -50,7 +50,7 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) GetSpec() genruntime.Conve
 	return &virtualMachineScaleSet.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (virtualMachineScaleSet *VirtualMachineScaleSet) GetStatus() genruntime.ConvertibleStatus {
 	return &virtualMachineScaleSet.Status
 }

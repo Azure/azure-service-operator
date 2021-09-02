@@ -83,7 +83,7 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) GetSpec() genruntime.Convert
 	return &virtualNetworksSubnet.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (virtualNetworksSubnet *VirtualNetworksSubnet) GetStatus() genruntime.ConvertibleStatus {
 	return &virtualNetworksSubnet.Status
 }

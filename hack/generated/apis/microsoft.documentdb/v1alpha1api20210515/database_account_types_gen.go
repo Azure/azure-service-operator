@@ -81,7 +81,7 @@ func (databaseAccount *DatabaseAccount) GetSpec() genruntime.ConvertibleSpec {
 	return &databaseAccount.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (databaseAccount *DatabaseAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &databaseAccount.Status
 }

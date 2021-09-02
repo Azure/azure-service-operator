@@ -83,7 +83,7 @@ func (userAssignedIdentity *UserAssignedIdentity) GetSpec() genruntime.Convertib
 	return &userAssignedIdentity.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (userAssignedIdentity *UserAssignedIdentity) GetStatus() genruntime.ConvertibleStatus {
 	return &userAssignedIdentity.Status
 }

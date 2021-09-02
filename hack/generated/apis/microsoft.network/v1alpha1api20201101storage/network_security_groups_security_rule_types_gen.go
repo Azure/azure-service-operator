@@ -49,7 +49,7 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetS
 	return &networkSecurityGroupsSecurityRule.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetStatus() genruntime.ConvertibleStatus {
 	return &networkSecurityGroupsSecurityRule.Status
 }

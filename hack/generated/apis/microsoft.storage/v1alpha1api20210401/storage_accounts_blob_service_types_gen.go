@@ -74,7 +74,7 @@ func (storageAccountsBlobService *StorageAccountsBlobService) GetSpec() genrunti
 	return &storageAccountsBlobService.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (storageAccountsBlobService *StorageAccountsBlobService) GetStatus() genruntime.ConvertibleStatus {
 	return &storageAccountsBlobService.Status
 }

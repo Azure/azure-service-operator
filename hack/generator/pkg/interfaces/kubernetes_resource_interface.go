@@ -348,7 +348,7 @@ func createGetStatusFunction(f *functions.ObjectFunction, codeGenerationContext 
 	}
 
 	fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsType(codeGenerationContext))
-	fn.AddComments("returns the current status of this resource")
+	fn.AddComments("returns the status of this resource")
 
 	return fn.DefineFunc()
 }

@@ -49,7 +49,7 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 	return &virtualNetworksVirtualNetworkPeering.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetStatus() genruntime.ConvertibleStatus {
 	return &virtualNetworksVirtualNetworkPeering.Status
 }

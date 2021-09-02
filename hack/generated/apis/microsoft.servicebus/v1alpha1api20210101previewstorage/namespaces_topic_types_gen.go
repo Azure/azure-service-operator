@@ -49,7 +49,7 @@ func (namespacesTopic *NamespacesTopic) GetSpec() genruntime.ConvertibleSpec {
 	return &namespacesTopic.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (namespacesTopic *NamespacesTopic) GetStatus() genruntime.ConvertibleStatus {
 	return &namespacesTopic.Status
 }

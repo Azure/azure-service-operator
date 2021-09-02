@@ -83,7 +83,7 @@ func (networkSecurityGroup *NetworkSecurityGroup) GetSpec() genruntime.Convertib
 	return &networkSecurityGroup.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (networkSecurityGroup *NetworkSecurityGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &networkSecurityGroup.Status
 }

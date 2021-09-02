@@ -50,7 +50,7 @@ func (disk *Disk) GetSpec() genruntime.ConvertibleSpec {
 	return &disk.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (disk *Disk) GetStatus() genruntime.ConvertibleStatus {
 	return &disk.Status
 }

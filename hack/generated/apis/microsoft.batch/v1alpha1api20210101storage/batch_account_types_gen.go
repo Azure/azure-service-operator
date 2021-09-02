@@ -49,7 +49,7 @@ func (batchAccount *BatchAccount) GetSpec() genruntime.ConvertibleSpec {
 	return &batchAccount.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (batchAccount *BatchAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &batchAccount.Status
 }

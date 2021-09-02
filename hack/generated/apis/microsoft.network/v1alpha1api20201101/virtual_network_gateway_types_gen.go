@@ -83,7 +83,7 @@ func (virtualNetworkGateway *VirtualNetworkGateway) GetSpec() genruntime.Convert
 	return &virtualNetworkGateway.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (virtualNetworkGateway *VirtualNetworkGateway) GetStatus() genruntime.ConvertibleStatus {
 	return &virtualNetworkGateway.Status
 }

@@ -81,7 +81,7 @@ func (storageAccount *StorageAccount) GetSpec() genruntime.ConvertibleSpec {
 	return &storageAccount.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (storageAccount *StorageAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &storageAccount.Status
 }

@@ -49,7 +49,7 @@ func (publicIPAddress *PublicIPAddress) GetSpec() genruntime.ConvertibleSpec {
 	return &publicIPAddress.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (publicIPAddress *PublicIPAddress) GetStatus() genruntime.ConvertibleStatus {
 	return &publicIPAddress.Status
 }
