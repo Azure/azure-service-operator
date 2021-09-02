@@ -60,7 +60,7 @@ func (a *A) GetSpec() genruntime.ConvertibleSpec {
 	return &a.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (a *A) GetStatus() genruntime.ConvertibleStatus {
 	return &a.Status
 }
@@ -233,7 +233,7 @@ func (b *B) GetSpec() genruntime.ConvertibleSpec {
 	return &b.Spec
 }
 
-// GetStatus returns the current status of this resource
+// GetStatus returns the status of this resource
 func (b *B) GetStatus() genruntime.ConvertibleStatus {
 	return &b.Status
 }
