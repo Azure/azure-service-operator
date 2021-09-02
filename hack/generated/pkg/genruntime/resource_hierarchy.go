@@ -56,28 +56,88 @@ func (h ResourceHierarchy) Location() (string, error) {
 }
 
 // FullAzureName returns the full Azure name for use in creating a resource.
-// This name is the full "path" to the resource being deployed. For example, a Virtual Network Subnet's
-// name might be: "myvnet/mysubnet"
+// For normal resources this name is the full "path" to the resource being deployed. For example, a Virtual Network Subnet's
+// name might be: "myvnet/mysubnet". For extension resources, this is the name of the last resource in the hierarchy (the extension
+// resource itself).
 func (h ResourceHierarchy) FullAzureName() string {
-	var azureNames []string
+	azureNames := h.getAzureNames()
 
-	rootKind := h.RootKind()
-
-	var resources ResourceHierarchy
-	switch rootKind {
-	case ResourceHierarchyRootResourceGroup:
-		resources = h[1:]
-	case ResourceHierarchyRootSubscription:
-		resources = h
-	default:
-		panic(fmt.Sprintf("unknown root kind: %s", rootKind))
-	}
-
-	for _, res := range resources {
-		azureNames = append(azureNames, res.AzureName())
+	if len(azureNames) > 1 {
+		lastResource := h[len(h)-1]
+		if lastResource.GetResourceKind() == ResourceKindExtension {
+			return lastResource.AzureName()
+		}
 	}
 
 	return strings.Join(azureNames, "/")
+}
+
+// Scope returns the scope of the resource hierarchy. An error is returned if the last
+// resource in the hierarchy has any ResourceKind other than ResourceKindExtension.
+func (h ResourceHierarchy) Scope() (string, error) {
+	if len(h) == 0 {
+		return "", nil
+	}
+
+	lastResource := h[len(h)-1]
+	lastResourceKind := lastResource.GetResourceKind()
+
+	if lastResourceKind != ResourceKindExtension {
+		return "", errors.Errorf(
+			"resource %s/%s is not of kind %q, instead %q",
+			lastResource.GetNamespace(),
+			lastResource.GetName(),
+			ResourceKindExtension,
+			lastResourceKind)
+	}
+
+	resources := h.resourcesToConsider()
+	resources = resources[:len(resources)-1]
+
+	var resourceTypes []string
+
+	for i, res := range resources {
+		// Start with the base type, as-is.
+		if i == 0 {
+			resourceTypes = append(resourceTypes, res.GetType())
+		} else {
+			parentType := resourceTypes[i-1]
+			if !strings.HasPrefix(res.GetType(), parentType) {
+				return "", errors.Errorf(
+					"resource %s/%s type %s doesn't have %s prefix",
+					res.GetNamespace(),
+					res.GetName(),
+					res.GetType(),
+					resourceTypes[i-1])
+			}
+
+			childType := strings.TrimPrefix(res.GetType(), parentType)
+			childType = strings.TrimLeft(childType, "/")
+
+			resourceTypes = append(resourceTypes, childType)
+		}
+	}
+
+	parentNames := h.getAzureNames()
+	parentNames = parentNames[:len(parentNames)-1]
+
+	// Note: This is actually impossible assuming we don't have a bug, because both of these sets are based on h
+	// which obviously has the same length as itself.
+	if len(parentNames) != len(resourceTypes) {
+		return "", errors.Errorf("hierarchy had %d parent resource types but %d parent names", len(resourceTypes), len(parentNames))
+	}
+
+	var sb strings.Builder
+	// I want zip
+	for i, resourceType := range resourceTypes {
+		name := parentNames[i]
+		if sb.Len() != 0 {
+			sb.WriteString("/")
+		}
+		sb.WriteString(fmt.Sprintf("%s/%s", resourceType, name))
+	}
+
+	return sb.String(), nil
 }
 
 func (h ResourceHierarchy) RootKind() ResourceHierarchyRoot {
@@ -98,4 +158,31 @@ func (h ResourceHierarchy) RootKind() ResourceHierarchyRoot {
 	}
 
 	return ResourceHierarchyRootSubscription
+}
+
+func (h ResourceHierarchy) resourcesToConsider() ResourceHierarchy {
+	rootKind := h.RootKind()
+
+	var resources ResourceHierarchy
+	switch rootKind {
+	case ResourceHierarchyRootResourceGroup:
+		resources = h[1:]
+	case ResourceHierarchyRootSubscription:
+		resources = h
+	default:
+		panic(fmt.Sprintf("unknown root kind: %s", rootKind))
+	}
+
+	return resources
+}
+
+func (h ResourceHierarchy) getAzureNames() []string {
+	var azureNames []string
+	resources := h.resourcesToConsider()
+
+	for _, res := range resources {
+		azureNames = append(azureNames, res.AzureName())
+	}
+
+	return azureNames
 }
