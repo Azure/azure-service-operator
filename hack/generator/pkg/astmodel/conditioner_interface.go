@@ -49,7 +49,7 @@ func NewConditionerInterfaceImpl(
 
 // getConditionsFunction returns a function declaration containing the implementation of the GetConditions() function.
 //
-// func (r *<receiver>)GetConditions() genruntime.Conditions {
+// func (r *<receiver>) GetConditions() genruntime.Conditions {
 //     return r.Status.Conditions
 // }
 func getConditionsFunction(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
@@ -77,7 +77,7 @@ func getConditionsFunction(k *resourceFunction, codeGenerationContext *CodeGener
 
 // setConditionsFunction returns a function declaration containing the implementation of the SetConditions() function.
 //
-// func (r *<receiver>)SetConditions(conditions genruntime.Conditions) {
+// func (r *<receiver>) SetConditions(conditions genruntime.Conditions) {
 //     r.Status.Conditions = conditions
 // }
 func setConditionsFunction(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {

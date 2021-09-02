@@ -10,6 +10,8 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/interfaces"
+
 	"github.com/pkg/errors"
 )
 
@@ -143,7 +145,7 @@ type propertyConversion = func(property *astmodel.PropertyDefinition) (*astmodel
 func (p *PropertyConverter) preserveKubernetesResourceStorageProperties(
 	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
 
-	if astmodel.IsKubernetesResourceProperty(prop.PropertyName()) {
+	if interfaces.IsKubernetesResourceProperty(prop.PropertyName()) {
 		// Keep these unchanged
 		return prop, nil
 	}

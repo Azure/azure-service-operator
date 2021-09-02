@@ -51,6 +51,7 @@ var (
 	GomegaImport = NewPackageImport(GomegaReference).WithName(".")
 
 	// Type names - GenRuntime
+	KubernetesResourceType         = MakeTypeName(GenRuntimeReference, "KubernetesResource")
 	ConvertibleSpecInterfaceType   = MakeTypeName(GenRuntimeReference, "ConvertibleSpec")
 	ConvertibleStatusInterfaceType = MakeTypeName(GenRuntimeReference, "ConvertibleStatus")
 	ResourceReferenceTypeName      = MakeTypeName(GenRuntimeReference, "ResourceReference")

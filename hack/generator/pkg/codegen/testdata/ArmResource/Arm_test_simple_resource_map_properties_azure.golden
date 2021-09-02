@@ -55,6 +55,16 @@ func (fakeResource *FakeResource) AzureName() string {
 	return fakeResource.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (fakeResource *FakeResource) GetSpec() genruntime.ConvertibleSpec {
+	return &fakeResource.Spec
+}
+
+// GetStatus returns the status of this resource
+func (fakeResource *FakeResource) GetStatus() genruntime.ConvertibleStatus {
+	return &fakeResource.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (fakeResource *FakeResource) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(fakeResource.Spec)

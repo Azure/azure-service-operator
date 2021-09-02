@@ -76,6 +76,16 @@ func (publicIPAddress *PublicIPAddress) AzureName() string {
 	return publicIPAddress.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (publicIPAddress *PublicIPAddress) GetSpec() genruntime.ConvertibleSpec {
+	return &publicIPAddress.Spec
+}
+
+// GetStatus returns the status of this resource
+func (publicIPAddress *PublicIPAddress) GetStatus() genruntime.ConvertibleStatus {
+	return &publicIPAddress.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (publicIPAddress *PublicIPAddress) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(publicIPAddress.Spec)

@@ -78,6 +78,16 @@ func (userAssignedIdentity *UserAssignedIdentity) AzureName() string {
 	return userAssignedIdentity.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (userAssignedIdentity *UserAssignedIdentity) GetSpec() genruntime.ConvertibleSpec {
+	return &userAssignedIdentity.Spec
+}
+
+// GetStatus returns the status of this resource
+func (userAssignedIdentity *UserAssignedIdentity) GetStatus() genruntime.ConvertibleStatus {
+	return &userAssignedIdentity.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (userAssignedIdentity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(userAssignedIdentity.Spec)
