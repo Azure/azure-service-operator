@@ -6,8 +6,6 @@
 package conversions
 
 import (
-	"github.com/gobuffalo/flect"
-
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
@@ -18,44 +16,29 @@ type TypedConversionEndpoint struct {
 	theType astmodel.Type
 	// name is the name of the underlying property, used to generate useful local identifiers
 	name string
-	// knownLocals is a shared map of locals that have already been created within a given function, to prevent duplicates
-	knownLocals *astmodel.KnownLocalsSet
 }
 
-func NewStorageConversionEndpoint(
-	theType astmodel.Type,
-	name string,
-	knownLocals *astmodel.KnownLocalsSet) *TypedConversionEndpoint {
+func NewStorageConversionEndpoint(theType astmodel.Type, name string) *TypedConversionEndpoint {
 	return &TypedConversionEndpoint{
-		theType:     theType,
-		name:        name,
-		knownLocals: knownLocals,
+		theType: theType,
+		name:    name,
 	}
 }
 
+// Name returns the actual property name of this endpoint
 func (endpoint *TypedConversionEndpoint) Name() string {
 	return endpoint.name
 }
 
 // Type returns the type of this endpoint
-//TODO: Remove ?
 func (endpoint *TypedConversionEndpoint) Type() astmodel.Type {
 	return endpoint.theType
-}
-
-// CreateLocal creates an identifier for a local variable using one of the supplied suffixes if
-// possible. If all of those suffixes have been used, integer suffixes will be used
-// Each call will return a unique identifier
-func (endpoint *TypedConversionEndpoint) CreateLocal(suffix ...string) string {
-	singular := flect.Singularize(endpoint.name)
-	return endpoint.knownLocals.CreateLocal(singular, suffix...)
 }
 
 // WithType creates a new endpoint with a different type
 func (endpoint *TypedConversionEndpoint) WithType(theType astmodel.Type) *TypedConversionEndpoint {
 	return &TypedConversionEndpoint{
-		theType:     theType,
-		name:        endpoint.name,
-		knownLocals: endpoint.knownLocals,
+		theType: theType,
+		name:    endpoint.name,
 	}
 }

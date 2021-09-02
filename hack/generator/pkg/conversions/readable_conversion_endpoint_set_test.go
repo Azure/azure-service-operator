@@ -20,9 +20,7 @@ func TestWritableConversionEndpointSet_CreatePropertyEndpoints_GivenObject_Creat
 	person := astmodel.NewObjectType().
 		WithProperties(test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
 	set := NewReadableConversionEndpointSet()
-	idFactory := astmodel.NewIdentifierFactory()
-	knownLocals := astmodel.NewKnownLocalsSet(idFactory)
-	set.CreatePropertyEndpoints(person, knownLocals)
+	set.CreatePropertyEndpoints(person)
 
 	g.Expect(set).To(HaveKey("FullName"))
 	g.Expect(set).To(HaveKey("KnownAs"))
