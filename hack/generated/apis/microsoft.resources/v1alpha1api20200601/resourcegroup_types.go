@@ -71,10 +71,12 @@ func (rg *ResourceGroup) Owner() *genruntime.ResourceReference {
 	return nil
 }
 
+// GetSpec returns the specification of this resource
 func (rg *ResourceGroup) GetSpec() genruntime.ConvertibleSpec {
 	return &rg.Spec
 }
 
+// GetStatus returns the status of this resource
 func (rg *ResourceGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &rg.Status
 }
