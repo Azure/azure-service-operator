@@ -21,6 +21,7 @@ If you want to use this:
     2. Search for "`Azure/azure-service-operator`".
     3. Choose either of the following options about where to create the volume.
     4. The window will reload and run the `Dockerfile` setup. The first time, this will take some minutes to complete as it installs all dependencies.
+    5. Run `git submodule init` and `git submodule update`
 
 3. To validate everything is working correctly, you can open a terminal in VS Code and run `task -l`. This will show a list of all `task` commands. Running `task` by itself (or `task default`) will run quick local pre-checkin tests and validation.
 
@@ -79,6 +80,12 @@ The output contains `appId` (`AZURE_CLIENT_ID`), `password` (`AZURE_CLIENT_SECRE
 
 If you want to skip all recordings and run all tests directly against live Azure resources, you can use the `controller:test-integration-envtest-live` task. This will also require you to set the authentication environment variables, as detailed above.
 
+### Running a single test
+By default `task controller:test-integration-envtest` and its variants run all tests. This is often undesirable as you may just be working on a single feature or test. In order to run a subset of tests, use:
+```bash
+TEST_FILTER=test_name_regex task controller:test-integration-envtest
+```
+
 ## Running the operator locally
 If you would like to try something out but do not want to write an integration test, you can run the operation locally in a [kind](https://kind.sigs.k8s.io) cluster.
 
@@ -92,3 +99,16 @@ Run the following commands to create a `kind` cluster and deploy the operator, C
 4. `task controller:install` - Installs the CRDs, webhooks, and operator pod (running the image from the local registry) into the cluster.
 
 Once these steps have completed successfully you can use `kubectl` to interact with the local `kind` cluster.
+
+When you're done with the local cluster, tear it down with `task controller:kind-delete`.
+
+## Common problems and their solutions
+
+### Error loading schema from root
+
+Full error:
+> error loading schema from root ... open /azure-service-operator/hack/generator/specs/azure-resource-manager-schemas/schemas/2019-04-01/deploymentTemplate.json no such file or directory
+
+This git repo contains submodules. This error occurs when the submodules are missing, possibly because the repo was not cloned with `--recurse-submodules`.
+
+To resolve this problem, run `git submodule init` and `git submodule update` and then try building again.

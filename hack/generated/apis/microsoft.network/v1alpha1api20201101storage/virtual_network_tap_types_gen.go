@@ -44,6 +44,16 @@ func (virtualNetworkTap *VirtualNetworkTap) AzureName() string {
 	return virtualNetworkTap.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (virtualNetworkTap *VirtualNetworkTap) GetSpec() genruntime.ConvertibleSpec {
+	return &virtualNetworkTap.Spec
+}
+
+// GetStatus returns the status of this resource
+func (virtualNetworkTap *VirtualNetworkTap) GetStatus() genruntime.ConvertibleStatus {
+	return &virtualNetworkTap.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworkTap *VirtualNetworkTap) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworkTap.Spec)

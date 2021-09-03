@@ -78,6 +78,16 @@ func (userAssignedIdentity *UserAssignedIdentity) AzureName() string {
 	return userAssignedIdentity.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (userAssignedIdentity *UserAssignedIdentity) GetSpec() genruntime.ConvertibleSpec {
+	return &userAssignedIdentity.Spec
+}
+
+// GetStatus returns the status of this resource
+func (userAssignedIdentity *UserAssignedIdentity) GetStatus() genruntime.ConvertibleStatus {
+	return &userAssignedIdentity.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (userAssignedIdentity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(userAssignedIdentity.Spec)
@@ -565,7 +575,7 @@ type UserAssignedIdentities_Spec struct {
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//Location: Location to deploy resource to
+	//Location: The Azure region where the identity lives.
 	Location string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required

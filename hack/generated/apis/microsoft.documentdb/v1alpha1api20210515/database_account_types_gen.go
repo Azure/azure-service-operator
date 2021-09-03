@@ -76,6 +76,16 @@ func (databaseAccount *DatabaseAccount) AzureName() string {
 	return databaseAccount.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (databaseAccount *DatabaseAccount) GetSpec() genruntime.ConvertibleSpec {
+	return &databaseAccount.Spec
+}
+
+// GetStatus returns the status of this resource
+func (databaseAccount *DatabaseAccount) GetStatus() genruntime.ConvertibleStatus {
+	return &databaseAccount.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (databaseAccount *DatabaseAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(databaseAccount.Spec)
@@ -1032,8 +1042,8 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 
 	// Location
 	if source.Location != nil {
-		locationTemp := *source.Location
-		databaseAccountGetResultsStatus.Location = &locationTemp
+		location := *source.Location
+		databaseAccountGetResultsStatus.Location = &location
 	} else {
 		databaseAccountGetResultsStatus.Location = nil
 	}
@@ -1414,8 +1424,8 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 
 	// Location
 	if databaseAccountGetResultsStatus.Location != nil {
-		locationTemp := *databaseAccountGetResultsStatus.Location
-		destination.Location = &locationTemp
+		location := *databaseAccountGetResultsStatus.Location
+		destination.Location = &location
 	} else {
 		destination.Location = nil
 	}
@@ -1633,7 +1643,7 @@ type DatabaseAccounts_Spec struct {
 	//account creation.
 	Kind *DatabaseAccountsSpecKind `json:"kind,omitempty"`
 
-	//Location: Location to deploy resource to
+	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -1654,7 +1664,13 @@ type DatabaseAccounts_Spec struct {
 	//PublicNetworkAccess: Whether requests from Public Network are allowed.
 	PublicNetworkAccess *DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	//Tags: Tags are a list of key-value pairs that describe the resource. These tags
+	//can be used in viewing and grouping this resource (across resource groups). A
+	//maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	//greater than 128 characters and value no greater than 256 characters. For
+	//example, the default experience for a template type is set with
+	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
+	//include "Table", "Graph", "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
 
 	//VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos
@@ -2338,8 +2354,8 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseA
 
 	// Location
 	if source.Location != nil {
-		locationTemp := *source.Location
-		databaseAccountsSpec.Location = &locationTemp
+		location := *source.Location
+		databaseAccountsSpec.Location = &location
 	} else {
 		databaseAccountsSpec.Location = nil
 	}
@@ -2617,8 +2633,8 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAcc
 
 	// Location
 	if databaseAccountsSpec.Location != nil {
-		locationTemp := *databaseAccountsSpec.Location
-		destination.Location = &locationTemp
+		location := *databaseAccountsSpec.Location
+		destination.Location = &location
 	} else {
 		destination.Location = nil
 	}

@@ -21,13 +21,13 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 		for nastyIndex, nastyItem := range nastyValue {
 			// Shadow the loop variable to avoid aliasing
 			nastyItem := nastyItem
-			nastyMap1 := make(map[string]bool)
-			for nastyKey1, nastyValue1 := range nastyItem {
+			nastyMap := make(map[string]bool)
+			for nastyKey, nastyValue := range nastyItem {
 				// Shadow the loop variable to avoid aliasing
-				nastyValue1 := nastyValue1
-				nastyMap1[nastyKey1] = nastyValue1
+				nastyValue := nastyValue
+				nastyMap[nastyKey] = nastyValue
 			}
-			nastyList[nastyIndex] = nastyMap1
+			nastyList[nastyIndex] = nastyMap
 		}
 		nastyMap[nastyKey] = nastyList
 	}
@@ -49,13 +49,13 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 		for nastyIndex, nastyItem := range nastyValue {
 			// Shadow the loop variable to avoid aliasing
 			nastyItem := nastyItem
-			nastyMap1 := make(map[string]bool)
-			for nastyKey1, nastyValue1 := range nastyItem {
+			nastyMap := make(map[string]bool)
+			for nastyKey, nastyValue := range nastyItem {
 				// Shadow the loop variable to avoid aliasing
-				nastyValue1 := nastyValue1
-				nastyMap1[nastyKey1] = nastyValue1
+				nastyValue := nastyValue
+				nastyMap[nastyKey] = nastyValue
 			}
-			nastyList[nastyIndex] = nastyMap1
+			nastyList[nastyIndex] = nastyMap
 		}
 		nastyMap[nastyKey] = nastyList
 	}

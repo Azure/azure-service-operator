@@ -274,7 +274,7 @@ func assignToOptional(
 
 			// Only obtain our local variable name after we know we need it
 			// (this avoids reserving the name and not using it, which can interact with other conversions)
-			local := destinationEndpoint.CreateLocal("", "Temp")
+			local := conversionContext.CreateLocal(destinationEndpoint.Name(), "", "Temp")
 
 			assignment := astbuilder.ShortDeclaration(local, expr)
 
@@ -328,7 +328,7 @@ func pullFromBagItem(
 		return nil
 	}
 
-	local := sourceEndpoint.CreateLocal("", "Read")
+	local := conversionContext.CreateLocal(sourceEndpoint.Name(), "", "Read")
 	errIdent := dst.NewIdent("err")
 
 	return func(_ dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
@@ -415,13 +415,21 @@ func assignFromOptional(
 	// statement (a nested scope) and we don't want any variables declared in that scope to leak
 	// out elsewhere.
 	unwrappedEndpoint := sourceEndpoint.WithType(sourceOptional.Element())
+	nestedContext := conversionContext.NestedContext()
 	conversion, _ := CreateTypeConversion(
 		unwrappedEndpoint,
 		destinationEndpoint,
-		conversionContext.NestedContext())
+		nestedContext)
 	if conversion == nil {
 		return nil
 	}
+
+	// The knownLocals of the nested context is likely to have been partially populated by the CreateTypeConversion call
+	// just above. When the conversion is called, it's likely to modify knownLocals further.
+	// The func we're about to return might be called multiple times, and we don't want any crosstalk between calls.
+	// Grabbing this checkpoint here lets us reset the knownLocals to a known state just prior to each call of the
+	// conversion, ensuring there's no crosstalk.
+	nestedCheckpoint := nestedContext.KnownLocals().Checkpoint()
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		var cacheOriginal dst.Stmt
@@ -441,8 +449,7 @@ func assignFromOptional(
 
 			// Only obtain our local variable name after we know we need it
 			// (this avoids reserving the name and not using it, which can interact with other conversions)
-			local := sourceEndpoint.CreateLocal("", "Read")
-
+			local := conversionContext.CreateLocal(sourceEndpoint.Name(), "", "AsRead")
 			cacheOriginal = astbuilder.ShortDeclaration(local, reader)
 			actualReader = dst.NewIdent(local)
 		}
@@ -450,6 +457,7 @@ func assignFromOptional(
 		checkForNil := astbuilder.AreNotEqual(actualReader, astbuilder.Nil())
 
 		// If we have a value, need to convert it to our destination type
+		nestedContext.KnownLocals().Restore(nestedCheckpoint)
 		writeActualValue := conversion(
 			astbuilder.Dereference(actualReader),
 			writer,
@@ -775,22 +783,30 @@ func assignArrayFromArray(
 	// (a nested scope) and we don't want any variables declared in that scope to leak out elsewhere.
 	unwrappedSourceEndpoint := sourceEndpoint.WithType(sourceArray.Element())
 	unwrappedDestinationEndpoint := destinationEndpoint.WithType(destinationArray.Element())
+	nestedContext := conversionContext.NestedContext()
 	conversion, _ := CreateTypeConversion(
 		unwrappedSourceEndpoint,
 		unwrappedDestinationEndpoint,
-		conversionContext.NestedContext())
+		nestedContext)
 	if conversion == nil {
 		return nil
 	}
+
+	// The knownLocals of the nested context is likely to have been partially populated by the CreateTypeConversion call
+	// just above. When the conversion is called, it's likely to modify knownLocals further.
+	// The func we're about to return might be called multiple times, and we don't want any crosstalk between calls.
+	// Grabbing this checkpoint here lets us reset the knownLocals to a known state just prior to each call of the
+	// conversion, ensuring there's no crosstalk.
+	nestedCheckpoint := nestedContext.KnownLocals().Checkpoint()
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		// We create three obviously related identifiers to use for the array conversion
 		// These suffixes must not overlap with those used for map conversion.
 		// (If these suffixes overlap, the naming becomes difficult to read when converting maps containing slices or
 		// vice versa.)
-		itemId := sourceEndpoint.CreateLocal("Item")
-		indexId := sourceEndpoint.CreateLocal("Index")
-		tempId := sourceEndpoint.CreateLocal("List")
+		itemId := conversionContext.CreateLocal(sourceEndpoint.Name(), "Item")
+		indexId := conversionContext.CreateLocal(sourceEndpoint.Name(), "Index")
+		tempId := conversionContext.CreateLocal(sourceEndpoint.Name(), "List")
 
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
@@ -811,6 +827,7 @@ func assignArrayFromArray(
 		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
 		avoidAliasing.Decs.Before = dst.NewLine
 
+		nestedContext.KnownLocals().Restore(nestedCheckpoint)
 		loopBody := astbuilder.Statements(
 			avoidAliasing,
 			conversion(dst.NewIdent(itemId), writeToElement, generationContext))
@@ -870,22 +887,30 @@ func assignMapFromMap(
 	// (a nested scope) and we don't want any variables declared in that scope to leak out elsewhere.
 	unwrappedSourceEndpoint := sourceEndpoint.WithType(sourceMap.ValueType())
 	unwrappedDestinationEndpoint := destinationEndpoint.WithType(destinationMap.ValueType())
+	nestedContext := conversionContext.NestedContext()
 	conversion, _ := CreateTypeConversion(
 		unwrappedSourceEndpoint,
 		unwrappedDestinationEndpoint,
-		conversionContext.NestedContext())
+		nestedContext)
 	if conversion == nil {
 		return nil
 	}
+
+	// The knownLocals of the nested context is likely to have been partially populated by the CreateTypeConversion call
+	// just above. When the conversion is called, it's likely to modify knownLocals further.
+	// The func we're about to return might be called multiple times, and we don't want any crosstalk between calls.
+	// Grabbing this checkpoint here lets us reset the knownLocals to a known state just prior to each call of the
+	// conversion, ensuring there's no crosstalk.
+	nestedCheckpoint := nestedContext.KnownLocals().Checkpoint()
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		// We create three obviously related identifiers to use for the conversion.
 		// These suffixes must not overlap with those used for array conversion.
 		// (If these suffixes overlap, the naming becomes difficult to read when converting maps containing slices or
 		// vice versa.)
-		itemId := sourceEndpoint.CreateLocal("Value")
-		keyId := sourceEndpoint.CreateLocal("Key")
-		tempId := sourceEndpoint.CreateLocal("Map")
+		itemId := conversionContext.CreateLocal(sourceEndpoint.Name(), "Value")
+		keyId := conversionContext.CreateLocal(sourceEndpoint.Name(), "Key")
+		tempId := conversionContext.CreateLocal(sourceEndpoint.Name(), "Map")
 
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
@@ -906,6 +931,7 @@ func assignMapFromMap(
 		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
 		avoidAliasing.Decs.Before = dst.NewLine
 
+		nestedContext.KnownLocals().Restore(nestedCheckpoint)
 		loopBody := astbuilder.Statements(
 			avoidAliasing,
 			conversion(dst.NewIdent(itemId), assignToItem, generationContext))
@@ -973,7 +999,7 @@ func assignEnumFromEnum(
 		return nil
 	}
 
-	local := destinationEndpoint.CreateLocal("", "As"+destinationName.Name(), "Value")
+	local := conversionContext.CreateLocal(destinationEndpoint.Name(), "", "As"+destinationName.Name(), "Value")
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, ctx *astmodel.CodeGenerationContext) []dst.Stmt {
 		result := []dst.Stmt{
 			astbuilder.ShortDeclaration(local, astbuilder.CallFunc(destinationName.Name(), reader)),
@@ -1107,7 +1133,7 @@ func assignObjectFromObject(
 		return nil
 	}
 
-	copyVar := destinationEndpoint.CreateLocal()
+	copyVar := conversionContext.CreateLocal(destinationEndpoint.Name())
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		// We have to do this at render time in order to ensure the first conversion generated

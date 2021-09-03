@@ -181,7 +181,7 @@ type ResourceNavigationLink_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	//Id: Resource navigation link identifier.
 	Id *string `json:"id,omitempty"`
 
 	//Name: Name of the resource that is unique within a resource group. This name can

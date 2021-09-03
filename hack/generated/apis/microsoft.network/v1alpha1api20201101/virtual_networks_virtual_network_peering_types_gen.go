@@ -78,6 +78,16 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 	return virtualNetworksVirtualNetworkPeering.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetSpec() genruntime.ConvertibleSpec {
+	return &virtualNetworksVirtualNetworkPeering.Spec
+}
+
+// GetStatus returns the status of this resource
+func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetStatus() genruntime.ConvertibleStatus {
+	return &virtualNetworksVirtualNetworkPeering.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksVirtualNetworkPeering.Spec)

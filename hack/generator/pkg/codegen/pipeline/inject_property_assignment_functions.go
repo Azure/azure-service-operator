@@ -56,7 +56,7 @@ func InjectPropertyAssignmentFunctions(idFactory astmodel.IdentifierFactory) Sta
 				nextDef, ok := types[nextName]
 				if !ok {
 					// No next type so nothing to do
-					// (this is expected if the type is discontinued or we're looking at the hub type)
+					// (this is expected if the type is discontinued, or we're looking at the hub type)
 					continue
 				}
 
@@ -102,15 +102,15 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	upstreamDef astmodel.TypeDefinition, downstreamDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 
 	// Create conversion functions
-	conversionContext := conversions.NewPropertyConversionContext(f.types, f.idFactory)
-
-	assignFromFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, conversionContext, conversions.ConvertFrom)
+	assignFromContext := conversions.NewPropertyConversionContext(f.types, f.idFactory)
+	assignFromFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignFromContext, conversions.ConvertFrom)
 	upstreamName := upstreamDef.Name()
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
-	assignToFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, conversionContext, conversions.ConvertTo)
+	assignToContext := conversions.NewPropertyConversionContext(f.types, f.idFactory)
+	assignToFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignToContext, conversions.ConvertTo)
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)
 	}

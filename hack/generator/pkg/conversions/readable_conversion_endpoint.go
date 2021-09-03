@@ -31,11 +31,10 @@ var _ fmt.Stringer = &ReadableConversionEndpoint{}
 func NewReadableConversionEndpointReadingProperty(
 	propertyName astmodel.PropertyName,
 	propertyType astmodel.Type,
-	knownLocals *astmodel.KnownLocalsSet,
 ) *ReadableConversionEndpoint {
 	name := string(propertyName)
 	return &ReadableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(propertyType, name, knownLocals),
+		endpoint: NewStorageConversionEndpoint(propertyType, name),
 		reader: func(source dst.Expr) dst.Expr {
 			return astbuilder.Selector(source, name)
 		},
@@ -48,10 +47,9 @@ func NewReadableConversionEndpointReadingProperty(
 func NewReadableConversionEndpointReadingValueFunction(
 	fnName string,
 	fnReturnType astmodel.Type,
-	knownLocals *astmodel.KnownLocalsSet,
 ) *ReadableConversionEndpoint {
 	return &ReadableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(fnReturnType, fnName, knownLocals),
+		endpoint: NewStorageConversionEndpoint(fnReturnType, fnName),
 		reader: func(source dst.Expr) dst.Expr {
 			return astbuilder.CallExpr(source, fnName)
 		},
@@ -64,10 +62,9 @@ func NewReadableConversionEndpointReadingValueFunction(
 func NewReadableConversionEndpointReadingPropertyBagMember(
 	itemName string,
 	itemType astmodel.Type,
-	knownLocals *astmodel.KnownLocalsSet,
 ) *ReadableConversionEndpoint {
 	return &ReadableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(NewPropertyBagMemberType(itemType), itemName, knownLocals),
+		endpoint: NewStorageConversionEndpoint(NewPropertyBagMemberType(itemType), itemName),
 		// We don't supply a reader function because we don't read the value from the source instance when dealing with
 		// a property bag member; instead we read it from a property bag that's stashed in a local variable.
 		// See AssignFromBagItem() for more details
