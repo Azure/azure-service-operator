@@ -1,4 +1,4 @@
-name: Render Visualization of Repo
+name: Render Visualization of Azure Service Operator v2
 on:
   workflow_dispatch: {}
   push:
@@ -14,4 +14,6 @@ jobs:
       - name: Update diagram
         uses: githubocto/repo-visualizer@main
         with:
-          excluded_paths: "ignore,.github"
+          excluded_paths: "ignore,.github,hack"
+          output_file: "docs/images/aso-v1-structure.svg"
+          commit_message: "Updating visualization for ASO v1"
