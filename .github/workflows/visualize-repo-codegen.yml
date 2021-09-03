@@ -1,0 +1,21 @@
+name: Render Visualization of Azure Service Operator Code Generator
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - master
+      - feature/repo-visualization
+jobs:
+  get_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Update diagram
+        uses: githubocto/repo-visualizer@main
+        with:
+          excluded_paths: "ignore,.github"
+          output_file: "docs/images/aso-codegen-structure.svg"
+          root_path: "hack/generator"
+          commit_message: "Updating visualization for the code generator"
+
