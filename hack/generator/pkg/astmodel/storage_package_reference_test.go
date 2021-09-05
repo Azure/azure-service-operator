@@ -27,7 +27,7 @@ func TestMakeStoragePackageReference(t *testing.T) {
 		c := c
 		t.Run(c.group, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			localRef := makeTestLocalPackageReference(c.group, c.version)
 			storageRef := MakeStoragePackageReference(localRef)
@@ -60,7 +60,7 @@ func TestStoragePackageReferenceEquals(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			areEqual := c.storageRef.Equals(c.otherRef)
 
@@ -88,7 +88,7 @@ func TestStoragePackageReferenceIsPreview(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			ref := MakeStoragePackageReference(
 				makeTestLocalPackageReference(

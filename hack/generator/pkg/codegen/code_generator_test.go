@@ -31,7 +31,7 @@ var (
  */
 
 func TestRemoveStages_RemovesSpecifiedStages(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	gen := &CodeGenerator{
 		pipeline: []pipeline.Stage{
@@ -47,7 +47,7 @@ func TestRemoveStages_RemovesSpecifiedStages(t *testing.T) {
 }
 
 func TestRemoveStages_PanicsForUnknownStage(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	gen := &CodeGenerator{
 		pipeline: []pipeline.Stage{
@@ -77,7 +77,7 @@ func MakeFakePipelineStage(id string) pipeline.Stage {
  */
 
 func TestReplaceStage_ReplacesSpecifiedStage(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	gen := &CodeGenerator{
 		pipeline: []pipeline.Stage{
@@ -94,7 +94,7 @@ func TestReplaceStage_ReplacesSpecifiedStage(t *testing.T) {
 }
 
 func TestReplaceStage_PanicsForUnknownStage(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	gen := &CodeGenerator{
 		pipeline: []pipeline.Stage{
@@ -115,7 +115,7 @@ func TestReplaceStage_PanicsForUnknownStage(t *testing.T) {
  */
 
 func TestInjectStageAfter_InjectsSpecifiedStage(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	gen := &CodeGenerator{
 		pipeline: []pipeline.Stage{
@@ -132,7 +132,7 @@ func TestInjectStageAfter_InjectsSpecifiedStage(t *testing.T) {
 }
 
 func TestInjectStageAfter_PanicsForUnknownStage(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	gen := &CodeGenerator{
 		pipeline: []pipeline.Stage{
@@ -153,7 +153,7 @@ func TestInjectStageAfter_PanicsForUnknownStage(t *testing.T) {
  */
 
 func TestVerifyPipeline_GivenNoPrerequisites_ReturnsNoError(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	gen := &CodeGenerator{
 		pipeline: []pipeline.Stage{
@@ -167,7 +167,7 @@ func TestVerifyPipeline_GivenNoPrerequisites_ReturnsNoError(t *testing.T) {
 }
 
 func TestVerifyPipeline_GivenSatisfiedPrerequisites_ReturnsNoError(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
 
@@ -184,7 +184,7 @@ func TestVerifyPipeline_GivenSatisfiedPrerequisites_ReturnsNoError(t *testing.T)
 }
 
 func TestVerifyPipeline_GivenUnsatisfiedPrerequisites_ReturnsError(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
 
@@ -203,7 +203,7 @@ func TestVerifyPipeline_GivenUnsatisfiedPrerequisites_ReturnsError(t *testing.T)
 }
 
 func TestVerifyPipeline_GivenOutOfOrderPrerequisites_ReturnsError(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
 
@@ -223,7 +223,7 @@ func TestVerifyPipeline_GivenOutOfOrderPrerequisites_ReturnsError(t *testing.T) 
 }
 
 func TestVerifyPipeline_GivenSatisfiedPostrequisites_ReturnsNoError(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	stage := MakeFakePipelineStage("stage").RequiresPostrequisiteStages(barStage.Id())
 
@@ -241,7 +241,7 @@ func TestVerifyPipeline_GivenSatisfiedPostrequisites_ReturnsNoError(t *testing.T
 }
 
 func TestVerifyPipeline_GivenUnsatisfiedPostrequisites_ReturnsError(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	stage := MakeFakePipelineStage("stage").RequiresPrerequisiteStages(barStage.Id())
 
@@ -260,7 +260,7 @@ func TestVerifyPipeline_GivenUnsatisfiedPostrequisites_ReturnsError(t *testing.T
 }
 
 func TestVerifyPipeline_GivenOutOfOrderPostrequisites_ReturnsError(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	stage := MakeFakePipelineStage("stage").RequiresPostrequisiteStages(barStage.Id())
 

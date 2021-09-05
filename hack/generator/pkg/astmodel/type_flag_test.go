@@ -16,7 +16,7 @@ import (
  */
 
 func TestTypeFlag_Wrap_GivenType_ReturnsWrappedType(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	ft := ARMFlag.ApplyTo(StringType)
 	g.Expect(ft.element).To(Equal(StringType))
 	g.Expect(ft.HasFlag(ARMFlag)).To(BeTrue())
@@ -47,7 +47,7 @@ func TestTypeFlag_IsOn_GivenType_ReturnsExpectedValue(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			g.Expect(c.flag.IsOn(c.subject)).To(Equal(c.expected))
 		})
 	}
@@ -79,7 +79,7 @@ func TestTypeFlag_RemoveFrom_ReturnsExpectedValue(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			removed, err := c.flag.RemoveFrom(c.subject)
 			g.Expect(err).ToNot(HaveOccurred())

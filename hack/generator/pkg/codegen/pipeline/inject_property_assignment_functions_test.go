@@ -15,7 +15,7 @@ import (
 )
 
 func TestInjectPropertyAssignmentFunctions(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 	// Test Resource V1

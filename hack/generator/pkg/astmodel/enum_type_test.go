@@ -38,7 +38,7 @@ var (
  */
 
 func Test_NewEnumType_GivenValues_InitializesFields(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	e := NewEnumType(StringType, aboveValue, underValue)
 	g.Expect(e.baseType).To(Equal(StringType))
@@ -50,7 +50,7 @@ func Test_NewEnumType_GivenValues_InitializesFields(t *testing.T) {
  */
 
 func Test_EnumTypeBaseType_AfterConstruction_ReturnsExpectedType(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	e := NewEnumType(StringType, aboveValue, underValue)
 	g.Expect(e.BaseType()).To(Equal(StringType))
@@ -105,7 +105,7 @@ func Test_EnumTypeEquals_GivenEnums_ReturnsExpectedResult(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			areEqual := c.thisEnum.Equals(c.otherEnum)
 

@@ -18,7 +18,7 @@ import (
 // Test_NewSpecPivotConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToSpec() and
 // ConvertFromSpec() functions are converting to/from spec types that ARE the hub type
 func Test_NewSpecPivotConversionFunction_Conversion_GeneratesExpectedCode(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our spec type
@@ -42,7 +42,7 @@ func Test_NewSpecPivotConversionFunction_Conversion_GeneratesExpectedCode(t *tes
 // Test_NewStatusPivotConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToStatus() and
 // ConvertFromStatus() functions are converting to/from status types that aren't the hub  type
 func Test_NewStatusPivotConversionFunction_Conversion_GeneratesExpectedCode(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our status type
