@@ -218,7 +218,7 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	}
 }
 
-func TestPropertyAssignmentFunction_AsFunc(t *testing.T) {
+func TestGolden_PropertyAssignmentFunction_AsFunc(t *testing.T) {
 	t.Parallel()
 
 	for _, c := range CreatePropertyAssignmentFunctionTestCases() {
@@ -249,7 +249,7 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, c.name, receiverDefinition)
 }
 
-func TestPropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) {
+func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) {
 	g := NewWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 	injector := astmodel.NewFunctionInjector()

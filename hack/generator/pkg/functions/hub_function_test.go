@@ -12,7 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-func Test_HubFunction_GeneratesExpectedCode(t *testing.T) {
+func TestGolden_HubFunction_GeneratesExpectedCode(t *testing.T) {
 	idFactory := astmodel.NewIdentifierFactory()
 
 	testGroup := "microsoft.person"
