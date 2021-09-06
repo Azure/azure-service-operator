@@ -11,6 +11,8 @@ import (
 	"reflect"
 
 	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -23,8 +25,30 @@ func ConvertResourceToDeployableResource(
 	resolver *genruntime.Resolver,
 	metaObject genruntime.MetaObject) (genruntime.DeployableResource, error) {
 
-	// TODO: This should be replaced by metaObject.GetSpec() eventually
-	armTransformer, err := extractARMTransformer(metaObject)
+	// Get the spec for our resource
+	spec := metaObject.GetSpec()
+
+	// If needed, convert it to the original ARM API version requested by the user
+	if hasgvk, ok := metaObject.(genruntime.HasOriginalGVK); ok {
+		currentGVK := metaObject.GetObjectKind().GroupVersionKind()
+		originalGVK := *hasgvk.OriginalGVK()
+		if currentGVK != originalGVK {
+			// Convert the spec to the required version
+			s, err := ConvertSpecToVersion(spec, originalGVK, resolver.Scheme())
+			if err != nil {
+				return nil, errors.Wrapf(err, "unable to convert spec version from %s to %s", currentGVK.Version, originalGVK.Version)
+			}
+
+			spec = s
+		}
+	}
+
+	armTransformer, ok := spec.(genruntime.ARMTransformer)
+	if !ok {
+		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
+	}
+
+	resourceHierarchy, err := resolver.ResolveResourceHierarchy(ctx, metaObject)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +85,26 @@ func ConvertResourceToDeployableResource(
 	} else {
 		return nil, errors.Errorf("unknown resource hierarchy root kind %s", rootKind)
 	}
+}
+
+func ConvertSpecToVersion(spec genruntime.ConvertibleSpec, requestedGVK schema.GroupVersionKind, scheme *runtime.Scheme) (genruntime.ConvertibleSpec, error) {
+	emptyResource, err := scheme.New(requestedGVK)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unble to create new %s", requestedGVK)
+	}
+
+	kr, ok := emptyResource.(genruntime.KubernetesResource)
+	if ! ok {
+		return nil, errors.Wrapf(err, "expected %s to be a KubernetesResource", requestedGVK)
+	}
+
+	result := kr.GetSpec()
+	err = spec.ConvertSpecTo(result)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed conversion to spec from %s", requestedGVK)
+	}
+
+	return result, nil
 }
 
 // NewEmptyArmResourceStatus creates an empty genruntime.ARMResourceStatus from a genruntime.MetaObject
