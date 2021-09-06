@@ -1153,8 +1153,10 @@ func assignObjectFromObject(
 		// If our reader is a dereference, we strip that off (because we need a pointer), else we
 		// take the address of it
 		var actualReader dst.Expr
-		if deref, ok := reader.(*dst.UnaryExpr); ok && deref.Op == token.MUL {
-			actualReader = deref.X
+		if unary, ok := reader.(*dst.UnaryExpr); ok && unary.Op == token.MUL {
+			actualReader = unary.X
+		} else if star, ok := reader.(*dst.StarExpr); ok {
+			actualReader = star.X
 		} else {
 			actualReader = astbuilder.AddrOf(reader)
 		}
@@ -1300,8 +1302,10 @@ func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTy
 
 		return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 			// If our writer is dereferencing a value, skip that as we don't need to dereference before a method call
-			if unary, ok := astbuilder.AsDereference(reader); ok {
+			if unary, ok := reader.(*dst.UnaryExpr); ok && unary.Op == token.MUL {
 				reader = unary.X
+			} else if star, ok := reader.(*dst.StarExpr); ok {
+				reader = star.X
 			}
 
 			if returnKind == returnsReference {

@@ -272,6 +272,13 @@ func IsKubernetesResourceProperty(name astmodel.PropertyName) bool {
 func ownerFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 
+	lookup := lookupGroupAndKindStmt(
+		"group",
+		"kind",
+		astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec"))
+
+	ret := astbuilder.Returns(createResourceReference("group", "kind", receiverIdent))
+
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
@@ -279,37 +286,10 @@ func ownerFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.
 			X: receiver.AsType(codeGenerationContext),
 		},
 		Params: nil,
-		Returns: []*dst.Field{
-			{
-				Type: &dst.StarExpr{
-					X: &dst.SelectorExpr{
-						X:   dst.NewIdent(astmodel.GenRuntimePackageName),
-						Sel: dst.NewIdent("ResourceReference"),
-					},
-				},
-			},
-		},
-		Body: []dst.Stmt{
-			lookupGroupAndKindStmt(
-				"group",
-				"kind",
-				&dst.SelectorExpr{
-					X:   dst.NewIdent(receiverIdent),
-					Sel: dst.NewIdent("Spec"),
-				},
-			),
-			&dst.ReturnStmt{
-				Results: []dst.Expr{
-					createResourceReference(
-						"group",
-						"kind",
-						receiverIdent,
-					),
-				},
-			},
-		},
+		Body:   astbuilder.Statements(lookup, ret),
 	}
 
+	fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsType(codeGenerationContext)))
 	fn.AddComments("returns the ResourceReference of the owner, or nil if there is no owner")
 
 	return fn.DefineFunc()
@@ -323,13 +303,13 @@ func createGetSpecFunction(
 	receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 	receiverType := astmodel.NewOptionalType(receiver)
 
+	ret := astbuilder.Returns(astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))
+
 	fn := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  receiverType.AsType(genContext),
 		Name:          "GetSpec",
-		Body: astbuilder.Statements(
-			astbuilder.Returns(
-				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))),
+		Body:          astbuilder.Statements(ret),
 	}
 
 	fn.AddReturn(astmodel.ConvertibleSpecInterfaceType.AsType(genContext))
@@ -339,7 +319,7 @@ func createGetSpecFunction(
 }
 
 func createGetStatusFunction(
-	idFactory *functions.ObjectFunction,
+	f *functions.ObjectFunction,
 	genContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	_ string) *dst.FuncDecl {
