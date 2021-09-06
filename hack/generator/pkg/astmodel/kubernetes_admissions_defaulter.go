@@ -147,9 +147,7 @@ func (d *DefaulterBuilder) defaultFunction(k *resourceFunction, codeGenerationCo
 			X: receiverType,
 		},
 		Body: []dst.Stmt{
-			&dst.ExprStmt{
-				X: astbuilder.CallQualifiedFunc(receiverIdent, "defaultImpl"), // TODO: This part should maybe be conditional if there are no defaults to define?
-			},
+			astbuilder.InvokeQualifiedFunc(receiverIdent, "defaultImpl"), // TODO: This part should maybe be conditional if there are no defaults to define?
 			astbuilder.AssignToInterface(tempVarIdent, dst.NewIdent(receiverIdent)),
 			astbuilder.IfType(
 				dst.NewIdent(tempVarIdent),

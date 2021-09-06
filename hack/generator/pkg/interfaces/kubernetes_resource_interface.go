@@ -315,39 +315,47 @@ func ownerFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.
 	return fn.DefineFunc()
 }
 
-func createGetSpecFunction(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, _ string) *dst.FuncDecl {
+func createGetSpecFunction(
+	f *functions.ObjectFunction,
+	genContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	_ string) *dst.FuncDecl {
 	receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 	receiverType := astmodel.NewOptionalType(receiver)
 
 	fn := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(codeGenerationContext),
+		ReceiverType:  receiverType.AsType(genContext),
 		Name:          "GetSpec",
 		Body: astbuilder.Statements(
 			astbuilder.Returns(
 				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))),
 	}
 
-	fn.AddReturn(astmodel.ConvertibleSpecInterfaceType.AsType(codeGenerationContext))
+	fn.AddReturn(astmodel.ConvertibleSpecInterfaceType.AsType(genContext))
 	fn.AddComments("returns the specification of this resource")
 
 	return fn.DefineFunc()
 }
 
-func createGetStatusFunction(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, _ string) *dst.FuncDecl {
+func createGetStatusFunction(
+	idFactory *functions.ObjectFunction,
+	genContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	_ string) *dst.FuncDecl {
 	receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 	receiverType := astmodel.NewOptionalType(receiver)
 
 	fn := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(codeGenerationContext),
+		ReceiverType:  receiverType.AsType(genContext),
 		Name:          "GetStatus",
 		Body: astbuilder.Statements(
 			astbuilder.Returns(
 				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")))),
 	}
 
-	fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsType(codeGenerationContext))
+	fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsType(genContext))
 	fn.AddComments("returns the status of this resource")
 
 	return fn.DefineFunc()

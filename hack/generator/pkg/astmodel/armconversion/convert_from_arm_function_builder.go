@@ -119,8 +119,6 @@ func (builder *convertFromARMBuilder) functionBodyStatements() []dst.Stmt {
 }
 
 func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []dst.Stmt {
-	var result []dst.Stmt
-
 	fmtPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
 	dest := builder.typedInputIdent
@@ -129,25 +127,25 @@ func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []d
 	}
 
 	// perform a type assert
-	result = append(
-		result,
-		astbuilder.TypeAssert(
-			dst.NewIdent(dest),
-			dst.NewIdent(builder.inputIdent),
-			dst.NewIdent(builder.armTypeIdent)))
+	// <dest>, ok := <inputIdent>.(<inputIdent>)
+	typeAssert := astbuilder.TypeAssert(
+		dst.NewIdent(dest),
+		dst.NewIdent(builder.inputIdent),
+		dst.NewIdent(builder.armTypeIdent))
 
 	// Check the result of the type assert
-	result = append(
-		result,
-		astbuilder.ReturnIfNotOk(
-			astbuilder.FormatError(
-				fmtPackage,
-				fmt.Sprintf("unexpected type supplied for %s() function. Expected %s, got %%T",
-					builder.methodName,
-					builder.armTypeIdent),
-				dst.NewIdent(builder.inputIdent))))
+	// if !ok {
+	//     return fmt.Errorf("unexpected type supplied ...", <inputIdent>)
+	// }
+	returnIfNotOk := astbuilder.ReturnIfNotOk(
+		astbuilder.FormatError(
+			fmtPackage,
+			fmt.Sprintf("unexpected type supplied for %s() function. Expected %s, got %%T",
+				builder.methodName,
+				builder.armTypeIdent),
+			dst.NewIdent(builder.inputIdent)))
 
-	return result
+	return astbuilder.Statements(typeAssert, returnIfNotOk)
 }
 
 //////////////////////
