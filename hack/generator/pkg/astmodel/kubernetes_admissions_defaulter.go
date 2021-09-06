@@ -151,18 +151,11 @@ func (d *DefaulterBuilder) defaultFunction(k *resourceFunction, codeGenerationCo
 				X: astbuilder.CallQualifiedFunc(receiverIdent, "defaultImpl"), // TODO: This part should maybe be conditional if there are no defaults to define?
 			},
 			astbuilder.AssignToInterface(tempVarIdent, dst.NewIdent(receiverIdent)),
-			&dst.IfStmt{
-				Init: astbuilder.TypeAssert(
-					dst.NewIdent(runtimeDefaulterIdent),
-					dst.NewIdent(tempVarIdent),
-					overrideInterfaceType),
-				Cond: dst.NewIdent("ok"),
-				Body: &dst.BlockStmt{
-					List: []dst.Stmt{
-						astbuilder.InvokeQualifiedFunc(runtimeDefaulterIdent, "CustomDefault"),
-					},
-				},
-			},
+			astbuilder.IfType(
+				dst.NewIdent(tempVarIdent),
+				overrideInterfaceType,
+				runtimeDefaulterIdent,
+				astbuilder.InvokeQualifiedFunc(runtimeDefaulterIdent, "CustomDefault")),
 		},
 	}
 
