@@ -60,11 +60,6 @@ func (a *A) GetSpec() genruntime.ConvertibleSpec {
 	return &a.Spec
 }
 
-// GetStatus returns the status of this resource
-func (a *A) GetStatus() genruntime.ConvertibleStatus {
-	return &a.Status
-}
-
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (a *A) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(a.Spec)
@@ -231,11 +226,6 @@ func (b *B) AzureName() string {
 // GetSpec returns the specification of this resource
 func (b *B) GetSpec() genruntime.ConvertibleSpec {
 	return &b.Spec
-}
-
-// GetStatus returns the status of this resource
-func (b *B) GetStatus() genruntime.ConvertibleStatus {
-	return &b.Status
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
