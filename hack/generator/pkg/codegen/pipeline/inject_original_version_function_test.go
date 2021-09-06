@@ -16,7 +16,7 @@ import (
 )
 
 func TestInjectOriginalVersionFunction(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 

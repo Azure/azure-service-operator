@@ -52,7 +52,7 @@ func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			identifier := idfactory.CreateIdentifier(c.name, c.visibility)
 			g.Expect(identifier).To(Equal(c.expected))
 		})
@@ -85,7 +85,7 @@ func Test_SliceIntoWords_GivenIdentifier_ReturnsExpectedSlice(t *testing.T) {
 		c := c
 		t.Run(c.identifier, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			actual := sliceIntoWords(c.identifier)
 			g.Expect(actual).To(Equal(c.expected))
 		})
@@ -118,7 +118,7 @@ func Test_TransformToSnakeCase_ReturnsExpectedString(t *testing.T) {
 		c := c
 		t.Run(c.string, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			actual := transformToSnakeCase(c.string)
 			g.Expect(actual).To(Equal(c.expected))
 		})
@@ -153,7 +153,7 @@ func Test_SimplifyIdentifier_GivenContextAndName_ReturnsExpectedResult(t *testin
 		c := c
 		t.Run(c.identifier, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			actual := simplifyName(c.context, c.identifier)
 			g.Expect(actual).To(Equal(c.expected))
 		})

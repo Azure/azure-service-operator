@@ -161,13 +161,13 @@ func (p *PropertyConverter) preserveResourceReferenceProperties(
 
 	propertyType := prop.PropertyType()
 	if opt, ok := astmodel.AsOptionalType(propertyType); ok {
-		if opt.Element().Equals(astmodel.ResourceReferenceTypeName) {
+		if opt.Element().Equals(astmodel.ResourceReferenceType) {
 			// Keep these unchanged
 			return prop, nil
 		}
 	}
 
-	if propertyType.Equals(astmodel.ResourceReferenceTypeName) {
+	if propertyType.Equals(astmodel.ResourceReferenceType) {
 		// Keep these unchanged
 		return prop, nil
 	}

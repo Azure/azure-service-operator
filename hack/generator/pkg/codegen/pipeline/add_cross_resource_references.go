@@ -168,7 +168,7 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 	newProp := astmodel.NewPropertyDefinition(
 		idFactory.CreatePropertyName(referencePropertyName, astmodel.Exported),
 		idFactory.CreateIdentifier(referencePropertyName, astmodel.NotExported),
-		astmodel.ResourceReferenceTypeName)
+		astmodel.ResourceReferenceType)
 
 	newProp = newProp.WithDescription(existing.Description())
 	if existing.HasKubebuilderRequiredValidation() {

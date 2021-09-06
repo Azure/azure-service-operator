@@ -12,7 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-func Test_OriginalGVKFunction_ReadingOriginalVersionFromProperty_GeneratesExpectedCode(t *testing.T) {
+func TestGolden_OriginalGVKFunction_ReadingOriginalVersionFromProperty_GeneratesExpectedCode(t *testing.T) {
 	idFactory := astmodel.NewIdentifierFactory()
 
 	testGroup := "microsoft.person"
@@ -31,7 +31,7 @@ func Test_OriginalGVKFunction_ReadingOriginalVersionFromProperty_GeneratesExpect
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "OriginalGVKFunction", resource)
 }
 
-func Test_OriginalGVKFunction_ReadingOriginalVersionFromFunction_GeneratesExpectedCode(t *testing.T) {
+func TestGolden_OriginalGVKFunction_ReadingOriginalVersionFromFunction_GeneratesExpectedCode(t *testing.T) {
 	idFactory := astmodel.NewIdentifierFactory()
 
 	testGroup := "microsoft.person"
