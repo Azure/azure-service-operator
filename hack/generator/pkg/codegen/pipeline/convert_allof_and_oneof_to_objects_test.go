@@ -42,7 +42,7 @@ func defineEnum(strings ...string) astmodel.Type {
 
 // any type merged with AnyType is just the type
 func TestMergeWithAny(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	g.Expect(synth.intersectTypes(astmodel.StringType, astmodel.AnyType)).To(Equal(astmodel.StringType))
 	g.Expect(synth.intersectTypes(astmodel.AnyType, astmodel.StringType)).To(Equal(astmodel.StringType))
@@ -50,7 +50,7 @@ func TestMergeWithAny(t *testing.T) {
 
 // merging maps is merging their keys and values
 func TestMergeMaps(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	g.Expect(synth.intersectTypes(mapStringInterface, mapStringString)).To(Equal(mapStringString))
 	g.Expect(synth.intersectTypes(mapStringString, mapStringInterface)).To(Equal(mapStringString))
@@ -60,7 +60,7 @@ func TestMergeMaps(t *testing.T) {
 
 // merging a map with string keys with an empty object results in the map
 func TestMergeMapEmptyObject(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	g.Expect(synth.intersectTypes(mapStringString, emptyObject)).To(Equal(mapStringString))
 	g.Expect(synth.intersectTypes(emptyObject, mapStringString)).To(Equal(mapStringString))
@@ -68,7 +68,7 @@ func TestMergeMapEmptyObject(t *testing.T) {
 
 // merging a map with an object puts the map into 'additionalProperties'
 func TestMergeMapObject(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	newMap := astmodel.NewMapType(astmodel.StringType, astmodel.FloatType)
 	oneProp := astmodel.NewObjectType().WithProperties(
@@ -85,7 +85,7 @@ func TestMergeMapObject(t *testing.T) {
 
 // merging two objects results in the union of their properties
 func TestMergeObjectObject(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	propX := astmodel.NewPropertyDefinition("x", "x", astmodel.IntType)
 	obj1 := astmodel.NewObjectType().WithProperties(propX)
@@ -101,7 +101,7 @@ func TestMergeObjectObject(t *testing.T) {
 
 // merging two enums results in the intersection of their values
 func TestMergeEnumEnum(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	enum1 := defineEnum("x", "y", "z", "g")
 	enum2 := defineEnum("g", "a", "b", "c")
@@ -114,7 +114,7 @@ func TestMergeEnumEnum(t *testing.T) {
 
 // cannot merge enums with different base types
 func TestMergeBadEnums(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	enum := defineEnum("a", "b")
 	enumInt := astmodel.NewEnumType(astmodel.IntType)
@@ -130,7 +130,7 @@ func TestMergeBadEnums(t *testing.T) {
 
 // merging an enum with its base type results in the enum
 func TestMergeEnumBaseType(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	enum := defineEnum("a", "b")
 
@@ -140,7 +140,7 @@ func TestMergeEnumBaseType(t *testing.T) {
 
 // cannot merge an enum with another non-base type
 func TestMergeEnumWrongBaseType(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	enum := defineEnum("a", "b")
 
@@ -155,7 +155,7 @@ func TestMergeEnumWrongBaseType(t *testing.T) {
 
 // merging two optionals merges their contents
 func TestMergeOptionalOptional(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	enum1 := astmodel.NewOptionalType(defineEnum("a", "b"))
 	enum2 := astmodel.NewOptionalType(defineEnum("b", "c"))
@@ -171,7 +171,7 @@ func TestMergeOptionalOptional(t *testing.T) {
 func TestMergeOptionalEnum(t *testing.T) {
 	// this feels a bit wrong but it seems to be expected in real life specs
 
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	enum1 := defineEnum("a", "b")
 	enum2 := astmodel.NewOptionalType(defineEnum("b", "c"))
@@ -184,7 +184,7 @@ func TestMergeOptionalEnum(t *testing.T) {
 
 // merging objects with common properties merges the types of those properties
 func TestMergeObjectObjectCommonProperties(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	obj1 := astmodel.NewObjectType().WithProperties(
 		astmodel.NewPropertyDefinition("x", "x", defineEnum("a", "b")))
@@ -201,7 +201,7 @@ func TestMergeObjectObjectCommonProperties(t *testing.T) {
 
 // merging resources merges their spec & status
 func TestMergeResourceResource(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	r1 := astmodel.NewResourceType(defineEnum("a", "b"), defineEnum("x", "y"))
 	r2 := astmodel.NewResourceType(defineEnum("b", "c"), defineEnum("y", "z"))
@@ -213,7 +213,7 @@ func TestMergeResourceResource(t *testing.T) {
 }
 
 func TestMergeResourceMissingStatus(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	r1 := astmodel.NewResourceType(defineEnum("a", "b"), defineEnum("x", "y"))
 	r2 := astmodel.NewResourceType(defineEnum("b", "c"), nil)
@@ -225,7 +225,7 @@ func TestMergeResourceMissingStatus(t *testing.T) {
 }
 
 func TestMergeValidated(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	maxLen := int64(32)
 	validatedString := astmodel.NewValidatedType(
@@ -239,7 +239,7 @@ func TestMergeValidated(t *testing.T) {
 }
 
 func TestMergeValidatedOfOptional(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	maxLen := int64(32)
 	validatedOptionalString := astmodel.NewValidatedType(
@@ -259,7 +259,7 @@ func TestMergeValidatedOfOptional(t *testing.T) {
 }
 
 func TestMergeResourceWithOtherDependsOnSpecVsStatus(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	r := astmodel.NewResourceType(defineEnum("a", "b"), defineEnum("c", "d"))
 	e := defineEnum("b", "c")
@@ -283,7 +283,7 @@ func TestMergeResourceWithOtherDependsOnSpecVsStatus(t *testing.T) {
 
 // merging a oneOf with a type that is in the oneOf results in that type
 func TestMergeOneOf(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	oneOf := astmodel.BuildOneOfType(astmodel.IntType, astmodel.StringType, astmodel.BoolType)
 
@@ -310,7 +310,7 @@ func TestMergeOneOfEnum(t *testing.T) {
 	//
 	// 	Derived: { Location: enum('Global') }
 
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	oneOf := astmodel.BuildOneOfType(
 		astmodel.StringType,
@@ -326,7 +326,7 @@ func TestMergeOneOfEnum(t *testing.T) {
 }
 
 func TestOneOfResourceSpec(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	r := astmodel.NewResourceType(astmodel.StringType, astmodel.IntType)
 	oneOf := astmodel.BuildOneOfType(astmodel.BoolType, r).(*astmodel.OneOfType)

@@ -16,7 +16,7 @@ import (
  */
 
 func Test_NewPackageImport_GivenValues_InitializesFields(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	pr := makeTestLocalPackageReference("group", "ver")
 	pi := NewPackageImport(pr)
@@ -30,7 +30,7 @@ func Test_NewPackageImport_GivenValues_InitializesFields(t *testing.T) {
  */
 
 func Test_PackageImportWithName_GivenName_SetsField(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	name := "foo"
 	pr := makeTestLocalPackageReference("group", "ver")
@@ -39,7 +39,7 @@ func Test_PackageImportWithName_GivenName_SetsField(t *testing.T) {
 }
 
 func Test_PackageImportWithName_GivenName_DoesNotModifyOriginal(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	pr := makeTestLocalPackageReference("group", "ver")
 	original := NewPackageImport(pr)
@@ -48,7 +48,7 @@ func Test_PackageImportWithName_GivenName_DoesNotModifyOriginal(t *testing.T) {
 }
 
 func Test_PackageImportWithName_GivenName_ReturnsDifferentInstance(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	pr := makeTestLocalPackageReference("group", "ver")
 	original := NewPackageImport(pr)
@@ -57,7 +57,7 @@ func Test_PackageImportWithName_GivenName_ReturnsDifferentInstance(t *testing.T)
 }
 
 func Test_PackageImportWithName_GivenExistingName_ReturnsEqualInstance(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	name := "foo"
 	pr := makeTestLocalPackageReference("group", "ver")
@@ -95,7 +95,7 @@ func TestPackageImport_Equals(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			areEqual := c.lhs.Equals(c.rhs)
 
@@ -137,7 +137,7 @@ func TestPackageImport_ServiceNameForImport_GivenImport_ReturnsExpectedName(t *t
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			imp := NewPackageImport(c.ref)
 			name := imp.ServiceNameForImport()
 			g.Expect(name).To(Equal(c.expected))

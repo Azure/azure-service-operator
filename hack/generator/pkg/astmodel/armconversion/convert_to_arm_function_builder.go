@@ -413,7 +413,7 @@ func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.Convers
 		return nil
 	}
 
-	isReference := params.SourceType.Equals(astmodel.ResourceReferenceTypeName)
+	isReference := params.SourceType.Equals(astmodel.ResourceReferenceType)
 	if !isReference {
 		return nil
 	}

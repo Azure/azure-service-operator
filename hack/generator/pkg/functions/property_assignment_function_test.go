@@ -35,7 +35,7 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	currentEnum := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Bucket"), enumType)
 	nextEnum := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "Bucket"), enumType)
 
-	jsonObjectType := astmodel.NewMapType(astmodel.StringType, astmodel.JSONTypeName)
+	jsonObjectType := astmodel.NewMapType(astmodel.StringType, astmodel.JSONType)
 
 	// Aliases of primitive types
 	currentAge := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Age"), astmodel.IntType)
@@ -78,10 +78,10 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	optionalCurrentAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(currentAge.Name()))
 	optionalNextAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(nextAge.Name()))
 
-	referenceProperty := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceTypeName)
-	knownReferenceProperty := astmodel.NewPropertyDefinition("KnownReference", "known-reference", astmodel.KnownResourceReferenceTypeName)
-	jsonProperty := astmodel.NewPropertyDefinition("JSONBlob", "jsonBlob", astmodel.JSONTypeName)
-	optionalJSONProperty := astmodel.NewPropertyDefinition("JSONBlob", "jsonBlob", astmodel.NewOptionalType(astmodel.JSONTypeName))
+	referenceProperty := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceType)
+	knownReferenceProperty := astmodel.NewPropertyDefinition("KnownReference", "known-reference", astmodel.KnownResourceReferenceType)
+	jsonProperty := astmodel.NewPropertyDefinition("JSONBlob", "jsonBlob", astmodel.JSONType)
+	optionalJSONProperty := astmodel.NewPropertyDefinition("JSONBlob", "jsonBlob", astmodel.NewOptionalType(astmodel.JSONType))
 	jsonObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", jsonObjectType)
 	optionalJSONObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", astmodel.NewOptionalType(jsonObjectType))
 
@@ -218,7 +218,7 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	}
 }
 
-func TestPropertyAssignmentFunction_AsFunc(t *testing.T) {
+func TestGolden_PropertyAssignmentFunction_AsFunc(t *testing.T) {
 	t.Parallel()
 
 	for _, c := range CreatePropertyAssignmentFunctionTestCases() {
@@ -231,7 +231,7 @@ func TestPropertyAssignmentFunction_AsFunc(t *testing.T) {
 }
 
 func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCase, t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	currentType, ok := astmodel.AsObjectType(c.currentObject.Type())
@@ -249,8 +249,8 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, c.name, receiverDefinition)
 }
 
-func TestPropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) {
-	g := NewGomegaWithT(t)
+func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) {
+	g := NewWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 	injector := astmodel.NewFunctionInjector()
 

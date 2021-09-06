@@ -16,7 +16,7 @@ import (
 )
 
 func TestReplacingAnyTypes(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
 	aName := astmodel.MakeTypeName(p1, "A")
 	bName := astmodel.MakeTypeName(p1, "B")
@@ -53,7 +53,7 @@ func TestReplacingMapMapInterface(t *testing.T) {
 	// We want to replace map[string]map[string]interface{} with
 	// map[string]JSON, rather than the right one, since
 	// controller-gen can't handle it at the moment.
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
 	aName := astmodel.MakeTypeName(p1, "A")
 
