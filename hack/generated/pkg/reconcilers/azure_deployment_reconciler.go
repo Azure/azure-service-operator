@@ -114,7 +114,7 @@ func NewAzureDeploymentReconciler(
 func (r *AzureDeploymentReconciler) checkForFatalReconciliationError(ctx context.Context, err error) error {
 	var fatal FatalReconciliationError
 	if !errors.As(err, &fatal) {
-		return nil
+		return err
 	}
 
 	condition := r.PositiveConditions.MakeFalseCondition(
