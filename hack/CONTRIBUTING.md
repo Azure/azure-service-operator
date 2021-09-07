@@ -1,5 +1,16 @@
 # Contributing to Azure Service Operator v2
 
+
+## Code Structure 
+
+### Azure Service Operator v2
+
+![Overview](../docs/images/aso-v2-structure.svg)
+
+### Code Generator
+
+![Overview](../docs/images/aso-codegen-structure.svg)
+
 ## Adding a new code-generated resource
 See [adding a new code-generator resource](/docs/v2/adding-new-codegenerated-resource.md).
 
