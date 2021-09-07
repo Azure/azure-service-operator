@@ -78,6 +78,16 @@ func (virtualNetworkGateway *VirtualNetworkGateway) AzureName() string {
 	return virtualNetworkGateway.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (virtualNetworkGateway *VirtualNetworkGateway) GetSpec() genruntime.ConvertibleSpec {
+	return &virtualNetworkGateway.Spec
+}
+
+// GetStatus returns the status of this resource
+func (virtualNetworkGateway *VirtualNetworkGateway) GetStatus() genruntime.ConvertibleStatus {
+	return &virtualNetworkGateway.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworkGateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworkGateway.Spec)
@@ -1998,8 +2008,8 @@ func (bgpSettings *BgpSettings) AssignPropertiesFromBgpSettings(source *v1alpha1
 
 	// BgpPeeringAddress
 	if source.BgpPeeringAddress != nil {
-		bgpPeeringAddressTemp := *source.BgpPeeringAddress
-		bgpSettings.BgpPeeringAddress = &bgpPeeringAddressTemp
+		bgpPeeringAddress := *source.BgpPeeringAddress
+		bgpSettings.BgpPeeringAddress = &bgpPeeringAddress
 	} else {
 		bgpSettings.BgpPeeringAddress = nil
 	}
@@ -2045,8 +2055,8 @@ func (bgpSettings *BgpSettings) AssignPropertiesToBgpSettings(destination *v1alp
 
 	// BgpPeeringAddress
 	if bgpSettings.BgpPeeringAddress != nil {
-		bgpPeeringAddressTemp := *bgpSettings.BgpPeeringAddress
-		destination.BgpPeeringAddress = &bgpPeeringAddressTemp
+		bgpPeeringAddress := *bgpSettings.BgpPeeringAddress
+		destination.BgpPeeringAddress = &bgpPeeringAddress
 	} else {
 		destination.BgpPeeringAddress = nil
 	}
@@ -2156,8 +2166,8 @@ func (bgpSettingsStatus *BgpSettings_Status) AssignPropertiesFromBgpSettingsStat
 
 	// BgpPeeringAddress
 	if source.BgpPeeringAddress != nil {
-		bgpPeeringAddressTemp := *source.BgpPeeringAddress
-		bgpSettingsStatus.BgpPeeringAddress = &bgpPeeringAddressTemp
+		bgpPeeringAddress := *source.BgpPeeringAddress
+		bgpSettingsStatus.BgpPeeringAddress = &bgpPeeringAddress
 	} else {
 		bgpSettingsStatus.BgpPeeringAddress = nil
 	}
@@ -2203,8 +2213,8 @@ func (bgpSettingsStatus *BgpSettings_Status) AssignPropertiesToBgpSettingsStatus
 
 	// BgpPeeringAddress
 	if bgpSettingsStatus.BgpPeeringAddress != nil {
-		bgpPeeringAddressTemp := *bgpSettingsStatus.BgpPeeringAddress
-		destination.BgpPeeringAddress = &bgpPeeringAddressTemp
+		bgpPeeringAddress := *bgpSettingsStatus.BgpPeeringAddress
+		destination.BgpPeeringAddress = &bgpPeeringAddress
 	} else {
 		destination.BgpPeeringAddress = nil
 	}

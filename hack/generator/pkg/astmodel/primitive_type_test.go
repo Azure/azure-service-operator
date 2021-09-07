@@ -37,7 +37,7 @@ func TestPrimitiveType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) 
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			areEqual := c.thisType.Equals(c.otherType)
 

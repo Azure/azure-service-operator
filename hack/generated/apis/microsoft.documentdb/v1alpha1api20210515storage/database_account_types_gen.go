@@ -44,6 +44,16 @@ func (databaseAccount *DatabaseAccount) AzureName() string {
 	return databaseAccount.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (databaseAccount *DatabaseAccount) GetSpec() genruntime.ConvertibleSpec {
+	return &databaseAccount.Spec
+}
+
+// GetStatus returns the status of this resource
+func (databaseAccount *DatabaseAccount) GetStatus() genruntime.ConvertibleStatus {
+	return &databaseAccount.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (databaseAccount *DatabaseAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(databaseAccount.Spec)

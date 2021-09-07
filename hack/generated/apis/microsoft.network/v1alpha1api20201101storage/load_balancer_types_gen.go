@@ -44,6 +44,16 @@ func (loadBalancer *LoadBalancer) AzureName() string {
 	return loadBalancer.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (loadBalancer *LoadBalancer) GetSpec() genruntime.ConvertibleSpec {
+	return &loadBalancer.Spec
+}
+
+// GetStatus returns the status of this resource
+func (loadBalancer *LoadBalancer) GetStatus() genruntime.ConvertibleStatus {
+	return &loadBalancer.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (loadBalancer *LoadBalancer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(loadBalancer.Spec)

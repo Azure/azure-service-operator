@@ -40,7 +40,7 @@ func NewConditionerInterfaceImpl(
 	}
 
 	result := NewInterfaceImplementation(
-		ConditionerTypeName,
+		ConditionerType,
 		getConditions,
 		setConditions)
 
@@ -49,7 +49,7 @@ func NewConditionerInterfaceImpl(
 
 // getConditionsFunction returns a function declaration containing the implementation of the GetConditions() function.
 //
-// func (r *<receiver>)GetConditions() genruntime.Conditions {
+// func (r *<receiver>) GetConditions() genruntime.Conditions {
 //     return r.Status.Conditions
 // }
 func getConditionsFunction(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
@@ -70,14 +70,14 @@ func getConditionsFunction(k *resourceFunction, codeGenerationContext *CodeGener
 	}
 
 	fn.AddComments("returns the conditions of the resource")
-	fn.AddReturn(ConditionsTypeName.AsType(codeGenerationContext))
+	fn.AddReturn(ConditionsType.AsType(codeGenerationContext))
 
 	return fn.DefineFunc()
 }
 
 // setConditionsFunction returns a function declaration containing the implementation of the SetConditions() function.
 //
-// func (r *<receiver>)SetConditions(conditions genruntime.Conditions) {
+// func (r *<receiver>) SetConditions(conditions genruntime.Conditions) {
 //     r.Status.Conditions = conditions
 // }
 func setConditionsFunction(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
@@ -100,7 +100,7 @@ func setConditionsFunction(k *resourceFunction, codeGenerationContext *CodeGener
 
 	fn.AddParameter(
 		conditionsParameterName,
-		ConditionsTypeName.AsType(codeGenerationContext))
+		ConditionsType.AsType(codeGenerationContext))
 	fn.AddComments("sets the conditions on the resource status")
 
 	return fn.DefineFunc()

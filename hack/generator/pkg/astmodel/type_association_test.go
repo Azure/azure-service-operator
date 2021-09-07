@@ -15,7 +15,7 @@ var t1 = MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "t1"
 var t2 = MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "t2")
 
 func TestEmptyTypeAssociation_AreEqual(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	x := make(TypeAssociation)
 	y := make(TypeAssociation)
@@ -25,7 +25,7 @@ func TestEmptyTypeAssociation_AreEqual(t *testing.T) {
 }
 
 func TestIdenticalTypeAssociation_AreEqual(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	x := make(TypeAssociation)
 	x[t1] = t2
@@ -39,7 +39,7 @@ func TestIdenticalTypeAssociation_AreEqual(t *testing.T) {
 }
 
 func TestDifferentTypeAssociation_AreNotEqual(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	x := make(TypeAssociation)
 	x[t1] = t2

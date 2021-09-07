@@ -5,7 +5,6 @@ package v20211231storage
 
 import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231storage"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -15,8 +14,8 @@ import (
 type Person struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              v20211231storage.Person_Spec   `json:"spec,omitempty"`
-	Status            v20211231storage.Person_Status `json:"status,omitempty"`
+	Spec              Person_Spec   `json:"spec,omitempty"`
+	Status            Person_Status `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -24,17 +23,17 @@ type Person struct {
 type PersonList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []v20211231storage.Person `json:"items"`
+	Items           []Person `json:"items"`
 }
 
 //Storage version of v20211231.Person_Spec
 type Person_Spec struct {
-	FamilyName         *string                   `json:"familyName,omitempty"`
-	FullName           *string                   `json:"fullName,omitempty"`
-	KnownAs            *string                   `json:"knownAs,omitempty"`
-	PostalAddress      *v20211231storage.Address `json:"postalAddress,omitempty"`
-	PropertyBag        genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	ResidentialAddress *v20211231storage.Address `json:"residentialAddress,omitempty"`
+	FamilyName         *string                `json:"familyName,omitempty"`
+	FullName           *string                `json:"fullName,omitempty"`
+	KnownAs            *string                `json:"knownAs,omitempty"`
+	PostalAddress      *Address               `json:"postalAddress,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ResidentialAddress *Address               `json:"residentialAddress,omitempty"`
 }
 
 //Storage version of v20211231.Person_Status
@@ -51,5 +50,5 @@ type Address struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&v20211231storage.Person{}, &v20211231storage.PersonList{})
+	SchemeBuilder.Register(&Person{}, &PersonList{})
 }

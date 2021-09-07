@@ -12,14 +12,14 @@ import (
 )
 
 func Test_CanMakeUnixStylePathIntoURL(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	url := absDirectoryPathToURL("/somewhere/over/the/rainbow")
 	g.Expect(url.String()).To(Equal("file:///somewhere/over/the/rainbow/"))
 }
 
 func Test_CanMakeWindowsPathIntoURL(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	url := absDirectoryPathToURL("D:\\yellow\\brick\\road")
 	g.Expect(url.String()).To(Equal("file:///D:/yellow/brick/road/"))

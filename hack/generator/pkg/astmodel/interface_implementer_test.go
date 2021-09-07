@@ -19,7 +19,7 @@ func makeInterfaceImplForTest() *InterfaceImplementation {
 
 func Test_InterfaceImplementerWithInterface_ReturnsNewInstance(t *testing.T) {
 
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := InterfaceImplementer{}
 	updated := original.WithInterface(makeInterfaceImplForTest())

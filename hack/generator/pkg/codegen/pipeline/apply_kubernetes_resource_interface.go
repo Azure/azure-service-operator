@@ -11,6 +11,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/interfaces"
 )
 
 // ApplyKubernetesResourceInterface ensures that every Resource implements the KubernetesResource interface
@@ -30,7 +31,7 @@ func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Stag
 				}
 
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
-					newResource, err := astmodel.AddKubernetesResourceInterfaceImpls(typeName, resource, idFactory, types)
+					newResource, err := interfaces.AddKubernetesResourceInterfaceImpls(typeName, resource, idFactory, types)
 					if err != nil {
 						return nil, errors.Wrapf(err, "couldn't implement Kubernetes resource interface for %q", typeName)
 					}

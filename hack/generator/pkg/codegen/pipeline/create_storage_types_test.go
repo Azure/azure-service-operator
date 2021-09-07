@@ -14,8 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-func TestCreateStorageTypes(t *testing.T) {
-	g := NewGomegaWithT(t)
+func TestGolden_CreateStorageTypes(t *testing.T) {
+	g := NewWithT(t)
 
 	// Test Resource V1
 
@@ -38,13 +38,13 @@ func TestCreateStorageTypes(t *testing.T) {
 
 	types := make(astmodel.Types)
 	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
-	initialState := NewState().WithTypes(types)
 
-	finalState, err := RunTestPipeline(
-		initialState,
-		CreateConversionGraph(),
-		CreateStorageTypes())
+	initialState, err := RunTestPipeline(
+		NewState().WithTypes(types),
+		CreateConversionGraph())
+	g.Expect(err).To(Succeed())
 
+	finalState, err := RunTestPipeline(initialState, CreateStorageTypes())
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())

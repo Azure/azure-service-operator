@@ -33,7 +33,7 @@ var student2020TypeName = astmodel.MakeTypeName(package2020, "student")
 var tutor2020TypeName = astmodel.MakeTypeName(package2020, "tutor")
 
 func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	person := person2020
 	post := post2019
 	student := student2019
@@ -50,7 +50,7 @@ func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
 }
 
 func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	person := person2020TypeName
 	post := post2019TypeName
 	student := student2019TypeName
@@ -76,7 +76,7 @@ func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
 }
 
 func Test_WithMultipleFilters_GivesPrecedenceToEarlierFilters(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	alwaysExportPerson := config.ExportFilter{
 		Action:      config.ExportFilterInclude,
@@ -99,7 +99,7 @@ func Test_WithMultipleFilters_GivesPrecedenceToEarlierFilters(t *testing.T) {
 }
 
 func Test_IncludeTransitive(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	exportPersonTransitive := config.ExportFilter{
 		Action:      config.ExportFilterIncludeTransitive,

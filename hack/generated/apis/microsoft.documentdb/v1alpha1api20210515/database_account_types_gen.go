@@ -76,6 +76,16 @@ func (databaseAccount *DatabaseAccount) AzureName() string {
 	return databaseAccount.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (databaseAccount *DatabaseAccount) GetSpec() genruntime.ConvertibleSpec {
+	return &databaseAccount.Spec
+}
+
+// GetStatus returns the status of this resource
+func (databaseAccount *DatabaseAccount) GetStatus() genruntime.ConvertibleStatus {
+	return &databaseAccount.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (databaseAccount *DatabaseAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(databaseAccount.Spec)
@@ -1032,8 +1042,8 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 
 	// Location
 	if source.Location != nil {
-		locationTemp := *source.Location
-		databaseAccountGetResultsStatus.Location = &locationTemp
+		location := *source.Location
+		databaseAccountGetResultsStatus.Location = &location
 	} else {
 		databaseAccountGetResultsStatus.Location = nil
 	}
@@ -1414,8 +1424,8 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 
 	// Location
 	if databaseAccountGetResultsStatus.Location != nil {
-		locationTemp := *databaseAccountGetResultsStatus.Location
-		destination.Location = &locationTemp
+		location := *databaseAccountGetResultsStatus.Location
+		destination.Location = &location
 	} else {
 		destination.Location = nil
 	}
@@ -2344,8 +2354,8 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseA
 
 	// Location
 	if source.Location != nil {
-		locationTemp := *source.Location
-		databaseAccountsSpec.Location = &locationTemp
+		location := *source.Location
+		databaseAccountsSpec.Location = &location
 	} else {
 		databaseAccountsSpec.Location = nil
 	}
@@ -2623,8 +2633,8 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAcc
 
 	// Location
 	if databaseAccountsSpec.Location != nil {
-		locationTemp := *databaseAccountsSpec.Location
-		destination.Location = &locationTemp
+		location := *databaseAccountsSpec.Location
+		destination.Location = &location
 	} else {
 		destination.Location = nil
 	}

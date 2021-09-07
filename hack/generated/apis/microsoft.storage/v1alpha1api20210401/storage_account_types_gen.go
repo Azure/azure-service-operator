@@ -76,6 +76,16 @@ func (storageAccount *StorageAccount) AzureName() string {
 	return storageAccount.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (storageAccount *StorageAccount) GetSpec() genruntime.ConvertibleSpec {
+	return &storageAccount.Spec
+}
+
+// GetStatus returns the status of this resource
+func (storageAccount *StorageAccount) GetStatus() genruntime.ConvertibleStatus {
+	return &storageAccount.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (storageAccount *StorageAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccount.Spec)

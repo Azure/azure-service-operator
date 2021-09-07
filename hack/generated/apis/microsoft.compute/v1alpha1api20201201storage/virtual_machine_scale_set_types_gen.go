@@ -45,6 +45,16 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) AzureName() string {
 	return virtualMachineScaleSet.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (virtualMachineScaleSet *VirtualMachineScaleSet) GetSpec() genruntime.ConvertibleSpec {
+	return &virtualMachineScaleSet.Spec
+}
+
+// GetStatus returns the status of this resource
+func (virtualMachineScaleSet *VirtualMachineScaleSet) GetStatus() genruntime.ConvertibleStatus {
+	return &virtualMachineScaleSet.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualMachineScaleSet *VirtualMachineScaleSet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualMachineScaleSet.Spec)
