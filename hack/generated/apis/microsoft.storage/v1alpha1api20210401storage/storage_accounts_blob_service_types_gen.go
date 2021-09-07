@@ -60,6 +60,25 @@ func (storageAccountsBlobService *StorageAccountsBlobService) Owner() *genruntim
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: storageAccountsBlobService.Namespace, Name: storageAccountsBlobService.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (storageAccountsBlobService *StorageAccountsBlobService) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*BlobServiceProperties_Status); ok {
+		storageAccountsBlobService.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st BlobServiceProperties_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	storageAccountsBlobService.Status = st
+	return nil
+}
+
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (storageAccountsBlobService *StorageAccountsBlobService) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{

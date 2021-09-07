@@ -92,6 +92,25 @@ func (namespacesQueue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: namespacesQueue.Namespace, Name: namespacesQueue.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (namespacesQueue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*SBQueue_Status); ok {
+		namespacesQueue.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st SBQueue_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	namespacesQueue.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1alpha1api20210101preview,name=validate.v1alpha1api20210101preview.namespacesqueues.microsoft.servicebus.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &NamespacesQueue{}

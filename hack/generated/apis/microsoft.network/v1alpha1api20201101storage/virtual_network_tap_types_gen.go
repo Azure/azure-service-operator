@@ -60,6 +60,25 @@ func (virtualNetworkTap *VirtualNetworkTap) Owner() *genruntime.ResourceReferenc
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualNetworkTap.Namespace, Name: virtualNetworkTap.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (virtualNetworkTap *VirtualNetworkTap) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded); ok {
+		virtualNetworkTap.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualNetworkTap.Status = st
+	return nil
+}
+
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (virtualNetworkTap *VirtualNetworkTap) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{

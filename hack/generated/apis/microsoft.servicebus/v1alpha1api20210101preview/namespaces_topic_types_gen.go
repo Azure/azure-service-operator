@@ -92,6 +92,25 @@ func (namespacesTopic *NamespacesTopic) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: namespacesTopic.Namespace, Name: namespacesTopic.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (namespacesTopic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*SBTopic_Status); ok {
+		namespacesTopic.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st SBTopic_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	namespacesTopic.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacestopic,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.servicebus.azure.com,resources=namespacestopics,verbs=create;update,versions=v1alpha1api20210101preview,name=validate.v1alpha1api20210101preview.namespacestopics.microsoft.servicebus.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &NamespacesTopic{}

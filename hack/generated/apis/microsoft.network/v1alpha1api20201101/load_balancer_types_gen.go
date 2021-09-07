@@ -92,6 +92,25 @@ func (loadBalancer *LoadBalancer) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: loadBalancer.Namespace, Name: loadBalancer.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (loadBalancer *LoadBalancer) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*LoadBalancer_Status); ok {
+		loadBalancer.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st LoadBalancer_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	loadBalancer.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-loadbalancer,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=loadbalancers,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.loadbalancers.microsoft.network.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &LoadBalancer{}

@@ -60,6 +60,25 @@ func (publicIPAddress *PublicIPAddress) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: publicIPAddress.Namespace, Name: publicIPAddress.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (publicIPAddress *PublicIPAddress) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded); ok {
+		publicIPAddress.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	publicIPAddress.Status = st
+	return nil
+}
+
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (publicIPAddress *PublicIPAddress) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
