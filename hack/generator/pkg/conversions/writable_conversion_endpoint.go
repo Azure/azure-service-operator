@@ -30,11 +30,10 @@ var _ fmt.Stringer = &WritableConversionEndpoint{}
 func NewWritableConversionEndpointWritingProperty(
 	propertyName astmodel.PropertyName,
 	propertyType astmodel.Type,
-	knownLocals *astmodel.KnownLocalsSet,
 ) *WritableConversionEndpoint {
 	name := string(propertyName)
 	return &WritableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(propertyType, name, knownLocals),
+		endpoint: NewStorageConversionEndpoint(propertyType, name),
 		writer: func(destination dst.Expr, value dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
 				astbuilder.SimpleAssignment(
@@ -51,10 +50,9 @@ func NewWritableConversionEndpointWritingProperty(
 func NewWritableConversionEndpointWritingPropertyBagMember(
 	itemName string,
 	itemType astmodel.Type,
-	knownLocals *astmodel.KnownLocalsSet,
 ) *WritableConversionEndpoint {
 	return &WritableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(NewPropertyBagMemberType(itemType), itemName, knownLocals),
+		endpoint: NewStorageConversionEndpoint(NewPropertyBagMemberType(itemType), itemName),
 		writer: func(destination dst.Expr, value dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
 				astbuilder.SimpleAssignment(

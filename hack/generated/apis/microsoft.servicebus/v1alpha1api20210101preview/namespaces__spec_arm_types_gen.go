@@ -14,7 +14,7 @@ type Namespaces_SpecARM struct {
 	//Keys
 	Identity *IdentityARM `json:"identity,omitempty"`
 
-	//Location: Location to deploy resource to
+	//Location: The Geo-location where the resource lives
 	Location string `json:"location,omitempty"`
 
 	//Name: Name of the resource

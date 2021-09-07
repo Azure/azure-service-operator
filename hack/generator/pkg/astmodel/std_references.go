@@ -51,20 +51,21 @@ var (
 	GomegaImport = NewPackageImport(GomegaReference).WithName(".")
 
 	// Type names - GenRuntime
+	KubernetesResourceType         = MakeTypeName(GenRuntimeReference, "KubernetesResource")
 	ConvertibleSpecInterfaceType   = MakeTypeName(GenRuntimeReference, "ConvertibleSpec")
 	ConvertibleStatusInterfaceType = MakeTypeName(GenRuntimeReference, "ConvertibleStatus")
-	ResourceReferenceTypeName      = MakeTypeName(GenRuntimeReference, "ResourceReference")
-	KnownResourceReferenceTypeName = MakeTypeName(GenRuntimeReference, "KnownResourceReference")
+	ResourceReferenceType          = MakeTypeName(GenRuntimeReference, "ResourceReference")
+	KnownResourceReferenceType     = MakeTypeName(GenRuntimeReference, "KnownResourceReference")
 	PropertyBagType                = MakeTypeName(GenRuntimeReference, "PropertyBag")
 	ToARMConverterInterfaceType    = MakeTypeName(GenRuntimeReference, "ToARMConverter")
-	ConditionTypeName              = MakeTypeName(GenRuntimeConditionsReference, "Condition")
-	ConditionsTypeName             = MakeTypeName(GenRuntimeConditionsReference, "Conditions")
-	ConditionerTypeName            = MakeTypeName(GenRuntimeConditionsReference, "Conditioner")
+	ConditionType                  = MakeTypeName(GenRuntimeConditionsReference, "Condition")
+	ConditionsType                 = MakeTypeName(GenRuntimeConditionsReference, "Conditions")
+	ConditionerType                = MakeTypeName(GenRuntimeConditionsReference, "Conditioner")
 
 	// Type names - API Machinery
-	GroupVersionKindTypeName = MakeTypeName(APIMachinerySchemaReference, "GroupVersionKind")
-	SchemeType               = MakeTypeName(APIMachineryRuntimeReference, "Scheme")
-	JSONTypeName             = MakeTypeName(APIExtensionsReference, "JSON")
+	GroupVersionKindType = MakeTypeName(APIMachinerySchemaReference, "GroupVersionKind")
+	SchemeType           = MakeTypeName(APIMachineryRuntimeReference, "Scheme")
+	JSONType             = MakeTypeName(APIExtensionsReference, "JSON")
 
 	// Type names - Controller Runtime
 	ConvertibleInterface = MakeTypeName(ControllerRuntimeConversion, "Convertible")

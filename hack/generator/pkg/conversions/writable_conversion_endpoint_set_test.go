@@ -15,14 +15,12 @@ import (
 )
 
 func TestReadableConversionEndpointSet_CreatePropertyEndpoints_GivenObject_CreatesExpectedEndpoints(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	person := astmodel.NewObjectType().
 		WithProperties(test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
 	set := NewWritableConversionEndpointSet()
-	idFactory := astmodel.NewIdentifierFactory()
-	knownLocals := astmodel.NewKnownLocalsSet(idFactory)
-	set.CreatePropertyEndpoints(person, knownLocals)
+	set.CreatePropertyEndpoints(person)
 
 	g.Expect(set).To(HaveKey("FullName"))
 	g.Expect(set).To(HaveKey("KnownAs"))

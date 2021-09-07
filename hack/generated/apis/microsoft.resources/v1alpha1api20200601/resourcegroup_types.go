@@ -5,6 +5,7 @@ package v1alpha1api20200601
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
@@ -70,6 +71,16 @@ func (rg *ResourceGroup) Owner() *genruntime.ResourceReference {
 	return nil
 }
 
+// GetSpec returns the specification of this resource
+func (rg *ResourceGroup) GetSpec() genruntime.ConvertibleSpec {
+	return &rg.Spec
+}
+
+// GetStatus returns the status of this resource
+func (rg *ResourceGroup) GetStatus() genruntime.ConvertibleStatus {
+	return &rg.Status
+}
+
 var _ genruntime.LocatableResource = &ResourceGroup{}
 
 func (rg *ResourceGroup) Location() string {
@@ -102,6 +113,7 @@ type ResourceGroupStatus struct {
 }
 
 var _ genruntime.FromARMConverter = &ResourceGroupStatus{}
+var _ genruntime.ConvertibleStatus = &ResourceGroupStatus{}
 
 func (status *ResourceGroupStatus) CreateEmptyARMValue() interface{} {
 	return ResourceGroupStatusARM{}
@@ -127,6 +139,60 @@ func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.KnownResourc
 	return nil
 }
 
+// ConvertSpecTo copies information from the current instance onto the supplied destination
+func (status *ResourceGroupStatus) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*ResourceGroupStatus)
+	if !ok {
+		return errors.Errorf(
+			"cannot convert ResourceGroupStatus, expected destination to be a *ResourceGroupStatus but received %T",
+			destination)
+	}
+
+	dst.ID = status.ID
+	dst.Name = status.Name
+	dst.Location = status.Location
+	dst.ManagedBy = status.ManagedBy
+	dst.ProvisioningState = status.ProvisioningState
+
+	dst.Tags = make(map[string]string)
+	for k, v := range status.Tags {
+		dst.Tags[k] = v
+	}
+
+	for _, c := range status.Conditions {
+		dst.Conditions = append(dst.Conditions, c.Copy())
+	}
+
+	return nil
+}
+
+// ConvertSpecFrom copies information from the supplied source onto the current instance
+func (status *ResourceGroupStatus) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*ResourceGroupStatus)
+	if !ok {
+		return errors.Errorf(
+			"cannot convert ResourceGroupStatus, expected source to be a *ResourceGroupStatus but received %T",
+			source)
+	}
+
+	status.ID = src.ID
+	status.Name = src.Name
+	status.Location = src.Location
+	status.ManagedBy = src.ManagedBy
+	status.ProvisioningState = src.ProvisioningState
+
+	status.Tags = make(map[string]string)
+	for k, v := range src.Tags {
+		status.Tags[k] = v
+	}
+
+	for _, c := range src.Conditions {
+		status.Conditions = append(status.Conditions, c.Copy())
+	}
+
+	return nil
+}
+
 type ResourceGroupSpec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name
 	// of the resource in Kubernetes but it doesn't have to be.
@@ -144,6 +210,7 @@ type ResourceGroupSpec struct {
 }
 
 var _ genruntime.ARMTransformer = &ResourceGroupSpec{}
+var _ genruntime.ConvertibleSpec = &ResourceGroupSpec{}
 
 func (spec *ResourceGroupSpec) CreateEmptyARMValue() interface{} {
 	return ResourceGroupSpecARM{}
@@ -180,6 +247,48 @@ func (spec *ResourceGroupSpec) PopulateFromARM(owner genruntime.KnownResourceRef
 
 // SetAzureName sets the Azure name of the resource
 func (spec *ResourceGroupSpec) SetAzureName(azureName string) { spec.AzureName = azureName }
+
+// ConvertSpecTo copies information from the current instance over to the supplied destination
+func (spec *ResourceGroupSpec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*ResourceGroupSpec)
+	if !ok {
+		return errors.Errorf(
+			"cannot convert ResourceGroupSpec, expected destination to be a *ResouceGroupSpec but received %T",
+			destination)
+	}
+
+	dst.AzureName = spec.AzureName
+	dst.Location = spec.Location
+	dst.ManagedBy = spec.ManagedBy
+
+	dst.Tags = make(map[string]string)
+	for k, v := range spec.Tags {
+		dst.Tags[k] = v
+	}
+
+	return nil
+}
+
+// ConvertSpecFrom copies information from the supplied source onto the current instance
+func (spec *ResourceGroupSpec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*ResourceGroupSpec)
+	if !ok {
+		return errors.Errorf(
+			"cannot convert ResourceGroupSpec, expected source to be a *ResourceGroupSpec but received %T",
+			source)
+	}
+
+	spec.AzureName = src.AzureName
+	spec.Location = src.Location
+	spec.ManagedBy = src.ManagedBy
+
+	spec.Tags = make(map[string]string)
+	for k, v := range src.Tags {
+		spec.Tags[k] = v
+	}
+
+	return nil
+}
 
 func init() {
 	SchemeBuilder.Register(&ResourceGroup{}, &ResourceGroupList{})

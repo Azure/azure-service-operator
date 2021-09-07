@@ -15,10 +15,10 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-// Test_ResourceConversionFunction_DirectConversion_GeneratesExpectedCode tests the code when the ConvertTo() and
+// TestGolden_ResourceConversionFunction_DirectConversion_GeneratesExpectedCode tests the code when the ConvertTo() and
 // ConvertFrom() functions are directly converting to/from the Hub type, without any intermediate step.
-func Test_ResourceConversionFunction_DirectConversion_GeneratesExpectedCode(t *testing.T) {
-	g := NewGomegaWithT(t)
+func TestGolden_ResourceConversionFunction_DirectConversion_GeneratesExpectedCode(t *testing.T) {
+	g := NewWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type
@@ -56,11 +56,11 @@ func Test_ResourceConversionFunction_DirectConversion_GeneratesExpectedCode(t *t
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "ResourceConversionFunction", modified, test.DiffWith(person2020))
 }
 
-// Test_ResourceConversionFunction_IndirectConversion_GeneratesExpectedCode tests the code when the ConvertTo() and
+// TestGolden_ResourceConversionFunction_IndirectConversion_GeneratesExpectedCode tests the code when the ConvertTo() and
 // ConvertFrom() functions can't convert directly to/from the hub type and are forced to stage the conversion on an
 // intermediate type.
-func Test_ResourceConversionFunction_IndirectConversion_GeneratesExpectedCode(t *testing.T) {
-	g := NewGomegaWithT(t)
+func TestGolden_ResourceConversionFunction_IndirectConversion_GeneratesExpectedCode(t *testing.T) {
+	g := NewWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type

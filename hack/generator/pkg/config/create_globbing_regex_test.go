@@ -29,7 +29,7 @@ func Test_CreateGlobbingRegex_ReturnsExpectedRegex(t *testing.T) {
 		c := c
 		t.Run(c.glob, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			r := createGlobbingRegex(c.glob)
 			g.Expect(r.String()).To(Equal(c.regex))
 		})
@@ -56,7 +56,7 @@ func Test_GlobbingRegex_MatchesExpectedStrings(t *testing.T) {
 		c := c
 		t.Run(c.candidate, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			r := createGlobbingRegex(c.regex)
 			match := r.MatchString(c.candidate)
 			g.Expect(match).To(Equal(c.shouldMatch))

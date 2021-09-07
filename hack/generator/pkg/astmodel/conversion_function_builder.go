@@ -557,7 +557,7 @@ func IdentityAssignValidatedTypeSource(builder *ConversionFunctionBuilder, param
 // It generates code that looks like:
 //     <destination> = *<source>.DeepCopy()
 func IdentityDeepCopyJSON(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
-	if !params.DestinationType.Equals(JSONTypeName) {
+	if !params.DestinationType.Equals(JSONType) {
 		return nil
 	}
 

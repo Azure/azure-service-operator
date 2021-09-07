@@ -16,7 +16,7 @@ import (
 )
 
 func TestCreateConversionGraph(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	person2020 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
 	person2021 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)

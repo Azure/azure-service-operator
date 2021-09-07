@@ -78,6 +78,16 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) AzureName() string {
 	return virtualNetworksSubnet.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (virtualNetworksSubnet *VirtualNetworksSubnet) GetSpec() genruntime.ConvertibleSpec {
+	return &virtualNetworksSubnet.Spec
+}
+
+// GetStatus returns the status of this resource
+func (virtualNetworksSubnet *VirtualNetworksSubnet) GetStatus() genruntime.ConvertibleStatus {
+	return &virtualNetworksSubnet.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworksSubnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksSubnet.Spec)
@@ -2868,7 +2878,7 @@ type ResourceNavigationLink_Status struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	//Id: Resource navigation link identifier.
 	Id *string `json:"id,omitempty"`
 
 	//Link: Link to the external resource.
