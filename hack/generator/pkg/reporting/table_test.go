@@ -7,9 +7,10 @@ package reporting
 
 import (
 	"fmt"
-	"github.com/sebdah/goldie/v2"
 	"strings"
 	"testing"
+
+	"github.com/sebdah/goldie/v2"
 )
 
 func TestTable_StepByStep_GivesExpectedResults(t *testing.T) {
@@ -31,7 +32,7 @@ func TestTable_StepByStep_GivesExpectedResults(t *testing.T) {
 		{"10", "triangle", "yes"},
 	}
 
-	table := NewTable()
+	table := NewTable("Demo")
 	g := goldie.New(t)
 	for i, s := range steps {
 		table.SetCell(s.row, s.col, s.cell)
