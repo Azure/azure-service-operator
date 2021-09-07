@@ -11,6 +11,8 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/gobuffalo/flect"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // TypeName is a name associated with another Type (it also is usable as a Type)
@@ -46,24 +48,21 @@ func (typeName TypeName) AsDeclarations(codeGenerationContext *CodeGenerationCon
 
 // AsType implements Type for TypeName
 func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
-	// If our package is being referenced, we need to ensure we include a selector for that reference
-	packageName, err := codeGenerationContext.GetImportedPackageName(typeName.PackageReference)
-	if err == nil {
-		return &dst.SelectorExpr{
-			X:   dst.NewIdent(packageName),
-			Sel: dst.NewIdent(typeName.Name()),
-		}
+	// If our name is in the current package, we don't need to qualify it
+	if codeGenerationContext.currentPackage.Equals(typeName.PackageReference) {
+		return dst.NewIdent(typeName.name)
 	}
 
-	// Safety assertion that the type we're generating is in the same package that the context is for
-	if !codeGenerationContext.currentPackage.Equals(typeName.PackageReference) {
+	// Need to ensure we include a selector for that reference
+	packageName, err := codeGenerationContext.GetImportedPackageName(typeName.PackageReference)
+	if err != nil {
 		panic(fmt.Sprintf(
 			"no reference for %s included in package %s",
 			typeName.name,
 			codeGenerationContext.currentPackage))
 	}
 
-	return dst.NewIdent(typeName.name)
+	return astbuilder.Selector(dst.NewIdent(packageName), typeName.Name())
 }
 
 // AsZero renders an expression for the "zero" value of the type.
