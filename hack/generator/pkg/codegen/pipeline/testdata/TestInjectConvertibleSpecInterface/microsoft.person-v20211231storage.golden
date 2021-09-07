@@ -5,7 +5,6 @@ package v20211231storage
 
 import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231storage"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -16,8 +15,8 @@ import (
 type Person struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              v20211231storage.Person_Spec   `json:"spec,omitempty"`
-	Status            v20211231storage.Person_Status `json:"status,omitempty"`
+	Spec              Person_Spec   `json:"spec,omitempty"`
+	Status            Person_Status `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -25,7 +24,7 @@ type Person struct {
 type PersonList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []v20211231storage.Person `json:"items"`
+	Items           []Person `json:"items"`
 }
 
 //Storage version of v20211231.Person_Spec
@@ -37,7 +36,7 @@ type Person_Spec struct {
 var _ genruntime.ConvertibleSpec = &Person_Spec{}
 
 // ConvertSpecFrom populates our Person_Spec from the provided source
-func (personSpec *v20211231storage.Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+func (personSpec *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == personSpec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
 	}
@@ -46,7 +45,7 @@ func (personSpec *v20211231storage.Person_Spec) ConvertSpecFrom(source genruntim
 }
 
 // ConvertSpecTo populates the provided destination from our Person_Spec
-func (personSpec *v20211231storage.Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+func (personSpec *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == personSpec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
 	}
@@ -61,5 +60,5 @@ type Person_Status struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&v20211231storage.Person{}, &v20211231storage.PersonList{})
+	SchemeBuilder.Register(&Person{}, &PersonList{})
 }
