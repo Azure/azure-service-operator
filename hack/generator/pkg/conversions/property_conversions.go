@@ -62,10 +62,10 @@ func init() {
 		// Complex object types
 		assignObjectFromObject,
 		// Known types
-		copyKnownType(astmodel.KnownResourceReferenceTypeName, "Copy", returnsValue),
-		copyKnownType(astmodel.ResourceReferenceTypeName, "Copy", returnsValue),
-		copyKnownType(astmodel.ConditionTypeName, "Copy", returnsValue),
-		copyKnownType(astmodel.JSONTypeName, "DeepCopy", returnsReference),
+		copyKnownType(astmodel.KnownResourceReferenceType, "Copy", returnsValue),
+		copyKnownType(astmodel.ResourceReferenceType, "Copy", returnsValue),
+		copyKnownType(astmodel.ConditionType, "Copy", returnsValue),
+		copyKnownType(astmodel.JSONType, "DeepCopy", returnsReference),
 		// Meta-conversions
 		assignFromOptional,
 		assignToOptional,

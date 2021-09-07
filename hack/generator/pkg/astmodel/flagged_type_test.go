@@ -16,7 +16,7 @@ import (
  */
 
 func TestNewFlaggedType_GivenTypeAndFlag_ReturnsFlaggedTypeWithFlag(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	ft := NewFlaggedType(StringType, ARMFlag)
 
 	g.Expect(ft).ToNot(BeNil())
@@ -25,7 +25,7 @@ func TestNewFlaggedType_GivenTypeAndFlag_ReturnsFlaggedTypeWithFlag(t *testing.T
 }
 
 func TestNewFlaggedType_GivenFlaggedType_DoesNotWrapTypeFurther(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	inner := NewFlaggedType(StringType, ARMFlag)
 	outer := NewFlaggedType(inner, StorageFlag)
 	g.Expect(outer).ToNot(BeNil())
@@ -38,7 +38,7 @@ func TestNewFlaggedType_GivenFlaggedType_DoesNotWrapTypeFurther(t *testing.T) {
  */
 
 func TestFlaggedType_WithFlag_GivenFlag_ReturnsFlaggedTypeWithExpectedFlags(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	inner := NewFlaggedType(StringType, ARMFlag)
 	outer := inner.WithFlag(StorageFlag)
 	g.Expect(outer).ToNot(BeNil())
@@ -51,14 +51,14 @@ func TestFlaggedType_WithFlag_GivenFlag_ReturnsFlaggedTypeWithExpectedFlags(t *t
  */
 
 func TestFlaggedType_WithoutFlag_GivenOnlyFlag_ReturnsWrappedType(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	inner := NewFlaggedType(StringType, ARMFlag)
 	final := inner.WithoutFlag(ARMFlag)
 	g.Expect(final).To(Equal(StringType))
 }
 
 func TestFlaggedType_WithoutFlag_GivenExistingFlag_ReturnsFlaggedTypeWithExpectedFlags(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	inner := NewFlaggedType(StringType, ARMFlag, StorageFlag)
 	final := inner.WithoutFlag(ARMFlag).(*FlaggedType)
 	g.Expect(final.HasFlag(ARMFlag)).To(BeFalse())
@@ -66,7 +66,7 @@ func TestFlaggedType_WithoutFlag_GivenExistingFlag_ReturnsFlaggedTypeWithExpecte
 }
 
 func TestFlaggedType_WithoutFlag_GivenUnusedFlag_ReturnsSameInstance(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 	inner := NewFlaggedType(StringType, StorageFlag)
 	final := inner.WithoutFlag(ARMFlag).(*FlaggedType)
 	g.Expect(final.HasFlag(ARMFlag)).To(BeFalse())
@@ -110,7 +110,7 @@ func TestFlaggedType_Equals_GivenOther_HasExpectedResult(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			equal := c.left.Equals(c.right)
 			g.Expect(equal).To(Equal(c.expectedEqual))
 		})
@@ -140,7 +140,7 @@ func TestFlaggedType_String_GivenTypeAndTag_ReturnsExpectedString(t *testing.T) 
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			ft := NewFlaggedType(c.underlying, c.flag)
 			s := ft.String()

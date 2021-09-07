@@ -187,7 +187,7 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmodel.Type, error) {
 	createArmTypeName := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 		// Allow json type to pass through.
-		if it == astmodel.JSONTypeName {
+		if it == astmodel.JSONType {
 			return it, nil
 		}
 
@@ -232,8 +232,8 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 			// all resource Spec Name properties must be strings on their way to ARM
 			// as nested resources will have the owner etc added to the start:
 			result = result.WithProperty(prop.WithType(astmodel.StringType))
-		} else if prop.PropertyType().Equals(astmodel.ResourceReferenceTypeName) || prop.PropertyType().Equals(astmodel.NewOptionalType(astmodel.ResourceReferenceTypeName)) {
-			isRequired := prop.PropertyType().Equals(astmodel.ResourceReferenceTypeName)
+		} else if prop.PropertyType().Equals(astmodel.ResourceReferenceType) || prop.PropertyType().Equals(astmodel.NewOptionalType(astmodel.ResourceReferenceType)) {
+			isRequired := prop.PropertyType().Equals(astmodel.ResourceReferenceType)
 
 			// Extract expected property name
 			values, ok := prop.Tag(astmodel.ARMReferenceTag)

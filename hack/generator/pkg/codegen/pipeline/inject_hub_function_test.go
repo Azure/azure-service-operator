@@ -16,7 +16,7 @@ import (
 )
 
 func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 
@@ -43,7 +43,7 @@ func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t 
 }
 
 func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 

@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/test"
 )
 
-func Test_OriginalVersionFunction_GeneratesExpectedCode(t *testing.T) {
+func TestGolden_OriginalVersionFunction_GeneratesExpectedCode(t *testing.T) {
 	g := NewWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 

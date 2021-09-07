@@ -17,7 +17,7 @@ import (
 // TestInjectConvertibleInterface checks that the pipeline stage does what we expect when run in relative isolation,
 // with only a few expected (and closely reated) stages in operation
 func TestGolden_InjectConvertibleInterface(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 	// Test Resource V1

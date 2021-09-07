@@ -51,7 +51,7 @@ func Test_Visit_GivenCountingTypeVisitor_ReturnsExpectedCounts(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			v := MakeCountingTypeVisitor()
 			_, err := v.Visit(c.theType, nil)
@@ -164,7 +164,7 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			v := TypeVisitorBuilder{}.Build()
 			result, err := v.Visit(c.subject, nil)
@@ -315,7 +315,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			var builder TypeVisitorBuilder
 			c.configure(&builder)

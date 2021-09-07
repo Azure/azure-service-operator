@@ -25,7 +25,7 @@ var (
  */
 
 func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedFields(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	property := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 
@@ -36,7 +36,7 @@ func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedFields(t 
 }
 
 func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedGetters(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	property := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 
@@ -48,7 +48,7 @@ func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedGetters(t
  * Tag tests
  */
 func Test_PropertyDefinition_TagsAdded_TagsAreRenderedAsExpected(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithTag("key", "value")
@@ -58,7 +58,7 @@ func Test_PropertyDefinition_TagsAdded_TagsAreRenderedAsExpected(t *testing.T) {
 }
 
 func Test_PropertyDefinition_TagsAdded_TagsCanBeRetrieved(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithTag("key", "value")
@@ -72,7 +72,7 @@ func Test_PropertyDefinition_TagsAdded_TagsCanBeRetrieved(t *testing.T) {
 }
 
 func Test_PropertyDefinition_TagDoesntExist_TagsReturnsFalse(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 
@@ -81,7 +81,7 @@ func Test_PropertyDefinition_TagDoesntExist_TagsReturnsFalse(t *testing.T) {
 }
 
 func Test_PropertyDefinition_MultipleTagsAdded_TagsAreRenderedCommaSeparated(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithTag("key", "value").WithTag("key", "value2").WithTag("key", "value3")
@@ -90,7 +90,7 @@ func Test_PropertyDefinition_MultipleTagsAdded_TagsAreRenderedCommaSeparated(t *
 }
 
 func Test_PropertyDefinition_ExistingTagAdded_TagsAreNotDuplicated(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithTag("json", propertyJsonName)
@@ -100,7 +100,7 @@ func Test_PropertyDefinition_ExistingTagAdded_TagsAreNotDuplicated(t *testing.T)
 }
 
 func Test_PropertyDefinition_TagKeyRemoved_TagIsNotRendered(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithoutTag("json", "")
@@ -110,7 +110,7 @@ func Test_PropertyDefinition_TagKeyRemoved_TagIsNotRendered(t *testing.T) {
 }
 
 func Test_PropertyDefinition_LastTagValueRemoved_TagIsNotRendered(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithoutTag("json", propertyJsonName)
@@ -120,7 +120,7 @@ func Test_PropertyDefinition_LastTagValueRemoved_TagIsNotRendered(t *testing.T) 
 }
 
 func Test_PropertyDefinition_TagValueRemoved_RemainingTagsAreRenderedAsExpected(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).
 		WithTag("key", "value1").
@@ -133,7 +133,7 @@ func Test_PropertyDefinition_TagValueRemoved_RemainingTagsAreRenderedAsExpected(
 }
 
 func Test_PropertyDefinition_NonExistentTagKeyRemoved_TagsAreRenderedAsExpected(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithoutTag("doesntexist", "")
@@ -143,7 +143,7 @@ func Test_PropertyDefinition_NonExistentTagKeyRemoved_TagsAreRenderedAsExpected(
 }
 
 func Test_PropertyDefinition_NonExistentTagValueRemoved_TagsAreRenderedAsExpected(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithoutTag("doesntexist", "val")
@@ -157,7 +157,7 @@ func Test_PropertyDefinition_NonExistentTagValueRemoved_TagsAreRenderedAsExpecte
  */
 
 func Test_PropertyDefinitionWithDescription_GivenDescription_SetsField(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	property := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithDescription(propertyDescription)
 
@@ -165,7 +165,7 @@ func Test_PropertyDefinitionWithDescription_GivenDescription_SetsField(t *testin
 }
 
 func Test_PropertyDefinitionWithDescription_GivenDescription_ReturnsDifferentReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithDescription(propertyDescription)
@@ -174,7 +174,7 @@ func Test_PropertyDefinitionWithDescription_GivenDescription_ReturnsDifferentRef
 }
 
 func Test_PropertyDefinitionWithDescription_GivenDescription_DoesNotModifyOriginal(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithDescription(propertyDescription)
@@ -183,7 +183,7 @@ func Test_PropertyDefinitionWithDescription_GivenDescription_DoesNotModifyOrigin
 }
 
 func Test_PropertyDefinitionWithDescription_GivenEmptyDescription_ReturnsDifferentReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithDescription(propertyDescription)
 	updated := original.WithDescription("")
@@ -192,7 +192,7 @@ func Test_PropertyDefinitionWithDescription_GivenEmptyDescription_ReturnsDiffere
 }
 
 func Test_PropertyDefinitionWithNoDescription_GivenEmptyDescription_ReturnsSameReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithDescription("")
@@ -201,7 +201,7 @@ func Test_PropertyDefinitionWithNoDescription_GivenEmptyDescription_ReturnsSameR
 }
 
 func Test_PropertyDefinitionWithDescription_GivenSameDescription_ReturnsSameReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithDescription(propertyDescription)
 	updated := original.WithDescription(propertyDescription)
@@ -214,7 +214,7 @@ func Test_PropertyDefinitionWithDescription_GivenSameDescription_ReturnsSameRefe
  */
 
 func Test_PropertyDefinitionWithType_GivenNewType_SetsFieldOnResult(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithType(IntType)
@@ -223,7 +223,7 @@ func Test_PropertyDefinitionWithType_GivenNewType_SetsFieldOnResult(t *testing.T
 }
 
 func Test_PropertyDefinitionWithType_GivenNewType_DoesNotModifyOriginal(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	_ = original.WithType(IntType)
@@ -232,7 +232,7 @@ func Test_PropertyDefinitionWithType_GivenNewType_DoesNotModifyOriginal(t *testi
 }
 
 func Test_PropertyDefinitionWithType_GivenNewType_ReturnsDifferentReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithType(IntType)
@@ -241,7 +241,7 @@ func Test_PropertyDefinitionWithType_GivenNewType_ReturnsDifferentReference(t *t
 }
 
 func Test_PropertyDefinitionWithType_GivenSameType_ReturnsExistingReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithType(propertyType)
@@ -254,7 +254,7 @@ func Test_PropertyDefinitionWithType_GivenSameType_ReturnsExistingReference(t *t
  */
 
 func Test_PropertyDefinition_WhenMarkedKubebuilderRequiredValidation_IsRequired(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	property := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithKubebuilderRequiredValidation(true)
 
@@ -262,7 +262,7 @@ func Test_PropertyDefinition_WhenMarkedKubebuilderRequiredValidation_IsRequired(
 }
 
 func Test_PropertyDefinition_WhenMarkedKubebuilderRequiredValidation_LeavesOriginalUnmodified(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	new := original.WithKubebuilderRequiredValidation(true)
@@ -272,7 +272,7 @@ func Test_PropertyDefinition_WhenMarkedKubebuilderRequiredValidation_LeavesOrigi
 }
 
 func Test_PropertyDefinition_WhenKubebuilderRequiredValidationTrueThenFalse_ReturnsPropertyEqualToOriginal(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	origProperty := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	property := origProperty.WithKubebuilderRequiredValidation(true).WithKubebuilderRequiredValidation(false)
@@ -281,7 +281,7 @@ func Test_PropertyDefinition_WhenKubebuilderRequiredValidationTrueThenFalse_Retu
 }
 
 func Test_PropertyDefinition_WhenKubebuilderRequiredValidationFalse_LeavesOriginalUnmodified(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).WithKubebuilderRequiredValidation(true)
 	property := original.WithKubebuilderRequiredValidation(false)
@@ -294,7 +294,7 @@ func Test_PropertyDefinition_WhenKubebuilderRequiredValidationFalse_LeavesOrigin
  */
 
 func Test_PropertyDefinitionMakeRequired_WhenOptional_ReturnsDifferentReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeOptional()
 	updated := original.MakeRequired()
@@ -304,7 +304,7 @@ func Test_PropertyDefinitionMakeRequired_WhenOptional_ReturnsDifferentReference(
 }
 
 func TestPropertyDefinitionMakeRequired_WhenOptional_ReturnsTypeWithIsRequiredTrue(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeOptional()
 	updated := original.MakeRequired()
@@ -313,7 +313,7 @@ func TestPropertyDefinitionMakeRequired_WhenOptional_ReturnsTypeWithIsRequiredTr
 }
 
 func Test_PropertyDefinitionMakeRequired_WhenRequired_ReturnsExistingReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeRequired()
 	updated := original.MakeRequired()
@@ -322,7 +322,7 @@ func Test_PropertyDefinitionMakeRequired_WhenRequired_ReturnsExistingReference(t
 }
 
 func Test_PropertyDefinitionMakeRequired_WhenTypeOptionalAndIsRequired_ReturnsNewReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).
 		MakeOptional().
@@ -349,7 +349,7 @@ func Test_PropertyDefinitionMakeRequired_PropertyTypeArrayAndMap(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			original := NewPropertyDefinition(propertyName, propertyJsonName, c.propertyType)
 			updated := original.MakeRequired()
 
@@ -367,7 +367,7 @@ func Test_PropertyDefinitionMakeRequired_PropertyTypeArrayAndMap(t *testing.T) {
  */
 
 func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsDifferentReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeRequired()
 	updated := original.MakeOptional()
@@ -377,7 +377,7 @@ func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsDifferentReference(t
 }
 
 func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsTypeWithIsRequiredFalse(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeRequired()
 	updated := original.MakeOptional()
@@ -386,7 +386,7 @@ func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsTypeWithIsRequiredFa
 }
 
 func Test_PropertyDefinitionMakeOptional_WhenOptional_ReturnsExistingReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).MakeOptional()
 	updated := original.MakeOptional()
@@ -395,7 +395,7 @@ func Test_PropertyDefinitionMakeOptional_WhenOptional_ReturnsExistingReference(t
 }
 
 func Test_PropertyDefinitionMakeOptional_WhenTypeMandatoryAndIsRequiredFalse_ReturnsNewReference(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.MakeOptional()
@@ -422,7 +422,7 @@ func Test_PropertyDefinitionMakeOptional_PropertyTypeArrayAndMap(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			if c.propertyRequiredFirst {
 				original := NewPropertyDefinition(propertyName, propertyJsonName, c.propertyType)
@@ -449,7 +449,7 @@ func Test_PropertyDefinitionMakeOptional_PropertyTypeArrayAndMap(t *testing.T) {
  */
 
 func Test_PropertyDefinitionAsAst_GivenValidField_ReturnsNonNilResult(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType).
 		MakeRequired().
@@ -464,7 +464,7 @@ func Test_PropertyDefinitionAsAst_GivenValidField_ReturnsNonNilResult(t *testing
  * WithValidation Tests
  */
 func Test_PropertyDefinition_WithValidation_ReturnsNewPropertyDefinition(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	original := NewPropertyDefinition(propertyName, propertyJsonName, propertyType)
 	updated := original.WithKubebuilderRequiredValidation(true)
@@ -515,7 +515,7 @@ func TestPropertyDefinition_Equals_WhenGivenPropertyDefinition_ReturnsExpectedRe
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			areEqual := c.thisProperty.Equals(c.otherProperty)
 
@@ -525,7 +525,7 @@ func TestPropertyDefinition_Equals_WhenGivenPropertyDefinition_ReturnsExpectedRe
 }
 
 func TestSettingSameRequiredValueDoesNotAllocateNewPropertyDefinition(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	strProperty := createStringProperty("FullName", "Full Legal Name")
 	strPropertyRequired := strProperty.WithKubebuilderRequiredValidation(true)
@@ -539,7 +539,7 @@ func TestSettingSameRequiredValueDoesNotAllocateNewPropertyDefinition(t *testing
 }
 
 func TestSettingSameFlattenValueDoesNotAllocateNewPropertyDefinition(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	strProperty := createStringProperty("FullName", "Full Legal Name")
 	strPropertyFlatten := strProperty.SetFlatten(true)
@@ -553,7 +553,7 @@ func TestSettingSameFlattenValueDoesNotAllocateNewPropertyDefinition(t *testing.
 }
 
 func TestPropertyDefinitionsWithDifferentFlattenSettingsAreNotEqual(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	strProperty := createStringProperty("FullName", "Full Legal Name")
 	strPropertyFlatten := strProperty.SetFlatten(true)
@@ -561,7 +561,7 @@ func TestPropertyDefinitionsWithDifferentFlattenSettingsAreNotEqual(t *testing.T
 }
 
 func TestPropertyDefinitionsWithDifferentFlattenedFromSettingsAreNotEqual(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	strProperty := createStringProperty("FullName", "Full Legal Name")
 	strPropertyFlatten1 := strProperty.AddFlattenedFrom("foo")

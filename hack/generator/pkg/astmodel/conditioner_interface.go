@@ -40,7 +40,7 @@ func NewConditionerInterfaceImpl(
 	}
 
 	result := NewInterfaceImplementation(
-		ConditionerTypeName,
+		ConditionerType,
 		getConditions,
 		setConditions)
 
@@ -70,7 +70,7 @@ func getConditionsFunction(k *resourceFunction, codeGenerationContext *CodeGener
 	}
 
 	fn.AddComments("returns the conditions of the resource")
-	fn.AddReturn(ConditionsTypeName.AsType(codeGenerationContext))
+	fn.AddReturn(ConditionsType.AsType(codeGenerationContext))
 
 	return fn.DefineFunc()
 }
@@ -100,7 +100,7 @@ func setConditionsFunction(k *resourceFunction, codeGenerationContext *CodeGener
 
 	fn.AddParameter(
 		conditionsParameterName,
-		ConditionsTypeName.AsType(codeGenerationContext))
+		ConditionsType.AsType(codeGenerationContext))
 	fn.AddComments("sets the conditions on the resource status")
 
 	return fn.DefineFunc()
