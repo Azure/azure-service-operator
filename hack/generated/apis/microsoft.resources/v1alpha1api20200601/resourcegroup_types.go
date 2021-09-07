@@ -81,6 +81,25 @@ func (rg *ResourceGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &rg.Status
 }
 
+// SetStatus sets the status of this resource
+func (rg *ResourceGroup) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*ResourceGroupStatus); ok {
+		rg.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st ResourceGroupStatus
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	rg.Status = st
+	return nil
+}
+
 var _ genruntime.LocatableResource = &ResourceGroup{}
 
 func (rg *ResourceGroup) Location() string {
