@@ -48,6 +48,16 @@ func (aResource *AResource) AzureName() string {
 	return "onlyonevalue"
 }
 
+// GetSpec returns the specification of this resource
+func (aResource *AResource) GetSpec() genruntime.ConvertibleSpec {
+	return &aResource.Spec
+}
+
+// GetStatus returns the status of this resource
+func (aResource *AResource) GetStatus() genruntime.ConvertibleStatus {
+	return &aResource.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (aResource *AResource) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(aResource.Spec)

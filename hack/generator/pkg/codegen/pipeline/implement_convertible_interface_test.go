@@ -16,8 +16,8 @@ import (
 
 // TestInjectConvertibleInterface checks that the pipeline stage does what we expect when run in relative isolation,
 // with only a few expected (and closely reated) stages in operation
-func TestInjectConvertibleInterface(t *testing.T) {
-	g := NewGomegaWithT(t)
+func TestGolden_InjectConvertibleInterface(t *testing.T) {
+	g := NewWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 	// Test Resource V1
@@ -35,19 +35,22 @@ func TestInjectConvertibleInterface(t *testing.T) {
 	types := make(astmodel.Types)
 	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
 
-	initialState := NewState().WithTypes(types)
-
-	finalState, err := RunTestPipeline(
-		initialState,
+	initialState, err := RunTestPipeline(
+		NewState().WithTypes(types),
 		CreateConversionGraph(),                      // First create the conversion graph showing relationships
 		CreateStorageTypes(),                         // Then create the storage types
 		InjectPropertyAssignmentFunctions(idFactory), // After which we inject property assignment functions
-		ImplementConvertibleInterface(idFactory),     // And then we get to run the stage we're testing
+	)
+	g.Expect(err).To(Succeed())
+
+	finalState, err := RunTestPipeline(
+		initialState,
+		ImplementConvertibleInterface(idFactory), // And then we get to run the stage we're testing
 	)
 	g.Expect(err).To(Succeed())
 
 	// When verifying the golden file, check that the implementations of ConvertTo() and ConvertFrom() are correctly
 	// injected on the resources, but not on the other types. Verify that the code does what you expect. If you don't
 	// know what to expect, check that they do the right thing. :-)
-	test.AssertPackagesGenerateExpectedCode(t, finalState.types)
+	test.AssertPackagesGenerateExpectedCode(t, finalState.types, test.DiffWithTypes(initialState.Types()))
 }

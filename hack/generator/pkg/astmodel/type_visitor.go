@@ -128,23 +128,30 @@ func IdentityVisitOfPrimitiveType(_ *TypeVisitor, it *PrimitiveType, _ interface
 	return it, nil
 }
 
-func identityVisitObjectTypePerPropertyContext(_ *PropertyDefinition, ctx interface{}) interface{} {
-	return ctx
+func identityVisitObjectTypePerPropertyContext(_ *ObjectType, _ *PropertyDefinition, ctx interface{}) (interface{}, error) {
+	return ctx, nil
 }
 
-var IdentityVisitOfObjectType = MakeIdentityVisitOfObjectTypeWithPerPropertyContext(identityVisitObjectTypePerPropertyContext)
+var IdentityVisitOfObjectType = MakeIdentityVisitOfObjectType(identityVisitObjectTypePerPropertyContext)
 
-// MakeIdentityVisitOfObjectTypeWithPerPropertyContext creates an visitor function which creates a per-property context before visiting each
+type MakePerPropertyContext func(ot *ObjectType, prop *PropertyDefinition, ctx interface{}) (interface{}, error)
+
+// MakeIdentityVisitOfObjectType creates a visitor function which creates a per-property context before visiting each
 // property of the ObjectType
-func MakeIdentityVisitOfObjectTypeWithPerPropertyContext(
-	makeCtx func(prop *PropertyDefinition, ctx interface{}) interface{}) func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
 
 	return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
 		// just map the property types
 		var errs []error
 		var newProps []*PropertyDefinition
 		for _, prop := range it.Properties().AsSlice() {
-			p, err := this.Visit(prop.propertyType, ctx)
+			newCtx, err := makeCtx(it, prop, ctx)
+			if err != nil {
+				errs = append(errs, err)
+				continue
+			}
+
+			p, err := this.Visit(prop.propertyType, newCtx)
 			if err != nil {
 				errs = append(errs, err)
 			} else {
@@ -159,7 +166,12 @@ func MakeIdentityVisitOfObjectTypeWithPerPropertyContext(
 		// map the embedded types too
 		var newEmbeddedProps []*PropertyDefinition
 		for _, prop := range it.EmbeddedProperties() {
-			newCtx := makeCtx(prop, ctx)
+			newCtx, err := makeCtx(it, prop, ctx)
+			if err != nil {
+				errs = append(errs, err)
+				continue
+			}
+
 			p, err := this.Visit(prop.propertyType, newCtx)
 			if err != nil {
 				errs = append(errs, err)

@@ -36,7 +36,7 @@ func Test_SimplifyDefinitionsPipelineStage_GivenTypes_FlattensToExpectedTypes(t 
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 
 			visitor := createSimplifyingVisitor()
 			result, err := visitor.Visit(c.original, nil)

@@ -138,7 +138,7 @@ func typesWithSubresourceTypeMultipleResourcesOneUsageContextEach() astmodel.Typ
 }
 
 func TestCleanupTypeNames_TypeWithNoOriginalName_UpdatedNameCollapsed(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	expectedUpdatedTypeName := newTestName("T1")
 
@@ -160,7 +160,7 @@ func TestCleanupTypeNames_TypeWithNoOriginalName_UpdatedNameCollapsed(t *testing
 }
 
 func TestCleanupTypeNames_TypeWithOriginalNameExists_UpdatedNamePartiallyCollapsed(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	expectedUpdatedTypeName := newTestName("T1_TestSuffix")
 	expectedOriginalTypeName := newTestName("T1")
@@ -187,7 +187,7 @@ func TestCleanupTypeNames_TypeWithOriginalNameExists_UpdatedNamePartiallyCollaps
 }
 
 func TestCleanupTypeNames_UpdatedNamesAreAllForSameResource_UpdatedNamesStrippedOfResourceContext(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	expectedUpdatedTypeName1 := newTestName("T1_TestSuffix")
 	expectedUpdatedTypeName2 := newTestName("T1_TestSuffix_1")
@@ -214,7 +214,7 @@ func TestCleanupTypeNames_UpdatedNamesAreAllForSameResource_UpdatedNamesStripped
 }
 
 func TestCleanupTypeNames_UpdatedNamesAreEachForDifferentResource_UpdatedNamesStrippedOfCount(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	expectedUpdatedTypeName1 := newTestName("T1_Resource_TestSuffix")
 	expectedUpdatedTypeName2 := newTestName("T1_Resource2_TestSuffix")

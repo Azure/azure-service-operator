@@ -32,8 +32,6 @@ type PropertyAssignmentFunction struct {
 	idFactory astmodel.IdentifierFactory
 	// direction indicates the kind of conversion we are generating
 	direction conversions.Direction
-	// knownLocals is a cached set of local identifiers that have already been used, to avoid conflicts
-	knownLocals *astmodel.KnownLocalsSet
 	// conversionContext is additional information about the context in which this conversion was made
 	conversionContext *conversions.PropertyConversionContext
 	// identifier to use for our receiver in generated code
@@ -76,17 +74,16 @@ func NewPropertyAssignmentFunction(
 		idFactory:          idFactory,
 		direction:          direction,
 		conversions:        make(map[string]StoragePropertyConversion),
-		knownLocals:        astmodel.NewKnownLocalsSet(idFactory),
 		receiverName:       idFactory.CreateIdentifier(receiver.Name().Name(), astmodel.NotExported),
 		parameterName:      direction.SelectString("source", "destination"),
 	}
 
 	// Flag receiver and parameter names as used
-	result.knownLocals.Add(result.receiverName)
-	result.knownLocals.Add(result.parameterName)
+	knownLocals := astmodel.NewKnownLocalsSet(idFactory)
+	knownLocals.Add(result.receiverName, result.parameterName)
 
 	// Always assign a name for the property bag (see createPropertyBagPrologue to understand why)
-	propertyBagName := result.knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
+	propertyBagName := knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
 
 	// Create Endpoints for property conversion
 	sourceEndpoints, readsFromPropertyBag := result.createReadingEndpoints()
@@ -96,7 +93,7 @@ func NewPropertyAssignmentFunction(
 	result.writesToPropertyBag = writesToPropertyBag
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
-		WithKnownLocals(result.knownLocals).
+		WithKnownLocals(knownLocals).
 		WithDirection(direction).
 		WithPropertyBag(propertyBagName)
 
@@ -169,6 +166,11 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 	// We always use a pointer receiver, so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
 
+	// Generation of our function body can result in modifications to our set of known local variable names, resulting
+	// in different results if we are rendered multiple times. To mitigate against this, checkpoint the set before
+	// code generation and restore to that point afterwards
+	knownLocalsCheckpoint := fn.conversionContext.KnownLocals().Checkpoint()
+
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: fn.receiverName,
 		ReceiverType:  receiverType,
@@ -186,6 +188,8 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(description)
+
+	fn.conversionContext.KnownLocals().Restore(knownLocalsCheckpoint)
 
 	return funcDetails.DefineFunc()
 }
@@ -422,8 +426,8 @@ func (fn *PropertyAssignmentFunction) destinationType() astmodel.Type {
 // read from a property bag, false otherwise.
 func (fn *PropertyAssignmentFunction) createReadingEndpoints() (conversions.ReadableConversionEndpointSet, bool) {
 	sourceEndpoints := conversions.NewReadableConversionEndpointSet()
-	sourceEndpoints.CreatePropertyEndpoints(fn.sourceType(), fn.knownLocals)
-	sourceEndpoints.CreateValueFunctionEndpoints(fn.sourceType(), fn.knownLocals)
+	sourceEndpoints.CreatePropertyEndpoints(fn.sourceType())
+	sourceEndpoints.CreateValueFunctionEndpoints(fn.sourceType())
 
 	readsFromPropertyBag := false
 	if _, found := fn.findPropertyBagProperty(fn.sourceType()); found {
@@ -432,7 +436,7 @@ func (fn *PropertyAssignmentFunction) createReadingEndpoints() (conversions.Read
 		// To pull values from the bag, we need a readable endpoint for each *destination* property that doesn't already
 		// have one.
 		//
-		count := sourceEndpoints.CreatePropertyBagMemberEndpoints(fn.destinationType(), fn.knownLocals)
+		count := sourceEndpoints.CreatePropertyBagMemberEndpoints(fn.destinationType())
 		if count > 0 {
 			// Only flag that we're going to be reading from a property bag if this is actually going to happen
 			readsFromPropertyBag = true
@@ -448,7 +452,7 @@ func (fn *PropertyAssignmentFunction) createReadingEndpoints() (conversions.Read
 // endpoints to write into a property bag, false otherwise.
 func (fn *PropertyAssignmentFunction) createWritingEndpoints() (conversions.WritableConversionEndpointSet, bool) {
 	destinationEndpoints := conversions.NewWritableConversionEndpointSet()
-	destinationEndpoints.CreatePropertyEndpoints(fn.destinationType(), fn.knownLocals)
+	destinationEndpoints.CreatePropertyEndpoints(fn.destinationType())
 
 	writesToPropertyBag := false
 	if _, found := fn.findPropertyBagProperty(fn.destinationType()); found {
@@ -457,7 +461,7 @@ func (fn *PropertyAssignmentFunction) createWritingEndpoints() (conversions.Writ
 		// destination. To add values to the bag, we need a writable endpoint for each *source* property that doesn't
 		// already have one.
 		//
-		count := destinationEndpoints.CreatePropertyBagMemberEndpoints(fn.sourceType(), fn.knownLocals)
+		count := destinationEndpoints.CreatePropertyBagMemberEndpoints(fn.sourceType())
 		if count > 0 {
 			// Only flag that we're going to be writing to a property bag if this is actually going to happen
 			writesToPropertyBag = true

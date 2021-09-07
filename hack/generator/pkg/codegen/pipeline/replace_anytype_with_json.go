@@ -27,7 +27,7 @@ var (
 			astmodel.AnyType,
 		),
 	)
-	mapOfJSON = astmodel.NewMapType(astmodel.StringType, astmodel.JSONTypeName)
+	mapOfJSON = astmodel.NewMapType(astmodel.StringType, astmodel.JSONType)
 )
 
 func ReplaceAnyTypeWithJSON() Stage {
@@ -38,7 +38,7 @@ func ReplaceAnyTypeWithJSON() Stage {
 
 			replaceAnyWithJson := func(it *astmodel.PrimitiveType) astmodel.Type {
 				if it == astmodel.AnyType {
-					return astmodel.JSONTypeName
+					return astmodel.JSONType
 				}
 
 				return it
