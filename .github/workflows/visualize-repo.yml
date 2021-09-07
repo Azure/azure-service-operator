@@ -1,10 +1,12 @@
-name: Render Visualization of Azure Service Operator v2
+name: Render Visualizations of Azure Service Operator components
 on:
-  workflow_dispatch: {}
-  push:
-    branches:
-      - master
-      - feature/repo-visualization
+  workflow_dispatch:
+    # no content, allows manual triggering
+
+  schedule:
+    # 5:30 pm every Sunday (UTC)
+    # to ensure the images are never too stale
+    - cron: '30 17 * * 0'
 jobs:
   render:
     runs-on: ubuntu-latest
