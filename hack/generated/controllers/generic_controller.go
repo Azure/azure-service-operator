@@ -90,7 +90,7 @@ func registerWebhook(mgr ctrl.Manager, obj client.Object) error {
 		Complete()
 }
 
-func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []client.Object, log logr.Logger, options Options) error {
+func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []client.Object, options Options) error {
 	options.setDefaults()
 
 	reconciledResourceLookup, err := MakeResourceGVKLookup(mgr, objs)
@@ -100,7 +100,7 @@ func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []client.Obje
 
 	var errs []error
 	for _, obj := range objs {
-		if err := register(mgr, reconciledResourceLookup, applier, obj, log, options); err != nil {
+		if err := register(mgr, reconciledResourceLookup, applier, obj, options); err != nil {
 			errs = append(errs, err)
 		}
 	}
@@ -108,7 +108,7 @@ func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []client.Obje
 	return kerrors.NewAggregate(errs)
 }
 
-func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind, applier armclient.Applier, obj client.Object, log logr.Logger, options Options) error {
+func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind, applier armclient.Applier, obj client.Object, options Options) error {
 	v, err := conversion.EnforcePtr(obj)
 	if err != nil {
 		return errors.Wrap(err, "obj was expected to be ptr but was not")
@@ -122,7 +122,8 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 	if err != nil {
 		return errors.Wrapf(err, "creating GVK for obj %T", obj)
 	}
-	log.V(Status).Info("Registering", "GVK", gvk)
+
+	options.Log.V(Status).Info("Registering", "GVK", gvk)
 
 	// TODO: Do we need to add any index fields here? DavidJ's controller index's status.id - see its usage
 	// TODO: of IndexField
@@ -134,7 +135,7 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 		KubeClient:           kubeClient,
 		ResourceResolver:     genruntime.NewResolver(kubeClient, reconciledResourceLookup),
 		Name:                 t.Name(),
-		Log:                  log.WithName(controllerName),
+		Log:                  options.Log.WithName(controllerName),
 		Recorder:             mgr.GetEventRecorderFor(controllerName),
 		GVK:                  gvk,
 		RequeueDelayOverride: options.RequeueDelay,
@@ -149,7 +150,6 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 		WithEventFilter(predicate.Or(predicate.GenerationChangedPredicate{}, predicate.AnnotationChangedPredicate{})).
 		WithOptions(options.Options).
 		Build(reconciler)
-
 	if err != nil {
 		return errors.Wrap(err, "unable to build controllers / reconciler")
 	}
@@ -213,7 +213,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	}
 
 	// TODO: We need some factory-lookup here
-	wrapper := reconcilers.NewAzureDeploymentReconciler(
+	reconciler := reconcilers.NewAzureDeploymentReconciler(
 		metaObj,
 		log,
 		gr.ARMClient,
@@ -225,13 +225,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		// TODO: (since it's supposed to be generic and there's no guarantee that for an arbitrary resource we even create a deployment)
 		gr.CreateDeploymentName)
 
-	var result ctrl.Result
-	if !metaObj.GetDeletionTimestamp().IsZero() {
-		result, err = wrapper.Delete(ctx)
-	} else {
-		result, err = wrapper.CreateOrUpdate(ctx)
-	}
-
+	result, err := reconciler.Reconcile(ctx)
 	if err != nil {
 		return ctrl.Result{}, err
 	}

@@ -1,0 +1,35 @@
+name: Render Visualizations of Azure Service Operator components
+on:
+  workflow_dispatch:
+    # no content, allows manual triggering
+
+  schedule:
+    # 5:30 pm every Sunday (UTC)
+    # to ensure the images are never too stale
+    - cron: '30 17 * * 0'
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Update ASO v1 diagram
+        uses: githubocto/repo-visualizer@main
+        with:
+          excluded_paths: "ignore,.github,hack"
+          output_file: "docs/images/aso-v1-structure.svg"
+          commit_message: "Updating visualization for ASO v1"
+      - name: Update ASO v2 diagram
+        uses: githubocto/repo-visualizer@main
+        with:
+          excluded_paths: "ignore,.github"
+          output_file: "docs/images/aso-v2-structure.svg"
+          root_path: "hack/generated"
+          commit_message: "Updating visualization for ASO v2"
+      - name: Update ASO Codegen diagram
+        uses: githubocto/repo-visualizer@main
+        with:
+          excluded_paths: "ignore,.github"
+          output_file: "docs/images/aso-codegen-structure.svg"
+          root_path: "hack/generator"
+          commit_message: "Updating visualization for the code generator"

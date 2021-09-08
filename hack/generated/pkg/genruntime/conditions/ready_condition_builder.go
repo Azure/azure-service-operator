@@ -8,9 +8,10 @@ package conditions
 import "fmt"
 
 const (
-	ReasonReconciling     = "Reconciling"
-	ReasonWaitingForOwner = "WaitingForOwner"
-	ReasonDeleting        = "Deleting"
+	ReasonReconciling                     = "Reconciling"
+	ReasonWaitingForOwner                 = "WaitingForOwner"
+	ReasonDeleting                        = "Deleting"
+	ReasonReconciliationFailedPermanently = "ReconciliationFailedPermanently"
 )
 
 func NewReadyConditionBuilder(builder PositiveConditionBuilderInterface) *ReadyConditionBuilder {
