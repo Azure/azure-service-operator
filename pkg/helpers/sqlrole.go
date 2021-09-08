@@ -22,7 +22,8 @@ func DiffCurrentAndExpectedSQLRoles(currentRoles map[string]struct{}, expectedRo
 
 	for role := range expectedRoles {
 		// Escape hatch - if they ask for ALL then we just grant ALL
-		// and don't delete any.
+		// and don't delete any, since the user should have all of
+		// them.
 		if IsSQLAll(role) {
 			return SQLRoleDelta{
 				AddedRoles:   map[string]struct{}{sqlAll: {}},
