@@ -119,15 +119,3 @@ func (r *ResourceVersionsReport) serviceName(ref astmodel.PackageReference) stri
 
 	return pathBits[index]
 }
-
-func (r *ResourceVersionsReport) version(ref astmodel.PackageReference) string {
-
-	pathBits := strings.Split(ref.PackagePath(), "/")
-	index := len(pathBits) - 1
-	if index > 0 {
-		index--
-	}
-
-	return pathBits[index]
-}
-
