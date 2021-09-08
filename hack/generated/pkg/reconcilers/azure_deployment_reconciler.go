@@ -108,43 +108,42 @@ func NewAzureDeploymentReconciler(
 	}
 }
 
-// checkForFatalReconciliationError:
-// - at the moment this is only raised during tests if we determine that a record-replay
-//   test has gone off the rails, but it will be useful for scenarios in the real world as well
-func (r *AzureDeploymentReconciler) checkForFatalReconciliationError(ctx context.Context, err error) error {
-	var fatal FatalReconciliationError
-	if !errors.As(err, &fatal) {
-		return err
+// turnErrorsIntoConditions: at the moment this turns FatalReconciliationError into a
+// 'Ready=False:Error' condition
+// this is currently only used during testing to indicate when record-replay tests are going off the rails, but
+// we will probably have production uses in future
+// if the error was turned into a condition the result will be the result of commiting that condition,
+// otherwise the error is preserved
+func (r *AzureDeploymentReconciler) turnErrorsIntoConditions(ctx context.Context, err error) error {
+	if fatal, ok := AsFatalReconciliationError(err); ok {
+		return r.applyFatalReconciliationErrorAsCondition(ctx, fatal)
 	}
 
-	condition := r.PositiveConditions.MakeFalseCondition(
+	return err
+}
+
+func (r *AzureDeploymentReconciler) applyFatalReconciliationErrorAsCondition(ctx context.Context, fatal FatalReconciliationError) error {
+	conditions.SetCondition(r.obj, r.fatalReconciliationErrorToCondition(fatal))
+	return r.CommitUpdate(ctx)
+}
+
+func (r *AzureDeploymentReconciler) fatalReconciliationErrorToCondition(fatal FatalReconciliationError) conditions.Condition {
+	return r.PositiveConditions.MakeFalseCondition(
 		conditions.ConditionTypeReady,
 		conditions.ConditionSeverityError,
 		conditions.ReasonReconciliationFailedPermanently,
 		fatal.Message)
-
-	conditions.SetCondition(r.obj, condition)
-	return r.CommitUpdate(ctx)
 }
 
 func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Result, error) {
 	r.logObj("reconciling resource")
-
-	if ready := r.GetReadyCondition(); ready != nil {
-		if ready.Severity == conditions.ConditionSeverityError &&
-			ready.Reason == conditions.ReasonReconciliationFailedPermanently {
-			// can't do anything to this resource
-			r.log.V(Info).Info("Resource in terminal state, cannot reconcile")
-			return ctrl.Result{}, nil
-		}
-	}
 
 	action, actionFunc, err := r.DetermineCreateOrUpdateAction()
 	if err != nil {
 		r.log.Error(err, "error determining create or update action")
 		r.recorder.Event(r.obj, v1.EventTypeWarning, "DetermineCreateOrUpdateActionError", err.Error())
 
-		err = r.checkForFatalReconciliationError(ctx, err)
+		err = r.turnErrorsIntoConditions(ctx, err)
 
 		return ctrl.Result{}, err
 	}
@@ -156,7 +155,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 		r.log.Error(err, "Error during CreateOrUpdate", "action", action)
 		r.recorder.Event(r.obj, v1.EventTypeWarning, "CreateOrUpdateActionError", err.Error())
 
-		err = r.checkForFatalReconciliationError(ctx, err)
+		err = r.turnErrorsIntoConditions(ctx, err)
 
 		return ctrl.Result{}, err
 	}
@@ -167,21 +166,12 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, error) {
 	r.logObj("reconciling resource")
 
-	if ready := r.GetReadyCondition(); ready != nil {
-		if ready.Severity == conditions.ConditionSeverityError &&
-			ready.Reason == conditions.ReasonReconciliationFailedPermanently {
-			// can't do anything to this resource
-			r.log.V(Info).Info("Resource in terminal state, cannot reconcile")
-			return ctrl.Result{}, nil
-		}
-	}
-
 	action, actionFunc, err := r.DetermineDeleteAction()
 	if err != nil {
 		r.log.Error(err, "error determining delete action")
 		r.recorder.Event(r.obj, v1.EventTypeWarning, "DetermineDeleteActionError", err.Error())
 
-		err = r.checkForFatalReconciliationError(ctx, err)
+		err = r.turnErrorsIntoConditions(ctx, err)
 
 		return ctrl.Result{}, err
 	}
@@ -193,7 +183,7 @@ func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, er
 		r.log.Error(err, "Error during Delete", "action", action)
 		r.recorder.Event(r.obj, v1.EventTypeWarning, "DeleteActionError", err.Error())
 
-		err = r.checkForFatalReconciliationError(ctx, err)
+		err = r.turnErrorsIntoConditions(ctx, err)
 
 		return ctrl.Result{}, err
 	}
