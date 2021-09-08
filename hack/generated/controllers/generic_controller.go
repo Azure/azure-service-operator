@@ -213,7 +213,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	}
 
 	// TODO: We need some factory-lookup here
-	wrapper := reconcilers.NewAzureDeploymentReconciler(
+	reconciler := reconcilers.NewAzureDeploymentReconciler(
 		metaObj,
 		log,
 		gr.ARMClient,
@@ -225,13 +225,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		// TODO: (since it's supposed to be generic and there's no guarantee that for an arbitrary resource we even create a deployment)
 		gr.CreateDeploymentName)
 
-	var result ctrl.Result
-	if !metaObj.GetDeletionTimestamp().IsZero() {
-		result, err = wrapper.Delete(ctx)
-	} else {
-		result, err = wrapper.CreateOrUpdate(ctx)
-	}
-
+	result, err := reconciler.Reconcile(ctx)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
