@@ -85,14 +85,40 @@ Here is a [sample YAML](/config/samples/azure_v1alpha2_mysqluser.yaml) for MySQL
 
 The `resourceGroup` is the resource group of the MySQL server and MySQL database, provide the MySQL server name in `server` and MySQL database name in `dbName`. 
 
-The operator supports granting the user global privileges using the `roles` field, and supports assigning one or more privileges from the list:
+The operator supports granting the user global privileges using the `roles` field, which can contain zero or more privileges from the following list:
 
-##### `CREATE TABLESPACE, CREATE USER, FILE, PROCESS, RELOAD, REPLICATION CLIENT, REPLICATION SLAVE, SHOW DATABASES, SHUTDOWN, SUPER`
+* `CREATE TABLESPACE`
+* `CREATE USER`
+* `FILE`
+* `PROCESS`
+* `RELOAD`
+* `REPLICATION CLIENT`
+* `REPLICATION SLAVE`
+* `SHOW DATABASES`
+* `SHUTDOWN`
+* `SUPER`
 
 Users can also be granted privileges on all objects in a specific database using the `databaseRoles` field - this is a map of database name to a list of privileges that should be granted in that database.
 The following privileges can be set:
 
-##### `SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER`.
+* `SELECT`
+* `INSERT`
+* `UPDATE`
+* `DELETE`
+* `CREATE`
+* `DROP`
+* `REFERENCES`
+* `INDEX`
+* `ALTER`
+* `CREATE TEMPORARY TABLES`
+* `LOCK TABLES`
+* `EXECUTE`
+* `CREATE VIEW`
+* `SHOW VIEW`
+* `CREATE ROUTINE`
+* `ALTER ROUTINE`
+* `EVENT`
+* `TRIGGER`
 
 If the special value `ALL` is used, all of the above privileges will be granted.
 `ALL` can't be used in the `roles` field because the MySQL administrator user the operator uses doesn't have sufficient privileges to grant all global privileges.
