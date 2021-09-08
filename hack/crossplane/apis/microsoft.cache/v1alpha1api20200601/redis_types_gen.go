@@ -123,8 +123,7 @@ type RedisResourceObservation struct {
 	//HostName: Redis host name.
 	HostName *string `json:"hostName,omitempty"`
 
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	//Instances: List of the Redis instances associated with the cache
@@ -140,7 +139,7 @@ type RedisResourceObservation struct {
 	//higher) to connect (e,g, '1.0', '1.1', '1.2')
 	MinimumTlsVersion *RedisPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
-	//Name: The name of the resource
+	//Name: Resource name.
 	Name *string `json:"name,omitempty"`
 
 	//Port: Redis non-SSL port.
@@ -194,8 +193,7 @@ type RedisResourceObservation struct {
 	//TenantSettings: A dictionary of tenant settings
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: Resource type.
 	Type *string `json:"type,omitempty"`
 
 	//Zones: A list of availability zones denoting where the resource needs to come
@@ -205,11 +203,10 @@ type RedisResourceObservation struct {
 
 //Generated from:
 type PrivateEndpointConnection_Status struct {
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource
+	//Name: Resource name.
 	Name *string `json:"name,omitempty"`
 
 	//PrivateEndpoint: The resource of private end point.
@@ -223,8 +220,7 @@ type PrivateEndpointConnection_Status struct {
 	//resource.
 	ProvisioningState *PrivateEndpointConnectionProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-	//"Microsoft.Storage/storageAccounts"
+	//Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
