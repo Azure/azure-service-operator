@@ -81,13 +81,21 @@ Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlserveradministrator.
 
 The MySQL user operator allows you to add a new user to an existing MySQL database. 
 
-Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqluser.yaml) for MySQL user. 
+Here is a [sample YAML](/config/samples/azure_v1alpha2_mysqluser.yaml) for MySQL user. 
 
 The `resourceGroup` is the resource group of the MySQL server and MySQL database, provide the MySQL server name in `server` and MySQL database name in `dbName`. 
 
-The operator supports grant specified privileges using the concept of `roles`, and supports assigning one or more privileges from the list:
+The operator supports granting the user global privileges using the `roles` field, and supports assigning one or more privileges from the list:
 
-##### `SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER`.
+##### `CREATE TABLESPACE, CREATE USER, FILE, PROCESS, RELOAD, REPLICATION CLIENT, REPLICATION SLAVE, SHOW DATABASES, SHUTDOWN, SUPER`
+
+Users can also be granted privileges on all objects in a specific database using the `databaseRoles` field - this is a map of database name to a list of privileges that should be granted in that database.
+The following privileges can be set:
+
+##### `SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER`.
+
+If the special value `ALL` is used, all of the above privileges will be granted.
+`ALL` can't be used in the `roles` field because the MySQL administrator user the operator uses doesn't have sufficient privileges to grant all global privileges.
 
 The username is defined by `username`. The MySQL server admin secret is stored in the secret with name `adminSecret` in the  keyvault named `adminSecretKeyVault`. 
 
@@ -99,8 +107,10 @@ Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlaaduser.yaml).
 This controller is only avilable when using [Managed Identity authentication](https://github.com/Azure/azure-service-operator/blob/master/docs/v1/howto/managedidentity.md) with ASO.
 Attempting to use it without Managed Identity will result in an authentication error.
 
-The AAD identity the operator is running as must have permissions to create users in the MySQLServer. This is most commonly granted by making the operator managed identity the MySQL Administrator using the
-[MySQL administrator](mysql-administrator) operator described above.
+The AAD identity the operator is running as must have permissions to create users in the MySQLServer. 
+This is most commonly granted by making the operator managed identity the MySQL Administrator using the [MySQL administrator](#mysql-administrator) operator described above.
+
+MySQL AAD users can be granted server- and database-level privileges using the `roles` and `databaseRoles` fields in the same way as [MySQL users](#mysql-user).
 
 ## Deploy, view and delete resources
 
