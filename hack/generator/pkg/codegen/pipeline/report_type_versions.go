@@ -23,7 +23,8 @@ import (
 // ReportOnTypesAndVersionsStageID is the unique identifier of this stage
 const ReportOnTypesAndVersionsStageID = "reportTypesAndVersions"
 
-// ReportOnTypesAndVersions creates a pipeline stage that removes any wrapper types prior to actual code generation
+// ReportOnTypesAndVersions creates a pipeline stage that generates a report for each group showing a matrix of all
+// types and versions
 func ReportOnTypesAndVersions(configuration *config.Configuration) Stage {
 
 	return MakeLegacyStage(
