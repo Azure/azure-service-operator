@@ -187,8 +187,8 @@ func (builder *convertFromARMBuilder) referencePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
 
-	isResourceReference := toProp.PropertyType().Equals(astmodel.ResourceReferenceTypeName)
-	isOptionalResourceReference := toProp.PropertyType().Equals(astmodel.NewOptionalType(astmodel.ResourceReferenceTypeName))
+	isResourceReference := toProp.PropertyType().Equals(astmodel.ResourceReferenceType)
+	isOptionalResourceReference := toProp.PropertyType().Equals(astmodel.NewOptionalType(astmodel.ResourceReferenceType))
 
 	if !isResourceReference && !isOptionalResourceReference {
 		return nil, false

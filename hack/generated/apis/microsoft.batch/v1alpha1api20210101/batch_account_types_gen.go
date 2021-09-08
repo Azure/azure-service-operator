@@ -76,6 +76,16 @@ func (batchAccount *BatchAccount) AzureName() string {
 	return batchAccount.Spec.AzureName
 }
 
+// GetSpec returns the specification of this resource
+func (batchAccount *BatchAccount) GetSpec() genruntime.ConvertibleSpec {
+	return &batchAccount.Spec
+}
+
+// GetStatus returns the status of this resource
+func (batchAccount *BatchAccount) GetStatus() genruntime.ConvertibleStatus {
+	return &batchAccount.Status
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (batchAccount *BatchAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(batchAccount.Spec)
@@ -1003,7 +1013,7 @@ type BatchAccounts_Spec struct {
 	//account.
 	KeyVaultReference *KeyVaultReference `json:"keyVaultReference,omitempty"`
 
-	//Location: Location to deploy resource to
+	//Location: The region in which to create the account.
 	Location string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -1019,7 +1029,7 @@ type BatchAccounts_Spec struct {
 	//PublicNetworkAccess: If not specified, the default value is 'enabled'.
 	PublicNetworkAccess *BatchAccountCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	//Tags: The user-specified tags associated with the account.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 

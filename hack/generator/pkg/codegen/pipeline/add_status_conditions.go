@@ -29,7 +29,7 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) Stage {
 				conditionsProp := astmodel.NewPropertyDefinition(
 					astmodel.ConditionsProperty,
 					"conditions",
-					astmodel.NewArrayType(astmodel.ConditionTypeName))
+					astmodel.NewArrayType(astmodel.ConditionType))
 				conditionsProp = conditionsProp.WithDescription("The observed state of the resource").MakeOptional()
 				updatedDef, err := propInjector.Inject(def, conditionsProp)
 				if err != nil {

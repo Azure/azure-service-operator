@@ -413,11 +413,14 @@ func (s synthesizer) handleArrayArray(leftArray *astmodel.ArrayType, rightArray 
 func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
 	mergedProps := make(map[astmodel.PropertyName]*astmodel.PropertyDefinition)
 
-	for _, p := range leftObj.Properties() {
+	leftProperties := leftObj.Properties()
+	rightProperties := rightObj.Properties()
+
+	for _, p := range leftProperties {
 		mergedProps[p.PropertyName()] = p
 	}
 
-	for _, p := range rightObj.Properties() {
+	for _, p := range rightProperties {
 		if existingProp, ok := mergedProps[p.PropertyName()]; ok {
 			newType, err := s.intersectTypes(existingProp.PropertyType(), p.PropertyType())
 			if err != nil {
@@ -427,7 +430,16 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 			}
 
 			// TODO: need to handle merging requiredness and tags and...
-			mergedProps[p.PropertyName()] = existingProp.WithType(newType)
+			newProp := existingProp.WithType(newType)
+			if len(p.Description()) > len(newProp.Description()) {
+				// When we merge properties, both of them may have comments, and we need to deterministically choose one
+				// of them to include on the final property. Our simple heuristic is to choose the longer comment, as
+				// that's likely to be more specific.
+				// TODO: Is there a better heuristic? See https://github.com/Azure/azure-service-operator/issues/1768
+				newProp = newProp.WithDescription(p.Description())
+			}
+
+			mergedProps[p.PropertyName()] = newProp
 		} else {
 			mergedProps[p.PropertyName()] = p
 		}

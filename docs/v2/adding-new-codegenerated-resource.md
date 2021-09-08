@@ -1,6 +1,6 @@
 # Adding a new code generated resource to ASO v2
 
-This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out [this PR](TODO) if you'd like to see what the end product looks like.
+This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out [this PR](https://github.com/Azure/azure-service-operator/pull/1568) if you'd like to see what the end product looks like.
 
 ## What resources can be code generated?
 Any ARM resource can be generated. There are a few ways to determine if a resource is an ARM resource:
@@ -56,14 +56,64 @@ In the case of our example above, that ends up being:
 
 ## Run the code generator
 
-See [the code generator README](/hack/README.md) for how to run the code generator.
+Follow the steps in the [contributing guide](/hack/CONTRIBUTING.md) to set up your development environment.
+Once you have a working development environment, run the `task` command to run the code generator.
 
 ## Fix any errors raised by the code generator
 
-TODO: expand on common errors
+### \<Resource\> looks like a resource reference but was not labelled as one
+Example:
+>  Replace cross-resource references with genruntime.ResourceReference: 
+> ["github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.containerservice/v1alpha1api20210501/PrivateLinkResource.Id" looks like a resource reference but was not labelled as one. 
+> It might need to be manually added to `newKnownReferencesMap`,
+
+To fix this error, determine whether the property in question is an ARM ID or not, and then update the `newKnownReferencesMap` function 
+in [add_cross_resource_references.go](hack/generator/pkg/codegen/pipeline/add_cross_resource_references.go#L185).
+
+If the property is an ARM ID, update `newKnownReferencesMap` to flag that property as a reference:
+```go
+{
+       typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
+       propName: "Id", 
+}: true,
+```
+
+If the property is not an ARM ID, update `newKnownReferencesMap` to indicate that property is not a reference by providing the value **false** instead:
+```go
+{
+       typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
+       propName: "Id", 
+}: false,
+``` 
+
+TODO: expand on other common errors
 
 ## Examine the generated resource
-The Azure REST API specs and ARM template JSON schemas are not perfect. Sometimes they mark a `readonly` property as mutable or have another error or mistake. Have a look through the [generated code](/hack/generated/apis/) in the directory named after the `group` of the resource that was added. In our `NetworkSecurityGroups` example, this is at `/hack/generated/apis/microsoft.network/v1alpha1api20201101/network_security_group_types_gen.go`
+After running the generator, the new resource you added should be in the [apis](/hack/generated/apis/) directory. 
+
+Have a look through the files in the directory named after the `group` and `version` of the resource that was added.
+In our `NetworkSecurityGroups` example, the best place to start is `/hack/generated/apis/microsoft.network/v1alpha1api20201101/network_security_group_types_gen.go`
+There may be other resources that already exist in that same directory - that's expected if ASO already supported some resources from that provider and API version.
+
+Starting with the `network_security_group_types_gen.go` file, find the struct representing the resource you just added. It should be near the top and look something like this:
+```go
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
+//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups
+type NetworkSecurityGroup struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              NetworkSecurityGroups_Spec                                           `json:"spec,omitempty"`
+	Status            NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"status,omitempty"`
+}
+```
+
+Look over the `Spec` and `Status` types and their properties (and the properties of their properties and so-on).
+The Azure REST API specs and ARM template JSON schemas which these types were derived from are not perfect. Sometimes they mark a `readonly` property as mutable or have another error or mistake. 
 
 If you do identify properties which should be removed or changed, you can make customizations to the resource in the `typeTransformers` section of the code generation config. The most common issues have their own sections:
 
@@ -74,7 +124,7 @@ If you do identify properties which should be removed or changed, you can make c
 The best way to do this is to start from an [existing test](/hack/generated/controllers/crd_cosmosdb_test.go) and modify it to work for your resource. It can also be helpful to refer to examples in the [ARM templates GitHub repo](https://github.com/Azure/azure-quickstart-templates).
 
 ## Run the CRUD test for the resource and commit the recording
-See [the code generator README](/hack/README.md#record-replay) for how to run recording tests.
+See [the code generator README](/hack/CONTRIBUTING.md#running-integration-tests) for how to run recording tests.
 
 ## Add a new sample
 The samples are located in the [samples directory](/hack/generated/config/samples). There should be at least one sample for each kind of supported resource. These currently need to be added manually. It's possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn't happen today.

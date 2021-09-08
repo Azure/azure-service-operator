@@ -21,7 +21,7 @@ var student2019 = astmodel.MakeTypeName(makeTestLocalPackageReference("role", "2
 var tutor2019 = astmodel.MakeTypeName(makeTestLocalPackageReference("role", "2019-01-01"), "tutor")
 
 func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	filter := config.TypeMatcher{Group: "role"}
 	err := filter.Initialize()
@@ -37,7 +37,7 @@ func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {
 }
 
 func Test_FilterByVersion_CorrectlySelectsStructs(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	filter := config.TypeMatcher{Version: "2019-*"}
 	err := filter.Initialize()
@@ -52,7 +52,7 @@ func Test_FilterByVersion_CorrectlySelectsStructs(t *testing.T) {
 }
 
 func Test_FilterByName_CorrectlySelectsStructs(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	filter := config.TypeMatcher{Name: "p*"}
 	err := filter.Initialize()
@@ -67,7 +67,7 @@ func Test_FilterByName_CorrectlySelectsStructs(t *testing.T) {
 }
 
 func Test_FilterByMultipleConditions_CorrectlySelectsStructs(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	filter := config.TypeMatcher{Name: "p*", Version: "2019-*"}
 	err := filter.Initialize()
@@ -84,7 +84,7 @@ func Test_FilterByMultipleConditions_CorrectlySelectsStructs(t *testing.T) {
 }
 
 func Test_FiltersAreCaseInsensitive(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	filter := config.TypeMatcher{Group: "ROLE", Name: "TuToR"}
 	err := filter.Initialize()
@@ -100,7 +100,7 @@ func Test_FiltersAreCaseInsensitive(t *testing.T) {
 }
 
 func Test_FilterByMultipleWildcards_CorrectlySelectsStructs(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	filter := config.TypeMatcher{Name: "p*;*t"}
 	err := filter.Initialize()

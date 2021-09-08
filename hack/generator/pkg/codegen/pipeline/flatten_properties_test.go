@@ -17,7 +17,7 @@ import (
 var placeholderPackage = astmodel.MakeLocalPackageReference("prefix", "group", "version")
 
 func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	prop := astmodel.NewPropertyDefinition("Duplicate", "dupe", astmodel.StringType)
 
@@ -45,7 +45,7 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 }
 
 func TestFlatteningWorks(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	inner2Obj := astmodel.NewObjectType().WithProperties(
 		astmodel.NewPropertyDefinition("x", "x", astmodel.StringType))

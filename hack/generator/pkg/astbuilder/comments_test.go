@@ -6,8 +6,9 @@
 package astbuilder
 
 import (
-	. "github.com/onsi/gomega"
 	"testing"
+
+	. "github.com/onsi/gomega"
 )
 
 func TestDocumentationCommentFormatting(t *testing.T) {
@@ -47,7 +48,7 @@ func TestDocumentationCommentFormatting(t *testing.T) {
 	for _, c := range cases {
 		c := c
 		t.Run(c.comment, func(t *testing.T) {
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			lines := formatComment(c.comment, 64)
 			g.Expect(lines).To(Equal(c.results))
 		})
@@ -69,7 +70,7 @@ func TestWordWrap(t *testing.T) {
 	for _, c := range cases {
 		c := c
 		t.Run(c.text, func(t *testing.T) {
-			g := NewGomegaWithT(t)
+			g := NewWithT(t)
 			lines := wordWrap(c.text, c.width)
 			g.Expect(lines).To(Equal(c.results))
 		})

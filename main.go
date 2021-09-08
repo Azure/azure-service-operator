@@ -77,9 +77,7 @@ func main() {
 
 	flag.Parse()
 
-	ctrl.SetLogger(zap.New(func(o *zap.Options) {
-		o.Development = true
-	}))
+	ctrl.SetLogger(zap.New(zap.UseDevMode(false), zap.WriteTo(os.Stdout)))
 
 	err := resourcemanagerconfig.ParseEnvironment()
 	if err != nil {

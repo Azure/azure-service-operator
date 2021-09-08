@@ -27,12 +27,8 @@ type MetaObject interface {
 	KubernetesResource
 }
 
-type Reconciler interface { // TODO: Sorta awkward interface name
-	CreateOrUpdate(ctx context.Context) (ctrl.Result, error)
-
-	Delete(ctx context.Context) (ctrl.Result, error)
-
-	// TODO: Do we want a "Diff"? Or is the expectation that logic just exists in CreateOrUpdate?
+type Reconciler interface {
+	Reconcile(ctx context.Context) (ctrl.Result, error)
 }
 
 // KubernetesResource is an Azure resource. This interface contains the common set of
@@ -57,6 +53,12 @@ type KubernetesResource interface {
 
 	// TODO: I think we need this
 	// SetStatus(status interface{})
+
+	// GetSpec returns the specification of the resource
+	GetSpec() ConvertibleSpec
+
+	// GetStatus returns the current status of the resource
+	GetStatus() ConvertibleStatus
 }
 
 // TODO: We really want these methods to be on MetaObject itself -- should update code generator to make them at some point
@@ -99,10 +101,8 @@ type ARMResourceSpec interface {
 }
 
 // ARMResourceStatus is an ARM resource status
-type ARMResourceStatus interface {
-	// TODO: Unsure what the actual content of this interface needs to be.
+type ARMResourceStatus interface { // TODO: Unsure what the actual content of this interface needs to be.
 	// TODO: We need to define it and generate the code for it
-
 	// GetId() string
 }
 

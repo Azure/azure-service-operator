@@ -17,7 +17,7 @@ import (
 type KubeGlobalContext struct {
 	TestContext
 
-	useEnvTest bool
+	createBaseTestContext func(PerTestContext) (*KubeBaseTestContext, error)
 
 	namespace string
 }
@@ -31,11 +31,19 @@ func NewKubeContext(
 	recordReplay bool,
 	namespace string,
 	region string) KubeGlobalContext {
-	return KubeGlobalContext{
+
+	result := KubeGlobalContext{
 		TestContext: NewTestContext(region, recordReplay),
-		useEnvTest:  useEnvTest,
 		namespace:   namespace,
 	}
+
+	if useEnvTest {
+		result.createBaseTestContext = createEnvtestContext
+	} else {
+		result.createBaseTestContext = createRealKubeContext
+	}
+
+	return result
 }
 
 type KubeBaseTestContext struct {

@@ -22,7 +22,7 @@ type VirtualMachineScaleSets_SpecARM struct {
 	//Location: Location to deploy resource to
 	Location string `json:"location,omitempty"`
 
-	//Name: Name of the resource
+	//Name: The name of the VM scale set to create or update.
 	Name string `json:"name"`
 
 	//Plan: Specifies information about the marketplace image used to create the
