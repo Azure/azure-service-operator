@@ -174,7 +174,10 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			codegen.ReplaceStage(pipeline.AddCrossResourceReferencesStageID, addCrossResourceReferencesForTest(idFactory))
 		}
 	case config.GenerationPipelineCrossplane:
-		codegen.RemoveStages(pipeline.DeleteGeneratedCodeStageID, pipeline.CheckForAnyTypeStageID)
+		codegen.RemoveStages(
+			pipeline.DeleteGeneratedCodeStageID, pipeline.
+			CheckForAnyTypeStageID,
+			pipeline.ReportResourceVersionsStageID)
 		if !testConfig.HasARMResources {
 			codegen.ReplaceStage(pipeline.StripUnreferencedTypeDefinitionsStageID, stripUnusedTypesPipelineStage())
 		}
