@@ -9,6 +9,47 @@ This project is an alpha. We follow the [Kubernetes definition of alpha](https:/
 - **Cloud Scale:** we generate K8s CRDs from Azure Resource Manager schemas to move as fast as Azure.
 - **Async Reconciliation:** we don't block on resource creation.
 
+## What resources does ASO v2 support?
+
+**Microsoft.Batch**
+- BatchAccount (Microsoft.Batch/batchAccounts)
+
+**Microsoft.Compute**
+- VirtualMachineScaleSet (Microsoft.Compute/virtualMachineScaleSets)
+- Disk (Microsoft.Compute/disks)
+
+**Microsoft.DocumentDB**
+- DatabaseAccount (Microsoft.DocumentDB/databaseAccounts)
+
+**Microsoft.ManagedIdentity**
+- UserAssignedIdentity (Microsoft.ManagedIdentity/userAssignedIdentities)
+
+**Microsoft.Network**
+- LoadBalancer (Microsoft.Network/loadBalancers)
+- NetworkSecurityGroup (Microsoft.Network/networkSecurityGroups)
+- NetworkSecurityGroupsSecurityRule (Microsoft.Network/networkSecurityGroups/securityRule)
+- PublicIPAddress (Microsoft.Network/publicIPAddresses)
+- VirtualNetwork (Microsoft.Network/virtualNetworks)
+- VirtualNetworksSubnet (Microsoft.Network/virtualNetworks/subnets)
+- VirtualNetworksVirtualNetworkPeering (Microsoft.Network/virtualNetworks/virtualNetworkPeerings)
+- VirtualNetworkGateways (Microsoft.Network/virtualNetworkGateways)
+- VirtualNetworkTap (Microsoft.Network/virtualNetworkTaps)
+
+**Microsoft.Resources**
+- ResourceGroup (Microsoft.Resources/resourceGroups)
+
+**Microsoft.ServiceBus**
+- Namespace (Microsoft.ServiceBus/namespaces)
+- NamespacesQueue (Microsoft.ServiceBus/namespaces/queues)
+- NamespacesTopic (Microsoft.ServiceBus/namespaces/topics)
+
+**Microsoft.Storage**
+- StorageAccount (Microsoft.Storage/storageAccounts)
+- StorageAccountsBlobService (Microsoft.Storage/storageAccounts/blobServices)
+- StorageAccountsBlobServicesContainer (Microsoft.Storage/storageAccounts/blobServices/containers)
+
+Sample YAMLs for creating each of these resources can be found in the [samples directory](/hack/generated/config/samples).
+
 ## Getting Started
 ### Prerequisites
 1. A Kubernetes cluster (at least version 1.16) [created and running](https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/). You can check your cluster version with `kubectl version`. If you want to try it out quickly, spin up a local cluster using [Kind](https://kind.sigs.k8s.io).

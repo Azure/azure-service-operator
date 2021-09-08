@@ -1,4 +1,5 @@
-//+build !noexit
+//go:build !noexit
+// +build !noexit
 
 /*
  * Copyright (c) Microsoft Corporation.
