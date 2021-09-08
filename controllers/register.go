@@ -10,6 +10,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
@@ -849,10 +850,16 @@ func RegisterWebhooks(mgr manager.Manager) error {
 		return errors.Wrap(err, "registering MySQLServer webhook")
 	}
 	if err := (&v1alpha1.MySQLUser{}).SetupWebhookWithManager(mgr); err != nil {
-		return errors.Wrap(err, "registering MySQLUser webhook")
+		return errors.Wrap(err, "registering v1alpha1 MySQLUser webhook")
+	}
+	if err := (&v1alpha2.MySQLUser{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering v1alpha2 MySQLUser webhook")
 	}
 	if err := (&v1alpha1.MySQLAADUser{}).SetupWebhookWithManager(mgr); err != nil {
-		return errors.Wrap(err, "registering MySQLAADUser webhook")
+		return errors.Wrap(err, "registering v1alpha1 MySQLAADUser webhook")
+	}
+	if err := (&v1alpha2.MySQLAADUser{}).SetupWebhookWithManager(mgr); err != nil {
+		return errors.Wrap(err, "registering v1alpha2 MySQLAADUser webhook")
 	}
 	if err := (&v1alpha1.PostgreSQLServer{}).SetupWebhookWithManager(mgr); err != nil {
 		return errors.Wrap(err, "registering PostgreSQLServer webhook")

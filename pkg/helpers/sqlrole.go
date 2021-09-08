@@ -23,7 +23,7 @@ func DiffCurrentAndExpectedSQLRoles(currentRoles map[string]struct{}, expectedRo
 	for role := range expectedRoles {
 		// Escape hatch - if they ask for ALL then we just grant ALL
 		// and don't delete any.
-		if strings.EqualFold(role, sqlAll) {
+		if IsSQLAll(role) {
 			return SQLRoleDelta{
 				AddedRoles:   map[string]struct{}{sqlAll: {}},
 				DeletedRoles: map[string]struct{}{},
@@ -44,4 +44,9 @@ func DiffCurrentAndExpectedSQLRoles(currentRoles map[string]struct{}, expectedRo
 	}
 
 	return result
+}
+
+// Returns whether the string matches the special privilege value ALL.
+func IsSQLAll(privilege string) bool {
+	return strings.EqualFold(privilege, sqlAll)
 }
