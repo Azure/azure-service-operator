@@ -175,12 +175,14 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 	}
 
 	injectOwnerProperty := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
-		if resourceType.Owner() != nil {
-			ownerField, propErr := c.createOwnerProperty(resourceType.Owner())
+		if resourceType.Owner() != nil && resourceType.Kind() == astmodel.ResourceKindNormal {
+			ownerProperty, propErr := c.createOwnerProperty(resourceType.Owner())
 			if propErr != nil {
 				return nil, propErr
 			}
-			t = t.WithProperty(ownerField)
+			t = t.WithProperty(ownerProperty)
+		} else if resourceType.Kind() == astmodel.ResourceKindExtension {
+			t = t.WithProperty(c.createExtensionResourceOwnerProperty())
 		}
 
 		return t, nil
@@ -249,14 +251,10 @@ func (c *armConversionApplier) addARMConversionInterface(
 }
 
 func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeName) (*astmodel.PropertyDefinition, error) {
-	knownResourceReferenceType := astmodel.MakeTypeName(
-		astmodel.GenRuntimeReference,
-		"KnownResourceReference")
-
 	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
 		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		knownResourceReferenceType)
+		astmodel.KnownResourceReferenceType)
 
 	if localRef, ok := ownerTypeName.PackageReference.AsLocalPackage(); ok {
 		group := localRef.Group() + astmodel.GroupSuffix
@@ -267,4 +265,11 @@ func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeN
 	}
 
 	return prop, nil
+}
+
+func (c *armConversionApplier) createExtensionResourceOwnerProperty() *astmodel.PropertyDefinition {
+	return astmodel.NewPropertyDefinition(
+		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
+		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
+		astmodel.UnknownOwnerReferenceType).MakeRequired()
 }
