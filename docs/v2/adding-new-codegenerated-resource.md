@@ -61,7 +61,32 @@ Once you have a working development environment, run the `task` command to run t
 
 ## Fix any errors raised by the code generator
 
-TODO: expand on common errors
+### \<Resource\> looks like a resource reference but was not labelled as one
+Example:
+>  Replace cross-resource references with genruntime.ResourceReference: 
+> ["github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.containerservice/v1alpha1api20210501/PrivateLinkResource.Id" looks like a resource reference but was not labelled as one. 
+> It might need to be manually added to `newKnownReferencesMap`,
+
+To fix this error, determine whether the property in question is an ARM ID or not, and then update the `newKnownReferencesMap` function 
+in [add_cross_resource_references.go](hack/generator/pkg/codegen/pipeline/add_cross_resource_references.go#L185).
+
+If the property is an ARM ID, update `newKnownReferencesMap` to flag that property as a reference:
+```go
+{
+       typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
+       propName: "Id", 
+}: true,
+```
+
+If the property is not an ARM ID, update `newKnownReferencesMap` to indicate that property is not a reference by providing the value **false** instead:
+```go
+{
+       typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
+       propName: "Id", 
+}: false,
+``` 
+
+TODO: expand on other common errors
 
 ## Examine the generated resource
 After running the generator, the new resource you added should be in the [apis](/hack/generated/apis/) directory. 
