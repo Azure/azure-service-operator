@@ -117,13 +117,7 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) KubePerTestContext {
 		t.Fatal(err)
 	}
 
-	var baseCtx *KubeBaseTestContext
-	if ctx.useEnvTest {
-		baseCtx, err = createEnvtestContext(perTestContext)
-	} else {
-		baseCtx, err = createRealKubeContext(perTestContext)
-	}
-
+	baseCtx, err := ctx.createBaseTestContext(perTestContext)
 	if err != nil {
 		t.Fatal(err)
 	}

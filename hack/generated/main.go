@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/Azure/go-autorest/autorest/azure/auth"
+	"github.com/go-logr/logr"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/klog/v2"
 	"k8s.io/klog/v2/klogr"
@@ -70,7 +71,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), ctrl.Log.WithName("controllers"), makeControllerOptions()); errs != nil {
+	log := ctrl.Log.WithName("controllers")
+	if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), makeControllerOptions(log)); errs != nil {
 		setupLog.Error(err, "failed to register gvks")
 		os.Exit(1)
 	}
@@ -87,10 +89,11 @@ func main() {
 	}
 }
 
-func makeControllerOptions() controllers.Options {
+func makeControllerOptions(log logr.Logger) controllers.Options {
 	return controllers.Options{
 		Options: controller.Options{
 			MaxConcurrentReconciles: 1,
+			Log:                     log,
 			RateLimiter:             controllers.NewRateLimiter(1*time.Second, 1*time.Minute),
 		},
 	}

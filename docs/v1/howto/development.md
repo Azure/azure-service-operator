@@ -189,3 +189,7 @@ If you make changes to the Chart or if you make changes to the CRDs, you will ne
 1. After you make the changes to the CRDs or the chart, run `make helm-chart-manifests` from the project root.
 2. Add all the modified files generated including the .tgz file, to your commit.
 3. Include these files in your Pull Request.
+
+## Code Structure
+
+![Overview](../../images/aso-v1-structure.svg)
