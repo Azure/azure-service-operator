@@ -138,22 +138,6 @@ func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.FromARMConvert
 	return status, nil
 }
 
-// TODO: hacking this for now -- replace with a code-generated method later
-func SetStatus(metaObj genruntime.MetaObject, status interface{}) error {
-	ptr := reflect.ValueOf(metaObj)
-	val := ptr.Elem()
-
-	if val.Kind() != reflect.Struct {
-		return errors.Errorf("metaObj kind was not struct")
-	}
-
-	field := val.FieldByName("Status")
-	statusVal := reflect.ValueOf(status).Elem()
-	field.Set(statusVal)
-
-	return nil
-}
-
 func HasStatus(metaObj genruntime.MetaObject) (bool, error) {
 	ptr := reflect.ValueOf(metaObj)
 	val := ptr.Elem()

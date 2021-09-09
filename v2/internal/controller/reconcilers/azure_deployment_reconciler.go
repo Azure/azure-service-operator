@@ -339,7 +339,7 @@ func (r *AzureDeploymentReconciler) UpdateBeforeCreatingDeployment(
 
 func (r *AzureDeploymentReconciler) Update(
 	deployment *armclient.Deployment,
-	status genruntime.FromARMConverter) error {
+	status genruntime.ConvertibleStatus) error {
 
 	r.SetDeploymentID(deployment.ID)
 	r.SetDeploymentName(deployment.Name)
@@ -355,9 +355,9 @@ func (r *AzureDeploymentReconciler) Update(
 			// Modifications that impact status have to happen after this because this performs a full
 			// replace of status
 			if status != nil {
-				err := reflecthelpers.SetStatus(r.obj, status)
+				err := r.obj.SetStatus(status)
 				if err != nil {
-					return err
+					return errors.Wrapf(err, "setting status on deployment (id=%q; name=%q)", deployment.ID, deployment.Name)
 				}
 			}
 		} else {
@@ -628,7 +628,9 @@ func (r *AzureDeploymentReconciler) CreateDeployment(ctx context.Context) (ctrl.
 	return result, err
 }
 
-func (r *AzureDeploymentReconciler) handleDeploymentFinished(ctx context.Context, deployment *armclient.Deployment) (ctrl.Result, error) {
+func (r *AzureDeploymentReconciler) handleDeploymentFinished(
+	ctx context.Context,
+	deployment *armclient.Deployment) (ctrl.Result, error) {
 	var status genruntime.FromARMConverter
 	if deployment.IsSuccessful() {
 		// TODO: There's some overlap here with what Update does
@@ -647,7 +649,13 @@ func (r *AzureDeploymentReconciler) handleDeploymentFinished(ctx context.Context
 		}
 	}
 
-	err := r.Update(deployment, status)
+	//TODO: Need to move this to a compile time check
+	cs, ok := status.(genruntime.ConvertibleStatus)
+	if !ok {
+		return ctrl.Result{}, errors.Errorf("expected status to implement ConvertibleStatus")
+	}
+
+	err := r.Update(deployment, cs)
 	if err != nil {
 		return ctrl.Result{}, errors.Wrap(err, "updating obj")
 	}
@@ -792,7 +800,7 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 		return nil, zeroDuration, err
 	}
 
-	// TODO: do we tolerate not exists here?
+	// TODO: do we tolerate not-exists here?
 	armStatus, err := reflecthelpers.NewEmptyArmResourceStatus(r.obj)
 	if err != nil {
 		return nil, zeroDuration, errors.Wrapf(err, "constructing ARM status for resource: %q", id)
