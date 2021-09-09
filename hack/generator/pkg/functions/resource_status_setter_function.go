@@ -23,7 +23,7 @@ type ResourceStatusSetterFunction struct {
 var _ astmodel.Function = &ResourceStatusSetterFunction{}
 
 // NewResourceStatusSetterFunction creates a new ResourceStatusSetterFunction
-// resource is the resource type that will be modified by the function
+// resource is the resource type that will host the function
 // idFactory is an IdentifierFactory for creating local variable names
 func NewResourceStatusSetterFunction(
 	resource *astmodel.ResourceType,
