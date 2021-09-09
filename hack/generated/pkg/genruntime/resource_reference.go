@@ -28,9 +28,9 @@ type KnownResourceReference struct {
 	// disallowing cross-namespace references for now
 }
 
-// UnknownOwnerReference is an owner reference to an unknown type.
+// ArbitraryOwnerReference is an owner reference to an unknown type.
 // +kubebuilder:object:generate=true
-type UnknownOwnerReference struct {
+type ArbitraryOwnerReference struct {
 	// This is the name of the Kubernetes resource to reference.
 	// +kubebuilder:validation:Required
 	Name string `json:"name"`
@@ -135,8 +135,8 @@ func (ref KnownResourceReference) Copy() KnownResourceReference {
 	return ref
 }
 
-// Copy makes an independent copy of the UnknownOwnerReference
-func (ref UnknownOwnerReference) Copy() UnknownOwnerReference {
+// Copy makes an independent copy of the ArbitraryOwnerReference
+func (ref ArbitraryOwnerReference) Copy() ArbitraryOwnerReference {
 	return ref
 }
 

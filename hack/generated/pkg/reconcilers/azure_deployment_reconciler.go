@@ -820,10 +820,12 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 	}
 
 	owner := r.obj.Owner()
-	var knownOwner genruntime.KnownResourceReference
+	var knownOwner genruntime.ArbitraryOwnerReference
 	if owner != nil {
-		knownOwner = genruntime.KnownResourceReference{
-			Name: owner.Name,
+		knownOwner = genruntime.ArbitraryOwnerReference{
+			Name:  owner.Name,
+			Group: owner.Group,
+			Kind:  owner.Kind,
 		}
 	}
 

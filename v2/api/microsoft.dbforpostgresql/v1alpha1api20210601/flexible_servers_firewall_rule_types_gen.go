@@ -355,7 +355,7 @@ func (firewallRuleStatus *FirewallRule_Status) CreateEmptyARMValue() genruntime.
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (firewallRuleStatus *FirewallRule_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (firewallRuleStatus *FirewallRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(FirewallRule_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FirewallRule_StatusARM, got %T", armInput)
@@ -620,7 +620,7 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Creat
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(FlexibleServersFirewallRules_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersFirewallRules_SpecARM, got %T", armInput)
@@ -640,7 +640,9 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Popul
 	}
 
 	// Set property ‘Owner’:
-	flexibleServersFirewallRulesSpec.Owner = owner
+	flexibleServersFirewallRulesSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘StartIpAddress’:
 	// copying flattened property:

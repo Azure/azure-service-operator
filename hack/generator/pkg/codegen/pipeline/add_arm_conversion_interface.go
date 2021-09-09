@@ -271,5 +271,5 @@ func (c *armConversionApplier) createExtensionResourceOwnerProperty() *astmodel.
 	return astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
 		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astmodel.UnknownOwnerReferenceType).MakeRequired()
+		astmodel.ArbitraryOwnerReference).MakeRequired()
 }

@@ -62,11 +62,13 @@ func newConvertToARMFunctionBuilder(
 		result.convertComplexTypeNameProperty)
 
 	result.propertyConversionHandlers = []propertyConversionHandler{
+		// Handlers for specific properties come first
 		result.namePropertyHandler,
 		result.scopePropertyHandler,
-		result.referencePropertyHandler,
 		result.fixedValuePropertyHandler(astmodel.TypeProperty),
 		result.fixedValuePropertyHandler(astmodel.APIVersionProperty),
+		// Generic handlers come second
+		result.referencePropertyHandler,
 		result.flattenedPropertyHandler,
 		result.propertiesWithSameNameHandler,
 	}

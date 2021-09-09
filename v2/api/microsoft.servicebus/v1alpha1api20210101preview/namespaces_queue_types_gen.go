@@ -440,7 +440,7 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) CreateEmptyARMValue() genrunt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (namespacesQueuesSpec *NamespacesQueues_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (namespacesQueuesSpec *NamespacesQueues_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(NamespacesQueues_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesQueues_SpecARM, got %T", armInput)
@@ -540,7 +540,9 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Owner’:
-	namespacesQueuesSpec.Owner = owner
+	namespacesQueuesSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘RequiresDuplicateDetection’:
 	// copying flattened property:
@@ -1076,7 +1078,7 @@ func (sbQueueStatus *SBQueue_Status) CreateEmptyARMValue() genruntime.ARMResourc
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sbQueueStatus *SBQueue_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (sbQueueStatus *SBQueue_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SBQueue_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBQueue_StatusARM, got %T", armInput)
@@ -1807,7 +1809,7 @@ func (messageCountDetailsStatus *MessageCountDetails_Status) CreateEmptyARMValue
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (messageCountDetailsStatus *MessageCountDetails_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (messageCountDetailsStatus *MessageCountDetails_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(MessageCountDetails_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MessageCountDetails_StatusARM, got %T", armInput)

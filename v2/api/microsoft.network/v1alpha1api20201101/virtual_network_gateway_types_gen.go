@@ -416,7 +416,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) CreateEmptyARMV
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkGateway_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGateway_StatusARM, got %T", armInput)
@@ -1342,7 +1342,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) CreateEmptyARMVal
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkGateways_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGateways_SpecARM, got %T", armInput)
@@ -1437,7 +1437,9 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) PopulateFromARM(o
 	virtualNetworkGatewaysSpec.Location = typedInput.Location
 
 	// Set property ‘Owner’:
-	virtualNetworkGatewaysSpec.Owner = owner
+	virtualNetworkGatewaysSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘Sku’:
 	// copying flattened property:
@@ -1986,7 +1988,7 @@ func (bgpSettings *BgpSettings) CreateEmptyARMValue() genruntime.ARMResourceStat
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (bgpSettings *BgpSettings) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (bgpSettings *BgpSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BgpSettingsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BgpSettingsARM, got %T", armInput)
@@ -2144,7 +2146,7 @@ func (bgpSettingsStatus *BgpSettings_Status) CreateEmptyARMValue() genruntime.AR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (bgpSettingsStatus *BgpSettings_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (bgpSettingsStatus *BgpSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BgpSettings_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BgpSettings_StatusARM, got %T", armInput)
@@ -2314,7 +2316,7 @@ func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfigu
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfiguration_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfiguration_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkGatewayIPConfiguration_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGatewayIPConfiguration_StatusARM, got %T", armInput)
@@ -2621,7 +2623,7 @@ func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) CreateEmptyARMValue() 
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkGatewaySkuARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGatewaySkuARM, got %T", armInput)
@@ -2714,7 +2716,7 @@ func (virtualNetworkGatewaySkuStatus *VirtualNetworkGatewaySku_Status) CreateEmp
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkGatewaySkuStatus *VirtualNetworkGatewaySku_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkGatewaySkuStatus *VirtualNetworkGatewaySku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkGatewaySku_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGatewaySku_StatusARM, got %T", armInput)
@@ -2899,7 +2901,7 @@ func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGatewa
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM, got %T", armInput)
@@ -3202,7 +3204,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM, got %T", armInput)
@@ -3631,7 +3633,7 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) CreateEmptyAR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VpnClientConfiguration_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VpnClientConfiguration_StatusARM, got %T", armInput)
@@ -4041,7 +4043,7 @@ func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) Create
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(IPConfigurationBgpPeeringAddressARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPConfigurationBgpPeeringAddressARM, got %T", armInput)
@@ -4141,7 +4143,7 @@ func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_S
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(IPConfigurationBgpPeeringAddress_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPConfigurationBgpPeeringAddress_StatusARM, got %T", armInput)
@@ -4339,7 +4341,7 @@ func (ipsecPolicy *IpsecPolicy) CreateEmptyARMValue() genruntime.ARMResourceStat
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (ipsecPolicy *IpsecPolicy) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (ipsecPolicy *IpsecPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(IpsecPolicyARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpsecPolicyARM, got %T", armInput)
@@ -4525,7 +4527,7 @@ func (ipsecPolicyStatus *IpsecPolicy_Status) CreateEmptyARMValue() genruntime.AR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (ipsecPolicyStatus *IpsecPolicy_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (ipsecPolicyStatus *IpsecPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(IpsecPolicy_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpsecPolicy_StatusARM, got %T", armInput)
@@ -4711,7 +4713,7 @@ func (radiusServer *RadiusServer) CreateEmptyARMValue() genruntime.ARMResourceSt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (radiusServer *RadiusServer) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (radiusServer *RadiusServer) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(RadiusServerARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RadiusServerARM, got %T", armInput)
@@ -4819,7 +4821,7 @@ func (radiusServerStatus *RadiusServer_Status) CreateEmptyARMValue() genruntime.
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (radiusServerStatus *RadiusServer_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (radiusServerStatus *RadiusServer_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(RadiusServer_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RadiusServer_StatusARM, got %T", armInput)
@@ -5063,7 +5065,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevoked
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM, got %T", armInput)
@@ -5175,7 +5177,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCer
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM, got %T", armInput)
@@ -5285,7 +5287,7 @@ func (vpnClientRevokedCertificateStatus *VpnClientRevokedCertificate_Status) Cre
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (vpnClientRevokedCertificateStatus *VpnClientRevokedCertificate_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (vpnClientRevokedCertificateStatus *VpnClientRevokedCertificate_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VpnClientRevokedCertificate_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VpnClientRevokedCertificate_StatusARM, got %T", armInput)
@@ -5459,7 +5461,7 @@ func (vpnClientRootCertificateStatus *VpnClientRootCertificate_Status) CreateEmp
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (vpnClientRootCertificateStatus *VpnClientRootCertificate_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (vpnClientRootCertificateStatus *VpnClientRootCertificate_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VpnClientRootCertificate_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VpnClientRootCertificate_StatusARM, got %T", armInput)
