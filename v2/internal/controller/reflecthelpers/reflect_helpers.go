@@ -138,21 +138,6 @@ func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.FromARMConvert
 	return status, nil
 }
 
-func HasStatus(metaObj genruntime.MetaObject) (bool, error) {
-	ptr := reflect.ValueOf(metaObj)
-	val := ptr.Elem()
-
-	if val.Kind() != reflect.Struct {
-		return false, errors.Errorf("metaObj kind was not struct")
-	}
-
-	field := val.FieldByName("Status")
-	emptyStatusPtr := reflect.New(field.Type())
-	emptyStatus := emptyStatusPtr.Elem().Interface()
-
-	return !reflect.DeepEqual(field.Interface(), emptyStatus), nil
-}
-
 // NewPtrFromValue creates a new pointer type from a value
 func NewPtrFromValue(value interface{}) interface{} {
 	v := reflect.ValueOf(value)

@@ -194,15 +194,6 @@ func Test_EmptyArmResourceStatus(t *testing.T) {
 	g.Expect(status).To(BeAssignableToTypeOf(&batch.BatchAccount_StatusARM{}))
 }
 
-func Test_HasStatus(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	account := createDummyResource()
-	result, err := reflecthelpers.HasStatus(account)
-	g.Expect(err).To(BeNil())
-	g.Expect(result).To(BeFalse())
-}
-
 func Test_NewPtrFromStruct_ReturnsPtr(t *testing.T) {
 	g := NewGomegaWithT(t)
 
