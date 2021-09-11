@@ -288,13 +288,14 @@ const (
 	ResourceIdentityStatusTypeUserAssigned   = ResourceIdentityStatusType("UserAssigned")
 )
 
-// +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
 type ResourceIdentityType string
 
 const (
-	ResourceIdentityTypeNone           = ResourceIdentityType("None")
-	ResourceIdentityTypeSystemAssigned = ResourceIdentityType("SystemAssigned")
-	ResourceIdentityTypeUserAssigned   = ResourceIdentityType("UserAssigned")
+	ResourceIdentityTypeNone                       = ResourceIdentityType("None")
+	ResourceIdentityTypeSystemAssigned             = ResourceIdentityType("SystemAssigned")
+	ResourceIdentityTypeSystemAssignedUserAssigned = ResourceIdentityType("SystemAssigned,UserAssigned")
+	ResourceIdentityTypeUserAssigned               = ResourceIdentityType("UserAssigned")
 )
 
 // +kubebuilder:validation:Enum={"ActiveDirectory"}

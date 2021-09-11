@@ -151,7 +151,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 		return ctrl.Result{}, err
 	}
 
-	r.log.V(Info).Info("Reconciling Azure resource %s, will perform: %s", r.obj.AzureName(), action)
+	r.log.V(Verbose).Info("Reconciling resource", "action", action)
 
 	result, err := actionFunc(ctx)
 	if err != nil {
@@ -175,7 +175,7 @@ func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, er
 		return ctrl.Result{}, err
 	}
 
-	r.log.V(Info).Info("Deleting Azure resource %s, will perform: %s", r.obj.AzureName(), action)
+	r.log.V(Verbose).Info("Deleting Azure resource", "action", action)
 
 	result, err := actionFunc(ctx)
 	if err != nil {
