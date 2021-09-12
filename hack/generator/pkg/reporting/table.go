@@ -12,21 +12,26 @@ import (
 )
 
 type Table struct {
-	// Captions for each row
+	// title for the entire table
+	title string
+	// rows contains the captions for each row
 	rows []string
-	// Length of longest row caption
+	// rowWidth is the length of the longest row caption
 	rowWidth int
-	// Captions for each column
+	// cols contains the captions for each column
 	cols []string
-	// Width required for each column
-	colWidths []int
-	// Cell content, arranged per row, then per column
+	// colWidths contains the width required for each column, indexed by caption
+	colWidths map[string]int
+	// cells is the content for each cell, arranged per row, then per column
 	cells map[string]map[string]string
 }
 
-func NewTable() *Table {
+func NewTable(title string) *Table {
 	return &Table{
-		cells: make(map[string]map[string]string),
+		title:     title,
+		cells:     make(map[string]map[string]string),
+		rowWidth:  len(title),
+		colWidths: make(map[string]int),
 	}
 }
 
@@ -68,7 +73,7 @@ func (t *Table) AddColumn(col string) {
 	index := t.indexOfColumn(col)
 	if index == -1 {
 		t.cols = append(t.cols, col)
-		t.colWidths = append(t.colWidths, len(col))
+		t.colWidths[col] = len(col)
 	}
 }
 
@@ -86,9 +91,8 @@ func (t *Table) SetCell(row string, col string, cell string) {
 	rowCells := t.getRowCells(row)
 	rowCells[col] = cell
 
-	index := t.indexOfColumn(col)
-	if len(cell) > t.colWidths[index] {
-		t.colWidths[index] = len(cell)
+	if len(cell) > t.colWidths[col] {
+		t.colWidths[col] = len(cell)
 	}
 }
 
@@ -113,12 +117,10 @@ func (t *Table) getRowCells(row string) map[string]string {
 func (t *Table) renderHeader() string {
 	var result strings.Builder
 
-	result.WriteString(fmt.Sprintf("| %*s |", t.rowWidth, ""))
+	result.WriteString(fmt.Sprintf("| %*s |", -t.rowWidth, t.title))
 
 	for _, c := range t.cols {
-		result.WriteString(" ")
-		result.WriteString(c)
-		result.WriteString(" |")
+		result.WriteString(fmt.Sprintf(" %*s |", -t.colWidths[c], c))
 	}
 
 	result.WriteString("\n")
@@ -134,8 +136,8 @@ func (t *Table) renderDivider() string {
 	}
 	result.WriteRune('|')
 
-	for w := range t.cols {
-		width := t.colWidths[w]
+	for _, c := range t.cols {
+		width := t.colWidths[c]
 		for i := -2; i < width; i++ {
 			result.WriteRune('-')
 		}
@@ -152,9 +154,9 @@ func (t *Table) renderRow(row string) string {
 	cells := t.getRowCells(row)
 
 	result.WriteString(fmt.Sprintf("| %*s |", -t.rowWidth, row))
-	for i, c := range t.cols {
+	for _, c := range t.cols {
 		content := cells[c]
-		result.WriteString(fmt.Sprintf(" %*s |", -t.colWidths[i], content))
+		result.WriteString(fmt.Sprintf(" %*s |", -t.colWidths[c], content))
 	}
 
 	result.WriteString("\n")
