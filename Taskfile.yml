@@ -381,7 +381,7 @@ tasks:
         sh: realpath config
       CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.OUTPUT}}/crd/bases
       WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.OUTPUT}}/webhook
-      RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.OUTPUT}}/rbac
+      RBAC_OPTIONS: rbac:roleName=manager-role # output:rbac:artifacts:config={{.OUTPUT}}/rbac # not output currently?
 
   crossplane:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CROSSPLANE_APP}}.
