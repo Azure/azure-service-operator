@@ -146,19 +146,30 @@ func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx cont
 		return nil, errors.Errorf("unable to find 'resources' property in deployment template")
 	}
 
-	resourcesTypes, err := scanner.RunHandlerForSchema(ctx, resourcesProp)
+	resourcesOneOfJSON := resourcesProp.oneOf()
+	if len(resourcesOneOfJSON) != 2 {
+		return nil, errors.Errorf("expected 'resources' property to be a oneOf of length 2")
+	}
+
+	resourcesWithoutSymbolicName := resourcesOneOfJSON[0].refSchema()
+	if resourcesWithoutSymbolicName == nil {
+		return nil, errors.Errorf("expected 'resourcesWithoutSymbolicName' to be a ref")
+	}
+
+	if len(resourcesWithoutSymbolicName.items()) != 1 {
+		return nil, errors.Errorf("expected 'resourcesWithoutSymbolicName' items to be length 1")
+	}
+
+	resourcesArrayJSON := resourcesWithoutSymbolicName.items()[0].refSchema()
+
+	resourcesTypes, err := scanner.RunHandlerForSchema(ctx, resourcesArrayJSON)
 	if err != nil {
 		return nil, err
 	}
 
-	resourcesArray, ok := resourcesTypes.(*astmodel.ArrayType)
+	resourcesOneOf, ok := resourcesTypes.(*astmodel.OneOfType)
 	if !ok {
-		return nil, errors.Errorf("expected 'resources' property to be an array")
-	}
-
-	resourcesOneOf, ok := resourcesArray.Element().(*astmodel.OneOfType)
-	if !ok {
-		return nil, errors.Errorf("expected 'resources' property to be an array containing oneOf")
+		return nil, errors.Errorf("expected 'resources' property to be a oneOf")
 	}
 
 	err = resourcesOneOf.Types().ForEachError(func(oneType astmodel.Type, _ int) error {

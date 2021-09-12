@@ -16,28 +16,30 @@ import (
 
 var placeholderPackage = astmodel.MakeLocalPackageReference("prefix", "group", "version")
 
-func TestDuplicateNamesAreCaught(t *testing.T) {
+func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 	g := NewWithT(t)
 
-	prop := astmodel.NewPropertyDefinition("duplicate", "dupe", astmodel.StringType)
+	prop := astmodel.NewPropertyDefinition("Duplicate", "dupe", astmodel.StringType)
 
 	innerObj := astmodel.NewObjectType().WithProperties(prop)
-	innerObjProp := astmodel.NewPropertyDefinition("inner", "inner", innerObj).SetFlatten(true)
+	innerObjProp := astmodel.NewPropertyDefinition("Inner", "inner", innerObj).SetFlatten(true)
 
 	objType := astmodel.NewObjectType().WithProperties(prop, innerObjProp)
 
 	types := make(astmodel.Types)
-	types.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "objType"), objType))
+	types.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), objType))
 
 	result, err := applyPropertyFlattening(context.Background(), types)
 
 	// We don't fail but flattening does not occur, and flatten is set to false
 	g.Expect(err).ToNot(HaveOccurred())
 
-	// identical to objType above but the "inner" prop is not set to flatten
-	newObjType := astmodel.NewObjectType().WithProperties(prop, innerObjProp.SetFlatten(false))
+	// should have a renamed property which is flattened-from "inner"
+	newName := astmodel.PropertyName("InnerDuplicate")
+	newJsonName := "inner_duplicate"
+	newObjType := astmodel.NewObjectType().WithProperties(prop, prop.WithName(newName, newJsonName).AddFlattenedFrom(astmodel.PropertyName("Inner")))
 	expectedTypes := make(astmodel.Types)
-	expectedTypes.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "objType"), newObjType))
+	expectedTypes.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), newObjType))
 
 	g.Expect(result).To(Equal(expectedTypes))
 }
@@ -79,7 +81,7 @@ func TestFlatteningWorks(t *testing.T) {
 	zProp, ok := ot.Property("z")
 	g.Expect(ok).To(BeTrue())
 
-	g.Expect(xProp.FlattenedFrom()).To(Equal([]astmodel.PropertyName{"inner", "inner2"}))
-	g.Expect(yProp.FlattenedFrom()).To(Equal([]astmodel.PropertyName{"inner"}))
-	g.Expect(zProp.FlattenedFrom()).To(Equal([]astmodel.PropertyName{}))
+	g.Expect(xProp.FlattenedFrom()).To(Equal([]astmodel.PropertyName{"inner", "inner2", "x"}))
+	g.Expect(yProp.FlattenedFrom()).To(Equal([]astmodel.PropertyName{"inner", "y"}))
+	g.Expect(zProp.FlattenedFrom()).To(Equal([]astmodel.PropertyName{"z"}))
 }
