@@ -706,11 +706,20 @@ type VirtualMachineScaleSetDataDisk_Status struct {
 //Storage version of v1alpha1api20201201.VirtualMachineScaleSetExtension_Status
 //Generated from:
 type VirtualMachineScaleSetExtension_Status struct {
-	Id          *string                                           `json:"id,omitempty"`
-	Name        *string                                           `json:"name,omitempty"`
-	Properties  *VirtualMachineScaleSetExtensionProperties_Status `json:"properties,omitempty"`
-	PropertyBag genruntime.PropertyBag                            `json:"$propertyBag,omitempty"`
-	Type        *string                                           `json:"type,omitempty"`
+	AutoUpgradeMinorVersion  *bool                  `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade   *bool                  `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag           *string                `json:"forceUpdateTag,omitempty"`
+	Id                       *string                `json:"id,omitempty"`
+	Name                     *string                `json:"name,omitempty"`
+	PropertiesType           *string                `json:"properties_type,omitempty"`
+	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProtectedSettings        map[string]v1.JSON     `json:"protectedSettings,omitempty"`
+	ProvisionAfterExtensions []string               `json:"provisionAfterExtensions,omitempty"`
+	ProvisioningState        *string                `json:"provisioningState,omitempty"`
+	Publisher                *string                `json:"publisher,omitempty"`
+	Settings                 map[string]v1.JSON     `json:"settings,omitempty"`
+	Type                     *string                `json:"type,omitempty"`
+	TypeHandlerVersion       *string                `json:"typeHandlerVersion,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.VirtualMachineScaleSetNetworkConfiguration_Status
@@ -916,22 +925,6 @@ type VirtualHardDisk struct {
 type VirtualHardDisk_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Uri         *string                `json:"uri,omitempty"`
-}
-
-//Storage version of v1alpha1api20201201.VirtualMachineScaleSetExtensionProperties_Status
-//Generated from:
-type VirtualMachineScaleSetExtensionProperties_Status struct {
-	AutoUpgradeMinorVersion  *bool                  `json:"autoUpgradeMinorVersion,omitempty"`
-	EnableAutomaticUpgrade   *bool                  `json:"enableAutomaticUpgrade,omitempty"`
-	ForceUpdateTag           *string                `json:"forceUpdateTag,omitempty"`
-	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProtectedSettings        map[string]v1.JSON     `json:"protectedSettings,omitempty"`
-	ProvisionAfterExtensions []string               `json:"provisionAfterExtensions,omitempty"`
-	ProvisioningState        *string                `json:"provisioningState,omitempty"`
-	Publisher                *string                `json:"publisher,omitempty"`
-	Settings                 map[string]v1.JSON     `json:"settings,omitempty"`
-	Type                     *string                `json:"type,omitempty"`
-	TypeHandlerVersion       *string                `json:"typeHandlerVersion,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.VirtualMachineScaleSetIPConfiguration_Status

@@ -9,7 +9,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
@@ -57,7 +57,7 @@ func TestMySQLUserControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
+	require := require.New(t)
 	var err error
 	var mysqlServerName string
 	var mysqlDatabaseName string
@@ -74,7 +74,7 @@ func TestMySQLUserControllerNoResourceGroup(t *testing.T) {
 		"password": []byte("password"),
 	}
 	err = tc.secretClient.Upsert(ctx, adminSecretKey, data)
-	assert.NoError(err)
+	require.NoError(err)
 
 	mysqlUser = &v1alpha2.MySQLUser{
 		ObjectMeta: metav1.ObjectMeta{
@@ -96,5 +96,25 @@ func TestMySQLUserControllerNoResourceGroup(t *testing.T) {
 	EnsureDelete(ctx, t, tc, mysqlUser)
 }
 
-// TODO: test that roles for a missing database don't prevent other
-// roles from being applied.
+func TestMySQLUserWebhook(t *testing.T) {
+	// The webhook prevents a user from being created with ALL in roles.
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+	require := require.New(t)
+
+	user := v1alpha2.MySQLUser{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      GenerateTestResourceNameWithRandom("mysqluser", 5),
+			Namespace: "default",
+		},
+		Spec: v1alpha2.MySQLUserSpec{
+			Server:        "does-not-matter",
+			Roles:         []string{"PROCESS", "ALL"},
+			ResourceGroup: "also-does-not-matter",
+		},
+	}
+	err := tc.k8sClient.Create(ctx, &user)
+	require.NotNil(err)
+	require.Contains(err.Error(), "ASO admin user doesn't have privileges to grant ALL at server level")
+}

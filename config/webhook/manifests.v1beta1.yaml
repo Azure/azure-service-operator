@@ -11,6 +11,44 @@ webhooks:
     service:
       name: webhook-service
       namespace: system
+      path: /validate-azure-microsoft-com-v1alpha2-mysqlaaduser
+  failurePolicy: Fail
+  name: vmysqlaaduser.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1alpha2
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - mysqlaadusers
+  sideEffects: None
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-azure-microsoft-com-v1alpha2-mysqluser
+  failurePolicy: Fail
+  name: vmysqluser.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1alpha2
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - mysqlusers
+  sideEffects: None
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
       path: /validate-azure-microsoft-com-v1alpha1-azuresqlmanageduser
   failurePolicy: Fail
   name: vazuresqlmanageduser.kb.io

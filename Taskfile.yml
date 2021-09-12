@@ -261,6 +261,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     sources:
     - "apis/**/*_gen.go" # depends on all generated types
+    - "pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
     cmds:
     - mkdir -p ./apis
     - find ./apis -type f -name "zz_generated.*" -delete

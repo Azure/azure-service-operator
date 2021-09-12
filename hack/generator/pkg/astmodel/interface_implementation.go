@@ -5,12 +5,18 @@
 
 package astmodel
 
+import (
+	"sort"
+)
+
 // InterfaceImplementation specifies how a type will satisfy an interface implementation
 type InterfaceImplementation struct {
 	name       TypeName
 	annotation string
 	functions  map[string]Function
 }
+
+var _ FunctionContainer = &InterfaceImplementation{}
 
 // NewInterfaceImplementation creates a new interface implementation with the given name and set of functions
 func NewInterfaceImplementation(name TypeName, functions ...Function) *InterfaceImplementation {
@@ -60,6 +66,27 @@ func (iface *InterfaceImplementation) References() TypeNameSet {
 // FunctionCount returns the number of included functions
 func (iface *InterfaceImplementation) FunctionCount() int {
 	return len(iface.functions)
+}
+
+// Functions returns all the function implementations
+// A sorted slice is returned to preserve immutability and provide determinism
+func (iface *InterfaceImplementation) Functions() []Function {
+	var functions []Function
+	for _, f := range iface.functions {
+		functions = append(functions, f)
+	}
+
+	sort.Slice(functions, func(i int, j int) bool {
+		return functions[i].Name() < functions[j].Name()
+	})
+
+	return functions
+}
+
+// HasFunctionWithName determines if this interface has a function with the given name
+func (iface *InterfaceImplementation) HasFunctionWithName(functionName string) bool {
+	_, found := iface.functions[functionName]
+	return found
 }
 
 // Equals determines if this interface is equal to another interface
