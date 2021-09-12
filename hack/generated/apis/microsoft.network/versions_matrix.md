@@ -1,4 +1,4 @@
-|                                                                                                   | v1alpha1api20201101 |
+| Types defined in microsoft.network                                                                | v1alpha1api20201101 |
 |---------------------------------------------------------------------------------------------------|---------------------|
 | AddressSpace                                                                                      | v1alpha1api20201101 |
 | AddressSpace_Status                                                                               | v1alpha1api20201101 |

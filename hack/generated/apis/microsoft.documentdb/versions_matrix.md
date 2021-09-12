@@ -1,4 +1,4 @@
-|                                                               | v1alpha1api20210515 |
+| Types defined in microsoft.documentdb                         | v1alpha1api20210515 |
 |---------------------------------------------------------------|---------------------|
 | AnalyticalStorageConfiguration                                | v1alpha1api20210515 |
 | AnalyticalStorageConfigurationSchemaType                      | v1alpha1api20210515 |
