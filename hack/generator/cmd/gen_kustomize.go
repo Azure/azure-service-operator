@@ -53,7 +53,7 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 			}
 
 			if len(result.Resources) == 0 {
-				err := errors.Errorf("no files found in %q", basesPath)
+				err = errors.Errorf("no files found in %q", basesPath)
 				return logAndExtractStack("No CRD files found", err)
 			}
 
