@@ -1,4 +1,4 @@
-|                                                            | v1alpha1api20210101 |
+| Types defined in microsoft.batch                           | v1alpha1api20210101 |
 |------------------------------------------------------------|---------------------|
 | AutoStorageBaseProperties                                  | v1alpha1api20210101 |
 | AutoStorageProperties_Status                               | v1alpha1api20210101 |
