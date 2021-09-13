@@ -55,6 +55,11 @@ func (disk *Disk) GetStatus() genruntime.ConvertibleStatus {
 	return &disk.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/disks"
+func (disk *Disk) GetType() string {
+	return "Microsoft.Compute/disks"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (disk *Disk) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(disk.Spec)

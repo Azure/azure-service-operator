@@ -81,6 +81,9 @@ func (rg *ResourceGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &rg.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Resources/resourceGroups"
+func (rg *ResourceGroup) GetType() string { return "Microsoft.Resources/resourceGroups" }
+
 var _ genruntime.LocatableResource = &ResourceGroup{}
 
 func (rg *ResourceGroup) Location() string {

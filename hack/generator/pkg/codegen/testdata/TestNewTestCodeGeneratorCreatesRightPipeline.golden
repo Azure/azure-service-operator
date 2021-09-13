@@ -20,7 +20,6 @@ filterTypes                                          Apply export filters to red
 verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
-addCrossResourceReferences                azure      Replace cross-resource references with genruntime.ResourceReference
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnused                                          Strip unused types for test

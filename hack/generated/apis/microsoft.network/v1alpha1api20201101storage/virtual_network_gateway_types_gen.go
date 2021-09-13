@@ -54,6 +54,11 @@ func (virtualNetworkGateway *VirtualNetworkGateway) GetStatus() genruntime.Conve
 	return &virtualNetworkGateway.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworkGateways"
+func (virtualNetworkGateway *VirtualNetworkGateway) GetType() string {
+	return "Microsoft.Network/virtualNetworkGateways"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworkGateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworkGateway.Spec)
