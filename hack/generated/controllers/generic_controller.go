@@ -181,8 +181,6 @@ func MakeResourceGVKLookup(mgr ctrl.Manager, objs []client.Object) (map[schema.G
 
 // Reconcile will take state in K8s and apply it to Azure
 func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	log := gr.Log.WithValues("name", req.Name, "namespace", req.Namespace)
-
 	obj, err := gr.KubeClient.GetObjectOrDefault(ctx, req.NamespacedName, gr.GVK)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -199,18 +197,19 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	// (actually a reference or shallow copy) of an object, you'll mess up other controllers (not just your own).
 	obj = obj.DeepCopyObject().(client.Object)
 
-	gr.Log.V(Verbose).Info(
-		"Reconcile invoked",
-		"kind", fmt.Sprintf("%T", obj),
-		"resourceVersion", obj.GetResourceVersion(),
-		"generation", obj.GetGeneration())
-
 	// The Go type for the Kubernetes object must understand how to
 	// convert itself to/from the corresponding Azure types.
 	metaObj, ok := obj.(genruntime.MetaObject)
 	if !ok {
 		return ctrl.Result{}, errors.Errorf("object is not a genruntime.MetaObject, found type: %T", obj)
 	}
+
+	log := gr.Log.WithValues("name", req.Name, "namespace", req.Namespace, "azureName", metaObj.AzureName())
+	log.V(Verbose).Info(
+		"Reconcile invoked",
+		"kind", fmt.Sprintf("%T", obj),
+		"resourceVersion", obj.GetResourceVersion(),
+		"generation", obj.GetGeneration())
 
 	// TODO: We need some factory-lookup here
 	reconciler := reconcilers.NewAzureDeploymentReconciler(
