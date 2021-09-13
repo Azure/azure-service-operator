@@ -7,9 +7,11 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"path/filepath"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 	"k8s.io/klog/v2"
@@ -36,7 +38,7 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 
 			files, err := ioutil.ReadDir(basesPath)
 			if err != nil {
-				return err
+				return logAndExtractStack(fmt.Sprintf("Unable to scan folder %q", basesPath), err)
 			}
 
 			result := crdKustomizeFile{
@@ -48,6 +50,11 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 					continue
 				}
 				result.Resources = append(result.Resources, filepath.Join(bases, f.Name()))
+			}
+
+			if len(result.Resources) == 0 {
+				err = errors.Errorf("no files found in %q", basesPath)
+				return logAndExtractStack("No CRD files found", err)
 			}
 
 			data, err := yaml.Marshal(result)
