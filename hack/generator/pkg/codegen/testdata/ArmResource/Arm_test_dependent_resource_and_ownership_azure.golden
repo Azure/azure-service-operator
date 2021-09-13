@@ -65,6 +65,11 @@ func (a *A) GetStatus() genruntime.ConvertibleStatus {
 	return &a.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
+func (a *A) GetType() string {
+	return "Microsoft.Azure/A"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (a *A) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(a.Spec)
@@ -235,6 +240,11 @@ func (b *B) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (b *B) GetStatus() genruntime.ConvertibleStatus {
 	return &b.Status
+}
+
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
+func (b *B) GetType() string {
+	return "Microsoft.Azure/B"
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -409,6 +419,11 @@ func (c *C) GetStatus() genruntime.ConvertibleStatus {
 	return &c.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
+func (c *C) GetType() string {
+	return "Microsoft.Azure/C"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (c *C) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(c.Spec)
@@ -579,6 +594,11 @@ func (d *D) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (d *D) GetStatus() genruntime.ConvertibleStatus {
 	return &d.Status
+}
+
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/D"
+func (d *D) GetType() string {
+	return "Microsoft.Azure/D"
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner

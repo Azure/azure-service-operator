@@ -54,6 +54,11 @@ func (loadBalancer *LoadBalancer) GetStatus() genruntime.ConvertibleStatus {
 	return &loadBalancer.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/loadBalancers"
+func (loadBalancer *LoadBalancer) GetType() string {
+	return "Microsoft.Network/loadBalancers"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (loadBalancer *LoadBalancer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(loadBalancer.Spec)
