@@ -54,6 +54,11 @@ func (storageAccountsBlobService *StorageAccountsBlobService) GetStatus() genrun
 	return &storageAccountsBlobService.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices"
+func (storageAccountsBlobService *StorageAccountsBlobService) GetType() string {
+	return "Microsoft.Storage/storageAccounts/blobServices"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (storageAccountsBlobService *StorageAccountsBlobService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccountsBlobService.Spec)

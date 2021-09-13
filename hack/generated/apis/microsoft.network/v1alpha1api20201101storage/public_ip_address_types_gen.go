@@ -54,6 +54,11 @@ func (publicIPAddress *PublicIPAddress) GetStatus() genruntime.ConvertibleStatus
 	return &publicIPAddress.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
+func (publicIPAddress *PublicIPAddress) GetType() string {
+	return "Microsoft.Network/publicIPAddresses"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (publicIPAddress *PublicIPAddress) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(publicIPAddress.Spec)

@@ -86,6 +86,11 @@ func (namespacesQueue *NamespacesQueue) GetStatus() genruntime.ConvertibleStatus
 	return &namespacesQueue.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
+func (namespacesQueue *NamespacesQueue) GetType() string {
+	return "Microsoft.ServiceBus/namespaces/queues"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (namespacesQueue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesQueue.Spec)
