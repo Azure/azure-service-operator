@@ -23,15 +23,14 @@ import (
 // ReportResourceVersionsStageID is the unique identifier of this stage
 const ReportResourceVersionsStageID = "reportResourceVersions"
 
-// ReportResourceVersions creates a pipeline stage that removes any wrapper types prior to actual code generation
+// ReportResourceVersions creates a pipeline stage that generates a report listing all generated resources.
 func ReportResourceVersions(configuration *config.Configuration) Stage {
 
 	return MakeStage(
 		ReportResourceVersionsStageID,
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
-			report := NewResourceVersionsReport()
-			report.Summarize(state.Types())
+			report := NewResourceVersionsReport(state.Types())
 			err := report.WriteTo(configuration.FullTypesOutputPath())
 			return state, err
 		})
@@ -42,14 +41,17 @@ type ResourceVersionsReport struct {
 	lists map[astmodel.PackageReference][]string
 }
 
-func NewResourceVersionsReport() *ResourceVersionsReport {
-	return &ResourceVersionsReport{
+func NewResourceVersionsReport(types astmodel.Types) *ResourceVersionsReport {
+	result := &ResourceVersionsReport{
 		lists: make(map[astmodel.PackageReference][]string),
 	}
+
+	result.summarize(types)
+	return result
 }
 
-// Summarize collates a list of all resources, grouped by package
-func (r *ResourceVersionsReport) Summarize(types astmodel.Types) {
+// summarize collates a list of all resources, grouped by package
+func (r *ResourceVersionsReport) summarize(types astmodel.Types) {
 	resources := astmodel.FindResourceTypes(types)
 	for _, rsrc := range resources {
 		name := rsrc.Name()
@@ -58,8 +60,8 @@ func (r *ResourceVersionsReport) Summarize(types astmodel.Types) {
 	}
 }
 
+// WriteTo creates a file containing the generated report
 func (r *ResourceVersionsReport) WriteTo(outputPath string) error {
-
 	var buffer strings.Builder
 	r.WriteToBuffer(&buffer)
 
@@ -74,6 +76,7 @@ func (r *ResourceVersionsReport) WriteTo(outputPath string) error {
 	return ioutil.WriteFile(destination, []byte(buffer.String()), 0600)
 }
 
+// WriteToBuffer creates the report in the provided buffer
 func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) {
 	// Sort packages into increasing order
 	// Skip storage versions

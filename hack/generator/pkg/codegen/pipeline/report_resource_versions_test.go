@@ -45,8 +45,7 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 	types := make(astmodel.Types)
 	types.AddAll(person2020, address2020, person2021, address2021)
 
-	report := NewResourceVersionsReport()
-	report.Summarize(types)
+	report := NewResourceVersionsReport(types)
 
 	var buffer strings.Builder
 	report.WriteToBuffer(&buffer)
