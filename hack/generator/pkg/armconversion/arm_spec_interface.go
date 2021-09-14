@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package astmodel
+package armconversion
 
 import (
 	"fmt"
@@ -12,15 +12,11 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
-const (
-	APIVersionProperty = "APIVersion"
-	TypeProperty       = "Type"
-	NameProperty       = "Name"
-)
-
-func checkPropertyPresence(o *ObjectType, name PropertyName) error {
+func checkPropertyPresence(o *astmodel.ObjectType, name astmodel.PropertyName) error {
 	_, ok := o.Property(name)
 	if !ok {
 		return errors.Errorf("resource spec doesn't have %q property", name)
@@ -32,52 +28,37 @@ func checkPropertyPresence(o *ObjectType, name PropertyName) error {
 // NewARMSpecInterfaceImpl creates a new interface implementation with the functions required to implement the
 // genruntime.ARMResourceSpec interface
 func NewARMSpecInterfaceImpl(
-	idFactory IdentifierFactory,
-	spec *ObjectType) (*InterfaceImplementation, error) {
+	idFactory astmodel.IdentifierFactory,
+	spec *astmodel.ObjectType) (*astmodel.InterfaceImplementation, error) {
 
 	// Check the spec first to ensure it looks how we expect
-	apiVersionProperty := idFactory.CreatePropertyName(APIVersionProperty, Exported)
+	apiVersionProperty := idFactory.CreatePropertyName(astmodel.APIVersionProperty, astmodel.Exported)
 	err := checkPropertyPresence(spec, apiVersionProperty)
 	if err != nil {
 		return nil, err
 	}
-	typeProperty := idFactory.CreatePropertyName(TypeProperty, Exported)
+	typeProperty := idFactory.CreatePropertyName(astmodel.TypeProperty, astmodel.Exported)
 	err = checkPropertyPresence(spec, typeProperty)
 	if err != nil {
 		return nil, err
 	}
-	nameProperty := idFactory.CreatePropertyName(NameProperty, Exported)
+	nameProperty := idFactory.CreatePropertyName(astmodel.NameProperty, astmodel.Exported)
 	err = checkPropertyPresence(spec, nameProperty)
 	if err != nil {
 		return nil, err
 	}
 
-	getNameFunc := &objectFunction{
-		name:             "Get" + NameProperty,
-		o:                spec,
-		idFactory:        idFactory,
-		asFunc:           getNameFunction,
-		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
-	}
+	getNameFunc := functions.NewObjectFunction("Get"+astmodel.NameProperty, idFactory, getNameFunction)
+	getNameFunc.AddPackageReference(astmodel.GenRuntimeReference)
 
-	getTypeFunc := &objectFunction{
-		name:             "Get" + TypeProperty,
-		o:                spec,
-		idFactory:        idFactory,
-		asFunc:           getTypeFunction,
-		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
-	}
+	getTypeFunc := functions.NewObjectFunction("Get"+astmodel.TypeProperty, idFactory, getTypeFunction)
+	getTypeFunc.AddPackageReference(astmodel.GenRuntimeReference)
 
-	getAPIVersionFunc := &objectFunction{
-		name:             "Get" + APIVersionProperty,
-		o:                spec,
-		idFactory:        idFactory,
-		asFunc:           getAPIVersionFunction,
-		requiredPackages: NewPackageReferenceSet(GenRuntimeReference),
-	}
+	getAPIVersionFunc := functions.NewObjectFunction("Get"+astmodel.APIVersionProperty, idFactory, getAPIVersionFunction)
+	getAPIVersionFunc.AddPackageReference(astmodel.GenRuntimeReference)
 
-	result := NewInterfaceImplementation(
-		MakeTypeName(GenRuntimeReference, "ARMResourceSpec"),
+	result := astmodel.NewInterfaceImplementation(
+		astmodel.MakeTypeName(astmodel.GenRuntimeReference, "ARMResourceSpec"),
 		getNameFunc,
 		getTypeFunc,
 		getAPIVersionFunc)
@@ -85,7 +66,7 @@ func NewARMSpecInterfaceImpl(
 	return result, nil
 }
 
-func getNameFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func getNameFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		k,
 		codeGenerationContext,
@@ -95,7 +76,7 @@ func getNameFunction(k *objectFunction, codeGenerationContext *CodeGenerationCon
 		false)
 }
 
-func getTypeFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func getTypeFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		k,
 		codeGenerationContext,
@@ -105,25 +86,25 @@ func getTypeFunction(k *objectFunction, codeGenerationContext *CodeGenerationCon
 		true)
 }
 
-func getAPIVersionFunction(k *objectFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
+func getAPIVersionFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		k,
 		codeGenerationContext,
 		receiver,
 		methodName,
-		APIVersionProperty,
+		astmodel.APIVersionProperty,
 		true)
 }
 
 func armSpecInterfaceSimpleGetFunction(
-	k *objectFunction,
-	codeGenerationContext *CodeGenerationContext,
-	receiver TypeName,
+	k *functions.ObjectFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
 	methodName string,
 	propertyName string,
 	castToString bool) *dst.FuncDecl {
 
-	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	var result dst.Expr
@@ -132,7 +113,7 @@ func armSpecInterfaceSimpleGetFunction(
 		Sel: dst.NewIdent(propertyName),
 	}
 
-	// This is not the most beautiful thing but it saves some code.
+	// This is not the most beautiful thing, but it saves some code.
 	if castToString {
 		result = &dst.CallExpr{
 			Fun: dst.NewIdent("string"),
