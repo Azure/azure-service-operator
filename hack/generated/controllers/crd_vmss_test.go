@@ -184,7 +184,7 @@ func Test_VMSS_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	vnet := newVNETForVMSS(tc, testcommon.AsOwner(rg.ObjectMeta))
 	subnet := newSubnetForVMSS(tc, testcommon.AsOwner(vnet.ObjectMeta))

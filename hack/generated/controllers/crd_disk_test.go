@@ -20,7 +20,7 @@ func Test_Disk_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a disk.
 	standardSkuName := compute.DiskSkuNameStandardLRS

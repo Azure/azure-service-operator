@@ -20,7 +20,7 @@ func Test_PublicIP_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Public IP Address
 	// TODO: Note the microsoft.networking package also defines a PublicIPAddress type, so
