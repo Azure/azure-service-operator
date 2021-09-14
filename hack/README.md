@@ -11,42 +11,7 @@ This project is an alpha. We follow the [Kubernetes definition of alpha](https:/
 
 ## What resources does ASO v2 support?
 
-**Microsoft.Batch**
-- BatchAccount (Microsoft.Batch/batchAccounts)
-
-**Microsoft.Compute**
-- VirtualMachineScaleSet (Microsoft.Compute/virtualMachineScaleSets)
-- Disk (Microsoft.Compute/disks)
-
-**Microsoft.DocumentDB**
-- DatabaseAccount (Microsoft.DocumentDB/databaseAccounts)
-
-**Microsoft.ManagedIdentity**
-- UserAssignedIdentity (Microsoft.ManagedIdentity/userAssignedIdentities)
-
-**Microsoft.Network**
-- LoadBalancer (Microsoft.Network/loadBalancers)
-- NetworkSecurityGroup (Microsoft.Network/networkSecurityGroups)
-- NetworkSecurityGroupsSecurityRule (Microsoft.Network/networkSecurityGroups/securityRule)
-- PublicIPAddress (Microsoft.Network/publicIPAddresses)
-- VirtualNetwork (Microsoft.Network/virtualNetworks)
-- VirtualNetworksSubnet (Microsoft.Network/virtualNetworks/subnets)
-- VirtualNetworksVirtualNetworkPeering (Microsoft.Network/virtualNetworks/virtualNetworkPeerings)
-- VirtualNetworkGateways (Microsoft.Network/virtualNetworkGateways)
-- VirtualNetworkTap (Microsoft.Network/virtualNetworkTaps)
-
-**Microsoft.Resources**
-- ResourceGroup (Microsoft.Resources/resourceGroups)
-
-**Microsoft.ServiceBus**
-- Namespace (Microsoft.ServiceBus/namespaces)
-- NamespacesQueue (Microsoft.ServiceBus/namespaces/queues)
-- NamespacesTopic (Microsoft.ServiceBus/namespaces/topics)
-
-**Microsoft.Storage**
-- StorageAccount (Microsoft.Storage/storageAccounts)
-- StorageAccountsBlobService (Microsoft.Storage/storageAccounts/blobServices)
-- StorageAccountsBlobServicesContainer (Microsoft.Storage/storageAccounts/blobServices/containers)
+See the list of supported resources [here](/hack/generated/apis/resources.md).
 
 Sample YAMLs for creating each of these resources can be found in the [samples directory](/hack/generated/config/samples).
 
