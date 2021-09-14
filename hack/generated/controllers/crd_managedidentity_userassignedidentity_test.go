@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
-func Test_ManagedIdentity_CRUD(t *testing.T) {
+func Test_ManagedIdentity_UserAssignedIdentity_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
