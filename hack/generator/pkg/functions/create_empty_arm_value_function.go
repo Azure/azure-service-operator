@@ -30,7 +30,7 @@ func createEmptyARMValueBody(instanceType astmodel.TypeName) func(fn *ObjectFunc
 		receiverName := fn.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 		receiverType := astbuilder.Dereference(receiver.AsType(genContext))
 		instance := astbuilder.NewCompositeLiteralDetails(dst.NewIdent(instanceType.Name()))
-		returnInstance := astbuilder.Returns(instance.Build())
+		returnInstance := astbuilder.Returns(astbuilder.AddrOf(instance.Build()))
 		details := &astbuilder.FuncDetails{
 			Name:          "CreateEmptyARMValue",
 			ReceiverIdent: receiverName,
