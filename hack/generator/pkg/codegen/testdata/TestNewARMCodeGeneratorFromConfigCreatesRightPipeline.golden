@@ -47,3 +47,4 @@ ensureArmTypeExistsForEveryType           azure      Check that an ARM type exis
 deleteGenerated                                      Delete generated code from .
 exportPackages                                       Export packages to "."
 exportControllerResourceRegistrations     azure      Export resource registrations to ""
+reportResourceVersions                               Generate a report listing all the resources generated
