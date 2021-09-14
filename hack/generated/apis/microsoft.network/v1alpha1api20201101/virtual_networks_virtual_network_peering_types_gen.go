@@ -88,6 +88,11 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 	return &virtualNetworksVirtualNetworkPeering.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetType() string {
+	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksVirtualNetworkPeering.Spec)

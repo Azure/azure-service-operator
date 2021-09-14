@@ -86,6 +86,11 @@ func (virtualNetwork *VirtualNetwork) GetStatus() genruntime.ConvertibleStatus {
 	return &virtualNetwork.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
+func (virtualNetwork *VirtualNetwork) GetType() string {
+	return "Microsoft.Network/virtualNetworks"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetwork *VirtualNetwork) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetwork.Spec)

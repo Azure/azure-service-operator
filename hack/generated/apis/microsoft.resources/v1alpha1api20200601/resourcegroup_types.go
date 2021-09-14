@@ -81,6 +81,9 @@ func (rg *ResourceGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &rg.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Resources/resourceGroups"
+func (rg *ResourceGroup) GetType() string { return "Microsoft.Resources/resourceGroups" }
+
 // SetStatus sets the status of this resource
 func (rg *ResourceGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it

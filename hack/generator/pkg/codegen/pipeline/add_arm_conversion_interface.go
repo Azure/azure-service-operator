@@ -35,20 +35,20 @@ func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory) Stage {
 		})
 }
 
-type armConversionApplier struct {
-	definitions astmodel.Types
-	idFactory   astmodel.IdentifierFactory
-}
-
-// getARMTypeDefinition gets the ARM type definition for a given Kubernetes type name.
+// GetARMTypeDefinition gets the ARM type definition for a given Kubernetes type name.
 // If no matching definition can be found an error is returned.
-func (c *armConversionApplier) getARMTypeDefinition(name astmodel.TypeName) (astmodel.TypeDefinition, error) {
-	armDefinition, ok := c.definitions[astmodel.CreateARMTypeName(name)]
+func GetARMTypeDefinition(defs astmodel.Types, name astmodel.TypeName) (astmodel.TypeDefinition, error) {
+	armDefinition, ok := defs[astmodel.CreateARMTypeName(name)]
 	if !ok {
-		return astmodel.TypeDefinition{}, errors.Errorf("couldn't find arm definition matching kube name %q", name)
+		return astmodel.TypeDefinition{}, errors.Errorf("couldn't find ARM definition matching kube name %q", name)
 	}
 
 	return armDefinition, nil
+}
+
+type armConversionApplier struct {
+	definitions astmodel.Types
+	idFactory   astmodel.IdentifierFactory
 }
 
 // transformResourceSpecs applies the genruntime.ARMTransformer interface to all of the resource Spec types.
@@ -72,7 +72,7 @@ func (c *armConversionApplier) transformResourceSpecs() (astmodel.Types, error) 
 			return nil, err
 		}
 
-		armSpecDefinition, err := c.getARMTypeDefinition(specDefinition.Name())
+		armSpecDefinition, err := GetARMTypeDefinition(c.definitions, specDefinition.Name())
 		if err != nil {
 			return nil, err
 		}
@@ -102,7 +102,7 @@ func (c *armConversionApplier) transformResourceStatuses() (astmodel.Types, erro
 	for _, td := range statusDefs {
 		statusType := astmodel.IgnoringErrors(td.Type())
 		if statusType != nil {
-			armStatusDefinition, err := c.getARMTypeDefinition(td.Name())
+			armStatusDefinition, err := GetARMTypeDefinition(c.definitions, td.Name())
 			if err != nil {
 				return nil, err
 			}
@@ -150,7 +150,7 @@ func (c *armConversionApplier) transformTypes() (astmodel.Types, error) {
 			continue
 		}
 
-		armDefinition, err := c.getARMTypeDefinition(td.Name())
+		armDefinition, err := GetARMTypeDefinition(c.definitions, td.Name())
 		if err != nil {
 			return nil, err
 		}

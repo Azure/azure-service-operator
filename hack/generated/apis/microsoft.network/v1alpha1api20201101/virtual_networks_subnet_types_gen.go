@@ -88,6 +88,11 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) GetStatus() genruntime.Conve
 	return &virtualNetworksSubnet.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/subnets"
+func (virtualNetworksSubnet *VirtualNetworksSubnet) GetType() string {
+	return "Microsoft.Network/virtualNetworks/subnets"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworksSubnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksSubnet.Spec)

@@ -60,6 +60,16 @@ func (fakeResource *FakeResource) GetSpec() genruntime.ConvertibleSpec {
 	return &fakeResource.Spec
 }
 
+// GetStatus returns the status of this resource
+func (fakeResource *FakeResource) GetStatus() genruntime.ConvertibleStatus {
+	return &fakeResource.Status
+}
+
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
+func (fakeResource *FakeResource) GetType() string {
+	return "Microsoft.Azure/FakeResource"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (fakeResource *FakeResource) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(fakeResource.Spec)

@@ -86,6 +86,11 @@ func (namespacesTopic *NamespacesTopic) GetStatus() genruntime.ConvertibleStatus
 	return &namespacesTopic.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
+func (namespacesTopic *NamespacesTopic) GetType() string {
+	return "Microsoft.ServiceBus/namespaces/topics"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (namespacesTopic *NamespacesTopic) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesTopic.Spec)

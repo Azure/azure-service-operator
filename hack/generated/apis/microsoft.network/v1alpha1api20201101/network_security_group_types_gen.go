@@ -88,6 +88,11 @@ func (networkSecurityGroup *NetworkSecurityGroup) GetStatus() genruntime.Convert
 	return &networkSecurityGroup.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
+func (networkSecurityGroup *NetworkSecurityGroup) GetType() string {
+	return "Microsoft.Network/networkSecurityGroups"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (networkSecurityGroup *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroup.Spec)

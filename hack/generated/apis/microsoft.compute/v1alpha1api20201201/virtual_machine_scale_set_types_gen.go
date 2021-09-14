@@ -89,6 +89,11 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) GetStatus() genruntime.Con
 	return &virtualMachineScaleSet.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
+func (virtualMachineScaleSet *VirtualMachineScaleSet) GetType() string {
+	return "Microsoft.Compute/virtualMachineScaleSets"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualMachineScaleSet *VirtualMachineScaleSet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualMachineScaleSet.Spec)
@@ -10890,15 +10895,53 @@ func (virtualMachineScaleSetDataDiskStatus *VirtualMachineScaleSetDataDisk_Statu
 
 //Generated from:
 type VirtualMachineScaleSetExtension_Status struct {
+	//AutoUpgradeMinorVersion: Indicates whether the extension should use a newer
+	//minor version if one is available at deployment time. Once deployed, however,
+	//the extension will not upgrade minor versions unless redeployed, even with this
+	//property set to true.
+	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
+
+	//EnableAutomaticUpgrade: Indicates whether the extension should be automatically
+	//upgraded by the platform if there is a newer version of the extension available.
+	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
+
+	//ForceUpdateTag: If a value is provided and is different from the previous value,
+	//the extension handler will be forced to update even if the extension
+	//configuration has not changed.
+	ForceUpdateTag *string `json:"forceUpdateTag,omitempty"`
+
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
 	//Name: The name of the extension.
-	Name       *string                                           `json:"name,omitempty"`
-	Properties *VirtualMachineScaleSetExtensionProperties_Status `json:"properties,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	//PropertiesType: Specifies the type of the extension; an example is
+	//"CustomScriptExtension".
+	PropertiesType *string `json:"properties_type,omitempty"`
+
+	//ProtectedSettings: The extension can contain either protectedSettings or
+	//protectedSettingsFromKeyVault or no protected settings at all.
+	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
+
+	//ProvisionAfterExtensions: Collection of extension names after which this
+	//extension needs to be provisioned.
+	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`
+
+	//ProvisioningState: The provisioning state, which only appears in the response.
+	ProvisioningState *string `json:"provisioningState,omitempty"`
+
+	//Publisher: The name of the extension handler publisher.
+	Publisher *string `json:"publisher,omitempty"`
+
+	//Settings: Json formatted public settings for the extension.
+	Settings map[string]v1.JSON `json:"settings,omitempty"`
 
 	//Type: Resource type
 	Type *string `json:"type,omitempty"`
+
+	//TypeHandlerVersion: Specifies the version of the script handler.
+	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetExtension_Status{}
@@ -10915,6 +10958,33 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetExtension_StatusARM, got %T", armInput)
 	}
 
+	// Set property ‘AutoUpgradeMinorVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoUpgradeMinorVersion != nil {
+			autoUpgradeMinorVersion := *typedInput.Properties.AutoUpgradeMinorVersion
+			virtualMachineScaleSetExtensionStatus.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+		}
+	}
+
+	// Set property ‘EnableAutomaticUpgrade’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableAutomaticUpgrade != nil {
+			enableAutomaticUpgrade := *typedInput.Properties.EnableAutomaticUpgrade
+			virtualMachineScaleSetExtensionStatus.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+		}
+	}
+
+	// Set property ‘ForceUpdateTag’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForceUpdateTag != nil {
+			forceUpdateTag := *typedInput.Properties.ForceUpdateTag
+			virtualMachineScaleSetExtensionStatus.ForceUpdateTag = &forceUpdateTag
+		}
+	}
+
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
@@ -10927,15 +10997,61 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 		virtualMachineScaleSetExtensionStatus.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property ‘PropertiesType’:
+	// copying flattened property:
 	if typedInput.Properties != nil {
-		var properties1 VirtualMachineScaleSetExtensionProperties_Status
-		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
-		if err != nil {
-			return err
+		if typedInput.Properties.Type != nil {
+			propertiesType := *typedInput.Properties.Type
+			virtualMachineScaleSetExtensionStatus.PropertiesType = &propertiesType
 		}
-		properties := properties1
-		virtualMachineScaleSetExtensionStatus.Properties = &properties
+	}
+
+	// Set property ‘ProtectedSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProtectedSettings != nil {
+			virtualMachineScaleSetExtensionStatus.ProtectedSettings = make(map[string]v1.JSON)
+			for key, value := range typedInput.Properties.ProtectedSettings {
+				virtualMachineScaleSetExtensionStatus.ProtectedSettings[key] = *value.DeepCopy()
+			}
+		}
+	}
+
+	// Set property ‘ProvisionAfterExtensions’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.ProvisionAfterExtensions {
+			virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions = append(virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions, item)
+		}
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			virtualMachineScaleSetExtensionStatus.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘Publisher’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Publisher != nil {
+			publisher := *typedInput.Properties.Publisher
+			virtualMachineScaleSetExtensionStatus.Publisher = &publisher
+		}
+	}
+
+	// Set property ‘Settings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Settings != nil {
+			virtualMachineScaleSetExtensionStatus.Settings = make(map[string]v1.JSON)
+			for key, value := range typedInput.Properties.Settings {
+				virtualMachineScaleSetExtensionStatus.Settings[key] = *value.DeepCopy()
+			}
+		}
 	}
 
 	// Set property ‘Type’:
@@ -10944,12 +11060,45 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 		virtualMachineScaleSetExtensionStatus.Type = &typeVar
 	}
 
+	// Set property ‘TypeHandlerVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TypeHandlerVersion != nil {
+			typeHandlerVersion := *typedInput.Properties.TypeHandlerVersion
+			virtualMachineScaleSetExtensionStatus.TypeHandlerVersion = &typeHandlerVersion
+		}
+	}
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesFromVirtualMachineScaleSetExtensionStatus populates our VirtualMachineScaleSetExtension_Status from the provided source VirtualMachineScaleSetExtension_Status
 func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Status) AssignPropertiesFromVirtualMachineScaleSetExtensionStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetExtension_Status) error {
+
+	// AutoUpgradeMinorVersion
+	if source.AutoUpgradeMinorVersion != nil {
+		autoUpgradeMinorVersion := *source.AutoUpgradeMinorVersion
+		virtualMachineScaleSetExtensionStatus.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+	} else {
+		virtualMachineScaleSetExtensionStatus.AutoUpgradeMinorVersion = nil
+	}
+
+	// EnableAutomaticUpgrade
+	if source.EnableAutomaticUpgrade != nil {
+		enableAutomaticUpgrade := *source.EnableAutomaticUpgrade
+		virtualMachineScaleSetExtensionStatus.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+	} else {
+		virtualMachineScaleSetExtensionStatus.EnableAutomaticUpgrade = nil
+	}
+
+	// ForceUpdateTag
+	if source.ForceUpdateTag != nil {
+		forceUpdateTag := *source.ForceUpdateTag
+		virtualMachineScaleSetExtensionStatus.ForceUpdateTag = &forceUpdateTag
+	} else {
+		virtualMachineScaleSetExtensionStatus.ForceUpdateTag = nil
+	}
 
 	// Id
 	if source.Id != nil {
@@ -10967,17 +11116,56 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 		virtualMachineScaleSetExtensionStatus.Name = nil
 	}
 
-	// Properties
-	if source.Properties != nil {
-		var property VirtualMachineScaleSetExtensionProperties_Status
-		err := property.AssignPropertiesFromVirtualMachineScaleSetExtensionPropertiesStatus(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "populating Properties from Properties, calling AssignPropertiesFromVirtualMachineScaleSetExtensionPropertiesStatus()")
-		}
-		virtualMachineScaleSetExtensionStatus.Properties = &property
+	// PropertiesType
+	if source.PropertiesType != nil {
+		propertiesType := *source.PropertiesType
+		virtualMachineScaleSetExtensionStatus.PropertiesType = &propertiesType
 	} else {
-		virtualMachineScaleSetExtensionStatus.Properties = nil
+		virtualMachineScaleSetExtensionStatus.PropertiesType = nil
 	}
+
+	// ProtectedSettings
+	protectedSettingMap := make(map[string]v1.JSON)
+	for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
+		// Shadow the loop variable to avoid aliasing
+		protectedSettingValue := protectedSettingValue
+		protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+	}
+	virtualMachineScaleSetExtensionStatus.ProtectedSettings = protectedSettingMap
+
+	// ProvisionAfterExtensions
+	provisionAfterExtensionList := make([]string, len(source.ProvisionAfterExtensions))
+	for provisionAfterExtensionIndex, provisionAfterExtensionItem := range source.ProvisionAfterExtensions {
+		// Shadow the loop variable to avoid aliasing
+		provisionAfterExtensionItem := provisionAfterExtensionItem
+		provisionAfterExtensionList[provisionAfterExtensionIndex] = provisionAfterExtensionItem
+	}
+	virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions = provisionAfterExtensionList
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := *source.ProvisioningState
+		virtualMachineScaleSetExtensionStatus.ProvisioningState = &provisioningState
+	} else {
+		virtualMachineScaleSetExtensionStatus.ProvisioningState = nil
+	}
+
+	// Publisher
+	if source.Publisher != nil {
+		publisher := *source.Publisher
+		virtualMachineScaleSetExtensionStatus.Publisher = &publisher
+	} else {
+		virtualMachineScaleSetExtensionStatus.Publisher = nil
+	}
+
+	// Settings
+	settingMap := make(map[string]v1.JSON)
+	for settingKey, settingValue := range source.Settings {
+		// Shadow the loop variable to avoid aliasing
+		settingValue := settingValue
+		settingMap[settingKey] = *settingValue.DeepCopy()
+	}
+	virtualMachineScaleSetExtensionStatus.Settings = settingMap
 
 	// Type
 	if source.Type != nil {
@@ -10985,6 +11173,14 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 		virtualMachineScaleSetExtensionStatus.Type = &typeVar
 	} else {
 		virtualMachineScaleSetExtensionStatus.Type = nil
+	}
+
+	// TypeHandlerVersion
+	if source.TypeHandlerVersion != nil {
+		typeHandlerVersion := *source.TypeHandlerVersion
+		virtualMachineScaleSetExtensionStatus.TypeHandlerVersion = &typeHandlerVersion
+	} else {
+		virtualMachineScaleSetExtensionStatus.TypeHandlerVersion = nil
 	}
 
 	// No error
@@ -10995,6 +11191,30 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Status) AssignPropertiesToVirtualMachineScaleSetExtensionStatus(destination *v1alpha1api20201201storage.VirtualMachineScaleSetExtension_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// AutoUpgradeMinorVersion
+	if virtualMachineScaleSetExtensionStatus.AutoUpgradeMinorVersion != nil {
+		autoUpgradeMinorVersion := *virtualMachineScaleSetExtensionStatus.AutoUpgradeMinorVersion
+		destination.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+	} else {
+		destination.AutoUpgradeMinorVersion = nil
+	}
+
+	// EnableAutomaticUpgrade
+	if virtualMachineScaleSetExtensionStatus.EnableAutomaticUpgrade != nil {
+		enableAutomaticUpgrade := *virtualMachineScaleSetExtensionStatus.EnableAutomaticUpgrade
+		destination.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+	} else {
+		destination.EnableAutomaticUpgrade = nil
+	}
+
+	// ForceUpdateTag
+	if virtualMachineScaleSetExtensionStatus.ForceUpdateTag != nil {
+		forceUpdateTag := *virtualMachineScaleSetExtensionStatus.ForceUpdateTag
+		destination.ForceUpdateTag = &forceUpdateTag
+	} else {
+		destination.ForceUpdateTag = nil
+	}
 
 	// Id
 	if virtualMachineScaleSetExtensionStatus.Id != nil {
@@ -11012,17 +11232,56 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 		destination.Name = nil
 	}
 
-	// Properties
-	if virtualMachineScaleSetExtensionStatus.Properties != nil {
-		var property v1alpha1api20201201storage.VirtualMachineScaleSetExtensionProperties_Status
-		err := (*virtualMachineScaleSetExtensionStatus.Properties).AssignPropertiesToVirtualMachineScaleSetExtensionPropertiesStatus(&property)
-		if err != nil {
-			return errors.Wrap(err, "populating Properties from Properties, calling AssignPropertiesToVirtualMachineScaleSetExtensionPropertiesStatus()")
-		}
-		destination.Properties = &property
+	// PropertiesType
+	if virtualMachineScaleSetExtensionStatus.PropertiesType != nil {
+		propertiesType := *virtualMachineScaleSetExtensionStatus.PropertiesType
+		destination.PropertiesType = &propertiesType
 	} else {
-		destination.Properties = nil
+		destination.PropertiesType = nil
 	}
+
+	// ProtectedSettings
+	protectedSettingMap := make(map[string]v1.JSON)
+	for protectedSettingKey, protectedSettingValue := range virtualMachineScaleSetExtensionStatus.ProtectedSettings {
+		// Shadow the loop variable to avoid aliasing
+		protectedSettingValue := protectedSettingValue
+		protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+	}
+	destination.ProtectedSettings = protectedSettingMap
+
+	// ProvisionAfterExtensions
+	provisionAfterExtensionList := make([]string, len(virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions))
+	for provisionAfterExtensionIndex, provisionAfterExtensionItem := range virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions {
+		// Shadow the loop variable to avoid aliasing
+		provisionAfterExtensionItem := provisionAfterExtensionItem
+		provisionAfterExtensionList[provisionAfterExtensionIndex] = provisionAfterExtensionItem
+	}
+	destination.ProvisionAfterExtensions = provisionAfterExtensionList
+
+	// ProvisioningState
+	if virtualMachineScaleSetExtensionStatus.ProvisioningState != nil {
+		provisioningState := *virtualMachineScaleSetExtensionStatus.ProvisioningState
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// Publisher
+	if virtualMachineScaleSetExtensionStatus.Publisher != nil {
+		publisher := *virtualMachineScaleSetExtensionStatus.Publisher
+		destination.Publisher = &publisher
+	} else {
+		destination.Publisher = nil
+	}
+
+	// Settings
+	settingMap := make(map[string]v1.JSON)
+	for settingKey, settingValue := range virtualMachineScaleSetExtensionStatus.Settings {
+		// Shadow the loop variable to avoid aliasing
+		settingValue := settingValue
+		settingMap[settingKey] = *settingValue.DeepCopy()
+	}
+	destination.Settings = settingMap
 
 	// Type
 	if virtualMachineScaleSetExtensionStatus.Type != nil {
@@ -11030,6 +11289,14 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 		destination.Type = &typeVar
 	} else {
 		destination.Type = nil
+	}
+
+	// TypeHandlerVersion
+	if virtualMachineScaleSetExtensionStatus.TypeHandlerVersion != nil {
+		typeHandlerVersion := *virtualMachineScaleSetExtensionStatus.TypeHandlerVersion
+		destination.TypeHandlerVersion = &typeHandlerVersion
+	} else {
+		destination.TypeHandlerVersion = nil
 	}
 
 	// Update the property bag
@@ -14780,313 +15047,6 @@ const (
 	VirtualMachineScaleSetDataDiskCreateOptionEmpty     = VirtualMachineScaleSetDataDiskCreateOption("Empty")
 	VirtualMachineScaleSetDataDiskCreateOptionFromImage = VirtualMachineScaleSetDataDiskCreateOption("FromImage")
 )
-
-//Generated from:
-type VirtualMachineScaleSetExtensionProperties_Status struct {
-	//AutoUpgradeMinorVersion: Indicates whether the extension should use a newer
-	//minor version if one is available at deployment time. Once deployed, however,
-	//the extension will not upgrade minor versions unless redeployed, even with this
-	//property set to true.
-	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
-
-	//EnableAutomaticUpgrade: Indicates whether the extension should be automatically
-	//upgraded by the platform if there is a newer version of the extension available.
-	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
-
-	//ForceUpdateTag: If a value is provided and is different from the previous value,
-	//the extension handler will be forced to update even if the extension
-	//configuration has not changed.
-	ForceUpdateTag *string `json:"forceUpdateTag,omitempty"`
-
-	//ProtectedSettings: The extension can contain either protectedSettings or
-	//protectedSettingsFromKeyVault or no protected settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
-
-	//ProvisionAfterExtensions: Collection of extension names after which this
-	//extension needs to be provisioned.
-	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`
-
-	//ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	//Publisher: The name of the extension handler publisher.
-	Publisher *string `json:"publisher,omitempty"`
-
-	//Settings: Json formatted public settings for the extension.
-	Settings map[string]v1.JSON `json:"settings,omitempty"`
-
-	//Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	//TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &VirtualMachineScaleSetExtensionProperties_Status{}
-
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetExtensionPropertiesStatus *VirtualMachineScaleSetExtensionProperties_Status) CreateEmptyARMValue() interface{} {
-	return VirtualMachineScaleSetExtensionProperties_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetExtensionPropertiesStatus *VirtualMachineScaleSetExtensionProperties_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineScaleSetExtensionProperties_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetExtensionProperties_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘AutoUpgradeMinorVersion’:
-	if typedInput.AutoUpgradeMinorVersion != nil {
-		autoUpgradeMinorVersion := *typedInput.AutoUpgradeMinorVersion
-		virtualMachineScaleSetExtensionPropertiesStatus.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
-	}
-
-	// Set property ‘EnableAutomaticUpgrade’:
-	if typedInput.EnableAutomaticUpgrade != nil {
-		enableAutomaticUpgrade := *typedInput.EnableAutomaticUpgrade
-		virtualMachineScaleSetExtensionPropertiesStatus.EnableAutomaticUpgrade = &enableAutomaticUpgrade
-	}
-
-	// Set property ‘ForceUpdateTag’:
-	if typedInput.ForceUpdateTag != nil {
-		forceUpdateTag := *typedInput.ForceUpdateTag
-		virtualMachineScaleSetExtensionPropertiesStatus.ForceUpdateTag = &forceUpdateTag
-	}
-
-	// Set property ‘ProtectedSettings’:
-	if typedInput.ProtectedSettings != nil {
-		virtualMachineScaleSetExtensionPropertiesStatus.ProtectedSettings = make(map[string]v1.JSON)
-		for key, value := range typedInput.ProtectedSettings {
-			virtualMachineScaleSetExtensionPropertiesStatus.ProtectedSettings[key] = *value.DeepCopy()
-		}
-	}
-
-	// Set property ‘ProvisionAfterExtensions’:
-	for _, item := range typedInput.ProvisionAfterExtensions {
-		virtualMachineScaleSetExtensionPropertiesStatus.ProvisionAfterExtensions = append(virtualMachineScaleSetExtensionPropertiesStatus.ProvisionAfterExtensions, item)
-	}
-
-	// Set property ‘ProvisioningState’:
-	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
-		virtualMachineScaleSetExtensionPropertiesStatus.ProvisioningState = &provisioningState
-	}
-
-	// Set property ‘Publisher’:
-	if typedInput.Publisher != nil {
-		publisher := *typedInput.Publisher
-		virtualMachineScaleSetExtensionPropertiesStatus.Publisher = &publisher
-	}
-
-	// Set property ‘Settings’:
-	if typedInput.Settings != nil {
-		virtualMachineScaleSetExtensionPropertiesStatus.Settings = make(map[string]v1.JSON)
-		for key, value := range typedInput.Settings {
-			virtualMachineScaleSetExtensionPropertiesStatus.Settings[key] = *value.DeepCopy()
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		virtualMachineScaleSetExtensionPropertiesStatus.Type = &typeVar
-	}
-
-	// Set property ‘TypeHandlerVersion’:
-	if typedInput.TypeHandlerVersion != nil {
-		typeHandlerVersion := *typedInput.TypeHandlerVersion
-		virtualMachineScaleSetExtensionPropertiesStatus.TypeHandlerVersion = &typeHandlerVersion
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromVirtualMachineScaleSetExtensionPropertiesStatus populates our VirtualMachineScaleSetExtensionProperties_Status from the provided source VirtualMachineScaleSetExtensionProperties_Status
-func (virtualMachineScaleSetExtensionPropertiesStatus *VirtualMachineScaleSetExtensionProperties_Status) AssignPropertiesFromVirtualMachineScaleSetExtensionPropertiesStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetExtensionProperties_Status) error {
-
-	// AutoUpgradeMinorVersion
-	if source.AutoUpgradeMinorVersion != nil {
-		autoUpgradeMinorVersion := *source.AutoUpgradeMinorVersion
-		virtualMachineScaleSetExtensionPropertiesStatus.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
-	} else {
-		virtualMachineScaleSetExtensionPropertiesStatus.AutoUpgradeMinorVersion = nil
-	}
-
-	// EnableAutomaticUpgrade
-	if source.EnableAutomaticUpgrade != nil {
-		enableAutomaticUpgrade := *source.EnableAutomaticUpgrade
-		virtualMachineScaleSetExtensionPropertiesStatus.EnableAutomaticUpgrade = &enableAutomaticUpgrade
-	} else {
-		virtualMachineScaleSetExtensionPropertiesStatus.EnableAutomaticUpgrade = nil
-	}
-
-	// ForceUpdateTag
-	if source.ForceUpdateTag != nil {
-		forceUpdateTag := *source.ForceUpdateTag
-		virtualMachineScaleSetExtensionPropertiesStatus.ForceUpdateTag = &forceUpdateTag
-	} else {
-		virtualMachineScaleSetExtensionPropertiesStatus.ForceUpdateTag = nil
-	}
-
-	// ProtectedSettings
-	protectedSettingMap := make(map[string]v1.JSON)
-	for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
-		// Shadow the loop variable to avoid aliasing
-		protectedSettingValue := protectedSettingValue
-		protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-	}
-	virtualMachineScaleSetExtensionPropertiesStatus.ProtectedSettings = protectedSettingMap
-
-	// ProvisionAfterExtensions
-	provisionAfterExtensionList := make([]string, len(source.ProvisionAfterExtensions))
-	for provisionAfterExtensionIndex, provisionAfterExtensionItem := range source.ProvisionAfterExtensions {
-		// Shadow the loop variable to avoid aliasing
-		provisionAfterExtensionItem := provisionAfterExtensionItem
-		provisionAfterExtensionList[provisionAfterExtensionIndex] = provisionAfterExtensionItem
-	}
-	virtualMachineScaleSetExtensionPropertiesStatus.ProvisionAfterExtensions = provisionAfterExtensionList
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := *source.ProvisioningState
-		virtualMachineScaleSetExtensionPropertiesStatus.ProvisioningState = &provisioningState
-	} else {
-		virtualMachineScaleSetExtensionPropertiesStatus.ProvisioningState = nil
-	}
-
-	// Publisher
-	if source.Publisher != nil {
-		publisher := *source.Publisher
-		virtualMachineScaleSetExtensionPropertiesStatus.Publisher = &publisher
-	} else {
-		virtualMachineScaleSetExtensionPropertiesStatus.Publisher = nil
-	}
-
-	// Settings
-	settingMap := make(map[string]v1.JSON)
-	for settingKey, settingValue := range source.Settings {
-		// Shadow the loop variable to avoid aliasing
-		settingValue := settingValue
-		settingMap[settingKey] = *settingValue.DeepCopy()
-	}
-	virtualMachineScaleSetExtensionPropertiesStatus.Settings = settingMap
-
-	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		virtualMachineScaleSetExtensionPropertiesStatus.Type = &typeVar
-	} else {
-		virtualMachineScaleSetExtensionPropertiesStatus.Type = nil
-	}
-
-	// TypeHandlerVersion
-	if source.TypeHandlerVersion != nil {
-		typeHandlerVersion := *source.TypeHandlerVersion
-		virtualMachineScaleSetExtensionPropertiesStatus.TypeHandlerVersion = &typeHandlerVersion
-	} else {
-		virtualMachineScaleSetExtensionPropertiesStatus.TypeHandlerVersion = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineScaleSetExtensionPropertiesStatus populates the provided destination VirtualMachineScaleSetExtensionProperties_Status from our VirtualMachineScaleSetExtensionProperties_Status
-func (virtualMachineScaleSetExtensionPropertiesStatus *VirtualMachineScaleSetExtensionProperties_Status) AssignPropertiesToVirtualMachineScaleSetExtensionPropertiesStatus(destination *v1alpha1api20201201storage.VirtualMachineScaleSetExtensionProperties_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AutoUpgradeMinorVersion
-	if virtualMachineScaleSetExtensionPropertiesStatus.AutoUpgradeMinorVersion != nil {
-		autoUpgradeMinorVersion := *virtualMachineScaleSetExtensionPropertiesStatus.AutoUpgradeMinorVersion
-		destination.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
-	} else {
-		destination.AutoUpgradeMinorVersion = nil
-	}
-
-	// EnableAutomaticUpgrade
-	if virtualMachineScaleSetExtensionPropertiesStatus.EnableAutomaticUpgrade != nil {
-		enableAutomaticUpgrade := *virtualMachineScaleSetExtensionPropertiesStatus.EnableAutomaticUpgrade
-		destination.EnableAutomaticUpgrade = &enableAutomaticUpgrade
-	} else {
-		destination.EnableAutomaticUpgrade = nil
-	}
-
-	// ForceUpdateTag
-	if virtualMachineScaleSetExtensionPropertiesStatus.ForceUpdateTag != nil {
-		forceUpdateTag := *virtualMachineScaleSetExtensionPropertiesStatus.ForceUpdateTag
-		destination.ForceUpdateTag = &forceUpdateTag
-	} else {
-		destination.ForceUpdateTag = nil
-	}
-
-	// ProtectedSettings
-	protectedSettingMap := make(map[string]v1.JSON)
-	for protectedSettingKey, protectedSettingValue := range virtualMachineScaleSetExtensionPropertiesStatus.ProtectedSettings {
-		// Shadow the loop variable to avoid aliasing
-		protectedSettingValue := protectedSettingValue
-		protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-	}
-	destination.ProtectedSettings = protectedSettingMap
-
-	// ProvisionAfterExtensions
-	provisionAfterExtensionList := make([]string, len(virtualMachineScaleSetExtensionPropertiesStatus.ProvisionAfterExtensions))
-	for provisionAfterExtensionIndex, provisionAfterExtensionItem := range virtualMachineScaleSetExtensionPropertiesStatus.ProvisionAfterExtensions {
-		// Shadow the loop variable to avoid aliasing
-		provisionAfterExtensionItem := provisionAfterExtensionItem
-		provisionAfterExtensionList[provisionAfterExtensionIndex] = provisionAfterExtensionItem
-	}
-	destination.ProvisionAfterExtensions = provisionAfterExtensionList
-
-	// ProvisioningState
-	if virtualMachineScaleSetExtensionPropertiesStatus.ProvisioningState != nil {
-		provisioningState := *virtualMachineScaleSetExtensionPropertiesStatus.ProvisioningState
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// Publisher
-	if virtualMachineScaleSetExtensionPropertiesStatus.Publisher != nil {
-		publisher := *virtualMachineScaleSetExtensionPropertiesStatus.Publisher
-		destination.Publisher = &publisher
-	} else {
-		destination.Publisher = nil
-	}
-
-	// Settings
-	settingMap := make(map[string]v1.JSON)
-	for settingKey, settingValue := range virtualMachineScaleSetExtensionPropertiesStatus.Settings {
-		// Shadow the loop variable to avoid aliasing
-		settingValue := settingValue
-		settingMap[settingKey] = *settingValue.DeepCopy()
-	}
-	destination.Settings = settingMap
-
-	// Type
-	if virtualMachineScaleSetExtensionPropertiesStatus.Type != nil {
-		typeVar := *virtualMachineScaleSetExtensionPropertiesStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
-
-	// TypeHandlerVersion
-	if virtualMachineScaleSetExtensionPropertiesStatus.TypeHandlerVersion != nil {
-		typeHandlerVersion := *virtualMachineScaleSetExtensionPropertiesStatus.TypeHandlerVersion
-		destination.TypeHandlerVersion = &typeHandlerVersion
-	} else {
-		destination.TypeHandlerVersion = nil
-	}
-
-	// Update the property bag
-	destination.PropertyBag = propertyBag
-
-	// No error
-	return nil
-}
 
 //Generated from:
 type VirtualMachineScaleSetIPConfiguration_Status struct {

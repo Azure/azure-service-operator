@@ -37,8 +37,12 @@ type PropertyDefinition struct {
 	//   which property(/ies) (that had flatten:true) it was flattened from. this
 	//   is stored with most-recent first so that `[0].[1].[2]` would form the
 	//   correct nested property name.
-	flatten       bool           // maps to x-ms-client-flatten: should the propertyType be flattened into the parent?
-	flattenedFrom []PropertyName // a list of property names from whence this property was flattened
+	flatten bool // maps to x-ms-client-flatten: should the propertyType be flattened into the parent?
+
+	// a list of property names from whence this property was flattened
+	// the last entry is always the original property name, so it will look like:
+	// x,y,z,propName
+	flattenedFrom []PropertyName
 
 	tags map[string][]string
 }
@@ -50,7 +54,7 @@ func (property *PropertyDefinition) AddFlattenedFrom(name PropertyName) *Propert
 }
 
 func (property *PropertyDefinition) WasFlattened() bool {
-	return len(property.flattenedFrom) > 0
+	return len(property.flattenedFrom) > 1
 }
 
 func (property *PropertyDefinition) WasFlattenedFrom(name PropertyName) bool {
@@ -71,11 +75,45 @@ func NewPropertyDefinition(propertyName PropertyName, jsonName string, propertyT
 	tags["json"] = []string{jsonName}
 
 	return &PropertyDefinition{
-		propertyName: propertyName,
-		propertyType: propertyType,
-		description:  "",
-		tags:         tags,
+		propertyName:  propertyName,
+		propertyType:  propertyType,
+		description:   "",
+		flattenedFrom: []PropertyName{propertyName},
+		tags:          tags,
 	}
+}
+
+// WithName returns a new PropertyDefinition with the given name (and JSON name)
+func (property *PropertyDefinition) WithName(name PropertyName, jsonName string) *PropertyDefinition {
+	result := *property
+	result.propertyName = name
+	// TODO post-alpha: replace result.tags with structured types
+	if jsonName != result.tags["json"][0] {
+		// copy tags and update
+		newTags := cloneMapOfStringToSliceOfString(result.tags)
+		jsonTagValues := cloneSliceOfString(newTags["json"])
+		jsonTagValues[0] = jsonName
+		newTags["json"] = jsonTagValues
+
+		result.tags = newTags
+	}
+
+	return &result
+}
+
+func cloneMapOfStringToSliceOfString(m map[string][]string) map[string][]string {
+	result := make(map[string][]string)
+	for k, v := range m {
+		result[k] = v
+	}
+
+	return result
+}
+
+func cloneSliceOfString(s []string) []string {
+	result := make([]string, len(s))
+	copy(result, s)
+	return result
 }
 
 // PropertyName returns the name of the property

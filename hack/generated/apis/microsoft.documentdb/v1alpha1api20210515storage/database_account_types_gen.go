@@ -54,6 +54,11 @@ func (databaseAccount *DatabaseAccount) GetStatus() genruntime.ConvertibleStatus
 	return &databaseAccount.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
+func (databaseAccount *DatabaseAccount) GetType() string {
+	return "Microsoft.DocumentDB/databaseAccounts"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (databaseAccount *DatabaseAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(databaseAccount.Spec)

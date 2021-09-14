@@ -54,6 +54,11 @@ func (storageAccount *StorageAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &storageAccount.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts"
+func (storageAccount *StorageAccount) GetType() string {
+	return "Microsoft.Storage/storageAccounts"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (storageAccount *StorageAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccount.Spec)

@@ -54,6 +54,11 @@ func (batchAccount *BatchAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &batchAccount.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Batch/batchAccounts"
+func (batchAccount *BatchAccount) GetType() string {
+	return "Microsoft.Batch/batchAccounts"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (batchAccount *BatchAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(batchAccount.Spec)

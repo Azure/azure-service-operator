@@ -20,15 +20,14 @@ filterTypes                                          Apply export filters to red
 verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
-addCrossResourceReferences                azure      Replace cross-resource references with genruntime.ResourceReference
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnused                                          Strip unused types for test
 createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
+markStorageVersion                                   Mark the latest version of each resource as the storage version
 injectJSONTestCases                       azure      Add test cases to verify JSON serialization
 injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
-markStorageVersion                                   Mark the latest version of each resource as the storage version
 ensureArmTypeExistsForEveryType           azure      Check that an ARM type exists for both Spec and Status of each resource
 exportTestPackages                                   Export packages for test
 exportControllerResourceRegistrations     azure      Export resource registrations to ""

@@ -96,7 +96,7 @@ tasks:
     desc: Update {{.GENERATOR_APP}} golden test outputs.
     dir: "{{.GENERATOR_ROOT}}"
     cmds:
-    - go test ./pkg/codegen -run ^TestGolden$ -update
+    - go test ./pkg/codegen -run ^TestGolden -update
 
   generator:lint:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
@@ -261,6 +261,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     sources:
     - "apis/**/*_gen.go" # depends on all generated types
+    - "pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
     cmds:
     - mkdir -p ./apis
     - find ./apis -type f -name "zz_generated.*" -delete

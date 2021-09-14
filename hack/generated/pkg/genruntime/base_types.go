@@ -45,6 +45,10 @@ type KubernetesResource interface {
 	// AzureName returns the Azure name of the resource
 	AzureName() string
 
+	// GetType returns the type of the resource according to Azure. For example Microsoft.Resources/resourceGroups or
+	// Microsoft.Network/networkSecurityGroups/securityRules
+	GetType() string
+
 	// Some types, but not all, have a corresponding:
 	// 	SetAzureName(name string)
 	// They do not if the name must be a fixed value (like 'default').
@@ -110,7 +114,6 @@ type ARMResource interface {
 	Spec() ARMResourceSpec
 	Status() ARMResourceStatus
 
-	// TODO: Golang wants this to be GetID
 	GetID() string // TODO: Should this be on Status instead?
 }
 

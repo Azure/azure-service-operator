@@ -257,7 +257,7 @@ func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 }
 
 func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.PropertyDefinition, fromProp *astmodel.PropertyDefinition) []dst.Stmt {
-	if len(toProp.FlattenedFrom()) > 1 {
+	if len(toProp.FlattenedFrom()) > 2 {
 		// this doesn't appear to happen anywhere in the JSON schemas currently
 
 		var props []string
@@ -312,8 +312,9 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 	}
 
 	// *** Now generate the code! ***
-	toPropName := toProp.PropertyName()
-	nestedProp, ok := fromPropObjType.Property(toPropName)
+	toPropFlattenedFrom := toProp.FlattenedFrom()
+	originalPropName := toPropFlattenedFrom[len(toPropFlattenedFrom)-1]
+	nestedProp, ok := fromPropObjType.Property(originalPropName)
 	if !ok {
 		panic("couldn't find source of flattened property")
 	}
@@ -326,9 +327,9 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 
 	stmts := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
-			Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()), string(toPropName)),
+			Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()), string(originalPropName)),
 			SourceType:        nestedProp.PropertyType(),
-			Destination:       astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toPropName)),
+			Destination:       astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toProp.PropertyName())),
 			DestinationType:   toProp.PropertyType(),
 			NameHint:          string(toProp.PropertyName()),
 			ConversionContext: nil,
