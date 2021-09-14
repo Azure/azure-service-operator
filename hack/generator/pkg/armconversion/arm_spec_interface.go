@@ -66,30 +66,42 @@ func NewARMSpecInterfaceImpl(
 	return result, nil
 }
 
-func getNameFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func getNameFunction(
+	fn *functions.ObjectFunction,
+	genContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
-		k,
-		codeGenerationContext,
+		fn,
+		genContext,
 		receiver,
 		methodName,
 		"Name",
 		false)
 }
 
-func getTypeFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func getTypeFunction(
+	fn *functions.ObjectFunction,
+	genContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
-		k,
-		codeGenerationContext,
+		fn,
+		genContext,
 		receiver,
 		methodName,
 		"Type",
 		true)
 }
 
-func getAPIVersionFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func getAPIVersionFunction(
+	fn *functions.ObjectFunction,
+	genContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
-		k,
-		codeGenerationContext,
+		fn,
+		genContext,
 		receiver,
 		methodName,
 		astmodel.APIVersionProperty,
@@ -97,33 +109,28 @@ func getAPIVersionFunction(k *functions.ObjectFunction, codeGenerationContext *a
 }
 
 func armSpecInterfaceSimpleGetFunction(
-	k *functions.ObjectFunction,
+	fn *functions.ObjectFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	methodName string,
 	propertyName string,
 	castToString bool) *dst.FuncDecl {
 
-	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverIdent := fn.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 	receiverType := receiver.AsType(codeGenerationContext)
 
-	var result dst.Expr
-	result = &dst.SelectorExpr{
-		X:   dst.NewIdent(receiverIdent),
-		Sel: dst.NewIdent(propertyName),
-	}
+	var result dst.Expr = astbuilder.Selector(dst.NewIdent(receiverIdent), propertyName)
 
 	// This is not the most beautiful thing, but it saves some code.
 	if castToString {
-		result = &dst.CallExpr{
-			Fun: dst.NewIdent("string"),
-			Args: []dst.Expr{
-				result,
-			},
-		}
+		result = astbuilder.CallFunc("string", result)
 	}
 
-	fn := &astbuilder.FuncDetails{
+	retResult := astbuilder.Returns(result)
+	retResult.Decorations().Before = dst.NewLine
+	retResult.Decorations().After = dst.NewLine
+
+	details := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		// TODO: We're too loosey-goosey here with ptr vs value receiver.
@@ -132,23 +139,11 @@ func armSpecInterfaceSimpleGetFunction(
 		// TODO: for example on resource we use ptr receiver... the inconsistency is
 		// TODO: awkward...
 		ReceiverType: receiverType,
-		Body: []dst.Stmt{
-			&dst.ReturnStmt{
-				Decs: dst.ReturnStmtDecorations{
-					NodeDecs: dst.NodeDecs{
-						Before: dst.NewLine,
-						After:  dst.NewLine,
-					},
-				},
-				Results: []dst.Expr{
-					result,
-				},
-			},
-		},
+		Body:         astbuilder.Statements(retResult),
 	}
 
-	fn.AddComments(fmt.Sprintf("returns the %s of the resource", propertyName))
-	fn.AddReturns("string")
+	details.AddComments(fmt.Sprintf("returns the %s of the resource", propertyName))
+	details.AddReturns("string")
 
-	return fn.DefineFunc()
+	return details.DefineFunc()
 }
