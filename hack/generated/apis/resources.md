@@ -14,6 +14,13 @@ v1alpha1api20201201
 
 - VirtualMachineScaleSet
 
+### microsoft.containerservice
+
+v1alpha1api20210501
+
+- ManagedCluster
+- ManagedClustersAgentPool
+
 ### microsoft.documentdb
 
 v1alpha1api20210515
