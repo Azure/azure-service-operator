@@ -33,3 +33,4 @@ markStorageVersion                                 Mark the latest version of ea
 rogueCheck                                         Check for rogue definitions using AnyTypes
 deleteGenerated                                    Delete generated code from .
 exportPackages                                     Export packages to "."
+reportResourceVersions                             Generate a report listing all the resources generated
