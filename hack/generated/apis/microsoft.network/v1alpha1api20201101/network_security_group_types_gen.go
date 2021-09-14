@@ -343,8 +343,8 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 var _ genruntime.FromARMConverter = &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -835,8 +835,8 @@ func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertToARM(name s
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) CreateEmptyARMValue() interface{} {
-	return NetworkSecurityGroups_SpecARM{}
+func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkSecurityGroups_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -998,8 +998,8 @@ type FlowLog_Status_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &FlowLog_Status_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (flowLogStatusSubResourceEmbedded *FlowLog_Status_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return FlowLog_Status_SubResourceEmbeddedARM{}
+func (flowLogStatusSubResourceEmbedded *FlowLog_Status_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FlowLog_Status_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1066,8 +1066,8 @@ type NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (networkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+func (networkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1166,8 +1166,8 @@ type SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (securityRuleStatusNetworkSecurityGroupSubResourceEmbedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+func (securityRuleStatusNetworkSecurityGroupSubResourceEmbedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1231,8 +1231,8 @@ type Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subnetStatusNetworkSecurityGroupSubResourceEmbedded *Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+func (subnetStatusNetworkSecurityGroupSubResourceEmbedded *Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

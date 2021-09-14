@@ -449,8 +449,8 @@ func (agentPoolStatus *AgentPool_Status) ConvertStatusTo(destination genruntime.
 var _ genruntime.FromARMConverter = &AgentPool_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (agentPoolStatus *AgentPool_Status) CreateEmptyARMValue() interface{} {
-	return AgentPool_StatusARM{}
+func (agentPoolStatus *AgentPool_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AgentPool_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1859,8 +1859,8 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToAR
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) CreateEmptyARMValue() interface{} {
-	return ManagedClustersAgentPools_SpecARM{}
+func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClustersAgentPools_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2817,8 +2817,8 @@ func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) ConvertToARM(name stri
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) CreateEmptyARMValue() interface{} {
-	return AgentPoolUpgradeSettingsARM{}
+func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AgentPoolUpgradeSettingsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2883,8 +2883,8 @@ type AgentPoolUpgradeSettings_Status struct {
 var _ genruntime.FromARMConverter = &AgentPoolUpgradeSettings_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) CreateEmptyARMValue() interface{} {
-	return AgentPoolUpgradeSettings_StatusARM{}
+func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AgentPoolUpgradeSettings_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3066,8 +3066,8 @@ func (kubeletConfig *KubeletConfig) ConvertToARM(name string, resolvedReferences
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (kubeletConfig *KubeletConfig) CreateEmptyARMValue() interface{} {
-	return KubeletConfigARM{}
+func (kubeletConfig *KubeletConfig) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &KubeletConfigARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3389,8 +3389,8 @@ type KubeletConfig_Status struct {
 var _ genruntime.FromARMConverter = &KubeletConfig_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (kubeletConfigStatus *KubeletConfig_Status) CreateEmptyARMValue() interface{} {
-	return KubeletConfig_StatusARM{}
+func (kubeletConfigStatus *KubeletConfig_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &KubeletConfig_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3726,8 +3726,8 @@ func (linuxOSConfig *LinuxOSConfig) ConvertToARM(name string, resolvedReferences
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (linuxOSConfig *LinuxOSConfig) CreateEmptyARMValue() interface{} {
-	return LinuxOSConfigARM{}
+func (linuxOSConfig *LinuxOSConfig) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LinuxOSConfigARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3880,8 +3880,8 @@ type LinuxOSConfig_Status struct {
 var _ genruntime.FromARMConverter = &LinuxOSConfig_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (linuxOSConfigStatus *LinuxOSConfig_Status) CreateEmptyARMValue() interface{} {
-	return LinuxOSConfig_StatusARM{}
+func (linuxOSConfigStatus *LinuxOSConfig_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LinuxOSConfig_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4358,8 +4358,8 @@ func (sysctlConfig *SysctlConfig) ConvertToARM(name string, resolvedReferences g
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sysctlConfig *SysctlConfig) CreateEmptyARMValue() interface{} {
-	return SysctlConfigARM{}
+func (sysctlConfig *SysctlConfig) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SysctlConfigARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5099,8 +5099,8 @@ type SysctlConfig_Status struct {
 var _ genruntime.FromARMConverter = &SysctlConfig_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sysctlConfigStatus *SysctlConfig_Status) CreateEmptyARMValue() interface{} {
-	return SysctlConfig_StatusARM{}
+func (sysctlConfigStatus *SysctlConfig_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SysctlConfig_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

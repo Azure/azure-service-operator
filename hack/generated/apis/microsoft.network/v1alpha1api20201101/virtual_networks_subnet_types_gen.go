@@ -382,8 +382,8 @@ func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_Virtua
 var _ genruntime.FromARMConverter = &Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
+func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1351,8 +1351,8 @@ func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) ConvertToARM(name
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) CreateEmptyARMValue() interface{} {
-	return VirtualNetworksSubnets_SpecARM{}
+func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworksSubnets_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1888,8 +1888,8 @@ type ApplicationGatewayIPConfiguration_Status struct {
 var _ genruntime.FromARMConverter = &ApplicationGatewayIPConfiguration_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (applicationGatewayIPConfigurationStatus *ApplicationGatewayIPConfiguration_Status) CreateEmptyARMValue() interface{} {
-	return ApplicationGatewayIPConfiguration_StatusARM{}
+func (applicationGatewayIPConfigurationStatus *ApplicationGatewayIPConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ApplicationGatewayIPConfiguration_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2102,8 +2102,8 @@ type Delegation_Status struct {
 var _ genruntime.FromARMConverter = &Delegation_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (delegationStatus *Delegation_Status) CreateEmptyARMValue() interface{} {
-	return Delegation_StatusARM{}
+func (delegationStatus *Delegation_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Delegation_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2322,8 +2322,8 @@ type IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded str
 var _ genruntime.FromARMConverter = &IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
+func (ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2497,8 +2497,8 @@ type IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
+func (ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2719,8 +2719,8 @@ type NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded struc
 var _ genruntime.FromARMConverter = &NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
+func (networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2787,8 +2787,8 @@ type PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (privateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded *PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
+func (privateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded *PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2907,8 +2907,8 @@ type ResourceNavigationLink_Status struct {
 var _ genruntime.FromARMConverter = &ResourceNavigationLink_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resourceNavigationLinkStatus *ResourceNavigationLink_Status) CreateEmptyARMValue() interface{} {
-	return ResourceNavigationLink_StatusARM{}
+func (resourceNavigationLinkStatus *ResourceNavigationLink_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ResourceNavigationLink_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3113,8 +3113,8 @@ type RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (routeTableStatusVirtualNetworksSubnetSubResourceEmbedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
+func (routeTableStatusVirtualNetworksSubnetSubResourceEmbedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3204,8 +3204,8 @@ type ServiceAssociationLink_Status struct {
 var _ genruntime.FromARMConverter = &ServiceAssociationLink_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (serviceAssociationLinkStatus *ServiceAssociationLink_Status) CreateEmptyARMValue() interface{} {
-	return ServiceAssociationLink_StatusARM{}
+func (serviceAssociationLinkStatus *ServiceAssociationLink_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServiceAssociationLink_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3465,8 +3465,8 @@ type ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded stru
 var _ genruntime.FromARMConverter = &ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded *ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
+func (serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded *ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3575,8 +3575,8 @@ func (serviceEndpointPropertiesFormat *ServiceEndpointPropertiesFormat) ConvertT
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (serviceEndpointPropertiesFormat *ServiceEndpointPropertiesFormat) CreateEmptyARMValue() interface{} {
-	return ServiceEndpointPropertiesFormatARM{}
+func (serviceEndpointPropertiesFormat *ServiceEndpointPropertiesFormat) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServiceEndpointPropertiesFormatARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3669,8 +3669,8 @@ type ServiceEndpointPropertiesFormat_Status struct {
 var _ genruntime.FromARMConverter = &ServiceEndpointPropertiesFormat_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (serviceEndpointPropertiesFormatStatus *ServiceEndpointPropertiesFormat_Status) CreateEmptyARMValue() interface{} {
-	return ServiceEndpointPropertiesFormat_StatusARM{}
+func (serviceEndpointPropertiesFormatStatus *ServiceEndpointPropertiesFormat_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServiceEndpointPropertiesFormat_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3805,8 +3805,8 @@ func (virtualNetworksSubnetsSpecPropertiesDelegations *VirtualNetworksSubnets_Sp
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworksSubnetsSpecPropertiesDelegations *VirtualNetworksSubnets_Spec_Properties_Delegations) CreateEmptyARMValue() interface{} {
-	return VirtualNetworksSubnets_Spec_Properties_DelegationsARM{}
+func (virtualNetworksSubnetsSpecPropertiesDelegations *VirtualNetworksSubnets_Spec_Properties_Delegations) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworksSubnets_Spec_Properties_DelegationsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3897,8 +3897,8 @@ type PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
+func (publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

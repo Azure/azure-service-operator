@@ -421,8 +421,8 @@ func (managedClusterStatus *ManagedCluster_Status) ConvertStatusTo(destination g
 var _ genruntime.FromARMConverter = &ManagedCluster_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterStatus *ManagedCluster_Status) CreateEmptyARMValue() interface{} {
-	return ManagedCluster_StatusARM{}
+func (managedClusterStatus *ManagedCluster_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedCluster_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1892,8 +1892,8 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(name string, resol
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClustersSpec *ManagedClusters_Spec) CreateEmptyARMValue() interface{} {
-	return ManagedClusters_SpecARM{}
+func (managedClustersSpec *ManagedClusters_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusters_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2899,8 +2899,8 @@ func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofilead
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) CreateEmptyARMValue() interface{} {
-	return Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM{}
+func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3029,8 +3029,8 @@ func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) ConvertToARM(n
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) CreateEmptyARMValue() interface{} {
-	return ContainerServiceLinuxProfileARM{}
+func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContainerServiceLinuxProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3119,8 +3119,8 @@ type ContainerServiceLinuxProfile_Status struct {
 var _ genruntime.FromARMConverter = &ContainerServiceLinuxProfile_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceLinuxProfileStatus *ContainerServiceLinuxProfile_Status) CreateEmptyARMValue() interface{} {
-	return ContainerServiceLinuxProfile_StatusARM{}
+func (containerServiceLinuxProfileStatus *ContainerServiceLinuxProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContainerServiceLinuxProfile_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3318,8 +3318,8 @@ func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) ConvertToA
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) CreateEmptyARMValue() interface{} {
-	return ContainerServiceNetworkProfileARM{}
+func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContainerServiceNetworkProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3626,8 +3626,8 @@ type ContainerServiceNetworkProfile_Status struct {
 var _ genruntime.FromARMConverter = &ContainerServiceNetworkProfile_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Status) CreateEmptyARMValue() interface{} {
-	return ContainerServiceNetworkProfile_StatusARM{}
+func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContainerServiceNetworkProfile_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3926,8 +3926,8 @@ func (extendedLocation *ExtendedLocation) ConvertToARM(name string, resolvedRefe
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocation *ExtendedLocation) CreateEmptyARMValue() interface{} {
-	return ExtendedLocationARM{}
+func (extendedLocation *ExtendedLocation) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ExtendedLocationARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4016,8 +4016,8 @@ type ExtendedLocation_Status struct {
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocationStatus *ExtendedLocation_Status) CreateEmptyARMValue() interface{} {
-	return ExtendedLocation_StatusARM{}
+func (extendedLocationStatus *ExtendedLocation_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ExtendedLocation_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4173,8 +4173,8 @@ func (managedClusterAADProfile *ManagedClusterAADProfile) ConvertToARM(name stri
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAADProfile *ManagedClusterAADProfile) CreateEmptyARMValue() interface{} {
-	return ManagedClusterAADProfileARM{}
+func (managedClusterAADProfile *ManagedClusterAADProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAADProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4391,8 +4391,8 @@ type ManagedClusterAADProfile_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterAADProfile_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterAADProfile_StatusARM{}
+func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAADProfile_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4639,8 +4639,8 @@ func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile) CreateEmptyARMValue() interface{} {
-	return ManagedClusterAPIServerAccessProfileARM{}
+func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAPIServerAccessProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4781,8 +4781,8 @@ type ManagedClusterAPIServerAccessProfile_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterAPIServerAccessProfile_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessProfile_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterAPIServerAccessProfile_StatusARM{}
+func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAPIServerAccessProfile_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4937,8 +4937,8 @@ func (managedClusterAddonProfile *ManagedClusterAddonProfile) ConvertToARM(name 
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAddonProfile *ManagedClusterAddonProfile) CreateEmptyARMValue() interface{} {
-	return ManagedClusterAddonProfileARM{}
+func (managedClusterAddonProfile *ManagedClusterAddonProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAddonProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5387,8 +5387,8 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) ConvertToA
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) CreateEmptyARMValue() interface{} {
-	return ManagedClusterAgentPoolProfileARM{}
+func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAgentPoolProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -6343,8 +6343,8 @@ type ManagedClusterAgentPoolProfile_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterAgentPoolProfile_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterAgentPoolProfile_StatusARM{}
+func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAgentPoolProfile_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -7278,8 +7278,8 @@ func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) Conver
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) CreateEmptyARMValue() interface{} {
-	return ManagedClusterAutoUpgradeProfileARM{}
+func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAutoUpgradeProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -7343,8 +7343,8 @@ type ManagedClusterAutoUpgradeProfile_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterAutoUpgradeProfile_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAutoUpgradeProfileStatus *ManagedClusterAutoUpgradeProfile_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterAutoUpgradeProfile_StatusARM{}
+func (managedClusterAutoUpgradeProfileStatus *ManagedClusterAutoUpgradeProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAutoUpgradeProfile_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -7449,8 +7449,8 @@ func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) ConvertToARM
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) CreateEmptyARMValue() interface{} {
-	return ManagedClusterHTTPProxyConfigARM{}
+func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterHTTPProxyConfigARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -7590,8 +7590,8 @@ type ManagedClusterHTTPProxyConfig_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterHTTPProxyConfig_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterHTTPProxyConfig_StatusARM{}
+func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterHTTPProxyConfig_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -7750,8 +7750,8 @@ func (managedClusterIdentity *ManagedClusterIdentity) ConvertToARM(name string, 
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterIdentity *ManagedClusterIdentity) CreateEmptyARMValue() interface{} {
-	return ManagedClusterIdentityARM{}
+func (managedClusterIdentity *ManagedClusterIdentity) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterIdentityARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -7859,8 +7859,8 @@ type ManagedClusterIdentity_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterIdentity_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterIdentity_StatusARM{}
+func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterIdentity_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -8061,8 +8061,8 @@ func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) Conver
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) CreateEmptyARMValue() interface{} {
-	return ManagedClusterPodIdentityProfileARM{}
+func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterPodIdentityProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -8234,8 +8234,8 @@ type ManagedClusterPodIdentityProfile_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterPodIdentityProfile_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityProfileStatus *ManagedClusterPodIdentityProfile_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterPodIdentityProfile_StatusARM{}
+func (managedClusterPodIdentityProfileStatus *ManagedClusterPodIdentityProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterPodIdentityProfile_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -8569,8 +8569,8 @@ func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoSca
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile) CreateEmptyARMValue() interface{} {
-	return ManagedClusterPropertiesAutoScalerProfileARM{}
+func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterPropertiesAutoScalerProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -9000,8 +9000,8 @@ type ManagedClusterProperties_Status_AutoScalerProfile struct {
 var _ genruntime.FromARMConverter = &ManagedClusterProperties_Status_AutoScalerProfile{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_Status_AutoScalerProfile) CreateEmptyARMValue() interface{} {
-	return ManagedClusterProperties_Status_AutoScalerProfileARM{}
+func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_Status_AutoScalerProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterProperties_Status_AutoScalerProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -9442,8 +9442,8 @@ func (managedClusterSKU *ManagedClusterSKU) ConvertToARM(name string, resolvedRe
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterSKU *ManagedClusterSKU) CreateEmptyARMValue() interface{} {
-	return ManagedClusterSKUARM{}
+func (managedClusterSKU *ManagedClusterSKU) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterSKUARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -9532,8 +9532,8 @@ type ManagedClusterSKU_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterSKU_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterSKUStatus *ManagedClusterSKU_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterSKU_StatusARM{}
+func (managedClusterSKUStatus *ManagedClusterSKU_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterSKU_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -9641,8 +9641,8 @@ func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfi
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfile) CreateEmptyARMValue() interface{} {
-	return ManagedClusterServicePrincipalProfileARM{}
+func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterServicePrincipalProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -9724,8 +9724,8 @@ type ManagedClusterServicePrincipalProfile_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterServicePrincipalProfile_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterServicePrincipalProfileStatus *ManagedClusterServicePrincipalProfile_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterServicePrincipalProfile_StatusARM{}
+func (managedClusterServicePrincipalProfileStatus *ManagedClusterServicePrincipalProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterServicePrincipalProfile_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -9863,8 +9863,8 @@ func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) ConvertToARM(n
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) CreateEmptyARMValue() interface{} {
-	return ManagedClusterWindowsProfileARM{}
+func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterWindowsProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -10014,8 +10014,8 @@ type ManagedClusterWindowsProfile_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterWindowsProfile_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterWindowsProfile_StatusARM{}
+func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterWindowsProfile_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -10137,8 +10137,8 @@ type PowerState_Status struct {
 var _ genruntime.FromARMConverter = &PowerState_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (powerStateStatus *PowerState_Status) CreateEmptyARMValue() interface{} {
-	return PowerState_StatusARM{}
+func (powerStateStatus *PowerState_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PowerState_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -10256,8 +10256,8 @@ func (privateLinkResource *PrivateLinkResource) ConvertToARM(name string, resolv
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (privateLinkResource *PrivateLinkResource) CreateEmptyARMValue() interface{} {
-	return PrivateLinkResourceARM{}
+func (privateLinkResource *PrivateLinkResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateLinkResourceARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -10422,8 +10422,8 @@ type PrivateLinkResource_Status struct {
 var _ genruntime.FromARMConverter = &PrivateLinkResource_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (privateLinkResourceStatus *PrivateLinkResource_Status) CreateEmptyARMValue() interface{} {
-	return PrivateLinkResource_StatusARM{}
+func (privateLinkResourceStatus *PrivateLinkResource_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateLinkResource_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -10693,8 +10693,8 @@ func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) Conver
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) CreateEmptyARMValue() interface{} {
-	return ContainerServiceSshConfigurationARM{}
+func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContainerServiceSshConfigurationARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -10776,8 +10776,8 @@ type ContainerServiceSshConfiguration_Status struct {
 var _ genruntime.FromARMConverter = &ContainerServiceSshConfiguration_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceSshConfigurationStatus *ContainerServiceSshConfiguration_Status) CreateEmptyARMValue() interface{} {
-	return ContainerServiceSshConfiguration_StatusARM{}
+func (containerServiceSshConfigurationStatus *ContainerServiceSshConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContainerServiceSshConfiguration_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -10955,8 +10955,8 @@ type ManagedClusterIdentity_Status_UserAssignedIdentities struct {
 var _ genruntime.FromARMConverter = &ManagedClusterIdentity_Status_UserAssignedIdentities{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterIdentityStatusUserAssignedIdentities *ManagedClusterIdentity_Status_UserAssignedIdentities) CreateEmptyARMValue() interface{} {
-	return ManagedClusterIdentity_Status_UserAssignedIdentitiesARM{}
+func (managedClusterIdentityStatusUserAssignedIdentities *ManagedClusterIdentity_Status_UserAssignedIdentities) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterIdentity_Status_UserAssignedIdentitiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -11126,8 +11126,8 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Conv
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) CreateEmptyARMValue() interface{} {
-	return ManagedClusterLoadBalancerProfileARM{}
+func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterLoadBalancerProfileARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -11377,8 +11377,8 @@ type ManagedClusterLoadBalancerProfile_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterLoadBalancerProfile_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileStatus *ManagedClusterLoadBalancerProfile_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterLoadBalancerProfile_StatusARM{}
+func (managedClusterLoadBalancerProfileStatus *ManagedClusterLoadBalancerProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterLoadBalancerProfile_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -11648,8 +11648,8 @@ func (managedClusterPodIdentity *ManagedClusterPodIdentity) ConvertToARM(name st
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentity *ManagedClusterPodIdentity) CreateEmptyARMValue() interface{} {
-	return ManagedClusterPodIdentityARM{}
+func (managedClusterPodIdentity *ManagedClusterPodIdentity) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterPodIdentityARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -11801,8 +11801,8 @@ func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) Co
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) CreateEmptyARMValue() interface{} {
-	return ManagedClusterPodIdentityExceptionARM{}
+func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterPodIdentityExceptionARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -11907,8 +11907,8 @@ type ManagedClusterPodIdentityException_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterPodIdentityException_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityException_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterPodIdentityException_StatusARM{}
+func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityException_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterPodIdentityException_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -12020,8 +12020,8 @@ type ManagedClusterPodIdentity_Status struct {
 var _ genruntime.FromARMConverter = &ManagedClusterPodIdentity_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) CreateEmptyARMValue() interface{} {
-	return ManagedClusterPodIdentity_StatusARM{}
+func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterPodIdentity_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -12246,8 +12246,8 @@ func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) ConvertToARM(n
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) CreateEmptyARMValue() interface{} {
-	return ContainerServiceSshPublicKeyARM{}
+func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContainerServiceSshPublicKeyARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -12305,8 +12305,8 @@ type ContainerServiceSshPublicKey_Status struct {
 var _ genruntime.FromARMConverter = &ContainerServiceSshPublicKey_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceSshPublicKeyStatus *ContainerServiceSshPublicKey_Status) CreateEmptyARMValue() interface{} {
-	return ContainerServiceSshPublicKey_StatusARM{}
+func (containerServiceSshPublicKeyStatus *ContainerServiceSshPublicKey_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContainerServiceSshPublicKey_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -12381,8 +12381,8 @@ func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBal
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) CreateEmptyARMValue() interface{} {
-	return ManagedClusterLoadBalancerProfileManagedOutboundIPsARM{}
+func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterLoadBalancerProfileManagedOutboundIPsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -12464,8 +12464,8 @@ func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBal
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) CreateEmptyARMValue() interface{} {
-	return ManagedClusterLoadBalancerProfileOutboundIPPrefixesARM{}
+func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterLoadBalancerProfileOutboundIPPrefixesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -12563,8 +12563,8 @@ func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerPr
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPs) CreateEmptyARMValue() interface{} {
-	return ManagedClusterLoadBalancerProfileOutboundIPsARM{}
+func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPs) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterLoadBalancerProfileOutboundIPsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -12645,8 +12645,8 @@ type ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs struct {
 var _ genruntime.FromARMConverter = &ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileStatusManagedOutboundIPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) CreateEmptyARMValue() interface{} {
-	return ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM{}
+func (managedClusterLoadBalancerProfileStatusManagedOutboundIPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -12709,8 +12709,8 @@ type ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes struct {
 var _ genruntime.FromARMConverter = &ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileStatusOutboundIPPrefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) CreateEmptyARMValue() interface{} {
-	return ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM{}
+func (managedClusterLoadBalancerProfileStatusOutboundIPPrefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -12789,8 +12789,8 @@ type ManagedClusterLoadBalancerProfile_Status_OutboundIPs struct {
 var _ genruntime.FromARMConverter = &ManagedClusterLoadBalancerProfile_Status_OutboundIPs{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileStatusOutboundIPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) CreateEmptyARMValue() interface{} {
-	return ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM{}
+func (managedClusterLoadBalancerProfileStatusOutboundIPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -12878,8 +12878,8 @@ type ManagedClusterPodIdentity_Status_ProvisioningInfo struct {
 var _ genruntime.FromARMConverter = &ManagedClusterPodIdentity_Status_ProvisioningInfo{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityStatusProvisioningInfo *ManagedClusterPodIdentity_Status_ProvisioningInfo) CreateEmptyARMValue() interface{} {
-	return ManagedClusterPodIdentity_Status_ProvisioningInfoARM{}
+func (managedClusterPodIdentityStatusProvisioningInfo *ManagedClusterPodIdentity_Status_ProvisioningInfo) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterPodIdentity_Status_ProvisioningInfoARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -12975,8 +12975,8 @@ func (resourceReference *ResourceReference) ConvertToARM(name string, resolvedRe
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resourceReference *ResourceReference) CreateEmptyARMValue() interface{} {
-	return ResourceReferenceARM{}
+func (resourceReference *ResourceReference) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ResourceReferenceARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -13036,8 +13036,8 @@ type ResourceReference_Status struct {
 var _ genruntime.FromARMConverter = &ResourceReference_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resourceReferenceStatus *ResourceReference_Status) CreateEmptyARMValue() interface{} {
-	return ResourceReference_StatusARM{}
+func (resourceReferenceStatus *ResourceReference_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ResourceReference_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -13138,8 +13138,8 @@ func (userAssignedIdentity *UserAssignedIdentity) ConvertToARM(name string, reso
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (userAssignedIdentity *UserAssignedIdentity) CreateEmptyARMValue() interface{} {
-	return UserAssignedIdentityARM{}
+func (userAssignedIdentity *UserAssignedIdentity) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentityARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -13249,8 +13249,8 @@ type UserAssignedIdentity_Status struct {
 var _ genruntime.FromARMConverter = &UserAssignedIdentity_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (userAssignedIdentityStatus *UserAssignedIdentity_Status) CreateEmptyARMValue() interface{} {
-	return UserAssignedIdentity_StatusARM{}
+func (userAssignedIdentityStatus *UserAssignedIdentity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentity_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -13358,8 +13358,8 @@ type CloudError_Status struct {
 var _ genruntime.FromARMConverter = &CloudError_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (cloudErrorStatus *CloudError_Status) CreateEmptyARMValue() interface{} {
-	return CloudError_StatusARM{}
+func (cloudErrorStatus *CloudError_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CloudError_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -13448,8 +13448,8 @@ type CloudErrorBody_Status struct {
 var _ genruntime.FromARMConverter = &CloudErrorBody_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (cloudErrorBodyStatus *CloudErrorBody_Status) CreateEmptyARMValue() interface{} {
-	return CloudErrorBody_StatusARM{}
+func (cloudErrorBodyStatus *CloudErrorBody_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CloudErrorBody_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -13603,8 +13603,8 @@ type CloudErrorBody_Status_Unrolled struct {
 var _ genruntime.FromARMConverter = &CloudErrorBody_Status_Unrolled{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (cloudErrorBodyStatusUnrolled *CloudErrorBody_Status_Unrolled) CreateEmptyARMValue() interface{} {
-	return CloudErrorBody_Status_UnrolledARM{}
+func (cloudErrorBodyStatusUnrolled *CloudErrorBody_Status_Unrolled) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CloudErrorBody_Status_UnrolledARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
