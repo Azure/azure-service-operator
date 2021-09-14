@@ -38,7 +38,7 @@ func createEmptyARMValueBody(instanceType astmodel.TypeName) func(fn *ObjectFunc
 			Body:          astbuilder.Statements(returnInstance),
 		}
 
-		details.AddReturns("interface{}")
+		details.AddReturn(astmodel.ARMResourceStatusType.AsType(genContext))
 		details.AddComments("returns an empty ARM value suitable for deserializing into")
 
 		return details.DefineFunc()
