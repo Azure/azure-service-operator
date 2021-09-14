@@ -49,13 +49,16 @@ func NewResourceNameConfig(prefix string, separator string, randomChars int) *Re
 	}
 }
 
-func (n ResourceNameConfig) WithSeparator(separator string) *ResourceNameConfig {
-	n.separator = separator
-	return &n
-}
-
+// WithSeparator returns a copy of the ResourceNamer with the given separator
 func (n ResourceNamer) WithSeparator(separator string) ResourceNamer {
 	n.separator = separator
+	return n
+}
+
+// WithNumRandomChars returns a copy of the ResourceNamer which will generate names with
+// a random string of the given length included
+func (n ResourceNamer) WithNumRandomChars(num int) ResourceNamer {
+	n.randomChars = num
 	return n
 }
 
