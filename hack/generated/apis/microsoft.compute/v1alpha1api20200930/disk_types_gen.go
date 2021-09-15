@@ -1396,7 +1396,8 @@ type Disks_Spec struct {
 	//EncryptionSettingsCollection: Encryption settings for disk or snapshot
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 
-	//ExtendedLocation: The complex type of the extended location.
+	//ExtendedLocation: The extended location where the disk will be created. Extended
+	//location cannot be changed.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	//HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable

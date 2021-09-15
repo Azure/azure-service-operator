@@ -38,7 +38,7 @@ type DatabaseAccounts_SpecARM struct {
 	//include "Table", "Graph", "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
+	//Type: The type of Azure resource.
 	Type DatabaseAccountsSpecType `json:"type"`
 }
 

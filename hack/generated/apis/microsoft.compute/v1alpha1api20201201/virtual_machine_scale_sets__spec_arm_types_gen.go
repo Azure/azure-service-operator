@@ -13,10 +13,10 @@ type VirtualMachineScaleSets_SpecARM struct {
 	//on the template
 	APIVersion VirtualMachineScaleSetsSpecAPIVersion `json:"apiVersion"`
 
-	//ExtendedLocation: The complex type of the extended location.
+	//ExtendedLocation: The extended location of the Virtual Machine Scale Set.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
-	//Identity: Identity for the virtual machine scale set.
+	//Identity: The identity of the virtual machine scale set, if configured.
 	Identity *VirtualMachineScaleSetIdentityARM `json:"identity,omitempty"`
 
 	//Location: Location to deploy resource to
@@ -129,8 +129,10 @@ type VirtualMachineScaleSetsSpecType string
 const VirtualMachineScaleSetsSpecTypeMicrosoftComputeVirtualMachineScaleSets = VirtualMachineScaleSetsSpecType("Microsoft.Compute/virtualMachineScaleSets")
 
 type VirtualMachineScaleSets_Spec_PropertiesARM struct {
-	//AdditionalCapabilities: Enables or disables a capability on the virtual machine
-	//or virtual machine scale set.
+	//AdditionalCapabilities: Specifies additional capabilities enabled or disabled on
+	//the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the
+	//Virtual Machines have the capability to support attaching managed data disks
+	//with UltraSSD_LRS storage account type.
 	AdditionalCapabilities *AdditionalCapabilitiesARM `json:"additionalCapabilities,omitempty"`
 
 	//AutomaticRepairsPolicy: Specifies the configuration parameters for automatic
@@ -141,8 +143,12 @@ type VirtualMachineScaleSets_Spec_PropertiesARM struct {
 	//extensions are launched only on the requested number of VMs which are finally
 	//kept. This property will hence ensure that the extensions do not run on the
 	//extra overprovisioned VMs.
-	DoNotRunExtensionsOnOverprovisionedVMs *bool           `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
-	HostGroup                              *SubResourceARM `json:"hostGroup,omitempty"`
+	DoNotRunExtensionsOnOverprovisionedVMs *bool `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
+
+	//HostGroup: Specifies information about the dedicated host group that the virtual
+	//machine scale set resides in.
+	//Minimum api-version: 2020-06-01.
+	HostGroup *SubResourceARM `json:"hostGroup,omitempty"`
 
 	//OrchestrationMode: Specifies the orchestration mode for the virtual machine
 	//scale set.
@@ -153,10 +159,15 @@ type VirtualMachineScaleSets_Spec_PropertiesARM struct {
 	Overprovision *bool `json:"overprovision,omitempty"`
 
 	//PlatformFaultDomainCount: Fault Domain count for each placement group.
-	PlatformFaultDomainCount *int            `json:"platformFaultDomainCount,omitempty"`
-	ProximityPlacementGroup  *SubResourceARM `json:"proximityPlacementGroup,omitempty"`
+	PlatformFaultDomainCount *int `json:"platformFaultDomainCount,omitempty"`
 
-	//ScaleInPolicy: Describes a scale-in policy for a virtual machine scale set.
+	//ProximityPlacementGroup: Specifies information about the proximity placement
+	//group that the virtual machine scale set should be assigned to.
+	//Minimum api-version: 2018-04-01.
+	ProximityPlacementGroup *SubResourceARM `json:"proximityPlacementGroup,omitempty"`
+
+	//ScaleInPolicy: Specifies the scale-in policy that decides which virtual machines
+	//are chosen for removal when a Virtual Machine Scale Set is scaled-in.
 	ScaleInPolicy *ScaleInPolicyARM `json:"scaleInPolicy,omitempty"`
 
 	//SinglePlacementGroup: When true this limits the scale set to a single placement
@@ -279,7 +290,8 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM struct {
 	//minimum api-version is 2017-10-30-preview.
 	EvictionPolicy *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy `json:"evictionPolicy,omitempty"`
 
-	//ExtensionProfile: Describes a virtual machine scale set extension profile.
+	//ExtensionProfile: Specifies a collection of settings for extensions installed on
+	//virtual machines in the scale set.
 	ExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM `json:"extensionProfile,omitempty"`
 
 	//LicenseType: Specifies that the image or disk that is being used was licensed
@@ -297,22 +309,26 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM struct {
 	//Minimum api-version: 2015-06-15
 	LicenseType *string `json:"licenseType,omitempty"`
 
-	//NetworkProfile: Describes a virtual machine scale set network profile.
+	//NetworkProfile: Specifies properties of the network interfaces of the virtual
+	//machines in the scale set.
 	NetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM `json:"networkProfile,omitempty"`
 
-	//OsProfile: Describes a virtual machine scale set OS profile.
+	//OsProfile: Specifies the operating system settings for the virtual machines in
+	//the scale set.
 	OsProfile *VirtualMachineScaleSetOSProfileARM `json:"osProfile,omitempty"`
 
 	//Priority: Specifies the priority for the virtual machines in the scale set.
 	//Minimum api-version: 2017-10-30-preview.
-	Priority               *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority `json:"priority,omitempty"`
-	ScheduledEventsProfile *ScheduledEventsProfileARM                                          `json:"scheduledEventsProfile,omitempty"`
+	Priority *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority `json:"priority,omitempty"`
+
+	//ScheduledEventsProfile: Specifies Scheduled Event related configurations.
+	ScheduledEventsProfile *ScheduledEventsProfileARM `json:"scheduledEventsProfile,omitempty"`
 
 	//SecurityProfile: Specifies the Security profile settings for the virtual machine
 	//or virtual machine scale set.
 	SecurityProfile *SecurityProfileARM `json:"securityProfile,omitempty"`
 
-	//StorageProfile: Describes a virtual machine scale set storage profile.
+	//StorageProfile: Specifies the storage settings for the virtual machine disks.
 	StorageProfile *VirtualMachineScaleSetStorageProfileARM `json:"storageProfile,omitempty"`
 }
 
@@ -527,7 +543,10 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProf
 }
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM struct {
-	//HealthProbe: The API entity reference.
+	//HealthProbe: A reference to a load balancer probe used to determine the health
+	//of an instance in the virtual machine scale set. The reference will be in the
+	//form:
+	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
 	HealthProbe *ApiEntityReferenceARM `json:"healthProbe,omitempty"`
 
 	//NetworkInterfaceConfigurations: The list of network configurations.
@@ -928,8 +947,10 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
 	//IpConfigurations: Specifies the IP configurations of the network interface.
-	IpConfigurations     []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM `json:"ipConfigurations"`
-	NetworkSecurityGroup *SubResourceARM                                                                                                                              `json:"networkSecurityGroup,omitempty"`
+	IpConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM `json:"ipConfigurations"`
+
+	//NetworkSecurityGroup: The network security group.
+	NetworkSecurityGroup *SubResourceARM `json:"networkSecurityGroup,omitempty"`
 
 	//Primary: Specifies the primary network interface in case the virtual machine has
 	//more than 1 network interface.
@@ -1037,7 +1058,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 	//Configuration's PublicIPAddress configuration
 	PublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM `json:"publicIPAddressConfiguration,omitempty"`
 
-	//Subnet: The API entity reference.
+	//Subnet: Specifies the identifier of the subnet.
 	Subnet *ApiEntityReferenceARM `json:"subnet,omitempty"`
 }
 

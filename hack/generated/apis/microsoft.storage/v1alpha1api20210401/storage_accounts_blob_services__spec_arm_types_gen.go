@@ -23,7 +23,8 @@ type StorageAccountsBlobServices_SpecARM struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+	//"Microsoft.Storage/storageAccounts"
 	Type StorageAccountsBlobServicesSpecType `json:"type"`
 }
 

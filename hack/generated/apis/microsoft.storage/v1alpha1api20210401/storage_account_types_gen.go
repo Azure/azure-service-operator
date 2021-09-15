@@ -1709,7 +1709,7 @@ type StorageAccounts_Spec struct {
 	//ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
-	//Identity: Identity for the resource.
+	//Identity: The identity of the resource.
 	Identity *Identity `json:"identity,omitempty"`
 
 	//IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.

@@ -103,7 +103,7 @@ type RedisParameters struct {
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Type: Resource type
+	//Type: Resource type.
 	Type RedisSpecType `json:"type"`
 
 	//Zones: A list of availability zones denoting where the resource needs to come

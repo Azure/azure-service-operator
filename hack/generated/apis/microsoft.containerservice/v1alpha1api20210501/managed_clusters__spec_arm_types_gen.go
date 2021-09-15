@@ -13,10 +13,10 @@ type ManagedClusters_SpecARM struct {
 	//on the template
 	APIVersion ManagedClustersSpecAPIVersion `json:"apiVersion"`
 
-	//ExtendedLocation: The complex type of the extended location.
+	//ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
-	//Identity: Identity for the managed cluster.
+	//Identity: The identity of the managed cluster, if configured.
 	Identity *ManagedClusterIdentityARM `json:"identity,omitempty"`
 
 	//Location: Location to deploy resource to

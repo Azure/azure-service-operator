@@ -13,7 +13,7 @@ type StorageAccounts_SpecARM struct {
 	//ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
-	//Identity: Identity for the resource.
+	//Identity: The identity of the resource.
 	Identity *IdentityARM `json:"identity,omitempty"`
 
 	//Kind: Required. Indicates the type of storage account.
@@ -44,7 +44,8 @@ type StorageAccounts_SpecARM struct {
 	//greater than 256 characters.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+	//"Microsoft.Storage/storageAccounts"
 	Type StorageAccountsSpecType `json:"type"`
 }
 

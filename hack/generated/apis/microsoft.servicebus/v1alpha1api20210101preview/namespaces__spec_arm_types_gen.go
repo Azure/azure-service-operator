@@ -67,7 +67,7 @@ type NamespacesSpecType string
 const NamespacesSpecTypeMicrosoftServiceBusNamespaces = NamespacesSpecType("Microsoft.ServiceBus/namespaces")
 
 type Namespaces_Spec_PropertiesARM struct {
-	//Encryption: Properties to configure Encryption
+	//Encryption: Properties of BYOK Encryption description
 	Encryption *EncryptionARM `json:"encryption,omitempty"`
 
 	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in

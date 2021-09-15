@@ -248,7 +248,7 @@ type Namespaces_Spec struct {
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//Encryption: Properties to configure Encryption
+	//Encryption: Properties of BYOK Encryption description
 	Encryption *Encryption `json:"encryption,omitempty"`
 
 	//Identity: Properties to configure User Assigned Identities for Bring your Own

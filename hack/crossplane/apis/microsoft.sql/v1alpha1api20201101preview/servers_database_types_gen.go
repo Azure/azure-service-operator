@@ -346,7 +346,17 @@ type ServersDatabasesParameters struct {
 	ServerNameRef      *v1alpha1.Reference              `json:"serverNameRef,omitempty"`
 	ServerNameSelector *v1alpha1.Selector               `json:"serverNameSelector,omitempty"`
 
-	//Sku: An ARM Resource SKU.
+	//Sku: The database SKU.
+	//The list of SKUs may vary by region and support offer. To determine the SKUs
+	//(including the SKU name, tier/edition, family, and capacity) that are available
+	//to your subscription in an Azure region, use the `Capabilities_ListByLocation`
+	//REST API or one of the following commands:
+	//```azurecli
+	//az sql db list-editions -l <location> -o table
+	//````
+	//```powershell
+	//Get-AzSqlServerServiceObjective -Location <location>
+	//````
 	Sku *Sku `json:"sku,omitempty"`
 
 	//SourceDatabaseDeletionDate: Specifies the time that the database was deleted.
@@ -360,7 +370,7 @@ type ServersDatabasesParameters struct {
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Type: Resource type
+	//Type: Resource type.
 	Type ServersDatabasesSpecType `json:"type"`
 
 	//ZoneRedundant: Whether or not this database is zone redundant, which means the

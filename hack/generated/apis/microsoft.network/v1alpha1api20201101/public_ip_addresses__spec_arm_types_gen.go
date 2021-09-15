@@ -28,7 +28,7 @@ type PublicIPAddresses_SpecARM struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
+	//Type: Resource type.
 	Type PublicIPAddressesSpecType `json:"type"`
 
 	//Zones: A list of availability zones denoting the IP allocated for the resource

@@ -1201,8 +1201,10 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) AssignPropert
 }
 
 type VirtualMachineScaleSets_Spec struct {
-	//AdditionalCapabilities: Enables or disables a capability on the virtual machine
-	//or virtual machine scale set.
+	//AdditionalCapabilities: Specifies additional capabilities enabled or disabled on
+	//the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the
+	//Virtual Machines have the capability to support attaching managed data disks
+	//with UltraSSD_LRS storage account type.
 	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
 
 	//AutomaticRepairsPolicy: Specifies the configuration parameters for automatic
@@ -1219,11 +1221,15 @@ type VirtualMachineScaleSets_Spec struct {
 	//extra overprovisioned VMs.
 	DoNotRunExtensionsOnOverprovisionedVMs *bool `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
 
-	//ExtendedLocation: The complex type of the extended location.
+	//ExtendedLocation: The extended location of the Virtual Machine Scale Set.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-	HostGroup        *SubResource      `json:"hostGroup,omitempty"`
 
-	//Identity: Identity for the virtual machine scale set.
+	//HostGroup: Specifies information about the dedicated host group that the virtual
+	//machine scale set resides in.
+	//Minimum api-version: 2020-06-01.
+	HostGroup *SubResource `json:"hostGroup,omitempty"`
+
+	//Identity: The identity of the virtual machine scale set, if configured.
 	Identity *VirtualMachineScaleSetIdentity `json:"identity,omitempty"`
 
 	//Location: Location to deploy resource to
@@ -1249,10 +1255,15 @@ type VirtualMachineScaleSets_Spec struct {
 	Plan *Plan `json:"plan,omitempty"`
 
 	//PlatformFaultDomainCount: Fault Domain count for each placement group.
-	PlatformFaultDomainCount *int         `json:"platformFaultDomainCount,omitempty"`
-	ProximityPlacementGroup  *SubResource `json:"proximityPlacementGroup,omitempty"`
+	PlatformFaultDomainCount *int `json:"platformFaultDomainCount,omitempty"`
 
-	//ScaleInPolicy: Describes a scale-in policy for a virtual machine scale set.
+	//ProximityPlacementGroup: Specifies information about the proximity placement
+	//group that the virtual machine scale set should be assigned to.
+	//Minimum api-version: 2018-04-01.
+	ProximityPlacementGroup *SubResource `json:"proximityPlacementGroup,omitempty"`
+
+	//ScaleInPolicy: Specifies the scale-in policy that decides which virtual machines
+	//are chosen for removal when a Virtual Machine Scale Set is scaled-in.
 	ScaleInPolicy *ScaleInPolicy `json:"scaleInPolicy,omitempty"`
 
 	//SinglePlacementGroup: When true this limits the scale set to a single placement
@@ -4674,7 +4685,8 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
 	//minimum api-version is 2017-10-30-preview.
 	EvictionPolicy *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy `json:"evictionPolicy,omitempty"`
 
-	//ExtensionProfile: Describes a virtual machine scale set extension profile.
+	//ExtensionProfile: Specifies a collection of settings for extensions installed on
+	//virtual machines in the scale set.
 	ExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile `json:"extensionProfile,omitempty"`
 
 	//LicenseType: Specifies that the image or disk that is being used was licensed
@@ -4692,22 +4704,26 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
 	//Minimum api-version: 2015-06-15
 	LicenseType *string `json:"licenseType,omitempty"`
 
-	//NetworkProfile: Describes a virtual machine scale set network profile.
+	//NetworkProfile: Specifies properties of the network interfaces of the virtual
+	//machines in the scale set.
 	NetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile `json:"networkProfile,omitempty"`
 
-	//OsProfile: Describes a virtual machine scale set OS profile.
+	//OsProfile: Specifies the operating system settings for the virtual machines in
+	//the scale set.
 	OsProfile *VirtualMachineScaleSetOSProfile `json:"osProfile,omitempty"`
 
 	//Priority: Specifies the priority for the virtual machines in the scale set.
 	//Minimum api-version: 2017-10-30-preview.
-	Priority               *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority `json:"priority,omitempty"`
-	ScheduledEventsProfile *ScheduledEventsProfile                                             `json:"scheduledEventsProfile,omitempty"`
+	Priority *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority `json:"priority,omitempty"`
+
+	//ScheduledEventsProfile: Specifies Scheduled Event related configurations.
+	ScheduledEventsProfile *ScheduledEventsProfile `json:"scheduledEventsProfile,omitempty"`
 
 	//SecurityProfile: Specifies the Security profile settings for the virtual machine
 	//or virtual machine scale set.
 	SecurityProfile *SecurityProfile `json:"securityProfile,omitempty"`
 
-	//StorageProfile: Describes a virtual machine scale set storage profile.
+	//StorageProfile: Specifies the storage settings for the virtual machine disks.
 	StorageProfile *VirtualMachineScaleSetStorageProfile `json:"storageProfile,omitempty"`
 }
 
@@ -8274,7 +8290,10 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 }
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile struct {
-	//HealthProbe: The API entity reference.
+	//HealthProbe: A reference to a load balancer probe used to determine the health
+	//of an instance in the virtual machine scale set. The reference will be in the
+	//form:
+	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
 	HealthProbe *ApiEntityReference `json:"healthProbe,omitempty"`
 
 	//NetworkInterfaceConfigurations: The list of network configurations.
@@ -12605,7 +12624,9 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 
 	// +kubebuilder:validation:Required
 	//Name: The network configuration name.
-	Name                 string       `json:"name"`
+	Name string `json:"name"`
+
+	//NetworkSecurityGroup: The network security group.
 	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
 
 	//Primary: Specifies the primary network interface in case the virtual machine has
@@ -15900,7 +15921,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 	//Configuration's PublicIPAddress configuration
 	PublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration `json:"publicIPAddressConfiguration,omitempty"`
 
-	//Subnet: The API entity reference.
+	//Subnet: Specifies the identifier of the subnet.
 	Subnet *ApiEntityReference `json:"subnet,omitempty"`
 }
 

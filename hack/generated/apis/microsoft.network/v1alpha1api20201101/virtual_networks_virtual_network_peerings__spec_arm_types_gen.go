@@ -13,7 +13,8 @@ type VirtualNetworksVirtualNetworkPeerings_SpecARM struct {
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: Name of the resource
+	//Name: The name of the resource that is unique within a resource group. This name
+	//can be used to access the resource.
 	Name string `json:"name"`
 
 	//Properties: Properties of the virtual network peering.
@@ -22,7 +23,7 @@ type VirtualNetworksVirtualNetworkPeerings_SpecARM struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
+	//Type: Resource type.
 	Type VirtualNetworksVirtualNetworkPeeringsSpecType `json:"type"`
 }
 

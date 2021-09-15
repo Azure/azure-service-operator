@@ -25,7 +25,7 @@ type VirtualNetworks_SpecARM struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
+	//Type: Resource type.
 	Type VirtualNetworksSpecType `json:"type"`
 }
 

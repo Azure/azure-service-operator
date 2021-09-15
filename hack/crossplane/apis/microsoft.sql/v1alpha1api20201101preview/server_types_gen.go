@@ -152,7 +152,7 @@ type ServersParameters struct {
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Type: Resource type
+	//Type: Resource type.
 	Type ServersSpecType `json:"type"`
 
 	//Version: The version of the server.

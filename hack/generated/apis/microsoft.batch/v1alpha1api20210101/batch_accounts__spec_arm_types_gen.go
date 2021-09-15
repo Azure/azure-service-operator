@@ -25,13 +25,13 @@ type BatchAccounts_SpecARM struct {
 	//For example: http://accountname.region.batch.azure.com/.
 	Name string `json:"name"`
 
-	//Properties: The properties of a Batch account.
+	//Properties: The properties associated with the account.
 	Properties BatchAccountCreatePropertiesARM `json:"properties"`
 
 	//Tags: The user-specified tags associated with the account.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
+	//Type: The type of the resource.
 	Type BatchAccountsSpecType `json:"type"`
 }
 

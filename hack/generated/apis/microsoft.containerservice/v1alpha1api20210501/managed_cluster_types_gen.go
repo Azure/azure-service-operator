@@ -1618,7 +1618,7 @@ type ManagedClusters_Spec struct {
 	//EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.
 	EnableRBAC *bool `json:"enableRBAC,omitempty"`
 
-	//ExtendedLocation: The complex type of the extended location.
+	//ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	//FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.
@@ -1627,7 +1627,7 @@ type ManagedClusters_Spec struct {
 	//HttpProxyConfig: Cluster HTTP proxy configuration.
 	HttpProxyConfig *ManagedClusterHTTPProxyConfig `json:"httpProxyConfig,omitempty"`
 
-	//Identity: Identity for the managed cluster.
+	//Identity: The identity of the managed cluster, if configured.
 	Identity *ManagedClusterIdentity `json:"identity,omitempty"`
 
 	//IdentityProfile: Identities associated with the cluster.
