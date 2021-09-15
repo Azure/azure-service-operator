@@ -20,9 +20,11 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
 )
 
@@ -42,7 +44,7 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 	}
 
 	perTestContext.T.Log("Starting envtest")
-	config, err := environment.Start()
+	kubeConfig, err := environment.Start()
 	if err != nil {
 		return nil, errors.Wrapf(err, "starting envtest environment")
 	}
@@ -55,13 +57,20 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		}
 	})
 
+	targetNamespaces := config.GetTargetNamespaces()
+	var cacheFunc cache.NewCacheFunc
+	if targetNamespaces != nil {
+		cacheFunc = cache.MultiNamespacedCacheBuilder(targetNamespaces)
+	}
+
 	perTestContext.T.Log("Creating & starting controller-runtime manager")
-	mgr, err := ctrl.NewManager(config, ctrl.Options{
+	mgr, err := ctrl.NewManager(kubeConfig, ctrl.Options{
 		Scheme:             controllers.CreateScheme(),
 		CertDir:            environment.WebhookInstallOptions.LocalServingCertDir,
 		Port:               environment.WebhookInstallOptions.LocalServingPort,
 		EventBroadcaster:   record.NewBroadcasterForTests(1 * time.Second),
 		MetricsBindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
+		NewCache:           cacheFunc,
 	})
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating controller-runtime manager")
@@ -74,30 +83,39 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		requeueDelay = 100 * time.Millisecond
 	}
 
-	err = controllers.RegisterAll(
-		mgr,
-		perTestContext.AzureClient,
-		controllers.GetKnownStorageTypes(),
-		controllers.Options{
-			CreateDeploymentName: func(obj metav1.Object) (string, error) {
-				// create deployment name based on test name and kubernetes name
-				result := uuid.NewSHA1(uuid.Nil, []byte(perTestContext.TestName+"/"+obj.GetNamespace()+"/"+obj.GetName()))
-				return fmt.Sprintf("k8s_%s", result.String()), nil
-			},
-			RequeueDelay: requeueDelay,
-			Options: controller.Options{
-				Log:         perTestContext.logger,
-				RateLimiter: controllers.NewRateLimiter(5*time.Millisecond, 1*time.Minute),
-			},
-		})
-
+	selectedMode, err := config.GetOperatorMode()
 	if err != nil {
-		return nil, errors.Wrapf(err, "registering reconcilers")
+		return nil, errors.Wrap(err, "getting operator mode")
 	}
 
-	err = controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes())
-	if err != nil {
-		return nil, errors.Wrapf(err, "registering webhooks")
+	if selectedMode.IncludesWatchers() {
+		err = controllers.RegisterAll(
+			mgr,
+			perTestContext.AzureClient,
+			controllers.GetKnownStorageTypes(),
+			controllers.Options{
+				CreateDeploymentName: func(obj metav1.Object) (string, error) {
+					// create deployment name based on test name and kubernetes name
+					result := uuid.NewSHA1(uuid.Nil, []byte(perTestContext.TestName+"/"+obj.GetNamespace()+"/"+obj.GetName()))
+					return fmt.Sprintf("k8s_%s", result.String()), nil
+				},
+				RequeueDelay: requeueDelay,
+				PodNamespace: config.GetPodNamespace(),
+				Options: controller.Options{
+					Log:         perTestContext.logger,
+					RateLimiter: controllers.NewRateLimiter(5*time.Millisecond, 1*time.Minute),
+				},
+			})
+		if err != nil {
+			return nil, errors.Wrapf(err, "registering reconcilers")
+		}
+	}
+
+	if selectedMode.IncludesWebhooks() {
+		err = controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes())
+		if err != nil {
+			return nil, errors.Wrapf(err, "registering webhooks")
+		}
 	}
 
 	ctx, cancelFunc := context.WithCancel(context.TODO())
@@ -122,7 +140,7 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 
 	return &KubeBaseTestContext{
 		PerTestContext: perTestContext,
-		KubeConfig:     config,
+		KubeConfig:     kubeConfig,
 	}, nil
 }
 
