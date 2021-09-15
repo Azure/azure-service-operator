@@ -22,6 +22,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
 	"github.com/Azure/azure-service-operator/v2/internal/controller/armclient"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/version"
 )
@@ -74,6 +75,16 @@ func main() {
 		os.Exit(1)
 	}
 
+	var selectedMode config.OperatorMode
+	if modeValue := os.Getenv(operatorModeVar); modeValue == "" {
+		selectedMode = config.OperatorModeBoth
+	} else {
+		selectedMode, err = config.ParseOperatorMode(modeValue)
+		if err != nil {
+			setupLog.Error(err, "getting operator mode")
+		}
+	}
+
 	armApplier, err := armclient.NewAzureTemplateClient(authorizer, subID)
 	if err != nil {
 		setupLog.Error(err, "failed to create ARM applier")
@@ -81,14 +92,18 @@ func main() {
 	}
 
 	log := ctrl.Log.WithName("controllers")
-	if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), makeControllerOptions(log)); errs != nil {
-		setupLog.Error(err, "failed to register gvks")
-		os.Exit(1)
+	if selectedMode.IncludesWatchers() {
+		if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), makeControllerOptions(log)); errs != nil {
+			setupLog.Error(err, "failed to register gvks")
+			os.Exit(1)
+		}
 	}
 
-	if errs := controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes()); errs != nil {
-		setupLog.Error(err, "failed to register webhook for gvks")
-		os.Exit(1)
+	if selectedMode.IncludesWebhooks() {
+		if errs := controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes()); errs != nil {
+			setupLog.Error(err, "failed to register webhook for gvks")
+			os.Exit(1)
+		}
 	}
 
 	setupLog.Info("starting manager")
@@ -108,7 +123,10 @@ func makeControllerOptions(log logr.Logger) controllers.Options {
 	}
 }
 
-const targetNamespacesVar = "AZURE_TARGET_NAMESPACES"
+const (
+	targetNamespacesVar = "AZURE_TARGET_NAMESPACES"
+	operatorModeVar     = "AZURE_OPERATOR_MODE"
+)
 
 func parseTargetNamespaces(fromEnv string) []string {
 	if len(strings.TrimSpace(fromEnv)) == 0 {

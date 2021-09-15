@@ -37,6 +37,12 @@ spec:
                   name: aso-controller-settings
                   key: AZURE_TARGET_NAMESPACES
                   optional: true
+            - name: AZURE_OPERATOR_MODE
+              valueFrom:
+                secretKeyRef:
+                  name: aso-controller-settings
+                  key: AZURE_OPERATOR_MODE
+                  optional: true
             # Used for setting the operator-namespace annotation (and
             # for aad-pod-identity once we support it).
             - name: POD_NAMESPACE
