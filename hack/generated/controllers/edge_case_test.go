@@ -69,7 +69,7 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	waitHelper(tc, acct)
 
 	// The resource group should be created successfully
-	_, err := tc.CreateTestResourceGroup(rg, testcommon.WaitForCreation)
+	_, err := tc.CreateResourceGroup(rg)
 	tc.Expect(err).ToNot(HaveOccurred())
 
 	// The storage account should also be created successfully
@@ -80,7 +80,7 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	vnet := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
@@ -132,7 +132,7 @@ func Test_CreateResourceGroupThatAlreadyExists_ReconcilesSuccessfully(t *testing
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create another resource group that points to the same Azure resource
 	rgCopy := &resources.ResourceGroup{
@@ -152,7 +152,7 @@ func Test_CreateStorageAccountThatAlreadyExists_ReconcilesSuccessfully(t *testin
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create another resource group that points to the same Azure resource
 	// Custom namer because storage accounts have strict names

@@ -196,6 +196,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ExportPackages(configuration.FullTypesOutputPath()),
 
 		pipeline.ExportControllerResourceRegistrations(configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
+
+		pipeline.ReportResourceVersions(configuration),
 	}
 }
 

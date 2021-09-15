@@ -7,7 +7,10 @@ package astmodel
 
 // These are some magical field names which we're going to use or generate
 const (
-	AzureNameProperty = "AzureName"
-	SetAzureNameFunc  = "SetAzureName"
-	OwnerProperty     = "Owner"
+	APIVersionProperty = "APIVersion" // Used by armconversion package
+	AzureNameProperty  = "AzureName"
+	NameProperty       = "Name" // Used by armconversion package
+	OwnerProperty      = "Owner"
+	SetAzureNameFunc   = "SetAzureName"
+	TypeProperty       = "Type" // Used by armconversion package
 )

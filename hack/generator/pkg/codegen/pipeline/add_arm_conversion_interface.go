@@ -11,8 +11,8 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/armconversion"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel/armconversion"
 )
 
 // ApplyARMConversionInterfaceStageID is the unique identifier of this pipeline stage

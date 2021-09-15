@@ -58,7 +58,7 @@ func newConvertFromARMFunctionBuilder(
 	// The top level propertyConversionHandlers is about determining which properties are involved: given a property on the destination type it
 	// determines which property (if any) on the source type will be converted to the destination.
 	// The "inner" handler (typeConversionBuilder) is about determining how to convert between two types: given a
-	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader object strucutre
+	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader object structure
 	// or other properties.
 	result.typeConversionBuilder.AddConversionHandlers(result.convertComplexTypeNameProperty)
 	result.propertyConversionHandlers = []propertyConversionHandler{
@@ -183,7 +183,7 @@ func (builder *convertFromARMBuilder) namePropertyHandler(
 
 func (builder *convertFromARMBuilder) referencePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
+	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
 
 	isResourceReference := toProp.PropertyType().Equals(astmodel.ResourceReferenceType)
 	isOptionalResourceReference := toProp.PropertyType().Equals(astmodel.NewOptionalType(astmodel.ResourceReferenceType))
@@ -337,7 +337,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 			Locals:            locals,
 		})
 
-	// we were unable to generate an inner conversion so we cannot generate the overall conversion
+	// we were unable to generate an inner conversion, so we cannot generate the overall conversion
 	if len(stmts) == 0 {
 		return nil
 	}
@@ -399,7 +399,7 @@ func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
 //		return err
 //	}
 //	<destination> = <nameHint>
-func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(conversionBuilder *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(_ *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
 	destinationType, ok := params.DestinationType.(astmodel.TypeName)
 	if !ok {
 		return nil

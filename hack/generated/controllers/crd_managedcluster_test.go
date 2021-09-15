@@ -22,7 +22,7 @@ func Test_ManagedCluster_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminUsername := "adminUser"
 	sshPublicKey, err := tc.GenerateSSHKey(2048)

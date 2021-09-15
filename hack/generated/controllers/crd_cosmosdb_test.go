@@ -19,7 +19,7 @@ func Test_CosmosDB_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Custom namer because storage accounts have strict names
 	namer := tc.Namer.WithSeparator("")

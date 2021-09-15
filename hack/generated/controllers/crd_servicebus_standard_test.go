@@ -20,7 +20,7 @@ func Test_ServiceBus_Standard_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	zoneRedundant := false
 	namespace := &servicebus.Namespace{
