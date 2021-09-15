@@ -12,6 +12,7 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/armconversion"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
@@ -115,7 +116,7 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 		return emptyDef, errors.Errorf("arm spec %q isn't an object, instead: %T", armTypeDef.Name(), armTypeDef.Type())
 	}
 
-	iface, err := astmodel.NewARMSpecInterfaceImpl(c.idFactory, specObj)
+	iface, err := armconversion.NewARMSpecInterfaceImpl(c.idFactory, specObj)
 	if err != nil {
 		return emptyDef, err
 	}
