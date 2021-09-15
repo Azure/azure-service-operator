@@ -113,6 +113,14 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 						changed = true
 					}
 
+					if len(swaggerProp.Description()) > len(specProp.Description()) {
+						// When we merge properties, both of them may have comments, and we need to deterministically choose one
+						// of them to include on the final property. Our simple heuristic is to choose the longer comment, as
+						// that's likely to be more specific.
+						// TODO: Is there a better heuristic? See https://github.com/Azure/azure-service-operator/issues/1768
+						specProp = specProp.WithDescription(swaggerProp.Description())
+					}
+
 					props[ix] = specProp.WithType(newType)
 				}
 			}
