@@ -33,7 +33,6 @@ jobs:
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task controller:run-kustomize
-          docker exec "$container_id" git diff
 
       - name: Build & tag Docker image
         run: |
