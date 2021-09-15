@@ -14,59 +14,31 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
-// HubFunction generates an empty Hub() function that satisfies the Hub interface required by the controller\
+// NewHubFunction creates an empty Hub() function that satisfies the Hub interface required by the controller
 // See https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/conversion#Hub
-type HubFunction struct {
-	idFactory astmodel.IdentifierFactory
+func NewHubFunction(idFactory astmodel.IdentifierFactory) astmodel.Function {
+	result := NewObjectFunction(
+		"Hub",
+		idFactory,
+		createHubFunctionBody)
+	return result
 }
 
-// Ensure HubFunction properly implements Function
-var _ astmodel.Function = &HubFunction{}
-
-// NewHubFunction creates a new instance
-func NewHubFunction(idFactory astmodel.IdentifierFactory) *HubFunction {
-	return &HubFunction{
-		idFactory: idFactory,
-	}
-}
-
-// Name returns the hard coded name of the function
-func (h HubFunction) Name() string {
-	return "Hub"
-}
-
-// RequiredPackageReferences indicates that this function has no required packages
-func (h HubFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
-	return astmodel.NewPackageReferenceSet()
-}
-
-// References indicates that this function references no types
-func (h HubFunction) References() astmodel.TypeNameSet {
-	return astmodel.NewTypeNameSet()
-}
-
-// AsFunc generates the required code
-func (h HubFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func createHubFunctionBody(fn *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	// Create a sensible name for our receiver
-	receiverName := h.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverName := fn.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 
-	// We always use a pointer receiver so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
+	// We always use a pointer receiver
+	receiverType := astmodel.NewOptionalType(receiver).AsType(genContext)
 
 	details := astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
 		ReceiverType:  receiverType,
-		Name:          h.Name(),
+		Name:          methodName,
 		Body:          []dst.Stmt{}, // empty body
 	}
 
 	details.AddComments(fmt.Sprintf("marks that this %s is the hub type for conversion", receiver.Name()))
 
 	return details.DefineFunc()
-}
-
-// Equals shows that any hub function is equal to any other
-func (h HubFunction) Equals(f astmodel.Function) bool {
-	_, ok := f.(*HubFunction)
-	return ok
 }
