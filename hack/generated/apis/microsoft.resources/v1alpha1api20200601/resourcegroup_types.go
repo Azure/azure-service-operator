@@ -119,7 +119,7 @@ var _ genruntime.FromARMConverter = &ResourceGroupStatus{}
 var _ genruntime.ConvertibleStatus = &ResourceGroupStatus{}
 
 func (status *ResourceGroupStatus) CreateEmptyARMValue() genruntime.ARMResourceStatus {
-	return ResourceGroupStatusARM{}
+	return &ResourceGroupStatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
