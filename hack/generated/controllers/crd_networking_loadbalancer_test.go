@@ -27,7 +27,7 @@ func Test_LoadBalancer_CRUD(t *testing.T) {
 	ctx := context.Background()
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Public IP Address
 	sku := network.PublicIPAddressSkuNameStandard

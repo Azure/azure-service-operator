@@ -22,7 +22,7 @@ func Test_NetworkSecurityGroup_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Network Security Group
 	nsg := &network.NetworkSecurityGroup{

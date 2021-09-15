@@ -20,7 +20,7 @@ func Test_ManagedIdentity_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	mi := &managedidentity.UserAssignedIdentity{
 		ObjectMeta: tc.MakeObjectMeta("mi"),
