@@ -6,12 +6,9 @@
 package astmodel
 
 import (
-	"bufio"
-	"io"
 	"os"
 
 	"github.com/dave/dst"
-	"github.com/dave/dst/decorator"
 )
 
 // GoSourceFile represents a file of Go code
@@ -29,19 +26,6 @@ func NewGoSourceFileWriter(file GoSourceFile) *GoSourceFileWriter {
 	return &GoSourceFileWriter{
 		file: file,
 	}
-}
-
-// SaveToWriter writes the given FileAst to the destination
-func (w *GoSourceFileWriter) SaveToWriter(destination io.Writer) error {
-	content, err := w.file.AsAst()
-	if err != nil {
-		return err
-	}
-
-	buf := bufio.NewWriter(destination)
-	defer buf.Flush()
-
-	return decorator.Fprint(buf, content)
 }
 
 // SaveToFile writes the given FileAst to the specified file path
