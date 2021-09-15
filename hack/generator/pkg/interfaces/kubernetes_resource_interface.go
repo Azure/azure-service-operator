@@ -65,13 +65,12 @@ func AddKubernetesResourceInterfaceImpls(
 	getTypeFunction := functions.NewObjectFunction("Get"+astmodel.TypeProperty, idFactory, newGetTypeFunction(resourceARMType))
 	getTypeFunction.AddPackageReference(astmodel.GenRuntimeReference)
 
-	kubernetesResourceImplementation := astmodel.NewInterfaceImplementation(
-		astmodel.KubernetesResourceType,
+	fns := []astmodel.Function{
 		getAzureNameProperty,
 		getOwnerProperty,
 		getSpecFunction,
-		getStatusFunction,
-		getTypeFunction)
+		getTypeFunction,
+	}
 
 	if r.StatusType() != nil {
 		// Skip Status functions if no status
