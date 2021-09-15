@@ -9,7 +9,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/Azure/go-autorest/autorest/azure/auth"
@@ -44,7 +43,7 @@ func main() {
 
 	ctrl.SetLogger(klogr.New())
 
-	targetNamespaces := parseTargetNamespaces(os.Getenv(targetNamespacesVar))
+	targetNamespaces := config.GetTargetNamespaces()
 	var cacheFunc cache.NewCacheFunc
 	if targetNamespaces != nil {
 		cacheFunc = cache.MultiNamespacedCacheBuilder(targetNamespaces)
@@ -75,14 +74,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	var selectedMode config.OperatorMode
-	if modeValue := os.Getenv(operatorModeVar); modeValue == "" {
-		selectedMode = config.OperatorModeBoth
-	} else {
-		selectedMode, err = config.ParseOperatorMode(modeValue)
-		if err != nil {
-			setupLog.Error(err, "getting operator mode")
-		}
+	selectedMode, err := config.GetOperatorMode()
+	if err != nil {
+		setupLog.Error(err, "getting operator mode")
+		os.Exit(1)
 	}
 
 	armApplier, err := armclient.NewAzureTemplateClient(authorizer, subID)
@@ -115,27 +110,11 @@ func main() {
 
 func makeControllerOptions(log logr.Logger) controllers.Options {
 	return controllers.Options{
+		PodNamespace: config.GetPodNamespace(),
 		Options: controller.Options{
 			MaxConcurrentReconciles: 1,
 			Log:                     log,
 			RateLimiter:             controllers.NewRateLimiter(1*time.Second, 1*time.Minute),
 		},
 	}
-}
-
-const (
-	targetNamespacesVar = "AZURE_TARGET_NAMESPACES"
-	operatorModeVar     = "AZURE_OPERATOR_MODE"
-)
-
-func parseTargetNamespaces(fromEnv string) []string {
-	if len(strings.TrimSpace(fromEnv)) == 0 {
-		return nil
-	}
-	items := strings.Split(fromEnv, ",")
-	// Remove any whitespace used to separate items.
-	for i, item := range items {
-		items[i] = strings.TrimSpace(item)
-	}
-	return items
 }
