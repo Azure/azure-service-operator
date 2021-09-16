@@ -100,6 +100,25 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) Owner() *genruntime.Resour
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualMachineScaleSet.Namespace, Name: virtualMachineScaleSet.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (virtualMachineScaleSet *VirtualMachineScaleSet) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*VirtualMachineScaleSet_Status); ok {
+		virtualMachineScaleSet.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st VirtualMachineScaleSet_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualMachineScaleSet.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-compute-azure-com-v1alpha1api20201201-virtualmachinescaleset,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.compute.azure.com,resources=virtualmachinescalesets,verbs=create;update,versions=v1alpha1api20201201,name=validate.v1alpha1api20201201.virtualmachinescalesets.microsoft.compute.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &VirtualMachineScaleSet{}

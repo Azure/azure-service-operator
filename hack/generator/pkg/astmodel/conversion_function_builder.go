@@ -446,7 +446,7 @@ func AssignToOptional(builder *ConversionFunctionBuilder, params ConversionParam
 
 	if optDest.Element().Equals(params.SourceType) {
 		return []dst.Stmt{
-			params.AssignmentHandlerOrDefault()(params.GetDestination(), &dst.UnaryExpr{Op: token.AND, X: params.GetSource()}),
+			params.AssignmentHandlerOrDefault()(params.GetDestination(), astbuilder.AddrOf(params.GetSource())),
 		}
 	}
 
@@ -470,11 +470,10 @@ func AssignToOptional(builder *ConversionFunctionBuilder, params ConversionParam
 		return nil // unable to build inner conversion
 	}
 
-	var result []dst.Stmt
-	result = append(result, astbuilder.LocalVariableDeclaration(tmpLocal, dstType.AsType(builder.CodeGenerationContext), ""))
-	result = append(result, conversion...)
-	result = append(result, params.AssignmentHandlerOrDefault()(params.GetDestination(), &dst.UnaryExpr{Op: token.AND, X: dst.NewIdent(tmpLocal)}))
-	return result
+	return astbuilder.Statements(
+		astbuilder.LocalVariableDeclaration(tmpLocal, dstType.AsType(builder.CodeGenerationContext), ""),
+		conversion,
+		params.AssignmentHandlerOrDefault()(params.GetDestination(), astbuilder.AddrOf(dst.NewIdent(tmpLocal))))
 }
 
 // AssignFromOptional assigns address of source to destination.
@@ -497,7 +496,7 @@ func AssignFromOptional(builder *ConversionFunctionBuilder, params ConversionPar
 	if optSrc.Element().Equals(params.DestinationType) {
 		return []dst.Stmt{
 			astbuilder.IfNotNil(params.GetSource(),
-				params.AssignmentHandlerOrDefault()(params.GetDestination(), &dst.UnaryExpr{Op: token.MUL, X: params.GetSource()}),
+				params.AssignmentHandlerOrDefault()(params.GetDestination(), astbuilder.Dereference(params.GetSource())),
 			),
 		}
 	}
@@ -508,7 +507,7 @@ func AssignFromOptional(builder *ConversionFunctionBuilder, params ConversionPar
 
 	conversion := builder.BuildConversion(
 		ConversionParameters{
-			Source:            &dst.UnaryExpr{Op: token.MUL, X: params.GetSource()},
+			Source:            astbuilder.Dereference(params.GetSource()),
 			SourceType:        srcType,
 			Destination:       dst.NewIdent(tmpLocal),
 			DestinationType:   params.DestinationType,

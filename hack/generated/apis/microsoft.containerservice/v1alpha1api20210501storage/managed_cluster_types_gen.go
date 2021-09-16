@@ -66,6 +66,25 @@ func (managedCluster *ManagedCluster) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: managedCluster.Namespace, Name: managedCluster.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (managedCluster *ManagedCluster) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*ManagedCluster_Status); ok {
+		managedCluster.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st ManagedCluster_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	managedCluster.Status = st
+	return nil
+}
+
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (managedCluster *ManagedCluster) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
