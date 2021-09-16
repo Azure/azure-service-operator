@@ -180,7 +180,7 @@ func newVMSS(
 	}
 }
 
-func Test_VMSS_CRUD(t *testing.T) {
+func Test_Compute_VMSS_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)

@@ -17,7 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
-func Test_ManagedCluster_CRUD(t *testing.T) {
+func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -92,7 +92,7 @@ func Test_ManagedCluster_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "AKS AgentPool CRUD",
 			Test: func(testContext testcommon.KubePerTestContext) {
-				ManagedCluster_AgentPool_CRUD(testContext, cluster.ObjectMeta)
+				AKS_ManagedCluster_AgentPool_CRUD(testContext, cluster.ObjectMeta)
 			},
 		},
 	)
@@ -106,7 +106,7 @@ func Test_ManagedCluster_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func ManagedCluster_AgentPool_CRUD(tc testcommon.KubePerTestContext, cluster metav1.ObjectMeta) {
+func AKS_ManagedCluster_AgentPool_CRUD(tc testcommon.KubePerTestContext, cluster metav1.ObjectMeta) {
 	osType := aks.ManagedClusterAgentPoolProfilePropertiesOsTypeLinux
 	agentPoolMode := aks.ManagedClusterAgentPoolProfilePropertiesModeSystem
 

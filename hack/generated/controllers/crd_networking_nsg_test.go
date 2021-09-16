@@ -17,7 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
-func Test_NetworkSecurityGroup_CRUD(t *testing.T) {
+func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
