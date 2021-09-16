@@ -283,21 +283,12 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *CodeGenerationCon
 			validationsIdent,
 			astbuilder.CallQualifiedFunc(receiverIdent, implFunctionName)),
 		astbuilder.AssignToInterface(tempVarIdent, dst.NewIdent(receiverIdent)),
-		&dst.IfStmt{
-			Init: astbuilder.TypeAssert(
-				dst.NewIdent(runtimeValidatorIdent),
-				dst.NewIdent(tempVarIdent),
-				overrideInterfaceType),
-			Cond: dst.NewIdent("ok"),
-			Body: &dst.BlockStmt{
-				List: []dst.Stmt{
-					// Not using astbuilder.AppendList here as we want to tack on a "..." at the end
-					astbuilder.SimpleAssignment(
-						dst.NewIdent(validationsIdent),
-						appendFuncCall),
-				},
-			},
-		},
+		astbuilder.IfType(
+			dst.NewIdent(tempVarIdent),
+			overrideInterfaceType,
+			runtimeValidatorIdent,
+			// Not using astbuilder.AppendList here as we want to tack on a "..." at the end
+			astbuilder.SimpleAssignment(dst.NewIdent(validationsIdent), appendFuncCall)),
 		astbuilder.LocalVariableDeclaration(errsIdent, &dst.ArrayType{Elt: dst.NewIdent("error")}, ""),
 		validationLoop,
 		astbuilder.Returns(astbuilder.CallQualifiedFunc(kErrors, "NewAggregate", dst.NewIdent(errsIdent))),

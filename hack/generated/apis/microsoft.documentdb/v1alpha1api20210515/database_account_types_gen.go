@@ -97,6 +97,25 @@ func (databaseAccount *DatabaseAccount) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: databaseAccount.Namespace, Name: databaseAccount.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (databaseAccount *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*DatabaseAccountGetResults_Status); ok {
+		databaseAccount.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st DatabaseAccountGetResults_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	databaseAccount.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccounts,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.databaseaccounts.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &DatabaseAccount{}

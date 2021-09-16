@@ -66,6 +66,25 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) Owner() *genruntime.Resour
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualMachineScaleSet.Namespace, Name: virtualMachineScaleSet.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (virtualMachineScaleSet *VirtualMachineScaleSet) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*VirtualMachineScaleSet_Status); ok {
+		virtualMachineScaleSet.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st VirtualMachineScaleSet_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualMachineScaleSet.Status = st
+	return nil
+}
+
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (virtualMachineScaleSet *VirtualMachineScaleSet) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
