@@ -65,6 +65,25 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Owne
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: networkSecurityGroupsSecurityRule.Namespace, Name: networkSecurityGroupsSecurityRule.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded); ok {
+		networkSecurityGroupsSecurityRule.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	networkSecurityGroupsSecurityRule.Status = st
+	return nil
+}
+
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{

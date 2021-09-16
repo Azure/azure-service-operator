@@ -55,14 +55,14 @@ type KubernetesResource interface {
 
 	// TODO: GetAPIVersion here?
 
-	// TODO: I think we need this
-	// SetStatus(status interface{})
-
 	// GetSpec returns the specification of the resource
 	GetSpec() ConvertibleSpec
 
 	// GetStatus returns the current status of the resource
 	GetStatus() ConvertibleStatus
+
+	// SetStatus updates the status of the resource
+	SetStatus(status ConvertibleStatus) error
 }
 
 // TODO: We really want these methods to be on MetaObject itself -- should update code generator to make them at some point

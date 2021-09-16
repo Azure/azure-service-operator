@@ -288,21 +288,10 @@ func AddrOf(expr dst.Expr) *dst.UnaryExpr {
 //
 // *<expr>
 //
-func Dereference(expr dst.Expr) *dst.UnaryExpr {
-	return &dst.UnaryExpr{
-		Op: token.MUL,
-		X:  dst.Clone(expr).(dst.Expr),
+func Dereference(expr dst.Expr) *dst.StarExpr {
+	return &dst.StarExpr{
+		X: dst.Clone(expr).(dst.Expr),
 	}
-}
-
-// AsDereference converts the supplied expression into a dereference if it is one
-func AsDereference(expr dst.Expr) (*dst.UnaryExpr, bool) {
-	result, ok := expr.(*dst.UnaryExpr)
-	if ok && result.Op == token.MUL {
-		return result, true
-	}
-
-	return nil, false
 }
 
 // Returns creates a return statement with one or more expressions, of the form

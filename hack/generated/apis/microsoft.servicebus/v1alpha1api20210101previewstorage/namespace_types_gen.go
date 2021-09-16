@@ -65,6 +65,25 @@ func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: namespace.Namespace, Name: namespace.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (namespace *Namespace) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*SBNamespace_Status); ok {
+		namespace.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st SBNamespace_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	namespace.Status = st
+	return nil
+}
+
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (namespace *Namespace) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{

@@ -87,3 +87,21 @@ func IfNotOk(statements ...dst.Stmt) *dst.IfStmt {
 		Body: StatementBlock(statements...),
 	}
 }
+
+// IfType does a type assertion and executes the provided statements if it is true
+// expr is the expression to cast;
+// typeExpr is the type we want to cast to;
+// local is the name of the local variable to initialize
+// statements form the body of the if statement
+//
+// if <local>, ok := <expr>.(<typeExpr>); ok {
+//     <statements>
+// }
+//
+func IfType(expr dst.Expr, typeExpr dst.Expr, local string, statements ...dst.Stmt) *dst.IfStmt {
+	return &dst.IfStmt{
+		Init: TypeAssert(dst.NewIdent(local), expr, typeExpr),
+		Cond: dst.NewIdent("ok"),
+		Body: StatementBlock(statements...),
+	}
+}

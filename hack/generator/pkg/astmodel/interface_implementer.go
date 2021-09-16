@@ -10,6 +10,8 @@ import (
 	"sort"
 
 	"github.com/dave/dst"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // InterfaceImplementer represents a container that may contain multiple interface implementations
@@ -150,21 +152,17 @@ func (i InterfaceImplementer) generateInterfaceImplAssertion(
 		},
 		Specs: []dst.Spec{
 			&dst.ValueSpec{
-				Type: &dst.SelectorExpr{
-					X:   dst.NewIdent(ifacePackageName),
-					Sel: dst.NewIdent(iface.name.name),
-				},
+				Type: astbuilder.Selector(
+					dst.NewIdent(ifacePackageName),
+					iface.name.name),
 				Names: []*dst.Ident{
 					dst.NewIdent("_"),
 				},
-				Values: []dst.Expr{
-					&dst.UnaryExpr{
-						Op: token.AND,
-						X: &dst.CompositeLit{
+				Values: astbuilder.Expressions(
+					astbuilder.AddrOf(
+						&dst.CompositeLit{
 							Type: dst.NewIdent(typeName.name),
-						},
-					},
-				},
+						})),
 			},
 		},
 	}

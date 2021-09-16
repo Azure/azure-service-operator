@@ -99,6 +99,25 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualNetworksVirtualNetworkPeering.Namespace, Name: virtualNetworksVirtualNetworkPeering.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*VirtualNetworkPeering_Status); ok {
+		virtualNetworksVirtualNetworkPeering.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st VirtualNetworkPeering_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualNetworksVirtualNetworkPeering.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworksvirtualnetworkpeering,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=virtualnetworksvirtualnetworkpeerings,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.virtualnetworksvirtualnetworkpeerings.microsoft.network.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &VirtualNetworksVirtualNetworkPeering{}

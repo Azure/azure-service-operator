@@ -97,7 +97,7 @@ func (codeGenContext *CodeGenerationContext) GetGeneratedPackage(reference Packa
 	return packageDef, nil
 }
 
-// GetImportedDefinition looks up a particular type definition in a package referenced by this context
+// GetImportedDefinition looks up a particular type definition in a package available in this context
 func (codeGenContext *CodeGenerationContext) GetImportedDefinition(typeName TypeName) (TypeDefinition, error) {
 	pkg, err := codeGenContext.GetGeneratedPackage(typeName.PackageReference)
 
