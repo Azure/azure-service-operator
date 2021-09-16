@@ -60,11 +60,6 @@ func (a *A) GetSpec() genruntime.ConvertibleSpec {
 	return &a.Spec
 }
 
-// GetStatus returns the status of this resource
-func (a *A) GetStatus() genruntime.ConvertibleStatus {
-	return &a.Status
-}
-
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
 func (a *A) GetType() string {
 	return "Microsoft.Azure/A"
@@ -235,11 +230,6 @@ func (b *B) AzureName() string {
 // GetSpec returns the specification of this resource
 func (b *B) GetSpec() genruntime.ConvertibleSpec {
 	return &b.Spec
-}
-
-// GetStatus returns the status of this resource
-func (b *B) GetStatus() genruntime.ConvertibleStatus {
-	return &b.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
@@ -414,11 +404,6 @@ func (c *C) GetSpec() genruntime.ConvertibleSpec {
 	return &c.Spec
 }
 
-// GetStatus returns the status of this resource
-func (c *C) GetStatus() genruntime.ConvertibleStatus {
-	return &c.Status
-}
-
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
 func (c *C) GetType() string {
 	return "Microsoft.Azure/C"
@@ -589,11 +574,6 @@ func (d *D) AzureName() string {
 // GetSpec returns the specification of this resource
 func (d *D) GetSpec() genruntime.ConvertibleSpec {
 	return &d.Spec
-}
-
-// GetStatus returns the status of this resource
-func (d *D) GetStatus() genruntime.ConvertibleStatus {
-	return &d.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/D"

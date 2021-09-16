@@ -317,23 +317,17 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 	// build (x || y || …)
 	cond := astbuilder.JoinOr(conds...)
 
+	literal := astbuilder.NewCompositeLiteralDetails(toPropTypeName.AsType(builder.codeGenerationContext))
+
 	// build if (conds…) { target.prop = &TargetType{} }
 	return &dst.IfStmt{
 		Cond: cond,
-		Body: &dst.BlockStmt{
-			List: []dst.Stmt{
-				astbuilder.QualifiedAssignment(
-					dst.NewIdent(builder.resultIdent),
-					string(toPropName),
-					token.ASSIGN,
-					&dst.UnaryExpr{
-						Op: token.AND,
-						X: &dst.CompositeLit{
-							Type: toPropTypeName.AsType(builder.codeGenerationContext),
-						},
-					}),
-			},
-		},
+		Body: astbuilder.StatementBlock(
+			astbuilder.QualifiedAssignment(
+				dst.NewIdent(builder.resultIdent),
+				string(toPropName),
+				token.ASSIGN,
+				astbuilder.AddrOf(literal.Build()))),
 	}
 }
 

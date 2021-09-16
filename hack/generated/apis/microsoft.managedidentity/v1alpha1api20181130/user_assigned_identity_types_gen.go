@@ -99,6 +99,25 @@ func (userAssignedIdentity *UserAssignedIdentity) Owner() *genruntime.ResourceRe
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: userAssignedIdentity.Namespace, Name: userAssignedIdentity.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (userAssignedIdentity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*Identity_Status); ok {
+		userAssignedIdentity.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st Identity_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	userAssignedIdentity.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-managedidentity-azure-com-v1alpha1api20181130-userassignedidentity,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1alpha1api20181130,name=validate.v1alpha1api20181130.userassignedidentities.microsoft.managedidentity.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &UserAssignedIdentity{}

@@ -99,6 +99,25 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) Owner() *genruntime.Resource
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualNetworksSubnet.Namespace, Name: virtualNetworksSubnet.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (virtualNetworksSubnet *VirtualNetworksSubnet) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded); ok {
+		virtualNetworksSubnet.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualNetworksSubnet.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworkssubnet,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=virtualnetworkssubnets,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.virtualnetworkssubnets.microsoft.network.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &VirtualNetworksSubnet{}

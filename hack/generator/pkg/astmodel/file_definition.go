@@ -11,6 +11,8 @@ import (
 
 	"github.com/dave/dst"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // FileDefinition is the content of a file we're generating
@@ -208,10 +210,8 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 
 		if resource, ok := defn.Type().(*ResourceType); ok {
 			for _, t := range resource.SchemeTypes(defn.Name()) {
-				exprs = append(exprs, &dst.UnaryExpr{
-					Op: token.AND,
-					X:  &dst.CompositeLit{Type: t.AsType(codeGenContext)},
-				})
+				literal := astbuilder.NewCompositeLiteralDetails(t.AsType(codeGenContext))
+				exprs = append(exprs, astbuilder.AddrOf(literal.Build()))
 			}
 		}
 	}

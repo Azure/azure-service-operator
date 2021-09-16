@@ -53,11 +53,6 @@ func (aResource *AResource) GetSpec() genruntime.ConvertibleSpec {
 	return &aResource.Spec
 }
 
-// GetStatus returns the status of this resource
-func (aResource *AResource) GetStatus() genruntime.ConvertibleStatus {
-	return &aResource.Status
-}
-
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/AResource"
 func (aResource *AResource) GetType() string {
 	return "Microsoft.Azure/AResource"

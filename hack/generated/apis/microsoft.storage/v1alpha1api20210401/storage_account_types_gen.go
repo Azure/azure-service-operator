@@ -97,6 +97,25 @@ func (storageAccount *StorageAccount) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: storageAccount.Namespace, Name: storageAccount.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (storageAccount *StorageAccount) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*StorageAccount_Status); ok {
+		storageAccount.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st StorageAccount_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	storageAccount.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.azure.com,resources=storageaccounts,verbs=create;update,versions=v1alpha1api20210401,name=validate.v1alpha1api20210401.storageaccounts.microsoft.storage.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &StorageAccount{}

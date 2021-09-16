@@ -98,6 +98,25 @@ func (managedCluster *ManagedCluster) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: managedCluster.Namespace, Name: managedCluster.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (managedCluster *ManagedCluster) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*ManagedCluster_Status); ok {
+		managedCluster.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st ManagedCluster_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	managedCluster.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-containerservice-azure-com-v1alpha1api20210501-managedcluster,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.containerservice.azure.com,resources=managedclusters,verbs=create;update,versions=v1alpha1api20210501,name=validate.v1alpha1api20210501.managedclusters.microsoft.containerservice.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &ManagedCluster{}

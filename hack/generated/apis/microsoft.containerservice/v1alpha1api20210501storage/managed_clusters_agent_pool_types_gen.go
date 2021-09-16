@@ -65,6 +65,25 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) Owner() *genruntime.Re
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: managedClustersAgentPool.Namespace, Name: managedClustersAgentPool.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (managedClustersAgentPool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*AgentPool_Status); ok {
+		managedClustersAgentPool.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st AgentPool_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	managedClustersAgentPool.Status = st
+	return nil
+}
+
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (managedClustersAgentPool *ManagedClustersAgentPool) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{

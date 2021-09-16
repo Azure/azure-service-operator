@@ -97,6 +97,25 @@ func (publicIPAddress *PublicIPAddress) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: publicIPAddress.Namespace, Name: publicIPAddress.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (publicIPAddress *PublicIPAddress) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded); ok {
+		publicIPAddress.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	publicIPAddress.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-publicipaddress,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=publicipaddresses,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.publicipaddresses.microsoft.network.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &PublicIPAddress{}

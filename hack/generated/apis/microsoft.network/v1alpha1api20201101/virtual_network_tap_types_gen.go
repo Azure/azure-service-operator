@@ -97,6 +97,25 @@ func (virtualNetworkTap *VirtualNetworkTap) Owner() *genruntime.ResourceReferenc
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualNetworkTap.Namespace, Name: virtualNetworkTap.Spec.Owner.Name}
 }
 
+// SetStatus sets the status of this resource
+func (virtualNetworkTap *VirtualNetworkTap) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded); ok {
+		virtualNetworkTap.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualNetworkTap.Status = st
+	return nil
+}
+
 // +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworktap,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=virtualnetworktaps,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.virtualnetworktaps.microsoft.network.azure.com,admissionReviewVersions=v1beta1
 
 var _ admission.Validator = &VirtualNetworkTap{}
