@@ -389,8 +389,8 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(name string, res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespacesTopicsSpec *NamespacesTopics_Spec) CreateEmptyARMValue() interface{} {
-	return NamespacesTopics_SpecARM{}
+func (namespacesTopicsSpec *NamespacesTopics_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NamespacesTopics_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -889,8 +889,8 @@ func (sbTopicStatus *SBTopic_Status) ConvertStatusTo(destination genruntime.Conv
 var _ genruntime.FromARMConverter = &SBTopic_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbTopicStatus *SBTopic_Status) CreateEmptyARMValue() interface{} {
-	return SBTopic_StatusARM{}
+func (sbTopicStatus *SBTopic_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SBTopic_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

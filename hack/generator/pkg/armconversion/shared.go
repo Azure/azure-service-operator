@@ -13,6 +13,7 @@ import (
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
 type conversionBuilder struct {
@@ -163,7 +164,7 @@ func NewARMConversionImplementation(
 		},
 	}
 
-	createEmptyARMValueFunc := CreateEmptyARMValueFunc{idFactory: idFactory, armTypeName: armTypeName}
+	createEmptyARMValueFunc := functions.NewCreateEmptyARMValueFunc(armTypeName, idFactory)
 
 	if convertToARMFunc != nil {
 		// can convert both to and from ARM = the ARMTransformer interface

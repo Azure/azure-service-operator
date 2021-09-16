@@ -351,8 +351,8 @@ func (identityStatus *Identity_Status) ConvertStatusTo(destination genruntime.Co
 var _ genruntime.FromARMConverter = &Identity_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identityStatus *Identity_Status) CreateEmptyARMValue() interface{} {
-	return Identity_StatusARM{}
+func (identityStatus *Identity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Identity_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -641,8 +641,8 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(name
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) CreateEmptyARMValue() interface{} {
-	return UserAssignedIdentities_SpecARM{}
+func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentities_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

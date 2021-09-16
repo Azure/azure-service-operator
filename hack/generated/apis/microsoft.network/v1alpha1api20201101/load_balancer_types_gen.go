@@ -386,8 +386,8 @@ func (loadBalancerStatus *LoadBalancer_Status) ConvertStatusTo(destination genru
 var _ genruntime.FromARMConverter = &LoadBalancer_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancerStatus *LoadBalancer_Status) CreateEmptyARMValue() interface{} {
-	return LoadBalancer_StatusARM{}
+func (loadBalancerStatus *LoadBalancer_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancer_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1127,8 +1127,8 @@ func (loadBalancersSpec *LoadBalancers_Spec) ConvertToARM(name string, resolvedR
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpec *LoadBalancers_Spec) CreateEmptyARMValue() interface{} {
-	return LoadBalancers_SpecARM{}
+func (loadBalancersSpec *LoadBalancers_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancers_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1594,8 +1594,8 @@ type BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (backendAddressPoolStatusLoadBalancerSubResourceEmbedded *BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return BackendAddressPool_Status_LoadBalancer_SubResourceEmbeddedARM{}
+func (backendAddressPoolStatusLoadBalancerSubResourceEmbedded *BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BackendAddressPool_Status_LoadBalancer_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1679,8 +1679,8 @@ func (extendedLocation *ExtendedLocation) ConvertToARM(name string, resolvedRefe
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocation *ExtendedLocation) CreateEmptyARMValue() interface{} {
-	return ExtendedLocationARM{}
+func (extendedLocation *ExtendedLocation) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ExtendedLocationARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1755,8 +1755,8 @@ type ExtendedLocation_Status struct {
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocationStatus *ExtendedLocation_Status) CreateEmptyARMValue() interface{} {
-	return ExtendedLocation_StatusARM{}
+func (extendedLocationStatus *ExtendedLocation_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ExtendedLocation_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1880,8 +1880,8 @@ type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM{}
+func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2461,8 +2461,8 @@ type InboundNatPool_Status struct {
 var _ genruntime.FromARMConverter = &InboundNatPool_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (inboundNatPoolStatus *InboundNatPool_Status) CreateEmptyARMValue() interface{} {
-	return InboundNatPool_StatusARM{}
+func (inboundNatPoolStatus *InboundNatPool_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &InboundNatPool_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2818,8 +2818,8 @@ type InboundNatRule_Status_LoadBalancer_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &InboundNatRule_Status_LoadBalancer_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (inboundNatRuleStatusLoadBalancerSubResourceEmbedded *InboundNatRule_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return InboundNatRule_Status_LoadBalancer_SubResourceEmbeddedARM{}
+func (inboundNatRuleStatusLoadBalancerSubResourceEmbedded *InboundNatRule_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &InboundNatRule_Status_LoadBalancer_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2907,8 +2907,8 @@ func (loadBalancerSku *LoadBalancerSku) ConvertToARM(name string, resolvedRefere
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancerSku *LoadBalancerSku) CreateEmptyARMValue() interface{} {
-	return LoadBalancerSkuARM{}
+func (loadBalancerSku *LoadBalancerSku) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancerSkuARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2997,8 +2997,8 @@ type LoadBalancerSku_Status struct {
 var _ genruntime.FromARMConverter = &LoadBalancerSku_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancerSkuStatus *LoadBalancerSku_Status) CreateEmptyARMValue() interface{} {
-	return LoadBalancerSku_StatusARM{}
+func (loadBalancerSkuStatus *LoadBalancerSku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancerSku_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3119,8 +3119,8 @@ func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Propert
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Properties_BackendAddressPools) CreateEmptyARMValue() interface{} {
-	return LoadBalancers_Spec_Properties_BackendAddressPoolsARM{}
+func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Properties_BackendAddressPools) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancers_Spec_Properties_BackendAddressPoolsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3325,8 +3325,8 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) CreateEmptyARMValue() interface{} {
-	return LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM{}
+func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3679,8 +3679,8 @@ func (loadBalancersSpecPropertiesInboundNatPools *LoadBalancers_Spec_Properties_
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesInboundNatPools *LoadBalancers_Spec_Properties_InboundNatPools) CreateEmptyARMValue() interface{} {
-	return LoadBalancers_Spec_Properties_InboundNatPoolsARM{}
+func (loadBalancersSpecPropertiesInboundNatPools *LoadBalancers_Spec_Properties_InboundNatPools) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancers_Spec_Properties_InboundNatPoolsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4052,8 +4052,8 @@ func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properti
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properties_LoadBalancingRules) CreateEmptyARMValue() interface{} {
-	return LoadBalancers_Spec_Properties_LoadBalancingRulesARM{}
+func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properties_LoadBalancingRules) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancers_Spec_Properties_LoadBalancingRulesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4483,8 +4483,8 @@ func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_Ou
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_OutboundRules) CreateEmptyARMValue() interface{} {
-	return LoadBalancers_Spec_Properties_OutboundRulesARM{}
+func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_OutboundRules) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancers_Spec_Properties_OutboundRulesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4786,8 +4786,8 @@ func (loadBalancersSpecPropertiesProbes *LoadBalancers_Spec_Properties_Probes) C
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesProbes *LoadBalancers_Spec_Properties_Probes) CreateEmptyARMValue() interface{} {
-	return LoadBalancers_Spec_Properties_ProbesARM{}
+func (loadBalancersSpecPropertiesProbes *LoadBalancers_Spec_Properties_Probes) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancers_Spec_Properties_ProbesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5018,8 +5018,8 @@ type LoadBalancingRule_Status struct {
 var _ genruntime.FromARMConverter = &LoadBalancingRule_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancingRuleStatus *LoadBalancingRule_Status) CreateEmptyARMValue() interface{} {
-	return LoadBalancingRule_StatusARM{}
+func (loadBalancingRuleStatus *LoadBalancingRule_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancingRule_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5516,8 +5516,8 @@ type OutboundRule_Status struct {
 var _ genruntime.FromARMConverter = &OutboundRule_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (outboundRuleStatus *OutboundRule_Status) CreateEmptyARMValue() interface{} {
-	return OutboundRule_StatusARM{}
+func (outboundRuleStatus *OutboundRule_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &OutboundRule_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5891,8 +5891,8 @@ type Probe_Status struct {
 var _ genruntime.FromARMConverter = &Probe_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (probeStatus *Probe_Status) CreateEmptyARMValue() interface{} {
-	return Probe_StatusARM{}
+func (probeStatus *Probe_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Probe_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -6302,8 +6302,8 @@ func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBacken
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses *LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses) CreateEmptyARMValue() interface{} {
-	return LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM{}
+func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses *LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -6576,8 +6576,8 @@ type PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM{}
+func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -6734,8 +6734,8 @@ type Subnet_Status_LoadBalancer_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &Subnet_Status_LoadBalancer_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subnetStatusLoadBalancerSubResourceEmbedded *Subnet_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return Subnet_Status_LoadBalancer_SubResourceEmbeddedARM{}
+func (subnetStatusLoadBalancerSubResourceEmbedded *Subnet_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Subnet_Status_LoadBalancer_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

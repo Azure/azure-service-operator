@@ -243,8 +243,8 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceSpec *FakeResource_Spec) CreateEmptyARMValue() interface{} {
-	return FakeResource_SpecARM{}
+func (fakeResourceSpec *FakeResource_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FakeResource_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -323,8 +323,8 @@ func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(name string, 
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceProperties *FakeResourceProperties) CreateEmptyARMValue() interface{} {
-	return FakeResourcePropertiesARM{}
+func (fakeResourceProperties *FakeResourceProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FakeResourcePropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

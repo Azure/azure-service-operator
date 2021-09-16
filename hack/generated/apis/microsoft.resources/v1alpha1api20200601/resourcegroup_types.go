@@ -137,8 +137,8 @@ type ResourceGroupStatus struct {
 var _ genruntime.FromARMConverter = &ResourceGroupStatus{}
 var _ genruntime.ConvertibleStatus = &ResourceGroupStatus{}
 
-func (status *ResourceGroupStatus) CreateEmptyARMValue() interface{} {
-	return ResourceGroupStatusARM{}
+func (status *ResourceGroupStatus) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ResourceGroupStatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -234,7 +234,7 @@ type ResourceGroupSpec struct {
 var _ genruntime.ARMTransformer = &ResourceGroupSpec{}
 var _ genruntime.ConvertibleSpec = &ResourceGroupSpec{}
 
-func (spec *ResourceGroupSpec) CreateEmptyARMValue() interface{} {
+func (spec *ResourceGroupSpec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
 	return ResourceGroupSpecARM{}
 }
 

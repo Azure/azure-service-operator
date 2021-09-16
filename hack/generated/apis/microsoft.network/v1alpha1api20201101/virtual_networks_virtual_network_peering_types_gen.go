@@ -382,8 +382,8 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) ConvertStatusTo
 var _ genruntime.FromARMConverter = &VirtualNetworkPeering_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkPeering_StatusARM{}
+func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkPeering_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -967,8 +967,8 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) CreateEmptyARMValue() interface{} {
-	return VirtualNetworksVirtualNetworkPeerings_SpecARM{}
+func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworksVirtualNetworkPeerings_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

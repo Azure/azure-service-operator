@@ -417,8 +417,8 @@ func (aSpec *A_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aSpec *A_Spec) CreateEmptyARMValue() interface{} {
-	return A_SpecARM{}
+func (aSpec *A_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &A_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -508,8 +508,8 @@ func (bSpec *B_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bSpec *B_Spec) CreateEmptyARMValue() interface{} {
-	return B_SpecARM{}
+func (bSpec *B_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &B_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -584,8 +584,8 @@ func (aProperties *AProperties) ConvertToARM(name string, resolvedReferences gen
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aProperties *AProperties) CreateEmptyARMValue() interface{} {
-	return APropertiesARM{}
+func (aProperties *AProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &APropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -645,8 +645,8 @@ func (bProperties *BProperties) ConvertToARM(name string, resolvedReferences gen
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bProperties *BProperties) CreateEmptyARMValue() interface{} {
-	return BPropertiesARM{}
+func (bProperties *BProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BPropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -703,8 +703,8 @@ func (bResource *BResource) ConvertToARM(name string, resolvedReferences genrunt
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bResource *BResource) CreateEmptyARMValue() interface{} {
-	return BResourceARM{}
+func (bResource *BResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BResourceARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

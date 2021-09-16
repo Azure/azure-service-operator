@@ -430,8 +430,8 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertToARM(name string, res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespacesQueuesSpec *NamespacesQueues_Spec) CreateEmptyARMValue() interface{} {
-	return NamespacesQueues_SpecARM{}
+func (namespacesQueuesSpec *NamespacesQueues_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NamespacesQueues_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1066,8 +1066,8 @@ func (sbQueueStatus *SBQueue_Status) ConvertStatusTo(destination genruntime.Conv
 var _ genruntime.FromARMConverter = &SBQueue_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbQueueStatus *SBQueue_Status) CreateEmptyARMValue() interface{} {
-	return SBQueue_StatusARM{}
+func (sbQueueStatus *SBQueue_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SBQueue_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1797,8 +1797,8 @@ type MessageCountDetails_Status struct {
 var _ genruntime.FromARMConverter = &MessageCountDetails_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (messageCountDetailsStatus *MessageCountDetails_Status) CreateEmptyARMValue() interface{} {
-	return MessageCountDetails_StatusARM{}
+func (messageCountDetailsStatus *MessageCountDetails_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &MessageCountDetails_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
