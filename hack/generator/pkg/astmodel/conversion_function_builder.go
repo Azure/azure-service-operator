@@ -212,13 +212,11 @@ func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, 
 			params.GetDestination(),
 			astbuilder.AddrOf(dst.NewIdent(tempVarIdent))))
 
-	result := &dst.IfStmt{
-		Cond: astbuilder.NotNil(params.GetSource()),
-		Body: &dst.BlockStmt{
-			List: innerStatements,
-		},
-	}
-	return []dst.Stmt{result}
+	result := astbuilder.IfNotNil(
+		params.GetSource(),
+		innerStatements...)
+
+	return astbuilder.Statements(result)
 }
 
 // IdentityConvertComplexArrayProperty handles conversion for array properties with complex elements
@@ -368,15 +366,10 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 		},
 	}
 
-	result := &dst.IfStmt{
-		Cond: astbuilder.NotNil(params.GetSource()),
-		Body: &dst.BlockStmt{
-			List: []dst.Stmt{
-				makeMapStatement,
-				rangeStatement,
-			},
-		},
-	}
+	result := astbuilder.IfNotNil(
+		params.GetSource(),
+		makeMapStatement,
+		rangeStatement)
 
 	// If we have an assignment handler, we need to make sure to call it. This only happens in the case of nested
 	// maps/arrays, where we need to make sure we generate the map assignment/array append before returning (otherwise
