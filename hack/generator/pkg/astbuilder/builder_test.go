@@ -10,7 +10,6 @@ import (
 	"testing"
 
 	"github.com/dave/dst"
-	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
 )
 
@@ -19,20 +18,20 @@ func asplode(l, r dst.Expr) dst.Expr {
 }
 
 func TestReduceZero(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 
 	g.Expect(func() { Reduce(asplode) }).To(PanicWith("must provide at least one expression to reduce"))
 }
 
 func TestReduceOne(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 
 	expr := &dst.BadExpr{}
 	g.Expect(Reduce(asplode, expr)).To(BeIdenticalTo(expr))
 }
 
 func TestJoinOr(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 
 	expr1 := &dst.CallExpr{}
 	expr2 := &dst.BadExpr{}
@@ -43,7 +42,7 @@ func TestJoinOr(t *testing.T) {
 }
 
 func TestJoinAnd(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 
 	expr1 := &dst.CallExpr{}
 	expr2 := &dst.BadExpr{}
@@ -54,7 +53,7 @@ func TestJoinAnd(t *testing.T) {
 }
 
 func TestSelectorWithMoreNames(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 
 	selector := Selector(
 		dst.NewIdent("chair"),
