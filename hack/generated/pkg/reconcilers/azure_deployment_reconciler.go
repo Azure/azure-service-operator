@@ -878,12 +878,30 @@ func (r *AzureDeploymentReconciler) createDeployment(
 // logObj logs the r.obj JSON payload
 func (r *AzureDeploymentReconciler) logObj(note string) {
 	if r.log.V(Debug).Enabled() {
-		objJson, err := json.Marshal(r.obj)
-		if err != nil {
-			r.log.Error(err, "failed to JSON serialize obj for logging purposes")
-		} else {
-			r.log.V(Debug).Info(note, "resource", string(objJson))
+		// This could technically select annotations from other Azure operators, but for now that's ok.
+		// In the future when we no longer use annotations as heavily as we do now we can remove this or
+		// scope it to a finite set of annotations.
+		ourAnnotations := make(map[string]string)
+		for key, value := range r.obj.GetAnnotations() {
+			if strings.HasSuffix(key, ".azure.com") {
+				ourAnnotations[key] = value
+			}
 		}
+
+		// Log just what we're interested in. We avoid logging the whole obj
+		// due to possible risk of disclosing secrets or other data that is "private" and users may
+		// not want in logs.
+		r.log.V(Debug).Info(note,
+			"kind", r.obj.GetObjectKind(),
+			"resourceVersion", r.obj.GetResourceVersion(),
+			"generation", r.obj.GetGeneration(),
+			"uid", r.obj.GetUID(),
+			"owner", r.obj.Owner(),
+			"creationTimestamp", r.obj.GetCreationTimestamp(),
+			"finalizers", r.obj.GetFinalizers(),
+			"annotations", ourAnnotations,
+			// Use fmt here to ensure the output uses the String() method, which log.Info doesn't seem to do by default
+			"conditions", fmt.Sprintf("%s", r.obj.GetConditions()))
 	}
 }
 
