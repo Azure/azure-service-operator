@@ -76,6 +76,11 @@ func (storageAccount *StorageAccount) AzureName() string {
 	return storageAccount.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (storageAccount *StorageAccount) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (storageAccount *StorageAccount) GetSpec() genruntime.ConvertibleSpec {
 	return &storageAccount.Spec

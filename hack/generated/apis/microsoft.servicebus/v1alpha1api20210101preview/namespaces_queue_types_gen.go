@@ -76,6 +76,11 @@ func (namespacesQueue *NamespacesQueue) AzureName() string {
 	return namespacesQueue.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (namespacesQueue *NamespacesQueue) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (namespacesQueue *NamespacesQueue) GetSpec() genruntime.ConvertibleSpec {
 	return &namespacesQueue.Spec

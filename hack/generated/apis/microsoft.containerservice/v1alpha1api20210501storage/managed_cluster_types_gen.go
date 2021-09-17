@@ -45,6 +45,11 @@ func (managedCluster *ManagedCluster) AzureName() string {
 	return managedCluster.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (managedCluster *ManagedCluster) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (managedCluster *ManagedCluster) GetSpec() genruntime.ConvertibleSpec {
 	return &managedCluster.Spec

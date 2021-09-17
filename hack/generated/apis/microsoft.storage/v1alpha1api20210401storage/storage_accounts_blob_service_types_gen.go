@@ -44,6 +44,11 @@ func (storageAccountsBlobService *StorageAccountsBlobService) AzureName() string
 	return "default"
 }
 
+// GetResourceKind returns the kind of the resource
+func (storageAccountsBlobService *StorageAccountsBlobService) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (storageAccountsBlobService *StorageAccountsBlobService) GetSpec() genruntime.ConvertibleSpec {
 	return &storageAccountsBlobService.Spec

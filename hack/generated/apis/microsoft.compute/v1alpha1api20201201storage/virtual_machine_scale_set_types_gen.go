@@ -45,6 +45,11 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) AzureName() string {
 	return virtualMachineScaleSet.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualMachineScaleSet *VirtualMachineScaleSet) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualMachineScaleSet *VirtualMachineScaleSet) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualMachineScaleSet.Spec

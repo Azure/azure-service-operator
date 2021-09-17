@@ -13,4 +13,5 @@ const (
 	OwnerProperty      = "Owner"
 	SetAzureNameFunc   = "SetAzureName"
 	TypeProperty       = "Type" // Used by armconversion package
+	ScopeProperty      = "Scope"
 )

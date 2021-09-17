@@ -59,6 +59,7 @@ var (
 	PropertyBagType                = MakeTypeName(GenRuntimeReference, "PropertyBag")
 	ToARMConverterInterfaceType    = MakeTypeName(GenRuntimeReference, "ToARMConverter")
 	ARMResourceStatusType          = MakeTypeName(GenRuntimeReference, "ARMResourceStatus")
+	ResourceKindType               = MakeTypeName(GenRuntimeReference, "ResourceKind")
 
 	ConditionType   = MakeTypeName(GenRuntimeConditionsReference, "Condition")
 	ConditionsType  = MakeTypeName(GenRuntimeConditionsReference, "Conditions")

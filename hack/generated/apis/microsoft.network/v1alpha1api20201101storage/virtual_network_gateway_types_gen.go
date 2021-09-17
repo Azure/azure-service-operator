@@ -44,6 +44,11 @@ func (virtualNetworkGateway *VirtualNetworkGateway) AzureName() string {
 	return virtualNetworkGateway.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualNetworkGateway *VirtualNetworkGateway) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualNetworkGateway *VirtualNetworkGateway) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualNetworkGateway.Spec

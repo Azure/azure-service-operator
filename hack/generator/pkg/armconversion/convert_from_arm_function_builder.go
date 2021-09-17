@@ -77,16 +77,14 @@ func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: builder.receiverTypeExpr,
-		},
-		Body: builder.functionBodyStatements(),
+		ReceiverType:  astbuilder.Dereference(builder.receiverTypeExpr),
+		Body:          builder.functionBodyStatements(),
 	}
 
 	fn.AddComments("populates a Kubernetes CRD object from an Azure ARM object")
 	fn.AddParameter(
 		builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimePackageName), "KnownResourceReference"))
+		astmodel.KnownResourceReferenceType.AsType(builder.codeGenerationContext))
 
 	fn.AddParameter(builder.inputIdent, dst.NewIdent("interface{}"))
 	fn.AddReturns("error")
@@ -173,7 +171,7 @@ func (builder *convertFromARMBuilder) namePropertyHandler(
 				builder.receiverIdent,
 				"SetAzureName",
 				astbuilder.CallQualifiedFunc(
-					astmodel.GenRuntimePackageName,
+					astmodel.GenRuntimeReference.PackageName(),
 					"ExtractKubernetesResourceNameFromARMName",
 					astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))),
 			),

@@ -44,6 +44,11 @@ func (networkSecurityGroup *NetworkSecurityGroup) AzureName() string {
 	return networkSecurityGroup.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (networkSecurityGroup *NetworkSecurityGroup) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (networkSecurityGroup *NetworkSecurityGroup) GetSpec() genruntime.ConvertibleSpec {
 	return &networkSecurityGroup.Spec

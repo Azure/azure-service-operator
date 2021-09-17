@@ -14,9 +14,8 @@ import (
 )
 
 const (
-	genRuntimePathPrefix  = "github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	GenRuntimePackageName = "genruntime"
-	GroupSuffix           = ".azure.com"
+	genRuntimePathPrefix = "github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	GroupSuffix          = ".azure.com"
 )
 
 var MetaV1PackageReference = MakeExternalPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
@@ -24,7 +23,7 @@ var MetaV1PackageReference = MakeExternalPackageReference("k8s.io/apimachinery/p
 type PackageReference interface {
 	// AsLocalPackage attempts conversion to a LocalPackageReference
 	AsLocalPackage() (LocalPackageReference, bool)
-	// Package returns the package name of this reference
+	// PackageName returns the package name of this reference
 	PackageName() string
 	// PackagePath returns the fully qualified package path
 	PackagePath() string

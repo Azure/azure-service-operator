@@ -78,6 +78,11 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 	return virtualNetworksVirtualNetworkPeering.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualNetworksVirtualNetworkPeering.Spec

@@ -76,6 +76,11 @@ func (databaseAccount *DatabaseAccount) AzureName() string {
 	return databaseAccount.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (databaseAccount *DatabaseAccount) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (databaseAccount *DatabaseAccount) GetSpec() genruntime.ConvertibleSpec {
 	return &databaseAccount.Spec
