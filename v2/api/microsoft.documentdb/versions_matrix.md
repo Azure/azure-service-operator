@@ -8,6 +8,8 @@
 | ApiPropertiesServerVersion                                    | v1alpha1api20210515 |
 | ApiPropertiesStatusServerVersion                              | v1alpha1api20210515 |
 | ApiProperties_Status                                          | v1alpha1api20210515 |
+| AutoscaleSettings                                             | v1alpha1api20210515 |
+| AutoscaleSettings_Status                                      | v1alpha1api20210515 |
 | BackupPolicy                                                  | v1alpha1api20210515 |
 | BackupPolicyType_Status                                       | v1alpha1api20210515 |
 | BackupPolicy_Status                                           | v1alpha1api20210515 |
@@ -22,6 +24,7 @@
 | ContinuousModeBackupPolicyType                                | v1alpha1api20210515 |
 | CorsPolicy                                                    | v1alpha1api20210515 |
 | CorsPolicy_Status                                             | v1alpha1api20210515 |
+| CreateUpdateOptions                                           | v1alpha1api20210515 |
 | DatabaseAccount                                               | v1alpha1api20210515 |
 | DatabaseAccountCreateUpdateProperties                         | v1alpha1api20210515 |
 | DatabaseAccountCreateUpdatePropertiesConnectorOffer           | v1alpha1api20210515 |
@@ -32,6 +35,10 @@
 | DatabaseAccountGetResultsStatusKind                           | v1alpha1api20210515 |
 | DatabaseAccountGetResults_Status                              | v1alpha1api20210515 |
 | DatabaseAccountOfferType_Status                               | v1alpha1api20210515 |
+| DatabaseAccountsMongodbDatabasesCollection                    | v1alpha1api20210515 |
+| DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion     | v1alpha1api20210515 |
+| DatabaseAccountsMongodbDatabasesCollectionsSpecType           | v1alpha1api20210515 |
+| DatabaseAccountsMongodbDatabasesCollections_Spec              | v1alpha1api20210515 |
 | DatabaseAccountsSpecAPIVersion                                | v1alpha1api20210515 |
 | DatabaseAccountsSpecKind                                      | v1alpha1api20210515 |
 | DatabaseAccountsSpecType                                      | v1alpha1api20210515 |
@@ -46,7 +53,19 @@
 | ManagedServiceIdentityType                                    | v1alpha1api20210515 |
 | ManagedServiceIdentity_Status                                 | v1alpha1api20210515 |
 | ManagedServiceIdentity_Status_UserAssignedIdentities          | v1alpha1api20210515 |
+| MongoDBCollectionCreateUpdateProperties                       | v1alpha1api20210515 |
+| MongoDBCollectionGetProperties_Status                         | v1alpha1api20210515 |
+| MongoDBCollectionGetProperties_Status_Resource                | v1alpha1api20210515 |
+| MongoDBCollectionGetResults_Status                            | v1alpha1api20210515 |
+| MongoDBCollectionResource                                     | v1alpha1api20210515 |
+| MongoIndex                                                    | v1alpha1api20210515 |
+| MongoIndexKeys                                                | v1alpha1api20210515 |
+| MongoIndexKeys_Status                                         | v1alpha1api20210515 |
+| MongoIndexOptions                                             | v1alpha1api20210515 |
+| MongoIndexOptions_Status                                      | v1alpha1api20210515 |
+| MongoIndex_Status                                             | v1alpha1api20210515 |
 | NetworkAclBypass_Status                                       | v1alpha1api20210515 |
+| OptionsResource_Status                                        | v1alpha1api20210515 |
 | PeriodicModeBackupPolicy                                      | v1alpha1api20210515 |
 | PeriodicModeBackupPolicyType                                  | v1alpha1api20210515 |
 | PeriodicModeProperties                                        | v1alpha1api20210515 |

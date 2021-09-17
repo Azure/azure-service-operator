@@ -40,6 +40,7 @@ v1alpha1api20210601
 v1alpha1api20210515
 
 - DatabaseAccount
+- DatabaseAccountsMongodbDatabasesCollection
 
 ### microsoft.managedidentity
 
