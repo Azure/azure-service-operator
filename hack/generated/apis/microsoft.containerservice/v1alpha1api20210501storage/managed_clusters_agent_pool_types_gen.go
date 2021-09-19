@@ -44,6 +44,11 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AzureName() string {
 	return managedClustersAgentPool.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (managedClustersAgentPool *ManagedClustersAgentPool) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (managedClustersAgentPool *ManagedClustersAgentPool) GetSpec() genruntime.ConvertibleSpec {
 	return &managedClustersAgentPool.Spec

@@ -388,7 +388,7 @@ else
 	chmod +x operator-sdk_linux_amd64 && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk_linux_amd64 /usr/local/bin/operator-sdk && rm operator-sdk_linux_amd64
 endif
 
-PREVIOUS_BUNDLE_VERSION ?= 1.0.27207
+PREVIOUS_BUNDLE_VERSION ?= 1.0.28631
 
 .PHONY: generate-operator-bundle
 generate-operator-bundle: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )

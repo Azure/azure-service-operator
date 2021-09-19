@@ -44,6 +44,11 @@ func (virtualNetworkTap *VirtualNetworkTap) AzureName() string {
 	return virtualNetworkTap.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualNetworkTap *VirtualNetworkTap) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualNetworkTap *VirtualNetworkTap) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualNetworkTap.Spec

@@ -87,7 +87,7 @@ func (builder *convertToARMBuilder) functionDeclaration() *dst.FuncDecl {
 	fn.AddParameter(nameParameterString, dst.NewIdent("string"))
 	fn.AddParameter(
 		resolvedReferencesParameterString,
-		astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimePackageName), "ResolvedReferences"))
+		astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimeReference.PackageName()), "ResolvedReferences"))
 	fn.AddReturns("interface{}", "error")
 	fn.AddComments("converts from a Kubernetes CRD object to an ARM object")
 

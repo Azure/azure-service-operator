@@ -44,6 +44,11 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Azur
 	return networkSecurityGroupsSecurityRule.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetSpec() genruntime.ConvertibleSpec {
 	return &networkSecurityGroupsSecurityRule.Spec

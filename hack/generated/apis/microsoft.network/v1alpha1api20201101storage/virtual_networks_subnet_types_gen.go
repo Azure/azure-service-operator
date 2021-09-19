@@ -44,6 +44,11 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) AzureName() string {
 	return virtualNetworksSubnet.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualNetworksSubnet *VirtualNetworksSubnet) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualNetworksSubnet *VirtualNetworksSubnet) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualNetworksSubnet.Spec

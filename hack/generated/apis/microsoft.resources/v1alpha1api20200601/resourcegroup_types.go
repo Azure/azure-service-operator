@@ -103,6 +103,11 @@ func (rg *ResourceGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
+// GetResourceKind returns the kind of the resource
+func (rg *ResourceGroup) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 var _ genruntime.LocatableResource = &ResourceGroup{}
 
 func (rg *ResourceGroup) Location() string {
