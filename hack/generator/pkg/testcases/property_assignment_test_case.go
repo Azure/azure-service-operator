@@ -307,7 +307,6 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 		declareDiff,
 		returnDiff)
 
-
 	// return ""
 	ret := astbuilder.Returns(astbuilder.StringLiteral(""))
 	ret.Decorations().Before = dst.EmptyLine
