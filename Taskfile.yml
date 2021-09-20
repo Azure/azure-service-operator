@@ -270,11 +270,11 @@ tasks:
     - cd apis && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
     vars:
       HEADER_FILE:
-        sh: realpath ../boilerplate.go.txt
+        sh: 'realpath ../boilerplate.go.txt #controller:generate-crds'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}} 
 
       OUTPUT:
-        sh: realpath config
+        sh: 'realpath config #controller:generate-crds'
       CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.OUTPUT}}/crd/bases 
       WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.OUTPUT}}/webhook 
       RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.OUTPUT}}/rbac
@@ -290,7 +290,7 @@ tasks:
       - cd pkg/genruntime && gofmt -l -s -w .  # We do this because controller-gen can generate these files in a way that isn't gofmt'ed which can break things down the line
     vars:
       HEADER_FILE:
-        sh: realpath ../boilerplate.go.txt
+        sh: 'realpath ../boilerplate.go.txt #controller:generate-genruntime-deepcopy'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
 
   controller:generate-kustomize:
@@ -376,11 +376,11 @@ tasks:
       - cd apis && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
     vars:
       HEADER_FILE: 
-        sh: realpath ../boilerplate.go.txt
+        sh: 'realpath ../boilerplate.go.txt #crossplane:generate-crds'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
 
       OUTPUT:
-        sh: realpath config
+        sh: 'realpath config #crossplane:generate-crds'
       CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.OUTPUT}}/crd/bases
       WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.OUTPUT}}/webhook
       RBAC_OPTIONS: rbac:roleName=manager-role # output:rbac:artifacts:config={{.OUTPUT}}/rbac # not output currently?
