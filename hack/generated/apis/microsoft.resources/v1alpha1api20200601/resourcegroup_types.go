@@ -81,6 +81,33 @@ func (rg *ResourceGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &rg.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Resources/resourceGroups"
+func (rg *ResourceGroup) GetType() string { return "Microsoft.Resources/resourceGroups" }
+
+// SetStatus sets the status of this resource
+func (rg *ResourceGroup) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*ResourceGroupStatus); ok {
+		rg.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st ResourceGroupStatus
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	rg.Status = st
+	return nil
+}
+
+// GetResourceKind returns the kind of the resource
+func (rg *ResourceGroup) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 var _ genruntime.LocatableResource = &ResourceGroup{}
 
 func (rg *ResourceGroup) Location() string {
@@ -115,8 +142,8 @@ type ResourceGroupStatus struct {
 var _ genruntime.FromARMConverter = &ResourceGroupStatus{}
 var _ genruntime.ConvertibleStatus = &ResourceGroupStatus{}
 
-func (status *ResourceGroupStatus) CreateEmptyARMValue() interface{} {
-	return ResourceGroupStatusARM{}
+func (status *ResourceGroupStatus) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ResourceGroupStatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -212,7 +239,7 @@ type ResourceGroupSpec struct {
 var _ genruntime.ARMTransformer = &ResourceGroupSpec{}
 var _ genruntime.ConvertibleSpec = &ResourceGroupSpec{}
 
-func (spec *ResourceGroupSpec) CreateEmptyARMValue() interface{} {
+func (spec *ResourceGroupSpec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
 	return ResourceGroupSpecARM{}
 }
 

@@ -44,6 +44,11 @@ func (storageAccount *StorageAccount) AzureName() string {
 	return storageAccount.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (storageAccount *StorageAccount) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (storageAccount *StorageAccount) GetSpec() genruntime.ConvertibleSpec {
 	return &storageAccount.Spec
@@ -54,10 +59,34 @@ func (storageAccount *StorageAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &storageAccount.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts"
+func (storageAccount *StorageAccount) GetType() string {
+	return "Microsoft.Storage/storageAccounts"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (storageAccount *StorageAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccount.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: storageAccount.Namespace, Name: storageAccount.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (storageAccount *StorageAccount) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*StorageAccount_Status); ok {
+		storageAccount.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st StorageAccount_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	storageAccount.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

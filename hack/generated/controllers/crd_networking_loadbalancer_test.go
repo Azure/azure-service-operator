@@ -20,14 +20,14 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
-func Test_LoadBalancer_CRUD(t *testing.T) {
+func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	t.Parallel()
 
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Public IP Address
 	sku := network.PublicIPAddressSkuNameStandard

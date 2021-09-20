@@ -45,6 +45,11 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) AzureName() string {
 	return virtualMachineScaleSet.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualMachineScaleSet *VirtualMachineScaleSet) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualMachineScaleSet *VirtualMachineScaleSet) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualMachineScaleSet.Spec
@@ -55,10 +60,34 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) GetStatus() genruntime.Con
 	return &virtualMachineScaleSet.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
+func (virtualMachineScaleSet *VirtualMachineScaleSet) GetType() string {
+	return "Microsoft.Compute/virtualMachineScaleSets"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualMachineScaleSet *VirtualMachineScaleSet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualMachineScaleSet.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualMachineScaleSet.Namespace, Name: virtualMachineScaleSet.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (virtualMachineScaleSet *VirtualMachineScaleSet) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*VirtualMachineScaleSet_Status); ok {
+		virtualMachineScaleSet.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st VirtualMachineScaleSet_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualMachineScaleSet.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

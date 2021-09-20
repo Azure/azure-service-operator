@@ -76,6 +76,11 @@ func (databaseAccount *DatabaseAccount) AzureName() string {
 	return databaseAccount.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (databaseAccount *DatabaseAccount) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (databaseAccount *DatabaseAccount) GetSpec() genruntime.ConvertibleSpec {
 	return &databaseAccount.Spec
@@ -86,10 +91,34 @@ func (databaseAccount *DatabaseAccount) GetStatus() genruntime.ConvertibleStatus
 	return &databaseAccount.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
+func (databaseAccount *DatabaseAccount) GetType() string {
+	return "Microsoft.DocumentDB/databaseAccounts"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (databaseAccount *DatabaseAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(databaseAccount.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: databaseAccount.Namespace, Name: databaseAccount.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (databaseAccount *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*DatabaseAccountGetResults_Status); ok {
+		databaseAccount.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st DatabaseAccountGetResults_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	databaseAccount.Status = st
+	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccounts,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.databaseaccounts.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
@@ -418,8 +447,8 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) Convert
 var _ genruntime.FromARMConverter = &DatabaseAccountGetResults_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) CreateEmptyARMValue() interface{} {
-	return DatabaseAccountGetResults_StatusARM{}
+func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountGetResults_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1850,8 +1879,8 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsSpec *DatabaseAccounts_Spec) CreateEmptyARMValue() interface{} {
-	return DatabaseAccounts_SpecARM{}
+func (databaseAccountsSpec *DatabaseAccounts_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccounts_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2746,8 +2775,8 @@ func (analyticalStorageConfiguration *AnalyticalStorageConfiguration) ConvertToA
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (analyticalStorageConfiguration *AnalyticalStorageConfiguration) CreateEmptyARMValue() interface{} {
-	return AnalyticalStorageConfigurationARM{}
+func (analyticalStorageConfiguration *AnalyticalStorageConfiguration) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AnalyticalStorageConfigurationARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2810,8 +2839,8 @@ type AnalyticalStorageConfiguration_Status struct {
 var _ genruntime.FromARMConverter = &AnalyticalStorageConfiguration_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (analyticalStorageConfigurationStatus *AnalyticalStorageConfiguration_Status) CreateEmptyARMValue() interface{} {
-	return AnalyticalStorageConfiguration_StatusARM{}
+func (analyticalStorageConfigurationStatus *AnalyticalStorageConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AnalyticalStorageConfiguration_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2890,8 +2919,8 @@ func (apiProperties *ApiProperties) ConvertToARM(name string, resolvedReferences
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (apiProperties *ApiProperties) CreateEmptyARMValue() interface{} {
-	return ApiPropertiesARM{}
+func (apiProperties *ApiProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ApiPropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2955,8 +2984,8 @@ type ApiProperties_Status struct {
 var _ genruntime.FromARMConverter = &ApiProperties_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (apiPropertiesStatus *ApiProperties_Status) CreateEmptyARMValue() interface{} {
-	return ApiProperties_StatusARM{}
+func (apiPropertiesStatus *ApiProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ApiProperties_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3052,8 +3081,8 @@ func (backupPolicy *BackupPolicy) ConvertToARM(name string, resolvedReferences g
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (backupPolicy *BackupPolicy) CreateEmptyARMValue() interface{} {
-	return BackupPolicyARM{}
+func (backupPolicy *BackupPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BackupPolicyARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3165,8 +3194,8 @@ type BackupPolicy_Status struct {
 var _ genruntime.FromARMConverter = &BackupPolicy_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (backupPolicyStatus *BackupPolicy_Status) CreateEmptyARMValue() interface{} {
-	return BackupPolicy_StatusARM{}
+func (backupPolicyStatus *BackupPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BackupPolicy_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3238,8 +3267,8 @@ func (capability *Capability) ConvertToARM(name string, resolvedReferences genru
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (capability *Capability) CreateEmptyARMValue() interface{} {
-	return CapabilityARM{}
+func (capability *Capability) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CapabilityARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3304,8 +3333,8 @@ type Capability_Status struct {
 var _ genruntime.FromARMConverter = &Capability_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (capabilityStatus *Capability_Status) CreateEmptyARMValue() interface{} {
-	return Capability_StatusARM{}
+func (capabilityStatus *Capability_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Capability_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3416,8 +3445,8 @@ func (consistencyPolicy *ConsistencyPolicy) ConvertToARM(name string, resolvedRe
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (consistencyPolicy *ConsistencyPolicy) CreateEmptyARMValue() interface{} {
-	return ConsistencyPolicyARM{}
+func (consistencyPolicy *ConsistencyPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ConsistencyPolicyARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3531,8 +3560,8 @@ type ConsistencyPolicy_Status struct {
 var _ genruntime.FromARMConverter = &ConsistencyPolicy_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (consistencyPolicyStatus *ConsistencyPolicy_Status) CreateEmptyARMValue() interface{} {
-	return ConsistencyPolicy_StatusARM{}
+func (consistencyPolicyStatus *ConsistencyPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ConsistencyPolicy_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3688,8 +3717,8 @@ func (corsPolicy *CorsPolicy) ConvertToARM(name string, resolvedReferences genru
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (corsPolicy *CorsPolicy) CreateEmptyARMValue() interface{} {
-	return CorsPolicyARM{}
+func (corsPolicy *CorsPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CorsPolicyARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3851,8 +3880,8 @@ type CorsPolicy_Status struct {
 var _ genruntime.FromARMConverter = &CorsPolicy_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (corsPolicyStatus *CorsPolicy_Status) CreateEmptyARMValue() interface{} {
-	return CorsPolicy_StatusARM{}
+func (corsPolicyStatus *CorsPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CorsPolicy_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4037,8 +4066,8 @@ type FailoverPolicy_Status struct {
 var _ genruntime.FromARMConverter = &FailoverPolicy_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (failoverPolicyStatus *FailoverPolicy_Status) CreateEmptyARMValue() interface{} {
-	return FailoverPolicy_StatusARM{}
+func (failoverPolicyStatus *FailoverPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FailoverPolicy_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4165,8 +4194,8 @@ func (ipAddressOrRange *IpAddressOrRange) ConvertToARM(name string, resolvedRefe
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipAddressOrRange *IpAddressOrRange) CreateEmptyARMValue() interface{} {
-	return IpAddressOrRangeARM{}
+func (ipAddressOrRange *IpAddressOrRange) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IpAddressOrRangeARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4234,8 +4263,8 @@ type IpAddressOrRange_Status struct {
 var _ genruntime.FromARMConverter = &IpAddressOrRange_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipAddressOrRangeStatus *IpAddressOrRange_Status) CreateEmptyARMValue() interface{} {
-	return IpAddressOrRange_StatusARM{}
+func (ipAddressOrRangeStatus *IpAddressOrRange_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IpAddressOrRange_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4337,8 +4366,8 @@ func (location *Location) ConvertToARM(name string, resolvedReferences genruntim
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (location *Location) CreateEmptyARMValue() interface{} {
-	return LocationARM{}
+func (location *Location) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LocationARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4465,8 +4494,8 @@ type Location_Status struct {
 var _ genruntime.FromARMConverter = &Location_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (locationStatus *Location_Status) CreateEmptyARMValue() interface{} {
-	return Location_StatusARM{}
+func (locationStatus *Location_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Location_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4658,8 +4687,8 @@ func (managedServiceIdentity *ManagedServiceIdentity) ConvertToARM(name string, 
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedServiceIdentity *ManagedServiceIdentity) CreateEmptyARMValue() interface{} {
-	return ManagedServiceIdentityARM{}
+func (managedServiceIdentity *ManagedServiceIdentity) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedServiceIdentityARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4740,8 +4769,8 @@ type ManagedServiceIdentity_Status struct {
 var _ genruntime.FromARMConverter = &ManagedServiceIdentity_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedServiceIdentityStatus *ManagedServiceIdentity_Status) CreateEmptyARMValue() interface{} {
-	return ManagedServiceIdentity_StatusARM{}
+func (managedServiceIdentityStatus *ManagedServiceIdentity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedServiceIdentity_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4899,8 +4928,8 @@ type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_Status_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnection_Status_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return PrivateEndpointConnection_Status_SubResourceEmbeddedARM{}
+func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnection_Status_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpointConnection_Status_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5002,8 +5031,8 @@ func (virtualNetworkRule *VirtualNetworkRule) ConvertToARM(name string, resolved
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkRule *VirtualNetworkRule) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkRuleARM{}
+func (virtualNetworkRule *VirtualNetworkRule) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkRuleARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5090,8 +5119,8 @@ type VirtualNetworkRule_Status struct {
 var _ genruntime.FromARMConverter = &VirtualNetworkRule_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkRuleStatus *VirtualNetworkRule_Status) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkRule_StatusARM{}
+func (virtualNetworkRuleStatus *VirtualNetworkRule_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkRule_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5251,8 +5280,8 @@ func (continuousModeBackupPolicy *ContinuousModeBackupPolicy) ConvertToARM(name 
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (continuousModeBackupPolicy *ContinuousModeBackupPolicy) CreateEmptyARMValue() interface{} {
-	return ContinuousModeBackupPolicyARM{}
+func (continuousModeBackupPolicy *ContinuousModeBackupPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContinuousModeBackupPolicyARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5310,8 +5339,8 @@ type ManagedServiceIdentity_Status_UserAssignedIdentities struct {
 var _ genruntime.FromARMConverter = &ManagedServiceIdentity_Status_UserAssignedIdentities{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedServiceIdentityStatusUserAssignedIdentities *ManagedServiceIdentity_Status_UserAssignedIdentities) CreateEmptyARMValue() interface{} {
-	return ManagedServiceIdentity_Status_UserAssignedIdentitiesARM{}
+func (managedServiceIdentityStatusUserAssignedIdentities *ManagedServiceIdentity_Status_UserAssignedIdentities) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedServiceIdentity_Status_UserAssignedIdentitiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5422,8 +5451,8 @@ func (periodicModeBackupPolicy *PeriodicModeBackupPolicy) ConvertToARM(name stri
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (periodicModeBackupPolicy *PeriodicModeBackupPolicy) CreateEmptyARMValue() interface{} {
-	return PeriodicModeBackupPolicyARM{}
+func (periodicModeBackupPolicy *PeriodicModeBackupPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PeriodicModeBackupPolicyARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5552,8 +5581,8 @@ func (periodicModeProperties *PeriodicModeProperties) ConvertToARM(name string, 
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (periodicModeProperties *PeriodicModeProperties) CreateEmptyARMValue() interface{} {
-	return PeriodicModePropertiesARM{}
+func (periodicModeProperties *PeriodicModeProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PeriodicModePropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

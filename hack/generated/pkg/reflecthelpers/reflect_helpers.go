@@ -98,18 +98,8 @@ func NewEmptyArmResourceStatus(metaObject genruntime.MetaObject) (genruntime.ARM
 		return nil, err
 	}
 
-	// TODO: Do we actually want to return a ptr here, not a value?
 	armStatus := kubeStatus.CreateEmptyARMValue()
-
-	// TODO: Some reflect hackery here to make sure that this is a ptr not a value
-	armStatusPtr := NewPtrFromValue(armStatus)
-	castArmStatus, ok := armStatusPtr.(genruntime.ARMResourceStatus)
-	if !ok {
-		// TODO: Should these be panics instead - they aren't really recoverable?
-		return nil, errors.Errorf("resource status %T did not implement genruntime.ArmResourceStatus", armStatus)
-	}
-
-	return castArmStatus, nil
+	return armStatus, nil
 }
 
 // NewEmptyStatus creates a new empty Status object (which implements FromArmConverter) from

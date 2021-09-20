@@ -44,6 +44,11 @@ func (namespace *Namespace) AzureName() string {
 	return namespace.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (namespace *Namespace) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (namespace *Namespace) GetSpec() genruntime.ConvertibleSpec {
 	return &namespace.Spec
@@ -54,10 +59,34 @@ func (namespace *Namespace) GetStatus() genruntime.ConvertibleStatus {
 	return &namespace.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces"
+func (namespace *Namespace) GetType() string {
+	return "Microsoft.ServiceBus/namespaces"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespace.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: namespace.Namespace, Name: namespace.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (namespace *Namespace) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*SBNamespace_Status); ok {
+		namespace.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st SBNamespace_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	namespace.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

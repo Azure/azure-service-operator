@@ -15,12 +15,12 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 )
 
-func Test_PublicIP_CRUD(t *testing.T) {
+func Test_Networking_PublicIP_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Public IP Address
 	// TODO: Note the microsoft.networking package also defines a PublicIPAddress type, so

@@ -76,6 +76,11 @@ func (namespacesTopic *NamespacesTopic) AzureName() string {
 	return namespacesTopic.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (namespacesTopic *NamespacesTopic) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (namespacesTopic *NamespacesTopic) GetSpec() genruntime.ConvertibleSpec {
 	return &namespacesTopic.Spec
@@ -86,10 +91,34 @@ func (namespacesTopic *NamespacesTopic) GetStatus() genruntime.ConvertibleStatus
 	return &namespacesTopic.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
+func (namespacesTopic *NamespacesTopic) GetType() string {
+	return "Microsoft.ServiceBus/namespaces/topics"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (namespacesTopic *NamespacesTopic) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesTopic.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: namespacesTopic.Namespace, Name: namespacesTopic.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (namespacesTopic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*SBTopic_Status); ok {
+		namespacesTopic.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st SBTopic_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	namespacesTopic.Status = st
+	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacestopic,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.servicebus.azure.com,resources=namespacestopics,verbs=create;update,versions=v1alpha1api20210101preview,name=validate.v1alpha1api20210101preview.namespacestopics.microsoft.servicebus.azure.com,admissionReviewVersions=v1beta1
@@ -365,8 +394,8 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(name string, res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespacesTopicsSpec *NamespacesTopics_Spec) CreateEmptyARMValue() interface{} {
-	return NamespacesTopics_SpecARM{}
+func (namespacesTopicsSpec *NamespacesTopics_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NamespacesTopics_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -865,8 +894,8 @@ func (sbTopicStatus *SBTopic_Status) ConvertStatusTo(destination genruntime.Conv
 var _ genruntime.FromARMConverter = &SBTopic_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbTopicStatus *SBTopic_Status) CreateEmptyARMValue() interface{} {
-	return SBTopic_StatusARM{}
+func (sbTopicStatus *SBTopic_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SBTopic_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

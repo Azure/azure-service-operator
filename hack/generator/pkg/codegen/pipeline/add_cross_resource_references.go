@@ -33,6 +33,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
 			result := make(astmodel.Types)
 			knownReferences := newKnownReferencesMap(configuration)
+			matchedReferences := make(map[referencePair]struct{})
 
 			var isCrossResourceReferenceErrs []error
 
@@ -42,6 +43,9 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 					propName: prop.PropertyName(),
 				}
 				isReference, found := knownReferences[ref]
+				if found {
+					matchedReferences[ref] = struct{}{}
+				}
 
 				if DoesPropertyLookLikeARMReference(prop) && !found {
 					// This is an error for now to ensure that we don't accidentally miss adding references.
@@ -78,6 +82,13 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 			err := kerrors.NewAggregate(isCrossResourceReferenceErrs)
 			if err != nil {
 				return nil, err
+			}
+
+			// Ensure that all references outlined were actually transformed
+			for key := range knownReferences {
+				if _, ok := matchedReferences[key]; !ok {
+					return nil, errors.Errorf("labeled reference %s.%s couldn't be found", key.typeName, key.propName)
+				}
 			}
 
 			return result, nil
@@ -213,10 +224,6 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 		}: true,
 		// Service bus
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.servicebus", "v1alpha1api20210101preview"), "PrivateEndpoint"),
-			propName: "Id",
-		}: true,
-		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.servicebus", "v1alpha1api20210101preview"), "UserAssignedIdentityProperties"),
 			propName: "UserAssignedIdentity",
 		}: true,
@@ -277,6 +284,51 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 		{
 			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930"), "DiskProperties"),
 			propName: "DiskAccessId",
+		}: true,
+		// AKS
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
+			propName: "Id",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfile"),
+			propName: "VnetSubnetID",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfile"),
+			propName: "PodSubnetID",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfile"),
+			propName: "NodePublicIPPrefixID",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfileProperties"),
+			propName: "VnetSubnetID",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfileProperties"),
+			propName: "PodSubnetID",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfileProperties"),
+			propName: "NodePublicIPPrefixID",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "UserAssignedIdentity"),
+			propName: "ResourceId",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ResourceReference"),
+			propName: "Id",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties"),
+			propName: "ResourceId", // TODO: Is this right?
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterProperties"),
+			propName: "DiskEncryptionSetID",
 		}: true,
 	}
 }

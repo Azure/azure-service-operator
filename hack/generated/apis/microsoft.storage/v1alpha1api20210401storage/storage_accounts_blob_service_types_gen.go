@@ -44,6 +44,11 @@ func (storageAccountsBlobService *StorageAccountsBlobService) AzureName() string
 	return "default"
 }
 
+// GetResourceKind returns the kind of the resource
+func (storageAccountsBlobService *StorageAccountsBlobService) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (storageAccountsBlobService *StorageAccountsBlobService) GetSpec() genruntime.ConvertibleSpec {
 	return &storageAccountsBlobService.Spec
@@ -54,10 +59,34 @@ func (storageAccountsBlobService *StorageAccountsBlobService) GetStatus() genrun
 	return &storageAccountsBlobService.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices"
+func (storageAccountsBlobService *StorageAccountsBlobService) GetType() string {
+	return "Microsoft.Storage/storageAccounts/blobServices"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (storageAccountsBlobService *StorageAccountsBlobService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccountsBlobService.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: storageAccountsBlobService.Namespace, Name: storageAccountsBlobService.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (storageAccountsBlobService *StorageAccountsBlobService) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*BlobServiceProperties_Status); ok {
+		storageAccountsBlobService.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st BlobServiceProperties_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	storageAccountsBlobService.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

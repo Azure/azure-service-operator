@@ -287,6 +287,7 @@ tasks:
     cmds:
       - find ./pkg/genruntime -type f -name "zz_generated.*" -delete
       - cd pkg/genruntime && controller-gen {{.OBJECT_OPTIONS}} paths=./...
+      - cd pkg/genruntime && gofmt -l -s -w .  # We do this because controller-gen can generate these files in a way that isn't gofmt'ed which can break things down the line
     vars:
       HEADER_FILE:
         sh: realpath ../boilerplate.go.txt

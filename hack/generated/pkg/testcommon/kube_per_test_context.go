@@ -160,16 +160,18 @@ const (
 	DoNotWait       WaitCondition = false
 )
 
-// CreateNewTestResourceGroup creates a new randomly-named resource group
-// and registers it to be deleted up when the context is cleaned up
-func (tc KubePerTestContext) CreateNewTestResourceGroup(wait WaitCondition) (*resources.ResourceGroup, error) {
-	rg := tc.NewTestResourceGroup()
-	return tc.CreateTestResourceGroup(rg, wait)
+// CreateResourceGroupAndWait creates the specified resource group, registers it to be deleted when the
+// context is cleaned up, and waits for it to finish being created.
+func (tc KubePerTestContext) CreateResourceGroupAndWait(rg *resources.ResourceGroup) *resources.ResourceGroup {
+	createdResourceGroup, err := tc.CreateResourceGroup(rg)
+	tc.Expect(err).ToNot(gomega.HaveOccurred())
+	tc.Eventually(createdResourceGroup).Should(tc.Match.BeProvisioned())
+	return createdResourceGroup
 }
 
-// CreateTestResourceGroup creates a new resource group
+// CreateResourceGroup creates a new resource group
 // and registers it to be deleted up when the context is cleaned up
-func (tc KubePerTestContext) CreateTestResourceGroup(rg *resources.ResourceGroup, wait WaitCondition) (*resources.ResourceGroup, error) {
+func (tc KubePerTestContext) CreateResourceGroup(rg *resources.ResourceGroup) (*resources.ResourceGroup, error) {
 	ctx := context.Background()
 
 	tc.T.Logf("Creating test resource group %q", rg.Name)
@@ -191,25 +193,15 @@ func (tc KubePerTestContext) CreateTestResourceGroup(rg *resources.ResourceGroup
 		}
 
 		// We have to wait delete to finish here. If we don't, there's a good chance
-		// that even though Kuberentes accepted our request to delete the resource, the
+		// that even though Kubernetes accepted our request to delete the resource, the
 		// controller running in envtest never got a chance to actually issue a request
 		// to Azure before the test is torn down (and envtest stops). We can't easily
 		// wait for just "Deleting" as that causes issues with determinism as the controller
 		// doesn't stop polling resources in "Deleting" state and so when running recordings
 		// different runs end up polling different numbers of times. Ensuring we reach a state
 		// the controller deems terminal (Deleted) resolves this issue.
-		tc.G.Eventually(rg, tc.DefaultTimeout(), tc.PollingInterval()).Should(tc.Match.BeDeleted())
+		tc.G.Eventually(rg, tc.RemainingTime(), tc.PollingInterval()).Should(tc.Match.BeDeleted())
 	})
-
-	if wait {
-		err = WaitFor(ctx, 2*time.Minute, func(ctx context.Context) (bool, error) {
-			return tc.Verify.Provisioned(ctx, rg)
-		})
-
-		if err != nil {
-			return nil, errors.Wrapf(err, "waiting for resource group creation")
-		}
-	}
 
 	return rg, nil
 }
@@ -286,10 +278,8 @@ func (tc *KubePerTestContext) Eventually(actual interface{}, intervals ...interf
 	return tc.G.Eventually(actual, tc.RemainingTime(), tc.PollingInterval())
 }
 
-func (tc *KubePerTestContext) CreateNewTestResourceGroupAndWait() *v1alpha1api20200601.ResourceGroup {
-	rg, err := tc.CreateNewTestResourceGroup(WaitForCreation)
-	tc.Expect(err).ToNot(gomega.HaveOccurred())
-	return rg
+func (tc *KubePerTestContext) CreateTestResourceGroupAndWait() *v1alpha1api20200601.ResourceGroup {
+	return tc.CreateResourceGroupAndWait(tc.NewTestResourceGroup())
 }
 
 // CreateResourceAndWait creates the resource in K8s and waits for it to

@@ -15,6 +15,15 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 )
 
+type ResourceKind string
+
+const (
+	// ResourceKindNormal is a standard ARM resource.
+	ResourceKindNormal = ResourceKind("normal")
+	// ResourceKindExtension is an extension resource. Extension resources can have any resource as their parent.
+	ResourceKindExtension = ResourceKind("extension")
+)
+
 // TODO: These should become Status properties at some point.
 const (
 	ResourceIDAnnotation = "resource-id.azure.com"
@@ -45,20 +54,27 @@ type KubernetesResource interface {
 	// AzureName returns the Azure name of the resource
 	AzureName() string
 
+	// GetType returns the type of the resource according to Azure. For example Microsoft.Resources/resourceGroups or
+	// Microsoft.Network/networkSecurityGroups/securityRules
+	GetType() string
+
+	// GetResourceKind returns the ResourceKind of the resource.
+	GetResourceKind() ResourceKind
+
 	// Some types, but not all, have a corresponding:
 	// 	SetAzureName(name string)
 	// They do not if the name must be a fixed value (like 'default').
 
 	// TODO: GetAPIVersion here?
 
-	// TODO: I think we need this
-	// SetStatus(status interface{})
-
 	// GetSpec returns the specification of the resource
 	GetSpec() ConvertibleSpec
 
 	// GetStatus returns the current status of the resource
 	GetStatus() ConvertibleStatus
+
+	// SetStatus updates the status of the resource
+	SetStatus(status ConvertibleStatus) error
 }
 
 // TODO: We really want these methods to be on MetaObject itself -- should update code generator to make them at some point
@@ -110,7 +126,6 @@ type ARMResource interface {
 	Spec() ARMResourceSpec
 	Status() ARMResourceStatus
 
-	// TODO: Golang wants this to be GetID
 	GetID() string // TODO: Should this be on Status instead?
 }
 

@@ -93,7 +93,7 @@ func Test_DeploymentAccepted_LongRunningOperationFails(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 	acct := newStorageAccountWithInvalidKeyExpiration(tc, rg)
 	tc.CreateResourceAndWaitForFailure(acct)
 
@@ -114,7 +114,7 @@ func Test_DeploymentAccepted_LongRunningOperationFails_SucceedsAfterUpdate(t *te
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 	acct := newStorageAccountWithInvalidKeyExpiration(tc, rg)
 	tc.CreateResourceAndWaitForFailure(acct)
 
@@ -146,7 +146,7 @@ func Test_DeploymentRejected(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 	vmss := newVMSSWithInvalidPublisher(tc, rg)
 	tc.CreateResourceAndWaitForFailure(vmss)
 
@@ -167,7 +167,7 @@ func Test_DeploymentRejected_SucceedsAfterUpdate(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateNewTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	vnet := newVNETForVMSS(tc, testcommon.AsOwner(rg.ObjectMeta))
 	subnet := newSubnetForVMSS(tc, testcommon.AsOwner(vnet.ObjectMeta))

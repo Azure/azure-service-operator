@@ -44,6 +44,11 @@ func (namespacesTopic *NamespacesTopic) AzureName() string {
 	return namespacesTopic.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (namespacesTopic *NamespacesTopic) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (namespacesTopic *NamespacesTopic) GetSpec() genruntime.ConvertibleSpec {
 	return &namespacesTopic.Spec
@@ -54,10 +59,34 @@ func (namespacesTopic *NamespacesTopic) GetStatus() genruntime.ConvertibleStatus
 	return &namespacesTopic.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
+func (namespacesTopic *NamespacesTopic) GetType() string {
+	return "Microsoft.ServiceBus/namespaces/topics"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (namespacesTopic *NamespacesTopic) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesTopic.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: namespacesTopic.Namespace, Name: namespacesTopic.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (namespacesTopic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*SBTopic_Status); ok {
+		namespacesTopic.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st SBTopic_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	namespacesTopic.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

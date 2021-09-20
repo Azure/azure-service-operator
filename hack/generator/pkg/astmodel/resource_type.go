@@ -17,6 +17,15 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
+type ResourceKind string
+
+const (
+	// ResourceKindNormal is a standard ARM resource.
+	ResourceKindNormal = ResourceKind("normal")
+	// ResourceKindExtension is an extension resource. Extension resources can have any resource as their parent.
+	ResourceKindExtension = ResourceKind("extension")
+)
+
 // ResourceType represents a Kubernetes CRD resource which has both
 // spec (the user-requested state) and status (the current state)
 type ResourceType struct {
@@ -28,6 +37,7 @@ type ResourceType struct {
 	functions        map[string]Function
 	testcases        map[string]TestCase
 	annotations      []string // TODO: Consider ensuring that these are actually kubebuilder annotations.
+	kind             ResourceKind
 	InterfaceImplementer
 }
 
@@ -39,6 +49,7 @@ func NewResourceType(specType Type, statusType Type) *ResourceType {
 		properties:           make(PropertySet),
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
+		kind:                 ResourceKindNormal,
 		InterfaceImplementer: MakeInterfaceImplementer(),
 	}
 
@@ -57,31 +68,36 @@ func IsResourceDefinition(def TypeDefinition) bool {
 // NewAzureResourceType defines a new resource type for Azure. It ensures that
 // the resource has certain expected properties such as type and name.
 // The typeName parameter is just used for logging.
-func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *ResourceType {
+func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kind ResourceKind) *ResourceType {
 	if objectType, ok := specType.(*ObjectType); ok {
 		// We have certain expectations about structure for resources
 		var nameProperty *PropertyDefinition
 		var typeProperty *PropertyDefinition
 		var apiVersionProperty *PropertyDefinition
+		var scopeProperty *PropertyDefinition
+
 		isNameOptional := false
 		isTypeOptional := false
 		for _, property := range objectType.Properties() {
-			if property.HasName(NameProperty) {
+
+			// force this string because otherwise linter complains thinking it's an enum without an exhaustive switch...
+			// It turns out there are other reasons to alias string than just to make an enum, seems like the linter doesn't
+			// realize that
+			switch string(property.PropertyName()) {
+			case NameProperty:
 				nameProperty = property
 				if _, ok := property.PropertyType().(*OptionalType); ok {
 					isNameOptional = true
 				}
-			}
-
-			if property.HasName(TypeProperty) {
+			case TypeProperty:
 				typeProperty = property
 				if _, ok := property.PropertyType().(*OptionalType); ok {
 					isTypeOptional = true
 				}
-			}
-
-			if property.HasName(APIVersionProperty) {
+			case APIVersionProperty:
 				apiVersionProperty = property
+			case ScopeProperty:
+				scopeProperty = property
 			}
 		}
 
@@ -99,6 +115,12 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *Re
 
 		if apiVersionProperty == nil {
 			panic(fmt.Sprintf("Resource %s is missing apiVersion property", typeName))
+		}
+
+		if scopeProperty == nil && kind == ResourceKindExtension {
+			scopeProperty = NewPropertyDefinition("Scope", "scope", StringType)
+			scopeProperty = scopeProperty.WithDescription("A scope").MakeOptional()
+			objectType = objectType.WithProperty(scopeProperty)
 		}
 
 		if isNameOptional {
@@ -122,7 +144,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *Re
 		specType = objectType
 	}
 
-	return NewResourceType(specType, statusType)
+	return NewResourceType(specType, statusType).WithKind(kind)
 }
 
 // Ensure ResourceType implements the Type interface correctly
@@ -218,6 +240,13 @@ func (resource *ResourceType) WithTestCase(testcase TestCase) *ResourceType {
 	return result
 }
 
+// WithKind returns a new ResourceType with the specified kind
+func (resource *ResourceType) WithKind(kind ResourceKind) *ResourceType {
+	result := resource.copy()
+	result.kind = kind
+	return result
+}
+
 // TestCases returns a new slice containing all the test cases associated with this resource
 func (resource *ResourceType) TestCases() []TestCase {
 	var result []TestCase
@@ -261,6 +290,7 @@ func (resource *ResourceType) Equals(other Type) bool {
 		!TypeEquals(resource.spec, otherResource.spec) ||
 		!TypeEquals(resource.status, otherResource.status) ||
 		len(resource.annotations) != len(otherResource.annotations) ||
+		resource.kind != otherResource.kind ||
 		!resource.InterfaceImplementer.Equals(otherResource.InterfaceImplementer) {
 		return false
 	}
@@ -381,6 +411,11 @@ func (resource *ResourceType) Property(name PropertyName) (*PropertyDefinition, 
 
 	prop, ok := resource.properties[name]
 	return prop, ok
+}
+
+// Kind returns the ResourceKind of the resource
+func (resource *ResourceType) Kind() ResourceKind {
+	return resource.kind
 }
 
 // Functions returns all the function implementations
@@ -639,6 +674,7 @@ func (resource *ResourceType) copy() *ResourceType {
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		annotations:          append([]string(nil), resource.annotations...),
+		kind:                 resource.kind,
 		InterfaceImplementer: resource.InterfaceImplementer.copy(),
 	}
 

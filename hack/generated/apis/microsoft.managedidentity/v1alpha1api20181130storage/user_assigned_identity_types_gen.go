@@ -44,6 +44,11 @@ func (userAssignedIdentity *UserAssignedIdentity) AzureName() string {
 	return userAssignedIdentity.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (userAssignedIdentity *UserAssignedIdentity) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (userAssignedIdentity *UserAssignedIdentity) GetSpec() genruntime.ConvertibleSpec {
 	return &userAssignedIdentity.Spec
@@ -54,10 +59,34 @@ func (userAssignedIdentity *UserAssignedIdentity) GetStatus() genruntime.Convert
 	return &userAssignedIdentity.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities"
+func (userAssignedIdentity *UserAssignedIdentity) GetType() string {
+	return "Microsoft.ManagedIdentity/userAssignedIdentities"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (userAssignedIdentity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(userAssignedIdentity.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: userAssignedIdentity.Namespace, Name: userAssignedIdentity.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (userAssignedIdentity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*Identity_Status); ok {
+		userAssignedIdentity.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st Identity_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	userAssignedIdentity.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

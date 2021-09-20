@@ -78,6 +78,11 @@ func (userAssignedIdentity *UserAssignedIdentity) AzureName() string {
 	return userAssignedIdentity.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (userAssignedIdentity *UserAssignedIdentity) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (userAssignedIdentity *UserAssignedIdentity) GetSpec() genruntime.ConvertibleSpec {
 	return &userAssignedIdentity.Spec
@@ -88,10 +93,34 @@ func (userAssignedIdentity *UserAssignedIdentity) GetStatus() genruntime.Convert
 	return &userAssignedIdentity.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities"
+func (userAssignedIdentity *UserAssignedIdentity) GetType() string {
+	return "Microsoft.ManagedIdentity/userAssignedIdentities"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (userAssignedIdentity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(userAssignedIdentity.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: userAssignedIdentity.Namespace, Name: userAssignedIdentity.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (userAssignedIdentity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*Identity_Status); ok {
+		userAssignedIdentity.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st Identity_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	userAssignedIdentity.Status = st
+	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-microsoft-managedidentity-azure-com-v1alpha1api20181130-userassignedidentity,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1alpha1api20181130,name=validate.v1alpha1api20181130.userassignedidentities.microsoft.managedidentity.azure.com,admissionReviewVersions=v1beta1
@@ -327,8 +356,8 @@ func (identityStatus *Identity_Status) ConvertStatusTo(destination genruntime.Co
 var _ genruntime.FromARMConverter = &Identity_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identityStatus *Identity_Status) CreateEmptyARMValue() interface{} {
-	return Identity_StatusARM{}
+func (identityStatus *Identity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Identity_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -617,8 +646,8 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(name
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) CreateEmptyARMValue() interface{} {
-	return UserAssignedIdentities_SpecARM{}
+func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentities_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

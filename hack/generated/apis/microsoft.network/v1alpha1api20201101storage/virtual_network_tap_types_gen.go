@@ -44,6 +44,11 @@ func (virtualNetworkTap *VirtualNetworkTap) AzureName() string {
 	return virtualNetworkTap.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualNetworkTap *VirtualNetworkTap) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualNetworkTap *VirtualNetworkTap) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualNetworkTap.Spec
@@ -54,10 +59,34 @@ func (virtualNetworkTap *VirtualNetworkTap) GetStatus() genruntime.ConvertibleSt
 	return &virtualNetworkTap.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworkTaps"
+func (virtualNetworkTap *VirtualNetworkTap) GetType() string {
+	return "Microsoft.Network/virtualNetworkTaps"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworkTap *VirtualNetworkTap) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworkTap.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualNetworkTap.Namespace, Name: virtualNetworkTap.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (virtualNetworkTap *VirtualNetworkTap) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded); ok {
+		virtualNetworkTap.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st VirtualNetworkTap_Status_VirtualNetworkTap_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualNetworkTap.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

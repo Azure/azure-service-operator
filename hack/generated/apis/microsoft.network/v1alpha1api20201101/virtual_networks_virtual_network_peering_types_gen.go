@@ -78,6 +78,11 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 	return virtualNetworksVirtualNetworkPeering.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualNetworksVirtualNetworkPeering.Spec
@@ -88,10 +93,34 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 	return &virtualNetworksVirtualNetworkPeering.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetType() string {
+	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksVirtualNetworkPeering.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualNetworksVirtualNetworkPeering.Namespace, Name: virtualNetworksVirtualNetworkPeering.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*VirtualNetworkPeering_Status); ok {
+		virtualNetworksVirtualNetworkPeering.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st VirtualNetworkPeering_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualNetworksVirtualNetworkPeering.Status = st
+	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworksvirtualnetworkpeering,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=virtualnetworksvirtualnetworkpeerings,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.virtualnetworksvirtualnetworkpeerings.microsoft.network.azure.com,admissionReviewVersions=v1beta1
@@ -358,8 +387,8 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) ConvertStatusTo
 var _ genruntime.FromARMConverter = &VirtualNetworkPeering_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkPeering_StatusARM{}
+func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkPeering_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -943,8 +972,8 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) CreateEmptyARMValue() interface{} {
-	return VirtualNetworksVirtualNetworkPeerings_SpecARM{}
+func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworksVirtualNetworkPeerings_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

@@ -44,6 +44,11 @@ func (loadBalancer *LoadBalancer) AzureName() string {
 	return loadBalancer.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (loadBalancer *LoadBalancer) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (loadBalancer *LoadBalancer) GetSpec() genruntime.ConvertibleSpec {
 	return &loadBalancer.Spec
@@ -54,10 +59,34 @@ func (loadBalancer *LoadBalancer) GetStatus() genruntime.ConvertibleStatus {
 	return &loadBalancer.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/loadBalancers"
+func (loadBalancer *LoadBalancer) GetType() string {
+	return "Microsoft.Network/loadBalancers"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (loadBalancer *LoadBalancer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(loadBalancer.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: loadBalancer.Namespace, Name: loadBalancer.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (loadBalancer *LoadBalancer) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*LoadBalancer_Status); ok {
+		loadBalancer.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st LoadBalancer_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	loadBalancer.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

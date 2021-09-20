@@ -44,6 +44,11 @@ func (batchAccount *BatchAccount) AzureName() string {
 	return batchAccount.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (batchAccount *BatchAccount) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (batchAccount *BatchAccount) GetSpec() genruntime.ConvertibleSpec {
 	return &batchAccount.Spec
@@ -54,10 +59,34 @@ func (batchAccount *BatchAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &batchAccount.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Batch/batchAccounts"
+func (batchAccount *BatchAccount) GetType() string {
+	return "Microsoft.Batch/batchAccounts"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (batchAccount *BatchAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(batchAccount.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: batchAccount.Namespace, Name: batchAccount.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (batchAccount *BatchAccount) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*BatchAccount_Status); ok {
+		batchAccount.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st BatchAccount_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	batchAccount.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

@@ -76,6 +76,11 @@ func (publicIPAddress *PublicIPAddress) AzureName() string {
 	return publicIPAddress.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (publicIPAddress *PublicIPAddress) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (publicIPAddress *PublicIPAddress) GetSpec() genruntime.ConvertibleSpec {
 	return &publicIPAddress.Spec
@@ -86,10 +91,34 @@ func (publicIPAddress *PublicIPAddress) GetStatus() genruntime.ConvertibleStatus
 	return &publicIPAddress.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
+func (publicIPAddress *PublicIPAddress) GetType() string {
+	return "Microsoft.Network/publicIPAddresses"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (publicIPAddress *PublicIPAddress) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(publicIPAddress.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: publicIPAddress.Namespace, Name: publicIPAddress.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (publicIPAddress *PublicIPAddress) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded); ok {
+		publicIPAddress.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	publicIPAddress.Status = st
+	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-publicipaddress,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=publicipaddresses,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.publicipaddresses.microsoft.network.azure.com,admissionReviewVersions=v1beta1
@@ -366,8 +395,8 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 var _ genruntime.FromARMConverter = &PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM{}
+func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1210,8 +1239,8 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(name string, r
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressesSpec *PublicIPAddresses_Spec) CreateEmptyARMValue() interface{} {
-	return PublicIPAddresses_SpecARM{}
+func (publicIPAddressesSpec *PublicIPAddresses_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PublicIPAddresses_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1735,8 +1764,8 @@ func (ddosSettings *DdosSettings) ConvertToARM(name string, resolvedReferences g
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ddosSettings *DdosSettings) CreateEmptyARMValue() interface{} {
-	return DdosSettingsARM{}
+func (ddosSettings *DdosSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DdosSettingsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1864,8 +1893,8 @@ type DdosSettings_Status struct {
 var _ genruntime.FromARMConverter = &DdosSettings_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ddosSettingsStatus *DdosSettings_Status) CreateEmptyARMValue() interface{} {
-	return DdosSettings_StatusARM{}
+func (ddosSettingsStatus *DdosSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DdosSettings_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2013,8 +2042,8 @@ type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM{}
+func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2267,8 +2296,8 @@ func (ipTag *IpTag) ConvertToARM(name string, resolvedReferences genruntime.Reso
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipTag *IpTag) CreateEmptyARMValue() interface{} {
-	return IpTagARM{}
+func (ipTag *IpTag) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IpTagARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2357,8 +2386,8 @@ type IpTag_Status struct {
 var _ genruntime.FromARMConverter = &IpTag_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipTagStatus *IpTag_Status) CreateEmptyARMValue() interface{} {
-	return IpTag_StatusARM{}
+func (ipTagStatus *IpTag_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IpTag_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2451,8 +2480,8 @@ type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &NatGateway_Status_PublicIPAddress_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM{}
+func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2613,8 +2642,8 @@ func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) ConvertToARM(name 
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) CreateEmptyARMValue() interface{} {
-	return PublicIPAddressDnsSettingsARM{}
+func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PublicIPAddressDnsSettingsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2728,8 +2757,8 @@ type PublicIPAddressDnsSettings_Status struct {
 var _ genruntime.FromARMConverter = &PublicIPAddressDnsSettings_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) CreateEmptyARMValue() interface{} {
-	return PublicIPAddressDnsSettings_StatusARM{}
+func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PublicIPAddressDnsSettings_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2887,8 +2916,8 @@ func (publicIPAddressSku *PublicIPAddressSku) ConvertToARM(name string, resolved
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressSku *PublicIPAddressSku) CreateEmptyARMValue() interface{} {
-	return PublicIPAddressSkuARM{}
+func (publicIPAddressSku *PublicIPAddressSku) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PublicIPAddressSkuARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2977,8 +3006,8 @@ type PublicIPAddressSku_Status struct {
 var _ genruntime.FromARMConverter = &PublicIPAddressSku_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) CreateEmptyARMValue() interface{} {
-	return PublicIPAddressSku_StatusARM{}
+func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PublicIPAddressSku_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3064,8 +3093,8 @@ type SubResource_Status struct {
 var _ genruntime.FromARMConverter = &SubResource_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subResourceStatus *SubResource_Status) CreateEmptyARMValue() interface{} {
-	return SubResource_StatusARM{}
+func (subResourceStatus *SubResource_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SubResource_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3144,8 +3173,8 @@ type NatGatewaySku_Status struct {
 var _ genruntime.FromARMConverter = &NatGatewaySku_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (natGatewaySkuStatus *NatGatewaySku_Status) CreateEmptyARMValue() interface{} {
-	return NatGatewaySku_StatusARM{}
+func (natGatewaySkuStatus *NatGatewaySku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NatGatewaySku_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3209,8 +3238,8 @@ type Subnet_Status_PublicIPAddress_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &Subnet_Status_PublicIPAddress_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM{}
+func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

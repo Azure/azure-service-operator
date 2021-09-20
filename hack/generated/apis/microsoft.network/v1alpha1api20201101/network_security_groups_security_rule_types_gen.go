@@ -78,6 +78,11 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Azur
 	return networkSecurityGroupsSecurityRule.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetSpec() genruntime.ConvertibleSpec {
 	return &networkSecurityGroupsSecurityRule.Spec
@@ -88,10 +93,34 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetS
 	return &networkSecurityGroupsSecurityRule.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups/securityRules"
+func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetType() string {
+	return "Microsoft.Network/networkSecurityGroups/securityRules"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroupsSecurityRule.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: networkSecurityGroupsSecurityRule.Namespace, Name: networkSecurityGroupsSecurityRule.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded); ok {
+		networkSecurityGroupsSecurityRule.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	networkSecurityGroupsSecurityRule.Status = st
+	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-networksecuritygroupssecurityrule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=networksecuritygroupssecurityrules,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.networksecuritygroupssecurityrules.microsoft.network.azure.com,admissionReviewVersions=v1beta1
@@ -404,8 +433,8 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules_Spec) CreateEmptyARMValue() interface{} {
-	return NetworkSecurityGroupsSecurityRules_SpecARM{}
+func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkSecurityGroupsSecurityRules_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1048,8 +1077,8 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 var _ genruntime.FromARMConverter = &SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM{}
+func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1626,8 +1655,8 @@ type ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResour
 var _ genruntime.FromARMConverter = &ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM{}
+func (applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1763,8 +1792,8 @@ func (subResource *SubResource) ConvertToARM(name string, resolvedReferences gen
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subResource *SubResource) CreateEmptyARMValue() interface{} {
-	return SubResourceARM{}
+func (subResource *SubResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SubResourceARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

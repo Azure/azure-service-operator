@@ -172,7 +172,16 @@ exportFilters:
     group: microsoft.managedidentity
     version: v*20181130
     name: UserAssignedIdentity
-    because: "including user assigned managed identity"
+  - action: include-transitive
+    group: microsoft.containerservice
+    version: v*20210501
+    name: ManagedCluster
+    because: "including AKS Managed Cluster"
+  - action: include-transitive
+    group: microsoft.containerservice
+    version: v*20210501
+    name: ManagedClustersAgentPool
+    because: "including AKS Managed Cluster Agent Pool"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.
@@ -328,6 +337,14 @@ typeTransformers:
     property: DiskState
     remove: true
     because: This property should have been marked readonly but wasn't.
+
+  # Deal with resources that have tags included but shouldn't have (proxy resources, etc).
+  # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
+  - group: microsoft.containerservice
+    name: ManagedClustersAgentPools_Spec
+    property: Tags
+    remove: true
+    because: This really shouldn't be here (see bug referenced above)
 
 status:
   schemaRoot: "./specs/azure-rest-api-specs/specification"

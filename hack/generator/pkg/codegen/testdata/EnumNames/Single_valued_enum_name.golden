@@ -48,14 +48,19 @@ func (aResource *AResource) AzureName() string {
 	return "onlyonevalue"
 }
 
+// GetResourceKind returns the kind of the resource
+func (aResource *AResource) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (aResource *AResource) GetSpec() genruntime.ConvertibleSpec {
 	return &aResource.Spec
 }
 
-// GetStatus returns the status of this resource
-func (aResource *AResource) GetStatus() genruntime.ConvertibleStatus {
-	return &aResource.Status
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/AResource"
+func (aResource *AResource) GetType() string {
+	return "Microsoft.Azure/AResource"
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -214,8 +219,8 @@ func (aResourceSpec *AResource_Spec) ConvertToARM(name string, resolvedReference
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aResourceSpec *AResource_Spec) CreateEmptyARMValue() interface{} {
-	return AResource_SpecARM{}
+func (aResourceSpec *AResource_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AResource_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

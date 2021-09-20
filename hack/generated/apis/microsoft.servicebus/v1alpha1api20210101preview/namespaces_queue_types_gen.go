@@ -76,6 +76,11 @@ func (namespacesQueue *NamespacesQueue) AzureName() string {
 	return namespacesQueue.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (namespacesQueue *NamespacesQueue) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (namespacesQueue *NamespacesQueue) GetSpec() genruntime.ConvertibleSpec {
 	return &namespacesQueue.Spec
@@ -86,10 +91,34 @@ func (namespacesQueue *NamespacesQueue) GetStatus() genruntime.ConvertibleStatus
 	return &namespacesQueue.Status
 }
 
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
+func (namespacesQueue *NamespacesQueue) GetType() string {
+	return "Microsoft.ServiceBus/namespaces/queues"
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (namespacesQueue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesQueue.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: namespacesQueue.Namespace, Name: namespacesQueue.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (namespacesQueue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*SBQueue_Status); ok {
+		namespacesQueue.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st SBQueue_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	namespacesQueue.Status = st
+	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1alpha1api20210101preview,name=validate.v1alpha1api20210101preview.namespacesqueues.microsoft.servicebus.azure.com,admissionReviewVersions=v1beta1
@@ -406,8 +435,8 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertToARM(name string, res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespacesQueuesSpec *NamespacesQueues_Spec) CreateEmptyARMValue() interface{} {
-	return NamespacesQueues_SpecARM{}
+func (namespacesQueuesSpec *NamespacesQueues_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NamespacesQueues_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1042,8 +1071,8 @@ func (sbQueueStatus *SBQueue_Status) ConvertStatusTo(destination genruntime.Conv
 var _ genruntime.FromARMConverter = &SBQueue_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbQueueStatus *SBQueue_Status) CreateEmptyARMValue() interface{} {
-	return SBQueue_StatusARM{}
+func (sbQueueStatus *SBQueue_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SBQueue_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1773,8 +1802,8 @@ type MessageCountDetails_Status struct {
 var _ genruntime.FromARMConverter = &MessageCountDetails_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (messageCountDetailsStatus *MessageCountDetails_Status) CreateEmptyARMValue() interface{} {
-	return MessageCountDetails_StatusARM{}
+func (messageCountDetailsStatus *MessageCountDetails_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &MessageCountDetails_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
