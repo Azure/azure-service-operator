@@ -129,6 +129,7 @@ func classifyInnerDeploymentError(deploymentError armclient.DeploymentError) Dep
 		"InvalidValuesForRequestParameters",
 		"InvalidGatewaySkuProvidedForGatewayVpnType",
 		"InvalidGatewaySize",
+		"LocationRequired",
 		"PasswordTooLong",
 		"PrivateIPAddressInReservedRange",
 		"PrivateIPAddressNotInSubnet",

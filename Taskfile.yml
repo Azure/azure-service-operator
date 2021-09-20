@@ -130,6 +130,7 @@ tasks:
       - task: controller:test
       # checks must be after test as that will generate code
       - task: basic-checks
+      - task: controller:verify-samples
       # Lint is forced to the end because it expects the code is formatted
       - task: controller:lint
 
@@ -160,6 +161,12 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
     - golangci-lint run -v --fast=false --timeout 5m ./...
+
+  controller:verify-samples:
+    desc: Verify that a sample exists for each supported resource
+    deps: [ controller:generate-crds ]
+    cmds:
+      - "{{.SCRIPTS_ROOT}}/check_samples.py {{.CONTROLLER_ROOT}}config/"
 
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.
@@ -416,7 +423,8 @@ tasks:
 
   header-check:
     desc: Ensure all files have an appropriate license header.
-    cmds: [python3 ./scripts/check_headers.py]
+    cmds:
+      - "{{.SCRIPTS_ROOT}}/check_headers.py"
 
   specifier-check:
     desc: Check that format specifiers %v and %+v are not used
