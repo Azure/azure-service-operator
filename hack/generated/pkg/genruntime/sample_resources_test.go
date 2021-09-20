@@ -3,8 +3,6 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-// TODO: Should this go in its own package?
-
 package genruntime_test
 
 import (
