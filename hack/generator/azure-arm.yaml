@@ -136,8 +136,23 @@ exportFilters:
   - action: include-transitive
     group: microsoft.network
     version: v*api20201101
-    name: VirtualNetwork*
-    because: "including all Virtual Network things"
+    name: VirtualNetwork
+    because: "including Virtual Network"
+  - action: include-transitive
+    group: microsoft.network
+    version: v*api20201101
+    name: VirtualNetworksSubnet
+    because: "including Subnet"
+  - action: include-transitive
+    group: microsoft.network
+    version: v*api20201101
+    name: VirtualNetworksVirtualNetworkPeering
+    because: "including Virtual Network Peering"
+  - action: include-transitive
+    group: microsoft.network
+    version: v*api20201101
+    name: VirtualNetworkGateway
+    because: "including Virtual Network Gateway"
   - action: include-transitive
     group: microsoft.network
     version: v*api20201101

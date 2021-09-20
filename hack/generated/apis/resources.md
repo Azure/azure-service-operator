@@ -43,7 +43,6 @@ v1alpha1api20201101
 - PublicIPAddress
 - VirtualNetwork
 - VirtualNetworkGateway
-- VirtualNetworkTap
 - VirtualNetworksSubnet
 - VirtualNetworksVirtualNetworkPeering
 
