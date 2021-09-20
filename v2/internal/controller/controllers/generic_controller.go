@@ -183,7 +183,9 @@ func MakeResourceGVKLookup(mgr ctrl.Manager, objs []client.Object) (map[schema.G
 	return result, nil
 }
 
-const namespaceAnnotation = "azure.microsoft.com/operator-namespace"
+// NamespaceAnnotation defines the annotation name to use when marking
+// a resource with the namespace of the managing operator.
+const NamespaceAnnotation = "azure.microsoft.com/operator-namespace"
 
 // Reconcile will take state in K8s and apply it to Azure
 func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
@@ -219,7 +221,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 
 	// Ensure the resource is tagged with the operator's namespace.
 	annotations := metaObj.GetAnnotations()
-	reconcilerNamespace := annotations[namespaceAnnotation]
+	reconcilerNamespace := annotations[NamespaceAnnotation]
 	if reconcilerNamespace != gr.PodNamespace && reconcilerNamespace != "" {
 		// We don't want to get into a fight with another operator -
 		// so if we see another operator already has this object leave
@@ -234,7 +236,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, gr.KubeClient.Client.Update(ctx, obj)
 	} else if reconcilerNamespace == "" && gr.PodNamespace != "" {
 		// Set the annotation to this operator's namespace and go around again.
-		genruntime.AddAnnotation(metaObj, namespaceAnnotation, gr.PodNamespace)
+		genruntime.AddAnnotation(metaObj, NamespaceAnnotation, gr.PodNamespace)
 		return ctrl.Result{}, gr.KubeClient.Client.Update(ctx, obj)
 	}
 
