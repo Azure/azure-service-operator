@@ -5,7 +5,6 @@ package v1alpha1api20201101
 
 import (
 	"fmt"
-
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
@@ -27,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses
+//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses
 type PublicIPAddress struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -207,6 +206,7 @@ func (publicIPAddress *PublicIPAddress) validateResourceReferences() error {
 
 // AssignPropertiesFromPublicIPAddress populates our PublicIPAddress from the provided source PublicIPAddress
 func (publicIPAddress *PublicIPAddress) AssignPropertiesFromPublicIPAddress(source *v1alpha1api20201101storage.PublicIPAddress) error {
+
 	// Spec
 	var spec PublicIPAddresses_Spec
 	err := spec.AssignPropertiesFromPublicIPAddressesSpec(&source.Spec)
@@ -229,6 +229,7 @@ func (publicIPAddress *PublicIPAddress) AssignPropertiesFromPublicIPAddress(sour
 
 // AssignPropertiesToPublicIPAddress populates the provided destination PublicIPAddress from our PublicIPAddress
 func (publicIPAddress *PublicIPAddress) AssignPropertiesToPublicIPAddress(destination *v1alpha1api20201101storage.PublicIPAddress) error {
+
 	// Spec
 	var spec v1alpha1api20201101storage.PublicIPAddresses_Spec
 	err := publicIPAddress.Spec.AssignPropertiesToPublicIPAddressesSpec(&spec)
@@ -259,85 +260,85 @@ func (publicIPAddress *PublicIPAddress) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses
+//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses
 type PublicIPAddressList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []PublicIPAddress `json:"items"`
 }
 
-// Generated from:
+//Generated from:
 type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
-	// Conditions: The observed state of the resource
+	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// DdosSettings: The DDoS protection custom policy associated with the public IP
-	// address.
+	//DdosSettings: The DDoS protection custom policy associated with the public IP
+	//address.
 	DdosSettings *DdosSettings_Status `json:"ddosSettings,omitempty"`
 
-	// DnsSettings: The FQDN of the DNS record associated with the public IP address.
+	//DnsSettings: The FQDN of the DNS record associated with the public IP address.
 	DnsSettings *PublicIPAddressDnsSettings_Status `json:"dnsSettings,omitempty"`
 
-	// Etag: A unique read-only string that changes whenever the resource is updated.
+	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	// ExtendedLocation: The extended location of the public ip address.
+	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 
-	// Id: Resource ID.
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
+	//IdleTimeoutInMinutes: The idle timeout of the public IP address.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
-	// IpAddress: The IP address associated with the public IP address resource.
+	//IpAddress: The IP address associated with the public IP address resource.
 	IpAddress *string `json:"ipAddress,omitempty"`
 
-	// IpConfiguration: The IP configuration associated with the public IP address.
+	//IpConfiguration: The IP configuration associated with the public IP address.
 	IpConfiguration *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded `json:"ipConfiguration,omitempty"`
 
-	// IpTags: The list of tags associated with the public IP address.
+	//IpTags: The list of tags associated with the public IP address.
 	IpTags []IpTag_Status `json:"ipTags,omitempty"`
 
-	// Location: Resource location.
+	//Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
-	// MigrationPhase: Migration phase of Public IP Address.
+	//MigrationPhase: Migration phase of Public IP Address.
 	MigrationPhase *PublicIPAddressPropertiesFormatStatusMigrationPhase `json:"migrationPhase,omitempty"`
 
-	// Name: Resource name.
+	//Name: Resource name.
 	Name *string `json:"name,omitempty"`
 
-	// NatGateway: The NatGateway for the Public IP address.
+	//NatGateway: The NatGateway for the Public IP address.
 	NatGateway *NatGateway_Status_PublicIPAddress_SubResourceEmbedded `json:"natGateway,omitempty"`
 
-	// ProvisioningState: The provisioning state of the public IP address resource.
+	//ProvisioningState: The provisioning state of the public IP address resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	// PublicIPAddressVersion: The public IP address version.
+	//PublicIPAddressVersion: The public IP address version.
 	PublicIPAddressVersion *IPVersion_Status `json:"publicIPAddressVersion,omitempty"`
 
-	// PublicIPAllocationMethod: The public IP address allocation method.
+	//PublicIPAllocationMethod: The public IP address allocation method.
 	PublicIPAllocationMethod *IPAllocationMethod_Status `json:"publicIPAllocationMethod,omitempty"`
 
-	// PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated
-	// from.
+	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated
+	//from.
 	PublicIPPrefix *SubResource_Status `json:"publicIPPrefix,omitempty"`
 
-	// ResourceGuid: The resource GUID property of the public IP address resource.
+	//ResourceGuid: The resource GUID property of the public IP address resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
-	// Sku: The public IP address SKU.
+	//Sku: The public IP address SKU.
 	Sku *PublicIPAddressSku_Status `json:"sku,omitempty"`
 
-	// Tags: Resource tags.
+	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: Resource type.
+	//Type: Resource type.
 	Type *string `json:"type,omitempty"`
 
-	// Zones: A list of availability zones denoting the IP allocated for the resource
-	// needs to come from.
+	//Zones: A list of availability zones denoting the IP allocated for the resource
+	//needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -624,6 +625,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 
 // AssignPropertiesFromPublicIPAddressStatusPublicIPAddressSubResourceEmbedded populates our PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded from the provided source PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
 func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(source *v1alpha1api20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) error {
+
 	// Conditions
 	conditionList := make([]conditions.Condition, len(source.Conditions))
 	for conditionIndex, conditionItem := range source.Conditions {
@@ -1083,54 +1085,54 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 }
 
 type PublicIPAddresses_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name
-	// of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	// DdosSettings: The DDoS protection custom policy associated with the public IP
-	// address.
+	//DdosSettings: The DDoS protection custom policy associated with the public IP
+	//address.
 	DdosSettings *DdosSettings `json:"ddosSettings,omitempty"`
 
-	// DnsSettings: The FQDN of the DNS record associated with the public IP address.
+	//DnsSettings: The FQDN of the DNS record associated with the public IP address.
 	DnsSettings *PublicIPAddressDnsSettings `json:"dnsSettings,omitempty"`
 
-	// ExtendedLocation: The extended location of the public ip address.
+	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
-	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
+	//IdleTimeoutInMinutes: The idle timeout of the public IP address.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
-	// IpAddress: The IP address associated with the public IP address resource.
+	//IpAddress: The IP address associated with the public IP address resource.
 	IpAddress *string `json:"ipAddress,omitempty"`
 
-	// IpTags: The list of tags associated with the public IP address.
+	//IpTags: The list of tags associated with the public IP address.
 	IpTags []IpTag `json:"ipTags,omitempty"`
 
-	// Location: Location to deploy resource to
+	//Location: Location to deploy resource to
 	Location string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	// PublicIPAddressVersion: The public IP address version.
+	//PublicIPAddressVersion: The public IP address version.
 	PublicIPAddressVersion *PublicIPAddressPropertiesFormatPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// PublicIPAllocationMethod: The public IP address allocation method.
+	//PublicIPAllocationMethod: The public IP address allocation method.
 	PublicIPAllocationMethod PublicIPAddressPropertiesFormatPublicIPAllocationMethod `json:"publicIPAllocationMethod"`
 
-	// PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated
-	// from.
+	//PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated
+	//from.
 	PublicIPPrefix *SubResource `json:"publicIPPrefix,omitempty"`
 
-	// Sku: The public IP address SKU.
+	//Sku: The public IP address SKU.
 	Sku *PublicIPAddressSku `json:"sku,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Zones: A list of availability zones denoting the IP allocated for the resource
-	// needs to come from.
+	//Zones: A list of availability zones denoting the IP allocated for the resource
+	//needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -1420,6 +1422,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertSpecTo(destination g
 
 // AssignPropertiesFromPublicIPAddressesSpec populates our PublicIPAddresses_Spec from the provided source PublicIPAddresses_Spec
 func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesFromPublicIPAddressesSpec(source *v1alpha1api20201101storage.PublicIPAddresses_Spec) error {
+
 	// AzureName
 	publicIPAddressesSpec.AzureName = source.AzureName
 
@@ -1714,16 +1717,16 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) SetAzureName(azureName stri
 	publicIPAddressesSpec.AzureName = azureName
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings
+//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings
 type DdosSettings struct {
-	// DdosCustomPolicy: The DDoS custom policy associated with the public IP.
+	//DdosCustomPolicy: The DDoS custom policy associated with the public IP.
 	DdosCustomPolicy *SubResource `json:"ddosCustomPolicy,omitempty"`
 
-	// ProtectedIP: Enables DDoS protection on the public IP.
+	//ProtectedIP: Enables DDoS protection on the public IP.
 	ProtectedIP *bool `json:"protectedIP,omitempty"`
 
-	// ProtectionCoverage: The DDoS protection policy customizability of the public IP.
-	// Only standard coverage will have the ability to be customized.
+	//ProtectionCoverage: The DDoS protection policy customizability of the public IP.
+	//Only standard coverage will have the ability to be customized.
 	ProtectionCoverage *DdosSettingsProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
@@ -1801,6 +1804,7 @@ func (ddosSettings *DdosSettings) PopulateFromARM(owner genruntime.KnownResource
 
 // AssignPropertiesFromDdosSettings populates our DdosSettings from the provided source DdosSettings
 func (ddosSettings *DdosSettings) AssignPropertiesFromDdosSettings(source *v1alpha1api20201101storage.DdosSettings) error {
+
 	// DdosCustomPolicy
 	if source.DdosCustomPolicy != nil {
 		var ddosCustomPolicy SubResource
@@ -1873,16 +1877,16 @@ func (ddosSettings *DdosSettings) AssignPropertiesToDdosSettings(destination *v1
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type DdosSettings_Status struct {
-	// DdosCustomPolicy: The DDoS custom policy associated with the public IP.
+	//DdosCustomPolicy: The DDoS custom policy associated with the public IP.
 	DdosCustomPolicy *SubResource_Status `json:"ddosCustomPolicy,omitempty"`
 
-	// ProtectedIP: Enables DDoS protection on the public IP.
+	//ProtectedIP: Enables DDoS protection on the public IP.
 	ProtectedIP *bool `json:"protectedIP,omitempty"`
 
-	// ProtectionCoverage: The DDoS protection policy customizability of the public IP.
-	// Only standard coverage will have the ability to be customized.
+	//ProtectionCoverage: The DDoS protection policy customizability of the public IP.
+	//Only standard coverage will have the ability to be customized.
 	ProtectionCoverage *DdosSettingsStatusProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
@@ -1929,6 +1933,7 @@ func (ddosSettingsStatus *DdosSettings_Status) PopulateFromARM(owner genruntime.
 
 // AssignPropertiesFromDdosSettingsStatus populates our DdosSettings_Status from the provided source DdosSettings_Status
 func (ddosSettingsStatus *DdosSettings_Status) AssignPropertiesFromDdosSettingsStatus(source *v1alpha1api20201101storage.DdosSettings_Status) error {
+
 	// DdosCustomPolicy
 	if source.DdosCustomPolicy != nil {
 		var ddosCustomPolicy SubResource_Status
@@ -2001,7 +2006,7 @@ func (ddosSettingsStatus *DdosSettings_Status) AssignPropertiesToDdosSettingsSta
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type IPAllocationMethod_Status string
 
 const (
@@ -2009,28 +2014,28 @@ const (
 	IPAllocationMethod_StatusStatic  = IPAllocationMethod_Status("Static")
 )
 
-// Generated from:
+//Generated from:
 type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
+	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	// Id: Resource ID.
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	// Name: The name of the resource that is unique within a resource group. This name
-	// can be used to access the resource.
+	//Name: The name of the resource that is unique within a resource group. This name
+	//can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	// PrivateIPAddress: The private IP address of the IP configuration.
+	//PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
-	// PrivateIPAllocationMethod: The private IP address allocation method.
+	//PrivateIPAllocationMethod: The private IP address allocation method.
 	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
 
-	// ProvisioningState: The provisioning state of the IP configuration resource.
+	//ProvisioningState: The provisioning state of the IP configuration resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	// Subnet: The reference to the subnet resource.
+	//Subnet: The reference to the subnet resource.
 	Subnet *Subnet_Status_PublicIPAddress_SubResourceEmbedded `json:"subnet,omitempty"`
 }
 
@@ -2113,6 +2118,7 @@ func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_S
 
 // AssignPropertiesFromIPConfigurationStatusPublicIPAddressSubResourceEmbedded populates our IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded from the provided source IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
 func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromIPConfigurationStatusPublicIPAddressSubResourceEmbedded(source *v1alpha1api20201101storage.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) error {
+
 	// Etag
 	if source.Etag != nil {
 		etag := *source.Etag
@@ -2249,7 +2255,7 @@ func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_S
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type IPVersion_Status string
 
 const (
@@ -2257,12 +2263,12 @@ const (
 	IPVersion_StatusIPv6 = IPVersion_Status("IPv6")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag
+//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag
 type IpTag struct {
-	// IpTagType: The IP tag type. Example: FirstPartyUsage.
+	//IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
 
-	// Tag: The value of the IP tag associated with the public IP. Example: SQL.
+	//Tag: The value of the IP tag associated with the public IP. Example: SQL.
 	Tag *string `json:"tag,omitempty"`
 }
 
@@ -2319,6 +2325,7 @@ func (ipTag *IpTag) PopulateFromARM(owner genruntime.KnownResourceReference, arm
 
 // AssignPropertiesFromIpTag populates our IpTag from the provided source IpTag
 func (ipTag *IpTag) AssignPropertiesFromIpTag(source *v1alpha1api20201101storage.IpTag) error {
+
 	// IpTagType
 	if source.IpTagType != nil {
 		ipTagType := *source.IpTagType
@@ -2367,12 +2374,12 @@ func (ipTag *IpTag) AssignPropertiesToIpTag(destination *v1alpha1api20201101stor
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type IpTag_Status struct {
-	// IpTagType: The IP tag type. Example: FirstPartyUsage.
+	//IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
 
-	// Tag: The value of the IP tag associated with the public IP. Example: SQL.
+	//Tag: The value of the IP tag associated with the public IP. Example: SQL.
 	Tag *string `json:"tag,omitempty"`
 }
 
@@ -2408,6 +2415,7 @@ func (ipTagStatus *IpTag_Status) PopulateFromARM(owner genruntime.KnownResourceR
 
 // AssignPropertiesFromIpTagStatus populates our IpTag_Status from the provided source IpTag_Status
 func (ipTagStatus *IpTag_Status) AssignPropertiesFromIpTagStatus(source *v1alpha1api20201101storage.IpTag_Status) error {
+
 	// IpTagType
 	if source.IpTagType != nil {
 		ipTagType := *source.IpTagType
@@ -2456,16 +2464,16 @@ func (ipTagStatus *IpTag_Status) AssignPropertiesToIpTagStatus(destination *v1al
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
-	// Id: Resource ID.
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	// Sku: The nat gateway SKU.
+	//Sku: The nat gateway SKU.
 	Sku *NatGatewaySku_Status `json:"sku,omitempty"`
 
-	// Zones: A list of availability zones denoting the zone in which Nat Gateway
-	// should be deployed.
+	//Zones: A list of availability zones denoting the zone in which Nat Gateway
+	//should be deployed.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -2511,6 +2519,7 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 
 // AssignPropertiesFromNatGatewayStatusPublicIPAddressSubResourceEmbedded populates our NatGateway_Status_PublicIPAddress_SubResourceEmbedded from the provided source NatGateway_Status_PublicIPAddress_SubResourceEmbedded
 func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromNatGatewayStatusPublicIPAddressSubResourceEmbedded(source *v1alpha1api20201101storage.NatGateway_Status_PublicIPAddress_SubResourceEmbedded) error {
+
 	// Id
 	if source.Id != nil {
 		id := *source.Id
@@ -2585,24 +2594,24 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings
+//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings
 type PublicIPAddressDnsSettings struct {
 	// +kubebuilder:validation:Required
-	// DomainNameLabel: The domain name label. The concatenation of the domain name
-	// label and the regionalized DNS zone make up the fully qualified domain name
-	// associated with the public IP address. If a domain name label is specified, an A
-	// DNS record is created for the public IP in the Microsoft Azure DNS system.
+	//DomainNameLabel: The domain name label. The concatenation of the domain name
+	//label and the regionalized DNS zone make up the fully qualified domain name
+	//associated with the public IP address. If a domain name label is specified, an A
+	//DNS record is created for the public IP in the Microsoft Azure DNS system.
 	DomainNameLabel string `json:"domainNameLabel"`
 
-	// Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the
-	// public IP. This is the concatenation of the domainNameLabel and the regionalized
-	// DNS zone.
+	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the
+	//public IP. This is the concatenation of the domainNameLabel and the regionalized
+	//DNS zone.
 	Fqdn *string `json:"fqdn,omitempty"`
 
-	// ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that
-	// resolves to this public IP address. If the reverseFqdn is specified, then a PTR
-	// DNS record is created pointing from the IP address in the in-addr.arpa domain to
-	// the reverse FQDN.
+	//ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that
+	//resolves to this public IP address. If the reverseFqdn is specified, then a PTR
+	//DNS record is created pointing from the IP address in the in-addr.arpa domain to
+	//the reverse FQDN.
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
 
@@ -2665,6 +2674,7 @@ func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) PopulateFromARM(ow
 
 // AssignPropertiesFromPublicIPAddressDnsSettings populates our PublicIPAddressDnsSettings from the provided source PublicIPAddressDnsSettings
 func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) AssignPropertiesFromPublicIPAddressDnsSettings(source *v1alpha1api20201101storage.PublicIPAddressDnsSettings) error {
+
 	// DomainNameLabel
 	if source.DomainNameLabel != nil {
 		publicIPAddressDnsSettings.DomainNameLabel = *source.DomainNameLabel
@@ -2724,23 +2734,23 @@ func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) AssignPropertiesTo
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type PublicIPAddressDnsSettings_Status struct {
-	// DomainNameLabel: The domain name label. The concatenation of the domain name
-	// label and the regionalized DNS zone make up the fully qualified domain name
-	// associated with the public IP address. If a domain name label is specified, an A
-	// DNS record is created for the public IP in the Microsoft Azure DNS system.
+	//DomainNameLabel: The domain name label. The concatenation of the domain name
+	//label and the regionalized DNS zone make up the fully qualified domain name
+	//associated with the public IP address. If a domain name label is specified, an A
+	//DNS record is created for the public IP in the Microsoft Azure DNS system.
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 
-	// Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the
-	// public IP. This is the concatenation of the domainNameLabel and the regionalized
-	// DNS zone.
+	//Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the
+	//public IP. This is the concatenation of the domainNameLabel and the regionalized
+	//DNS zone.
 	Fqdn *string `json:"fqdn,omitempty"`
 
-	// ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that
-	// resolves to this public IP address. If the reverseFqdn is specified, then a PTR
-	// DNS record is created pointing from the IP address in the in-addr.arpa domain to
-	// the reverse FQDN.
+	//ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that
+	//resolves to this public IP address. If the reverseFqdn is specified, then a PTR
+	//DNS record is created pointing from the IP address in the in-addr.arpa domain to
+	//the reverse FQDN.
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
 
@@ -2782,6 +2792,7 @@ func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) Popul
 
 // AssignPropertiesFromPublicIPAddressDnsSettingsStatus populates our PublicIPAddressDnsSettings_Status from the provided source PublicIPAddressDnsSettings_Status
 func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) AssignPropertiesFromPublicIPAddressDnsSettingsStatus(source *v1alpha1api20201101storage.PublicIPAddressDnsSettings_Status) error {
+
 	// DomainNameLabel
 	if source.DomainNameLabel != nil {
 		domainNameLabel := *source.DomainNameLabel
@@ -2872,12 +2883,12 @@ const (
 	PublicIPAddressPropertiesFormatStatusMigrationPhasePrepare   = PublicIPAddressPropertiesFormatStatusMigrationPhase("Prepare")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressSku
+//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressSku
 type PublicIPAddressSku struct {
-	// Name: Name of a public IP address SKU.
+	//Name: Name of a public IP address SKU.
 	Name *PublicIPAddressSkuName `json:"name,omitempty"`
 
-	// Tier: Tier of a public IP address SKU.
+	//Tier: Tier of a public IP address SKU.
 	Tier *PublicIPAddressSkuTier `json:"tier,omitempty"`
 }
 
@@ -2934,6 +2945,7 @@ func (publicIPAddressSku *PublicIPAddressSku) PopulateFromARM(owner genruntime.K
 
 // AssignPropertiesFromPublicIPAddressSku populates our PublicIPAddressSku from the provided source PublicIPAddressSku
 func (publicIPAddressSku *PublicIPAddressSku) AssignPropertiesFromPublicIPAddressSku(source *v1alpha1api20201101storage.PublicIPAddressSku) error {
+
 	// Name
 	if source.Name != nil {
 		name := PublicIPAddressSkuName(*source.Name)
@@ -2982,12 +2994,12 @@ func (publicIPAddressSku *PublicIPAddressSku) AssignPropertiesToPublicIPAddressS
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type PublicIPAddressSku_Status struct {
-	// Name: Name of a public IP address SKU.
+	//Name: Name of a public IP address SKU.
 	Name *PublicIPAddressSkuStatusName `json:"name,omitempty"`
 
-	// Tier: Tier of a public IP address SKU.
+	//Tier: Tier of a public IP address SKU.
 	Tier *PublicIPAddressSkuStatusTier `json:"tier,omitempty"`
 }
 
@@ -3023,6 +3035,7 @@ func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) PopulateFromARM(owner
 
 // AssignPropertiesFromPublicIPAddressSkuStatus populates our PublicIPAddressSku_Status from the provided source PublicIPAddressSku_Status
 func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) AssignPropertiesFromPublicIPAddressSkuStatus(source *v1alpha1api20201101storage.PublicIPAddressSku_Status) error {
+
 	// Name
 	if source.Name != nil {
 		name := PublicIPAddressSkuStatusName(*source.Name)
@@ -3071,9 +3084,9 @@ func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) AssignPropertiesToPub
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type SubResource_Status struct {
-	// Id: Resource ID.
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3103,6 +3116,7 @@ func (subResourceStatus *SubResource_Status) PopulateFromARM(owner genruntime.Kn
 
 // AssignPropertiesFromSubResourceStatus populates our SubResource_Status from the provided source SubResource_Status
 func (subResourceStatus *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *v1alpha1api20201101storage.SubResource_Status) error {
+
 	// Id
 	if source.Id != nil {
 		id := *source.Id
@@ -3150,9 +3164,9 @@ const (
 	DdosSettingsStatusProtectionCoverageStandard = DdosSettingsStatusProtectionCoverage("Standard")
 )
 
-// Generated from:
+//Generated from:
 type NatGatewaySku_Status struct {
-	// Name: Name of Nat Gateway SKU.
+	//Name: Name of Nat Gateway SKU.
 	Name *NatGatewaySkuStatusName `json:"name,omitempty"`
 }
 
@@ -3182,6 +3196,7 @@ func (natGatewaySkuStatus *NatGatewaySku_Status) PopulateFromARM(owner genruntim
 
 // AssignPropertiesFromNatGatewaySkuStatus populates our NatGatewaySku_Status from the provided source NatGatewaySku_Status
 func (natGatewaySkuStatus *NatGatewaySku_Status) AssignPropertiesFromNatGatewaySkuStatus(source *v1alpha1api20201101storage.NatGatewaySku_Status) error {
+
 	// Name
 	if source.Name != nil {
 		name := NatGatewaySkuStatusName(*source.Name)
@@ -3214,9 +3229,9 @@ func (natGatewaySkuStatus *NatGatewaySku_Status) AssignPropertiesToNatGatewaySku
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type Subnet_Status_PublicIPAddress_SubResourceEmbedded struct {
-	// Id: Resource ID.
+	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3246,6 +3261,7 @@ func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddr
 
 // AssignPropertiesFromSubnetStatusPublicIPAddressSubResourceEmbedded populates our Subnet_Status_PublicIPAddress_SubResourceEmbedded from the provided source Subnet_Status_PublicIPAddress_SubResourceEmbedded
 func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromSubnetStatusPublicIPAddressSubResourceEmbedded(source *v1alpha1api20201101storage.Subnet_Status_PublicIPAddress_SubResourceEmbedded) error {
+
 	// Id
 	if source.Id != nil {
 		id := *source.Id

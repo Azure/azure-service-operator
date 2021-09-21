@@ -5,7 +5,6 @@ package v1alpha1api20181130
 
 import (
 	"fmt"
-
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
@@ -27,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities
+//Generated from: https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities
 type UserAssignedIdentity struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -209,6 +208,7 @@ func (userAssignedIdentity *UserAssignedIdentity) validateResourceReferences() e
 
 // AssignPropertiesFromUserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
 func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(source *v1alpha1api20181130storage.UserAssignedIdentity) error {
+
 	// Spec
 	var spec UserAssignedIdentities_Spec
 	err := spec.AssignPropertiesFromUserAssignedIdentitiesSpec(&source.Spec)
@@ -231,6 +231,7 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssign
 
 // AssignPropertiesToUserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
 func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssignedIdentity(destination *v1alpha1api20181130storage.UserAssignedIdentity) error {
+
 	// Spec
 	var spec v1alpha1api20181130storage.UserAssignedIdentities_Spec
 	err := userAssignedIdentity.Spec.AssignPropertiesToUserAssignedIdentitiesSpec(&spec)
@@ -261,40 +262,40 @@ func (userAssignedIdentity *UserAssignedIdentity) OriginalGVK() *schema.GroupVer
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities
+//Generated from: https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities
 type UserAssignedIdentityList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []UserAssignedIdentity `json:"items"`
 }
 
-// Generated from:
+//Generated from:
 type Identity_Status struct {
-	// ClientId: The id of the app associated with the identity. This is a random
-	// generated UUID by MSI.
+	//ClientId: The id of the app associated with the identity. This is a random
+	//generated UUID by MSI.
 	ClientId *string `json:"clientId,omitempty"`
 
-	// Conditions: The observed state of the resource
+	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	// Location: The geo-location where the resource lives
+	//Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Name: The name of the resource
+	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// PrincipalId: The id of the service principal object associated with the created
-	// identity.
+	//PrincipalId: The id of the service principal object associated with the created
+	//identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
-	// Tags: Resource tags.
+	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// TenantId: The id of the tenant which the identity belongs to.
+	//TenantId: The id of the tenant which the identity belongs to.
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
@@ -433,6 +434,7 @@ func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.KnownRes
 
 // AssignPropertiesFromIdentityStatus populates our Identity_Status from the provided source Identity_Status
 func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1alpha1api20181130storage.Identity_Status) error {
+
 	// ClientId
 	if source.ClientId != nil {
 		clientId := *source.ClientId
@@ -598,17 +600,17 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 }
 
 type UserAssignedIdentities_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name
-	// of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	// Location: The Azure region where the identity lives.
+	//Location: The Azure region where the identity lives.
 	Location string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	// Tags: Name-value pairs to add to the resource
+	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -728,6 +730,7 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertSpecTo(des
 
 // AssignPropertiesFromUserAssignedIdentitiesSpec populates our UserAssignedIdentities_Spec from the provided source UserAssignedIdentities_Spec
 func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) AssignPropertiesFromUserAssignedIdentitiesSpec(source *v1alpha1api20181130storage.UserAssignedIdentities_Spec) error {
+
 	// AzureName
 	userAssignedIdentitiesSpec.AzureName = source.AzureName
 

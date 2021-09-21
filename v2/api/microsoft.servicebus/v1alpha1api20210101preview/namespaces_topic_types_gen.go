@@ -5,7 +5,6 @@ package v1alpha1api20210101preview
 
 import (
 	"fmt"
-
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
@@ -27,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
+//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -207,6 +206,7 @@ func (namespacesTopic *NamespacesTopic) validateResourceReferences() error {
 
 // AssignPropertiesFromNamespacesTopic populates our NamespacesTopic from the provided source NamespacesTopic
 func (namespacesTopic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(source *v1alpha1api20210101previewstorage.NamespacesTopic) error {
+
 	// Spec
 	var spec NamespacesTopics_Spec
 	err := spec.AssignPropertiesFromNamespacesTopicsSpec(&source.Spec)
@@ -229,6 +229,7 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(sour
 
 // AssignPropertiesToNamespacesTopic populates the provided destination NamespacesTopic from our NamespacesTopic
 func (namespacesTopic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destination *v1alpha1api20210101previewstorage.NamespacesTopic) error {
+
 	// Spec
 	var spec v1alpha1api20210101previewstorage.NamespacesTopics_Spec
 	err := namespacesTopic.Spec.AssignPropertiesToNamespacesTopicsSpec(&spec)
@@ -259,7 +260,7 @@ func (namespacesTopic *NamespacesTopic) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
+//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
 type NamespacesTopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -267,56 +268,56 @@ type NamespacesTopicList struct {
 }
 
 type NamespacesTopics_Spec struct {
-	// AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is
-	// automatically deleted. The minimum duration is 5 minutes.
+	//AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is
+	//automatically deleted. The minimum duration is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// +kubebuilder:validation:MinLength=1
-	// AzureName: The name of the resource in Azure. This is often the same as the name
-	// of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	// DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This
-	// is the duration after which the message expires, starting from when the message
-	// is sent to Service Bus. This is the default value used when TimeToLive is not
-	// set on a message itself.
+	//DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This
+	//is the duration after which the message expires, starting from when the message
+	//is sent to Service Bus. This is the default value used when TimeToLive is not
+	//set on a message itself.
 	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
 
-	// DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the
-	// duration of the duplicate detection history. The default value is 10 minutes.
+	//DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the
+	//duration of the duplicate detection history. The default value is 10 minutes.
 	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
 
-	// EnableBatchedOperations: Value that indicates whether server-side batched
-	// operations are enabled.
+	//EnableBatchedOperations: Value that indicates whether server-side batched
+	//operations are enabled.
 	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
 
-	// EnableExpress: Value that indicates whether Express Entities are enabled. An
-	// express topic holds a message in memory temporarily before writing it to
-	// persistent storage.
+	//EnableExpress: Value that indicates whether Express Entities are enabled. An
+	//express topic holds a message in memory temporarily before writing it to
+	//persistent storage.
 	EnableExpress *bool `json:"enableExpress,omitempty"`
 
-	// EnablePartitioning: Value that indicates whether the topic to be partitioned
-	// across multiple message brokers is enabled.
+	//EnablePartitioning: Value that indicates whether the topic to be partitioned
+	//across multiple message brokers is enabled.
 	EnablePartitioning *bool `json:"enablePartitioning,omitempty"`
 
-	// Location: Location to deploy resource to
+	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	// MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of
-	// the memory allocated for the topic. Default is 1024.
+	//MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of
+	//the memory allocated for the topic. Default is 1024.
 	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.servicebus.azure.com" json:"owner" kind:"Namespace"`
 
-	// RequiresDuplicateDetection: Value indicating if this topic requires duplicate
-	// detection.
+	//RequiresDuplicateDetection: Value indicating if this topic requires duplicate
+	//detection.
 	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
 
-	// SupportOrdering: Value that indicates whether the topic supports ordering.
+	//SupportOrdering: Value that indicates whether the topic supports ordering.
 	SupportOrdering *bool `json:"supportOrdering,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -543,6 +544,7 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecTo(destination gen
 
 // AssignPropertiesFromNamespacesTopicsSpec populates our NamespacesTopics_Spec from the provided source NamespacesTopics_Spec
 func (namespacesTopicsSpec *NamespacesTopics_Spec) AssignPropertiesFromNamespacesTopicsSpec(source *v1alpha1api20210101previewstorage.NamespacesTopics_Spec) error {
+
 	// AutoDeleteOnIdle
 	if source.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *source.AutoDeleteOnIdle
@@ -761,81 +763,81 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) SetAzureName(azureName string
 	namespacesTopicsSpec.AzureName = azureName
 }
 
-// Generated from:
+//Generated from:
 type SBTopic_Status struct {
-	// AccessedAt: Last time the message was sent, or a request was received, for this
-	// topic.
+	//AccessedAt: Last time the message was sent, or a request was received, for this
+	//topic.
 	AccessedAt *string `json:"accessedAt,omitempty"`
 
-	// AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is
-	// automatically deleted. The minimum duration is 5 minutes.
+	//AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is
+	//automatically deleted. The minimum duration is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
-	// Conditions: The observed state of the resource
+	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// CountDetails: Message count details
+	//CountDetails: Message count details
 	CountDetails *MessageCountDetails_Status `json:"countDetails,omitempty"`
 
-	// CreatedAt: Exact time the message was created.
+	//CreatedAt: Exact time the message was created.
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	// DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This
-	// is the duration after which the message expires, starting from when the message
-	// is sent to Service Bus. This is the default value used when TimeToLive is not
-	// set on a message itself.
+	//DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This
+	//is the duration after which the message expires, starting from when the message
+	//is sent to Service Bus. This is the default value used when TimeToLive is not
+	//set on a message itself.
 	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
 
-	// DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the
-	// duration of the duplicate detection history. The default value is 10 minutes.
+	//DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the
+	//duration of the duplicate detection history. The default value is 10 minutes.
 	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
 
-	// EnableBatchedOperations: Value that indicates whether server-side batched
-	// operations are enabled.
+	//EnableBatchedOperations: Value that indicates whether server-side batched
+	//operations are enabled.
 	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
 
-	// EnableExpress: Value that indicates whether Express Entities are enabled. An
-	// express topic holds a message in memory temporarily before writing it to
-	// persistent storage.
+	//EnableExpress: Value that indicates whether Express Entities are enabled. An
+	//express topic holds a message in memory temporarily before writing it to
+	//persistent storage.
 	EnableExpress *bool `json:"enableExpress,omitempty"`
 
-	// EnablePartitioning: Value that indicates whether the topic to be partitioned
-	// across multiple message brokers is enabled.
+	//EnablePartitioning: Value that indicates whether the topic to be partitioned
+	//across multiple message brokers is enabled.
 	EnablePartitioning *bool `json:"enablePartitioning,omitempty"`
 
-	// Id: Resource Id
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	// MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of
-	// the memory allocated for the topic. Default is 1024.
+	//MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of
+	//the memory allocated for the topic. Default is 1024.
 	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
 
-	// Name: Resource name
+	//Name: Resource name
 	Name *string `json:"name,omitempty"`
 
-	// RequiresDuplicateDetection: Value indicating if this topic requires duplicate
-	// detection.
+	//RequiresDuplicateDetection: Value indicating if this topic requires duplicate
+	//detection.
 	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
 
-	// SizeInBytes: Size of the topic, in bytes.
+	//SizeInBytes: Size of the topic, in bytes.
 	SizeInBytes *int `json:"sizeInBytes,omitempty"`
 
-	// Status: Enumerates the possible values for the status of a messaging entity.
+	//Status: Enumerates the possible values for the status of a messaging entity.
 	Status *EntityStatus_Status `json:"status,omitempty"`
 
-	// SubscriptionCount: Number of subscriptions.
+	//SubscriptionCount: Number of subscriptions.
 	SubscriptionCount *int `json:"subscriptionCount,omitempty"`
 
-	// SupportOrdering: Value that indicates whether the topic supports ordering.
+	//SupportOrdering: Value that indicates whether the topic supports ordering.
 	SupportOrdering *bool `json:"supportOrdering,omitempty"`
 
-	// SystemData: The system meta data relating to this resource.
+	//SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	// Type: Resource type
+	//Type: Resource type
 	Type *string `json:"type,omitempty"`
 
-	// UpdatedAt: The exact time the message was updated.
+	//UpdatedAt: The exact time the message was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
@@ -1089,6 +1091,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.KnownResou
 
 // AssignPropertiesFromSBTopicStatus populates our SBTopic_Status from the provided source SBTopic_Status
 func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v1alpha1api20210101previewstorage.SBTopic_Status) error {
+
 	// AccessedAt
 	if source.AccessedAt != nil {
 		accessedAt := *source.AccessedAt

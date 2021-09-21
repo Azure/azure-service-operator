@@ -5,10 +5,6 @@ package v1alpha1api20201101
 
 import (
 	"encoding/json"
-	"os"
-	"reflect"
-	"testing"
-
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -17,6 +13,9 @@ import (
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/gen"
 	"github.com/leanovate/gopter/prop"
+	"os"
+	"reflect"
+	"testing"
 )
 
 func Test_NetworkSecurityGroupsSecurityRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -45,7 +44,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule(subject Netwo
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -95,7 +94,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRule(subject Networ
 }
 
 // Generator of NetworkSecurityGroupsSecurityRule instances for property testing - lazily instantiated by
-// NetworkSecurityGroupsSecurityRuleGenerator()
+//NetworkSecurityGroupsSecurityRuleGenerator()
 var networkSecurityGroupsSecurityRuleGenerator gopter.Gen
 
 // NetworkSecurityGroupsSecurityRuleGenerator returns a generator of NetworkSecurityGroupsSecurityRule instances for property testing.
@@ -143,7 +142,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRulesSpec(subject 
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -193,7 +192,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSpec(subject N
 }
 
 // Generator of NetworkSecurityGroupsSecurityRules_Spec instances for property testing - lazily instantiated by
-// NetworkSecurityGroupsSecurityRulesSpecGenerator()
+//NetworkSecurityGroupsSecurityRulesSpecGenerator()
 var networkSecurityGroupsSecurityRulesSpecGenerator gopter.Gen
 
 // NetworkSecurityGroupsSecurityRulesSpecGenerator returns a generator of NetworkSecurityGroupsSecurityRules_Spec instances for property testing.
@@ -270,7 +269,7 @@ func RunPropertyAssignmentTestForSecurityRuleStatusNetworkSecurityGroupsSecurity
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -399,7 +398,7 @@ func RunPropertyAssignmentTestForApplicationSecurityGroupStatusNetworkSecurityGr
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -449,8 +448,8 @@ func RunJSONSerializationTestForApplicationSecurityGroupStatusNetworkSecurityGro
 }
 
 // Generator of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instances for
-// property testing - lazily instantiated by
-// ApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator()
+//property testing - lazily instantiated by
+//ApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator()
 var applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator gopter.Gen
 
 // ApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator returns a generator of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instances for property testing.
@@ -497,7 +496,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)

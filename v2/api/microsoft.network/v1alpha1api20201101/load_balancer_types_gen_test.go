@@ -5,10 +5,6 @@ package v1alpha1api20201101
 
 import (
 	"encoding/json"
-	"os"
-	"reflect"
-	"testing"
-
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -17,6 +13,9 @@ import (
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/gen"
 	"github.com/leanovate/gopter/prop"
+	"os"
+	"reflect"
+	"testing"
 )
 
 func Test_LoadBalancer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -45,7 +44,7 @@ func RunPropertyAssignmentTestForLoadBalancer(subject LoadBalancer) string {
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -142,7 +141,7 @@ func RunPropertyAssignmentTestForLoadBalancerStatus(subject LoadBalancer_Status)
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -267,7 +266,7 @@ func RunPropertyAssignmentTestForLoadBalancersSpec(subject LoadBalancers_Spec) s
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -386,7 +385,7 @@ func RunPropertyAssignmentTestForBackendAddressPoolStatusLoadBalancerSubResource
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -436,7 +435,7 @@ func RunJSONSerializationTestForBackendAddressPoolStatusLoadBalancerSubResourceE
 }
 
 // Generator of BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded instances for property testing - lazily
-// instantiated by BackendAddressPoolStatusLoadBalancerSubResourceEmbeddedGenerator()
+//instantiated by BackendAddressPoolStatusLoadBalancerSubResourceEmbeddedGenerator()
 var backendAddressPoolStatusLoadBalancerSubResourceEmbeddedGenerator gopter.Gen
 
 // BackendAddressPoolStatusLoadBalancerSubResourceEmbeddedGenerator returns a generator of BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded instances for property testing.
@@ -483,7 +482,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -580,7 +579,7 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -630,7 +629,7 @@ func RunJSONSerializationTestForExtendedLocationStatus(subject ExtendedLocation_
 }
 
 // Generator of ExtendedLocation_Status instances for property testing - lazily instantiated by
-// ExtendedLocationStatusGenerator()
+//ExtendedLocationStatusGenerator()
 var extendedLocationStatusGenerator gopter.Gen
 
 // ExtendedLocationStatusGenerator returns a generator of ExtendedLocation_Status instances for property testing.
@@ -678,7 +677,7 @@ func RunPropertyAssignmentTestForFrontendIPConfigurationStatusLoadBalancerSubRes
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -728,7 +727,7 @@ func RunJSONSerializationTestForFrontendIPConfigurationStatusLoadBalancerSubReso
 }
 
 // Generator of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded instances for property testing - lazily
-// instantiated by FrontendIPConfigurationStatusLoadBalancerSubResourceEmbeddedGenerator()
+//instantiated by FrontendIPConfigurationStatusLoadBalancerSubResourceEmbeddedGenerator()
 var frontendIPConfigurationStatusLoadBalancerSubResourceEmbeddedGenerator gopter.Gen
 
 // FrontendIPConfigurationStatusLoadBalancerSubResourceEmbeddedGenerator returns a generator of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded instances for property testing.
@@ -803,7 +802,7 @@ func RunPropertyAssignmentTestForInboundNatPoolStatus(subject InboundNatPool_Sta
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -853,7 +852,7 @@ func RunJSONSerializationTestForInboundNatPoolStatus(subject InboundNatPool_Stat
 }
 
 // Generator of InboundNatPool_Status instances for property testing - lazily instantiated by
-// InboundNatPoolStatusGenerator()
+//InboundNatPoolStatusGenerator()
 var inboundNatPoolStatusGenerator gopter.Gen
 
 // InboundNatPoolStatusGenerator returns a generator of InboundNatPool_Status instances for property testing.
@@ -925,7 +924,7 @@ func RunPropertyAssignmentTestForInboundNatRuleStatusLoadBalancerSubResourceEmbe
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -975,7 +974,7 @@ func RunJSONSerializationTestForInboundNatRuleStatusLoadBalancerSubResourceEmbed
 }
 
 // Generator of InboundNatRule_Status_LoadBalancer_SubResourceEmbedded instances for property testing - lazily
-// instantiated by InboundNatRuleStatusLoadBalancerSubResourceEmbeddedGenerator()
+//instantiated by InboundNatRuleStatusLoadBalancerSubResourceEmbeddedGenerator()
 var inboundNatRuleStatusLoadBalancerSubResourceEmbeddedGenerator gopter.Gen
 
 // InboundNatRuleStatusLoadBalancerSubResourceEmbeddedGenerator returns a generator of InboundNatRule_Status_LoadBalancer_SubResourceEmbedded instances for property testing.
@@ -1022,7 +1021,7 @@ func RunPropertyAssignmentTestForLoadBalancerSku(subject LoadBalancerSku) string
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1119,7 +1118,7 @@ func RunPropertyAssignmentTestForLoadBalancerSkuStatus(subject LoadBalancerSku_S
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1169,7 +1168,7 @@ func RunJSONSerializationTestForLoadBalancerSkuStatus(subject LoadBalancerSku_St
 }
 
 // Generator of LoadBalancerSku_Status instances for property testing - lazily instantiated by
-// LoadBalancerSkuStatusGenerator()
+//LoadBalancerSkuStatusGenerator()
 var loadBalancerSkuStatusGenerator gopter.Gen
 
 // LoadBalancerSkuStatusGenerator returns a generator of LoadBalancerSku_Status instances for property testing.
@@ -1217,7 +1216,7 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPools(
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1267,7 +1266,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPools(s
 }
 
 // Generator of LoadBalancers_Spec_Properties_BackendAddressPools instances for property testing - lazily instantiated
-// by LoadBalancersSpecPropertiesBackendAddressPoolsGenerator()
+//by LoadBalancersSpecPropertiesBackendAddressPoolsGenerator()
 var loadBalancersSpecPropertiesBackendAddressPoolsGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesBackendAddressPoolsGenerator returns a generator of LoadBalancers_Spec_Properties_BackendAddressPools instances for property testing.
@@ -1329,7 +1328,7 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesFrontendIPConfigurat
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1379,7 +1378,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesFrontendIPConfigurati
 }
 
 // Generator of LoadBalancers_Spec_Properties_FrontendIPConfigurations instances for property testing - lazily
-// instantiated by LoadBalancersSpecPropertiesFrontendIPConfigurationsGenerator()
+//instantiated by LoadBalancersSpecPropertiesFrontendIPConfigurationsGenerator()
 var loadBalancersSpecPropertiesFrontendIPConfigurationsGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesFrontendIPConfigurationsGenerator returns a generator of LoadBalancers_Spec_Properties_FrontendIPConfigurations instances for property testing.
@@ -1446,7 +1445,7 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesInboundNatPools(subj
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1496,7 +1495,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesInboundNatPools(subje
 }
 
 // Generator of LoadBalancers_Spec_Properties_InboundNatPools instances for property testing - lazily instantiated by
-// LoadBalancersSpecPropertiesInboundNatPoolsGenerator()
+//LoadBalancersSpecPropertiesInboundNatPoolsGenerator()
 var loadBalancersSpecPropertiesInboundNatPoolsGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesInboundNatPoolsGenerator returns a generator of LoadBalancers_Spec_Properties_InboundNatPools instances for property testing.
@@ -1564,7 +1563,7 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesLoadBalancingRules(s
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1614,7 +1613,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesLoadBalancingRules(su
 }
 
 // Generator of LoadBalancers_Spec_Properties_LoadBalancingRules instances for property testing - lazily instantiated by
-// LoadBalancersSpecPropertiesLoadBalancingRulesGenerator()
+//LoadBalancersSpecPropertiesLoadBalancingRulesGenerator()
 var loadBalancersSpecPropertiesLoadBalancingRulesGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesLoadBalancingRulesGenerator returns a generator of LoadBalancers_Spec_Properties_LoadBalancingRules instances for property testing.
@@ -1685,7 +1684,7 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesOutboundRules(subjec
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1735,7 +1734,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesOutboundRules(subject
 }
 
 // Generator of LoadBalancers_Spec_Properties_OutboundRules instances for property testing - lazily instantiated by
-// LoadBalancersSpecPropertiesOutboundRulesGenerator()
+//LoadBalancersSpecPropertiesOutboundRulesGenerator()
 var loadBalancersSpecPropertiesOutboundRulesGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesOutboundRulesGenerator returns a generator of LoadBalancers_Spec_Properties_OutboundRules instances for property testing.
@@ -1801,7 +1800,7 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesProbes(subject LoadB
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1851,7 +1850,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesProbes(subject LoadBa
 }
 
 // Generator of LoadBalancers_Spec_Properties_Probes instances for property testing - lazily instantiated by
-// LoadBalancersSpecPropertiesProbesGenerator()
+//LoadBalancersSpecPropertiesProbesGenerator()
 var loadBalancersSpecPropertiesProbesGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesProbesGenerator returns a generator of LoadBalancers_Spec_Properties_Probes instances for property testing.
@@ -1903,7 +1902,7 @@ func RunPropertyAssignmentTestForLoadBalancingRuleStatus(subject LoadBalancingRu
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1953,7 +1952,7 @@ func RunJSONSerializationTestForLoadBalancingRuleStatus(subject LoadBalancingRul
 }
 
 // Generator of LoadBalancingRule_Status instances for property testing - lazily instantiated by
-// LoadBalancingRuleStatusGenerator()
+//LoadBalancingRuleStatusGenerator()
 var loadBalancingRuleStatusGenerator gopter.Gen
 
 // LoadBalancingRuleStatusGenerator returns a generator of LoadBalancingRule_Status instances for property testing.
@@ -2028,7 +2027,7 @@ func RunPropertyAssignmentTestForOutboundRuleStatus(subject OutboundRule_Status)
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2147,7 +2146,7 @@ func RunPropertyAssignmentTestForProbeStatus(subject Probe_Status) string {
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2266,7 +2265,7 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPoolsP
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2316,8 +2315,8 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPr
 }
 
 // Generator of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses instances for
-// property testing - lazily instantiated by
-// LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator()
+//property testing - lazily instantiated by
+//LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator()
 var loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator returns a generator of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses instances for property testing.
@@ -2381,7 +2380,7 @@ func RunPropertyAssignmentTestForPublicIPAddressStatusLoadBalancerSubResourceEmb
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2431,7 +2430,7 @@ func RunJSONSerializationTestForPublicIPAddressStatusLoadBalancerSubResourceEmbe
 }
 
 // Generator of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded instances for property testing - lazily
-// instantiated by PublicIPAddressStatusLoadBalancerSubResourceEmbeddedGenerator()
+//instantiated by PublicIPAddressStatusLoadBalancerSubResourceEmbeddedGenerator()
 var publicIPAddressStatusLoadBalancerSubResourceEmbeddedGenerator gopter.Gen
 
 // PublicIPAddressStatusLoadBalancerSubResourceEmbeddedGenerator returns a generator of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded instances for property testing.
@@ -2494,7 +2493,7 @@ func RunPropertyAssignmentTestForSubnetStatusLoadBalancerSubResourceEmbedded(sub
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2544,7 +2543,7 @@ func RunJSONSerializationTestForSubnetStatusLoadBalancerSubResourceEmbedded(subj
 }
 
 // Generator of Subnet_Status_LoadBalancer_SubResourceEmbedded instances for property testing - lazily instantiated by
-// SubnetStatusLoadBalancerSubResourceEmbeddedGenerator()
+//SubnetStatusLoadBalancerSubResourceEmbeddedGenerator()
 var subnetStatusLoadBalancerSubResourceEmbeddedGenerator gopter.Gen
 
 // SubnetStatusLoadBalancerSubResourceEmbeddedGenerator returns a generator of Subnet_Status_LoadBalancer_SubResourceEmbedded instances for property testing.

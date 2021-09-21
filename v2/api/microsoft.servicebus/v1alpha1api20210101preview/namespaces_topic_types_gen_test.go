@@ -5,10 +5,6 @@ package v1alpha1api20210101preview
 
 import (
 	"encoding/json"
-	"os"
-	"reflect"
-	"testing"
-
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.servicebus/v1alpha1api20210101previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -17,6 +13,9 @@ import (
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/gen"
 	"github.com/leanovate/gopter/prop"
+	"os"
+	"reflect"
+	"testing"
 )
 
 func Test_NamespacesTopic_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -45,7 +44,7 @@ func RunPropertyAssignmentTestForNamespacesTopic(subject NamespacesTopic) string
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -142,7 +141,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSpec(subject NamespacesTopics_S
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +191,7 @@ func RunJSONSerializationTestForNamespacesTopicsSpec(subject NamespacesTopics_Sp
 }
 
 // Generator of NamespacesTopics_Spec instances for property testing - lazily instantiated by
-// NamespacesTopicsSpecGenerator()
+//NamespacesTopicsSpecGenerator()
 var namespacesTopicsSpecGenerator gopter.Gen
 
 // NamespacesTopicsSpecGenerator returns a generator of NamespacesTopics_Spec instances for property testing.
@@ -250,7 +249,7 @@ func RunPropertyAssignmentTestForSBTopicStatus(subject SBTopic_Status) string {
 		return err.Error()
 	}
 
-	// Check for a match
+	//Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)

@@ -5,7 +5,6 @@ package v1alpha1api20210501
 
 import (
 	"fmt"
-
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
@@ -28,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters
 type ManagedCluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -208,6 +207,7 @@ func (managedCluster *ManagedCluster) validateResourceReferences() error {
 
 // AssignPropertiesFromManagedCluster populates our ManagedCluster from the provided source ManagedCluster
 func (managedCluster *ManagedCluster) AssignPropertiesFromManagedCluster(source *v1alpha1api20210501storage.ManagedCluster) error {
+
 	// Spec
 	var spec ManagedClusters_Spec
 	err := spec.AssignPropertiesFromManagedClustersSpec(&source.Spec)
@@ -230,6 +230,7 @@ func (managedCluster *ManagedCluster) AssignPropertiesFromManagedCluster(source 
 
 // AssignPropertiesToManagedCluster populates the provided destination ManagedCluster from our ManagedCluster
 func (managedCluster *ManagedCluster) AssignPropertiesToManagedCluster(destination *v1alpha1api20210501storage.ManagedCluster) error {
+
 	// Spec
 	var spec v1alpha1api20210501storage.ManagedClusters_Spec
 	err := managedCluster.Spec.AssignPropertiesToManagedClustersSpec(&spec)
@@ -260,134 +261,134 @@ func (managedCluster *ManagedCluster) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters
 type ManagedClusterList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ManagedCluster `json:"items"`
 }
 
-// Generated from:
+//Generated from:
 type ManagedCluster_Status struct {
-	// AadProfile: Profile of Azure Active Directory configuration.
+	//AadProfile: Profile of Azure Active Directory configuration.
 	AadProfile *ManagedClusterAADProfile_Status `json:"aadProfile,omitempty"`
 
-	// AddonProfiles: Profile of managed cluster add-on.
+	//AddonProfiles: Profile of managed cluster add-on.
 	AddonProfiles *v1.JSON `json:"addonProfiles,omitempty"`
 
-	// AgentPoolProfiles: Properties of the agent pool.
+	//AgentPoolProfiles: Properties of the agent pool.
 	AgentPoolProfiles []ManagedClusterAgentPoolProfile_Status `json:"agentPoolProfiles,omitempty"`
 
-	// ApiServerAccessProfile: Access profile for managed cluster API server.
+	//ApiServerAccessProfile: Access profile for managed cluster API server.
 	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile_Status `json:"apiServerAccessProfile,omitempty"`
 
-	// AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when
-	// enabled
+	//AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when
+	//enabled
 	AutoScalerProfile *ManagedClusterProperties_Status_AutoScalerProfile `json:"autoScalerProfile,omitempty"`
 
-	// AutoUpgradeProfile: Profile of auto upgrade configuration.
+	//AutoUpgradeProfile: Profile of auto upgrade configuration.
 	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile_Status `json:"autoUpgradeProfile,omitempty"`
 
-	// AzurePortalFQDN: FQDN for the master pool which used by proxy config.
+	//AzurePortalFQDN: FQDN for the master pool which used by proxy config.
 	AzurePortalFQDN *string `json:"azurePortalFQDN,omitempty"`
 
-	// Conditions: The observed state of the resource
+	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// DisableLocalAccounts: If set to true, getting static credential will be disabled
-	// for this cluster. Expected to only be used for AAD clusters.
+	//DisableLocalAccounts: If set to true, getting static credential will be disabled
+	//for this cluster. Expected to only be used for AAD clusters.
 	DisableLocalAccounts *bool `json:"disableLocalAccounts,omitempty"`
 
-	// DiskEncryptionSetID: ResourceId of the disk encryption set to use for enabling
-	// encryption at rest.
+	//DiskEncryptionSetID: ResourceId of the disk encryption set to use for enabling
+	//encryption at rest.
 	DiskEncryptionSetID *string `json:"diskEncryptionSetID,omitempty"`
 
-	// DnsPrefix: DNS prefix specified when creating the managed cluster.
+	//DnsPrefix: DNS prefix specified when creating the managed cluster.
 	DnsPrefix *string `json:"dnsPrefix,omitempty"`
 
-	// EnablePodSecurityPolicy: (DEPRECATING) Whether to enable Kubernetes pod security
-	// policy (preview). This feature is set for removal on October 15th, 2020. Learn
-	// more at aka.ms/aks/azpodpolicy.
+	//EnablePodSecurityPolicy: (DEPRECATING) Whether to enable Kubernetes pod security
+	//policy (preview). This feature is set for removal on October 15th, 2020. Learn
+	//more at aka.ms/aks/azpodpolicy.
 	EnablePodSecurityPolicy *bool `json:"enablePodSecurityPolicy,omitempty"`
 
-	// EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.
+	//EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.
 	EnableRBAC *bool `json:"enableRBAC,omitempty"`
 
-	// ExtendedLocation: The extended location of the Virtual Machine.
+	//ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 
-	// Fqdn: FQDN for the master pool.
+	//Fqdn: FQDN for the master pool.
 	Fqdn *string `json:"fqdn,omitempty"`
 
-	// FqdnSubdomain: FQDN subdomain specified when creating private cluster with
-	// custom private dns zone.
+	//FqdnSubdomain: FQDN subdomain specified when creating private cluster with
+	//custom private dns zone.
 	FqdnSubdomain *string `json:"fqdnSubdomain,omitempty"`
 
-	// HttpProxyConfig: Configurations for provisioning the cluster with HTTP proxy
-	// servers.
+	//HttpProxyConfig: Configurations for provisioning the cluster with HTTP proxy
+	//servers.
 	HttpProxyConfig *ManagedClusterHTTPProxyConfig_Status `json:"httpProxyConfig,omitempty"`
 
-	// Id: Resource Id
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	// Identity: The identity of the managed cluster, if configured.
+	//Identity: The identity of the managed cluster, if configured.
 	Identity *ManagedClusterIdentity_Status `json:"identity,omitempty"`
 
-	// IdentityProfile: Identities associated with the cluster.
+	//IdentityProfile: Identities associated with the cluster.
 	IdentityProfile *v1.JSON `json:"identityProfile,omitempty"`
 
-	// KubernetesVersion: Version of Kubernetes specified when creating the managed
-	// cluster.
+	//KubernetesVersion: Version of Kubernetes specified when creating the managed
+	//cluster.
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
 
-	// LinuxProfile: Profile for Linux VMs in the container service cluster.
+	//LinuxProfile: Profile for Linux VMs in the container service cluster.
 	LinuxProfile *ContainerServiceLinuxProfile_Status `json:"linuxProfile,omitempty"`
 
-	// Location: Resource location
+	//Location: Resource location
 	Location *string `json:"location,omitempty"`
 
-	// MaxAgentPools: The max number of agent pools for the managed cluster.
+	//MaxAgentPools: The max number of agent pools for the managed cluster.
 	MaxAgentPools *int `json:"maxAgentPools,omitempty"`
 
-	// Name: Resource name
+	//Name: Resource name
 	Name *string `json:"name,omitempty"`
 
-	// NetworkProfile: Profile of network configuration.
+	//NetworkProfile: Profile of network configuration.
 	NetworkProfile *ContainerServiceNetworkProfile_Status `json:"networkProfile,omitempty"`
 
-	// NodeResourceGroup: Name of the resource group containing agent pool nodes.
+	//NodeResourceGroup: Name of the resource group containing agent pool nodes.
 	NodeResourceGroup *string `json:"nodeResourceGroup,omitempty"`
 
-	// PodIdentityProfile: Profile of managed cluster pod identity.
+	//PodIdentityProfile: Profile of managed cluster pod identity.
 	PodIdentityProfile *ManagedClusterPodIdentityProfile_Status `json:"podIdentityProfile,omitempty"`
 
-	// PowerState: Represents the Power State of the cluster
+	//PowerState: Represents the Power State of the cluster
 	PowerState *PowerState_Status `json:"powerState,omitempty"`
 
-	// PrivateFQDN: FQDN of private cluster.
+	//PrivateFQDN: FQDN of private cluster.
 	PrivateFQDN *string `json:"privateFQDN,omitempty"`
 
-	// PrivateLinkResources: Private link resources associated with the cluster.
+	//PrivateLinkResources: Private link resources associated with the cluster.
 	PrivateLinkResources []PrivateLinkResource_Status `json:"privateLinkResources,omitempty"`
 
-	// ProvisioningState: The current deployment or provisioning state, which only
-	// appears in the response.
+	//ProvisioningState: The current deployment or provisioning state, which only
+	//appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	// ServicePrincipalProfile: Information about a service principal identity for the
-	// cluster to use for manipulating Azure APIs.
+	//ServicePrincipalProfile: Information about a service principal identity for the
+	//cluster to use for manipulating Azure APIs.
 	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile_Status `json:"servicePrincipalProfile,omitempty"`
 
-	// Sku: The managed cluster SKU.
+	//Sku: The managed cluster SKU.
 	Sku *ManagedClusterSKU_Status `json:"sku,omitempty"`
 
-	// Tags: Resource tags
+	//Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: Resource type
+	//Type: Resource type
 	Type *string `json:"type,omitempty"`
 
-	// WindowsProfile: Profile for Windows VMs in the container service cluster.
+	//WindowsProfile: Profile for Windows VMs in the container service cluster.
 	WindowsProfile *ManagedClusterWindowsProfile_Status `json:"windowsProfile,omitempty"`
 }
 
@@ -843,6 +844,7 @@ func (managedClusterStatus *ManagedCluster_Status) PopulateFromARM(owner genrunt
 
 // AssignPropertiesFromManagedClusterStatus populates our ManagedCluster_Status from the provided source ManagedCluster_Status
 func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedClusterStatus(source *v1alpha1api20210501storage.ManagedCluster_Status) error {
+
 	// AadProfile
 	if source.AadProfile != nil {
 		var aadProfile ManagedClusterAADProfile_Status
@@ -1592,111 +1594,111 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 }
 
 type ManagedClusters_Spec struct {
-	// AadProfile: For more details see [managed AAD on
-	// AKS](https://docs.microsoft.com/azure/aks/managed-aad).
+	//AadProfile: For more details see [managed AAD on
+	//AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 	AadProfile *ManagedClusterAADProfile `json:"aadProfile,omitempty"`
 
-	// AddonProfiles: The profile of managed cluster add-on.
+	//AddonProfiles: The profile of managed cluster add-on.
 	AddonProfiles map[string]ManagedClusterAddonProfile `json:"addonProfiles,omitempty"`
 
-	// AgentPoolProfiles: The agent pool properties.
+	//AgentPoolProfiles: The agent pool properties.
 	AgentPoolProfiles []ManagedClusterAgentPoolProfile `json:"agentPoolProfiles,omitempty"`
 
-	// ApiServerAccessProfile: Access profile for managed cluster API server.
+	//ApiServerAccessProfile: Access profile for managed cluster API server.
 	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile `json:"apiServerAccessProfile,omitempty"`
 
-	// AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when
-	// enabled
+	//AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when
+	//enabled
 	AutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile `json:"autoScalerProfile,omitempty"`
 
-	// AutoUpgradeProfile: Auto upgrade profile for a managed cluster.
+	//AutoUpgradeProfile: Auto upgrade profile for a managed cluster.
 	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile `json:"autoUpgradeProfile,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
-	// AzureName: The name of the resource in Azure. This is often the same as the name
-	// of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	// DisableLocalAccounts: If set to true, getting static credentials will be
-	// disabled for this cluster. This must only be used on Managed Clusters that are
-	// AAD enabled. For more details see [disable local
-	// accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview).
+	//DisableLocalAccounts: If set to true, getting static credentials will be
+	//disabled for this cluster. This must only be used on Managed Clusters that are
+	//AAD enabled. For more details see [disable local
+	//accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview).
 	DisableLocalAccounts *bool `json:"disableLocalAccounts,omitempty"`
 
 	//DiskEncryptionSetIDReference: This is of the form:
 	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}'
 	DiskEncryptionSetIDReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetID" json:"diskEncryptionSetIDReference,omitempty"`
 
-	// DnsPrefix: This cannot be updated once the Managed Cluster has been created.
+	//DnsPrefix: This cannot be updated once the Managed Cluster has been created.
 	DnsPrefix *string `json:"dnsPrefix,omitempty"`
 
-	// EnablePodSecurityPolicy: (DEPRECATING) Whether to enable Kubernetes pod security
-	// policy (preview). This feature is set for removal on October 15th, 2020. Learn
-	// more at aka.ms/aks/azpodpolicy.
+	//EnablePodSecurityPolicy: (DEPRECATING) Whether to enable Kubernetes pod security
+	//policy (preview). This feature is set for removal on October 15th, 2020. Learn
+	//more at aka.ms/aks/azpodpolicy.
 	EnablePodSecurityPolicy *bool `json:"enablePodSecurityPolicy,omitempty"`
 
-	// EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.
+	//EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.
 	EnableRBAC *bool `json:"enableRBAC,omitempty"`
 
-	// ExtendedLocation: The complex type of the extended location.
+	//ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
-	// FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.
+	//FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.
 	FqdnSubdomain *string `json:"fqdnSubdomain,omitempty"`
 
-	// HttpProxyConfig: Cluster HTTP proxy configuration.
+	//HttpProxyConfig: Cluster HTTP proxy configuration.
 	HttpProxyConfig *ManagedClusterHTTPProxyConfig `json:"httpProxyConfig,omitempty"`
 
-	// Identity: Identity for the managed cluster.
+	//Identity: Identity for the managed cluster.
 	Identity *ManagedClusterIdentity `json:"identity,omitempty"`
 
-	// IdentityProfile: Identities associated with the cluster.
+	//IdentityProfile: Identities associated with the cluster.
 	IdentityProfile map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties `json:"identityProfile,omitempty"`
 
-	// KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor
-	// versions cannot be skipped. All upgrades must be performed sequentially by major
-	// version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
-	// 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an
-	// AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more
-	// details.
+	//KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor
+	//versions cannot be skipped. All upgrades must be performed sequentially by major
+	//version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
+	//1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an
+	//AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more
+	//details.
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
 
-	// LinuxProfile: Profile for Linux VMs in the container service cluster.
+	//LinuxProfile: Profile for Linux VMs in the container service cluster.
 	LinuxProfile *ContainerServiceLinuxProfile `json:"linuxProfile,omitempty"`
 
-	// Location: Location to deploy resource to
+	//Location: Location to deploy resource to
 	Location string `json:"location,omitempty"`
 
-	// NetworkProfile: Profile of network configuration.
+	//NetworkProfile: Profile of network configuration.
 	NetworkProfile *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
 
-	// NodeResourceGroup: The name of the resource group containing agent pool nodes.
+	//NodeResourceGroup: The name of the resource group containing agent pool nodes.
 	NodeResourceGroup *string `json:"nodeResourceGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	// PodIdentityProfile: See [use AAD pod
-	// identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for
-	// more details on pod identity integration.
+	//PodIdentityProfile: See [use AAD pod
+	//identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for
+	//more details on pod identity integration.
 	PodIdentityProfile *ManagedClusterPodIdentityProfile `json:"podIdentityProfile,omitempty"`
 
-	// PrivateLinkResources: Private link resources associated with the cluster.
+	//PrivateLinkResources: Private link resources associated with the cluster.
 	PrivateLinkResources []PrivateLinkResource `json:"privateLinkResources,omitempty"`
 
-	// ServicePrincipalProfile: Information about a service principal identity for the
-	// cluster to use for manipulating Azure APIs.
+	//ServicePrincipalProfile: Information about a service principal identity for the
+	//cluster to use for manipulating Azure APIs.
 	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile `json:"servicePrincipalProfile,omitempty"`
 
-	// Sku: The SKU of a Managed Cluster.
+	//Sku: The SKU of a Managed Cluster.
 	Sku *ManagedClusterSKU `json:"sku,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// WindowsProfile: Profile for Windows VMs in the managed cluster.
+	//WindowsProfile: Profile for Windows VMs in the managed cluster.
 	WindowsProfile *ManagedClusterWindowsProfile `json:"windowsProfile,omitempty"`
 }
 
@@ -2252,6 +2254,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertSpecTo(destination genru
 
 // AssignPropertiesFromManagedClustersSpec populates our ManagedClusters_Spec from the provided source ManagedClusters_Spec
 func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesFromManagedClustersSpec(source *v1alpha1api20210501storage.ManagedClusters_Spec) error {
+
 	// AadProfile
 	if source.AadProfile != nil {
 		var aadProfile ManagedClusterAADProfile
@@ -2873,16 +2876,16 @@ func (managedClustersSpec *ManagedClusters_Spec) SetAzureName(azureName string) 
 	managedClustersSpec.AzureName = azureName
 }
 
-// Generated from:
-// https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/Componentsqit0etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+//Generated from:
+//https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/Componentsqit0etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
 type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties struct {
-	// ClientId: The client ID of the user assigned identity.
+	//ClientId: The client ID of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
-	// ObjectId: The object ID of the user assigned identity.
+	//ObjectId: The object ID of the user assigned identity.
 	ObjectId *string `json:"objectId,omitempty"`
 
-	// ResourceReference: The resource ID of the user assigned identity.
+	//ResourceReference: The resource ID of the user assigned identity.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -2951,6 +2954,7 @@ func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofilead
 
 // AssignPropertiesFromComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties populates our Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties from the provided source Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
 func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) AssignPropertiesFromComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(source *v1alpha1api20210501storage.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) error {
+
 	// ClientId
 	if source.ClientId != nil {
 		clientId := *source.ClientId
@@ -3015,15 +3019,15 @@ func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofilead
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceLinuxProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceLinuxProfile
 type ContainerServiceLinuxProfile struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^[A-Za-z][-A-Za-z0-9_]*$"
-	// AdminUsername: The administrator username to use for Linux VMs.
+	//AdminUsername: The administrator username to use for Linux VMs.
 	AdminUsername string `json:"adminUsername"`
 
 	// +kubebuilder:validation:Required
-	// Ssh: SSH configuration for Linux-based VMs running on Azure.
+	//Ssh: SSH configuration for Linux-based VMs running on Azure.
 	Ssh ContainerServiceSshConfiguration `json:"ssh"`
 }
 
@@ -3077,6 +3081,7 @@ func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) PopulateFromAR
 
 // AssignPropertiesFromContainerServiceLinuxProfile populates our ContainerServiceLinuxProfile from the provided source ContainerServiceLinuxProfile
 func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) AssignPropertiesFromContainerServiceLinuxProfile(source *v1alpha1api20210501storage.ContainerServiceLinuxProfile) error {
+
 	// AdminUsername
 	if source.AdminUsername != nil {
 		containerServiceLinuxProfile.AdminUsername = *source.AdminUsername
@@ -3124,14 +3129,14 @@ func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) AssignProperti
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ContainerServiceLinuxProfile_Status struct {
 	// +kubebuilder:validation:Required
-	// AdminUsername: The administrator username to use for Linux VMs.
+	//AdminUsername: The administrator username to use for Linux VMs.
 	AdminUsername string `json:"adminUsername"`
 
 	// +kubebuilder:validation:Required
-	// Ssh: SSH configuration for Linux-based VMs running on Azure.
+	//Ssh: SSH configuration for Linux-based VMs running on Azure.
 	Ssh ContainerServiceSshConfiguration_Status `json:"ssh"`
 }
 
@@ -3166,6 +3171,7 @@ func (containerServiceLinuxProfileStatus *ContainerServiceLinuxProfile_Status) P
 
 // AssignPropertiesFromContainerServiceLinuxProfileStatus populates our ContainerServiceLinuxProfile_Status from the provided source ContainerServiceLinuxProfile_Status
 func (containerServiceLinuxProfileStatus *ContainerServiceLinuxProfile_Status) AssignPropertiesFromContainerServiceLinuxProfileStatus(source *v1alpha1api20210501storage.ContainerServiceLinuxProfile_Status) error {
+
 	// AdminUsername
 	if source.AdminUsername != nil {
 		containerServiceLinuxProfileStatus.AdminUsername = *source.AdminUsername
@@ -3213,50 +3219,50 @@ func (containerServiceLinuxProfileStatus *ContainerServiceLinuxProfile_Status) A
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceNetworkProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceNetworkProfile
 type ContainerServiceNetworkProfile struct {
 	// +kubebuilder:validation:Pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
-	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be
-	// within the Kubernetes service address range specified in serviceCidr.
+	//DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be
+	//within the Kubernetes service address range specified in serviceCidr.
 	DnsServiceIP *string `json:"dnsServiceIP,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"
-	// DockerBridgeCidr: A CIDR notation IP range assigned to the Docker bridge
-	// network. It must not overlap with any Subnet IP ranges or the Kubernetes service
-	// address range.
+	//DockerBridgeCidr: A CIDR notation IP range assigned to the Docker bridge
+	//network. It must not overlap with any Subnet IP ranges or the Kubernetes service
+	//address range.
 	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
 
-	// LoadBalancerProfile: Profile of the managed cluster load balancer.
+	//LoadBalancerProfile: Profile of the managed cluster load balancer.
 	LoadBalancerProfile *ManagedClusterLoadBalancerProfile `json:"loadBalancerProfile,omitempty"`
 
-	// LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
-	// SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information
-	// about the differences between load balancer SKUs.
+	//LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
+	//SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information
+	//about the differences between load balancer SKUs.
 	LoadBalancerSku *ContainerServiceNetworkProfileLoadBalancerSku `json:"loadBalancerSku,omitempty"`
 
 	//NetworkMode: This cannot be specified if networkPlugin is anything other than
 	//'azure'.
 	NetworkMode *ContainerServiceNetworkProfileNetworkMode `json:"networkMode,omitempty"`
 
-	// NetworkPlugin: Network plugin used for building the Kubernetes network.
+	//NetworkPlugin: Network plugin used for building the Kubernetes network.
 	NetworkPlugin *ContainerServiceNetworkProfileNetworkPlugin `json:"networkPlugin,omitempty"`
 
-	// NetworkPolicy: Network policy used for building the Kubernetes network.
+	//NetworkPolicy: Network policy used for building the Kubernetes network.
 	NetworkPolicy *ContainerServiceNetworkProfileNetworkPolicy `json:"networkPolicy,omitempty"`
 
-	// OutboundType: This can only be set at cluster creation time and cannot be
-	// changed later. For more information see [egress outbound
-	// type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
+	//OutboundType: This can only be set at cluster creation time and cannot be
+	//changed later. For more information see [egress outbound
+	//type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
 	OutboundType *ContainerServiceNetworkProfileOutboundType `json:"outboundType,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"
-	// PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is
-	// used.
+	//PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is
+	//used.
 	PodCidr *string `json:"podCidr,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"
-	// ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs.
-	// It must not overlap with any Subnet IP ranges.
+	//ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs.
+	//It must not overlap with any Subnet IP ranges.
 	ServiceCidr *string `json:"serviceCidr,omitempty"`
 }
 
@@ -3418,6 +3424,7 @@ func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) PopulateFr
 
 // AssignPropertiesFromContainerServiceNetworkProfile populates our ContainerServiceNetworkProfile from the provided source ContainerServiceNetworkProfile
 func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) AssignPropertiesFromContainerServiceNetworkProfile(source *v1alpha1api20210501storage.ContainerServiceNetworkProfile) error {
+
 	// DnsServiceIP
 	if source.DnsServiceIP != nil {
 		dnsServiceIP := *source.DnsServiceIP
@@ -3602,41 +3609,41 @@ func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) AssignProp
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ContainerServiceNetworkProfile_Status struct {
-	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be
-	// within the Kubernetes service address range specified in serviceCidr.
+	//DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be
+	//within the Kubernetes service address range specified in serviceCidr.
 	DnsServiceIP *string `json:"dnsServiceIP,omitempty"`
 
-	// DockerBridgeCidr: A CIDR notation IP range assigned to the Docker bridge
-	// network. It must not overlap with any Subnet IP ranges or the Kubernetes service
-	// address range.
+	//DockerBridgeCidr: A CIDR notation IP range assigned to the Docker bridge
+	//network. It must not overlap with any Subnet IP ranges or the Kubernetes service
+	//address range.
 	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
 
-	// LoadBalancerProfile: Profile of the cluster load balancer.
+	//LoadBalancerProfile: Profile of the cluster load balancer.
 	LoadBalancerProfile *ManagedClusterLoadBalancerProfile_Status `json:"loadBalancerProfile,omitempty"`
 
-	// LoadBalancerSku: The load balancer sku for the managed cluster.
+	//LoadBalancerSku: The load balancer sku for the managed cluster.
 	LoadBalancerSku *ContainerServiceNetworkProfileStatusLoadBalancerSku `json:"loadBalancerSku,omitempty"`
 
-	// NetworkMode: Network mode used for building Kubernetes network.
+	//NetworkMode: Network mode used for building Kubernetes network.
 	NetworkMode *ContainerServiceNetworkProfileStatusNetworkMode `json:"networkMode,omitempty"`
 
-	// NetworkPlugin: Network plugin used for building Kubernetes network.
+	//NetworkPlugin: Network plugin used for building Kubernetes network.
 	NetworkPlugin *ContainerServiceNetworkProfileStatusNetworkPlugin `json:"networkPlugin,omitempty"`
 
-	// NetworkPolicy: Network policy used for building Kubernetes network.
+	//NetworkPolicy: Network policy used for building Kubernetes network.
 	NetworkPolicy *ContainerServiceNetworkProfileStatusNetworkPolicy `json:"networkPolicy,omitempty"`
 
-	// OutboundType: The outbound (egress) routing method.
+	//OutboundType: The outbound (egress) routing method.
 	OutboundType *ContainerServiceNetworkProfileStatusOutboundType `json:"outboundType,omitempty"`
 
-	// PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is
-	// used.
+	//PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is
+	//used.
 	PodCidr *string `json:"podCidr,omitempty"`
 
-	// ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs.
-	// It must not overlap with any Subnet IP ranges.
+	//ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs.
+	//It must not overlap with any Subnet IP ranges.
 	ServiceCidr *string `json:"serviceCidr,omitempty"`
 }
 
@@ -3725,6 +3732,7 @@ func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Statu
 
 // AssignPropertiesFromContainerServiceNetworkProfileStatus populates our ContainerServiceNetworkProfile_Status from the provided source ContainerServiceNetworkProfile_Status
 func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Status) AssignPropertiesFromContainerServiceNetworkProfileStatus(source *v1alpha1api20210501storage.ContainerServiceNetworkProfile_Status) error {
+
 	// DnsServiceIP
 	if source.DnsServiceIP != nil {
 		dnsServiceIP := *source.DnsServiceIP
@@ -3909,12 +3917,12 @@ func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Statu
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ExtendedLocation
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ExtendedLocation
 type ExtendedLocation struct {
-	// Name: The name of the extended location.
+	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
-	// Type: The type of the extended location.
+	//Type: The type of the extended location.
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
@@ -3971,6 +3979,7 @@ func (extendedLocation *ExtendedLocation) PopulateFromARM(owner genruntime.Known
 
 // AssignPropertiesFromExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
 func (extendedLocation *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v1alpha1api20210501storage.ExtendedLocation) error {
+
 	// Name
 	if source.Name != nil {
 		name := *source.Name
@@ -4019,12 +4028,12 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ExtendedLocation_Status struct {
-	// Name: The name of the extended location.
+	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
-	// Type: The type of the extended location.
+	//Type: The type of the extended location.
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
@@ -4060,6 +4069,7 @@ func (extendedLocationStatus *ExtendedLocation_Status) PopulateFromARM(owner gen
 
 // AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
 func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1alpha1api20210501storage.ExtendedLocation_Status) error {
+
 	// Name
 	if source.Name != nil {
 		name := *source.Name
@@ -4108,29 +4118,29 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAADProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAADProfile
 type ManagedClusterAADProfile struct {
-	// AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role
-	// of the cluster.
+	//AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role
+	//of the cluster.
 	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs,omitempty"`
 
-	// ClientAppID: The client AAD application ID.
+	//ClientAppID: The client AAD application ID.
 	ClientAppID *string `json:"clientAppID,omitempty"`
 
-	// EnableAzureRBAC: Whether to enable Azure RBAC for Kubernetes authorization.
+	//EnableAzureRBAC: Whether to enable Azure RBAC for Kubernetes authorization.
 	EnableAzureRBAC *bool `json:"enableAzureRBAC,omitempty"`
 
-	// Managed: Whether to enable managed AAD.
+	//Managed: Whether to enable managed AAD.
 	Managed *bool `json:"managed,omitempty"`
 
-	// ServerAppID: The server AAD application ID.
+	//ServerAppID: The server AAD application ID.
 	ServerAppID *string `json:"serverAppID,omitempty"`
 
-	// ServerAppSecret: The server AAD application secret.
+	//ServerAppSecret: The server AAD application secret.
 	ServerAppSecret *string `json:"serverAppSecret,omitempty"`
 
-	// TenantID: The AAD tenant ID to use for authentication. If not specified, will
-	// use the tenant of the deployment subscription.
+	//TenantID: The AAD tenant ID to use for authentication. If not specified, will
+	//use the tenant of the deployment subscription.
 	TenantID *string `json:"tenantID,omitempty"`
 }
 
@@ -4245,6 +4255,7 @@ func (managedClusterAADProfile *ManagedClusterAADProfile) PopulateFromARM(owner 
 
 // AssignPropertiesFromManagedClusterAADProfile populates our ManagedClusterAADProfile from the provided source ManagedClusterAADProfile
 func (managedClusterAADProfile *ManagedClusterAADProfile) AssignPropertiesFromManagedClusterAADProfile(source *v1alpha1api20210501storage.ManagedClusterAADProfile) error {
+
 	// AdminGroupObjectIDs
 	adminGroupObjectIDList := make([]string, len(source.AdminGroupObjectIDs))
 	for adminGroupObjectIDIndex, adminGroupObjectIDItem := range source.AdminGroupObjectIDs {
@@ -4375,29 +4386,29 @@ func (managedClusterAADProfile *ManagedClusterAADProfile) AssignPropertiesToMana
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterAADProfile_Status struct {
-	// AdminGroupObjectIDs: AAD group object IDs that will have admin role of the
-	// cluster.
+	//AdminGroupObjectIDs: AAD group object IDs that will have admin role of the
+	//cluster.
 	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs,omitempty"`
 
-	// ClientAppID: The client AAD application ID.
+	//ClientAppID: The client AAD application ID.
 	ClientAppID *string `json:"clientAppID,omitempty"`
 
-	// EnableAzureRBAC: Whether to enable Azure RBAC for Kubernetes authorization.
+	//EnableAzureRBAC: Whether to enable Azure RBAC for Kubernetes authorization.
 	EnableAzureRBAC *bool `json:"enableAzureRBAC,omitempty"`
 
-	// Managed: Whether to enable managed AAD.
+	//Managed: Whether to enable managed AAD.
 	Managed *bool `json:"managed,omitempty"`
 
-	// ServerAppID: The server AAD application ID.
+	//ServerAppID: The server AAD application ID.
 	ServerAppID *string `json:"serverAppID,omitempty"`
 
-	// ServerAppSecret: The server AAD application secret.
+	//ServerAppSecret: The server AAD application secret.
 	ServerAppSecret *string `json:"serverAppSecret,omitempty"`
 
-	// TenantID: The AAD tenant ID to use for authentication. If not specified, will
-	// use the tenant of the deployment subscription.
+	//TenantID: The AAD tenant ID to use for authentication. If not specified, will
+	//use the tenant of the deployment subscription.
 	TenantID *string `json:"tenantID,omitempty"`
 }
 
@@ -4462,6 +4473,7 @@ func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) PopulateF
 
 // AssignPropertiesFromManagedClusterAADProfileStatus populates our ManagedClusterAADProfile_Status from the provided source ManagedClusterAADProfile_Status
 func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) AssignPropertiesFromManagedClusterAADProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAADProfile_Status) error {
+
 	// AdminGroupObjectIDs
 	adminGroupObjectIDList := make([]string, len(source.AdminGroupObjectIDs))
 	for adminGroupObjectIDIndex, adminGroupObjectIDItem := range source.AdminGroupObjectIDs {
@@ -4592,27 +4604,27 @@ func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) AssignPro
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAPIServerAccessProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAPIServerAccessProfile
 type ManagedClusterAPIServerAccessProfile struct {
-	// AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g.
-	// 137.117.106.88/29. This feature is not compatible with clusters that use Public
-	// IP Per Node, or clusters that are using a Basic Load Balancer. For more
-	// information see [API server authorized IP
-	// ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
+	//AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g.
+	//137.117.106.88/29. This feature is not compatible with clusters that use Public
+	//IP Per Node, or clusters that are using a Basic Load Balancer. For more
+	//information see [API server authorized IP
+	//ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
 	AuthorizedIPRanges []string `json:"authorizedIPRanges,omitempty"`
 
-	// EnablePrivateCluster: For more details, see [Creating a private AKS
-	// cluster](https://docs.microsoft.com/azure/aks/private-clusters).
+	//EnablePrivateCluster: For more details, see [Creating a private AKS
+	//cluster](https://docs.microsoft.com/azure/aks/private-clusters).
 	EnablePrivateCluster *bool `json:"enablePrivateCluster,omitempty"`
 
-	// EnablePrivateClusterPublicFQDN: Whether to create additional public FQDN for
-	// private cluster or not.
+	//EnablePrivateClusterPublicFQDN: Whether to create additional public FQDN for
+	//private cluster or not.
 	EnablePrivateClusterPublicFQDN *bool `json:"enablePrivateClusterPublicFQDN,omitempty"`
 
-	// PrivateDNSZone: The default is System. For more details see [configure private
-	// DNS
-	// zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone).
-	// Allowed values are 'system' and 'none'.
+	//PrivateDNSZone: The default is System. For more details see [configure private
+	//DNS
+	//zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone).
+	//Allowed values are 'system' and 'none'.
 	PrivateDNSZone *string `json:"privateDNSZone,omitempty"`
 }
 
@@ -4691,6 +4703,7 @@ func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile
 
 // AssignPropertiesFromManagedClusterAPIServerAccessProfile populates our ManagedClusterAPIServerAccessProfile from the provided source ManagedClusterAPIServerAccessProfile
 func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile) AssignPropertiesFromManagedClusterAPIServerAccessProfile(source *v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile) error {
+
 	// AuthorizedIPRanges
 	authorizedIPRangeList := make([]string, len(source.AuthorizedIPRanges))
 	for authorizedIPRangeIndex, authorizedIPRangeItem := range source.AuthorizedIPRanges {
@@ -4773,19 +4786,19 @@ func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterAPIServerAccessProfile_Status struct {
-	// AuthorizedIPRanges: Authorized IP Ranges to kubernetes API server.
+	//AuthorizedIPRanges: Authorized IP Ranges to kubernetes API server.
 	AuthorizedIPRanges []string `json:"authorizedIPRanges,omitempty"`
 
-	// EnablePrivateCluster: Whether to create the cluster as a private cluster or not.
+	//EnablePrivateCluster: Whether to create the cluster as a private cluster or not.
 	EnablePrivateCluster *bool `json:"enablePrivateCluster,omitempty"`
 
-	// EnablePrivateClusterPublicFQDN: Whether to create additional public FQDN for
-	// private cluster or not.
+	//EnablePrivateClusterPublicFQDN: Whether to create additional public FQDN for
+	//private cluster or not.
 	EnablePrivateClusterPublicFQDN *bool `json:"enablePrivateClusterPublicFQDN,omitempty"`
 
-	// PrivateDNSZone: Private dns zone mode for private cluster.
+	//PrivateDNSZone: Private dns zone mode for private cluster.
 	PrivateDNSZone *string `json:"privateDNSZone,omitempty"`
 }
 
@@ -4832,6 +4845,7 @@ func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessP
 
 // AssignPropertiesFromManagedClusterAPIServerAccessProfileStatus populates our ManagedClusterAPIServerAccessProfile_Status from the provided source ManagedClusterAPIServerAccessProfile_Status
 func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessProfile_Status) AssignPropertiesFromManagedClusterAPIServerAccessProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile_Status) error {
+
 	// AuthorizedIPRanges
 	authorizedIPRangeList := make([]string, len(source.AuthorizedIPRanges))
 	for authorizedIPRangeIndex, authorizedIPRangeItem := range source.AuthorizedIPRanges {
@@ -4914,13 +4928,13 @@ func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessP
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAddonProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAddonProfile
 type ManagedClusterAddonProfile struct {
-	// Config: Key-value pairs for configuring an add-on.
+	//Config: Key-value pairs for configuring an add-on.
 	Config map[string]string `json:"config,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Enabled: Whether the add-on is enabled or not.
+	//Enabled: Whether the add-on is enabled or not.
 	Enabled bool `json:"enabled"`
 }
 
@@ -4975,6 +4989,7 @@ func (managedClusterAddonProfile *ManagedClusterAddonProfile) PopulateFromARM(ow
 
 // AssignPropertiesFromManagedClusterAddonProfile populates our ManagedClusterAddonProfile from the provided source ManagedClusterAddonProfile
 func (managedClusterAddonProfile *ManagedClusterAddonProfile) AssignPropertiesFromManagedClusterAddonProfile(source *v1alpha1api20210501storage.ManagedClusterAddonProfile) error {
+
 	// Config
 	configMap := make(map[string]string)
 	for configKey, configValue := range source.Config {
@@ -5020,80 +5035,80 @@ func (managedClusterAddonProfile *ManagedClusterAddonProfile) AssignPropertiesTo
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAgentPoolProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAgentPoolProfile
 type ManagedClusterAgentPoolProfile struct {
-	// AvailabilityZones: The list of Availability zones to use for nodes. This can
-	// only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
+	//AvailabilityZones: The list of Availability zones to use for nodes. This can
+	//only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
-	// Count: Number of agents (VMs) to host docker containers. Allowed values must be
-	// in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to
-	// 1000 (inclusive) for system pools. The default value is 1.
+	//Count: Number of agents (VMs) to host docker containers. Allowed values must be
+	//in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to
+	//1000 (inclusive) for system pools. The default value is 1.
 	Count *int `json:"count,omitempty"`
 
-	// EnableAutoScaling: Whether to enable auto-scaler
+	//EnableAutoScaling: Whether to enable auto-scaler
 	EnableAutoScaling *bool `json:"enableAutoScaling,omitempty"`
 
-	// EnableEncryptionAtHost: This is only supported on certain VM sizes and in
-	// certain Azure regions. For more information, see:
-	// https://docs.microsoft.com/azure/aks/enable-host-encryption
+	//EnableEncryptionAtHost: This is only supported on certain VM sizes and in
+	//certain Azure regions. For more information, see:
+	//https://docs.microsoft.com/azure/aks/enable-host-encryption
 	EnableEncryptionAtHost *bool `json:"enableEncryptionAtHost,omitempty"`
 
-	// EnableFIPS: See [Add a FIPS-enabled node
-	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview)
-	// for more details.
+	//EnableFIPS: See [Add a FIPS-enabled node
+	//pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview)
+	//for more details.
 	EnableFIPS *bool `json:"enableFIPS,omitempty"`
 
-	// EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive
-	// their own dedicated public IP addresses. A common scenario is for gaming
-	// workloads, where a console needs to make a direct connection to a cloud virtual
-	// machine to minimize hops. For more information see [assigning a public IP per
-	// node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools).
-	// The default is false.
+	//EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive
+	//their own dedicated public IP addresses. A common scenario is for gaming
+	//workloads, where a console needs to make a direct connection to a cloud virtual
+	//machine to minimize hops. For more information see [assigning a public IP per
+	//node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools).
+	//The default is false.
 	EnableNodePublicIP *bool `json:"enableNodePublicIP,omitempty"`
 
-	// EnableUltraSSD: Whether to enable UltraSSD
+	//EnableUltraSSD: Whether to enable UltraSSD
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
-	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
-	// profile for supported GPU VM SKU.
+	//GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
+	//profile for supported GPU VM SKU.
 	GpuInstanceProfile *ManagedClusterAgentPoolProfileGpuInstanceProfile `json:"gpuInstanceProfile,omitempty"`
 
-	// KubeletConfig: See [AKS custom node
-	// configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
-	// for more details.
+	//KubeletConfig: See [AKS custom node
+	//configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
+	//for more details.
 	KubeletConfig   *KubeletConfig                                 `json:"kubeletConfig,omitempty"`
 	KubeletDiskType *ManagedClusterAgentPoolProfileKubeletDiskType `json:"kubeletDiskType,omitempty"`
 
-	// LinuxOSConfig: See [AKS custom node
-	// configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
-	// for more details.
+	//LinuxOSConfig: See [AKS custom node
+	//configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
+	//for more details.
 	LinuxOSConfig *LinuxOSConfig `json:"linuxOSConfig,omitempty"`
 
-	// MaxCount: The maximum number of nodes for auto-scaling
+	//MaxCount: The maximum number of nodes for auto-scaling
 	MaxCount *int `json:"maxCount,omitempty"`
 
-	// MaxPods: The maximum number of pods that can run on a node.
+	//MaxPods: The maximum number of pods that can run on a node.
 	MaxPods *int `json:"maxPods,omitempty"`
 
-	// MinCount: The minimum number of nodes for auto-scaling
+	//MinCount: The minimum number of nodes for auto-scaling
 	MinCount *int                                `json:"minCount,omitempty"`
 	Mode     *ManagedClusterAgentPoolProfileMode `json:"mode,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^[a-z][a-z0-9]{0,11}$"
-	// Name: Windows agent pool names must be 6 characters or less.
+	//Name: Windows agent pool names must be 6 characters or less.
 	Name string `json:"name"`
 
-	// NodeLabels: The node labels to be persisted across all nodes in agent pool.
+	//NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels map[string]string `json:"nodeLabels,omitempty"`
 
 	//NodePublicIPPrefixIDReference: This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
 	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
 
-	// NodeTaints: The taints added to new nodes during node pool create and scale. For
-	// example, key=value:NoSchedule.
+	//NodeTaints: The taints added to new nodes during node pool create and scale. For
+	//example, key=value:NoSchedule.
 	NodeTaints []string `json:"nodeTaints,omitempty"`
 
 	//OrchestratorVersion: As a best practice, you should upgrade all node pools in an
@@ -5107,9 +5122,9 @@ type ManagedClusterAgentPoolProfile struct {
 
 	// +kubebuilder:validation:Maximum=2048
 	// +kubebuilder:validation:Minimum=0
-	// OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every
-	// machine in the master/agent pool. If you specify 0, it will apply the default
-	// osDisk size according to the vmSize specified.
+	//OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every
+	//machine in the master/agent pool. If you specify 0, it will apply the default
+	//osDisk size according to the vmSize specified.
 	OsDiskSizeGB *int                                      `json:"osDiskSizeGB,omitempty"`
 	OsDiskType   *ManagedClusterAgentPoolProfileOsDiskType `json:"osDiskType,omitempty"`
 	OsSKU        *ManagedClusterAgentPoolProfileOsSKU      `json:"osSKU,omitempty"`
@@ -5120,34 +5135,34 @@ type ManagedClusterAgentPoolProfile struct {
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetIDReference *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
 
-	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
+	//ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
 
 	//ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is
 	//'Spot'. If not specified, the default is 'Delete'.
 	ScaleSetEvictionPolicy *ManagedClusterAgentPoolProfileScaleSetEvictionPolicy `json:"scaleSetEvictionPolicy,omitempty"`
 
-	// ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the
-	// default is 'Regular'.
+	//ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the
+	//default is 'Regular'.
 	ScaleSetPriority *ManagedClusterAgentPoolProfileScaleSetPriority `json:"scaleSetPriority,omitempty"`
 
-	// SpotMaxPrice: Possible values are any decimal value greater than zero or -1
-	// which indicates the willingness to pay any on-demand price. For more details on
-	// spot pricing, see [spot VMs
-	// pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
+	//SpotMaxPrice: Possible values are any decimal value greater than zero or -1
+	//which indicates the willingness to pay any on-demand price. For more details on
+	//spot pricing, see [spot VMs
+	//pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
-	// Tags: The tags to be persisted on the agent pool virtual machine scale set.
+	//Tags: The tags to be persisted on the agent pool virtual machine scale set.
 	Tags map[string]string                   `json:"tags,omitempty"`
 	Type *ManagedClusterAgentPoolProfileType `json:"type,omitempty"`
 
-	// UpgradeSettings: Settings for upgrading an agentpool
+	//UpgradeSettings: Settings for upgrading an agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings `json:"upgradeSettings,omitempty"`
 
-	// VmSize: VM size availability varies by region. If a node contains insufficient
-	// compute resources (memory, cpu, etc) pods might fail to run correctly. For more
-	// details on restricted VM sizes, see:
-	// https://docs.microsoft.com/azure/aks/quotas-skus-regions
+	//VmSize: VM size availability varies by region. If a node contains insufficient
+	//compute resources (memory, cpu, etc) pods might fail to run correctly. For more
+	//details on restricted VM sizes, see:
+	//https://docs.microsoft.com/azure/aks/quotas-skus-regions
 	VmSize *string `json:"vmSize,omitempty"`
 
 	//VnetSubnetIDReference: If this is not specified, a VNET and subnet will be
@@ -5619,6 +5634,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) PopulateFr
 
 // AssignPropertiesFromManagedClusterAgentPoolProfile populates our ManagedClusterAgentPoolProfile from the provided source ManagedClusterAgentPoolProfile
 func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedClusterAgentPoolProfile(source *v1alpha1api20210501storage.ManagedClusterAgentPoolProfile) error {
+
 	// AvailabilityZones
 	availabilityZoneList := make([]string, len(source.AvailabilityZones))
 	for availabilityZoneIndex, availabilityZoneItem := range source.AvailabilityZones {
@@ -6206,145 +6222,145 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterAgentPoolProfile_Status struct {
-	// AvailabilityZones: Availability zones for nodes. Must use
-	// VirtualMachineScaleSets AgentPoolType.
+	//AvailabilityZones: Availability zones for nodes. Must use
+	//VirtualMachineScaleSets AgentPoolType.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
-	// Count: Number of agents (VMs) to host docker containers. Allowed values must be
-	// in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to
-	// 1000 (inclusive) for system pools. The default value is 1.
+	//Count: Number of agents (VMs) to host docker containers. Allowed values must be
+	//in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to
+	//1000 (inclusive) for system pools. The default value is 1.
 	Count *int `json:"count,omitempty"`
 
-	// EnableAutoScaling: Whether to enable auto-scaler
+	//EnableAutoScaling: Whether to enable auto-scaler
 	EnableAutoScaling *bool `json:"enableAutoScaling,omitempty"`
 
-	// EnableEncryptionAtHost: Whether to enable EncryptionAtHost
+	//EnableEncryptionAtHost: Whether to enable EncryptionAtHost
 	EnableEncryptionAtHost *bool `json:"enableEncryptionAtHost,omitempty"`
 
-	// EnableFIPS: Whether to use FIPS enabled OS
+	//EnableFIPS: Whether to use FIPS enabled OS
 	EnableFIPS *bool `json:"enableFIPS,omitempty"`
 
-	// EnableNodePublicIP: Enable public IP for nodes
+	//EnableNodePublicIP: Enable public IP for nodes
 	EnableNodePublicIP *bool `json:"enableNodePublicIP,omitempty"`
 
-	// EnableUltraSSD: Whether to enable UltraSSD
+	//EnableUltraSSD: Whether to enable UltraSSD
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
-	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
-	// profile for supported GPU VM SKU. Supported values are MIG1g, MIG2g, MIG3g,
-	// MIG4g and MIG7g.
+	//GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
+	//profile for supported GPU VM SKU. Supported values are MIG1g, MIG2g, MIG3g,
+	//MIG4g and MIG7g.
 	GpuInstanceProfile *GPUInstanceProfile_Status `json:"gpuInstanceProfile,omitempty"`
 
-	// KubeletConfig: KubeletConfig specifies the configuration of kubelet on agent
-	// nodes.
+	//KubeletConfig: KubeletConfig specifies the configuration of kubelet on agent
+	//nodes.
 	KubeletConfig *KubeletConfig_Status `json:"kubeletConfig,omitempty"`
 
-	// KubeletDiskType: KubeletDiskType determines the placement of emptyDir volumes,
-	// container runtime data root, and Kubelet ephemeral storage. Currently allows one
-	// value, OS, resulting in Kubelet using the OS disk for data.
+	//KubeletDiskType: KubeletDiskType determines the placement of emptyDir volumes,
+	//container runtime data root, and Kubelet ephemeral storage. Currently allows one
+	//value, OS, resulting in Kubelet using the OS disk for data.
 	KubeletDiskType *KubeletDiskType_Status `json:"kubeletDiskType,omitempty"`
 
-	// LinuxOSConfig: LinuxOSConfig specifies the OS configuration of linux agent nodes.
+	//LinuxOSConfig: LinuxOSConfig specifies the OS configuration of linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_Status `json:"linuxOSConfig,omitempty"`
 
-	// MaxCount: Maximum number of nodes for auto-scaling
+	//MaxCount: Maximum number of nodes for auto-scaling
 	MaxCount *int `json:"maxCount,omitempty"`
 
-	// MaxPods: Maximum number of pods that can run on a node.
+	//MaxPods: Maximum number of pods that can run on a node.
 	MaxPods *int `json:"maxPods,omitempty"`
 
-	// MinCount: Minimum number of nodes for auto-scaling
+	//MinCount: Minimum number of nodes for auto-scaling
 	MinCount *int `json:"minCount,omitempty"`
 
-	// Mode: AgentPoolMode represents mode of an agent pool
+	//Mode: AgentPoolMode represents mode of an agent pool
 	Mode *AgentPoolMode_Status `json:"mode,omitempty"`
 
-	// Name: Unique name of the agent pool profile in the context of the subscription
-	// and resource group.
+	//Name: Unique name of the agent pool profile in the context of the subscription
+	//and resource group.
 	Name *string `json:"name,omitempty"`
 
-	// NodeImageVersion: Version of node image
+	//NodeImageVersion: Version of node image
 	NodeImageVersion *string `json:"nodeImageVersion,omitempty"`
 
-	// NodeLabels: Agent pool node labels to be persisted across all nodes in agent
-	// pool.
+	//NodeLabels: Agent pool node labels to be persisted across all nodes in agent
+	//pool.
 	NodeLabels map[string]string `json:"nodeLabels,omitempty"`
 
-	// NodePublicIPPrefixID: Public IP Prefix ID. VM nodes use IPs assigned from this
-	// Public IP Prefix.
+	//NodePublicIPPrefixID: Public IP Prefix ID. VM nodes use IPs assigned from this
+	//Public IP Prefix.
 	NodePublicIPPrefixID *string `json:"nodePublicIPPrefixID,omitempty"`
 
-	// NodeTaints: Taints added to new nodes during node pool create and scale. For
-	// example, key=value:NoSchedule.
+	//NodeTaints: Taints added to new nodes during node pool create and scale. For
+	//example, key=value:NoSchedule.
 	NodeTaints []string `json:"nodeTaints,omitempty"`
 
-	// OrchestratorVersion: Version of orchestrator specified when creating the managed
-	// cluster.
+	//OrchestratorVersion: Version of orchestrator specified when creating the managed
+	//cluster.
 	OrchestratorVersion *string `json:"orchestratorVersion,omitempty"`
 
-	// OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every
-	// machine in this master/agent pool. If you specify 0, it will apply the default
-	// osDisk size according to the vmSize specified.
+	//OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every
+	//machine in this master/agent pool. If you specify 0, it will apply the default
+	//osDisk size according to the vmSize specified.
 	OsDiskSizeGB *int `json:"osDiskSizeGB,omitempty"`
 
-	// OsDiskType: OS disk type to be used for machines in a given agent pool. Allowed
-	// values are 'Ephemeral' and 'Managed'. If unspecified, defaults to 'Ephemeral'
-	// when the VM supports ephemeral OS and has a cache disk larger than the requested
-	// OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after
-	// creation.
+	//OsDiskType: OS disk type to be used for machines in a given agent pool. Allowed
+	//values are 'Ephemeral' and 'Managed'. If unspecified, defaults to 'Ephemeral'
+	//when the VM supports ephemeral OS and has a cache disk larger than the requested
+	//OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after
+	//creation.
 	OsDiskType *OSDiskType_Status `json:"osDiskType,omitempty"`
 
-	// OsSKU: OsSKU to be used to specify os sku. Choose from Ubuntu(default) and
-	// CBLMariner for Linux OSType. Not applicable to Windows OSType.
+	//OsSKU: OsSKU to be used to specify os sku. Choose from Ubuntu(default) and
+	//CBLMariner for Linux OSType. Not applicable to Windows OSType.
 	OsSKU *OSSKU_Status `json:"osSKU,omitempty"`
 
-	// OsType: OsType to be used to specify os type. Choose from Linux and Windows.
-	// Default to Linux.
+	//OsType: OsType to be used to specify os type. Choose from Linux and Windows.
+	//Default to Linux.
 	OsType *OSType_Status `json:"osType,omitempty"`
 
-	// PodSubnetID: Pod SubnetID specifies the VNet's subnet identifier for pods.
+	//PodSubnetID: Pod SubnetID specifies the VNet's subnet identifier for pods.
 	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
-	// PowerState: Describes whether the Agent Pool is Running or Stopped
+	//PowerState: Describes whether the Agent Pool is Running or Stopped
 	PowerState *PowerState_Status `json:"powerState,omitempty"`
 
-	// ProvisioningState: The current deployment or provisioning state, which only
-	// appears in the response.
+	//ProvisioningState: The current deployment or provisioning state, which only
+	//appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
+	//ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
 
-	// ScaleSetEvictionPolicy: ScaleSetEvictionPolicy to be used to specify eviction
-	// policy for Spot virtual machine scale set. Default to Delete.
+	//ScaleSetEvictionPolicy: ScaleSetEvictionPolicy to be used to specify eviction
+	//policy for Spot virtual machine scale set. Default to Delete.
 	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_Status `json:"scaleSetEvictionPolicy,omitempty"`
 
-	// ScaleSetPriority: ScaleSetPriority to be used to specify virtual machine scale
-	// set priority. Default to regular.
+	//ScaleSetPriority: ScaleSetPriority to be used to specify virtual machine scale
+	//set priority. Default to regular.
 	ScaleSetPriority *ScaleSetPriority_Status `json:"scaleSetPriority,omitempty"`
 
-	// SpotMaxPrice: SpotMaxPrice to be used to specify the maximum price you are
-	// willing to pay in US Dollars. Possible values are any decimal value greater than
-	// zero or -1 which indicates default price to be up-to on-demand.
+	//SpotMaxPrice: SpotMaxPrice to be used to specify the maximum price you are
+	//willing to pay in US Dollars. Possible values are any decimal value greater than
+	//zero or -1 which indicates default price to be up-to on-demand.
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
-	// Tags: Agent pool tags to be persisted on the agent pool virtual machine scale
-	// set.
+	//Tags: Agent pool tags to be persisted on the agent pool virtual machine scale
+	//set.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: AgentPoolType represents types of an agent pool
+	//Type: AgentPoolType represents types of an agent pool
 	Type *AgentPoolType_Status `json:"type,omitempty"`
 
-	// UpgradeSettings: Settings for upgrading the agentpool
+	//UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_Status `json:"upgradeSettings,omitempty"`
 
-	// VmSize: Size of agent VMs.
+	//VmSize: Size of agent VMs.
 	VmSize *string `json:"vmSize,omitempty"`
 
-	// VnetSubnetID: VNet SubnetID specifies the VNet's subnet identifier for nodes and
-	// maybe pods
+	//VnetSubnetID: VNet SubnetID specifies the VNet's subnet identifier for nodes and
+	//maybe pods
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
@@ -6612,6 +6628,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 
 // AssignPropertiesFromManagedClusterAgentPoolProfileStatus populates our ManagedClusterAgentPoolProfile_Status from the provided source ManagedClusterAgentPoolProfile_Status
 func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManagedClusterAgentPoolProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAgentPoolProfile_Status) error {
+
 	// AvailabilityZones
 	availabilityZoneList := make([]string, len(source.AvailabilityZones))
 	for availabilityZoneIndex, availabilityZoneItem := range source.AvailabilityZones {
@@ -7260,10 +7277,10 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAutoUpgradeProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAutoUpgradeProfile
 type ManagedClusterAutoUpgradeProfile struct {
-	// UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
-	// channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
+	//UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
+	//channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 	UpgradeChannel *ManagedClusterAutoUpgradeProfileUpgradeChannel `json:"upgradeChannel,omitempty"`
 }
 
@@ -7308,6 +7325,7 @@ func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) Popula
 
 // AssignPropertiesFromManagedClusterAutoUpgradeProfile populates our ManagedClusterAutoUpgradeProfile from the provided source ManagedClusterAutoUpgradeProfile
 func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) AssignPropertiesFromManagedClusterAutoUpgradeProfile(source *v1alpha1api20210501storage.ManagedClusterAutoUpgradeProfile) error {
+
 	// UpgradeChannel
 	if source.UpgradeChannel != nil {
 		upgradeChannel := ManagedClusterAutoUpgradeProfileUpgradeChannel(*source.UpgradeChannel)
@@ -7340,9 +7358,9 @@ func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) Assign
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterAutoUpgradeProfile_Status struct {
-	// UpgradeChannel: upgrade channel for auto upgrade.
+	//UpgradeChannel: upgrade channel for auto upgrade.
 	UpgradeChannel *ManagedClusterAutoUpgradeProfileStatusUpgradeChannel `json:"upgradeChannel,omitempty"`
 }
 
@@ -7372,6 +7390,7 @@ func (managedClusterAutoUpgradeProfileStatus *ManagedClusterAutoUpgradeProfile_S
 
 // AssignPropertiesFromManagedClusterAutoUpgradeProfileStatus populates our ManagedClusterAutoUpgradeProfile_Status from the provided source ManagedClusterAutoUpgradeProfile_Status
 func (managedClusterAutoUpgradeProfileStatus *ManagedClusterAutoUpgradeProfile_Status) AssignPropertiesFromManagedClusterAutoUpgradeProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAutoUpgradeProfile_Status) error {
+
 	// UpgradeChannel
 	if source.UpgradeChannel != nil {
 		upgradeChannel := ManagedClusterAutoUpgradeProfileStatusUpgradeChannel(*source.UpgradeChannel)
@@ -7404,18 +7423,18 @@ func (managedClusterAutoUpgradeProfileStatus *ManagedClusterAutoUpgradeProfile_S
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterHTTPProxyConfig
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterHTTPProxyConfig
 type ManagedClusterHTTPProxyConfig struct {
-	// HttpProxy: The HTTP proxy server endpoint to use.
+	//HttpProxy: The HTTP proxy server endpoint to use.
 	HttpProxy *string `json:"httpProxy,omitempty"`
 
-	// HttpsProxy: The HTTPS proxy server endpoint to use.
+	//HttpsProxy: The HTTPS proxy server endpoint to use.
 	HttpsProxy *string `json:"httpsProxy,omitempty"`
 
-	// NoProxy: The endpoints that should not go through proxy.
+	//NoProxy: The endpoints that should not go through proxy.
 	NoProxy []string `json:"noProxy,omitempty"`
 
-	// TrustedCa: Alternative CA cert to use for connecting to proxy servers.
+	//TrustedCa: Alternative CA cert to use for connecting to proxy servers.
 	TrustedCa *string `json:"trustedCa,omitempty"`
 }
 
@@ -7494,6 +7513,7 @@ func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) PopulateFrom
 
 // AssignPropertiesFromManagedClusterHTTPProxyConfig populates our ManagedClusterHTTPProxyConfig from the provided source ManagedClusterHTTPProxyConfig
 func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) AssignPropertiesFromManagedClusterHTTPProxyConfig(source *v1alpha1api20210501storage.ManagedClusterHTTPProxyConfig) error {
+
 	// HttpProxy
 	if source.HttpProxy != nil {
 		httpProxy := *source.HttpProxy
@@ -7576,18 +7596,18 @@ func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) AssignProper
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterHTTPProxyConfig_Status struct {
-	// HttpProxy: HTTP proxy server endpoint to use.
+	//HttpProxy: HTTP proxy server endpoint to use.
 	HttpProxy *string `json:"httpProxy,omitempty"`
 
-	// HttpsProxy: HTTPS proxy server endpoint to use.
+	//HttpsProxy: HTTPS proxy server endpoint to use.
 	HttpsProxy *string `json:"httpsProxy,omitempty"`
 
-	// NoProxy: Endpoints that should not go through proxy.
+	//NoProxy: Endpoints that should not go through proxy.
 	NoProxy []string `json:"noProxy,omitempty"`
 
-	// TrustedCa: Alternative CA cert to use for connecting to proxy servers.
+	//TrustedCa: Alternative CA cert to use for connecting to proxy servers.
 	TrustedCa *string `json:"trustedCa,omitempty"`
 }
 
@@ -7634,6 +7654,7 @@ func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status)
 
 // AssignPropertiesFromManagedClusterHTTPProxyConfigStatus populates our ManagedClusterHTTPProxyConfig_Status from the provided source ManagedClusterHTTPProxyConfig_Status
 func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status) AssignPropertiesFromManagedClusterHTTPProxyConfigStatus(source *v1alpha1api20210501storage.ManagedClusterHTTPProxyConfig_Status) error {
+
 	// HttpProxy
 	if source.HttpProxy != nil {
 		httpProxy := *source.HttpProxy
@@ -7716,10 +7737,10 @@ func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status)
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterIdentity
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterIdentity
 type ManagedClusterIdentity struct {
-	// Type: For more information see [use managed identities in
-	// AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
+	//Type: For more information see [use managed identities in
+	//AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 	Type *ManagedClusterIdentityType `json:"type,omitempty"`
 
 	//UserAssignedIdentities: The keys must be ARM resource IDs in the form:
@@ -7784,6 +7805,7 @@ func (managedClusterIdentity *ManagedClusterIdentity) PopulateFromARM(owner genr
 
 // AssignPropertiesFromManagedClusterIdentity populates our ManagedClusterIdentity from the provided source ManagedClusterIdentity
 func (managedClusterIdentity *ManagedClusterIdentity) AssignPropertiesFromManagedClusterIdentity(source *v1alpha1api20210501storage.ManagedClusterIdentity) error {
+
 	// Type
 	if source.Type != nil {
 		typeVar := ManagedClusterIdentityType(*source.Type)
@@ -7834,20 +7856,20 @@ func (managedClusterIdentity *ManagedClusterIdentity) AssignPropertiesToManagedC
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterIdentity_Status struct {
-	// PrincipalId: The principal id of the system assigned identity which is used by
-	// master components.
+	//PrincipalId: The principal id of the system assigned identity which is used by
+	//master components.
 	PrincipalId *string `json:"principalId,omitempty"`
 
-	// TenantId: The tenant id of the system assigned identity which is used by master
-	// components.
+	//TenantId: The tenant id of the system assigned identity which is used by master
+	//components.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	// Type: The type of identity used for the managed cluster. Type 'SystemAssigned'
-	// will use an implicitly created identity in master components and an auto-created
-	// user assigned identity in MC_ resource group in agent nodes. Type 'None' will
-	// not use MSI for the managed cluster, service principal will be used instead.
+	//Type: The type of identity used for the managed cluster. Type 'SystemAssigned'
+	//will use an implicitly created identity in master components and an auto-created
+	//user assigned identity in MC_ resource group in agent nodes. Type 'None' will
+	//not use MSI for the managed cluster, service principal will be used instead.
 	Type *ManagedClusterIdentityStatusType `json:"type,omitempty"`
 
 	//UserAssignedIdentities: The user identity associated with the managed cluster.
@@ -7909,6 +7931,7 @@ func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) PopulateFromA
 
 // AssignPropertiesFromManagedClusterIdentityStatus populates our ManagedClusterIdentity_Status from the provided source ManagedClusterIdentity_Status
 func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) AssignPropertiesFromManagedClusterIdentityStatus(source *v1alpha1api20210501storage.ManagedClusterIdentity_Status) error {
+
 	// PrincipalId
 	if source.PrincipalId != nil {
 		principalId := *source.PrincipalId
@@ -8001,7 +8024,7 @@ func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) AssignPropert
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityProfile
 type ManagedClusterPodIdentityProfile struct {
 	//AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the
 	//security related nature of AAD Pod Identity and the risks of IP spoofing. See
@@ -8010,13 +8033,13 @@ type ManagedClusterPodIdentityProfile struct {
 	//for more information.
 	AllowNetworkPluginKubenet *bool `json:"allowNetworkPluginKubenet,omitempty"`
 
-	// Enabled: Whether the pod identity addon is enabled.
+	//Enabled: Whether the pod identity addon is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// UserAssignedIdentities: The pod identities to use in the cluster.
+	//UserAssignedIdentities: The pod identities to use in the cluster.
 	UserAssignedIdentities []ManagedClusterPodIdentity `json:"userAssignedIdentities,omitempty"`
 
-	// UserAssignedIdentityExceptions: The pod identity exceptions to allow.
+	//UserAssignedIdentityExceptions: The pod identity exceptions to allow.
 	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException `json:"userAssignedIdentityExceptions,omitempty"`
 }
 
@@ -8111,6 +8134,7 @@ func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) Popula
 
 // AssignPropertiesFromManagedClusterPodIdentityProfile populates our ManagedClusterPodIdentityProfile from the provided source ManagedClusterPodIdentityProfile
 func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) AssignPropertiesFromManagedClusterPodIdentityProfile(source *v1alpha1api20210501storage.ManagedClusterPodIdentityProfile) error {
+
 	// AllowNetworkPluginKubenet
 	if source.AllowNetworkPluginKubenet != nil {
 		allowNetworkPluginKubenet := *source.AllowNetworkPluginKubenet
@@ -8215,19 +8239,19 @@ func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) Assign
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterPodIdentityProfile_Status struct {
-	// AllowNetworkPluginKubenet: Customer consent for enabling AAD pod identity addon
-	// in cluster using Kubenet network plugin.
+	//AllowNetworkPluginKubenet: Customer consent for enabling AAD pod identity addon
+	//in cluster using Kubenet network plugin.
 	AllowNetworkPluginKubenet *bool `json:"allowNetworkPluginKubenet,omitempty"`
 
-	// Enabled: Whether the pod identity addon is enabled.
+	//Enabled: Whether the pod identity addon is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// UserAssignedIdentities: User assigned pod identity settings.
+	//UserAssignedIdentities: User assigned pod identity settings.
 	UserAssignedIdentities []ManagedClusterPodIdentity_Status `json:"userAssignedIdentities,omitempty"`
 
-	// UserAssignedIdentityExceptions: User assigned pod identity exception settings.
+	//UserAssignedIdentityExceptions: User assigned pod identity exception settings.
 	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_Status `json:"userAssignedIdentityExceptions,omitempty"`
 }
 
@@ -8283,6 +8307,7 @@ func (managedClusterPodIdentityProfileStatus *ManagedClusterPodIdentityProfile_S
 
 // AssignPropertiesFromManagedClusterPodIdentityProfileStatus populates our ManagedClusterPodIdentityProfile_Status from the provided source ManagedClusterPodIdentityProfile_Status
 func (managedClusterPodIdentityProfileStatus *ManagedClusterPodIdentityProfile_Status) AssignPropertiesFromManagedClusterPodIdentityProfileStatus(source *v1alpha1api20210501storage.ManagedClusterPodIdentityProfile_Status) error {
+
 	// AllowNetworkPluginKubenet
 	if source.AllowNetworkPluginKubenet != nil {
 		allowNetworkPluginKubenet := *source.AllowNetworkPluginKubenet
@@ -8387,9 +8412,9 @@ func (managedClusterPodIdentityProfileStatus *ManagedClusterPodIdentityProfile_S
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPropertiesAutoScalerProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPropertiesAutoScalerProfile
 type ManagedClusterPropertiesAutoScalerProfile struct {
-	// BalanceSimilarNodeGroups: Valid values are 'true' and 'false'
+	//BalanceSimilarNodeGroups: Valid values are 'true' and 'false'
 	BalanceSimilarNodeGroups *string `json:"balance-similar-node-groups,omitempty"`
 
 	//Expander: If not specified, the default is 'random'. See
@@ -8397,18 +8422,18 @@ type ManagedClusterPropertiesAutoScalerProfile struct {
 	//for more information.
 	Expander *ManagedClusterPropertiesAutoScalerProfileExpander `json:"expander,omitempty"`
 
-	// MaxEmptyBulkDelete: The default is 10.
+	//MaxEmptyBulkDelete: The default is 10.
 	MaxEmptyBulkDelete *string `json:"max-empty-bulk-delete,omitempty"`
 
-	// MaxGracefulTerminationSec: The default is 600.
+	//MaxGracefulTerminationSec: The default is 600.
 	MaxGracefulTerminationSec *string `json:"max-graceful-termination-sec,omitempty"`
 
-	// MaxNodeProvisionTime: The default is '15m'. Values must be an integer followed
-	// by an 'm'. No unit of time other than minutes (m) is supported.
+	//MaxNodeProvisionTime: The default is '15m'. Values must be an integer followed
+	//by an 'm'. No unit of time other than minutes (m) is supported.
 	MaxNodeProvisionTime *string `json:"max-node-provision-time,omitempty"`
 
-	// MaxTotalUnreadyPercentage: The default is 45. The maximum is 100 and the minimum
-	// is 0.
+	//MaxTotalUnreadyPercentage: The default is 45. The maximum is 100 and the minimum
+	//is 0.
 	MaxTotalUnreadyPercentage *string `json:"max-total-unready-percentage,omitempty"`
 
 	//NewPodScaleUpDelay: For scenarios like burst/batch scale where you don't want CA
@@ -8418,39 +8443,39 @@ type ManagedClusterPropertiesAutoScalerProfile struct {
 	//'h' for hours, etc).
 	NewPodScaleUpDelay *string `json:"new-pod-scale-up-delay,omitempty"`
 
-	// OkTotalUnreadyCount: This must be an integer. The default is 3.
+	//OkTotalUnreadyCount: This must be an integer. The default is 3.
 	OkTotalUnreadyCount *string `json:"ok-total-unready-count,omitempty"`
 
-	// ScaleDownDelayAfterAdd: The default is '10m'. Values must be an integer followed
-	// by an 'm'. No unit of time other than minutes (m) is supported.
+	//ScaleDownDelayAfterAdd: The default is '10m'. Values must be an integer followed
+	//by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterAdd *string `json:"scale-down-delay-after-add,omitempty"`
 
-	// ScaleDownDelayAfterDelete: The default is the scan-interval. Values must be an
-	// integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	//ScaleDownDelayAfterDelete: The default is the scan-interval. Values must be an
+	//integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterDelete *string `json:"scale-down-delay-after-delete,omitempty"`
 
-	// ScaleDownDelayAfterFailure: The default is '3m'. Values must be an integer
-	// followed by an 'm'. No unit of time other than minutes (m) is supported.
+	//ScaleDownDelayAfterFailure: The default is '3m'. Values must be an integer
+	//followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterFailure *string `json:"scale-down-delay-after-failure,omitempty"`
 
-	// ScaleDownUnneededTime: The default is '10m'. Values must be an integer followed
-	// by an 'm'. No unit of time other than minutes (m) is supported.
+	//ScaleDownUnneededTime: The default is '10m'. Values must be an integer followed
+	//by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownUnneededTime *string `json:"scale-down-unneeded-time,omitempty"`
 
-	// ScaleDownUnreadyTime: The default is '20m'. Values must be an integer followed
-	// by an 'm'. No unit of time other than minutes (m) is supported.
+	//ScaleDownUnreadyTime: The default is '20m'. Values must be an integer followed
+	//by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownUnreadyTime *string `json:"scale-down-unready-time,omitempty"`
 
-	// ScaleDownUtilizationThreshold: The default is '0.5'.
+	//ScaleDownUtilizationThreshold: The default is '0.5'.
 	ScaleDownUtilizationThreshold *string `json:"scale-down-utilization-threshold,omitempty"`
 
-	// ScanInterval: The default is '10'. Values must be an integer number of seconds.
+	//ScanInterval: The default is '10'. Values must be an integer number of seconds.
 	ScanInterval *string `json:"scan-interval,omitempty"`
 
-	// SkipNodesWithLocalStorage: The default is true.
+	//SkipNodesWithLocalStorage: The default is true.
 	SkipNodesWithLocalStorage *string `json:"skip-nodes-with-local-storage,omitempty"`
 
-	// SkipNodesWithSystemPods: The default is true.
+	//SkipNodesWithSystemPods: The default is true.
 	SkipNodesWithSystemPods *string `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
@@ -8687,6 +8712,7 @@ func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoSca
 
 // AssignPropertiesFromManagedClusterPropertiesAutoScalerProfile populates our ManagedClusterPropertiesAutoScalerProfile from the provided source ManagedClusterPropertiesAutoScalerProfile
 func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile) AssignPropertiesFromManagedClusterPropertiesAutoScalerProfile(source *v1alpha1api20210501storage.ManagedClusterPropertiesAutoScalerProfile) error {
+
 	// BalanceSimilarNodeGroups
 	if source.BalanceSimilarNodeGroups != nil {
 		balanceSimilarNodeGroup := *source.BalanceSimilarNodeGroups
@@ -9117,6 +9143,7 @@ func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_
 
 // AssignPropertiesFromManagedClusterPropertiesStatusAutoScalerProfile populates our ManagedClusterProperties_Status_AutoScalerProfile from the provided source ManagedClusterProperties_Status_AutoScalerProfile
 func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_Status_AutoScalerProfile) AssignPropertiesFromManagedClusterPropertiesStatusAutoScalerProfile(source *v1alpha1api20210501storage.ManagedClusterProperties_Status_AutoScalerProfile) error {
+
 	// BalanceSimilarNodeGroups
 	if source.BalanceSimilarNodeGroups != nil {
 		balanceSimilarNodeGroup := *source.BalanceSimilarNodeGroups
@@ -9405,13 +9432,13 @@ func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterSKU
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterSKU
 type ManagedClusterSKU struct {
-	// Name: The name of a managed cluster SKU.
+	//Name: The name of a managed cluster SKU.
 	Name *ManagedClusterSKUName `json:"name,omitempty"`
 
-	// Tier: If not specified, the default is 'Free'. See [uptime
-	// SLA](https://docs.microsoft.com/azure/aks/uptime-sla) for more details.
+	//Tier: If not specified, the default is 'Free'. See [uptime
+	//SLA](https://docs.microsoft.com/azure/aks/uptime-sla) for more details.
 	Tier *ManagedClusterSKUTier `json:"tier,omitempty"`
 }
 
@@ -9468,6 +9495,7 @@ func (managedClusterSKU *ManagedClusterSKU) PopulateFromARM(owner genruntime.Kno
 
 // AssignPropertiesFromManagedClusterSKU populates our ManagedClusterSKU from the provided source ManagedClusterSKU
 func (managedClusterSKU *ManagedClusterSKU) AssignPropertiesFromManagedClusterSKU(source *v1alpha1api20210501storage.ManagedClusterSKU) error {
+
 	// Name
 	if source.Name != nil {
 		name := ManagedClusterSKUName(*source.Name)
@@ -9516,12 +9544,12 @@ func (managedClusterSKU *ManagedClusterSKU) AssignPropertiesToManagedClusterSKU(
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterSKU_Status struct {
-	// Name: Name of a managed cluster SKU.
+	//Name: Name of a managed cluster SKU.
 	Name *ManagedClusterSKUStatusName `json:"name,omitempty"`
 
-	// Tier: Tier of a managed cluster SKU.
+	//Tier: Tier of a managed cluster SKU.
 	Tier *ManagedClusterSKUStatusTier `json:"tier,omitempty"`
 }
 
@@ -9557,6 +9585,7 @@ func (managedClusterSKUStatus *ManagedClusterSKU_Status) PopulateFromARM(owner g
 
 // AssignPropertiesFromManagedClusterSKUStatus populates our ManagedClusterSKU_Status from the provided source ManagedClusterSKU_Status
 func (managedClusterSKUStatus *ManagedClusterSKU_Status) AssignPropertiesFromManagedClusterSKUStatus(source *v1alpha1api20210501storage.ManagedClusterSKU_Status) error {
+
 	// Name
 	if source.Name != nil {
 		name := ManagedClusterSKUStatusName(*source.Name)
@@ -9605,13 +9634,13 @@ func (managedClusterSKUStatus *ManagedClusterSKU_Status) AssignPropertiesToManag
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterServicePrincipalProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterServicePrincipalProfile
 type ManagedClusterServicePrincipalProfile struct {
 	// +kubebuilder:validation:Required
-	// ClientId: The ID for the service principal.
+	//ClientId: The ID for the service principal.
 	ClientId string `json:"clientId"`
 
-	// Secret: The secret password associated with the service principal in plain text.
+	//Secret: The secret password associated with the service principal in plain text.
 	Secret *string `json:"secret,omitempty"`
 }
 
@@ -9662,6 +9691,7 @@ func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfi
 
 // AssignPropertiesFromManagedClusterServicePrincipalProfile populates our ManagedClusterServicePrincipalProfile from the provided source ManagedClusterServicePrincipalProfile
 func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfile) AssignPropertiesFromManagedClusterServicePrincipalProfile(source *v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile) error {
+
 	// ClientId
 	if source.ClientId != nil {
 		managedClusterServicePrincipalProfile.ClientId = *source.ClientId
@@ -9705,13 +9735,13 @@ func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfi
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterServicePrincipalProfile_Status struct {
 	// +kubebuilder:validation:Required
-	// ClientId: The ID for the service principal.
+	//ClientId: The ID for the service principal.
 	ClientId string `json:"clientId"`
 
-	// Secret: The secret password associated with the service principal in plain text.
+	//Secret: The secret password associated with the service principal in plain text.
 	Secret *string `json:"secret,omitempty"`
 }
 
@@ -9744,6 +9774,7 @@ func (managedClusterServicePrincipalProfileStatus *ManagedClusterServicePrincipa
 
 // AssignPropertiesFromManagedClusterServicePrincipalProfileStatus populates our ManagedClusterServicePrincipalProfile_Status from the provided source ManagedClusterServicePrincipalProfile_Status
 func (managedClusterServicePrincipalProfileStatus *ManagedClusterServicePrincipalProfile_Status) AssignPropertiesFromManagedClusterServicePrincipalProfileStatus(source *v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile_Status) error {
+
 	// ClientId
 	if source.ClientId != nil {
 		managedClusterServicePrincipalProfileStatus.ClientId = *source.ClientId
@@ -9787,7 +9818,7 @@ func (managedClusterServicePrincipalProfileStatus *ManagedClusterServicePrincipa
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterWindowsProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterWindowsProfile
 type ManagedClusterWindowsProfile struct {
 	//AdminPassword: Specifies the password of the administrator account.
 	//Minimum-length: 8 characters
@@ -9813,13 +9844,13 @@ type ManagedClusterWindowsProfile struct {
 	//Max-length: 20 characters
 	AdminUsername string `json:"adminUsername"`
 
-	// EnableCSIProxy: For more details on CSI proxy, see the [CSI proxy GitHub
-	// repo](https://github.com/kubernetes-csi/csi-proxy).
+	//EnableCSIProxy: For more details on CSI proxy, see the [CSI proxy GitHub
+	//repo](https://github.com/kubernetes-csi/csi-proxy).
 	EnableCSIProxy *bool `json:"enableCSIProxy,omitempty"`
 
-	// LicenseType: The license type to use for Windows VMs. See [Azure Hybrid User
-	// Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more
-	// details.
+	//LicenseType: The license type to use for Windows VMs. See [Azure Hybrid User
+	//Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more
+	//details.
 	LicenseType *ManagedClusterWindowsProfileLicenseType `json:"licenseType,omitempty"`
 }
 
@@ -9894,6 +9925,7 @@ func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) PopulateFromAR
 
 // AssignPropertiesFromManagedClusterWindowsProfile populates our ManagedClusterWindowsProfile from the provided source ManagedClusterWindowsProfile
 func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) AssignPropertiesFromManagedClusterWindowsProfile(source *v1alpha1api20210501storage.ManagedClusterWindowsProfile) error {
+
 	// AdminPassword
 	if source.AdminPassword != nil {
 		adminPassword := *source.AdminPassword
@@ -9969,7 +10001,7 @@ func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) AssignProperti
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterWindowsProfile_Status struct {
 	//AdminPassword: Specifies the password of the administrator account.
 	//Minimum-length: 8 characters
@@ -9995,11 +10027,11 @@ type ManagedClusterWindowsProfile_Status struct {
 	//Max-length: 20 characters
 	AdminUsername string `json:"adminUsername"`
 
-	// EnableCSIProxy: Whether to enable CSI proxy.
+	//EnableCSIProxy: Whether to enable CSI proxy.
 	EnableCSIProxy *bool `json:"enableCSIProxy,omitempty"`
 
-	// LicenseType: The licenseType to use for Windows VMs. Windows_Server is used to
-	// enable Azure Hybrid User Benefits for Windows VMs.
+	//LicenseType: The licenseType to use for Windows VMs. Windows_Server is used to
+	//enable Azure Hybrid User Benefits for Windows VMs.
 	LicenseType *ManagedClusterWindowsProfileStatusLicenseType `json:"licenseType,omitempty"`
 }
 
@@ -10044,6 +10076,7 @@ func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) P
 
 // AssignPropertiesFromManagedClusterWindowsProfileStatus populates our ManagedClusterWindowsProfile_Status from the provided source ManagedClusterWindowsProfile_Status
 func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) AssignPropertiesFromManagedClusterWindowsProfileStatus(source *v1alpha1api20210501storage.ManagedClusterWindowsProfile_Status) error {
+
 	// AdminPassword
 	if source.AdminPassword != nil {
 		adminPassword := *source.AdminPassword
@@ -10119,9 +10152,9 @@ func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) A
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type PowerState_Status struct {
-	// Code: Tells whether the cluster is Running or Stopped
+	//Code: Tells whether the cluster is Running or Stopped
 	Code *PowerStateStatusCode `json:"code,omitempty"`
 }
 
@@ -10151,6 +10184,7 @@ func (powerStateStatus *PowerState_Status) PopulateFromARM(owner genruntime.Know
 
 // AssignPropertiesFromPowerStateStatus populates our PowerState_Status from the provided source PowerState_Status
 func (powerStateStatus *PowerState_Status) AssignPropertiesFromPowerStateStatus(source *v1alpha1api20210501storage.PowerState_Status) error {
+
 	// Code
 	if source.Code != nil {
 		code := PowerStateStatusCode(*source.Code)
@@ -10183,21 +10217,21 @@ func (powerStateStatus *PowerState_Status) AssignPropertiesToPowerStateStatus(de
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/PrivateLinkResource
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/PrivateLinkResource
 type PrivateLinkResource struct {
-	// GroupId: The group ID of the resource.
+	//GroupId: The group ID of the resource.
 	GroupId *string `json:"groupId,omitempty"`
 
-	// Name: The name of the private link resource.
+	//Name: The name of the private link resource.
 	Name *string `json:"name,omitempty"`
 
-	// Reference: The ID of the private link resource.
+	//Reference: The ID of the private link resource.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
-	// RequiredMembers: The RequiredMembers of the resource
+	//RequiredMembers: The RequiredMembers of the resource
 	RequiredMembers []string `json:"requiredMembers,omitempty"`
 
-	// Type: The resource type.
+	//Type: The resource type.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -10288,6 +10322,7 @@ func (privateLinkResource *PrivateLinkResource) PopulateFromARM(owner genruntime
 
 // AssignPropertiesFromPrivateLinkResource populates our PrivateLinkResource from the provided source PrivateLinkResource
 func (privateLinkResource *PrivateLinkResource) AssignPropertiesFromPrivateLinkResource(source *v1alpha1api20210501storage.PrivateLinkResource) error {
+
 	// GroupId
 	if source.GroupId != nil {
 		groupId := *source.GroupId
@@ -10386,25 +10421,25 @@ func (privateLinkResource *PrivateLinkResource) AssignPropertiesToPrivateLinkRes
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type PrivateLinkResource_Status struct {
-	// GroupId: The group ID of the resource.
+	//GroupId: The group ID of the resource.
 	GroupId *string `json:"groupId,omitempty"`
 
-	// Id: The ID of the private link resource.
+	//Id: The ID of the private link resource.
 	Id *string `json:"id,omitempty"`
 
-	// Name: The name of the private link resource.
+	//Name: The name of the private link resource.
 	Name *string `json:"name,omitempty"`
 
-	// PrivateLinkServiceID: The private link service ID of the resource, this field is
-	// exposed only to NRP internally.
+	//PrivateLinkServiceID: The private link service ID of the resource, this field is
+	//exposed only to NRP internally.
 	PrivateLinkServiceID *string `json:"privateLinkServiceID,omitempty"`
 
-	// RequiredMembers: RequiredMembers of the resource
+	//RequiredMembers: RequiredMembers of the resource
 	RequiredMembers []string `json:"requiredMembers,omitempty"`
 
-	// Type: The resource type.
+	//Type: The resource type.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -10463,6 +10498,7 @@ func (privateLinkResourceStatus *PrivateLinkResource_Status) PopulateFromARM(own
 
 // AssignPropertiesFromPrivateLinkResourceStatus populates our PrivateLinkResource_Status from the provided source PrivateLinkResource_Status
 func (privateLinkResourceStatus *PrivateLinkResource_Status) AssignPropertiesFromPrivateLinkResourceStatus(source *v1alpha1api20210501storage.PrivateLinkResource_Status) error {
+
 	// GroupId
 	if source.GroupId != nil {
 		groupId := *source.GroupId
@@ -10652,11 +10688,11 @@ const (
 	ContainerServiceNetworkProfileStatusOutboundTypeUserDefinedRouting = ContainerServiceNetworkProfileStatusOutboundType("userDefinedRouting")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshConfiguration
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshConfiguration
 type ContainerServiceSshConfiguration struct {
 	// +kubebuilder:validation:Required
-	// PublicKeys: The list of SSH public keys used to authenticate with Linux-based
-	// VMs. A maximum of 1 key may be specified.
+	//PublicKeys: The list of SSH public keys used to authenticate with Linux-based
+	//VMs. A maximum of 1 key may be specified.
 	PublicKeys []ContainerServiceSshPublicKey `json:"publicKeys"`
 }
 
@@ -10708,6 +10744,7 @@ func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) Popula
 
 // AssignPropertiesFromContainerServiceSshConfiguration populates our ContainerServiceSshConfiguration from the provided source ContainerServiceSshConfiguration
 func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) AssignPropertiesFromContainerServiceSshConfiguration(source *v1alpha1api20210501storage.ContainerServiceSshConfiguration) error {
+
 	// PublicKeys
 	publicKeyList := make([]ContainerServiceSshPublicKey, len(source.PublicKeys))
 	for publicKeyIndex, publicKeyItem := range source.PublicKeys {
@@ -10752,11 +10789,11 @@ func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) Assign
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ContainerServiceSshConfiguration_Status struct {
 	// +kubebuilder:validation:Required
-	// PublicKeys: The list of SSH public keys used to authenticate with Linux-based
-	// VMs. Only expect one key specified.
+	//PublicKeys: The list of SSH public keys used to authenticate with Linux-based
+	//VMs. Only expect one key specified.
 	PublicKeys []ContainerServiceSshPublicKey_Status `json:"publicKeys"`
 }
 
@@ -10790,6 +10827,7 @@ func (containerServiceSshConfigurationStatus *ContainerServiceSshConfiguration_S
 
 // AssignPropertiesFromContainerServiceSshConfigurationStatus populates our ContainerServiceSshConfiguration_Status from the provided source ContainerServiceSshConfiguration_Status
 func (containerServiceSshConfigurationStatus *ContainerServiceSshConfiguration_Status) AssignPropertiesFromContainerServiceSshConfigurationStatus(source *v1alpha1api20210501storage.ContainerServiceSshConfiguration_Status) error {
+
 	// PublicKeys
 	publicKeyList := make([]ContainerServiceSshPublicKey_Status, len(source.PublicKeys))
 	for publicKeyIndex, publicKeyItem := range source.PublicKeys {
@@ -10931,10 +10969,10 @@ const (
 )
 
 type ManagedClusterIdentity_Status_UserAssignedIdentities struct {
-	// ClientId: The client id of user assigned identity.
+	//ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
-	// PrincipalId: The principal id of user assigned identity.
+	//PrincipalId: The principal id of user assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -10970,6 +11008,7 @@ func (managedClusterIdentityStatusUserAssignedIdentities *ManagedClusterIdentity
 
 // AssignPropertiesFromManagedClusterIdentityStatusUserAssignedIdentities populates our ManagedClusterIdentity_Status_UserAssignedIdentities from the provided source ManagedClusterIdentity_Status_UserAssignedIdentities
 func (managedClusterIdentityStatusUserAssignedIdentities *ManagedClusterIdentity_Status_UserAssignedIdentities) AssignPropertiesFromManagedClusterIdentityStatusUserAssignedIdentities(source *v1alpha1api20210501storage.ManagedClusterIdentity_Status_UserAssignedIdentities) error {
+
 	// ClientId
 	if source.ClientId != nil {
 		clientId := *source.ClientId
@@ -11018,33 +11057,33 @@ func (managedClusterIdentityStatusUserAssignedIdentities *ManagedClusterIdentity
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfile
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfile
 type ManagedClusterLoadBalancerProfile struct {
 	// +kubebuilder:validation:Maximum=64000
 	// +kubebuilder:validation:Minimum=0
-	// AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM.
-	// Allowed values are in the range of 0 to 64000 (inclusive). The default value is
-	// 0 which results in Azure dynamically allocating ports.
+	//AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM.
+	//Allowed values are in the range of 0 to 64000 (inclusive). The default value is
+	//0 which results in Azure dynamically allocating ports.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
-	// EffectiveOutboundIPs: The effective outbound IP resources of the cluster load
-	// balancer.
+	//EffectiveOutboundIPs: The effective outbound IP resources of the cluster load
+	//balancer.
 	EffectiveOutboundIPs []ResourceReference `json:"effectiveOutboundIPs,omitempty"`
 
 	// +kubebuilder:validation:Maximum=120
 	// +kubebuilder:validation:Minimum=4
-	// IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed
-	// values are in the range of 4 to 120 (inclusive). The default value is 30 minutes.
+	//IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed
+	//values are in the range of 4 to 120 (inclusive). The default value is 30 minutes.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
-	// ManagedOutboundIPs: Desired managed outbound IPs for the cluster load balancer.
+	//ManagedOutboundIPs: Desired managed outbound IPs for the cluster load balancer.
 	ManagedOutboundIPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs `json:"managedOutboundIPs,omitempty"`
 
-	// OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load
-	// balancer.
+	//OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load
+	//balancer.
 	OutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes `json:"outboundIPPrefixes,omitempty"`
 
-	// OutboundIPs: Desired outbound IP resources for the cluster load balancer.
+	//OutboundIPs: Desired outbound IP resources for the cluster load balancer.
 	OutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPs `json:"outboundIPs,omitempty"`
 }
 
@@ -11183,6 +11222,7 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Popu
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfile populates our ManagedClusterLoadBalancerProfile from the provided source ManagedClusterLoadBalancerProfile
 func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) AssignPropertiesFromManagedClusterLoadBalancerProfile(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile) error {
+
 	// AllocatedOutboundPorts
 	if source.AllocatedOutboundPorts != nil {
 		allocatedOutboundPort := *source.AllocatedOutboundPorts
@@ -11331,30 +11371,30 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Assi
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterLoadBalancerProfile_Status struct {
-	// AllocatedOutboundPorts: Desired number of allocated SNAT ports per VM. Allowed
-	// values must be in the range of 0 to 64000 (inclusive). The default value is 0
-	// which results in Azure dynamically allocating ports.
+	//AllocatedOutboundPorts: Desired number of allocated SNAT ports per VM. Allowed
+	//values must be in the range of 0 to 64000 (inclusive). The default value is 0
+	//which results in Azure dynamically allocating ports.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
-	// EffectiveOutboundIPs: The effective outbound IP resources of the cluster load
-	// balancer.
+	//EffectiveOutboundIPs: The effective outbound IP resources of the cluster load
+	//balancer.
 	EffectiveOutboundIPs []ResourceReference_Status `json:"effectiveOutboundIPs,omitempty"`
 
-	// IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed
-	// values must be in the range of 4 to 120 (inclusive). The default value is 30
-	// minutes.
+	//IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed
+	//values must be in the range of 4 to 120 (inclusive). The default value is 30
+	//minutes.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
-	// ManagedOutboundIPs: Desired managed outbound IPs for the cluster load balancer.
+	//ManagedOutboundIPs: Desired managed outbound IPs for the cluster load balancer.
 	ManagedOutboundIPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs `json:"managedOutboundIPs,omitempty"`
 
-	// OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load
-	// balancer.
+	//OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load
+	//balancer.
 	OutboundIPPrefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes `json:"outboundIPPrefixes,omitempty"`
 
-	// OutboundIPs: Desired outbound IP resources for the cluster load balancer.
+	//OutboundIPs: Desired outbound IP resources for the cluster load balancer.
 	OutboundIPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs `json:"outboundIPs,omitempty"`
 }
 
@@ -11433,6 +11473,7 @@ func (managedClusterLoadBalancerProfileStatus *ManagedClusterLoadBalancerProfile
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileStatus populates our ManagedClusterLoadBalancerProfile_Status from the provided source ManagedClusterLoadBalancerProfile_Status
 func (managedClusterLoadBalancerProfileStatus *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesFromManagedClusterLoadBalancerProfileStatus(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status) error {
+
 	// AllocatedOutboundPorts
 	if source.AllocatedOutboundPorts != nil {
 		allocatedOutboundPort := *source.AllocatedOutboundPorts
@@ -11581,22 +11622,22 @@ func (managedClusterLoadBalancerProfileStatus *ManagedClusterLoadBalancerProfile
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentity
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentity
 type ManagedClusterPodIdentity struct {
-	// BindingSelector: The binding selector to use for the AzureIdentityBinding
-	// resource.
+	//BindingSelector: The binding selector to use for the AzureIdentityBinding
+	//resource.
 	BindingSelector *string `json:"bindingSelector,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Identity: Details about a user assigned identity.
+	//Identity: Details about a user assigned identity.
 	Identity UserAssignedIdentity `json:"identity"`
 
 	// +kubebuilder:validation:Required
-	// Name: The name of the pod identity.
+	//Name: The name of the pod identity.
 	Name string `json:"name"`
 
 	// +kubebuilder:validation:Required
-	// Namespace: The namespace of the pod identity.
+	//Namespace: The namespace of the pod identity.
 	Namespace string `json:"namespace"`
 }
 
@@ -11668,6 +11709,7 @@ func (managedClusterPodIdentity *ManagedClusterPodIdentity) PopulateFromARM(owne
 
 // AssignPropertiesFromManagedClusterPodIdentity populates our ManagedClusterPodIdentity from the provided source ManagedClusterPodIdentity
 func (managedClusterPodIdentity *ManagedClusterPodIdentity) AssignPropertiesFromManagedClusterPodIdentity(source *v1alpha1api20210501storage.ManagedClusterPodIdentity) error {
+
 	// BindingSelector
 	if source.BindingSelector != nil {
 		bindingSelector := *source.BindingSelector
@@ -11742,18 +11784,18 @@ func (managedClusterPodIdentity *ManagedClusterPodIdentity) AssignPropertiesToMa
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityException
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityException
 type ManagedClusterPodIdentityException struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the pod identity exception.
+	//Name: The name of the pod identity exception.
 	Name string `json:"name"`
 
 	// +kubebuilder:validation:Required
-	// Namespace: The namespace of the pod identity exception.
+	//Namespace: The namespace of the pod identity exception.
 	Namespace string `json:"namespace"`
 
 	// +kubebuilder:validation:Required
-	// PodLabels: The pod labels to match.
+	//PodLabels: The pod labels to match.
 	PodLabels map[string]string `json:"podLabels"`
 }
 
@@ -11814,6 +11856,7 @@ func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) Po
 
 // AssignPropertiesFromManagedClusterPodIdentityException populates our ManagedClusterPodIdentityException from the provided source ManagedClusterPodIdentityException
 func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) AssignPropertiesFromManagedClusterPodIdentityException(source *v1alpha1api20210501storage.ManagedClusterPodIdentityException) error {
+
 	// Name
 	if source.Name != nil {
 		managedClusterPodIdentityException.Name = *source.Name
@@ -11870,18 +11913,18 @@ func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) As
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterPodIdentityException_Status struct {
 	// +kubebuilder:validation:Required
-	// Name: Name of the pod identity exception.
+	//Name: Name of the pod identity exception.
 	Name string `json:"name"`
 
 	// +kubebuilder:validation:Required
-	// Namespace: Namespace of the pod identity exception.
+	//Namespace: Namespace of the pod identity exception.
 	Namespace string `json:"namespace"`
 
 	// +kubebuilder:validation:Required
-	// PodLabels: Pod labels to match.
+	//PodLabels: Pod labels to match.
 	PodLabels map[string]string `json:"podLabels"`
 }
 
@@ -11919,6 +11962,7 @@ func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityExcepti
 
 // AssignPropertiesFromManagedClusterPodIdentityExceptionStatus populates our ManagedClusterPodIdentityException_Status from the provided source ManagedClusterPodIdentityException_Status
 func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityException_Status) AssignPropertiesFromManagedClusterPodIdentityExceptionStatus(source *v1alpha1api20210501storage.ManagedClusterPodIdentityException_Status) error {
+
 	// Name
 	if source.Name != nil {
 		managedClusterPodIdentityExceptionStatus.Name = *source.Name
@@ -11975,25 +12019,25 @@ func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityExcepti
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ManagedClusterPodIdentity_Status struct {
-	// BindingSelector: Binding selector to use for the AzureIdentityBinding resource.
+	//BindingSelector: Binding selector to use for the AzureIdentityBinding resource.
 	BindingSelector *string `json:"bindingSelector,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Identity: Information of the user assigned identity.
+	//Identity: Information of the user assigned identity.
 	Identity UserAssignedIdentity_Status `json:"identity"`
 
 	// +kubebuilder:validation:Required
-	// Name: Name of the pod identity.
+	//Name: Name of the pod identity.
 	Name string `json:"name"`
 
 	// +kubebuilder:validation:Required
-	// Namespace: Namespace of the pod identity.
+	//Namespace: Namespace of the pod identity.
 	Namespace        string                                             `json:"namespace"`
 	ProvisioningInfo *ManagedClusterPodIdentity_Status_ProvisioningInfo `json:"provisioningInfo,omitempty"`
 
-	// ProvisioningState: The current provisioning state of the pod identity.
+	//ProvisioningState: The current provisioning state of the pod identity.
 	ProvisioningState *ManagedClusterPodIdentityStatusProvisioningState `json:"provisioningState,omitempty"`
 }
 
@@ -12054,6 +12098,7 @@ func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) Populat
 
 // AssignPropertiesFromManagedClusterPodIdentityStatus populates our ManagedClusterPodIdentity_Status from the provided source ManagedClusterPodIdentity_Status
 func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) AssignPropertiesFromManagedClusterPodIdentityStatus(source *v1alpha1api20210501storage.ManagedClusterPodIdentity_Status) error {
+
 	// BindingSelector
 	if source.BindingSelector != nil {
 		bindingSelector := *source.BindingSelector
@@ -12202,11 +12247,11 @@ const (
 	ManagedClusterWindowsProfileStatusLicenseTypeWindowsServer = ManagedClusterWindowsProfileStatusLicenseType("Windows_Server")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshPublicKey
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshPublicKey
 type ContainerServiceSshPublicKey struct {
 	// +kubebuilder:validation:Required
-	// KeyData: Certificate public key used to authenticate with VMs through SSH. The
-	// certificate must be in PEM format with or without headers.
+	//KeyData: Certificate public key used to authenticate with VMs through SSH. The
+	//certificate must be in PEM format with or without headers.
 	KeyData string `json:"keyData"`
 }
 
@@ -12245,6 +12290,7 @@ func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) PopulateFromAR
 
 // AssignPropertiesFromContainerServiceSshPublicKey populates our ContainerServiceSshPublicKey from the provided source ContainerServiceSshPublicKey
 func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) AssignPropertiesFromContainerServiceSshPublicKey(source *v1alpha1api20210501storage.ContainerServiceSshPublicKey) error {
+
 	// KeyData
 	if source.KeyData != nil {
 		containerServiceSshPublicKey.KeyData = *source.KeyData
@@ -12272,11 +12318,11 @@ func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) AssignProperti
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ContainerServiceSshPublicKey_Status struct {
 	// +kubebuilder:validation:Required
-	// KeyData: Certificate public key used to authenticate with VMs through SSH. The
-	// certificate must be in PEM format with or without headers.
+	//KeyData: Certificate public key used to authenticate with VMs through SSH. The
+	//certificate must be in PEM format with or without headers.
 	KeyData string `json:"keyData"`
 }
 
@@ -12303,6 +12349,7 @@ func (containerServiceSshPublicKeyStatus *ContainerServiceSshPublicKey_Status) P
 
 // AssignPropertiesFromContainerServiceSshPublicKeyStatus populates our ContainerServiceSshPublicKey_Status from the provided source ContainerServiceSshPublicKey_Status
 func (containerServiceSshPublicKeyStatus *ContainerServiceSshPublicKey_Status) AssignPropertiesFromContainerServiceSshPublicKeyStatus(source *v1alpha1api20210501storage.ContainerServiceSshPublicKey_Status) error {
+
 	// KeyData
 	if source.KeyData != nil {
 		containerServiceSshPublicKeyStatus.KeyData = *source.KeyData
@@ -12330,7 +12377,7 @@ func (containerServiceSshPublicKeyStatus *ContainerServiceSshPublicKey_Status) A
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileManagedOutboundIPs
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileManagedOutboundIPs
 type ManagedClusterLoadBalancerProfileManagedOutboundIPs struct {
 	// +kubebuilder:validation:Maximum=100
 	// +kubebuilder:validation:Minimum=1
@@ -12381,6 +12428,7 @@ func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBal
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileManagedOutboundIPs populates our ManagedClusterLoadBalancerProfileManagedOutboundIPs from the provided source ManagedClusterLoadBalancerProfileManagedOutboundIPs
 func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileManagedOutboundIPs(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileManagedOutboundIPs) error {
+
 	// Count
 	if source.Count != nil {
 		count := *source.Count
@@ -12413,9 +12461,9 @@ func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBal
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileOutboundIPPrefixes
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileOutboundIPPrefixes
 type ManagedClusterLoadBalancerProfileOutboundIPPrefixes struct {
-	// PublicIPPrefixes: A list of public IP prefix resources.
+	//PublicIPPrefixes: A list of public IP prefix resources.
 	PublicIPPrefixes []ResourceReference `json:"publicIPPrefixes,omitempty"`
 }
 
@@ -12467,6 +12515,7 @@ func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBal
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPPrefixes populates our ManagedClusterLoadBalancerProfileOutboundIPPrefixes from the provided source ManagedClusterLoadBalancerProfileOutboundIPPrefixes
 func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPPrefixes(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileOutboundIPPrefixes) error {
+
 	// PublicIPPrefixes
 	publicIPPrefixList := make([]ResourceReference, len(source.PublicIPPrefixes))
 	for publicIPPrefixIndex, publicIPPrefixItem := range source.PublicIPPrefixes {
@@ -12511,9 +12560,9 @@ func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBal
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileOutboundIPs
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileOutboundIPs
 type ManagedClusterLoadBalancerProfileOutboundIPs struct {
-	// PublicIPs: A list of public IP resources.
+	//PublicIPs: A list of public IP resources.
 	PublicIPs []ResourceReference `json:"publicIPs,omitempty"`
 }
 
@@ -12565,6 +12614,7 @@ func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerPr
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPs populates our ManagedClusterLoadBalancerProfileOutboundIPs from the provided source ManagedClusterLoadBalancerProfileOutboundIPs
 func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPs(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileOutboundIPs) error {
+
 	// PublicIPs
 	publicIPList := make([]ResourceReference, len(source.PublicIPs))
 	for publicIPIndex, publicIPItem := range source.PublicIPs {
@@ -12610,9 +12660,9 @@ func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerPr
 }
 
 type ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs struct {
-	// Count: Desired number of outbound IP created/managed by Azure for the cluster
-	// load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The
-	// default value is 1.
+	//Count: Desired number of outbound IP created/managed by Azure for the cluster
+	//load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The
+	//default value is 1.
 	Count *int `json:"count,omitempty"`
 }
 
@@ -12642,6 +12692,7 @@ func (managedClusterLoadBalancerProfileStatusManagedOutboundIPs *ManagedClusterL
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileStatusManagedOutboundIPs populates our ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs from the provided source ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs
 func (managedClusterLoadBalancerProfileStatusManagedOutboundIPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusManagedOutboundIPs(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) error {
+
 	// Count
 	if source.Count != nil {
 		count := *source.Count
@@ -12675,7 +12726,7 @@ func (managedClusterLoadBalancerProfileStatusManagedOutboundIPs *ManagedClusterL
 }
 
 type ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes struct {
-	// PublicIPPrefixes: A list of public IP prefix resources.
+	//PublicIPPrefixes: A list of public IP prefix resources.
 	PublicIPPrefixes []ResourceReference_Status `json:"publicIPPrefixes,omitempty"`
 }
 
@@ -12709,6 +12760,7 @@ func (managedClusterLoadBalancerProfileStatusOutboundIPPrefixes *ManagedClusterL
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes populates our ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes from the provided source ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes
 func (managedClusterLoadBalancerProfileStatusOutboundIPPrefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) error {
+
 	// PublicIPPrefixes
 	publicIPPrefixList := make([]ResourceReference_Status, len(source.PublicIPPrefixes))
 	for publicIPPrefixIndex, publicIPPrefixItem := range source.PublicIPPrefixes {
@@ -12754,7 +12806,7 @@ func (managedClusterLoadBalancerProfileStatusOutboundIPPrefixes *ManagedClusterL
 }
 
 type ManagedClusterLoadBalancerProfile_Status_OutboundIPs struct {
-	// PublicIPs: A list of public IP resources.
+	//PublicIPs: A list of public IP resources.
 	PublicIPs []ResourceReference_Status `json:"publicIPs,omitempty"`
 }
 
@@ -12788,6 +12840,7 @@ func (managedClusterLoadBalancerProfileStatusOutboundIPs *ManagedClusterLoadBala
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPs populates our ManagedClusterLoadBalancerProfile_Status_OutboundIPs from the provided source ManagedClusterLoadBalancerProfile_Status_OutboundIPs
 func (managedClusterLoadBalancerProfileStatusOutboundIPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPs(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPs) error {
+
 	// PublicIPs
 	publicIPList := make([]ResourceReference_Status, len(source.PublicIPs))
 	for publicIPIndex, publicIPItem := range source.PublicIPs {
@@ -12842,7 +12895,7 @@ const (
 )
 
 type ManagedClusterPodIdentity_Status_ProvisioningInfo struct {
-	// Error: Pod identity assignment error (if any).
+	//Error: Pod identity assignment error (if any).
 	Error *CloudError_Status `json:"error,omitempty"`
 }
 
@@ -12877,6 +12930,7 @@ func (managedClusterPodIdentityStatusProvisioningInfo *ManagedClusterPodIdentity
 
 // AssignPropertiesFromManagedClusterPodIdentityStatusProvisioningInfo populates our ManagedClusterPodIdentity_Status_ProvisioningInfo from the provided source ManagedClusterPodIdentity_Status_ProvisioningInfo
 func (managedClusterPodIdentityStatusProvisioningInfo *ManagedClusterPodIdentity_Status_ProvisioningInfo) AssignPropertiesFromManagedClusterPodIdentityStatusProvisioningInfo(source *v1alpha1api20210501storage.ManagedClusterPodIdentity_Status_ProvisioningInfo) error {
+
 	// Error
 	if source.Error != nil {
 		var error CloudError_Status
@@ -12917,9 +12971,9 @@ func (managedClusterPodIdentityStatusProvisioningInfo *ManagedClusterPodIdentity
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ResourceReference
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ResourceReference
 type ResourceReference struct {
-	// Reference: The fully qualified Azure resource id.
+	//Reference: The fully qualified Azure resource id.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -12964,6 +13018,7 @@ func (resourceReference *ResourceReference) PopulateFromARM(owner genruntime.Kno
 
 // AssignPropertiesFromResourceReference populates our ResourceReference from the provided source ResourceReference
 func (resourceReference *ResourceReference) AssignPropertiesFromResourceReference(source *v1alpha1api20210501storage.ResourceReference) error {
+
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
@@ -12996,9 +13051,9 @@ func (resourceReference *ResourceReference) AssignPropertiesToResourceReference(
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ResourceReference_Status struct {
-	// Id: The fully qualified Azure resource id.
+	//Id: The fully qualified Azure resource id.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -13028,6 +13083,7 @@ func (resourceReferenceStatus *ResourceReference_Status) PopulateFromARM(owner g
 
 // AssignPropertiesFromResourceReferenceStatus populates our ResourceReference_Status from the provided source ResourceReference_Status
 func (resourceReferenceStatus *ResourceReference_Status) AssignPropertiesFromResourceReferenceStatus(source *v1alpha1api20210501storage.ResourceReference_Status) error {
+
 	// Id
 	if source.Id != nil {
 		id := *source.Id
@@ -13060,15 +13116,15 @@ func (resourceReferenceStatus *ResourceReference_Status) AssignPropertiesToResou
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/UserAssignedIdentity
+//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/UserAssignedIdentity
 type UserAssignedIdentity struct {
-	// ClientId: The client ID of the user assigned identity.
+	//ClientId: The client ID of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
-	// ObjectId: The object ID of the user assigned identity.
+	//ObjectId: The object ID of the user assigned identity.
 	ObjectId *string `json:"objectId,omitempty"`
 
-	// ResourceReference: The resource ID of the user assigned identity.
+	//ResourceReference: The resource ID of the user assigned identity.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -13137,6 +13193,7 @@ func (userAssignedIdentity *UserAssignedIdentity) PopulateFromARM(owner genrunti
 
 // AssignPropertiesFromUserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
 func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(source *v1alpha1api20210501storage.UserAssignedIdentity) error {
+
 	// ClientId
 	if source.ClientId != nil {
 		clientId := *source.ClientId
@@ -13201,15 +13258,15 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssigned
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type UserAssignedIdentity_Status struct {
-	// ClientId: The client id of the user assigned identity.
+	//ClientId: The client id of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
-	// ObjectId: The object id of the user assigned identity.
+	//ObjectId: The object id of the user assigned identity.
 	ObjectId *string `json:"objectId,omitempty"`
 
-	// ResourceId: The resource id of the user assigned identity.
+	//ResourceId: The resource id of the user assigned identity.
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
@@ -13251,6 +13308,7 @@ func (userAssignedIdentityStatus *UserAssignedIdentity_Status) PopulateFromARM(o
 
 // AssignPropertiesFromUserAssignedIdentityStatus populates our UserAssignedIdentity_Status from the provided source UserAssignedIdentity_Status
 func (userAssignedIdentityStatus *UserAssignedIdentity_Status) AssignPropertiesFromUserAssignedIdentityStatus(source *v1alpha1api20210501storage.UserAssignedIdentity_Status) error {
+
 	// ClientId
 	if source.ClientId != nil {
 		clientId := *source.ClientId
@@ -13315,9 +13373,9 @@ func (userAssignedIdentityStatus *UserAssignedIdentity_Status) AssignPropertiesT
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type CloudError_Status struct {
-	// Error: Details about the error.
+	//Error: Details about the error.
 	Error *CloudErrorBody_Status `json:"error,omitempty"`
 }
 
@@ -13352,6 +13410,7 @@ func (cloudErrorStatus *CloudError_Status) PopulateFromARM(owner genruntime.Know
 
 // AssignPropertiesFromCloudErrorStatus populates our CloudError_Status from the provided source CloudError_Status
 func (cloudErrorStatus *CloudError_Status) AssignPropertiesFromCloudErrorStatus(source *v1alpha1api20210501storage.CloudError_Status) error {
+
 	// Error
 	if source.Error != nil {
 		var error CloudErrorBody_Status
@@ -13392,21 +13451,21 @@ func (cloudErrorStatus *CloudError_Status) AssignPropertiesToCloudErrorStatus(de
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type CloudErrorBody_Status struct {
-	// Code: An identifier for the error. Codes are invariant and are intended to be
-	// consumed programmatically.
+	//Code: An identifier for the error. Codes are invariant and are intended to be
+	//consumed programmatically.
 	Code *string `json:"code,omitempty"`
 
-	// Details: A list of additional details about the error.
+	//Details: A list of additional details about the error.
 	Details []CloudErrorBody_Status_Unrolled `json:"details,omitempty"`
 
-	// Message: A message describing the error, intended to be suitable for display in
-	// a user interface.
+	//Message: A message describing the error, intended to be suitable for display in
+	//a user interface.
 	Message *string `json:"message,omitempty"`
 
-	// Target: The target of the particular error. For example, the name of the
-	// property in error.
+	//Target: The target of the particular error. For example, the name of the
+	//property in error.
 	Target *string `json:"target,omitempty"`
 }
 
@@ -13458,6 +13517,7 @@ func (cloudErrorBodyStatus *CloudErrorBody_Status) PopulateFromARM(owner genrunt
 
 // AssignPropertiesFromCloudErrorBodyStatus populates our CloudErrorBody_Status from the provided source CloudErrorBody_Status
 func (cloudErrorBodyStatus *CloudErrorBody_Status) AssignPropertiesFromCloudErrorBodyStatus(source *v1alpha1api20210501storage.CloudErrorBody_Status) error {
+
 	// Code
 	if source.Code != nil {
 		code := *source.Code
@@ -13551,16 +13611,16 @@ func (cloudErrorBodyStatus *CloudErrorBody_Status) AssignPropertiesToCloudErrorB
 }
 
 type CloudErrorBody_Status_Unrolled struct {
-	// Code: An identifier for the error. Codes are invariant and are intended to be
-	// consumed programmatically.
+	//Code: An identifier for the error. Codes are invariant and are intended to be
+	//consumed programmatically.
 	Code *string `json:"code,omitempty"`
 
-	// Message: A message describing the error, intended to be suitable for display in
-	// a user interface.
+	//Message: A message describing the error, intended to be suitable for display in
+	//a user interface.
 	Message *string `json:"message,omitempty"`
 
-	// Target: The target of the particular error. For example, the name of the
-	// property in error.
+	//Target: The target of the particular error. For example, the name of the
+	//property in error.
 	Target *string `json:"target,omitempty"`
 }
 
@@ -13602,6 +13662,7 @@ func (cloudErrorBodyStatusUnrolled *CloudErrorBody_Status_Unrolled) PopulateFrom
 
 // AssignPropertiesFromCloudErrorBodyStatusUnrolled populates our CloudErrorBody_Status_Unrolled from the provided source CloudErrorBody_Status_Unrolled
 func (cloudErrorBodyStatusUnrolled *CloudErrorBody_Status_Unrolled) AssignPropertiesFromCloudErrorBodyStatusUnrolled(source *v1alpha1api20210501storage.CloudErrorBody_Status_Unrolled) error {
+
 	// Code
 	if source.Code != nil {
 		code := *source.Code

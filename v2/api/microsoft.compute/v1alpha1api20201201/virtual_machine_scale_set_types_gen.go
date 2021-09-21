@@ -5,7 +5,6 @@ package v1alpha1api20201201
 
 import (
 	"fmt"
-
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
@@ -28,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachineScaleSets
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachineScaleSets
 type VirtualMachineScaleSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -210,6 +209,7 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) validateResourceReferences
 
 // AssignPropertiesFromVirtualMachineScaleSet populates our VirtualMachineScaleSet from the provided source VirtualMachineScaleSet
 func (virtualMachineScaleSet *VirtualMachineScaleSet) AssignPropertiesFromVirtualMachineScaleSet(source *v1alpha1api20201201storage.VirtualMachineScaleSet) error {
+
 	// Spec
 	var spec VirtualMachineScaleSets_Spec
 	err := spec.AssignPropertiesFromVirtualMachineScaleSetsSpec(&source.Spec)
@@ -232,6 +232,7 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) AssignPropertiesFromVirtua
 
 // AssignPropertiesToVirtualMachineScaleSet populates the provided destination VirtualMachineScaleSet from our VirtualMachineScaleSet
 func (virtualMachineScaleSet *VirtualMachineScaleSet) AssignPropertiesToVirtualMachineScaleSet(destination *v1alpha1api20201201storage.VirtualMachineScaleSet) error {
+
 	// Spec
 	var spec v1alpha1api20201201storage.VirtualMachineScaleSets_Spec
 	err := virtualMachineScaleSet.Spec.AssignPropertiesToVirtualMachineScaleSetsSpec(&spec)
@@ -262,114 +263,114 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) OriginalGVK() *schema.Grou
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachineScaleSets
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachineScaleSets
 type VirtualMachineScaleSetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualMachineScaleSet `json:"items"`
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSet_Status struct {
-	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on
-	// the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the
-	// Virtual Machines have the capability to support attaching managed data disks
-	// with UltraSSD_LRS storage account type.
+	//AdditionalCapabilities: Specifies additional capabilities enabled or disabled on
+	//the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the
+	//Virtual Machines have the capability to support attaching managed data disks
+	//with UltraSSD_LRS storage account type.
 	AdditionalCapabilities *AdditionalCapabilities_Status `json:"additionalCapabilities,omitempty"`
 
-	// AutomaticRepairsPolicy: Policy for automatic repairs.
+	//AutomaticRepairsPolicy: Policy for automatic repairs.
 	AutomaticRepairsPolicy *AutomaticRepairsPolicy_Status `json:"automaticRepairsPolicy,omitempty"`
 
-	// Conditions: The observed state of the resource
+	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// DoNotRunExtensionsOnOverprovisionedVMs: When Overprovision is enabled,
-	// extensions are launched only on the requested number of VMs which are finally
-	// kept. This property will hence ensure that the extensions do not run on the
-	// extra overprovisioned VMs.
+	//DoNotRunExtensionsOnOverprovisionedVMs: When Overprovision is enabled,
+	//extensions are launched only on the requested number of VMs which are finally
+	//kept. This property will hence ensure that the extensions do not run on the
+	//extra overprovisioned VMs.
 	DoNotRunExtensionsOnOverprovisionedVMs *bool `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
 
-	// ExtendedLocation: The extended location of the Virtual Machine Scale Set.
+	//ExtendedLocation: The extended location of the Virtual Machine Scale Set.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 
-	// HostGroup: Specifies information about the dedicated host group that the virtual
-	// machine scale set resides in.
-	// Minimum api-version: 2020-06-01.
+	//HostGroup: Specifies information about the dedicated host group that the virtual
+	//machine scale set resides in.
+	//Minimum api-version: 2020-06-01.
 	HostGroup *SubResource_Status `json:"hostGroup,omitempty"`
 
-	// Id: Resource Id
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	// Identity: The identity of the virtual machine scale set, if configured.
+	//Identity: The identity of the virtual machine scale set, if configured.
 	Identity *VirtualMachineScaleSetIdentity_Status `json:"identity,omitempty"`
 
-	// Location: Resource location
+	//Location: Resource location
 	Location *string `json:"location,omitempty"`
 
-	// Name: Resource name
+	//Name: Resource name
 	Name *string `json:"name,omitempty"`
 
-	// OrchestrationMode: Specifies the orchestration mode for the virtual machine
-	// scale set.
+	//OrchestrationMode: Specifies the orchestration mode for the virtual machine
+	//scale set.
 	OrchestrationMode *OrchestrationMode_Status `json:"orchestrationMode,omitempty"`
 
-	// Overprovision: Specifies whether the Virtual Machine Scale Set should be
-	// overprovisioned.
+	//Overprovision: Specifies whether the Virtual Machine Scale Set should be
+	//overprovisioned.
 	Overprovision *bool `json:"overprovision,omitempty"`
 
-	// Plan: Specifies information about the marketplace image used to create the
-	// virtual machine. This element is only used for marketplace images. Before you
-	// can use a marketplace image from an API, you must enable the image for
-	// programmatic use.  In the Azure portal, find the marketplace image that you want
-	// to use and then click Want to deploy programmatically, Get Started ->. Enter any
-	// required information and then click Save.
+	//Plan: Specifies information about the marketplace image used to create the
+	//virtual machine. This element is only used for marketplace images. Before you
+	//can use a marketplace image from an API, you must enable the image for
+	//programmatic use.  In the Azure portal, find the marketplace image that you want
+	//to use and then click Want to deploy programmatically, Get Started ->. Enter any
+	//required information and then click Save.
 	Plan *Plan_Status `json:"plan,omitempty"`
 
-	// PlatformFaultDomainCount: Fault Domain count for each placement group.
+	//PlatformFaultDomainCount: Fault Domain count for each placement group.
 	PlatformFaultDomainCount *int `json:"platformFaultDomainCount,omitempty"`
 
-	// ProvisioningState: The provisioning state, which only appears in the response.
+	//ProvisioningState: The provisioning state, which only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	// ProximityPlacementGroup: Specifies information about the proximity placement
-	// group that the virtual machine scale set should be assigned to.
-	// Minimum api-version: 2018-04-01.
+	//ProximityPlacementGroup: Specifies information about the proximity placement
+	//group that the virtual machine scale set should be assigned to.
+	//Minimum api-version: 2018-04-01.
 	ProximityPlacementGroup *SubResource_Status `json:"proximityPlacementGroup,omitempty"`
 
-	// ScaleInPolicy: Specifies the scale-in policy that decides which virtual machines
-	// are chosen for removal when a Virtual Machine Scale Set is scaled-in.
+	//ScaleInPolicy: Specifies the scale-in policy that decides which virtual machines
+	//are chosen for removal when a Virtual Machine Scale Set is scaled-in.
 	ScaleInPolicy *ScaleInPolicy_Status `json:"scaleInPolicy,omitempty"`
 
-	// SinglePlacementGroup: When true this limits the scale set to a single placement
-	// group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true,
-	// it may be modified to false. However, if singlePlacementGroup is false, it may
-	// not be modified to true.
+	//SinglePlacementGroup: When true this limits the scale set to a single placement
+	//group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true,
+	//it may be modified to false. However, if singlePlacementGroup is false, it may
+	//not be modified to true.
 	SinglePlacementGroup *bool `json:"singlePlacementGroup,omitempty"`
 
-	// Sku: The virtual machine scale set sku.
+	//Sku: The virtual machine scale set sku.
 	Sku *Sku_Status `json:"sku,omitempty"`
 
-	// Tags: Resource tags
+	//Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: Resource type
+	//Type: Resource type
 	Type *string `json:"type,omitempty"`
 
-	// UniqueId: Specifies the ID which uniquely identifies a Virtual Machine Scale Set.
+	//UniqueId: Specifies the ID which uniquely identifies a Virtual Machine Scale Set.
 	UniqueId *string `json:"uniqueId,omitempty"`
 
-	// UpgradePolicy: The upgrade policy.
+	//UpgradePolicy: The upgrade policy.
 	UpgradePolicy *UpgradePolicy_Status `json:"upgradePolicy,omitempty"`
 
-	// VirtualMachineProfile: The virtual machine profile.
+	//VirtualMachineProfile: The virtual machine profile.
 	VirtualMachineProfile *VirtualMachineScaleSetVMProfile_Status `json:"virtualMachineProfile,omitempty"`
 
-	// ZoneBalance: Whether to force strictly even Virtual Machine distribution cross
-	// x-zones in case there is zone outage.
+	//ZoneBalance: Whether to force strictly even Virtual Machine distribution cross
+	//x-zones in case there is zone outage.
 	ZoneBalance *bool `json:"zoneBalance,omitempty"`
 
-	// Zones: The virtual machine scale set zones. NOTE: Availability zones can only be
-	// set when you create the scale set
+	//Zones: The virtual machine scale set zones. NOTE: Availability zones can only be
+	//set when you create the scale set
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -696,6 +697,7 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) PopulateFromA
 
 // AssignPropertiesFromVirtualMachineScaleSetStatus populates our VirtualMachineScaleSet_Status from the provided source VirtualMachineScaleSet_Status
 func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) AssignPropertiesFromVirtualMachineScaleSetStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSet_Status) error {
+
 	// AdditionalCapabilities
 	if source.AdditionalCapabilities != nil {
 		var additionalCapability AdditionalCapabilities_Status
@@ -1223,87 +1225,87 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) AssignPropert
 }
 
 type VirtualMachineScaleSets_Spec struct {
-	// AdditionalCapabilities: Enables or disables a capability on the virtual machine
-	// or virtual machine scale set.
+	//AdditionalCapabilities: Enables or disables a capability on the virtual machine
+	//or virtual machine scale set.
 	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
 
-	// AutomaticRepairsPolicy: Specifies the configuration parameters for automatic
-	// repairs on the virtual machine scale set.
+	//AutomaticRepairsPolicy: Specifies the configuration parameters for automatic
+	//repairs on the virtual machine scale set.
 	AutomaticRepairsPolicy *AutomaticRepairsPolicy `json:"automaticRepairsPolicy,omitempty"`
 
-	// AzureName: The name of the resource in Azure. This is often the same as the name
-	// of the resource in Kubernetes but it doesn't have to be.
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	// DoNotRunExtensionsOnOverprovisionedVMs: When Overprovision is enabled,
-	// extensions are launched only on the requested number of VMs which are finally
-	// kept. This property will hence ensure that the extensions do not run on the
-	// extra overprovisioned VMs.
+	//DoNotRunExtensionsOnOverprovisionedVMs: When Overprovision is enabled,
+	//extensions are launched only on the requested number of VMs which are finally
+	//kept. This property will hence ensure that the extensions do not run on the
+	//extra overprovisioned VMs.
 	DoNotRunExtensionsOnOverprovisionedVMs *bool `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
 
-	// ExtendedLocation: The complex type of the extended location.
+	//ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 	HostGroup        *SubResource      `json:"hostGroup,omitempty"`
 
-	// Identity: Identity for the virtual machine scale set.
+	//Identity: Identity for the virtual machine scale set.
 	Identity *VirtualMachineScaleSetIdentity `json:"identity,omitempty"`
 
-	// Location: Location to deploy resource to
+	//Location: Location to deploy resource to
 	Location string `json:"location,omitempty"`
 
-	// OrchestrationMode: Specifies the orchestration mode for the virtual machine
-	// scale set.
+	//OrchestrationMode: Specifies the orchestration mode for the virtual machine
+	//scale set.
 	OrchestrationMode *VirtualMachineScaleSetsSpecPropertiesOrchestrationMode `json:"orchestrationMode,omitempty"`
 
-	// Overprovision: Specifies whether the Virtual Machine Scale Set should be
-	// overprovisioned.
+	//Overprovision: Specifies whether the Virtual Machine Scale Set should be
+	//overprovisioned.
 	Overprovision *bool `json:"overprovision,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	// Plan: Specifies information about the marketplace image used to create the
-	// virtual machine. This element is only used for marketplace images. Before you
-	// can use a marketplace image from an API, you must enable the image for
-	// programmatic use.  In the Azure portal, find the marketplace image that you want
-	// to use and then click Want to deploy programmatically, Get Started ->. Enter any
-	// required information and then click Save.
+	//Plan: Specifies information about the marketplace image used to create the
+	//virtual machine. This element is only used for marketplace images. Before you
+	//can use a marketplace image from an API, you must enable the image for
+	//programmatic use.  In the Azure portal, find the marketplace image that you want
+	//to use and then click Want to deploy programmatically, Get Started ->. Enter any
+	//required information and then click Save.
 	Plan *Plan `json:"plan,omitempty"`
 
-	// PlatformFaultDomainCount: Fault Domain count for each placement group.
+	//PlatformFaultDomainCount: Fault Domain count for each placement group.
 	PlatformFaultDomainCount *int         `json:"platformFaultDomainCount,omitempty"`
 	ProximityPlacementGroup  *SubResource `json:"proximityPlacementGroup,omitempty"`
 
-	// ScaleInPolicy: Describes a scale-in policy for a virtual machine scale set.
+	//ScaleInPolicy: Describes a scale-in policy for a virtual machine scale set.
 	ScaleInPolicy *ScaleInPolicy `json:"scaleInPolicy,omitempty"`
 
-	// SinglePlacementGroup: When true this limits the scale set to a single placement
-	// group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true,
-	// it may be modified to false. However, if singlePlacementGroup is false, it may
-	// not be modified to true.
+	//SinglePlacementGroup: When true this limits the scale set to a single placement
+	//group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true,
+	//it may be modified to false. However, if singlePlacementGroup is false, it may
+	//not be modified to true.
 	SinglePlacementGroup *bool `json:"singlePlacementGroup,omitempty"`
 
-	// Sku: Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not
-	// supported on the hardware the scale set is currently on, you need to deallocate
-	// the VMs in the scale set before you modify the SKU name.
+	//Sku: Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not
+	//supported on the hardware the scale set is currently on, you need to deallocate
+	//the VMs in the scale set before you modify the SKU name.
 	Sku *Sku `json:"sku,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// UpgradePolicy: Describes an upgrade policy - automatic, manual, or rolling.
+	//UpgradePolicy: Describes an upgrade policy - automatic, manual, or rolling.
 	UpgradePolicy *UpgradePolicy `json:"upgradePolicy,omitempty"`
 
-	// VirtualMachineProfile: Describes a virtual machine scale set virtual machine
-	// profile.
+	//VirtualMachineProfile: Describes a virtual machine scale set virtual machine
+	//profile.
 	VirtualMachineProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile `json:"virtualMachineProfile,omitempty"`
 
-	// ZoneBalance: Whether to force strictly even Virtual Machine distribution cross
-	// x-zones in case there is zone outage.
+	//ZoneBalance: Whether to force strictly even Virtual Machine distribution cross
+	//x-zones in case there is zone outage.
 	ZoneBalance *bool `json:"zoneBalance,omitempty"`
 
-	// Zones: The virtual machine scale set zones. NOTE: Availability zones can only be
-	// set when you create the scale set
+	//Zones: The virtual machine scale set zones. NOTE: Availability zones can only be
+	//set when you create the scale set
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -1725,6 +1727,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertSpecTo(d
 
 // AssignPropertiesFromVirtualMachineScaleSetsSpec populates our VirtualMachineScaleSets_Spec from the provided source VirtualMachineScaleSets_Spec
 func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) AssignPropertiesFromVirtualMachineScaleSetsSpec(source *v1alpha1api20201201storage.VirtualMachineScaleSets_Spec) error {
+
 	// AdditionalCapabilities
 	if source.AdditionalCapabilities != nil {
 		var additionalCapability AdditionalCapabilities
@@ -2172,12 +2175,12 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) SetAzureName(az
 	virtualMachineScaleSetsSpec.AzureName = azureName
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AdditionalCapabilities
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AdditionalCapabilities
 type AdditionalCapabilities struct {
-	// UltraSSDEnabled: The flag that enables or disables a capability to have one or
-	// more managed data disks with UltraSSD_LRS storage account type on the VM or
-	// VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a
-	// virtual machine or virtual machine scale set only if this property is enabled.
+	//UltraSSDEnabled: The flag that enables or disables a capability to have one or
+	//more managed data disks with UltraSSD_LRS storage account type on the VM or
+	//VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a
+	//virtual machine or virtual machine scale set only if this property is enabled.
 	UltraSSDEnabled *bool `json:"ultraSSDEnabled,omitempty"`
 }
 
@@ -2222,6 +2225,7 @@ func (additionalCapabilities *AdditionalCapabilities) PopulateFromARM(owner genr
 
 // AssignPropertiesFromAdditionalCapabilities populates our AdditionalCapabilities from the provided source AdditionalCapabilities
 func (additionalCapabilities *AdditionalCapabilities) AssignPropertiesFromAdditionalCapabilities(source *v1alpha1api20201201storage.AdditionalCapabilities) error {
+
 	// UltraSSDEnabled
 	if source.UltraSSDEnabled != nil {
 		ultraSSDEnabled := *source.UltraSSDEnabled
@@ -2254,12 +2258,12 @@ func (additionalCapabilities *AdditionalCapabilities) AssignPropertiesToAddition
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type AdditionalCapabilities_Status struct {
-	// UltraSSDEnabled: The flag that enables or disables a capability to have one or
-	// more managed data disks with UltraSSD_LRS storage account type on the VM or
-	// VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a
-	// virtual machine or virtual machine scale set only if this property is enabled.
+	//UltraSSDEnabled: The flag that enables or disables a capability to have one or
+	//more managed data disks with UltraSSD_LRS storage account type on the VM or
+	//VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a
+	//virtual machine or virtual machine scale set only if this property is enabled.
 	UltraSSDEnabled *bool `json:"ultraSSDEnabled,omitempty"`
 }
 
@@ -2289,6 +2293,7 @@ func (additionalCapabilitiesStatus *AdditionalCapabilities_Status) PopulateFromA
 
 // AssignPropertiesFromAdditionalCapabilitiesStatus populates our AdditionalCapabilities_Status from the provided source AdditionalCapabilities_Status
 func (additionalCapabilitiesStatus *AdditionalCapabilities_Status) AssignPropertiesFromAdditionalCapabilitiesStatus(source *v1alpha1api20201201storage.AdditionalCapabilities_Status) error {
+
 	// UltraSSDEnabled
 	if source.UltraSSDEnabled != nil {
 		ultraSSDEnabled := *source.UltraSSDEnabled
@@ -2321,18 +2326,18 @@ func (additionalCapabilitiesStatus *AdditionalCapabilities_Status) AssignPropert
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AutomaticRepairsPolicy
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AutomaticRepairsPolicy
 type AutomaticRepairsPolicy struct {
-	// Enabled: Specifies whether automatic repairs should be enabled on the virtual
-	// machine scale set. The default value is false.
+	//Enabled: Specifies whether automatic repairs should be enabled on the virtual
+	//machine scale set. The default value is false.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// GracePeriod: The amount of time for which automatic repairs are suspended due to
-	// a state change on VM. The grace time starts after the state change has
-	// completed. This helps avoid premature or accidental repairs. The time duration
-	// should be specified in ISO 8601 format. The minimum allowed grace period is 30
-	// minutes (PT30M), which is also the default value. The maximum allowed grace
-	// period is 90 minutes (PT90M).
+	//GracePeriod: The amount of time for which automatic repairs are suspended due to
+	//a state change on VM. The grace time starts after the state change has
+	//completed. This helps avoid premature or accidental repairs. The time duration
+	//should be specified in ISO 8601 format. The minimum allowed grace period is 30
+	//minutes (PT30M), which is also the default value. The maximum allowed grace
+	//period is 90 minutes (PT90M).
 	GracePeriod *string `json:"gracePeriod,omitempty"`
 }
 
@@ -2389,6 +2394,7 @@ func (automaticRepairsPolicy *AutomaticRepairsPolicy) PopulateFromARM(owner genr
 
 // AssignPropertiesFromAutomaticRepairsPolicy populates our AutomaticRepairsPolicy from the provided source AutomaticRepairsPolicy
 func (automaticRepairsPolicy *AutomaticRepairsPolicy) AssignPropertiesFromAutomaticRepairsPolicy(source *v1alpha1api20201201storage.AutomaticRepairsPolicy) error {
+
 	// Enabled
 	if source.Enabled != nil {
 		enabled := *source.Enabled
@@ -2437,18 +2443,18 @@ func (automaticRepairsPolicy *AutomaticRepairsPolicy) AssignPropertiesToAutomati
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type AutomaticRepairsPolicy_Status struct {
-	// Enabled: Specifies whether automatic repairs should be enabled on the virtual
-	// machine scale set. The default value is false.
+	//Enabled: Specifies whether automatic repairs should be enabled on the virtual
+	//machine scale set. The default value is false.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// GracePeriod: The amount of time for which automatic repairs are suspended due to
-	// a state change on VM. The grace time starts after the state change has
-	// completed. This helps avoid premature or accidental repairs. The time duration
-	// should be specified in ISO 8601 format. The minimum allowed grace period is 30
-	// minutes (PT30M), which is also the default value. The maximum allowed grace
-	// period is 90 minutes (PT90M).
+	//GracePeriod: The amount of time for which automatic repairs are suspended due to
+	//a state change on VM. The grace time starts after the state change has
+	//completed. This helps avoid premature or accidental repairs. The time duration
+	//should be specified in ISO 8601 format. The minimum allowed grace period is 30
+	//minutes (PT30M), which is also the default value. The maximum allowed grace
+	//period is 90 minutes (PT90M).
 	GracePeriod *string `json:"gracePeriod,omitempty"`
 }
 
@@ -2484,6 +2490,7 @@ func (automaticRepairsPolicyStatus *AutomaticRepairsPolicy_Status) PopulateFromA
 
 // AssignPropertiesFromAutomaticRepairsPolicyStatus populates our AutomaticRepairsPolicy_Status from the provided source AutomaticRepairsPolicy_Status
 func (automaticRepairsPolicyStatus *AutomaticRepairsPolicy_Status) AssignPropertiesFromAutomaticRepairsPolicyStatus(source *v1alpha1api20201201storage.AutomaticRepairsPolicy_Status) error {
+
 	// Enabled
 	if source.Enabled != nil {
 		enabled := *source.Enabled
@@ -2532,12 +2539,12 @@ func (automaticRepairsPolicyStatus *AutomaticRepairsPolicy_Status) AssignPropert
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ExtendedLocation
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ExtendedLocation
 type ExtendedLocation struct {
-	// Name: The name of the extended location.
+	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
-	// Type: The type of the extended location.
+	//Type: The type of the extended location.
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
@@ -2594,6 +2601,7 @@ func (extendedLocation *ExtendedLocation) PopulateFromARM(owner genruntime.Known
 
 // AssignPropertiesFromExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
 func (extendedLocation *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v1alpha1api20201201storage.ExtendedLocation) error {
+
 	// Name
 	if source.Name != nil {
 		name := *source.Name
@@ -2642,12 +2650,12 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ExtendedLocation_Status struct {
-	// Name: The name of the extended location.
+	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
-	// Type: The type of the extended location.
+	//Type: The type of the extended location.
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
@@ -2683,6 +2691,7 @@ func (extendedLocationStatus *ExtendedLocation_Status) PopulateFromARM(owner gen
 
 // AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
 func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1alpha1api20201201storage.ExtendedLocation_Status) error {
+
 	// Name
 	if source.Name != nil {
 		name := *source.Name
@@ -2731,7 +2740,7 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type OrchestrationMode_Status string
 
 const (
@@ -2739,19 +2748,19 @@ const (
 	OrchestrationMode_StatusUniform  = OrchestrationMode_Status("Uniform")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/Plan
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/Plan
 type Plan struct {
-	// Name: The plan ID.
+	//Name: The plan ID.
 	Name *string `json:"name,omitempty"`
 
-	// Product: Specifies the product of the image from the marketplace. This is the
-	// same value as Offer under the imageReference element.
+	//Product: Specifies the product of the image from the marketplace. This is the
+	//same value as Offer under the imageReference element.
 	Product *string `json:"product,omitempty"`
 
-	// PromotionCode: The promotion code.
+	//PromotionCode: The promotion code.
 	PromotionCode *string `json:"promotionCode,omitempty"`
 
-	// Publisher: The publisher ID.
+	//Publisher: The publisher ID.
 	Publisher *string `json:"publisher,omitempty"`
 }
 
@@ -2832,6 +2841,7 @@ func (plan *Plan) PopulateFromARM(owner genruntime.KnownResourceReference, armIn
 
 // AssignPropertiesFromPlan populates our Plan from the provided source Plan
 func (plan *Plan) AssignPropertiesFromPlan(source *v1alpha1api20201201storage.Plan) error {
+
 	// Name
 	if source.Name != nil {
 		name := *source.Name
@@ -2912,19 +2922,19 @@ func (plan *Plan) AssignPropertiesToPlan(destination *v1alpha1api20201201storage
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type Plan_Status struct {
-	// Name: The plan ID.
+	//Name: The plan ID.
 	Name *string `json:"name,omitempty"`
 
-	// Product: Specifies the product of the image from the marketplace. This is the
-	// same value as Offer under the imageReference element.
+	//Product: Specifies the product of the image from the marketplace. This is the
+	//same value as Offer under the imageReference element.
 	Product *string `json:"product,omitempty"`
 
-	// PromotionCode: The promotion code.
+	//PromotionCode: The promotion code.
 	PromotionCode *string `json:"promotionCode,omitempty"`
 
-	// Publisher: The publisher ID.
+	//Publisher: The publisher ID.
 	Publisher *string `json:"publisher,omitempty"`
 }
 
@@ -2972,6 +2982,7 @@ func (planStatus *Plan_Status) PopulateFromARM(owner genruntime.KnownResourceRef
 
 // AssignPropertiesFromPlanStatus populates our Plan_Status from the provided source Plan_Status
 func (planStatus *Plan_Status) AssignPropertiesFromPlanStatus(source *v1alpha1api20201201storage.Plan_Status) error {
+
 	// Name
 	if source.Name != nil {
 		name := *source.Name
@@ -3052,25 +3063,25 @@ func (planStatus *Plan_Status) AssignPropertiesToPlanStatus(destination *v1alpha
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ScaleInPolicy
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ScaleInPolicy
 type ScaleInPolicy struct {
-	// Rules: The rules to be followed when scaling-in a virtual machine scale set.
-	// Possible values are:
-	// Default When a virtual machine scale set is scaled in, the scale set will first
-	// be balanced across zones if it is a zonal scale set. Then, it will be balanced
-	// across Fault Domains as far as possible. Within each Fault Domain, the virtual
-	// machines chosen for removal will be the newest ones that are not protected from
-	// scale-in.
-	// OldestVM When a virtual machine scale set is being scaled-in, the oldest virtual
-	// machines that are not protected from scale-in will be chosen for removal. For
-	// zonal virtual machine scale sets, the scale set will first be balanced across
-	// zones. Within each zone, the oldest virtual machines that are not protected will
-	// be chosen for removal.
-	// NewestVM When a virtual machine scale set is being scaled-in, the newest virtual
-	// machines that are not protected from scale-in will be chosen for removal. For
-	// zonal virtual machine scale sets, the scale set will first be balanced across
-	// zones. Within each zone, the newest virtual machines that are not protected will
-	// be chosen for removal.
+	//Rules: The rules to be followed when scaling-in a virtual machine scale set.
+	//Possible values are:
+	//Default When a virtual machine scale set is scaled in, the scale set will first
+	//be balanced across zones if it is a zonal scale set. Then, it will be balanced
+	//across Fault Domains as far as possible. Within each Fault Domain, the virtual
+	//machines chosen for removal will be the newest ones that are not protected from
+	//scale-in.
+	//OldestVM When a virtual machine scale set is being scaled-in, the oldest virtual
+	//machines that are not protected from scale-in will be chosen for removal. For
+	//zonal virtual machine scale sets, the scale set will first be balanced across
+	//zones. Within each zone, the oldest virtual machines that are not protected will
+	//be chosen for removal.
+	//NewestVM When a virtual machine scale set is being scaled-in, the newest virtual
+	//machines that are not protected from scale-in will be chosen for removal. For
+	//zonal virtual machine scale sets, the scale set will first be balanced across
+	//zones. Within each zone, the newest virtual machines that are not protected will
+	//be chosen for removal.
 	Rules []ScaleInPolicyRules `json:"rules,omitempty"`
 }
 
@@ -3113,6 +3124,7 @@ func (scaleInPolicy *ScaleInPolicy) PopulateFromARM(owner genruntime.KnownResour
 
 // AssignPropertiesFromScaleInPolicy populates our ScaleInPolicy from the provided source ScaleInPolicy
 func (scaleInPolicy *ScaleInPolicy) AssignPropertiesFromScaleInPolicy(source *v1alpha1api20201201storage.ScaleInPolicy) error {
+
 	// Rules
 	ruleList := make([]ScaleInPolicyRules, len(source.Rules))
 	for ruleIndex, ruleItem := range source.Rules {
@@ -3147,25 +3159,25 @@ func (scaleInPolicy *ScaleInPolicy) AssignPropertiesToScaleInPolicy(destination 
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ScaleInPolicy_Status struct {
-	// Rules: The rules to be followed when scaling-in a virtual machine scale set.
-	// Possible values are:
-	// Default When a virtual machine scale set is scaled in, the scale set will first
-	// be balanced across zones if it is a zonal scale set. Then, it will be balanced
-	// across Fault Domains as far as possible. Within each Fault Domain, the virtual
-	// machines chosen for removal will be the newest ones that are not protected from
-	// scale-in.
-	// OldestVM When a virtual machine scale set is being scaled-in, the oldest virtual
-	// machines that are not protected from scale-in will be chosen for removal. For
-	// zonal virtual machine scale sets, the scale set will first be balanced across
-	// zones. Within each zone, the oldest virtual machines that are not protected will
-	// be chosen for removal.
-	// NewestVM When a virtual machine scale set is being scaled-in, the newest virtual
-	// machines that are not protected from scale-in will be chosen for removal. For
-	// zonal virtual machine scale sets, the scale set will first be balanced across
-	// zones. Within each zone, the newest virtual machines that are not protected will
-	// be chosen for removal.
+	//Rules: The rules to be followed when scaling-in a virtual machine scale set.
+	//Possible values are:
+	//Default When a virtual machine scale set is scaled in, the scale set will first
+	//be balanced across zones if it is a zonal scale set. Then, it will be balanced
+	//across Fault Domains as far as possible. Within each Fault Domain, the virtual
+	//machines chosen for removal will be the newest ones that are not protected from
+	//scale-in.
+	//OldestVM When a virtual machine scale set is being scaled-in, the oldest virtual
+	//machines that are not protected from scale-in will be chosen for removal. For
+	//zonal virtual machine scale sets, the scale set will first be balanced across
+	//zones. Within each zone, the oldest virtual machines that are not protected will
+	//be chosen for removal.
+	//NewestVM When a virtual machine scale set is being scaled-in, the newest virtual
+	//machines that are not protected from scale-in will be chosen for removal. For
+	//zonal virtual machine scale sets, the scale set will first be balanced across
+	//zones. Within each zone, the newest virtual machines that are not protected will
+	//be chosen for removal.
 	Rules []ScaleInPolicyStatusRules `json:"rules,omitempty"`
 }
 
@@ -3194,6 +3206,7 @@ func (scaleInPolicyStatus *ScaleInPolicy_Status) PopulateFromARM(owner genruntim
 
 // AssignPropertiesFromScaleInPolicyStatus populates our ScaleInPolicy_Status from the provided source ScaleInPolicy_Status
 func (scaleInPolicyStatus *ScaleInPolicy_Status) AssignPropertiesFromScaleInPolicyStatus(source *v1alpha1api20201201storage.ScaleInPolicy_Status) error {
+
 	// Rules
 	ruleList := make([]ScaleInPolicyStatusRules, len(source.Rules))
 	for ruleIndex, ruleItem := range source.Rules {
@@ -3228,18 +3241,18 @@ func (scaleInPolicyStatus *ScaleInPolicy_Status) AssignPropertiesToScaleInPolicy
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/Sku
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/Sku
 type Sku struct {
-	// Capacity: Specifies the number of virtual machines in the scale set.
+	//Capacity: Specifies the number of virtual machines in the scale set.
 	Capacity *int `json:"capacity,omitempty"`
 
-	// Name: The sku name.
+	//Name: The sku name.
 	Name *string `json:"name,omitempty"`
 
-	// Tier: Specifies the tier of virtual machines in a scale set.
-	// Possible Values:
-	// Standard
-	// Basic
+	//Tier: Specifies the tier of virtual machines in a scale set.
+	//Possible Values:
+	//Standard
+	//Basic
 	Tier *string `json:"tier,omitempty"`
 }
 
@@ -3308,6 +3321,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.KnownResourceReference, armInpu
 
 // AssignPropertiesFromSku populates our Sku from the provided source Sku
 func (sku *Sku) AssignPropertiesFromSku(source *v1alpha1api20201201storage.Sku) error {
+
 	// Capacity
 	if source.Capacity != nil {
 		capacity := *source.Capacity
@@ -3372,18 +3386,18 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20201201storage.Sk
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type Sku_Status struct {
-	// Capacity: Specifies the number of virtual machines in the scale set.
+	//Capacity: Specifies the number of virtual machines in the scale set.
 	Capacity *int `json:"capacity,omitempty"`
 
-	// Name: The sku name.
+	//Name: The sku name.
 	Name *string `json:"name,omitempty"`
 
-	// Tier: Specifies the tier of virtual machines in a scale set.
-	// Possible Values:
-	// Standard
-	// Basic
+	//Tier: Specifies the tier of virtual machines in a scale set.
+	//Possible Values:
+	//Standard
+	//Basic
 	Tier *string `json:"tier,omitempty"`
 }
 
@@ -3425,6 +3439,7 @@ func (skuStatus *Sku_Status) PopulateFromARM(owner genruntime.KnownResourceRefer
 
 // AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
 func (skuStatus *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20201201storage.Sku_Status) error {
+
 	// Capacity
 	if source.Capacity != nil {
 		capacity := *source.Capacity
@@ -3489,9 +3504,9 @@ func (skuStatus *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1ap
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SubResource
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SubResource
 type SubResource struct {
-	// Reference: Resource Id
+	//Reference: Resource Id
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -3536,6 +3551,7 @@ func (subResource *SubResource) PopulateFromARM(owner genruntime.KnownResourceRe
 
 // AssignPropertiesFromSubResource populates our SubResource from the provided source SubResource
 func (subResource *SubResource) AssignPropertiesFromSubResource(source *v1alpha1api20201201storage.SubResource) error {
+
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
@@ -3568,9 +3584,9 @@ func (subResource *SubResource) AssignPropertiesToSubResource(destination *v1alp
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type SubResource_Status struct {
-	// Id: Resource Id
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3600,6 +3616,7 @@ func (subResourceStatus *SubResource_Status) PopulateFromARM(owner genruntime.Kn
 
 // AssignPropertiesFromSubResourceStatus populates our SubResource_Status from the provided source SubResource_Status
 func (subResourceStatus *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *v1alpha1api20201201storage.SubResource_Status) error {
+
 	// Id
 	if source.Id != nil {
 		id := *source.Id
@@ -3632,22 +3649,22 @@ func (subResourceStatus *SubResource_Status) AssignPropertiesToSubResourceStatus
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/UpgradePolicy
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/UpgradePolicy
 type UpgradePolicy struct {
-	// AutomaticOSUpgradePolicy: The configuration parameters used for performing
-	// automatic OS upgrade.
+	//AutomaticOSUpgradePolicy: The configuration parameters used for performing
+	//automatic OS upgrade.
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy `json:"automaticOSUpgradePolicy,omitempty"`
 
-	// Mode: Specifies the mode of an upgrade to virtual machines in the scale set.
-	// Possible values are:
-	// Manual - You  control the application of updates to virtual machines in the
-	// scale set. You do this by using the manualUpgrade action.
-	// Automatic - All virtual machines in the scale set are  automatically updated at
-	// the same time.
+	//Mode: Specifies the mode of an upgrade to virtual machines in the scale set.
+	//Possible values are:
+	//Manual - You  control the application of updates to virtual machines in the
+	//scale set. You do this by using the manualUpgrade action.
+	//Automatic - All virtual machines in the scale set are  automatically updated at
+	//the same time.
 	Mode *UpgradePolicyMode `json:"mode,omitempty"`
 
-	// RollingUpgradePolicy: The configuration parameters used while performing a
-	// rolling upgrade.
+	//RollingUpgradePolicy: The configuration parameters used while performing a
+	//rolling upgrade.
 	RollingUpgradePolicy *RollingUpgradePolicy `json:"rollingUpgradePolicy,omitempty"`
 }
 
@@ -3734,6 +3751,7 @@ func (upgradePolicy *UpgradePolicy) PopulateFromARM(owner genruntime.KnownResour
 
 // AssignPropertiesFromUpgradePolicy populates our UpgradePolicy from the provided source UpgradePolicy
 func (upgradePolicy *UpgradePolicy) AssignPropertiesFromUpgradePolicy(source *v1alpha1api20201201storage.UpgradePolicy) error {
+
 	// AutomaticOSUpgradePolicy
 	if source.AutomaticOSUpgradePolicy != nil {
 		var automaticOSUpgradePolicy AutomaticOSUpgradePolicy
@@ -3814,22 +3832,22 @@ func (upgradePolicy *UpgradePolicy) AssignPropertiesToUpgradePolicy(destination 
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type UpgradePolicy_Status struct {
-	// AutomaticOSUpgradePolicy: Configuration parameters used for performing automatic
-	// OS Upgrade.
+	//AutomaticOSUpgradePolicy: Configuration parameters used for performing automatic
+	//OS Upgrade.
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy_Status `json:"automaticOSUpgradePolicy,omitempty"`
 
-	// Mode: Specifies the mode of an upgrade to virtual machines in the scale set.
-	// Possible values are:
-	// Manual - You  control the application of updates to virtual machines in the
-	// scale set. You do this by using the manualUpgrade action.
-	// Automatic - All virtual machines in the scale set are  automatically updated at
-	// the same time.
+	//Mode: Specifies the mode of an upgrade to virtual machines in the scale set.
+	//Possible values are:
+	//Manual - You  control the application of updates to virtual machines in the
+	//scale set. You do this by using the manualUpgrade action.
+	//Automatic - All virtual machines in the scale set are  automatically updated at
+	//the same time.
 	Mode *UpgradePolicyStatusMode `json:"mode,omitempty"`
 
-	// RollingUpgradePolicy: The configuration parameters used while performing a
-	// rolling upgrade.
+	//RollingUpgradePolicy: The configuration parameters used while performing a
+	//rolling upgrade.
 	RollingUpgradePolicy *RollingUpgradePolicy_Status `json:"rollingUpgradePolicy,omitempty"`
 }
 
@@ -3881,6 +3899,7 @@ func (upgradePolicyStatus *UpgradePolicy_Status) PopulateFromARM(owner genruntim
 
 // AssignPropertiesFromUpgradePolicyStatus populates our UpgradePolicy_Status from the provided source UpgradePolicy_Status
 func (upgradePolicyStatus *UpgradePolicy_Status) AssignPropertiesFromUpgradePolicyStatus(source *v1alpha1api20201201storage.UpgradePolicy_Status) error {
+
 	// AutomaticOSUpgradePolicy
 	if source.AutomaticOSUpgradePolicy != nil {
 		var automaticOSUpgradePolicy AutomaticOSUpgradePolicy_Status
@@ -3961,7 +3980,7 @@ func (upgradePolicyStatus *UpgradePolicy_Status) AssignPropertiesToUpgradePolicy
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetIdentity
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetIdentity
 type VirtualMachineScaleSetIdentity struct {
 	//Type: The type of identity used for the virtual machine scale set. The type
 	//'SystemAssigned, UserAssigned' includes both an implicitly created identity and
@@ -4011,6 +4030,7 @@ func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) PopulateFr
 
 // AssignPropertiesFromVirtualMachineScaleSetIdentity populates our VirtualMachineScaleSetIdentity from the provided source VirtualMachineScaleSetIdentity
 func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) AssignPropertiesFromVirtualMachineScaleSetIdentity(source *v1alpha1api20201201storage.VirtualMachineScaleSetIdentity) error {
+
 	// Type
 	if source.Type != nil {
 		typeVar := VirtualMachineScaleSetIdentityType(*source.Type)
@@ -4043,14 +4063,14 @@ func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) AssignProp
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetIdentity_Status struct {
-	// PrincipalId: The principal id of virtual machine scale set identity. This
-	// property will only be provided for a system assigned identity.
+	//PrincipalId: The principal id of virtual machine scale set identity. This
+	//property will only be provided for a system assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
-	// TenantId: The tenant id associated with the virtual machine scale set. This
-	// property will only be provided for a system assigned identity.
+	//TenantId: The tenant id associated with the virtual machine scale set. This
+	//property will only be provided for a system assigned identity.
 	TenantId *string `json:"tenantId,omitempty"`
 
 	//Type: The type of identity used for the virtual machine scale set. The type
@@ -4117,6 +4137,7 @@ func (virtualMachineScaleSetIdentityStatus *VirtualMachineScaleSetIdentity_Statu
 
 // AssignPropertiesFromVirtualMachineScaleSetIdentityStatus populates our VirtualMachineScaleSetIdentity_Status from the provided source VirtualMachineScaleSetIdentity_Status
 func (virtualMachineScaleSetIdentityStatus *VirtualMachineScaleSetIdentity_Status) AssignPropertiesFromVirtualMachineScaleSetIdentityStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetIdentity_Status) error {
+
 	// PrincipalId
 	if source.PrincipalId != nil {
 		principalId := *source.PrincipalId
@@ -4209,26 +4230,26 @@ func (virtualMachineScaleSetIdentityStatus *VirtualMachineScaleSetIdentity_Statu
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetVMProfile_Status struct {
-	// BillingProfile: Specifies the billing related details of a Azure Spot VMSS.
-	// Minimum api-version: 2019-03-01.
+	//BillingProfile: Specifies the billing related details of a Azure Spot VMSS.
+	//Minimum api-version: 2019-03-01.
 	BillingProfile *BillingProfile_Status `json:"billingProfile,omitempty"`
 
-	// DiagnosticsProfile: Specifies the boot diagnostic settings state.
-	// Minimum api-version: 2015-06-15.
+	//DiagnosticsProfile: Specifies the boot diagnostic settings state.
+	//Minimum api-version: 2015-06-15.
 	DiagnosticsProfile *DiagnosticsProfile_Status `json:"diagnosticsProfile,omitempty"`
 
-	// EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine
-	// and Azure Spot scale set.
-	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported
-	// and the minimum api-version is 2019-03-01.
-	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the
-	// minimum api-version is 2017-10-30-preview.
+	//EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine
+	//and Azure Spot scale set.
+	//For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported
+	//and the minimum api-version is 2019-03-01.
+	//For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the
+	//minimum api-version is 2017-10-30-preview.
 	EvictionPolicy *EvictionPolicy_Status `json:"evictionPolicy,omitempty"`
 
-	// ExtensionProfile: Specifies a collection of settings for extensions installed on
-	// virtual machines in the scale set.
+	//ExtensionProfile: Specifies a collection of settings for extensions installed on
+	//virtual machines in the scale set.
 	ExtensionProfile *VirtualMachineScaleSetExtensionProfile_Status `json:"extensionProfile,omitempty"`
 
 	//LicenseType: Specifies that the image or disk that is being used was licensed
@@ -4246,26 +4267,26 @@ type VirtualMachineScaleSetVMProfile_Status struct {
 	//Minimum api-version: 2015-06-15
 	LicenseType *string `json:"licenseType,omitempty"`
 
-	// NetworkProfile: Specifies properties of the network interfaces of the virtual
-	// machines in the scale set.
+	//NetworkProfile: Specifies properties of the network interfaces of the virtual
+	//machines in the scale set.
 	NetworkProfile *VirtualMachineScaleSetNetworkProfile_Status `json:"networkProfile,omitempty"`
 
-	// OsProfile: Specifies the operating system settings for the virtual machines in
-	// the scale set.
+	//OsProfile: Specifies the operating system settings for the virtual machines in
+	//the scale set.
 	OsProfile *VirtualMachineScaleSetOSProfile_Status `json:"osProfile,omitempty"`
 
-	// Priority: Specifies the priority for the virtual machines in the scale set.
-	// Minimum api-version: 2017-10-30-preview
+	//Priority: Specifies the priority for the virtual machines in the scale set.
+	//Minimum api-version: 2017-10-30-preview
 	Priority *Priority_Status `json:"priority,omitempty"`
 
-	// ScheduledEventsProfile: Specifies Scheduled Event related configurations.
+	//ScheduledEventsProfile: Specifies Scheduled Event related configurations.
 	ScheduledEventsProfile *ScheduledEventsProfile_Status `json:"scheduledEventsProfile,omitempty"`
 
-	// SecurityProfile: Specifies the Security related profile settings for the virtual
-	// machines in the scale set.
+	//SecurityProfile: Specifies the Security related profile settings for the virtual
+	//machines in the scale set.
 	SecurityProfile *SecurityProfile_Status `json:"securityProfile,omitempty"`
 
-	// StorageProfile: Specifies the storage settings for the virtual machine disks.
+	//StorageProfile: Specifies the storage settings for the virtual machine disks.
 	StorageProfile *VirtualMachineScaleSetStorageProfile_Status `json:"storageProfile,omitempty"`
 }
 
@@ -4395,6 +4416,7 @@ func (virtualMachineScaleSetVMProfileStatus *VirtualMachineScaleSetVMProfile_Sta
 
 // AssignPropertiesFromVirtualMachineScaleSetVMProfileStatus populates our VirtualMachineScaleSetVMProfile_Status from the provided source VirtualMachineScaleSetVMProfile_Status
 func (virtualMachineScaleSetVMProfileStatus *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesFromVirtualMachineScaleSetVMProfileStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetVMProfile_Status) error {
+
 	// BillingProfile
 	if source.BillingProfile != nil {
 		var billingProfile BillingProfile_Status
@@ -4660,23 +4682,23 @@ const (
 )
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
-	// BillingProfile: Specifies the billing related details of a Azure Spot VM or VMSS.
-	// Minimum api-version: 2019-03-01.
+	//BillingProfile: Specifies the billing related details of a Azure Spot VM or VMSS.
+	//Minimum api-version: 2019-03-01.
 	BillingProfile *BillingProfile `json:"billingProfile,omitempty"`
 
-	// DiagnosticsProfile: Specifies the boot diagnostic settings state.
-	// Minimum api-version: 2015-06-15.
+	//DiagnosticsProfile: Specifies the boot diagnostic settings state.
+	//Minimum api-version: 2015-06-15.
 	DiagnosticsProfile *DiagnosticsProfile `json:"diagnosticsProfile,omitempty"`
 
-	// EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine
-	// and Azure Spot scale set.
-	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported
-	// and the minimum api-version is 2019-03-01.
-	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the
-	// minimum api-version is 2017-10-30-preview.
+	//EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine
+	//and Azure Spot scale set.
+	//For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported
+	//and the minimum api-version is 2019-03-01.
+	//For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the
+	//minimum api-version is 2017-10-30-preview.
 	EvictionPolicy *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy `json:"evictionPolicy,omitempty"`
 
-	// ExtensionProfile: Describes a virtual machine scale set extension profile.
+	//ExtensionProfile: Describes a virtual machine scale set extension profile.
 	ExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile `json:"extensionProfile,omitempty"`
 
 	//LicenseType: Specifies that the image or disk that is being used was licensed
@@ -4694,22 +4716,22 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
 	//Minimum api-version: 2015-06-15
 	LicenseType *string `json:"licenseType,omitempty"`
 
-	// NetworkProfile: Describes a virtual machine scale set network profile.
+	//NetworkProfile: Describes a virtual machine scale set network profile.
 	NetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile `json:"networkProfile,omitempty"`
 
-	// OsProfile: Describes a virtual machine scale set OS profile.
+	//OsProfile: Describes a virtual machine scale set OS profile.
 	OsProfile *VirtualMachineScaleSetOSProfile `json:"osProfile,omitempty"`
 
-	// Priority: Specifies the priority for the virtual machines in the scale set.
-	// Minimum api-version: 2017-10-30-preview.
+	//Priority: Specifies the priority for the virtual machines in the scale set.
+	//Minimum api-version: 2017-10-30-preview.
 	Priority               *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority `json:"priority,omitempty"`
 	ScheduledEventsProfile *ScheduledEventsProfile                                             `json:"scheduledEventsProfile,omitempty"`
 
-	// SecurityProfile: Specifies the Security profile settings for the virtual machine
-	// or virtual machine scale set.
+	//SecurityProfile: Specifies the Security profile settings for the virtual machine
+	//or virtual machine scale set.
 	SecurityProfile *SecurityProfile `json:"securityProfile,omitempty"`
 
-	// StorageProfile: Describes a virtual machine scale set storage profile.
+	//StorageProfile: Describes a virtual machine scale set storage profile.
 	StorageProfile *VirtualMachineScaleSetStorageProfile `json:"storageProfile,omitempty"`
 }
 
@@ -4946,6 +4968,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 // AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
 func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(source *v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) error {
+
 	// BillingProfile
 	if source.BillingProfile != nil {
 		var billingProfile BillingProfile
@@ -5202,10 +5225,10 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AutomaticOSUpgradePolicy
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AutomaticOSUpgradePolicy
 type AutomaticOSUpgradePolicy struct {
-	// DisableAutomaticRollback: Whether OS image rollback feature should be disabled.
-	// Default value is false.
+	//DisableAutomaticRollback: Whether OS image rollback feature should be disabled.
+	//Default value is false.
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
 
 	//EnableAutomaticOSUpgrade: Indicates whether OS upgrades should automatically be
@@ -5270,6 +5293,7 @@ func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) PopulateFromARM(owner 
 
 // AssignPropertiesFromAutomaticOSUpgradePolicy populates our AutomaticOSUpgradePolicy from the provided source AutomaticOSUpgradePolicy
 func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) AssignPropertiesFromAutomaticOSUpgradePolicy(source *v1alpha1api20201201storage.AutomaticOSUpgradePolicy) error {
+
 	// DisableAutomaticRollback
 	if source.DisableAutomaticRollback != nil {
 		disableAutomaticRollback := *source.DisableAutomaticRollback
@@ -5318,10 +5342,10 @@ func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) AssignPropertiesToAuto
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type AutomaticOSUpgradePolicy_Status struct {
-	// DisableAutomaticRollback: Whether OS image rollback feature should be disabled.
-	// Default value is false.
+	//DisableAutomaticRollback: Whether OS image rollback feature should be disabled.
+	//Default value is false.
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
 
 	//EnableAutomaticOSUpgrade: Indicates whether OS upgrades should automatically be
@@ -5365,6 +5389,7 @@ func (automaticOSUpgradePolicyStatus *AutomaticOSUpgradePolicy_Status) PopulateF
 
 // AssignPropertiesFromAutomaticOSUpgradePolicyStatus populates our AutomaticOSUpgradePolicy_Status from the provided source AutomaticOSUpgradePolicy_Status
 func (automaticOSUpgradePolicyStatus *AutomaticOSUpgradePolicy_Status) AssignPropertiesFromAutomaticOSUpgradePolicyStatus(source *v1alpha1api20201201storage.AutomaticOSUpgradePolicy_Status) error {
+
 	// DisableAutomaticRollback
 	if source.DisableAutomaticRollback != nil {
 		disableAutomaticRollback := *source.DisableAutomaticRollback
@@ -5413,7 +5438,7 @@ func (automaticOSUpgradePolicyStatus *AutomaticOSUpgradePolicy_Status) AssignPro
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/BillingProfile
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/BillingProfile
 type BillingProfile struct {
 	//MaxPrice: Specifies the maximum price you are willing to pay for a Azure Spot
 	//VM/VMSS. This price is in US Dollars.
@@ -5474,6 +5499,7 @@ func (billingProfile *BillingProfile) PopulateFromARM(owner genruntime.KnownReso
 
 // AssignPropertiesFromBillingProfile populates our BillingProfile from the provided source BillingProfile
 func (billingProfile *BillingProfile) AssignPropertiesFromBillingProfile(source *v1alpha1api20201201storage.BillingProfile) error {
+
 	// MaxPrice
 	if source.MaxPrice != nil {
 		maxPrice := *source.MaxPrice
@@ -5506,7 +5532,7 @@ func (billingProfile *BillingProfile) AssignPropertiesToBillingProfile(destinati
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type BillingProfile_Status struct {
 	//MaxPrice: Specifies the maximum price you are willing to pay for a Azure Spot
 	//VM/VMSS. This price is in US Dollars.
@@ -5552,6 +5578,7 @@ func (billingProfileStatus *BillingProfile_Status) PopulateFromARM(owner genrunt
 
 // AssignPropertiesFromBillingProfileStatus populates our BillingProfile_Status from the provided source BillingProfile_Status
 func (billingProfileStatus *BillingProfile_Status) AssignPropertiesFromBillingProfileStatus(source *v1alpha1api20201201storage.BillingProfile_Status) error {
+
 	// MaxPrice
 	if source.MaxPrice != nil {
 		maxPrice := *source.MaxPrice
@@ -5584,12 +5611,12 @@ func (billingProfileStatus *BillingProfile_Status) AssignPropertiesToBillingProf
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiagnosticsProfile
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiagnosticsProfile
 type DiagnosticsProfile struct {
-	// BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to
-	// view Console Output and Screenshot to diagnose VM status.
-	// You can easily view the output of your console log.
-	// Azure also enables you to see a screenshot of the VM from the hypervisor.
+	//BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to
+	//view Console Output and Screenshot to diagnose VM status.
+	//You can easily view the output of your console log.
+	//Azure also enables you to see a screenshot of the VM from the hypervisor.
 	BootDiagnostics *BootDiagnostics `json:"bootDiagnostics,omitempty"`
 }
 
@@ -5643,6 +5670,7 @@ func (diagnosticsProfile *DiagnosticsProfile) PopulateFromARM(owner genruntime.K
 
 // AssignPropertiesFromDiagnosticsProfile populates our DiagnosticsProfile from the provided source DiagnosticsProfile
 func (diagnosticsProfile *DiagnosticsProfile) AssignPropertiesFromDiagnosticsProfile(source *v1alpha1api20201201storage.DiagnosticsProfile) error {
+
 	// BootDiagnostics
 	if source.BootDiagnostics != nil {
 		var bootDiagnostic BootDiagnostics
@@ -5683,12 +5711,12 @@ func (diagnosticsProfile *DiagnosticsProfile) AssignPropertiesToDiagnosticsProfi
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type DiagnosticsProfile_Status struct {
-	// BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to
-	// view Console Output and Screenshot to diagnose VM status.
-	// You can easily view the output of your console log.
-	// Azure also enables you to see a screenshot of the VM from the hypervisor.
+	//BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to
+	//view Console Output and Screenshot to diagnose VM status.
+	//You can easily view the output of your console log.
+	//Azure also enables you to see a screenshot of the VM from the hypervisor.
 	BootDiagnostics *BootDiagnostics_Status `json:"bootDiagnostics,omitempty"`
 }
 
@@ -5723,6 +5751,7 @@ func (diagnosticsProfileStatus *DiagnosticsProfile_Status) PopulateFromARM(owner
 
 // AssignPropertiesFromDiagnosticsProfileStatus populates our DiagnosticsProfile_Status from the provided source DiagnosticsProfile_Status
 func (diagnosticsProfileStatus *DiagnosticsProfile_Status) AssignPropertiesFromDiagnosticsProfileStatus(source *v1alpha1api20201201storage.DiagnosticsProfile_Status) error {
+
 	// BootDiagnostics
 	if source.BootDiagnostics != nil {
 		var bootDiagnostic BootDiagnostics_Status
@@ -5763,7 +5792,7 @@ func (diagnosticsProfileStatus *DiagnosticsProfile_Status) AssignPropertiesToDia
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type EvictionPolicy_Status string
 
 const (
@@ -5771,7 +5800,7 @@ const (
 	EvictionPolicy_StatusDelete     = EvictionPolicy_Status("Delete")
 )
 
-// Generated from:
+//Generated from:
 type Priority_Status string
 
 const (
@@ -5780,46 +5809,46 @@ const (
 	Priority_StatusSpot    = Priority_Status("Spot")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/RollingUpgradePolicy
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/RollingUpgradePolicy
 type RollingUpgradePolicy struct {
-	// EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing
-	// upgrade batches. Take into consideration the Update Domain and
-	// maxBatchInstancePercent to determine the batch size.
+	//EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing
+	//upgrade batches. Take into consideration the Update Domain and
+	//maxBatchInstancePercent to determine the batch size.
 	EnableCrossZoneUpgrade *bool `json:"enableCrossZoneUpgrade,omitempty"`
 
 	// +kubebuilder:validation:Maximum=100
 	// +kubebuilder:validation:Minimum=5
-	// MaxBatchInstancePercent: The maximum percent of total virtual machine instances
-	// that will be upgraded simultaneously by the rolling upgrade in one batch. As
-	// this is a maximum, unhealthy instances in previous or future batches can cause
-	// the percentage of instances in a batch to decrease to ensure higher reliability.
-	// The default value for this parameter is 20%.
+	//MaxBatchInstancePercent: The maximum percent of total virtual machine instances
+	//that will be upgraded simultaneously by the rolling upgrade in one batch. As
+	//this is a maximum, unhealthy instances in previous or future batches can cause
+	//the percentage of instances in a batch to decrease to ensure higher reliability.
+	//The default value for this parameter is 20%.
 	MaxBatchInstancePercent *int `json:"maxBatchInstancePercent,omitempty"`
 
 	// +kubebuilder:validation:Maximum=100
 	// +kubebuilder:validation:Minimum=5
-	// MaxUnhealthyInstancePercent: The maximum percentage of the total virtual machine
-	// instances in the scale set that can be simultaneously unhealthy, either as a
-	// result of being upgraded, or by being found in an unhealthy state by the virtual
-	// machine health checks before the rolling upgrade aborts. This constraint will be
-	// checked prior to starting any batch. The default value for this parameter is 20%.
+	//MaxUnhealthyInstancePercent: The maximum percentage of the total virtual machine
+	//instances in the scale set that can be simultaneously unhealthy, either as a
+	//result of being upgraded, or by being found in an unhealthy state by the virtual
+	//machine health checks before the rolling upgrade aborts. This constraint will be
+	//checked prior to starting any batch. The default value for this parameter is 20%.
 	MaxUnhealthyInstancePercent *int `json:"maxUnhealthyInstancePercent,omitempty"`
 
 	// +kubebuilder:validation:Maximum=100
 	// +kubebuilder:validation:Minimum=0
-	// MaxUnhealthyUpgradedInstancePercent: The maximum percentage of upgraded virtual
-	// machine instances that can be found to be in an unhealthy state. This check will
-	// happen after each batch is upgraded. If this percentage is ever exceeded, the
-	// rolling update aborts. The default value for this parameter is 20%.
+	//MaxUnhealthyUpgradedInstancePercent: The maximum percentage of upgraded virtual
+	//machine instances that can be found to be in an unhealthy state. This check will
+	//happen after each batch is upgraded. If this percentage is ever exceeded, the
+	//rolling update aborts. The default value for this parameter is 20%.
 	MaxUnhealthyUpgradedInstancePercent *int `json:"maxUnhealthyUpgradedInstancePercent,omitempty"`
 
-	// PauseTimeBetweenBatches: The wait time between completing the update for all
-	// virtual machines in one batch and starting the next batch. The time duration
-	// should be specified in ISO 8601 format. The default value is 0 seconds (PT0S).
+	//PauseTimeBetweenBatches: The wait time between completing the update for all
+	//virtual machines in one batch and starting the next batch. The time duration
+	//should be specified in ISO 8601 format. The default value is 0 seconds (PT0S).
 	PauseTimeBetweenBatches *string `json:"pauseTimeBetweenBatches,omitempty"`
 
-	// PrioritizeUnhealthyInstances: Upgrade all unhealthy instances in a scale set
-	// before any healthy instances.
+	//PrioritizeUnhealthyInstances: Upgrade all unhealthy instances in a scale set
+	//before any healthy instances.
 	PrioritizeUnhealthyInstances *bool `json:"prioritizeUnhealthyInstances,omitempty"`
 }
 
@@ -5924,6 +5953,7 @@ func (rollingUpgradePolicy *RollingUpgradePolicy) PopulateFromARM(owner genrunti
 
 // AssignPropertiesFromRollingUpgradePolicy populates our RollingUpgradePolicy from the provided source RollingUpgradePolicy
 func (rollingUpgradePolicy *RollingUpgradePolicy) AssignPropertiesFromRollingUpgradePolicy(source *v1alpha1api20201201storage.RollingUpgradePolicy) error {
+
 	// EnableCrossZoneUpgrade
 	if source.EnableCrossZoneUpgrade != nil {
 		enableCrossZoneUpgrade := *source.EnableCrossZoneUpgrade
@@ -6036,40 +6066,40 @@ func (rollingUpgradePolicy *RollingUpgradePolicy) AssignPropertiesToRollingUpgra
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type RollingUpgradePolicy_Status struct {
-	// EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing
-	// upgrade batches. Take into consideration the Update Domain and
-	// maxBatchInstancePercent to determine the batch size.
+	//EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing
+	//upgrade batches. Take into consideration the Update Domain and
+	//maxBatchInstancePercent to determine the batch size.
 	EnableCrossZoneUpgrade *bool `json:"enableCrossZoneUpgrade,omitempty"`
 
-	// MaxBatchInstancePercent: The maximum percent of total virtual machine instances
-	// that will be upgraded simultaneously by the rolling upgrade in one batch. As
-	// this is a maximum, unhealthy instances in previous or future batches can cause
-	// the percentage of instances in a batch to decrease to ensure higher reliability.
-	// The default value for this parameter is 20%.
+	//MaxBatchInstancePercent: The maximum percent of total virtual machine instances
+	//that will be upgraded simultaneously by the rolling upgrade in one batch. As
+	//this is a maximum, unhealthy instances in previous or future batches can cause
+	//the percentage of instances in a batch to decrease to ensure higher reliability.
+	//The default value for this parameter is 20%.
 	MaxBatchInstancePercent *int `json:"maxBatchInstancePercent,omitempty"`
 
-	// MaxUnhealthyInstancePercent: The maximum percentage of the total virtual machine
-	// instances in the scale set that can be simultaneously unhealthy, either as a
-	// result of being upgraded, or by being found in an unhealthy state by the virtual
-	// machine health checks before the rolling upgrade aborts. This constraint will be
-	// checked prior to starting any batch. The default value for this parameter is 20%.
+	//MaxUnhealthyInstancePercent: The maximum percentage of the total virtual machine
+	//instances in the scale set that can be simultaneously unhealthy, either as a
+	//result of being upgraded, or by being found in an unhealthy state by the virtual
+	//machine health checks before the rolling upgrade aborts. This constraint will be
+	//checked prior to starting any batch. The default value for this parameter is 20%.
 	MaxUnhealthyInstancePercent *int `json:"maxUnhealthyInstancePercent,omitempty"`
 
-	// MaxUnhealthyUpgradedInstancePercent: The maximum percentage of upgraded virtual
-	// machine instances that can be found to be in an unhealthy state. This check will
-	// happen after each batch is upgraded. If this percentage is ever exceeded, the
-	// rolling update aborts. The default value for this parameter is 20%.
+	//MaxUnhealthyUpgradedInstancePercent: The maximum percentage of upgraded virtual
+	//machine instances that can be found to be in an unhealthy state. This check will
+	//happen after each batch is upgraded. If this percentage is ever exceeded, the
+	//rolling update aborts. The default value for this parameter is 20%.
 	MaxUnhealthyUpgradedInstancePercent *int `json:"maxUnhealthyUpgradedInstancePercent,omitempty"`
 
-	// PauseTimeBetweenBatches: The wait time between completing the update for all
-	// virtual machines in one batch and starting the next batch. The time duration
-	// should be specified in ISO 8601 format. The default value is 0 seconds (PT0S).
+	//PauseTimeBetweenBatches: The wait time between completing the update for all
+	//virtual machines in one batch and starting the next batch. The time duration
+	//should be specified in ISO 8601 format. The default value is 0 seconds (PT0S).
 	PauseTimeBetweenBatches *string `json:"pauseTimeBetweenBatches,omitempty"`
 
-	// PrioritizeUnhealthyInstances: Upgrade all unhealthy instances in a scale set
-	// before any healthy instances.
+	//PrioritizeUnhealthyInstances: Upgrade all unhealthy instances in a scale set
+	//before any healthy instances.
 	PrioritizeUnhealthyInstances *bool `json:"prioritizeUnhealthyInstances,omitempty"`
 }
 
@@ -6129,6 +6159,7 @@ func (rollingUpgradePolicyStatus *RollingUpgradePolicy_Status) PopulateFromARM(o
 
 // AssignPropertiesFromRollingUpgradePolicyStatus populates our RollingUpgradePolicy_Status from the provided source RollingUpgradePolicy_Status
 func (rollingUpgradePolicyStatus *RollingUpgradePolicy_Status) AssignPropertiesFromRollingUpgradePolicyStatus(source *v1alpha1api20201201storage.RollingUpgradePolicy_Status) error {
+
 	// EnableCrossZoneUpgrade
 	if source.EnableCrossZoneUpgrade != nil {
 		enableCrossZoneUpgrade := *source.EnableCrossZoneUpgrade
@@ -6258,7 +6289,7 @@ const (
 	ScaleInPolicyStatusRulesOldestVM = ScaleInPolicyStatusRules("OldestVM")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ScheduledEventsProfile
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ScheduledEventsProfile
 type ScheduledEventsProfile struct {
 	TerminateNotificationProfile *TerminateNotificationProfile `json:"terminateNotificationProfile,omitempty"`
 }
@@ -6313,6 +6344,7 @@ func (scheduledEventsProfile *ScheduledEventsProfile) PopulateFromARM(owner genr
 
 // AssignPropertiesFromScheduledEventsProfile populates our ScheduledEventsProfile from the provided source ScheduledEventsProfile
 func (scheduledEventsProfile *ScheduledEventsProfile) AssignPropertiesFromScheduledEventsProfile(source *v1alpha1api20201201storage.ScheduledEventsProfile) error {
+
 	// TerminateNotificationProfile
 	if source.TerminateNotificationProfile != nil {
 		var terminateNotificationProfile TerminateNotificationProfile
@@ -6353,10 +6385,10 @@ func (scheduledEventsProfile *ScheduledEventsProfile) AssignPropertiesToSchedule
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ScheduledEventsProfile_Status struct {
-	// TerminateNotificationProfile: Specifies Terminate Scheduled Event related
-	// configurations.
+	//TerminateNotificationProfile: Specifies Terminate Scheduled Event related
+	//configurations.
 	TerminateNotificationProfile *TerminateNotificationProfile_Status `json:"terminateNotificationProfile,omitempty"`
 }
 
@@ -6391,6 +6423,7 @@ func (scheduledEventsProfileStatus *ScheduledEventsProfile_Status) PopulateFromA
 
 // AssignPropertiesFromScheduledEventsProfileStatus populates our ScheduledEventsProfile_Status from the provided source ScheduledEventsProfile_Status
 func (scheduledEventsProfileStatus *ScheduledEventsProfile_Status) AssignPropertiesFromScheduledEventsProfileStatus(source *v1alpha1api20201201storage.ScheduledEventsProfile_Status) error {
+
 	// TerminateNotificationProfile
 	if source.TerminateNotificationProfile != nil {
 		var terminateNotificationProfile TerminateNotificationProfile_Status
@@ -6431,25 +6464,25 @@ func (scheduledEventsProfileStatus *ScheduledEventsProfile_Status) AssignPropert
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SecurityProfile
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SecurityProfile
 type SecurityProfile struct {
-	// EncryptionAtHost: This property can be used by user in the request to enable or
-	// disable the Host Encryption for the virtual machine or virtual machine scale
-	// set. This will enable the encryption for all the disks including Resource/Temp
-	// disk at host itself.
-	// Default: The Encryption at host will be disabled unless this property is set to
-	// true for the resource.
+	//EncryptionAtHost: This property can be used by user in the request to enable or
+	//disable the Host Encryption for the virtual machine or virtual machine scale
+	//set. This will enable the encryption for all the disks including Resource/Temp
+	//disk at host itself.
+	//Default: The Encryption at host will be disabled unless this property is set to
+	//true for the resource.
 	EncryptionAtHost *bool `json:"encryptionAtHost,omitempty"`
 
-	// SecurityType: Specifies the SecurityType of the virtual machine. It is set as
-	// TrustedLaunch to enable UefiSettings.
-	// Default: UefiSettings will not be enabled unless this property is set as
-	// TrustedLaunch.
+	//SecurityType: Specifies the SecurityType of the virtual machine. It is set as
+	//TrustedLaunch to enable UefiSettings.
+	//Default: UefiSettings will not be enabled unless this property is set as
+	//TrustedLaunch.
 	SecurityType *SecurityProfileSecurityType `json:"securityType,omitempty"`
 
-	// UefiSettings: Specifies the security settings like secure boot and vTPM used
-	// while creating the virtual machine.
-	// Minimum api-version: 2020-12-01
+	//UefiSettings: Specifies the security settings like secure boot and vTPM used
+	//while creating the virtual machine.
+	//Minimum api-version: 2020-12-01
 	UefiSettings *UefiSettings `json:"uefiSettings,omitempty"`
 }
 
@@ -6527,6 +6560,7 @@ func (securityProfile *SecurityProfile) PopulateFromARM(owner genruntime.KnownRe
 
 // AssignPropertiesFromSecurityProfile populates our SecurityProfile from the provided source SecurityProfile
 func (securityProfile *SecurityProfile) AssignPropertiesFromSecurityProfile(source *v1alpha1api20201201storage.SecurityProfile) error {
+
 	// EncryptionAtHost
 	if source.EncryptionAtHost != nil {
 		encryptionAtHost := *source.EncryptionAtHost
@@ -6599,25 +6633,25 @@ func (securityProfile *SecurityProfile) AssignPropertiesToSecurityProfile(destin
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type SecurityProfile_Status struct {
-	// EncryptionAtHost: This property can be used by user in the request to enable or
-	// disable the Host Encryption for the virtual machine or virtual machine scale
-	// set. This will enable the encryption for all the disks including Resource/Temp
-	// disk at host itself.
-	// Default: The Encryption at host will be disabled unless this property is set to
-	// true for the resource.
+	//EncryptionAtHost: This property can be used by user in the request to enable or
+	//disable the Host Encryption for the virtual machine or virtual machine scale
+	//set. This will enable the encryption for all the disks including Resource/Temp
+	//disk at host itself.
+	//Default: The Encryption at host will be disabled unless this property is set to
+	//true for the resource.
 	EncryptionAtHost *bool `json:"encryptionAtHost,omitempty"`
 
-	// SecurityType: Specifies the SecurityType of the virtual machine. It is set as
-	// TrustedLaunch to enable UefiSettings.
-	// Default: UefiSettings will not be enabled unless this property is set as
-	// TrustedLaunch.
+	//SecurityType: Specifies the SecurityType of the virtual machine. It is set as
+	//TrustedLaunch to enable UefiSettings.
+	//Default: UefiSettings will not be enabled unless this property is set as
+	//TrustedLaunch.
 	SecurityType *SecurityProfileStatusSecurityType `json:"securityType,omitempty"`
 
-	// UefiSettings: Specifies the security settings like secure boot and vTPM used
-	// while creating the virtual machine.
-	// Minimum api-version: 2020-12-01
+	//UefiSettings: Specifies the security settings like secure boot and vTPM used
+	//while creating the virtual machine.
+	//Minimum api-version: 2020-12-01
 	UefiSettings *UefiSettings_Status `json:"uefiSettings,omitempty"`
 }
 
@@ -6664,6 +6698,7 @@ func (securityProfileStatus *SecurityProfile_Status) PopulateFromARM(owner genru
 
 // AssignPropertiesFromSecurityProfileStatus populates our SecurityProfile_Status from the provided source SecurityProfile_Status
 func (securityProfileStatus *SecurityProfile_Status) AssignPropertiesFromSecurityProfileStatus(source *v1alpha1api20201201storage.SecurityProfile_Status) error {
+
 	// EncryptionAtHost
 	if source.EncryptionAtHost != nil {
 		encryptionAtHost := *source.EncryptionAtHost
@@ -6753,9 +6788,9 @@ const (
 	UpgradePolicyStatusModeRolling   = UpgradePolicyStatusMode("Rolling")
 )
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetExtensionProfile_Status struct {
-	// Extensions: The virtual machine scale set child extension resources.
+	//Extensions: The virtual machine scale set child extension resources.
 	Extensions []VirtualMachineScaleSetExtension_Status `json:"extensions,omitempty"`
 
 	//ExtensionsTimeBudget: Specifies the time alloted for all extensions to start.
@@ -6802,6 +6837,7 @@ func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtens
 
 // AssignPropertiesFromVirtualMachineScaleSetExtensionProfileStatus populates our VirtualMachineScaleSetExtensionProfile_Status from the provided source VirtualMachineScaleSetExtensionProfile_Status
 func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtensionProfile_Status) AssignPropertiesFromVirtualMachineScaleSetExtensionProfileStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetExtensionProfile_Status) error {
+
 	// Extensions
 	extensionList := make([]VirtualMachineScaleSetExtension_Status, len(source.Extensions))
 	for extensionIndex, extensionItem := range source.Extensions {
@@ -6863,10 +6899,10 @@ func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtens
 }
 
 type VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities struct {
-	// ClientId: The client id of user assigned identity.
+	//ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
-	// PrincipalId: The principal id of user assigned identity.
+	//PrincipalId: The principal id of user assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -6902,6 +6938,7 @@ func (virtualMachineScaleSetIdentityStatusUserAssignedIdentities *VirtualMachine
 
 // AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities populates our VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities from the provided source VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
 func (virtualMachineScaleSetIdentityStatusUserAssignedIdentities *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(source *v1alpha1api20201201storage.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) error {
+
 	// ClientId
 	if source.ClientId != nil {
 		clientId := *source.ClientId
@@ -6950,7 +6987,7 @@ func (virtualMachineScaleSetIdentityStatusUserAssignedIdentities *VirtualMachine
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetNetworkProfile_Status struct {
 	//HealthProbe: A reference to a load balancer probe used to determine the health
 	//of an instance in the virtual machine scale set. The reference will be in the
@@ -6958,7 +6995,7 @@ type VirtualMachineScaleSetNetworkProfile_Status struct {
 	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
 	HealthProbe *ApiEntityReference_Status `json:"healthProbe,omitempty"`
 
-	// NetworkInterfaceConfigurations: The list of network configurations.
+	//NetworkInterfaceConfigurations: The list of network configurations.
 	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration_Status `json:"networkInterfaceConfigurations,omitempty"`
 }
 
@@ -7003,6 +7040,7 @@ func (virtualMachineScaleSetNetworkProfileStatus *VirtualMachineScaleSetNetworkP
 
 // AssignPropertiesFromVirtualMachineScaleSetNetworkProfileStatus populates our VirtualMachineScaleSetNetworkProfile_Status from the provided source VirtualMachineScaleSetNetworkProfile_Status
 func (virtualMachineScaleSetNetworkProfileStatus *VirtualMachineScaleSetNetworkProfile_Status) AssignPropertiesFromVirtualMachineScaleSetNetworkProfileStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetNetworkProfile_Status) error {
+
 	// HealthProbe
 	if source.HealthProbe != nil {
 		var healthProbe ApiEntityReference_Status
@@ -7071,7 +7109,7 @@ func (virtualMachineScaleSetNetworkProfileStatus *VirtualMachineScaleSetNetworkP
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetOSProfile
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetOSProfile
 type VirtualMachineScaleSetOSProfile struct {
 	//AdminPassword: Specifies the password of the administrator account.
 	//Minimum-length (Windows): 8 characters
@@ -7111,33 +7149,33 @@ type VirtualMachineScaleSetOSProfile struct {
 	//Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
 	AdminUsername *string `json:"adminUsername,omitempty"`
 
-	// ComputerNamePrefix: Specifies the computer name prefix for all of the virtual
-	// machines in the scale set. Computer name prefixes must be 1 to 15 characters
-	// long.
+	//ComputerNamePrefix: Specifies the computer name prefix for all of the virtual
+	//machines in the scale set. Computer name prefixes must be 1 to 15 characters
+	//long.
 	ComputerNamePrefix *string `json:"computerNamePrefix,omitempty"`
 
-	// CustomData: Specifies a base-64 encoded string of custom data. The base-64
-	// encoded string is decoded to a binary array that is saved as a file on the
-	// Virtual Machine. The maximum length of the binary array is 65535 bytes.
-	// For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM
-	// during
-	// creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	//CustomData: Specifies a base-64 encoded string of custom data. The base-64
+	//encoded string is decoded to a binary array that is saved as a file on the
+	//Virtual Machine. The maximum length of the binary array is 65535 bytes.
+	//For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM
+	//during
+	//creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
 	CustomData *string `json:"customData,omitempty"`
 
-	// LinuxConfiguration: Specifies the Linux operating system settings on the virtual
-	// machine.
-	// For a list of supported Linux distributions, see [Linux on Azure-Endorsed
-	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	// For running non-endorsed distributions, see [Information for Non-Endorsed
-	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+	//LinuxConfiguration: Specifies the Linux operating system settings on the virtual
+	//machine.
+	//For a list of supported Linux distributions, see [Linux on Azure-Endorsed
+	//Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	//For running non-endorsed distributions, see [Information for Non-Endorsed
+	//Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
 	LinuxConfiguration *LinuxConfiguration `json:"linuxConfiguration,omitempty"`
 
-	// Secrets: Specifies set of certificates that should be installed onto the virtual
-	// machines in the scale set.
+	//Secrets: Specifies set of certificates that should be installed onto the virtual
+	//machines in the scale set.
 	Secrets []VaultSecretGroup `json:"secrets,omitempty"`
 
-	// WindowsConfiguration: Specifies Windows operating system settings on the virtual
-	// machine.
+	//WindowsConfiguration: Specifies Windows operating system settings on the virtual
+	//machine.
 	WindowsConfiguration *WindowsConfiguration `json:"windowsConfiguration,omitempty"`
 }
 
@@ -7279,6 +7317,7 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) Populate
 
 // AssignPropertiesFromVirtualMachineScaleSetOSProfile populates our VirtualMachineScaleSetOSProfile from the provided source VirtualMachineScaleSetOSProfile
 func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) AssignPropertiesFromVirtualMachineScaleSetOSProfile(source *v1alpha1api20201201storage.VirtualMachineScaleSetOSProfile) error {
+
 	// AdminPassword
 	if source.AdminPassword != nil {
 		adminPassword := *source.AdminPassword
@@ -7435,7 +7474,7 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) AssignPr
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetOSProfile_Status struct {
 	//AdminPassword: Specifies the password of the administrator account.
 	//Minimum-length (Windows): 8 characters
@@ -7475,33 +7514,33 @@ type VirtualMachineScaleSetOSProfile_Status struct {
 	//Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
 	AdminUsername *string `json:"adminUsername,omitempty"`
 
-	// ComputerNamePrefix: Specifies the computer name prefix for all of the virtual
-	// machines in the scale set. Computer name prefixes must be 1 to 15 characters
-	// long.
+	//ComputerNamePrefix: Specifies the computer name prefix for all of the virtual
+	//machines in the scale set. Computer name prefixes must be 1 to 15 characters
+	//long.
 	ComputerNamePrefix *string `json:"computerNamePrefix,omitempty"`
 
-	// CustomData: Specifies a base-64 encoded string of custom data. The base-64
-	// encoded string is decoded to a binary array that is saved as a file on the
-	// Virtual Machine. The maximum length of the binary array is 65535 bytes.
-	// For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM
-	// during
-	// creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	//CustomData: Specifies a base-64 encoded string of custom data. The base-64
+	//encoded string is decoded to a binary array that is saved as a file on the
+	//Virtual Machine. The maximum length of the binary array is 65535 bytes.
+	//For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM
+	//during
+	//creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
 	CustomData *string `json:"customData,omitempty"`
 
-	// LinuxConfiguration: Specifies the Linux operating system settings on the virtual
-	// machine.
-	// For a list of supported Linux distributions, see [Linux on Azure-Endorsed
-	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	// For running non-endorsed distributions, see [Information for Non-Endorsed
-	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+	//LinuxConfiguration: Specifies the Linux operating system settings on the virtual
+	//machine.
+	//For a list of supported Linux distributions, see [Linux on Azure-Endorsed
+	//Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	//For running non-endorsed distributions, see [Information for Non-Endorsed
+	//Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
 	LinuxConfiguration *LinuxConfiguration_Status `json:"linuxConfiguration,omitempty"`
 
-	// Secrets: Specifies set of certificates that should be installed onto the virtual
-	// machines in the scale set.
+	//Secrets: Specifies set of certificates that should be installed onto the virtual
+	//machines in the scale set.
 	Secrets []VaultSecretGroup_Status `json:"secrets,omitempty"`
 
-	// WindowsConfiguration: Specifies Windows operating system settings on the virtual
-	// machine.
+	//WindowsConfiguration: Specifies Windows operating system settings on the virtual
+	//machine.
 	WindowsConfiguration *WindowsConfiguration_Status `json:"windowsConfiguration,omitempty"`
 }
 
@@ -7581,6 +7620,7 @@ func (virtualMachineScaleSetOSProfileStatus *VirtualMachineScaleSetOSProfile_Sta
 
 // AssignPropertiesFromVirtualMachineScaleSetOSProfileStatus populates our VirtualMachineScaleSetOSProfile_Status from the provided source VirtualMachineScaleSetOSProfile_Status
 func (virtualMachineScaleSetOSProfileStatus *VirtualMachineScaleSetOSProfile_Status) AssignPropertiesFromVirtualMachineScaleSetOSProfileStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetOSProfile_Status) error {
+
 	// AdminPassword
 	if source.AdminPassword != nil {
 		adminPassword := *source.AdminPassword
@@ -7737,23 +7777,23 @@ func (virtualMachineScaleSetOSProfileStatus *VirtualMachineScaleSetOSProfile_Sta
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
 type VirtualMachineScaleSetStorageProfile struct {
-	// DataDisks: Specifies the parameters that are used to add data disks to the
-	// virtual machines in the scale set.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+	//DataDisks: Specifies the parameters that are used to add data disks to the
+	//virtual machines in the scale set.
+	//For more information about disks, see [About disks and VHDs for Azure virtual
+	//machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
 	DataDisks []VirtualMachineScaleSetDataDisk `json:"dataDisks,omitempty"`
 
-	// ImageReference: Specifies information about the image to use. You can specify
-	// information about platform images, marketplace images, or virtual machine
-	// images. This element is required when you want to use a platform image,
-	// marketplace image, or virtual machine image, but is not used in other creation
-	// operations. NOTE: Image reference publisher and offer can only be set when you
-	// create the scale set.
+	//ImageReference: Specifies information about the image to use. You can specify
+	//information about platform images, marketplace images, or virtual machine
+	//images. This element is required when you want to use a platform image,
+	//marketplace image, or virtual machine image, but is not used in other creation
+	//operations. NOTE: Image reference publisher and offer can only be set when you
+	//create the scale set.
 	ImageReference *ImageReference `json:"imageReference,omitempty"`
 
-	// OsDisk: Describes a virtual machine scale set operating system disk.
+	//OsDisk: Describes a virtual machine scale set operating system disk.
 	OsDisk *VirtualMachineScaleSetOSDisk `json:"osDisk,omitempty"`
 }
 
@@ -7847,6 +7887,7 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 
 // AssignPropertiesFromVirtualMachineScaleSetStorageProfile populates our VirtualMachineScaleSetStorageProfile from the provided source VirtualMachineScaleSetStorageProfile
 func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile) AssignPropertiesFromVirtualMachineScaleSetStorageProfile(source *v1alpha1api20201201storage.VirtualMachineScaleSetStorageProfile) error {
+
 	// DataDisks
 	dataDiskList := make([]VirtualMachineScaleSetDataDisk, len(source.DataDisks))
 	for dataDiskIndex, dataDiskItem := range source.DataDisks {
@@ -7939,25 +7980,25 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetStorageProfile_Status struct {
-	// DataDisks: Specifies the parameters that are used to add data disks to the
-	// virtual machines in the scale set.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+	//DataDisks: Specifies the parameters that are used to add data disks to the
+	//virtual machines in the scale set.
+	//For more information about disks, see [About disks and VHDs for Azure virtual
+	//machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
 	DataDisks []VirtualMachineScaleSetDataDisk_Status `json:"dataDisks,omitempty"`
 
-	// ImageReference: Specifies information about the image to use. You can specify
-	// information about platform images, marketplace images, or virtual machine
-	// images. This element is required when you want to use a platform image,
-	// marketplace image, or virtual machine image, but is not used in other creation
-	// operations.
+	//ImageReference: Specifies information about the image to use. You can specify
+	//information about platform images, marketplace images, or virtual machine
+	//images. This element is required when you want to use a platform image,
+	//marketplace image, or virtual machine image, but is not used in other creation
+	//operations.
 	ImageReference *ImageReference_Status `json:"imageReference,omitempty"`
 
-	// OsDisk: Specifies information about the operating system disk used by the
-	// virtual machines in the scale set.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+	//OsDisk: Specifies information about the operating system disk used by the
+	//virtual machines in the scale set.
+	//For more information about disks, see [About disks and VHDs for Azure virtual
+	//machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
 	OsDisk *VirtualMachineScaleSetOSDisk_Status `json:"osDisk,omitempty"`
 }
 
@@ -8013,6 +8054,7 @@ func (virtualMachineScaleSetStorageProfileStatus *VirtualMachineScaleSetStorageP
 
 // AssignPropertiesFromVirtualMachineScaleSetStorageProfileStatus populates our VirtualMachineScaleSetStorageProfile_Status from the provided source VirtualMachineScaleSetStorageProfile_Status
 func (virtualMachineScaleSetStorageProfileStatus *VirtualMachineScaleSetStorageProfile_Status) AssignPropertiesFromVirtualMachineScaleSetStorageProfileStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetStorageProfile_Status) error {
+
 	// DataDisks
 	dataDiskList := make([]VirtualMachineScaleSetDataDisk_Status, len(source.DataDisks))
 	for dataDiskIndex, dataDiskItem := range source.DataDisks {
@@ -8123,7 +8165,7 @@ const (
 )
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile struct {
-	// Extensions: The virtual machine scale set child extension resources.
+	//Extensions: The virtual machine scale set child extension resources.
 	Extensions []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions `json:"extensions,omitempty"`
 
 	//ExtensionsTimeBudget: Specifies the time alloted for all extensions to start.
@@ -8194,6 +8236,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 
 // AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile
 func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(source *v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) error {
+
 	// Extensions
 	extensionList := make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions, len(source.Extensions))
 	for extensionIndex, extensionItem := range source.Extensions {
@@ -8255,10 +8298,10 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 }
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile struct {
-	// HealthProbe: The API entity reference.
+	//HealthProbe: The API entity reference.
 	HealthProbe *ApiEntityReference `json:"healthProbe,omitempty"`
 
-	// NetworkInterfaceConfigurations: The list of network configurations.
+	//NetworkInterfaceConfigurations: The list of network configurations.
 	NetworkInterfaceConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations `json:"networkInterfaceConfigurations,omitempty"`
 }
 
@@ -8331,6 +8374,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *
 
 // AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile
 func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(source *v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) error {
+
 	// HealthProbe
 	if source.HealthProbe != nil {
 		var healthProbe ApiEntityReference
@@ -8399,7 +8443,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ApiEntityReference
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ApiEntityReference
 type ApiEntityReference struct {
 	//Reference: The ARM resource id in the form of
 	///subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
@@ -8447,6 +8491,7 @@ func (apiEntityReference *ApiEntityReference) PopulateFromARM(owner genruntime.K
 
 // AssignPropertiesFromApiEntityReference populates our ApiEntityReference from the provided source ApiEntityReference
 func (apiEntityReference *ApiEntityReference) AssignPropertiesFromApiEntityReference(source *v1alpha1api20201201storage.ApiEntityReference) error {
+
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
@@ -8479,7 +8524,7 @@ func (apiEntityReference *ApiEntityReference) AssignPropertiesToApiEntityReferen
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ApiEntityReference_Status struct {
 	//Id: The ARM resource id in the form of
 	///subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
@@ -8512,6 +8557,7 @@ func (apiEntityReferenceStatus *ApiEntityReference_Status) PopulateFromARM(owner
 
 // AssignPropertiesFromApiEntityReferenceStatus populates our ApiEntityReference_Status from the provided source ApiEntityReference_Status
 func (apiEntityReferenceStatus *ApiEntityReference_Status) AssignPropertiesFromApiEntityReferenceStatus(source *v1alpha1api20201201storage.ApiEntityReference_Status) error {
+
 	// Id
 	if source.Id != nil {
 		id := *source.Id
@@ -8544,15 +8590,15 @@ func (apiEntityReferenceStatus *ApiEntityReference_Status) AssignPropertiesToApi
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/BootDiagnostics
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/BootDiagnostics
 type BootDiagnostics struct {
-	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
+	//Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// StorageUri: Uri of the storage account to use for placing the console output and
-	// screenshot.
-	// If storageUri is not specified while enabling boot diagnostics, managed storage
-	// will be used.
+	//StorageUri: Uri of the storage account to use for placing the console output and
+	//screenshot.
+	//If storageUri is not specified while enabling boot diagnostics, managed storage
+	//will be used.
 	StorageUri *string `json:"storageUri,omitempty"`
 }
 
@@ -8609,6 +8655,7 @@ func (bootDiagnostics *BootDiagnostics) PopulateFromARM(owner genruntime.KnownRe
 
 // AssignPropertiesFromBootDiagnostics populates our BootDiagnostics from the provided source BootDiagnostics
 func (bootDiagnostics *BootDiagnostics) AssignPropertiesFromBootDiagnostics(source *v1alpha1api20201201storage.BootDiagnostics) error {
+
 	// Enabled
 	if source.Enabled != nil {
 		enabled := *source.Enabled
@@ -8657,15 +8704,15 @@ func (bootDiagnostics *BootDiagnostics) AssignPropertiesToBootDiagnostics(destin
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type BootDiagnostics_Status struct {
-	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
+	//Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// StorageUri: Uri of the storage account to use for placing the console output and
-	// screenshot.
-	// If storageUri is not specified while enabling boot diagnostics, managed storage
-	// will be used.
+	//StorageUri: Uri of the storage account to use for placing the console output and
+	//screenshot.
+	//If storageUri is not specified while enabling boot diagnostics, managed storage
+	//will be used.
 	StorageUri *string `json:"storageUri,omitempty"`
 }
 
@@ -8701,6 +8748,7 @@ func (bootDiagnosticsStatus *BootDiagnostics_Status) PopulateFromARM(owner genru
 
 // AssignPropertiesFromBootDiagnosticsStatus populates our BootDiagnostics_Status from the provided source BootDiagnostics_Status
 func (bootDiagnosticsStatus *BootDiagnostics_Status) AssignPropertiesFromBootDiagnosticsStatus(source *v1alpha1api20201201storage.BootDiagnostics_Status) error {
+
 	// Enabled
 	if source.Enabled != nil {
 		enabled := *source.Enabled
@@ -8749,19 +8797,19 @@ func (bootDiagnosticsStatus *BootDiagnostics_Status) AssignPropertiesToBootDiagn
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ImageReference
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ImageReference
 type ImageReference struct {
-	// Offer: Specifies the offer of the platform image or marketplace image used to
-	// create the virtual machine.
+	//Offer: Specifies the offer of the platform image or marketplace image used to
+	//create the virtual machine.
 	Offer *string `json:"offer,omitempty"`
 
-	// Publisher: The image publisher.
+	//Publisher: The image publisher.
 	Publisher *string `json:"publisher,omitempty"`
 
-	// Reference: Resource Id
+	//Reference: Resource Id
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
-	// Sku: The image SKU.
+	//Sku: The image SKU.
 	Sku *string `json:"sku,omitempty"`
 
 	//Version: Specifies the version of the platform image or marketplace image used
@@ -8862,6 +8910,7 @@ func (imageReference *ImageReference) PopulateFromARM(owner genruntime.KnownReso
 
 // AssignPropertiesFromImageReference populates our ImageReference from the provided source ImageReference
 func (imageReference *ImageReference) AssignPropertiesFromImageReference(source *v1alpha1api20201201storage.ImageReference) error {
+
 	// Offer
 	if source.Offer != nil {
 		offer := *source.Offer
@@ -8958,7 +9007,7 @@ func (imageReference *ImageReference) AssignPropertiesToImageReference(destinati
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type ImageReference_Status struct {
 	//ExactVersion: Specifies in decimal numbers, the version of platform image or
 	//marketplace image used to create the virtual machine. This readonly field
@@ -8966,17 +9015,17 @@ type ImageReference_Status struct {
 	//'latest'.
 	ExactVersion *string `json:"exactVersion,omitempty"`
 
-	// Id: Resource Id
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	// Offer: Specifies the offer of the platform image or marketplace image used to
-	// create the virtual machine.
+	//Offer: Specifies the offer of the platform image or marketplace image used to
+	//create the virtual machine.
 	Offer *string `json:"offer,omitempty"`
 
-	// Publisher: The image publisher.
+	//Publisher: The image publisher.
 	Publisher *string `json:"publisher,omitempty"`
 
-	// Sku: The image SKU.
+	//Sku: The image SKU.
 	Sku *string `json:"sku,omitempty"`
 
 	//Version: Specifies the version of the platform image or marketplace image used
@@ -9044,6 +9093,7 @@ func (imageReferenceStatus *ImageReference_Status) PopulateFromARM(owner genrunt
 
 // AssignPropertiesFromImageReferenceStatus populates our ImageReference_Status from the provided source ImageReference_Status
 func (imageReferenceStatus *ImageReference_Status) AssignPropertiesFromImageReferenceStatus(source *v1alpha1api20201201storage.ImageReference_Status) error {
+
 	// ExactVersion
 	if source.ExactVersion != nil {
 		exactVersion := *source.ExactVersion
@@ -9156,23 +9206,23 @@ func (imageReferenceStatus *ImageReference_Status) AssignPropertiesToImageRefere
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/LinuxConfiguration
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/LinuxConfiguration
 type LinuxConfiguration struct {
-	// DisablePasswordAuthentication: Specifies whether password authentication should
-	// be disabled.
+	//DisablePasswordAuthentication: Specifies whether password authentication should
+	//be disabled.
 	DisablePasswordAuthentication *bool `json:"disablePasswordAuthentication,omitempty"`
 
-	// PatchSettings: Specifies settings related to VM Guest Patching on Linux.
+	//PatchSettings: Specifies settings related to VM Guest Patching on Linux.
 	PatchSettings *LinuxPatchSettings `json:"patchSettings,omitempty"`
 
-	// ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned
-	// on the virtual machine.
-	// When this property is not specified in the request body, default behavior is to
-	// set it to true.  This will ensure that VM Agent is installed on the VM so that
-	// extensions can be added to the VM later.
+	//ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned
+	//on the virtual machine.
+	//When this property is not specified in the request body, default behavior is to
+	//set it to true.  This will ensure that VM Agent is installed on the VM so that
+	//extensions can be added to the VM later.
 	ProvisionVMAgent *bool `json:"provisionVMAgent,omitempty"`
 
-	// Ssh: SSH configuration for Linux based VMs running on Azure
+	//Ssh: SSH configuration for Linux based VMs running on Azure
 	Ssh *SshConfiguration `json:"ssh,omitempty"`
 }
 
@@ -9271,6 +9321,7 @@ func (linuxConfiguration *LinuxConfiguration) PopulateFromARM(owner genruntime.K
 
 // AssignPropertiesFromLinuxConfiguration populates our LinuxConfiguration from the provided source LinuxConfiguration
 func (linuxConfiguration *LinuxConfiguration) AssignPropertiesFromLinuxConfiguration(source *v1alpha1api20201201storage.LinuxConfiguration) error {
+
 	// DisablePasswordAuthentication
 	if source.DisablePasswordAuthentication != nil {
 		disablePasswordAuthentication := *source.DisablePasswordAuthentication
@@ -9367,24 +9418,24 @@ func (linuxConfiguration *LinuxConfiguration) AssignPropertiesToLinuxConfigurati
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type LinuxConfiguration_Status struct {
-	// DisablePasswordAuthentication: Specifies whether password authentication should
-	// be disabled.
+	//DisablePasswordAuthentication: Specifies whether password authentication should
+	//be disabled.
 	DisablePasswordAuthentication *bool `json:"disablePasswordAuthentication,omitempty"`
 
-	// PatchSettings: [Preview Feature] Specifies settings related to VM Guest Patching
-	// on Linux.
+	//PatchSettings: [Preview Feature] Specifies settings related to VM Guest Patching
+	//on Linux.
 	PatchSettings *LinuxPatchSettings_Status `json:"patchSettings,omitempty"`
 
-	// ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned
-	// on the virtual machine.
-	// When this property is not specified in the request body, default behavior is to
-	// set it to true.  This will ensure that VM Agent is installed on the VM so that
-	// extensions can be added to the VM later.
+	//ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned
+	//on the virtual machine.
+	//When this property is not specified in the request body, default behavior is to
+	//set it to true.  This will ensure that VM Agent is installed on the VM so that
+	//extensions can be added to the VM later.
 	ProvisionVMAgent *bool `json:"provisionVMAgent,omitempty"`
 
-	// Ssh: Specifies the ssh key configuration for a Linux OS.
+	//Ssh: Specifies the ssh key configuration for a Linux OS.
 	Ssh *SshConfiguration_Status `json:"ssh,omitempty"`
 }
 
@@ -9442,6 +9493,7 @@ func (linuxConfigurationStatus *LinuxConfiguration_Status) PopulateFromARM(owner
 
 // AssignPropertiesFromLinuxConfigurationStatus populates our LinuxConfiguration_Status from the provided source LinuxConfiguration_Status
 func (linuxConfigurationStatus *LinuxConfiguration_Status) AssignPropertiesFromLinuxConfigurationStatus(source *v1alpha1api20201201storage.LinuxConfiguration_Status) error {
+
 	// DisablePasswordAuthentication
 	if source.DisablePasswordAuthentication != nil {
 		disablePasswordAuthentication := *source.DisablePasswordAuthentication
@@ -9547,15 +9599,15 @@ type SecurityProfileStatusSecurityType string
 
 const SecurityProfileStatusSecurityTypeTrustedLaunch = SecurityProfileStatusSecurityType("TrustedLaunch")
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/TerminateNotificationProfile
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/TerminateNotificationProfile
 type TerminateNotificationProfile struct {
-	// Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
+	//Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
 	Enable *bool `json:"enable,omitempty"`
 
-	// NotBeforeTimeout: Configurable length of time a Virtual Machine being deleted
-	// will have to potentially approve the Terminate Scheduled Event before the event
-	// is auto approved (timed out). The configuration must be specified in ISO 8601
-	// format, the default value is 5 minutes (PT5M)
+	//NotBeforeTimeout: Configurable length of time a Virtual Machine being deleted
+	//will have to potentially approve the Terminate Scheduled Event before the event
+	//is auto approved (timed out). The configuration must be specified in ISO 8601
+	//format, the default value is 5 minutes (PT5M)
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
 }
 
@@ -9612,6 +9664,7 @@ func (terminateNotificationProfile *TerminateNotificationProfile) PopulateFromAR
 
 // AssignPropertiesFromTerminateNotificationProfile populates our TerminateNotificationProfile from the provided source TerminateNotificationProfile
 func (terminateNotificationProfile *TerminateNotificationProfile) AssignPropertiesFromTerminateNotificationProfile(source *v1alpha1api20201201storage.TerminateNotificationProfile) error {
+
 	// Enable
 	if source.Enable != nil {
 		enable := *source.Enable
@@ -9660,15 +9713,15 @@ func (terminateNotificationProfile *TerminateNotificationProfile) AssignProperti
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type TerminateNotificationProfile_Status struct {
-	// Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
+	//Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
 	Enable *bool `json:"enable,omitempty"`
 
-	// NotBeforeTimeout: Configurable length of time a Virtual Machine being deleted
-	// will have to potentially approve the Terminate Scheduled Event before the event
-	// is auto approved (timed out). The configuration must be specified in ISO 8601
-	// format, the default value is 5 minutes (PT5M)
+	//NotBeforeTimeout: Configurable length of time a Virtual Machine being deleted
+	//will have to potentially approve the Terminate Scheduled Event before the event
+	//is auto approved (timed out). The configuration must be specified in ISO 8601
+	//format, the default value is 5 minutes (PT5M)
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
 }
 
@@ -9704,6 +9757,7 @@ func (terminateNotificationProfileStatus *TerminateNotificationProfile_Status) P
 
 // AssignPropertiesFromTerminateNotificationProfileStatus populates our TerminateNotificationProfile_Status from the provided source TerminateNotificationProfile_Status
 func (terminateNotificationProfileStatus *TerminateNotificationProfile_Status) AssignPropertiesFromTerminateNotificationProfileStatus(source *v1alpha1api20201201storage.TerminateNotificationProfile_Status) error {
+
 	// Enable
 	if source.Enable != nil {
 		enable := *source.Enable
@@ -9752,15 +9806,15 @@ func (terminateNotificationProfileStatus *TerminateNotificationProfile_Status) A
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/UefiSettings
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/UefiSettings
 type UefiSettings struct {
-	// SecureBootEnabled: Specifies whether secure boot should be enabled on the
-	// virtual machine.
-	// Minimum api-version: 2020-12-01
+	//SecureBootEnabled: Specifies whether secure boot should be enabled on the
+	//virtual machine.
+	//Minimum api-version: 2020-12-01
 	SecureBootEnabled *bool `json:"secureBootEnabled,omitempty"`
 
-	// VTpmEnabled: Specifies whether vTPM should be enabled on the virtual machine.
-	// Minimum api-version: 2020-12-01
+	//VTpmEnabled: Specifies whether vTPM should be enabled on the virtual machine.
+	//Minimum api-version: 2020-12-01
 	VTpmEnabled *bool `json:"vTpmEnabled,omitempty"`
 }
 
@@ -9817,6 +9871,7 @@ func (uefiSettings *UefiSettings) PopulateFromARM(owner genruntime.KnownResource
 
 // AssignPropertiesFromUefiSettings populates our UefiSettings from the provided source UefiSettings
 func (uefiSettings *UefiSettings) AssignPropertiesFromUefiSettings(source *v1alpha1api20201201storage.UefiSettings) error {
+
 	// SecureBootEnabled
 	if source.SecureBootEnabled != nil {
 		secureBootEnabled := *source.SecureBootEnabled
@@ -9865,15 +9920,15 @@ func (uefiSettings *UefiSettings) AssignPropertiesToUefiSettings(destination *v1
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type UefiSettings_Status struct {
-	// SecureBootEnabled: Specifies whether secure boot should be enabled on the
-	// virtual machine.
-	// Minimum api-version: 2020-12-01
+	//SecureBootEnabled: Specifies whether secure boot should be enabled on the
+	//virtual machine.
+	//Minimum api-version: 2020-12-01
 	SecureBootEnabled *bool `json:"secureBootEnabled,omitempty"`
 
-	// VTpmEnabled: Specifies whether vTPM should be enabled on the virtual machine.
-	// Minimum api-version: 2020-12-01
+	//VTpmEnabled: Specifies whether vTPM should be enabled on the virtual machine.
+	//Minimum api-version: 2020-12-01
 	VTpmEnabled *bool `json:"vTpmEnabled,omitempty"`
 }
 
@@ -9909,6 +9964,7 @@ func (uefiSettingsStatus *UefiSettings_Status) PopulateFromARM(owner genruntime.
 
 // AssignPropertiesFromUefiSettingsStatus populates our UefiSettings_Status from the provided source UefiSettings_Status
 func (uefiSettingsStatus *UefiSettings_Status) AssignPropertiesFromUefiSettingsStatus(source *v1alpha1api20201201storage.UefiSettings_Status) error {
+
 	// SecureBootEnabled
 	if source.SecureBootEnabled != nil {
 		secureBootEnabled := *source.SecureBootEnabled
@@ -9957,12 +10013,12 @@ func (uefiSettingsStatus *UefiSettings_Status) AssignPropertiesToUefiSettingsSta
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VaultSecretGroup
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VaultSecretGroup
 type VaultSecretGroup struct {
 	SourceVault *SubResource `json:"sourceVault,omitempty"`
 
-	// VaultCertificates: The list of key vault references in SourceVault which contain
-	// certificates.
+	//VaultCertificates: The list of key vault references in SourceVault which contain
+	//certificates.
 	VaultCertificates []VaultCertificate `json:"vaultCertificates,omitempty"`
 }
 
@@ -10035,6 +10091,7 @@ func (vaultSecretGroup *VaultSecretGroup) PopulateFromARM(owner genruntime.Known
 
 // AssignPropertiesFromVaultSecretGroup populates our VaultSecretGroup from the provided source VaultSecretGroup
 func (vaultSecretGroup *VaultSecretGroup) AssignPropertiesFromVaultSecretGroup(source *v1alpha1api20201201storage.VaultSecretGroup) error {
+
 	// SourceVault
 	if source.SourceVault != nil {
 		var sourceVault SubResource
@@ -10103,14 +10160,14 @@ func (vaultSecretGroup *VaultSecretGroup) AssignPropertiesToVaultSecretGroup(des
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VaultSecretGroup_Status struct {
-	// SourceVault: The relative URL of the Key Vault containing all of the
-	// certificates in VaultCertificates.
+	//SourceVault: The relative URL of the Key Vault containing all of the
+	//certificates in VaultCertificates.
 	SourceVault *SubResource_Status `json:"sourceVault,omitempty"`
 
-	// VaultCertificates: The list of key vault references in SourceVault which contain
-	// certificates.
+	//VaultCertificates: The list of key vault references in SourceVault which contain
+	//certificates.
 	VaultCertificates []VaultCertificate_Status `json:"vaultCertificates,omitempty"`
 }
 
@@ -10155,6 +10212,7 @@ func (vaultSecretGroupStatus *VaultSecretGroup_Status) PopulateFromARM(owner gen
 
 // AssignPropertiesFromVaultSecretGroupStatus populates our VaultSecretGroup_Status from the provided source VaultSecretGroup_Status
 func (vaultSecretGroupStatus *VaultSecretGroup_Status) AssignPropertiesFromVaultSecretGroupStatus(source *v1alpha1api20201201storage.VaultSecretGroup_Status) error {
+
 	// SourceVault
 	if source.SourceVault != nil {
 		var sourceVault SubResource_Status
@@ -10223,49 +10281,49 @@ func (vaultSecretGroupStatus *VaultSecretGroup_Status) AssignPropertiesToVaultSe
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetDataDisk
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetDataDisk
 type VirtualMachineScaleSetDataDisk struct {
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage.
+	//Caching: Specifies the caching requirements.
+	//Possible values are:
+	//None
+	//ReadOnly
+	//ReadWrite
+	//Default: None for Standard storage. ReadOnly for Premium storage.
 	Caching *VirtualMachineScaleSetDataDiskCaching `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// CreateOption: The create option.
+	//CreateOption: The create option.
 	CreateOption VirtualMachineScaleSetDataDiskCreateOption `json:"createOption"`
 
-	// DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be
-	// used only when StorageAccountType is UltraSSD_LRS. If not specified, a default
-	// value would be assigned based on diskSizeGB.
+	//DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be
+	//used only when StorageAccountType is UltraSSD_LRS. If not specified, a default
+	//value would be assigned based on diskSizeGB.
 	DiskIOPSReadWrite *int `json:"diskIOPSReadWrite,omitempty"`
 
-	// DiskMBpsReadWrite: Specifies the bandwidth in MB per second for the managed
-	// disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not
-	// specified, a default value would be assigned based on diskSizeGB.
+	//DiskMBpsReadWrite: Specifies the bandwidth in MB per second for the managed
+	//disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not
+	//specified, a default value would be assigned based on diskSizeGB.
 	DiskMBpsReadWrite *int `json:"diskMBpsReadWrite,omitempty"`
 
-	// DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element
-	// can be used to overwrite the size of the disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
+	//DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element
+	//can be used to overwrite the size of the disk in a virtual machine image.
+	//This value cannot be larger than 1023 GB
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Lun: Specifies the logical unit number of the data disk. This value is used to
-	// identify data disks within the VM and therefore must be unique for each data
-	// disk attached to a VM.
+	//Lun: Specifies the logical unit number of the data disk. This value is used to
+	//identify data disks within the VM and therefore must be unique for each data
+	//disk attached to a VM.
 	Lun int `json:"lun"`
 
-	// ManagedDisk: Describes the parameters of a ScaleSet managed disk.
+	//ManagedDisk: Describes the parameters of a ScaleSet managed disk.
 	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters `json:"managedDisk,omitempty"`
 
-	// Name: The disk name.
+	//Name: The disk name.
 	Name *string `json:"name,omitempty"`
 
-	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or
-	// disabled on the disk.
+	//WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or
+	//disabled on the disk.
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
@@ -10403,6 +10461,7 @@ func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) PopulateFr
 
 // AssignPropertiesFromVirtualMachineScaleSetDataDisk populates our VirtualMachineScaleSetDataDisk from the provided source VirtualMachineScaleSetDataDisk
 func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) AssignPropertiesFromVirtualMachineScaleSetDataDisk(source *v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk) error {
+
 	// Caching
 	if source.Caching != nil {
 		caching := VirtualMachineScaleSetDataDiskCaching(*source.Caching)
@@ -10561,49 +10620,49 @@ func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) AssignProp
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetDataDisk_Status struct {
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage
+	//Caching: Specifies the caching requirements.
+	//Possible values are:
+	//None
+	//ReadOnly
+	//ReadWrite
+	//Default: None for Standard storage. ReadOnly for Premium storage
 	Caching *Caching_Status `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// CreateOption: The create option.
+	//CreateOption: The create option.
 	CreateOption CreateOption_Status `json:"createOption"`
 
-	// DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be
-	// used only when StorageAccountType is UltraSSD_LRS. If not specified, a default
-	// value would be assigned based on diskSizeGB.
+	//DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be
+	//used only when StorageAccountType is UltraSSD_LRS. If not specified, a default
+	//value would be assigned based on diskSizeGB.
 	DiskIOPSReadWrite *int `json:"diskIOPSReadWrite,omitempty"`
 
-	// DiskMBpsReadWrite: Specifies the bandwidth in MB per second for the managed
-	// disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not
-	// specified, a default value would be assigned based on diskSizeGB.
+	//DiskMBpsReadWrite: Specifies the bandwidth in MB per second for the managed
+	//disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not
+	//specified, a default value would be assigned based on diskSizeGB.
 	DiskMBpsReadWrite *int `json:"diskMBpsReadWrite,omitempty"`
 
-	// DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element
-	// can be used to overwrite the size of the disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
+	//DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element
+	//can be used to overwrite the size of the disk in a virtual machine image.
+	//This value cannot be larger than 1023 GB
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Lun: Specifies the logical unit number of the data disk. This value is used to
-	// identify data disks within the VM and therefore must be unique for each data
-	// disk attached to a VM.
+	//Lun: Specifies the logical unit number of the data disk. This value is used to
+	//identify data disks within the VM and therefore must be unique for each data
+	//disk attached to a VM.
 	Lun int `json:"lun"`
 
-	// ManagedDisk: The managed disk parameters.
+	//ManagedDisk: The managed disk parameters.
 	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters_Status `json:"managedDisk,omitempty"`
 
-	// Name: The disk name.
+	//Name: The disk name.
 	Name *string `json:"name,omitempty"`
 
-	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or
-	// disabled on the disk.
+	//WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or
+	//disabled on the disk.
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
@@ -10680,6 +10739,7 @@ func (virtualMachineScaleSetDataDiskStatus *VirtualMachineScaleSetDataDisk_Statu
 
 // AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus populates our VirtualMachineScaleSetDataDisk_Status from the provided source VirtualMachineScaleSetDataDisk_Status
 func (virtualMachineScaleSetDataDiskStatus *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk_Status) error {
+
 	// Caching
 	if source.Caching != nil {
 		caching := Caching_Status(*source.Caching)
@@ -10838,54 +10898,54 @@ func (virtualMachineScaleSetDataDiskStatus *VirtualMachineScaleSetDataDisk_Statu
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetExtension_Status struct {
-	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer
-	// minor version if one is available at deployment time. Once deployed, however,
-	// the extension will not upgrade minor versions unless redeployed, even with this
-	// property set to true.
+	//AutoUpgradeMinorVersion: Indicates whether the extension should use a newer
+	//minor version if one is available at deployment time. Once deployed, however,
+	//the extension will not upgrade minor versions unless redeployed, even with this
+	//property set to true.
 	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
 
-	// EnableAutomaticUpgrade: Indicates whether the extension should be automatically
-	// upgraded by the platform if there is a newer version of the extension available.
+	//EnableAutomaticUpgrade: Indicates whether the extension should be automatically
+	//upgraded by the platform if there is a newer version of the extension available.
 	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
 
-	// ForceUpdateTag: If a value is provided and is different from the previous value,
-	// the extension handler will be forced to update even if the extension
-	// configuration has not changed.
+	//ForceUpdateTag: If a value is provided and is different from the previous value,
+	//the extension handler will be forced to update even if the extension
+	//configuration has not changed.
 	ForceUpdateTag *string `json:"forceUpdateTag,omitempty"`
 
-	// Id: Resource Id
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	// Name: The name of the extension.
+	//Name: The name of the extension.
 	Name *string `json:"name,omitempty"`
 
 	//PropertiesType: Specifies the type of the extension; an example is
 	//"CustomScriptExtension".
 	PropertiesType *string `json:"properties_type,omitempty"`
 
-	// ProtectedSettings: The extension can contain either protectedSettings or
-	// protectedSettingsFromKeyVault or no protected settings at all.
+	//ProtectedSettings: The extension can contain either protectedSettings or
+	//protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
 
-	// ProvisionAfterExtensions: Collection of extension names after which this
-	// extension needs to be provisioned.
+	//ProvisionAfterExtensions: Collection of extension names after which this
+	//extension needs to be provisioned.
 	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`
 
-	// ProvisioningState: The provisioning state, which only appears in the response.
+	//ProvisioningState: The provisioning state, which only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	// Publisher: The name of the extension handler publisher.
+	//Publisher: The name of the extension handler publisher.
 	Publisher *string `json:"publisher,omitempty"`
 
-	// Settings: Json formatted public settings for the extension.
+	//Settings: Json formatted public settings for the extension.
 	Settings map[string]v1.JSON `json:"settings,omitempty"`
 
-	// Type: Resource type
+	//Type: Resource type
 	Type *string `json:"type,omitempty"`
 
-	// TypeHandlerVersion: Specifies the version of the script handler.
+	//TypeHandlerVersion: Specifies the version of the script handler.
 	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
 }
 
@@ -11020,6 +11080,7 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 
 // AssignPropertiesFromVirtualMachineScaleSetExtensionStatus populates our VirtualMachineScaleSetExtension_Status from the provided source VirtualMachineScaleSetExtension_Status
 func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Status) AssignPropertiesFromVirtualMachineScaleSetExtensionStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetExtension_Status) error {
+
 	// AutoUpgradeMinorVersion
 	if source.AutoUpgradeMinorVersion != nil {
 		autoUpgradeMinorVersion := *source.AutoUpgradeMinorVersion
@@ -11250,36 +11311,36 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetNetworkConfiguration_Status struct {
-	// DnsSettings: The dns settings to be applied on the network interfaces.
+	//DnsSettings: The dns settings to be applied on the network interfaces.
 	DnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status `json:"dnsSettings,omitempty"`
 
-	// EnableAcceleratedNetworking: Specifies whether the network interface is
-	// accelerated networking-enabled.
+	//EnableAcceleratedNetworking: Specifies whether the network interface is
+	//accelerated networking-enabled.
 	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
 
-	// EnableFpga: Specifies whether the network interface is FPGA networking-enabled.
+	//EnableFpga: Specifies whether the network interface is FPGA networking-enabled.
 	EnableFpga *bool `json:"enableFpga,omitempty"`
 
-	// EnableIPForwarding: Whether IP forwarding enabled on this NIC.
+	//EnableIPForwarding: Whether IP forwarding enabled on this NIC.
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
-	// Id: Resource Id
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	// IpConfigurations: Specifies the IP configurations of the network interface.
+	//IpConfigurations: Specifies the IP configurations of the network interface.
 	IpConfigurations []VirtualMachineScaleSetIPConfiguration_Status `json:"ipConfigurations,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The network configuration name.
+	//Name: The network configuration name.
 	Name string `json:"name"`
 
-	// NetworkSecurityGroup: The network security group.
+	//NetworkSecurityGroup: The network security group.
 	NetworkSecurityGroup *SubResource_Status `json:"networkSecurityGroup,omitempty"`
 
-	// Primary: Specifies the primary network interface in case the virtual machine has
-	// more than 1 network interface.
+	//Primary: Specifies the primary network interface in case the virtual machine has
+	//more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
 }
 
@@ -11389,6 +11450,7 @@ func (virtualMachineScaleSetNetworkConfigurationStatus *VirtualMachineScaleSetNe
 
 // AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus populates our VirtualMachineScaleSetNetworkConfiguration_Status from the provided source VirtualMachineScaleSetNetworkConfiguration_Status
 func (virtualMachineScaleSetNetworkConfigurationStatus *VirtualMachineScaleSetNetworkConfiguration_Status) AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfiguration_Status) error {
+
 	// DnsSettings
 	if source.DnsSettings != nil {
 		var dnsSetting VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status
@@ -11572,57 +11634,57 @@ func (virtualMachineScaleSetNetworkConfigurationStatus *VirtualMachineScaleSetNe
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetOSDisk
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetOSDisk
 type VirtualMachineScaleSetOSDisk struct {
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage.
+	//Caching: Specifies the caching requirements.
+	//Possible values are:
+	//None
+	//ReadOnly
+	//ReadWrite
+	//Default: None for Standard storage. ReadOnly for Premium storage.
 	Caching *VirtualMachineScaleSetOSDiskCaching `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// CreateOption: Specifies how the virtual machines in the scale set should be
-	// created.
-	// The only allowed value is: FromImage \u2013 This value is used when you are
-	// using an image to create the virtual machine. If you are using a platform image,
-	// you also use the imageReference element described above. If you are using a
-	// marketplace image, you  also use the plan element previously described.
+	//CreateOption: Specifies how the virtual machines in the scale set should be
+	//created.
+	//The only allowed value is: FromImage \u2013 This value is used when you are
+	//using an image to create the virtual machine. If you are using a platform image,
+	//you also use the imageReference element described above. If you are using a
+	//marketplace image, you  also use the plan element previously described.
 	CreateOption VirtualMachineScaleSetOSDiskCreateOption `json:"createOption"`
 
-	// DiffDiskSettings: Describes the parameters of ephemeral disk settings that can
-	// be specified for operating system disk.
-	// NOTE: The ephemeral disk settings can only be specified for managed disk.
+	//DiffDiskSettings: Describes the parameters of ephemeral disk settings that can
+	//be specified for operating system disk.
+	//NOTE: The ephemeral disk settings can only be specified for managed disk.
 	DiffDiskSettings *DiffDiskSettings `json:"diffDiskSettings,omitempty"`
 
-	// DiskSizeGB: Specifies the size of the operating system disk in gigabytes. This
-	// element can be used to overwrite the size of the disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
+	//DiskSizeGB: Specifies the size of the operating system disk in gigabytes. This
+	//element can be used to overwrite the size of the disk in a virtual machine image.
+	//This value cannot be larger than 1023 GB
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	// Image: Describes the uri of a disk.
+	//Image: Describes the uri of a disk.
 	Image *VirtualHardDisk `json:"image,omitempty"`
 
-	// ManagedDisk: Describes the parameters of a ScaleSet managed disk.
+	//ManagedDisk: Describes the parameters of a ScaleSet managed disk.
 	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters `json:"managedDisk,omitempty"`
 
-	// Name: The disk name.
+	//Name: The disk name.
 	Name *string `json:"name,omitempty"`
 
-	// OsType: This property allows you to specify the type of the OS that is included
-	// in the disk if creating a VM from user-image or a specialized VHD.
-	// Possible values are:
-	// Windows
-	// Linux.
+	//OsType: This property allows you to specify the type of the OS that is included
+	//in the disk if creating a VM from user-image or a specialized VHD.
+	//Possible values are:
+	//Windows
+	//Linux.
 	OsType *VirtualMachineScaleSetOSDiskOsType `json:"osType,omitempty"`
 
-	// VhdContainers: Specifies the container urls that are used to store operating
-	// system disks for the scale set.
+	//VhdContainers: Specifies the container urls that are used to store operating
+	//system disks for the scale set.
 	VhdContainers []string `json:"vhdContainers,omitempty"`
 
-	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or
-	// disabled on the disk.
+	//WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or
+	//disabled on the disk.
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
@@ -11794,6 +11856,7 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) PopulateFromAR
 
 // AssignPropertiesFromVirtualMachineScaleSetOSDisk populates our VirtualMachineScaleSetOSDisk from the provided source VirtualMachineScaleSetOSDisk
 func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) AssignPropertiesFromVirtualMachineScaleSetOSDisk(source *v1alpha1api20201201storage.VirtualMachineScaleSetOSDisk) error {
+
 	// Caching
 	if source.Caching != nil {
 		caching := VirtualMachineScaleSetOSDiskCaching(*source.Caching)
@@ -11991,57 +12054,57 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) AssignProperti
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetOSDisk_Status struct {
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage
+	//Caching: Specifies the caching requirements.
+	//Possible values are:
+	//None
+	//ReadOnly
+	//ReadWrite
+	//Default: None for Standard storage. ReadOnly for Premium storage
 	Caching *Caching_Status `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// CreateOption: Specifies how the virtual machines in the scale set should be
-	// created.
-	// The only allowed value is: FromImage \u2013 This value is used when you are
-	// using an image to create the virtual machine. If you are using a platform image,
-	// you also use the imageReference element described above. If you are using a
-	// marketplace image, you  also use the plan element previously described.
+	//CreateOption: Specifies how the virtual machines in the scale set should be
+	//created.
+	//The only allowed value is: FromImage \u2013 This value is used when you are
+	//using an image to create the virtual machine. If you are using a platform image,
+	//you also use the imageReference element described above. If you are using a
+	//marketplace image, you  also use the plan element previously described.
 	CreateOption CreateOption_Status `json:"createOption"`
 
-	// DiffDiskSettings: Specifies the ephemeral disk Settings for the operating system
-	// disk used by the virtual machine scale set.
+	//DiffDiskSettings: Specifies the ephemeral disk Settings for the operating system
+	//disk used by the virtual machine scale set.
 	DiffDiskSettings *DiffDiskSettings_Status `json:"diffDiskSettings,omitempty"`
 
-	// DiskSizeGB: Specifies the size of the operating system disk in gigabytes. This
-	// element can be used to overwrite the size of the disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
+	//DiskSizeGB: Specifies the size of the operating system disk in gigabytes. This
+	//element can be used to overwrite the size of the disk in a virtual machine image.
+	//This value cannot be larger than 1023 GB
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	// Image: Specifies information about the unmanaged user image to base the scale
-	// set on.
+	//Image: Specifies information about the unmanaged user image to base the scale
+	//set on.
 	Image *VirtualHardDisk_Status `json:"image,omitempty"`
 
-	// ManagedDisk: The managed disk parameters.
+	//ManagedDisk: The managed disk parameters.
 	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters_Status `json:"managedDisk,omitempty"`
 
-	// Name: The disk name.
+	//Name: The disk name.
 	Name *string `json:"name,omitempty"`
 
-	// OsType: This property allows you to specify the type of the OS that is included
-	// in the disk if creating a VM from user-image or a specialized VHD.
-	// Possible values are:
-	// Windows
-	// Linux
+	//OsType: This property allows you to specify the type of the OS that is included
+	//in the disk if creating a VM from user-image or a specialized VHD.
+	//Possible values are:
+	//Windows
+	//Linux
 	OsType *VirtualMachineScaleSetOSDiskStatusOsType `json:"osType,omitempty"`
 
-	// VhdContainers: Specifies the container urls that are used to store operating
-	// system disks for the scale set.
+	//VhdContainers: Specifies the container urls that are used to store operating
+	//system disks for the scale set.
 	VhdContainers []string `json:"vhdContainers,omitempty"`
 
-	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or
-	// disabled on the disk.
+	//WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or
+	//disabled on the disk.
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
@@ -12136,6 +12199,7 @@ func (virtualMachineScaleSetOSDiskStatus *VirtualMachineScaleSetOSDisk_Status) P
 
 // AssignPropertiesFromVirtualMachineScaleSetOSDiskStatus populates our VirtualMachineScaleSetOSDisk_Status from the provided source VirtualMachineScaleSetOSDisk_Status
 func (virtualMachineScaleSetOSDiskStatus *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesFromVirtualMachineScaleSetOSDiskStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetOSDisk_Status) error {
+
 	// Caching
 	if source.Caching != nil {
 		caching := Caching_Status(*source.Caching)
@@ -12334,22 +12398,22 @@ func (virtualMachineScaleSetOSDiskStatus *VirtualMachineScaleSetOSDisk_Status) A
 }
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions struct {
-	// Name: The name of the extension.
+	//Name: The name of the extension.
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:MinLength=1
-	// Publisher: Microsoft.Compute/extensions - Publisher
+	//Publisher: Microsoft.Compute/extensions - Publisher
 	Publisher *string `json:"publisher,omitempty"`
 
-	// Settings: Microsoft.Compute/extensions - Settings
+	//Settings: Microsoft.Compute/extensions - Settings
 	Settings map[string]v1.JSON `json:"settings,omitempty"`
 
 	// +kubebuilder:validation:MinLength=1
-	// Type: Microsoft.Compute/extensions - Type
+	//Type: Microsoft.Compute/extensions - Type
 	Type *string `json:"type,omitempty"`
 
 	// +kubebuilder:validation:MinLength=1
-	// TypeHandlerVersion: Microsoft.Compute/extensions - Type handler version
+	//TypeHandlerVersion: Microsoft.Compute/extensions - Type handler version
 	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
 }
 
@@ -12443,6 +12507,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 
 // AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
 func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(source *v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) error {
+
 	// Name
 	if source.Name != nil {
 		name := *source.Name
@@ -12542,33 +12607,33 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 }
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations struct {
-	// DnsSettings: Describes a virtual machines scale sets network configuration's DNS
-	// settings.
+	//DnsSettings: Describes a virtual machines scale sets network configuration's DNS
+	//settings.
 	DnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings `json:"dnsSettings,omitempty"`
 
-	// EnableAcceleratedNetworking: Specifies whether the network interface is
-	// accelerated networking-enabled.
+	//EnableAcceleratedNetworking: Specifies whether the network interface is
+	//accelerated networking-enabled.
 	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
 
-	// EnableFpga: Specifies whether the network interface is FPGA networking-enabled.
+	//EnableFpga: Specifies whether the network interface is FPGA networking-enabled.
 	EnableFpga *bool `json:"enableFpga,omitempty"`
 
-	// EnableIPForwarding: Whether IP forwarding enabled on this NIC.
+	//EnableIPForwarding: Whether IP forwarding enabled on this NIC.
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
-	// Id: Resource Id
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	// IpConfigurations: Specifies the IP configurations of the network interface.
+	//IpConfigurations: Specifies the IP configurations of the network interface.
 	IpConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The network configuration name.
+	//Name: The network configuration name.
 	Name                 string       `json:"name"`
 	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
 
-	// Primary: Specifies the primary network interface in case the virtual machine has
-	// more than 1 network interface.
+	//Primary: Specifies the primary network interface in case the virtual machine has
+	//more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
 }
 
@@ -12740,6 +12805,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 
 // AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
 func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(source *v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) error {
+
 	// DnsSettings
 	if source.DnsSettings != nil {
 		var dnsSetting VirtualMachineScaleSetNetworkConfigurationDnsSettings
@@ -12923,27 +12989,27 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WindowsConfiguration
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WindowsConfiguration
 type WindowsConfiguration struct {
-	// AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted
-	// information that can be included in the Unattend.xml file, which is used by
-	// Windows Setup.
+	//AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted
+	//information that can be included in the Unattend.xml file, which is used by
+	//Windows Setup.
 	AdditionalUnattendContent []AdditionalUnattendContent `json:"additionalUnattendContent,omitempty"`
 
-	// EnableAutomaticUpdates: Indicates whether Automatic Updates is enabled for the
-	// Windows virtual machine. Default value is true.
-	// For virtual machine scale sets, this property can be updated and updates will
-	// take effect on OS reprovisioning.
+	//EnableAutomaticUpdates: Indicates whether Automatic Updates is enabled for the
+	//Windows virtual machine. Default value is true.
+	//For virtual machine scale sets, this property can be updated and updates will
+	//take effect on OS reprovisioning.
 	EnableAutomaticUpdates *bool `json:"enableAutomaticUpdates,omitempty"`
 
-	// PatchSettings: Specifies settings related to VM Guest Patching on Windows.
+	//PatchSettings: Specifies settings related to VM Guest Patching on Windows.
 	PatchSettings *PatchSettings `json:"patchSettings,omitempty"`
 
-	// ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned
-	// on the virtual machine.
-	// When this property is not specified in the request body, default behavior is to
-	// set it to true.  This will ensure that VM Agent is installed on the VM so that
-	// extensions can be added to the VM later.
+	//ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned
+	//on the virtual machine.
+	//When this property is not specified in the request body, default behavior is to
+	//set it to true.  This will ensure that VM Agent is installed on the VM so that
+	//extensions can be added to the VM later.
 	ProvisionVMAgent *bool `json:"provisionVMAgent,omitempty"`
 
 	//TimeZone: Specifies the time zone of the virtual machine. e.g. "Pacific Standard
@@ -12954,7 +13020,7 @@ type WindowsConfiguration struct {
 	//[TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.getsystemtimezones).
 	TimeZone *string `json:"timeZone,omitempty"`
 
-	// WinRM: Describes Windows Remote Management configuration of the VM
+	//WinRM: Describes Windows Remote Management configuration of the VM
 	WinRM *WinRMConfiguration `json:"winRM,omitempty"`
 }
 
@@ -13084,6 +13150,7 @@ func (windowsConfiguration *WindowsConfiguration) PopulateFromARM(owner genrunti
 
 // AssignPropertiesFromWindowsConfiguration populates our WindowsConfiguration from the provided source WindowsConfiguration
 func (windowsConfiguration *WindowsConfiguration) AssignPropertiesFromWindowsConfiguration(source *v1alpha1api20201201storage.WindowsConfiguration) error {
+
 	// AdditionalUnattendContent
 	additionalUnattendContentList := make([]AdditionalUnattendContent, len(source.AdditionalUnattendContent))
 	for additionalUnattendContentIndex, additionalUnattendContentItem := range source.AdditionalUnattendContent {
@@ -13224,28 +13291,28 @@ func (windowsConfiguration *WindowsConfiguration) AssignPropertiesToWindowsConfi
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type WindowsConfiguration_Status struct {
-	// AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted
-	// information that can be included in the Unattend.xml file, which is used by
-	// Windows Setup.
+	//AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted
+	//information that can be included in the Unattend.xml file, which is used by
+	//Windows Setup.
 	AdditionalUnattendContent []AdditionalUnattendContent_Status `json:"additionalUnattendContent,omitempty"`
 
-	// EnableAutomaticUpdates: Indicates whether Automatic Updates is enabled for the
-	// Windows virtual machine. Default value is true.
-	// For virtual machine scale sets, this property can be updated and updates will
-	// take effect on OS reprovisioning.
+	//EnableAutomaticUpdates: Indicates whether Automatic Updates is enabled for the
+	//Windows virtual machine. Default value is true.
+	//For virtual machine scale sets, this property can be updated and updates will
+	//take effect on OS reprovisioning.
 	EnableAutomaticUpdates *bool `json:"enableAutomaticUpdates,omitempty"`
 
-	// PatchSettings: [Preview Feature] Specifies settings related to VM Guest Patching
-	// on Windows.
+	//PatchSettings: [Preview Feature] Specifies settings related to VM Guest Patching
+	//on Windows.
 	PatchSettings *PatchSettings_Status `json:"patchSettings,omitempty"`
 
-	// ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned
-	// on the virtual machine.
-	// When this property is not specified in the request body, default behavior is to
-	// set it to true.  This will ensure that VM Agent is installed on the VM so that
-	// extensions can be added to the VM later.
+	//ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned
+	//on the virtual machine.
+	//When this property is not specified in the request body, default behavior is to
+	//set it to true.  This will ensure that VM Agent is installed on the VM so that
+	//extensions can be added to the VM later.
 	ProvisionVMAgent *bool `json:"provisionVMAgent,omitempty"`
 
 	//TimeZone: Specifies the time zone of the virtual machine. e.g. "Pacific Standard
@@ -13256,8 +13323,8 @@ type WindowsConfiguration_Status struct {
 	//[TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.getsystemtimezones).
 	TimeZone *string `json:"timeZone,omitempty"`
 
-	// WinRM: Specifies the Windows Remote Management listeners. This enables remote
-	// Windows PowerShell.
+	//WinRM: Specifies the Windows Remote Management listeners. This enables remote
+	//Windows PowerShell.
 	WinRM *WinRMConfiguration_Status `json:"winRM,omitempty"`
 }
 
@@ -13331,6 +13398,7 @@ func (windowsConfigurationStatus *WindowsConfiguration_Status) PopulateFromARM(o
 
 // AssignPropertiesFromWindowsConfigurationStatus populates our WindowsConfiguration_Status from the provided source WindowsConfiguration_Status
 func (windowsConfigurationStatus *WindowsConfiguration_Status) AssignPropertiesFromWindowsConfigurationStatus(source *v1alpha1api20201201storage.WindowsConfiguration_Status) error {
+
 	// AdditionalUnattendContent
 	additionalUnattendContentList := make([]AdditionalUnattendContent_Status, len(source.AdditionalUnattendContent))
 	for additionalUnattendContentIndex, additionalUnattendContentItem := range source.AdditionalUnattendContent {
@@ -13471,22 +13539,22 @@ func (windowsConfigurationStatus *WindowsConfiguration_Status) AssignPropertiesT
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AdditionalUnattendContent
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AdditionalUnattendContent
 type AdditionalUnattendContent struct {
-	// ComponentName: The component name. Currently, the only allowable value is
-	// Microsoft-Windows-Shell-Setup.
+	//ComponentName: The component name. Currently, the only allowable value is
+	//Microsoft-Windows-Shell-Setup.
 	ComponentName *AdditionalUnattendContentComponentName `json:"componentName,omitempty"`
 
-	// Content: Specifies the XML formatted content that is added to the unattend.xml
-	// file for the specified path and component. The XML must be less than 4KB and
-	// must include the root element for the setting or feature that is being inserted.
+	//Content: Specifies the XML formatted content that is added to the unattend.xml
+	//file for the specified path and component. The XML must be less than 4KB and
+	//must include the root element for the setting or feature that is being inserted.
 	Content *string `json:"content,omitempty"`
 
-	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
+	//PassName: The pass name. Currently, the only allowable value is OobeSystem.
 	PassName *AdditionalUnattendContentPassName `json:"passName,omitempty"`
 
-	// SettingName: Specifies the name of the setting to which the content applies.
-	// Possible values are: FirstLogonCommands and AutoLogon.
+	//SettingName: Specifies the name of the setting to which the content applies.
+	//Possible values are: FirstLogonCommands and AutoLogon.
 	SettingName *AdditionalUnattendContentSettingName `json:"settingName,omitempty"`
 }
 
@@ -13567,6 +13635,7 @@ func (additionalUnattendContent *AdditionalUnattendContent) PopulateFromARM(owne
 
 // AssignPropertiesFromAdditionalUnattendContent populates our AdditionalUnattendContent from the provided source AdditionalUnattendContent
 func (additionalUnattendContent *AdditionalUnattendContent) AssignPropertiesFromAdditionalUnattendContent(source *v1alpha1api20201201storage.AdditionalUnattendContent) error {
+
 	// ComponentName
 	if source.ComponentName != nil {
 		componentName := AdditionalUnattendContentComponentName(*source.ComponentName)
@@ -13647,22 +13716,22 @@ func (additionalUnattendContent *AdditionalUnattendContent) AssignPropertiesToAd
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type AdditionalUnattendContent_Status struct {
-	// ComponentName: The component name. Currently, the only allowable value is
-	// Microsoft-Windows-Shell-Setup.
+	//ComponentName: The component name. Currently, the only allowable value is
+	//Microsoft-Windows-Shell-Setup.
 	ComponentName *AdditionalUnattendContentStatusComponentName `json:"componentName,omitempty"`
 
-	// Content: Specifies the XML formatted content that is added to the unattend.xml
-	// file for the specified path and component. The XML must be less than 4KB and
-	// must include the root element for the setting or feature that is being inserted.
+	//Content: Specifies the XML formatted content that is added to the unattend.xml
+	//file for the specified path and component. The XML must be less than 4KB and
+	//must include the root element for the setting or feature that is being inserted.
 	Content *string `json:"content,omitempty"`
 
-	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
+	//PassName: The pass name. Currently, the only allowable value is OobeSystem.
 	PassName *AdditionalUnattendContentStatusPassName `json:"passName,omitempty"`
 
-	// SettingName: Specifies the name of the setting to which the content applies.
-	// Possible values are: FirstLogonCommands and AutoLogon.
+	//SettingName: Specifies the name of the setting to which the content applies.
+	//Possible values are: FirstLogonCommands and AutoLogon.
 	SettingName *AdditionalUnattendContentStatusSettingName `json:"settingName,omitempty"`
 }
 
@@ -13710,6 +13779,7 @@ func (additionalUnattendContentStatus *AdditionalUnattendContent_Status) Populat
 
 // AssignPropertiesFromAdditionalUnattendContentStatus populates our AdditionalUnattendContent_Status from the provided source AdditionalUnattendContent_Status
 func (additionalUnattendContentStatus *AdditionalUnattendContent_Status) AssignPropertiesFromAdditionalUnattendContentStatus(source *v1alpha1api20201201storage.AdditionalUnattendContent_Status) error {
+
 	// ComponentName
 	if source.ComponentName != nil {
 		componentName := AdditionalUnattendContentStatusComponentName(*source.ComponentName)
@@ -13790,7 +13860,7 @@ func (additionalUnattendContentStatus *AdditionalUnattendContent_Status) AssignP
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type Caching_Status string
 
 const (
@@ -13799,7 +13869,7 @@ const (
 	Caching_StatusReadWrite = Caching_Status("ReadWrite")
 )
 
-// Generated from:
+//Generated from:
 type CreateOption_Status string
 
 const (
@@ -13808,21 +13878,21 @@ const (
 	CreateOption_StatusFromImage = CreateOption_Status("FromImage")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiffDiskSettings
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiffDiskSettings
 type DiffDiskSettings struct {
-	// Option: Specifies the ephemeral disk settings for operating system disk.
+	//Option: Specifies the ephemeral disk settings for operating system disk.
 	Option *DiffDiskSettingsOption `json:"option,omitempty"`
 
-	// Placement: Specifies the ephemeral disk placement for operating system disk.
-	// Possible values are:
-	// CacheDisk
-	// ResourceDisk
-	// Default: CacheDisk if one is configured for the VM size otherwise ResourceDisk
-	// is used.
-	// Refer to VM size documentation for Windows VM at
-	// https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes and Linux
-	// VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to
-	// check which VM sizes exposes a cache disk.
+	//Placement: Specifies the ephemeral disk placement for operating system disk.
+	//Possible values are:
+	//CacheDisk
+	//ResourceDisk
+	//Default: CacheDisk if one is configured for the VM size otherwise ResourceDisk
+	//is used.
+	//Refer to VM size documentation for Windows VM at
+	//https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes and Linux
+	//VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to
+	//check which VM sizes exposes a cache disk.
 	Placement *DiffDiskSettingsPlacement `json:"placement,omitempty"`
 }
 
@@ -13879,6 +13949,7 @@ func (diffDiskSettings *DiffDiskSettings) PopulateFromARM(owner genruntime.Known
 
 // AssignPropertiesFromDiffDiskSettings populates our DiffDiskSettings from the provided source DiffDiskSettings
 func (diffDiskSettings *DiffDiskSettings) AssignPropertiesFromDiffDiskSettings(source *v1alpha1api20201201storage.DiffDiskSettings) error {
+
 	// Option
 	if source.Option != nil {
 		option := DiffDiskSettingsOption(*source.Option)
@@ -13927,21 +13998,21 @@ func (diffDiskSettings *DiffDiskSettings) AssignPropertiesToDiffDiskSettings(des
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type DiffDiskSettings_Status struct {
-	// Option: Specifies the ephemeral disk settings for operating system disk.
+	//Option: Specifies the ephemeral disk settings for operating system disk.
 	Option *DiffDiskOption_Status `json:"option,omitempty"`
 
-	// Placement: Specifies the ephemeral disk placement for operating system disk.
-	// Possible values are:
-	// CacheDisk
-	// ResourceDisk
-	// Default: CacheDisk if one is configured for the VM size otherwise ResourceDisk
-	// is used.
-	// Refer to VM size documentation for Windows VM at
-	// https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes and Linux
-	// VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to
-	// check which VM sizes exposes a cache disk.
+	//Placement: Specifies the ephemeral disk placement for operating system disk.
+	//Possible values are:
+	//CacheDisk
+	//ResourceDisk
+	//Default: CacheDisk if one is configured for the VM size otherwise ResourceDisk
+	//is used.
+	//Refer to VM size documentation for Windows VM at
+	//https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes and Linux
+	//VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to
+	//check which VM sizes exposes a cache disk.
 	Placement *DiffDiskPlacement_Status `json:"placement,omitempty"`
 }
 
@@ -13977,6 +14048,7 @@ func (diffDiskSettingsStatus *DiffDiskSettings_Status) PopulateFromARM(owner gen
 
 // AssignPropertiesFromDiffDiskSettingsStatus populates our DiffDiskSettings_Status from the provided source DiffDiskSettings_Status
 func (diffDiskSettingsStatus *DiffDiskSettings_Status) AssignPropertiesFromDiffDiskSettingsStatus(source *v1alpha1api20201201storage.DiffDiskSettings_Status) error {
+
 	// Option
 	if source.Option != nil {
 		option := DiffDiskOption_Status(*source.Option)
@@ -14025,13 +14097,13 @@ func (diffDiskSettingsStatus *DiffDiskSettings_Status) AssignPropertiesToDiffDis
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/LinuxPatchSettings
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/LinuxPatchSettings
 type LinuxPatchSettings struct {
-	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
-	// Possible values are:
-	// ImageDefault - The virtual machine's default patching configuration is used.
-	// AutomaticByPlatform - The virtual machine will be automatically updated by the
-	// platform. The property provisionVMAgent must be true.
+	//PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
+	//Possible values are:
+	//ImageDefault - The virtual machine's default patching configuration is used.
+	//AutomaticByPlatform - The virtual machine will be automatically updated by the
+	//platform. The property provisionVMAgent must be true.
 	PatchMode *LinuxPatchSettingsPatchMode `json:"patchMode,omitempty"`
 }
 
@@ -14076,6 +14148,7 @@ func (linuxPatchSettings *LinuxPatchSettings) PopulateFromARM(owner genruntime.K
 
 // AssignPropertiesFromLinuxPatchSettings populates our LinuxPatchSettings from the provided source LinuxPatchSettings
 func (linuxPatchSettings *LinuxPatchSettings) AssignPropertiesFromLinuxPatchSettings(source *v1alpha1api20201201storage.LinuxPatchSettings) error {
+
 	// PatchMode
 	if source.PatchMode != nil {
 		patchMode := LinuxPatchSettingsPatchMode(*source.PatchMode)
@@ -14108,13 +14181,13 @@ func (linuxPatchSettings *LinuxPatchSettings) AssignPropertiesToLinuxPatchSettin
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type LinuxPatchSettings_Status struct {
-	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
-	// Possible values are:
-	// ImageDefault - The virtual machine's default patching configuration is used.
-	// AutomaticByPlatform - The virtual machine will be automatically updated by the
-	// platform. The property provisionVMAgent must be true
+	//PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
+	//Possible values are:
+	//ImageDefault - The virtual machine's default patching configuration is used.
+	//AutomaticByPlatform - The virtual machine will be automatically updated by the
+	//platform. The property provisionVMAgent must be true
 	PatchMode *LinuxPatchSettingsStatusPatchMode `json:"patchMode,omitempty"`
 }
 
@@ -14144,6 +14217,7 @@ func (linuxPatchSettingsStatus *LinuxPatchSettings_Status) PopulateFromARM(owner
 
 // AssignPropertiesFromLinuxPatchSettingsStatus populates our LinuxPatchSettings_Status from the provided source LinuxPatchSettings_Status
 func (linuxPatchSettingsStatus *LinuxPatchSettings_Status) AssignPropertiesFromLinuxPatchSettingsStatus(source *v1alpha1api20201201storage.LinuxPatchSettings_Status) error {
+
 	// PatchMode
 	if source.PatchMode != nil {
 		patchMode := LinuxPatchSettingsStatusPatchMode(*source.PatchMode)
@@ -14176,24 +14250,24 @@ func (linuxPatchSettingsStatus *LinuxPatchSettings_Status) AssignPropertiesToLin
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/PatchSettings
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/PatchSettings
 type PatchSettings struct {
 	//EnableHotpatching: Enables customers to patch their Azure VMs without requiring
 	//a reboot. For enableHotpatching, the 'provisionVMAgent' must be set to true and
 	//'patchMode' must be set to 'AutomaticByPlatform'.
 	EnableHotpatching *bool `json:"enableHotpatching,omitempty"`
 
-	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
-	// Possible values are:
-	// Manual - You  control the application of patches to a virtual machine. You do
-	// this by applying patches manually inside the VM. In this mode, automatic updates
-	// are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be
-	// false
-	// AutomaticByOS - The virtual machine will automatically be updated by the OS. The
-	// property WindowsConfiguration.enableAutomaticUpdates must be true.
-	// AutomaticByPlatform - the virtual machine will automatically updated by the
-	// platform. The properties provisionVMAgent and
-	// WindowsConfiguration.enableAutomaticUpdates must be true.
+	//PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
+	//Possible values are:
+	//Manual - You  control the application of patches to a virtual machine. You do
+	//this by applying patches manually inside the VM. In this mode, automatic updates
+	//are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be
+	//false
+	//AutomaticByOS - The virtual machine will automatically be updated by the OS. The
+	//property WindowsConfiguration.enableAutomaticUpdates must be true.
+	//AutomaticByPlatform - the virtual machine will automatically updated by the
+	//platform. The properties provisionVMAgent and
+	//WindowsConfiguration.enableAutomaticUpdates must be true.
 	PatchMode *PatchSettingsPatchMode `json:"patchMode,omitempty"`
 }
 
@@ -14250,6 +14324,7 @@ func (patchSettings *PatchSettings) PopulateFromARM(owner genruntime.KnownResour
 
 // AssignPropertiesFromPatchSettings populates our PatchSettings from the provided source PatchSettings
 func (patchSettings *PatchSettings) AssignPropertiesFromPatchSettings(source *v1alpha1api20201201storage.PatchSettings) error {
+
 	// EnableHotpatching
 	if source.EnableHotpatching != nil {
 		enableHotpatching := *source.EnableHotpatching
@@ -14298,24 +14373,24 @@ func (patchSettings *PatchSettings) AssignPropertiesToPatchSettings(destination 
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type PatchSettings_Status struct {
 	//EnableHotpatching: Enables customers to patch their Azure VMs without requiring
 	//a reboot. For enableHotpatching, the 'provisionVMAgent' must be set to true and
 	//'patchMode' must be set to 'AutomaticByPlatform'.
 	EnableHotpatching *bool `json:"enableHotpatching,omitempty"`
 
-	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
-	// Possible values are:
-	// Manual - You  control the application of patches to a virtual machine. You do
-	// this by applying patches manually inside the VM. In this mode, automatic updates
-	// are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be
-	// false
-	// AutomaticByOS - The virtual machine will automatically be updated by the OS. The
-	// property WindowsConfiguration.enableAutomaticUpdates must be true.
-	// AutomaticByPlatform - the virtual machine will automatically updated by the
-	// platform. The properties provisionVMAgent and
-	// WindowsConfiguration.enableAutomaticUpdates must be true
+	//PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
+	//Possible values are:
+	//Manual - You  control the application of patches to a virtual machine. You do
+	//this by applying patches manually inside the VM. In this mode, automatic updates
+	//are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be
+	//false
+	//AutomaticByOS - The virtual machine will automatically be updated by the OS. The
+	//property WindowsConfiguration.enableAutomaticUpdates must be true.
+	//AutomaticByPlatform - the virtual machine will automatically updated by the
+	//platform. The properties provisionVMAgent and
+	//WindowsConfiguration.enableAutomaticUpdates must be true
 	PatchMode *PatchSettingsStatusPatchMode `json:"patchMode,omitempty"`
 }
 
@@ -14351,6 +14426,7 @@ func (patchSettingsStatus *PatchSettings_Status) PopulateFromARM(owner genruntim
 
 // AssignPropertiesFromPatchSettingsStatus populates our PatchSettings_Status from the provided source PatchSettings_Status
 func (patchSettingsStatus *PatchSettings_Status) AssignPropertiesFromPatchSettingsStatus(source *v1alpha1api20201201storage.PatchSettings_Status) error {
+
 	// EnableHotpatching
 	if source.EnableHotpatching != nil {
 		enableHotpatching := *source.EnableHotpatching
@@ -14399,10 +14475,10 @@ func (patchSettingsStatus *PatchSettings_Status) AssignPropertiesToPatchSettings
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SshConfiguration
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SshConfiguration
 type SshConfiguration struct {
-	// PublicKeys: The list of SSH public keys used to authenticate with linux based
-	// VMs.
+	//PublicKeys: The list of SSH public keys used to authenticate with linux based
+	//VMs.
 	PublicKeys []SshPublicKey `json:"publicKeys,omitempty"`
 }
 
@@ -14454,6 +14530,7 @@ func (sshConfiguration *SshConfiguration) PopulateFromARM(owner genruntime.Known
 
 // AssignPropertiesFromSshConfiguration populates our SshConfiguration from the provided source SshConfiguration
 func (sshConfiguration *SshConfiguration) AssignPropertiesFromSshConfiguration(source *v1alpha1api20201201storage.SshConfiguration) error {
+
 	// PublicKeys
 	publicKeyList := make([]SshPublicKey, len(source.PublicKeys))
 	for publicKeyIndex, publicKeyItem := range source.PublicKeys {
@@ -14498,10 +14575,10 @@ func (sshConfiguration *SshConfiguration) AssignPropertiesToSshConfiguration(des
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type SshConfiguration_Status struct {
-	// PublicKeys: The list of SSH public keys used to authenticate with linux based
-	// VMs.
+	//PublicKeys: The list of SSH public keys used to authenticate with linux based
+	//VMs.
 	PublicKeys []SshPublicKey_Status `json:"publicKeys,omitempty"`
 }
 
@@ -14535,6 +14612,7 @@ func (sshConfigurationStatus *SshConfiguration_Status) PopulateFromARM(owner gen
 
 // AssignPropertiesFromSshConfigurationStatus populates our SshConfiguration_Status from the provided source SshConfiguration_Status
 func (sshConfigurationStatus *SshConfiguration_Status) AssignPropertiesFromSshConfigurationStatus(source *v1alpha1api20201201storage.SshConfiguration_Status) error {
+
 	// PublicKeys
 	publicKeyList := make([]SshPublicKey_Status, len(source.PublicKeys))
 	for publicKeyIndex, publicKeyItem := range source.PublicKeys {
@@ -14579,15 +14657,15 @@ func (sshConfigurationStatus *SshConfiguration_Status) AssignPropertiesToSshConf
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VaultCertificate
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VaultCertificate
 type VaultCertificate struct {
-	// CertificateStore: For Windows VMs, specifies the certificate store on the
-	// Virtual Machine to which the certificate should be added. The specified
-	// certificate store is implicitly in the LocalMachine account.
-	// For Linux VMs, the certificate file is placed under the /var/lib/waagent
-	// directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509
-	// certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both of
-	// these files are .pem formatted.
+	//CertificateStore: For Windows VMs, specifies the certificate store on the
+	//Virtual Machine to which the certificate should be added. The specified
+	//certificate store is implicitly in the LocalMachine account.
+	//For Linux VMs, the certificate file is placed under the /var/lib/waagent
+	//directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509
+	//certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both of
+	//these files are .pem formatted.
 	CertificateStore *string `json:"certificateStore,omitempty"`
 
 	//CertificateUrl: This is the URL of a certificate that has been uploaded to Key
@@ -14657,6 +14735,7 @@ func (vaultCertificate *VaultCertificate) PopulateFromARM(owner genruntime.Known
 
 // AssignPropertiesFromVaultCertificate populates our VaultCertificate from the provided source VaultCertificate
 func (vaultCertificate *VaultCertificate) AssignPropertiesFromVaultCertificate(source *v1alpha1api20201201storage.VaultCertificate) error {
+
 	// CertificateStore
 	if source.CertificateStore != nil {
 		certificateStore := *source.CertificateStore
@@ -14705,15 +14784,15 @@ func (vaultCertificate *VaultCertificate) AssignPropertiesToVaultCertificate(des
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VaultCertificate_Status struct {
-	// CertificateStore: For Windows VMs, specifies the certificate store on the
-	// Virtual Machine to which the certificate should be added. The specified
-	// certificate store is implicitly in the LocalMachine account.
-	// For Linux VMs, the certificate file is placed under the /var/lib/waagent
-	// directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509
-	// certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both of
-	// these files are .pem formatted.
+	//CertificateStore: For Windows VMs, specifies the certificate store on the
+	//Virtual Machine to which the certificate should be added. The specified
+	//certificate store is implicitly in the LocalMachine account.
+	//For Linux VMs, the certificate file is placed under the /var/lib/waagent
+	//directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509
+	//certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both of
+	//these files are .pem formatted.
 	CertificateStore *string `json:"certificateStore,omitempty"`
 
 	//CertificateUrl: This is the URL of a certificate that has been uploaded to Key
@@ -14762,6 +14841,7 @@ func (vaultCertificateStatus *VaultCertificate_Status) PopulateFromARM(owner gen
 
 // AssignPropertiesFromVaultCertificateStatus populates our VaultCertificate_Status from the provided source VaultCertificate_Status
 func (vaultCertificateStatus *VaultCertificate_Status) AssignPropertiesFromVaultCertificateStatus(source *v1alpha1api20201201storage.VaultCertificate_Status) error {
+
 	// CertificateStore
 	if source.CertificateStore != nil {
 		certificateStore := *source.CertificateStore
@@ -14810,9 +14890,9 @@ func (vaultCertificateStatus *VaultCertificate_Status) AssignPropertiesToVaultCe
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualHardDisk
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualHardDisk
 type VirtualHardDisk struct {
-	// Uri: Specifies the virtual hard disk's uri.
+	//Uri: Specifies the virtual hard disk's uri.
 	Uri *string `json:"uri,omitempty"`
 }
 
@@ -14857,6 +14937,7 @@ func (virtualHardDisk *VirtualHardDisk) PopulateFromARM(owner genruntime.KnownRe
 
 // AssignPropertiesFromVirtualHardDisk populates our VirtualHardDisk from the provided source VirtualHardDisk
 func (virtualHardDisk *VirtualHardDisk) AssignPropertiesFromVirtualHardDisk(source *v1alpha1api20201201storage.VirtualHardDisk) error {
+
 	// Uri
 	if source.Uri != nil {
 		uri := *source.Uri
@@ -14889,9 +14970,9 @@ func (virtualHardDisk *VirtualHardDisk) AssignPropertiesToVirtualHardDisk(destin
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualHardDisk_Status struct {
-	// Uri: Specifies the virtual hard disk's uri.
+	//Uri: Specifies the virtual hard disk's uri.
 	Uri *string `json:"uri,omitempty"`
 }
 
@@ -14921,6 +15002,7 @@ func (virtualHardDiskStatus *VirtualHardDisk_Status) PopulateFromARM(owner genru
 
 // AssignPropertiesFromVirtualHardDiskStatus populates our VirtualHardDisk_Status from the provided source VirtualHardDisk_Status
 func (virtualHardDiskStatus *VirtualHardDisk_Status) AssignPropertiesFromVirtualHardDiskStatus(source *v1alpha1api20201201storage.VirtualHardDisk_Status) error {
+
 	// Uri
 	if source.Uri != nil {
 		uri := *source.Uri
@@ -14971,50 +15053,50 @@ const (
 	VirtualMachineScaleSetDataDiskCreateOptionFromImage = VirtualMachineScaleSetDataDiskCreateOption("FromImage")
 )
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetIPConfiguration_Status struct {
-	// ApplicationGatewayBackendAddressPools: Specifies an array of references to
-	// backend address pools of application gateways. A scale set can reference backend
-	// address pools of multiple application gateways. Multiple scale sets cannot use
-	// the same application gateway.
+	//ApplicationGatewayBackendAddressPools: Specifies an array of references to
+	//backend address pools of application gateways. A scale set can reference backend
+	//address pools of multiple application gateways. Multiple scale sets cannot use
+	//the same application gateway.
 	ApplicationGatewayBackendAddressPools []SubResource_Status `json:"applicationGatewayBackendAddressPools,omitempty"`
 
-	// ApplicationSecurityGroups: Specifies an array of references to application
-	// security group.
+	//ApplicationSecurityGroups: Specifies an array of references to application
+	//security group.
 	ApplicationSecurityGroups []SubResource_Status `json:"applicationSecurityGroups,omitempty"`
 
-	// Id: Resource Id
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	// LoadBalancerBackendAddressPools: Specifies an array of references to backend
-	// address pools of load balancers. A scale set can reference backend address pools
-	// of one public and one internal load balancer. Multiple scale sets cannot use the
-	// same basic sku load balancer.
+	//LoadBalancerBackendAddressPools: Specifies an array of references to backend
+	//address pools of load balancers. A scale set can reference backend address pools
+	//of one public and one internal load balancer. Multiple scale sets cannot use the
+	//same basic sku load balancer.
 	LoadBalancerBackendAddressPools []SubResource_Status `json:"loadBalancerBackendAddressPools,omitempty"`
 
-	// LoadBalancerInboundNatPools: Specifies an array of references to inbound Nat
-	// pools of the load balancers. A scale set can reference inbound nat pools of one
-	// public and one internal load balancer. Multiple scale sets cannot use the same
-	// basic sku load balancer.
+	//LoadBalancerInboundNatPools: Specifies an array of references to inbound Nat
+	//pools of the load balancers. A scale set can reference inbound nat pools of one
+	//public and one internal load balancer. Multiple scale sets cannot use the same
+	//basic sku load balancer.
 	LoadBalancerInboundNatPools []SubResource_Status `json:"loadBalancerInboundNatPools,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The IP configuration name.
+	//Name: The IP configuration name.
 	Name string `json:"name"`
 
-	// Primary: Specifies the primary network interface in case the virtual machine has
-	// more than 1 network interface.
+	//Primary: Specifies the primary network interface in case the virtual machine has
+	//more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
 
-	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it
-	// represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
-	// taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
+	//PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it
+	//represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
+	//taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
 	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
 
-	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
+	//PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status `json:"publicIPAddressConfiguration,omitempty"`
 
-	// Subnet: Specifies the identifier of the subnet.
+	//Subnet: Specifies the identifier of the subnet.
 	Subnet *ApiEntityReference_Status `json:"subnet,omitempty"`
 }
 
@@ -15145,6 +15227,7 @@ func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfi
 
 // AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus populates our VirtualMachineScaleSetIPConfiguration_Status from the provided source VirtualMachineScaleSetIPConfiguration_Status
 func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfiguration_Status) AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetIPConfiguration_Status) error {
+
 	// ApplicationGatewayBackendAddressPools
 	applicationGatewayBackendAddressPoolList := make([]SubResource_Status, len(source.ApplicationGatewayBackendAddressPools))
 	for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
@@ -15380,17 +15463,17 @@ func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfi
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetManagedDiskParameters
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetManagedDiskParameters
 type VirtualMachineScaleSetManagedDiskParameters struct {
-	// DiskEncryptionSet: Describes the parameter of customer managed disk encryption
-	// set resource id that can be specified for disk.
-	// NOTE: The disk encryption set resource id can only be specified for managed
-	// disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.
+	//DiskEncryptionSet: Describes the parameter of customer managed disk encryption
+	//set resource id that can be specified for disk.
+	//NOTE: The disk encryption set resource id can only be specified for managed
+	//disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.
 	DiskEncryptionSet *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
 
-	// StorageAccountType: Specifies the storage account type for the managed disk.
-	// NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS
-	// Disk.
+	//StorageAccountType: Specifies the storage account type for the managed disk.
+	//NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS
+	//Disk.
 	StorageAccountType *VirtualMachineScaleSetManagedDiskParametersStorageAccountType `json:"storageAccountType,omitempty"`
 }
 
@@ -15456,6 +15539,7 @@ func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManaged
 
 // AssignPropertiesFromVirtualMachineScaleSetManagedDiskParameters populates our VirtualMachineScaleSetManagedDiskParameters from the provided source VirtualMachineScaleSetManagedDiskParameters
 func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManagedDiskParameters) AssignPropertiesFromVirtualMachineScaleSetManagedDiskParameters(source *v1alpha1api20201201storage.VirtualMachineScaleSetManagedDiskParameters) error {
+
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
 		var diskEncryptionSet DiskEncryptionSetParameters
@@ -15512,15 +15596,15 @@ func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManaged
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetManagedDiskParameters_Status struct {
-	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource
-	// id for the managed disk.
+	//DiskEncryptionSet: Specifies the customer managed disk encryption set resource
+	//id for the managed disk.
 	DiskEncryptionSet *SubResource_Status `json:"diskEncryptionSet,omitempty"`
 
-	// StorageAccountType: Specifies the storage account type for the managed disk.
-	// NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS
-	// Disk.
+	//StorageAccountType: Specifies the storage account type for the managed disk.
+	//NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS
+	//Disk.
 	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
 }
 
@@ -15561,6 +15645,7 @@ func (virtualMachineScaleSetManagedDiskParametersStatus *VirtualMachineScaleSetM
 
 // AssignPropertiesFromVirtualMachineScaleSetManagedDiskParametersStatus populates our VirtualMachineScaleSetManagedDiskParameters_Status from the provided source VirtualMachineScaleSetManagedDiskParameters_Status
 func (virtualMachineScaleSetManagedDiskParametersStatus *VirtualMachineScaleSetManagedDiskParameters_Status) AssignPropertiesFromVirtualMachineScaleSetManagedDiskParametersStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetManagedDiskParameters_Status) error {
+
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
 		var diskEncryptionSet SubResource_Status
@@ -15617,9 +15702,9 @@ func (virtualMachineScaleSetManagedDiskParametersStatus *VirtualMachineScaleSetM
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetNetworkConfigurationDnsSettings
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetNetworkConfigurationDnsSettings
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings struct {
-	// DnsServers: List of DNS servers IP addresses
+	//DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
@@ -15662,6 +15747,7 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScale
 
 // AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettings populates our VirtualMachineScaleSetNetworkConfigurationDnsSettings from the provided source VirtualMachineScaleSetNetworkConfigurationDnsSettings
 func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettings(source *v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfigurationDnsSettings) error {
+
 	// DnsServers
 	dnsServerList := make([]string, len(source.DnsServers))
 	for dnsServerIndex, dnsServerItem := range source.DnsServers {
@@ -15696,9 +15782,9 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScale
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status struct {
-	// DnsServers: List of DNS servers IP addresses
+	//DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
@@ -15727,6 +15813,7 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus *VirtualMachin
 
 // AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus populates our VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status from the provided source VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status
 func (virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) error {
+
 	// DnsServers
 	dnsServerList := make([]string, len(source.DnsServers))
 	for dnsServerIndex, dnsServerItem := range source.DnsServers {
@@ -15795,49 +15882,49 @@ const (
 )
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations struct {
-	// ApplicationGatewayBackendAddressPools: Specifies an array of references to
-	// backend address pools of application gateways. A scale set can reference backend
-	// address pools of multiple application gateways. Multiple scale sets cannot use
-	// the same application gateway.
+	//ApplicationGatewayBackendAddressPools: Specifies an array of references to
+	//backend address pools of application gateways. A scale set can reference backend
+	//address pools of multiple application gateways. Multiple scale sets cannot use
+	//the same application gateway.
 	ApplicationGatewayBackendAddressPools []SubResource `json:"applicationGatewayBackendAddressPools,omitempty"`
 
-	// ApplicationSecurityGroups: Specifies an array of references to application
-	// security group.
+	//ApplicationSecurityGroups: Specifies an array of references to application
+	//security group.
 	ApplicationSecurityGroups []SubResource `json:"applicationSecurityGroups,omitempty"`
 
-	// Id: Resource Id
+	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	// LoadBalancerBackendAddressPools: Specifies an array of references to backend
-	// address pools of load balancers. A scale set can reference backend address pools
-	// of one public and one internal load balancer. Multiple scale sets cannot use the
-	// same basic sku load balancer.
+	//LoadBalancerBackendAddressPools: Specifies an array of references to backend
+	//address pools of load balancers. A scale set can reference backend address pools
+	//of one public and one internal load balancer. Multiple scale sets cannot use the
+	//same basic sku load balancer.
 	LoadBalancerBackendAddressPools []SubResource `json:"loadBalancerBackendAddressPools,omitempty"`
 
-	// LoadBalancerInboundNatPools: Specifies an array of references to inbound Nat
-	// pools of the load balancers. A scale set can reference inbound nat pools of one
-	// public and one internal load balancer. Multiple scale sets cannot use the same
-	// basic sku load balancer.
+	//LoadBalancerInboundNatPools: Specifies an array of references to inbound Nat
+	//pools of the load balancers. A scale set can reference inbound nat pools of one
+	//public and one internal load balancer. Multiple scale sets cannot use the same
+	//basic sku load balancer.
 	LoadBalancerInboundNatPools []SubResource `json:"loadBalancerInboundNatPools,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The IP configuration name.
+	//Name: The IP configuration name.
 	Name string `json:"name"`
 
-	// Primary: Specifies the primary network interface in case the virtual machine has
-	// more than 1 network interface.
+	//Primary: Specifies the primary network interface in case the virtual machine has
+	//more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
 
-	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it
-	// represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
-	// taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
+	//PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it
+	//represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
+	//taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
 	PrivateIPAddressVersion *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
 
-	// PublicIPAddressConfiguration: Describes a virtual machines scale set IP
-	// Configuration's PublicIPAddress configuration
+	//PublicIPAddressConfiguration: Describes a virtual machines scale set IP
+	//Configuration's PublicIPAddress configuration
 	PublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration `json:"publicIPAddressConfiguration,omitempty"`
 
-	// Subnet: The API entity reference.
+	//Subnet: The API entity reference.
 	Subnet *ApiEntityReference `json:"subnet,omitempty"`
 }
 
@@ -16043,6 +16130,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 
 // AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
 func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(source *v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) error {
+
 	// ApplicationGatewayBackendAddressPools
 	applicationGatewayBackendAddressPoolList := make([]SubResource, len(source.ApplicationGatewayBackendAddressPools))
 	for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
@@ -16278,9 +16366,9 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WinRMConfiguration
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WinRMConfiguration
 type WinRMConfiguration struct {
-	// Listeners: The list of Windows Remote Management listeners
+	//Listeners: The list of Windows Remote Management listeners
 	Listeners []WinRMListener `json:"listeners,omitempty"`
 }
 
@@ -16332,6 +16420,7 @@ func (winRMConfiguration *WinRMConfiguration) PopulateFromARM(owner genruntime.K
 
 // AssignPropertiesFromWinRMConfiguration populates our WinRMConfiguration from the provided source WinRMConfiguration
 func (winRMConfiguration *WinRMConfiguration) AssignPropertiesFromWinRMConfiguration(source *v1alpha1api20201201storage.WinRMConfiguration) error {
+
 	// Listeners
 	listenerList := make([]WinRMListener, len(source.Listeners))
 	for listenerIndex, listenerItem := range source.Listeners {
@@ -16376,9 +16465,9 @@ func (winRMConfiguration *WinRMConfiguration) AssignPropertiesToWinRMConfigurati
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type WinRMConfiguration_Status struct {
-	// Listeners: The list of Windows Remote Management listeners
+	//Listeners: The list of Windows Remote Management listeners
 	Listeners []WinRMListener_Status `json:"listeners,omitempty"`
 }
 
@@ -16412,6 +16501,7 @@ func (winRMConfigurationStatus *WinRMConfiguration_Status) PopulateFromARM(owner
 
 // AssignPropertiesFromWinRMConfigurationStatus populates our WinRMConfiguration_Status from the provided source WinRMConfiguration_Status
 func (winRMConfigurationStatus *WinRMConfiguration_Status) AssignPropertiesFromWinRMConfigurationStatus(source *v1alpha1api20201201storage.WinRMConfiguration_Status) error {
+
 	// Listeners
 	listenerList := make([]WinRMListener_Status, len(source.Listeners))
 	for listenerIndex, listenerItem := range source.Listeners {
@@ -16489,12 +16579,12 @@ const (
 	AdditionalUnattendContentStatusSettingNameFirstLogonCommands = AdditionalUnattendContentStatusSettingName("FirstLogonCommands")
 )
 
-// Generated from:
+//Generated from:
 type DiffDiskOption_Status string
 
 const DiffDiskOption_StatusLocal = DiffDiskOption_Status("Local")
 
-// Generated from:
+//Generated from:
 type DiffDiskPlacement_Status string
 
 const (
@@ -16515,9 +16605,9 @@ const (
 	DiffDiskSettingsPlacementResourceDisk = DiffDiskSettingsPlacement("ResourceDisk")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiskEncryptionSetParameters
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiskEncryptionSetParameters
 type DiskEncryptionSetParameters struct {
-	// Reference: Resource Id
+	//Reference: Resource Id
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -16562,6 +16652,7 @@ func (diskEncryptionSetParameters *DiskEncryptionSetParameters) PopulateFromARM(
 
 // AssignPropertiesFromDiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
 func (diskEncryptionSetParameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptionSetParameters(source *v1alpha1api20201201storage.DiskEncryptionSetParameters) error {
+
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
@@ -16626,12 +16717,12 @@ const (
 	PatchSettingsStatusPatchModeManual              = PatchSettingsStatusPatchMode("Manual")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SshPublicKey
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SshPublicKey
 type SshPublicKey struct {
-	// KeyData: SSH public key certificate used to authenticate with the VM through
-	// ssh. The key needs to be at least 2048-bit and in ssh-rsa format.
-	// For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in
-	// Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+	//KeyData: SSH public key certificate used to authenticate with the VM through
+	//ssh. The key needs to be at least 2048-bit and in ssh-rsa format.
+	//For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in
+	//Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
 	KeyData *string `json:"keyData,omitempty"`
 
 	//Path: Specifies the full path on the created VM where ssh public key is stored.
@@ -16693,6 +16784,7 @@ func (sshPublicKey *SshPublicKey) PopulateFromARM(owner genruntime.KnownResource
 
 // AssignPropertiesFromSshPublicKey populates our SshPublicKey from the provided source SshPublicKey
 func (sshPublicKey *SshPublicKey) AssignPropertiesFromSshPublicKey(source *v1alpha1api20201201storage.SshPublicKey) error {
+
 	// KeyData
 	if source.KeyData != nil {
 		keyDatum := *source.KeyData
@@ -16741,12 +16833,12 @@ func (sshPublicKey *SshPublicKey) AssignPropertiesToSshPublicKey(destination *v1
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type SshPublicKey_Status struct {
-	// KeyData: SSH public key certificate used to authenticate with the VM through
-	// ssh. The key needs to be at least 2048-bit and in ssh-rsa format.
-	// For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in
-	// Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+	//KeyData: SSH public key certificate used to authenticate with the VM through
+	//ssh. The key needs to be at least 2048-bit and in ssh-rsa format.
+	//For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in
+	//Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
 	KeyData *string `json:"keyData,omitempty"`
 
 	//Path: Specifies the full path on the created VM where ssh public key is stored.
@@ -16787,6 +16879,7 @@ func (sshPublicKeyStatus *SshPublicKey_Status) PopulateFromARM(owner genruntime.
 
 // AssignPropertiesFromSshPublicKeyStatus populates our SshPublicKey_Status from the provided source SshPublicKey_Status
 func (sshPublicKeyStatus *SshPublicKey_Status) AssignPropertiesFromSshPublicKeyStatus(source *v1alpha1api20201201storage.SshPublicKey_Status) error {
+
 	// KeyData
 	if source.KeyData != nil {
 		keyDatum := *source.KeyData
@@ -16835,7 +16928,7 @@ func (sshPublicKeyStatus *SshPublicKey_Status) AssignPropertiesToSshPublicKeySta
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type StorageAccountType_Status string
 
 const (
@@ -16864,27 +16957,27 @@ const (
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeUltraSSDLRS    = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("UltraSSD_LRS")
 )
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetPublicIPAddressConfiguration_Status struct {
-	// DnsSettings: The dns settings to be applied on the publicIP addresses .
+	//DnsSettings: The dns settings to be applied on the publicIP addresses .
 	DnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status `json:"dnsSettings,omitempty"`
 
-	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
+	//IdleTimeoutInMinutes: The idle timeout of the public IP address.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
-	// IpTags: The list of IP tags associated with the public IP address.
+	//IpTags: The list of IP tags associated with the public IP address.
 	IpTags []VirtualMachineScaleSetIpTag_Status `json:"ipTags,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The publicIP address configuration name.
+	//Name: The publicIP address configuration name.
 	Name string `json:"name"`
 
-	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it
-	// represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
-	// taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
+	//PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it
+	//represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
+	//taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
 	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
 
-	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
+	//PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_Status `json:"publicIPPrefix,omitempty"`
 }
 
@@ -16970,6 +17063,7 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationStatus *VirtualMachineSc
 
 // AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationStatus populates our VirtualMachineScaleSetPublicIPAddressConfiguration_Status from the provided source VirtualMachineScaleSetPublicIPAddressConfiguration_Status
 func (virtualMachineScaleSetPublicIPAddressConfigurationStatus *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetPublicIPAddressConfiguration_Status) error {
+
 	// DnsSettings
 	if source.DnsSettings != nil {
 		var dnsSetting VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status
@@ -17114,23 +17208,23 @@ const (
 )
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration struct {
-	// DnsSettings: Describes a virtual machines scale sets network configuration's DNS
-	// settings.
+	//DnsSettings: Describes a virtual machines scale sets network configuration's DNS
+	//settings.
 	DnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings `json:"dnsSettings,omitempty"`
 
-	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
+	//IdleTimeoutInMinutes: The idle timeout of the public IP address.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
-	// IpTags: The list of IP tags associated with the public IP address.
+	//IpTags: The list of IP tags associated with the public IP address.
 	IpTags []VirtualMachineScaleSetIpTag `json:"ipTags,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The publicIP address configuration name.
+	//Name: The publicIP address configuration name.
 	Name string `json:"name"`
 
-	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it
-	// represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
-	// taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
+	//PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it
+	//represents whether the specific ipconfiguration is IPv4 or IPv6. Default is
+	//taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
 	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
 	PublicIPPrefix         *SubResource                                                                        `json:"publicIPPrefix,omitempty"`
 }
@@ -17265,6 +17359,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 
 // AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
 func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(source *v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) error {
+
 	// DnsSettings
 	if source.DnsSettings != nil {
 		var dnsSetting VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
@@ -17400,7 +17495,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WinRMListener
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WinRMListener
 type WinRMListener struct {
 	//CertificateUrl: This is the URL of a certificate that has been uploaded to Key
 	//Vault as a secret. For adding a secret to the Key Vault, see [Add a key or
@@ -17415,10 +17510,10 @@ type WinRMListener struct {
 	//}
 	CertificateUrl *string `json:"certificateUrl,omitempty"`
 
-	// Protocol: Specifies the protocol of WinRM listener.
-	// Possible values are:
-	// http
-	// https.
+	//Protocol: Specifies the protocol of WinRM listener.
+	//Possible values are:
+	//http
+	//https.
 	Protocol *WinRMListenerProtocol `json:"protocol,omitempty"`
 }
 
@@ -17475,6 +17570,7 @@ func (winRMListener *WinRMListener) PopulateFromARM(owner genruntime.KnownResour
 
 // AssignPropertiesFromWinRMListener populates our WinRMListener from the provided source WinRMListener
 func (winRMListener *WinRMListener) AssignPropertiesFromWinRMListener(source *v1alpha1api20201201storage.WinRMListener) error {
+
 	// CertificateUrl
 	if source.CertificateUrl != nil {
 		certificateUrl := *source.CertificateUrl
@@ -17523,7 +17619,7 @@ func (winRMListener *WinRMListener) AssignPropertiesToWinRMListener(destination 
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type WinRMListener_Status struct {
 	//CertificateUrl: This is the URL of a certificate that has been uploaded to Key
 	//Vault as a secret. For adding a secret to the Key Vault, see [Add a key or
@@ -17538,10 +17634,10 @@ type WinRMListener_Status struct {
 	//}
 	CertificateUrl *string `json:"certificateUrl,omitempty"`
 
-	// Protocol: Specifies the protocol of WinRM listener.
-	// Possible values are:
-	// http
-	// https
+	//Protocol: Specifies the protocol of WinRM listener.
+	//Possible values are:
+	//http
+	//https
 	Protocol *WinRMListenerStatusProtocol `json:"protocol,omitempty"`
 }
 
@@ -17577,6 +17673,7 @@ func (winRMListenerStatus *WinRMListener_Status) PopulateFromARM(owner genruntim
 
 // AssignPropertiesFromWinRMListenerStatus populates our WinRMListener_Status from the provided source WinRMListener_Status
 func (winRMListenerStatus *WinRMListener_Status) AssignPropertiesFromWinRMListenerStatus(source *v1alpha1api20201201storage.WinRMListener_Status) error {
+
 	// CertificateUrl
 	if source.CertificateUrl != nil {
 		certificateUrl := *source.CertificateUrl
@@ -17625,12 +17722,12 @@ func (winRMListenerStatus *WinRMListener_Status) AssignPropertiesToWinRMListener
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetIpTag
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetIpTag
 type VirtualMachineScaleSetIpTag struct {
-	// IpTagType: IP tag type. Example: FirstPartyUsage.
+	//IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
 
-	// Tag: IP tag associated with the public IP. Example: SQL, Storage etc.
+	//Tag: IP tag associated with the public IP. Example: SQL, Storage etc.
 	Tag *string `json:"tag,omitempty"`
 }
 
@@ -17687,6 +17784,7 @@ func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) PopulateFromARM(
 
 // AssignPropertiesFromVirtualMachineScaleSetIpTag populates our VirtualMachineScaleSetIpTag from the provided source VirtualMachineScaleSetIpTag
 func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) AssignPropertiesFromVirtualMachineScaleSetIpTag(source *v1alpha1api20201201storage.VirtualMachineScaleSetIpTag) error {
+
 	// IpTagType
 	if source.IpTagType != nil {
 		ipTagType := *source.IpTagType
@@ -17735,12 +17833,12 @@ func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) AssignProperties
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetIpTag_Status struct {
-	// IpTagType: IP tag type. Example: FirstPartyUsage.
+	//IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
 
-	// Tag: IP tag associated with the public IP. Example: SQL, Storage etc.
+	//Tag: IP tag associated with the public IP. Example: SQL, Storage etc.
 	Tag *string `json:"tag,omitempty"`
 }
 
@@ -17776,6 +17874,7 @@ func (virtualMachineScaleSetIpTagStatus *VirtualMachineScaleSetIpTag_Status) Pop
 
 // AssignPropertiesFromVirtualMachineScaleSetIpTagStatus populates our VirtualMachineScaleSetIpTag_Status from the provided source VirtualMachineScaleSetIpTag_Status
 func (virtualMachineScaleSetIpTagStatus *VirtualMachineScaleSetIpTag_Status) AssignPropertiesFromVirtualMachineScaleSetIpTagStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetIpTag_Status) error {
+
 	// IpTagType
 	if source.IpTagType != nil {
 		ipTagType := *source.IpTagType
@@ -17824,12 +17923,12 @@ func (virtualMachineScaleSetIpTagStatus *VirtualMachineScaleSetIpTag_Status) Ass
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings struct {
 	// +kubebuilder:validation:Required
-	// DomainNameLabel: The Domain name label.The concatenation of the domain name
-	// label and vm index will be the domain name labels of the PublicIPAddress
-	// resources that will be created
+	//DomainNameLabel: The Domain name label.The concatenation of the domain name
+	//label and vm index will be the domain name labels of the PublicIPAddress
+	//resources that will be created
 	DomainNameLabel string `json:"domainNameLabel"`
 }
 
@@ -17868,6 +17967,7 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMach
 
 // AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings populates our VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings from the provided source VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
 func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings(source *v1alpha1api20201201storage.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) error {
+
 	// DomainNameLabel
 	if source.DomainNameLabel != nil {
 		virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.DomainNameLabel = *source.DomainNameLabel
@@ -17895,12 +17995,12 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMach
 	return nil
 }
 
-// Generated from:
+//Generated from:
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status struct {
 	// +kubebuilder:validation:Required
-	// DomainNameLabel: The Domain name label.The concatenation of the domain name
-	// label and vm index will be the domain name labels of the PublicIPAddress
-	// resources that will be created
+	//DomainNameLabel: The Domain name label.The concatenation of the domain name
+	//label and vm index will be the domain name labels of the PublicIPAddress
+	//resources that will be created
 	DomainNameLabel string `json:"domainNameLabel"`
 }
 
@@ -17927,6 +18027,7 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus *Virtu
 
 // AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus populates our VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status from the provided source VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status
 func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) error {
+
 	// DomainNameLabel
 	if source.DomainNameLabel != nil {
 		virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus.DomainNameLabel = *source.DomainNameLabel
