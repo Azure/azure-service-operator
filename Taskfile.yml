@@ -34,6 +34,10 @@ vars:
   # how long to let tests against live resources run for
   LIVE_TEST_TIMEOUT: 2h
 
+env:
+  # Used to annotate resources with the operator's namespace
+  POD_NAMESPACE: my-operator
+
 tasks:
   default:
     desc: Perform all fast local pre-commit tasks.
@@ -146,6 +150,7 @@ tasks:
     cmds:
     - task: controller:verify-samples
     - task: controller:test-integration-envtest-cover
+    - task: controller:test-integration-envtest-target-namespace
     # checks must be after test as that will generate code
     - task: basic-checks
     # lint must be at end after code is formatted
@@ -261,6 +266,16 @@ tasks:
     cmds:
     # -race fails at the moment in controller-runtime
     - RECORD_REPLAY=0 go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
+
+  controller:test-integration-envtest-target-namespace:
+    desc: Run the target namespace test with target namespaces specified.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:generate-kustomize]
+    cmds:
+    # -race fails at the moment in controller-runtime
+    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./controllers" -run 'TestTargetNamespaces' ./controllers
+    env:
+      AZURE_TARGET_NAMESPACES: "default,watched"
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
