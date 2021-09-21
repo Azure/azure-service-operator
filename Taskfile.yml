@@ -12,7 +12,7 @@ vars:
   CONTROLLER_ROOT: ./hack/generated/
   CONTROLLER_PACKAGE: github.com/Azure/azure-service-operator/hack/generated
 
-  V2_ROOT: v2
+  V2_ROOT: v2/
 
   SCRIPTS_ROOT: ./scripts
 
@@ -299,16 +299,16 @@ tasks:
     deps: [controller:generate-crds, controller:generate-genruntime-deepcopy]
     sources:
       - "{{.GENERATOR_ROOT}}bin/{{.GENERATOR_APP}}"
-      - "{{.CONTROLLER_ROOT}}config/crd/bases/**/*.yaml"
+      - "{{.V2_ROOT}}config/crd/bases/**/*.yaml"
     generates:
-      - "{{.CONTROLLER_ROOT}}config/crd/kustomization.yaml"
+      - "{{.V2_ROOT}}config/crd/kustomization.yaml"
     cmds:
-      - "{{.GENERATOR_ROOT}}bin/{{.GENERATOR_APP}} gen-kustomize {{.CONTROLLER_ROOT}}config/crd"
+      - "{{.GENERATOR_ROOT}}bin/{{.GENERATOR_APP}} gen-kustomize {{.V2_ROOT}}config/crd"
 
   controller:run-kustomize:
     desc: Generates the CRD & configuration bundle.
     deps: [controller:generate-kustomize]
-    dir: "{{.CONTROLLER_ROOT}}"
+    dir: "{{.V2_ROOT}}"
     cmds:
     - mkdir -p bin # in case it doesn’t exist
     - kustomize build config/default | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
@@ -327,7 +327,7 @@ tasks:
     desc: Installs the controller, webhooks, and CRDs into the default kubectl cluster
     deps: [controller:generate-kustomize]
     cmds:
-      - "cd {{.CONTROLLER_ROOT}} && kustomize build config/default  | kubectl apply -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
+      - "cd {{.V2_ROOT}} && kustomize build config/default  | kubectl apply -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
       - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh"
 
   controller:install-cert-manager:
