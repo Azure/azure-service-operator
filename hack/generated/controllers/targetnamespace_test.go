@@ -41,7 +41,7 @@ func TestTargetNamespaces(t *testing.T) {
 	podNamespace := os.Getenv("POD_NAMESPACE")
 
 	// We can't check for operator namespace if there's not one set.
-	tc.Expect(podNamespace).ToNot(Equal(""))
+	tc.Expect(podNamespace).ToNot(Equal(""), "no POD_NAMESPACE set")
 
 	standardSpec := resources.ResourceGroupSpec{
 		Location: tc.AzureRegion,
@@ -85,21 +85,12 @@ func TestTargetNamespaces(t *testing.T) {
 	_, err := tc.CreateResourceGroup(&rgUnwatched)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	names := types.NamespacedName{Name: unwatchedName, Namespace: "unwatched"}
-
-	gotFinalizer := func(g Gomega) bool {
-		var instance resources.ResourceGroup
-		err := tc.KubeClient.Get(tc.Ctx, names, &instance)
-		g.Expect(err).NotTo(HaveOccurred())
-		res, err := meta.Accessor(&instance)
-		g.Expect(err).NotTo(HaveOccurred())
-		return HasFinalizer(res, finalizerName)
-	}
+	name := types.NamespacedName{Name: unwatchedName, Namespace: "unwatched"}
 
 	gotNamespaceAnnotation := func(g Gomega) bool {
 		var instance resources.ResourceGroup
 		ctx := context.Background()
-		err := tc.KubeClient.Get(ctx, names, &instance)
+		err := tc.KubeClient.Get(ctx, name, &instance)
 		g.Expect(err).NotTo(HaveOccurred())
 		res, err := meta.Accessor(&instance)
 		g.Expect(err).NotTo(HaveOccurred())
@@ -110,7 +101,7 @@ func TestTargetNamespaces(t *testing.T) {
 		t.Log("**** all namespaces mode")
 		// The operator should be watching all namespaces.
 		tc.G.Eventually(
-			gotFinalizer,
+			gotFinalizer(tc, name),
 			timeoutFast,
 			retry,
 		).Should(
@@ -131,7 +122,7 @@ func TestTargetNamespaces(t *testing.T) {
 		// We can tell that the resource isn't being reconciled if it
 		// never gets a finalizer.
 		tc.G.Consistently(
-			gotFinalizer,
+			gotFinalizer(tc, name),
 			20*time.Second,
 			time.Second,
 		).Should(
@@ -183,6 +174,17 @@ func createNamespaces(tc testcommon.KubePerTestContext, names ...string) {
 	}
 }
 
+func gotFinalizer(tc testcommon.KubePerTestContext, name types.NamespacedName) func(Gomega) bool {
+	return func(g Gomega) bool {
+		var instance resources.ResourceGroup
+		err := tc.KubeClient.Get(tc.Ctx, name, &instance)
+		tc.Expect(err).NotTo(HaveOccurred())
+		res, err := meta.Accessor(&instance)
+		tc.Expect(err).NotTo(HaveOccurred())
+		return HasFinalizer(res, finalizerName)
+	}
+}
+
 func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
@@ -190,7 +192,7 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 	podNamespace := os.Getenv("POD_NAMESPACE")
 
 	// We can't check for operator namespace if there's not one set.
-	tc.Expect(podNamespace).ToNot(Equal(""))
+	tc.Expect(podNamespace).ToNot(Equal(""), "no POD_NAMESPACE set")
 
 	// If a resource has a different operator's namespace it won't be
 	// reconciled.
@@ -210,22 +212,13 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 	_, err := tc.CreateResourceGroup(&notMine)
 	tc.Expect(err).NotTo(HaveOccurred())
 
-	names := types.NamespacedName{
+	name := types.NamespacedName{
 		Name:      notMine.ObjectMeta.Name,
 		Namespace: tc.Namespace(),
 	}
 
-	gotFinalizer := func(g Gomega) bool {
-		var instance resources.ResourceGroup
-		err := tc.KubeClient.Get(tc.Ctx, names, &instance)
-		tc.Expect(err).NotTo(HaveOccurred())
-		res, err := meta.Accessor(&instance)
-		tc.Expect(err).NotTo(HaveOccurred())
-		return HasFinalizer(res, finalizerName)
-	}
-
 	tc.G.Consistently(
-		gotFinalizer,
+		gotFinalizer(tc, name),
 		20*time.Second,
 		time.Second,
 	).Should(
