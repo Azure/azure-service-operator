@@ -12,6 +12,8 @@ vars:
   CONTROLLER_ROOT: ./hack/generated/
   CONTROLLER_PACKAGE: github.com/Azure/azure-service-operator/hack/generated
 
+  V2_ROOT: v2
+
   SCRIPTS_ROOT: ./scripts
 
   VERSION: 
@@ -40,6 +42,7 @@ tasks:
     - controller:quick-checks
     - crossplane:generate-crds
     - crossplane:quick-checks
+    - format-code
 
   ci:
     desc: Run all CI checks.
@@ -64,20 +67,18 @@ tasks:
 
   ############### Generator targets ###############
   basic-checks:
-    deps: [header-check, specifier-check, format-code]
+    deps: [header-check, specifier-check]
 
   generator:quick-checks:
     cmds:
     - task: generator:unit-tests
     - task: basic-checks
-    # Lint is forced to the end because it expects the code is formatted
     - task: generator:lint
 
   generator:ci:
     cmds:
     - task: generator:unit-tests-cover
     - task: basic-checks
-    # lint must be after format-code
     - task: generator:lint-full
 
   generator:unit-tests:
@@ -258,23 +259,23 @@ tasks:
   controller:generate-crds:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
     deps: [controller:generate-types]
-    dir: "{{.CONTROLLER_ROOT}}"
     sources:
-    - "apis/**/*_gen.go" # depends on all generated types
-    - "pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
+    - "v2/api/**/*_gen.go" # depends on all generated types
+    - "hack/generated/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
     cmds:
-    - mkdir -p ./apis
-    - find ./apis -type f -name "zz_generated.*" -delete
+    - mkdir -p v2/api
+    - find v2/api -type f -name "zz_generated.*" -delete
     - if [ -d "{{.OUTPUT}}/crd/bases" ]; then find "{{.OUTPUT}}/crd/bases" -type f -delete; fi
-    - cd apis && controller-gen {{.OBJECT_OPTIONS}} paths=./... 
-    - cd apis && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+    - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./... 
+    - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+    - cd v2/api && gofmt -l -s -w . # format all generated code
     vars:
       HEADER_FILE:
-        sh: 'realpath ../boilerplate.go.txt #controller:generate-crds'
+        sh: 'realpath hack/boilerplate.go.txt #controller:generate-crds'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}} 
 
       OUTPUT:
-        sh: 'realpath config #controller:generate-crds'
+        sh: 'realpath v2/config #controller:generate-crds'
       CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.OUTPUT}}/crd/bases 
       WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.OUTPUT}}/webhook 
       RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.OUTPUT}}/rbac

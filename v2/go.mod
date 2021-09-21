@@ -1,8 +1,9 @@
-module github.com/Azure/azure-service-operator/hack/generated
+module github.com/Azure/azure-service-operator/v2
 
 go 1.17
 
 require (
+	github.com/Azure/azure-service-operator/hack/generated v0.0.0-20210921170028-c106d8588da8
 	github.com/Azure/go-autorest/autorest v0.11.19
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.0
 	github.com/Azure/go-autorest/autorest/date v0.3.0
@@ -30,7 +31,6 @@ require (
 
 require (
 	cloud.google.com/go v0.54.0 // indirect
-	github.com/Azure/azure-service-operator/v2 v2.0.0-00010101000000-000000000000 // indirect
 	github.com/Azure/go-autorest v14.2.0+incompatible // indirect
 	github.com/Azure/go-autorest/autorest/adal v0.9.13 // indirect
 	github.com/Azure/go-autorest/autorest/azure/cli v0.4.0 // indirect
@@ -80,4 +80,4 @@ require (
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
 
-replace github.com/Azure/azure-service-operator/v2 => ../../v2
+replace github.com/Azure/azure-service-operator/hack/generated => ../hack/generated
