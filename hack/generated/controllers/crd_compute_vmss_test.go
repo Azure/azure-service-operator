@@ -14,11 +14,11 @@ import (
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	compute "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.compute/v1alpha1api20201201"
-	network "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101"
-	resources "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
+	compute "github.com/Azure/azure-service-operator/v2/api/microsoft.compute/v1alpha1api20201201"
+	network "github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101"
+	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 )
 
 func newVNETForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetwork {

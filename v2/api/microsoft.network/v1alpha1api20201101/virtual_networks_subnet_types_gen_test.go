@@ -5,7 +5,11 @@ package v1alpha1api20201101
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101storage"
+	"os"
+	"reflect"
+	"testing"
+
+	"github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -13,9 +17,6 @@ import (
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/gen"
 	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
-	"testing"
 )
 
 func Test_VirtualNetworksSubnet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -44,7 +45,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSubnet(subject VirtualNetworksSu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -94,7 +95,7 @@ func RunJSONSerializationTestForVirtualNetworksSubnet(subject VirtualNetworksSub
 }
 
 // Generator of VirtualNetworksSubnet instances for property testing - lazily instantiated by
-//VirtualNetworksSubnetGenerator()
+// VirtualNetworksSubnetGenerator()
 var virtualNetworksSubnetGenerator gopter.Gen
 
 // VirtualNetworksSubnetGenerator returns a generator of VirtualNetworksSubnet instances for property testing.
@@ -142,7 +143,7 @@ func RunPropertyAssignmentTestForSubnetStatusVirtualNetworksSubnetSubResourceEmb
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +193,7 @@ func RunJSONSerializationTestForSubnetStatusVirtualNetworksSubnetSubResourceEmbe
 }
 
 // Generator of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// instantiated by SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var subnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // SubnetStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -274,7 +275,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSubnetsSpec(subject VirtualNetwo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -324,7 +325,7 @@ func RunJSONSerializationTestForVirtualNetworksSubnetsSpec(subject VirtualNetwor
 }
 
 // Generator of VirtualNetworksSubnets_Spec instances for property testing - lazily instantiated by
-//VirtualNetworksSubnetsSpecGenerator()
+// VirtualNetworksSubnetsSpecGenerator()
 var virtualNetworksSubnetsSpecGenerator gopter.Gen
 
 // VirtualNetworksSubnetsSpecGenerator returns a generator of VirtualNetworksSubnets_Spec instances for property testing.
@@ -397,7 +398,7 @@ func RunPropertyAssignmentTestForApplicationGatewayIPConfigurationStatus(subject
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -447,7 +448,7 @@ func RunJSONSerializationTestForApplicationGatewayIPConfigurationStatus(subject 
 }
 
 // Generator of ApplicationGatewayIPConfiguration_Status instances for property testing - lazily instantiated by
-//ApplicationGatewayIPConfigurationStatusGenerator()
+// ApplicationGatewayIPConfigurationStatusGenerator()
 var applicationGatewayIPConfigurationStatusGenerator gopter.Gen
 
 // ApplicationGatewayIPConfigurationStatusGenerator returns a generator of ApplicationGatewayIPConfiguration_Status instances for property testing.
@@ -512,7 +513,7 @@ func RunPropertyAssignmentTestForDelegationStatus(subject Delegation_Status) str
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -614,7 +615,7 @@ func RunPropertyAssignmentTestForIPConfigurationProfileStatusVirtualNetworksSubn
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -664,7 +665,7 @@ func RunJSONSerializationTestForIPConfigurationProfileStatusVirtualNetworksSubne
 }
 
 // Generator of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing -
-//lazily instantiated by IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// lazily instantiated by IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // IPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -715,7 +716,7 @@ func RunPropertyAssignmentTestForIPConfigurationStatusVirtualNetworksSubnetSubRe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -765,7 +766,7 @@ func RunJSONSerializationTestForIPConfigurationStatusVirtualNetworksSubnetSubRes
 }
 
 // Generator of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// instantiated by IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // IPConfigurationStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -831,7 +832,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupStatusVirtualNetworksSubnet
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -881,7 +882,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupStatusVirtualNetworksSubnetS
 }
 
 // Generator of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing -
-//lazily instantiated by NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// lazily instantiated by NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -928,7 +929,7 @@ func RunPropertyAssignmentTestForPrivateEndpointStatusVirtualNetworksSubnetSubRe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -978,7 +979,7 @@ func RunJSONSerializationTestForPrivateEndpointStatusVirtualNetworksSubnetSubRes
 }
 
 // Generator of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var privateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -1039,7 +1040,7 @@ func RunPropertyAssignmentTestForResourceNavigationLinkStatus(subject ResourceNa
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1089,7 +1090,7 @@ func RunJSONSerializationTestForResourceNavigationLinkStatus(subject ResourceNav
 }
 
 // Generator of ResourceNavigationLink_Status instances for property testing - lazily instantiated by
-//ResourceNavigationLinkStatusGenerator()
+// ResourceNavigationLinkStatusGenerator()
 var resourceNavigationLinkStatusGenerator gopter.Gen
 
 // ResourceNavigationLinkStatusGenerator returns a generator of ResourceNavigationLink_Status instances for property testing.
@@ -1142,7 +1143,7 @@ func RunPropertyAssignmentTestForRouteTableStatusVirtualNetworksSubnetSubResourc
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1192,7 +1193,7 @@ func RunJSONSerializationTestForRouteTableStatusVirtualNetworksSubnetSubResource
 }
 
 // Generator of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// instantiated by RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var routeTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // RouteTableStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -1239,7 +1240,7 @@ func RunPropertyAssignmentTestForServiceAssociationLinkStatus(subject ServiceAss
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1289,7 +1290,7 @@ func RunJSONSerializationTestForServiceAssociationLinkStatus(subject ServiceAsso
 }
 
 // Generator of ServiceAssociationLink_Status instances for property testing - lazily instantiated by
-//ServiceAssociationLinkStatusGenerator()
+// ServiceAssociationLinkStatusGenerator()
 var serviceAssociationLinkStatusGenerator gopter.Gen
 
 // ServiceAssociationLinkStatusGenerator returns a generator of ServiceAssociationLink_Status instances for property testing.
@@ -1344,7 +1345,7 @@ func RunPropertyAssignmentTestForServiceEndpointPolicyStatusVirtualNetworksSubne
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1394,7 +1395,7 @@ func RunJSONSerializationTestForServiceEndpointPolicyStatusVirtualNetworksSubnet
 }
 
 // Generator of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing -
-//lazily instantiated by ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// lazily instantiated by ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // ServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
@@ -1442,7 +1443,7 @@ func RunPropertyAssignmentTestForServiceEndpointPropertiesFormat(subject Service
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1492,7 +1493,7 @@ func RunJSONSerializationTestForServiceEndpointPropertiesFormat(subject ServiceE
 }
 
 // Generator of ServiceEndpointPropertiesFormat instances for property testing - lazily instantiated by
-//ServiceEndpointPropertiesFormatGenerator()
+// ServiceEndpointPropertiesFormatGenerator()
 var serviceEndpointPropertiesFormatGenerator gopter.Gen
 
 // ServiceEndpointPropertiesFormatGenerator returns a generator of ServiceEndpointPropertiesFormat instances for property testing.
@@ -1540,7 +1541,7 @@ func RunPropertyAssignmentTestForServiceEndpointPropertiesFormatStatus(subject S
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1590,7 +1591,7 @@ func RunJSONSerializationTestForServiceEndpointPropertiesFormatStatus(subject Se
 }
 
 // Generator of ServiceEndpointPropertiesFormat_Status instances for property testing - lazily instantiated by
-//ServiceEndpointPropertiesFormatStatusGenerator()
+// ServiceEndpointPropertiesFormatStatusGenerator()
 var serviceEndpointPropertiesFormatStatusGenerator gopter.Gen
 
 // ServiceEndpointPropertiesFormatStatusGenerator returns a generator of ServiceEndpointPropertiesFormat_Status instances for property testing.
@@ -1639,7 +1640,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSubnetsSpecPropertiesDelegations
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1689,7 +1690,7 @@ func RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesDelegations(
 }
 
 // Generator of VirtualNetworksSubnets_Spec_Properties_Delegations instances for property testing - lazily instantiated
-//by VirtualNetworksSubnetsSpecPropertiesDelegationsGenerator()
+// by VirtualNetworksSubnetsSpecPropertiesDelegationsGenerator()
 var virtualNetworksSubnetsSpecPropertiesDelegationsGenerator gopter.Gen
 
 // VirtualNetworksSubnetsSpecPropertiesDelegationsGenerator returns a generator of VirtualNetworksSubnets_Spec_Properties_Delegations instances for property testing.
@@ -1737,7 +1738,7 @@ func RunPropertyAssignmentTestForPublicIPAddressStatusVirtualNetworksSubnetSubRe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1787,7 +1788,7 @@ func RunJSONSerializationTestForPublicIPAddressStatusVirtualNetworksSubnetSubRes
 }
 
 // Generator of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
+// instantiated by PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator()
 var publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator gopter.Gen
 
 // PublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbeddedGenerator returns a generator of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.

@@ -89,10 +89,10 @@ If the property is not an ARM ID, update `newKnownReferencesMap` to indicate tha
 TODO: expand on other common errors
 
 ## Examine the generated resource
-After running the generator, the new resource you added should be in the [apis](/hack/generated/apis/) directory. 
+After running the generator, the new resource you added should be in the [apis](/v2/api/) directory. 
 
 Have a look through the files in the directory named after the `group` and `version` of the resource that was added.
-In our `NetworkSecurityGroups` example, the best place to start is `/hack/generated/apis/microsoft.network/v1alpha1api20201101/network_security_group_types_gen.go`
+In our `NetworkSecurityGroups` example, the best place to start is `/v2/api/microsoft.network/v1alpha1api20201101/network_security_group_types_gen.go`
 There may be other resources that already exist in that same directory - that's expected if ASO already supported some resources from that provider and API version.
 
 Starting with the `network_security_group_types_gen.go` file, find the struct representing the resource you just added. It should be near the top and look something like this:

@@ -5,10 +5,11 @@ package v1alpha1api20201101
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101storage"
+
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101storage"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -26,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_subnets
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_subnets
 type VirtualNetworksSubnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -208,7 +209,6 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) validateResourceReferences()
 
 // AssignPropertiesFromVirtualNetworksSubnet populates our VirtualNetworksSubnet from the provided source VirtualNetworksSubnet
 func (virtualNetworksSubnet *VirtualNetworksSubnet) AssignPropertiesFromVirtualNetworksSubnet(source *v1alpha1api20201101storage.VirtualNetworksSubnet) error {
-
 	// Spec
 	var spec VirtualNetworksSubnets_Spec
 	err := spec.AssignPropertiesFromVirtualNetworksSubnetsSpec(&source.Spec)
@@ -231,7 +231,6 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) AssignPropertiesFromVirtualN
 
 // AssignPropertiesToVirtualNetworksSubnet populates the provided destination VirtualNetworksSubnet from our VirtualNetworksSubnet
 func (virtualNetworksSubnet *VirtualNetworksSubnet) AssignPropertiesToVirtualNetworksSubnet(destination *v1alpha1api20201101storage.VirtualNetworksSubnet) error {
-
 	// Spec
 	var spec v1alpha1api20201101storage.VirtualNetworksSubnets_Spec
 	err := virtualNetworksSubnet.Spec.AssignPropertiesToVirtualNetworksSubnetsSpec(&spec)
@@ -262,94 +261,94 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) OriginalGVK() *schema.GroupV
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_subnets
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_subnets
 type VirtualNetworksSubnetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetworksSubnet `json:"items"`
 }
 
-//Generated from:
+// Generated from:
 type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
-	//AddressPrefix: The address prefix for the subnet.
+	// AddressPrefix: The address prefix for the subnet.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
 
-	//AddressPrefixes: List of address prefixes for the subnet.
+	// AddressPrefixes: List of address prefixes for the subnet.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 
-	//ApplicationGatewayIpConfigurations: Application gateway IP configurations of
-	//virtual network resource.
+	// ApplicationGatewayIpConfigurations: Application gateway IP configurations of
+	// virtual network resource.
 	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_Status `json:"applicationGatewayIpConfigurations,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Delegations: An array of references to the delegations on the subnet.
+	// Delegations: An array of references to the delegations on the subnet.
 	Delegations []Delegation_Status `json:"delegations,omitempty"`
 
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//IpAllocations: Array of IpAllocation which reference this subnet.
+	// IpAllocations: Array of IpAllocation which reference this subnet.
 	IpAllocations []SubResource_Status `json:"ipAllocations,omitempty"`
 
-	//IpConfigurationProfiles: Array of IP configuration profiles which reference this
-	//subnet.
+	// IpConfigurationProfiles: Array of IP configuration profiles which reference this
+	// subnet.
 	IpConfigurationProfiles []IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"ipConfigurationProfiles,omitempty"`
 
-	//IpConfigurations: An array of references to the network interface IP
-	//configurations using subnet.
+	// IpConfigurations: An array of references to the network interface IP
+	// configurations using subnet.
 	IpConfigurations []IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"ipConfigurations,omitempty"`
 
-	//Name: The name of the resource that is unique within a resource group. This name
-	//can be used to access the resource.
+	// Name: The name of the resource that is unique within a resource group. This name
+	// can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//NatGateway: Nat gateway associated with this subnet.
+	// NatGateway: Nat gateway associated with this subnet.
 	NatGateway *SubResource_Status `json:"natGateway,omitempty"`
 
-	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
+	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"networkSecurityGroup,omitempty"`
 
-	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
-	//private end point in the subnet.
+	// PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
+	// private end point in the subnet.
 	PrivateEndpointNetworkPolicies *SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies `json:"privateEndpointNetworkPolicies,omitempty"`
 
-	//PrivateEndpoints: An array of references to private endpoints.
+	// PrivateEndpoints: An array of references to private endpoints.
 	PrivateEndpoints []PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"privateEndpoints,omitempty"`
 
-	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
-	//private link service in the subnet.
+	// PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
+	// private link service in the subnet.
 	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
-	//ProvisioningState: The provisioning state of the subnet resource.
+	// ProvisioningState: The provisioning state of the subnet resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//Purpose: A read-only string identifying the intention of use for this subnet
-	//based on delegations and other user-defined properties.
+	// Purpose: A read-only string identifying the intention of use for this subnet
+	// based on delegations and other user-defined properties.
 	Purpose *string `json:"purpose,omitempty"`
 
-	//ResourceNavigationLinks: An array of references to the external resources using
-	//subnet.
+	// ResourceNavigationLinks: An array of references to the external resources using
+	// subnet.
 	ResourceNavigationLinks []ResourceNavigationLink_Status `json:"resourceNavigationLinks,omitempty"`
 
-	//RouteTable: The reference to the RouteTable resource.
+	// RouteTable: The reference to the RouteTable resource.
 	RouteTable *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"routeTable,omitempty"`
 
-	//ServiceAssociationLinks: An array of references to services injecting into this
-	//subnet.
+	// ServiceAssociationLinks: An array of references to services injecting into this
+	// subnet.
 	ServiceAssociationLinks []ServiceAssociationLink_Status `json:"serviceAssociationLinks,omitempty"`
 
-	//ServiceEndpointPolicies: An array of service endpoint policies.
+	// ServiceEndpointPolicies: An array of service endpoint policies.
 	ServiceEndpointPolicies []ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"serviceEndpointPolicies,omitempty"`
 
-	//ServiceEndpoints: An array of service endpoints.
+	// ServiceEndpoints: An array of service endpoints.
 	ServiceEndpoints []ServiceEndpointPropertiesFormat_Status `json:"serviceEndpoints,omitempty"`
 
-	//Type: Resource type.
+	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -674,7 +673,6 @@ func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_Virtua
 
 // AssignPropertiesFromSubnetStatusVirtualNetworksSubnetSubResourceEmbedded populates our Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
 func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromSubnetStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
-
 	// AddressPrefix
 	if source.AddressPrefix != nil {
 		addressPrefix := *source.AddressPrefix
@@ -1225,52 +1223,52 @@ func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_Virtua
 
 type VirtualNetworksSubnets_Spec struct {
 	// +kubebuilder:validation:Required
-	//AddressPrefix: The address prefix for the subnet.
+	// AddressPrefix: The address prefix for the subnet.
 	AddressPrefix string `json:"addressPrefix"`
 
-	//AddressPrefixes: List of address prefixes for the subnet.
+	// AddressPrefixes: List of address prefixes for the subnet.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name
+	// of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//Delegations: An array of references to the delegations on the subnet.
+	// Delegations: An array of references to the delegations on the subnet.
 	Delegations []VirtualNetworksSubnets_Spec_Properties_Delegations `json:"delegations,omitempty"`
 
-	//IpAllocations: Array of IpAllocation which reference this subnet.
+	// IpAllocations: Array of IpAllocation which reference this subnet.
 	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//NatGateway: Nat gateway associated with this subnet.
+	// NatGateway: Nat gateway associated with this subnet.
 	NatGateway *SubResource `json:"natGateway,omitempty"`
 
-	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
+	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.network.azure.com" json:"owner" kind:"VirtualNetwork"`
 
-	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
-	//private end point in the subnet.
+	// PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
+	// private end point in the subnet.
 	PrivateEndpointNetworkPolicies *string `json:"privateEndpointNetworkPolicies,omitempty"`
 
-	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
-	//private link service in the subnet.
+	// PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
+	// private link service in the subnet.
 	PrivateLinkServiceNetworkPolicies *string `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
-	//RouteTable: The reference to the RouteTable resource.
+	// RouteTable: The reference to the RouteTable resource.
 	RouteTable *SubResource `json:"routeTable,omitempty"`
 
-	//ServiceEndpointPolicies: An array of service endpoint policies.
+	// ServiceEndpointPolicies: An array of service endpoint policies.
 	ServiceEndpointPolicies []SubResource `json:"serviceEndpointPolicies,omitempty"`
 
-	//ServiceEndpoints: An array of service endpoints.
+	// ServiceEndpoints: An array of service endpoints.
 	ServiceEndpoints []ServiceEndpointPropertiesFormat `json:"serviceEndpoints,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -1566,7 +1564,6 @@ func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) ConvertSpecTo(des
 
 // AssignPropertiesFromVirtualNetworksSubnetsSpec populates our VirtualNetworksSubnets_Spec from the provided source VirtualNetworksSubnets_Spec
 func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) AssignPropertiesFromVirtualNetworksSubnetsSpec(source *v1alpha1api20201101storage.VirtualNetworksSubnets_Spec) error {
-
 	// AddressPrefix
 	if source.AddressPrefix != nil {
 		virtualNetworksSubnetsSpec.AddressPrefix = *source.AddressPrefix
@@ -1886,26 +1883,26 @@ func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) SetAzureName(azur
 	virtualNetworksSubnetsSpec.AzureName = azureName
 }
 
-//Generated from:
+// Generated from:
 type ApplicationGatewayIPConfiguration_Status struct {
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: Name of the IP configuration that is unique within an Application Gateway.
+	// Name: Name of the IP configuration that is unique within an Application Gateway.
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: The provisioning state of the application gateway IP
-	//configuration resource.
+	// ProvisioningState: The provisioning state of the application gateway IP
+	// configuration resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//Subnet: Reference to the subnet resource. A subnet from where application
-	//gateway gets its private address.
+	// Subnet: Reference to the subnet resource. A subnet from where application
+	// gateway gets its private address.
 	Subnet *SubResource_Status `json:"subnet,omitempty"`
 
-	//Type: Type of the resource.
+	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -1976,7 +1973,6 @@ func (applicationGatewayIPConfigurationStatus *ApplicationGatewayIPConfiguration
 
 // AssignPropertiesFromApplicationGatewayIPConfigurationStatus populates our ApplicationGatewayIPConfiguration_Status from the provided source ApplicationGatewayIPConfiguration_Status
 func (applicationGatewayIPConfigurationStatus *ApplicationGatewayIPConfiguration_Status) AssignPropertiesFromApplicationGatewayIPConfigurationStatus(source *v1alpha1api20201101storage.ApplicationGatewayIPConfiguration_Status) error {
-
 	// Etag
 	if source.Etag != nil {
 		etag := *source.Etag
@@ -2097,29 +2093,29 @@ func (applicationGatewayIPConfigurationStatus *ApplicationGatewayIPConfiguration
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type Delegation_Status struct {
-	//Actions: The actions permitted to the service upon delegation.
+	// Actions: The actions permitted to the service upon delegation.
 	Actions []string `json:"actions,omitempty"`
 
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource that is unique within a subnet. This name can be
-	//used to access the resource.
+	// Name: The name of the resource that is unique within a subnet. This name can be
+	// used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: The provisioning state of the service delegation resource.
+	// ProvisioningState: The provisioning state of the service delegation resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
 	//ServiceName: The name of the service to whom the subnet should be delegated
 	//(e.g. Microsoft.Sql/servers).
 	ServiceName *string `json:"serviceName,omitempty"`
 
-	//Type: Resource type.
+	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -2193,7 +2189,6 @@ func (delegationStatus *Delegation_Status) PopulateFromARM(owner genruntime.Know
 
 // AssignPropertiesFromDelegationStatus populates our Delegation_Status from the provided source Delegation_Status
 func (delegationStatus *Delegation_Status) AssignPropertiesFromDelegationStatus(source *v1alpha1api20201101storage.Delegation_Status) error {
-
 	// Actions
 	actionList := make([]string, len(source.Actions))
 	for actionIndex, actionItem := range source.Actions {
@@ -2324,22 +2319,22 @@ func (delegationStatus *Delegation_Status) AssignPropertiesToDelegationStatus(de
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource. This name can be used to access the resource.
+	// Name: The name of the resource. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: The provisioning state of the IP configuration profile
-	//resource.
+	// ProvisioningState: The provisioning state of the IP configuration profile
+	// resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//Type: Sub Resource type.
+	// Type: Sub Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -2396,7 +2391,6 @@ func (ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded *IPCo
 
 // AssignPropertiesFromIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded populates our IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
 func (ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromIPConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
-
 	// Etag
 	if source.Etag != nil {
 		etag := *source.Etag
@@ -2493,28 +2487,28 @@ func (ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded *IPCo
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource that is unique within a resource group. This name
-	//can be used to access the resource.
+	// Name: The name of the resource that is unique within a resource group. This name
+	// can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//PrivateIPAddress: The private IP address of the IP configuration.
+	// PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
-	//PrivateIPAllocationMethod: The private IP address allocation method.
+	// PrivateIPAllocationMethod: The private IP address allocation method.
 	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
 
-	//ProvisioningState: The provisioning state of the IP configuration resource.
+	// ProvisioningState: The provisioning state of the IP configuration resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//PublicIPAddress: The reference to the public IP resource.
+	// PublicIPAddress: The reference to the public IP resource.
 	PublicIPAddress *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
 }
 
@@ -2597,7 +2591,6 @@ func (ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded *IPConfigura
 
 // AssignPropertiesFromIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded populates our IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
 func (ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
-
 	// Etag
 	if source.Etag != nil {
 		etag := *source.Etag
@@ -2734,9 +2727,9 @@ func (ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded *IPConfigura
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -2766,7 +2759,6 @@ func (networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded *Networ
 
 // AssignPropertiesFromNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded populates our NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
 func (networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromNetworkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
-
 	// Id
 	if source.Id != nil {
 		id := *source.Id
@@ -2799,12 +2791,12 @@ func (networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded *Networ
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
-	//ExtendedLocation: The extended location of the load balancer.
+	// ExtendedLocation: The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -2845,7 +2837,6 @@ func (privateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded *PrivateEndp
 
 // AssignPropertiesFromPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded populates our PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
 func (privateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded *PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
-
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_Status
@@ -2902,29 +2893,29 @@ func (privateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded *PrivateEndp
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type ResourceNavigationLink_Status struct {
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource navigation link identifier.
+	// Id: Resource navigation link identifier.
 	Id *string `json:"id,omitempty"`
 
-	//Link: Link to the external resource.
+	// Link: Link to the external resource.
 	Link *string `json:"link,omitempty"`
 
-	//LinkedResourceType: Resource type of the linked resource.
+	// LinkedResourceType: Resource type of the linked resource.
 	LinkedResourceType *string `json:"linkedResourceType,omitempty"`
 
-	//Name: Name of the resource that is unique within a resource group. This name can
-	//be used to access the resource.
+	// Name: Name of the resource that is unique within a resource group. This name can
+	// be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: The provisioning state of the resource navigation link
-	//resource.
+	// ProvisioningState: The provisioning state of the resource navigation link
+	// resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//Type: Resource type.
+	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -2999,7 +2990,6 @@ func (resourceNavigationLinkStatus *ResourceNavigationLink_Status) PopulateFromA
 
 // AssignPropertiesFromResourceNavigationLinkStatus populates our ResourceNavigationLink_Status from the provided source ResourceNavigationLink_Status
 func (resourceNavigationLinkStatus *ResourceNavigationLink_Status) AssignPropertiesFromResourceNavigationLinkStatus(source *v1alpha1api20201101storage.ResourceNavigationLink_Status) error {
-
 	// Etag
 	if source.Etag != nil {
 		etag := *source.Etag
@@ -3128,9 +3118,9 @@ func (resourceNavigationLinkStatus *ResourceNavigationLink_Status) AssignPropert
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3160,7 +3150,6 @@ func (routeTableStatusVirtualNetworksSubnetSubResourceEmbedded *RouteTable_Statu
 
 // AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded populates our RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
 func (routeTableStatusVirtualNetworksSubnetSubResourceEmbedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
-
 	// Id
 	if source.Id != nil {
 		id := *source.Id
@@ -3193,35 +3182,35 @@ func (routeTableStatusVirtualNetworksSubnetSubResourceEmbedded *RouteTable_Statu
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type ServiceAssociationLink_Status struct {
-	//AllowDelete: If true, the resource can be deleted.
+	// AllowDelete: If true, the resource can be deleted.
 	AllowDelete *bool `json:"allowDelete,omitempty"`
 
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Link: Link to the external resource.
+	// Link: Link to the external resource.
 	Link *string `json:"link,omitempty"`
 
-	//LinkedResourceType: Resource type of the linked resource.
+	// LinkedResourceType: Resource type of the linked resource.
 	LinkedResourceType *string `json:"linkedResourceType,omitempty"`
 
-	//Locations: A list of locations.
+	// Locations: A list of locations.
 	Locations []string `json:"locations,omitempty"`
 
-	//Name: Name of the resource that is unique within a resource group. This name can
-	//be used to access the resource.
+	// Name: Name of the resource that is unique within a resource group. This name can
+	// be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: The provisioning state of the service association link
-	//resource.
+	// ProvisioningState: The provisioning state of the service association link
+	// resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//Type: Resource type.
+	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -3313,7 +3302,6 @@ func (serviceAssociationLinkStatus *ServiceAssociationLink_Status) PopulateFromA
 
 // AssignPropertiesFromServiceAssociationLinkStatus populates our ServiceAssociationLink_Status from the provided source ServiceAssociationLink_Status
 func (serviceAssociationLinkStatus *ServiceAssociationLink_Status) AssignPropertiesFromServiceAssociationLinkStatus(source *v1alpha1api20201101storage.ServiceAssociationLink_Status) error {
-
 	// AllowDelete
 	if source.AllowDelete != nil {
 		allowDelete := *source.AllowDelete
@@ -3476,13 +3464,13 @@ func (serviceAssociationLinkStatus *ServiceAssociationLink_Status) AssignPropert
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Kind: Kind of service endpoint policy. This is metadata used for the Azure
-	//portal experience.
+	// Kind: Kind of service endpoint policy. This is metadata used for the Azure
+	// portal experience.
 	Kind *string `json:"kind,omitempty"`
 }
 
@@ -3518,7 +3506,6 @@ func (serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded *Servi
 
 // AssignPropertiesFromServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded populates our ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
 func (serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded *ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromServiceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
-
 	// Id
 	if source.Id != nil {
 		id := *source.Id
@@ -3567,12 +3554,12 @@ func (serviceEndpointPolicyStatusVirtualNetworksSubnetSubResourceEmbedded *Servi
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceEndpointPropertiesFormat
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceEndpointPropertiesFormat
 type ServiceEndpointPropertiesFormat struct {
-	//Locations: A list of locations.
+	// Locations: A list of locations.
 	Locations []string `json:"locations,omitempty"`
 
-	//Service: The type of the endpoint service.
+	// Service: The type of the endpoint service.
 	Service *string `json:"service,omitempty"`
 }
 
@@ -3627,7 +3614,6 @@ func (serviceEndpointPropertiesFormat *ServiceEndpointPropertiesFormat) Populate
 
 // AssignPropertiesFromServiceEndpointPropertiesFormat populates our ServiceEndpointPropertiesFormat from the provided source ServiceEndpointPropertiesFormat
 func (serviceEndpointPropertiesFormat *ServiceEndpointPropertiesFormat) AssignPropertiesFromServiceEndpointPropertiesFormat(source *v1alpha1api20201101storage.ServiceEndpointPropertiesFormat) error {
-
 	// Locations
 	locationList := make([]string, len(source.Locations))
 	for locationIndex, locationItem := range source.Locations {
@@ -3678,15 +3664,15 @@ func (serviceEndpointPropertiesFormat *ServiceEndpointPropertiesFormat) AssignPr
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type ServiceEndpointPropertiesFormat_Status struct {
-	//Locations: A list of locations.
+	// Locations: A list of locations.
 	Locations []string `json:"locations,omitempty"`
 
-	//ProvisioningState: The provisioning state of the service endpoint resource.
+	// ProvisioningState: The provisioning state of the service endpoint resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//Service: The type of the endpoint service.
+	// Service: The type of the endpoint service.
 	Service *string `json:"service,omitempty"`
 }
 
@@ -3727,7 +3713,6 @@ func (serviceEndpointPropertiesFormatStatus *ServiceEndpointPropertiesFormat_Sta
 
 // AssignPropertiesFromServiceEndpointPropertiesFormatStatus populates our ServiceEndpointPropertiesFormat_Status from the provided source ServiceEndpointPropertiesFormat_Status
 func (serviceEndpointPropertiesFormatStatus *ServiceEndpointPropertiesFormat_Status) AssignPropertiesFromServiceEndpointPropertiesFormatStatus(source *v1alpha1api20201101storage.ServiceEndpointPropertiesFormat_Status) error {
-
 	// Locations
 	locationList := make([]string, len(source.Locations))
 	for locationIndex, locationItem := range source.Locations {
@@ -3796,8 +3781,8 @@ func (serviceEndpointPropertiesFormatStatus *ServiceEndpointPropertiesFormat_Sta
 
 type VirtualNetworksSubnets_Spec_Properties_Delegations struct {
 	// +kubebuilder:validation:Required
-	//Name: The name of the resource that is unique within a subnet. This name can be
-	//used to access the resource.
+	// Name: The name of the resource that is unique within a subnet. This name can be
+	// used to access the resource.
 	Name string `json:"name"`
 
 	//ServiceName: The name of the service to whom the subnet should be delegated
@@ -3858,7 +3843,6 @@ func (virtualNetworksSubnetsSpecPropertiesDelegations *VirtualNetworksSubnets_Sp
 
 // AssignPropertiesFromVirtualNetworksSubnetsSpecPropertiesDelegations populates our VirtualNetworksSubnets_Spec_Properties_Delegations from the provided source VirtualNetworksSubnets_Spec_Properties_Delegations
 func (virtualNetworksSubnetsSpecPropertiesDelegations *VirtualNetworksSubnets_Spec_Properties_Delegations) AssignPropertiesFromVirtualNetworksSubnetsSpecPropertiesDelegations(source *v1alpha1api20201101storage.VirtualNetworksSubnets_Spec_Properties_Delegations) error {
-
 	// Name
 	if source.Name != nil {
 		virtualNetworksSubnetsSpecPropertiesDelegations.Name = *source.Name
@@ -3902,19 +3886,19 @@ func (virtualNetworksSubnetsSpecPropertiesDelegations *VirtualNetworksSubnets_Sp
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
-	//ExtendedLocation: The extended location of the public ip address.
+	// ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Sku: The public IP address SKU.
+	// Sku: The public IP address SKU.
 	Sku *PublicIPAddressSku_Status `json:"sku,omitempty"`
 
-	//Zones: A list of availability zones denoting the IP allocated for the resource
-	//needs to come from.
+	// Zones: A list of availability zones denoting the IP allocated for the resource
+	// needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -3971,7 +3955,6 @@ func (publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded *PublicIPAdd
 
 // AssignPropertiesFromPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded populates our PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
 func (publicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromPublicIPAddressStatusVirtualNetworksSubnetSubResourceEmbedded(source *v1alpha1api20201101storage.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
-
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_Status

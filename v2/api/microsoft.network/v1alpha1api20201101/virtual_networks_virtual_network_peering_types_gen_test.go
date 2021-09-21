@@ -5,7 +5,11 @@ package v1alpha1api20201101
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101storage"
+	"os"
+	"reflect"
+	"testing"
+
+	"github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -13,9 +17,6 @@ import (
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/gen"
 	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
-	"testing"
 )
 
 func Test_VirtualNetworksVirtualNetworkPeering_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -44,7 +45,7 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering(subject Vi
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -94,7 +95,7 @@ func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeering(subject Vir
 }
 
 // Generator of VirtualNetworksVirtualNetworkPeering instances for property testing - lazily instantiated by
-//VirtualNetworksVirtualNetworkPeeringGenerator()
+// VirtualNetworksVirtualNetworkPeeringGenerator()
 var virtualNetworksVirtualNetworkPeeringGenerator gopter.Gen
 
 // VirtualNetworksVirtualNetworkPeeringGenerator returns a generator of VirtualNetworksVirtualNetworkPeering instances for property testing.
@@ -142,7 +143,7 @@ func RunPropertyAssignmentTestForVirtualNetworkPeeringStatus(subject VirtualNetw
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +193,7 @@ func RunJSONSerializationTestForVirtualNetworkPeeringStatus(subject VirtualNetwo
 }
 
 // Generator of VirtualNetworkPeering_Status instances for property testing - lazily instantiated by
-//VirtualNetworkPeeringStatusGenerator()
+// VirtualNetworkPeeringStatusGenerator()
 var virtualNetworkPeeringStatusGenerator gopter.Gen
 
 // VirtualNetworkPeeringStatusGenerator returns a generator of VirtualNetworkPeering_Status instances for property testing.
@@ -266,7 +267,7 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeeringsSpec(subje
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -316,7 +317,7 @@ func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeeringsSpec(subjec
 }
 
 // Generator of VirtualNetworksVirtualNetworkPeerings_Spec instances for property testing - lazily instantiated by
-//VirtualNetworksVirtualNetworkPeeringsSpecGenerator()
+// VirtualNetworksVirtualNetworkPeeringsSpecGenerator()
 var virtualNetworksVirtualNetworkPeeringsSpecGenerator gopter.Gen
 
 // VirtualNetworksVirtualNetworkPeeringsSpecGenerator returns a generator of VirtualNetworksVirtualNetworkPeerings_Spec instances for property testing.

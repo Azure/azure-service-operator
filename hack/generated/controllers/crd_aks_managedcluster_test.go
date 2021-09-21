@@ -13,8 +13,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	aks "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.containerservice/v1alpha1api20210501"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
+	aks "github.com/Azure/azure-service-operator/v2/api/microsoft.containerservice/v1alpha1api20210501"
 )
 
 func Test_AKS_ManagedCluster_CRUD(t *testing.T) {

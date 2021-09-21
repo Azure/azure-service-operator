@@ -5,10 +5,11 @@ package v1alpha1api20210501
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.containerservice/v1alpha1api20210501storage"
+
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/api/microsoft.containerservice/v1alpha1api20210501storage"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -26,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters_agentPools
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters_agentPools
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -208,7 +209,6 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) validateResourceRefere
 
 // AssignPropertiesFromManagedClustersAgentPool populates our ManagedClustersAgentPool from the provided source ManagedClustersAgentPool
 func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesFromManagedClustersAgentPool(source *v1alpha1api20210501storage.ManagedClustersAgentPool) error {
-
 	// Spec
 	var spec ManagedClustersAgentPools_Spec
 	err := spec.AssignPropertiesFromManagedClustersAgentPoolsSpec(&source.Spec)
@@ -231,7 +231,6 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesFromMa
 
 // AssignPropertiesToManagedClustersAgentPool populates the provided destination ManagedClustersAgentPool from our ManagedClustersAgentPool
 func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesToManagedClustersAgentPool(destination *v1alpha1api20210501storage.ManagedClustersAgentPool) error {
-
 	// Spec
 	var spec v1alpha1api20210501storage.ManagedClustersAgentPools_Spec
 	err := managedClustersAgentPool.Spec.AssignPropertiesToManagedClustersAgentPoolsSpec(&spec)
@@ -262,161 +261,161 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) OriginalGVK() *schema.
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters_agentPools
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters_agentPools
 type ManagedClustersAgentPoolList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ManagedClustersAgentPool `json:"items"`
 }
 
-//Generated from:
+// Generated from:
 type AgentPool_Status struct {
-	//AvailabilityZones: Availability zones for nodes. Must use
-	//VirtualMachineScaleSets AgentPoolType.
+	// AvailabilityZones: Availability zones for nodes. Must use
+	// VirtualMachineScaleSets AgentPoolType.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Count: Number of agents (VMs) to host docker containers. Allowed values must be
-	//in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to
-	//1000 (inclusive) for system pools. The default value is 1.
+	// Count: Number of agents (VMs) to host docker containers. Allowed values must be
+	// in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to
+	// 1000 (inclusive) for system pools. The default value is 1.
 	Count *int `json:"count,omitempty"`
 
-	//EnableAutoScaling: Whether to enable auto-scaler
+	// EnableAutoScaling: Whether to enable auto-scaler
 	EnableAutoScaling *bool `json:"enableAutoScaling,omitempty"`
 
-	//EnableEncryptionAtHost: Whether to enable EncryptionAtHost
+	// EnableEncryptionAtHost: Whether to enable EncryptionAtHost
 	EnableEncryptionAtHost *bool `json:"enableEncryptionAtHost,omitempty"`
 
-	//EnableFIPS: Whether to use FIPS enabled OS
+	// EnableFIPS: Whether to use FIPS enabled OS
 	EnableFIPS *bool `json:"enableFIPS,omitempty"`
 
-	//EnableNodePublicIP: Enable public IP for nodes
+	// EnableNodePublicIP: Enable public IP for nodes
 	EnableNodePublicIP *bool `json:"enableNodePublicIP,omitempty"`
 
-	//EnableUltraSSD: Whether to enable UltraSSD
+	// EnableUltraSSD: Whether to enable UltraSSD
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
-	//GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
-	//profile for supported GPU VM SKU. Supported values are MIG1g, MIG2g, MIG3g,
-	//MIG4g and MIG7g.
+	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
+	// profile for supported GPU VM SKU. Supported values are MIG1g, MIG2g, MIG3g,
+	// MIG4g and MIG7g.
 	GpuInstanceProfile *GPUInstanceProfile_Status `json:"gpuInstanceProfile,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//KubeletConfig: KubeletConfig specifies the configuration of kubelet on agent
-	//nodes.
+	// KubeletConfig: KubeletConfig specifies the configuration of kubelet on agent
+	// nodes.
 	KubeletConfig *KubeletConfig_Status `json:"kubeletConfig,omitempty"`
 
-	//KubeletDiskType: KubeletDiskType determines the placement of emptyDir volumes,
-	//container runtime data root, and Kubelet ephemeral storage. Currently allows one
-	//value, OS, resulting in Kubelet using the OS disk for data.
+	// KubeletDiskType: KubeletDiskType determines the placement of emptyDir volumes,
+	// container runtime data root, and Kubelet ephemeral storage. Currently allows one
+	// value, OS, resulting in Kubelet using the OS disk for data.
 	KubeletDiskType *KubeletDiskType_Status `json:"kubeletDiskType,omitempty"`
 
-	//LinuxOSConfig: LinuxOSConfig specifies the OS configuration of linux agent nodes.
+	// LinuxOSConfig: LinuxOSConfig specifies the OS configuration of linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_Status `json:"linuxOSConfig,omitempty"`
 
-	//MaxCount: Maximum number of nodes for auto-scaling
+	// MaxCount: Maximum number of nodes for auto-scaling
 	MaxCount *int `json:"maxCount,omitempty"`
 
-	//MaxPods: Maximum number of pods that can run on a node.
+	// MaxPods: Maximum number of pods that can run on a node.
 	MaxPods *int `json:"maxPods,omitempty"`
 
-	//MinCount: Minimum number of nodes for auto-scaling
+	// MinCount: Minimum number of nodes for auto-scaling
 	MinCount *int `json:"minCount,omitempty"`
 
-	//Mode: AgentPoolMode represents mode of an agent pool
+	// Mode: AgentPoolMode represents mode of an agent pool
 	Mode *AgentPoolMode_Status `json:"mode,omitempty"`
 
-	//Name: The name of the resource that is unique within a resource group. This name
-	//can be used to access the resource.
+	// Name: The name of the resource that is unique within a resource group. This name
+	// can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//NodeImageVersion: Version of node image
+	// NodeImageVersion: Version of node image
 	NodeImageVersion *string `json:"nodeImageVersion,omitempty"`
 
-	//NodeLabels: Agent pool node labels to be persisted across all nodes in agent
-	//pool.
+	// NodeLabels: Agent pool node labels to be persisted across all nodes in agent
+	// pool.
 	NodeLabels map[string]string `json:"nodeLabels,omitempty"`
 
-	//NodePublicIPPrefixID: Public IP Prefix ID. VM nodes use IPs assigned from this
-	//Public IP Prefix.
+	// NodePublicIPPrefixID: Public IP Prefix ID. VM nodes use IPs assigned from this
+	// Public IP Prefix.
 	NodePublicIPPrefixID *string `json:"nodePublicIPPrefixID,omitempty"`
 
-	//NodeTaints: Taints added to new nodes during node pool create and scale. For
-	//example, key=value:NoSchedule.
+	// NodeTaints: Taints added to new nodes during node pool create and scale. For
+	// example, key=value:NoSchedule.
 	NodeTaints []string `json:"nodeTaints,omitempty"`
 
-	//OrchestratorVersion: Version of orchestrator specified when creating the managed
-	//cluster.
+	// OrchestratorVersion: Version of orchestrator specified when creating the managed
+	// cluster.
 	OrchestratorVersion *string `json:"orchestratorVersion,omitempty"`
 
-	//OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every
-	//machine in this master/agent pool. If you specify 0, it will apply the default
-	//osDisk size according to the vmSize specified.
+	// OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every
+	// machine in this master/agent pool. If you specify 0, it will apply the default
+	// osDisk size according to the vmSize specified.
 	OsDiskSizeGB *int `json:"osDiskSizeGB,omitempty"`
 
-	//OsDiskType: OS disk type to be used for machines in a given agent pool. Allowed
-	//values are 'Ephemeral' and 'Managed'. If unspecified, defaults to 'Ephemeral'
-	//when the VM supports ephemeral OS and has a cache disk larger than the requested
-	//OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after
-	//creation.
+	// OsDiskType: OS disk type to be used for machines in a given agent pool. Allowed
+	// values are 'Ephemeral' and 'Managed'. If unspecified, defaults to 'Ephemeral'
+	// when the VM supports ephemeral OS and has a cache disk larger than the requested
+	// OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after
+	// creation.
 	OsDiskType *OSDiskType_Status `json:"osDiskType,omitempty"`
 
-	//OsSKU: OsSKU to be used to specify os sku. Choose from Ubuntu(default) and
-	//CBLMariner for Linux OSType. Not applicable to Windows OSType.
+	// OsSKU: OsSKU to be used to specify os sku. Choose from Ubuntu(default) and
+	// CBLMariner for Linux OSType. Not applicable to Windows OSType.
 	OsSKU *OSSKU_Status `json:"osSKU,omitempty"`
 
-	//OsType: OsType to be used to specify os type. Choose from Linux and Windows.
-	//Default to Linux.
+	// OsType: OsType to be used to specify os type. Choose from Linux and Windows.
+	// Default to Linux.
 	OsType *OSType_Status `json:"osType,omitempty"`
 
-	//PodSubnetID: Pod SubnetID specifies the VNet's subnet identifier for pods.
+	// PodSubnetID: Pod SubnetID specifies the VNet's subnet identifier for pods.
 	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
-	//PowerState: Describes whether the Agent Pool is Running or Stopped
+	// PowerState: Describes whether the Agent Pool is Running or Stopped
 	PowerState *PowerState_Status `json:"powerState,omitempty"`
 
-	//PropertiesType: AgentPoolType represents types of an agent pool
+	// PropertiesType: AgentPoolType represents types of an agent pool
 	PropertiesType *AgentPoolType_Status `json:"properties_type,omitempty"`
 
-	//ProvisioningState: The current deployment or provisioning state, which only
-	//appears in the response.
+	// ProvisioningState: The current deployment or provisioning state, which only
+	// appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	//ProximityPlacementGroupID: The ID for Proximity Placement Group.
+	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
 
-	//ScaleSetEvictionPolicy: ScaleSetEvictionPolicy to be used to specify eviction
-	//policy for Spot virtual machine scale set. Default to Delete.
+	// ScaleSetEvictionPolicy: ScaleSetEvictionPolicy to be used to specify eviction
+	// policy for Spot virtual machine scale set. Default to Delete.
 	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_Status `json:"scaleSetEvictionPolicy,omitempty"`
 
-	//ScaleSetPriority: ScaleSetPriority to be used to specify virtual machine scale
-	//set priority. Default to regular.
+	// ScaleSetPriority: ScaleSetPriority to be used to specify virtual machine scale
+	// set priority. Default to regular.
 	ScaleSetPriority *ScaleSetPriority_Status `json:"scaleSetPriority,omitempty"`
 
-	//SpotMaxPrice: SpotMaxPrice to be used to specify the maximum price you are
-	//willing to pay in US Dollars. Possible values are any decimal value greater than
-	//zero or -1 which indicates default price to be up-to on-demand.
+	// SpotMaxPrice: SpotMaxPrice to be used to specify the maximum price you are
+	// willing to pay in US Dollars. Possible values are any decimal value greater than
+	// zero or -1 which indicates default price to be up-to on-demand.
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
-	//Tags: Agent pool tags to be persisted on the agent pool virtual machine scale
-	//set.
+	// Tags: Agent pool tags to be persisted on the agent pool virtual machine scale
+	// set.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
+	// Type: Resource type
 	Type *string `json:"type,omitempty"`
 
-	//UpgradeSettings: Settings for upgrading the agentpool
+	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_Status `json:"upgradeSettings,omitempty"`
 
-	//VmSize: Size of agent VMs.
+	// VmSize: Size of agent VMs.
 	VmSize *string `json:"vmSize,omitempty"`
 
-	//VnetSubnetID: VNet SubnetID specifies the VNet's subnet identifier for nodes and
-	//maybe pods
+	// VnetSubnetID: VNet SubnetID specifies the VNet's subnet identifier for nodes and
+	// maybe pods
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
@@ -856,7 +855,6 @@ func (agentPoolStatus *AgentPool_Status) PopulateFromARM(owner genruntime.KnownR
 
 // AssignPropertiesFromAgentPoolStatus populates our AgentPool_Status from the provided source AgentPool_Status
 func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(source *v1alpha1api20210501storage.AgentPool_Status) error {
-
 	// AvailabilityZones
 	availabilityZoneList := make([]string, len(source.AvailabilityZones))
 	for availabilityZoneIndex, availabilityZoneItem := range source.AvailabilityZones {
@@ -1556,80 +1554,80 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 }
 
 type ManagedClustersAgentPools_Spec struct {
-	//AvailabilityZones: The list of Availability zones to use for nodes. This can
-	//only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
+	// AvailabilityZones: The list of Availability zones to use for nodes. This can
+	// only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name
+	// of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//Count: Number of agents (VMs) to host docker containers. Allowed values must be
-	//in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to
-	//1000 (inclusive) for system pools. The default value is 1.
+	// Count: Number of agents (VMs) to host docker containers. Allowed values must be
+	// in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to
+	// 1000 (inclusive) for system pools. The default value is 1.
 	Count *int `json:"count,omitempty"`
 
-	//EnableAutoScaling: Whether to enable auto-scaler
+	// EnableAutoScaling: Whether to enable auto-scaler
 	EnableAutoScaling *bool `json:"enableAutoScaling,omitempty"`
 
-	//EnableEncryptionAtHost: This is only supported on certain VM sizes and in
-	//certain Azure regions. For more information, see:
-	//https://docs.microsoft.com/azure/aks/enable-host-encryption
+	// EnableEncryptionAtHost: This is only supported on certain VM sizes and in
+	// certain Azure regions. For more information, see:
+	// https://docs.microsoft.com/azure/aks/enable-host-encryption
 	EnableEncryptionAtHost *bool `json:"enableEncryptionAtHost,omitempty"`
 
-	//EnableFIPS: See [Add a FIPS-enabled node
-	//pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview)
-	//for more details.
+	// EnableFIPS: See [Add a FIPS-enabled node
+	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview)
+	// for more details.
 	EnableFIPS *bool `json:"enableFIPS,omitempty"`
 
-	//EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive
-	//their own dedicated public IP addresses. A common scenario is for gaming
-	//workloads, where a console needs to make a direct connection to a cloud virtual
-	//machine to minimize hops. For more information see [assigning a public IP per
-	//node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools).
-	//The default is false.
+	// EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive
+	// their own dedicated public IP addresses. A common scenario is for gaming
+	// workloads, where a console needs to make a direct connection to a cloud virtual
+	// machine to minimize hops. For more information see [assigning a public IP per
+	// node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools).
+	// The default is false.
 	EnableNodePublicIP *bool `json:"enableNodePublicIP,omitempty"`
 
-	//EnableUltraSSD: Whether to enable UltraSSD
+	// EnableUltraSSD: Whether to enable UltraSSD
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
-	//GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
-	//profile for supported GPU VM SKU.
+	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
+	// profile for supported GPU VM SKU.
 	GpuInstanceProfile *ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile `json:"gpuInstanceProfile,omitempty"`
 
-	//KubeletConfig: See [AKS custom node
-	//configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
-	//for more details.
+	// KubeletConfig: See [AKS custom node
+	// configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
+	// for more details.
 	KubeletConfig   *KubeletConfig                                           `json:"kubeletConfig,omitempty"`
 	KubeletDiskType *ManagedClusterAgentPoolProfilePropertiesKubeletDiskType `json:"kubeletDiskType,omitempty"`
 
-	//LinuxOSConfig: See [AKS custom node
-	//configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
-	//for more details.
+	// LinuxOSConfig: See [AKS custom node
+	// configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration)
+	// for more details.
 	LinuxOSConfig *LinuxOSConfig `json:"linuxOSConfig,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//MaxCount: The maximum number of nodes for auto-scaling
+	// MaxCount: The maximum number of nodes for auto-scaling
 	MaxCount *int `json:"maxCount,omitempty"`
 
-	//MaxPods: The maximum number of pods that can run on a node.
+	// MaxPods: The maximum number of pods that can run on a node.
 	MaxPods *int `json:"maxPods,omitempty"`
 
-	//MinCount: The minimum number of nodes for auto-scaling
+	// MinCount: The minimum number of nodes for auto-scaling
 	MinCount *int                                          `json:"minCount,omitempty"`
 	Mode     *ManagedClusterAgentPoolProfilePropertiesMode `json:"mode,omitempty"`
 
-	//NodeLabels: The node labels to be persisted across all nodes in agent pool.
+	// NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels map[string]string `json:"nodeLabels,omitempty"`
 
 	//NodePublicIPPrefixIDReference: This is of the form:
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
 	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
 
-	//NodeTaints: The taints added to new nodes during node pool create and scale. For
-	//example, key=value:NoSchedule.
+	// NodeTaints: The taints added to new nodes during node pool create and scale. For
+	// example, key=value:NoSchedule.
 	NodeTaints []string `json:"nodeTaints,omitempty"`
 
 	//OrchestratorVersion: As a best practice, you should upgrade all node pools in an
@@ -1643,9 +1641,9 @@ type ManagedClustersAgentPools_Spec struct {
 
 	// +kubebuilder:validation:Maximum=2048
 	// +kubebuilder:validation:Minimum=0
-	//OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every
-	//machine in the master/agent pool. If you specify 0, it will apply the default
-	//osDisk size according to the vmSize specified.
+	// OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every
+	// machine in the master/agent pool. If you specify 0, it will apply the default
+	// osDisk size according to the vmSize specified.
 	OsDiskSizeGB *int                                                `json:"osDiskSizeGB,omitempty"`
 	OsDiskType   *ManagedClusterAgentPoolProfilePropertiesOsDiskType `json:"osDiskType,omitempty"`
 	OsSKU        *ManagedClusterAgentPoolProfilePropertiesOsSKU      `json:"osSKU,omitempty"`
@@ -1659,34 +1657,34 @@ type ManagedClustersAgentPools_Spec struct {
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetIDReference *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
 
-	//ProximityPlacementGroupID: The ID for Proximity Placement Group.
+	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
 
 	//ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is
 	//'Spot'. If not specified, the default is 'Delete'.
 	ScaleSetEvictionPolicy *ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy `json:"scaleSetEvictionPolicy,omitempty"`
 
-	//ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the
-	//default is 'Regular'.
+	// ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the
+	// default is 'Regular'.
 	ScaleSetPriority *ManagedClusterAgentPoolProfilePropertiesScaleSetPriority `json:"scaleSetPriority,omitempty"`
 
-	//SpotMaxPrice: Possible values are any decimal value greater than zero or -1
-	//which indicates the willingness to pay any on-demand price. For more details on
-	//spot pricing, see [spot VMs
-	//pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
+	// SpotMaxPrice: Possible values are any decimal value greater than zero or -1
+	// which indicates the willingness to pay any on-demand price. For more details on
+	// spot pricing, see [spot VMs
+	// pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
-	//Tags: The tags to be persisted on the agent pool virtual machine scale set.
+	// Tags: The tags to be persisted on the agent pool virtual machine scale set.
 	Tags map[string]string                             `json:"tags,omitempty"`
 	Type *ManagedClusterAgentPoolProfilePropertiesType `json:"type,omitempty"`
 
-	//UpgradeSettings: Settings for upgrading an agentpool
+	// UpgradeSettings: Settings for upgrading an agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings `json:"upgradeSettings,omitempty"`
 
-	//VmSize: VM size availability varies by region. If a node contains insufficient
-	//compute resources (memory, cpu, etc) pods might fail to run correctly. For more
-	//details on restricted VM sizes, see:
-	//https://docs.microsoft.com/azure/aks/quotas-skus-regions
+	// VmSize: VM size availability varies by region. If a node contains insufficient
+	// compute resources (memory, cpu, etc) pods might fail to run correctly. For more
+	// details on restricted VM sizes, see:
+	// https://docs.microsoft.com/azure/aks/quotas-skus-regions
 	VmSize *string `json:"vmSize,omitempty"`
 
 	//VnetSubnetIDReference: If this is not specified, a VNET and subnet will be
@@ -2195,7 +2193,6 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertSpec
 
 // AssignPropertiesFromManagedClustersAgentPoolsSpec populates our ManagedClustersAgentPools_Spec from the provided source ManagedClustersAgentPools_Spec
 func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPropertiesFromManagedClustersAgentPoolsSpec(source *v1alpha1api20210501storage.ManagedClustersAgentPools_Spec) error {
-
 	// AvailabilityZones
 	availabilityZoneList := make([]string, len(source.AvailabilityZones))
 	for availabilityZoneIndex, availabilityZoneItem := range source.AvailabilityZones {
@@ -2812,7 +2809,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) SetAzureNam
 	managedClustersAgentPoolsSpec.AzureName = azureName
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/AgentPoolUpgradeSettings
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/AgentPoolUpgradeSettings
 type AgentPoolUpgradeSettings struct {
 	//MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g.
 	//'50%'). If a percentage is specified, it is the percentage of the total agent
@@ -2864,7 +2861,6 @@ func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) PopulateFromARM(owner 
 
 // AssignPropertiesFromAgentPoolUpgradeSettings populates our AgentPoolUpgradeSettings from the provided source AgentPoolUpgradeSettings
 func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) AssignPropertiesFromAgentPoolUpgradeSettings(source *v1alpha1api20210501storage.AgentPoolUpgradeSettings) error {
-
 	// MaxSurge
 	if source.MaxSurge != nil {
 		maxSurge := *source.MaxSurge
@@ -2897,10 +2893,10 @@ func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) AssignPropertiesToAgen
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type AgentPoolUpgradeSettings_Status struct {
-	//MaxSurge: Count or percentage of additional nodes to be added during upgrade. If
-	//empty uses AKS default
+	// MaxSurge: Count or percentage of additional nodes to be added during upgrade. If
+	// empty uses AKS default
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
@@ -2930,7 +2926,6 @@ func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) PopulateF
 
 // AssignPropertiesFromAgentPoolUpgradeSettingsStatus populates our AgentPoolUpgradeSettings_Status from the provided source AgentPoolUpgradeSettings_Status
 func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) AssignPropertiesFromAgentPoolUpgradeSettingsStatus(source *v1alpha1api20210501storage.AgentPoolUpgradeSettings_Status) error {
-
 	// MaxSurge
 	if source.MaxSurge != nil {
 		maxSurge := *source.MaxSurge
@@ -2963,22 +2958,22 @@ func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) AssignPro
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/KubeletConfig
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/KubeletConfig
 type KubeletConfig struct {
 	//AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns
 	//(ending in `*`).
 	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
 
 	// +kubebuilder:validation:Minimum=2
-	//ContainerLogMaxFiles: The maximum number of container log files that can be
-	//present for a container. The number must be ≥ 2.
+	// ContainerLogMaxFiles: The maximum number of container log files that can be
+	// present for a container. The number must be ≥ 2.
 	ContainerLogMaxFiles *int `json:"containerLogMaxFiles,omitempty"`
 
-	//ContainerLogMaxSizeMB: The maximum size (e.g. 10Mi) of container log file before
-	//it is rotated.
+	// ContainerLogMaxSizeMB: The maximum size (e.g. 10Mi) of container log file before
+	// it is rotated.
 	ContainerLogMaxSizeMB *int `json:"containerLogMaxSizeMB,omitempty"`
 
-	//CpuCfsQuota: The default is true.
+	// CpuCfsQuota: The default is true.
 	CpuCfsQuota *bool `json:"cpuCfsQuota,omitempty"`
 
 	//CpuCfsQuotaPeriod: The default is '100ms.' Valid values are a sequence of
@@ -2986,30 +2981,30 @@ type KubeletConfig struct {
 	//'300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
 	CpuCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty"`
 
-	//CpuManagerPolicy: The default is 'none'. See [Kubernetes CPU management
-	//policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies)
-	//for more information. Allowed values are 'none' and 'static'.
+	// CpuManagerPolicy: The default is 'none'. See [Kubernetes CPU management
+	// policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies)
+	// for more information. Allowed values are 'none' and 'static'.
 	CpuManagerPolicy *string `json:"cpuManagerPolicy,omitempty"`
 
-	//FailSwapOn: If set to true it will make the Kubelet fail to start if swap is
-	//enabled on the node.
+	// FailSwapOn: If set to true it will make the Kubelet fail to start if swap is
+	// enabled on the node.
 	FailSwapOn *bool `json:"failSwapOn,omitempty"`
 
-	//ImageGcHighThreshold: To disable image garbage collection, set to 100. The
-	//default is 85%
+	// ImageGcHighThreshold: To disable image garbage collection, set to 100. The
+	// default is 85%
 	ImageGcHighThreshold *int `json:"imageGcHighThreshold,omitempty"`
 
-	//ImageGcLowThreshold: This cannot be set higher than imageGcHighThreshold. The
-	//default is 80%
+	// ImageGcLowThreshold: This cannot be set higher than imageGcHighThreshold. The
+	// default is 80%
 	ImageGcLowThreshold *int `json:"imageGcLowThreshold,omitempty"`
 
-	//PodMaxPids: The maximum number of processes per pod.
+	// PodMaxPids: The maximum number of processes per pod.
 	PodMaxPids *int `json:"podMaxPids,omitempty"`
 
-	//TopologyManagerPolicy: For more information see [Kubernetes Topology
-	//Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager).
-	//The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted',
-	//and 'single-numa-node'.
+	// TopologyManagerPolicy: For more information see [Kubernetes Topology
+	// Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager).
+	// The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted',
+	// and 'single-numa-node'.
 	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
 }
 
@@ -3172,7 +3167,6 @@ func (kubeletConfig *KubeletConfig) PopulateFromARM(owner genruntime.KnownResour
 
 // AssignPropertiesFromKubeletConfig populates our KubeletConfig from the provided source KubeletConfig
 func (kubeletConfig *KubeletConfig) AssignPropertiesFromKubeletConfig(source *v1alpha1api20210501storage.KubeletConfig) error {
-
 	// AllowedUnsafeSysctls
 	allowedUnsafeSysctlList := make([]string, len(source.AllowedUnsafeSysctls))
 	for allowedUnsafeSysctlIndex, allowedUnsafeSysctlItem := range source.AllowedUnsafeSysctls {
@@ -3367,46 +3361,46 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesToKubeletConfig(destination 
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type KubeletConfig_Status struct {
 	//AllowedUnsafeSysctls: Allowlist of unsafe sysctls or unsafe sysctl patterns
 	//(ending in `*`).
 	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
 
-	//ContainerLogMaxFiles: The maximum number of container log files that can be
-	//present for a container. The number must be ≥ 2.
+	// ContainerLogMaxFiles: The maximum number of container log files that can be
+	// present for a container. The number must be ≥ 2.
 	ContainerLogMaxFiles *int `json:"containerLogMaxFiles,omitempty"`
 
-	//ContainerLogMaxSizeMB: The maximum size (e.g. 10Mi) of container log file before
-	//it is rotated.
+	// ContainerLogMaxSizeMB: The maximum size (e.g. 10Mi) of container log file before
+	// it is rotated.
 	ContainerLogMaxSizeMB *int `json:"containerLogMaxSizeMB,omitempty"`
 
-	//CpuCfsQuota: Enable CPU CFS quota enforcement for containers that specify CPU
-	//limits.
+	// CpuCfsQuota: Enable CPU CFS quota enforcement for containers that specify CPU
+	// limits.
 	CpuCfsQuota *bool `json:"cpuCfsQuota,omitempty"`
 
-	//CpuCfsQuotaPeriod: Sets CPU CFS quota period value.
+	// CpuCfsQuotaPeriod: Sets CPU CFS quota period value.
 	CpuCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty"`
 
-	//CpuManagerPolicy: CPU Manager policy to use.
+	// CpuManagerPolicy: CPU Manager policy to use.
 	CpuManagerPolicy *string `json:"cpuManagerPolicy,omitempty"`
 
-	//FailSwapOn: If set to true it will make the Kubelet fail to start if swap is
-	//enabled on the node.
+	// FailSwapOn: If set to true it will make the Kubelet fail to start if swap is
+	// enabled on the node.
 	FailSwapOn *bool `json:"failSwapOn,omitempty"`
 
-	//ImageGcHighThreshold: The percent of disk usage after which image garbage
-	//collection is always run.
+	// ImageGcHighThreshold: The percent of disk usage after which image garbage
+	// collection is always run.
 	ImageGcHighThreshold *int `json:"imageGcHighThreshold,omitempty"`
 
-	//ImageGcLowThreshold: The percent of disk usage before which image garbage
-	//collection is never run.
+	// ImageGcLowThreshold: The percent of disk usage before which image garbage
+	// collection is never run.
 	ImageGcLowThreshold *int `json:"imageGcLowThreshold,omitempty"`
 
-	//PodMaxPids: The maximum number of processes per pod.
+	// PodMaxPids: The maximum number of processes per pod.
 	PodMaxPids *int `json:"podMaxPids,omitempty"`
 
-	//TopologyManagerPolicy: Topology Manager policy to use.
+	// TopologyManagerPolicy: Topology Manager policy to use.
 	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
 }
 
@@ -3495,7 +3489,6 @@ func (kubeletConfigStatus *KubeletConfig_Status) PopulateFromARM(owner genruntim
 
 // AssignPropertiesFromKubeletConfigStatus populates our KubeletConfig_Status from the provided source KubeletConfig_Status
 func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesFromKubeletConfigStatus(source *v1alpha1api20210501storage.KubeletConfig_Status) error {
-
 	// AllowedUnsafeSysctls
 	allowedUnsafeSysctlList := make([]string, len(source.AllowedUnsafeSysctls))
 	for allowedUnsafeSysctlIndex, allowedUnsafeSysctlItem := range source.AllowedUnsafeSysctls {
@@ -3690,12 +3683,12 @@ func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesToKubeletConfig
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/LinuxOSConfig
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/LinuxOSConfig
 type LinuxOSConfig struct {
-	//SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
+	// SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
 
-	//Sysctls: Sysctl settings for Linux agent nodes.
+	// Sysctls: Sysctl settings for Linux agent nodes.
 	Sysctls *SysctlConfig `json:"sysctls,omitempty"`
 
 	//TransparentHugePageDefrag: Valid values are 'always', 'defer', 'defer+madvise',
@@ -3704,9 +3697,9 @@ type LinuxOSConfig struct {
 	//Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageDefrag *string `json:"transparentHugePageDefrag,omitempty"`
 
-	//TransparentHugePageEnabled: Valid values are 'always', 'madvise', and 'never'.
-	//The default is 'always'. For more information see [Transparent
-	//Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+	// TransparentHugePageEnabled: Valid values are 'always', 'madvise', and 'never'.
+	// The default is 'always'. For more information see [Transparent
+	// Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
 }
 
@@ -3796,7 +3789,6 @@ func (linuxOSConfig *LinuxOSConfig) PopulateFromARM(owner genruntime.KnownResour
 
 // AssignPropertiesFromLinuxOSConfig populates our LinuxOSConfig from the provided source LinuxOSConfig
 func (linuxOSConfig *LinuxOSConfig) AssignPropertiesFromLinuxOSConfig(source *v1alpha1api20210501storage.LinuxOSConfig) error {
-
 	// SwapFileSizeMB
 	if source.SwapFileSizeMB != nil {
 		swapFileSizeMB := *source.SwapFileSizeMB
@@ -3885,19 +3877,19 @@ func (linuxOSConfig *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination 
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type LinuxOSConfig_Status struct {
-	//SwapFileSizeMB: SwapFileSizeMB specifies size in MB of a swap file will be
-	//created on each node.
+	// SwapFileSizeMB: SwapFileSizeMB specifies size in MB of a swap file will be
+	// created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
 
-	//Sysctls: Sysctl settings for Linux agent nodes.
+	// Sysctls: Sysctl settings for Linux agent nodes.
 	Sysctls *SysctlConfig_Status `json:"sysctls,omitempty"`
 
-	//TransparentHugePageDefrag: Transparent Huge Page defrag configuration.
+	// TransparentHugePageDefrag: Transparent Huge Page defrag configuration.
 	TransparentHugePageDefrag *string `json:"transparentHugePageDefrag,omitempty"`
 
-	//TransparentHugePageEnabled: Transparent Huge Page enabled configuration.
+	// TransparentHugePageEnabled: Transparent Huge Page enabled configuration.
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
 }
 
@@ -3950,7 +3942,6 @@ func (linuxOSConfigStatus *LinuxOSConfig_Status) PopulateFromARM(owner genruntim
 
 // AssignPropertiesFromLinuxOSConfigStatus populates our LinuxOSConfig_Status from the provided source LinuxOSConfig_Status
 func (linuxOSConfigStatus *LinuxOSConfig_Status) AssignPropertiesFromLinuxOSConfigStatus(source *v1alpha1api20210501storage.LinuxOSConfig_Status) error {
-
 	// SwapFileSizeMB
 	if source.SwapFileSizeMB != nil {
 		swapFileSizeMB := *source.SwapFileSizeMB
@@ -4114,91 +4105,91 @@ const (
 	ManagedClusterAgentPoolProfilePropertiesTypeVirtualMachineScaleSets = ManagedClusterAgentPoolProfilePropertiesType("VirtualMachineScaleSets")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/SysctlConfig
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/SysctlConfig
 type SysctlConfig struct {
-	//FsAioMaxNr: Sysctl setting fs.aio-max-nr.
+	// FsAioMaxNr: Sysctl setting fs.aio-max-nr.
 	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`
 
-	//FsFileMax: Sysctl setting fs.file-max.
+	// FsFileMax: Sysctl setting fs.file-max.
 	FsFileMax *int `json:"fsFileMax,omitempty"`
 
-	//FsInotifyMaxUserWatches: Sysctl setting fs.inotify.max_user_watches.
+	// FsInotifyMaxUserWatches: Sysctl setting fs.inotify.max_user_watches.
 	FsInotifyMaxUserWatches *int `json:"fsInotifyMaxUserWatches,omitempty"`
 
-	//FsNrOpen: Sysctl setting fs.nr_open.
+	// FsNrOpen: Sysctl setting fs.nr_open.
 	FsNrOpen *int `json:"fsNrOpen,omitempty"`
 
-	//KernelThreadsMax: Sysctl setting kernel.threads-max.
+	// KernelThreadsMax: Sysctl setting kernel.threads-max.
 	KernelThreadsMax *int `json:"kernelThreadsMax,omitempty"`
 
-	//NetCoreNetdevMaxBacklog: Sysctl setting net.core.netdev_max_backlog.
+	// NetCoreNetdevMaxBacklog: Sysctl setting net.core.netdev_max_backlog.
 	NetCoreNetdevMaxBacklog *int `json:"netCoreNetdevMaxBacklog,omitempty"`
 
-	//NetCoreOptmemMax: Sysctl setting net.core.optmem_max.
+	// NetCoreOptmemMax: Sysctl setting net.core.optmem_max.
 	NetCoreOptmemMax *int `json:"netCoreOptmemMax,omitempty"`
 
-	//NetCoreRmemDefault: Sysctl setting net.core.rmem_default.
+	// NetCoreRmemDefault: Sysctl setting net.core.rmem_default.
 	NetCoreRmemDefault *int `json:"netCoreRmemDefault,omitempty"`
 
-	//NetCoreRmemMax: Sysctl setting net.core.rmem_max.
+	// NetCoreRmemMax: Sysctl setting net.core.rmem_max.
 	NetCoreRmemMax *int `json:"netCoreRmemMax,omitempty"`
 
-	//NetCoreSomaxconn: Sysctl setting net.core.somaxconn.
+	// NetCoreSomaxconn: Sysctl setting net.core.somaxconn.
 	NetCoreSomaxconn *int `json:"netCoreSomaxconn,omitempty"`
 
-	//NetCoreWmemDefault: Sysctl setting net.core.wmem_default.
+	// NetCoreWmemDefault: Sysctl setting net.core.wmem_default.
 	NetCoreWmemDefault *int `json:"netCoreWmemDefault,omitempty"`
 
-	//NetCoreWmemMax: Sysctl setting net.core.wmem_max.
+	// NetCoreWmemMax: Sysctl setting net.core.wmem_max.
 	NetCoreWmemMax *int `json:"netCoreWmemMax,omitempty"`
 
-	//NetIpv4IpLocalPortRange: Sysctl setting net.ipv4.ip_local_port_range.
+	// NetIpv4IpLocalPortRange: Sysctl setting net.ipv4.ip_local_port_range.
 	NetIpv4IpLocalPortRange *string `json:"netIpv4IpLocalPortRange,omitempty"`
 
-	//NetIpv4NeighDefaultGcThresh1: Sysctl setting net.ipv4.neigh.default.gc_thresh1.
+	// NetIpv4NeighDefaultGcThresh1: Sysctl setting net.ipv4.neigh.default.gc_thresh1.
 	NetIpv4NeighDefaultGcThresh1 *int `json:"netIpv4NeighDefaultGcThresh1,omitempty"`
 
-	//NetIpv4NeighDefaultGcThresh2: Sysctl setting net.ipv4.neigh.default.gc_thresh2.
+	// NetIpv4NeighDefaultGcThresh2: Sysctl setting net.ipv4.neigh.default.gc_thresh2.
 	NetIpv4NeighDefaultGcThresh2 *int `json:"netIpv4NeighDefaultGcThresh2,omitempty"`
 
-	//NetIpv4NeighDefaultGcThresh3: Sysctl setting net.ipv4.neigh.default.gc_thresh3.
+	// NetIpv4NeighDefaultGcThresh3: Sysctl setting net.ipv4.neigh.default.gc_thresh3.
 	NetIpv4NeighDefaultGcThresh3 *int `json:"netIpv4NeighDefaultGcThresh3,omitempty"`
 
-	//NetIpv4TcpFinTimeout: Sysctl setting net.ipv4.tcp_fin_timeout.
+	// NetIpv4TcpFinTimeout: Sysctl setting net.ipv4.tcp_fin_timeout.
 	NetIpv4TcpFinTimeout *int `json:"netIpv4TcpFinTimeout,omitempty"`
 
-	//NetIpv4TcpKeepaliveProbes: Sysctl setting net.ipv4.tcp_keepalive_probes.
+	// NetIpv4TcpKeepaliveProbes: Sysctl setting net.ipv4.tcp_keepalive_probes.
 	NetIpv4TcpKeepaliveProbes *int `json:"netIpv4TcpKeepaliveProbes,omitempty"`
 
-	//NetIpv4TcpKeepaliveTime: Sysctl setting net.ipv4.tcp_keepalive_time.
+	// NetIpv4TcpKeepaliveTime: Sysctl setting net.ipv4.tcp_keepalive_time.
 	NetIpv4TcpKeepaliveTime *int `json:"netIpv4TcpKeepaliveTime,omitempty"`
 
-	//NetIpv4TcpMaxSynBacklog: Sysctl setting net.ipv4.tcp_max_syn_backlog.
+	// NetIpv4TcpMaxSynBacklog: Sysctl setting net.ipv4.tcp_max_syn_backlog.
 	NetIpv4TcpMaxSynBacklog *int `json:"netIpv4TcpMaxSynBacklog,omitempty"`
 
-	//NetIpv4TcpMaxTwBuckets: Sysctl setting net.ipv4.tcp_max_tw_buckets.
+	// NetIpv4TcpMaxTwBuckets: Sysctl setting net.ipv4.tcp_max_tw_buckets.
 	NetIpv4TcpMaxTwBuckets *int `json:"netIpv4TcpMaxTwBuckets,omitempty"`
 
-	//NetIpv4TcpTwReuse: Sysctl setting net.ipv4.tcp_tw_reuse.
+	// NetIpv4TcpTwReuse: Sysctl setting net.ipv4.tcp_tw_reuse.
 	NetIpv4TcpTwReuse *bool `json:"netIpv4TcpTwReuse,omitempty"`
 
-	//NetIpv4TcpkeepaliveIntvl: Sysctl setting net.ipv4.tcp_keepalive_intvl.
+	// NetIpv4TcpkeepaliveIntvl: Sysctl setting net.ipv4.tcp_keepalive_intvl.
 	NetIpv4TcpkeepaliveIntvl *int `json:"netIpv4TcpkeepaliveIntvl,omitempty"`
 
-	//NetNetfilterNfConntrackBuckets: Sysctl setting
-	//net.netfilter.nf_conntrack_buckets.
+	// NetNetfilterNfConntrackBuckets: Sysctl setting
+	// net.netfilter.nf_conntrack_buckets.
 	NetNetfilterNfConntrackBuckets *int `json:"netNetfilterNfConntrackBuckets,omitempty"`
 
-	//NetNetfilterNfConntrackMax: Sysctl setting net.netfilter.nf_conntrack_max.
+	// NetNetfilterNfConntrackMax: Sysctl setting net.netfilter.nf_conntrack_max.
 	NetNetfilterNfConntrackMax *int `json:"netNetfilterNfConntrackMax,omitempty"`
 
-	//VmMaxMapCount: Sysctl setting vm.max_map_count.
+	// VmMaxMapCount: Sysctl setting vm.max_map_count.
 	VmMaxMapCount *int `json:"vmMaxMapCount,omitempty"`
 
-	//VmSwappiness: Sysctl setting vm.swappiness.
+	// VmSwappiness: Sysctl setting vm.swappiness.
 	VmSwappiness *int `json:"vmSwappiness,omitempty"`
 
-	//VmVfsCachePressure: Sysctl setting vm.vfs_cache_pressure.
+	// VmVfsCachePressure: Sysctl setting vm.vfs_cache_pressure.
 	VmVfsCachePressure *int `json:"vmVfsCachePressure,omitempty"`
 }
 
@@ -4567,7 +4558,6 @@ func (sysctlConfig *SysctlConfig) PopulateFromARM(owner genruntime.KnownResource
 
 // AssignPropertiesFromSysctlConfig populates our SysctlConfig from the provided source SysctlConfig
 func (sysctlConfig *SysctlConfig) AssignPropertiesFromSysctlConfig(source *v1alpha1api20210501storage.SysctlConfig) error {
-
 	// FsAioMaxNr
 	if source.FsAioMaxNr != nil {
 		fsAioMaxNr := *source.FsAioMaxNr
@@ -5032,91 +5022,91 @@ func (sysctlConfig *SysctlConfig) AssignPropertiesToSysctlConfig(destination *v1
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type SysctlConfig_Status struct {
-	//FsAioMaxNr: Sysctl setting fs.aio-max-nr.
+	// FsAioMaxNr: Sysctl setting fs.aio-max-nr.
 	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`
 
-	//FsFileMax: Sysctl setting fs.file-max.
+	// FsFileMax: Sysctl setting fs.file-max.
 	FsFileMax *int `json:"fsFileMax,omitempty"`
 
-	//FsInotifyMaxUserWatches: Sysctl setting fs.inotify.max_user_watches.
+	// FsInotifyMaxUserWatches: Sysctl setting fs.inotify.max_user_watches.
 	FsInotifyMaxUserWatches *int `json:"fsInotifyMaxUserWatches,omitempty"`
 
-	//FsNrOpen: Sysctl setting fs.nr_open.
+	// FsNrOpen: Sysctl setting fs.nr_open.
 	FsNrOpen *int `json:"fsNrOpen,omitempty"`
 
-	//KernelThreadsMax: Sysctl setting kernel.threads-max.
+	// KernelThreadsMax: Sysctl setting kernel.threads-max.
 	KernelThreadsMax *int `json:"kernelThreadsMax,omitempty"`
 
-	//NetCoreNetdevMaxBacklog: Sysctl setting net.core.netdev_max_backlog.
+	// NetCoreNetdevMaxBacklog: Sysctl setting net.core.netdev_max_backlog.
 	NetCoreNetdevMaxBacklog *int `json:"netCoreNetdevMaxBacklog,omitempty"`
 
-	//NetCoreOptmemMax: Sysctl setting net.core.optmem_max.
+	// NetCoreOptmemMax: Sysctl setting net.core.optmem_max.
 	NetCoreOptmemMax *int `json:"netCoreOptmemMax,omitempty"`
 
-	//NetCoreRmemDefault: Sysctl setting net.core.rmem_default.
+	// NetCoreRmemDefault: Sysctl setting net.core.rmem_default.
 	NetCoreRmemDefault *int `json:"netCoreRmemDefault,omitempty"`
 
-	//NetCoreRmemMax: Sysctl setting net.core.rmem_max.
+	// NetCoreRmemMax: Sysctl setting net.core.rmem_max.
 	NetCoreRmemMax *int `json:"netCoreRmemMax,omitempty"`
 
-	//NetCoreSomaxconn: Sysctl setting net.core.somaxconn.
+	// NetCoreSomaxconn: Sysctl setting net.core.somaxconn.
 	NetCoreSomaxconn *int `json:"netCoreSomaxconn,omitempty"`
 
-	//NetCoreWmemDefault: Sysctl setting net.core.wmem_default.
+	// NetCoreWmemDefault: Sysctl setting net.core.wmem_default.
 	NetCoreWmemDefault *int `json:"netCoreWmemDefault,omitempty"`
 
-	//NetCoreWmemMax: Sysctl setting net.core.wmem_max.
+	// NetCoreWmemMax: Sysctl setting net.core.wmem_max.
 	NetCoreWmemMax *int `json:"netCoreWmemMax,omitempty"`
 
-	//NetIpv4IpLocalPortRange: Sysctl setting net.ipv4.ip_local_port_range.
+	// NetIpv4IpLocalPortRange: Sysctl setting net.ipv4.ip_local_port_range.
 	NetIpv4IpLocalPortRange *string `json:"netIpv4IpLocalPortRange,omitempty"`
 
-	//NetIpv4NeighDefaultGcThresh1: Sysctl setting net.ipv4.neigh.default.gc_thresh1.
+	// NetIpv4NeighDefaultGcThresh1: Sysctl setting net.ipv4.neigh.default.gc_thresh1.
 	NetIpv4NeighDefaultGcThresh1 *int `json:"netIpv4NeighDefaultGcThresh1,omitempty"`
 
-	//NetIpv4NeighDefaultGcThresh2: Sysctl setting net.ipv4.neigh.default.gc_thresh2.
+	// NetIpv4NeighDefaultGcThresh2: Sysctl setting net.ipv4.neigh.default.gc_thresh2.
 	NetIpv4NeighDefaultGcThresh2 *int `json:"netIpv4NeighDefaultGcThresh2,omitempty"`
 
-	//NetIpv4NeighDefaultGcThresh3: Sysctl setting net.ipv4.neigh.default.gc_thresh3.
+	// NetIpv4NeighDefaultGcThresh3: Sysctl setting net.ipv4.neigh.default.gc_thresh3.
 	NetIpv4NeighDefaultGcThresh3 *int `json:"netIpv4NeighDefaultGcThresh3,omitempty"`
 
-	//NetIpv4TcpFinTimeout: Sysctl setting net.ipv4.tcp_fin_timeout.
+	// NetIpv4TcpFinTimeout: Sysctl setting net.ipv4.tcp_fin_timeout.
 	NetIpv4TcpFinTimeout *int `json:"netIpv4TcpFinTimeout,omitempty"`
 
-	//NetIpv4TcpKeepaliveProbes: Sysctl setting net.ipv4.tcp_keepalive_probes.
+	// NetIpv4TcpKeepaliveProbes: Sysctl setting net.ipv4.tcp_keepalive_probes.
 	NetIpv4TcpKeepaliveProbes *int `json:"netIpv4TcpKeepaliveProbes,omitempty"`
 
-	//NetIpv4TcpKeepaliveTime: Sysctl setting net.ipv4.tcp_keepalive_time.
+	// NetIpv4TcpKeepaliveTime: Sysctl setting net.ipv4.tcp_keepalive_time.
 	NetIpv4TcpKeepaliveTime *int `json:"netIpv4TcpKeepaliveTime,omitempty"`
 
-	//NetIpv4TcpMaxSynBacklog: Sysctl setting net.ipv4.tcp_max_syn_backlog.
+	// NetIpv4TcpMaxSynBacklog: Sysctl setting net.ipv4.tcp_max_syn_backlog.
 	NetIpv4TcpMaxSynBacklog *int `json:"netIpv4TcpMaxSynBacklog,omitempty"`
 
-	//NetIpv4TcpMaxTwBuckets: Sysctl setting net.ipv4.tcp_max_tw_buckets.
+	// NetIpv4TcpMaxTwBuckets: Sysctl setting net.ipv4.tcp_max_tw_buckets.
 	NetIpv4TcpMaxTwBuckets *int `json:"netIpv4TcpMaxTwBuckets,omitempty"`
 
-	//NetIpv4TcpTwReuse: Sysctl setting net.ipv4.tcp_tw_reuse.
+	// NetIpv4TcpTwReuse: Sysctl setting net.ipv4.tcp_tw_reuse.
 	NetIpv4TcpTwReuse *bool `json:"netIpv4TcpTwReuse,omitempty"`
 
-	//NetIpv4TcpkeepaliveIntvl: Sysctl setting net.ipv4.tcp_keepalive_intvl.
+	// NetIpv4TcpkeepaliveIntvl: Sysctl setting net.ipv4.tcp_keepalive_intvl.
 	NetIpv4TcpkeepaliveIntvl *int `json:"netIpv4TcpkeepaliveIntvl,omitempty"`
 
-	//NetNetfilterNfConntrackBuckets: Sysctl setting
-	//net.netfilter.nf_conntrack_buckets.
+	// NetNetfilterNfConntrackBuckets: Sysctl setting
+	// net.netfilter.nf_conntrack_buckets.
 	NetNetfilterNfConntrackBuckets *int `json:"netNetfilterNfConntrackBuckets,omitempty"`
 
-	//NetNetfilterNfConntrackMax: Sysctl setting net.netfilter.nf_conntrack_max.
+	// NetNetfilterNfConntrackMax: Sysctl setting net.netfilter.nf_conntrack_max.
 	NetNetfilterNfConntrackMax *int `json:"netNetfilterNfConntrackMax,omitempty"`
 
-	//VmMaxMapCount: Sysctl setting vm.max_map_count.
+	// VmMaxMapCount: Sysctl setting vm.max_map_count.
 	VmMaxMapCount *int `json:"vmMaxMapCount,omitempty"`
 
-	//VmSwappiness: Sysctl setting vm.swappiness.
+	// VmSwappiness: Sysctl setting vm.swappiness.
 	VmSwappiness *int `json:"vmSwappiness,omitempty"`
 
-	//VmVfsCachePressure: Sysctl setting vm.vfs_cache_pressure.
+	// VmVfsCachePressure: Sysctl setting vm.vfs_cache_pressure.
 	VmVfsCachePressure *int `json:"vmVfsCachePressure,omitempty"`
 }
 
@@ -5308,7 +5298,6 @@ func (sysctlConfigStatus *SysctlConfig_Status) PopulateFromARM(owner genruntime.
 
 // AssignPropertiesFromSysctlConfigStatus populates our SysctlConfig_Status from the provided source SysctlConfig_Status
 func (sysctlConfigStatus *SysctlConfig_Status) AssignPropertiesFromSysctlConfigStatus(source *v1alpha1api20210501storage.SysctlConfig_Status) error {
-
 	// FsAioMaxNr
 	if source.FsAioMaxNr != nil {
 		fsAioMaxNr := *source.FsAioMaxNr

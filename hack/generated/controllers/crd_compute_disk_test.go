@@ -11,8 +11,8 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	compute "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.compute/v1alpha1api20200930"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
+	compute "github.com/Azure/azure-service-operator/v2/api/microsoft.compute/v1alpha1api20200930"
 )
 
 func Test_Compute_Disk_CRUD(t *testing.T) {

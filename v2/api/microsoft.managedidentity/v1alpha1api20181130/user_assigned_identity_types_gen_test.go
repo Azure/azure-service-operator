@@ -5,7 +5,11 @@ package v1alpha1api20181130
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.managedidentity/v1alpha1api20181130storage"
+	"os"
+	"reflect"
+	"testing"
+
+	"github.com/Azure/azure-service-operator/v2/api/microsoft.managedidentity/v1alpha1api20181130storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -13,9 +17,6 @@ import (
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/gen"
 	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
-	"testing"
 )
 
 func Test_UserAssignedIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -44,7 +45,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity(subject UserAssignedIdenti
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -94,7 +95,7 @@ func RunJSONSerializationTestForUserAssignedIdentity(subject UserAssignedIdentit
 }
 
 // Generator of UserAssignedIdentity instances for property testing - lazily instantiated by
-//UserAssignedIdentityGenerator()
+// UserAssignedIdentityGenerator()
 var userAssignedIdentityGenerator gopter.Gen
 
 // UserAssignedIdentityGenerator returns a generator of UserAssignedIdentity instances for property testing.
@@ -142,7 +143,7 @@ func RunPropertyAssignmentTestForIdentityStatus(subject Identity_Status) string 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -245,7 +246,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentitiesSpec(subject UserAssigned
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -295,7 +296,7 @@ func RunJSONSerializationTestForUserAssignedIdentitiesSpec(subject UserAssignedI
 }
 
 // Generator of UserAssignedIdentities_Spec instances for property testing - lazily instantiated by
-//UserAssignedIdentitiesSpecGenerator()
+// UserAssignedIdentitiesSpecGenerator()
 var userAssignedIdentitiesSpecGenerator gopter.Gen
 
 // UserAssignedIdentitiesSpecGenerator returns a generator of UserAssignedIdentities_Spec instances for property testing.

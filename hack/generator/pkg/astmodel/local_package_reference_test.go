@@ -12,7 +12,7 @@ import (
 )
 
 func makeTestLocalPackageReference(group string, version string) LocalPackageReference {
-	return MakeLocalPackageReference("github.com/Azure/azure-service-operator/hack/generated/apis", group, version)
+	return MakeLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", group, version)
 }
 
 func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithProperties(t *testing.T) {
@@ -56,19 +56,19 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 			"Networking",
 			"microsoft.networking",
 			"v20200901",
-			"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.networking/v20200901",
+			"github.com/Azure/azure-service-operator/v2/api/microsoft.networking/v20200901",
 		},
 		{
 			"Batch (new)",
 			"microsoft.batch",
 			"v20200901",
-			"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.batch/v20200901",
+			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20200901",
 		},
 		{
 			"Batch (old)",
 			"microsoft.batch",
 			"v20150101",
-			"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.batch/v20150101",
+			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20150101",
 		},
 	}
 	for _, c := range cases {

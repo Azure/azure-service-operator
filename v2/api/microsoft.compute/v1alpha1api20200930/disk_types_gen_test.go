@@ -5,7 +5,11 @@ package v1alpha1api20200930
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.compute/v1alpha1api20200930storage"
+	"os"
+	"reflect"
+	"testing"
+
+	"github.com/Azure/azure-service-operator/v2/api/microsoft.compute/v1alpha1api20200930storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -13,9 +17,6 @@ import (
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/gen"
 	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
-	"testing"
 )
 
 func Test_Disk_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -44,7 +45,7 @@ func RunPropertyAssignmentTestForDisk(subject Disk) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +142,7 @@ func RunPropertyAssignmentTestForDiskStatus(subject Disk_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -281,7 +282,7 @@ func RunPropertyAssignmentTestForDisksSpec(subject Disks_Spec) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -410,7 +411,7 @@ func RunPropertyAssignmentTestForCreationData(subject CreationData) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -525,7 +526,7 @@ func RunPropertyAssignmentTestForCreationDataStatus(subject CreationData_Status)
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -642,7 +643,7 @@ func RunPropertyAssignmentTestForDiskSku(subject DiskSku) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -738,7 +739,7 @@ func RunPropertyAssignmentTestForDiskSkuStatus(subject DiskSku_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -835,7 +836,7 @@ func RunPropertyAssignmentTestForEncryption(subject Encryption) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -932,7 +933,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsCollection(subject Encryption
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -982,7 +983,7 @@ func RunJSONSerializationTestForEncryptionSettingsCollection(subject EncryptionS
 }
 
 // Generator of EncryptionSettingsCollection instances for property testing - lazily instantiated by
-//EncryptionSettingsCollectionGenerator()
+// EncryptionSettingsCollectionGenerator()
 var encryptionSettingsCollectionGenerator gopter.Gen
 
 // EncryptionSettingsCollectionGenerator returns a generator of EncryptionSettingsCollection instances for property testing.
@@ -1044,7 +1045,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsCollectionStatus(subject Encr
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1094,7 +1095,7 @@ func RunJSONSerializationTestForEncryptionSettingsCollectionStatus(subject Encry
 }
 
 // Generator of EncryptionSettingsCollection_Status instances for property testing - lazily instantiated by
-//EncryptionSettingsCollectionStatusGenerator()
+// EncryptionSettingsCollectionStatusGenerator()
 var encryptionSettingsCollectionStatusGenerator gopter.Gen
 
 // EncryptionSettingsCollectionStatusGenerator returns a generator of EncryptionSettingsCollection_Status instances for property testing.
@@ -1156,7 +1157,7 @@ func RunPropertyAssignmentTestForEncryptionStatus(subject Encryption_Status) str
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1253,7 +1254,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1350,7 +1351,7 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1400,7 +1401,7 @@ func RunJSONSerializationTestForExtendedLocationStatus(subject ExtendedLocation_
 }
 
 // Generator of ExtendedLocation_Status instances for property testing - lazily instantiated by
-//ExtendedLocationStatusGenerator()
+// ExtendedLocationStatusGenerator()
 var extendedLocationStatusGenerator gopter.Gen
 
 // ExtendedLocationStatusGenerator returns a generator of ExtendedLocation_Status instances for property testing.
@@ -1448,7 +1449,7 @@ func RunPropertyAssignmentTestForPurchasePlan(subject PurchasePlan) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1547,7 +1548,7 @@ func RunPropertyAssignmentTestForPurchasePlanStatus(subject PurchasePlan_Status)
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1646,7 +1647,7 @@ func RunPropertyAssignmentTestForShareInfoElementStatus(subject ShareInfoElement
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1696,7 +1697,7 @@ func RunJSONSerializationTestForShareInfoElementStatus(subject ShareInfoElement_
 }
 
 // Generator of ShareInfoElement_Status instances for property testing - lazily instantiated by
-//ShareInfoElementStatusGenerator()
+// ShareInfoElementStatusGenerator()
 var shareInfoElementStatusGenerator gopter.Gen
 
 // ShareInfoElementStatusGenerator returns a generator of ShareInfoElement_Status instances for property testing.
@@ -1743,7 +1744,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsElement(subject EncryptionSet
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1793,7 +1794,7 @@ func RunJSONSerializationTestForEncryptionSettingsElement(subject EncryptionSett
 }
 
 // Generator of EncryptionSettingsElement instances for property testing - lazily instantiated by
-//EncryptionSettingsElementGenerator()
+// EncryptionSettingsElementGenerator()
 var encryptionSettingsElementGenerator gopter.Gen
 
 // EncryptionSettingsElementGenerator returns a generator of EncryptionSettingsElement instances for property testing.
@@ -1841,7 +1842,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsElementStatus(subject Encrypt
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1891,7 +1892,7 @@ func RunJSONSerializationTestForEncryptionSettingsElementStatus(subject Encrypti
 }
 
 // Generator of EncryptionSettingsElement_Status instances for property testing - lazily instantiated by
-//EncryptionSettingsElementStatusGenerator()
+// EncryptionSettingsElementStatusGenerator()
 var encryptionSettingsElementStatusGenerator gopter.Gen
 
 // EncryptionSettingsElementStatusGenerator returns a generator of EncryptionSettingsElement_Status instances for property testing.
@@ -1939,7 +1940,7 @@ func RunPropertyAssignmentTestForImageDiskReference(subject ImageDiskReference) 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2035,7 +2036,7 @@ func RunPropertyAssignmentTestForImageDiskReferenceStatus(subject ImageDiskRefer
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2085,7 +2086,7 @@ func RunJSONSerializationTestForImageDiskReferenceStatus(subject ImageDiskRefere
 }
 
 // Generator of ImageDiskReference_Status instances for property testing - lazily instantiated by
-//ImageDiskReferenceStatusGenerator()
+// ImageDiskReferenceStatusGenerator()
 var imageDiskReferenceStatusGenerator gopter.Gen
 
 // ImageDiskReferenceStatusGenerator returns a generator of ImageDiskReference_Status instances for property testing.
@@ -2133,7 +2134,7 @@ func RunPropertyAssignmentTestForKeyVaultAndKeyReference(subject KeyVaultAndKeyR
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2183,7 +2184,7 @@ func RunJSONSerializationTestForKeyVaultAndKeyReference(subject KeyVaultAndKeyRe
 }
 
 // Generator of KeyVaultAndKeyReference instances for property testing - lazily instantiated by
-//KeyVaultAndKeyReferenceGenerator()
+// KeyVaultAndKeyReferenceGenerator()
 var keyVaultAndKeyReferenceGenerator gopter.Gen
 
 // KeyVaultAndKeyReferenceGenerator returns a generator of KeyVaultAndKeyReference instances for property testing.
@@ -2244,7 +2245,7 @@ func RunPropertyAssignmentTestForKeyVaultAndKeyReferenceStatus(subject KeyVaultA
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2294,7 +2295,7 @@ func RunJSONSerializationTestForKeyVaultAndKeyReferenceStatus(subject KeyVaultAn
 }
 
 // Generator of KeyVaultAndKeyReference_Status instances for property testing - lazily instantiated by
-//KeyVaultAndKeyReferenceStatusGenerator()
+// KeyVaultAndKeyReferenceStatusGenerator()
 var keyVaultAndKeyReferenceStatusGenerator gopter.Gen
 
 // KeyVaultAndKeyReferenceStatusGenerator returns a generator of KeyVaultAndKeyReference_Status instances for property testing.
@@ -2355,7 +2356,7 @@ func RunPropertyAssignmentTestForKeyVaultAndSecretReference(subject KeyVaultAndS
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2405,7 +2406,7 @@ func RunJSONSerializationTestForKeyVaultAndSecretReference(subject KeyVaultAndSe
 }
 
 // Generator of KeyVaultAndSecretReference instances for property testing - lazily instantiated by
-//KeyVaultAndSecretReferenceGenerator()
+// KeyVaultAndSecretReferenceGenerator()
 var keyVaultAndSecretReferenceGenerator gopter.Gen
 
 // KeyVaultAndSecretReferenceGenerator returns a generator of KeyVaultAndSecretReference instances for property testing.
@@ -2466,7 +2467,7 @@ func RunPropertyAssignmentTestForKeyVaultAndSecretReferenceStatus(subject KeyVau
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2516,7 +2517,7 @@ func RunJSONSerializationTestForKeyVaultAndSecretReferenceStatus(subject KeyVaul
 }
 
 // Generator of KeyVaultAndSecretReference_Status instances for property testing - lazily instantiated by
-//KeyVaultAndSecretReferenceStatusGenerator()
+// KeyVaultAndSecretReferenceStatusGenerator()
 var keyVaultAndSecretReferenceStatusGenerator gopter.Gen
 
 // KeyVaultAndSecretReferenceStatusGenerator returns a generator of KeyVaultAndSecretReference_Status instances for property testing.
@@ -2577,7 +2578,7 @@ func RunPropertyAssignmentTestForSourceVault(subject SourceVault) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2667,7 +2668,7 @@ func RunPropertyAssignmentTestForSourceVaultStatus(subject SourceVault_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)

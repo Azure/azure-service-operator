@@ -5,7 +5,11 @@ package v1alpha1api20201101
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101storage"
+	"os"
+	"reflect"
+	"testing"
+
+	"github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -13,9 +17,6 @@ import (
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/gen"
 	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
-	"testing"
 )
 
 func Test_PublicIPAddress_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -44,7 +45,7 @@ func RunPropertyAssignmentTestForPublicIPAddress(subject PublicIPAddress) string
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +142,7 @@ func RunPropertyAssignmentTestForPublicIPAddressStatusPublicIPAddressSubResource
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -191,7 +192,7 @@ func RunJSONSerializationTestForPublicIPAddressStatusPublicIPAddressSubResourceE
 }
 
 // Generator of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// instantiated by PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var publicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.
@@ -272,7 +273,7 @@ func RunPropertyAssignmentTestForPublicIPAddressesSpec(subject PublicIPAddresses
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -322,7 +323,7 @@ func RunJSONSerializationTestForPublicIPAddressesSpec(subject PublicIPAddresses_
 }
 
 // Generator of PublicIPAddresses_Spec instances for property testing - lazily instantiated by
-//PublicIPAddressesSpecGenerator()
+// PublicIPAddressesSpecGenerator()
 var publicIPAddressesSpecGenerator gopter.Gen
 
 // PublicIPAddressesSpecGenerator returns a generator of PublicIPAddresses_Spec instances for property testing.
@@ -395,7 +396,7 @@ func RunPropertyAssignmentTestForDdosSettings(subject DdosSettings) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -506,7 +507,7 @@ func RunPropertyAssignmentTestForDdosSettingsStatus(subject DdosSettings_Status)
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -617,7 +618,7 @@ func RunPropertyAssignmentTestForIPConfigurationStatusPublicIPAddressSubResource
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -667,7 +668,7 @@ func RunJSONSerializationTestForIPConfigurationStatusPublicIPAddressSubResourceE
 }
 
 // Generator of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily
-//instantiated by IPConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// instantiated by IPConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var ipConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // IPConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.
@@ -733,7 +734,7 @@ func RunPropertyAssignmentTestForIpTag(subject IpTag) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -830,7 +831,7 @@ func RunPropertyAssignmentTestForIpTagStatus(subject IpTag_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -927,7 +928,7 @@ func RunPropertyAssignmentTestForNatGatewayStatusPublicIPAddressSubResourceEmbed
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -977,7 +978,7 @@ func RunJSONSerializationTestForNatGatewayStatusPublicIPAddressSubResourceEmbedd
 }
 
 // Generator of NatGateway_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily
-//instantiated by NatGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// instantiated by NatGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var natGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // NatGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of NatGateway_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.
@@ -1039,7 +1040,7 @@ func RunPropertyAssignmentTestForPublicIPAddressDnsSettings(subject PublicIPAddr
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1089,7 +1090,7 @@ func RunJSONSerializationTestForPublicIPAddressDnsSettings(subject PublicIPAddre
 }
 
 // Generator of PublicIPAddressDnsSettings instances for property testing - lazily instantiated by
-//PublicIPAddressDnsSettingsGenerator()
+// PublicIPAddressDnsSettingsGenerator()
 var publicIPAddressDnsSettingsGenerator gopter.Gen
 
 // PublicIPAddressDnsSettingsGenerator returns a generator of PublicIPAddressDnsSettings instances for property testing.
@@ -1138,7 +1139,7 @@ func RunPropertyAssignmentTestForPublicIPAddressDnsSettingsStatus(subject Public
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1188,7 +1189,7 @@ func RunJSONSerializationTestForPublicIPAddressDnsSettingsStatus(subject PublicI
 }
 
 // Generator of PublicIPAddressDnsSettings_Status instances for property testing - lazily instantiated by
-//PublicIPAddressDnsSettingsStatusGenerator()
+// PublicIPAddressDnsSettingsStatusGenerator()
 var publicIPAddressDnsSettingsStatusGenerator gopter.Gen
 
 // PublicIPAddressDnsSettingsStatusGenerator returns a generator of PublicIPAddressDnsSettings_Status instances for property testing.
@@ -1237,7 +1238,7 @@ func RunPropertyAssignmentTestForPublicIPAddressSku(subject PublicIPAddressSku) 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1334,7 +1335,7 @@ func RunPropertyAssignmentTestForPublicIPAddressSkuStatus(subject PublicIPAddres
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1384,7 +1385,7 @@ func RunJSONSerializationTestForPublicIPAddressSkuStatus(subject PublicIPAddress
 }
 
 // Generator of PublicIPAddressSku_Status instances for property testing - lazily instantiated by
-//PublicIPAddressSkuStatusGenerator()
+// PublicIPAddressSkuStatusGenerator()
 var publicIPAddressSkuStatusGenerator gopter.Gen
 
 // PublicIPAddressSkuStatusGenerator returns a generator of PublicIPAddressSku_Status instances for property testing.
@@ -1432,7 +1433,7 @@ func RunPropertyAssignmentTestForSubResourceStatus(subject SubResource_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1528,7 +1529,7 @@ func RunPropertyAssignmentTestForNatGatewaySkuStatus(subject NatGatewaySku_Statu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1578,7 +1579,7 @@ func RunJSONSerializationTestForNatGatewaySkuStatus(subject NatGatewaySku_Status
 }
 
 // Generator of NatGatewaySku_Status instances for property testing - lazily instantiated by
-//NatGatewaySkuStatusGenerator()
+// NatGatewaySkuStatusGenerator()
 var natGatewaySkuStatusGenerator gopter.Gen
 
 // NatGatewaySkuStatusGenerator returns a generator of NatGatewaySku_Status instances for property testing.
@@ -1625,7 +1626,7 @@ func RunPropertyAssignmentTestForSubnetStatusPublicIPAddressSubResourceEmbedded(
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1675,7 +1676,7 @@ func RunJSONSerializationTestForSubnetStatusPublicIPAddressSubResourceEmbedded(s
 }
 
 // Generator of Subnet_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily instantiated
-//by SubnetStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// by SubnetStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var subnetStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // SubnetStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of Subnet_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.

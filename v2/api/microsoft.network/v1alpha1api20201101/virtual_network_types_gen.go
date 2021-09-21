@@ -5,10 +5,11 @@ package v1alpha1api20201101
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101storage"
+
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101storage"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -26,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -206,7 +207,6 @@ func (virtualNetwork *VirtualNetwork) validateResourceReferences() error {
 
 // AssignPropertiesFromVirtualNetwork populates our VirtualNetwork from the provided source VirtualNetwork
 func (virtualNetwork *VirtualNetwork) AssignPropertiesFromVirtualNetwork(source *v1alpha1api20201101storage.VirtualNetwork) error {
-
 	// Spec
 	var spec VirtualNetworks_Spec
 	err := spec.AssignPropertiesFromVirtualNetworksSpec(&source.Spec)
@@ -229,7 +229,6 @@ func (virtualNetwork *VirtualNetwork) AssignPropertiesFromVirtualNetwork(source 
 
 // AssignPropertiesToVirtualNetwork populates the provided destination VirtualNetwork from our VirtualNetwork
 func (virtualNetwork *VirtualNetwork) AssignPropertiesToVirtualNetwork(destination *v1alpha1api20201101storage.VirtualNetwork) error {
-
 	// Spec
 	var spec v1alpha1api20201101storage.VirtualNetworks_Spec
 	err := virtualNetwork.Spec.AssignPropertiesToVirtualNetworksSpec(&spec)
@@ -260,76 +259,76 @@ func (virtualNetwork *VirtualNetwork) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks
 type VirtualNetworkList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetwork `json:"items"`
 }
 
-//Generated from:
+// Generated from:
 type VirtualNetwork_Status struct {
-	//AddressSpace: The AddressSpace that contains an array of IP address ranges that
-	//can be used by subnets.
+	// AddressSpace: The AddressSpace that contains an array of IP address ranges that
+	// can be used by subnets.
 	AddressSpace *AddressSpace_Status `json:"addressSpace,omitempty"`
 
-	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route
-	//corresponding to a prefix in this VNET.
+	// BgpCommunities: Bgp Communities sent over ExpressRoute with each route
+	// corresponding to a prefix in this VNET.
 	BgpCommunities *VirtualNetworkBgpCommunities_Status `json:"bgpCommunities,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
+	// DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
 	DdosProtectionPlan *SubResource_Status `json:"ddosProtectionPlan,omitempty"`
 
-	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to
-	//VMs deployed in the virtual network.
+	// DhcpOptions: The dhcpOptions that contains an array of DNS servers available to
+	// VMs deployed in the virtual network.
 	DhcpOptions *DhcpOptions_Status `json:"dhcpOptions,omitempty"`
 
-	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the
-	//protected resources in the virtual network. It requires a DDoS protection plan
-	//associated with the resource.
+	// EnableDdosProtection: Indicates if DDoS protection is enabled for all the
+	// protected resources in the virtual network. It requires a DDoS protection plan
+	// associated with the resource.
 	EnableDdosProtection *bool `json:"enableDdosProtection,omitempty"`
 
-	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in
-	//the virtual network.
+	// EnableVmProtection: Indicates if VM protection is enabled for all the subnets in
+	// the virtual network.
 	EnableVmProtection *bool `json:"enableVmProtection,omitempty"`
 
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//ExtendedLocation: The extended location of the virtual network.
+	// ExtendedLocation: The extended location of the virtual network.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//IpAllocations: Array of IpAllocation which reference this VNET.
+	// IpAllocations: Array of IpAllocation which reference this VNET.
 	IpAllocations []SubResource_Status `json:"ipAllocations,omitempty"`
 
-	//Location: Resource location.
+	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
-	//Name: Resource name.
+	// Name: Resource name.
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: The provisioning state of the virtual network resource.
+	// ProvisioningState: The provisioning state of the virtual network resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//ResourceGuid: The resourceGuid property of the Virtual Network resource.
+	// ResourceGuid: The resourceGuid property of the Virtual Network resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
-	//Subnets: A list of subnets in a Virtual Network.
+	// Subnets: A list of subnets in a Virtual Network.
 	Subnets []Subnet_Status_VirtualNetwork_SubResourceEmbedded `json:"subnets,omitempty"`
 
-	//Tags: Resource tags.
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type.
+	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 
-	//VirtualNetworkPeerings: A list of peerings in a Virtual Network.
+	// VirtualNetworkPeerings: A list of peerings in a Virtual Network.
 	VirtualNetworkPeerings []VirtualNetworkPeering_Status_SubResourceEmbedded `json:"virtualNetworkPeerings,omitempty"`
 }
 
@@ -585,7 +584,6 @@ func (virtualNetworkStatus *VirtualNetwork_Status) PopulateFromARM(owner genrunt
 
 // AssignPropertiesFromVirtualNetworkStatus populates our VirtualNetwork_Status from the provided source VirtualNetwork_Status
 func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNetworkStatus(source *v1alpha1api20201101storage.VirtualNetwork_Status) error {
-
 	// AddressSpace
 	if source.AddressSpace != nil {
 		var addressSpace AddressSpace_Status
@@ -988,50 +986,50 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 
 type VirtualNetworks_Spec struct {
 	// +kubebuilder:validation:Required
-	//AddressSpace: The AddressSpace that contains an array of IP address ranges that
-	//can be used by subnets.
+	// AddressSpace: The AddressSpace that contains an array of IP address ranges that
+	// can be used by subnets.
 	AddressSpace AddressSpace `json:"addressSpace"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name
-	//of the resource in Kubernetes but it doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name
+	// of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//BgpCommunities: Bgp Communities sent over ExpressRoute with each route
-	//corresponding to a prefix in this VNET.
+	// BgpCommunities: Bgp Communities sent over ExpressRoute with each route
+	// corresponding to a prefix in this VNET.
 	BgpCommunities *VirtualNetworkBgpCommunities `json:"bgpCommunities,omitempty"`
 
-	//DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
+	// DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
 	DdosProtectionPlan *SubResource `json:"ddosProtectionPlan,omitempty"`
 
-	//DhcpOptions: The dhcpOptions that contains an array of DNS servers available to
-	//VMs deployed in the virtual network.
+	// DhcpOptions: The dhcpOptions that contains an array of DNS servers available to
+	// VMs deployed in the virtual network.
 	DhcpOptions *DhcpOptions `json:"dhcpOptions,omitempty"`
 
-	//EnableDdosProtection: Indicates if DDoS protection is enabled for all the
-	//protected resources in the virtual network. It requires a DDoS protection plan
-	//associated with the resource.
+	// EnableDdosProtection: Indicates if DDoS protection is enabled for all the
+	// protected resources in the virtual network. It requires a DDoS protection plan
+	// associated with the resource.
 	EnableDdosProtection *bool `json:"enableDdosProtection,omitempty"`
 
-	//EnableVmProtection: Indicates if VM protection is enabled for all the subnets in
-	//the virtual network.
+	// EnableVmProtection: Indicates if VM protection is enabled for all the subnets in
+	// the virtual network.
 	EnableVmProtection *bool `json:"enableVmProtection,omitempty"`
 
-	//ExtendedLocation: The extended location of the virtual network.
+	// ExtendedLocation: The extended location of the virtual network.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
-	//IpAllocations: Array of IpAllocation which reference this VNET.
+	// IpAllocations: Array of IpAllocation which reference this VNET.
 	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	//Subnets: A list of subnets in a Virtual Network.
+	// Subnets: A list of subnets in a Virtual Network.
 	Subnets []VirtualNetworks_Spec_Properties_Subnets `json:"subnets,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -1306,7 +1304,6 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertSpecTo(destination genru
 
 // AssignPropertiesFromVirtualNetworksSpec populates our VirtualNetworks_Spec from the provided source VirtualNetworks_Spec
 func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesFromVirtualNetworksSpec(source *v1alpha1api20201101storage.VirtualNetworks_Spec) error {
-
 	// AddressSpace
 	if source.AddressSpace != nil {
 		var addressSpace AddressSpace
@@ -1580,11 +1577,11 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) SetAzureName(azureName string) 
 	virtualNetworksSpec.AzureName = azureName
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace
 type AddressSpace struct {
 	// +kubebuilder:validation:Required
-	//AddressPrefixes: A list of address blocks reserved for this virtual network in
-	//CIDR notation.
+	// AddressPrefixes: A list of address blocks reserved for this virtual network in
+	// CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes"`
 }
 
@@ -1627,7 +1624,6 @@ func (addressSpace *AddressSpace) PopulateFromARM(owner genruntime.KnownResource
 
 // AssignPropertiesFromAddressSpace populates our AddressSpace from the provided source AddressSpace
 func (addressSpace *AddressSpace) AssignPropertiesFromAddressSpace(source *v1alpha1api20201101storage.AddressSpace) error {
-
 	// AddressPrefixes
 	addressPrefixList := make([]string, len(source.AddressPrefixes))
 	for addressPrefixIndex, addressPrefixItem := range source.AddressPrefixes {
@@ -1662,10 +1658,10 @@ func (addressSpace *AddressSpace) AssignPropertiesToAddressSpace(destination *v1
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type AddressSpace_Status struct {
-	//AddressPrefixes: A list of address blocks reserved for this virtual network in
-	//CIDR notation.
+	// AddressPrefixes: A list of address blocks reserved for this virtual network in
+	// CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 }
 
@@ -1694,7 +1690,6 @@ func (addressSpaceStatus *AddressSpace_Status) PopulateFromARM(owner genruntime.
 
 // AssignPropertiesFromAddressSpaceStatus populates our AddressSpace_Status from the provided source AddressSpace_Status
 func (addressSpaceStatus *AddressSpace_Status) AssignPropertiesFromAddressSpaceStatus(source *v1alpha1api20201101storage.AddressSpace_Status) error {
-
 	// AddressPrefixes
 	addressPrefixList := make([]string, len(source.AddressPrefixes))
 	for addressPrefixIndex, addressPrefixItem := range source.AddressPrefixes {
@@ -1729,10 +1724,10 @@ func (addressSpaceStatus *AddressSpace_Status) AssignPropertiesToAddressSpaceSta
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions
 type DhcpOptions struct {
 	// +kubebuilder:validation:Required
-	//DnsServers: The list of DNS servers IP addresses.
+	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers"`
 }
 
@@ -1775,7 +1770,6 @@ func (dhcpOptions *DhcpOptions) PopulateFromARM(owner genruntime.KnownResourceRe
 
 // AssignPropertiesFromDhcpOptions populates our DhcpOptions from the provided source DhcpOptions
 func (dhcpOptions *DhcpOptions) AssignPropertiesFromDhcpOptions(source *v1alpha1api20201101storage.DhcpOptions) error {
-
 	// DnsServers
 	dnsServerList := make([]string, len(source.DnsServers))
 	for dnsServerIndex, dnsServerItem := range source.DnsServers {
@@ -1810,9 +1804,9 @@ func (dhcpOptions *DhcpOptions) AssignPropertiesToDhcpOptions(destination *v1alp
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type DhcpOptions_Status struct {
-	//DnsServers: The list of DNS servers IP addresses.
+	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
@@ -1841,7 +1835,6 @@ func (dhcpOptionsStatus *DhcpOptions_Status) PopulateFromARM(owner genruntime.Kn
 
 // AssignPropertiesFromDhcpOptionsStatus populates our DhcpOptions_Status from the provided source DhcpOptions_Status
 func (dhcpOptionsStatus *DhcpOptions_Status) AssignPropertiesFromDhcpOptionsStatus(source *v1alpha1api20201101storage.DhcpOptions_Status) error {
-
 	// DnsServers
 	dnsServerList := make([]string, len(source.DnsServers))
 	for dnsServerIndex, dnsServerItem := range source.DnsServers {
@@ -1876,9 +1869,9 @@ func (dhcpOptionsStatus *DhcpOptions_Status) AssignPropertiesToDhcpOptionsStatus
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type Subnet_Status_VirtualNetwork_SubResourceEmbedded struct {
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1908,7 +1901,6 @@ func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwor
 
 // AssignPropertiesFromSubnetStatusVirtualNetworkSubResourceEmbedded populates our Subnet_Status_VirtualNetwork_SubResourceEmbedded from the provided source Subnet_Status_VirtualNetwork_SubResourceEmbedded
 func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwork_SubResourceEmbedded) AssignPropertiesFromSubnetStatusVirtualNetworkSubResourceEmbedded(source *v1alpha1api20201101storage.Subnet_Status_VirtualNetwork_SubResourceEmbedded) error {
-
 	// Id
 	if source.Id != nil {
 		id := *source.Id
@@ -1941,10 +1933,10 @@ func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwor
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities
 type VirtualNetworkBgpCommunities struct {
 	// +kubebuilder:validation:Required
-	//VirtualNetworkCommunity: The BGP community associated with the virtual network.
+	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
 	VirtualNetworkCommunity string `json:"virtualNetworkCommunity"`
 }
 
@@ -1983,7 +1975,6 @@ func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) PopulateFromAR
 
 // AssignPropertiesFromVirtualNetworkBgpCommunities populates our VirtualNetworkBgpCommunities from the provided source VirtualNetworkBgpCommunities
 func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) AssignPropertiesFromVirtualNetworkBgpCommunities(source *v1alpha1api20201101storage.VirtualNetworkBgpCommunities) error {
-
 	// VirtualNetworkCommunity
 	if source.VirtualNetworkCommunity != nil {
 		virtualNetworkBgpCommunities.VirtualNetworkCommunity = *source.VirtualNetworkCommunity
@@ -2011,14 +2002,14 @@ func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) AssignProperti
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type VirtualNetworkBgpCommunities_Status struct {
-	//RegionalCommunity: The BGP community associated with the region of the virtual
-	//network.
+	// RegionalCommunity: The BGP community associated with the region of the virtual
+	// network.
 	RegionalCommunity *string `json:"regionalCommunity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//VirtualNetworkCommunity: The BGP community associated with the virtual network.
+	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
 	VirtualNetworkCommunity string `json:"virtualNetworkCommunity"`
 }
 
@@ -2051,7 +2042,6 @@ func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) P
 
 // AssignPropertiesFromVirtualNetworkBgpCommunitiesStatus populates our VirtualNetworkBgpCommunities_Status from the provided source VirtualNetworkBgpCommunities_Status
 func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) AssignPropertiesFromVirtualNetworkBgpCommunitiesStatus(source *v1alpha1api20201101storage.VirtualNetworkBgpCommunities_Status) error {
-
 	// RegionalCommunity
 	if source.RegionalCommunity != nil {
 		regionalCommunity := *source.RegionalCommunity
@@ -2095,9 +2085,9 @@ func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) A
 	return nil
 }
 
-//Generated from:
+// Generated from:
 type VirtualNetworkPeering_Status_SubResourceEmbedded struct {
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -2127,7 +2117,6 @@ func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Stat
 
 // AssignPropertiesFromVirtualNetworkPeeringStatusSubResourceEmbedded populates our VirtualNetworkPeering_Status_SubResourceEmbedded from the provided source VirtualNetworkPeering_Status_SubResourceEmbedded
 func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Status_SubResourceEmbedded) AssignPropertiesFromVirtualNetworkPeeringStatusSubResourceEmbedded(source *v1alpha1api20201101storage.VirtualNetworkPeering_Status_SubResourceEmbedded) error {
-
 	// Id
 	if source.Id != nil {
 		id := *source.Id
@@ -2161,44 +2150,44 @@ func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Stat
 }
 
 type VirtualNetworks_Spec_Properties_Subnets struct {
-	//AddressPrefix: The address prefix for the subnet.
+	// AddressPrefix: The address prefix for the subnet.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
 
-	//AddressPrefixes: List of address prefixes for the subnet.
+	// AddressPrefixes: List of address prefixes for the subnet.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 
-	//Delegations: An array of references to the delegations on the subnet.
+	// Delegations: An array of references to the delegations on the subnet.
 	Delegations []VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations `json:"delegations,omitempty"`
 
-	//IpAllocations: Array of IpAllocation which reference this subnet.
+	// IpAllocations: Array of IpAllocation which reference this subnet.
 	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The name of the resource that is unique within a resource group. This name
-	//can be used to access the resource.
+	// Name: The name of the resource that is unique within a resource group. This name
+	// can be used to access the resource.
 	Name string `json:"name"`
 
-	//NatGateway: Nat gateway associated with this subnet.
+	// NatGateway: Nat gateway associated with this subnet.
 	NatGateway *SubResource `json:"natGateway,omitempty"`
 
-	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
+	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
 
-	//PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
-	//private end point in the subnet.
+	// PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on
+	// private end point in the subnet.
 	PrivateEndpointNetworkPolicies *string `json:"privateEndpointNetworkPolicies,omitempty"`
 
-	//PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
-	//private link service in the subnet.
+	// PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on
+	// private link service in the subnet.
 	PrivateLinkServiceNetworkPolicies *string `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
-	//RouteTable: The reference to the RouteTable resource.
+	// RouteTable: The reference to the RouteTable resource.
 	RouteTable *SubResource `json:"routeTable,omitempty"`
 
-	//ServiceEndpointPolicies: An array of service endpoint policies.
+	// ServiceEndpointPolicies: An array of service endpoint policies.
 	ServiceEndpointPolicies []SubResource `json:"serviceEndpointPolicies,omitempty"`
 
-	//ServiceEndpoints: An array of service endpoints.
+	// ServiceEndpoints: An array of service endpoints.
 	ServiceEndpoints []ServiceEndpointPropertiesFormat `json:"serviceEndpoints,omitempty"`
 }
 
@@ -2434,7 +2423,6 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 
 // AssignPropertiesFromVirtualNetworksSpecPropertiesSubnets populates our VirtualNetworks_Spec_Properties_Subnets from the provided source VirtualNetworks_Spec_Properties_Subnets
 func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subnets) AssignPropertiesFromVirtualNetworksSpecPropertiesSubnets(source *v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets) error {
-
 	// AddressPrefix
 	if source.AddressPrefix != nil {
 		addressPrefix := *source.AddressPrefix
@@ -2714,8 +2702,8 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 
 type VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations struct {
 	// +kubebuilder:validation:Required
-	//Name: The name of the resource that is unique within a subnet. This name can be
-	//used to access the resource.
+	// Name: The name of the resource that is unique within a subnet. This name can be
+	// used to access the resource.
 	Name string `json:"name"`
 
 	//ServiceName: The name of the service to whom the subnet should be delegated
@@ -2776,7 +2764,6 @@ func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks
 
 // AssignPropertiesFromVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations populates our VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations from the provided source VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
 func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) AssignPropertiesFromVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations(source *v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) error {
-
 	// Name
 	if source.Name != nil {
 		virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.Name = *source.Name
