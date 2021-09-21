@@ -1,0 +1,39 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"name":"k8s_cd9e2d54-8b6b-5f01-bca4-990886128842","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-vmzqkw","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
+      ''asotest-rg-vmzqkw'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_cd9e2d54-8b6b-5f01-bca4-990886128842?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"InternalServerError","message":"Encountered internal
+      server error. Diagnostic information: timestamp ''20210923T231335Z'', subscription
+      id ''00000000-0000-0000-0000-000000000000'', tracking id ''48a52f10-7aab-4d55-abaf-49c014c4925b'',
+      request correlation id ''48a52f10-7aab-4d55-abaf-49c014c4925b''."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "312"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 500 Internal Server Error
+    code: 500
+    duration: ""

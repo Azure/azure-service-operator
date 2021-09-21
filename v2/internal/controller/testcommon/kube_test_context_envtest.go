@@ -133,10 +133,14 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		cancelFunc()
 	})
 
-	waitForWebhooks(perTestContext.T, environment)
+	if selectedMode.IncludesWebhooks() {
+		waitForWebhooks(perTestContext.T, environment)
 
-	webhookServer := mgr.GetWebhookServer()
-	perTestContext.T.Logf("Webhook server running at: %s:%d", webhookServer.Host, webhookServer.Port)
+		webhookServer := mgr.GetWebhookServer()
+		perTestContext.T.Logf("Webhook server running at: %s:%d", webhookServer.Host, webhookServer.Port)
+	} else {
+		perTestContext.T.Logf("Operator mode is %q, webhooks not running", selectedMode)
+	}
 
 	return &KubeBaseTestContext{
 		PerTestContext: perTestContext,

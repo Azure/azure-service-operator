@@ -169,8 +169,8 @@ func (tc KubePerTestContext) CreateResourceGroupAndWait(rg *resources.ResourceGr
 	return createdResourceGroup
 }
 
-// CreateResourceGroup creates a new resource group
-// and registers it to be deleted up when the context is cleaned up
+// CreateResourceGroup creates a new resource group and registers it
+// to be deleted up when the test context is cleaned up.
 func (tc KubePerTestContext) CreateResourceGroup(rg *resources.ResourceGroup) (*resources.ResourceGroup, error) {
 	ctx := context.Background()
 

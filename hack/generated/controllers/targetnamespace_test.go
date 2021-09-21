@@ -178,9 +178,9 @@ func gotFinalizer(tc testcommon.KubePerTestContext, name types.NamespacedName) f
 	return func(g Gomega) bool {
 		var instance resources.ResourceGroup
 		err := tc.KubeClient.Get(tc.Ctx, name, &instance)
-		tc.Expect(err).NotTo(HaveOccurred())
+		g.Expect(err).NotTo(HaveOccurred())
 		res, err := meta.Accessor(&instance)
-		tc.Expect(err).NotTo(HaveOccurred())
+		g.Expect(err).NotTo(HaveOccurred())
 		return HasFinalizer(res, finalizerName)
 	}
 }
