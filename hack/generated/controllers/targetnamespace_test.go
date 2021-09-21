@@ -5,6 +5,7 @@ package controllers_test
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"testing"
 	"time"
@@ -12,7 +13,9 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/apimachinery/pkg/types"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	resources "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/hack/generated/controllers"
@@ -20,6 +23,13 @@ import (
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 
 	. "github.com/onsi/gomega"
+)
+
+const finalizerName = reconcilers.GenericControllerFinalizer
+
+const (
+	timeoutFast = time.Minute * 3
+	retry       = time.Second * 3
 )
 
 func TestTargetNamespaces(t *testing.T) {
@@ -30,7 +40,7 @@ func TestTargetNamespaces(t *testing.T) {
 	configuredNamespaces := os.Getenv("AZURE_TARGET_NAMESPACES")
 	podNamespace := os.Getenv("POD_NAMESPACE")
 
-	// We can't check for operator namespace
+	// We can't check for operator namespace if there's not one set.
 	tc.Expect(podNamespace).ToNot(Equal(""))
 
 	standardSpec := resources.ResourceGroupSpec{
@@ -79,8 +89,7 @@ func TestTargetNamespaces(t *testing.T) {
 
 	gotFinalizer := func(g Gomega) bool {
 		var instance resources.ResourceGroup
-		ctx := context.Background()
-		err := tc.KubeClient.Get(ctx, names, &instance)
+		err := tc.KubeClient.Get(tc.Ctx, names, &instance)
 		g.Expect(err).NotTo(HaveOccurred())
 		res, err := meta.Accessor(&instance)
 		g.Expect(err).NotTo(HaveOccurred())
@@ -174,89 +183,83 @@ func createNamespaces(tc testcommon.KubePerTestContext, names ...string) {
 	}
 }
 
-const finalizerName = reconcilers.GenericControllerFinalizer
+func TestOperatorNamespacePreventsReconciling(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
 
-const (
-	timeoutFast = time.Minute * 3
-	retry       = time.Second * 3
-)
+	podNamespace := os.Getenv("POD_NAMESPACE")
 
-// }
+	// We can't check for operator namespace if there's not one set.
+	tc.Expect(podNamespace).ToNot(Equal(""))
 
-// func TestOperatorNamespacePreventsReconciling(t *testing.T) {
-// 	t.Parallel()
-// 	defer PanicRecover(t)
-// 	ctx := context.Background()
+	// If a resource has a different operator's namespace it won't be
+	// reconciled.
+	notMine := resources.ResourceGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      tc.Namer.GenerateName("rg"),
+			Namespace: tc.Namespace(),
+			Annotations: map[string]string{
+				controllers.NamespaceAnnotation: "some-other-operator",
+			},
+		},
+		Spec: resources.ResourceGroupSpec{
+			Location: tc.AzureRegion,
+			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
+		},
+	}
+	_, err := tc.CreateResourceGroup(&notMine)
+	tc.Expect(err).NotTo(HaveOccurred())
 
-// 	// If a resource has a different operator's namespace it won't be
-// 	// reconciled.
-// 	notMine := v1alpha1.StorageAccount{
-// 		ObjectMeta: metav1.ObjectMeta{
-// 			Name:      "storageacct" + helpers.RandomString(6),
-// 			Namespace: "default",
-// 			Annotations: map[string]string{
-// 				namespaceAnnotation: "hard-times",
-// 			},
-// 		},
-// 		Spec: v1alpha1.StorageAccountSpec{
-// 			Kind:          "BlobStorage",
-// 			Location:      tc.resourceGroupLocation,
-// 			ResourceGroup: tc.resourceGroupName,
-// 			Sku: v1alpha1.StorageAccountSku{
-// 				Name: "Standard_LRS",
-// 			},
-// 			AccessTier:             "Hot",
-// 			EnableHTTPSTrafficOnly: to.BoolPtr(true),
-// 		},
-// 	}
+	names := types.NamespacedName{
+		Name:      notMine.ObjectMeta.Name,
+		Namespace: tc.Namespace(),
+	}
 
-// 	require := require.New(t)
-// 	err := tc.k8sClient.Create(ctx, &notMine)
-// 	tc.Expect(err).NotTo(HaveOccurred())
-// 	defer EnsureDelete(ctx, t, tc, &notMine)
+	gotFinalizer := func(g Gomega) bool {
+		var instance resources.ResourceGroup
+		err := tc.KubeClient.Get(tc.Ctx, names, &instance)
+		tc.Expect(err).NotTo(HaveOccurred())
+		res, err := meta.Accessor(&instance)
+		tc.Expect(err).NotTo(HaveOccurred())
+		return HasFinalizer(res, finalizerName)
+	}
 
-// 	names := types.NamespacedName{
-// 		Name:      notMine.ObjectMeta.Name,
-// 		Namespace: "default",
-// 	}
+	tc.G.Consistently(
+		gotFinalizer,
+		20*time.Second,
+		time.Second,
+	).Should(
+		BeFalse(),
+		"instance claimed by some other operator got finalizer",
+	)
 
-// 	gotFinalizer := func() bool {
-// 		var instance v1alpha1.StorageAccount
-// 		err := tc.k8sClient.Get(ctx, names, &instance)
-// 		tc.Expect(err).NotTo(HaveOccurred())
-// 		res, err := meta.Accessor(&instance)
-// 		tc.Expect(err).NotTo(HaveOccurred())
-// 		return HasFinalizer(res, finalizerName)
-// 	}
+	var events corev1.EventList
+	err = tc.KubeClient.List(tc.Ctx, &events, &client.ListOptions{
+		FieldSelector: fields.ParseSelectorOrDie("involvedObject.name=" + notMine.ObjectMeta.Name),
+		Namespace:     tc.Namespace(),
+	})
+	tc.Expect(err).NotTo(HaveOccurred())
+	tc.Expect(events.Items).To(HaveLen(1))
+	event := events.Items[0]
+	tc.Expect(event.Type).To(Equal("Warning"))
+	tc.Expect(event.Reason).To(Equal("Overlap"))
+	tc.Expect(event.Message).To(Equal(
+		fmt.Sprintf(`Operators in %q and "some-other-operator" are both configured to manage this resource`, podNamespace),
+	))
 
-// 	require.Never(
-// 		gotFinalizer,
-// 		20*time.Second,
-// 		time.Second,
-// 		"instance claimed by some other operator got finalizer",
-// 	)
-
-// 	var events corev1.EventList
-// 	err = tc.k8sClient.List(ctx, &events, &client.ListOptions{
-// 		FieldSelector: fields.ParseSelectorOrDie("involvedObject.name=" + notMine.ObjectMeta.Name),
-// 		Namespace:     "default",
-// 	})
-// 	tc.Expect(err).NotTo(HaveOccurred())
-// 	require.Len(events.Items, 1)
-// 	event := events.Items[0]
-// 	require.Equal(event.Type, "Warning")
-// 	require.Equal(event.Reason, "Overlap")
-// 	require.Equal(event.Message, `Operators in podNamespace and "hard-times" are both configured to manage this resource`)
-
-// 	// But an instance that I've claimed gets reconciled fine.
-// 	mine := notMine
-// 	mine.ObjectMeta = metav1.ObjectMeta{
-// 		Name:      "storaceacct" + helpers.RandomString(6),
-// 		Namespace: "default",
-// 		Annotations: map[string]string{
-// 			namespaceAnnotation: podNamespace,
-// 		},
-// 	}
-// 	EnsureInstance(ctx, t, tc, &mine)
-// 	EnsureDelete(ctx, t, tc, &mine)
-// }
+	// But an instance that I've claimed gets reconciled fine.
+	mine := resources.ResourceGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      tc.Namer.GenerateName("rg"),
+			Namespace: tc.Namespace(),
+			Annotations: map[string]string{
+				controllers.NamespaceAnnotation: podNamespace,
+			},
+		},
+		Spec: resources.ResourceGroupSpec{
+			Location: tc.AzureRegion,
+			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
+		},
+	}
+	tc.CreateResourceGroupAndWait(&mine)
+}
