@@ -117,6 +117,7 @@ func (r *AzureDeploymentReconciler) fatalReconciliationErrorToCondition(fatal Fa
 	return r.PositiveConditions.MakeFalseCondition(
 		conditions.ConditionTypeReady,
 		conditions.ConditionSeverityError,
+		r.obj.GetGeneration(),
 		conditions.ReasonReconciliationFailedPermanently,
 		fatal.Message)
 }
@@ -301,7 +302,7 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(deploymentError 
 		panic(fmt.Sprintf("Unknown error classification %q", errorDetails.Classification))
 	}
 
-	return r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, errorDetails.Code, errorDetails.Message)
+	return r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, r.obj.GetGeneration(), errorDetails.Code, errorDetails.Message)
 }
 
 func (r *AzureDeploymentReconciler) createReadyConditionFromDeploymentStatus(deployment *armclient.Deployment) conditions.Condition {
@@ -310,12 +311,12 @@ func (r *AzureDeploymentReconciler) createReadyConditionFromDeploymentStatus(dep
 			// TODO: Need to guard against properties being nil here?
 			return r.makeReadyConditionFromError(deployment.Properties.Error)
 		} else {
-			return r.PositiveConditions.Ready.Succeeded()
+			return r.PositiveConditions.Ready.Succeeded(r.obj.GetGeneration())
 		}
 	}
 
 	// TODO: I think this is right
-	return r.PositiveConditions.Ready.Reconciling()
+	return r.PositiveConditions.Ready.Reconciling(r.obj.GetGeneration())
 }
 
 func (r *AzureDeploymentReconciler) UpdateBeforeCreatingDeployment(
@@ -331,7 +332,7 @@ func (r *AzureDeploymentReconciler) UpdateBeforeCreatingDeployment(
 		return errors.Wrap(err, "failed to compute resource spec hash")
 	}
 	r.SetResourceSignature(sig)
-	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Reconciling())
+	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Reconciling(r.obj.GetGeneration()))
 
 	return nil
 }
@@ -480,7 +481,7 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
 	}
 
-	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Deleting())
+	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Deleting(r.obj.GetGeneration()))
 	err = r.CommitUpdate(ctx)
 
 	err = client.IgnoreNotFound(err)
@@ -746,7 +747,7 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 	}
 
 	if !isOwnerReady {
-		conditions.SetCondition(r.obj, r.PositiveConditions.Ready.WaitingForOwner(r.obj.Owner().String()))
+		conditions.SetCondition(r.obj, r.PositiveConditions.Ready.WaitingForOwner(r.obj.GetGeneration(), r.obj.Owner().String()))
 		err = r.CommitUpdate(ctx)
 
 		err = client.IgnoreNotFound(err)
