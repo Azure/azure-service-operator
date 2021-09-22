@@ -304,21 +304,14 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 	body = append(body, returnStmt)
 
 	f := &astbuilder.FuncDetails{
-		Name:   "createScheme",
-		Body:   body,
-		Params: []*dst.Field{},
-		Returns: []*dst.Field{
-			{
-				Type: &dst.UnaryExpr{
-					Op: token.MUL,
-					X: &dst.SelectorExpr{
-						X:   dst.NewIdent(runtime),
-						Sel: dst.NewIdent("Scheme"),
-					},
-				},
-			},
-		},
+		Name: "createScheme",
+		Body: body,
 	}
+
+	f.AddReturn(
+		astbuilder.Dereference(
+			astbuilder.Selector(dst.NewIdent(runtime), "Scheme")))
+
 	f.AddComments("creates a Scheme containing the clientgo types and all of the custom types returned by getKnownTypes")
 
 	return f.DefineFunc(), nil

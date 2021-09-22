@@ -19,7 +19,7 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 	 *  Test that a conversion graph that contains two API package references from different groups ends up with just
 	 *  one transition for each group, each linking from the provided API version to the matching storage variant.
 	 */
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	builder := NewConversionGraphBuilder()
 	builder.Add(test.Pkg2020)
@@ -44,7 +44,7 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 }
 
 func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	builder := NewConversionGraphBuilder()
 	builder.Add(test.Pkg2020)

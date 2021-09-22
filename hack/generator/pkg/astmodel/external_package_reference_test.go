@@ -26,7 +26,7 @@ func TestMakeExternalPackageReference_GivenPath_ReturnsInstanceWithPath(t *testi
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 			ref := MakeExternalPackageReference(c.path)
 			g.Expect(ref.PackagePath()).To(Equal(c.path))
 		})
@@ -49,7 +49,7 @@ func TestExternalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			ref := MakeExternalPackageReference(c.path)
 			_, ok := ref.AsLocalPackage()
@@ -86,7 +86,7 @@ func TestExternalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			areEqual := c.this.Equals(c.other)
 			g.Expect(areEqual).To(Equal(c.areEqual))
@@ -114,7 +114,7 @@ func TestExternalPackageReferenceIsPreview(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			g.Expect(c.ref.IsPreview()).To(BeFalse())
 		})

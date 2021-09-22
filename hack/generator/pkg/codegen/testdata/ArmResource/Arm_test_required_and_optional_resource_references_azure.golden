@@ -55,14 +55,14 @@ func (fakeResource *FakeResource) AzureName() string {
 	return fakeResource.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (fakeResource *FakeResource) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (fakeResource *FakeResource) GetSpec() genruntime.ConvertibleSpec {
 	return &fakeResource.Spec
-}
-
-// GetStatus returns the status of this resource
-func (fakeResource *FakeResource) GetStatus() genruntime.ConvertibleStatus {
-	return &fakeResource.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
@@ -248,8 +248,8 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceSpec *FakeResource_Spec) CreateEmptyARMValue() interface{} {
-	return FakeResource_SpecARM{}
+func (fakeResourceSpec *FakeResource_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FakeResource_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -326,8 +326,8 @@ func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(name string, 
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceProperties *FakeResourceProperties) CreateEmptyARMValue() interface{} {
-	return FakeResourcePropertiesARM{}
+func (fakeResourceProperties *FakeResourceProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FakeResourcePropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

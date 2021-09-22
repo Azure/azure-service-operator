@@ -18,7 +18,7 @@ import (
  */
 
 func Test_MakeTypeDefinition_GivenValues_InitializesProperties(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	const name = "demo"
 	const group = "group"
@@ -44,7 +44,7 @@ func Test_MakeTypeDefinition_GivenValues_InitializesProperties(t *testing.T) {
  */
 
 func Test_TypeDefinitionWithDescription_GivenDescription_ReturnsExpected(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	const name = "demo"
 	const group = "group"
@@ -64,7 +64,7 @@ func Test_TypeDefinitionWithDescription_GivenDescription_ReturnsExpected(t *test
  */
 
 func Test_TypeDefinitionAsAst_GivenValidStruct_ReturnsNonNilResult(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	definition := MakeTypeDefinition(ref, NewObjectType())
@@ -86,7 +86,7 @@ func createIntProperty(name string, description string) *PropertyDefinition {
  */
 
 func TestApplyObjectTransformation_GivenObjectAndTransformation_AppliesTransformation(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
@@ -109,7 +109,7 @@ func TestApplyObjectTransformation_GivenObjectAndTransformation_AppliesTransform
 }
 
 func TestApplyObjectTransformation_GivenObjectAndTransformationReturningError_ReturnsError(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
@@ -122,7 +122,7 @@ func TestApplyObjectTransformation_GivenObjectAndTransformationReturningError_Re
 }
 
 func TestApplyObjectTransformation_GivenNonObjectAndTransformation_ReturnsError(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, StringType)
@@ -157,7 +157,7 @@ var (
 )
 
 func TestApplyObjectTransformations_GivenObjectAndTransformations_AppliesTransformations(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
@@ -180,7 +180,7 @@ func TestApplyObjectTransformations_GivenObjectAndTransformations_AppliesTransfo
 }
 
 func TestApplyObjectTransformations_GivenObjectAndFirstTransformationReturningError_ReturnsErrorWithoutCallingSecondTransformation(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
@@ -191,7 +191,7 @@ func TestApplyObjectTransformations_GivenObjectAndFirstTransformationReturningEr
 }
 
 func TestApplyObjectTransformations_GivenObjectAndSecondTransformationReturningError_ReturnsErrorFromSecondTransformation(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
@@ -202,7 +202,7 @@ func TestApplyObjectTransformations_GivenObjectAndSecondTransformationReturningE
 }
 
 func TestApplyObjectTransformations_GivenNonObjectAndTransformations_ReturnsError(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, StringType)

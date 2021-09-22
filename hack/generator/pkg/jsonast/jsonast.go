@@ -212,7 +212,7 @@ func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx cont
 		specType := astmodel.BuildAllOfType(objectBase, resourceType.SpecType())
 		// now replace it
 		scanner.removeTypeDefinition(resourceRef)
-		scanner.addTypeDefinition(resourceDef.WithType(astmodel.NewAzureResourceType(specType, nil, resourceDef.Name())))
+		scanner.addTypeDefinition(resourceDef.WithType(astmodel.NewAzureResourceType(specType, nil, resourceDef.Name(), resourceType.Kind())))
 		return nil
 	})
 
@@ -667,8 +667,9 @@ func generateDefinitionsFor(
 		return nil, err
 	}
 
-	if isResource(url) {
-		result = astmodel.NewAzureResourceType(result, nil, typeName)
+	resourceType := categorizeResourceType(url)
+	if resourceType != nil {
+		result = astmodel.NewAzureResourceType(result, nil, typeName, *resourceType)
 	}
 
 	description := []string{
@@ -879,22 +880,32 @@ func GetPrimitiveType(name SchemaType) (*astmodel.PrimitiveType, error) {
 	panic(fmt.Sprintf("unhandled case in getPrimitiveType: %s", name)) // this is also checked by linter
 }
 
-func isResource(url *url.URL) bool {
+// categorizeResourceType determines if this URL represents an ARM resource or not.
+// If the URL represents a resource, a non-nil value is returned. If the URL does not represent
+// a resource, nil is returned.
+func categorizeResourceType(url *url.URL) *astmodel.ResourceKind {
 	fragmentParts := strings.FieldsFunc(url.Fragment, isURLPathSeparator)
 
+	normal := astmodel.ResourceKindNormal
+	extension := astmodel.ResourceKindExtension
+
 	for _, fragmentPart := range fragmentParts {
+		// resourceDefinitions are "normal" resources
 		if fragmentPart == "resourceDefinitions" ||
-
-			// EventGrid does this, unsure why:
-			fragmentPart == "unknown_resourceDefinitions" ||
-
 			// Treat all resourceBase things as resources so that "resourceness"
 			// is inherited:
 			strings.Contains(strings.ToLower(fragmentPart), "resourcebase") {
+			return &normal
+		}
 
-			return true
+		// unknown_ResourceDefinitions or extension_resourceDefinitions are extension resources, see
+		// https://github.com/Azure/azure-resource-manager-schemas/blob/069dc7cbff0725aea3a3595e4bb777da966dbb6f/generator/generate.ts#L186
+		// to learn more.
+		if fragmentPart == "unknown_resourceDefinitions" ||
+			fragmentPart == "extension_resourceDefinitions" {
+			return &extension
 		}
 	}
 
-	return false
+	return nil
 }

@@ -55,14 +55,14 @@ func (a *A) AzureName() string {
 	return a.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (a *A) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (a *A) GetSpec() genruntime.ConvertibleSpec {
 	return &a.Spec
-}
-
-// GetStatus returns the status of this resource
-func (a *A) GetStatus() genruntime.ConvertibleStatus {
-	return &a.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
@@ -248,8 +248,8 @@ func (aSpec *A_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aSpec *A_Spec) CreateEmptyARMValue() interface{} {
-	return A_SpecARM{}
+func (aSpec *A_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &A_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -321,8 +321,8 @@ func (aProperties *AProperties) ConvertToARM(name string, resolvedReferences gen
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aProperties *AProperties) CreateEmptyARMValue() interface{} {
-	return APropertiesARM{}
+func (aProperties *AProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &APropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -434,8 +434,8 @@ func (leftSubResourceEmbedded *Left_SubResourceEmbedded) ConvertToARM(name strin
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (leftSubResourceEmbedded *Left_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return Left_SubResourceEmbeddedARM{}
+func (leftSubResourceEmbedded *Left_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Left_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -527,8 +527,8 @@ func (rightSubResourceEmbedded1 *Right_SubResourceEmbedded_1) ConvertToARM(name 
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rightSubResourceEmbedded1 *Right_SubResourceEmbedded_1) CreateEmptyARMValue() interface{} {
-	return Right_SubResourceEmbedded_1ARM{}
+func (rightSubResourceEmbedded1 *Right_SubResourceEmbedded_1) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Right_SubResourceEmbedded_1ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -614,8 +614,8 @@ func (fakeResourceSubResourceEmbedded *FakeResource_SubResourceEmbedded) Convert
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceSubResourceEmbedded *FakeResource_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return FakeResource_SubResourceEmbeddedARM{}
+func (fakeResourceSubResourceEmbedded *FakeResource_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FakeResource_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -680,8 +680,8 @@ func (fakeResourceSubResourceEmbedded1 *FakeResource_SubResourceEmbedded_1) Conv
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceSubResourceEmbedded1 *FakeResource_SubResourceEmbedded_1) CreateEmptyARMValue() interface{} {
-	return FakeResource_SubResourceEmbedded_1ARM{}
+func (fakeResourceSubResourceEmbedded1 *FakeResource_SubResourceEmbedded_1) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FakeResource_SubResourceEmbedded_1ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -735,8 +735,8 @@ func (leftProperties *LeftProperties) ConvertToARM(name string, resolvedReferenc
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (leftProperties *LeftProperties) CreateEmptyARMValue() interface{} {
-	return LeftPropertiesARM{}
+func (leftProperties *LeftProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LeftPropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -779,8 +779,8 @@ func (rightProperties *RightProperties) ConvertToARM(name string, resolvedRefere
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rightProperties *RightProperties) CreateEmptyARMValue() interface{} {
-	return RightPropertiesARM{}
+func (rightProperties *RightProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RightPropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -827,8 +827,8 @@ func (fakeResourcePropertiesSubResourceEmbedded *FakeResourceProperties_SubResou
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourcePropertiesSubResourceEmbedded *FakeResourceProperties_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return FakeResourceProperties_SubResourceEmbeddedARM{}
+func (fakeResourcePropertiesSubResourceEmbedded *FakeResourceProperties_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FakeResourceProperties_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -880,8 +880,8 @@ func (fakeResourcePropertiesSubResourceEmbedded1 *FakeResourceProperties_SubReso
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourcePropertiesSubResourceEmbedded1 *FakeResourceProperties_SubResourceEmbedded_1) CreateEmptyARMValue() interface{} {
-	return FakeResourceProperties_SubResourceEmbedded_1ARM{}
+func (fakeResourcePropertiesSubResourceEmbedded1 *FakeResourceProperties_SubResourceEmbedded_1) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FakeResourceProperties_SubResourceEmbedded_1ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -952,8 +952,8 @@ func (leftSubResourceEmbedded1 *Left_SubResourceEmbedded_1) ConvertToARM(name st
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (leftSubResourceEmbedded1 *Left_SubResourceEmbedded_1) CreateEmptyARMValue() interface{} {
-	return Left_SubResourceEmbedded_1ARM{}
+func (leftSubResourceEmbedded1 *Left_SubResourceEmbedded_1) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Left_SubResourceEmbedded_1ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1018,8 +1018,8 @@ func (rightSubResourceEmbedded *Right_SubResourceEmbedded) ConvertToARM(name str
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rightSubResourceEmbedded *Right_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return Right_SubResourceEmbeddedARM{}
+func (rightSubResourceEmbedded *Right_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Right_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

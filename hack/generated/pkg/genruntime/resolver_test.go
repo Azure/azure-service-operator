@@ -142,8 +142,57 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) g
 	return genruntime.ResourceHierarchy{a, b, c}
 }
 
+func createSimpleExtensionResource(name string, ownerNamespace string, ownerName string, ownerGVK schema.GroupVersionKind) genruntime.MetaObject {
+	return &SimpleExtensionResource{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "SimpleExtensionResource",
+			APIVersion: SimpleExtensionResourceGroupVersion.String(),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: testNamespace,
+		},
+		Spec: SimpleExtensionResourceSpec{
+			Owner: genruntime.ResourceReference{
+				Group:     ownerGVK.Group,
+				Kind:      ownerGVK.Kind,
+				Namespace: ownerNamespace,
+				Name:      ownerName,
+			},
+			AzureName: name, // defaulter webhook will copy Name to AzureName
+		},
+	}
+}
+
+func createExtensionResourceOnResourceGroup(rgName string, name string) (genruntime.MetaObject, genruntime.MetaObject) {
+	a := createResourceGroup(rgName)
+	gvk := a.GetObjectKind().GroupVersionKind()
+	b := createSimpleExtensionResource(name, a.GetNamespace(), a.GetName(), gvk)
+
+	return a, b
+}
+
+func createExtensionResourceOnResourceInResourceGroup(rgName string, resourceName string, name string) genruntime.ResourceHierarchy {
+	a, b := createResourceGroupRootedResource(rgName, resourceName)
+	gvk := b.GetObjectKind().GroupVersionKind()
+
+	c := createSimpleExtensionResource(name, b.GetNamespace(), b.GetName(), gvk)
+
+	return genruntime.ResourceHierarchy{a, b, c}
+}
+
+func createExtensionResourceOnDeepHierarchyInResourceGroup(rgName string, parentName, resourceName string, name string) genruntime.ResourceHierarchy {
+	hierarchy := createDeeplyNestedResource(rgName, parentName, resourceName)
+	extensionParent := hierarchy[len(hierarchy)-1]
+	gvk := extensionParent.GetObjectKind().GroupVersionKind()
+
+	extension := createSimpleExtensionResource(name, extensionParent.GetNamespace(), extensionParent.GetName(), gvk)
+
+	return append(hierarchy, extension)
+}
+
 func Test_ResolveResourceHierarchy_ResourceGroupOnly(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -163,7 +212,7 @@ func Test_ResolveResourceHierarchy_ResourceGroupOnly(t *testing.T) {
 }
 
 func Test_ResolveResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -191,7 +240,7 @@ func Test_ResolveResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) 
 }
 
 func Test_ResolveResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -226,7 +275,7 @@ func Test_ResolveResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 }
 
 func Test_ResolveResourceHierarchy_ReturnsReferenceNotFound(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -249,7 +298,7 @@ func Test_ResolveResourceHierarchy_ReturnsReferenceNotFound(t *testing.T) {
 }
 
 func Test_ResolveReference_FindsReference(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -275,7 +324,7 @@ func Test_ResolveReference_FindsReference(t *testing.T) {
 }
 
 func Test_ResolveReference_ReturnsErrorIfReferenceIsNotAKubernetesReference(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -290,7 +339,7 @@ func Test_ResolveReference_ReturnsErrorIfReferenceIsNotAKubernetesReference(t *t
 }
 
 func Test_ResolveReferenceToARMID_KubernetesResource_ReturnsExpectedID(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -316,7 +365,7 @@ func Test_ResolveReferenceToARMID_KubernetesResource_ReturnsExpectedID(t *testin
 }
 
 func Test_ResolveReferenceToARMID_ARMResource_ReturnsExpectedID(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()

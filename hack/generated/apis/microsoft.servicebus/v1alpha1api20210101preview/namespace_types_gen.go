@@ -76,6 +76,11 @@ func (namespace *Namespace) AzureName() string {
 	return namespace.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (namespace *Namespace) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (namespace *Namespace) GetSpec() genruntime.ConvertibleSpec {
 	return &namespace.Spec
@@ -95,6 +100,25 @@ func (namespace *Namespace) GetType() string {
 func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespace.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: namespace.Namespace, Name: namespace.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (namespace *Namespace) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*SBNamespace_Status); ok {
+		namespace.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st SBNamespace_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	namespace.Status = st
+	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.servicebus.azure.com,resources=namespaces,verbs=create;update,versions=v1alpha1api20210101preview,name=validate.v1alpha1api20210101preview.namespaces.microsoft.servicebus.azure.com,admissionReviewVersions=v1beta1
@@ -338,8 +362,8 @@ func (namespacesSpec *Namespaces_Spec) ConvertToARM(name string, resolvedReferen
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespacesSpec *Namespaces_Spec) CreateEmptyARMValue() interface{} {
-	return Namespaces_SpecARM{}
+func (namespacesSpec *Namespaces_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespaces_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -732,8 +756,8 @@ func (sbNamespaceStatus *SBNamespace_Status) ConvertStatusTo(destination genrunt
 var _ genruntime.FromARMConverter = &SBNamespace_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbNamespaceStatus *SBNamespace_Status) CreateEmptyARMValue() interface{} {
-	return SBNamespace_StatusARM{}
+func (sbNamespaceStatus *SBNamespace_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SBNamespace_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1305,8 +1329,8 @@ func (encryption *Encryption) ConvertToARM(name string, resolvedReferences genru
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (encryption *Encryption) CreateEmptyARMValue() interface{} {
-	return EncryptionARM{}
+func (encryption *Encryption) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EncryptionARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1437,8 +1461,8 @@ type Encryption_Status struct {
 var _ genruntime.FromARMConverter = &Encryption_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (encryptionStatus *Encryption_Status) CreateEmptyARMValue() interface{} {
-	return Encryption_StatusARM{}
+func (encryptionStatus *Encryption_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Encryption_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1577,8 +1601,8 @@ func (identity *Identity) ConvertToARM(name string, resolvedReferences genruntim
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *Identity) CreateEmptyARMValue() interface{} {
-	return IdentityARM{}
+func (identity *Identity) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IdentityARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1651,8 +1675,8 @@ type Identity_Status struct {
 var _ genruntime.FromARMConverter = &Identity_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identityStatus *Identity_Status) CreateEmptyARMValue() interface{} {
-	return Identity_StatusARM{}
+func (identityStatus *Identity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Identity_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1804,8 +1828,8 @@ type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_Status_SubResourceEmbedded{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnection_Status_SubResourceEmbedded) CreateEmptyARMValue() interface{} {
-	return PrivateEndpointConnection_Status_SubResourceEmbeddedARM{}
+func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnection_Status_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpointConnection_Status_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1936,8 +1960,8 @@ func (sbSku *SBSku) ConvertToARM(name string, resolvedReferences genruntime.Reso
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbSku *SBSku) CreateEmptyARMValue() interface{} {
-	return SBSkuARM{}
+func (sbSku *SBSku) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SBSkuARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2045,8 +2069,8 @@ type SBSku_Status struct {
 var _ genruntime.FromARMConverter = &SBSku_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbSkuStatus *SBSku_Status) CreateEmptyARMValue() interface{} {
-	return SBSku_StatusARM{}
+func (sbSkuStatus *SBSku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SBSku_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2161,8 +2185,8 @@ type SystemData_Status struct {
 var _ genruntime.FromARMConverter = &SystemData_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (systemDataStatus *SystemData_Status) CreateEmptyARMValue() interface{} {
-	return SystemData_StatusARM{}
+func (systemDataStatus *SystemData_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SystemData_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2339,8 +2363,8 @@ type DictionaryValue_Status struct {
 var _ genruntime.FromARMConverter = &DictionaryValue_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (dictionaryValueStatus *DictionaryValue_Status) CreateEmptyARMValue() interface{} {
-	return DictionaryValue_StatusARM{}
+func (dictionaryValueStatus *DictionaryValue_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DictionaryValue_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2480,8 +2504,8 @@ func (keyVaultProperties *KeyVaultProperties) ConvertToARM(name string, resolved
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keyVaultProperties *KeyVaultProperties) CreateEmptyARMValue() interface{} {
-	return KeyVaultPropertiesARM{}
+func (keyVaultProperties *KeyVaultProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &KeyVaultPropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2632,8 +2656,8 @@ type KeyVaultProperties_Status struct {
 var _ genruntime.FromARMConverter = &KeyVaultProperties_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keyVaultPropertiesStatus *KeyVaultProperties_Status) CreateEmptyARMValue() interface{} {
-	return KeyVaultProperties_StatusARM{}
+func (keyVaultPropertiesStatus *KeyVaultProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &KeyVaultProperties_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2795,8 +2819,8 @@ func (userAssignedIdentityProperties *UserAssignedIdentityProperties) ConvertToA
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (userAssignedIdentityProperties *UserAssignedIdentityProperties) CreateEmptyARMValue() interface{} {
-	return UserAssignedIdentityPropertiesARM{}
+func (userAssignedIdentityProperties *UserAssignedIdentityProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentityPropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2856,8 +2880,8 @@ type UserAssignedIdentityProperties_Status struct {
 var _ genruntime.FromARMConverter = &UserAssignedIdentityProperties_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (userAssignedIdentityPropertiesStatus *UserAssignedIdentityProperties_Status) CreateEmptyARMValue() interface{} {
-	return UserAssignedIdentityProperties_StatusARM{}
+func (userAssignedIdentityPropertiesStatus *UserAssignedIdentityProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentityProperties_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

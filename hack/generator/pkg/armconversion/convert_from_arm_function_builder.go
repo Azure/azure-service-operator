@@ -77,16 +77,14 @@ func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: builder.receiverTypeExpr,
-		},
-		Body: builder.functionBodyStatements(),
+		ReceiverType:  astbuilder.Dereference(builder.receiverTypeExpr),
+		Body:          builder.functionBodyStatements(),
 	}
 
 	fn.AddComments("populates a Kubernetes CRD object from an Azure ARM object")
 	fn.AddParameter(
 		builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimePackageName), "KnownResourceReference"))
+		astmodel.KnownResourceReferenceType.AsType(builder.codeGenerationContext))
 
 	fn.AddParameter(builder.inputIdent, dst.NewIdent("interface{}"))
 	fn.AddReturns("error")
@@ -119,8 +117,6 @@ func (builder *convertFromARMBuilder) functionBodyStatements() []dst.Stmt {
 }
 
 func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []dst.Stmt {
-	var result []dst.Stmt
-
 	fmtPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
 	dest := builder.typedInputIdent
@@ -129,25 +125,25 @@ func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []d
 	}
 
 	// perform a type assert
-	result = append(
-		result,
-		astbuilder.TypeAssert(
-			dst.NewIdent(dest),
-			dst.NewIdent(builder.inputIdent),
-			dst.NewIdent(builder.armTypeIdent)))
+	// <dest>, ok := <inputIdent>.(<inputIdent>)
+	typeAssert := astbuilder.TypeAssert(
+		dst.NewIdent(dest),
+		dst.NewIdent(builder.inputIdent),
+		dst.NewIdent(builder.armTypeIdent))
 
 	// Check the result of the type assert
-	result = append(
-		result,
-		astbuilder.ReturnIfNotOk(
-			astbuilder.FormatError(
-				fmtPackage,
-				fmt.Sprintf("unexpected type supplied for %s() function. Expected %s, got %%T",
-					builder.methodName,
-					builder.armTypeIdent),
-				dst.NewIdent(builder.inputIdent))))
+	// if !ok {
+	//     return fmt.Errorf("unexpected type supplied ...", <inputIdent>)
+	// }
+	returnIfNotOk := astbuilder.ReturnIfNotOk(
+		astbuilder.FormatError(
+			fmtPackage,
+			fmt.Sprintf("unexpected type supplied for %s() function. Expected %s, got %%T",
+				builder.methodName,
+				builder.armTypeIdent),
+			dst.NewIdent(builder.inputIdent)))
 
-	return result
+	return astbuilder.Statements(typeAssert, returnIfNotOk)
 }
 
 //////////////////////
@@ -175,7 +171,7 @@ func (builder *convertFromARMBuilder) namePropertyHandler(
 				builder.receiverIdent,
 				"SetAzureName",
 				astbuilder.CallQualifiedFunc(
-					astmodel.GenRuntimePackageName,
+					astmodel.GenRuntimeReference.PackageName(),
 					"ExtractKubernetesResourceNameFromARMName",
 					astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))),
 			),
@@ -346,12 +342,8 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 
 	if generateNilCheck {
 		propToCheck := astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))
-		stmts = []dst.Stmt{
-			&dst.IfStmt{
-				Cond: astbuilder.NotNil(propToCheck),
-				Body: &dst.BlockStmt{List: stmts},
-			},
-		}
+		stmts = astbuilder.Statements(
+			astbuilder.IfNotNil(propToCheck, stmts...))
 	}
 
 	result := []dst.Stmt{

@@ -78,6 +78,11 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	return storageAccountsBlobServicesContainer.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetSpec() genruntime.ConvertibleSpec {
 	return &storageAccountsBlobServicesContainer.Spec
@@ -97,6 +102,25 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccountsBlobServicesContainer.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: storageAccountsBlobServicesContainer.Namespace, Name: storageAccountsBlobServicesContainer.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*BlobContainer_Status); ok {
+		storageAccountsBlobServicesContainer.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st BlobContainer_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	storageAccountsBlobServicesContainer.Status = st
+	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservicescontainer,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.azure.com,resources=storageaccountsblobservicescontainers,verbs=create;update,versions=v1alpha1api20210401,name=validate.v1alpha1api20210401.storageaccountsblobservicescontainers.microsoft.storage.azure.com,admissionReviewVersions=v1beta1
@@ -381,8 +405,8 @@ func (blobContainerStatus *BlobContainer_Status) ConvertStatusTo(destination gen
 var _ genruntime.FromARMConverter = &BlobContainer_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (blobContainerStatus *BlobContainer_Status) CreateEmptyARMValue() interface{} {
-	return BlobContainer_StatusARM{}
+func (blobContainerStatus *BlobContainer_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BlobContainer_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1093,8 +1117,8 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) CreateEmptyARMValue() interface{} {
-	return StorageAccountsBlobServicesContainers_SpecARM{}
+func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccountsBlobServicesContainers_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1433,8 +1457,8 @@ type ImmutabilityPolicyProperties_Status struct {
 var _ genruntime.FromARMConverter = &ImmutabilityPolicyProperties_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) CreateEmptyARMValue() interface{} {
-	return ImmutabilityPolicyProperties_StatusARM{}
+func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ImmutabilityPolicyProperties_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1627,8 +1651,8 @@ func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) ConvertToA
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) CreateEmptyARMValue() interface{} {
-	return ImmutableStorageWithVersioningARM{}
+func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ImmutableStorageWithVersioningARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1700,8 +1724,8 @@ type ImmutableStorageWithVersioning_Status struct {
 var _ genruntime.FromARMConverter = &ImmutableStorageWithVersioning_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (immutableStorageWithVersioningStatus *ImmutableStorageWithVersioning_Status) CreateEmptyARMValue() interface{} {
-	return ImmutableStorageWithVersioning_StatusARM{}
+func (immutableStorageWithVersioningStatus *ImmutableStorageWithVersioning_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ImmutableStorageWithVersioning_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1815,8 +1839,8 @@ type LegalHoldProperties_Status struct {
 var _ genruntime.FromARMConverter = &LegalHoldProperties_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (legalHoldPropertiesStatus *LegalHoldProperties_Status) CreateEmptyARMValue() interface{} {
-	return LegalHoldProperties_StatusARM{}
+func (legalHoldPropertiesStatus *LegalHoldProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LegalHoldProperties_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1938,8 +1962,8 @@ type TagProperty_Status struct {
 var _ genruntime.FromARMConverter = &TagProperty_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (tagPropertyStatus *TagProperty_Status) CreateEmptyARMValue() interface{} {
-	return TagProperty_StatusARM{}
+func (tagPropertyStatus *TagProperty_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &TagProperty_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2111,8 +2135,8 @@ type UpdateHistoryProperty_Status struct {
 var _ genruntime.FromARMConverter = &UpdateHistoryProperty_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) CreateEmptyARMValue() interface{} {
-	return UpdateHistoryProperty_StatusARM{}
+func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UpdateHistoryProperty_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

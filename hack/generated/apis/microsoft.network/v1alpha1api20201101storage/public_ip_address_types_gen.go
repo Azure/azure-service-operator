@@ -44,6 +44,11 @@ func (publicIPAddress *PublicIPAddress) AzureName() string {
 	return publicIPAddress.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (publicIPAddress *PublicIPAddress) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (publicIPAddress *PublicIPAddress) GetSpec() genruntime.ConvertibleSpec {
 	return &publicIPAddress.Spec
@@ -63,6 +68,25 @@ func (publicIPAddress *PublicIPAddress) GetType() string {
 func (publicIPAddress *PublicIPAddress) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(publicIPAddress.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: publicIPAddress.Namespace, Name: publicIPAddress.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (publicIPAddress *PublicIPAddress) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded); ok {
+		publicIPAddress.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	publicIPAddress.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

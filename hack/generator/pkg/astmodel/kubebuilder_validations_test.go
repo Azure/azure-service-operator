@@ -12,7 +12,7 @@ import (
 )
 
 func Test_ValidateRequired(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	validation := ValidateRequired()
 	comment := GenerateKubebuilderComment(validation)
@@ -21,7 +21,7 @@ func Test_ValidateRequired(t *testing.T) {
 }
 
 func Test_ValidateEnum(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	validation := ValidateEnum([]interface{}{1, true, "hello"})
 	comment := GenerateKubebuilderComment(validation)

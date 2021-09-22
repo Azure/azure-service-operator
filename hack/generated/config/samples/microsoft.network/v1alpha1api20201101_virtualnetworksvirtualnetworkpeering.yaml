@@ -1,0 +1,14 @@
+apiVersion: microsoft.network.azure.com/v1alpha1api20201101
+kind: VirtualNetworksVirtualNetworkPeering
+metadata:
+  name: samplepeering
+  namespace: default
+spec:
+  owner:
+    name: samplevnet
+  remoteVirtualNetwork:
+    reference:
+      group: microsoft.network.azure.com
+      kind: VirtualNetwork
+      namespace: default
+      name: samplevnet2

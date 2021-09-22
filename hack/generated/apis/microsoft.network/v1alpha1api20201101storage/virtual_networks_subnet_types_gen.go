@@ -44,6 +44,11 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) AzureName() string {
 	return virtualNetworksSubnet.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualNetworksSubnet *VirtualNetworksSubnet) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualNetworksSubnet *VirtualNetworksSubnet) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualNetworksSubnet.Spec
@@ -63,6 +68,25 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) GetType() string {
 func (virtualNetworksSubnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksSubnet.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualNetworksSubnet.Namespace, Name: virtualNetworksSubnet.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (virtualNetworksSubnet *VirtualNetworksSubnet) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded); ok {
+		virtualNetworksSubnet.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualNetworksSubnet.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

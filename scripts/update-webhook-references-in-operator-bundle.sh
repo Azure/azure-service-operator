@@ -6,10 +6,10 @@ set -euo pipefail
 query='select(.spec.conversion.webhook.clientConfig.service.namespace == "azureoperator-system") | filename'
 webhook_crds=$(yq eval "$query" bundle/manifests/azure.microsoft.com_*.yaml | grep -v -e "---")
 
-# Update the service details to point at
-# operators/azureoperator-controller-manager-service and remove the
-# cert-manager annotation.
-update='.spec.conversion.webhook.clientConfig.service.namespace = "operators" | .spec.conversion.webhook.clientConfig.service.name = "azureoperator-controller-manager-service" | del(.metadata.annotations["cert-manager.io/inject-ca-from"])'
+# Remove the cert-manager annotation and conversion details from CRDs
+# with conversion webhooks - OLM will set up the conversion structure
+# for the webhooks.
+update='del(.spec.conversion) | del(.metadata.annotations["cert-manager.io/inject-ca-from"])'
 for fname in $webhook_crds; do
     yq -i eval "$update" "$fname"
 done

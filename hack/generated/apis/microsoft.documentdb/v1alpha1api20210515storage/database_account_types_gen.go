@@ -44,6 +44,11 @@ func (databaseAccount *DatabaseAccount) AzureName() string {
 	return databaseAccount.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (databaseAccount *DatabaseAccount) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (databaseAccount *DatabaseAccount) GetSpec() genruntime.ConvertibleSpec {
 	return &databaseAccount.Spec
@@ -63,6 +68,25 @@ func (databaseAccount *DatabaseAccount) GetType() string {
 func (databaseAccount *DatabaseAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(databaseAccount.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: databaseAccount.Namespace, Name: databaseAccount.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (databaseAccount *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*DatabaseAccountGetResults_Status); ok {
+		databaseAccount.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st DatabaseAccountGetResults_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	databaseAccount.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

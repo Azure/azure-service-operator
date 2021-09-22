@@ -44,6 +44,11 @@ func (virtualNetwork *VirtualNetwork) AzureName() string {
 	return virtualNetwork.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualNetwork *VirtualNetwork) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualNetwork *VirtualNetwork) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualNetwork.Spec
@@ -63,6 +68,25 @@ func (virtualNetwork *VirtualNetwork) GetType() string {
 func (virtualNetwork *VirtualNetwork) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetwork.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualNetwork.Namespace, Name: virtualNetwork.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (virtualNetwork *VirtualNetwork) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*VirtualNetwork_Status); ok {
+		virtualNetwork.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st VirtualNetwork_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualNetwork.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

@@ -78,6 +78,11 @@ func (virtualNetworkGateway *VirtualNetworkGateway) AzureName() string {
 	return virtualNetworkGateway.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (virtualNetworkGateway *VirtualNetworkGateway) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (virtualNetworkGateway *VirtualNetworkGateway) GetSpec() genruntime.ConvertibleSpec {
 	return &virtualNetworkGateway.Spec
@@ -97,6 +102,25 @@ func (virtualNetworkGateway *VirtualNetworkGateway) GetType() string {
 func (virtualNetworkGateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworkGateway.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualNetworkGateway.Namespace, Name: virtualNetworkGateway.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (virtualNetworkGateway *VirtualNetworkGateway) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*VirtualNetworkGateway_Status); ok {
+		virtualNetworkGateway.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st VirtualNetworkGateway_Status
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	virtualNetworkGateway.Status = st
+	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworkgateway,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.virtualnetworkgateways.microsoft.network.azure.com,admissionReviewVersions=v1beta1
@@ -387,8 +411,8 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) ConvertStatusTo
 var _ genruntime.FromARMConverter = &VirtualNetworkGateway_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkGateway_StatusARM{}
+func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkGateway_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1313,8 +1337,8 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(name
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkGateways_SpecARM{}
+func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkGateways_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -1957,8 +1981,8 @@ func (bgpSettings *BgpSettings) ConvertToARM(name string, resolvedReferences gen
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bgpSettings *BgpSettings) CreateEmptyARMValue() interface{} {
-	return BgpSettingsARM{}
+func (bgpSettings *BgpSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BgpSettingsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2115,8 +2139,8 @@ type BgpSettings_Status struct {
 var _ genruntime.FromARMConverter = &BgpSettings_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bgpSettingsStatus *BgpSettings_Status) CreateEmptyARMValue() interface{} {
-	return BgpSettings_StatusARM{}
+func (bgpSettingsStatus *BgpSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BgpSettings_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2285,8 +2309,8 @@ type VirtualNetworkGatewayIPConfiguration_Status struct {
 var _ genruntime.FromARMConverter = &VirtualNetworkGatewayIPConfiguration_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfiguration_Status) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkGatewayIPConfiguration_StatusARM{}
+func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkGatewayIPConfiguration_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2592,8 +2616,8 @@ func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) ConvertToARM(name stri
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkGatewaySkuARM{}
+func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkGatewaySkuARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2685,8 +2709,8 @@ type VirtualNetworkGatewaySku_Status struct {
 var _ genruntime.FromARMConverter = &VirtualNetworkGatewaySku_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaySkuStatus *VirtualNetworkGatewaySku_Status) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkGatewaySku_StatusARM{}
+func (virtualNetworkGatewaySkuStatus *VirtualNetworkGatewaySku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkGatewaySku_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -2870,8 +2894,8 @@ func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGatewa
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM{}
+func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3173,8 +3197,8 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM{}
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -3602,8 +3626,8 @@ type VpnClientConfiguration_Status struct {
 var _ genruntime.FromARMConverter = &VpnClientConfiguration_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) CreateEmptyARMValue() interface{} {
-	return VpnClientConfiguration_StatusARM{}
+func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VpnClientConfiguration_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4012,8 +4036,8 @@ func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) Conver
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) CreateEmptyARMValue() interface{} {
-	return IPConfigurationBgpPeeringAddressARM{}
+func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IPConfigurationBgpPeeringAddressARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4112,8 +4136,8 @@ type IPConfigurationBgpPeeringAddress_Status struct {
 var _ genruntime.FromARMConverter = &IPConfigurationBgpPeeringAddress_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_Status) CreateEmptyARMValue() interface{} {
-	return IPConfigurationBgpPeeringAddress_StatusARM{}
+func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IPConfigurationBgpPeeringAddress_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4310,8 +4334,8 @@ func (ipsecPolicy *IpsecPolicy) ConvertToARM(name string, resolvedReferences gen
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipsecPolicy *IpsecPolicy) CreateEmptyARMValue() interface{} {
-	return IpsecPolicyARM{}
+func (ipsecPolicy *IpsecPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IpsecPolicyARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4496,8 +4520,8 @@ type IpsecPolicy_Status struct {
 var _ genruntime.FromARMConverter = &IpsecPolicy_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipsecPolicyStatus *IpsecPolicy_Status) CreateEmptyARMValue() interface{} {
-	return IpsecPolicy_StatusARM{}
+func (ipsecPolicyStatus *IpsecPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IpsecPolicy_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4682,8 +4706,8 @@ func (radiusServer *RadiusServer) ConvertToARM(name string, resolvedReferences g
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (radiusServer *RadiusServer) CreateEmptyARMValue() interface{} {
-	return RadiusServerARM{}
+func (radiusServer *RadiusServer) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RadiusServerARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -4790,8 +4814,8 @@ type RadiusServer_Status struct {
 var _ genruntime.FromARMConverter = &RadiusServer_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (radiusServerStatus *RadiusServer_Status) CreateEmptyARMValue() interface{} {
-	return RadiusServer_StatusARM{}
+func (radiusServerStatus *RadiusServer_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RadiusServer_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5034,8 +5058,8 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevoked
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM{}
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5146,8 +5170,8 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCer
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) CreateEmptyARMValue() interface{} {
-	return VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM{}
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5256,8 +5280,8 @@ type VpnClientRevokedCertificate_Status struct {
 var _ genruntime.FromARMConverter = &VpnClientRevokedCertificate_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vpnClientRevokedCertificateStatus *VpnClientRevokedCertificate_Status) CreateEmptyARMValue() interface{} {
-	return VpnClientRevokedCertificate_StatusARM{}
+func (vpnClientRevokedCertificateStatus *VpnClientRevokedCertificate_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VpnClientRevokedCertificate_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -5430,8 +5454,8 @@ type VpnClientRootCertificate_Status struct {
 var _ genruntime.FromARMConverter = &VpnClientRootCertificate_Status{}
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vpnClientRootCertificateStatus *VpnClientRootCertificate_Status) CreateEmptyARMValue() interface{} {
-	return VpnClientRootCertificate_StatusARM{}
+func (vpnClientRootCertificateStatus *VpnClientRootCertificate_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VpnClientRootCertificate_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object

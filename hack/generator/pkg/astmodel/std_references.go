@@ -58,9 +58,12 @@ var (
 	KnownResourceReferenceType     = MakeTypeName(GenRuntimeReference, "KnownResourceReference")
 	PropertyBagType                = MakeTypeName(GenRuntimeReference, "PropertyBag")
 	ToARMConverterInterfaceType    = MakeTypeName(GenRuntimeReference, "ToARMConverter")
-	ConditionType                  = MakeTypeName(GenRuntimeConditionsReference, "Condition")
-	ConditionsType                 = MakeTypeName(GenRuntimeConditionsReference, "Conditions")
-	ConditionerType                = MakeTypeName(GenRuntimeConditionsReference, "Conditioner")
+	ARMResourceStatusType          = MakeTypeName(GenRuntimeReference, "ARMResourceStatus")
+	ResourceKindType               = MakeTypeName(GenRuntimeReference, "ResourceKind")
+
+	ConditionType   = MakeTypeName(GenRuntimeConditionsReference, "Condition")
+	ConditionsType  = MakeTypeName(GenRuntimeConditionsReference, "Conditions")
+	ConditionerType = MakeTypeName(GenRuntimeConditionsReference, "Conditioner")
 
 	// Type names - API Machinery
 	GroupVersionKindType = MakeTypeName(APIMachinerySchemaReference, "GroupVersionKind")

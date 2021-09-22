@@ -44,6 +44,11 @@ func (networkSecurityGroup *NetworkSecurityGroup) AzureName() string {
 	return networkSecurityGroup.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (networkSecurityGroup *NetworkSecurityGroup) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (networkSecurityGroup *NetworkSecurityGroup) GetSpec() genruntime.ConvertibleSpec {
 	return &networkSecurityGroup.Spec
@@ -63,6 +68,25 @@ func (networkSecurityGroup *NetworkSecurityGroup) GetType() string {
 func (networkSecurityGroup *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroup.Spec)
 	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: networkSecurityGroup.Namespace, Name: networkSecurityGroup.Spec.Owner.Name}
+}
+
+// SetStatus sets the status of this resource
+func (networkSecurityGroup *NetworkSecurityGroup) SetStatus(status genruntime.ConvertibleStatus) error {
+	// If we have exactly the right type of status, assign it
+	if st, ok := status.(*NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded); ok {
+		networkSecurityGroup.Status = *st
+		return nil
+	}
+
+	// Convert status to required version
+	var st NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
+	err := status.ConvertStatusTo(&st)
+	if err != nil {
+		return errors.Wrap(err, "failed to convert status")
+	}
+
+	networkSecurityGroup.Status = st
+	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource

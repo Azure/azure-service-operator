@@ -117,6 +117,7 @@ func (r *AzureDeploymentReconciler) fatalReconciliationErrorToCondition(fatal Fa
 	return r.PositiveConditions.MakeFalseCondition(
 		conditions.ConditionTypeReady,
 		conditions.ConditionSeverityError,
+		r.obj.GetGeneration(),
 		conditions.ReasonReconciliationFailedPermanently,
 		fatal.Message)
 }
@@ -301,7 +302,7 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(deploymentError 
 		panic(fmt.Sprintf("Unknown error classification %q", errorDetails.Classification))
 	}
 
-	return r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, errorDetails.Code, errorDetails.Message)
+	return r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, r.obj.GetGeneration(), errorDetails.Code, errorDetails.Message)
 }
 
 func (r *AzureDeploymentReconciler) createReadyConditionFromDeploymentStatus(deployment *armclient.Deployment) conditions.Condition {
@@ -310,12 +311,12 @@ func (r *AzureDeploymentReconciler) createReadyConditionFromDeploymentStatus(dep
 			// TODO: Need to guard against properties being nil here?
 			return r.makeReadyConditionFromError(deployment.Properties.Error)
 		} else {
-			return r.PositiveConditions.Ready.Succeeded()
+			return r.PositiveConditions.Ready.Succeeded(r.obj.GetGeneration())
 		}
 	}
 
 	// TODO: I think this is right
-	return r.PositiveConditions.Ready.Reconciling()
+	return r.PositiveConditions.Ready.Reconciling(r.obj.GetGeneration())
 }
 
 func (r *AzureDeploymentReconciler) UpdateBeforeCreatingDeployment(
@@ -331,7 +332,7 @@ func (r *AzureDeploymentReconciler) UpdateBeforeCreatingDeployment(
 		return errors.Wrap(err, "failed to compute resource spec hash")
 	}
 	r.SetResourceSignature(sig)
-	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Reconciling())
+	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Reconciling(r.obj.GetGeneration()))
 
 	return nil
 }
@@ -480,7 +481,7 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
 	}
 
-	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Deleting())
+	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Deleting(r.obj.GetGeneration()))
 	err = r.CommitUpdate(ctx)
 
 	err = client.IgnoreNotFound(err)
@@ -746,7 +747,7 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 	}
 
 	if !isOwnerReady {
-		conditions.SetCondition(r.obj, r.PositiveConditions.Ready.WaitingForOwner(r.obj.Owner().String()))
+		conditions.SetCondition(r.obj, r.PositiveConditions.Ready.WaitingForOwner(r.obj.GetGeneration(), r.obj.Owner().String()))
 		err = r.CommitUpdate(ctx)
 
 		err = client.IgnoreNotFound(err)
@@ -878,12 +879,30 @@ func (r *AzureDeploymentReconciler) createDeployment(
 // logObj logs the r.obj JSON payload
 func (r *AzureDeploymentReconciler) logObj(note string) {
 	if r.log.V(Debug).Enabled() {
-		objJson, err := json.Marshal(r.obj)
-		if err != nil {
-			r.log.Error(err, "failed to JSON serialize obj for logging purposes")
-		} else {
-			r.log.V(Debug).Info(note, "resource", string(objJson))
+		// This could technically select annotations from other Azure operators, but for now that's ok.
+		// In the future when we no longer use annotations as heavily as we do now we can remove this or
+		// scope it to a finite set of annotations.
+		ourAnnotations := make(map[string]string)
+		for key, value := range r.obj.GetAnnotations() {
+			if strings.HasSuffix(key, ".azure.com") {
+				ourAnnotations[key] = value
+			}
 		}
+
+		// Log just what we're interested in. We avoid logging the whole obj
+		// due to possible risk of disclosing secrets or other data that is "private" and users may
+		// not want in logs.
+		r.log.V(Debug).Info(note,
+			"kind", r.obj.GetObjectKind(),
+			"resourceVersion", r.obj.GetResourceVersion(),
+			"generation", r.obj.GetGeneration(),
+			"uid", r.obj.GetUID(),
+			"owner", r.obj.Owner(),
+			"creationTimestamp", r.obj.GetCreationTimestamp(),
+			"finalizers", r.obj.GetFinalizers(),
+			"annotations", ourAnnotations,
+			// Use fmt here to ensure the output uses the String() method, which log.Info doesn't seem to do by default
+			"conditions", fmt.Sprintf("%s", r.obj.GetConditions()))
 	}
 }
 

@@ -55,14 +55,14 @@ func (a *A) AzureName() string {
 	return a.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (a *A) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (a *A) GetSpec() genruntime.ConvertibleSpec {
 	return &a.Spec
-}
-
-// GetStatus returns the status of this resource
-func (a *A) GetStatus() genruntime.ConvertibleStatus {
-	return &a.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
@@ -232,14 +232,14 @@ func (b *B) AzureName() string {
 	return b.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (b *B) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (b *B) GetSpec() genruntime.ConvertibleSpec {
 	return &b.Spec
-}
-
-// GetStatus returns the status of this resource
-func (b *B) GetStatus() genruntime.ConvertibleStatus {
-	return &b.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
@@ -409,14 +409,14 @@ func (c *C) AzureName() string {
 	return c.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (c *C) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (c *C) GetSpec() genruntime.ConvertibleSpec {
 	return &c.Spec
-}
-
-// GetStatus returns the status of this resource
-func (c *C) GetStatus() genruntime.ConvertibleStatus {
-	return &c.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
@@ -586,14 +586,14 @@ func (d *D) AzureName() string {
 	return d.Spec.AzureName
 }
 
+// GetResourceKind returns the kind of the resource
+func (d *D) GetResourceKind() genruntime.ResourceKind {
+	return genruntime.ResourceKindNormal
+}
+
 // GetSpec returns the specification of this resource
 func (d *D) GetSpec() genruntime.ConvertibleSpec {
 	return &d.Spec
-}
-
-// GetStatus returns the status of this resource
-func (d *D) GetStatus() genruntime.ConvertibleStatus {
-	return &d.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/D"
@@ -761,8 +761,8 @@ func (aSpec *A_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aSpec *A_Spec) CreateEmptyARMValue() interface{} {
-	return A_SpecARM{}
+func (aSpec *A_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &A_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -825,8 +825,8 @@ func (bSpec *B_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bSpec *B_Spec) CreateEmptyARMValue() interface{} {
-	return B_SpecARM{}
+func (bSpec *B_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &B_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -889,8 +889,8 @@ func (cSpec *C_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (cSpec *C_Spec) CreateEmptyARMValue() interface{} {
-	return C_SpecARM{}
+func (cSpec *C_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &C_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
@@ -953,8 +953,8 @@ func (dSpec *D_Spec) ConvertToARM(name string, resolvedReferences genruntime.Res
 }
 
 // CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (dSpec *D_Spec) CreateEmptyARMValue() interface{} {
-	return D_SpecARM{}
+func (dSpec *D_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+	return &D_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
