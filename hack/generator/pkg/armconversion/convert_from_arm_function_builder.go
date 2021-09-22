@@ -342,12 +342,8 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 
 	if generateNilCheck {
 		propToCheck := astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))
-		stmts = []dst.Stmt{
-			&dst.IfStmt{
-				Cond: astbuilder.NotNil(propToCheck),
-				Body: &dst.BlockStmt{List: stmts},
-			},
-		}
+		stmts = astbuilder.Statements(
+			astbuilder.IfNotNil(propToCheck, stmts...))
 	}
 
 	result := []dst.Stmt{

@@ -11,7 +11,20 @@ import (
 	"github.com/dave/dst"
 )
 
-// SimpleIfElse creates a simple if statement with a single statement in each branch
+// SimpleIf creates a simple if statement with multiple statements
+//
+// if <condition> {
+//     <trueBranch>
+// }
+//
+func SimpleIf(condition dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
+	return &dst.IfStmt{
+		Cond: condition,
+		Body: StatementBlock(statements...),
+	}
+}
+
+// SimpleIfElse creates a simple if else statement. Each branch may contain multiple statements.
 //
 // if <condition> {
 //     <trueBranch>
