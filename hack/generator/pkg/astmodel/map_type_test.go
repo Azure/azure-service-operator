@@ -47,7 +47,7 @@ func TestMapType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			areEqual := c.thisType.Equals(c.otherType)
 

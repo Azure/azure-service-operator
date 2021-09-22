@@ -18,7 +18,7 @@ import (
 // TestGolden_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToSpec() and
 // ConvertFromSpec() functions are converting to/from spec types that aren't the hub  type
 func TestGolden_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCode(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type
@@ -73,7 +73,7 @@ func TestGolden_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCod
 // TestGolden_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToStatus()
 // and ConvertFromStatus() functions are converting to/from status types that aren't the hub type
 func TestGolden_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type

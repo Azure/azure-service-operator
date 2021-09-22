@@ -64,7 +64,7 @@ func TestOwnerNotFound_Is(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			g.Expect(tt.is).To(Equal(errors.Is(tt.expected, tt.actual)))
 		})
@@ -72,7 +72,7 @@ func TestOwnerNotFound_Is(t *testing.T) {
 }
 
 func TestOwnerNotFound_AsCorrectType_Works(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	fooName := types.NamespacedName{
 		Namespace: "default",
@@ -87,7 +87,7 @@ func TestOwnerNotFound_AsCorrectType_Works(t *testing.T) {
 }
 
 func TestOwnerNotFound_AsIncorrectType_Fails(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	fooName := types.NamespacedName{
 		Namespace: "default",
@@ -101,7 +101,7 @@ func TestOwnerNotFound_AsIncorrectType_Fails(t *testing.T) {
 }
 
 func TestOwnerNotFound_RemembersCause(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	fooName := types.NamespacedName{
 		Namespace: "default",

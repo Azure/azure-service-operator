@@ -35,7 +35,7 @@ func TestSingular_GivesExpectedResults(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			name := MakeTypeName(ref, c.name)
 			result := name.Singular()
@@ -66,7 +66,7 @@ func TestPlural_GivesExpectedResults(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			name := MakeTypeName(ref, c.name)
 			result := name.Plural()

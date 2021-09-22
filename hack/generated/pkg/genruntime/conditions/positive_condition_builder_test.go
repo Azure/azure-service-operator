@@ -25,7 +25,7 @@ func newMockClock() *clock.Mock {
 }
 
 func Test_PositiveConditionBuilder_MakeTrueCondition(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	clk := newMockClock()
 
 	var observedGeneration int64 = 0
@@ -42,7 +42,7 @@ func Test_PositiveConditionBuilder_MakeTrueCondition(t *testing.T) {
 }
 
 func Test_PositiveConditionBuilder_MakeFalseCondition(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	clk := newMockClock()
 
 	builder := conditions.NewPositiveConditionBuilder(clk)
@@ -62,7 +62,7 @@ func Test_PositiveConditionBuilder_MakeFalseCondition(t *testing.T) {
 }
 
 func Test_PositiveConditionBuilder_MakeUnknownCondition(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	clk := newMockClock()
 
 	builder := conditions.NewPositiveConditionBuilder(clk)

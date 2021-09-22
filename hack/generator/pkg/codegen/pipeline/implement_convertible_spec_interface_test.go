@@ -15,7 +15,7 @@ import (
 )
 
 func TestInjectConvertibleSpecInterface(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 	// Test Resource V1

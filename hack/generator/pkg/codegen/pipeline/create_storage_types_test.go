@@ -15,7 +15,7 @@ import (
 )
 
 func TestGolden_CreateStorageTypes(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	// Test Resource V1
 

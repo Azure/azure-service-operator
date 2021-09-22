@@ -31,7 +31,7 @@ func (t *TestConditioner) SetConditions(conditions conditions.Conditions) {
 }
 
 func Test_SetCondition_AddsCondition(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	o := &TestConditioner{}
 	clock := newMockClock()
 	builder := conditions.NewPositiveConditionBuilder(clock)
@@ -43,7 +43,7 @@ func Test_SetCondition_AddsCondition(t *testing.T) {
 }
 
 func Test_SetCondition_ReadyTrueToReadyFalse_UpdatesConditionAndChangesTimestamp(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	o := &TestConditioner{}
 	clock := newMockClock()
 	builder := conditions.NewPositiveConditionBuilder(clock)
@@ -68,7 +68,7 @@ func Test_SetCondition_ReadyTrueToReadyFalse_UpdatesConditionAndChangesTimestamp
 }
 
 func Test_SetCondition_ChangeReason_TimestampChanged(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	o := &TestConditioner{}
 	clk := newMockClock()
 	builder := conditions.NewPositiveConditionBuilder(clk)
@@ -98,7 +98,7 @@ func Test_SetCondition_ChangeReason_TimestampChanged(t *testing.T) {
 }
 
 func Test_SetCondition_SameConditionTimestampUnchanged(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	o := &TestConditioner{}
 	clk := newMockClock()
 	builder := conditions.NewPositiveConditionBuilder(clk)
@@ -271,7 +271,7 @@ func Test_SetCondition_OverwritesAsExpected(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			o := &TestConditioner{}
 			if tt.initial != nil {
