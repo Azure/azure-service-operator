@@ -17,7 +17,7 @@ import (
 )
 
 func TestInjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	// Define a test resource
 	spec := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, test.KnownAsProperty)
@@ -39,7 +39,7 @@ func TestInjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
 }
 
 func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotInjectIntoSpec(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 	fnInjector := astmodel.NewFunctionInjector()

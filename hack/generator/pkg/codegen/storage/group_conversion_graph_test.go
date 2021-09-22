@@ -19,7 +19,7 @@ func TestGroupConversionGraph_WithSingleReference_HasExpectedTransition(t *testi
 	 *  Test that a group that contains just a single API version ends up with a single transition, between the original
 	 *  API version and a corresponding storage variant.
 	 */
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	builder := NewGroupConversionGraphBuilder("demo")
 	builder.Add(test.Pkg2020)
@@ -42,7 +42,7 @@ func TestGroupConversionGraph_WithTwoGAReferences_HasExpectedTransitions(t *test
 	 *  a transition to a matching storage variant, and there should be a transition from the older storage variant to
 	 *  the newer one.
 	 */
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	builder := NewGroupConversionGraphBuilder("demo")
 	builder.Add(test.Pkg2020)
@@ -76,7 +76,7 @@ func TestGroupConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitions(
 	 *  preview storage variant *back* to the prior GA storage variant. This test only checks for cases not already
 	 *  covered by other tests, above.
 	 */
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	builder := NewGroupConversionGraphBuilder("demo")
 	builder.Add(test.Pkg2020)

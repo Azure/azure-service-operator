@@ -15,7 +15,7 @@ import (
 )
 
 func TestGolden_OriginalVersionFunction_GeneratesExpectedCode(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	emptyDef := test.CreateObjectDefinition(test.Pkg2020, "Demo")

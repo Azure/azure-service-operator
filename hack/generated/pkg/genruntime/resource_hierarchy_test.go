@@ -15,7 +15,7 @@ import (
 )
 
 func Test_ResourceHierarchy_ResourceGroupOnly(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
 
@@ -33,7 +33,7 @@ func Test_ResourceHierarchy_ResourceGroupOnly(t *testing.T) {
 }
 
 func Test_ResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
 	name := "myresource"
@@ -48,7 +48,7 @@ func Test_ResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) {
 }
 
 func Test_ResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
 	resourceName := "myresource"
@@ -63,7 +63,7 @@ func Test_ResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 }
 
 func Test_ResourceHierarchy_ScopeOnHierarchyWithoutExtensionResourceErrors(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
 	name := "myresource"
@@ -77,7 +77,7 @@ func Test_ResourceHierarchy_ScopeOnHierarchyWithoutExtensionResourceErrors(t *te
 }
 
 func Test_ResourceHierarchy_ExtensionOnResourceGroup(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
 	extensionName := "myextension"
@@ -92,7 +92,7 @@ func Test_ResourceHierarchy_ExtensionOnResourceGroup(t *testing.T) {
 }
 
 func Test_ResourceHierarchy_ExtensionOnResourceInResourceGroup(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
 	resourceName := "myresource"
@@ -106,7 +106,7 @@ func Test_ResourceHierarchy_ExtensionOnResourceInResourceGroup(t *testing.T) {
 }
 
 func Test_ResourceHierarchy_ExtensionOnDeepHierarchy(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
 	resourceName := "myresource"

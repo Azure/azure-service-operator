@@ -12,7 +12,7 @@ import (
 )
 
 func TestSortPackageReferencesByPathAndVersion(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	v1 := makeTestLocalPackageReference("picnic", "v1")
 	v2alpha := makeTestLocalPackageReference("picnic", "v2alpha")
@@ -63,7 +63,7 @@ func TestComparePackageReferencesByPathAndVersion(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			comparer := versionComparer{
 				left:  []rune(c.left),
@@ -97,7 +97,7 @@ func TestVersionComparerCompareNumeric(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			comparer := versionComparer{
 				left:  []rune(c.left),
@@ -127,7 +127,7 @@ func TestContainsPreviewVersionLabel(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			isPreview := containsPreviewVersionLabel(c.version)
 			g.Expect(isPreview).To(Equal(c.expected))

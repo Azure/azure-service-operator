@@ -18,7 +18,7 @@ import (
 // TestGolden_ResourceConversionFunction_DirectConversion_GeneratesExpectedCode tests the code when the ConvertTo() and
 // ConvertFrom() functions are directly converting to/from the Hub type, without any intermediate step.
 func TestGolden_ResourceConversionFunction_DirectConversion_GeneratesExpectedCode(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type
@@ -60,7 +60,7 @@ func TestGolden_ResourceConversionFunction_DirectConversion_GeneratesExpectedCod
 // ConvertFrom() functions can't convert directly to/from the hub type and are forced to stage the conversion on an
 // intermediate type.
 func TestGolden_ResourceConversionFunction_IndirectConversion_GeneratesExpectedCode(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Create our upstream type

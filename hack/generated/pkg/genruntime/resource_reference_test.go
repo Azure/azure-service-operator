@@ -54,7 +54,7 @@ func Test_ResourceReference_Validate(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			err := tt.ref.Validate()
 			if tt.errSubstring != "" {
@@ -108,7 +108,7 @@ func Test_ResourceReference_IsARMOrKubernetes(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			g.Expect(tt.ref.IsDirectARMReference()).To(Equal(tt.isARM))
 			g.Expect(tt.ref.IsKubernetesReference()).To(Equal(tt.isKubernetes))

@@ -13,7 +13,7 @@ import (
 )
 
 func TestCanMergeSameTypes(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(func(_ interface{}, l, r Type) (Type, error) {
 		return nil, errors.New("reached fallback")
@@ -29,7 +29,7 @@ func TestCanMergeSameTypes(t *testing.T) {
 }
 
 func TestCanMergeDifferentTypes(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(func(_ interface{}, l, r Type) (Type, error) {
 		return BoolType, nil
@@ -49,7 +49,7 @@ func TestCanMergeDifferentTypes(t *testing.T) {
 }
 
 func TestCanMergeWithGenericTypeArgument(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(func(_ interface{}, l, r Type) (Type, error) {
 		return BoolType, nil
@@ -69,7 +69,7 @@ func TestCanMergeWithGenericTypeArgument(t *testing.T) {
 }
 
 func TestCanMergeWithUnorderedMerger(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(func(_ interface{}, l, r Type) (Type, error) {
 		return BoolType, nil
@@ -91,7 +91,7 @@ func TestCanMergeWithUnorderedMerger(t *testing.T) {
 var leftFallback MergerFunc = func(ctx interface{}, left, right Type) (Type, error) { return left, nil }
 
 func TestAddPanicsWhenPassedANonFunction(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(leftFallback)
 
@@ -99,7 +99,7 @@ func TestAddPanicsWhenPassedANonFunction(t *testing.T) {
 }
 
 func TestMergerFuncMustTakeTwoOrThreeArguments(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(leftFallback)
 
@@ -111,7 +111,7 @@ func TestMergerFuncMustTakeTwoOrThreeArguments(t *testing.T) {
 }
 
 func TestMergerFuncMustTakeTypesAssignableToTypeAsArguments(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(leftFallback)
 
@@ -131,7 +131,7 @@ func TestMergerFuncMustTakeTypesAssignableToTypeAsArguments(t *testing.T) {
 }
 
 func TestFuncMustTakeTypesAssignableToTypeAsArguments(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(leftFallback)
 
@@ -142,7 +142,7 @@ func TestFuncMustTakeTypesAssignableToTypeAsArguments(t *testing.T) {
 }
 
 func TestMergeReturnsNonNilSide(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(leftFallback)
 

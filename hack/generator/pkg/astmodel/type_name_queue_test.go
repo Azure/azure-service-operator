@@ -12,14 +12,14 @@ import (
 )
 
 func TestMakeTypeNameQueue_Len_IsZero(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	queue := MakeTypeNameQueue()
 	g.Expect(queue.Len()).To(Equal(0))
 }
 
 func TestTypeNameQueue_Enqueue(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	email := MakeTypeName(emailTestRef, "Email")
 
 	queue := MakeTypeNameQueue()
@@ -31,7 +31,7 @@ func TestTypeNameQueue_Enqueue(t *testing.T) {
 }
 
 func TestTypeNameQueue_Dequeue(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	email := MakeTypeName(emailTestRef, "Email")
 
 	queue := MakeTypeNameQueue()
@@ -50,7 +50,7 @@ func TestTypeNameQueue_Dequeue(t *testing.T) {
 }
 
 func TestTypeNameQueue_Process(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	email := MakeTypeName(emailTestRef, "Email")
 	inbox := MakeTypeName(emailTestRef, "Inbox")
 	mailingList := MakeTypeName(emailTestRef, "MailingList")

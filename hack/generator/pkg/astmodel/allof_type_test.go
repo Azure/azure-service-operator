@@ -12,7 +12,7 @@ import (
 )
 
 func TestAllOfOneTypeReturnsThatType(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	oneType := StringType
 	result := BuildAllOfType(oneType)
@@ -21,7 +21,7 @@ func TestAllOfOneTypeReturnsThatType(t *testing.T) {
 }
 
 func TestAllOfIdenticalTypesReturnsThatType(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	oneType := StringType
 	result := BuildAllOfType(oneType, oneType)
@@ -30,7 +30,7 @@ func TestAllOfIdenticalTypesReturnsThatType(t *testing.T) {
 }
 
 func TestAllOfFlattensNestedAllOfs(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	result := BuildAllOfType(BoolType, BuildAllOfType(StringType, IntType))
 
@@ -40,7 +40,7 @@ func TestAllOfFlattensNestedAllOfs(t *testing.T) {
 }
 
 func TestAllOfOneOfBecomesOneOfAllOf(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	oneOf := BuildOneOfType(StringType, FloatType)
 	result := BuildAllOfType(BoolType, IntType, oneOf)
@@ -54,7 +54,7 @@ func TestAllOfOneOfBecomesOneOfAllOf(t *testing.T) {
 }
 
 func TestAllOfEqualityDoesNotCareAboutOrder(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := BuildAllOfType(StringType, BoolType)
 	y := BuildAllOfType(BoolType, StringType)
@@ -64,7 +64,7 @@ func TestAllOfEqualityDoesNotCareAboutOrder(t *testing.T) {
 }
 
 func TestAllOfMustHaveAllTypesToBeEqual(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := BuildAllOfType(StringType, BoolType, FloatType)
 	y := BuildAllOfType(BoolType, StringType)
@@ -74,7 +74,7 @@ func TestAllOfMustHaveAllTypesToBeEqual(t *testing.T) {
 }
 
 func TestAllOfsWithDifferentTypesAreNotEqual(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := BuildAllOfType(StringType, FloatType)
 	y := BuildAllOfType(BoolType, StringType)
@@ -86,7 +86,7 @@ func TestAllOfsWithDifferentTypesAreNotEqual(t *testing.T) {
 var expectedAllOfPanic = "AllOfType should have been replaced by generation time by 'convertAllOfAndOneOf' phase"
 
 func TestAllOfAsTypePanics(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := AllOfType{}
 	g.Expect(func() {
@@ -95,7 +95,7 @@ func TestAllOfAsTypePanics(t *testing.T) {
 }
 
 func TestAllOfAsDeclarationsPanics(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := AllOfType{}
 	g.Expect(func() {
@@ -104,7 +104,7 @@ func TestAllOfAsDeclarationsPanics(t *testing.T) {
 }
 
 func TestAllOfRequiredImportsPanics(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := AllOfType{}
 	g.Expect(func() {

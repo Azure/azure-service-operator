@@ -15,7 +15,7 @@ import (
 )
 
 func Test_TransformByGroup_CorrectlySelectsTypes(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Group: "role"},
@@ -36,7 +36,7 @@ func Test_TransformByGroup_CorrectlySelectsTypes(t *testing.T) {
 }
 
 func Test_TransformByVersion_CorrectlySelectsTypes(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Version: "2019-*"},
@@ -57,7 +57,7 @@ func Test_TransformByVersion_CorrectlySelectsTypes(t *testing.T) {
 }
 
 func Test_TransformByName_CorrectlySelectsTypes(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "p*"},
@@ -78,7 +78,7 @@ func Test_TransformByName_CorrectlySelectsTypes(t *testing.T) {
 }
 
 func Test_TransformCanTransform_ToComplexType(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
@@ -96,7 +96,7 @@ func Test_TransformCanTransform_ToComplexType(t *testing.T) {
 }
 
 func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
@@ -131,7 +131,7 @@ func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
 }
 
 func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
@@ -156,7 +156,7 @@ func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
@@ -168,7 +168,7 @@ func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithRemoveButNoProperty_ReportsError(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		Remove: true,
@@ -180,7 +180,7 @@ func Test_TransformWithRemoveButNoProperty_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		Property: "hat",
@@ -196,7 +196,7 @@ func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
@@ -219,7 +219,7 @@ func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
@@ -234,7 +234,7 @@ func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
 }
 
 func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
@@ -252,7 +252,7 @@ func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
 }
 
 func Test_TransformCanTransformProperty(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "*"},
@@ -278,7 +278,7 @@ func Test_TransformCanTransformProperty(t *testing.T) {
 }
 
 func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "*"},
@@ -316,7 +316,7 @@ func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
 }
 
 func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "*"},
@@ -341,7 +341,7 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 }
 
 func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "*"},
@@ -370,7 +370,7 @@ func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
 }
 
 func Test_TransformCanRemoveProperty(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "*"},
@@ -396,7 +396,7 @@ func Test_TransformCanRemoveProperty(t *testing.T) {
 }
 
 func Test_TransformResult_String(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	result := config.PropertyTransformResult{
 		TypeName:        student2019,
 		Property:        "HairColour",
@@ -407,7 +407,7 @@ func Test_TransformResult_String(t *testing.T) {
 }
 
 func Test_TransformResult_StringRemove(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	result := config.PropertyTransformResult{
 		TypeName: student2019,
 		Property: "HairColour",

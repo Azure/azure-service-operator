@@ -31,7 +31,7 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			ref := makeTestLocalPackageReference(c.group, c.pkg)
 			grp := ref.Group()
@@ -75,7 +75,7 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			ref := makeTestLocalPackageReference(c.group, c.pkg)
 			grp := ref.Group()
@@ -118,7 +118,7 @@ func TestLocalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			areEqual := c.this.Equals(c.other)
 			g.Expect(areEqual).To(Equal(c.areEqual))
@@ -145,7 +145,7 @@ func TestLocalPackageReferenceIsPreview(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			ref := makeTestLocalPackageReference(
 				"microsoft.storage",

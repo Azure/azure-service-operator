@@ -231,7 +231,7 @@ func TestGolden_PropertyAssignmentFunction_AsFunc(t *testing.T) {
 }
 
 func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCase, t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 
 	currentType, ok := astmodel.AsObjectType(c.currentObject.Type())
@@ -250,7 +250,7 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 }
 
 func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 	injector := astmodel.NewFunctionInjector()
 

@@ -192,7 +192,7 @@ func createExtensionResourceOnDeepHierarchyInResourceGroup(rgName string, parent
 }
 
 func Test_ResolveResourceHierarchy_ResourceGroupOnly(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -212,7 +212,7 @@ func Test_ResolveResourceHierarchy_ResourceGroupOnly(t *testing.T) {
 }
 
 func Test_ResolveResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -240,7 +240,7 @@ func Test_ResolveResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) 
 }
 
 func Test_ResolveResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -275,7 +275,7 @@ func Test_ResolveResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 }
 
 func Test_ResolveResourceHierarchy_ReturnsReferenceNotFound(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -298,7 +298,7 @@ func Test_ResolveResourceHierarchy_ReturnsReferenceNotFound(t *testing.T) {
 }
 
 func Test_ResolveReference_FindsReference(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -324,7 +324,7 @@ func Test_ResolveReference_FindsReference(t *testing.T) {
 }
 
 func Test_ResolveReference_ReturnsErrorIfReferenceIsNotAKubernetesReference(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -339,7 +339,7 @@ func Test_ResolveReference_ReturnsErrorIfReferenceIsNotAKubernetesReference(t *t
 }
 
 func Test_ResolveReferenceToARMID_KubernetesResource_ReturnsExpectedID(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
@@ -365,7 +365,7 @@ func Test_ResolveReferenceToARMID_KubernetesResource_ReturnsExpectedID(t *testin
 }
 
 func Test_ResolveReferenceToARMID_ARMResource_ReturnsExpectedID(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
 	s := createTestScheme()
