@@ -34,7 +34,7 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 				Name: &standardSkuName,
 			},
 			CreationData: compute.CreationData{
-				CreateOption: "Empty",
+				CreateOption: compute.CreationDataCreateOptionEmpty,
 			},
 			DiskSizeGB: &sizeInGb,
 		},

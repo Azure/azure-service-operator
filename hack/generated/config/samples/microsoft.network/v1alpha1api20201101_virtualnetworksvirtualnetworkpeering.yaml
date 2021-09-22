@@ -11,4 +11,4 @@ spec:
       group: microsoft.network.azure.com
       kind: VirtualNetwork
       namespace: default
-      name: peeredvnet
+      name: samplevnet2

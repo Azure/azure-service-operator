@@ -24,30 +24,33 @@ type ReadyConditionBuilder struct {
 	builder PositiveConditionBuilderInterface
 }
 
-func (b *ReadyConditionBuilder) Reconciling() Condition {
+func (b *ReadyConditionBuilder) Reconciling(observedGeneration int64) Condition {
 	return b.builder.MakeFalseCondition(
 		ConditionTypeReady,
 		ConditionSeverityInfo,
+		observedGeneration,
 		ReasonReconciling,
 		"The resource is in the process of being reconciled by the operator")
 }
 
-func (b *ReadyConditionBuilder) WaitingForOwner(ownerDetails string) Condition {
+func (b *ReadyConditionBuilder) WaitingForOwner(observedGeneration int64, ownerDetails string) Condition {
 	return b.builder.MakeFalseCondition(
 		ConditionTypeReady,
 		ConditionSeverityWarning,
+		observedGeneration,
 		ReasonWaitingForOwner,
 		fmt.Sprintf("Owner %q cannot be found. Progress is blocked until the owner is created.", ownerDetails))
 }
 
-func (b *ReadyConditionBuilder) Deleting() Condition {
+func (b *ReadyConditionBuilder) Deleting(observedGeneration int64) Condition {
 	return b.builder.MakeFalseCondition(
 		ConditionTypeReady,
 		ConditionSeverityInfo,
+		observedGeneration,
 		ReasonDeleting,
 		"The resource is being deleted")
 }
 
-func (b *ReadyConditionBuilder) Succeeded() Condition {
-	return b.builder.MakeTrueCondition(ConditionTypeReady)
+func (b *ReadyConditionBuilder) Succeeded(observedGeneration int64) Condition {
+	return b.builder.MakeTrueCondition(ConditionTypeReady, observedGeneration)
 }
