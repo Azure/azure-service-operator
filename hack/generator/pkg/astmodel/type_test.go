@@ -69,7 +69,7 @@ func TestWriteDebugDescription(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			var builder strings.Builder
 			c.subject.WriteDebugDescription(&builder, types)

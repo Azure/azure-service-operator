@@ -15,7 +15,7 @@ import (
 )
 
 func TestReadableConversionEndpointSet_CreatePropertyEndpoints_GivenObject_CreatesExpectedEndpoints(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	person := astmodel.NewObjectType().
 		WithProperties(test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)

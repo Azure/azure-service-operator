@@ -26,7 +26,7 @@ func Example_inferNameFromURLPath_ChildResources() {
 }
 
 func Test_InferNameFromURLPath_FailsWithMultipleParametersInARow(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	_, _, err := inferNameFromURLPath("/Microsoft.GroupName/resourceName/{resourceId}/{anotherParameter}")
 	g.Expect(err).To(Not(BeNil()))
@@ -34,7 +34,7 @@ func Test_InferNameFromURLPath_FailsWithMultipleParametersInARow(t *testing.T) {
 }
 
 func Test_InferNameFromURLPath_FailsWithNoGroupName(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	_, _, err := inferNameFromURLPath("/resourceName/{resourceId}/{anotherParameter}")
 	g.Expect(err).To(Not(BeNil()))
@@ -42,7 +42,7 @@ func Test_InferNameFromURLPath_FailsWithNoGroupName(t *testing.T) {
 }
 
 func Test_InferNameFromURLPath_SkipsDefault(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	group, name, err := inferNameFromURLPath("Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}")
 	g.Expect(err).To(BeNil())
@@ -51,7 +51,7 @@ func Test_InferNameFromURLPath_SkipsDefault(t *testing.T) {
 }
 
 func Test_expandEnumsInPath_ExpandsAnEnum(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	paths := expandEnumsInPath("/some/{value}", []spec.Parameter{
 		{
@@ -70,7 +70,7 @@ func Test_expandEnumsInPath_ExpandsAnEnum(t *testing.T) {
 }
 
 func Test_expandEnumsInPath_ExpandsMultipleEnums(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	paths := expandEnumsInPath("/some/{value1}/{value2}", []spec.Parameter{
 		{

@@ -47,7 +47,7 @@ func TestAsPrimitiveType(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			actual, ok := AsPrimitiveType(c.subject)
 
@@ -97,7 +97,7 @@ func TestAsObjectType(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			actual, ok := AsObjectType(c.subject)
 
@@ -147,7 +147,7 @@ func TestAsArrayType(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			actual, ok := AsArrayType(c.subject)
 
@@ -197,7 +197,7 @@ func TestAsMapType(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			actual, ok := AsMapType(c.subject)
 
@@ -245,7 +245,7 @@ func TestAsOptionalType(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			actual, ok := AsOptionalType(c.subject)
 
@@ -293,7 +293,7 @@ func TestAsEnumType(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			actual, ok := AsEnumType(c.subject)
 
@@ -341,7 +341,7 @@ func TestAsTypeName(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			actual, ok := AsTypeName(c.subject)
 

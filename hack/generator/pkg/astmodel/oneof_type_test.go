@@ -12,7 +12,7 @@ import (
 )
 
 func TestOneOfOneTypeReturnsThatType(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	oneType := StringType
 	result := BuildOneOfType(oneType)
@@ -21,7 +21,7 @@ func TestOneOfOneTypeReturnsThatType(t *testing.T) {
 }
 
 func TestOneOfIdenticalTypesReturnsThatType(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	oneType := StringType
 	result := BuildOneOfType(oneType, oneType)
@@ -30,7 +30,7 @@ func TestOneOfIdenticalTypesReturnsThatType(t *testing.T) {
 }
 
 func TestOneOfFlattensNestedOneOfs(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	result := BuildOneOfType(BoolType, BuildOneOfType(StringType, IntType))
 
@@ -40,7 +40,7 @@ func TestOneOfFlattensNestedOneOfs(t *testing.T) {
 }
 
 func TestOneOfEqualityDoesNotCareAboutOrder(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := BuildOneOfType(StringType, BoolType)
 	y := BuildOneOfType(BoolType, StringType)
@@ -50,7 +50,7 @@ func TestOneOfEqualityDoesNotCareAboutOrder(t *testing.T) {
 }
 
 func TestOneOfMustHaveAllTypesToBeEqual(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := BuildOneOfType(StringType, BoolType, FloatType)
 	y := BuildOneOfType(BoolType, StringType)
@@ -60,7 +60,7 @@ func TestOneOfMustHaveAllTypesToBeEqual(t *testing.T) {
 }
 
 func TestOneOfsWithDifferentTypesAreNotEqual(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := BuildOneOfType(StringType, FloatType)
 	y := BuildOneOfType(BoolType, StringType)
@@ -72,7 +72,7 @@ func TestOneOfsWithDifferentTypesAreNotEqual(t *testing.T) {
 var expectedOneOfPanic = "OneOfType should have been replaced by generation time by 'convertAllOfAndOneOf' phase"
 
 func TestOneOfAsTypePanics(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := OneOfType{}
 	g.Expect(func() {
@@ -81,7 +81,7 @@ func TestOneOfAsTypePanics(t *testing.T) {
 }
 
 func TestOneOfAsDeclarationsPanics(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := OneOfType{}
 	g.Expect(func() {
@@ -90,7 +90,7 @@ func TestOneOfAsDeclarationsPanics(t *testing.T) {
 }
 
 func TestOneOfRequiredImportsPanics(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	x := OneOfType{}
 	g.Expect(func() {

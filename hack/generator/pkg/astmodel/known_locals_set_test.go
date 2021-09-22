@@ -12,7 +12,7 @@ import (
 )
 
 func Test_KnownLocalsSet_CreatesLocal(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	locals := NewKnownLocalsSet(NewIdentifierFactory())
 
 	ident := "myVar"
@@ -23,7 +23,7 @@ func Test_KnownLocalsSet_CreatesLocal(t *testing.T) {
 }
 
 func Test_KnownLocalsSet_CreatesLocalCaseInsensitive(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	locals := NewKnownLocalsSet(NewIdentifierFactory())
 
@@ -34,7 +34,7 @@ func Test_KnownLocalsSet_CreatesLocalCaseInsensitive(t *testing.T) {
 }
 
 func Test_KnownLocalsSet_CreatesLocalWithSuffix(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	locals := NewKnownLocalsSet(NewIdentifierFactory())
 
 	ident := "person"
@@ -51,7 +51,7 @@ func Test_KnownLocalsSet_CreatesLocalWithSuffix(t *testing.T) {
 }
 
 func Test_KnownLocalsSet_CreatesLocalWithSuffixAlreadyHasSuffix(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	locals := NewKnownLocalsSet(NewIdentifierFactory())
 
 	ident := "theItem"
@@ -62,7 +62,7 @@ func Test_KnownLocalsSet_CreatesLocalWithSuffixAlreadyHasSuffix(t *testing.T) {
 }
 
 func Test_KnownLocalsSet_CreatesLocalWithMultipleSuffixesAlreadyHasSuffix(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	locals := NewKnownLocalsSet(NewIdentifierFactory())
 
 	ident := "theItem"

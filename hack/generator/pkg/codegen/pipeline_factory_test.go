@@ -22,7 +22,7 @@ import (
 
 func TestNewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
 	gold := goldie.New(t)
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 	configuration := config.NewConfiguration()
@@ -39,7 +39,7 @@ func TestNewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
 
 func TestNewCrossplaneCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
 	gold := goldie.New(t)
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 	configuration := config.NewConfiguration()
@@ -56,7 +56,7 @@ func TestNewCrossplaneCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) 
 
 func TestNewTestCodeGeneratorCreatesRightPipeline(t *testing.T) {
 	gold := goldie.New(t)
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	cfg := makeDefaultTestConfig()
 	codegen, err := NewTestCodeGenerator("Sample", "path", t, cfg, config.GenerationPipelineAzure)

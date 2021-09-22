@@ -12,7 +12,7 @@ import (
 )
 
 func Test_ReferenceGraph_Gives_Correct_Depth(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	pr := makeTestLocalPackageReference("group", "package")
 

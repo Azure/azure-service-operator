@@ -57,7 +57,7 @@ func Test_ShouldSkipDir_GivenPath_HasExpectedResult(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			skipped := shouldSkipDir(c.path)
 

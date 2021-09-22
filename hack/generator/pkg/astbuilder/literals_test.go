@@ -30,7 +30,7 @@ func Test_LiteralString(t *testing.T) {
 
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			literal := StringLiteral(c.original)
 

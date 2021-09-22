@@ -17,7 +17,7 @@ import (
 )
 
 func TestPropertyAssignmentTestCase_AsFunc(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 

@@ -21,7 +21,7 @@ var (
  */
 
 func Test_TypeNameSet_WhenEmpty_HasLengthZero(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	emptySet := NewTypeNameSet()
 	g.Expect(len(emptySet)).To(Equal(0))
 }
@@ -31,14 +31,14 @@ func Test_TypeNameSet_WhenEmpty_HasLengthZero(t *testing.T) {
  */
 
 func Test_TypeNameSet_AfterAddingFirstItem_ContainsItem(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	set := NewTypeNameSet()
 	set.Add(oneTypeName)
 	g.Expect(set.Contains(oneTypeName)).To(BeTrue())
 }
 
 func Test_TypeNameSet_AfterAddingSecondItem_ContainsItem(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	set := NewTypeNameSet()
 	set.Add(oneTypeName)
 	set.Add(twoTypeName)

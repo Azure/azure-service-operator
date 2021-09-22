@@ -23,7 +23,7 @@ var (
  */
 
 func TestResourceType_WithTestCase_ReturnsExpectedInstance(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	name := "assertStuff"
 	fake := NewFakeTestCase(name)
@@ -41,7 +41,7 @@ func TestResourceType_WithTestCase_ReturnsExpectedInstance(t *testing.T) {
  */
 
 func TestResourceType_WithFunction_ReturnsExpectedInstance(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	name := "assertStuff"
 
@@ -61,7 +61,7 @@ func TestResourceType_WithFunction_ReturnsExpectedInstance(t *testing.T) {
  */
 
 func TestResourceType_Properties_ReturnsExpectedCount(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	g.Expect(base.Properties()).To(HaveLen(2))
 }
@@ -71,7 +71,7 @@ func TestResourceType_Properties_ReturnsExpectedCount(t *testing.T) {
  */
 
 func TestResourceType_Property_ForStatus_ReturnsProperty(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	prop, ok := base.Property("Spec")
 	g.Expect(ok).To(BeTrue())
@@ -79,7 +79,7 @@ func TestResourceType_Property_ForStatus_ReturnsProperty(t *testing.T) {
 }
 
 func TestResourceType_Property_ForSpec_ReturnsProperty(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	prop, ok := base.Property("Spec")
 	g.Expect(ok).To(BeTrue())
@@ -91,7 +91,7 @@ func TestResourceType_Property_ForSpec_ReturnsProperty(t *testing.T) {
  */
 
 func TestResourceType_WithProperty_HasExpectedLength(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	ownerProp := NewPropertyDefinition("Owner", "owner", StringType)
 	resource := base.WithProperty(ownerProp)
@@ -99,7 +99,7 @@ func TestResourceType_WithProperty_HasExpectedLength(t *testing.T) {
 }
 
 func TestResourceType_WithProperty_IncludesProperty(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	ownerProp := NewPropertyDefinition("Owner", "owner", StringType)
 	resource := base.WithProperty(ownerProp)
@@ -109,14 +109,14 @@ func TestResourceType_WithProperty_IncludesProperty(t *testing.T) {
 }
 
 func TestResourceType_WithProperty_OverridingSpec_Panics(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	specProp := NewPropertyDefinition("Spec", "spec", StringType)
 	g.Expect(func() { base.WithProperty(specProp) }).To(Panic())
 }
 
 func TestResourceType_WithProperty_OverridingStatus_Panics(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	statusProp := NewPropertyDefinition("Status", "status", StringType)
 	g.Expect(func() { base.WithProperty(statusProp) }).To(Panic())
@@ -127,7 +127,7 @@ func TestResourceType_WithProperty_OverridingStatus_Panics(t *testing.T) {
  */
 
 func TestResourceType_WithoutProperty_ExcludesProperty(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	ownerProp := NewPropertyDefinition("Owner", "owner", StringType)
 	base := NewResourceType(emptySpec, emptyStatus).WithProperty(ownerProp)
 	resource := base.WithoutProperty("Owner")
@@ -137,13 +137,13 @@ func TestResourceType_WithoutProperty_ExcludesProperty(t *testing.T) {
 }
 
 func TestResourceType_WithoutSpecProperty_Panics(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	g.Expect(func() { base.WithoutProperty("Spec") }).To(Panic())
 }
 
 func TestResourceType_WithoutStatusProperty_Panics(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	g.Expect(func() { base.WithoutProperty("Status") }).To(Panic())
 }
@@ -153,7 +153,7 @@ func TestResourceType_WithoutStatusProperty_Panics(t *testing.T) {
  */
 
 func TestResourceType_WithAnnotation_ReturnsExpectedInstance(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	annotation := "kubebuilder:annotation:whatever"
 	base := NewResourceType(emptySpec, emptyStatus)

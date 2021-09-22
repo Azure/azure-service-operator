@@ -13,7 +13,7 @@ import (
 )
 
 func Test_ObjectTypeOf(t *testing.T) {
-	g := NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	url, err := url.Parse("https://schema.management.azure.com/schemas/2015-01-01/Microsoft.Resources.json#/resourceDefinitions/deployments")
 	g.Expect(err).To(BeNil())
