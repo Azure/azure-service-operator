@@ -292,28 +292,34 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 	compare.Decorations().Before = dst.EmptyLine
 	astbuilder.AddComment(&compare.Decorations().Start, "// Check for outcome")
 
-	// if !match { result := diff.Diff(subject, actual); return result }
+	// actualFmt := pretty.Sprint(actual)
 	declareActual := astbuilder.ShortDeclaration(
 		actualFmtId,
 		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualId)))
+
+	// subjectFmt := pretty.Sprint(subject)
 	declareSubject := astbuilder.ShortDeclaration(
 		subjectFmtId,
 		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectId)))
+
+	// diff := diff.Diff(subjectFmt, actualFmt)
 	declareDiff := astbuilder.ShortDeclaration(
 		resultId,
 		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtId), dst.NewIdent(actualFmtId)))
+
+	// return diff
 	returnDiff := astbuilder.Returns(dst.NewIdent(resultId))
-	prettyPrint := &dst.IfStmt{
-		Cond: &dst.UnaryExpr{
-			Op: token.NOT,
-			X:  dst.NewIdent(matchId),
-		},
-		Body: astbuilder.StatementBlock(
-			declareActual,
-			declareSubject,
-			declareDiff,
-			returnDiff),
-	}
+
+	// if !match {
+	//     result := diff.Diff(subject, actual);
+	//     return result
+	// }
+	prettyPrint := astbuilder.SimpleIf(
+		astbuilder.NotExpr(dst.NewIdent(matchId)),
+		declareActual,
+		declareSubject,
+		declareDiff,
+		returnDiff)
 
 	// return ""
 	ret := astbuilder.Returns(astbuilder.StringLiteral(""))

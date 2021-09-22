@@ -6,8 +6,6 @@
 package astmodel
 
 import (
-	"go/token"
-
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
@@ -50,19 +48,11 @@ func defaultAzureNameFunction(k *resourceFunction, codeGenerationContext *CodeGe
 		ReceiverType: &dst.StarExpr{
 			X: receiverType,
 		},
-		Body: []dst.Stmt{
-			&dst.IfStmt{
-				Cond: &dst.BinaryExpr{
-					X:  dst.Clone(azureNameProp).(dst.Expr),
-					Op: token.EQL,
-					Y:  &dst.BasicLit{Kind: token.STRING, Value: "\"\""},
-				},
-				Body: astbuilder.StatementBlock(
-					astbuilder.SimpleAssignment(
-						azureNameProp,
-						nameProp)),
-			},
-		},
+		Body: astbuilder.Statements(
+			astbuilder.IfEqual(
+				azureNameProp,
+				astbuilder.StringLiteral(""),
+				astbuilder.SimpleAssignment(azureNameProp, nameProp))),
 	}
 
 	fn.AddComments("defaults the Azure name of the resource to the Kubernetes name")

@@ -62,33 +62,17 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	var statements []dst.Stmt
 
 	for _, property := range f.oneOfObject.Properties().AsSlice() {
-
-		ifStatement := dst.IfStmt{
-			Cond: astbuilder.NotNil(
-				astbuilder.Selector(
-					dst.NewIdent(receiverName),
-					string(property.propertyName))),
-			Body: &dst.BlockStmt{
-				List: []dst.Stmt{
-					&dst.ReturnStmt{
-						Results: []dst.Expr{
-							&dst.CallExpr{
-								Fun: astbuilder.Selector(
-									dst.NewIdent(jsonPackage),
-									"Marshal"),
-								Args: []dst.Expr{
-									astbuilder.Selector(
-										dst.NewIdent(receiverName),
-										string(property.propertyName)),
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-
-		statements = append(statements, &ifStatement)
+		ret := astbuilder.Returns(
+			astbuilder.CallQualifiedFunc(
+				jsonPackage,
+				"Marshal",
+				astbuilder.Selector(dst.NewIdent(receiverName), string(property.propertyName))))
+		ifStatement := astbuilder.IfNotNil(
+			astbuilder.Selector(
+				dst.NewIdent(receiverName),
+				string(property.propertyName)),
+			ret)
+		statements = append(statements, ifStatement)
 	}
 
 	finalReturnStatement := &dst.ReturnStmt{
