@@ -1,7 +1,7 @@
 apiVersion: microsoft.managedidentity.azure.com/v1alpha1api20181130
-kind: UserManagedIdentity
+kind: UserAssignedIdentity
 metadata:
-  name: sameusermanagedidentity
+  name: sampleuserassignedidentity
   namespace: default
 spec:
   location: westcentralus
