@@ -8,6 +8,7 @@ augmentSpecWithStatus                                Merges information from Sta
 stripUnreferenced                                    Strip unreferenced types
 nameTypes                                            Name inner types for CRD
 propertyRewrites                                     Modify property types using configured transforms
+removeResourceScope                                  Removes scope from all resources except extension resources
 makeStatusPropertiesOptional                         Forces all status properties to be optional
 removeStatusPropertyValidation                       Removes validation from all status properties
 unrollRecursiveTypes                                 Unroll directly recursive types since they are not supported by controller-gen

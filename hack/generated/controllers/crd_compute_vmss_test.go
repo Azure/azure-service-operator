@@ -26,7 +26,7 @@ func newVNETForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownReso
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
 			Owner:    owner,
-			Location: testcommon.DefaultTestRegion,
+			Location: tc.AzureRegion,
 			AddressSpace: network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/16"},
 			},
