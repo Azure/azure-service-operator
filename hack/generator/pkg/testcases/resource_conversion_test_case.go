@@ -310,27 +310,34 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	compare.Decorations().Before = dst.EmptyLine
 	astbuilder.AddComment(&compare.Decorations().Start, "// Compare actual with what we started with")
 
-	// if !match { result := diff.Diff(subject, actual); return result }
-	prettyPrint := &dst.IfStmt{
-		Cond: &dst.UnaryExpr{
-			Op: token.NOT,
-			X:  dst.NewIdent(matchId),
-		},
-		Body: &dst.BlockStmt{
-			List: []dst.Stmt{
-				astbuilder.ShortDeclaration(
-					actualFmtId,
-					astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualId))),
-				astbuilder.ShortDeclaration(
-					subjectFmtId,
-					astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectId))),
-				astbuilder.ShortDeclaration(
-					resultId,
-					astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtId), dst.NewIdent(actualFmtId))),
-				astbuilder.Returns(dst.NewIdent(resultId)),
-			},
-		},
-	}
+	// actualFmt := pretty.Sprint(actual)
+	declareActual := astbuilder.ShortDeclaration(
+		actualFmtId,
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualId)))
+
+	// subjectFmt := pretty.Sprint(subject)
+	declareSubject := astbuilder.ShortDeclaration(
+		subjectFmtId,
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectId)))
+
+	// result := diff.Diff(subject, actual)
+	declareDiff := astbuilder.ShortDeclaration(
+		resultId,
+		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtId), dst.NewIdent(actualFmtId)))
+
+	// return result
+	returnDiff := astbuilder.Returns(dst.NewIdent(resultId))
+
+	// if !match {
+	//     result := diff.Diff(subject, actual);
+	//     return result
+	// }
+	prettyPrint := astbuilder.SimpleIf(
+		astbuilder.NotExpr(dst.NewIdent(matchId)),
+		declareActual,
+		declareSubject,
+		declareDiff,
+		returnDiff)
 
 	// return ""
 	ret := astbuilder.Returns(astbuilder.StringLiteral(""))

@@ -17,9 +17,9 @@ const ReasonSucceeded = "Succeeded"
 
 // TODO: name?
 type PositiveConditionBuilderInterface interface {
-	MakeTrueCondition(conditionType ConditionType) Condition
-	MakeFalseCondition(conditionType ConditionType, severity ConditionSeverity, reason string, message string) Condition
-	MakeUnknownCondition(conditionType ConditionType, reason string, message string) Condition
+	MakeTrueCondition(conditionType ConditionType, observedGeneration int64) Condition
+	MakeFalseCondition(conditionType ConditionType, severity ConditionSeverity, observedGeneration int64, reason string, message string) Condition
+	MakeUnknownCondition(conditionType ConditionType, observedGeneration int64, reason string, message string) Condition
 }
 
 var _ PositiveConditionBuilderInterface = &PositiveConditionBuilder{}
@@ -48,23 +48,25 @@ func (b *PositiveConditionBuilder) now() metav1.Time {
 }
 
 // MakeTrueCondition makes a condition whose Status is True
-func (b *PositiveConditionBuilder) MakeTrueCondition(conditionType ConditionType) Condition {
+func (b *PositiveConditionBuilder) MakeTrueCondition(conditionType ConditionType, observedGeneration int64) Condition {
 	return Condition{
 		Type:               conditionType,
 		Status:             metav1.ConditionTrue,
 		Severity:           ConditionSeverityNone,
 		LastTransitionTime: b.now(),
+		ObservedGeneration: observedGeneration,
 		Reason:             ReasonSucceeded,
 	}
 }
 
 // MakeFalseCondition makes a condition whose Status is False. A severity, reason, and message must be provided.
-func (b *PositiveConditionBuilder) MakeFalseCondition(conditionType ConditionType, severity ConditionSeverity, reason string, message string) Condition {
+func (b *PositiveConditionBuilder) MakeFalseCondition(conditionType ConditionType, severity ConditionSeverity, observedGeneration int64, reason string, message string) Condition {
 	return Condition{
 		Type:               conditionType,
 		Status:             metav1.ConditionFalse,
 		Severity:           severity,
 		LastTransitionTime: b.now(),
+		ObservedGeneration: observedGeneration,
 		Reason:             reason,
 		Message:            message,
 	}
@@ -72,12 +74,13 @@ func (b *PositiveConditionBuilder) MakeFalseCondition(conditionType ConditionTyp
 
 // MakeUnknownCondition makes a condition whose Status is Unknown. A reason and message must be provided. No severity
 // is required as conditions in Status Unknown do not have a known severity either.
-func (b *PositiveConditionBuilder) MakeUnknownCondition(conditionType ConditionType, reason string, message string) Condition {
+func (b *PositiveConditionBuilder) MakeUnknownCondition(conditionType ConditionType, observedGeneration int64, reason string, message string) Condition {
 	return Condition{
 		Type:               conditionType,
 		Status:             metav1.ConditionUnknown,
 		Severity:           ConditionSeverityNone,
 		LastTransitionTime: b.now(),
+		ObservedGeneration: observedGeneration,
 		Reason:             reason,
 		Message:            message,
 	}

@@ -96,6 +96,15 @@ type Condition struct {
 	// +kubebuilder:validation:Required
 	LastTransitionTime metav1.Time `json:"lastTransitionTime"`
 
+	// Note: see the https://github.com/kubernetes/enhancements/tree/master/keps/sig-api-machinery/1623-standardize-conditions
+	// KEP for details about ObservedGeneration
+
+	// ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+	// .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+	// with respect to the current state of the instance.
+	// +kubebuilder:validation:Optional
+	ObservedGeneration int64 `json:"observedGeneration,omitempty"`
+
 	// Reason for the condition's last transition.
 	// Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
 	// +kubebuilder:validation:Required
@@ -113,7 +122,68 @@ func (c Condition) IsEquivalent(other Condition) bool {
 		c.Status == other.Status &&
 		c.Severity == other.Severity &&
 		c.Reason == other.Reason &&
+		c.ObservedGeneration == other.ObservedGeneration &&
 		c.Message == other.Message
+}
+
+// ShouldOverwrite determines if this condition should overwrite the other condition.
+func (c Condition) ShouldOverwrite(other Condition) bool {
+	// Safety check that the two conditions are of the same type. If not they certainly shouldn't overwrite
+	if c.Type != other.Type {
+		return false
+	}
+	// If this condition corresponds to a newer generation than the previous condition always overwrite
+	// as other is out of date
+	if c.ObservedGeneration > other.ObservedGeneration {
+		return true
+	}
+	// If the Conditions are equivalent, don't overwrite. We want to keep the first occurrence of the condition
+	// so that the LastTransitionTime is correct
+	if c.IsEquivalent(other) {
+		return false
+	}
+	// At this point the Conditions are the same type, same generation, so the winning Condition must be chosen
+	// based on priority
+
+	if c.priority() >= other.priority() {
+		return true
+	} else {
+		return false
+	}
+}
+
+// priority of the condition for overwrite purposes if Condition ObservedGeneration's are the same. Higher is more important.
+// The result of this is the following:
+//   1. Status == True conditions, and Status == False conditions with Severity == Warning or Error are all the highest priority.
+//      This means that the most recent update with any of those states will overwrite anything.
+//   2. Status == False conditions with Severity == Info will only overwrite other Status == False conditions with Severity == Info.
+//   3. Status == Unknown conditions will not overwrite anything.
+// Keep in mind that this priority is specifically for comparing Conditions with the same ObservedGeneration. If the ObservedGeneration
+// is different, the newer one always wins.
+func (c Condition) priority() int {
+	switch c.Status {
+	case metav1.ConditionTrue:
+		return 5
+	case metav1.ConditionFalse:
+		switch c.Severity {
+		case ConditionSeverityError:
+			return 5
+		case ConditionSeverityWarning:
+			return 5
+		case ConditionSeverityInfo:
+			return 4
+		case ConditionSeverityNone:
+			// This shouldn't happen as a Condition with Status False should always specify a severity.
+			// In the interest of safety though, we set this to 5 so if this DOES somehow happen it ties
+			// or wins against most other things and users will se it
+			return 5
+		}
+	case metav1.ConditionUnknown:
+		return 3
+	}
+
+	// This shouldn't happen
+	return 0
 }
 
 // Copy returns an independent copy of the Condition
@@ -124,9 +194,10 @@ func (c Condition) Copy() Condition {
 // String returns a string representation of this condition
 func (c Condition) String() string {
 	return fmt.Sprintf(
-		"Condition [%s], Status = %q, Severity = %q, Reason = %q, Message = %q, LastTransitionTime = %q",
+		"Condition [%s], Status = %q, ObservedGeneration = %q, Severity = %q, Reason = %q, Message = %q, LastTransitionTime = %q",
 		c.Type,
 		c.Status,
+		c.ObservedGeneration,
 		c.Severity,
 		c.Reason,
 		c.Message,
@@ -144,8 +215,8 @@ func SetCondition(o Conditioner, new Condition) {
 	conditions := o.GetConditions()
 	i, exists := conditions.FindIndexByType(new.Type)
 	if exists {
-		if conditions[i].IsEquivalent(new) {
-			// Nothing to do, the conditions are the same
+		if !new.ShouldOverwrite(conditions[i]) {
+			// Nothing to do, the new condition is not supposed to overwrite
 			return
 		}
 		conditions[i] = new

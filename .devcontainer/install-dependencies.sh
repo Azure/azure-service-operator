@@ -77,6 +77,12 @@ echo "Installing kubebuilder ${kubebuilder_version} ($os $arch)…"
 curl -L "https://github.com/kubernetes-sigs/kubebuilder/releases/download/v${kubebuilder_version}/kubebuilder_${kubebuilder_version}_${os}_${arch}.tar.gz" | tar -xz -C /tmp/
 mv "/tmp/kubebuilder_${kubebuilder_version}_${os}_${arch}" "$KUBEBUILDER_DEST"
 
+# Install yq
+echo "Installing yq…"
+yq_version=v4.13.0
+yq_binary=yq_linux_amd64
+wget "https://github.com/mikefarah/yq/releases/download/${yq_version}/${yq_binary}.tar.gz" -O - | tar -xz -C "$TOOL_DEST" && mv "$TOOL_DEST/$yq_binary" "$TOOL_DEST/yq"
+
 echo "Installed tools: $(ls "$TOOL_DEST")"
 
 

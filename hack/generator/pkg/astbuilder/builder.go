@@ -387,6 +387,14 @@ func AreNotEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 	}
 }
 
+// NotExpr generates a `!x` expression
+func NotExpr(expr dst.Expr) *dst.UnaryExpr {
+	return &dst.UnaryExpr{
+		Op: token.NOT,
+		X:  expr,
+	}
+}
+
 // NotNil generates an `x != nil` comparison
 func NotNil(x dst.Expr) *dst.BinaryExpr {
 	return AreNotEqual(x, Nil())
