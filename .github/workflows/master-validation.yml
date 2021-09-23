@@ -41,3 +41,11 @@ jobs:
 
       # We explicitly do not upload coverage for live tests as it messes with the diffs for PRs,
       # since they will not exercize the authorization codepaths.
+
+      - name: Cleanup test resources
+        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{steps.devcontainer.outputs.id}}" task cleanup-azure-resources
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
