@@ -229,8 +229,9 @@ var responseHeadersToRemove = []string{
 }
 
 var (
-	dateMatcher   = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
-	sshKeyMatcher = regexp.MustCompile("ssh-rsa [0-9a-zA-Z+/=]+")
+	dateMatcher     = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
+	sshKeyMatcher   = regexp.MustCompile("ssh-rsa [0-9a-zA-Z+/=]+")
+	passwordMatcher = regexp.MustCompile("pass.*?pass")
 )
 
 // hideDates replaces all ISO8601 datetimes with a fixed value
@@ -244,9 +245,15 @@ func hideSSHKeys(s string) string {
 	return sshKeyMatcher.ReplaceAllLiteralString(s, "ssh-rsa {KEY}")
 }
 
+// hidePasswords hides anything that looks like a generated password
+func hidePasswords(s string) string {
+	return passwordMatcher.ReplaceAllLiteralString(s, "{PASSWORD}")
+}
+
 func hideRecordingData(s string) string {
 	result := hideDates(s)
 	result = hideSSHKeys(result)
+	result = hidePasswords(result)
 
 	return result
 }
