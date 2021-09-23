@@ -11,8 +11,8 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	network "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.network/v1alpha1api20201101"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
+	network "github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101"
 )
 
 func Test_Networking_PublicIP_CRUD(t *testing.T) {

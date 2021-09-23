@@ -32,11 +32,11 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 	environment := envtest.Environment{
 		ErrorIfCRDPathMissing: true,
 		CRDDirectoryPaths: []string{
-			"../config/crd/bases",
+			"../../../v2/config/crd/bases",
 		},
 		WebhookInstallOptions: envtest.WebhookInstallOptions{
 			Paths: []string{
-				"../config/webhook",
+				"../../../v2/config/webhook",
 			},
 		},
 	}

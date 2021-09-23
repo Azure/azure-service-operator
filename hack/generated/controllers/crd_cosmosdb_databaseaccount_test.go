@@ -10,8 +10,8 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	documentdb "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.documentdb/v1alpha1api20210515"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
+	documentdb "github.com/Azure/azure-service-operator/v2/api/microsoft.documentdb/v1alpha1api20210515"
 )
 
 func Test_CosmosDB_DatabaseAccount_CRUD(t *testing.T) {

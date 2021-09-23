@@ -11,8 +11,8 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	managedidentity "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.managedidentity/v1alpha1api20181130"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/microsoft.managedidentity/v1alpha1api20181130"
 )
 
 func Test_ManagedIdentity_UserAssignedIdentity_CRUD(t *testing.T) {

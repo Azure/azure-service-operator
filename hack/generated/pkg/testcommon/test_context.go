@@ -24,8 +24,8 @@ import (
 	"golang.org/x/crypto/ssh"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	resources "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
+	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 )
 
 // Use WestUS2 as some things (such as VM quota) are hard to get in West US.

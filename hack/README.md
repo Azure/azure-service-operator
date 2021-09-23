@@ -11,9 +11,9 @@ This project is an alpha. We follow the [Kubernetes definition of alpha](https:/
 
 ## What resources does ASO v2 support?
 
-See the list of supported resources [here](/hack/generated/apis/resources.md).
+See the list of supported resources [here](/v2/api/resources.md).
 
-Sample YAMLs for creating each of these resources can be found in the [samples directory](/hack/generated/config/samples).
+Sample YAMLs for creating each of these resources can be found in the [samples directory](/v2/config/samples).
 
 ## Getting Started
 ### Prerequisites
@@ -143,7 +143,7 @@ $ kubectl delete resourcegroups/aso-sample-rg
 # resourcegroup.microsoft.resources.azure.com "aso-sample-rg" deleted
 ```
 
-For samples of additional resources, see the [resource samples directory](./generated/config/samples).
+For samples of additional resources, see the [resource samples directory](/v2/config/samples).
 
 ### Tearing it down
 **Warning: if you `kubectl delete` an Azure resource, it will delete the Azure resource. This can

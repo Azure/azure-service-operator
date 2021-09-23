@@ -30,6 +30,7 @@ require (
 
 require (
 	cloud.google.com/go v0.54.0 // indirect
+	github.com/Azure/azure-service-operator/v2 v2.0.0-00010101000000-000000000000 // indirect
 	github.com/Azure/go-autorest v14.2.0+incompatible // indirect
 	github.com/Azure/go-autorest/autorest/adal v0.9.13 // indirect
 	github.com/Azure/go-autorest/autorest/azure/cli v0.4.0 // indirect
@@ -79,4 +80,4 @@ require (
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
 
-replace github.com/Azure/azure-service-operator => ../../
+replace github.com/Azure/azure-service-operator/v2 => ../../v2
