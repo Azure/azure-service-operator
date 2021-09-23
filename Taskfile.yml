@@ -151,6 +151,7 @@ tasks:
     - task: controller:verify-samples
     - task: controller:test-integration-envtest-cover
     - task: controller:test-integration-envtest-target-namespace
+    - task: controller:test-integration-envtest-operator-mode
     # checks must be after test as that will generate code
     - task: basic-checks
     # lint must be at end after code is formatted
@@ -276,6 +277,15 @@ tasks:
     - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./controllers" -run 'TestTargetNamespaces' ./controllers
     env:
       AZURE_TARGET_NAMESPACES: "default,watched"
+
+  controller:test-integration-envtest-operator-mode:
+    desc: Run the operator mode tests with non-default modes.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:generate-kustomize]
+    cmds:
+    # -race fails at the moment in controller-runtime
+    - AZURE_OPERATOR_MODE=watchers go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./controllers" -run 'TestOperatorMode' ./controllers
+    - AZURE_OPERATOR_MODE=webhooks go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./controllers" -run 'TestOperatorMode' ./controllers
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
