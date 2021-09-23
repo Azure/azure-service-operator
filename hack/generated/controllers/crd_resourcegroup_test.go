@@ -12,8 +12,8 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	resources "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/armclient"
+	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 )
 
 func Test_ResourceGroup_CRUD(t *testing.T) {

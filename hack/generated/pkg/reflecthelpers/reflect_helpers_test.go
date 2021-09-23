@@ -19,13 +19,13 @@ import (
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	resources "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/hack/generated/pkg/util/kubeclient"
+	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 
 	// TODO: Do we want to use a sample object rather than a code generated one?
-	batch "github.com/Azure/azure-service-operator/hack/generated/apis/microsoft.batch/v1alpha1api20210101"
+	batch "github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v1alpha1api20210101"
 
 	. "github.com/onsi/gomega"
 )
