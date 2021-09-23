@@ -137,6 +137,7 @@ tasks:
 
   controller:ci:
     cmds:
+    - task: controller:verify-samples
     - task: controller:test-integration-envtest-cover
     # checks must be after test as that will generate code
     - task: basic-checks
@@ -167,7 +168,7 @@ tasks:
     desc: Verify that a sample exists for each supported resource
     deps: [ controller:generate-crds ]
     cmds:
-      - "{{.SCRIPTS_ROOT}}/check_samples.py {{.CONTROLLER_ROOT}}config/"
+      - "{{.SCRIPTS_ROOT}}/check_samples.py v2/config/"
 
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.
