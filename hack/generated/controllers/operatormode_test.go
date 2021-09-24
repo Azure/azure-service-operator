@@ -18,6 +18,10 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+// Rerecording these tests should always be done with
+// AZURE_OPERATOR_MODE=watchers-and-webhooks to ensure that all needed
+// requests are in the recording.
+
 func TestOperatorModeWebhooks(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
@@ -54,6 +58,14 @@ func TestOperatorModeWebhooks(t *testing.T) {
 		// remote cluster. Does this test need to work if it's run
 		// against a non-envtest cluster as well?
 		tc.Expect(rg.Spec.AzureName).To(Equal(rg.ObjectMeta.Name))
+
+		if operatorMode.IncludesWatchers() {
+			// Wait for resource group to be provisioned, otherwise we
+			// might get no requests to ARM, and then trying to run the
+			// tests without credentials fails because there's no
+			// recording.
+			tc.Eventually(&rg).Should(tc.Match.BeProvisioned())
+		}
 	} else {
 		// Otherwise we should fail because the webhook isn't
 		// registered (in a real multi-operator deployment it would be
@@ -112,6 +124,11 @@ func TestOperatorModeWatchers(t *testing.T) {
 			"instance never got finalizer even though operator mode is %q",
 			operatorMode,
 		)
+		// Wait for resource group to be provisioned, otherwise we
+		// might get no requests to ARM, and then trying to run the
+		// tests without credentials fails because there's no
+		// recording.
+		tc.Eventually(&rg).Should(tc.Match.BeProvisioned())
 	} else {
 		tc.G.Consistently(
 			hasFinalizer,
