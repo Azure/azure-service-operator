@@ -168,7 +168,7 @@ func Test_FindReferences(t *testing.T) {
 	}
 	g.Expect(test.client.Create(ctx, account)).To(Succeed())
 
-	refs, err := reflecthelpers.FindResourceReferences(&account.Spec)
+	refs, err := reflecthelpers.FindResourceReferences(account)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(refs).To(HaveLen(1))
 	g.Expect(refs).To(HaveKey(ref))

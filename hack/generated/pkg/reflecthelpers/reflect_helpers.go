@@ -23,38 +23,18 @@ func ConvertResourceToDeployableResource(
 	resolver *genruntime.Resolver,
 	metaObject genruntime.MetaObject) (genruntime.DeployableResource, error) {
 
-	metaObjReflector := reflect.Indirect(reflect.ValueOf(metaObject))
-	if !metaObjReflector.IsValid() {
-		return nil, errors.Errorf("couldn't indirect %T", metaObject)
-	}
-
-	specField := metaObjReflector.FieldByName("Spec")
-	if !specField.IsValid() {
-		return nil, errors.Errorf("couldn't find spec field on type %T", metaObject)
-	}
-
-	// Spec fields are values, we want a ptr
-	specFieldPtr := reflect.New(specField.Type())
-	specFieldPtr.Elem().Set(specField)
-
-	spec := specFieldPtr.Interface()
-
-	armTransformer, ok := spec.(genruntime.ARMTransformer)
-	if !ok {
-		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
-	}
-
-	resourceHierarchy, err := resolver.ResolveResourceHierarchy(ctx, metaObject)
+	// TODO: This should be replaced by metaObject.GetSpec() eventually
+	armTransformer, err := extractARMTransformer(metaObject)
 	if err != nil {
 		return nil, err
 	}
 
-	resolved, err := makeResolvedDetails(ctx, resolver, resourceHierarchy, armTransformer, metaObject)
+	resourceHierarchy, resolvedDetails, err := resolve(ctx, resolver, metaObject)
 	if err != nil {
 		return nil, err
 	}
 
-	armSpec, err := armTransformer.ConvertToARM(resolved)
+	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
 	if err != nil {
 		return nil, errors.Wrapf(err, "transforming resource %s to ARM", metaObject.GetName())
 	}
@@ -178,7 +158,7 @@ func DeepCopyInto(in client.Object, out client.Object) {
 }
 
 // FindResourceReferences finds all ResourceReferences specified by a given genruntime.ARMTransformer (resource spec)
-func FindResourceReferences(transformer genruntime.ARMTransformer) (map[genruntime.ResourceReference]struct{}, error) {
+func FindResourceReferences(transformer interface{}) (map[genruntime.ResourceReference]struct{}, error) {
 	result := make(map[genruntime.ResourceReference]struct{})
 
 	visitor := NewReflectVisitor()
@@ -202,39 +182,67 @@ func FindResourceReferences(transformer genruntime.ARMTransformer) (map[genrunti
 	return result, nil
 }
 
-// TODO: This method is a bit busy...
-func makeResolvedDetails(
+// TODO: Consider moving this into genruntime.Resolver - need to fix package hierarchy to make that work though
+func resolve(
 	ctx context.Context,
 	resolver *genruntime.Resolver,
-	resourceHierarchy genruntime.ResourceHierarchy,
-	armTransformer genruntime.ARMTransformer,
-	metaObject genruntime.MetaObject) (genruntime.ConvertToARMResolvedDetails, error) {
+	metaObject genruntime.MetaObject) (genruntime.ResourceHierarchy, genruntime.ConvertToARMResolvedDetails, error) {
+
+	resourceHierarchy, err := resolver.ResolveResourceHierarchy(ctx, metaObject)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, err
+	}
 
 	// Find all of the references
-	refs, err := FindResourceReferences(armTransformer)
+	refs, err := FindResourceReferences(metaObject)
 	if err != nil {
-		return genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
+		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
 	}
 
 	// resolve them
 	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, refs)
 	if err != nil {
-		return genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
+		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
 	}
 
-	resolved := genruntime.ConvertToARMResolvedDetails{
+	resolvedDetails := genruntime.ConvertToARMResolvedDetails{
 		Name:               resourceHierarchy.FullAzureName(),
-		ResolvedReferences: genruntime.MakeResolvedReferences(resolvedRefs),
+		ResolvedReferences: resolvedRefs,
 	}
 
 	// Augment with Scope information if the resource is an extension resource
 	if metaObject.GetResourceKind() == genruntime.ResourceKindExtension {
 		scope, err := resourceHierarchy.Scope()
 		if err != nil {
-			return genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "couldn't get resource scope")
+			return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "couldn't get resource scope")
 		}
-		resolved.Scope = &scope
+		resolvedDetails.Scope = &scope
 	}
 
-	return resolved, nil
+	return resourceHierarchy, resolvedDetails, nil
+}
+
+func extractARMTransformer(metaObject genruntime.MetaObject) (genruntime.ARMTransformer, error) {
+	metaObjReflector := reflect.Indirect(reflect.ValueOf(metaObject))
+	if !metaObjReflector.IsValid() {
+		return nil, errors.Errorf("couldn't indirect %T", metaObject)
+	}
+
+	specField := metaObjReflector.FieldByName("Spec")
+	if !specField.IsValid() {
+		return nil, errors.Errorf("couldn't find spec field on type %T", metaObject)
+	}
+
+	// Spec fields are values, we want a ptr
+	specFieldPtr := reflect.New(specField.Type())
+	specFieldPtr.Elem().Set(specField)
+
+	spec := specFieldPtr.Interface()
+
+	armTransformer, ok := spec.(genruntime.ARMTransformer)
+	if !ok {
+		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
+	}
+
+	return armTransformer, nil
 }
