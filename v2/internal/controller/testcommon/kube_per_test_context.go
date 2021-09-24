@@ -22,7 +22,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	"github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -278,7 +277,7 @@ func (tc *KubePerTestContext) Eventually(actual interface{}, intervals ...interf
 	return tc.G.Eventually(actual, tc.RemainingTime(), tc.PollingInterval())
 }
 
-func (tc *KubePerTestContext) CreateTestResourceGroupAndWait() *v1alpha1api20200601.ResourceGroup {
+func (tc *KubePerTestContext) CreateTestResourceGroupAndWait() *resources.ResourceGroup {
 	return tc.CreateResourceGroupAndWait(tc.NewTestResourceGroup())
 }
 

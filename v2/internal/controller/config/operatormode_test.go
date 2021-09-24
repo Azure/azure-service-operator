@@ -6,7 +6,7 @@ package config_test
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/config"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 
 	. "github.com/onsi/gomega"
 )
