@@ -68,7 +68,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 			continue
 		}
 
-		resourceSchema := extractor.findARMResourceSchema(filePath, swagger, *put)
+		resourceSchema := extractor.findARMResourceSchema(filePath, *put)
 		if resourceSchema == nil {
 			// klog.Warningf("No ARM schema found for %s in %q", rawOperationPath, filePath)
 			continue
@@ -125,14 +125,13 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 // see: https://github.com/Azure/autorest/issues/1936#issuecomment-286928591
 func (extractor *SwaggerTypeExtractor) findARMResourceSchema(
 	filePath string,
-	swagger spec.Swagger,
 	op spec.Operation) *Schema {
 
 	if op.Responses != nil {
 		for statusCode, response := range op.Responses.StatusCodeResponses {
 			// only check OK and Created (per above linked comment)
 			if statusCode == 200 || statusCode == 201 {
-				result := extractor.getARMResourceSchemaFromResponse(filePath, swagger, response)
+				result := extractor.getARMResourceSchemaFromResponse(filePath, response)
 				if result != nil {
 					return result
 				}
@@ -144,13 +143,12 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(
 	return nil
 }
 
-func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(filePath string, swagger spec.Swagger, response spec.Response) *Schema {
+func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(filePath string, response spec.Response) *Schema {
 	if response.Schema != nil {
 		// the schema can either be directly included
 
 		schema := MakeOpenAPISchema(
 			*response.Schema,
-			swagger,
 			filePath,
 			extractor.outputGroup,
 			extractor.outputVersion,
@@ -162,10 +160,9 @@ func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(filePath
 	} else if response.Ref.GetURL() != nil {
 		// or it can be under a $ref
 
-		refFilePath, refSwagger, refSchema := loadRefSchema(swagger, response.Ref, filePath, extractor.cache)
+		refFilePath, refSchema := loadRefSchema(response.Ref, filePath, extractor.cache)
 		schema := MakeOpenAPISchema(
 			refSchema,
-			refSwagger,
 			refFilePath,
 			extractor.outputGroup,
 			extractor.outputVersion,
