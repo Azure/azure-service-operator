@@ -383,6 +383,7 @@ tasks:
       - if [ -d "{{.OUTPUT}}/crd/bases" ]; then find "{{.OUTPUT}}/crd/bases" -type f -delete; fi
       - cd apis && controller-gen {{.OBJECT_OPTIONS}} paths=./...
       - cd apis && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+      - cd apis && gofmt -l -s -w . # format all generated code
     vars:
       HEADER_FILE: 
         sh: 'realpath ../boilerplate.go.txt #crossplane:generate-crds'
@@ -403,7 +404,6 @@ tasks:
       - azure-crossplane.yaml
     cmds:
       - ./bin/{{.GENERATOR_APP}} gen-types azure-crossplane.yaml
-
   crossplane:ci:
     deps: [header-check, specifier-check, crossplane:generate-crds]
 
