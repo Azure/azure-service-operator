@@ -11,11 +11,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/config"
 )
 
 type SwaggerTypeExtractor struct {
@@ -25,6 +26,7 @@ type SwaggerTypeExtractor struct {
 	// group for output types (e.g. Microsoft.Network.Frontdoor)
 	outputGroup   string
 	outputVersion string
+	outputPackage astmodel.LocalPackageReference // derived from outputGroup/outputVersion
 }
 
 // NewSwaggerTypeExtractor creates a new SwaggerTypeExtractor
@@ -35,10 +37,13 @@ func NewSwaggerTypeExtractor(
 	outputVersion string,
 	cache OpenAPISchemaCache) SwaggerTypeExtractor {
 
+	packageGroup := idFactory.CreateGroupName(outputGroup)
+	packageName := astmodel.CreateLocalPackageNameFromVersion(outputVersion)
 	return SwaggerTypeExtractor{
 		idFactory:     idFactory,
-		outputVersion: outputVersion,
 		outputGroup:   outputGroup,
+		outputVersion: outputVersion,
+		outputPackage: config.MakeLocalPackageReference(packageGroup, packageName),
 		cache:         cache,
 		config:        config,
 	}
@@ -55,8 +60,6 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 	resources astmodel.Types,
 	otherTypes astmodel.Types) error {
 
-	packageName := astmodel.CreateLocalPackageNameFromVersion(extractor.outputVersion)
-
 	scanner := NewSchemaScanner(extractor.idFactory, extractor.config)
 
 	for rawOperationPath, op := range swagger.Paths.Paths {
@@ -67,13 +70,13 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 
 		resourceSchema := extractor.findARMResourceSchema(filePath, swagger, *put)
 		if resourceSchema == nil {
-			//klog.Warningf("No ARM schema found for %s in %q", rawOperationPath, filePath)
+			// klog.Warningf("No ARM schema found for %s in %q", rawOperationPath, filePath)
 			continue
 		}
 
 		for _, operationPath := range expandEnumsInPath(rawOperationPath, put.Parameters) {
 
-			resourceName, err := extractor.resourceNameFromOperationPath(packageName, operationPath)
+			resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 			if err != nil {
 				klog.Errorf("Error extracting resource name (%s): %s", filePath, err.Error())
 				continue
@@ -234,7 +237,6 @@ func isMarkedAsARMResource(schema Schema) bool {
 }
 
 func expandEnumsInPath(operationPath string, parameters []spec.Parameter) []string {
-
 	results := []string{operationPath}
 
 	for _, parameter := range parameters {
@@ -281,14 +283,13 @@ func enumValuesToStrings(enumValues []interface{}) []string {
 	return result
 }
 
-func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(packageName string, operationPath string) (astmodel.TypeName, error) {
+func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (astmodel.TypeName, error) {
 	_, name, err := inferNameFromURLPath(operationPath)
 	if err != nil {
 		return astmodel.TypeName{}, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
 	}
 
-	packageRef := extractor.config.MakeLocalPackageReference(extractor.idFactory.CreateGroupName(extractor.outputGroup), packageName)
-	return astmodel.MakeTypeName(packageRef, name), nil
+	return astmodel.MakeTypeName(extractor.outputPackage, name), nil
 }
 
 // inferNameFromURLPath attempts to extract a name from a Swagger operation path
@@ -297,7 +298,6 @@ func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(packageName
 // “…/Microsoft.GroupName/resourceType/{parameterId}/differentType/{otherId}/something/{moreId}”
 // to “ResourceTypeDifferentTypeSomething”.
 func inferNameFromURLPath(operationPath string) (string, string, error) {
-
 	group := ""
 	name := ""
 
