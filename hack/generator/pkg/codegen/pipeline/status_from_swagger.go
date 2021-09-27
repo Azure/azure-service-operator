@@ -183,7 +183,7 @@ func makeRenamingVisitor(rename func(astmodel.TypeName) astmodel.TypeName) astmo
 	}.Build()
 }
 
-var swaggerVersionRegex = regexp.MustCompile(`\d{4}-\d{2}-\d{2}(-preview)?`)
+var swaggerVersionRegex = regexp.MustCompile(`/\d{4}-\d{2}-\d{2}(-preview|-privatepreview)?/`)
 
 type swaggerTypes struct {
 	resources  astmodel.Types
@@ -207,6 +207,7 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 		// these have already been tested in the loadAllSchemas function so are guaranteed to match
 		outputGroup := jsonast.SwaggerGroupRegex.FindString(schemaPath)
 		outputVersion := swaggerVersionRegex.FindString(schemaPath)
+		outputVersion = strings.Trim(outputVersion, "/")
 
 		// see if there is a config override for this file
 		for _, schemaOverride := range config.Status.Overrides {
@@ -224,11 +225,13 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 		extractor := jsonast.NewSwaggerTypeExtractor(
 			config,
 			idFactory,
+			schema,
+			schemaPath,
 			outputGroup,
 			outputVersion,
 			cache)
 
-		err := extractor.ExtractTypes(ctx, schemaPath, schema, result.resources, result.otherTypes)
+		err := extractor.ExtractTypes(ctx, result.resources, result.otherTypes)
 		if err != nil {
 			return swaggerTypes{}, errors.Wrapf(err, "error processing %q", schemaPath)
 		}

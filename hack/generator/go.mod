@@ -11,6 +11,7 @@ require (
 	github.com/go-openapi/jsonreference v0.19.3 // indirect
 	github.com/go-openapi/spec v0.19.3
 	github.com/gobuffalo/flect v0.2.3
+	github.com/google/go-cmp v0.5.6
 	github.com/kr/text v0.2.0 // indirect
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.9
