@@ -289,12 +289,12 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 		for key, value := range fakeResourceSpec.MapOfMaps {
 			if value != nil {
 				valueTemp := make(map[string]FooARM)
-				for valueKey, value1 := range value {
-					value1ARM, err := value1.ConvertToARM(resolved)
+				for valueKey, valueValue := range value {
+					valueValueARM, err := valueValue.ConvertToARM(resolved)
 					if err != nil {
 						return nil, err
 					}
-					valueTemp[valueKey] = value1ARM.(FooARM)
+					valueTemp[valueKey] = valueValueARM.(FooARM)
 				}
 				result.MapOfMaps[key] = valueTemp
 			}
@@ -307,17 +307,17 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 		for key, value := range fakeResourceSpec.MapOfMapsOfMaps {
 			if value != nil {
 				valueTemp := make(map[string]map[string]FooARM)
-				for valueKey, value1 := range value {
-					if value1 != nil {
-						value1Temp := make(map[string]FooARM)
-						for valueKey1, value2 := range value1 {
-							value2ARM, err := value2.ConvertToARM(resolved)
+				for valueKey, valueValue := range value {
+					if valueValue != nil {
+						valueValueTemp := make(map[string]FooARM)
+						for valueValueKey, valueValueValue := range valueValue {
+							valueValueValueARM, err := valueValueValue.ConvertToARM(resolved)
 							if err != nil {
 								return nil, err
 							}
-							value1Temp[valueKey1] = value2ARM.(FooARM)
+							valueValueTemp[valueValueKey] = valueValueValueARM.(FooARM)
 						}
-						valueTemp[valueKey] = value1Temp
+						valueTemp[valueKey] = valueValueTemp
 					}
 				}
 				result.MapOfMapsOfMaps[key] = valueTemp
@@ -331,13 +331,13 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 		for key, value := range fakeResourceSpec.MapOfMapsOfMapsOfStrings {
 			if value != nil {
 				valueTemp := make(map[string]map[string]string)
-				for valueKey, value1 := range value {
-					if value1 != nil {
-						value1Temp := make(map[string]string)
-						for valueKey1, value2 := range value1 {
-							value1Temp[valueKey1] = value2
+				for valueKey, valueValue := range value {
+					if valueValue != nil {
+						valueValueTemp := make(map[string]string)
+						for valueValueKey, valueValueValue := range valueValue {
+							valueValueTemp[valueValueKey] = valueValueValue
 						}
-						valueTemp[valueKey] = value1Temp
+						valueTemp[valueKey] = valueValueTemp
 					}
 				}
 				result.MapOfMapsOfMapsOfStrings[key] = valueTemp
@@ -420,13 +420,13 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 		for key, value := range typedInput.MapOfMaps {
 			if value != nil {
 				valueTemp := make(map[string]Foo)
-				for valueKey, value1 := range value {
-					var value2 Foo
-					err := value2.PopulateFromARM(owner, value1)
+				for valueKey, valueValue := range value {
+					var valueValue1 Foo
+					err := valueValue1.PopulateFromARM(owner, valueValue)
 					if err != nil {
 						return err
 					}
-					valueTemp[valueKey] = value2
+					valueTemp[valueKey] = valueValue1
 				}
 				fakeResourceSpec.MapOfMaps[key] = valueTemp
 			}
@@ -439,18 +439,18 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 		for key, value := range typedInput.MapOfMapsOfMaps {
 			if value != nil {
 				valueTemp := make(map[string]map[string]Foo)
-				for valueKey, value1 := range value {
-					if value1 != nil {
-						value1Temp := make(map[string]Foo)
-						for valueKey1, value2 := range value1 {
-							var value3 Foo
-							err := value3.PopulateFromARM(owner, value2)
+				for valueKey, valueValue := range value {
+					if valueValue != nil {
+						valueValueTemp := make(map[string]Foo)
+						for valueValueKey, valueValueValue := range valueValue {
+							var valueValueValue1 Foo
+							err := valueValueValue1.PopulateFromARM(owner, valueValueValue)
 							if err != nil {
 								return err
 							}
-							value1Temp[valueKey1] = value3
+							valueValueTemp[valueValueKey] = valueValueValue1
 						}
-						valueTemp[valueKey] = value1Temp
+						valueTemp[valueKey] = valueValueTemp
 					}
 				}
 				fakeResourceSpec.MapOfMapsOfMaps[key] = valueTemp
@@ -464,13 +464,13 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 		for key, value := range typedInput.MapOfMapsOfMapsOfStrings {
 			if value != nil {
 				valueTemp := make(map[string]map[string]string)
-				for valueKey, value1 := range value {
-					if value1 != nil {
-						value1Temp := make(map[string]string)
-						for valueKey1, value2 := range value1 {
-							value1Temp[valueKey1] = value2
+				for valueKey, valueValue := range value {
+					if valueValue != nil {
+						valueValueTemp := make(map[string]string)
+						for valueValueKey, valueValueValue := range valueValue {
+							valueValueTemp[valueValueKey] = valueValueValue
 						}
-						valueTemp[valueKey] = value1Temp
+						valueTemp[valueKey] = valueValueTemp
 					}
 				}
 				fakeResourceSpec.MapOfMapsOfMapsOfStrings[key] = valueTemp

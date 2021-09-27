@@ -56,7 +56,7 @@ func Test_KnownLocalsSet_CreatesLocalWithSuffixAlreadyHasSuffix(t *testing.T) {
 
 	ident := "theItem"
 	suffixes := []string{"item"}
-	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItem"))
+	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItemItem"))
 	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItem1"))
 	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItem2"))
 }
@@ -68,7 +68,7 @@ func Test_KnownLocalsSet_CreatesLocalWithMultipleSuffixesAlreadyHasSuffix(t *tes
 	ident := "theItem"
 	suffixes := []string{"item", "element"}
 	// TODO: Is this the behavior we want?
-	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItem"))
+	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItemItem"))
 	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItemElement"))
 	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItem1"))
 	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItemElement1"))

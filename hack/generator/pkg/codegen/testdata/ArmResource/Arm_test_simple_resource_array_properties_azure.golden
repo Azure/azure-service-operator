@@ -255,12 +255,12 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 	// Set property ‘ArrayOfArrays’:
 	for _, item := range fakeResourceSpec.ArrayOfArrays {
 		var itemTemp []FooARM
-		for _, item1 := range item {
-			item1ARM, err := item1.ConvertToARM(resolved)
+		for _, itemItem := range item {
+			itemItemARM, err := itemItem.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			itemTemp = append(itemTemp, item1ARM.(FooARM))
+			itemTemp = append(itemTemp, itemItemARM.(FooARM))
 		}
 		result.ArrayOfArrays = append(result.ArrayOfArrays, itemTemp)
 	}
@@ -268,16 +268,16 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 	// Set property ‘ArrayOfArraysOfArrays’:
 	for _, item := range fakeResourceSpec.ArrayOfArraysOfArrays {
 		var itemTemp [][]FooARM
-		for _, item1 := range item {
-			var item1Temp []FooARM
-			for _, item2 := range item1 {
-				item2ARM, err := item2.ConvertToARM(resolved)
+		for _, itemItem := range item {
+			var itemItemTemp []FooARM
+			for _, itemItemItem := range itemItem {
+				itemItemItemARM, err := itemItemItem.ConvertToARM(resolved)
 				if err != nil {
 					return nil, err
 				}
-				item1Temp = append(item1Temp, item2ARM.(FooARM))
+				itemItemTemp = append(itemItemTemp, itemItemItemARM.(FooARM))
 			}
-			itemTemp = append(itemTemp, item1Temp)
+			itemTemp = append(itemTemp, itemItemTemp)
 		}
 		result.ArrayOfArraysOfArrays = append(result.ArrayOfArraysOfArrays, itemTemp)
 	}
@@ -335,13 +335,13 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	// Set property ‘ArrayOfArrays’:
 	for _, item := range typedInput.ArrayOfArrays {
 		var itemTemp []Foo
-		for _, item1 := range item {
-			var item2 Foo
-			err := item2.PopulateFromARM(owner, item1)
+		for _, itemItem := range item {
+			var itemItem1 Foo
+			err := itemItem1.PopulateFromARM(owner, itemItem)
 			if err != nil {
 				return err
 			}
-			itemTemp = append(itemTemp, item2)
+			itemTemp = append(itemTemp, itemItem1)
 		}
 		fakeResourceSpec.ArrayOfArrays = append(fakeResourceSpec.ArrayOfArrays, itemTemp)
 	}
@@ -349,17 +349,17 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	// Set property ‘ArrayOfArraysOfArrays’:
 	for _, item := range typedInput.ArrayOfArraysOfArrays {
 		var itemTemp [][]Foo
-		for _, item1 := range item {
-			var item1Temp []Foo
-			for _, item2 := range item1 {
-				var item3 Foo
-				err := item3.PopulateFromARM(owner, item2)
+		for _, itemItem := range item {
+			var itemItemTemp []Foo
+			for _, itemItemItem := range itemItem {
+				var itemItemItem1 Foo
+				err := itemItemItem1.PopulateFromARM(owner, itemItemItem)
 				if err != nil {
 					return err
 				}
-				item1Temp = append(item1Temp, item3)
+				itemItemTemp = append(itemItemTemp, itemItemItem1)
 			}
-			itemTemp = append(itemTemp, item1Temp)
+			itemTemp = append(itemTemp, itemItemTemp)
 		}
 		fakeResourceSpec.ArrayOfArraysOfArrays = append(fakeResourceSpec.ArrayOfArraysOfArrays, itemTemp)
 	}

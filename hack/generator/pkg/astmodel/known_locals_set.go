@@ -35,9 +35,6 @@ func (locals *KnownLocalsSet) CreateLocal(nameHint string, suffixes ...string) s
 
 	// Try to use the suffixes as supplied if we can
 	for _, s := range suffixes {
-		if strings.HasSuffix(strings.ToLower(nameHint), strings.ToLower(s)) {
-			s = ""
-		}
 		if id, ok := locals.tryCreateLocal(nameHint + " " + s); ok {
 			return id
 		}
