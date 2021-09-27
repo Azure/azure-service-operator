@@ -349,7 +349,7 @@ type NetworkSecurityGroupsSecurityRules_Spec struct {
 var _ genruntime.ARMTransformer = &NetworkSecurityGroupsSecurityRules_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if networkSecurityGroupsSecurityRulesSpec == nil {
 		return nil, nil
 	}
@@ -365,7 +365,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	result.Properties.Access = networkSecurityGroupsSecurityRulesSpec.Access
@@ -381,7 +381,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 		result.Properties.DestinationAddressPrefixes = append(result.Properties.DestinationAddressPrefixes, item)
 	}
 	for _, item := range networkSecurityGroupsSecurityRulesSpec.DestinationApplicationSecurityGroups {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -405,7 +405,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 		result.Properties.SourceAddressPrefixes = append(result.Properties.SourceAddressPrefixes, item)
 	}
 	for _, item := range networkSecurityGroupsSecurityRulesSpec.SourceApplicationSecurityGroups {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1776,14 +1776,14 @@ type SubResource struct {
 var _ genruntime.ARMTransformer = &SubResource{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (subResource *SubResource) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (subResource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if subResource == nil {
 		return nil, nil
 	}
 	var result SubResourceARM
 
 	// Set property ‘Id’:
-	referenceARMID, err := resolvedReferences.ARMIDOrErr(subResource.Reference)
+	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(subResource.Reference)
 	if err != nil {
 		return nil, err
 	}
