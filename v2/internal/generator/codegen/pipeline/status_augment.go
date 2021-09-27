@@ -15,7 +15,7 @@ import (
 func AugmentSpecWithStatus() Stage {
 	return MakeLegacyStage(
 		"augmentSpecWithStatus",
-		"Merges information from Status into Spec",
+		"Merge information from Status into Spec",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			// build the augmenter we will use:
 			augmenter := fuseAugmenters(

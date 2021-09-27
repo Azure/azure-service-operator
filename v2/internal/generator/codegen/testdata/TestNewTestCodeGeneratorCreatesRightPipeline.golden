@@ -4,13 +4,13 @@ loadTestSchema                                       Load and walk schema (test)
 addStatusFromSwagger                                 Add information from Swagger specs for 'status' fields
 allof-anyof-objects                                  Convert allOf and oneOf to object types
 flattenResources                                     Flatten nested resource types
-augmentSpecWithStatus                                Merges information from Status into Spec
+augmentSpecWithStatus                                Merge information from Status into Spec
 stripUnused                                          Strip unused types for test
 nameTypes                                            Name inner types for CRD
 propertyRewrites                                     Modify property types using configured transforms
-removeResourceScope                                  Removes scope from all resources except extension resources
-makeStatusPropertiesOptional                         Forces all status properties to be optional
-removeStatusPropertyValidation                       Removes validation from all status properties
+removeResourceScope                                  Remove scope from all resources except extension resources
+makeStatusPropertiesOptional                         Force all status properties to be optional
+removeStatusPropertyValidation                       Remove validation from all status properties
 unrollRecursiveTypes                                 Unroll directly recursive types since they are not supported by controller-gen
 determineResourceOwnership                           Determine ARM resource relationships
 removeAliases                                        Remove type aliases
