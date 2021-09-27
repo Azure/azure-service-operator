@@ -1141,12 +1141,12 @@ func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperti
 	for index, indexItem := range source.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index MongoIndex_Status
-		err := index.AssignPropertiesFromMongoIndexStatus(&indexItem)
+		var index1 MongoIndex_Status
+		err := index1.AssignPropertiesFromMongoIndexStatus(&indexItem)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromMongoIndexStatus()")
 		}
-		indexList[index] = index
+		indexList[index] = index1
 	}
 	mongoDBCollectionGetPropertiesStatusResource.Indexes = indexList
 
@@ -1209,12 +1209,12 @@ func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperti
 	for index, indexItem := range mongoDBCollectionGetPropertiesStatusResource.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index v1alpha1api20210515storage.MongoIndex_Status
-		err := indexItem.AssignPropertiesToMongoIndexStatus(&index)
+		var index1 v1alpha1api20210515storage.MongoIndex_Status
+		err := indexItem.AssignPropertiesToMongoIndexStatus(&index1)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToMongoIndexStatus()")
 		}
-		indexList[index] = index
+		indexList[index] = index1
 	}
 	destination.Indexes = indexList
 
@@ -1370,12 +1370,12 @@ func (mongoDBCollectionResource *MongoDBCollectionResource) AssignPropertiesFrom
 	for index, indexItem := range source.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index MongoIndex
-		err := index.AssignPropertiesFromMongoIndex(&indexItem)
+		var index1 MongoIndex
+		err := index1.AssignPropertiesFromMongoIndex(&indexItem)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromMongoIndex()")
 		}
-		indexList[index] = index
+		indexList[index] = index1
 	}
 	mongoDBCollectionResource.Indexes = indexList
 
@@ -1414,12 +1414,12 @@ func (mongoDBCollectionResource *MongoDBCollectionResource) AssignPropertiesToMo
 	for index, indexItem := range mongoDBCollectionResource.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index v1alpha1api20210515storage.MongoIndex
-		err := indexItem.AssignPropertiesToMongoIndex(&index)
+		var index1 v1alpha1api20210515storage.MongoIndex
+		err := indexItem.AssignPropertiesToMongoIndex(&index1)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToMongoIndex()")
 		}
-		indexList[index] = index
+		indexList[index] = index1
 	}
 	destination.Indexes = indexList
 
