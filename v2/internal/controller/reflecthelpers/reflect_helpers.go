@@ -11,101 +11,10 @@ import (
 	"reflect"
 
 	"github.com/pkg/errors"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
-
-// ConvertResourceToDeployableResource converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
-// a genruntime.DeployableResource - a specification which can be submitted to Azure for deployment
-func ConvertResourceToDeployableResource(
-	ctx context.Context,
-	resolver *genruntime.Resolver,
-	metaObject genruntime.MetaObject) (genruntime.DeployableResource, error) {
-
-	// Get the spec for our resource
-	spec := metaObject.GetSpec()
-
-	// If needed, convert it to the original ARM API version requested by the user
-	if hasgvk, ok := metaObject.(genruntime.HasOriginalGVK); ok {
-		currentGVK := metaObject.GetObjectKind().GroupVersionKind()
-		originalGVK := *hasgvk.OriginalGVK()
-		if currentGVK != originalGVK {
-			// Convert the spec to the required version
-			s, err := ConvertSpecToVersion(spec, originalGVK, resolver.Scheme())
-			if err != nil {
-				return nil, errors.Wrapf(err, "unable to convert spec version from %s to %s", currentGVK.Version, originalGVK.Version)
-			}
-
-			spec = s
-		}
-	}
-
-	armTransformer, ok := spec.(genruntime.ARMTransformer)
-	if !ok {
-		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
-	}
-
-	resourceHierarchy, err := resolver.ResolveResourceHierarchy(ctx, metaObject)
-	if err != nil {
-		return nil, err
-	}
-
-	resourceHierarchy, resolvedDetails, err := resolve(ctx, resolver, metaObject)
-	if err != nil {
-		return nil, err
-	}
-
-	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
-	if err != nil {
-		return nil, errors.Wrapf(err, "transforming resource %s to ARM", metaObject.GetName())
-	}
-
-	typedArmSpec, ok := armSpec.(genruntime.ARMResourceSpec)
-	if !ok {
-		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ArmResourceSpec", armSpec)
-	}
-
-	// We have different deployment models for Subscription rooted vs ResourceGroup rooted resources
-	rootKind := resourceHierarchy.RootKind()
-	if rootKind == genruntime.ResourceHierarchyRootResourceGroup {
-		rg, err := resourceHierarchy.ResourceGroup()
-		if err != nil {
-			return nil, errors.Wrapf(err, "getting resource group")
-		}
-		return genruntime.NewDeployableResourceGroupResource(rg, typedArmSpec), nil
-	} else if rootKind == genruntime.ResourceHierarchyRootSubscription {
-		location, err := resourceHierarchy.Location()
-		if err != nil {
-			return nil, errors.Wrapf(err, "getting location")
-		}
-		return genruntime.NewDeployableSubscriptionResource(location, typedArmSpec), nil
-	} else {
-		return nil, errors.Errorf("unknown resource hierarchy root kind %s", rootKind)
-	}
-}
-
-func ConvertSpecToVersion(spec genruntime.ConvertibleSpec, requestedGVK schema.GroupVersionKind, scheme *runtime.Scheme) (genruntime.ConvertibleSpec, error) {
-	emptyResource, err := scheme.New(requestedGVK)
-	if err != nil {
-		return nil, errors.Wrapf(err, "unble to create new %s", requestedGVK)
-	}
-
-	kr, ok := emptyResource.(genruntime.KubernetesResource)
-	if ! ok {
-		return nil, errors.Wrapf(err, "expected %s to be a KubernetesResource", requestedGVK)
-	}
-
-	result := kr.GetSpec()
-	err = spec.ConvertSpecTo(result)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed conversion to spec from %s", requestedGVK)
-	}
-
-	return result, nil
-}
 
 // NewEmptyArmResourceStatus creates an empty genruntime.ARMResourceStatus from a genruntime.MetaObject
 // (a Kubernetes representation of a resource), which can be filled by a call to Azure

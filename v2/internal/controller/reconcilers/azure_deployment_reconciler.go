@@ -782,7 +782,7 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 
 func (r *AzureDeploymentReconciler) constructArmResource(ctx context.Context) (genruntime.ARMResource, error) {
 	// TODO: Do we pass in details about this objects hierarchy, or what
-	deployableSpec, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, r.ResourceResolver, r.obj)
+	deployableSpec, err := r.convertResourceToDeployableResource(ctx, r.obj)
 	if err != nil {
 		return nil, errors.Wrapf(err, "converting to armResourceSpec")
 	}
@@ -795,7 +795,7 @@ func (r *AzureDeploymentReconciler) constructArmResource(ctx context.Context) (g
 var zeroDuration time.Duration = 0
 
 func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (genruntime.FromARMConverter, time.Duration, error) {
-	deployableSpec, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, r.ResourceResolver, r.obj)
+	deployableSpec, err := r.convertResourceToDeployableResource(ctx, r.obj)
 	if err != nil {
 		return nil, zeroDuration, err
 	}
@@ -848,7 +848,7 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 }
 
 func (r *AzureDeploymentReconciler) resourceSpecToDeployment(ctx context.Context) (*armclient.Deployment, error) {
-	deploySpec, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, r.ResourceResolver, r.obj)
+	deploySpec, err := r.convertResourceToDeployableResource(ctx, r.obj)
 	if err != nil {
 		return nil, err
 	}
@@ -1012,4 +1012,129 @@ func ignoreNotFoundAndConflict(err error) error {
 	}
 
 	return client.IgnoreNotFound(err)
+}
+
+// convertResourceToDeployableResource converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
+// a genruntime.DeployableResource - a specification which can be submitted to Azure for deployment
+func (r *AzureDeploymentReconciler) convertResourceToDeployableResource(ctx context.Context, metaObject genruntime.MetaObject) (genruntime.DeployableResource, error) {
+
+	// Get a spec from the object with the right version for deployment
+	spec, err := r.getApiSpec(metaObject)
+
+	armTransformer, ok := spec.(genruntime.ARMTransformer)
+	if !ok {
+		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
+	}
+
+	resourceHierarchy, resolvedDetails, err := r.resolve(ctx, metaObject)
+	if err != nil {
+		return nil, err
+	}
+
+	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
+	if err != nil {
+		return nil, errors.Wrapf(err, "transforming resource %s to ARM", metaObject.GetName())
+	}
+
+	typedArmSpec, ok := armSpec.(genruntime.ARMResourceSpec)
+	if !ok {
+		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ArmResourceSpec", armSpec)
+	}
+
+	// We have different deployment models for Subscription rooted vs ResourceGroup rooted resources
+	rootKind := resourceHierarchy.RootKind()
+	if rootKind == genruntime.ResourceHierarchyRootResourceGroup {
+		rg, err := resourceHierarchy.ResourceGroup()
+		if err != nil {
+			return nil, errors.Wrapf(err, "getting resource group")
+		}
+		return genruntime.NewDeployableResourceGroupResource(rg, typedArmSpec), nil
+	} else if rootKind == genruntime.ResourceHierarchyRootSubscription {
+		location, err := resourceHierarchy.Location()
+		if err != nil {
+			return nil, errors.Wrapf(err, "getting location")
+		}
+		return genruntime.NewDeployableSubscriptionResource(location, typedArmSpec), nil
+	} else {
+		return nil, errors.Errorf("unknown resource hierarchy root kind %s", rootKind)
+	}
+}
+
+// getApiSpec returns a spec for the provided object at the correct API version for submission to ARM.
+// The provided metaObject will be at the canonical storage version, but we need the spec as defined by the API version
+// used when the resource was originally created.
+func (r *AzureDeploymentReconciler) getApiSpec(metaObject genruntime.MetaObject) (genruntime.ConvertibleSpec, error) {
+
+	hasgvk, ok := metaObject.(genruntime.HasOriginalGVK)
+	if  !ok {
+		// Resource doesn't specify original GVK, we can just use the spec we have
+		return metaObject.GetSpec(), nil
+	}
+
+	currentGVK := metaObject.GetObjectKind().GroupVersionKind()
+	originalGVK := *hasgvk.OriginalGVK()
+	if currentGVK == originalGVK {
+		// Already have the correct version of the resource
+		return metaObject.GetSpec(), nil
+	}
+
+	// Create an empty spec at the required API version
+	scheme := r.ResourceResolver.Scheme()
+	emptyResource, err := scheme.New(originalGVK)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unble to create new %s", originalGVK)
+	}
+
+	kr, ok := emptyResource.(genruntime.KubernetesResource)
+	if ! ok {
+		return nil, errors.Wrapf(err, "expected %s to be a KubernetesResource", originalGVK)
+	}
+
+	// Convert the spec we have to the spec we want
+	result := kr.GetSpec()
+	err = metaObject.GetSpec().ConvertSpecTo(result)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed conversion spec version to %s", originalGVK)
+	}
+
+	return result, nil
+}
+
+// TODO: Consider moving this into genruntime.Resolver - need to fix package hierarchy to make that work though
+func (r *AzureDeploymentReconciler) resolve(
+	ctx context.Context,
+	metaObject genruntime.MetaObject) (genruntime.ResourceHierarchy, genruntime.ConvertToARMResolvedDetails, error) {
+
+	resourceHierarchy, err := r.ResourceResolver.ResolveResourceHierarchy(ctx, metaObject)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, err
+	}
+
+	// Find all of the references
+	refs, err := reflecthelpers.FindResourceReferences(metaObject)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
+	}
+
+	// resolve them
+	resolvedRefs, err := r.ResourceResolver.ResolveReferencesToARMIDs(ctx, refs)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
+	}
+
+	resolvedDetails := genruntime.ConvertToARMResolvedDetails{
+		Name:               resourceHierarchy.FullAzureName(),
+		ResolvedReferences: resolvedRefs,
+	}
+
+	// Augment with Scope information if the resource is an extension resource
+	if metaObject.GetResourceKind() == genruntime.ResourceKindExtension {
+		scope, err := resourceHierarchy.Scope()
+		if err != nil {
+			return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "couldn't get resource scope")
+		}
+		resolvedDetails.Scope = &scope
+	}
+
+	return resourceHierarchy, resolvedDetails, nil
 }
