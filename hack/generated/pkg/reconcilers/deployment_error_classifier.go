@@ -124,12 +124,14 @@ func classifyInnerDeploymentError(deploymentError armclient.DeploymentError) Dep
 		"Conflict",                     // TODO: is conflict always not retryable?
 		"PublicIpForGatewayIsRequired", // TODO: There's not a great way to look at an arbitrary error returned by this API and determine if it's a 4xx or 5xx level... ugh
 		"InvalidParameter",
+		"InvalidParameterValue",
 		"InvalidRequestContent",
 		"InvalidTemplate",
 		"InvalidValuesForRequestParameters",
 		"InvalidGatewaySkuProvidedForGatewayVpnType",
 		"InvalidGatewaySize",
 		"LocationRequired",
+		"MissingRequiredParameter",
 		"PasswordTooLong",
 		"PrivateIPAddressInReservedRange",
 		"PrivateIPAddressNotInSubnet",
