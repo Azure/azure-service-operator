@@ -21,6 +21,14 @@ v1alpha1api20210501
 - ManagedCluster
 - ManagedClustersAgentPool
 
+### microsoft.dbforpostgresql
+
+v1alpha1api20210601
+
+- FlexibleServer
+- FlexibleServersDatabase
+- FlexibleServersFirewallRule
+
 ### microsoft.documentdb
 
 v1alpha1api20210515

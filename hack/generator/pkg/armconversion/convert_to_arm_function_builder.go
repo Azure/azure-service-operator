@@ -276,7 +276,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		// find the corresponding inner property on the to-prop type
 		// TODO: If this property is an ARM reference we need a bit of special handling.
 		// TODO: See https://github.com/Azure/azure-service-operator/issues/1651 for possible improvements to this.
-		toSubPropName := fromProp.PropertyName()
+		toSubPropName := fromProp.FlattenedFrom()[len(fromProp.FlattenedFrom())-1]
 		if values, ok := fromProp.Tag(astmodel.ARMReferenceTag); ok {
 			toSubPropName = astmodel.PropertyName(values[0])
 		}
