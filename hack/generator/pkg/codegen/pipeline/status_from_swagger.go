@@ -508,25 +508,11 @@ func loadAllSchemas(
 			jsonast.SwaggerGroupRegex.MatchString(filePath) &&
 			swaggerVersionRegex.MatchString(filePath) {
 
-			group := jsonast.SwaggerGroupRegex.FindString(filePath)
-			version := strings.Trim(swaggerVersionRegex.FindString(filePath), "/")
-			localPackage := astmodel.MakeLocalPackageReference(
-				packagePrefix,
-				group,
-				version,
-			)
-
-			because, include := fileShouldBeIncluded(filters, exportFilters, localPackage)
-			if !include {
-				klog.V(3).Infof("Skipping whole file %q, because: %s", filePath, because)
-				return nil
-			}
-
 			// all files are loaded in parallel to speed this up
 			eg.Go(func() error {
 				var swagger spec.Swagger
 
-				klog.V(3).Infof("Loading file %q, because: %s", filePath, because)
+				klog.V(3).Infof("Loading file %q", filePath)
 
 				fileContent, err := ioutil.ReadFile(filePath)
 				if err != nil {
@@ -560,34 +546,4 @@ func loadAllSchemas(
 	}
 
 	return schemas, nil
-}
-
-func fileShouldBeIncluded(filters []*config.TypeFilter, exportFilters []*config.ExportFilter, localPackage astmodel.LocalPackageReference) (string, bool) {
-	return "", true
-	/*
-		TODO: activate in future PR
-
-		for _, filter := range filters {
-			if filter.Action == config.TypeFilterInclude && filter.AppliesToAnyTypesInPackage(localPackage) {
-				return filter.Because, true
-			}
-
-			if filter.Action == config.TypeFilterPrune && filter.AppliesToWholePackage(localPackage) {
-				return filter.Because, false
-			}
-		}
-
-		for _, exportFilter := range exportFilters {
-			if exportFilter.Action == config.ExportFilterInclude && exportFilter.AppliesToAnyTypesInPackage(localPackage) {
-				return exportFilter.Because, true
-			}
-
-			if exportFilter.Action == config.ExportFilterExclude && exportFilter.AppliesToWholePackage(localPackage) {
-				return exportFilter.Because, false
-			}
-		}
-
-		// default to true
-		return "", true
-	*/
 }
