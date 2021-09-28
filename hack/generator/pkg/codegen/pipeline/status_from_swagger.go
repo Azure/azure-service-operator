@@ -183,10 +183,8 @@ func makeRenamingVisitor(rename func(astmodel.TypeName) astmodel.TypeName) astmo
 	}.Build()
 }
 
-var swaggerVersionRegex = regexp.MustCompile(`/\d{4}-\d{2}-\d{2}(-preview|-privatepreview)?/`)
-
 func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, config *config.Configuration) (jsonast.SwaggerTypes, error) {
-	schemas, err := loadAllSchemas(ctx, config.LocalPathPrefix(), config.TypeFilters, config.ExportFilters, config.Status.SchemaRoot)
+	schemas, err := loadAllSchemas(ctx, config.Status.SchemaRoot, config.LocalPathPrefix(), idFactory, config.Status.Overrides)
 	if err != nil {
 		return jsonast.SwaggerTypes{}, err
 	}
@@ -195,33 +193,13 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 
 	typesByGroup := make(map[astmodel.LocalPackageReference][]typesFromFile)
 	for schemaPath, schema := range schemas {
-		// these have already been tested in the loadAllSchemas function so are guaranteed to match
-		outputGroup := jsonast.SwaggerGroupRegex.FindString(schemaPath)
-		// need to trim leading/trailing '/' which are matched in regex (go doesn’t support lookaround)
-		outputVersion := strings.Trim(swaggerVersionRegex.FindString(schemaPath), "/")
-
-		pkg := config.MakeLocalPackageReference(idFactory.CreateGroupName(outputGroup), astmodel.CreateLocalPackageNameFromVersion(outputVersion))
-
-		// see if there is a config override for this file
-		for _, schemaOverride := range config.Status.Overrides {
-			configSchemaPath := path.Join(config.Status.SchemaRoot, schemaOverride.BasePath)
-			if strings.HasPrefix(schemaPath, configSchemaPath) {
-				// found an override: apply it
-				if schemaOverride.Suffix != "" {
-					outputGroup += "." + schemaOverride.Suffix
-				}
-
-				break
-			}
-		}
 
 		extractor := jsonast.NewSwaggerTypeExtractor(
 			config,
 			idFactory,
-			schema,
+			schema.Swagger,
 			schemaPath,
-			outputGroup,
-			outputVersion,
+			*schema.Package, // always set during generation
 			cache)
 
 		types, err := extractor.ExtractTypes(ctx)
@@ -229,13 +207,13 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 			return jsonast.SwaggerTypes{}, errors.Wrapf(err, "error processing %q", schemaPath)
 		}
 
-		typesByGroup[pkg] = append(typesByGroup[pkg], typesFromFile{types, schemaPath})
+		typesByGroup[*schema.Package] = append(typesByGroup[*schema.Package], typesFromFile{types, schemaPath})
 	}
 
-	return mergeSwaggerTypesByGroup(idFactory, typesByGroup), nil
+	return mergeSwaggerTypesByGroup(idFactory, typesByGroup)
 }
 
-func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmodel.LocalPackageReference][]typesFromFile) jsonast.SwaggerTypes {
+func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmodel.LocalPackageReference][]typesFromFile) (jsonast.SwaggerTypes, error) {
 	klog.V(3).Infof("Merging types for %d groups/versions", len(m))
 
 	result := jsonast.SwaggerTypes{
@@ -247,10 +225,13 @@ func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmod
 		klog.V(3).Infof("Merging types for %s", pkg)
 		merged := mergeTypesForPackage(idFactory, group)
 		result.ResourceTypes.AddTypes(merged.ResourceTypes)
-		result.OtherTypes.AddTypes(merged.OtherTypes)
+		err := result.OtherTypes.AddTypesAllowDuplicates(merged.OtherTypes)
+		if err != nil {
+			return result, errors.Wrapf(err, "when combining swagger types for %s", pkg)
+		}
 	}
 
-	return result
+	return result, nil
 }
 
 type typesFromFile struct {
@@ -260,13 +241,8 @@ type typesFromFile struct {
 
 // mergeTypesForPackage merges the types for a single package from multiple files
 func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles []typesFromFile) jsonast.SwaggerTypes {
-	resourceNameCount := make(map[astmodel.TypeName]int)
 	typeNameCount := make(map[astmodel.TypeName]int)
 	for _, typesFromFile := range typesFromFiles {
-		for name := range typesFromFile.ResourceTypes {
-			resourceNameCount[name] += 1
-		}
-
 		for name := range typesFromFile.OtherTypes {
 			typeNameCount[name] += 1
 		}
@@ -327,10 +303,10 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 
 				renames[name] = renamed
 				break
-			} else {
-				// klog.V(3).Infof("Conflicting definitions for %s were identical", first.def.Name())
-				// should we need to collapse these in favour of one?
 			}
+
+			// note that when types are structurally identical they aren’t necessarily type.Equals equal;
+			// for this reason we must ignore errors when adding to the result set below
 		}
 	}
 
@@ -480,16 +456,15 @@ func shouldSkipDir(filePath string) bool {
 // shouldSkipDir), and returns those files in a map of path→swagger spec.
 func loadAllSchemas(
 	ctx context.Context,
-	packagePrefix string,
-	filters []*config.TypeFilter,
-	exportFilters []*config.ExportFilter,
-	rootPath string) (map[string]spec.Swagger, error) {
-
-	var eg errgroup.Group
+	rootPath string,
+	localPathPrefix string,
+	idFactory astmodel.IdentifierFactory,
+	overrides []config.SchemaOverride) (map[string]jsonast.PackageAndSwagger, error) {
 
 	var mutex sync.Mutex
-	schemas := make(map[string]spec.Swagger)
+	schemas := make(map[string]jsonast.PackageAndSwagger)
 
+	var eg errgroup.Group
 	err := filepath.Walk(rootPath, func(filePath string, fileInfo os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -504,9 +479,19 @@ func loadAllSchemas(
 		}
 
 		if !fileInfo.IsDir() &&
-			filepath.Ext(filePath) == ".json" &&
-			jsonast.SwaggerGroupRegex.MatchString(filePath) &&
-			swaggerVersionRegex.MatchString(filePath) {
+			filepath.Ext(filePath) == ".json" {
+
+			group := groupFromPath(filePath, rootPath, overrides)
+			version := versionFromPath(filePath)
+			if group == "" || version == "" {
+				return nil
+			}
+
+			pkg := astmodel.MakeLocalPackageReference(
+				localPathPrefix,
+				idFactory.CreateGroupName(group),
+				astmodel.CreateLocalPackageNameFromVersion(version),
+			)
 
 			// all files are loaded in parallel to speed this up
 			eg.Go(func() error {
@@ -525,7 +510,7 @@ func loadAllSchemas(
 				}
 
 				mutex.Lock()
-				schemas[filePath] = swagger
+				schemas[filePath] = jsonast.PackageAndSwagger{Package: &pkg, Swagger: swagger}
 				mutex.Unlock()
 
 				return nil
@@ -546,4 +531,37 @@ func loadAllSchemas(
 	}
 
 	return schemas, nil
+}
+
+func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOverride) string {
+	group := jsonast.SwaggerGroupRegex.FindString(filePath)
+
+	// see if there is a config override for this file
+	for _, schemaOverride := range overrides {
+		configSchemaPath := path.Join(rootPath, schemaOverride.BasePath)
+		if strings.HasPrefix(filePath, configSchemaPath) {
+			// a forced namespace: use it
+			if schemaOverride.Namespace != "" {
+				klog.V(1).Infof("Overriding namespace to %s for file %s", schemaOverride.Namespace, filePath)
+				return schemaOverride.Namespace
+			}
+
+			// found a suffix override: apply it
+			if schemaOverride.Suffix != "" {
+				group = group + "." + schemaOverride.Suffix
+				klog.V(1).Infof("Overriding namespace to %s for file %s", group, filePath)
+				return group
+			}
+		}
+	}
+
+	return group
+}
+
+// supports date-based versions or v1, v2 (as used by common types)
+var swaggerVersionRegex = regexp.MustCompile(`/(\d{4}-\d{2}-\d{2}(-preview|-privatepreview)?)|(v\d+)/`)
+
+func versionFromPath(filePath string) string {
+	// must trim leading & trailing '/' as golang does not support lookaround
+	return strings.Trim(swaggerVersionRegex.FindString(filePath), "/")
 }

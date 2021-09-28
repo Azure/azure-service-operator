@@ -18,8 +18,10 @@ type LocalPackageReference struct {
 	version         string
 }
 
-var _ PackageReference = LocalPackageReference{}
-var _ fmt.Stringer = LocalPackageReference{}
+var (
+	_ PackageReference = LocalPackageReference{}
+	_ fmt.Stringer     = LocalPackageReference{}
+)
 
 const generatorVersionPrefix string = "v1alpha1api"
 
@@ -54,6 +56,11 @@ func sanitizePackageName(input string) string {
 // AsLocalPackage returns this instance and true
 func (pr LocalPackageReference) AsLocalPackage() (LocalPackageReference, bool) {
 	return pr, true
+}
+
+// LocalPathPrefix returns the prefix (everything up to the group name)
+func (pr LocalPackageReference) LocalPathPrefix() string {
+	return pr.localPathPrefix
 }
 
 // Group returns the group of this local reference

@@ -10,44 +10,40 @@ import (
 	"io/ioutil"
 	"math/big"
 	"net/url"
-	"path"
 	"path/filepath"
 	"regexp"
-	"strings"
 
 	"github.com/go-openapi/jsonpointer"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // OpenAPISchema implements the Schema abstraction for go-openapi
 type OpenAPISchema struct {
-	inner     spec.Schema
-	fileName  string
-	groupName string
-	version   string
-	cache     OpenAPISchemaCache
+	inner         spec.Schema
+	fileName      string
+	outputPackage astmodel.LocalPackageReference
+	idFactory     astmodel.IdentifierFactory
+	cache         OpenAPISchemaCache
 }
 
 // MakeOpenAPISchema wraps a spec.Swagger to conform to the Schema abstraction
 func MakeOpenAPISchema(
 	schema spec.Schema,
 	fileName string,
-	groupName string,
-	version string,
+	outputPackage astmodel.LocalPackageReference,
+	idFactory astmodel.IdentifierFactory,
 	cache OpenAPISchemaCache) Schema {
-	return &OpenAPISchema{schema, fileName, groupName, version, cache}
+	return &OpenAPISchema{schema, fileName, outputPackage, idFactory, cache}
 }
 
 func (schema *OpenAPISchema) withNewSchema(newSchema spec.Schema) Schema {
-	return &OpenAPISchema{
-		newSchema,
-		schema.fileName,
-		schema.groupName,
-		schema.version,
-		schema.cache,
-	}
+	result := *schema
+	result.inner = newSchema
+	return &result
 }
 
 var _ Schema = &OpenAPISchema{}
@@ -265,6 +261,49 @@ func (schema *OpenAPISchema) isRef() bool {
 	return schema.inner.Ref.GetURL() != nil
 }
 
+func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
+	absRefPath, err := refAbsSchemaPath(schema.inner.Ref, schema.fileName)
+	if err != nil {
+		return astmodel.TypeName{}, err
+	}
+
+	packageAndSwagger, err := schema.cache.fetchFileAbsolute(absRefPath)
+	if err != nil {
+		return astmodel.TypeName{}, err
+	}
+
+	name := schema.refObjectName()
+
+	// default to using same package as the referring type
+	pkg := schema.outputPackage
+	// however, if referree type has known package, use that instead
+	// this allows us to override e.g. the Microsoft.Common namespace in config
+	if packageAndSwagger.Package != nil {
+		pkg = *packageAndSwagger.Package
+	} else {
+		// make sure that pullling the type into the other package wouldn’t conflict with
+		// any definitions in that package
+		// note that this won’t detect collisions with another sibling file but it’s better than nothing
+		if absRefPath != schema.fileName {
+			referringPackage, err := schema.cache.fetchFileAbsolute(schema.fileName)
+			if err != nil {
+				panic(err) // assert, not error; should always have been loaded already
+			}
+
+			if _, ok := referringPackage.Swagger.Definitions[name]; ok {
+				return astmodel.TypeName{}, errors.Errorf("importing type %s from file %s into package %s would generate collision with type in %s",
+					name,
+					absRefPath,
+					pkg,
+					schema.fileName,
+				)
+			}
+		}
+	}
+
+	return astmodel.MakeTypeName(pkg, schema.idFactory.CreateIdentifier(name, astmodel.Exported)), nil
+}
+
 func (schema *OpenAPISchema) refSchema() Schema {
 	fileName, result := loadRefSchema(schema.inner.Ref, schema.fileName, schema.cache)
 
@@ -275,10 +314,20 @@ func (schema *OpenAPISchema) refSchema() Schema {
 		// even if we are reading a file from a different group or version. this is intentional;
 		// essentially all imported types are copied into the target group/version, which avoids
 		// issues with types from the 'common-types' files which have no group and a version of 'v1'.
-		schema.groupName,
-		schema.version,
+		schema.outputPackage,
+		schema.idFactory,
 		schema.cache,
 	}
+}
+
+func refAbsSchemaPath(ref spec.Ref, schemaPath string) (string, error) {
+	if ref.HasFragmentOnly {
+		// same file
+		return schemaPath, nil
+	}
+
+	// an external path
+	return resolveAbsolutePath(schemaPath, ref.GetURL())
 }
 
 func loadRefSchema(
@@ -286,64 +335,26 @@ func loadRefSchema(
 	schemaPath string,
 	cache OpenAPISchemaCache) (string, spec.Schema) {
 
-	var err error
-
-	if !ref.HasFragmentOnly {
-		// it is in another file
-		schemaPath, err = resolveAbsolutePath(schemaPath, ref.GetURL())
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	swagger, err := cache.fetchFileAbsolute(schemaPath)
+	absPath, err := refAbsSchemaPath(ref, schemaPath)
 	if err != nil {
 		panic(err)
 	}
 
-	reffed := objectNameFromPointer(ref.GetPointer())
-	if result, ok := swagger.Definitions[reffed]; !ok {
-		panic(fmt.Sprintf("couldn't find: %s in %s", reffed, schemaPath))
+	packageAndSwagger, err := cache.fetchFileAbsolute(absPath)
+	if err != nil {
+		panic(err)
+	}
+
+	defName := objectNameFromPointer(ref.GetPointer())
+	if result, ok := packageAndSwagger.Swagger.Definitions[defName]; !ok {
+		panic(fmt.Sprintf("couldn't find: %s in %s (reffed from %s)", defName, absPath, schemaPath))
 	} else {
-		return schemaPath, result
+		return absPath, result
 	}
 }
 
-func (schema *OpenAPISchema) refVersion() (string, error) {
-	return schema.version, nil
-}
-
-func (schema *OpenAPISchema) refGroupName() (string, error) {
-	return schema.groupName, nil
-}
-
-func isCommon(filePath string) bool {
-	if !path.IsAbs(filePath) {
-		filePath, _ = filepath.Abs(filePath)
-	}
-
-	return strings.Contains(filePath, "common-types/resource-management/v1/types.json") ||
-		strings.Contains(filePath, "common-types/resource-management/v2/types.json")
-}
-
-func (schema *OpenAPISchema) refObjectName() (string, error) {
-	result := objectNameFromPointer(schema.inner.Ref.GetPointer())
-
-	// HACK HACK HACK
-	if !schema.inner.Ref.HasFragmentOnly {
-		absPath, err := resolveAbsolutePath(schema.fileName, schema.inner.Ref.GetURL())
-		if err != nil {
-			return "", err
-		}
-
-		if isCommon(absPath) {
-			result += "FromCommon"
-		}
-	} else if isCommon(schema.fileName) {
-		result += "FromCommon"
-	}
-
-	return result, nil
+func (schema *OpenAPISchema) refObjectName() string {
+	return objectNameFromPointer(schema.inner.Ref.GetPointer())
 }
 
 func objectNameFromPointer(ptr *jsonpointer.Pointer) string {
@@ -360,13 +371,18 @@ func objectNameFromPointer(ptr *jsonpointer.Pointer) string {
 // OpenAPISchemaCache is a cache of schema that have been loaded,
 // identified by file path
 type OpenAPISchemaCache struct {
-	files map[string]spec.Swagger
+	files map[string]PackageAndSwagger
+}
+
+type PackageAndSwagger struct {
+	Package *astmodel.LocalPackageReference
+	Swagger spec.Swagger
 }
 
 // NewOpenAPISchemaCache creates an OpenAPISchemaCache with the initial
 // file path → spec mapping
-func NewOpenAPISchemaCache(specs map[string]spec.Swagger) OpenAPISchemaCache {
-	files := make(map[string]spec.Swagger)
+func NewOpenAPISchemaCache(specs map[string]PackageAndSwagger) OpenAPISchemaCache {
+	files := make(map[string]PackageAndSwagger)
 	for specPath, spec := range specs {
 		files[specPath] = spec
 	}
@@ -389,26 +405,32 @@ func resolveAbsolutePath(baseFileName string, url *url.URL) (string, error) {
 }
 
 // fetchFileAbsolute fetches the schema for the absolute path specified
-func (fileCache OpenAPISchemaCache) fetchFileAbsolute(filePath string) (spec.Swagger, error) {
+func (fileCache OpenAPISchemaCache) fetchFileAbsolute(filePath string) (PackageAndSwagger, error) {
+	if !filepath.IsAbs(filePath) {
+		panic("filePath must be absolute") // assertion, not error
+	}
+
 	if swagger, ok := fileCache.files[filePath]; ok {
 		return swagger, nil
 	}
 
-	var swagger spec.Swagger
+	// here the package will be unpopulated,
+	// which indicates to the caller to reuse the existing package for definitions
+	result := PackageAndSwagger{}
 
 	klog.V(3).Infof("Loading file into cache %q", filePath)
 
 	fileContent, err := ioutil.ReadFile(filePath)
 	if err != nil {
-		return swagger, errors.Wrapf(err, "unable to read swagger file %q", filePath)
+		return result, errors.Wrapf(err, "unable to read swagger file %q", filePath)
 	}
 
-	err = swagger.UnmarshalJSON(fileContent)
+	err = result.Swagger.UnmarshalJSON(fileContent)
 	if err != nil {
-		return swagger, errors.Wrapf(err, "unable to parse swagger file %q", filePath)
+		return result, errors.Wrapf(err, "unable to parse swagger file %q", filePath)
 	}
 
-	fileCache.files[filePath] = swagger
+	fileCache.files[filePath] = result
 
-	return swagger, err
+	return result, err
 }

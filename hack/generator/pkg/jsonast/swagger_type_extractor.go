@@ -25,10 +25,8 @@ type SwaggerTypeExtractor struct {
 	cache       OpenAPISchemaCache
 	swagger     spec.Swagger
 	swaggerPath string
-	// group for output types (e.g. Microsoft.Network.Frontdoor)
-	outputGroup   string
-	outputVersion string
-	outputPackage astmodel.LocalPackageReference // derived from outputGroup/outputVersion
+	// package for output types (e.g. Microsoft.Network.Frontdoor/v20200101)
+	outputPackage astmodel.LocalPackageReference
 }
 
 // NewSwaggerTypeExtractor creates a new SwaggerTypeExtractor
@@ -37,19 +35,14 @@ func NewSwaggerTypeExtractor(
 	idFactory astmodel.IdentifierFactory,
 	swagger spec.Swagger,
 	swaggerPath string,
-	outputGroup string,
-	outputVersion string,
+	outputPackage astmodel.LocalPackageReference,
 	cache OpenAPISchemaCache) SwaggerTypeExtractor {
 
-	packageGroup := idFactory.CreateGroupName(outputGroup)
-	packageName := astmodel.CreateLocalPackageNameFromVersion(outputVersion)
 	return SwaggerTypeExtractor{
 		idFactory:     idFactory,
 		swaggerPath:   swaggerPath,
 		swagger:       swagger,
-		outputGroup:   outputGroup,
-		outputVersion: outputVersion,
-		outputPackage: config.MakeLocalPackageReference(packageGroup, packageName),
+		outputPackage: outputPackage,
 		cache:         cache,
 		config:        config,
 	}
@@ -162,8 +155,8 @@ func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(response
 		schema := MakeOpenAPISchema(
 			*response.Schema,
 			extractor.swaggerPath,
-			extractor.outputGroup,
-			extractor.outputVersion,
+			extractor.outputPackage,
+			extractor.idFactory,
 			extractor.cache)
 
 		if isMarkedAsARMResource(schema) {
@@ -176,8 +169,8 @@ func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(response
 		schema := MakeOpenAPISchema(
 			refSchema,
 			refFilePath,
-			extractor.outputGroup,
-			extractor.outputVersion,
+			extractor.outputPackage,
+			extractor.idFactory,
 			extractor.cache)
 
 		if isMarkedAsARMResource(schema) {
