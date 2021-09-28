@@ -220,7 +220,7 @@ type FakeResource_Spec struct {
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if fakeResourceSpec == nil {
 		return nil, nil
 	}
@@ -230,11 +230,11 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 	result.APIVersion = FakeResourceSpecAPIVersion20200601
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if fakeResourceSpec.Properties != nil {
-		propertiesARM, err := (*fakeResourceSpec.Properties).ConvertToARM(name, resolvedReferences)
+		propertiesARM, err := (*fakeResourceSpec.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -300,7 +300,7 @@ type FakeResourceProperties struct {
 var _ genruntime.ARMTransformer = &FakeResourceProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if fakeResourceProperties == nil {
 		return nil, nil
 	}
@@ -308,7 +308,7 @@ func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(name string, 
 
 	// Set property ‘OptionalVNet’:
 	if fakeResourceProperties.OptionalVNetReference != nil {
-		optionalVNetReferenceARMID, err := resolvedReferences.ARMIDOrErr(*fakeResourceProperties.OptionalVNetReference)
+		optionalVNetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*fakeResourceProperties.OptionalVNetReference)
 		if err != nil {
 			return nil, err
 		}
@@ -317,7 +317,7 @@ func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(name string, 
 	}
 
 	// Set property ‘RequiredVNet’:
-	requiredVNetReferenceARMID, err := resolvedReferences.ARMIDOrErr(fakeResourceProperties.RequiredVNetReference)
+	requiredVNetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(fakeResourceProperties.RequiredVNetReference)
 	if err != nil {
 		return nil, err
 	}

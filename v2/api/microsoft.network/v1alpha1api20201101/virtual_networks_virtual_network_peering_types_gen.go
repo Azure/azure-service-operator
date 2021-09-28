@@ -897,7 +897,7 @@ type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 var _ genruntime.ARMTransformer = &VirtualNetworksVirtualNetworkPeerings_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworksVirtualNetworkPeeringsSpec == nil {
 		return nil, nil
 	}
@@ -913,7 +913,7 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	}
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if virtualNetworksVirtualNetworkPeeringsSpec.AllowForwardedTraffic != nil {
@@ -933,7 +933,7 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 		result.Properties.PeeringState = &peeringState
 	}
 	if virtualNetworksVirtualNetworkPeeringsSpec.RemoteAddressSpace != nil {
-		remoteAddressSpaceARM, err := (*virtualNetworksVirtualNetworkPeeringsSpec.RemoteAddressSpace).ConvertToARM(name, resolvedReferences)
+		remoteAddressSpaceARM, err := (*virtualNetworksVirtualNetworkPeeringsSpec.RemoteAddressSpace).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -941,14 +941,14 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 		result.Properties.RemoteAddressSpace = &remoteAddressSpace
 	}
 	if virtualNetworksVirtualNetworkPeeringsSpec.RemoteBgpCommunities != nil {
-		remoteBgpCommunitiesARM, err := (*virtualNetworksVirtualNetworkPeeringsSpec.RemoteBgpCommunities).ConvertToARM(name, resolvedReferences)
+		remoteBgpCommunitiesARM, err := (*virtualNetworksVirtualNetworkPeeringsSpec.RemoteBgpCommunities).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		remoteBgpCommunities := remoteBgpCommunitiesARM.(VirtualNetworkBgpCommunitiesARM)
 		result.Properties.RemoteBgpCommunities = &remoteBgpCommunities
 	}
-	remoteVirtualNetworkARM, err := virtualNetworksVirtualNetworkPeeringsSpec.RemoteVirtualNetwork.ConvertToARM(name, resolvedReferences)
+	remoteVirtualNetworkARM, err := virtualNetworksVirtualNetworkPeeringsSpec.RemoteVirtualNetwork.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}

@@ -1710,7 +1710,7 @@ type DatabaseAccounts_Spec struct {
 var _ genruntime.ARMTransformer = &DatabaseAccounts_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if databaseAccountsSpec == nil {
 		return nil, nil
 	}
@@ -1721,7 +1721,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, res
 
 	// Set property ‘Identity’:
 	if databaseAccountsSpec.Identity != nil {
-		identityARM, err := (*databaseAccountsSpec.Identity).ConvertToARM(name, resolvedReferences)
+		identityARM, err := (*databaseAccountsSpec.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1742,11 +1742,11 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, res
 	}
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if databaseAccountsSpec.AnalyticalStorageConfiguration != nil {
-		analyticalStorageConfigurationARM, err := (*databaseAccountsSpec.AnalyticalStorageConfiguration).ConvertToARM(name, resolvedReferences)
+		analyticalStorageConfigurationARM, err := (*databaseAccountsSpec.AnalyticalStorageConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1754,7 +1754,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, res
 		result.Properties.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 	}
 	if databaseAccountsSpec.ApiProperties != nil {
-		apiPropertiesARM, err := (*databaseAccountsSpec.ApiProperties).ConvertToARM(name, resolvedReferences)
+		apiPropertiesARM, err := (*databaseAccountsSpec.ApiProperties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1762,7 +1762,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, res
 		result.Properties.ApiProperties = &apiProperties
 	}
 	if databaseAccountsSpec.BackupPolicy != nil {
-		backupPolicyARM, err := (*databaseAccountsSpec.BackupPolicy).ConvertToARM(name, resolvedReferences)
+		backupPolicyARM, err := (*databaseAccountsSpec.BackupPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1770,7 +1770,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, res
 		result.Properties.BackupPolicy = &backupPolicy
 	}
 	for _, item := range databaseAccountsSpec.Capabilities {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1781,7 +1781,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, res
 		result.Properties.ConnectorOffer = &connectorOffer
 	}
 	if databaseAccountsSpec.ConsistencyPolicy != nil {
-		consistencyPolicyARM, err := (*databaseAccountsSpec.ConsistencyPolicy).ConvertToARM(name, resolvedReferences)
+		consistencyPolicyARM, err := (*databaseAccountsSpec.ConsistencyPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1789,7 +1789,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, res
 		result.Properties.ConsistencyPolicy = &consistencyPolicy
 	}
 	for _, item := range databaseAccountsSpec.Cors {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1825,7 +1825,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, res
 		result.Properties.EnableMultipleWriteLocations = &enableMultipleWriteLocations
 	}
 	for _, item := range databaseAccountsSpec.IpRules {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1840,7 +1840,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, res
 		result.Properties.KeyVaultKeyUri = &keyVaultKeyUri
 	}
 	for _, item := range databaseAccountsSpec.Locations {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1858,7 +1858,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(name string, res
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	for _, item := range databaseAccountsSpec.VirtualNetworkRules {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2760,7 +2760,7 @@ type AnalyticalStorageConfiguration struct {
 var _ genruntime.ARMTransformer = &AnalyticalStorageConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (analyticalStorageConfiguration *AnalyticalStorageConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (analyticalStorageConfiguration *AnalyticalStorageConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if analyticalStorageConfiguration == nil {
 		return nil, nil
 	}
@@ -2904,7 +2904,7 @@ type ApiProperties struct {
 var _ genruntime.ARMTransformer = &ApiProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (apiProperties *ApiProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (apiProperties *ApiProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if apiProperties == nil {
 		return nil, nil
 	}
@@ -3052,7 +3052,7 @@ type BackupPolicy struct {
 var _ genruntime.ARMTransformer = &BackupPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (backupPolicy *BackupPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (backupPolicy *BackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if backupPolicy == nil {
 		return nil, nil
 	}
@@ -3060,7 +3060,7 @@ func (backupPolicy *BackupPolicy) ConvertToARM(name string, resolvedReferences g
 
 	// Set property ‘ContinuousModeBackupPolicy’:
 	if backupPolicy.ContinuousModeBackupPolicy != nil {
-		continuousModeBackupPolicyARM, err := (*backupPolicy.ContinuousModeBackupPolicy).ConvertToARM(name, resolvedReferences)
+		continuousModeBackupPolicyARM, err := (*backupPolicy.ContinuousModeBackupPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3070,7 +3070,7 @@ func (backupPolicy *BackupPolicy) ConvertToARM(name string, resolvedReferences g
 
 	// Set property ‘PeriodicModeBackupPolicy’:
 	if backupPolicy.PeriodicModeBackupPolicy != nil {
-		periodicModeBackupPolicyARM, err := (*backupPolicy.PeriodicModeBackupPolicy).ConvertToARM(name, resolvedReferences)
+		periodicModeBackupPolicyARM, err := (*backupPolicy.PeriodicModeBackupPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3252,7 +3252,7 @@ type Capability struct {
 var _ genruntime.ARMTransformer = &Capability{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (capability *Capability) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (capability *Capability) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if capability == nil {
 		return nil, nil
 	}
@@ -3421,7 +3421,7 @@ type ConsistencyPolicy struct {
 var _ genruntime.ARMTransformer = &ConsistencyPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (consistencyPolicy *ConsistencyPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (consistencyPolicy *ConsistencyPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if consistencyPolicy == nil {
 		return nil, nil
 	}
@@ -3681,7 +3681,7 @@ type CorsPolicy struct {
 var _ genruntime.ARMTransformer = &CorsPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (corsPolicy *CorsPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (corsPolicy *CorsPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if corsPolicy == nil {
 		return nil, nil
 	}
@@ -4179,7 +4179,7 @@ type IpAddressOrRange struct {
 var _ genruntime.ARMTransformer = &IpAddressOrRange{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (ipAddressOrRange *IpAddressOrRange) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (ipAddressOrRange *IpAddressOrRange) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if ipAddressOrRange == nil {
 		return nil, nil
 	}
@@ -4339,7 +4339,7 @@ type Location struct {
 var _ genruntime.ARMTransformer = &Location{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (location *Location) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (location *Location) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if location == nil {
 		return nil, nil
 	}
@@ -4672,7 +4672,7 @@ type ManagedServiceIdentity struct {
 var _ genruntime.ARMTransformer = &ManagedServiceIdentity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedServiceIdentity *ManagedServiceIdentity) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedServiceIdentity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedServiceIdentity == nil {
 		return nil, nil
 	}
@@ -5006,7 +5006,7 @@ type VirtualNetworkRule struct {
 var _ genruntime.ARMTransformer = &VirtualNetworkRule{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworkRule *VirtualNetworkRule) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworkRule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworkRule == nil {
 		return nil, nil
 	}
@@ -5014,7 +5014,7 @@ func (virtualNetworkRule *VirtualNetworkRule) ConvertToARM(name string, resolved
 
 	// Set property ‘Id’:
 	if virtualNetworkRule.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*virtualNetworkRule.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*virtualNetworkRule.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -5268,7 +5268,7 @@ type ContinuousModeBackupPolicy struct {
 var _ genruntime.ARMTransformer = &ContinuousModeBackupPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (continuousModeBackupPolicy *ContinuousModeBackupPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (continuousModeBackupPolicy *ContinuousModeBackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if continuousModeBackupPolicy == nil {
 		return nil, nil
 	}
@@ -5429,7 +5429,7 @@ type PeriodicModeBackupPolicy struct {
 var _ genruntime.ARMTransformer = &PeriodicModeBackupPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (periodicModeBackupPolicy *PeriodicModeBackupPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (periodicModeBackupPolicy *PeriodicModeBackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if periodicModeBackupPolicy == nil {
 		return nil, nil
 	}
@@ -5437,7 +5437,7 @@ func (periodicModeBackupPolicy *PeriodicModeBackupPolicy) ConvertToARM(name stri
 
 	// Set property ‘PeriodicModeProperties’:
 	if periodicModeBackupPolicy.PeriodicModeProperties != nil {
-		periodicModePropertiesARM, err := (*periodicModeBackupPolicy.PeriodicModeProperties).ConvertToARM(name, resolvedReferences)
+		periodicModePropertiesARM, err := (*periodicModeBackupPolicy.PeriodicModeProperties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5560,7 +5560,7 @@ type PeriodicModeProperties struct {
 var _ genruntime.ARMTransformer = &PeriodicModeProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (periodicModeProperties *PeriodicModeProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (periodicModeProperties *PeriodicModeProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if periodicModeProperties == nil {
 		return nil, nil
 	}

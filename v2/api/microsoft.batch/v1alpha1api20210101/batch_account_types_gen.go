@@ -1065,7 +1065,7 @@ type BatchAccounts_Spec struct {
 var _ genruntime.ARMTransformer = &BatchAccounts_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if batchAccountsSpec == nil {
 		return nil, nil
 	}
@@ -1076,7 +1076,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(name string, resolvedR
 
 	// Set property ‘Identity’:
 	if batchAccountsSpec.Identity != nil {
-		identityARM, err := (*batchAccountsSpec.Identity).ConvertToARM(name, resolvedReferences)
+		identityARM, err := (*batchAccountsSpec.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1088,11 +1088,11 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(name string, resolvedR
 	result.Location = batchAccountsSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if batchAccountsSpec.AutoStorage != nil {
-		autoStorageARM, err := (*batchAccountsSpec.AutoStorage).ConvertToARM(name, resolvedReferences)
+		autoStorageARM, err := (*batchAccountsSpec.AutoStorage).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1100,7 +1100,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(name string, resolvedR
 		result.Properties.AutoStorage = &autoStorage
 	}
 	if batchAccountsSpec.Encryption != nil {
-		encryptionARM, err := (*batchAccountsSpec.Encryption).ConvertToARM(name, resolvedReferences)
+		encryptionARM, err := (*batchAccountsSpec.Encryption).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1108,7 +1108,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(name string, resolvedR
 		result.Properties.Encryption = &encryption
 	}
 	if batchAccountsSpec.KeyVaultReference != nil {
-		keyVaultReferenceARM, err := (*batchAccountsSpec.KeyVaultReference).ConvertToARM(name, resolvedReferences)
+		keyVaultReferenceARM, err := (*batchAccountsSpec.KeyVaultReference).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1492,14 +1492,14 @@ type AutoStorageBaseProperties struct {
 var _ genruntime.ARMTransformer = &AutoStorageBaseProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (autoStorageBaseProperties *AutoStorageBaseProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (autoStorageBaseProperties *AutoStorageBaseProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if autoStorageBaseProperties == nil {
 		return nil, nil
 	}
 	var result AutoStorageBasePropertiesARM
 
 	// Set property ‘StorageAccountId’:
-	storageAccountReferenceARMID, err := resolvedReferences.ARMIDOrErr(autoStorageBaseProperties.StorageAccountReference)
+	storageAccountReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(autoStorageBaseProperties.StorageAccountReference)
 	if err != nil {
 		return nil, err
 	}
@@ -1654,7 +1654,7 @@ type BatchAccountIdentity struct {
 var _ genruntime.ARMTransformer = &BatchAccountIdentity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (batchAccountIdentity *BatchAccountIdentity) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (batchAccountIdentity *BatchAccountIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if batchAccountIdentity == nil {
 		return nil, nil
 	}
@@ -1895,7 +1895,7 @@ type EncryptionProperties struct {
 var _ genruntime.ARMTransformer = &EncryptionProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (encryptionProperties *EncryptionProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (encryptionProperties *EncryptionProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if encryptionProperties == nil {
 		return nil, nil
 	}
@@ -1909,7 +1909,7 @@ func (encryptionProperties *EncryptionProperties) ConvertToARM(name string, reso
 
 	// Set property ‘KeyVaultProperties’:
 	if encryptionProperties.KeyVaultProperties != nil {
-		keyVaultPropertiesARM, err := (*encryptionProperties.KeyVaultProperties).ConvertToARM(name, resolvedReferences)
+		keyVaultPropertiesARM, err := (*encryptionProperties.KeyVaultProperties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2129,14 +2129,14 @@ type KeyVaultReference struct {
 var _ genruntime.ARMTransformer = &KeyVaultReference{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (keyVaultReference *KeyVaultReference) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (keyVaultReference *KeyVaultReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if keyVaultReference == nil {
 		return nil, nil
 	}
 	var result KeyVaultReferenceARM
 
 	// Set property ‘Id’:
-	referenceARMID, err := resolvedReferences.ARMIDOrErr(keyVaultReference.Reference)
+	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(keyVaultReference.Reference)
 	if err != nil {
 		return nil, err
 	}
@@ -2749,7 +2749,7 @@ type KeyVaultProperties struct {
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (keyVaultProperties *KeyVaultProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (keyVaultProperties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if keyVaultProperties == nil {
 		return nil, nil
 	}

@@ -197,6 +197,9 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 		// drop APIVersion property
 		t = t.WithoutProperty(astmodel.APIVersionProperty)
 
+		// drop Scope property
+		t = t.WithoutProperty(astmodel.ScopeProperty)
+
 		nameProp, hasName := t.Property(astmodel.NameProperty)
 		if !hasName {
 			return t, nil

@@ -54,18 +54,18 @@ func (r *Resolver) ResolveReferenceToARMID(ctx context.Context, ref ResourceRefe
 }
 
 // ResolveReferencesToARMIDs resolves all provided references to their ARM IDs.
-func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[ResourceReference]struct{}) (map[ResourceReference]string, error) {
+func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[ResourceReference]struct{}) (ResolvedReferences, error) {
 	result := make(map[ResourceReference]string)
 
 	for ref := range refs {
 		armID, err := r.ResolveReferenceToARMID(ctx, ref)
 		if err != nil {
-			return nil, err
+			return MakeResolvedReferences(nil), err
 		}
 		result[ref] = armID
 	}
 
-	return result, nil
+	return MakeResolvedReferences(result), nil
 }
 
 // ResolveResourceHierarchy gets the resource hierarchy for a given resource. The result is a slice of

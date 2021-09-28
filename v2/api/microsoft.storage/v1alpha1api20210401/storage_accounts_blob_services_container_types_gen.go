@@ -1054,7 +1054,7 @@ type StorageAccountsBlobServicesContainers_Spec struct {
 var _ genruntime.ARMTransformer = &StorageAccountsBlobServicesContainers_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if storageAccountsBlobServicesContainersSpec == nil {
 		return nil, nil
 	}
@@ -1070,7 +1070,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	}
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if storageAccountsBlobServicesContainersSpec.DefaultEncryptionScope != nil || storageAccountsBlobServicesContainersSpec.DenyEncryptionScopeOverride != nil || storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning != nil || storageAccountsBlobServicesContainersSpec.Metadata != nil || storageAccountsBlobServicesContainersSpec.PublicAccess != nil {
@@ -1085,7 +1085,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 		result.Properties.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	}
 	if storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning != nil {
-		immutableStorageWithVersioningARM, err := (*storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning).ConvertToARM(name, resolvedReferences)
+		immutableStorageWithVersioningARM, err := (*storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1636,7 +1636,7 @@ type ImmutableStorageWithVersioning struct {
 var _ genruntime.ARMTransformer = &ImmutableStorageWithVersioning{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if immutableStorageWithVersioning == nil {
 		return nil, nil
 	}

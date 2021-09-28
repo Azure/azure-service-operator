@@ -1038,7 +1038,7 @@ type VirtualNetworks_Spec struct {
 var _ genruntime.ARMTransformer = &VirtualNetworks_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworksSpec == nil {
 		return nil, nil
 	}
@@ -1049,7 +1049,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertToARM(name string, resol
 
 	// Set property ‘ExtendedLocation’:
 	if virtualNetworksSpec.ExtendedLocation != nil {
-		extendedLocationARM, err := (*virtualNetworksSpec.ExtendedLocation).ConvertToARM(name, resolvedReferences)
+		extendedLocationARM, err := (*virtualNetworksSpec.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1061,16 +1061,16 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertToARM(name string, resol
 	result.Location = virtualNetworksSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	addressSpaceARM, err := virtualNetworksSpec.AddressSpace.ConvertToARM(name, resolvedReferences)
+	addressSpaceARM, err := virtualNetworksSpec.AddressSpace.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
 	result.Properties.AddressSpace = addressSpaceARM.(AddressSpaceARM)
 	if virtualNetworksSpec.BgpCommunities != nil {
-		bgpCommunitiesARM, err := (*virtualNetworksSpec.BgpCommunities).ConvertToARM(name, resolvedReferences)
+		bgpCommunitiesARM, err := (*virtualNetworksSpec.BgpCommunities).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1078,7 +1078,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertToARM(name string, resol
 		result.Properties.BgpCommunities = &bgpCommunities
 	}
 	if virtualNetworksSpec.DdosProtectionPlan != nil {
-		ddosProtectionPlanARM, err := (*virtualNetworksSpec.DdosProtectionPlan).ConvertToARM(name, resolvedReferences)
+		ddosProtectionPlanARM, err := (*virtualNetworksSpec.DdosProtectionPlan).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1086,7 +1086,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertToARM(name string, resol
 		result.Properties.DdosProtectionPlan = &ddosProtectionPlan
 	}
 	if virtualNetworksSpec.DhcpOptions != nil {
-		dhcpOptionsARM, err := (*virtualNetworksSpec.DhcpOptions).ConvertToARM(name, resolvedReferences)
+		dhcpOptionsARM, err := (*virtualNetworksSpec.DhcpOptions).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1102,14 +1102,14 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertToARM(name string, resol
 		result.Properties.EnableVmProtection = &enableVmProtection
 	}
 	for _, item := range virtualNetworksSpec.IpAllocations {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.IpAllocations = append(result.Properties.IpAllocations, itemARM.(SubResourceARM))
 	}
 	for _, item := range virtualNetworksSpec.Subnets {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1591,7 +1591,7 @@ type AddressSpace struct {
 var _ genruntime.ARMTransformer = &AddressSpace{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (addressSpace *AddressSpace) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (addressSpace *AddressSpace) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if addressSpace == nil {
 		return nil, nil
 	}
@@ -1739,7 +1739,7 @@ type DhcpOptions struct {
 var _ genruntime.ARMTransformer = &DhcpOptions{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (dhcpOptions *DhcpOptions) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (dhcpOptions *DhcpOptions) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if dhcpOptions == nil {
 		return nil, nil
 	}
@@ -1951,7 +1951,7 @@ type VirtualNetworkBgpCommunities struct {
 var _ genruntime.ARMTransformer = &VirtualNetworkBgpCommunities{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworkBgpCommunities == nil {
 		return nil, nil
 	}
@@ -2205,7 +2205,7 @@ type VirtualNetworks_Spec_Properties_Subnets struct {
 var _ genruntime.ARMTransformer = &VirtualNetworks_Spec_Properties_Subnets{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subnets) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subnets) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworksSpecPropertiesSubnets == nil {
 		return nil, nil
 	}
@@ -2225,21 +2225,21 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 		result.Properties.AddressPrefixes = append(result.Properties.AddressPrefixes, item)
 	}
 	for _, item := range virtualNetworksSpecPropertiesSubnets.Delegations {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.Delegations = append(result.Properties.Delegations, itemARM.(VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM))
 	}
 	for _, item := range virtualNetworksSpecPropertiesSubnets.IpAllocations {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.IpAllocations = append(result.Properties.IpAllocations, itemARM.(SubResourceARM))
 	}
 	if virtualNetworksSpecPropertiesSubnets.NatGateway != nil {
-		natGatewayARM, err := (*virtualNetworksSpecPropertiesSubnets.NatGateway).ConvertToARM(name, resolvedReferences)
+		natGatewayARM, err := (*virtualNetworksSpecPropertiesSubnets.NatGateway).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2247,7 +2247,7 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 		result.Properties.NatGateway = &natGateway
 	}
 	if virtualNetworksSpecPropertiesSubnets.NetworkSecurityGroup != nil {
-		networkSecurityGroupARM, err := (*virtualNetworksSpecPropertiesSubnets.NetworkSecurityGroup).ConvertToARM(name, resolvedReferences)
+		networkSecurityGroupARM, err := (*virtualNetworksSpecPropertiesSubnets.NetworkSecurityGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2263,7 +2263,7 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 		result.Properties.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicies
 	}
 	if virtualNetworksSpecPropertiesSubnets.RouteTable != nil {
-		routeTableARM, err := (*virtualNetworksSpecPropertiesSubnets.RouteTable).ConvertToARM(name, resolvedReferences)
+		routeTableARM, err := (*virtualNetworksSpecPropertiesSubnets.RouteTable).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2271,14 +2271,14 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 		result.Properties.RouteTable = &routeTable
 	}
 	for _, item := range virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.ServiceEndpointPolicies = append(result.Properties.ServiceEndpointPolicies, itemARM.(SubResourceARM))
 	}
 	for _, item := range virtualNetworksSpecPropertiesSubnets.ServiceEndpoints {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2726,7 +2726,7 @@ type VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations struct {
 var _ genruntime.ARMTransformer = &VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworksSpecPropertiesSubnetsPropertiesDelegations == nil {
 		return nil, nil
 	}

@@ -1215,7 +1215,7 @@ type VirtualNetworkGateways_Spec struct {
 var _ genruntime.ARMTransformer = &VirtualNetworkGateways_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworkGatewaysSpec == nil {
 		return nil, nil
 	}
@@ -1228,7 +1228,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(name
 	result.Location = virtualNetworkGatewaysSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if virtualNetworkGatewaysSpec.ActiveActive != nil {
@@ -1236,7 +1236,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(name
 		result.Properties.ActiveActive = &activeActive
 	}
 	if virtualNetworkGatewaysSpec.BgpSettings != nil {
-		bgpSettingsARM, err := (*virtualNetworkGatewaysSpec.BgpSettings).ConvertToARM(name, resolvedReferences)
+		bgpSettingsARM, err := (*virtualNetworkGatewaysSpec.BgpSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1244,7 +1244,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(name
 		result.Properties.BgpSettings = &bgpSettings
 	}
 	if virtualNetworkGatewaysSpec.CustomRoutes != nil {
-		customRoutesARM, err := (*virtualNetworkGatewaysSpec.CustomRoutes).ConvertToARM(name, resolvedReferences)
+		customRoutesARM, err := (*virtualNetworkGatewaysSpec.CustomRoutes).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1264,7 +1264,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(name
 		result.Properties.EnablePrivateIpAddress = &enablePrivateIpAddress
 	}
 	if virtualNetworkGatewaysSpec.GatewayDefaultSite != nil {
-		gatewayDefaultSiteARM, err := (*virtualNetworkGatewaysSpec.GatewayDefaultSite).ConvertToARM(name, resolvedReferences)
+		gatewayDefaultSiteARM, err := (*virtualNetworkGatewaysSpec.GatewayDefaultSite).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1276,14 +1276,14 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(name
 		result.Properties.GatewayType = &gatewayType
 	}
 	for _, item := range virtualNetworkGatewaysSpec.IpConfigurations {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, itemARM.(VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM))
 	}
 	if virtualNetworkGatewaysSpec.Sku != nil {
-		skuARM, err := (*virtualNetworkGatewaysSpec.Sku).ConvertToARM(name, resolvedReferences)
+		skuARM, err := (*virtualNetworkGatewaysSpec.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1291,7 +1291,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(name
 		result.Properties.Sku = &sku
 	}
 	if virtualNetworkGatewaysSpec.VNetExtendedLocationResourceReference != nil {
-		vNetExtendedLocationResourceIdARMID, err := resolvedReferences.ARMIDOrErr(*virtualNetworkGatewaysSpec.VNetExtendedLocationResourceReference)
+		vNetExtendedLocationResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*virtualNetworkGatewaysSpec.VNetExtendedLocationResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -1299,7 +1299,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(name
 		result.Properties.VNetExtendedLocationResourceId = &vNetExtendedLocationResourceId
 	}
 	if virtualNetworkGatewaysSpec.VirtualNetworkExtendedLocation != nil {
-		virtualNetworkExtendedLocationARM, err := (*virtualNetworkGatewaysSpec.VirtualNetworkExtendedLocation).ConvertToARM(name, resolvedReferences)
+		virtualNetworkExtendedLocationARM, err := (*virtualNetworkGatewaysSpec.VirtualNetworkExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1307,7 +1307,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(name
 		result.Properties.VirtualNetworkExtendedLocation = &virtualNetworkExtendedLocation
 	}
 	if virtualNetworkGatewaysSpec.VpnClientConfiguration != nil {
-		vpnClientConfigurationARM, err := (*virtualNetworkGatewaysSpec.VpnClientConfiguration).ConvertToARM(name, resolvedReferences)
+		vpnClientConfigurationARM, err := (*virtualNetworkGatewaysSpec.VpnClientConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1945,7 +1945,7 @@ type BgpSettings struct {
 var _ genruntime.ARMTransformer = &BgpSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (bgpSettings *BgpSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (bgpSettings *BgpSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if bgpSettings == nil {
 		return nil, nil
 	}
@@ -1965,7 +1965,7 @@ func (bgpSettings *BgpSettings) ConvertToARM(name string, resolvedReferences gen
 
 	// Set property ‘BgpPeeringAddresses’:
 	for _, item := range bgpSettings.BgpPeeringAddresses {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2595,7 +2595,7 @@ type VirtualNetworkGatewaySku struct {
 var _ genruntime.ARMTransformer = &VirtualNetworkGatewaySku{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworkGatewaySku == nil {
 		return nil, nil
 	}
@@ -2854,7 +2854,7 @@ type VirtualNetworkGateways_Spec_Properties_IpConfigurations struct {
 var _ genruntime.ARMTransformer = &VirtualNetworkGateways_Spec_Properties_IpConfigurations{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworkGatewaysSpecPropertiesIpConfigurations == nil {
 		return nil, nil
 	}
@@ -2875,7 +2875,7 @@ func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGatewa
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if virtualNetworkGatewaysSpecPropertiesIpConfigurations.PublicIPAddress != nil {
-		publicIPAddressARM, err := (*virtualNetworkGatewaysSpecPropertiesIpConfigurations.PublicIPAddress).ConvertToARM(name, resolvedReferences)
+		publicIPAddressARM, err := (*virtualNetworkGatewaysSpecPropertiesIpConfigurations.PublicIPAddress).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2883,7 +2883,7 @@ func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGatewa
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if virtualNetworkGatewaysSpecPropertiesIpConfigurations.Subnet != nil {
-		subnetARM, err := (*virtualNetworkGatewaysSpecPropertiesIpConfigurations.Subnet).ConvertToARM(name, resolvedReferences)
+		subnetARM, err := (*virtualNetworkGatewaysSpecPropertiesIpConfigurations.Subnet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3102,7 +3102,7 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration struct {
 var _ genruntime.ARMTransformer = &VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration == nil {
 		return nil, nil
 	}
@@ -3140,7 +3140,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 
 	// Set property ‘RadiusServers’:
 	for _, item := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.RadiusServers {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3154,7 +3154,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 
 	// Set property ‘VpnClientAddressPool’:
 	if virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientAddressPool != nil {
-		vpnClientAddressPoolARM, err := (*virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientAddressPool).ConvertToARM(name, resolvedReferences)
+		vpnClientAddressPoolARM, err := (*virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientAddressPool).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3164,7 +3164,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 
 	// Set property ‘VpnClientIpsecPolicies’:
 	for _, item := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientIpsecPolicies {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3178,7 +3178,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 
 	// Set property ‘VpnClientRevokedCertificates’:
 	for _, item := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRevokedCertificates {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3187,7 +3187,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 
 	// Set property ‘VpnClientRootCertificates’:
 	for _, item := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRootCertificates {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4016,7 +4016,7 @@ type IPConfigurationBgpPeeringAddress struct {
 var _ genruntime.ARMTransformer = &IPConfigurationBgpPeeringAddress{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if ipConfigurationBgpPeeringAddress == nil {
 		return nil, nil
 	}
@@ -4301,7 +4301,7 @@ type IpsecPolicy struct {
 var _ genruntime.ARMTransformer = &IpsecPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (ipsecPolicy *IpsecPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (ipsecPolicy *IpsecPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if ipsecPolicy == nil {
 		return nil, nil
 	}
@@ -4682,7 +4682,7 @@ type RadiusServer struct {
 var _ genruntime.ARMTransformer = &RadiusServer{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (radiusServer *RadiusServer) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (radiusServer *RadiusServer) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if radiusServer == nil {
 		return nil, nil
 	}
@@ -5034,7 +5034,7 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevo
 var _ genruntime.ARMTransformer = &VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates == nil {
 		return nil, nil
 	}
@@ -5152,7 +5152,7 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRoot
 var _ genruntime.ARMTransformer = &VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates == nil {
 		return nil, nil
 	}
