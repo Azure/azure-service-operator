@@ -1,15 +1,16 @@
+//go:build !windows
+// +build !windows
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT license.
  */
 
-//go:build !windows
-// +build !windows
-
 package astmodel
 
 import (
 	"bufio"
+	"io"
 
 	"github.com/dave/dst/decorator"
 )
