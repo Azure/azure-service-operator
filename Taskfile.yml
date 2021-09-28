@@ -13,7 +13,6 @@ vars:
   CONTROLLER_PACKAGE: github.com/Azure/azure-service-operator/hack/generated
 
   TEST_RESOURCE_PREFIX: asotest
-  VERBOSITY: '' # change to e.g. -v 1 if needed
 
 
   SCRIPTS_ROOT: ./scripts
@@ -264,7 +263,7 @@ tasks:
       - ./bin/{{.GENERATOR_APP}}
       - azure-arm.yaml
     cmds:
-      - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml {{.VERBOSITY}}
+      - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml
 
   controller:generate-crds:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
@@ -405,7 +404,7 @@ tasks:
       - ./bin/{{.GENERATOR_APP}}
       - azure-crossplane.yaml
     cmds:
-      - ./bin/{{.GENERATOR_APP}} gen-types azure-crossplane.yaml {{.VERBOSITY}}
+      - ./bin/{{.GENERATOR_APP}} gen-types azure-crossplane.yaml
   crossplane:ci:
     deps: [header-check, specifier-check, crossplane:generate-crds]
 
