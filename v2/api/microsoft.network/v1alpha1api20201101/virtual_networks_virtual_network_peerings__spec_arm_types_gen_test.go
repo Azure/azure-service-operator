@@ -83,11 +83,9 @@ func VirtualNetworksVirtualNetworkPeeringsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeeringsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeeringsSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion20201101)
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(VirtualNetworksVirtualNetworkPeeringsSpecTypeMicrosoftNetworkVirtualNetworksVirtualNetworkPeerings)
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeeringsSpecARM is a factory method for creating gopter generators

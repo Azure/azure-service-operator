@@ -90,7 +90,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(flexibleServer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadResource(ctx, armId, string(postgresql.FlexibleServersDatabasesSpecAPIVersion20210601))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(postgresql.FlexibleServersDatabasesSpecAPIVersion20210601))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())

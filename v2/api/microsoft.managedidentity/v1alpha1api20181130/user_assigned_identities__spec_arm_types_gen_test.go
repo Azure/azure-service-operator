@@ -74,9 +74,7 @@ func UserAssignedIdentitiesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUserAssignedIdentitiesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUserAssignedIdentitiesSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(UserAssignedIdentitiesSpecAPIVersion20181130)
 	gens["Location"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(UserAssignedIdentitiesSpecTypeMicrosoftManagedIdentityUserAssignedIdentities)
 }

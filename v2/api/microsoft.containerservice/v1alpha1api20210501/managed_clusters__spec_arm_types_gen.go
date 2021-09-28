@@ -9,10 +9,6 @@ import (
 )
 
 type ManagedClusters_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion ManagedClustersSpecAPIVersion `json:"apiVersion"`
-
 	//ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
@@ -33,16 +29,13 @@ type ManagedClusters_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type ManagedClustersSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &ManagedClusters_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (managedClustersSpecARM ManagedClusters_SpecARM) GetAPIVersion() string {
-	return string(managedClustersSpecARM.APIVersion)
+	return "2021-05-01"
 }
 
 // GetName returns the Name of the resource
@@ -50,9 +43,9 @@ func (managedClustersSpecARM ManagedClusters_SpecARM) GetName() string {
 	return managedClustersSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters"
 func (managedClustersSpecARM ManagedClusters_SpecARM) GetType() string {
-	return string(managedClustersSpecARM.Type)
+	return "Microsoft.ContainerService/managedClusters"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ExtendedLocation
@@ -166,16 +159,6 @@ type ManagedClusterSKUARM struct {
 	//SLA](https://docs.microsoft.com/azure/aks/uptime-sla) for more details.
 	Tier *ManagedClusterSKUTier `json:"tier,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2021-05-01"}
-type ManagedClustersSpecAPIVersion string
-
-const ManagedClustersSpecAPIVersion20210501 = ManagedClustersSpecAPIVersion("2021-05-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.ContainerService/managedClusters"}
-type ManagedClustersSpecType string
-
-const ManagedClustersSpecTypeMicrosoftContainerServiceManagedClusters = ManagedClustersSpecType("Microsoft.ContainerService/managedClusters")
 
 //Generated from:
 //https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/Componentsqit0etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties

@@ -990,6 +990,11 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type PublicIPAddressesSpecAPIVersion string
+
+const PublicIPAddressesSpecAPIVersion20201101 = PublicIPAddressesSpecAPIVersion("2020-11-01")
+
 type PublicIPAddresses_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -1050,9 +1055,6 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(resolved genru
 		return nil, nil
 	}
 	var result PublicIPAddresses_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = PublicIPAddressesSpecAPIVersion20201101
 
 	// Set property ‘ExtendedLocation’:
 	if publicIPAddressesSpec.ExtendedLocation != nil {
@@ -1133,9 +1135,6 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(resolved genru
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = PublicIPAddressesSpecTypeMicrosoftNetworkPublicIPAddresses
 
 	// Set property ‘Zones’:
 	for _, item := range publicIPAddressesSpec.Zones {

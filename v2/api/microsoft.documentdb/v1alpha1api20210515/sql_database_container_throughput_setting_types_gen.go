@@ -270,6 +270,11 @@ type SqlDatabaseContainerThroughputSettingList struct {
 	Items           []SqlDatabaseContainerThroughputSetting `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion string
+
+const DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion("2021-05-15")
+
 type DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec struct {
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -301,9 +306,6 @@ func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpec *DatabaseAcco
 	}
 	var result DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion20210515
-
 	// Set property ‘Location’:
 	if databaseAccountsSqlDatabasesContainersThroughputSettingsSpec.Location != nil {
 		location := *databaseAccountsSqlDatabasesContainersThroughputSettingsSpec.Location
@@ -327,9 +329,6 @@ func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpec *DatabaseAcco
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecTypeMicrosoftDocumentDBDatabaseAccountsSqlDatabasesContainersThroughputSettings
 	return result, nil
 }
 

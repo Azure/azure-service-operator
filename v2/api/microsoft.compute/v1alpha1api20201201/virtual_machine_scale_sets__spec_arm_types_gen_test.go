@@ -83,11 +83,9 @@ func VirtualMachineScaleSetsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(VirtualMachineScaleSetsSpecAPIVersion20201201)
 	gens["Location"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(VirtualMachineScaleSetsSpecTypeMicrosoftComputeVirtualMachineScaleSets)
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 

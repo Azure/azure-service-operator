@@ -1174,6 +1174,11 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-09-30"}
+type DisksSpecAPIVersion string
+
+const DisksSpecAPIVersion20200930 = DisksSpecAPIVersion("2020-09-30")
+
 type Disks_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -1274,9 +1279,6 @@ func (disksSpec *Disks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		return nil, nil
 	}
 	var result Disks_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = DisksSpecAPIVersion20200930
 
 	// Set property ‘ExtendedLocation’:
 	if disksSpec.ExtendedLocation != nil {
@@ -1394,9 +1396,6 @@ func (disksSpec *Disks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DisksSpecTypeMicrosoftComputeDisks
 
 	// Set property ‘Zones’:
 	for _, item := range disksSpec.Zones {

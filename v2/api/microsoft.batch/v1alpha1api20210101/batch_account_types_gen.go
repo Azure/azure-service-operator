@@ -933,6 +933,11 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2021-01-01"}
+type BatchAccountsSpecAPIVersion string
+
+const BatchAccountsSpecAPIVersion20210101 = BatchAccountsSpecAPIVersion("2021-01-01")
+
 type BatchAccounts_Spec struct {
 	//AutoStorage: The properties related to the auto-storage account.
 	AutoStorage *AutoStorageBaseProperties `json:"autoStorage,omitempty"`
@@ -986,9 +991,6 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(resolved genruntime.Co
 		return nil, nil
 	}
 	var result BatchAccounts_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = BatchAccountsSpecAPIVersion20210101
 
 	// Set property ‘Identity’:
 	if batchAccountsSpec.Identity != nil {
@@ -1047,9 +1049,6 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(resolved genruntime.Co
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = BatchAccountsSpecTypeMicrosoftBatchBatchAccounts
 	return result, nil
 }
 

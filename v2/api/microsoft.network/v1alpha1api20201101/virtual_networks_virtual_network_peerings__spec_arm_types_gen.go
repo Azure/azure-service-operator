@@ -6,10 +6,6 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworksVirtualNetworkPeerings_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion `json:"apiVersion"`
-
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -21,16 +17,13 @@ type VirtualNetworksVirtualNetworkPeerings_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type VirtualNetworksVirtualNetworkPeeringsSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualNetworksVirtualNetworkPeerings_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (virtualNetworksVirtualNetworkPeeringsSpecARM VirtualNetworksVirtualNetworkPeerings_SpecARM) GetAPIVersion() string {
-	return string(virtualNetworksVirtualNetworkPeeringsSpecARM.APIVersion)
+	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
@@ -38,9 +31,9 @@ func (virtualNetworksVirtualNetworkPeeringsSpecARM VirtualNetworksVirtualNetwork
 	return virtualNetworksVirtualNetworkPeeringsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 func (virtualNetworksVirtualNetworkPeeringsSpecARM VirtualNetworksVirtualNetworkPeerings_SpecARM) GetType() string {
-	return string(virtualNetworksVirtualNetworkPeeringsSpecARM.Type)
+	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkPeeringPropertiesFormat
@@ -80,16 +73,6 @@ type VirtualNetworkPeeringPropertiesFormatARM struct {
 	//network already has a gateway.
 	UseRemoteGateways *bool `json:"useRemoteGateways,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion string
-
-const VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion20201101 = VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion("2020-11-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Network/virtualNetworks/virtualNetworkPeerings"}
-type VirtualNetworksVirtualNetworkPeeringsSpecType string
-
-const VirtualNetworksVirtualNetworkPeeringsSpecTypeMicrosoftNetworkVirtualNetworksVirtualNetworkPeerings = VirtualNetworksVirtualNetworkPeeringsSpecType("Microsoft.Network/virtualNetworks/virtualNetworkPeerings")
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities
 type VirtualNetworkBgpCommunitiesARM struct {

@@ -6,10 +6,6 @@ package v1alpha1api20200801preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RoleAssignments_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion RoleAssignmentsSpecAPIVersion `json:"apiVersion"`
-
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -19,21 +15,15 @@ type RoleAssignments_SpecARM struct {
 	//Properties: Role assignment properties.
 	Properties RoleAssignmentPropertiesARM `json:"properties"`
 
-	//Scope: A scope
-	Scope *string `json:"scope,omitempty"`
-
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type RoleAssignmentsSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &RoleAssignments_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01-preview"
 func (roleAssignmentsSpecARM RoleAssignments_SpecARM) GetAPIVersion() string {
-	return string(roleAssignmentsSpecARM.APIVersion)
+	return "2020-08-01-preview"
 }
 
 // GetName returns the Name of the resource
@@ -41,9 +31,9 @@ func (roleAssignmentsSpecARM RoleAssignments_SpecARM) GetName() string {
 	return roleAssignmentsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Authorization/roleAssignments"
 func (roleAssignmentsSpecARM RoleAssignments_SpecARM) GetType() string {
-	return string(roleAssignmentsSpecARM.Type)
+	return "Microsoft.Authorization/roleAssignments"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/definitions/RoleAssignmentProperties
@@ -70,13 +60,3 @@ type RoleAssignmentPropertiesARM struct {
 	PrincipalType    *RoleAssignmentPropertiesPrincipalType `json:"principalType,omitempty"`
 	RoleDefinitionId string                                 `json:"roleDefinitionId"`
 }
-
-// +kubebuilder:validation:Enum={"2020-08-01-preview"}
-type RoleAssignmentsSpecAPIVersion string
-
-const RoleAssignmentsSpecAPIVersion20200801Preview = RoleAssignmentsSpecAPIVersion("2020-08-01-preview")
-
-// +kubebuilder:validation:Enum={"Microsoft.Authorization/roleAssignments"}
-type RoleAssignmentsSpecType string
-
-const RoleAssignmentsSpecTypeMicrosoftAuthorizationRoleAssignments = RoleAssignmentsSpecType("Microsoft.Authorization/roleAssignments")

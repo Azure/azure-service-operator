@@ -974,6 +974,11 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type LoadBalancersSpecAPIVersion string
+
+const LoadBalancersSpecAPIVersion20201101 = LoadBalancersSpecAPIVersion("2020-11-01")
+
 type LoadBalancers_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -1030,9 +1035,6 @@ func (loadBalancersSpec *LoadBalancers_Spec) ConvertToARM(resolved genruntime.Co
 		return nil, nil
 	}
 	var result LoadBalancers_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = LoadBalancersSpecAPIVersion20201101
 
 	// Set property ‘ExtendedLocation’:
 	if loadBalancersSpec.ExtendedLocation != nil {
@@ -1111,9 +1113,6 @@ func (loadBalancersSpec *LoadBalancers_Spec) ConvertToARM(resolved genruntime.Co
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = LoadBalancersSpecTypeMicrosoftNetworkLoadBalancers
 	return result, nil
 }
 

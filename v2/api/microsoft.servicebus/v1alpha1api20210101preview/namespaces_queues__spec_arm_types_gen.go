@@ -6,10 +6,6 @@ package v1alpha1api20210101preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type NamespacesQueues_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion NamespacesQueuesSpecAPIVersion `json:"apiVersion"`
-
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -21,16 +17,13 @@ type NamespacesQueues_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type NamespacesQueuesSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesQueues_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (namespacesQueuesSpecARM NamespacesQueues_SpecARM) GetAPIVersion() string {
-	return string(namespacesQueuesSpecARM.APIVersion)
+	return "2021-01-01-preview"
 }
 
 // GetName returns the Name of the resource
@@ -38,20 +31,10 @@ func (namespacesQueuesSpecARM NamespacesQueues_SpecARM) GetName() string {
 	return namespacesQueuesSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
 func (namespacesQueuesSpecARM NamespacesQueues_SpecARM) GetType() string {
-	return string(namespacesQueuesSpecARM.Type)
+	return "Microsoft.ServiceBus/namespaces/queues"
 }
-
-// +kubebuilder:validation:Enum={"2021-01-01-preview"}
-type NamespacesQueuesSpecAPIVersion string
-
-const NamespacesQueuesSpecAPIVersion20210101Preview = NamespacesQueuesSpecAPIVersion("2021-01-01-preview")
-
-// +kubebuilder:validation:Enum={"Microsoft.ServiceBus/namespaces/queues"}
-type NamespacesQueuesSpecType string
-
-const NamespacesQueuesSpecTypeMicrosoftServiceBusNamespacesQueues = NamespacesQueuesSpecType("Microsoft.ServiceBus/namespaces/queues")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBQueueProperties
 type SBQueuePropertiesARM struct {

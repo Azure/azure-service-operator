@@ -6,10 +6,6 @@ package v1alpha1api20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion `json:"apiVersion"`
-
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -27,16 +23,13 @@ type DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM struct {
 	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
 	//include "Table", "Graph", "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type DatabaseAccountsSqlDatabasesContainersTriggersSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (databaseAccountsSqlDatabasesContainersTriggersSpecARM DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetAPIVersion() string {
-	return string(databaseAccountsSqlDatabasesContainersTriggersSpecARM.APIVersion)
+	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource
@@ -44,20 +37,10 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpecARM DatabaseAccountsSqlD
 	return databaseAccountsSqlDatabasesContainersTriggersSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 func (databaseAccountsSqlDatabasesContainersTriggersSpecARM DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetType() string {
-	return string(databaseAccountsSqlDatabasesContainersTriggersSpecARM.Type)
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
-
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion("2021-05-15")
-
-// +kubebuilder:validation:Enum={"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"}
-type DatabaseAccountsSqlDatabasesContainersTriggersSpecType string
-
-const DatabaseAccountsSqlDatabasesContainersTriggersSpecTypeMicrosoftDocumentDBDatabaseAccountsSqlDatabasesContainersTriggers = DatabaseAccountsSqlDatabasesContainersTriggersSpecType("Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerCreateUpdateProperties
 type SqlTriggerCreateUpdatePropertiesARM struct {

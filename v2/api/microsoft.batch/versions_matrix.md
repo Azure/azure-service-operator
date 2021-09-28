@@ -15,7 +15,6 @@
 | BatchAccountProperties_Status                              | v1alpha1api20210101 |
 | BatchAccount_Status                                        | v1alpha1api20210101 |
 | BatchAccountsSpecAPIVersion                                | v1alpha1api20210101 |
-| BatchAccountsSpecType                                      | v1alpha1api20210101 |
 | BatchAccounts_Spec                                         | v1alpha1api20210101 |
 | EncryptionProperties                                       | v1alpha1api20210101 |
 | EncryptionPropertiesKeySource                              | v1alpha1api20210101 |

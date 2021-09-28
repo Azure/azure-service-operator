@@ -279,6 +279,11 @@ type SqlDatabaseContainerTriggerList struct {
 	Items           []SqlDatabaseContainerTrigger `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion string
+
+const DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion("2021-05-15")
+
 type DatabaseAccountsSqlDatabasesContainersTriggers_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -318,9 +323,6 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	}
 	var result DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion20210515
-
 	// Set property ‘Location’:
 	if databaseAccountsSqlDatabasesContainersTriggersSpec.Location != nil {
 		location := *databaseAccountsSqlDatabasesContainersTriggersSpec.Location
@@ -352,9 +354,6 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DatabaseAccountsSqlDatabasesContainersTriggersSpecTypeMicrosoftDocumentDBDatabaseAccountsSqlDatabasesContainersTriggers
 	return result, nil
 }
 

@@ -23,7 +23,7 @@ vars:
 
   CONTROLLER_DOCKER_IMAGE: azureserviceoperator:{{.VERSION}}
   PUBLIC_REGISTRY: mcr.microsoft.com/k8s/
-  LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE: localhost:5000/azureserviceoperator:latest
+  LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE: v2/api/microsoft.documentdb/versions_matrix.md
 
   CROSSPLANE_APP: crossplane-gen
   CROSSPLANE_ROOT: ./hack/crossplane/

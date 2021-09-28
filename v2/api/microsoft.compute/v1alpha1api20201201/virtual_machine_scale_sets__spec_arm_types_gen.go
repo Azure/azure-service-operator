@@ -9,10 +9,6 @@ import (
 )
 
 type VirtualMachineScaleSets_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion VirtualMachineScaleSetsSpecAPIVersion `json:"apiVersion"`
-
 	//ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
@@ -44,9 +40,6 @@ type VirtualMachineScaleSets_SpecARM struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
-	Type VirtualMachineScaleSetsSpecType `json:"type"`
-
 	//Zones: The virtual machine scale set zones. NOTE: Availability zones can only be
 	//set when you create the scale set
 	Zones []string `json:"zones,omitempty"`
@@ -54,9 +47,9 @@ type VirtualMachineScaleSets_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &VirtualMachineScaleSets_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (virtualMachineScaleSetsSpecARM VirtualMachineScaleSets_SpecARM) GetAPIVersion() string {
-	return string(virtualMachineScaleSetsSpecARM.APIVersion)
+	return "2020-12-01"
 }
 
 // GetName returns the Name of the resource
@@ -64,9 +57,9 @@ func (virtualMachineScaleSetsSpecARM VirtualMachineScaleSets_SpecARM) GetName() 
 	return virtualMachineScaleSetsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
 func (virtualMachineScaleSetsSpecARM VirtualMachineScaleSets_SpecARM) GetType() string {
-	return string(virtualMachineScaleSetsSpecARM.Type)
+	return "Microsoft.Compute/virtualMachineScaleSets"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ExtendedLocation
@@ -117,16 +110,6 @@ type VirtualMachineScaleSetIdentityARM struct {
 	//from the virtual machine scale set.
 	Type *VirtualMachineScaleSetIdentityType `json:"type,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type VirtualMachineScaleSetsSpecAPIVersion string
-
-const VirtualMachineScaleSetsSpecAPIVersion20201201 = VirtualMachineScaleSetsSpecAPIVersion("2020-12-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Compute/virtualMachineScaleSets"}
-type VirtualMachineScaleSetsSpecType string
-
-const VirtualMachineScaleSetsSpecTypeMicrosoftComputeVirtualMachineScaleSets = VirtualMachineScaleSetsSpecType("Microsoft.Compute/virtualMachineScaleSets")
 
 type VirtualMachineScaleSets_Spec_PropertiesARM struct {
 	//AdditionalCapabilities: Enables or disables a capability on the virtual machine

@@ -28,8 +28,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	"github.com/Azure/azure-service-operator/v2/internal/armclient"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -38,7 +38,7 @@ import (
 )
 
 type (
-	ARMClientFactory func(genruntime.MetaObject) armclient.Applier
+	ARMClientFactory func(genruntime.MetaObject) *genericarmclient.GenericClient
 	LoggerFactory    func(genruntime.MetaObject) logr.Logger
 )
 
@@ -54,7 +54,6 @@ type GenericReconciler struct {
 	GVK                  schema.GroupVersionKind
 	RequeueDelayOverride time.Duration
 	PositiveConditions   *conditions.PositiveConditionBuilder
-	CreateDeploymentName func(obj metav1.Object) (string, error)
 }
 
 var _ reconcile.Reconciler = &GenericReconciler{} // GenericReconciler is a reconcile.Reconciler
@@ -63,18 +62,12 @@ type Options struct {
 	controller.Options
 
 	// options specific to our controller
-	RequeueDelay         time.Duration
-	Config               config.Values
-	CreateDeploymentName func(obj metav1.Object) (string, error)
-	LoggerFactory        func(obj metav1.Object) logr.Logger
+	RequeueDelay  time.Duration
+	Config        config.Values
+	LoggerFactory func(obj metav1.Object) logr.Logger
 }
 
 func (options *Options) setDefaults() {
-	// override deployment name generator, if provided
-	if options.CreateDeploymentName == nil {
-		options.CreateDeploymentName = createDeploymentName
-	}
-
 	// default logger to the controller-runtime logger
 	if options.Log == nil {
 		options.Log = ctrl.Log
@@ -170,7 +163,6 @@ func register(
 		GVK:                  gvk,
 		RequeueDelayOverride: options.RequeueDelay,
 		PositiveConditions:   conditions.NewPositiveConditionBuilder(clock.New()),
-		CreateDeploymentName: options.CreateDeploymentName,
 	}
 
 	err = ctrl.NewControllerManagedBy(mgr).
@@ -273,10 +265,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		gr.Recorder,
 		gr.KubeClient,
 		gr.ResourceResolver,
-		gr.PositiveConditions,
-		// TODO: CreateDeploymentName probably shouldn't be on GenericReconciler
-		// TODO: (since it's supposed to be generic and there's no guarantee that for an arbitrary resource we even create a deployment)
-		gr.CreateDeploymentName)
+		gr.PositiveConditions)
 
 	result, err := reconciler.Reconcile(ctx)
 	if err != nil {

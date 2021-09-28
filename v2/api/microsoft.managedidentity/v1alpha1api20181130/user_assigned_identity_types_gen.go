@@ -519,6 +519,11 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2018-11-30"}
+type UserAssignedIdentitiesSpecAPIVersion string
+
+const UserAssignedIdentitiesSpecAPIVersion20181130 = UserAssignedIdentitiesSpecAPIVersion("2018-11-30")
+
 type UserAssignedIdentities_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -543,9 +548,6 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(reso
 	}
 	var result UserAssignedIdentities_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = UserAssignedIdentitiesSpecAPIVersion20181130
-
 	// Set property ‘Location’:
 	result.Location = userAssignedIdentitiesSpec.Location
 
@@ -559,9 +561,6 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(reso
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = UserAssignedIdentitiesSpecTypeMicrosoftManagedIdentityUserAssignedIdentities
 	return result, nil
 }
 

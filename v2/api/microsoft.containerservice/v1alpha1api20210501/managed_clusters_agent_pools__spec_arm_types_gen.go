@@ -6,10 +6,6 @@ package v1alpha1api20210501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type ManagedClustersAgentPools_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion ManagedClustersAgentPoolsSpecAPIVersion `json:"apiVersion"`
-
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -18,16 +14,13 @@ type ManagedClustersAgentPools_SpecARM struct {
 
 	//Properties: Properties for the container service agent pool profile.
 	Properties ManagedClusterAgentPoolProfilePropertiesARM `json:"properties"`
-
-	//Type: Resource type
-	Type ManagedClustersAgentPoolsSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &ManagedClustersAgentPools_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (managedClustersAgentPoolsSpecARM ManagedClustersAgentPools_SpecARM) GetAPIVersion() string {
-	return string(managedClustersAgentPoolsSpecARM.APIVersion)
+	return "2021-05-01"
 }
 
 // GetName returns the Name of the resource
@@ -35,9 +28,9 @@ func (managedClustersAgentPoolsSpecARM ManagedClustersAgentPools_SpecARM) GetNam
 	return managedClustersAgentPoolsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
 func (managedClustersAgentPoolsSpecARM ManagedClustersAgentPools_SpecARM) GetType() string {
-	return string(managedClustersAgentPoolsSpecARM.Type)
+	return "Microsoft.ContainerService/managedClusters/agentPools"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAgentPoolProfileProperties
@@ -157,16 +150,6 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	VmSize       *string `json:"vmSize,omitempty"`
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2021-05-01"}
-type ManagedClustersAgentPoolsSpecAPIVersion string
-
-const ManagedClustersAgentPoolsSpecAPIVersion20210501 = ManagedClustersAgentPoolsSpecAPIVersion("2021-05-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.ContainerService/managedClusters/agentPools"}
-type ManagedClustersAgentPoolsSpecType string
-
-const ManagedClustersAgentPoolsSpecTypeMicrosoftContainerServiceManagedClustersAgentPools = ManagedClustersAgentPoolsSpecType("Microsoft.ContainerService/managedClusters/agentPools")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/AgentPoolUpgradeSettings
 type AgentPoolUpgradeSettingsARM struct {

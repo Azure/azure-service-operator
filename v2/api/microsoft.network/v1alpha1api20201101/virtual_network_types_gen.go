@@ -940,6 +940,11 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type VirtualNetworksSpecAPIVersion string
+
+const VirtualNetworksSpecAPIVersion20201101 = VirtualNetworksSpecAPIVersion("2020-11-01")
+
 type VirtualNetworks_Spec struct {
 	// +kubebuilder:validation:Required
 	//AddressSpace: The AddressSpace that contains an array of IP address ranges that
@@ -997,9 +1002,6 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertToARM(resolved genruntim
 		return nil, nil
 	}
 	var result VirtualNetworks_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = VirtualNetworksSpecAPIVersion20201101
 
 	// Set property ‘ExtendedLocation’:
 	if virtualNetworksSpec.ExtendedLocation != nil {
@@ -1077,9 +1079,6 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertToARM(resolved genruntim
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = VirtualNetworksSpecTypeMicrosoftNetworkVirtualNetworks
 	return result, nil
 }
 

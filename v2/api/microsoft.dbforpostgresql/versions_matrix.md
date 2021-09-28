@@ -13,14 +13,11 @@
 | FlexibleServer                             | v1alpha1api20210601 |
 | FlexibleServersDatabase                    | v1alpha1api20210601 |
 | FlexibleServersDatabasesSpecAPIVersion     | v1alpha1api20210601 |
-| FlexibleServersDatabasesSpecType           | v1alpha1api20210601 |
 | FlexibleServersDatabases_Spec              | v1alpha1api20210601 |
 | FlexibleServersFirewallRule                | v1alpha1api20210601 |
 | FlexibleServersFirewallRulesSpecAPIVersion | v1alpha1api20210601 |
-| FlexibleServersFirewallRulesSpecType       | v1alpha1api20210601 |
 | FlexibleServersFirewallRules_Spec          | v1alpha1api20210601 |
 | FlexibleServersSpecAPIVersion              | v1alpha1api20210601 |
-| FlexibleServersSpecType                    | v1alpha1api20210601 |
 | FlexibleServers_Spec                       | v1alpha1api20210601 |
 | HighAvailability                           | v1alpha1api20210601 |
 | HighAvailabilityMode                       | v1alpha1api20210601 |

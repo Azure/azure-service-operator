@@ -6,10 +6,6 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworks_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion VirtualNetworksSpecAPIVersion `json:"apiVersion"`
-
 	//ExtendedLocation: The extended location of the virtual network.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
@@ -24,16 +20,13 @@ type VirtualNetworks_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type VirtualNetworksSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualNetworks_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (virtualNetworksSpecARM VirtualNetworks_SpecARM) GetAPIVersion() string {
-	return string(virtualNetworksSpecARM.APIVersion)
+	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
@@ -41,20 +34,10 @@ func (virtualNetworksSpecARM VirtualNetworks_SpecARM) GetName() string {
 	return virtualNetworksSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
 func (virtualNetworksSpecARM VirtualNetworks_SpecARM) GetType() string {
-	return string(virtualNetworksSpecARM.Type)
+	return "Microsoft.Network/virtualNetworks"
 }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type VirtualNetworksSpecAPIVersion string
-
-const VirtualNetworksSpecAPIVersion20201101 = VirtualNetworksSpecAPIVersion("2020-11-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Network/virtualNetworks"}
-type VirtualNetworksSpecType string
-
-const VirtualNetworksSpecTypeMicrosoftNetworkVirtualNetworks = VirtualNetworksSpecType("Microsoft.Network/virtualNetworks")
 
 type VirtualNetworks_Spec_PropertiesARM struct {
 	//AddressSpace: The AddressSpace that contains an array of IP address ranges that

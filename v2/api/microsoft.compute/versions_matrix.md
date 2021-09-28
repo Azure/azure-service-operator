@@ -50,7 +50,6 @@
 | DiskState_Status                                                                                                                                                                | v1alpha1api20200930 |                     |
 | Disk_Status                                                                                                                                                                     | v1alpha1api20200930 |                     |
 | DisksSpecAPIVersion                                                                                                                                                             | v1alpha1api20200930 |                     |
-| DisksSpecType                                                                                                                                                                   | v1alpha1api20200930 |                     |
 | Disks_Spec                                                                                                                                                                      | v1alpha1api20200930 |                     |
 | Encryption                                                                                                                                                                      | v1alpha1api20200930 |                     |
 | EncryptionSettingsCollection                                                                                                                                                    | v1alpha1api20200930 |                     |
@@ -180,7 +179,6 @@
 | VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy                                                                                                        |                     | v1alpha1api20201201 |
 | VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion               |                     | v1alpha1api20201201 |
 | VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority                                                                                                              |                     | v1alpha1api20201201 |
-| VirtualMachineScaleSetsSpecType                                                                                                                                                 |                     | v1alpha1api20201201 |
 | VirtualMachineScaleSets_Spec                                                                                                                                                    |                     | v1alpha1api20201201 |
 | VirtualMachineScaleSets_Spec_Properties                                                                                                                                         |                     | v1alpha1api20201201 |
 | VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile                                                                                                                   |                     | v1alpha1api20201201 |
