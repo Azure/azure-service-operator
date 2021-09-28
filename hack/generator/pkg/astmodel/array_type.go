@@ -33,7 +33,7 @@ func (array *ArrayType) Element() Type {
 // the benefit of this is it allows reusing the same value if the
 // element type is the same
 func (array *ArrayType) WithElement(t Type) *ArrayType {
-	if array.element.Equals(t) {
+	if TypeEquals(array.element, t) {
 		return array
 	}
 
@@ -72,13 +72,13 @@ func (array *ArrayType) References() TypeNameSet {
 }
 
 // Equals returns true if the passed type is an array type with the same kind of elements, false otherwise
-func (array *ArrayType) Equals(t Type) bool {
+func (array *ArrayType) Equals(t Type, overrides EqualityOverrides) bool {
 	if array == t {
 		return true
 	}
 
 	if et, ok := t.(*ArrayType); ok {
-		return array.element.Equals(et.element)
+		return array.element.Equals(et.element, overrides)
 	}
 
 	return false

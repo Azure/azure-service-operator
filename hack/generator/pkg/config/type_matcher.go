@@ -102,6 +102,14 @@ func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 	return false
 }
 
+func (t *TypeMatcher) AppliesToAnyTypesInPackage(p astmodel.LocalPackageReference) bool {
+	return t.groupMatches(p.Group()) && t.versionMatches(p.Version())
+}
+
+func (t *TypeMatcher) AppliesToWholePackage(p astmodel.LocalPackageReference) bool {
+	return t.groupMatches(p.Group()) && t.versionMatches(p.Version()) && t.Name == ""
+}
+
 func (t *TypeMatcher) MatchedRequiredTypes() bool {
 	if *t.MatchRequired {
 		return t.HasMatches()

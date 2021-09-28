@@ -170,11 +170,11 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 			result, err := v.Visit(c.subject, nil)
 
 			g.Expect(err).To(BeNil())
-			g.Expect(result.Equals(c.subject)).To(BeTrue())
+			g.Expect(TypeEquals(result, c.subject)).To(BeTrue())
 
 			// Test both ways to be paranoid
 			// If this test fails while the previous line passes, there's likely a bug in .Equals()
-			g.Expect(c.subject.Equals(result)).To(BeTrue())
+			g.Expect(TypeEquals(c.subject, result)).To(BeTrue())
 		})
 	}
 }
@@ -321,7 +321,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			c.configure(&builder)
 			v := builder.Build()
 			typ, err := v.Visit(c.subject, nil)
-			g.Expect(typ.Equals(c.expectedType)).To(BeTrue())
+			g.Expect(TypeEquals(typ, c.expectedType)).To(BeTrue())
 			g.Expect(err.Error()).To(ContainSubstring(c.expectedError))
 		})
 	}

@@ -54,7 +54,7 @@ func NewValidatorBuilder(resourceName TypeName, resource *ResourceType, idFactor
 
 // AddValidation adds an additional validation function to the set of validation functions to be applied to the given object.
 func (v *ValidatorBuilder) AddValidation(kind ValidationKind, f *resourceFunction) {
-	if !v.resource.Equals(f.resource) {
+	if !v.resource.Equals(f.resource, EqualityOverrides{}) {
 		panic("cannot add validation function on non-matching object types")
 	}
 	v.validations[kind] = append(v.validations[kind], f)

@@ -96,7 +96,7 @@ func (oneOf OneOfType) RequiredPackageReferences() *PackageReferenceSet {
 
 // Equals returns true if the other Type is a OneOfType that contains
 // the same set of types
-func (oneOf *OneOfType) Equals(t Type) bool {
+func (oneOf *OneOfType) Equals(t Type, overrides EqualityOverrides) bool {
 	if oneOf == t {
 		return true // short-circuit
 	}
@@ -106,7 +106,7 @@ func (oneOf *OneOfType) Equals(t Type) bool {
 		return false
 	}
 
-	return oneOf.types.Equals(other.types)
+	return oneOf.types.Equals(other.types, overrides)
 }
 
 // String implements fmt.Stringer

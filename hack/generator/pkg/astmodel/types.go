@@ -8,6 +8,7 @@ package astmodel
 import (
 	"fmt"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
 )
 
@@ -95,12 +96,31 @@ func (types Types) AddAllowDuplicates(def TypeDefinition) error {
 	}
 
 	existing := types[def.Name()]
-	if !def.Type().Equals(existing.Type()) {
-		return errors.Errorf("type definition for %q has two shapes", existing.Name())
+	if !TypeEquals(def.Type(), existing.Type()) {
+		return errors.Errorf("type definition for %q has two shapes: %s", existing.Name(), DiffTypes(existing.Type(), def.Type()))
 	}
 
 	// Can safely skip this add
 	return nil
+}
+
+func DiffTypes(x, y interface{}) string {
+	allowAll := cmp.AllowUnexported(
+		AllOfType{},
+		ObjectType{},
+		OneOfType{},
+		PropertyDefinition{},
+		OptionalType{},
+		ArrayType{},
+		PrimitiveType{},
+		EnumType{},
+		TypeName{},
+		LocalPackageReference{},
+		InterfaceImplementer{},
+		TypeSet{},
+	)
+
+	return cmp.Diff(x, y, allowAll)
 }
 
 // AddAllAllowDuplicates adds multiple definitions to the set.

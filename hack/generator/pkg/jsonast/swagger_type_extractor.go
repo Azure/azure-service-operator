@@ -12,7 +12,6 @@ import (
 	"strings"
 
 	"github.com/go-openapi/spec"
-	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 
@@ -56,14 +55,19 @@ func NewSwaggerTypeExtractor(
 	}
 }
 
+type SwaggerTypes struct {
+	ResourceTypes, OtherTypes astmodel.Types
+}
+
 // ExtractTypes finds all operations in the Swagger spec that
 // have a PUT verb and a path like "Microsoft.GroupName/…/resourceName/{resourceId}",
-// and extracts the types for those operations, into the 'resources' parameter.
-// Any additional types required by the resource types are placed into the 'otherTypes' parameter.
-func (extractor *SwaggerTypeExtractor) ExtractTypes(
-	ctx context.Context,
-	resources astmodel.Types,
-	otherTypes astmodel.Types) error {
+// and extracts the types for those operations, into the 'resourceTypes' result.
+// Any additional types required by the resource types are placed into the 'otherTypes' result.
+func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (SwaggerTypes, error) {
+	result := SwaggerTypes{
+		ResourceTypes: make(astmodel.Types),
+		OtherTypes:    make(astmodel.Types),
+	}
 
 	scanner := NewSchemaScanner(extractor.idFactory, extractor.config)
 
@@ -90,10 +94,10 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 			resourceType, err := scanner.RunHandlerForSchema(ctx, *resourceSchema)
 			if err != nil {
 				if errors.Is(err, context.Canceled) {
-					return err
+					return SwaggerTypes{}, err
 				}
 
-				return errors.Wrapf(err, "unable to produce type for resource %s", resourceName)
+				return SwaggerTypes{}, errors.Wrapf(err, "unable to produce type for resource %s", resourceName)
 			}
 
 			if resourceType == nil {
@@ -101,53 +105,34 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 				continue
 			}
 
-			if existingResource, ok := resources[resourceName]; ok {
+			if existingResource, ok := result.ResourceTypes[resourceName]; ok {
 				if !astmodel.TypeEquals(existingResource.Type(), resourceType) {
-					return errors.Errorf("resource already defined differently: %s\ndiff: %s",
+					return SwaggerTypes{}, errors.Errorf("resource already defined differently: %s\ndiff: %s",
 						resourceName,
-						diffTypes(existingResource.Type(), resourceType))
+						astmodel.DiffTypes(existingResource.Type(), resourceType))
 				}
 			} else {
-				resources.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
+				result.ResourceTypes.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
 			}
 		}
 	}
 
 	for _, def := range scanner.Definitions() {
 		// now add in the additional type definitions required by the resources
-		if existingDef, ok := otherTypes[def.Name()]; ok {
+		if existingDef, ok := result.OtherTypes[def.Name()]; ok {
 			if !astmodel.TypeEquals(existingDef.Type(), def.Type()) {
-				return errors.Errorf("type already defined differently: %s\nwas %s is %s\ndiff: %s",
+				return SwaggerTypes{}, errors.Errorf("type already defined differently: %s\nwas %s is %s\ndiff: %s",
 					def.Name(),
 					existingDef.Type(),
 					def.Type(),
-					diffTypes(existingDef.Type(), def.Type()))
+					astmodel.DiffTypes(existingDef.Type(), def.Type()))
 			}
 		} else {
-			otherTypes.Add(def)
+			result.OtherTypes.Add(def)
 		}
 	}
 
-	return nil
-}
-
-func diffTypes(x, y interface{}) string {
-	allowAll := cmp.AllowUnexported(
-		astmodel.AllOfType{},
-		astmodel.ObjectType{},
-		astmodel.OneOfType{},
-		astmodel.PropertyDefinition{},
-		astmodel.OptionalType{},
-		astmodel.ArrayType{},
-		astmodel.PrimitiveType{},
-		astmodel.EnumType{},
-		astmodel.TypeName{},
-		astmodel.LocalPackageReference{},
-		astmodel.InterfaceImplementer{},
-		astmodel.TypeSet{},
-	)
-
-	return cmp.Diff(x, y, allowAll)
+	return result, nil
 }
 
 // Look at the responses of the PUT to determine if this represents an ARM resource,

@@ -145,13 +145,13 @@ func (enum *EnumType) References() TypeNameSet {
 }
 
 // Equals will return true if the supplied type has the same base type and options
-func (enum *EnumType) Equals(t Type) bool {
+func (enum *EnumType) Equals(t Type, overrides EqualityOverrides) bool {
 	if enum == t {
 		return true // short-circuit
 	}
 
 	if e, ok := t.(*EnumType); ok {
-		if !enum.baseType.Equals(e.baseType) {
+		if !enum.baseType.Equals(e.baseType, overrides) {
 			return false
 		}
 

@@ -74,7 +74,7 @@ func (prim *PrimitiveType) References() TypeNameSet {
 }
 
 // Equals returns true if the passed type is another primitive type the same name, false otherwise
-func (prim *PrimitiveType) Equals(t Type) bool {
+func (prim *PrimitiveType) Equals(t Type, _ EqualityOverrides) bool {
 	if prim == t {
 		return true // short circuit
 	}

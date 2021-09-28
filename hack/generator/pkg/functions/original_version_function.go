@@ -72,7 +72,7 @@ func (o *OriginalVersionFunction) AsFunc(
 }
 
 // Equals returns true if the passed function is equal to us, or false otherwise
-func (o *OriginalVersionFunction) Equals(f astmodel.Function) bool {
+func (o *OriginalVersionFunction) Equals(f astmodel.Function, _ astmodel.EqualityOverrides) bool {
 	_, ok := f.(*OriginalVersionFunction)
 	// Equality is just based on Type for now
 	return ok

@@ -57,7 +57,7 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				return nil, errors.Wrapf(err, "unable to load Swagger data")
 			}
 
-			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other types)", len(swaggerTypes.resources), len(swaggerTypes.otherTypes))
+			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other types)", len(swaggerTypes.ResourceTypes), len(swaggerTypes.OtherTypes))
 
 			statusTypes, err := generateStatusTypes(swaggerTypes)
 			if err != nil {
@@ -142,13 +142,13 @@ func appendStatusSuffix(typeName astmodel.TypeName) astmodel.TypeName {
 	return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+"_Status")
 }
 
-// generateStatusTypes returns the statusTypes for the input swaggerTypes
+// generateStatusTypes returns the statusTypes for the input Swagger types
 // all types (apart from Resources) are renamed to have "_Status" as a
 // suffix, to avoid name clashes.
-func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
+func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (statusTypes, error) {
 	var errs []error
 	otherTypes := make(astmodel.Types)
-	for _, typeDef := range swaggerTypes.otherTypes {
+	for _, typeDef := range swaggerTypes.OtherTypes {
 		renamedDef, err := statusTypeRenamer.VisitDefinition(typeDef, nil)
 		if err != nil {
 			errs = append(errs, err)
@@ -158,7 +158,7 @@ func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
 	}
 
 	resources := make(resourceLookup)
-	for resourceName, resourceDef := range swaggerTypes.resources {
+	for resourceName, resourceDef := range swaggerTypes.ResourceTypes {
 		// resourceName is not renamed as this is a lookup for the Spec type
 		renamedDef, err := statusTypeRenamer.Visit(resourceDef.Type(), nil)
 		if err != nil {
@@ -185,29 +185,22 @@ func makeRenamingVisitor(rename func(astmodel.TypeName) astmodel.TypeName) astmo
 
 var swaggerVersionRegex = regexp.MustCompile(`/\d{4}-\d{2}-\d{2}(-preview|-privatepreview)?/`)
 
-type swaggerTypes struct {
-	resources  astmodel.Types
-	otherTypes astmodel.Types
-}
-
-func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, config *config.Configuration) (swaggerTypes, error) {
-	result := swaggerTypes{
-		resources:  make(astmodel.Types),
-		otherTypes: make(astmodel.Types),
-	}
-
-	schemas, err := loadAllSchemas(ctx, config.Status.SchemaRoot)
+func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, config *config.Configuration) (jsonast.SwaggerTypes, error) {
+	schemas, err := loadAllSchemas(ctx, config.LocalPathPrefix(), config.TypeFilters, config.ExportFilters, config.Status.SchemaRoot)
 	if err != nil {
-		return swaggerTypes{}, err
+		return jsonast.SwaggerTypes{}, err
 	}
 
 	cache := jsonast.NewOpenAPISchemaCache(schemas)
 
+	typesByGroup := make(map[astmodel.LocalPackageReference][]typesFromFile)
 	for schemaPath, schema := range schemas {
 		// these have already been tested in the loadAllSchemas function so are guaranteed to match
 		outputGroup := jsonast.SwaggerGroupRegex.FindString(schemaPath)
-		outputVersion := swaggerVersionRegex.FindString(schemaPath)
-		outputVersion = strings.Trim(outputVersion, "/")
+		// need to trim leading/trailing '/' which are matched in regex (go doesn’t support lookaround)
+		outputVersion := strings.Trim(swaggerVersionRegex.FindString(schemaPath), "/")
+
+		pkg := config.MakeLocalPackageReference(idFactory.CreateGroupName(outputGroup), astmodel.CreateLocalPackageNameFromVersion(outputVersion))
 
 		// see if there is a config override for this file
 		for _, schemaOverride := range config.Status.Overrides {
@@ -231,13 +224,235 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 			outputVersion,
 			cache)
 
-		err := extractor.ExtractTypes(ctx, result.resources, result.otherTypes)
+		types, err := extractor.ExtractTypes(ctx)
 		if err != nil {
-			return swaggerTypes{}, errors.Wrapf(err, "error processing %q", schemaPath)
+			return jsonast.SwaggerTypes{}, errors.Wrapf(err, "error processing %q", schemaPath)
+		}
+
+		typesByGroup[pkg] = append(typesByGroup[pkg], typesFromFile{types, schemaPath})
+	}
+
+	return mergeSwaggerTypesByGroup(idFactory, typesByGroup), nil
+}
+
+func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmodel.LocalPackageReference][]typesFromFile) jsonast.SwaggerTypes {
+	klog.V(3).Infof("Merging types for %d groups/versions", len(m))
+
+	result := jsonast.SwaggerTypes{
+		ResourceTypes: make(astmodel.Types),
+		OtherTypes:    make(astmodel.Types),
+	}
+
+	for pkg, group := range m {
+		klog.V(3).Infof("Merging types for %s", pkg)
+		merged := mergeTypesForPackage(idFactory, group)
+		result.ResourceTypes.AddTypes(merged.ResourceTypes)
+		result.OtherTypes.AddTypes(merged.OtherTypes)
+	}
+
+	return result
+}
+
+type typesFromFile struct {
+	jsonast.SwaggerTypes
+	filePath string
+}
+
+// mergeTypesForPackage merges the types for a single package from multiple files
+func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles []typesFromFile) jsonast.SwaggerTypes {
+	resourceNameCount := make(map[astmodel.TypeName]int)
+	typeNameCount := make(map[astmodel.TypeName]int)
+	for _, typesFromFile := range typesFromFiles {
+		for name := range typesFromFile.ResourceTypes {
+			resourceNameCount[name] += 1
+		}
+
+		for name := range typesFromFile.OtherTypes {
+			typeNameCount[name] += 1
 		}
 	}
 
-	return result, nil
+	// the results in the renames map match the order of the Types in `typesFromFiles`
+	renames := make(map[astmodel.TypeName][]astmodel.TypeName)
+
+	for name, count := range typeNameCount {
+		if count == 1 {
+			continue // not duplicate
+		}
+
+		type typeAndSource struct {
+			def     astmodel.TypeDefinition
+			typesIx int
+		}
+
+		typesToCheck := make([]typeAndSource, 0, count)
+		for typesIx, types := range typesFromFiles {
+			if def, ok := types.OtherTypes[name]; ok {
+				typesToCheck = append(typesToCheck, typeAndSource{def: def, typesIx: typesIx})
+				// short-circuit
+				if len(typesToCheck) == count {
+					break
+				}
+			}
+		}
+
+		first := typesToCheck[0]
+		for _, other := range typesToCheck[1:] {
+			if !structurallyIdentical(
+				first.def.Type(),
+				typesFromFiles[first.typesIx].OtherTypes,
+				other.def.Type(),
+				typesFromFiles[other.typesIx].OtherTypes,
+			) {
+				if name != first.def.Name() || name != other.def.Name() {
+					panic("assert")
+				}
+
+				_, firstOk := first.def.Type().(*astmodel.ResourceType)
+				_, otherOk := other.def.Type().(*astmodel.ResourceType)
+				if firstOk || otherOk {
+					panic("cannot rename resources")
+				}
+
+				renamed := make([]astmodel.TypeName, len(typesFromFiles))
+
+				names := make([]string, len(typesToCheck))
+				for ix, ttc := range typesToCheck {
+					newName := generateRenaming(idFactory, first.def.Name(), typesFromFiles[ttc.typesIx].filePath, typeNameCount)
+					names[ix] = newName.Name()
+					renamed[ttc.typesIx] = newName
+				}
+
+				klog.V(3).Infof("Conflicting definitions for %s, renaming to: %s", first.def.Name(), strings.Join(names, ", "))
+
+				renames[name] = renamed
+				break
+			} else {
+				// klog.V(3).Infof("Conflicting definitions for %s were identical", first.def.Name())
+				// should we need to collapse these in favour of one?
+			}
+		}
+	}
+
+	if len(renames) == 0 {
+		// nothing needed renaming, we’re free to splat them all
+		mergedResult := jsonast.SwaggerTypes{ResourceTypes: make(astmodel.Types), OtherTypes: make(astmodel.Types)}
+		for _, typesFromFile := range typesFromFiles {
+			for _, t := range typesFromFile.OtherTypes {
+				_ = mergedResult.OtherTypes.AddAllowDuplicates(t)
+				// errors ignored since we already checked for structural equality
+				// it’s possible for types to refer to different typenames in which case they are not TypeEquals Equal
+				// but they might be structurally equal
+			}
+
+			err := mergedResult.ResourceTypes.AddTypesAllowDuplicates(typesFromFile.ResourceTypes)
+			if err != nil {
+				panic(err)
+			}
+		}
+
+		return mergedResult
+	}
+
+	for typeIx, typesFromFile := range typesFromFiles {
+		visitor := makeRenamingVisitor(func(name astmodel.TypeName) astmodel.TypeName {
+			if newNames, ok := renames[name]; ok {
+				return newNames[typeIx]
+			}
+
+			return name
+		})
+
+		newOtherTypes := make(astmodel.Types)
+		for _, def := range typesFromFile.OtherTypes {
+			newDef, err := visitor.VisitDefinition(def, nil)
+			if err != nil {
+				panic(err)
+			}
+
+			newOtherTypes.Add(newDef)
+		}
+
+		newResourceTypes := make(astmodel.Types)
+		for _, resourceDef := range typesFromFile.ResourceTypes {
+			// must not rename the resource name, only within it
+			newType, err := visitor.Visit(resourceDef.Type(), nil)
+			if err != nil {
+				panic(err)
+			}
+
+			newResourceTypes.Add(resourceDef.WithType(newType))
+		}
+
+		typesFromFiles[typeIx].OtherTypes = newOtherTypes
+		typesFromFiles[typeIx].ResourceTypes = newResourceTypes
+	}
+
+	// try again!
+	klog.V(3).Infof("Trying again…")
+	return mergeTypesForPackage(idFactory, typesFromFiles)
+}
+
+func generateRenaming(
+	idFactory astmodel.IdentifierFactory,
+	original astmodel.TypeName,
+	filePath string,
+	typeNames map[astmodel.TypeName]int) astmodel.TypeName {
+	name := filepath.Base(filePath)
+	name = strings.TrimSuffix(name, filepath.Ext(name))
+
+	result := astmodel.MakeTypeName(
+		original.PackageReference,
+		idFactory.CreateIdentifier(name+original.Name(), astmodel.Exported))
+
+	for _, ok := typeNames[result]; ok; _, ok = typeNames[result] {
+		result = astmodel.MakeTypeName(
+			result.PackageReference,
+			result.Name()+"X",
+		)
+	}
+
+	return result
+}
+
+func structurallyIdentical(
+	leftType astmodel.Type,
+	leftTypes astmodel.Types,
+	rightType astmodel.Type,
+	rightTypes astmodel.Types) bool {
+
+	override := astmodel.EqualityOverrides{}
+
+	type pair struct{ left, right astmodel.TypeName }
+
+	toCheck := []pair{}
+	checked := map[pair]struct{}{}
+
+	// note that this relies on Equals implementations preserving the left/right order
+	override.TypeName = func(left, right astmodel.TypeName) bool {
+		p := pair{left, right}
+		if _, ok := checked[p]; !ok {
+			checked[p] = struct{}{}
+			toCheck = append(toCheck, p)
+		}
+
+		// conditionally true, as long as all pairs are equal
+		return true
+	}
+
+	if !leftType.Equals(rightType, override) {
+		return false
+	}
+
+	for len(toCheck) > 0 {
+		next := toCheck[0]
+		toCheck = toCheck[1:]
+		if !leftTypes[next.left].Type().Equals(rightTypes[next.right].Type(), override) {
+			return false
+		}
+	}
+
+	return true
 }
 
 // TODO: is there, perhaps, a way to detect these without hardcoding these paths?
@@ -265,6 +480,9 @@ func shouldSkipDir(filePath string) bool {
 // shouldSkipDir), and returns those files in a map of path→swagger spec.
 func loadAllSchemas(
 	ctx context.Context,
+	packagePrefix string,
+	filters []*config.TypeFilter,
+	exportFilters []*config.ExportFilter,
 	rootPath string) (map[string]spec.Swagger, error) {
 
 	var eg errgroup.Group
@@ -290,9 +508,25 @@ func loadAllSchemas(
 			jsonast.SwaggerGroupRegex.MatchString(filePath) &&
 			swaggerVersionRegex.MatchString(filePath) {
 
+			group := jsonast.SwaggerGroupRegex.FindString(filePath)
+			version := strings.Trim(swaggerVersionRegex.FindString(filePath), "/")
+			localPackage := astmodel.MakeLocalPackageReference(
+				packagePrefix,
+				group,
+				version,
+			)
+
+			because, include := fileShouldBeIncluded(filters, exportFilters, localPackage)
+			if !include {
+				klog.V(3).Infof("Skipping whole file %q, because: %s", filePath, because)
+				return nil
+			}
+
 			// all files are loaded in parallel to speed this up
 			eg.Go(func() error {
 				var swagger spec.Swagger
+
+				klog.V(3).Infof("Loading file %q, because: %s", filePath, because)
 
 				fileContent, err := ioutil.ReadFile(filePath)
 				if err != nil {
@@ -326,4 +560,34 @@ func loadAllSchemas(
 	}
 
 	return schemas, nil
+}
+
+func fileShouldBeIncluded(filters []*config.TypeFilter, exportFilters []*config.ExportFilter, localPackage astmodel.LocalPackageReference) (string, bool) {
+	return "", true
+	/*
+		TODO: activate in future PR
+
+		for _, filter := range filters {
+			if filter.Action == config.TypeFilterInclude && filter.AppliesToAnyTypesInPackage(localPackage) {
+				return filter.Because, true
+			}
+
+			if filter.Action == config.TypeFilterPrune && filter.AppliesToWholePackage(localPackage) {
+				return filter.Because, false
+			}
+		}
+
+		for _, exportFilter := range exportFilters {
+			if exportFilter.Action == config.ExportFilterInclude && exportFilter.AppliesToAnyTypesInPackage(localPackage) {
+				return exportFilter.Because, true
+			}
+
+			if exportFilter.Action == config.ExportFilterExclude && exportFilter.AppliesToWholePackage(localPackage) {
+				return exportFilter.Because, false
+			}
+		}
+
+		// default to true
+		return "", true
+	*/
 }

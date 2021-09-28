@@ -86,7 +86,7 @@ func (ft *FlaggedType) WithoutFlag(flag TypeFlag) Type {
 
 // WithElement returns the flagged type with the same flags but a different element
 func (ft *FlaggedType) WithElement(t Type) *FlaggedType {
-	if ft.element.Equals(t) {
+	if TypeEquals(ft.element, t) {
 		return ft // short-circuit
 	}
 
@@ -127,7 +127,7 @@ func (ft *FlaggedType) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr 
 }
 
 // Equals returns true if the passed type is the same as this one, false otherwise
-func (ft *FlaggedType) Equals(t Type) bool {
+func (ft *FlaggedType) Equals(t Type, overrides EqualityOverrides) bool {
 	if ft == t {
 		return true // short-circuit
 	}
@@ -147,7 +147,7 @@ func (ft *FlaggedType) Equals(t Type) bool {
 		}
 	}
 
-	return ft.element.Equals(other.element)
+	return ft.element.Equals(other.element, overrides)
 }
 
 // String returns the underlying flagged type plus the flags present

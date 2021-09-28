@@ -1,8 +1,5 @@
 {
 	"folders": [
-		{ 
-			"path": "."
-		},
 		{
 			"path": "hack/generated"
 		},

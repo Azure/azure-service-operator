@@ -182,7 +182,7 @@ func IdentityShouldRemoveCycle(_ TypeDefinition, _ interface{}) (bool, error) {
 func shouldRemove(t Type) bool {
 	switch cast := t.(type) {
 	case TypeName:
-		return cast.Equals(typeWalkerRemoveType)
+		return TypeEquals(cast, typeWalkerRemoveType)
 	case *PrimitiveType:
 		return false
 	case MetaType:

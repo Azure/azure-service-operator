@@ -167,8 +167,8 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
 
 	// This is just an optimization to avoid scanning excess properties collections
-	isString := toProp.PropertyType().Equals(astmodel.StringType)
-	isOptionalString := toProp.PropertyType().Equals(astmodel.NewOptionalType(astmodel.StringType))
+	isString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.StringType)
+	isOptionalString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewOptionalType(astmodel.StringType))
 	if !isString && !isOptionalString {
 		return nil, false
 	}
@@ -417,12 +417,12 @@ func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 //	}
 //	<destination> = <namehint>ARMID
 func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
-	isString := params.DestinationType.Equals(astmodel.StringType)
+	isString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
 	if !isString {
 		return nil
 	}
 
-	isReference := params.SourceType.Equals(astmodel.ResourceReferenceType)
+	isReference := astmodel.TypeEquals(params.SourceType, astmodel.ResourceReferenceType)
 	if !isReference {
 		return nil
 	}
@@ -463,7 +463,7 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(conversionBui
 	}
 
 	// This is for handling type names that aren't equal
-	if sourceType.Equals(destinationType) {
+	if astmodel.TypeEquals(sourceType, destinationType) {
 		return nil
 	}
 

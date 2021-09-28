@@ -148,8 +148,8 @@ func MakeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory,
 // This can be used for logging/reporting purposes to discover references which we missed.
 func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
 	// The property must be a string or optional string
-	isString := prop.PropertyType().Equals(astmodel.StringType)
-	isOptionalString := prop.PropertyType().Equals(astmodel.NewOptionalType(astmodel.StringType))
+	isString := astmodel.TypeEquals(prop.PropertyType(), astmodel.StringType)
+	isOptionalString := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewOptionalType(astmodel.StringType))
 	if !isString && !isOptionalString {
 		return false
 	}

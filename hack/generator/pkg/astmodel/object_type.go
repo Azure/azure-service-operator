@@ -236,7 +236,7 @@ func (objectType *ObjectType) References() TypeNameSet {
 
 // Equals returns true if the passed type is a object type with the same properties, false otherwise
 // The order of the properties is not relevant
-func (objectType *ObjectType) Equals(t Type) bool {
+func (objectType *ObjectType) Equals(t Type, overrides EqualityOverrides) bool {
 	if objectType == t {
 		return true // short circuit
 	}
@@ -258,7 +258,7 @@ func (objectType *ObjectType) Equals(t Type) bool {
 			return false
 		}
 
-		if !ourProperty.Equals(f) {
+		if !ourProperty.Equals(f, overrides) {
 			// Different property, even though same name; not-equal
 			return false
 		}
@@ -276,7 +276,7 @@ func (objectType *ObjectType) Equals(t Type) bool {
 			return false
 		}
 
-		if !ourProperty.Equals(f) {
+		if !ourProperty.Equals(f, overrides) {
 			// Different property, even though same name; not-equal
 			return false
 		}
@@ -294,7 +294,7 @@ func (objectType *ObjectType) Equals(t Type) bool {
 			return false
 		}
 
-		if !ourFunction.Equals(function) {
+		if !ourFunction.Equals(function, overrides) {
 			// Different testcase, even though same name; not-equal
 			return false
 		}
@@ -312,7 +312,7 @@ func (objectType *ObjectType) Equals(t Type) bool {
 			return false
 		}
 
-		if !ourCase.Equals(testcase) {
+		if !ourCase.Equals(testcase, overrides) {
 			// Different testcase, even though same name; not-equal
 			return false
 		}
@@ -330,13 +330,13 @@ func (objectType *ObjectType) Equals(t Type) bool {
 			return false
 		}
 
-		if !ourCase.Equals(testcase) {
+		if !ourCase.Equals(testcase, overrides) {
 			// Different testcase, even though same name; not-equal
 			return false
 		}
 	}
 
-	return objectType.InterfaceImplementer.Equals(other.InterfaceImplementer)
+	return objectType.InterfaceImplementer.Equals(other.InterfaceImplementer, overrides)
 }
 
 // WithProperty creates a new ObjectType with another property attached to it

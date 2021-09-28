@@ -10,8 +10,10 @@ import (
 	"io/ioutil"
 	"math/big"
 	"net/url"
+	"path"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"github.com/go-openapi/jsonpointer"
 	"github.com/go-openapi/spec"
@@ -265,6 +267,7 @@ func (schema *OpenAPISchema) isRef() bool {
 
 func (schema *OpenAPISchema) refSchema() Schema {
 	fileName, result := loadRefSchema(schema.inner.Ref, schema.fileName, schema.cache)
+
 	return &OpenAPISchema{
 		result,
 		fileName,
@@ -314,8 +317,33 @@ func (schema *OpenAPISchema) refGroupName() (string, error) {
 	return schema.groupName, nil
 }
 
+func isCommon(filePath string) bool {
+	if !path.IsAbs(filePath) {
+		filePath, _ = filepath.Abs(filePath)
+	}
+
+	return strings.Contains(filePath, "common-types/resource-management/v1/types.json") ||
+		strings.Contains(filePath, "common-types/resource-management/v2/types.json")
+}
+
 func (schema *OpenAPISchema) refObjectName() (string, error) {
-	return objectNameFromPointer(schema.inner.Ref.GetPointer()), nil
+	result := objectNameFromPointer(schema.inner.Ref.GetPointer())
+
+	// HACK HACK HACK
+	if !schema.inner.Ref.HasFragmentOnly {
+		absPath, err := resolveAbsolutePath(schema.fileName, schema.inner.Ref.GetURL())
+		if err != nil {
+			return "", err
+		}
+
+		if isCommon(absPath) {
+			result += "FromCommon"
+		}
+	} else if isCommon(schema.fileName) {
+		result += "FromCommon"
+	}
+
+	return result, nil
 }
 
 func objectNameFromPointer(ptr *jsonpointer.Pointer) string {
@@ -367,6 +395,8 @@ func (fileCache OpenAPISchemaCache) fetchFileAbsolute(filePath string) (spec.Swa
 	}
 
 	var swagger spec.Swagger
+
+	klog.V(3).Infof("Loading file into cache %q", filePath)
 
 	fileContent, err := ioutil.ReadFile(filePath)
 	if err != nil {
