@@ -9,9 +9,23 @@ import (
 	"strings"
 )
 
+// ConvertToARMResolvedDetails contains resolved references and names for use in
+// converting a Kubernetes type to an ARM type.
+type ConvertToARMResolvedDetails struct {
+	// Name is the fully qualified name of the resource in Azure ("a/b/c").
+	Name string
+
+	// Scope is the scope the resource is deployed at. This is nil for resources which are not
+	// extension resources
+	Scope *string
+
+	// ResolvedReferences is a set of references which have been resolved to their ARM IDs.
+	ResolvedReferences ResolvedReferences
+}
+
 type ToARMConverter interface {
-	// ConvertToArm converts this to an ARM resource. The name parameter is the fully qualified name of the resource in Azure ("a/b/c").
-	ConvertToARM(name string, resolvedReferences ResolvedReferences) (interface{}, error)
+	// ConvertToARM converts this to an ARM resource.
+	ConvertToARM(resolved ConvertToARMResolvedDetails) (interface{}, error)
 }
 
 type FromARMConverter interface {

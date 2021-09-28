@@ -1797,7 +1797,7 @@ type StorageAccounts_Spec struct {
 var _ genruntime.ARMTransformer = &StorageAccounts_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if storageAccountsSpec == nil {
 		return nil, nil
 	}
@@ -1808,7 +1808,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resol
 
 	// Set property ‘ExtendedLocation’:
 	if storageAccountsSpec.ExtendedLocation != nil {
-		extendedLocationARM, err := (*storageAccountsSpec.ExtendedLocation).ConvertToARM(name, resolvedReferences)
+		extendedLocationARM, err := (*storageAccountsSpec.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1818,7 +1818,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resol
 
 	// Set property ‘Identity’:
 	if storageAccountsSpec.Identity != nil {
-		identityARM, err := (*storageAccountsSpec.Identity).ConvertToARM(name, resolvedReferences)
+		identityARM, err := (*storageAccountsSpec.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1833,7 +1833,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resol
 	result.Location = storageAccountsSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if storageAccountsSpec.AccessTier != nil || storageAccountsSpec.AllowBlobPublicAccess != nil || storageAccountsSpec.AllowCrossTenantReplication != nil || storageAccountsSpec.AllowSharedKeyAccess != nil || storageAccountsSpec.AzureFilesIdentityBasedAuthentication != nil || storageAccountsSpec.CustomDomain != nil || storageAccountsSpec.Encryption != nil || storageAccountsSpec.IsHnsEnabled != nil || storageAccountsSpec.IsNfsV3Enabled != nil || storageAccountsSpec.KeyPolicy != nil || storageAccountsSpec.LargeFileSharesState != nil || storageAccountsSpec.MinimumTlsVersion != nil || storageAccountsSpec.NetworkAcls != nil || storageAccountsSpec.RoutingPreference != nil || storageAccountsSpec.SasPolicy != nil || storageAccountsSpec.SupportsHttpsTrafficOnly != nil {
@@ -1856,7 +1856,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resol
 		result.Properties.AllowSharedKeyAccess = &allowSharedKeyAccess
 	}
 	if storageAccountsSpec.AzureFilesIdentityBasedAuthentication != nil {
-		azureFilesIdentityBasedAuthenticationARM, err := (*storageAccountsSpec.AzureFilesIdentityBasedAuthentication).ConvertToARM(name, resolvedReferences)
+		azureFilesIdentityBasedAuthenticationARM, err := (*storageAccountsSpec.AzureFilesIdentityBasedAuthentication).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1864,7 +1864,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resol
 		result.Properties.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 	}
 	if storageAccountsSpec.CustomDomain != nil {
-		customDomainARM, err := (*storageAccountsSpec.CustomDomain).ConvertToARM(name, resolvedReferences)
+		customDomainARM, err := (*storageAccountsSpec.CustomDomain).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1872,7 +1872,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resol
 		result.Properties.CustomDomain = &customDomain
 	}
 	if storageAccountsSpec.Encryption != nil {
-		encryptionARM, err := (*storageAccountsSpec.Encryption).ConvertToARM(name, resolvedReferences)
+		encryptionARM, err := (*storageAccountsSpec.Encryption).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1888,7 +1888,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resol
 		result.Properties.IsNfsV3Enabled = &isNfsV3Enabled
 	}
 	if storageAccountsSpec.KeyPolicy != nil {
-		keyPolicyARM, err := (*storageAccountsSpec.KeyPolicy).ConvertToARM(name, resolvedReferences)
+		keyPolicyARM, err := (*storageAccountsSpec.KeyPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1904,7 +1904,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resol
 		result.Properties.MinimumTlsVersion = &minimumTlsVersion
 	}
 	if storageAccountsSpec.NetworkAcls != nil {
-		networkAclsARM, err := (*storageAccountsSpec.NetworkAcls).ConvertToARM(name, resolvedReferences)
+		networkAclsARM, err := (*storageAccountsSpec.NetworkAcls).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1912,7 +1912,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resol
 		result.Properties.NetworkAcls = &networkAcls
 	}
 	if storageAccountsSpec.RoutingPreference != nil {
-		routingPreferenceARM, err := (*storageAccountsSpec.RoutingPreference).ConvertToARM(name, resolvedReferences)
+		routingPreferenceARM, err := (*storageAccountsSpec.RoutingPreference).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1920,7 +1920,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resol
 		result.Properties.RoutingPreference = &routingPreference
 	}
 	if storageAccountsSpec.SasPolicy != nil {
-		sasPolicyARM, err := (*storageAccountsSpec.SasPolicy).ConvertToARM(name, resolvedReferences)
+		sasPolicyARM, err := (*storageAccountsSpec.SasPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1933,7 +1933,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(name string, resol
 	}
 
 	// Set property ‘Sku’:
-	skuARM, err := storageAccountsSpec.Sku.ConvertToARM(name, resolvedReferences)
+	skuARM, err := storageAccountsSpec.Sku.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
@@ -2727,7 +2727,7 @@ type AzureFilesIdentityBasedAuthentication struct {
 var _ genruntime.ARMTransformer = &AzureFilesIdentityBasedAuthentication{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (azureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (azureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if azureFilesIdentityBasedAuthentication == nil {
 		return nil, nil
 	}
@@ -2735,7 +2735,7 @@ func (azureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthenticati
 
 	// Set property ‘ActiveDirectoryProperties’:
 	if azureFilesIdentityBasedAuthentication.ActiveDirectoryProperties != nil {
-		activeDirectoryPropertiesARM, err := (*azureFilesIdentityBasedAuthentication.ActiveDirectoryProperties).ConvertToARM(name, resolvedReferences)
+		activeDirectoryPropertiesARM, err := (*azureFilesIdentityBasedAuthentication.ActiveDirectoryProperties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3152,7 +3152,7 @@ type CustomDomain struct {
 var _ genruntime.ARMTransformer = &CustomDomain{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (customDomain *CustomDomain) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (customDomain *CustomDomain) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if customDomain == nil {
 		return nil, nil
 	}
@@ -3350,7 +3350,7 @@ type Encryption struct {
 var _ genruntime.ARMTransformer = &Encryption{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (encryption *Encryption) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if encryption == nil {
 		return nil, nil
 	}
@@ -3358,7 +3358,7 @@ func (encryption *Encryption) ConvertToARM(name string, resolvedReferences genru
 
 	// Set property ‘Identity’:
 	if encryption.Identity != nil {
-		identityARM, err := (*encryption.Identity).ConvertToARM(name, resolvedReferences)
+		identityARM, err := (*encryption.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3371,7 +3371,7 @@ func (encryption *Encryption) ConvertToARM(name string, resolvedReferences genru
 
 	// Set property ‘Keyvaultproperties’:
 	if encryption.Keyvaultproperties != nil {
-		keyvaultpropertiesARM, err := (*encryption.Keyvaultproperties).ConvertToARM(name, resolvedReferences)
+		keyvaultpropertiesARM, err := (*encryption.Keyvaultproperties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3387,7 +3387,7 @@ func (encryption *Encryption) ConvertToARM(name string, resolvedReferences genru
 
 	// Set property ‘Services’:
 	if encryption.Services != nil {
-		servicesARM, err := (*encryption.Services).ConvertToARM(name, resolvedReferences)
+		servicesARM, err := (*encryption.Services).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4051,7 +4051,7 @@ type ExtendedLocation struct {
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (extendedLocation *ExtendedLocation) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (extendedLocation *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if extendedLocation == nil {
 		return nil, nil
 	}
@@ -4374,7 +4374,7 @@ type Identity struct {
 var _ genruntime.ARMTransformer = &Identity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identity *Identity) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if identity == nil {
 		return nil, nil
 	}
@@ -4686,7 +4686,7 @@ type KeyPolicy struct {
 var _ genruntime.ARMTransformer = &KeyPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (keyPolicy *KeyPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (keyPolicy *KeyPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if keyPolicy == nil {
 		return nil, nil
 	}
@@ -4829,7 +4829,7 @@ type NetworkRuleSet struct {
 var _ genruntime.ARMTransformer = &NetworkRuleSet{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (networkRuleSet *NetworkRuleSet) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (networkRuleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if networkRuleSet == nil {
 		return nil, nil
 	}
@@ -4846,7 +4846,7 @@ func (networkRuleSet *NetworkRuleSet) ConvertToARM(name string, resolvedReferenc
 
 	// Set property ‘IpRules’:
 	for _, item := range networkRuleSet.IpRules {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4855,7 +4855,7 @@ func (networkRuleSet *NetworkRuleSet) ConvertToARM(name string, resolvedReferenc
 
 	// Set property ‘ResourceAccessRules’:
 	for _, item := range networkRuleSet.ResourceAccessRules {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4864,7 +4864,7 @@ func (networkRuleSet *NetworkRuleSet) ConvertToARM(name string, resolvedReferenc
 
 	// Set property ‘VirtualNetworkRules’:
 	for _, item := range networkRuleSet.VirtualNetworkRules {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5351,7 +5351,7 @@ type RoutingPreference struct {
 var _ genruntime.ARMTransformer = &RoutingPreference{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (routingPreference *RoutingPreference) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (routingPreference *RoutingPreference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if routingPreference == nil {
 		return nil, nil
 	}
@@ -5610,7 +5610,7 @@ type SasPolicy struct {
 var _ genruntime.ARMTransformer = &SasPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sasPolicy *SasPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (sasPolicy *SasPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sasPolicy == nil {
 		return nil, nil
 	}
@@ -5773,7 +5773,7 @@ type Sku struct {
 var _ genruntime.ARMTransformer = &Sku{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sku *Sku) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sku == nil {
 		return nil, nil
 	}
@@ -6041,7 +6041,7 @@ type ActiveDirectoryProperties struct {
 var _ genruntime.ARMTransformer = &ActiveDirectoryProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (activeDirectoryProperties *ActiveDirectoryProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (activeDirectoryProperties *ActiveDirectoryProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if activeDirectoryProperties == nil {
 		return nil, nil
 	}
@@ -6491,7 +6491,7 @@ type EncryptionIdentity struct {
 var _ genruntime.ARMTransformer = &EncryptionIdentity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (encryptionIdentity *EncryptionIdentity) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (encryptionIdentity *EncryptionIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if encryptionIdentity == nil {
 		return nil, nil
 	}
@@ -6499,7 +6499,7 @@ func (encryptionIdentity *EncryptionIdentity) ConvertToARM(name string, resolved
 
 	// Set property ‘UserAssignedIdentity’:
 	if encryptionIdentity.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReferenceARMID, err := resolvedReferences.ARMIDOrErr(*encryptionIdentity.UserAssignedIdentityReference)
+		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*encryptionIdentity.UserAssignedIdentityReference)
 		if err != nil {
 			return nil, err
 		}
@@ -6654,7 +6654,7 @@ type EncryptionServices struct {
 var _ genruntime.ARMTransformer = &EncryptionServices{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (encryptionServices *EncryptionServices) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (encryptionServices *EncryptionServices) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if encryptionServices == nil {
 		return nil, nil
 	}
@@ -6662,7 +6662,7 @@ func (encryptionServices *EncryptionServices) ConvertToARM(name string, resolved
 
 	// Set property ‘Blob’:
 	if encryptionServices.Blob != nil {
-		blobARM, err := (*encryptionServices.Blob).ConvertToARM(name, resolvedReferences)
+		blobARM, err := (*encryptionServices.Blob).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6672,7 +6672,7 @@ func (encryptionServices *EncryptionServices) ConvertToARM(name string, resolved
 
 	// Set property ‘File’:
 	if encryptionServices.File != nil {
-		fileARM, err := (*encryptionServices.File).ConvertToARM(name, resolvedReferences)
+		fileARM, err := (*encryptionServices.File).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6682,7 +6682,7 @@ func (encryptionServices *EncryptionServices) ConvertToARM(name string, resolved
 
 	// Set property ‘Queue’:
 	if encryptionServices.Queue != nil {
-		queueARM, err := (*encryptionServices.Queue).ConvertToARM(name, resolvedReferences)
+		queueARM, err := (*encryptionServices.Queue).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6692,7 +6692,7 @@ func (encryptionServices *EncryptionServices) ConvertToARM(name string, resolved
 
 	// Set property ‘Table’:
 	if encryptionServices.Table != nil {
-		tableARM, err := (*encryptionServices.Table).ConvertToARM(name, resolvedReferences)
+		tableARM, err := (*encryptionServices.Table).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7097,7 +7097,7 @@ type IPRule struct {
 var _ genruntime.ARMTransformer = &IPRule{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (ipRule *IPRule) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (ipRule *IPRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if ipRule == nil {
 		return nil, nil
 	}
@@ -7283,7 +7283,7 @@ type KeyVaultProperties struct {
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (keyVaultProperties *KeyVaultProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (keyVaultProperties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if keyVaultProperties == nil {
 		return nil, nil
 	}
@@ -7622,7 +7622,7 @@ type ResourceAccessRule struct {
 var _ genruntime.ARMTransformer = &ResourceAccessRule{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resourceAccessRule *ResourceAccessRule) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (resourceAccessRule *ResourceAccessRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if resourceAccessRule == nil {
 		return nil, nil
 	}
@@ -7630,7 +7630,7 @@ func (resourceAccessRule *ResourceAccessRule) ConvertToARM(name string, resolved
 
 	// Set property ‘ResourceId’:
 	if resourceAccessRule.ResourceReference != nil {
-		resourceReferenceARMID, err := resolvedReferences.ARMIDOrErr(*resourceAccessRule.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resourceAccessRule.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -8272,7 +8272,7 @@ type VirtualNetworkRule struct {
 var _ genruntime.ARMTransformer = &VirtualNetworkRule{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualNetworkRule *VirtualNetworkRule) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualNetworkRule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualNetworkRule == nil {
 		return nil, nil
 	}
@@ -8285,7 +8285,7 @@ func (virtualNetworkRule *VirtualNetworkRule) ConvertToARM(name string, resolved
 	}
 
 	// Set property ‘Id’:
-	referenceARMID, err := resolvedReferences.ARMIDOrErr(virtualNetworkRule.Reference)
+	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(virtualNetworkRule.Reference)
 	if err != nil {
 		return nil, err
 	}
@@ -8586,7 +8586,7 @@ type EncryptionService struct {
 var _ genruntime.ARMTransformer = &EncryptionService{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (encryptionService *EncryptionService) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (encryptionService *EncryptionService) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if encryptionService == nil {
 		return nil, nil
 	}

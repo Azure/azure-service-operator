@@ -299,7 +299,7 @@ type Namespaces_Spec struct {
 var _ genruntime.ARMTransformer = &Namespaces_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (namespacesSpec *Namespaces_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (namespacesSpec *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if namespacesSpec == nil {
 		return nil, nil
 	}
@@ -310,7 +310,7 @@ func (namespacesSpec *Namespaces_Spec) ConvertToARM(name string, resolvedReferen
 
 	// Set property ‘Identity’:
 	if namespacesSpec.Identity != nil {
-		identityARM, err := (*namespacesSpec.Identity).ConvertToARM(name, resolvedReferences)
+		identityARM, err := (*namespacesSpec.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -322,11 +322,11 @@ func (namespacesSpec *Namespaces_Spec) ConvertToARM(name string, resolvedReferen
 	result.Location = namespacesSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if namespacesSpec.Encryption != nil {
-		encryptionARM, err := (*namespacesSpec.Encryption).ConvertToARM(name, resolvedReferences)
+		encryptionARM, err := (*namespacesSpec.Encryption).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -340,7 +340,7 @@ func (namespacesSpec *Namespaces_Spec) ConvertToARM(name string, resolvedReferen
 
 	// Set property ‘Sku’:
 	if namespacesSpec.Sku != nil {
-		skuARM, err := (*namespacesSpec.Sku).ConvertToARM(name, resolvedReferences)
+		skuARM, err := (*namespacesSpec.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1299,7 +1299,7 @@ type Encryption struct {
 var _ genruntime.ARMTransformer = &Encryption{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (encryption *Encryption) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if encryption == nil {
 		return nil, nil
 	}
@@ -1313,7 +1313,7 @@ func (encryption *Encryption) ConvertToARM(name string, resolvedReferences genru
 
 	// Set property ‘KeyVaultProperties’:
 	for _, item := range encryption.KeyVaultProperties {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1586,7 +1586,7 @@ type Identity struct {
 var _ genruntime.ARMTransformer = &Identity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identity *Identity) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if identity == nil {
 		return nil, nil
 	}
@@ -1936,7 +1936,7 @@ type SBSku struct {
 var _ genruntime.ARMTransformer = &SBSku{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sbSku *SBSku) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (sbSku *SBSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sbSku == nil {
 		return nil, nil
 	}
@@ -2467,7 +2467,7 @@ type KeyVaultProperties struct {
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (keyVaultProperties *KeyVaultProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (keyVaultProperties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if keyVaultProperties == nil {
 		return nil, nil
 	}
@@ -2475,7 +2475,7 @@ func (keyVaultProperties *KeyVaultProperties) ConvertToARM(name string, resolved
 
 	// Set property ‘Identity’:
 	if keyVaultProperties.Identity != nil {
-		identityARM, err := (*keyVaultProperties.Identity).ConvertToARM(name, resolvedReferences)
+		identityARM, err := (*keyVaultProperties.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2800,7 +2800,7 @@ type UserAssignedIdentityProperties struct {
 var _ genruntime.ARMTransformer = &UserAssignedIdentityProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (userAssignedIdentityProperties *UserAssignedIdentityProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (userAssignedIdentityProperties *UserAssignedIdentityProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if userAssignedIdentityProperties == nil {
 		return nil, nil
 	}
@@ -2808,7 +2808,7 @@ func (userAssignedIdentityProperties *UserAssignedIdentityProperties) ConvertToA
 
 	// Set property ‘UserAssignedIdentity’:
 	if userAssignedIdentityProperties.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReferenceARMID, err := resolvedReferences.ARMIDOrErr(*userAssignedIdentityProperties.UserAssignedIdentityReference)
+		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*userAssignedIdentityProperties.UserAssignedIdentityReference)
 		if err != nil {
 			return nil, err
 		}

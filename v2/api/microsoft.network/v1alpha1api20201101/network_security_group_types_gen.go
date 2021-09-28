@@ -830,7 +830,7 @@ type NetworkSecurityGroups_Spec struct {
 var _ genruntime.ARMTransformer = &NetworkSecurityGroups_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if networkSecurityGroupsSpec == nil {
 		return nil, nil
 	}
@@ -843,7 +843,7 @@ func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertToARM(name s
 	result.Location = networkSecurityGroupsSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Tags’:
 	if networkSecurityGroupsSpec.Tags != nil {

@@ -345,7 +345,7 @@ type NamespacesQueues_Spec struct {
 var _ genruntime.ARMTransformer = &NamespacesQueues_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if namespacesQueuesSpec == nil {
 		return nil, nil
 	}
@@ -361,7 +361,7 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertToARM(name string, res
 	}
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if namespacesQueuesSpec.AutoDeleteOnIdle != nil {

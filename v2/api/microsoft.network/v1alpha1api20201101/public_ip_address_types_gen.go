@@ -1139,7 +1139,7 @@ type PublicIPAddresses_Spec struct {
 var _ genruntime.ARMTransformer = &PublicIPAddresses_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if publicIPAddressesSpec == nil {
 		return nil, nil
 	}
@@ -1150,7 +1150,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(name string, r
 
 	// Set property ‘ExtendedLocation’:
 	if publicIPAddressesSpec.ExtendedLocation != nil {
-		extendedLocationARM, err := (*publicIPAddressesSpec.ExtendedLocation).ConvertToARM(name, resolvedReferences)
+		extendedLocationARM, err := (*publicIPAddressesSpec.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1162,11 +1162,11 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(name string, r
 	result.Location = publicIPAddressesSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if publicIPAddressesSpec.DdosSettings != nil {
-		ddosSettingsARM, err := (*publicIPAddressesSpec.DdosSettings).ConvertToARM(name, resolvedReferences)
+		ddosSettingsARM, err := (*publicIPAddressesSpec.DdosSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1174,7 +1174,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(name string, r
 		result.Properties.DdosSettings = &ddosSettings
 	}
 	if publicIPAddressesSpec.DnsSettings != nil {
-		dnsSettingsARM, err := (*publicIPAddressesSpec.DnsSettings).ConvertToARM(name, resolvedReferences)
+		dnsSettingsARM, err := (*publicIPAddressesSpec.DnsSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1190,7 +1190,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(name string, r
 		result.Properties.IpAddress = &ipAddress
 	}
 	for _, item := range publicIPAddressesSpec.IpTags {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1202,7 +1202,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(name string, r
 	}
 	result.Properties.PublicIPAllocationMethod = publicIPAddressesSpec.PublicIPAllocationMethod
 	if publicIPAddressesSpec.PublicIPPrefix != nil {
-		publicIPPrefixARM, err := (*publicIPAddressesSpec.PublicIPPrefix).ConvertToARM(name, resolvedReferences)
+		publicIPPrefixARM, err := (*publicIPAddressesSpec.PublicIPPrefix).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1212,7 +1212,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(name string, r
 
 	// Set property ‘Sku’:
 	if publicIPAddressesSpec.Sku != nil {
-		skuARM, err := (*publicIPAddressesSpec.Sku).ConvertToARM(name, resolvedReferences)
+		skuARM, err := (*publicIPAddressesSpec.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1733,7 +1733,7 @@ type DdosSettings struct {
 var _ genruntime.ARMTransformer = &DdosSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (ddosSettings *DdosSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (ddosSettings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if ddosSettings == nil {
 		return nil, nil
 	}
@@ -1741,7 +1741,7 @@ func (ddosSettings *DdosSettings) ConvertToARM(name string, resolvedReferences g
 
 	// Set property ‘DdosCustomPolicy’:
 	if ddosSettings.DdosCustomPolicy != nil {
-		ddosCustomPolicyARM, err := (*ddosSettings.DdosCustomPolicy).ConvertToARM(name, resolvedReferences)
+		ddosCustomPolicyARM, err := (*ddosSettings.DdosCustomPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2275,7 +2275,7 @@ type IpTag struct {
 var _ genruntime.ARMTransformer = &IpTag{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (ipTag *IpTag) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (ipTag *IpTag) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if ipTag == nil {
 		return nil, nil
 	}
@@ -2618,7 +2618,7 @@ type PublicIPAddressDnsSettings struct {
 var _ genruntime.ARMTransformer = &PublicIPAddressDnsSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if publicIPAddressDnsSettings == nil {
 		return nil, nil
 	}
@@ -2895,7 +2895,7 @@ type PublicIPAddressSku struct {
 var _ genruntime.ARMTransformer = &PublicIPAddressSku{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (publicIPAddressSku *PublicIPAddressSku) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (publicIPAddressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if publicIPAddressSku == nil {
 		return nil, nil
 	}

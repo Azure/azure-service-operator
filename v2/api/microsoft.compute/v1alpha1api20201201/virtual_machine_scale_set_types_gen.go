@@ -1312,7 +1312,7 @@ type VirtualMachineScaleSets_Spec struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpec == nil {
 		return nil, nil
 	}
@@ -1323,7 +1323,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 
 	// Set property ‘ExtendedLocation’:
 	if virtualMachineScaleSetsSpec.ExtendedLocation != nil {
-		extendedLocationARM, err := (*virtualMachineScaleSetsSpec.ExtendedLocation).ConvertToARM(name, resolvedReferences)
+		extendedLocationARM, err := (*virtualMachineScaleSetsSpec.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1333,7 +1333,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 
 	// Set property ‘Identity’:
 	if virtualMachineScaleSetsSpec.Identity != nil {
-		identityARM, err := (*virtualMachineScaleSetsSpec.Identity).ConvertToARM(name, resolvedReferences)
+		identityARM, err := (*virtualMachineScaleSetsSpec.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1345,11 +1345,11 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 	result.Location = virtualMachineScaleSetsSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Plan’:
 	if virtualMachineScaleSetsSpec.Plan != nil {
-		planARM, err := (*virtualMachineScaleSetsSpec.Plan).ConvertToARM(name, resolvedReferences)
+		planARM, err := (*virtualMachineScaleSetsSpec.Plan).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1359,7 +1359,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 
 	// Set property ‘Properties’:
 	if virtualMachineScaleSetsSpec.AdditionalCapabilities != nil {
-		additionalCapabilitiesARM, err := (*virtualMachineScaleSetsSpec.AdditionalCapabilities).ConvertToARM(name, resolvedReferences)
+		additionalCapabilitiesARM, err := (*virtualMachineScaleSetsSpec.AdditionalCapabilities).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1367,7 +1367,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.AdditionalCapabilities = &additionalCapabilities
 	}
 	if virtualMachineScaleSetsSpec.AutomaticRepairsPolicy != nil {
-		automaticRepairsPolicyARM, err := (*virtualMachineScaleSetsSpec.AutomaticRepairsPolicy).ConvertToARM(name, resolvedReferences)
+		automaticRepairsPolicyARM, err := (*virtualMachineScaleSetsSpec.AutomaticRepairsPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1379,7 +1379,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.DoNotRunExtensionsOnOverprovisionedVMs = &doNotRunExtensionsOnOverprovisionedVMs
 	}
 	if virtualMachineScaleSetsSpec.HostGroup != nil {
-		hostGroupARM, err := (*virtualMachineScaleSetsSpec.HostGroup).ConvertToARM(name, resolvedReferences)
+		hostGroupARM, err := (*virtualMachineScaleSetsSpec.HostGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1399,7 +1399,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.PlatformFaultDomainCount = &platformFaultDomainCount
 	}
 	if virtualMachineScaleSetsSpec.ProximityPlacementGroup != nil {
-		proximityPlacementGroupARM, err := (*virtualMachineScaleSetsSpec.ProximityPlacementGroup).ConvertToARM(name, resolvedReferences)
+		proximityPlacementGroupARM, err := (*virtualMachineScaleSetsSpec.ProximityPlacementGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1407,7 +1407,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.ProximityPlacementGroup = &proximityPlacementGroup
 	}
 	if virtualMachineScaleSetsSpec.ScaleInPolicy != nil {
-		scaleInPolicyARM, err := (*virtualMachineScaleSetsSpec.ScaleInPolicy).ConvertToARM(name, resolvedReferences)
+		scaleInPolicyARM, err := (*virtualMachineScaleSetsSpec.ScaleInPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1419,7 +1419,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.SinglePlacementGroup = &singlePlacementGroup
 	}
 	if virtualMachineScaleSetsSpec.UpgradePolicy != nil {
-		upgradePolicyARM, err := (*virtualMachineScaleSetsSpec.UpgradePolicy).ConvertToARM(name, resolvedReferences)
+		upgradePolicyARM, err := (*virtualMachineScaleSetsSpec.UpgradePolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1427,7 +1427,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.UpgradePolicy = &upgradePolicy
 	}
 	if virtualMachineScaleSetsSpec.VirtualMachineProfile != nil {
-		virtualMachineProfileARM, err := (*virtualMachineScaleSetsSpec.VirtualMachineProfile).ConvertToARM(name, resolvedReferences)
+		virtualMachineProfileARM, err := (*virtualMachineScaleSetsSpec.VirtualMachineProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1441,7 +1441,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 
 	// Set property ‘Sku’:
 	if virtualMachineScaleSetsSpec.Sku != nil {
-		skuARM, err := (*virtualMachineScaleSetsSpec.Sku).ConvertToARM(name, resolvedReferences)
+		skuARM, err := (*virtualMachineScaleSetsSpec.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -2187,7 +2187,7 @@ type AdditionalCapabilities struct {
 var _ genruntime.ARMTransformer = &AdditionalCapabilities{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (additionalCapabilities *AdditionalCapabilities) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (additionalCapabilities *AdditionalCapabilities) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if additionalCapabilities == nil {
 		return nil, nil
 	}
@@ -2344,7 +2344,7 @@ type AutomaticRepairsPolicy struct {
 var _ genruntime.ARMTransformer = &AutomaticRepairsPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (automaticRepairsPolicy *AutomaticRepairsPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (automaticRepairsPolicy *AutomaticRepairsPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if automaticRepairsPolicy == nil {
 		return nil, nil
 	}
@@ -2551,7 +2551,7 @@ type ExtendedLocation struct {
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (extendedLocation *ExtendedLocation) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (extendedLocation *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if extendedLocation == nil {
 		return nil, nil
 	}
@@ -2767,7 +2767,7 @@ type Plan struct {
 var _ genruntime.ARMTransformer = &Plan{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (plan *Plan) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (plan *Plan) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if plan == nil {
 		return nil, nil
 	}
@@ -3088,7 +3088,7 @@ type ScaleInPolicy struct {
 var _ genruntime.ARMTransformer = &ScaleInPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (scaleInPolicy *ScaleInPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (scaleInPolicy *ScaleInPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if scaleInPolicy == nil {
 		return nil, nil
 	}
@@ -3259,7 +3259,7 @@ type Sku struct {
 var _ genruntime.ARMTransformer = &Sku{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sku *Sku) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sku == nil {
 		return nil, nil
 	}
@@ -3513,7 +3513,7 @@ type SubResource struct {
 var _ genruntime.ARMTransformer = &SubResource{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (subResource *SubResource) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (subResource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if subResource == nil {
 		return nil, nil
 	}
@@ -3521,7 +3521,7 @@ func (subResource *SubResource) ConvertToARM(name string, resolvedReferences gen
 
 	// Set property ‘Id’:
 	if subResource.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*subResource.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*subResource.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -3671,7 +3671,7 @@ type UpgradePolicy struct {
 var _ genruntime.ARMTransformer = &UpgradePolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (upgradePolicy *UpgradePolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (upgradePolicy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if upgradePolicy == nil {
 		return nil, nil
 	}
@@ -3679,7 +3679,7 @@ func (upgradePolicy *UpgradePolicy) ConvertToARM(name string, resolvedReferences
 
 	// Set property ‘AutomaticOSUpgradePolicy’:
 	if upgradePolicy.AutomaticOSUpgradePolicy != nil {
-		automaticOSUpgradePolicyARM, err := (*upgradePolicy.AutomaticOSUpgradePolicy).ConvertToARM(name, resolvedReferences)
+		automaticOSUpgradePolicyARM, err := (*upgradePolicy.AutomaticOSUpgradePolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3695,7 +3695,7 @@ func (upgradePolicy *UpgradePolicy) ConvertToARM(name string, resolvedReferences
 
 	// Set property ‘RollingUpgradePolicy’:
 	if upgradePolicy.RollingUpgradePolicy != nil {
-		rollingUpgradePolicyARM, err := (*upgradePolicy.RollingUpgradePolicy).ConvertToARM(name, resolvedReferences)
+		rollingUpgradePolicyARM, err := (*upgradePolicy.RollingUpgradePolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3992,7 +3992,7 @@ type VirtualMachineScaleSetIdentity struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetIdentity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetIdentity == nil {
 		return nil, nil
 	}
@@ -4738,7 +4738,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile == nil {
 		return nil, nil
 	}
@@ -4746,7 +4746,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘BillingProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.BillingProfile != nil {
-		billingProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.BillingProfile).ConvertToARM(name, resolvedReferences)
+		billingProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.BillingProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4756,7 +4756,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘DiagnosticsProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.DiagnosticsProfile != nil {
-		diagnosticsProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.DiagnosticsProfile).ConvertToARM(name, resolvedReferences)
+		diagnosticsProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.DiagnosticsProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4772,7 +4772,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘ExtensionProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ExtensionProfile != nil {
-		extensionProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ExtensionProfile).ConvertToARM(name, resolvedReferences)
+		extensionProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ExtensionProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4788,7 +4788,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘NetworkProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.NetworkProfile != nil {
-		networkProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.NetworkProfile).ConvertToARM(name, resolvedReferences)
+		networkProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.NetworkProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4798,7 +4798,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘OsProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.OsProfile != nil {
-		osProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.OsProfile).ConvertToARM(name, resolvedReferences)
+		osProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.OsProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4814,7 +4814,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘ScheduledEventsProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ScheduledEventsProfile != nil {
-		scheduledEventsProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ScheduledEventsProfile).ConvertToARM(name, resolvedReferences)
+		scheduledEventsProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ScheduledEventsProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4824,7 +4824,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘SecurityProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.SecurityProfile != nil {
-		securityProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.SecurityProfile).ConvertToARM(name, resolvedReferences)
+		securityProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.SecurityProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4834,7 +4834,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘StorageProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.StorageProfile != nil {
-		storageProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.StorageProfile).ConvertToARM(name, resolvedReferences)
+		storageProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.StorageProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5243,7 +5243,7 @@ type AutomaticOSUpgradePolicy struct {
 var _ genruntime.ARMTransformer = &AutomaticOSUpgradePolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if automaticOSUpgradePolicy == nil {
 		return nil, nil
 	}
@@ -5461,7 +5461,7 @@ type BillingProfile struct {
 var _ genruntime.ARMTransformer = &BillingProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (billingProfile *BillingProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (billingProfile *BillingProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if billingProfile == nil {
 		return nil, nil
 	}
@@ -5623,7 +5623,7 @@ type DiagnosticsProfile struct {
 var _ genruntime.ARMTransformer = &DiagnosticsProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (diagnosticsProfile *DiagnosticsProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (diagnosticsProfile *DiagnosticsProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if diagnosticsProfile == nil {
 		return nil, nil
 	}
@@ -5631,7 +5631,7 @@ func (diagnosticsProfile *DiagnosticsProfile) ConvertToARM(name string, resolved
 
 	// Set property ‘BootDiagnostics’:
 	if diagnosticsProfile.BootDiagnostics != nil {
-		bootDiagnosticsARM, err := (*diagnosticsProfile.BootDiagnostics).ConvertToARM(name, resolvedReferences)
+		bootDiagnosticsARM, err := (*diagnosticsProfile.BootDiagnostics).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5855,7 +5855,7 @@ type RollingUpgradePolicy struct {
 var _ genruntime.ARMTransformer = &RollingUpgradePolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rollingUpgradePolicy *RollingUpgradePolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (rollingUpgradePolicy *RollingUpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if rollingUpgradePolicy == nil {
 		return nil, nil
 	}
@@ -6297,7 +6297,7 @@ type ScheduledEventsProfile struct {
 var _ genruntime.ARMTransformer = &ScheduledEventsProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (scheduledEventsProfile *ScheduledEventsProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (scheduledEventsProfile *ScheduledEventsProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if scheduledEventsProfile == nil {
 		return nil, nil
 	}
@@ -6305,7 +6305,7 @@ func (scheduledEventsProfile *ScheduledEventsProfile) ConvertToARM(name string, 
 
 	// Set property ‘TerminateNotificationProfile’:
 	if scheduledEventsProfile.TerminateNotificationProfile != nil {
-		terminateNotificationProfileARM, err := (*scheduledEventsProfile.TerminateNotificationProfile).ConvertToARM(name, resolvedReferences)
+		terminateNotificationProfileARM, err := (*scheduledEventsProfile.TerminateNotificationProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6489,7 +6489,7 @@ type SecurityProfile struct {
 var _ genruntime.ARMTransformer = &SecurityProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (securityProfile *SecurityProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (securityProfile *SecurityProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if securityProfile == nil {
 		return nil, nil
 	}
@@ -6509,7 +6509,7 @@ func (securityProfile *SecurityProfile) ConvertToARM(name string, resolvedRefere
 
 	// Set property ‘UefiSettings’:
 	if securityProfile.UefiSettings != nil {
-		uefiSettingsARM, err := (*securityProfile.UefiSettings).ConvertToARM(name, resolvedReferences)
+		uefiSettingsARM, err := (*securityProfile.UefiSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7182,7 +7182,7 @@ type VirtualMachineScaleSetOSProfile struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetOSProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetOSProfile == nil {
 		return nil, nil
 	}
@@ -7214,7 +7214,7 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) ConvertT
 
 	// Set property ‘LinuxConfiguration’:
 	if virtualMachineScaleSetOSProfile.LinuxConfiguration != nil {
-		linuxConfigurationARM, err := (*virtualMachineScaleSetOSProfile.LinuxConfiguration).ConvertToARM(name, resolvedReferences)
+		linuxConfigurationARM, err := (*virtualMachineScaleSetOSProfile.LinuxConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7224,7 +7224,7 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) ConvertT
 
 	// Set property ‘Secrets’:
 	for _, item := range virtualMachineScaleSetOSProfile.Secrets {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7233,7 +7233,7 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) ConvertT
 
 	// Set property ‘WindowsConfiguration’:
 	if virtualMachineScaleSetOSProfile.WindowsConfiguration != nil {
-		windowsConfigurationARM, err := (*virtualMachineScaleSetOSProfile.WindowsConfiguration).ConvertToARM(name, resolvedReferences)
+		windowsConfigurationARM, err := (*virtualMachineScaleSetOSProfile.WindowsConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7800,7 +7800,7 @@ type VirtualMachineScaleSetStorageProfile struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetStorageProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetStorageProfile == nil {
 		return nil, nil
 	}
@@ -7808,7 +7808,7 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 
 	// Set property ‘DataDisks’:
 	for _, item := range virtualMachineScaleSetStorageProfile.DataDisks {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7817,7 +7817,7 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 
 	// Set property ‘ImageReference’:
 	if virtualMachineScaleSetStorageProfile.ImageReference != nil {
-		imageReferenceARM, err := (*virtualMachineScaleSetStorageProfile.ImageReference).ConvertToARM(name, resolvedReferences)
+		imageReferenceARM, err := (*virtualMachineScaleSetStorageProfile.ImageReference).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7827,7 +7827,7 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 
 	// Set property ‘OsDisk’:
 	if virtualMachineScaleSetStorageProfile.OsDisk != nil {
-		osDiskARM, err := (*virtualMachineScaleSetStorageProfile.OsDisk).ConvertToARM(name, resolvedReferences)
+		osDiskARM, err := (*virtualMachineScaleSetStorageProfile.OsDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8179,7 +8179,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProf
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile == nil {
 		return nil, nil
 	}
@@ -8187,7 +8187,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 
 	// Set property ‘Extensions’:
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile.Extensions {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8308,7 +8308,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile == nil {
 		return nil, nil
 	}
@@ -8316,7 +8316,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *
 
 	// Set property ‘HealthProbe’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.HealthProbe != nil {
-		healthProbeARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.HealthProbe).ConvertToARM(name, resolvedReferences)
+		healthProbeARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.HealthProbe).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8326,7 +8326,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *
 
 	// Set property ‘NetworkInterfaceConfigurations’:
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.NetworkInterfaceConfigurations {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8453,7 +8453,7 @@ type ApiEntityReference struct {
 var _ genruntime.ARMTransformer = &ApiEntityReference{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (apiEntityReference *ApiEntityReference) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (apiEntityReference *ApiEntityReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if apiEntityReference == nil {
 		return nil, nil
 	}
@@ -8461,7 +8461,7 @@ func (apiEntityReference *ApiEntityReference) ConvertToARM(name string, resolved
 
 	// Set property ‘Id’:
 	if apiEntityReference.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*apiEntityReference.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*apiEntityReference.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -8605,7 +8605,7 @@ type BootDiagnostics struct {
 var _ genruntime.ARMTransformer = &BootDiagnostics{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (bootDiagnostics *BootDiagnostics) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (bootDiagnostics *BootDiagnostics) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if bootDiagnostics == nil {
 		return nil, nil
 	}
@@ -8824,7 +8824,7 @@ type ImageReference struct {
 var _ genruntime.ARMTransformer = &ImageReference{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (imageReference *ImageReference) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (imageReference *ImageReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if imageReference == nil {
 		return nil, nil
 	}
@@ -8832,7 +8832,7 @@ func (imageReference *ImageReference) ConvertToARM(name string, resolvedReferenc
 
 	// Set property ‘Id’:
 	if imageReference.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*imageReference.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*imageReference.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -9229,7 +9229,7 @@ type LinuxConfiguration struct {
 var _ genruntime.ARMTransformer = &LinuxConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (linuxConfiguration *LinuxConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (linuxConfiguration *LinuxConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if linuxConfiguration == nil {
 		return nil, nil
 	}
@@ -9243,7 +9243,7 @@ func (linuxConfiguration *LinuxConfiguration) ConvertToARM(name string, resolved
 
 	// Set property ‘PatchSettings’:
 	if linuxConfiguration.PatchSettings != nil {
-		patchSettingsARM, err := (*linuxConfiguration.PatchSettings).ConvertToARM(name, resolvedReferences)
+		patchSettingsARM, err := (*linuxConfiguration.PatchSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9259,7 +9259,7 @@ func (linuxConfiguration *LinuxConfiguration) ConvertToARM(name string, resolved
 
 	// Set property ‘Ssh’:
 	if linuxConfiguration.Ssh != nil {
-		sshARM, err := (*linuxConfiguration.Ssh).ConvertToARM(name, resolvedReferences)
+		sshARM, err := (*linuxConfiguration.Ssh).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9614,7 +9614,7 @@ type TerminateNotificationProfile struct {
 var _ genruntime.ARMTransformer = &TerminateNotificationProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (terminateNotificationProfile *TerminateNotificationProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (terminateNotificationProfile *TerminateNotificationProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if terminateNotificationProfile == nil {
 		return nil, nil
 	}
@@ -9821,7 +9821,7 @@ type UefiSettings struct {
 var _ genruntime.ARMTransformer = &UefiSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (uefiSettings *UefiSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (uefiSettings *UefiSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if uefiSettings == nil {
 		return nil, nil
 	}
@@ -10025,7 +10025,7 @@ type VaultSecretGroup struct {
 var _ genruntime.ARMTransformer = &VaultSecretGroup{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (vaultSecretGroup *VaultSecretGroup) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (vaultSecretGroup *VaultSecretGroup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if vaultSecretGroup == nil {
 		return nil, nil
 	}
@@ -10033,7 +10033,7 @@ func (vaultSecretGroup *VaultSecretGroup) ConvertToARM(name string, resolvedRefe
 
 	// Set property ‘SourceVault’:
 	if vaultSecretGroup.SourceVault != nil {
-		sourceVaultARM, err := (*vaultSecretGroup.SourceVault).ConvertToARM(name, resolvedReferences)
+		sourceVaultARM, err := (*vaultSecretGroup.SourceVault).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10043,7 +10043,7 @@ func (vaultSecretGroup *VaultSecretGroup) ConvertToARM(name string, resolvedRefe
 
 	// Set property ‘VaultCertificates’:
 	for _, item := range vaultSecretGroup.VaultCertificates {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10330,7 +10330,7 @@ type VirtualMachineScaleSetDataDisk struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetDataDisk{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetDataDisk == nil {
 		return nil, nil
 	}
@@ -10368,7 +10368,7 @@ func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) ConvertToA
 
 	// Set property ‘ManagedDisk’:
 	if virtualMachineScaleSetDataDisk.ManagedDisk != nil {
-		managedDiskARM, err := (*virtualMachineScaleSetDataDisk.ManagedDisk).ConvertToARM(name, resolvedReferences)
+		managedDiskARM, err := (*virtualMachineScaleSetDataDisk.ManagedDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11691,7 +11691,7 @@ type VirtualMachineScaleSetOSDisk struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetOSDisk{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetOSDisk == nil {
 		return nil, nil
 	}
@@ -11708,7 +11708,7 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) ConvertToARM(n
 
 	// Set property ‘DiffDiskSettings’:
 	if virtualMachineScaleSetOSDisk.DiffDiskSettings != nil {
-		diffDiskSettingsARM, err := (*virtualMachineScaleSetOSDisk.DiffDiskSettings).ConvertToARM(name, resolvedReferences)
+		diffDiskSettingsARM, err := (*virtualMachineScaleSetOSDisk.DiffDiskSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11724,7 +11724,7 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) ConvertToARM(n
 
 	// Set property ‘Image’:
 	if virtualMachineScaleSetOSDisk.Image != nil {
-		imageARM, err := (*virtualMachineScaleSetOSDisk.Image).ConvertToARM(name, resolvedReferences)
+		imageARM, err := (*virtualMachineScaleSetOSDisk.Image).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11734,7 +11734,7 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) ConvertToARM(n
 
 	// Set property ‘ManagedDisk’:
 	if virtualMachineScaleSetOSDisk.ManagedDisk != nil {
-		managedDiskARM, err := (*virtualMachineScaleSetOSDisk.ManagedDisk).ConvertToARM(name, resolvedReferences)
+		managedDiskARM, err := (*virtualMachineScaleSetOSDisk.ManagedDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12420,7 +12420,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProf
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions == nil {
 		return nil, nil
 	}
@@ -12640,7 +12640,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations == nil {
 		return nil, nil
 	}
@@ -12660,7 +12660,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM{}
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.DnsSettings != nil {
-		dnsSettingsARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.DnsSettings).ConvertToARM(name, resolvedReferences)
+		dnsSettingsARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.DnsSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12680,14 +12680,14 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties.EnableIPForwarding = &enableIPForwarding
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.IpConfigurations {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, itemARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM))
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.NetworkSecurityGroup != nil {
-		networkSecurityGroupARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.NetworkSecurityGroup).ConvertToARM(name, resolvedReferences)
+		networkSecurityGroupARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.NetworkSecurityGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -13027,7 +13027,7 @@ type WindowsConfiguration struct {
 var _ genruntime.ARMTransformer = &WindowsConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (windowsConfiguration *WindowsConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (windowsConfiguration *WindowsConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if windowsConfiguration == nil {
 		return nil, nil
 	}
@@ -13035,7 +13035,7 @@ func (windowsConfiguration *WindowsConfiguration) ConvertToARM(name string, reso
 
 	// Set property ‘AdditionalUnattendContent’:
 	for _, item := range windowsConfiguration.AdditionalUnattendContent {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -13050,7 +13050,7 @@ func (windowsConfiguration *WindowsConfiguration) ConvertToARM(name string, reso
 
 	// Set property ‘PatchSettings’:
 	if windowsConfiguration.PatchSettings != nil {
-		patchSettingsARM, err := (*windowsConfiguration.PatchSettings).ConvertToARM(name, resolvedReferences)
+		patchSettingsARM, err := (*windowsConfiguration.PatchSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -13072,7 +13072,7 @@ func (windowsConfiguration *WindowsConfiguration) ConvertToARM(name string, reso
 
 	// Set property ‘WinRM’:
 	if windowsConfiguration.WinRM != nil {
-		winRMARM, err := (*windowsConfiguration.WinRM).ConvertToARM(name, resolvedReferences)
+		winRMARM, err := (*windowsConfiguration.WinRM).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -13561,7 +13561,7 @@ type AdditionalUnattendContent struct {
 var _ genruntime.ARMTransformer = &AdditionalUnattendContent{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (additionalUnattendContent *AdditionalUnattendContent) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (additionalUnattendContent *AdditionalUnattendContent) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if additionalUnattendContent == nil {
 		return nil, nil
 	}
@@ -13899,7 +13899,7 @@ type DiffDiskSettings struct {
 var _ genruntime.ARMTransformer = &DiffDiskSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (diffDiskSettings *DiffDiskSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (diffDiskSettings *DiffDiskSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if diffDiskSettings == nil {
 		return nil, nil
 	}
@@ -14110,7 +14110,7 @@ type LinuxPatchSettings struct {
 var _ genruntime.ARMTransformer = &LinuxPatchSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (linuxPatchSettings *LinuxPatchSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (linuxPatchSettings *LinuxPatchSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if linuxPatchSettings == nil {
 		return nil, nil
 	}
@@ -14274,7 +14274,7 @@ type PatchSettings struct {
 var _ genruntime.ARMTransformer = &PatchSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (patchSettings *PatchSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (patchSettings *PatchSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if patchSettings == nil {
 		return nil, nil
 	}
@@ -14485,7 +14485,7 @@ type SshConfiguration struct {
 var _ genruntime.ARMTransformer = &SshConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sshConfiguration *SshConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (sshConfiguration *SshConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sshConfiguration == nil {
 		return nil, nil
 	}
@@ -14493,7 +14493,7 @@ func (sshConfiguration *SshConfiguration) ConvertToARM(name string, resolvedRefe
 
 	// Set property ‘PublicKeys’:
 	for _, item := range sshConfiguration.PublicKeys {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -14685,7 +14685,7 @@ type VaultCertificate struct {
 var _ genruntime.ARMTransformer = &VaultCertificate{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (vaultCertificate *VaultCertificate) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (vaultCertificate *VaultCertificate) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if vaultCertificate == nil {
 		return nil, nil
 	}
@@ -14899,7 +14899,7 @@ type VirtualHardDisk struct {
 var _ genruntime.ARMTransformer = &VirtualHardDisk{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualHardDisk *VirtualHardDisk) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualHardDisk *VirtualHardDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualHardDisk == nil {
 		return nil, nil
 	}
@@ -15480,7 +15480,7 @@ type VirtualMachineScaleSetManagedDiskParameters struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetManagedDiskParameters{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManagedDiskParameters) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManagedDiskParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetManagedDiskParameters == nil {
 		return nil, nil
 	}
@@ -15488,7 +15488,7 @@ func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManaged
 
 	// Set property ‘DiskEncryptionSet’:
 	if virtualMachineScaleSetManagedDiskParameters.DiskEncryptionSet != nil {
-		diskEncryptionSetARM, err := (*virtualMachineScaleSetManagedDiskParameters.DiskEncryptionSet).ConvertToARM(name, resolvedReferences)
+		diskEncryptionSetARM, err := (*virtualMachineScaleSetManagedDiskParameters.DiskEncryptionSet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15711,7 +15711,7 @@ type VirtualMachineScaleSetNetworkConfigurationDnsSettings struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetNetworkConfigurationDnsSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetNetworkConfigurationDnsSettings == nil {
 		return nil, nil
 	}
@@ -15931,7 +15931,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations == nil {
 		return nil, nil
 	}
@@ -15951,28 +15951,28 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM{}
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.ApplicationGatewayBackendAddressPools = append(result.Properties.ApplicationGatewayBackendAddressPools, itemARM.(SubResourceARM))
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationSecurityGroups {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, itemARM.(SubResourceARM))
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerBackendAddressPools {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.LoadBalancerBackendAddressPools = append(result.Properties.LoadBalancerBackendAddressPools, itemARM.(SubResourceARM))
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerInboundNatPools {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15987,7 +15987,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.PublicIPAddressConfiguration != nil {
-		publicIPAddressConfigurationARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.PublicIPAddressConfiguration).ConvertToARM(name, resolvedReferences)
+		publicIPAddressConfigurationARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.PublicIPAddressConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15995,7 +15995,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties.PublicIPAddressConfiguration = &publicIPAddressConfiguration
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.Subnet != nil {
-		subnetARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.Subnet).ConvertToARM(name, resolvedReferences)
+		subnetARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.Subnet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -16375,7 +16375,7 @@ type WinRMConfiguration struct {
 var _ genruntime.ARMTransformer = &WinRMConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (winRMConfiguration *WinRMConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (winRMConfiguration *WinRMConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if winRMConfiguration == nil {
 		return nil, nil
 	}
@@ -16383,7 +16383,7 @@ func (winRMConfiguration *WinRMConfiguration) ConvertToARM(name string, resolved
 
 	// Set property ‘Listeners’:
 	for _, item := range winRMConfiguration.Listeners {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -16614,7 +16614,7 @@ type DiskEncryptionSetParameters struct {
 var _ genruntime.ARMTransformer = &DiskEncryptionSetParameters{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (diskEncryptionSetParameters *DiskEncryptionSetParameters) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (diskEncryptionSetParameters *DiskEncryptionSetParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if diskEncryptionSetParameters == nil {
 		return nil, nil
 	}
@@ -16622,7 +16622,7 @@ func (diskEncryptionSetParameters *DiskEncryptionSetParameters) ConvertToARM(nam
 
 	// Set property ‘Id’:
 	if diskEncryptionSetParameters.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*diskEncryptionSetParameters.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*diskEncryptionSetParameters.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -16734,7 +16734,7 @@ type SshPublicKey struct {
 var _ genruntime.ARMTransformer = &SshPublicKey{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sshPublicKey *SshPublicKey) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (sshPublicKey *SshPublicKey) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sshPublicKey == nil {
 		return nil, nil
 	}
@@ -17232,7 +17232,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration == nil {
 		return nil, nil
 	}
@@ -17246,7 +17246,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties = &VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesARM{}
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.DnsSettings != nil {
-		dnsSettingsARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.DnsSettings).ConvertToARM(name, resolvedReferences)
+		dnsSettingsARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.DnsSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -17258,7 +17258,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.IpTags {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -17269,7 +17269,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties.PublicIPAddressVersion = &publicIPAddressVersion
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.PublicIPPrefix != nil {
-		publicIPPrefixARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.PublicIPPrefix).ConvertToARM(name, resolvedReferences)
+		publicIPPrefixARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.PublicIPPrefix).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -17520,7 +17520,7 @@ type WinRMListener struct {
 var _ genruntime.ARMTransformer = &WinRMListener{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (winRMListener *WinRMListener) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (winRMListener *WinRMListener) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if winRMListener == nil {
 		return nil, nil
 	}
@@ -17734,7 +17734,7 @@ type VirtualMachineScaleSetIpTag struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetIpTag{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetIpTag == nil {
 		return nil, nil
 	}
@@ -17935,7 +17935,7 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings == nil {
 		return nil, nil
 	}

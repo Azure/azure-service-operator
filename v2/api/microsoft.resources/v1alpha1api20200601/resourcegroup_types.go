@@ -244,14 +244,14 @@ func (spec *ResourceGroupSpec) CreateEmptyARMValue() genruntime.ARMResourceStatu
 }
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *ResourceGroupSpec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (spec *ResourceGroupSpec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if spec == nil {
 		return nil, nil
 	}
 	result := ResourceGroupSpecARM{}
 	result.APIVersion = "2020-06-01" // TODO: Update this to match what the codegenerated resources do with APIVersion eventually
 	result.Location = spec.Location
-	result.Name = name
+	result.Name = resolved.Name
 	result.ManagedBy = spec.ManagedBy
 	result.Tags = spec.Tags
 	result.Type = ResourceGroupTypeResourceGroup

@@ -1699,7 +1699,7 @@ type ManagedClustersAgentPools_Spec struct {
 var _ genruntime.ARMTransformer = &ManagedClustersAgentPools_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if managedClustersAgentPoolsSpec == nil {
 		return nil, nil
 	}
@@ -1715,7 +1715,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToAR
 	}
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	for _, item := range managedClustersAgentPoolsSpec.AvailabilityZones {
@@ -1750,7 +1750,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToAR
 		result.Properties.GpuInstanceProfile = &gpuInstanceProfile
 	}
 	if managedClustersAgentPoolsSpec.KubeletConfig != nil {
-		kubeletConfigARM, err := (*managedClustersAgentPoolsSpec.KubeletConfig).ConvertToARM(name, resolvedReferences)
+		kubeletConfigARM, err := (*managedClustersAgentPoolsSpec.KubeletConfig).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1762,7 +1762,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToAR
 		result.Properties.KubeletDiskType = &kubeletDiskType
 	}
 	if managedClustersAgentPoolsSpec.LinuxOSConfig != nil {
-		linuxOSConfigARM, err := (*managedClustersAgentPoolsSpec.LinuxOSConfig).ConvertToARM(name, resolvedReferences)
+		linuxOSConfigARM, err := (*managedClustersAgentPoolsSpec.LinuxOSConfig).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1792,7 +1792,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToAR
 		}
 	}
 	if managedClustersAgentPoolsSpec.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDARMID, err := resolvedReferences.ARMIDOrErr(*managedClustersAgentPoolsSpec.NodePublicIPPrefixIDReference)
+		nodePublicIPPrefixIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*managedClustersAgentPoolsSpec.NodePublicIPPrefixIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -1823,7 +1823,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToAR
 		result.Properties.OsType = &osType
 	}
 	if managedClustersAgentPoolsSpec.PodSubnetIDReference != nil {
-		podSubnetIDARMID, err := resolvedReferences.ARMIDOrErr(*managedClustersAgentPoolsSpec.PodSubnetIDReference)
+		podSubnetIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*managedClustersAgentPoolsSpec.PodSubnetIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -1857,7 +1857,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToAR
 		result.Properties.Type = &typeVar
 	}
 	if managedClustersAgentPoolsSpec.UpgradeSettings != nil {
-		upgradeSettingsARM, err := (*managedClustersAgentPoolsSpec.UpgradeSettings).ConvertToARM(name, resolvedReferences)
+		upgradeSettingsARM, err := (*managedClustersAgentPoolsSpec.UpgradeSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1869,7 +1869,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToAR
 		result.Properties.VmSize = &vmSize
 	}
 	if managedClustersAgentPoolsSpec.VnetSubnetIDReference != nil {
-		vnetSubnetIDARMID, err := resolvedReferences.ARMIDOrErr(*managedClustersAgentPoolsSpec.VnetSubnetIDReference)
+		vnetSubnetIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*managedClustersAgentPoolsSpec.VnetSubnetIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2826,7 +2826,7 @@ type AgentPoolUpgradeSettings struct {
 var _ genruntime.ARMTransformer = &AgentPoolUpgradeSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if agentPoolUpgradeSettings == nil {
 		return nil, nil
 	}
@@ -3016,7 +3016,7 @@ type KubeletConfig struct {
 var _ genruntime.ARMTransformer = &KubeletConfig{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (kubeletConfig *KubeletConfig) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (kubeletConfig *KubeletConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if kubeletConfig == nil {
 		return nil, nil
 	}
@@ -3713,7 +3713,7 @@ type LinuxOSConfig struct {
 var _ genruntime.ARMTransformer = &LinuxOSConfig{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (linuxOSConfig *LinuxOSConfig) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (linuxOSConfig *LinuxOSConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if linuxOSConfig == nil {
 		return nil, nil
 	}
@@ -3727,7 +3727,7 @@ func (linuxOSConfig *LinuxOSConfig) ConvertToARM(name string, resolvedReferences
 
 	// Set property ‘Sysctls’:
 	if linuxOSConfig.Sysctls != nil {
-		sysctlsARM, err := (*linuxOSConfig.Sysctls).ConvertToARM(name, resolvedReferences)
+		sysctlsARM, err := (*linuxOSConfig.Sysctls).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4205,7 +4205,7 @@ type SysctlConfig struct {
 var _ genruntime.ARMTransformer = &SysctlConfig{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sysctlConfig *SysctlConfig) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (sysctlConfig *SysctlConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sysctlConfig == nil {
 		return nil, nil
 	}
