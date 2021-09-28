@@ -31,20 +31,17 @@ func NewEmptyArmResourceStatus(metaObject genruntime.MetaObject) (genruntime.ARM
 // NewEmptyStatus creates a new empty Status object (which implements FromArmConverter) from
 // a genruntime.MetaObject.
 func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.FromARMConverter, error) {
-	t := reflect.TypeOf(metaObject).Elem()
 
-	statusField, ok := t.FieldByName("Status")
-	if !ok {
-		return nil, errors.Errorf("couldn't find status field on type %T", metaObject)
-	}
+	// This needs to return the right kind of status
+	status := metaObject.GetStatus()
 
-	statusPtr := reflect.New(statusField.Type)
-	status, ok := statusPtr.Interface().(genruntime.FromARMConverter)
+	statusPtr := reflect.New(reflect.TypeOf(status))
+	armStatus, ok := statusPtr.Interface().(genruntime.FromARMConverter)
 	if !ok {
 		return nil, errors.Errorf("status did not implement genruntime.ArmTransformer")
 	}
 
-	return status, nil
+	return armStatus, nil
 }
 
 // NewPtrFromValue creates a new pointer type from a value
