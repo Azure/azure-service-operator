@@ -22,7 +22,6 @@ import (
 // OpenAPISchema implements the Schema abstraction for go-openapi
 type OpenAPISchema struct {
 	inner     spec.Schema
-	root      spec.Swagger
 	fileName  string
 	groupName string
 	version   string
@@ -32,18 +31,16 @@ type OpenAPISchema struct {
 // MakeOpenAPISchema wraps a spec.Swagger to conform to the Schema abstraction
 func MakeOpenAPISchema(
 	schema spec.Schema,
-	root spec.Swagger,
 	fileName string,
 	groupName string,
 	version string,
 	cache OpenAPISchemaCache) Schema {
-	return &OpenAPISchema{schema, root, fileName, groupName, version, cache}
+	return &OpenAPISchema{schema, fileName, groupName, version, cache}
 }
 
 func (schema *OpenAPISchema) withNewSchema(newSchema spec.Schema) Schema {
 	return &OpenAPISchema{
 		newSchema,
-		schema.root,
 		schema.fileName,
 		schema.groupName,
 		schema.version,
@@ -267,10 +264,9 @@ func (schema *OpenAPISchema) isRef() bool {
 }
 
 func (schema *OpenAPISchema) refSchema() Schema {
-	fileName, root, result := loadRefSchema(schema.root, schema.inner.Ref, schema.fileName, schema.cache)
+	fileName, result := loadRefSchema(schema.inner.Ref, schema.fileName, schema.cache)
 	return &OpenAPISchema{
 		result,
-		root,
 		fileName,
 		// Note that we preserve the groupName and version that were input at the start,
 		// even if we are reading a file from a different group or version. this is intentional;
@@ -283,29 +279,30 @@ func (schema *OpenAPISchema) refSchema() Schema {
 }
 
 func loadRefSchema(
-	schemaRoot spec.Swagger,
 	ref spec.Ref,
 	schemaPath string,
-	cache OpenAPISchemaCache) (string, spec.Swagger, spec.Schema) {
+	cache OpenAPISchemaCache) (string, spec.Schema) {
 
-	var fileName string
-	var root spec.Swagger
 	var err error
 
 	if !ref.HasFragmentOnly {
-		fileName, root, err = cache.fetchFileRelative(schemaPath, ref.GetURL())
+		// it is in another file
+		schemaPath, err = resolveAbsolutePath(schemaPath, ref.GetURL())
 		if err != nil {
 			panic(err)
 		}
-	} else {
-		fileName, root = schemaPath, schemaRoot
+	}
+
+	swagger, err := cache.fetchFileAbsolute(schemaPath)
+	if err != nil {
+		panic(err)
 	}
 
 	reffed := objectNameFromPointer(ref.GetPointer())
-	if result, ok := root.Definitions[reffed]; !ok {
-		panic(fmt.Sprintf("couldn't find: %s in %s", reffed, fileName))
+	if result, ok := swagger.Definitions[reffed]; !ok {
+		panic(fmt.Sprintf("couldn't find: %s in %s", reffed, schemaPath))
 	} else {
-		return fileName, root, result
+		return schemaPath, result
 	}
 }
 
@@ -349,25 +346,18 @@ func NewOpenAPISchemaCache(specs map[string]spec.Swagger) OpenAPISchemaCache {
 	return OpenAPISchemaCache{files}
 }
 
-// fetchFileRelative fetches the schema for the relative path created by combining 'baseFileName' and 'url'
-func (fileCache OpenAPISchemaCache) fetchFileRelative(baseFileName string, url *url.URL) (string, spec.Swagger, error) {
-	path := ""
-	swagger := spec.Swagger{}
-
+// resolveAbsolutePath makes an absolute path by combining 'baseFileName' and 'url'
+func resolveAbsolutePath(baseFileName string, url *url.URL) (string, error) {
 	if url.IsAbs() {
-		return path, swagger, errors.Errorf("only relative URLs can be handled")
+		return "", errors.Errorf("only relative URLs can be handled")
 	}
 
 	fileURL, err := url.Parse("file://" + filepath.ToSlash(baseFileName))
-
 	if err != nil {
-		return path, swagger, errors.Wrapf(err, "cannot convert filename to file URI")
+		return "", errors.Wrapf(err, "cannot convert filename to file URI")
 	}
 
-	path = fileURL.ResolveReference(url).Path
-	swagger, err = fileCache.fetchFileAbsolute(path)
-
-	return path, swagger, err
+	return fileURL.ResolveReference(url).Path, nil
 }
 
 // fetchFileAbsolute fetches the schema for the absolute path specified
