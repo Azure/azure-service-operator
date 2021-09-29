@@ -5,10 +5,10 @@ package v1alpha1api20210101preview
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.servicebus/v1alpha1api20210101previewstorage"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"

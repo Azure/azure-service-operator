@@ -9,8 +9,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
 // TODO: it doesn't really matter where these are (as long as they're in 'apis', where is where we run controller-gen).

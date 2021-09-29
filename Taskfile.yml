@@ -9,8 +9,8 @@ vars:
   GENERATOR_PACKAGE: github.com/Azure/azure-service-operator/hack/generator
 
   CONTROLLER_APP: aso-controller
-  CONTROLLER_ROOT: ./hack/generated/
-  CONTROLLER_PACKAGE: github.com/Azure/azure-service-operator/hack/generated
+  CONTROLLER_ROOT: ./v2/
+  CONTROLLER_PACKAGE: github.com/Azure/azure-service-operator/v2
 
   TEST_RESOURCE_PREFIX: asotest
 
@@ -60,8 +60,15 @@ tasks:
     - generator:ci
     - controller:ci-live
 
+  format-v2-code:
+    desc: Ensure all code is formatted
+    dir: v2
+    cmds:
+      - gofmt -l -s -w .
+
   format-code:
     desc: Ensure all code is formatted
+    deps: [format-v2-code]
     dir: hack
     cmds:
     - gofmt -l -s -w .
@@ -193,10 +200,11 @@ tasks:
     - "go.mod"
     - "go.sum"
     - "*.go"
-    - "controllers/**/*.go"
+    - "internal/**/*.go"
     - "pkg/**/*.go"
+    - "cmd/main.go"
     cmds:
-    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X {{.CONTROLLER_PACKAGE}}/pkg/version.BuildVersion={{.VERSION}}" -o ./bin/{{.CONTROLLER_APP}}
+    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X {{.CONTROLLER_PACKAGE}}/internal/controller/version.BuildVersion={{.VERSION}}" -o ./bin/{{.CONTROLLER_APP}} cmd/main.go
 
   controller:docker-build:
     desc: Builds the {{.CONTROLLER_APP}} Docker image.
@@ -270,7 +278,7 @@ tasks:
     deps: [controller:generate-types, controller:generate-genruntime-deepcopy]
     sources:
     - "v2/api/**/*_gen.go" # depends on all generated types
-    - "hack/generated/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
+    - "v2/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
     cmds:
     - mkdir -p v2/api
     - find v2/api -type f -name "zz_generated.*" -delete
@@ -280,7 +288,7 @@ tasks:
     - cd v2/api && gofmt -l -s -w . # format all generated code
     vars:
       HEADER_FILE:
-        sh: 'realpath hack/boilerplate.go.txt #controller:generate-crds'
+        sh: 'realpath v2/boilerplate.go.txt #controller:generate-crds'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}} 
 
       OUTPUT:
@@ -300,7 +308,7 @@ tasks:
       - cd pkg/genruntime && gofmt -l -s -w .  # We do this because controller-gen can generate these files in a way that isn't gofmt'ed which can break things down the line
     vars:
       HEADER_FILE:
-        sh: 'realpath ../boilerplate.go.txt #controller:generate-genruntime-deepcopy'
+        sh: 'realpath boilerplate.go.txt #controller:generate-genruntime-deepcopy'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
 
   controller:generate-kustomize:
@@ -387,7 +395,7 @@ tasks:
       - cd apis && gofmt -l -s -w . # format all generated code
     vars:
       HEADER_FILE: 
-        sh: 'realpath ../boilerplate.go.txt #crossplane:generate-crds'
+        sh: 'realpath ../../v2/boilerplate.go.txt #crossplane:generate-crds'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
 
       OUTPUT:
