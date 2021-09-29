@@ -62,10 +62,12 @@ func newConvertFromARMFunctionBuilder(
 	// or other properties.
 	result.typeConversionBuilder.AddConversionHandlers(result.convertComplexTypeNameProperty)
 	result.propertyConversionHandlers = []propertyConversionHandler{
+		// Handlers for specific properties come first
 		result.namePropertyHandler,
-		result.referencePropertyHandler,
 		result.ownerPropertyHandler,
 		result.conditionsPropertyHandler,
+		// Generic handlers come second
+		result.referencePropertyHandler,
 		result.flattenedPropertyHandler,
 		result.propertiesWithSameNameHandler,
 	}
@@ -84,7 +86,7 @@ func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
 	fn.AddComments("populates a Kubernetes CRD object from an Azure ARM object")
 	fn.AddParameter(
 		builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astmodel.KnownResourceReferenceType.AsType(builder.codeGenerationContext))
+		astmodel.ArbitraryOwnerReference.AsType(builder.codeGenerationContext))
 
 	fn.AddParameter(builder.inputIdent, dst.NewIdent("interface{}"))
 	fn.AddReturns("error")
@@ -200,15 +202,41 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
 
-	if toProp.PropertyName() != builder.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported) || builder.typeKind != TypeKindSpec {
+	ownerParameter := builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)
+	ownerProp := builder.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported)
+	if toProp.PropertyName() != ownerProp || builder.typeKind != TypeKindSpec {
 		return nil, false
+	}
+
+	// Confirm that the destination type is the type we expect
+	ownerNameType, ok := astmodel.AsTypeName(toProp.PropertyType())
+	if !ok {
+		var kubeDescription strings.Builder
+		builder.kubeType.WriteDebugDescription(&kubeDescription, nil)
+
+		var armDescription strings.Builder
+		builder.armType.WriteDebugDescription(&armDescription, nil)
+
+		panic(fmt.Sprintf("Owner property was not of type TypeName. Kube: %s, ARM: %s", kubeDescription.String(), armDescription.String()))
+	}
+
+	var convertedOwner dst.Expr
+	if ownerNameType == astmodel.KnownResourceReferenceType {
+		compositeLit := astbuilder.NewCompositeLiteralDetails(astmodel.KnownResourceReferenceType.AsType(builder.codeGenerationContext))
+		compositeLit.AddField("Name", astbuilder.Selector(dst.NewIdent(ownerParameter), "Name"))
+		convertedOwner = compositeLit.Build()
+	} else if ownerNameType == astmodel.ArbitraryOwnerReference {
+		convertedOwner = dst.NewIdent(ownerParameter)
+	} else {
+		panic(fmt.Sprintf("found Owner property on spec with unexpected TypeName %s", ownerNameType.String()))
 	}
 
 	result := astbuilder.QualifiedAssignment(
 		dst.NewIdent(builder.receiverIdent),
 		string(toProp.PropertyName()),
 		token.ASSIGN,
-		dst.NewIdent(builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)))
+		convertedOwner)
+
 	return []dst.Stmt{result}, true
 }
 

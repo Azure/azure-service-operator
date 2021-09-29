@@ -57,7 +57,7 @@ func AddKubernetesResourceInterfaceImpls(
 	getAzureNameProperty := functions.NewObjectFunction(astmodel.AzureNameProperty, idFactory, getNameFunction)
 	getAzureNameProperty.AddPackageReference(astmodel.GenRuntimeReference)
 
-	getOwnerProperty := functions.NewObjectFunction(astmodel.OwnerProperty, idFactory, ownerFunction)
+	getOwnerProperty := functions.NewObjectFunction(astmodel.OwnerProperty, idFactory, newOwnerFunction(r))
 	getOwnerProperty.AddPackageReference(astmodel.GenRuntimeReference)
 
 	getSpecFunction := functions.NewObjectFunction("GetSpec", idFactory, createGetSpecFunction)
@@ -286,31 +286,50 @@ func IsKubernetesResourceProperty(name astmodel.PropertyName) bool {
 	return name == astmodel.AzureNameProperty || name == astmodel.OwnerProperty
 }
 
-// ownerFunction returns a function that returns the owner of the resource
-func ownerFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+// newOwnerFunction creates the Owner function declaration. This has two possible formats.
+// For normal resources:
+//	func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {
+//		group, kind := genruntime.LookupOwnerGroupKind(<receiver>.Spec)
+//		return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: <receiver>.Namespace, Name: <receiver>.Spec.Owner.Name}
+//	}
+// For extension resources:
+//	func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {
+//		return &genruntime.ResourceReference{Group: <receiver>.Spec.Owner.Group, Kind: <receiver>.Spec.Owner.Kind, name: <receiver>.Spec.Owner.Name}
+//	}
+func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	return func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+		receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 
-	lookup := lookupGroupAndKindStmt(
-		"group",
-		"kind",
-		astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec"))
+		specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
+		fn := &astbuilder.FuncDetails{
+			Name:          methodName,
+			ReceiverIdent: receiverIdent,
+			ReceiverType: &dst.StarExpr{
+				X: receiver.AsType(codeGenerationContext),
+			},
+			Params: nil,
+		}
 
-	ret := astbuilder.Returns(createResourceReference("group", "kind", receiverIdent))
+		fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsType(codeGenerationContext)))
+		fn.AddComments("returns the ResourceReference of the owner, or nil if there is no owner")
 
-	fn := &astbuilder.FuncDetails{
-		Name:          methodName,
-		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiver.AsType(codeGenerationContext),
-		},
-		Params: nil,
-		Body:   astbuilder.Statements(lookup, ret),
+		switch r.Kind() {
+		case astmodel.ResourceKindNormal:
+			fn.AddStatements(
+				lookupGroupAndKindStmt("group", "kind", specSelector),
+				astbuilder.Returns(createResourceReference(dst.NewIdent("group"), dst.NewIdent("kind"), receiverIdent)))
+		case astmodel.ResourceKindExtension:
+			owner := astbuilder.Selector(specSelector, astmodel.OwnerProperty)
+			group := astbuilder.Selector(owner, "Group")
+			kind := astbuilder.Selector(owner, "Kind")
+
+			fn.AddStatements(astbuilder.Returns(createResourceReference(group, kind, receiverIdent)))
+		default:
+			panic(fmt.Sprintf("unknown resource kind: %s", r.Kind()))
+		}
+
+		return fn.DefineFunc()
 	}
-
-	fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsType(codeGenerationContext)))
-	fn.AddComments("returns the ResourceReference of the owner, or nil if there is no owner")
-
-	return fn.DefineFunc()
 }
 
 func createGetSpecFunction(
@@ -444,8 +463,8 @@ func lookupGroupAndKindStmt(
 }
 
 func createResourceReference(
-	groupIdent string,
-	kindIdent string,
+	group dst.Expr,
+	kind dst.Expr,
 	receiverIdent string) dst.Expr {
 
 	specSelector := &dst.SelectorExpr{
@@ -462,28 +481,19 @@ func createResourceReference(
 			Elts: []dst.Expr{
 				&dst.KeyValueExpr{
 					Key:   dst.NewIdent("Group"),
-					Value: dst.NewIdent(groupIdent),
+					Value: group,
 				},
 				&dst.KeyValueExpr{
 					Key:   dst.NewIdent("Kind"),
-					Value: dst.NewIdent(kindIdent),
+					Value: kind,
 				},
 				&dst.KeyValueExpr{
-					Key: dst.NewIdent("Namespace"),
-					Value: &dst.SelectorExpr{
-						X:   dst.NewIdent(receiverIdent),
-						Sel: dst.NewIdent("Namespace"),
-					},
+					Key:   dst.NewIdent("Namespace"),
+					Value: astbuilder.Selector(dst.NewIdent(receiverIdent), "Namespace"),
 				},
 				&dst.KeyValueExpr{
-					Key: dst.NewIdent("Name"),
-					Value: &dst.SelectorExpr{
-						X: &dst.SelectorExpr{
-							X:   specSelector,
-							Sel: dst.NewIdent(astmodel.OwnerProperty),
-						},
-						Sel: dst.NewIdent("Name"),
-					},
+					Key:   dst.NewIdent("Name"),
+					Value: astbuilder.Selector(astbuilder.Selector(specSelector, astmodel.OwnerProperty), "Name"),
 				},
 			},
 		})

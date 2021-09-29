@@ -399,7 +399,7 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) CreateEmptyARMValue() genrunt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (namespacesTopicsSpec *NamespacesTopics_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (namespacesTopicsSpec *NamespacesTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(NamespacesTopics_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesTopics_SpecARM, got %T", armInput)
@@ -464,7 +464,9 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Owner’:
-	namespacesTopicsSpec.Owner = owner
+	namespacesTopicsSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘RequiresDuplicateDetection’:
 	// copying flattened property:
@@ -899,7 +901,7 @@ func (sbTopicStatus *SBTopic_Status) CreateEmptyARMValue() genruntime.ARMResourc
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SBTopic_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBTopic_StatusARM, got %T", armInput)

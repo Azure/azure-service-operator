@@ -64,6 +64,7 @@ func init() {
 		// Known types
 		copyKnownType(astmodel.KnownResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.ResourceReferenceType, "Copy", returnsValue),
+		copyKnownType(astmodel.ArbitraryOwnerReference, "Copy", returnsValue),
 		copyKnownType(astmodel.ConditionType, "Copy", returnsValue),
 		copyKnownType(astmodel.JSONType, "DeepCopy", returnsReference),
 		// Meta-conversions

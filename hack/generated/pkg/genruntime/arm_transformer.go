@@ -30,7 +30,7 @@ type ToARMConverter interface {
 
 type FromARMConverter interface {
 	CreateEmptyARMValue() ARMResourceStatus
-	PopulateFromARM(owner KnownResourceReference, input interface{}) error
+	PopulateFromARM(owner ArbitraryOwnerReference, input interface{}) error
 }
 
 // TODO: Consider ArmSpecTransformer and ARMTransformer, so we don't have to pass owningName/name through all the calls

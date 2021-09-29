@@ -353,7 +353,7 @@ func (databaseStatus *Database_Status) CreateEmptyARMValue() genruntime.ARMResou
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (databaseStatus *Database_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (databaseStatus *Database_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(Database_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Database_StatusARM, got %T", armInput)
@@ -624,7 +624,7 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) CreateEmptyAR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(FlexibleServersDatabases_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersDatabases_SpecARM, got %T", armInput)
@@ -654,7 +654,9 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) PopulateFromA
 	}
 
 	// Set property ‘Owner’:
-	flexibleServersDatabasesSpec.Owner = owner
+	flexibleServersDatabasesSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
