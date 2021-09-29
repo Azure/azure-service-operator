@@ -364,6 +364,7 @@ func (r *AzureDeploymentReconciler) Update(
 			return errors.New("template deployment didn't have any output resources")
 		}
 	}
+
 	conditions.SetCondition(r.obj, ready)
 
 	return nil
@@ -1064,7 +1065,6 @@ func (r *AzureDeploymentReconciler) convertResourceToDeployableResource(ctx cont
 // The provided metaObject will be at the canonical storage version, but we need the spec as defined by the API version
 // used when the resource was originally created.
 func (r *AzureDeploymentReconciler) getApiSpec(metaObject genruntime.MetaObject) (genruntime.ConvertibleSpec, error) {
-
 	hasgvk, ok := metaObject.(genruntime.HasOriginalGVK)
 	if  !ok {
 		// Resource doesn't specify original GVK, we can just use the spec we have
