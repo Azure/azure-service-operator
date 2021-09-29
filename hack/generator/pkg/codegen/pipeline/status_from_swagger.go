@@ -241,134 +241,115 @@ type typesFromFile struct {
 
 // mergeTypesForPackage merges the types for a single package from multiple files
 func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles []typesFromFile) jsonast.SwaggerTypes {
-	typeNameCount := make(map[astmodel.TypeName]int)
+	typeNameCounts := make(map[astmodel.TypeName]int)
 	for _, typesFromFile := range typesFromFiles {
 		for name := range typesFromFile.OtherTypes {
-			typeNameCount[name] += 1
+			typeNameCounts[name] += 1
 		}
 	}
 
-	// the results in the renames map match the order of the Types in `typesFromFiles`
-	renames := make(map[astmodel.TypeName][]astmodel.TypeName)
+	// a set of renamings, one per file
+	renames := make([]map[astmodel.TypeName]astmodel.TypeName, len(typesFromFiles))
+	for ix := range typesFromFiles {
+		renames[ix] = make(map[astmodel.TypeName]astmodel.TypeName)
+	}
 
-	for name, count := range typeNameCount {
-		if count == 1 {
-			continue // not duplicate
+	for name, count := range typeNameCounts {
+		colliding := findCollidingTypeNames(typesFromFiles, name, count)
+		if colliding == nil {
+			continue
 		}
 
-		type typeAndSource struct {
-			def     astmodel.TypeDefinition
-			typesIx int
+		names := make([]string, len(colliding))
+		for ix, ttc := range colliding {
+			newName := generateRenaming(idFactory, name, typesFromFiles[ttc.typesFromFileIx].filePath, typeNameCounts)
+			names[ix] = newName.Name()
+			renames[ttc.typesFromFileIx][name] = newName
 		}
 
-		typesToCheck := make([]typeAndSource, 0, count)
-		for typesIx, types := range typesFromFiles {
-			if def, ok := types.OtherTypes[name]; ok {
-				typesToCheck = append(typesToCheck, typeAndSource{def: def, typesIx: typesIx})
-				// short-circuit
-				if len(typesToCheck) == count {
-					break
-				}
-			}
-		}
+		klog.V(3).Infof("Conflicting definitions for %s, renaming to: %s", name, strings.Join(names, ", "))
+	}
 
-		first := typesToCheck[0]
-		for _, other := range typesToCheck[1:] {
-			if !structurallyIdentical(
-				first.def.Type(),
-				typesFromFiles[first.typesIx].OtherTypes,
-				other.def.Type(),
-				typesFromFiles[other.typesIx].OtherTypes,
-			) {
-				if name != first.def.Name() || name != other.def.Name() {
-					panic("assert")
-				}
-
-				_, firstOk := first.def.Type().(*astmodel.ResourceType)
-				_, otherOk := other.def.Type().(*astmodel.ResourceType)
-				if firstOk || otherOk {
-					panic("cannot rename resources")
-				}
-
-				renamed := make([]astmodel.TypeName, len(typesFromFiles))
-
-				names := make([]string, len(typesToCheck))
-				for ix, ttc := range typesToCheck {
-					newName := generateRenaming(idFactory, first.def.Name(), typesFromFiles[ttc.typesIx].filePath, typeNameCount)
-					names[ix] = newName.Name()
-					renamed[ttc.typesIx] = newName
-				}
-
-				klog.V(3).Infof("Conflicting definitions for %s, renaming to: %s", first.def.Name(), strings.Join(names, ", "))
-
-				renames[name] = renamed
-				break
-			}
-
-			// note that when types are structurally identical they aren’t necessarily type.Equals equal;
-			// for this reason we must ignore errors when adding to the result set below
+	for ix := range typesFromFiles {
+		renamesForFile := renames[ix]
+		if len(renamesForFile) > 0 {
+			typesFromFiles[ix] = applyRenames(renamesForFile, typesFromFiles[ix])
 		}
 	}
 
-	if len(renames) == 0 {
-		// nothing needed renaming, we’re free to splat them all
-		mergedResult := jsonast.SwaggerTypes{ResourceTypes: make(astmodel.Types), OtherTypes: make(astmodel.Types)}
-		for _, typesFromFile := range typesFromFiles {
-			for _, t := range typesFromFile.OtherTypes {
-				_ = mergedResult.OtherTypes.AddAllowDuplicates(t)
-				// errors ignored since we already checked for structural equality
-				// it’s possible for types to refer to different typenames in which case they are not TypeEquals Equal
-				// but they might be structurally equal
-			}
-
-			err := mergedResult.ResourceTypes.AddTypesAllowDuplicates(typesFromFile.ResourceTypes)
-			if err != nil {
-				panic(err)
-			}
+	mergedResult := jsonast.SwaggerTypes{ResourceTypes: make(astmodel.Types), OtherTypes: make(astmodel.Types)}
+	for _, typesFromFile := range typesFromFiles {
+		for _, t := range typesFromFile.OtherTypes {
+			// TODO: for consistent results we must sort typesFromFiles first
+			// so that we always pick the same one when there are multiple
+			_ = mergedResult.OtherTypes.AddAllowDuplicates(t)
+			// errors ignored since we already checked for structural equality
+			// it’s possible for types to refer to different typenames in which case they are not TypeEquals Equal
+			// but they might be structurally equal
 		}
 
-		return mergedResult
+		err := mergedResult.ResourceTypes.AddTypesAllowDuplicates(typesFromFile.ResourceTypes)
+		if err != nil {
+			panic(err)
+		}
 	}
 
-	for typeIx, typesFromFile := range typesFromFiles {
-		visitor := makeRenamingVisitor(func(name astmodel.TypeName) astmodel.TypeName {
-			if newNames, ok := renames[name]; ok {
-				return newNames[typeIx]
-			}
-
-			return name
-		})
-
-		newOtherTypes := make(astmodel.Types)
-		for _, def := range typesFromFile.OtherTypes {
-			newDef, err := visitor.VisitDefinition(def, nil)
-			if err != nil {
-				panic(err)
-			}
-
-			newOtherTypes.Add(newDef)
-		}
-
-		newResourceTypes := make(astmodel.Types)
-		for _, resourceDef := range typesFromFile.ResourceTypes {
-			// must not rename the resource name, only within it
-			newType, err := visitor.Visit(resourceDef.Type(), nil)
-			if err != nil {
-				panic(err)
-			}
-
-			newResourceTypes.Add(resourceDef.WithType(newType))
-		}
-
-		typesFromFiles[typeIx].OtherTypes = newOtherTypes
-		typesFromFiles[typeIx].ResourceTypes = newResourceTypes
-	}
-
-	// try again!
-	klog.V(3).Infof("Trying again…")
-	return mergeTypesForPackage(idFactory, typesFromFiles)
+	return mergedResult
 }
 
+type typeAndSource struct {
+	def             astmodel.TypeDefinition
+	typesFromFileIx int
+}
+
+// findCollidingTypeNames finds any types with the given name that collide, and returns
+// the definition as well as the index of the file it was found in
+func findCollidingTypeNames(typesFromFiles []typesFromFile, name astmodel.TypeName, duplicateCount int) []typeAndSource {
+	if duplicateCount == 1 {
+		// cannot collide
+		return nil
+	}
+
+	typesToCheck := make([]typeAndSource, 0, duplicateCount)
+	for typesIx, types := range typesFromFiles {
+		if def, ok := types.OtherTypes[name]; ok {
+			typesToCheck = append(typesToCheck, typeAndSource{def: def, typesFromFileIx: typesIx})
+			// short-circuit
+			if len(typesToCheck) == duplicateCount {
+				break
+			}
+		}
+	}
+
+	first := typesToCheck[0]
+	for _, other := range typesToCheck[1:] {
+		if !structurallyIdentical(
+			first.def.Type(),
+			typesFromFiles[first.typesFromFileIx].OtherTypes,
+			other.def.Type(),
+			typesFromFiles[other.typesFromFileIx].OtherTypes,
+		) {
+			if name != first.def.Name() || name != other.def.Name() {
+				panic("assert")
+			}
+
+			_, firstOk := first.def.Type().(*astmodel.ResourceType)
+			_, otherOk := other.def.Type().(*astmodel.ResourceType)
+			if firstOk || otherOk {
+				panic("cannot rename resources")
+			}
+
+			return typesToCheck
+		}
+		// Else: they are structurally identical and it is okay to pick one.
+		// Note that when types are structurally identical they aren’t necessarily type.Equals equal;
+		// for this reason we must ignore errors when adding to the overall result set using AddAllowDuplicates.
+	}
+
+	return nil
+}
+
+// generateRenaming finds a new name for a type based upon the file it is in
 func generateRenaming(
 	idFactory astmodel.IdentifierFactory,
 	original astmodel.TypeName,
@@ -377,10 +358,14 @@ func generateRenaming(
 	name := filepath.Base(filePath)
 	name = strings.TrimSuffix(name, filepath.Ext(name))
 
+	// Prefix the typename with the filename
 	result := astmodel.MakeTypeName(
 		original.PackageReference,
 		idFactory.CreateIdentifier(name+original.Name(), astmodel.Exported))
 
+	// see if there are any collisions: add Xs until there are no collisions
+	// TODO: this might result in non-determinism depending on iteration order
+	// in the calling method
 	for _, ok := typeNames[result]; ok; _, ok = typeNames[result] {
 		result = astmodel.MakeTypeName(
 			result.PackageReference,
@@ -389,6 +374,43 @@ func generateRenaming(
 	}
 
 	return result
+}
+
+func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile typesFromFile) typesFromFile {
+	visitor := makeRenamingVisitor(func(name astmodel.TypeName) astmodel.TypeName {
+		if newName, ok := renames[name]; ok {
+			return newName
+		}
+
+		return name
+	})
+
+	// visit all other types
+	newOtherTypes := make(astmodel.Types)
+	for _, def := range typesFromFile.OtherTypes {
+		newDef, err := visitor.VisitDefinition(def, nil)
+		if err != nil {
+			panic(err)
+		}
+
+		newOtherTypes.Add(newDef)
+	}
+
+	// visit all resource types
+	newResourceTypes := make(astmodel.Types)
+	for _, resourceDef := range typesFromFile.ResourceTypes {
+		// must not rename the resource name, only within it
+		newType, err := visitor.Visit(resourceDef.Type(), nil)
+		if err != nil {
+			panic(err)
+		}
+
+		newResourceTypes.Add(resourceDef.WithType(newType))
+	}
+
+	typesFromFile.OtherTypes = newOtherTypes
+	typesFromFile.ResourceTypes = newResourceTypes
+	return typesFromFile
 }
 
 // structurallyIdentical checks if the two provided types are structurally identical

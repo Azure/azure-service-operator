@@ -305,16 +305,20 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 }
 
 func (schema *OpenAPISchema) refSchema() Schema {
-	fileName, result := loadRefSchema(schema.inner.Ref, schema.fileName, schema.cache)
+	fileName, result, pkg := loadRefSchema(schema.inner.Ref, schema.fileName, schema.cache)
+
+	// if the pkg comes back nil, that means we should keep using the current package
+	// this happens for some ‘common’ types defined in files that don’t have groups or versions
+
+	outputPackage := schema.outputPackage
+	if pkg != nil {
+		outputPackage = *pkg
+	}
 
 	return &OpenAPISchema{
 		result,
 		fileName,
-		// Note that we preserve the groupName and version that were input at the start,
-		// even if we are reading a file from a different group or version. this is intentional;
-		// essentially all imported types are copied into the target group/version, which avoids
-		// issues with types from the 'common-types' files which have no group and a version of 'v1'.
-		schema.outputPackage,
+		outputPackage,
 		schema.idFactory,
 		schema.cache,
 	}
@@ -333,7 +337,7 @@ func refAbsSchemaPath(ref spec.Ref, schemaPath string) (string, error) {
 func loadRefSchema(
 	ref spec.Ref,
 	schemaPath string,
-	cache OpenAPISchemaCache) (string, spec.Schema) {
+	cache OpenAPISchemaCache) (string, spec.Schema, *astmodel.LocalPackageReference) {
 
 	absPath, err := refAbsSchemaPath(ref, schemaPath)
 	if err != nil {
@@ -349,7 +353,7 @@ func loadRefSchema(
 	if result, ok := packageAndSwagger.Swagger.Definitions[defName]; !ok {
 		panic(fmt.Sprintf("couldn't find: %s in %s (reffed from %s)", defName, absPath, schemaPath))
 	} else {
-		return absPath, result
+		return absPath, result, packageAndSwagger.Package
 	}
 }
 
