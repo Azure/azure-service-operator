@@ -2,9 +2,9 @@ schemaUrl: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTem
 schemaUrlRewrite:
   from: 'https://schema.management.azure.com/schemas/'
   to: 'specs/azure-resource-manager-schemas/schemas/'
-destinationGoModuleFile: ../generated/go.mod
+destinationGoModuleFile: ../../v2/go.mod
 typesOutputPath: ../../v2/api
-typeRegistrationOutputFile: controllers/controller_resources_gen.go
+typeRegistrationOutputFile: internal/controller/controllers/controller_resources_gen.go
 pipeline: azure
 typeFilters:
   - action: prune

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210101preview
 
-import "github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_SpecARM struct {
 	//APIVersion: API Version of the resource type, optional when apiProfile is used

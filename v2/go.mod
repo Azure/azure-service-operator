@@ -3,7 +3,6 @@ module github.com/Azure/azure-service-operator/v2
 go 1.17
 
 require (
-	github.com/Azure/azure-service-operator/hack/generated v0.0.0-20210921170028-c106d8588da8
 	github.com/Azure/go-autorest/autorest v0.11.19
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.0
 	github.com/Azure/go-autorest/autorest/date v0.3.0
@@ -79,5 +78,3 @@ require (
 	sigs.k8s.io/structured-merge-diff/v4 v4.1.0 // indirect
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
-
-replace github.com/Azure/azure-service-operator/hack/generated => ../hack/generated

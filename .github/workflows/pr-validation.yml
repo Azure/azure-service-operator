@@ -70,7 +70,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: output
-          path: hack/generated/bin/*
+          path: v2/bin/*
           if-no-files-found: error
 
       - name: Upload code coverage to Codecov
