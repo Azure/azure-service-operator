@@ -18,6 +18,7 @@ import (
 // +kubebuilder:object:generate=true
 type KnownResourceReference struct {
 	// This is the name of the Kubernetes resource to reference.
+	// +kubebuilder:validation:Required
 	Name string `json:"name"`
 
 	// References across namespaces are not supported.
@@ -25,6 +26,24 @@ type KnownResourceReference struct {
 	// Note that ownership across namespaces in Kubernetes is not allowed, but technically resource
 	// references are. There are RBAC considerations here though so probably easier to just start by
 	// disallowing cross-namespace references for now
+}
+
+// ArbitraryOwnerReference is an owner reference to an unknown type.
+// +kubebuilder:object:generate=true
+type ArbitraryOwnerReference struct {
+	// This is the name of the Kubernetes resource to reference.
+	// +kubebuilder:validation:Required
+	Name string `json:"name"`
+
+	// +kubebuilder:validation:Required
+	// Group is the Kubernetes group of the resource.
+	Group string `json:"group"`
+
+	// +kubebuilder:validation:Required
+	// Kind is the Kubernetes kind of the resource.
+	Kind string `json:"kind"`
+
+	// Ownership across namespaces is not supported.
 }
 
 var _ fmt.Stringer = ResourceReference{}
@@ -113,6 +132,11 @@ func LookupOwnerGroupKind(v interface{}) (string, string) {
 
 // Copy makes an independent copy of the KnownResourceReference
 func (ref KnownResourceReference) Copy() KnownResourceReference {
+	return ref
+}
+
+// Copy makes an independent copy of the ArbitraryOwnerReference
+func (ref ArbitraryOwnerReference) Copy() ArbitraryOwnerReference {
 	return ref
 }
 

@@ -147,7 +147,7 @@ func (status *ResourceGroupStatus) CreateEmptyARMValue() genruntime.ARMResourceS
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ResourceGroupStatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected ResourceGroupStatusArm, got %T", armInput)
@@ -259,7 +259,7 @@ func (spec *ResourceGroupSpec) ConvertToARM(resolved genruntime.ConvertToARMReso
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *ResourceGroupSpec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (spec *ResourceGroupSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ResourceGroupSpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected ResourceGroupSpecArm, got %T", armInput)

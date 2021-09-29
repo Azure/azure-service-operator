@@ -282,7 +282,7 @@ func (fakeResourceSpec *FakeResource_Spec) CreateEmptyARMValue() genruntime.ARMR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(FakeResource_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
@@ -317,7 +317,9 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	}
 
 	// Set property ‘Owner’:
-	fakeResourceSpec.Owner = owner
+	fakeResourceSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// No error
 	return nil
@@ -358,7 +360,7 @@ func (embeddedTestType *EmbeddedTestType) CreateEmptyARMValue() genruntime.ARMRe
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embeddedTestType *EmbeddedTestType) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (embeddedTestType *EmbeddedTestType) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(EmbeddedTestTypeARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EmbeddedTestTypeARM, got %T", armInput)
@@ -400,7 +402,7 @@ func (foo *Foo) CreateEmptyARMValue() genruntime.ARMResourceStatus {
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (foo *Foo) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (foo *Foo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(FooARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FooARM, got %T", armInput)
