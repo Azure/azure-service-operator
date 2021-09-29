@@ -26,9 +26,14 @@ flattenProperties                                    Apply flattening to propert
 stripUnused                                          Strip unused types for test
 createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
-markStorageVersion                                   Mark the latest version of each resource as the storage version
+markLatestStorageVariantAsHubVersion      azure      Mark the latest GA storage variant of each resource as the hub version
+injectHubFunction                         azure      Inject the function Hub() into each hub resource
+implementConvertibleInterface             azure      Implement the Convertible interface on each non-hub Resource type
 injectJSONTestCases                       azure      Add test cases to verify JSON serialization
 injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
+injectJSONTestCases                       azure      Add test cases to verify JSON serialization
+injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
+injectResourceConversionTestCases         azure      Add test cases to verify Resource implementations of conversion.Convertible (funcs ConvertTo & ConvertFrom) behave as expected
 ensureArmTypeExistsForEveryType           azure      Check that an ARM type exists for both Spec and Status of each resource
 exportTestPackages                                   Export packages for test
 exportControllerResourceRegistrations     azure      Export resource registrations to ""

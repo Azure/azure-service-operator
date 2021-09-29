@@ -159,6 +159,9 @@ func (a *A) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// Hub marks that this A is the hub type for conversion
+func (a *A) Hub() {}
+
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type AList struct {

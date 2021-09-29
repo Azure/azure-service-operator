@@ -159,6 +159,9 @@ func (a *A) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// Hub marks that this A is the hub type for conversion
+func (a *A) Hub() {}
+
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type AList struct {
@@ -337,6 +340,9 @@ func (b *B) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// Hub marks that this B is the hub type for conversion
+func (b *B) Hub() {}
+
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type BList struct {
@@ -514,6 +520,9 @@ func (c *C) validateResourceReferences() error {
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
+
+// Hub marks that this C is the hub type for conversion
+func (c *C) Hub() {}
 
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
