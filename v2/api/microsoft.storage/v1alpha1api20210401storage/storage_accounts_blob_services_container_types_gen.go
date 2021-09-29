@@ -11,8 +11,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
+// +kubebuilder:rbac:groups=microsoft.storage.azure.com,resources=storageaccountsblobservicescontainers,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.storage.azure.com,resources={storageaccountsblobservicescontainers/status,storageaccountsblobservicescontainers/finalizers},verbs=get;update;patch
+
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
@@ -88,6 +92,9 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	storageAccountsBlobServicesContainer.Status = st
 	return nil
 }
+
+// Hub marks that this StorageAccountsBlobServicesContainer is the hub type for conversion
+func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) OriginalGVK() *schema.GroupVersionKind {

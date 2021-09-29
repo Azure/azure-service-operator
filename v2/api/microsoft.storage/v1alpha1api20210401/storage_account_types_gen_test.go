@@ -18,6 +18,44 @@ import (
 	"testing"
 )
 
+func Test_StorageAccount_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccount to hub returns original",
+		prop.ForAll(RunResourceConversionTestForStorageAccount, StorageAccountGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForStorageAccount tests if a specific instance of StorageAccount round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForStorageAccount(subject StorageAccount) string {
+	// Convert to our hub version
+	var hub v1alpha1api20210401storage.StorageAccount
+	err := subject.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual StorageAccount
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_StorageAccount_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10

@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=microsoft.network.azure.com,resources=publicipaddresses,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.network.azure.com,resources={publicipaddresses/status,publicipaddresses/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
@@ -44,6 +41,28 @@ func (publicIPAddress *PublicIPAddress) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (publicIPAddress *PublicIPAddress) SetConditions(conditions conditions.Conditions) {
 	publicIPAddress.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &PublicIPAddress{}
+
+// ConvertFrom populates our PublicIPAddress from the provided hub PublicIPAddress
+func (publicIPAddress *PublicIPAddress) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20201101storage.PublicIPAddress)
+	if !ok {
+		return fmt.Errorf("expected storage:microsoft.network/v1alpha1api20201101storage/PublicIPAddress but received %T instead", hub)
+	}
+
+	return publicIPAddress.AssignPropertiesFromPublicIPAddress(source)
+}
+
+// ConvertTo populates the provided hub PublicIPAddress from our PublicIPAddress
+func (publicIPAddress *PublicIPAddress) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20201101storage.PublicIPAddress)
+	if !ok {
+		return fmt.Errorf("expected storage:microsoft.network/v1alpha1api20201101storage/PublicIPAddress but received %T instead", hub)
+	}
+
+	return publicIPAddress.AssignPropertiesToPublicIPAddress(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-microsoft-network-azure-com-v1alpha1api20201101-publicipaddress,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=publicipaddresses,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.publicipaddresses.microsoft.network.azure.com,admissionReviewVersions=v1beta1

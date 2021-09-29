@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=microsoft.storage.azure.com,resources=storageaccountsblobservices,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.storage.azure.com,resources={storageaccountsblobservices/status,storageaccountsblobservices/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
@@ -44,6 +41,28 @@ func (storageAccountsBlobService *StorageAccountsBlobService) GetConditions() co
 // SetConditions sets the conditions on the resource status
 func (storageAccountsBlobService *StorageAccountsBlobService) SetConditions(conditions conditions.Conditions) {
 	storageAccountsBlobService.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &StorageAccountsBlobService{}
+
+// ConvertFrom populates our StorageAccountsBlobService from the provided hub StorageAccountsBlobService
+func (storageAccountsBlobService *StorageAccountsBlobService) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20210401storage.StorageAccountsBlobService)
+	if !ok {
+		return fmt.Errorf("expected storage:microsoft.storage/v1alpha1api20210401storage/StorageAccountsBlobService but received %T instead", hub)
+	}
+
+	return storageAccountsBlobService.AssignPropertiesFromStorageAccountsBlobService(source)
+}
+
+// ConvertTo populates the provided hub StorageAccountsBlobService from our StorageAccountsBlobService
+func (storageAccountsBlobService *StorageAccountsBlobService) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20210401storage.StorageAccountsBlobService)
+	if !ok {
+		return fmt.Errorf("expected storage:microsoft.storage/v1alpha1api20210401storage/StorageAccountsBlobService but received %T instead", hub)
+	}
+
+	return storageAccountsBlobService.AssignPropertiesToStorageAccountsBlobService(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservice,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.azure.com,resources=storageaccountsblobservices,verbs=create;update,versions=v1alpha1api20210401,name=default.v1alpha1api20210401.storageaccountsblobservices.microsoft.storage.azure.com,admissionReviewVersions=v1beta1

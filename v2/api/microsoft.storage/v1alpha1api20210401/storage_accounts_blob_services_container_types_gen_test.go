@@ -18,6 +18,44 @@ import (
 	"testing"
 )
 
+func Test_StorageAccountsBlobServicesContainer_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccountsBlobServicesContainer to hub returns original",
+		prop.ForAll(RunResourceConversionTestForStorageAccountsBlobServicesContainer, StorageAccountsBlobServicesContainerGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForStorageAccountsBlobServicesContainer tests if a specific instance of StorageAccountsBlobServicesContainer round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForStorageAccountsBlobServicesContainer(subject StorageAccountsBlobServicesContainer) string {
+	// Convert to our hub version
+	var hub v1alpha1api20210401storage.StorageAccountsBlobServicesContainer
+	err := subject.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual StorageAccountsBlobServicesContainer
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_StorageAccountsBlobServicesContainer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10

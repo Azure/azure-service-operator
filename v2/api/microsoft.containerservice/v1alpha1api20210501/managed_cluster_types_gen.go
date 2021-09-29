@@ -15,15 +15,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=microsoft.containerservice.azure.com,resources=managedclusters,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.containerservice.azure.com,resources={managedclusters/status,managedclusters/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
@@ -45,6 +42,28 @@ func (managedCluster *ManagedCluster) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (managedCluster *ManagedCluster) SetConditions(conditions conditions.Conditions) {
 	managedCluster.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ManagedCluster{}
+
+// ConvertFrom populates our ManagedCluster from the provided hub ManagedCluster
+func (managedCluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20210501storage.ManagedCluster)
+	if !ok {
+		return fmt.Errorf("expected storage:microsoft.containerservice/v1alpha1api20210501storage/ManagedCluster but received %T instead", hub)
+	}
+
+	return managedCluster.AssignPropertiesFromManagedCluster(source)
+}
+
+// ConvertTo populates the provided hub ManagedCluster from our ManagedCluster
+func (managedCluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20210501storage.ManagedCluster)
+	if !ok {
+		return fmt.Errorf("expected storage:microsoft.containerservice/v1alpha1api20210501storage/ManagedCluster but received %T instead", hub)
+	}
+
+	return managedCluster.AssignPropertiesToManagedCluster(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-microsoft-containerservice-azure-com-v1alpha1api20210501-managedcluster,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.containerservice.azure.com,resources=managedclusters,verbs=create;update,versions=v1alpha1api20210501,name=default.v1alpha1api20210501.managedclusters.microsoft.containerservice.azure.com,admissionReviewVersions=v1beta1

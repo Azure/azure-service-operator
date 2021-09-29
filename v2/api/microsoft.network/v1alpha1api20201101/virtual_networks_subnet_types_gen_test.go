@@ -18,6 +18,44 @@ import (
 	"testing"
 )
 
+func Test_VirtualNetworksSubnet_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworksSubnet to hub returns original",
+		prop.ForAll(RunResourceConversionTestForVirtualNetworksSubnet, VirtualNetworksSubnetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForVirtualNetworksSubnet tests if a specific instance of VirtualNetworksSubnet round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForVirtualNetworksSubnet(subject VirtualNetworksSubnet) string {
+	// Convert to our hub version
+	var hub v1alpha1api20201101storage.VirtualNetworksSubnet
+	err := subject.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual VirtualNetworksSubnet
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_VirtualNetworksSubnet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10

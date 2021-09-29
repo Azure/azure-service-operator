@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=microsoft.network.azure.com,resources=virtualnetworkgateways,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.network.azure.com,resources={virtualnetworkgateways/status,virtualnetworkgateways/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
@@ -44,6 +41,28 @@ func (virtualNetworkGateway *VirtualNetworkGateway) GetConditions() conditions.C
 // SetConditions sets the conditions on the resource status
 func (virtualNetworkGateway *VirtualNetworkGateway) SetConditions(conditions conditions.Conditions) {
 	virtualNetworkGateway.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &VirtualNetworkGateway{}
+
+// ConvertFrom populates our VirtualNetworkGateway from the provided hub VirtualNetworkGateway
+func (virtualNetworkGateway *VirtualNetworkGateway) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20201101storage.VirtualNetworkGateway)
+	if !ok {
+		return fmt.Errorf("expected storage:microsoft.network/v1alpha1api20201101storage/VirtualNetworkGateway but received %T instead", hub)
+	}
+
+	return virtualNetworkGateway.AssignPropertiesFromVirtualNetworkGateway(source)
+}
+
+// ConvertTo populates the provided hub VirtualNetworkGateway from our VirtualNetworkGateway
+func (virtualNetworkGateway *VirtualNetworkGateway) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20201101storage.VirtualNetworkGateway)
+	if !ok {
+		return fmt.Errorf("expected storage:microsoft.network/v1alpha1api20201101storage/VirtualNetworkGateway but received %T instead", hub)
+	}
+
+	return virtualNetworkGateway.AssignPropertiesToVirtualNetworkGateway(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetworkgateway,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.virtualnetworkgateways.microsoft.network.azure.com,admissionReviewVersions=v1beta1
