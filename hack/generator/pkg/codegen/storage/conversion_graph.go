@@ -38,6 +38,8 @@ func (graph *ConversionGraph) LookupTransition(start astmodel.PackageReference) 
 // FindNext returns the type name of the next closest type on the path to the hub type.
 // Returns the type name and true if the next type is found; an empty name and false if not.
 // If the name passed in is for the hub type for the given resource, no next type will be found.
+// This is used to identify the next type needed for property assignment functions, and is a building block for
+// identification of hub types.
 func (graph *ConversionGraph) FindNext(name astmodel.TypeName, types astmodel.Types) (astmodel.TypeName, bool) {
 	ref := name.PackageReference
 	for {
@@ -59,11 +61,7 @@ func (graph *ConversionGraph) FindNext(name astmodel.TypeName, types astmodel.Ty
 		// We do this to allow for gaps where a type is dropped and then restored across versions
 		ref = r
 	}
-
-	// Didn't find it
-	return astmodel.TypeName{}, false
 }
-
 
 // FindHub returns the type name of the hub resource, given the type name of one of the resources that is
 // persisted using that hub type. This is done by following links in the conversion graph until we either reach the end
