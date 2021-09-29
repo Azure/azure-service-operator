@@ -391,21 +391,24 @@ func generateRenaming(
 	return result
 }
 
+// structurallyIdentical checks if the two provided types are structurally identical
+// all the way to their leaf nodes (recursing into TypeNames)
 func structurallyIdentical(
 	leftType astmodel.Type,
 	leftTypes astmodel.Types,
 	rightType astmodel.Type,
 	rightTypes astmodel.Types) bool {
 
-	override := astmodel.EqualityOverrides{}
-
+	// we cannot simply recurse when we hit TypeNames as there can be cycles in types.
+	// instead we store all TypeNames that need to be checked in here, and
+	// check them one at a time until there is nothing left to be checked:
 	type pair struct{ left, right astmodel.TypeName }
+	toCheck := []pair{}            // queue of pairs to check
+	checked := map[pair]struct{}{} // set of pairs that have been enqueued
 
-	toCheck := []pair{}
-	checked := map[pair]struct{}{}
-
-	// note that this relies on Equals implementations preserving the left/right order
+	override := astmodel.EqualityOverrides{}
 	override.TypeName = func(left, right astmodel.TypeName) bool {
+		// note that this relies on Equals implementations preserving the left/right order
 		p := pair{left, right}
 		if _, ok := checked[p]; !ok {
 			checked[p] = struct{}{}
@@ -416,10 +419,12 @@ func structurallyIdentical(
 		return true
 	}
 
+	// check the provided types
 	if !leftType.Equals(rightType, override) {
 		return false
 	}
 
+	// check all TypeName pairs until there are none left to check
 	for len(toCheck) > 0 {
 		next := toCheck[0]
 		toCheck = toCheck[1:]
@@ -428,6 +433,7 @@ func structurallyIdentical(
 		}
 	}
 
+	// if we didn’t find anything that didn’t match then they are identical
 	return true
 }
 
