@@ -17,10 +17,10 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/Azure/azure-service-operator/hack/generated/controllers"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reconcilers"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
 
 	. "github.com/onsi/gomega"
 )

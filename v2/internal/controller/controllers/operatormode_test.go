@@ -11,9 +11,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/config"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/testcommon"
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
 
 	. "github.com/onsi/gomega"
 )
