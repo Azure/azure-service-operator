@@ -5,10 +5,10 @@ package v1alpha1api20201201
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.compute/v1alpha1api20201201storage"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
