@@ -45,14 +45,13 @@ func InjectPropertyAssignmentFunctions(idFactory astmodel.IdentifierFactory) Sta
 				klog.V(3).Infof("Injecting conversion functions into %s", name)
 
 				// Find the definition we want to convert to/from
-				nextPackage, ok := state.ConversionGraph().LookupTransition(name.PackageReference)
+				nextName, ok := state.ConversionGraph().FindNext(name, state.Types())
 				if !ok {
 					// No next package, so nothing to do
 					// (this is expected if we have the hub storage package)
 					continue
 				}
 
-				nextName := astmodel.MakeTypeName(nextPackage, name.Name())
 				nextDef, ok := types[nextName]
 				if !ok {
 					// No next type so nothing to do
