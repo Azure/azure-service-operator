@@ -50,7 +50,10 @@ type PropertyAssignmentFunction struct {
 // destination is an expression that returns the destination we are converting to (again, a Resource or other Object)
 // The function returns a sequence of statements to carry out the stated conversion/copy
 type StoragePropertyConversion func(
-	source dst.Expr, destination dst.Expr, generationContext *astmodel.CodeGenerationContext) []dst.Stmt
+	source dst.Expr,
+	destination dst.Expr,
+	knownLocals *astmodel.KnownLocalsSet,
+	generationContext *astmodel.CodeGenerationContext) []dst.Stmt
 
 // Ensure that PropertyAssignmentFunction implements Function
 var _ astmodel.Function = &PropertyAssignmentFunction{}
@@ -320,9 +323,10 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 	})
 
 	// Accumulate all the statements required for conversions, in alphabetical order
+	knownLocals := astmodel.NewKnownLocalsSet(fn.idFactory)
 	for _, prop := range properties {
 		conversion := fn.conversions[prop]
-		block := conversion(source, destination, generationContext)
+		block := conversion(source, destination, knownLocals, generationContext)
 		if len(block) > 0 {
 			firstStatement := block[0]
 			firstStatement.Decorations().Before = dst.EmptyLine
@@ -380,13 +384,13 @@ func (fn *PropertyAssignmentFunction) createConversion(
 			sourceEndpoint, destinationEndpoint)
 	}
 
-	return func(source dst.Expr, destination dst.Expr, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(source dst.Expr, destination dst.Expr, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		reader := sourceEndpoint.Read(source)
 		writer := func(expr dst.Expr) []dst.Stmt {
 			return destinationEndpoint.Write(destination, expr)
 		}
 
-		return conversion(reader, writer, generationContext)
+		return conversion(reader, writer, knownLocals, generationContext)
 	}, nil
 }
 
