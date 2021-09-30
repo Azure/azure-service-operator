@@ -125,7 +125,7 @@ var _ genruntime.ConvertibleStatus = &FirewallRule_Status{}
 // ConvertStatusFrom populates our FirewallRule_Status from the provided source
 func (firewallRuleStatus *FirewallRule_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == firewallRuleStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(firewallRuleStatus)
@@ -134,7 +134,7 @@ func (firewallRuleStatus *FirewallRule_Status) ConvertStatusFrom(source genrunti
 // ConvertStatusTo populates the provided destination from our FirewallRule_Status
 func (firewallRuleStatus *FirewallRule_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == firewallRuleStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(firewallRuleStatus)
@@ -161,7 +161,7 @@ var _ genruntime.ConvertibleSpec = &FlexibleServersFirewallRules_Spec{}
 // ConvertSpecFrom populates our FlexibleServersFirewallRules_Spec from the provided source
 func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == flexibleServersFirewallRulesSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(flexibleServersFirewallRulesSpec)
@@ -170,7 +170,7 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Conve
 // ConvertSpecTo populates the provided destination from our FlexibleServersFirewallRules_Spec
 func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == flexibleServersFirewallRulesSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(flexibleServersFirewallRulesSpec)

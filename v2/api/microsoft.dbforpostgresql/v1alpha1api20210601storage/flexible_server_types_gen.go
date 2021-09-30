@@ -144,7 +144,7 @@ var _ genruntime.ConvertibleSpec = &FlexibleServers_Spec{}
 // ConvertSpecFrom populates our FlexibleServers_Spec from the provided source
 func (flexibleServersSpec *FlexibleServers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == flexibleServersSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(flexibleServersSpec)
@@ -153,7 +153,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) ConvertSpecFrom(source genrunti
 // ConvertSpecTo populates the provided destination from our FlexibleServers_Spec
 func (flexibleServersSpec *FlexibleServers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == flexibleServersSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(flexibleServersSpec)
@@ -195,7 +195,7 @@ var _ genruntime.ConvertibleStatus = &Server_Status{}
 // ConvertStatusFrom populates our Server_Status from the provided source
 func (serverStatus *Server_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == serverStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(serverStatus)
@@ -204,7 +204,7 @@ func (serverStatus *Server_Status) ConvertStatusFrom(source genruntime.Convertib
 // ConvertStatusTo populates the provided destination from our Server_Status
 func (serverStatus *Server_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == serverStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(serverStatus)

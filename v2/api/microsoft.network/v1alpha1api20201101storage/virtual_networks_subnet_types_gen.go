@@ -142,7 +142,7 @@ var _ genruntime.ConvertibleStatus = &Subnet_Status_VirtualNetworksSubnet_SubRes
 // ConvertStatusFrom populates our Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source
 func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == subnetStatusVirtualNetworksSubnetSubResourceEmbedded {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(subnetStatusVirtualNetworksSubnetSubResourceEmbedded)
@@ -151,7 +151,7 @@ func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_Virtua
 // ConvertStatusTo populates the provided destination from our Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
 func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == subnetStatusVirtualNetworksSubnetSubResourceEmbedded {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(subnetStatusVirtualNetworksSubnetSubResourceEmbedded)
@@ -188,7 +188,7 @@ var _ genruntime.ConvertibleSpec = &VirtualNetworksSubnets_Spec{}
 // ConvertSpecFrom populates our VirtualNetworksSubnets_Spec from the provided source
 func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == virtualNetworksSubnetsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(virtualNetworksSubnetsSpec)
@@ -197,7 +197,7 @@ func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) ConvertSpecFrom(s
 // ConvertSpecTo populates the provided destination from our VirtualNetworksSubnets_Spec
 func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == virtualNetworksSubnetsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(virtualNetworksSubnetsSpec)

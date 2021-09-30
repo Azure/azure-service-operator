@@ -125,7 +125,7 @@ var _ genruntime.ConvertibleStatus = &Database_Status{}
 // ConvertStatusFrom populates our Database_Status from the provided source
 func (databaseStatus *Database_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == databaseStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(databaseStatus)
@@ -134,7 +134,7 @@ func (databaseStatus *Database_Status) ConvertStatusFrom(source genruntime.Conve
 // ConvertStatusTo populates the provided destination from our Database_Status
 func (databaseStatus *Database_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == databaseStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(databaseStatus)
@@ -161,7 +161,7 @@ var _ genruntime.ConvertibleSpec = &FlexibleServersDatabases_Spec{}
 // ConvertSpecFrom populates our FlexibleServersDatabases_Spec from the provided source
 func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == flexibleServersDatabasesSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(flexibleServersDatabasesSpec)
@@ -170,7 +170,7 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertSpecFr
 // ConvertSpecTo populates the provided destination from our FlexibleServersDatabases_Spec
 func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == flexibleServersDatabasesSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(flexibleServersDatabasesSpec)
