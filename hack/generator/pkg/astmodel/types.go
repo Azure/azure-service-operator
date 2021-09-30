@@ -23,6 +23,16 @@ type ReadonlyTypes interface {
 	TryGet(t TypeName) (TypeDefinition, bool)
 }
 
+// MakeTypes makes it easier to declare a Types from a map
+func MakeTypes(tys map[TypeName]Type) Types {
+	result := make(Types, len(tys))
+	for name, ty := range tys {
+		result.Add(MakeTypeDefinition(name, ty))
+	}
+
+	return result
+}
+
 func (types Types) Get(t TypeName) TypeDefinition {
 	return types[t]
 }
