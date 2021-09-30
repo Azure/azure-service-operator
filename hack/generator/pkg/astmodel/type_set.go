@@ -79,7 +79,14 @@ func (ts TypeSet) Equals(other TypeSet, overrides ...EqualityOverrides) bool {
 		return false
 	}
 
-	override := CombineOverrides(overrides...)
+	override := EqualityOverrides{}
+	if len(overrides) > 0 {
+		if len(overrides) > 1 {
+			panic("can only pass one EqualityOverrides")
+		}
+
+		override = overrides[0]
+	}
 
 	for _, t := range ts.types {
 		if !other.Contains(t, override) {

@@ -67,22 +67,21 @@ type DeclarationContext struct {
 	Validations []KubeBuilderValidation
 }
 
-func CombineOverrides(overrides ...EqualityOverrides) EqualityOverrides {
-	override := EqualityOverrides{}
-	for _, o := range overrides {
-		if o.TypeName != nil {
-			override.TypeName = o.TypeName
-		}
-	}
-
-	return override
-}
-
 // TypeEquals decides if the types are the same and handles the `nil` case
+// overrides can be passed to combe
 func TypeEquals(left, right Type, overrides ...EqualityOverrides) bool {
 	if left == nil {
 		return right == nil
 	}
 
-	return left.Equals(right, CombineOverrides(overrides...))
+	override := EqualityOverrides{}
+	if len(overrides) > 0 {
+		if len(overrides) > 1 {
+			panic("can only pass one EqualityOverrides")
+		}
+
+		override = overrides[0]
+	}
+
+	return left.Equals(right, override)
 }
