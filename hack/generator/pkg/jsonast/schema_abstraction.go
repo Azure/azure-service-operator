@@ -38,6 +38,7 @@ type Schema interface {
 	maxLength() *int64
 	minLength() *int64
 	pattern() *regexp.Regexp
+	format() string
 
 	// complex things
 	hasOneOf() bool

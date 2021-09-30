@@ -12,9 +12,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // KubeBuilderValidation represents some kind of data validation on a property
@@ -130,7 +131,7 @@ func ValidateMaxLength(length int64) KubeBuilderValidation {
 	return KubeBuilderValidation{MaxLengthValidationName, length}
 }
 
-func ValidatePattern(pattern regexp.Regexp) KubeBuilderValidation {
+func ValidatePattern(pattern *regexp.Regexp) KubeBuilderValidation {
 	return KubeBuilderValidation{PatternValidationName, fmt.Sprintf("%q", pattern.String())}
 }
 

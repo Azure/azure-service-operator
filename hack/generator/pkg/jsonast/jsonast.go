@@ -11,6 +11,7 @@ import (
 	"math"
 	"math/big"
 	"net/url"
+	"regexp"
 	"strings"
 
 	"github.com/devigned/tab"
@@ -253,7 +254,6 @@ func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema
 
 // Definitions produces a set of all the types defined so far
 func (scanner *SchemaScanner) Definitions() astmodel.Types {
-
 	defs := make(astmodel.Types)
 	for defName, def := range scanner.definitions {
 		if def == nil {
@@ -295,16 +295,50 @@ func stringHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 	maxLength := schema.maxLength()
 	minLength := schema.minLength()
 	pattern := schema.pattern()
+	format := schema.format()
 
-	if maxLength != nil || minLength != nil || pattern != nil {
-		return astmodel.NewValidatedType(t, astmodel.StringValidations{
+	if maxLength != nil || minLength != nil || pattern != nil || format != "" {
+		patterns := []*regexp.Regexp{}
+		if pattern != nil {
+			patterns = append(patterns, pattern)
+		}
+
+		if format != "" {
+			formatPattern := formatToPattern(format)
+			if formatPattern != nil {
+				patterns = append(patterns, formatPattern)
+			}
+		}
+
+		validations := astmodel.StringValidations{
 			MaxLength: maxLength,
 			MinLength: minLength,
-			Pattern:   pattern,
-		}), nil
+			Patterns:  patterns,
+		}
+
+		return astmodel.NewValidatedType(t, validations), nil
 	}
 
 	return t, nil
+}
+
+// copied from ARM implementation
+var uuidRegex = regexp.MustCompile("^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$")
+
+func formatToPattern(format string) *regexp.Regexp {
+	switch format {
+	case "uuid":
+		return uuidRegex
+	case "date-time", "date", "duration", "date-time-rfc1123":
+		// TODO: don’t bother validating for now
+		return nil
+	case "password":
+		// TODO: we should do something about hiding this
+		return nil
+	default:
+		klog.Warningf("unknown format %q", format)
+		return nil
+	}
 }
 
 func numberHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -345,8 +379,10 @@ func numberHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 	return t, nil
 }
 
-var zero *big.Rat = big.NewRat(0, 1)
-var maxUint32 *big.Rat = big.NewRat(1, 1).SetUint64(math.MaxUint32)
+var (
+	zero      *big.Rat = big.NewRat(0, 1)
+	maxUint32 *big.Rat = big.NewRat(1, 1).SetUint64(math.MaxUint32)
+)
 
 func intHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
 	t := astmodel.IntType
@@ -661,7 +697,6 @@ func generateDefinitionsFor(
 	// we will overwrite this later (this is checked below)
 	scanner.addEmptyTypeDefinition(typeName)
 	result, err := scanner.RunHandler(ctx, schemaType, schema)
-
 	if err != nil {
 		scanner.removeTypeDefinition(typeName) // we weren't able to generate it, remove placeholder
 		return nil, err
@@ -808,7 +843,6 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 }
 
 func withArrayValidations(schema Schema, t *astmodel.ArrayType) astmodel.Type {
-
 	maxItems := schema.maxItems()
 	minItems := schema.minItems()
 	uniqueItems := schema.uniqueItems()

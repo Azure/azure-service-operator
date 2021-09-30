@@ -55,7 +55,7 @@ func (av ArrayValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
 type StringValidations struct {
 	MaxLength *int64
 	MinLength *int64
-	Pattern   *regexp.Regexp
+	Patterns  []*regexp.Regexp
 }
 
 func (sv StringValidations) Equals(other Validations) bool {
@@ -66,7 +66,7 @@ func (sv StringValidations) Equals(other Validations) bool {
 
 	return equalOptionalInt64s(sv.MaxLength, o.MaxLength) &&
 		equalOptionalInt64s(sv.MinLength, o.MinLength) &&
-		equalOptionalRegexps(sv.Pattern, o.Pattern)
+		equalRegexpSlices(sv.Patterns, o.Patterns)
 }
 
 func (sv StringValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
@@ -79,14 +79,15 @@ func (sv StringValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
 		result = append(result, ValidateMinLength(*sv.MinLength))
 	}
 
-	if sv.Pattern != nil {
-		result = append(result, ValidatePattern(*sv.Pattern))
+	for _, pattern := range sv.Patterns {
+		result = append(result, ValidatePattern(pattern))
 	}
 
 	return result
 }
 
 type NumberValidations struct {
+	// TODO: update to use doubles once newer version of controller-gen is released
 	Maximum          *big.Rat
 	Minimum          *big.Rat
 	ExclusiveMaximum bool
@@ -233,12 +234,19 @@ func equalOptionalBigRats(left *big.Rat, right *big.Rat) bool {
 	return right == nil
 }
 
-func equalOptionalRegexps(left *regexp.Regexp, right *regexp.Regexp) bool {
-	if left != nil {
-		return right != nil && left.String() == right.String()
+func equalRegexpSlices(left []*regexp.Regexp, right []*regexp.Regexp) bool {
+	if len(left) != len(right) {
+		return false
 	}
 
-	return right == nil
+	for ix := range left {
+		if left[ix] != right[ix] &&
+			left[ix].String() != right[ix].String() {
+			return false
+		}
+	}
+
+	return true
 }
 
 // Unwrap returns the type contained within the validated type

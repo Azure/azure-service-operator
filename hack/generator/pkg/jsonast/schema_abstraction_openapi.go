@@ -125,6 +125,10 @@ func (schema *OpenAPISchema) minLength() *int64 {
 	return schema.inner.MinLength
 }
 
+func (schema *OpenAPISchema) format() string {
+	return schema.inner.Format
+}
+
 func (schema *OpenAPISchema) pattern() *regexp.Regexp {
 	p := schema.inner.Pattern
 	if p == "" {
