@@ -300,7 +300,7 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 	receiver string,
 	source dst.Expr,
 	destination dst.Expr,
-	generationContext *astmodel.CodeGenerationContext, ) []dst.Stmt {
+	generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 	var result []dst.Stmt
 
 	// Find all the properties for which we have a conversion
