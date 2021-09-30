@@ -13,19 +13,19 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Items
-	itemMap := make(map[string]map[string]int)
+	itemsMap := make(map[string]map[string]int)
 	for itemKey, itemValue := range source.Items {
 		// Shadow the loop variable to avoid aliasing
 		itemValue := itemValue
-		itemMap := make(map[string]int)
-		for itemKey, itemValue := range itemValue {
+		itemsMap1 := make(map[string]int)
+		for itemKey1, itemValue1 := range itemValue {
 			// Shadow the loop variable to avoid aliasing
-			itemValue := itemValue
-			itemMap[itemKey] = itemValue
+			itemValue1 := itemValue1
+			itemsMap1[itemKey1] = itemValue1
 		}
-		itemMap[itemKey] = itemMap
+		itemsMap[itemKey] = itemsMap1
 	}
-	person.Items = itemMap
+	person.Items = itemsMap
 
 	// No error
 	return nil
@@ -35,19 +35,19 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// Items
-	itemMap := make(map[string]map[string]int)
+	itemsMap := make(map[string]map[string]int)
 	for itemKey, itemValue := range person.Items {
 		// Shadow the loop variable to avoid aliasing
 		itemValue := itemValue
-		itemMap := make(map[string]int)
-		for itemKey, itemValue := range itemValue {
+		itemsMap1 := make(map[string]int)
+		for itemKey1, itemValue1 := range itemValue {
 			// Shadow the loop variable to avoid aliasing
-			itemValue := itemValue
-			itemMap[itemKey] = itemValue
+			itemValue1 := itemValue1
+			itemsMap1[itemKey1] = itemValue1
 		}
-		itemMap[itemKey] = itemMap
+		itemsMap[itemKey] = itemsMap1
 	}
-	destination.Items = itemMap
+	destination.Items = itemsMap
 
 	// No error
 	return nil

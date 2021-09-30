@@ -13,17 +13,17 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Ratings
-	ratingMap := make(map[string]int)
+	ratingsMap := make(map[string]int)
 	for ratingKey, ratingValue := range source.Ratings {
 		// Shadow the loop variable to avoid aliasing
 		ratingValue := ratingValue
 		if ratingValue != nil {
-			ratingMap[ratingKey] = *ratingValue
+			ratingsMap[ratingKey] = *ratingValue
 		} else {
-			ratingMap[ratingKey] = 0
+			ratingsMap[ratingKey] = 0
 		}
 	}
-	person.Ratings = ratingMap
+	person.Ratings = ratingsMap
 
 	// No error
 	return nil
@@ -33,13 +33,13 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// Ratings
-	ratingMap := make(map[string]*int)
+	ratingsMap := make(map[string]*int)
 	for ratingKey, ratingValue := range person.Ratings {
 		// Shadow the loop variable to avoid aliasing
 		ratingValue := ratingValue
-		ratingMap[ratingKey] = &ratingValue
+		ratingsMap[ratingKey] = &ratingValue
 	}
-	destination.Ratings = ratingMap
+	destination.Ratings = ratingsMap
 
 	// No error
 	return nil

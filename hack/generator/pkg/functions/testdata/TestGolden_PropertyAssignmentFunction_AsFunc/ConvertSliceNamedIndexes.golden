@@ -16,18 +16,18 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Indexes
-	indexList := make([]Release, len(source.Indexes))
+	indexesList := make([]Release, len(source.Indexes))
 	for index, indexItem := range source.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index Release
-		err := index.AssignPropertiesFromRelease(&indexItem)
+		var index1 Release
+		err := index1.AssignPropertiesFromRelease(&indexItem)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromRelease()")
 		}
-		indexList[index] = index
+		indexesList[index] = index1
 	}
-	person.Indexes = indexList
+	person.Indexes = indexesList
 
 	// No error
 	return nil
@@ -37,18 +37,18 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// Indexes
-	indexList := make([]vNext.Release, len(person.Indexes))
+	indexesList := make([]vNext.Release, len(person.Indexes))
 	for index, indexItem := range person.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index vNext.Release
-		err := indexItem.AssignPropertiesToRelease(&index)
+		var index1 vNext.Release
+		err := indexItem.AssignPropertiesToRelease(&index1)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToRelease()")
 		}
-		indexList[index] = index
+		indexesList[index] = index1
 	}
-	destination.Indexes = indexList
+	destination.Indexes = indexesList
 
 	// No error
 	return nil

@@ -13,19 +13,19 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Items
-	itemList := make([][]int, len(source.Items))
+	itemsList := make([][]int, len(source.Items))
 	for itemIndex, item := range source.Items {
 		// Shadow the loop variable to avoid aliasing
 		item := item
-		itemList := make([]int, len(item))
-		for itemIndex, item := range item {
+		itemsList1 := make([]int, len(item))
+		for itemIndex1, item1 := range item {
 			// Shadow the loop variable to avoid aliasing
-			item := item
-			itemList[itemIndex] = item
+			item1 := item1
+			itemsList1[itemIndex1] = item1
 		}
-		itemList[itemIndex] = itemList
+		itemsList[itemIndex] = itemsList1
 	}
-	person.Items = itemList
+	person.Items = itemsList
 
 	// No error
 	return nil
@@ -35,19 +35,19 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// Items
-	itemList := make([][]int, len(person.Items))
+	itemsList := make([][]int, len(person.Items))
 	for itemIndex, item := range person.Items {
 		// Shadow the loop variable to avoid aliasing
 		item := item
-		itemList := make([]int, len(item))
-		for itemIndex, item := range item {
+		itemsList1 := make([]int, len(item))
+		for itemIndex1, item1 := range item {
 			// Shadow the loop variable to avoid aliasing
-			item := item
-			itemList[itemIndex] = item
+			item1 := item1
+			itemsList1[itemIndex1] = item1
 		}
-		itemList[itemIndex] = itemList
+		itemsList[itemIndex] = itemsList1
 	}
-	destination.Items = itemList
+	destination.Items = itemsList
 
 	// No error
 	return nil
