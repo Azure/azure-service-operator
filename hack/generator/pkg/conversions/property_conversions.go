@@ -791,14 +791,13 @@ func assignArrayFromArray(
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		// We create three obviously related identifiers to use for the array conversion
-		// These suffixes must not overlap with those used for map conversion.
-		// (If these suffixes overlap, the naming becomes difficult to read when converting maps containing slices or
-		// vice versa.)
+		// The List is created in the current knownLocals scope because we need it after the loop completes.
+		// The other two are created in a nested knownLocals scope because they're only needed within the loop; this
+		// ensures any other locals needed for the conversion don't leak out into our main scope.
+		// These suffixes must not overlap with those used for map conversion. (If these suffixes overlap, the naming
+		// becomes difficult to read when converting maps containing slices or vice versa.)
 		tempId := knownLocals.CreatePluralLocal(sourceEndpoint.Name(), "List")
-
-		// Use a nested set of locals to ensure declarations within the loop don't leak out
-		// Has to be cloned after tempId is created so that it's visible within the loop
-		nestedLocals := knownLocals.Clone()
+		nestedLocals := knownLocals.Clone() // Clone after tempId is created so that it's visible within the loop
 		itemId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Item")
 		indexId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Index")
 
@@ -890,13 +889,13 @@ func assignMapFromMap(
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		// We create three obviously related identifiers to use for the conversion.
+		// The Map is created in the current knownLocals scope because we need it after the loop completes.
+		// The other two are created in a nested knownLocals scope because they're only needed within the loop; this
+		// ensures any other locals needed for the conversion don't leak out into our main scope.
 		// These suffixes must not overlap with those used for array conversion. (If these suffixes overlap, the naming
 		// becomes difficult to read when converting maps containing slices or vice versa.)
 		tempId := knownLocals.CreatePluralLocal(sourceEndpoint.Name(), "Map")
-
-		// Use a nested set of locals to ensure declarations within the loop don't leak out
-		// Has to be cloned after tempId is created so that it's visible within the loop
-		nestedLocals := knownLocals.Clone()
+		nestedLocals := knownLocals.Clone() // Clone after tempId is created so that it's visible within the loop
 		itemId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Value")
 		keyId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Key")
 
@@ -1294,7 +1293,7 @@ func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTy
 			if returnKind == returnsReference {
 				// If the copy method returns a ptr, we need to dereference
 				// This dereference is always safe because we ensured that both source and destination are always
-				// non optional. The handler assignToOptional() should do the right thing when this happens.
+				// non-optional. The handler assignToOptional() should do the right thing when this happens.
 				return writer(astbuilder.Dereference(astbuilder.CallExpr(reader, methodName)))
 			}
 
