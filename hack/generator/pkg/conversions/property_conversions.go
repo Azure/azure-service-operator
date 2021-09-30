@@ -791,7 +791,7 @@ func assignArrayFromArray(
 		// ensures any other locals needed for the conversion don't leak out into our main scope.
 		// These suffixes must not overlap with those used for map conversion. (If these suffixes overlap, the naming
 		// becomes difficult to read when converting maps containing slices or vice versa.)
-		tempId := knownLocals.CreatePluralLocal(sourceEndpoint.Name(), "List")
+		tempId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
 		nestedLocals := knownLocals.Clone() // Clone after tempId is created so that it's visible within the loop
 		itemId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Item")
 		indexId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Index")
@@ -889,7 +889,7 @@ func assignMapFromMap(
 		// ensures any other locals needed for the conversion don't leak out into our main scope.
 		// These suffixes must not overlap with those used for array conversion. (If these suffixes overlap, the naming
 		// becomes difficult to read when converting maps containing slices or vice versa.)
-		tempId := knownLocals.CreatePluralLocal(sourceEndpoint.Name(), "Map")
+		tempId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "Map")
 		nestedLocals := knownLocals.Clone() // Clone after tempId is created so that it's visible within the loop
 		itemId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Value")
 		keyId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Key")
