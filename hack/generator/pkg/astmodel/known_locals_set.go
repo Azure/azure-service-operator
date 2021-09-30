@@ -84,7 +84,6 @@ func (locals *KnownLocalsSet) TryCreateLocal(local string) bool {
 	return true
 }
 
-
 // tryCreateLocal attempts to create a new local, returning the new identifier and true if
 // successful (local hasn't been used before) or "" and false if not (local already exists)
 func (locals *KnownLocalsSet) tryCreateLocal(name string) (string, bool) {
