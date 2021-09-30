@@ -811,9 +811,13 @@ func assignArrayFromArray(
 		// These suffixes must not overlap with those used for map conversion.
 		// (If these suffixes overlap, the naming becomes difficult to read when converting maps containing slices or
 		// vice versa.)
-		itemId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "Item")
-		indexId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "Index")
 		tempId := knownLocals.CreatePluralLocal(sourceEndpoint.Name(), "List")
+
+		// Use a nested set of locals to ensure declarations within the loop don't leak out
+		// Has to be cloned after tempId is created so that it's visible within the loop
+		nestedLocals := knownLocals.Clone()
+		itemId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Item")
+		indexId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Index")
 
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
@@ -837,7 +841,7 @@ func assignArrayFromArray(
 		nestedContext.KnownLocals().Restore(nestedCheckpoint)
 		loopBody := astbuilder.Statements(
 			avoidAliasing,
-			conversion(dst.NewIdent(itemId), writeToElement, knownLocals, generationContext))
+			conversion(dst.NewIdent(itemId), writeToElement, nestedLocals, generationContext))
 
 		assign := writer(dst.NewIdent(tempId))
 		loop := astbuilder.IterateOverListWithIndex(indexId, itemId, reader, loopBody...)
@@ -912,12 +916,15 @@ func assignMapFromMap(
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		// We create three obviously related identifiers to use for the conversion.
-		// These suffixes must not overlap with those used for array conversion.
-		// (If these suffixes overlap, the naming becomes difficult to read when converting maps containing slices or
-		// vice versa.)
-		itemId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "Value")
-		keyId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "Key")
+		// These suffixes must not overlap with those used for array conversion. (If these suffixes overlap, the naming
+		// becomes difficult to read when converting maps containing slices or vice versa.)
 		tempId := knownLocals.CreatePluralLocal(sourceEndpoint.Name(), "Map")
+
+		// Use a nested set of locals to ensure declarations within the loop don't leak out
+		// Has to be cloned after tempId is created so that it's visible within the loop
+		nestedLocals := knownLocals.Clone()
+		itemId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Value")
+		keyId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Key")
 
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
@@ -941,7 +948,7 @@ func assignMapFromMap(
 		nestedContext.KnownLocals().Restore(nestedCheckpoint)
 		loopBody := astbuilder.Statements(
 			avoidAliasing,
-			conversion(dst.NewIdent(itemId), assignToItem, knownLocals, generationContext))
+			conversion(dst.NewIdent(itemId), assignToItem, nestedLocals, generationContext))
 
 		assign := writer(dst.NewIdent(tempId))
 		loop := astbuilder.IterateOverMapWithValue(keyId, itemId, reader, loopBody...)
