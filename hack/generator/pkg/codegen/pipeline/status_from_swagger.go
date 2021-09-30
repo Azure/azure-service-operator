@@ -442,7 +442,7 @@ func structurallyIdentical(
 	}
 
 	// check the provided types
-	if !leftType.Equals(rightType, override) {
+	if !astmodel.TypeEquals(leftType, rightType, override) {
 		return false
 	}
 
@@ -450,7 +450,10 @@ func structurallyIdentical(
 	for len(toCheck) > 0 {
 		next := toCheck[0]
 		toCheck = toCheck[1:]
-		if !leftTypes[next.left].Type().Equals(rightTypes[next.right].Type(), override) {
+		if !astmodel.TypeEquals(
+			leftTypes[next.left].Type(),
+			rightTypes[next.right].Type(),
+			override) {
 			return false
 		}
 	}
