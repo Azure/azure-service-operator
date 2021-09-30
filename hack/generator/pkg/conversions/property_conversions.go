@@ -429,13 +429,6 @@ func assignFromOptional(
 		return nil
 	}
 
-	// The knownLocals of the nested context is likely to have been partially populated by the CreateTypeConversion call
-	// just above. When the conversion is called, it's likely to modify knownLocals further.
-	// The func we're about to return might be called multiple times, and we don't want any crosstalk between calls.
-	// Grabbing this checkpoint here lets us reset the knownLocals to a known state just prior to each call of the
-	// conversion, ensuring there's no crosstalk.
-	nestedCheckpoint := nestedContext.KnownLocals().Checkpoint()
-
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		var cacheOriginal dst.Stmt
 		var actualReader dst.Expr
@@ -462,7 +455,6 @@ func assignFromOptional(
 		checkForNil := astbuilder.AreNotEqual(actualReader, astbuilder.Nil())
 
 		// If we have a value, need to convert it to our destination type
-		nestedContext.KnownLocals().Restore(nestedCheckpoint)
 		writeActualValue := conversion(
 			astbuilder.Dereference(actualReader),
 			writer,
@@ -799,13 +791,6 @@ func assignArrayFromArray(
 		return nil
 	}
 
-	// The knownLocals of the nested context is likely to have been partially populated by the CreateTypeConversion call
-	// just above. When the conversion is called, it's likely to modify knownLocals further.
-	// The func we're about to return might be called multiple times, and we don't want any crosstalk between calls.
-	// Grabbing this checkpoint here lets us reset the knownLocals to a known state just prior to each call of the
-	// conversion, ensuring there's no crosstalk.
-	nestedCheckpoint := nestedContext.KnownLocals().Checkpoint()
-
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		// We create three obviously related identifiers to use for the array conversion
 		// These suffixes must not overlap with those used for map conversion.
@@ -838,7 +823,6 @@ func assignArrayFromArray(
 		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
 		avoidAliasing.Decs.Before = dst.NewLine
 
-		nestedContext.KnownLocals().Restore(nestedCheckpoint)
 		loopBody := astbuilder.Statements(
 			avoidAliasing,
 			conversion(dst.NewIdent(itemId), writeToElement, nestedLocals, generationContext))
@@ -907,13 +891,6 @@ func assignMapFromMap(
 		return nil
 	}
 
-	// The knownLocals of the nested context is likely to have been partially populated by the CreateTypeConversion call
-	// just above. When the conversion is called, it's likely to modify knownLocals further.
-	// The func we're about to return might be called multiple times, and we don't want any crosstalk between calls.
-	// Grabbing this checkpoint here lets us reset the knownLocals to a known state just prior to each call of the
-	// conversion, ensuring there's no crosstalk.
-	nestedCheckpoint := nestedContext.KnownLocals().Checkpoint()
-
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		// We create three obviously related identifiers to use for the conversion.
 		// These suffixes must not overlap with those used for array conversion. (If these suffixes overlap, the naming
@@ -945,7 +922,6 @@ func assignMapFromMap(
 		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
 		avoidAliasing.Decs.Before = dst.NewLine
 
-		nestedContext.KnownLocals().Restore(nestedCheckpoint)
 		loopBody := astbuilder.Statements(
 			avoidAliasing,
 			conversion(dst.NewIdent(itemId), assignToItem, nestedLocals, generationContext))

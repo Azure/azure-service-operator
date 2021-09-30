@@ -13,7 +13,7 @@ import (
 )
 
 type KnownLocalsSet struct {
-	names     knownNameSet
+	names     map[string]struct{}
 	idFactory IdentifierFactory
 }
 
@@ -21,7 +21,7 @@ type KnownLocalsSet struct {
 // idFactory is a reference to an identifier factory for creating valid Go identifiers
 func NewKnownLocalsSet(idFactory IdentifierFactory) *KnownLocalsSet {
 	return &KnownLocalsSet{
-		names:     make(knownNameSet),
+		names:     make(map[string]struct{}),
 		idFactory: idFactory,
 	}
 }
@@ -114,36 +114,13 @@ func (locals *KnownLocalsSet) HasName(name string) bool {
 
 // Clone clones the KnownLocalsSet
 func (locals *KnownLocalsSet) Clone() *KnownLocalsSet {
+	names := make(map[string]struct{}, len(locals.names))
+	for n := range locals.names {
+		names[n] = struct{}{}
+	}
+
 	return &KnownLocalsSet{
 		idFactory: locals.idFactory,
-		names:     locals.names.clone(),
+		names:     names,
 	}
-}
-
-// Checkpoint returns an opaque checkpoint for the collection allowing it to be reset later on
-func (locals *KnownLocalsSet) Checkpoint() KnownNameSet {
-	return locals.names.clone()
-}
-
-// Restore returns the state of the set to what it was when checkpointed
-func (locals *KnownLocalsSet) Restore(set KnownNameSet) {
-	locals.names = set.clone()
-}
-
-// KnownNameSet is an interface with no public members used for checkpointing
-type KnownNameSet interface {
-	clone() knownNameSet
-}
-
-// knownNameSet is the internal type of a set of names
-type knownNameSet map[string]struct{}
-
-// clone returns a new, independent, copy of the knownNameSet
-func (s knownNameSet) clone() knownNameSet {
-	result := make(knownNameSet, len(s))
-	for name := range s {
-		result[name] = struct{}{}
-	}
-
-	return result
 }
