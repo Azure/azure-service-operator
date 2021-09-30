@@ -9,7 +9,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/onsi/gomega"
+	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
@@ -59,11 +59,11 @@ func Test_ShouldSkipDir_GivenPath_HasExpectedResult(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
-			g := gomega.NewWithT(t)
+			g := NewGomegaWithT(t)
 
 			skipped := shouldSkipDir(c.path)
 
-			g.Expect(skipped).To(gomega.Equal(c.shouldSkip))
+			g.Expect(skipped).To(Equal(c.shouldSkip))
 		})
 	}
 }
@@ -73,7 +73,7 @@ func makeTestLocalPackageReference(group string, version string) astmodel.LocalP
 }
 
 func Test_StructurallyIdentical_RecursesIntoTypeNames(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	pkg := makeTestLocalPackageReference("abc", "123")
 	name := func(n string) astmodel.TypeName { return astmodel.MakeTypeName(pkg, n) }
@@ -96,15 +96,15 @@ func Test_StructurallyIdentical_RecursesIntoTypeNames(t *testing.T) {
 	x2 := types2[name("X")].Type()
 
 	// safety check - they should be not TypeEquals
-	g.Expect(astmodel.TypeEquals(x1, x2)).ToNot(gomega.BeTrue())
+	g.Expect(astmodel.TypeEquals(x1, x2)).ToNot(BeTrue())
 
 	// actual check - they should be structurallyIdentical
 	identical := structurallyIdentical(x1, types1, x2, types2)
-	g.Expect(identical).To(gomega.BeTrue())
+	g.Expect(identical).To(BeTrue())
 }
 
 func Test_StructurallyIdentical_DistinguishesIdenticalTypeNames(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewGomegaWithT(t)
 
 	pkg := makeTestLocalPackageReference("abc", "123")
 	name := func(n string) astmodel.TypeName { return astmodel.MakeTypeName(pkg, n) }
@@ -127,9 +127,9 @@ func Test_StructurallyIdentical_DistinguishesIdenticalTypeNames(t *testing.T) {
 	x2 := types2[name("X")].Type()
 
 	// safety check - they should be TypeEquals
-	g.Expect(astmodel.TypeEquals(x1, x2)).To(gomega.BeTrue())
+	g.Expect(astmodel.TypeEquals(x1, x2)).To(BeTrue())
 
 	// actual check - they should not be structurallyIdentical
 	identical := structurallyIdentical(x1, types1, x2, types2)
-	g.Expect(identical).To(gomega.BeFalse())
+	g.Expect(identical).To(BeFalse())
 }
