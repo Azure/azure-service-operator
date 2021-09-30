@@ -132,7 +132,7 @@ var _ genruntime.ConvertibleStatus = &NetworkSecurityGroup_Status_NetworkSecurit
 // ConvertStatusFrom populates our NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded from the provided source
 func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded)
@@ -141,7 +141,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 // ConvertStatusTo populates the provided destination from our NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
 func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded)
@@ -166,7 +166,7 @@ var _ genruntime.ConvertibleSpec = &NetworkSecurityGroups_Spec{}
 // ConvertSpecFrom populates our NetworkSecurityGroups_Spec from the provided source
 func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == networkSecurityGroupsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(networkSecurityGroupsSpec)
@@ -175,7 +175,7 @@ func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertSpecFrom(sou
 // ConvertSpecTo populates the provided destination from our NetworkSecurityGroups_Spec
 func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == networkSecurityGroupsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(networkSecurityGroupsSpec)

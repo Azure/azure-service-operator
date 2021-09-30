@@ -134,7 +134,7 @@ var _ genruntime.ConvertibleStatus = &VirtualNetworkPeering_Status{}
 // ConvertStatusFrom populates our VirtualNetworkPeering_Status from the provided source
 func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == virtualNetworkPeeringStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(virtualNetworkPeeringStatus)
@@ -143,7 +143,7 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) ConvertStatusFr
 // ConvertStatusTo populates the provided destination from our VirtualNetworkPeering_Status
 func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == virtualNetworkPeeringStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(virtualNetworkPeeringStatus)
@@ -177,7 +177,7 @@ var _ genruntime.ConvertibleSpec = &VirtualNetworksVirtualNetworkPeerings_Spec{}
 // ConvertSpecFrom populates our VirtualNetworksVirtualNetworkPeerings_Spec from the provided source
 func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == virtualNetworksVirtualNetworkPeeringsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(virtualNetworksVirtualNetworkPeeringsSpec)
@@ -186,7 +186,7 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 // ConvertSpecTo populates the provided destination from our VirtualNetworksVirtualNetworkPeerings_Spec
 func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == virtualNetworksVirtualNetworkPeeringsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(virtualNetworksVirtualNetworkPeeringsSpec)

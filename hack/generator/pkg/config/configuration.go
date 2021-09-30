@@ -57,12 +57,6 @@ type Configuration struct {
 	// after init TypeTransformers is split into property and non-property transformers
 	typeTransformers     []*TypeTransformer
 	propertyTransformers []*TypeTransformer
-
-	// typesOutputModuleSuffix is the suffix to append to GoModulePath to build the actual go import path
-	// to include types with. For example if GoModulePath is "github.com/Azure/azure-service-operator/v2"
-	// and we locally put the generated types into an "api" folder then this suffix would be "api" so that
-	// when joined with GoModulePath the result is github.com/Azure/azure-service-operator/v2/api
-	typesOutputModuleSuffix string
 }
 
 type RewriteRule struct {
@@ -71,7 +65,7 @@ type RewriteRule struct {
 }
 
 func (config *Configuration) LocalPathPrefix() string {
-	return path.Join(config.GoModulePath, config.typesOutputModuleSuffix)
+	return path.Join(config.GoModulePath, config.TypesOutputPath)
 }
 
 func (config *Configuration) FullTypesOutputPath() string {
@@ -131,20 +125,6 @@ func (config *Configuration) GetExportFiltersError() error {
 	}
 
 	return nil
-}
-
-func (config *Configuration) getModuleSuffix() (string, error) {
-	moduleRoot, err := filepath.Abs(filepath.Dir(config.DestinationGoModuleFile))
-	if err != nil {
-		return "", err
-	}
-
-	typesOutputPath, err := filepath.Abs(config.TypesOutputPath)
-	if err != nil {
-		return "", err
-	}
-
-	return filepath.Rel(moduleRoot, typesOutputPath)
 }
 
 // NewConfiguration returns a new empty Configuration
@@ -275,11 +255,6 @@ func (config *Configuration) initialize(configPath string) error {
 		errs = append(errs, err)
 	} else {
 		config.GoModulePath = modPath
-	}
-
-	config.typesOutputModuleSuffix, err = config.getModuleSuffix()
-	if err != nil {
-		errs = append(errs, err)
 	}
 
 	for _, filter := range config.ExportFilters {

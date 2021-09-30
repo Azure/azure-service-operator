@@ -145,7 +145,7 @@ var _ genruntime.ConvertibleStatus = &VirtualMachineScaleSet_Status{}
 // ConvertStatusFrom populates our VirtualMachineScaleSet_Status from the provided source
 func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == virtualMachineScaleSetStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(virtualMachineScaleSetStatus)
@@ -154,7 +154,7 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) ConvertStatus
 // ConvertStatusTo populates the provided destination from our VirtualMachineScaleSet_Status
 func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == virtualMachineScaleSetStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(virtualMachineScaleSetStatus)
@@ -198,7 +198,7 @@ var _ genruntime.ConvertibleSpec = &VirtualMachineScaleSets_Spec{}
 // ConvertSpecFrom populates our VirtualMachineScaleSets_Spec from the provided source
 func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == virtualMachineScaleSetsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(virtualMachineScaleSetsSpec)
@@ -207,7 +207,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertSpecFrom
 // ConvertSpecTo populates the provided destination from our VirtualMachineScaleSets_Spec
 func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == virtualMachineScaleSetsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(virtualMachineScaleSetsSpec)
