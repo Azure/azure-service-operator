@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 type DatabaseAccounts_SpecARM struct {

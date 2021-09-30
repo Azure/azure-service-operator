@@ -5,10 +5,10 @@ package v1alpha1api20201101
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101storage"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -391,7 +391,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) CreateEmptyARMValue() genrunt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkStatus *VirtualNetwork_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkStatus *VirtualNetwork_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetwork_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetwork_StatusARM, got %T", armInput)
@@ -1135,7 +1135,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) CreateEmptyARMValue() genruntim
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworksSpec *VirtualNetworks_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworksSpec *VirtualNetworks_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworks_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworks_SpecARM, got %T", armInput)
@@ -1229,7 +1229,9 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) PopulateFromARM(owner genruntim
 	virtualNetworksSpec.Location = typedInput.Location
 
 	// Set property ‘Owner’:
-	virtualNetworksSpec.Owner = owner
+	virtualNetworksSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘Subnets’:
 	// copying flattened property:
@@ -1610,7 +1612,7 @@ func (addressSpace *AddressSpace) CreateEmptyARMValue() genruntime.ARMResourceSt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (addressSpace *AddressSpace) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (addressSpace *AddressSpace) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AddressSpaceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AddressSpaceARM, got %T", armInput)
@@ -1677,7 +1679,7 @@ func (addressSpaceStatus *AddressSpace_Status) CreateEmptyARMValue() genruntime.
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (addressSpaceStatus *AddressSpace_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (addressSpaceStatus *AddressSpace_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AddressSpace_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AddressSpace_StatusARM, got %T", armInput)
@@ -1758,7 +1760,7 @@ func (dhcpOptions *DhcpOptions) CreateEmptyARMValue() genruntime.ARMResourceStat
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (dhcpOptions *DhcpOptions) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (dhcpOptions *DhcpOptions) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DhcpOptionsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DhcpOptionsARM, got %T", armInput)
@@ -1824,7 +1826,7 @@ func (dhcpOptionsStatus *DhcpOptions_Status) CreateEmptyARMValue() genruntime.AR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (dhcpOptionsStatus *DhcpOptions_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (dhcpOptionsStatus *DhcpOptions_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DhcpOptions_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DhcpOptions_StatusARM, got %T", armInput)
@@ -1890,7 +1892,7 @@ func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwor
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwork_SubResourceEmbedded) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwork_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM, got %T", armInput)
@@ -1968,7 +1970,7 @@ func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) CreateEmptyARM
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkBgpCommunitiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkBgpCommunitiesARM, got %T", armInput)
@@ -2030,7 +2032,7 @@ func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) C
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkBgpCommunities_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkBgpCommunities_StatusARM, got %T", armInput)
@@ -2109,7 +2111,7 @@ func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Stat
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Status_SubResourceEmbedded) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Status_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworkPeering_Status_SubResourceEmbeddedARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkPeering_Status_SubResourceEmbeddedARM, got %T", armInput)
@@ -2293,7 +2295,7 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subnets) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subnets) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworks_Spec_Properties_SubnetsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworks_Spec_Properties_SubnetsARM, got %T", armInput)
@@ -2752,7 +2754,7 @@ func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM, got %T", armInput)

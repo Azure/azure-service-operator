@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20200601
 
-import "github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type ResourceGroupStatusARM struct {
 	ID string `json:"id,omitempty"`

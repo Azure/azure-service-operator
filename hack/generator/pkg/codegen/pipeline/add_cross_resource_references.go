@@ -194,141 +194,165 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 // TODO: This will go away in favor of a cleaner solution in the future, as obviously this isn't great
 // Set the value to false to eliminate a reference which has incorrectly been flagged
 func newKnownReferencesMap(configuration *config.Configuration) map[referencePair]bool {
+
+	batch20210101 := configuration.MakeLocalPackageReference("microsoft.batch", "v1alpha1api20210101")
+	documentDB20210515 := configuration.MakeLocalPackageReference("microsoft.documentdb", "v1alpha1api20210515")
+	storage20210401 := configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20210401")
+	serviceBus20210101 := configuration.MakeLocalPackageReference("microsoft.servicebus", "v1alpha1api20210101preview")
+	network20201101 := configuration.MakeLocalPackageReference("microsoft.network", "v1alpha1api20201101")
+	compute20200930 := configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930")
+	compute20201201 := configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201")
+	containerService20210501 := configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501")
+	dbForPostgreSQL20210601 := configuration.MakeLocalPackageReference("microsoft.dbforpostgresql", "v1alpha1api20210601")
+
 	return map[referencePair]bool{
 		// Batch
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.batch", "v1alpha1api20210101"), "KeyVaultReference"),
+			typeName: astmodel.MakeTypeName(batch20210101, "KeyVaultReference"),
 			propName: "Id",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.batch", "v1alpha1api20210101"), "AutoStorageBaseProperties"),
+			typeName: astmodel.MakeTypeName(batch20210101, "AutoStorageBaseProperties"),
 			propName: "StorageAccountId",
 		}: true,
 		// Document DB
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.documentdb", "v1alpha1api20210515"), "VirtualNetworkRule"),
+			typeName: astmodel.MakeTypeName(documentDB20210515, "VirtualNetworkRule"),
 			propName: "Id",
 		}: true,
 		// Storage
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20210401"), "VirtualNetworkRule"),
+			typeName: astmodel.MakeTypeName(storage20210401, "VirtualNetworkRule"),
 			propName: "Id",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20210401"), "EncryptionIdentity"),
+			typeName: astmodel.MakeTypeName(storage20210401, "EncryptionIdentity"),
 			propName: "UserAssignedIdentity",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20210401"), "ResourceAccessRule"),
+			typeName: astmodel.MakeTypeName(storage20210401, "ResourceAccessRule"),
 			propName: "ResourceId",
 		}: true,
 		// Service bus
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.servicebus", "v1alpha1api20210101preview"), "UserAssignedIdentityProperties"),
+			typeName: astmodel.MakeTypeName(serviceBus20210101, "UserAssignedIdentityProperties"),
 			propName: "UserAssignedIdentity",
 		}: true,
 		// Network
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.network", "v1alpha1api20201101"), "SubResource"),
+			typeName: astmodel.MakeTypeName(network20201101, "SubResource"),
 			propName: "Id",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.network", "v1alpha1api20201101"), "VirtualNetworkGateways_Spec_Properties"),
+			typeName: astmodel.MakeTypeName(network20201101, "VirtualNetworkGateways_Spec_Properties"),
 			propName: "VNetExtendedLocationResourceId",
 		}: true,
 		// Compute
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930"), "SourceVault"),
+			typeName: astmodel.MakeTypeName(compute20200930, "SourceVault"),
 			propName: "Id",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930"), "ImageDiskReference"),
+			typeName: astmodel.MakeTypeName(compute20200930, "ImageDiskReference"),
 			propName: "Id",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "DiskEncryptionSetParameters"),
+			typeName: astmodel.MakeTypeName(compute20201201, "DiskEncryptionSetParameters"),
 			propName: "Id",
 		}: true,
 		// This is an Id that I believe refers to itself.
 		// It's never supplied in a PUT I don't think, and is only returned in a GET because the
 		// IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations"),
+			typeName: astmodel.MakeTypeName(compute20201201, "VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations"),
 			propName: "Id",
 		}: false,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "ApiEntityReference"),
+			typeName: astmodel.MakeTypeName(compute20201201, "ApiEntityReference"),
 			propName: "Id",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "ImageReference"),
+			typeName: astmodel.MakeTypeName(compute20201201, "ImageReference"),
 			propName: "Id",
 		}: true,
 		// This is an Id that I believe refers to itself.
 		// It's never supplied in a PUT I don't think, and is only returned in a GET because the
 		// IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations"),
+			typeName: astmodel.MakeTypeName(compute20201201, "VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations"),
 			propName: "Id",
 		}: false,
 		// When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201"), "SubResource"),
+			typeName: astmodel.MakeTypeName(compute20201201, "SubResource"),
 			propName: "Id",
 		}: true,
 		// Disk (this is also under microsoft.compute)
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930"), "CreationData"),
+			typeName: astmodel.MakeTypeName(compute20200930, "CreationData"),
 			propName: "SourceResourceId",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930"), "DiskProperties"),
+			typeName: astmodel.MakeTypeName(compute20200930, "DiskProperties"),
 			propName: "DiskAccessId",
 		}: true,
 		// AKS
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
+			typeName: astmodel.MakeTypeName(containerService20210501, "PrivateLinkResource"),
 			propName: "Id",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfile"),
+			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfile"),
 			propName: "VnetSubnetID",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfile"),
+			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfile"),
 			propName: "PodSubnetID",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfile"),
+			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfile"),
 			propName: "NodePublicIPPrefixID",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfileProperties"),
+			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfileProperties"),
 			propName: "VnetSubnetID",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfileProperties"),
+			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfileProperties"),
 			propName: "PodSubnetID",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterAgentPoolProfileProperties"),
+			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfileProperties"),
 			propName: "NodePublicIPPrefixID",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "UserAssignedIdentity"),
+			typeName: astmodel.MakeTypeName(containerService20210501, "UserAssignedIdentity"),
 			propName: "ResourceId",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ResourceReference"),
+			typeName: astmodel.MakeTypeName(containerService20210501, "ResourceReference"),
 			propName: "Id",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties"),
+			typeName: astmodel.MakeTypeName(containerService20210501, "Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties"),
 			propName: "ResourceId", // TODO: Is this right?
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "ManagedClusterProperties"),
+			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterProperties"),
 			propName: "DiskEncryptionSetID",
+		}: true,
+		// PostgeSQL
+		{
+			typeName: astmodel.MakeTypeName(dbForPostgreSQL20210601, "Network"),
+			propName: "PrivateDnsZoneArmResourceId",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(dbForPostgreSQL20210601, "Network"),
+			propName: "DelegatedSubnetResourceId",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(dbForPostgreSQL20210601, "ServerProperties"),
+			propName: "SourceServerResourceId",
 		}: true,
 	}
 }

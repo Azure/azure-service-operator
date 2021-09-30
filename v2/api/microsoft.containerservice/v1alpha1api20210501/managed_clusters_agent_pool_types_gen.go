@@ -5,10 +5,10 @@ package v1alpha1api20210501
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.containerservice/v1alpha1api20210501storage"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -478,7 +478,7 @@ func (agentPoolStatus *AgentPool_Status) CreateEmptyARMValue() genruntime.ARMRes
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (agentPoolStatus *AgentPool_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (agentPoolStatus *AgentPool_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AgentPool_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPool_StatusARM, got %T", armInput)
@@ -1888,7 +1888,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) CreateEmpty
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ManagedClustersAgentPools_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClustersAgentPools_SpecARM, got %T", armInput)
@@ -2070,7 +2070,9 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) PopulateFro
 	}
 
 	// Set property ‘Owner’:
-	managedClustersAgentPoolsSpec.Owner = owner
+	managedClustersAgentPoolsSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// no assignment for property ‘PodSubnetIDReference’
 
@@ -2846,7 +2848,7 @@ func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) CreateEmptyARMValue() 
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AgentPoolUpgradeSettingsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPoolUpgradeSettingsARM, got %T", armInput)
@@ -2912,7 +2914,7 @@ func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) CreateEmp
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AgentPoolUpgradeSettings_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPoolUpgradeSettings_StatusARM, got %T", armInput)
@@ -3095,7 +3097,7 @@ func (kubeletConfig *KubeletConfig) CreateEmptyARMValue() genruntime.ARMResource
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (kubeletConfig *KubeletConfig) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (kubeletConfig *KubeletConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(KubeletConfigARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubeletConfigARM, got %T", armInput)
@@ -3418,7 +3420,7 @@ func (kubeletConfigStatus *KubeletConfig_Status) CreateEmptyARMValue() genruntim
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (kubeletConfigStatus *KubeletConfig_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (kubeletConfigStatus *KubeletConfig_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(KubeletConfig_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubeletConfig_StatusARM, got %T", armInput)
@@ -3755,7 +3757,7 @@ func (linuxOSConfig *LinuxOSConfig) CreateEmptyARMValue() genruntime.ARMResource
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (linuxOSConfig *LinuxOSConfig) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (linuxOSConfig *LinuxOSConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(LinuxOSConfigARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxOSConfigARM, got %T", armInput)
@@ -3909,7 +3911,7 @@ func (linuxOSConfigStatus *LinuxOSConfig_Status) CreateEmptyARMValue() genruntim
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (linuxOSConfigStatus *LinuxOSConfig_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (linuxOSConfigStatus *LinuxOSConfig_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(LinuxOSConfig_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxOSConfig_StatusARM, got %T", armInput)
@@ -4387,7 +4389,7 @@ func (sysctlConfig *SysctlConfig) CreateEmptyARMValue() genruntime.ARMResourceSt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sysctlConfig *SysctlConfig) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (sysctlConfig *SysctlConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SysctlConfigARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SysctlConfigARM, got %T", armInput)
@@ -5128,7 +5130,7 @@ func (sysctlConfigStatus *SysctlConfig_Status) CreateEmptyARMValue() genruntime.
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sysctlConfigStatus *SysctlConfig_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (sysctlConfigStatus *SysctlConfig_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SysctlConfig_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SysctlConfig_StatusARM, got %T", armInput)

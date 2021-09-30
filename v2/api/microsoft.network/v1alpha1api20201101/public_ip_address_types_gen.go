@@ -5,10 +5,10 @@ package v1alpha1api20201101
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101storage"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -400,7 +400,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM, got %T", armInput)
@@ -1244,7 +1244,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) CreateEmptyARMValue() genru
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (publicIPAddressesSpec *PublicIPAddresses_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (publicIPAddressesSpec *PublicIPAddresses_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PublicIPAddresses_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddresses_SpecARM, got %T", armInput)
@@ -1317,7 +1317,9 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) PopulateFromARM(owner genru
 	publicIPAddressesSpec.Location = typedInput.Location
 
 	// Set property ‘Owner’:
-	publicIPAddressesSpec.Owner = owner
+	publicIPAddressesSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘PublicIPAddressVersion’:
 	// copying flattened property:
@@ -1769,7 +1771,7 @@ func (ddosSettings *DdosSettings) CreateEmptyARMValue() genruntime.ARMResourceSt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (ddosSettings *DdosSettings) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (ddosSettings *DdosSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DdosSettingsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DdosSettingsARM, got %T", armInput)
@@ -1898,7 +1900,7 @@ func (ddosSettingsStatus *DdosSettings_Status) CreateEmptyARMValue() genruntime.
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (ddosSettingsStatus *DdosSettings_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (ddosSettingsStatus *DdosSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DdosSettings_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DdosSettings_StatusARM, got %T", armInput)
@@ -2047,7 +2049,7 @@ func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_S
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM, got %T", armInput)
@@ -2301,7 +2303,7 @@ func (ipTag *IpTag) CreateEmptyARMValue() genruntime.ARMResourceStatus {
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (ipTag *IpTag) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (ipTag *IpTag) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(IpTagARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpTagARM, got %T", armInput)
@@ -2391,7 +2393,7 @@ func (ipTagStatus *IpTag_Status) CreateEmptyARMValue() genruntime.ARMResourceSta
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (ipTagStatus *IpTag_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (ipTagStatus *IpTag_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(IpTag_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpTag_StatusARM, got %T", armInput)
@@ -2485,7 +2487,7 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM, got %T", armInput)
@@ -2647,7 +2649,7 @@ func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) CreateEmptyARMValu
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PublicIPAddressDnsSettingsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressDnsSettingsARM, got %T", armInput)
@@ -2762,7 +2764,7 @@ func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) Creat
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PublicIPAddressDnsSettings_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressDnsSettings_StatusARM, got %T", armInput)
@@ -2921,7 +2923,7 @@ func (publicIPAddressSku *PublicIPAddressSku) CreateEmptyARMValue() genruntime.A
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (publicIPAddressSku *PublicIPAddressSku) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (publicIPAddressSku *PublicIPAddressSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PublicIPAddressSkuARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSkuARM, got %T", armInput)
@@ -3011,7 +3013,7 @@ func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) CreateEmptyARMValue()
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PublicIPAddressSku_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSku_StatusARM, got %T", armInput)
@@ -3098,7 +3100,7 @@ func (subResourceStatus *SubResource_Status) CreateEmptyARMValue() genruntime.AR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subResourceStatus *SubResource_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (subResourceStatus *SubResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SubResource_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_StatusARM, got %T", armInput)
@@ -3178,7 +3180,7 @@ func (natGatewaySkuStatus *NatGatewaySku_Status) CreateEmptyARMValue() genruntim
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (natGatewaySkuStatus *NatGatewaySku_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (natGatewaySkuStatus *NatGatewaySku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(NatGatewaySku_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySku_StatusARM, got %T", armInput)
@@ -3243,7 +3245,7 @@ func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddr
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM, got %T", armInput)

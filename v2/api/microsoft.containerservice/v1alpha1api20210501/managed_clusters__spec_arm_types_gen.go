@@ -4,7 +4,7 @@
 package v1alpha1api20210501
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
