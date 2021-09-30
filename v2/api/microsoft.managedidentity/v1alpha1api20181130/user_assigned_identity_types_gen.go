@@ -5,10 +5,10 @@ package v1alpha1api20181130
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.managedidentity/v1alpha1api20181130storage"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -361,7 +361,7 @@ func (identityStatus *Identity_Status) CreateEmptyARMValue() genruntime.ARMResou
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(Identity_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_StatusARM, got %T", armInput)
@@ -617,7 +617,7 @@ type UserAssignedIdentities_Spec struct {
 var _ genruntime.ARMTransformer = &UserAssignedIdentities_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if userAssignedIdentitiesSpec == nil {
 		return nil, nil
 	}
@@ -630,7 +630,7 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(name
 	result.Location = userAssignedIdentitiesSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Tags’:
 	if userAssignedIdentitiesSpec.Tags != nil {
@@ -651,7 +651,7 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) CreateEmptyARMVal
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(UserAssignedIdentities_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_SpecARM, got %T", armInput)
@@ -664,7 +664,9 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) PopulateFromARM(o
 	userAssignedIdentitiesSpec.Location = typedInput.Location
 
 	// Set property ‘Owner’:
-	userAssignedIdentitiesSpec.Owner = owner
+	userAssignedIdentitiesSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {

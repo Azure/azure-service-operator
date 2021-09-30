@@ -43,6 +43,7 @@ jobs:
       # since they will not exercize the authorization codepaths.
 
       - name: Cleanup test resources
+        if: always()
         run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{steps.devcontainer.outputs.id}}" task cleanup-azure-resources
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}

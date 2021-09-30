@@ -70,7 +70,7 @@ func determineOwnership(definitions astmodel.Types, configuration *config.Config
 		}
 	}
 
-	setResourceGroupOwnerForResourcesWithNoOwner(configuration, definitions, updatedDefs)
+	setDefaultOwner(configuration, definitions, updatedDefs)
 
 	return definitions.OverlayWith(updatedDefs), nil
 }
@@ -226,7 +226,9 @@ func updateChildResourceDefinitionsWithOwner(
 	return nil
 }
 
-func setResourceGroupOwnerForResourcesWithNoOwner(
+// setDefaultOwner sets a default owner for all resources which don't have one. The default owner is ResourceGroup.
+// Extension resources have no owner set, as they are a special case.
+func setDefaultOwner(
 	configuration *config.Configuration,
 	definitions astmodel.Types,
 	updatedDefs astmodel.Types) {
@@ -243,7 +245,7 @@ func setResourceGroupOwnerForResourcesWithNoOwner(
 			continue
 		}
 
-		if resourceType.Owner() == nil {
+		if resourceType.Owner() == nil && resourceType.Kind() == astmodel.ResourceKindNormal {
 			ownerTypeName := astmodel.MakeTypeName(
 				// Note that the version doesn't really matter here -- it's removed later. We just need to refer to the logical
 				// resource group really

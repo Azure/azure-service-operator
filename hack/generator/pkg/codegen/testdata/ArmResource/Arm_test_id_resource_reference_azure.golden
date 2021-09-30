@@ -220,7 +220,7 @@ type FakeResource_Spec struct {
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if fakeResourceSpec == nil {
 		return nil, nil
 	}
@@ -230,11 +230,11 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(name string, resolvedRef
 	result.APIVersion = FakeResourceSpecAPIVersion20200601
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if fakeResourceSpec.Properties != nil {
-		propertiesARM, err := (*fakeResourceSpec.Properties).ConvertToARM(name, resolvedReferences)
+		propertiesARM, err := (*fakeResourceSpec.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -253,7 +253,7 @@ func (fakeResourceSpec *FakeResource_Spec) CreateEmptyARMValue() genruntime.ARMR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(FakeResource_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
@@ -263,7 +263,9 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Know
 	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	fakeResourceSpec.Owner = owner
+	fakeResourceSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
@@ -299,7 +301,7 @@ type FakeResourceProperties struct {
 var _ genruntime.ARMTransformer = &FakeResourceProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if fakeResourceProperties == nil {
 		return nil, nil
 	}
@@ -307,7 +309,7 @@ func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(name string, 
 
 	// Set property ‘Id’:
 	if fakeResourceProperties.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*fakeResourceProperties.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*fakeResourceProperties.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -317,7 +319,7 @@ func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(name string, 
 
 	// Set property ‘SubnetId’:
 	if fakeResourceProperties.SubnetReference != nil {
-		subnetReferenceARMID, err := resolvedReferences.ARMIDOrErr(*fakeResourceProperties.SubnetReference)
+		subnetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*fakeResourceProperties.SubnetReference)
 		if err != nil {
 			return nil, err
 		}
@@ -333,7 +335,7 @@ func (fakeResourceProperties *FakeResourceProperties) CreateEmptyARMValue() genr
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (fakeResourceProperties *FakeResourceProperties) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (fakeResourceProperties *FakeResourceProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	_, ok := armInput.(FakeResourcePropertiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResourcePropertiesARM, got %T", armInput)

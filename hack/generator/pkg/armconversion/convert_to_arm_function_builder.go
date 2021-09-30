@@ -16,8 +16,7 @@ import (
 )
 
 const (
-	nameParameterString               = "name"
-	resolvedReferencesParameterString = "resolvedReferences"
+	resolvedParameterString = "resolved"
 )
 
 type convertToARMBuilder struct {
@@ -63,10 +62,13 @@ func newConvertToARMFunctionBuilder(
 		result.convertComplexTypeNameProperty)
 
 	result.propertyConversionHandlers = []propertyConversionHandler{
+		// Handlers for specific properties come first
 		result.namePropertyHandler,
-		result.referencePropertyHandler,
+		result.scopePropertyHandler,
 		result.fixedValuePropertyHandler(astmodel.TypeProperty),
 		result.fixedValuePropertyHandler(astmodel.APIVersionProperty),
+		// Generic handlers come second
+		result.referencePropertyHandler,
 		result.flattenedPropertyHandler,
 		result.propertiesWithSameNameHandler,
 	}
@@ -84,10 +86,7 @@ func (builder *convertToARMBuilder) functionDeclaration() *dst.FuncDecl {
 		Body: builder.functionBodyStatements(),
 	}
 
-	fn.AddParameter(nameParameterString, dst.NewIdent("string"))
-	fn.AddParameter(
-		resolvedReferencesParameterString,
-		astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimeReference.PackageName()), "ResolvedReferences"))
+	fn.AddParameter(resolvedParameterString, astmodel.ConvertToARMResolvedDetailsTypeName.AsType(builder.codeGenerationContext))
 	fn.AddReturns("interface{}", "error")
 	fn.AddComments("converts from a Kubernetes CRD object to an ARM object")
 
@@ -142,7 +141,25 @@ func (builder *convertToARMBuilder) namePropertyHandler(
 		dst.NewIdent(builder.resultIdent),
 		string(toProp.PropertyName()),
 		token.ASSIGN,
-		dst.NewIdent(nameParameterString))
+		astbuilder.Selector(dst.NewIdent(resolvedParameterString), "Name"))
+
+	return []dst.Stmt{result}, true
+}
+
+func (builder *convertToARMBuilder) scopePropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
+
+	if toProp.PropertyName() != "Scope" || builder.typeKind != TypeKindSpec {
+		return nil, false
+	}
+
+	// Read from the provided scope
+	result := astbuilder.QualifiedAssignment(
+		dst.NewIdent(builder.resultIdent),
+		string(toProp.PropertyName()),
+		token.ASSIGN,
+		astbuilder.Selector(dst.NewIdent(resolvedParameterString), "Scope"))
 
 	return []dst.Stmt{result}, true
 }
@@ -261,7 +278,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		// find the corresponding inner property on the to-prop type
 		// TODO: If this property is an ARM reference we need a bit of special handling.
 		// TODO: See https://github.com/Azure/azure-service-operator/issues/1651 for possible improvements to this.
-		toSubPropName := fromProp.PropertyName()
+		toSubPropName := fromProp.FlattenedFrom()[len(fromProp.FlattenedFrom())-1]
 		if values, ok := fromProp.Tag(astmodel.ARMReferenceTag); ok {
 			toSubPropName = astmodel.PropertyName(values[0])
 		}
@@ -417,8 +434,8 @@ func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.Convers
 	armIDLookup := astbuilder.SimpleAssignmentWithErr(
 		dst.NewIdent(localVarName),
 		token.DEFINE,
-		astbuilder.CallQualifiedFunc(
-			resolvedReferencesParameterString,
+		astbuilder.CallExpr(
+			astbuilder.Selector(dst.NewIdent(resolvedParameterString), "ResolvedReferences"),
 			"ARMIDOrErr",
 			params.Source))
 
@@ -492,8 +509,7 @@ func callToARMFunction(source dst.Expr, destination dst.Expr, methodName string)
 			&dst.CallExpr{
 				Fun: astbuilder.Selector(source, methodName),
 				Args: []dst.Expr{
-					dst.NewIdent(nameParameterString),
-					dst.NewIdent(resolvedReferencesParameterString),
+					dst.NewIdent(resolvedParameterString),
 				},
 			},
 		},

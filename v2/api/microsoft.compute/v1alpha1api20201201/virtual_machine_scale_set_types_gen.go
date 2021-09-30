@@ -5,10 +5,10 @@ package v1alpha1api20201201
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.compute/v1alpha1api20201201storage"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -432,7 +432,7 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) CreateEmptyAR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSet_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSet_StatusARM, got %T", armInput)
@@ -1312,7 +1312,7 @@ type VirtualMachineScaleSets_Spec struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpec == nil {
 		return nil, nil
 	}
@@ -1323,7 +1323,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 
 	// Set property ‘ExtendedLocation’:
 	if virtualMachineScaleSetsSpec.ExtendedLocation != nil {
-		extendedLocationARM, err := (*virtualMachineScaleSetsSpec.ExtendedLocation).ConvertToARM(name, resolvedReferences)
+		extendedLocationARM, err := (*virtualMachineScaleSetsSpec.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1333,7 +1333,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 
 	// Set property ‘Identity’:
 	if virtualMachineScaleSetsSpec.Identity != nil {
-		identityARM, err := (*virtualMachineScaleSetsSpec.Identity).ConvertToARM(name, resolvedReferences)
+		identityARM, err := (*virtualMachineScaleSetsSpec.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1345,11 +1345,11 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 	result.Location = virtualMachineScaleSetsSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Plan’:
 	if virtualMachineScaleSetsSpec.Plan != nil {
-		planARM, err := (*virtualMachineScaleSetsSpec.Plan).ConvertToARM(name, resolvedReferences)
+		planARM, err := (*virtualMachineScaleSetsSpec.Plan).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1359,7 +1359,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 
 	// Set property ‘Properties’:
 	if virtualMachineScaleSetsSpec.AdditionalCapabilities != nil {
-		additionalCapabilitiesARM, err := (*virtualMachineScaleSetsSpec.AdditionalCapabilities).ConvertToARM(name, resolvedReferences)
+		additionalCapabilitiesARM, err := (*virtualMachineScaleSetsSpec.AdditionalCapabilities).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1367,7 +1367,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.AdditionalCapabilities = &additionalCapabilities
 	}
 	if virtualMachineScaleSetsSpec.AutomaticRepairsPolicy != nil {
-		automaticRepairsPolicyARM, err := (*virtualMachineScaleSetsSpec.AutomaticRepairsPolicy).ConvertToARM(name, resolvedReferences)
+		automaticRepairsPolicyARM, err := (*virtualMachineScaleSetsSpec.AutomaticRepairsPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1379,7 +1379,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.DoNotRunExtensionsOnOverprovisionedVMs = &doNotRunExtensionsOnOverprovisionedVMs
 	}
 	if virtualMachineScaleSetsSpec.HostGroup != nil {
-		hostGroupARM, err := (*virtualMachineScaleSetsSpec.HostGroup).ConvertToARM(name, resolvedReferences)
+		hostGroupARM, err := (*virtualMachineScaleSetsSpec.HostGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1399,7 +1399,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.PlatformFaultDomainCount = &platformFaultDomainCount
 	}
 	if virtualMachineScaleSetsSpec.ProximityPlacementGroup != nil {
-		proximityPlacementGroupARM, err := (*virtualMachineScaleSetsSpec.ProximityPlacementGroup).ConvertToARM(name, resolvedReferences)
+		proximityPlacementGroupARM, err := (*virtualMachineScaleSetsSpec.ProximityPlacementGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1407,7 +1407,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.ProximityPlacementGroup = &proximityPlacementGroup
 	}
 	if virtualMachineScaleSetsSpec.ScaleInPolicy != nil {
-		scaleInPolicyARM, err := (*virtualMachineScaleSetsSpec.ScaleInPolicy).ConvertToARM(name, resolvedReferences)
+		scaleInPolicyARM, err := (*virtualMachineScaleSetsSpec.ScaleInPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1419,7 +1419,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.SinglePlacementGroup = &singlePlacementGroup
 	}
 	if virtualMachineScaleSetsSpec.UpgradePolicy != nil {
-		upgradePolicyARM, err := (*virtualMachineScaleSetsSpec.UpgradePolicy).ConvertToARM(name, resolvedReferences)
+		upgradePolicyARM, err := (*virtualMachineScaleSetsSpec.UpgradePolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1427,7 +1427,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 		result.Properties.UpgradePolicy = &upgradePolicy
 	}
 	if virtualMachineScaleSetsSpec.VirtualMachineProfile != nil {
-		virtualMachineProfileARM, err := (*virtualMachineScaleSetsSpec.VirtualMachineProfile).ConvertToARM(name, resolvedReferences)
+		virtualMachineProfileARM, err := (*virtualMachineScaleSetsSpec.VirtualMachineProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1441,7 +1441,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(na
 
 	// Set property ‘Sku’:
 	if virtualMachineScaleSetsSpec.Sku != nil {
-		skuARM, err := (*virtualMachineScaleSetsSpec.Sku).ConvertToARM(name, resolvedReferences)
+		skuARM, err := (*virtualMachineScaleSetsSpec.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1473,7 +1473,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) CreateEmptyARMV
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSets_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_SpecARM, got %T", armInput)
@@ -1565,7 +1565,9 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) PopulateFromARM
 	}
 
 	// Set property ‘Owner’:
-	virtualMachineScaleSetsSpec.Owner = owner
+	virtualMachineScaleSetsSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘Plan’:
 	if typedInput.Plan != nil {
@@ -2187,7 +2189,7 @@ type AdditionalCapabilities struct {
 var _ genruntime.ARMTransformer = &AdditionalCapabilities{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (additionalCapabilities *AdditionalCapabilities) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (additionalCapabilities *AdditionalCapabilities) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if additionalCapabilities == nil {
 		return nil, nil
 	}
@@ -2207,7 +2209,7 @@ func (additionalCapabilities *AdditionalCapabilities) CreateEmptyARMValue() genr
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (additionalCapabilities *AdditionalCapabilities) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (additionalCapabilities *AdditionalCapabilities) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AdditionalCapabilitiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalCapabilitiesARM, got %T", armInput)
@@ -2275,7 +2277,7 @@ func (additionalCapabilitiesStatus *AdditionalCapabilities_Status) CreateEmptyAR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (additionalCapabilitiesStatus *AdditionalCapabilities_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (additionalCapabilitiesStatus *AdditionalCapabilities_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AdditionalCapabilities_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalCapabilities_StatusARM, got %T", armInput)
@@ -2344,7 +2346,7 @@ type AutomaticRepairsPolicy struct {
 var _ genruntime.ARMTransformer = &AutomaticRepairsPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (automaticRepairsPolicy *AutomaticRepairsPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (automaticRepairsPolicy *AutomaticRepairsPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if automaticRepairsPolicy == nil {
 		return nil, nil
 	}
@@ -2370,7 +2372,7 @@ func (automaticRepairsPolicy *AutomaticRepairsPolicy) CreateEmptyARMValue() genr
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (automaticRepairsPolicy *AutomaticRepairsPolicy) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (automaticRepairsPolicy *AutomaticRepairsPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AutomaticRepairsPolicyARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutomaticRepairsPolicyARM, got %T", armInput)
@@ -2466,7 +2468,7 @@ func (automaticRepairsPolicyStatus *AutomaticRepairsPolicy_Status) CreateEmptyAR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (automaticRepairsPolicyStatus *AutomaticRepairsPolicy_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (automaticRepairsPolicyStatus *AutomaticRepairsPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AutomaticRepairsPolicy_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutomaticRepairsPolicy_StatusARM, got %T", armInput)
@@ -2551,7 +2553,7 @@ type ExtendedLocation struct {
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (extendedLocation *ExtendedLocation) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (extendedLocation *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if extendedLocation == nil {
 		return nil, nil
 	}
@@ -2577,7 +2579,7 @@ func (extendedLocation *ExtendedLocation) CreateEmptyARMValue() genruntime.ARMRe
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (extendedLocation *ExtendedLocation) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (extendedLocation *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ExtendedLocationARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocationARM, got %T", armInput)
@@ -2667,7 +2669,7 @@ func (extendedLocationStatus *ExtendedLocation_Status) CreateEmptyARMValue() gen
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (extendedLocationStatus *ExtendedLocation_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (extendedLocationStatus *ExtendedLocation_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ExtendedLocation_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_StatusARM, got %T", armInput)
@@ -2767,7 +2769,7 @@ type Plan struct {
 var _ genruntime.ARMTransformer = &Plan{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (plan *Plan) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (plan *Plan) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if plan == nil {
 		return nil, nil
 	}
@@ -2805,7 +2807,7 @@ func (plan *Plan) CreateEmptyARMValue() genruntime.ARMResourceStatus {
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (plan *Plan) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (plan *Plan) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PlanARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PlanARM, got %T", armInput)
@@ -2946,7 +2948,7 @@ func (planStatus *Plan_Status) CreateEmptyARMValue() genruntime.ARMResourceStatu
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (planStatus *Plan_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (planStatus *Plan_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(Plan_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Plan_StatusARM, got %T", armInput)
@@ -3088,7 +3090,7 @@ type ScaleInPolicy struct {
 var _ genruntime.ARMTransformer = &ScaleInPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (scaleInPolicy *ScaleInPolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (scaleInPolicy *ScaleInPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if scaleInPolicy == nil {
 		return nil, nil
 	}
@@ -3107,7 +3109,7 @@ func (scaleInPolicy *ScaleInPolicy) CreateEmptyARMValue() genruntime.ARMResource
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (scaleInPolicy *ScaleInPolicy) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (scaleInPolicy *ScaleInPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ScaleInPolicyARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleInPolicyARM, got %T", armInput)
@@ -3189,7 +3191,7 @@ func (scaleInPolicyStatus *ScaleInPolicy_Status) CreateEmptyARMValue() genruntim
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (scaleInPolicyStatus *ScaleInPolicy_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (scaleInPolicyStatus *ScaleInPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ScaleInPolicy_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleInPolicy_StatusARM, got %T", armInput)
@@ -3259,7 +3261,7 @@ type Sku struct {
 var _ genruntime.ARMTransformer = &Sku{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sku *Sku) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sku == nil {
 		return nil, nil
 	}
@@ -3291,7 +3293,7 @@ func (sku *Sku) CreateEmptyARMValue() genruntime.ARMResourceStatus {
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sku *Sku) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SkuARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuARM, got %T", armInput)
@@ -3409,7 +3411,7 @@ func (skuStatus *Sku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus 
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (skuStatus *Sku_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (skuStatus *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(Sku_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_StatusARM, got %T", armInput)
@@ -3513,7 +3515,7 @@ type SubResource struct {
 var _ genruntime.ARMTransformer = &SubResource{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (subResource *SubResource) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (subResource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if subResource == nil {
 		return nil, nil
 	}
@@ -3521,7 +3523,7 @@ func (subResource *SubResource) ConvertToARM(name string, resolvedReferences gen
 
 	// Set property ‘Id’:
 	if subResource.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*subResource.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*subResource.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -3537,7 +3539,7 @@ func (subResource *SubResource) CreateEmptyARMValue() genruntime.ARMResourceStat
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subResource *SubResource) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (subResource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	_, ok := armInput.(SubResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResourceARM, got %T", armInput)
@@ -3598,7 +3600,7 @@ func (subResourceStatus *SubResource_Status) CreateEmptyARMValue() genruntime.AR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subResourceStatus *SubResource_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (subResourceStatus *SubResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SubResource_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_StatusARM, got %T", armInput)
@@ -3671,7 +3673,7 @@ type UpgradePolicy struct {
 var _ genruntime.ARMTransformer = &UpgradePolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (upgradePolicy *UpgradePolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (upgradePolicy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if upgradePolicy == nil {
 		return nil, nil
 	}
@@ -3679,7 +3681,7 @@ func (upgradePolicy *UpgradePolicy) ConvertToARM(name string, resolvedReferences
 
 	// Set property ‘AutomaticOSUpgradePolicy’:
 	if upgradePolicy.AutomaticOSUpgradePolicy != nil {
-		automaticOSUpgradePolicyARM, err := (*upgradePolicy.AutomaticOSUpgradePolicy).ConvertToARM(name, resolvedReferences)
+		automaticOSUpgradePolicyARM, err := (*upgradePolicy.AutomaticOSUpgradePolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3695,7 +3697,7 @@ func (upgradePolicy *UpgradePolicy) ConvertToARM(name string, resolvedReferences
 
 	// Set property ‘RollingUpgradePolicy’:
 	if upgradePolicy.RollingUpgradePolicy != nil {
-		rollingUpgradePolicyARM, err := (*upgradePolicy.RollingUpgradePolicy).ConvertToARM(name, resolvedReferences)
+		rollingUpgradePolicyARM, err := (*upgradePolicy.RollingUpgradePolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -3711,7 +3713,7 @@ func (upgradePolicy *UpgradePolicy) CreateEmptyARMValue() genruntime.ARMResource
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (upgradePolicy *UpgradePolicy) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (upgradePolicy *UpgradePolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(UpgradePolicyARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UpgradePolicyARM, got %T", armInput)
@@ -3859,7 +3861,7 @@ func (upgradePolicyStatus *UpgradePolicy_Status) CreateEmptyARMValue() genruntim
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (upgradePolicyStatus *UpgradePolicy_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (upgradePolicyStatus *UpgradePolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(UpgradePolicy_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UpgradePolicy_StatusARM, got %T", armInput)
@@ -3992,7 +3994,7 @@ type VirtualMachineScaleSetIdentity struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetIdentity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetIdentity == nil {
 		return nil, nil
 	}
@@ -4012,7 +4014,7 @@ func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) CreateEmpt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetIdentityARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetIdentityARM, got %T", armInput)
@@ -4094,7 +4096,7 @@ func (virtualMachineScaleSetIdentityStatus *VirtualMachineScaleSetIdentity_Statu
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetIdentityStatus *VirtualMachineScaleSetIdentity_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetIdentityStatus *VirtualMachineScaleSetIdentity_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetIdentity_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetIdentity_StatusARM, got %T", armInput)
@@ -4298,7 +4300,7 @@ func (virtualMachineScaleSetVMProfileStatus *VirtualMachineScaleSetVMProfile_Sta
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetVMProfileStatus *VirtualMachineScaleSetVMProfile_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetVMProfileStatus *VirtualMachineScaleSetVMProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetVMProfile_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetVMProfile_StatusARM, got %T", armInput)
@@ -4738,7 +4740,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile == nil {
 		return nil, nil
 	}
@@ -4746,7 +4748,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘BillingProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.BillingProfile != nil {
-		billingProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.BillingProfile).ConvertToARM(name, resolvedReferences)
+		billingProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.BillingProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4756,7 +4758,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘DiagnosticsProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.DiagnosticsProfile != nil {
-		diagnosticsProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.DiagnosticsProfile).ConvertToARM(name, resolvedReferences)
+		diagnosticsProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.DiagnosticsProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4772,7 +4774,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘ExtensionProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ExtensionProfile != nil {
-		extensionProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ExtensionProfile).ConvertToARM(name, resolvedReferences)
+		extensionProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ExtensionProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4788,7 +4790,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘NetworkProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.NetworkProfile != nil {
-		networkProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.NetworkProfile).ConvertToARM(name, resolvedReferences)
+		networkProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.NetworkProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4798,7 +4800,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘OsProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.OsProfile != nil {
-		osProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.OsProfile).ConvertToARM(name, resolvedReferences)
+		osProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.OsProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4814,7 +4816,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘ScheduledEventsProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ScheduledEventsProfile != nil {
-		scheduledEventsProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ScheduledEventsProfile).ConvertToARM(name, resolvedReferences)
+		scheduledEventsProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.ScheduledEventsProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4824,7 +4826,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘SecurityProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.SecurityProfile != nil {
-		securityProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.SecurityProfile).ConvertToARM(name, resolvedReferences)
+		securityProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.SecurityProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4834,7 +4836,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 
 	// Set property ‘StorageProfile’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.StorageProfile != nil {
-		storageProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.StorageProfile).ConvertToARM(name, resolvedReferences)
+		storageProfileARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile.StorageProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -4850,7 +4852,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM, got %T", armInput)
@@ -5243,7 +5245,7 @@ type AutomaticOSUpgradePolicy struct {
 var _ genruntime.ARMTransformer = &AutomaticOSUpgradePolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if automaticOSUpgradePolicy == nil {
 		return nil, nil
 	}
@@ -5269,7 +5271,7 @@ func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) CreateEmptyARMValue() 
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AutomaticOSUpgradePolicyARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutomaticOSUpgradePolicyARM, got %T", armInput)
@@ -5365,7 +5367,7 @@ func (automaticOSUpgradePolicyStatus *AutomaticOSUpgradePolicy_Status) CreateEmp
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (automaticOSUpgradePolicyStatus *AutomaticOSUpgradePolicy_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (automaticOSUpgradePolicyStatus *AutomaticOSUpgradePolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AutomaticOSUpgradePolicy_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutomaticOSUpgradePolicy_StatusARM, got %T", armInput)
@@ -5461,7 +5463,7 @@ type BillingProfile struct {
 var _ genruntime.ARMTransformer = &BillingProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (billingProfile *BillingProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (billingProfile *BillingProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if billingProfile == nil {
 		return nil, nil
 	}
@@ -5481,7 +5483,7 @@ func (billingProfile *BillingProfile) CreateEmptyARMValue() genruntime.ARMResour
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (billingProfile *BillingProfile) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (billingProfile *BillingProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BillingProfileARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BillingProfileARM, got %T", armInput)
@@ -5560,7 +5562,7 @@ func (billingProfileStatus *BillingProfile_Status) CreateEmptyARMValue() genrunt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (billingProfileStatus *BillingProfile_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (billingProfileStatus *BillingProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BillingProfile_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BillingProfile_StatusARM, got %T", armInput)
@@ -5623,7 +5625,7 @@ type DiagnosticsProfile struct {
 var _ genruntime.ARMTransformer = &DiagnosticsProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (diagnosticsProfile *DiagnosticsProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (diagnosticsProfile *DiagnosticsProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if diagnosticsProfile == nil {
 		return nil, nil
 	}
@@ -5631,7 +5633,7 @@ func (diagnosticsProfile *DiagnosticsProfile) ConvertToARM(name string, resolved
 
 	// Set property ‘BootDiagnostics’:
 	if diagnosticsProfile.BootDiagnostics != nil {
-		bootDiagnosticsARM, err := (*diagnosticsProfile.BootDiagnostics).ConvertToARM(name, resolvedReferences)
+		bootDiagnosticsARM, err := (*diagnosticsProfile.BootDiagnostics).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5647,7 +5649,7 @@ func (diagnosticsProfile *DiagnosticsProfile) CreateEmptyARMValue() genruntime.A
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (diagnosticsProfile *DiagnosticsProfile) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (diagnosticsProfile *DiagnosticsProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DiagnosticsProfileARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiagnosticsProfileARM, got %T", armInput)
@@ -5728,7 +5730,7 @@ func (diagnosticsProfileStatus *DiagnosticsProfile_Status) CreateEmptyARMValue()
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (diagnosticsProfileStatus *DiagnosticsProfile_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (diagnosticsProfileStatus *DiagnosticsProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DiagnosticsProfile_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiagnosticsProfile_StatusARM, got %T", armInput)
@@ -5855,7 +5857,7 @@ type RollingUpgradePolicy struct {
 var _ genruntime.ARMTransformer = &RollingUpgradePolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rollingUpgradePolicy *RollingUpgradePolicy) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (rollingUpgradePolicy *RollingUpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if rollingUpgradePolicy == nil {
 		return nil, nil
 	}
@@ -5905,7 +5907,7 @@ func (rollingUpgradePolicy *RollingUpgradePolicy) CreateEmptyARMValue() genrunti
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rollingUpgradePolicy *RollingUpgradePolicy) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (rollingUpgradePolicy *RollingUpgradePolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(RollingUpgradePolicyARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RollingUpgradePolicyARM, got %T", armInput)
@@ -6111,7 +6113,7 @@ func (rollingUpgradePolicyStatus *RollingUpgradePolicy_Status) CreateEmptyARMVal
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rollingUpgradePolicyStatus *RollingUpgradePolicy_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (rollingUpgradePolicyStatus *RollingUpgradePolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(RollingUpgradePolicy_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RollingUpgradePolicy_StatusARM, got %T", armInput)
@@ -6297,7 +6299,7 @@ type ScheduledEventsProfile struct {
 var _ genruntime.ARMTransformer = &ScheduledEventsProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (scheduledEventsProfile *ScheduledEventsProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (scheduledEventsProfile *ScheduledEventsProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if scheduledEventsProfile == nil {
 		return nil, nil
 	}
@@ -6305,7 +6307,7 @@ func (scheduledEventsProfile *ScheduledEventsProfile) ConvertToARM(name string, 
 
 	// Set property ‘TerminateNotificationProfile’:
 	if scheduledEventsProfile.TerminateNotificationProfile != nil {
-		terminateNotificationProfileARM, err := (*scheduledEventsProfile.TerminateNotificationProfile).ConvertToARM(name, resolvedReferences)
+		terminateNotificationProfileARM, err := (*scheduledEventsProfile.TerminateNotificationProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6321,7 +6323,7 @@ func (scheduledEventsProfile *ScheduledEventsProfile) CreateEmptyARMValue() genr
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (scheduledEventsProfile *ScheduledEventsProfile) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (scheduledEventsProfile *ScheduledEventsProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ScheduledEventsProfileARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduledEventsProfileARM, got %T", armInput)
@@ -6400,7 +6402,7 @@ func (scheduledEventsProfileStatus *ScheduledEventsProfile_Status) CreateEmptyAR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (scheduledEventsProfileStatus *ScheduledEventsProfile_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (scheduledEventsProfileStatus *ScheduledEventsProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ScheduledEventsProfile_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduledEventsProfile_StatusARM, got %T", armInput)
@@ -6489,7 +6491,7 @@ type SecurityProfile struct {
 var _ genruntime.ARMTransformer = &SecurityProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (securityProfile *SecurityProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (securityProfile *SecurityProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if securityProfile == nil {
 		return nil, nil
 	}
@@ -6509,7 +6511,7 @@ func (securityProfile *SecurityProfile) ConvertToARM(name string, resolvedRefere
 
 	// Set property ‘UefiSettings’:
 	if securityProfile.UefiSettings != nil {
-		uefiSettingsARM, err := (*securityProfile.UefiSettings).ConvertToARM(name, resolvedReferences)
+		uefiSettingsARM, err := (*securityProfile.UefiSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -6525,7 +6527,7 @@ func (securityProfile *SecurityProfile) CreateEmptyARMValue() genruntime.ARMReso
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (securityProfile *SecurityProfile) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (securityProfile *SecurityProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SecurityProfileARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityProfileARM, got %T", armInput)
@@ -6663,7 +6665,7 @@ func (securityProfileStatus *SecurityProfile_Status) CreateEmptyARMValue() genru
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (securityProfileStatus *SecurityProfile_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (securityProfileStatus *SecurityProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SecurityProfile_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityProfile_StatusARM, got %T", armInput)
@@ -6809,7 +6811,7 @@ func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtens
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtensionProfile_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtensionProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetExtensionProfile_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetExtensionProfile_StatusARM, got %T", armInput)
@@ -6914,7 +6916,7 @@ func (virtualMachineScaleSetIdentityStatusUserAssignedIdentities *VirtualMachine
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetIdentityStatusUserAssignedIdentities *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetIdentityStatusUserAssignedIdentities *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM, got %T", armInput)
@@ -7007,7 +7009,7 @@ func (virtualMachineScaleSetNetworkProfileStatus *VirtualMachineScaleSetNetworkP
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetNetworkProfileStatus *VirtualMachineScaleSetNetworkProfile_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetNetworkProfileStatus *VirtualMachineScaleSetNetworkProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetNetworkProfile_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetNetworkProfile_StatusARM, got %T", armInput)
@@ -7182,7 +7184,7 @@ type VirtualMachineScaleSetOSProfile struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetOSProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetOSProfile == nil {
 		return nil, nil
 	}
@@ -7214,7 +7216,7 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) ConvertT
 
 	// Set property ‘LinuxConfiguration’:
 	if virtualMachineScaleSetOSProfile.LinuxConfiguration != nil {
-		linuxConfigurationARM, err := (*virtualMachineScaleSetOSProfile.LinuxConfiguration).ConvertToARM(name, resolvedReferences)
+		linuxConfigurationARM, err := (*virtualMachineScaleSetOSProfile.LinuxConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7224,7 +7226,7 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) ConvertT
 
 	// Set property ‘Secrets’:
 	for _, item := range virtualMachineScaleSetOSProfile.Secrets {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7233,7 +7235,7 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) ConvertT
 
 	// Set property ‘WindowsConfiguration’:
 	if virtualMachineScaleSetOSProfile.WindowsConfiguration != nil {
-		windowsConfigurationARM, err := (*virtualMachineScaleSetOSProfile.WindowsConfiguration).ConvertToARM(name, resolvedReferences)
+		windowsConfigurationARM, err := (*virtualMachineScaleSetOSProfile.WindowsConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7249,7 +7251,7 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) CreateEm
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetOSProfileARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetOSProfileARM, got %T", armInput)
@@ -7552,7 +7554,7 @@ func (virtualMachineScaleSetOSProfileStatus *VirtualMachineScaleSetOSProfile_Sta
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetOSProfileStatus *VirtualMachineScaleSetOSProfile_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetOSProfileStatus *VirtualMachineScaleSetOSProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetOSProfile_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetOSProfile_StatusARM, got %T", armInput)
@@ -7800,7 +7802,7 @@ type VirtualMachineScaleSetStorageProfile struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetStorageProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetStorageProfile == nil {
 		return nil, nil
 	}
@@ -7808,7 +7810,7 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 
 	// Set property ‘DataDisks’:
 	for _, item := range virtualMachineScaleSetStorageProfile.DataDisks {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7817,7 +7819,7 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 
 	// Set property ‘ImageReference’:
 	if virtualMachineScaleSetStorageProfile.ImageReference != nil {
-		imageReferenceARM, err := (*virtualMachineScaleSetStorageProfile.ImageReference).ConvertToARM(name, resolvedReferences)
+		imageReferenceARM, err := (*virtualMachineScaleSetStorageProfile.ImageReference).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7827,7 +7829,7 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 
 	// Set property ‘OsDisk’:
 	if virtualMachineScaleSetStorageProfile.OsDisk != nil {
-		osDiskARM, err := (*virtualMachineScaleSetStorageProfile.OsDisk).ConvertToARM(name, resolvedReferences)
+		osDiskARM, err := (*virtualMachineScaleSetStorageProfile.OsDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -7843,7 +7845,7 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetStorageProfileARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetStorageProfileARM, got %T", armInput)
@@ -8010,7 +8012,7 @@ func (virtualMachineScaleSetStorageProfileStatus *VirtualMachineScaleSetStorageP
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetStorageProfileStatus *VirtualMachineScaleSetStorageProfile_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetStorageProfileStatus *VirtualMachineScaleSetStorageProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetStorageProfile_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetStorageProfile_StatusARM, got %T", armInput)
@@ -8179,7 +8181,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProf
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile == nil {
 		return nil, nil
 	}
@@ -8187,7 +8189,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 
 	// Set property ‘Extensions’:
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile.Extensions {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8208,7 +8210,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM, got %T", armInput)
@@ -8308,7 +8310,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile == nil {
 		return nil, nil
 	}
@@ -8316,7 +8318,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *
 
 	// Set property ‘HealthProbe’:
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.HealthProbe != nil {
-		healthProbeARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.HealthProbe).ConvertToARM(name, resolvedReferences)
+		healthProbeARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.HealthProbe).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8326,7 +8328,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *
 
 	// Set property ‘NetworkInterfaceConfigurations’:
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.NetworkInterfaceConfigurations {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -8341,7 +8343,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM, got %T", armInput)
@@ -8453,7 +8455,7 @@ type ApiEntityReference struct {
 var _ genruntime.ARMTransformer = &ApiEntityReference{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (apiEntityReference *ApiEntityReference) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (apiEntityReference *ApiEntityReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if apiEntityReference == nil {
 		return nil, nil
 	}
@@ -8461,7 +8463,7 @@ func (apiEntityReference *ApiEntityReference) ConvertToARM(name string, resolved
 
 	// Set property ‘Id’:
 	if apiEntityReference.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*apiEntityReference.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*apiEntityReference.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -8477,7 +8479,7 @@ func (apiEntityReference *ApiEntityReference) CreateEmptyARMValue() genruntime.A
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (apiEntityReference *ApiEntityReference) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (apiEntityReference *ApiEntityReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	_, ok := armInput.(ApiEntityReferenceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiEntityReferenceARM, got %T", armInput)
@@ -8539,7 +8541,7 @@ func (apiEntityReferenceStatus *ApiEntityReference_Status) CreateEmptyARMValue()
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (apiEntityReferenceStatus *ApiEntityReference_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (apiEntityReferenceStatus *ApiEntityReference_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ApiEntityReference_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiEntityReference_StatusARM, got %T", armInput)
@@ -8605,7 +8607,7 @@ type BootDiagnostics struct {
 var _ genruntime.ARMTransformer = &BootDiagnostics{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (bootDiagnostics *BootDiagnostics) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (bootDiagnostics *BootDiagnostics) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if bootDiagnostics == nil {
 		return nil, nil
 	}
@@ -8631,7 +8633,7 @@ func (bootDiagnostics *BootDiagnostics) CreateEmptyARMValue() genruntime.ARMReso
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (bootDiagnostics *BootDiagnostics) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (bootDiagnostics *BootDiagnostics) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BootDiagnosticsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BootDiagnosticsARM, got %T", armInput)
@@ -8724,7 +8726,7 @@ func (bootDiagnosticsStatus *BootDiagnostics_Status) CreateEmptyARMValue() genru
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (bootDiagnosticsStatus *BootDiagnostics_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (bootDiagnosticsStatus *BootDiagnostics_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BootDiagnostics_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BootDiagnostics_StatusARM, got %T", armInput)
@@ -8824,7 +8826,7 @@ type ImageReference struct {
 var _ genruntime.ARMTransformer = &ImageReference{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (imageReference *ImageReference) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (imageReference *ImageReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if imageReference == nil {
 		return nil, nil
 	}
@@ -8832,7 +8834,7 @@ func (imageReference *ImageReference) ConvertToARM(name string, resolvedReferenc
 
 	// Set property ‘Id’:
 	if imageReference.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*imageReference.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*imageReference.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -8872,7 +8874,7 @@ func (imageReference *ImageReference) CreateEmptyARMValue() genruntime.ARMResour
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (imageReference *ImageReference) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (imageReference *ImageReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ImageReferenceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageReferenceARM, got %T", armInput)
@@ -9045,7 +9047,7 @@ func (imageReferenceStatus *ImageReference_Status) CreateEmptyARMValue() genrunt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (imageReferenceStatus *ImageReference_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (imageReferenceStatus *ImageReference_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ImageReference_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageReference_StatusARM, got %T", armInput)
@@ -9229,7 +9231,7 @@ type LinuxConfiguration struct {
 var _ genruntime.ARMTransformer = &LinuxConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (linuxConfiguration *LinuxConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (linuxConfiguration *LinuxConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if linuxConfiguration == nil {
 		return nil, nil
 	}
@@ -9243,7 +9245,7 @@ func (linuxConfiguration *LinuxConfiguration) ConvertToARM(name string, resolved
 
 	// Set property ‘PatchSettings’:
 	if linuxConfiguration.PatchSettings != nil {
-		patchSettingsARM, err := (*linuxConfiguration.PatchSettings).ConvertToARM(name, resolvedReferences)
+		patchSettingsARM, err := (*linuxConfiguration.PatchSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9259,7 +9261,7 @@ func (linuxConfiguration *LinuxConfiguration) ConvertToARM(name string, resolved
 
 	// Set property ‘Ssh’:
 	if linuxConfiguration.Ssh != nil {
-		sshARM, err := (*linuxConfiguration.Ssh).ConvertToARM(name, resolvedReferences)
+		sshARM, err := (*linuxConfiguration.Ssh).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -9275,7 +9277,7 @@ func (linuxConfiguration *LinuxConfiguration) CreateEmptyARMValue() genruntime.A
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (linuxConfiguration *LinuxConfiguration) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (linuxConfiguration *LinuxConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(LinuxConfigurationARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxConfigurationARM, got %T", armInput)
@@ -9447,7 +9449,7 @@ func (linuxConfigurationStatus *LinuxConfiguration_Status) CreateEmptyARMValue()
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (linuxConfigurationStatus *LinuxConfiguration_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (linuxConfigurationStatus *LinuxConfiguration_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(LinuxConfiguration_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxConfiguration_StatusARM, got %T", armInput)
@@ -9614,7 +9616,7 @@ type TerminateNotificationProfile struct {
 var _ genruntime.ARMTransformer = &TerminateNotificationProfile{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (terminateNotificationProfile *TerminateNotificationProfile) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (terminateNotificationProfile *TerminateNotificationProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if terminateNotificationProfile == nil {
 		return nil, nil
 	}
@@ -9640,7 +9642,7 @@ func (terminateNotificationProfile *TerminateNotificationProfile) CreateEmptyARM
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (terminateNotificationProfile *TerminateNotificationProfile) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (terminateNotificationProfile *TerminateNotificationProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(TerminateNotificationProfileARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TerminateNotificationProfileARM, got %T", armInput)
@@ -9733,7 +9735,7 @@ func (terminateNotificationProfileStatus *TerminateNotificationProfile_Status) C
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (terminateNotificationProfileStatus *TerminateNotificationProfile_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (terminateNotificationProfileStatus *TerminateNotificationProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(TerminateNotificationProfile_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TerminateNotificationProfile_StatusARM, got %T", armInput)
@@ -9821,7 +9823,7 @@ type UefiSettings struct {
 var _ genruntime.ARMTransformer = &UefiSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (uefiSettings *UefiSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (uefiSettings *UefiSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if uefiSettings == nil {
 		return nil, nil
 	}
@@ -9847,7 +9849,7 @@ func (uefiSettings *UefiSettings) CreateEmptyARMValue() genruntime.ARMResourceSt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (uefiSettings *UefiSettings) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (uefiSettings *UefiSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(UefiSettingsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UefiSettingsARM, got %T", armInput)
@@ -9940,7 +9942,7 @@ func (uefiSettingsStatus *UefiSettings_Status) CreateEmptyARMValue() genruntime.
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (uefiSettingsStatus *UefiSettings_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (uefiSettingsStatus *UefiSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(UefiSettings_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UefiSettings_StatusARM, got %T", armInput)
@@ -10025,7 +10027,7 @@ type VaultSecretGroup struct {
 var _ genruntime.ARMTransformer = &VaultSecretGroup{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (vaultSecretGroup *VaultSecretGroup) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (vaultSecretGroup *VaultSecretGroup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if vaultSecretGroup == nil {
 		return nil, nil
 	}
@@ -10033,7 +10035,7 @@ func (vaultSecretGroup *VaultSecretGroup) ConvertToARM(name string, resolvedRefe
 
 	// Set property ‘SourceVault’:
 	if vaultSecretGroup.SourceVault != nil {
-		sourceVaultARM, err := (*vaultSecretGroup.SourceVault).ConvertToARM(name, resolvedReferences)
+		sourceVaultARM, err := (*vaultSecretGroup.SourceVault).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10043,7 +10045,7 @@ func (vaultSecretGroup *VaultSecretGroup) ConvertToARM(name string, resolvedRefe
 
 	// Set property ‘VaultCertificates’:
 	for _, item := range vaultSecretGroup.VaultCertificates {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10058,7 +10060,7 @@ func (vaultSecretGroup *VaultSecretGroup) CreateEmptyARMValue() genruntime.ARMRe
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (vaultSecretGroup *VaultSecretGroup) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (vaultSecretGroup *VaultSecretGroup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VaultSecretGroupARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultSecretGroupARM, got %T", armInput)
@@ -10179,7 +10181,7 @@ func (vaultSecretGroupStatus *VaultSecretGroup_Status) CreateEmptyARMValue() gen
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (vaultSecretGroupStatus *VaultSecretGroup_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (vaultSecretGroupStatus *VaultSecretGroup_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VaultSecretGroup_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultSecretGroup_StatusARM, got %T", armInput)
@@ -10330,7 +10332,7 @@ type VirtualMachineScaleSetDataDisk struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetDataDisk{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetDataDisk == nil {
 		return nil, nil
 	}
@@ -10368,7 +10370,7 @@ func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) ConvertToA
 
 	// Set property ‘ManagedDisk’:
 	if virtualMachineScaleSetDataDisk.ManagedDisk != nil {
-		managedDiskARM, err := (*virtualMachineScaleSetDataDisk.ManagedDisk).ConvertToARM(name, resolvedReferences)
+		managedDiskARM, err := (*virtualMachineScaleSetDataDisk.ManagedDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -10396,7 +10398,7 @@ func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) CreateEmpt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetDataDiskARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetDataDiskARM, got %T", armInput)
@@ -10674,7 +10676,7 @@ func (virtualMachineScaleSetDataDiskStatus *VirtualMachineScaleSetDataDisk_Statu
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetDataDiskStatus *VirtualMachineScaleSetDataDisk_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetDataDiskStatus *VirtualMachineScaleSetDataDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetDataDisk_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetDataDisk_StatusARM, got %T", armInput)
@@ -10957,7 +10959,7 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetExtension_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetExtension_StatusARM, got %T", armInput)
@@ -11352,7 +11354,7 @@ func (virtualMachineScaleSetNetworkConfigurationStatus *VirtualMachineScaleSetNe
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetNetworkConfigurationStatus *VirtualMachineScaleSetNetworkConfiguration_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetNetworkConfigurationStatus *VirtualMachineScaleSetNetworkConfiguration_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetNetworkConfiguration_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetNetworkConfiguration_StatusARM, got %T", armInput)
@@ -11691,7 +11693,7 @@ type VirtualMachineScaleSetOSDisk struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetOSDisk{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetOSDisk == nil {
 		return nil, nil
 	}
@@ -11708,7 +11710,7 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) ConvertToARM(n
 
 	// Set property ‘DiffDiskSettings’:
 	if virtualMachineScaleSetOSDisk.DiffDiskSettings != nil {
-		diffDiskSettingsARM, err := (*virtualMachineScaleSetOSDisk.DiffDiskSettings).ConvertToARM(name, resolvedReferences)
+		diffDiskSettingsARM, err := (*virtualMachineScaleSetOSDisk.DiffDiskSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11724,7 +11726,7 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) ConvertToARM(n
 
 	// Set property ‘Image’:
 	if virtualMachineScaleSetOSDisk.Image != nil {
-		imageARM, err := (*virtualMachineScaleSetOSDisk.Image).ConvertToARM(name, resolvedReferences)
+		imageARM, err := (*virtualMachineScaleSetOSDisk.Image).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11734,7 +11736,7 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) ConvertToARM(n
 
 	// Set property ‘ManagedDisk’:
 	if virtualMachineScaleSetOSDisk.ManagedDisk != nil {
-		managedDiskARM, err := (*virtualMachineScaleSetOSDisk.ManagedDisk).ConvertToARM(name, resolvedReferences)
+		managedDiskARM, err := (*virtualMachineScaleSetOSDisk.ManagedDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -11773,7 +11775,7 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) CreateEmptyARM
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetOSDiskARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetOSDiskARM, got %T", armInput)
@@ -12116,7 +12118,7 @@ func (virtualMachineScaleSetOSDiskStatus *VirtualMachineScaleSetOSDisk_Status) C
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetOSDiskStatus *VirtualMachineScaleSetOSDisk_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetOSDiskStatus *VirtualMachineScaleSetOSDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetOSDisk_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetOSDisk_StatusARM, got %T", armInput)
@@ -12420,7 +12422,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProf
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions == nil {
 		return nil, nil
 	}
@@ -12460,7 +12462,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM, got %T", armInput)
@@ -12640,7 +12642,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations == nil {
 		return nil, nil
 	}
@@ -12660,7 +12662,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM{}
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.DnsSettings != nil {
-		dnsSettingsARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.DnsSettings).ConvertToARM(name, resolvedReferences)
+		dnsSettingsARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.DnsSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12680,14 +12682,14 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties.EnableIPForwarding = &enableIPForwarding
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.IpConfigurations {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, itemARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM))
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.NetworkSecurityGroup != nil {
-		networkSecurityGroupARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.NetworkSecurityGroup).ConvertToARM(name, resolvedReferences)
+		networkSecurityGroupARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.NetworkSecurityGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -12707,7 +12709,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM, got %T", armInput)
@@ -13027,7 +13029,7 @@ type WindowsConfiguration struct {
 var _ genruntime.ARMTransformer = &WindowsConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (windowsConfiguration *WindowsConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (windowsConfiguration *WindowsConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if windowsConfiguration == nil {
 		return nil, nil
 	}
@@ -13035,7 +13037,7 @@ func (windowsConfiguration *WindowsConfiguration) ConvertToARM(name string, reso
 
 	// Set property ‘AdditionalUnattendContent’:
 	for _, item := range windowsConfiguration.AdditionalUnattendContent {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -13050,7 +13052,7 @@ func (windowsConfiguration *WindowsConfiguration) ConvertToARM(name string, reso
 
 	// Set property ‘PatchSettings’:
 	if windowsConfiguration.PatchSettings != nil {
-		patchSettingsARM, err := (*windowsConfiguration.PatchSettings).ConvertToARM(name, resolvedReferences)
+		patchSettingsARM, err := (*windowsConfiguration.PatchSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -13072,7 +13074,7 @@ func (windowsConfiguration *WindowsConfiguration) ConvertToARM(name string, reso
 
 	// Set property ‘WinRM’:
 	if windowsConfiguration.WinRM != nil {
-		winRMARM, err := (*windowsConfiguration.WinRM).ConvertToARM(name, resolvedReferences)
+		winRMARM, err := (*windowsConfiguration.WinRM).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -13088,7 +13090,7 @@ func (windowsConfiguration *WindowsConfiguration) CreateEmptyARMValue() genrunti
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (windowsConfiguration *WindowsConfiguration) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (windowsConfiguration *WindowsConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(WindowsConfigurationARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsConfigurationARM, got %T", armInput)
@@ -13336,7 +13338,7 @@ func (windowsConfigurationStatus *WindowsConfiguration_Status) CreateEmptyARMVal
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (windowsConfigurationStatus *WindowsConfiguration_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (windowsConfigurationStatus *WindowsConfiguration_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(WindowsConfiguration_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsConfiguration_StatusARM, got %T", armInput)
@@ -13561,7 +13563,7 @@ type AdditionalUnattendContent struct {
 var _ genruntime.ARMTransformer = &AdditionalUnattendContent{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (additionalUnattendContent *AdditionalUnattendContent) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (additionalUnattendContent *AdditionalUnattendContent) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if additionalUnattendContent == nil {
 		return nil, nil
 	}
@@ -13599,7 +13601,7 @@ func (additionalUnattendContent *AdditionalUnattendContent) CreateEmptyARMValue(
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (additionalUnattendContent *AdditionalUnattendContent) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (additionalUnattendContent *AdditionalUnattendContent) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AdditionalUnattendContentARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalUnattendContentARM, got %T", armInput)
@@ -13743,7 +13745,7 @@ func (additionalUnattendContentStatus *AdditionalUnattendContent_Status) CreateE
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (additionalUnattendContentStatus *AdditionalUnattendContent_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (additionalUnattendContentStatus *AdditionalUnattendContent_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AdditionalUnattendContent_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalUnattendContent_StatusARM, got %T", armInput)
@@ -13899,7 +13901,7 @@ type DiffDiskSettings struct {
 var _ genruntime.ARMTransformer = &DiffDiskSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (diffDiskSettings *DiffDiskSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (diffDiskSettings *DiffDiskSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if diffDiskSettings == nil {
 		return nil, nil
 	}
@@ -13925,7 +13927,7 @@ func (diffDiskSettings *DiffDiskSettings) CreateEmptyARMValue() genruntime.ARMRe
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (diffDiskSettings *DiffDiskSettings) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (diffDiskSettings *DiffDiskSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DiffDiskSettingsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiffDiskSettingsARM, got %T", armInput)
@@ -14024,7 +14026,7 @@ func (diffDiskSettingsStatus *DiffDiskSettings_Status) CreateEmptyARMValue() gen
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (diffDiskSettingsStatus *DiffDiskSettings_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (diffDiskSettingsStatus *DiffDiskSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DiffDiskSettings_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiffDiskSettings_StatusARM, got %T", armInput)
@@ -14110,7 +14112,7 @@ type LinuxPatchSettings struct {
 var _ genruntime.ARMTransformer = &LinuxPatchSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (linuxPatchSettings *LinuxPatchSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (linuxPatchSettings *LinuxPatchSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if linuxPatchSettings == nil {
 		return nil, nil
 	}
@@ -14130,7 +14132,7 @@ func (linuxPatchSettings *LinuxPatchSettings) CreateEmptyARMValue() genruntime.A
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (linuxPatchSettings *LinuxPatchSettings) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (linuxPatchSettings *LinuxPatchSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(LinuxPatchSettingsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxPatchSettingsARM, got %T", armInput)
@@ -14199,7 +14201,7 @@ func (linuxPatchSettingsStatus *LinuxPatchSettings_Status) CreateEmptyARMValue()
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (linuxPatchSettingsStatus *LinuxPatchSettings_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (linuxPatchSettingsStatus *LinuxPatchSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(LinuxPatchSettings_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxPatchSettings_StatusARM, got %T", armInput)
@@ -14274,7 +14276,7 @@ type PatchSettings struct {
 var _ genruntime.ARMTransformer = &PatchSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (patchSettings *PatchSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (patchSettings *PatchSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if patchSettings == nil {
 		return nil, nil
 	}
@@ -14300,7 +14302,7 @@ func (patchSettings *PatchSettings) CreateEmptyARMValue() genruntime.ARMResource
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (patchSettings *PatchSettings) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (patchSettings *PatchSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PatchSettingsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PatchSettingsARM, got %T", armInput)
@@ -14402,7 +14404,7 @@ func (patchSettingsStatus *PatchSettings_Status) CreateEmptyARMValue() genruntim
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (patchSettingsStatus *PatchSettings_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (patchSettingsStatus *PatchSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PatchSettings_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PatchSettings_StatusARM, got %T", armInput)
@@ -14485,7 +14487,7 @@ type SshConfiguration struct {
 var _ genruntime.ARMTransformer = &SshConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sshConfiguration *SshConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (sshConfiguration *SshConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sshConfiguration == nil {
 		return nil, nil
 	}
@@ -14493,7 +14495,7 @@ func (sshConfiguration *SshConfiguration) ConvertToARM(name string, resolvedRefe
 
 	// Set property ‘PublicKeys’:
 	for _, item := range sshConfiguration.PublicKeys {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -14508,7 +14510,7 @@ func (sshConfiguration *SshConfiguration) CreateEmptyARMValue() genruntime.ARMRe
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sshConfiguration *SshConfiguration) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (sshConfiguration *SshConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SshConfigurationARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshConfigurationARM, got %T", armInput)
@@ -14590,7 +14592,7 @@ func (sshConfigurationStatus *SshConfiguration_Status) CreateEmptyARMValue() gen
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sshConfigurationStatus *SshConfiguration_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (sshConfigurationStatus *SshConfiguration_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SshConfiguration_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshConfiguration_StatusARM, got %T", armInput)
@@ -14685,7 +14687,7 @@ type VaultCertificate struct {
 var _ genruntime.ARMTransformer = &VaultCertificate{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (vaultCertificate *VaultCertificate) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (vaultCertificate *VaultCertificate) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if vaultCertificate == nil {
 		return nil, nil
 	}
@@ -14711,7 +14713,7 @@ func (vaultCertificate *VaultCertificate) CreateEmptyARMValue() genruntime.ARMRe
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (vaultCertificate *VaultCertificate) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (vaultCertificate *VaultCertificate) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VaultCertificateARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultCertificateARM, got %T", armInput)
@@ -14817,7 +14819,7 @@ func (vaultCertificateStatus *VaultCertificate_Status) CreateEmptyARMValue() gen
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (vaultCertificateStatus *VaultCertificate_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (vaultCertificateStatus *VaultCertificate_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VaultCertificate_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultCertificate_StatusARM, got %T", armInput)
@@ -14899,7 +14901,7 @@ type VirtualHardDisk struct {
 var _ genruntime.ARMTransformer = &VirtualHardDisk{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualHardDisk *VirtualHardDisk) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualHardDisk *VirtualHardDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualHardDisk == nil {
 		return nil, nil
 	}
@@ -14919,7 +14921,7 @@ func (virtualHardDisk *VirtualHardDisk) CreateEmptyARMValue() genruntime.ARMReso
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualHardDisk *VirtualHardDisk) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualHardDisk *VirtualHardDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualHardDiskARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualHardDiskARM, got %T", armInput)
@@ -14984,7 +14986,7 @@ func (virtualHardDiskStatus *VirtualHardDisk_Status) CreateEmptyARMValue() genru
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualHardDiskStatus *VirtualHardDisk_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualHardDiskStatus *VirtualHardDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualHardDisk_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualHardDisk_StatusARM, got %T", armInput)
@@ -15108,7 +15110,7 @@ func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfi
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfiguration_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfiguration_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetIPConfiguration_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetIPConfiguration_StatusARM, got %T", armInput)
@@ -15480,7 +15482,7 @@ type VirtualMachineScaleSetManagedDiskParameters struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetManagedDiskParameters{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManagedDiskParameters) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManagedDiskParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetManagedDiskParameters == nil {
 		return nil, nil
 	}
@@ -15488,7 +15490,7 @@ func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManaged
 
 	// Set property ‘DiskEncryptionSet’:
 	if virtualMachineScaleSetManagedDiskParameters.DiskEncryptionSet != nil {
-		diskEncryptionSetARM, err := (*virtualMachineScaleSetManagedDiskParameters.DiskEncryptionSet).ConvertToARM(name, resolvedReferences)
+		diskEncryptionSetARM, err := (*virtualMachineScaleSetManagedDiskParameters.DiskEncryptionSet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15510,7 +15512,7 @@ func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManaged
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManagedDiskParameters) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManagedDiskParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetManagedDiskParametersARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetManagedDiskParametersARM, got %T", armInput)
@@ -15616,7 +15618,7 @@ func (virtualMachineScaleSetManagedDiskParametersStatus *VirtualMachineScaleSetM
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetManagedDiskParametersStatus *VirtualMachineScaleSetManagedDiskParameters_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetManagedDiskParametersStatus *VirtualMachineScaleSetManagedDiskParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetManagedDiskParameters_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetManagedDiskParameters_StatusARM, got %T", armInput)
@@ -15711,7 +15713,7 @@ type VirtualMachineScaleSetNetworkConfigurationDnsSettings struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetNetworkConfigurationDnsSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetNetworkConfigurationDnsSettings == nil {
 		return nil, nil
 	}
@@ -15730,7 +15732,7 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScale
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM, got %T", armInput)
@@ -15796,7 +15798,7 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus *VirtualMachin
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetNetworkConfigurationDnsSettings_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetNetworkConfigurationDnsSettings_StatusARM, got %T", armInput)
@@ -15931,7 +15933,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations == nil {
 		return nil, nil
 	}
@@ -15951,28 +15953,28 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM{}
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.ApplicationGatewayBackendAddressPools = append(result.Properties.ApplicationGatewayBackendAddressPools, itemARM.(SubResourceARM))
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationSecurityGroups {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, itemARM.(SubResourceARM))
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerBackendAddressPools {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.LoadBalancerBackendAddressPools = append(result.Properties.LoadBalancerBackendAddressPools, itemARM.(SubResourceARM))
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerInboundNatPools {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15987,7 +15989,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.PublicIPAddressConfiguration != nil {
-		publicIPAddressConfigurationARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.PublicIPAddressConfiguration).ConvertToARM(name, resolvedReferences)
+		publicIPAddressConfigurationARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.PublicIPAddressConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -15995,7 +15997,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties.PublicIPAddressConfiguration = &publicIPAddressConfiguration
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.Subnet != nil {
-		subnetARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.Subnet).ConvertToARM(name, resolvedReferences)
+		subnetARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.Subnet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -16011,7 +16013,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM, got %T", armInput)
@@ -16375,7 +16377,7 @@ type WinRMConfiguration struct {
 var _ genruntime.ARMTransformer = &WinRMConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (winRMConfiguration *WinRMConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (winRMConfiguration *WinRMConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if winRMConfiguration == nil {
 		return nil, nil
 	}
@@ -16383,7 +16385,7 @@ func (winRMConfiguration *WinRMConfiguration) ConvertToARM(name string, resolved
 
 	// Set property ‘Listeners’:
 	for _, item := range winRMConfiguration.Listeners {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -16398,7 +16400,7 @@ func (winRMConfiguration *WinRMConfiguration) CreateEmptyARMValue() genruntime.A
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (winRMConfiguration *WinRMConfiguration) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (winRMConfiguration *WinRMConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(WinRMConfigurationARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMConfigurationARM, got %T", armInput)
@@ -16479,7 +16481,7 @@ func (winRMConfigurationStatus *WinRMConfiguration_Status) CreateEmptyARMValue()
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (winRMConfigurationStatus *WinRMConfiguration_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (winRMConfigurationStatus *WinRMConfiguration_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(WinRMConfiguration_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMConfiguration_StatusARM, got %T", armInput)
@@ -16614,7 +16616,7 @@ type DiskEncryptionSetParameters struct {
 var _ genruntime.ARMTransformer = &DiskEncryptionSetParameters{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (diskEncryptionSetParameters *DiskEncryptionSetParameters) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (diskEncryptionSetParameters *DiskEncryptionSetParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if diskEncryptionSetParameters == nil {
 		return nil, nil
 	}
@@ -16622,7 +16624,7 @@ func (diskEncryptionSetParameters *DiskEncryptionSetParameters) ConvertToARM(nam
 
 	// Set property ‘Id’:
 	if diskEncryptionSetParameters.Reference != nil {
-		referenceARMID, err := resolvedReferences.ARMIDOrErr(*diskEncryptionSetParameters.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*diskEncryptionSetParameters.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -16638,7 +16640,7 @@ func (diskEncryptionSetParameters *DiskEncryptionSetParameters) CreateEmptyARMVa
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (diskEncryptionSetParameters *DiskEncryptionSetParameters) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (diskEncryptionSetParameters *DiskEncryptionSetParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	_, ok := armInput.(DiskEncryptionSetParametersARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskEncryptionSetParametersARM, got %T", armInput)
@@ -16734,7 +16736,7 @@ type SshPublicKey struct {
 var _ genruntime.ARMTransformer = &SshPublicKey{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sshPublicKey *SshPublicKey) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (sshPublicKey *SshPublicKey) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sshPublicKey == nil {
 		return nil, nil
 	}
@@ -16760,7 +16762,7 @@ func (sshPublicKey *SshPublicKey) CreateEmptyARMValue() genruntime.ARMResourceSt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sshPublicKey *SshPublicKey) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (sshPublicKey *SshPublicKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SshPublicKeyARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshPublicKeyARM, got %T", armInput)
@@ -16855,7 +16857,7 @@ func (sshPublicKeyStatus *SshPublicKey_Status) CreateEmptyARMValue() genruntime.
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sshPublicKeyStatus *SshPublicKey_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (sshPublicKeyStatus *SshPublicKey_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SshPublicKey_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshPublicKey_StatusARM, got %T", armInput)
@@ -16989,7 +16991,7 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationStatus *VirtualMachineSc
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetPublicIPAddressConfigurationStatus *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetPublicIPAddressConfigurationStatus *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetPublicIPAddressConfiguration_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetPublicIPAddressConfiguration_StatusARM, got %T", armInput)
@@ -17232,7 +17234,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration == nil {
 		return nil, nil
 	}
@@ -17246,7 +17248,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties = &VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesARM{}
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.DnsSettings != nil {
-		dnsSettingsARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.DnsSettings).ConvertToARM(name, resolvedReferences)
+		dnsSettingsARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.DnsSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -17258,7 +17260,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 	for _, item := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.IpTags {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -17269,7 +17271,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 		result.Properties.PublicIPAddressVersion = &publicIPAddressVersion
 	}
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.PublicIPPrefix != nil {
-		publicIPPrefixARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.PublicIPPrefix).ConvertToARM(name, resolvedReferences)
+		publicIPPrefixARM, err := (*virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.PublicIPPrefix).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -17285,7 +17287,7 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM, got %T", armInput)
@@ -17520,7 +17522,7 @@ type WinRMListener struct {
 var _ genruntime.ARMTransformer = &WinRMListener{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (winRMListener *WinRMListener) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (winRMListener *WinRMListener) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if winRMListener == nil {
 		return nil, nil
 	}
@@ -17546,7 +17548,7 @@ func (winRMListener *WinRMListener) CreateEmptyARMValue() genruntime.ARMResource
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (winRMListener *WinRMListener) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (winRMListener *WinRMListener) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(WinRMListenerARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMListenerARM, got %T", armInput)
@@ -17649,7 +17651,7 @@ func (winRMListenerStatus *WinRMListener_Status) CreateEmptyARMValue() genruntim
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (winRMListenerStatus *WinRMListener_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (winRMListenerStatus *WinRMListener_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(WinRMListener_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMListener_StatusARM, got %T", armInput)
@@ -17734,7 +17736,7 @@ type VirtualMachineScaleSetIpTag struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetIpTag{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetIpTag == nil {
 		return nil, nil
 	}
@@ -17760,7 +17762,7 @@ func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) CreateEmptyARMVa
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetIpTagARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetIpTagARM, got %T", armInput)
@@ -17850,7 +17852,7 @@ func (virtualMachineScaleSetIpTagStatus *VirtualMachineScaleSetIpTag_Status) Cre
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetIpTagStatus *VirtualMachineScaleSetIpTag_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetIpTagStatus *VirtualMachineScaleSetIpTag_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetIpTag_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetIpTag_StatusARM, got %T", armInput)
@@ -17935,7 +17937,7 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings struct {
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings == nil {
 		return nil, nil
 	}
@@ -17952,7 +17954,7 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMach
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM, got %T", armInput)
@@ -18012,7 +18014,7 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus *Virtu
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_StatusARM, got %T", armInput)

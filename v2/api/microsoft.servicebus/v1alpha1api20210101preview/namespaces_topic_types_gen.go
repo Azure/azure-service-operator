@@ -5,10 +5,10 @@ package v1alpha1api20210101preview
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.servicebus/v1alpha1api20210101previewstorage"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -324,7 +324,7 @@ type NamespacesTopics_Spec struct {
 var _ genruntime.ARMTransformer = &NamespacesTopics_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if namespacesTopicsSpec == nil {
 		return nil, nil
 	}
@@ -340,7 +340,7 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(name string, res
 	}
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if namespacesTopicsSpec.AutoDeleteOnIdle != nil {
@@ -399,7 +399,7 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) CreateEmptyARMValue() genrunt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (namespacesTopicsSpec *NamespacesTopics_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (namespacesTopicsSpec *NamespacesTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(NamespacesTopics_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesTopics_SpecARM, got %T", armInput)
@@ -464,7 +464,9 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Owner’:
-	namespacesTopicsSpec.Owner = owner
+	namespacesTopicsSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘RequiresDuplicateDetection’:
 	// copying flattened property:
@@ -899,7 +901,7 @@ func (sbTopicStatus *SBTopic_Status) CreateEmptyARMValue() genruntime.ARMResourc
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SBTopic_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBTopic_StatusARM, got %T", armInput)

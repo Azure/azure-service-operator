@@ -11,7 +11,7 @@ Licensed under the MIT license.
 package v1alpha1api20210101
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
