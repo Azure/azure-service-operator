@@ -4222,8 +4222,8 @@ func (ipAddressOrRange *IpAddressOrRange) AssignPropertiesFromIpAddressOrRange(s
 
 	// IpAddressOrRange
 	if source.IpAddressOrRange != nil {
-		ipAddressOrRange := *source.IpAddressOrRange
-		ipAddressOrRange.IpAddressOrRange = &ipAddressOrRange
+		ipAddressOrRangeTemp := *source.IpAddressOrRange
+		ipAddressOrRange.IpAddressOrRange = &ipAddressOrRangeTemp
 	} else {
 		ipAddressOrRange.IpAddressOrRange = nil
 	}
@@ -4239,8 +4239,8 @@ func (ipAddressOrRange *IpAddressOrRange) AssignPropertiesToIpAddressOrRange(des
 
 	// IpAddressOrRange
 	if ipAddressOrRange.IpAddressOrRange != nil {
-		ipAddressOrRange := *ipAddressOrRange.IpAddressOrRange
-		destination.IpAddressOrRange = &ipAddressOrRange
+		ipAddressOrRangeTemp := *ipAddressOrRange.IpAddressOrRange
+		destination.IpAddressOrRange = &ipAddressOrRangeTemp
 	} else {
 		destination.IpAddressOrRange = nil
 	}
