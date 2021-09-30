@@ -35,10 +35,14 @@
 | DatabaseAccountGetResultsStatusKind                           | v1alpha1api20210515 |
 | DatabaseAccountGetResults_Status                              | v1alpha1api20210515 |
 | DatabaseAccountOfferType_Status                               | v1alpha1api20210515 |
+| DatabaseAccountsMongodbDatabase                               | v1alpha1api20210515 |
 | DatabaseAccountsMongodbDatabasesCollection                    | v1alpha1api20210515 |
 | DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion     | v1alpha1api20210515 |
 | DatabaseAccountsMongodbDatabasesCollectionsSpecType           | v1alpha1api20210515 |
 | DatabaseAccountsMongodbDatabasesCollections_Spec              | v1alpha1api20210515 |
+| DatabaseAccountsMongodbDatabasesSpecAPIVersion                | v1alpha1api20210515 |
+| DatabaseAccountsMongodbDatabasesSpecType                      | v1alpha1api20210515 |
+| DatabaseAccountsMongodbDatabases_Spec                         | v1alpha1api20210515 |
 | DatabaseAccountsSpecAPIVersion                                | v1alpha1api20210515 |
 | DatabaseAccountsSpecKind                                      | v1alpha1api20210515 |
 | DatabaseAccountsSpecType                                      | v1alpha1api20210515 |
@@ -58,6 +62,11 @@
 | MongoDBCollectionGetProperties_Status_Resource                | v1alpha1api20210515 |
 | MongoDBCollectionGetResults_Status                            | v1alpha1api20210515 |
 | MongoDBCollectionResource                                     | v1alpha1api20210515 |
+| MongoDBDatabaseCreateUpdateProperties                         | v1alpha1api20210515 |
+| MongoDBDatabaseGetProperties_Status                           | v1alpha1api20210515 |
+| MongoDBDatabaseGetProperties_Status_Resource                  | v1alpha1api20210515 |
+| MongoDBDatabaseGetResults_Status                              | v1alpha1api20210515 |
+| MongoDBDatabaseResource                                       | v1alpha1api20210515 |
 | MongoIndex                                                    | v1alpha1api20210515 |
 | MongoIndexKeys                                                | v1alpha1api20210515 |
 | MongoIndexKeys_Status                                         | v1alpha1api20210515 |

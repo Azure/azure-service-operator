@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-import "github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccountsMongodbDatabasesCollections_SpecARM struct {
 	//APIVersion: API Version of the resource type, optional when apiProfile is used

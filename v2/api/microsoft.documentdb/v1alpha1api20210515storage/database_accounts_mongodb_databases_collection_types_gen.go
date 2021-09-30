@@ -4,8 +4,8 @@
 package v1alpha1api20210515storage
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -128,7 +128,7 @@ var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollections_
 // ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollections_Spec from the provided source
 func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == databaseAccountsMongodbDatabasesCollectionsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(databaseAccountsMongodbDatabasesCollectionsSpec)
@@ -137,7 +137,7 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollections_Spec
 func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == databaseAccountsMongodbDatabasesCollectionsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(databaseAccountsMongodbDatabasesCollectionsSpec)
@@ -162,7 +162,7 @@ var _ genruntime.ConvertibleStatus = &MongoDBCollectionGetResults_Status{}
 // ConvertStatusFrom populates our MongoDBCollectionGetResults_Status from the provided source
 func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == mongoDBCollectionGetResultsStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(mongoDBCollectionGetResultsStatus)
@@ -171,18 +171,10 @@ func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) Con
 // ConvertStatusTo populates the provided destination from our MongoDBCollectionGetResults_Status
 func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == mongoDBCollectionGetResultsStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(mongoDBCollectionGetResultsStatus)
-}
-
-//Storage version of v1alpha1api20210515.CreateUpdateOptions
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions
-type CreateUpdateOptions struct {
-	AutoscaleSettings *AutoscaleSettings     `json:"autoscaleSettings,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Throughput        *int                   `json:"throughput,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.MongoDBCollectionGetProperties_Status_Resource
@@ -205,28 +197,6 @@ type MongoDBCollectionResource struct {
 	Indexes              []MongoIndex           `json:"indexes,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ShardKey             map[string]string      `json:"shardKey,omitempty"`
-}
-
-//Storage version of v1alpha1api20210515.OptionsResource_Status
-//Generated from:
-type OptionsResource_Status struct {
-	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
-	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	Throughput        *int                      `json:"throughput,omitempty"`
-}
-
-//Storage version of v1alpha1api20210515.AutoscaleSettings
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings
-type AutoscaleSettings struct {
-	MaxThroughput *int                   `json:"maxThroughput,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-//Storage version of v1alpha1api20210515.AutoscaleSettings_Status
-//Generated from:
-type AutoscaleSettings_Status struct {
-	MaxThroughput *int                   `json:"maxThroughput,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.MongoIndex

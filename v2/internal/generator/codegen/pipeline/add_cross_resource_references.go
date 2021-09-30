@@ -221,7 +221,11 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 			propName: "Id",
 		}: true,
 		{
-			typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.documentdb", "v1alpha1api20210515"), "MongoDBCollectionResource"),
+			typeName: astmodel.MakeTypeName(documentDB20210515, "MongoDBCollectionResource"),
+			propName: "Id",
+		}: false,
+		{
+			typeName: astmodel.MakeTypeName(documentDB20210515, "MongoDBDatabaseResource"),
 			propName: "Id",
 		}: false,
 		// Storage

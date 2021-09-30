@@ -5,10 +5,10 @@ package v1alpha1api20210515
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.documentdb/v1alpha1api20210515storage"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -302,7 +302,7 @@ type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
 var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabasesCollections_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if databaseAccountsMongodbDatabasesCollectionsSpec == nil {
 		return nil, nil
 	}
@@ -318,18 +318,18 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 	}
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if databaseAccountsMongodbDatabasesCollectionsSpec.Options != nil {
-		optionsARM, err := (*databaseAccountsMongodbDatabasesCollectionsSpec.Options).ConvertToARM(name, resolvedReferences)
+		optionsARM, err := (*databaseAccountsMongodbDatabasesCollectionsSpec.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		options := optionsARM.(CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
-	resourceARM, err := databaseAccountsMongodbDatabasesCollectionsSpec.Resource.ConvertToARM(name, resolvedReferences)
+	resourceARM, err := databaseAccountsMongodbDatabasesCollectionsSpec.Resource.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
@@ -354,7 +354,7 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDatabasesCollections_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDatabasesCollections_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DatabaseAccountsMongodbDatabasesCollections_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsMongodbDatabasesCollections_SpecARM, got %T", armInput)
@@ -382,7 +382,9 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 	}
 
 	// Set property ‘Owner’:
-	databaseAccountsMongodbDatabasesCollectionsSpec.Owner = owner
+	databaseAccountsMongodbDatabasesCollectionsSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
@@ -655,7 +657,7 @@ func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) Cre
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(MongoDBCollectionGetResults_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBCollectionGetResults_StatusARM, got %T", armInput)
@@ -894,133 +896,6 @@ func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) Ass
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions
-type CreateUpdateOptions struct {
-	AutoscaleSettings *AutoscaleSettings `json:"autoscaleSettings,omitempty"`
-
-	//Throughput: Request Units per second. For example, "throughput": 10000.
-	Throughput *int `json:"throughput,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &CreateUpdateOptions{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (createUpdateOptions *CreateUpdateOptions) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
-	if createUpdateOptions == nil {
-		return nil, nil
-	}
-	var result CreateUpdateOptionsARM
-
-	// Set property ‘AutoscaleSettings’:
-	if createUpdateOptions.AutoscaleSettings != nil {
-		autoscaleSettingsARM, err := (*createUpdateOptions.AutoscaleSettings).ConvertToARM(name, resolvedReferences)
-		if err != nil {
-			return nil, err
-		}
-		autoscaleSettings := autoscaleSettingsARM.(AutoscaleSettingsARM)
-		result.AutoscaleSettings = &autoscaleSettings
-	}
-
-	// Set property ‘Throughput’:
-	if createUpdateOptions.Throughput != nil {
-		throughput := *createUpdateOptions.Throughput
-		result.Throughput = &throughput
-	}
-	return result, nil
-}
-
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (createUpdateOptions *CreateUpdateOptions) CreateEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CreateUpdateOptionsARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (createUpdateOptions *CreateUpdateOptions) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CreateUpdateOptionsARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CreateUpdateOptionsARM, got %T", armInput)
-	}
-
-	// Set property ‘AutoscaleSettings’:
-	if typedInput.AutoscaleSettings != nil {
-		var autoscaleSettings1 AutoscaleSettings
-		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
-		if err != nil {
-			return err
-		}
-		autoscaleSettings := autoscaleSettings1
-		createUpdateOptions.AutoscaleSettings = &autoscaleSettings
-	}
-
-	// Set property ‘Throughput’:
-	if typedInput.Throughput != nil {
-		throughput := *typedInput.Throughput
-		createUpdateOptions.Throughput = &throughput
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromCreateUpdateOptions populates our CreateUpdateOptions from the provided source CreateUpdateOptions
-func (createUpdateOptions *CreateUpdateOptions) AssignPropertiesFromCreateUpdateOptions(source *v1alpha1api20210515storage.CreateUpdateOptions) error {
-
-	// AutoscaleSettings
-	if source.AutoscaleSettings != nil {
-		var autoscaleSetting AutoscaleSettings
-		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettings(source.AutoscaleSettings)
-		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesFromAutoscaleSettings()")
-		}
-		createUpdateOptions.AutoscaleSettings = &autoscaleSetting
-	} else {
-		createUpdateOptions.AutoscaleSettings = nil
-	}
-
-	// Throughput
-	if source.Throughput != nil {
-		throughput := *source.Throughput
-		createUpdateOptions.Throughput = &throughput
-	} else {
-		createUpdateOptions.Throughput = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToCreateUpdateOptions populates the provided destination CreateUpdateOptions from our CreateUpdateOptions
-func (createUpdateOptions *CreateUpdateOptions) AssignPropertiesToCreateUpdateOptions(destination *v1alpha1api20210515storage.CreateUpdateOptions) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AutoscaleSettings
-	if createUpdateOptions.AutoscaleSettings != nil {
-		var autoscaleSetting v1alpha1api20210515storage.AutoscaleSettings
-		err := (*createUpdateOptions.AutoscaleSettings).AssignPropertiesToAutoscaleSettings(&autoscaleSetting)
-		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesToAutoscaleSettings()")
-		}
-		destination.AutoscaleSettings = &autoscaleSetting
-	} else {
-		destination.AutoscaleSettings = nil
-	}
-
-	// Throughput
-	if createUpdateOptions.Throughput != nil {
-		throughput := *createUpdateOptions.Throughput
-		destination.Throughput = &throughput
-	} else {
-		destination.Throughput = nil
-	}
-
-	// Update the property bag
-	destination.PropertyBag = propertyBag
-
-	// No error
-	return nil
-}
-
 type MongoDBCollectionGetProperties_Status_Resource struct {
 	//AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
@@ -1055,7 +930,7 @@ func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperti
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperties_Status_Resource) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperties_Status_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(MongoDBCollectionGetProperties_Status_ResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBCollectionGetProperties_Status_ResourceARM, got %T", armInput)
@@ -1141,12 +1016,12 @@ func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperti
 	for index, indexItem := range source.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index1 MongoIndex_Status
-		err := index1.AssignPropertiesFromMongoIndexStatus(&indexItem)
+		var indexLocal MongoIndex_Status
+		err := indexLocal.AssignPropertiesFromMongoIndexStatus(&indexItem)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromMongoIndexStatus()")
 		}
-		indexList[index] = index1
+		indexList[index] = indexLocal
 	}
 	mongoDBCollectionGetPropertiesStatusResource.Indexes = indexList
 
@@ -1209,12 +1084,12 @@ func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperti
 	for index, indexItem := range mongoDBCollectionGetPropertiesStatusResource.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index1 v1alpha1api20210515storage.MongoIndex_Status
-		err := indexItem.AssignPropertiesToMongoIndexStatus(&index1)
+		var indexLocal v1alpha1api20210515storage.MongoIndex_Status
+		err := indexItem.AssignPropertiesToMongoIndexStatus(&indexLocal)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToMongoIndexStatus()")
 		}
-		indexList[index] = index1
+		indexList[index] = indexLocal
 	}
 	destination.Indexes = indexList
 
@@ -1270,7 +1145,7 @@ type MongoDBCollectionResource struct {
 var _ genruntime.ARMTransformer = &MongoDBCollectionResource{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (mongoDBCollectionResource *MongoDBCollectionResource) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (mongoDBCollectionResource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if mongoDBCollectionResource == nil {
 		return nil, nil
 	}
@@ -1287,7 +1162,7 @@ func (mongoDBCollectionResource *MongoDBCollectionResource) ConvertToARM(name st
 
 	// Set property ‘Indexes’:
 	for _, item := range mongoDBCollectionResource.Indexes {
-		itemARM, err := item.ConvertToARM(name, resolvedReferences)
+		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1310,7 +1185,7 @@ func (mongoDBCollectionResource *MongoDBCollectionResource) CreateEmptyARMValue(
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (mongoDBCollectionResource *MongoDBCollectionResource) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (mongoDBCollectionResource *MongoDBCollectionResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(MongoDBCollectionResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBCollectionResourceARM, got %T", armInput)
@@ -1370,12 +1245,12 @@ func (mongoDBCollectionResource *MongoDBCollectionResource) AssignPropertiesFrom
 	for index, indexItem := range source.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index1 MongoIndex
-		err := index1.AssignPropertiesFromMongoIndex(&indexItem)
+		var indexLocal MongoIndex
+		err := indexLocal.AssignPropertiesFromMongoIndex(&indexItem)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromMongoIndex()")
 		}
-		indexList[index] = index1
+		indexList[index] = indexLocal
 	}
 	mongoDBCollectionResource.Indexes = indexList
 
@@ -1414,12 +1289,12 @@ func (mongoDBCollectionResource *MongoDBCollectionResource) AssignPropertiesToMo
 	for index, indexItem := range mongoDBCollectionResource.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index1 v1alpha1api20210515storage.MongoIndex
-		err := indexItem.AssignPropertiesToMongoIndex(&index1)
+		var indexLocal v1alpha1api20210515storage.MongoIndex
+		err := indexItem.AssignPropertiesToMongoIndex(&indexLocal)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToMongoIndex()")
 		}
-		indexList[index] = index1
+		indexList[index] = indexLocal
 	}
 	destination.Indexes = indexList
 
@@ -1431,255 +1306,6 @@ func (mongoDBCollectionResource *MongoDBCollectionResource) AssignPropertiesToMo
 		shardKeyMap[shardKey] = shardKeyValue
 	}
 	destination.ShardKey = shardKeyMap
-
-	// Update the property bag
-	destination.PropertyBag = propertyBag
-
-	// No error
-	return nil
-}
-
-//Generated from:
-type OptionsResource_Status struct {
-	//AutoscaleSettings: Specifies the Autoscale settings.
-	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
-
-	//Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use
-	//the ThroughputSetting resource when retrieving offer details.
-	Throughput *int `json:"throughput,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &OptionsResource_Status{}
-
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (optionsResourceStatus *OptionsResource_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OptionsResource_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (optionsResourceStatus *OptionsResource_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OptionsResource_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OptionsResource_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘AutoscaleSettings’:
-	if typedInput.AutoscaleSettings != nil {
-		var autoscaleSettings1 AutoscaleSettings_Status
-		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
-		if err != nil {
-			return err
-		}
-		autoscaleSettings := autoscaleSettings1
-		optionsResourceStatus.AutoscaleSettings = &autoscaleSettings
-	}
-
-	// Set property ‘Throughput’:
-	if typedInput.Throughput != nil {
-		throughput := *typedInput.Throughput
-		optionsResourceStatus.Throughput = &throughput
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromOptionsResourceStatus populates our OptionsResource_Status from the provided source OptionsResource_Status
-func (optionsResourceStatus *OptionsResource_Status) AssignPropertiesFromOptionsResourceStatus(source *v1alpha1api20210515storage.OptionsResource_Status) error {
-
-	// AutoscaleSettings
-	if source.AutoscaleSettings != nil {
-		var autoscaleSetting AutoscaleSettings_Status
-		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettingsStatus(source.AutoscaleSettings)
-		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesFromAutoscaleSettingsStatus()")
-		}
-		optionsResourceStatus.AutoscaleSettings = &autoscaleSetting
-	} else {
-		optionsResourceStatus.AutoscaleSettings = nil
-	}
-
-	// Throughput
-	if source.Throughput != nil {
-		throughput := *source.Throughput
-		optionsResourceStatus.Throughput = &throughput
-	} else {
-		optionsResourceStatus.Throughput = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToOptionsResourceStatus populates the provided destination OptionsResource_Status from our OptionsResource_Status
-func (optionsResourceStatus *OptionsResource_Status) AssignPropertiesToOptionsResourceStatus(destination *v1alpha1api20210515storage.OptionsResource_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AutoscaleSettings
-	if optionsResourceStatus.AutoscaleSettings != nil {
-		var autoscaleSetting v1alpha1api20210515storage.AutoscaleSettings_Status
-		err := (*optionsResourceStatus.AutoscaleSettings).AssignPropertiesToAutoscaleSettingsStatus(&autoscaleSetting)
-		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesToAutoscaleSettingsStatus()")
-		}
-		destination.AutoscaleSettings = &autoscaleSetting
-	} else {
-		destination.AutoscaleSettings = nil
-	}
-
-	// Throughput
-	if optionsResourceStatus.Throughput != nil {
-		throughput := *optionsResourceStatus.Throughput
-		destination.Throughput = &throughput
-	} else {
-		destination.Throughput = nil
-	}
-
-	// Update the property bag
-	destination.PropertyBag = propertyBag
-
-	// No error
-	return nil
-}
-
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings
-type AutoscaleSettings struct {
-	//MaxThroughput: Represents maximum throughput, the resource can scale up to.
-	MaxThroughput *int `json:"maxThroughput,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &AutoscaleSettings{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (autoscaleSettings *AutoscaleSettings) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
-	if autoscaleSettings == nil {
-		return nil, nil
-	}
-	var result AutoscaleSettingsARM
-
-	// Set property ‘MaxThroughput’:
-	if autoscaleSettings.MaxThroughput != nil {
-		maxThroughput := *autoscaleSettings.MaxThroughput
-		result.MaxThroughput = &maxThroughput
-	}
-	return result, nil
-}
-
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoscaleSettings *AutoscaleSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoscaleSettingsARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (autoscaleSettings *AutoscaleSettings) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoscaleSettingsARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettingsARM, got %T", armInput)
-	}
-
-	// Set property ‘MaxThroughput’:
-	if typedInput.MaxThroughput != nil {
-		maxThroughput := *typedInput.MaxThroughput
-		autoscaleSettings.MaxThroughput = &maxThroughput
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromAutoscaleSettings populates our AutoscaleSettings from the provided source AutoscaleSettings
-func (autoscaleSettings *AutoscaleSettings) AssignPropertiesFromAutoscaleSettings(source *v1alpha1api20210515storage.AutoscaleSettings) error {
-
-	// MaxThroughput
-	if source.MaxThroughput != nil {
-		maxThroughput := *source.MaxThroughput
-		autoscaleSettings.MaxThroughput = &maxThroughput
-	} else {
-		autoscaleSettings.MaxThroughput = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAutoscaleSettings populates the provided destination AutoscaleSettings from our AutoscaleSettings
-func (autoscaleSettings *AutoscaleSettings) AssignPropertiesToAutoscaleSettings(destination *v1alpha1api20210515storage.AutoscaleSettings) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MaxThroughput
-	if autoscaleSettings.MaxThroughput != nil {
-		maxThroughput := *autoscaleSettings.MaxThroughput
-		destination.MaxThroughput = &maxThroughput
-	} else {
-		destination.MaxThroughput = nil
-	}
-
-	// Update the property bag
-	destination.PropertyBag = propertyBag
-
-	// No error
-	return nil
-}
-
-//Generated from:
-type AutoscaleSettings_Status struct {
-	//MaxThroughput: Represents maximum throughput, the resource can scale up to.
-	MaxThroughput *int `json:"maxThroughput,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &AutoscaleSettings_Status{}
-
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoscaleSettingsStatus *AutoscaleSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoscaleSettings_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (autoscaleSettingsStatus *AutoscaleSettings_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoscaleSettings_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettings_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘MaxThroughput’:
-	if typedInput.MaxThroughput != nil {
-		maxThroughput := *typedInput.MaxThroughput
-		autoscaleSettingsStatus.MaxThroughput = &maxThroughput
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromAutoscaleSettingsStatus populates our AutoscaleSettings_Status from the provided source AutoscaleSettings_Status
-func (autoscaleSettingsStatus *AutoscaleSettings_Status) AssignPropertiesFromAutoscaleSettingsStatus(source *v1alpha1api20210515storage.AutoscaleSettings_Status) error {
-
-	// MaxThroughput
-	if source.MaxThroughput != nil {
-		maxThroughput := *source.MaxThroughput
-		autoscaleSettingsStatus.MaxThroughput = &maxThroughput
-	} else {
-		autoscaleSettingsStatus.MaxThroughput = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAutoscaleSettingsStatus populates the provided destination AutoscaleSettings_Status from our AutoscaleSettings_Status
-func (autoscaleSettingsStatus *AutoscaleSettings_Status) AssignPropertiesToAutoscaleSettingsStatus(destination *v1alpha1api20210515storage.AutoscaleSettings_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MaxThroughput
-	if autoscaleSettingsStatus.MaxThroughput != nil {
-		maxThroughput := *autoscaleSettingsStatus.MaxThroughput
-		destination.MaxThroughput = &maxThroughput
-	} else {
-		destination.MaxThroughput = nil
-	}
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -1700,7 +1326,7 @@ type MongoIndex struct {
 var _ genruntime.ARMTransformer = &MongoIndex{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (mongoIndex *MongoIndex) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (mongoIndex *MongoIndex) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if mongoIndex == nil {
 		return nil, nil
 	}
@@ -1708,7 +1334,7 @@ func (mongoIndex *MongoIndex) ConvertToARM(name string, resolvedReferences genru
 
 	// Set property ‘Key’:
 	if mongoIndex.Key != nil {
-		keyARM, err := (*mongoIndex.Key).ConvertToARM(name, resolvedReferences)
+		keyARM, err := (*mongoIndex.Key).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1718,7 +1344,7 @@ func (mongoIndex *MongoIndex) ConvertToARM(name string, resolvedReferences genru
 
 	// Set property ‘Options’:
 	if mongoIndex.Options != nil {
-		optionsARM, err := (*mongoIndex.Options).ConvertToARM(name, resolvedReferences)
+		optionsARM, err := (*mongoIndex.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1734,7 +1360,7 @@ func (mongoIndex *MongoIndex) CreateEmptyARMValue() genruntime.ARMResourceStatus
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (mongoIndex *MongoIndex) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (mongoIndex *MongoIndex) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(MongoIndexARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexARM, got %T", armInput)
@@ -1850,7 +1476,7 @@ func (mongoIndexStatus *MongoIndex_Status) CreateEmptyARMValue() genruntime.ARMR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (mongoIndexStatus *MongoIndex_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (mongoIndexStatus *MongoIndex_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(MongoIndex_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndex_StatusARM, got %T", armInput)
@@ -1958,7 +1584,7 @@ type MongoIndexKeys struct {
 var _ genruntime.ARMTransformer = &MongoIndexKeys{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (mongoIndexKeys *MongoIndexKeys) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (mongoIndexKeys *MongoIndexKeys) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if mongoIndexKeys == nil {
 		return nil, nil
 	}
@@ -1977,7 +1603,7 @@ func (mongoIndexKeys *MongoIndexKeys) CreateEmptyARMValue() genruntime.ARMResour
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (mongoIndexKeys *MongoIndexKeys) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (mongoIndexKeys *MongoIndexKeys) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(MongoIndexKeysARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexKeysARM, got %T", armInput)
@@ -2043,7 +1669,7 @@ func (mongoIndexKeysStatus *MongoIndexKeys_Status) CreateEmptyARMValue() genrunt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (mongoIndexKeysStatus *MongoIndexKeys_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (mongoIndexKeysStatus *MongoIndexKeys_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(MongoIndexKeys_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexKeys_StatusARM, got %T", armInput)
@@ -2107,7 +1733,7 @@ type MongoIndexOptions struct {
 var _ genruntime.ARMTransformer = &MongoIndexOptions{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (mongoIndexOptions *MongoIndexOptions) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (mongoIndexOptions *MongoIndexOptions) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if mongoIndexOptions == nil {
 		return nil, nil
 	}
@@ -2133,7 +1759,7 @@ func (mongoIndexOptions *MongoIndexOptions) CreateEmptyARMValue() genruntime.ARM
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (mongoIndexOptions *MongoIndexOptions) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (mongoIndexOptions *MongoIndexOptions) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(MongoIndexOptionsARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexOptionsARM, got %T", armInput)
@@ -2223,7 +1849,7 @@ func (mongoIndexOptionsStatus *MongoIndexOptions_Status) CreateEmptyARMValue() g
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (mongoIndexOptionsStatus *MongoIndexOptions_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (mongoIndexOptionsStatus *MongoIndexOptions_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(MongoIndexOptions_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexOptions_StatusARM, got %T", armInput)
