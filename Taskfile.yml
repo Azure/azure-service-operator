@@ -274,7 +274,7 @@ tasks:
     deps: [controller:generate-kustomize]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./controllers" -run 'TestTargetNamespaces' ./controllers
+    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -run 'TestTargetNamespaces' ./internal/controller/controllers
     env:
       AZURE_TARGET_NAMESPACES: "default,watched"
 
@@ -284,8 +284,8 @@ tasks:
     deps: [controller:generate-kustomize]
     cmds:
     # -race fails at the moment in controller-runtime
-    - AZURE_OPERATOR_MODE=watchers go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./controllers" -run 'TestOperatorMode' ./controllers
-    - AZURE_OPERATOR_MODE=webhooks go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./controllers" -run 'TestOperatorMode' ./controllers
+    - AZURE_OPERATOR_MODE=watchers go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -run 'TestOperatorMode' ./internal/controller/controllers
+    - AZURE_OPERATOR_MODE=webhooks go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -run 'TestOperatorMode' ./internal/controller/controllers
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
