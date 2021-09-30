@@ -96,7 +96,6 @@ func NewPropertyAssignmentFunction(
 	result.writesToPropertyBag = writesToPropertyBag
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
-		WithKnownLocals(knownLocals).
 		WithDirection(direction).
 		WithPropertyBag(propertyBagName)
 

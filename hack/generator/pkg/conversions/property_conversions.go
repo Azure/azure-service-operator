@@ -420,11 +420,10 @@ func assignFromOptional(
 	// statement (a nested scope) and we don't want any variables declared in that scope to leak
 	// out elsewhere.
 	unwrappedEndpoint := sourceEndpoint.WithType(sourceOptional.Element())
-	nestedContext := conversionContext.NestedContext()
 	conversion, _ := CreateTypeConversion(
 		unwrappedEndpoint,
 		destinationEndpoint,
-		nestedContext)
+		conversionContext)
 	if conversion == nil {
 		return nil
 	}
@@ -782,11 +781,10 @@ func assignArrayFromArray(
 	// (a nested scope) and we don't want any variables declared in that scope to leak out elsewhere.
 	unwrappedSourceEndpoint := sourceEndpoint.WithType(sourceArray.Element())
 	unwrappedDestinationEndpoint := destinationEndpoint.WithType(destinationArray.Element())
-	nestedContext := conversionContext.NestedContext()
 	conversion, _ := CreateTypeConversion(
 		unwrappedSourceEndpoint,
 		unwrappedDestinationEndpoint,
-		nestedContext)
+		conversionContext)
 	if conversion == nil {
 		return nil
 	}
@@ -882,11 +880,10 @@ func assignMapFromMap(
 	// (a nested scope) and we don't want any variables declared in that scope to leak out elsewhere.
 	unwrappedSourceEndpoint := sourceEndpoint.WithType(sourceMap.ValueType())
 	unwrappedDestinationEndpoint := destinationEndpoint.WithType(destinationMap.ValueType())
-	nestedContext := conversionContext.NestedContext()
 	conversion, _ := CreateTypeConversion(
 		unwrappedSourceEndpoint,
 		unwrappedDestinationEndpoint,
-		nestedContext)
+		conversionContext)
 	if conversion == nil {
 		return nil
 	}
