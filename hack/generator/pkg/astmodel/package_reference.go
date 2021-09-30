@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	genRuntimePathPrefix = "github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
+	genRuntimePathPrefix = "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	GroupSuffix          = ".azure.com"
 )
 
