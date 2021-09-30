@@ -21,12 +21,12 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 		// Shadow the loop variable to avoid aliasing
 		keyValue := keyValue
 		if keyValue != nil {
-			var key1 Release
-			err := key1.AssignPropertiesFromRelease(keyValue)
+			var keyLocal Release
+			err := keyLocal.AssignPropertiesFromRelease(keyValue)
 			if err != nil {
 				return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesFromRelease()")
 			}
-			keysMap[key] = &key1
+			keysMap[key] = &keyLocal
 		} else {
 			keysMap[key] = nil
 		}
@@ -46,12 +46,12 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 		// Shadow the loop variable to avoid aliasing
 		keyValue := keyValue
 		if keyValue != nil {
-			var key1 Release
-			err := key1.AssignPropertiesToRelease(keyValue)
+			var keyLocal Release
+			err := keyLocal.AssignPropertiesToRelease(keyValue)
 			if err != nil {
 				return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesToRelease()")
 			}
-			keysMap[key] = &key1
+			keysMap[key] = &keyLocal
 		} else {
 			keysMap[key] = nil
 		}

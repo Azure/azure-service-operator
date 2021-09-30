@@ -1115,7 +1115,7 @@ func assignObjectFromObject(
 	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-		copyVar := knownLocals.CreateSingularLocal(destinationEndpoint.Name())
+		copyVar := knownLocals.CreateSingularLocal(destinationEndpoint.Name(), "", "Local", "Copy", "Temp")
 
 		// We have to do this at render time in order to ensure the first conversion generated
 		// declares 'err', not a later one

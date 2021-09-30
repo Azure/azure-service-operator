@@ -20,12 +20,12 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 	for index, indexItem := range source.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index1 Release
-		err := index1.AssignPropertiesFromRelease(&indexItem)
+		var indexLocal Release
+		err := indexLocal.AssignPropertiesFromRelease(&indexItem)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromRelease()")
 		}
-		indexesList[index] = index1
+		indexesList[index] = indexLocal
 	}
 	person.Indexes = indexesList
 
@@ -41,12 +41,12 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 	for index, indexItem := range person.Indexes {
 		// Shadow the loop variable to avoid aliasing
 		indexItem := indexItem
-		var index1 vNext.Release
-		err := indexItem.AssignPropertiesToRelease(&index1)
+		var indexLocal vNext.Release
+		err := indexItem.AssignPropertiesToRelease(&indexLocal)
 		if err != nil {
 			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToRelease()")
 		}
-		indexesList[index] = index1
+		indexesList[index] = indexLocal
 	}
 	destination.Indexes = indexesList
 

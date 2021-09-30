@@ -20,12 +20,12 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 	for key, keyValue := range source.Keys {
 		// Shadow the loop variable to avoid aliasing
 		keyValue := keyValue
-		var key1 Release
-		err := key1.AssignPropertiesFromRelease(&keyValue)
+		var keyLocal Release
+		err := keyLocal.AssignPropertiesFromRelease(&keyValue)
 		if err != nil {
 			return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesFromRelease()")
 		}
-		keysMap[key] = key1
+		keysMap[key] = keyLocal
 	}
 	person.Keys = keysMap
 
@@ -41,12 +41,12 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 	for key, keyValue := range person.Keys {
 		// Shadow the loop variable to avoid aliasing
 		keyValue := keyValue
-		var key1 vNext.Release
-		err := keyValue.AssignPropertiesToRelease(&key1)
+		var keyLocal vNext.Release
+		err := keyValue.AssignPropertiesToRelease(&keyLocal)
 		if err != nil {
 			return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesToRelease()")
 		}
-		keysMap[key] = key1
+		keysMap[key] = keyLocal
 	}
 	destination.Keys = keysMap
 
