@@ -13,13 +13,13 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Scores
-	scoresList := make([]int, len(source.Scores))
+	scoreList := make([]int, len(source.Scores))
 	for scoreIndex, scoreItem := range source.Scores {
 		// Shadow the loop variable to avoid aliasing
 		scoreItem := scoreItem
-		scoresList[scoreIndex] = scoreItem
+		scoreList[scoreIndex] = scoreItem
 	}
-	person.Scores = scoresList
+	person.Scores = scoreList
 
 	// No error
 	return nil
@@ -29,13 +29,13 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// Scores
-	scoresList := make([]int, len(person.Scores))
+	scoreList := make([]int, len(person.Scores))
 	for scoreIndex, scoreItem := range person.Scores {
 		// Shadow the loop variable to avoid aliasing
 		scoreItem := scoreItem
-		scoresList[scoreIndex] = scoreItem
+		scoreList[scoreIndex] = scoreItem
 	}
-	destination.Scores = scoresList
+	destination.Scores = scoreList
 
 	// No error
 	return nil

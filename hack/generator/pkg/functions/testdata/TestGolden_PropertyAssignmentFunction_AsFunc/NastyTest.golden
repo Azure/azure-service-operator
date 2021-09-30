@@ -13,25 +13,25 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// nasty
-	nastiesMap := make(map[string][]map[string]bool)
+	nastyMap := make(map[string][]map[string]bool)
 	for nastyKey, nastyValue := range source.nasty {
 		// Shadow the loop variable to avoid aliasing
 		nastyValue := nastyValue
-		nastiesList := make([]map[string]bool, len(nastyValue))
+		nastyList := make([]map[string]bool, len(nastyValue))
 		for nastyIndex, nastyItem := range nastyValue {
 			// Shadow the loop variable to avoid aliasing
 			nastyItem := nastyItem
-			nastiesMap1 := make(map[string]bool)
+			nastyMap1 := make(map[string]bool)
 			for nastyKey1, nastyValue1 := range nastyItem {
 				// Shadow the loop variable to avoid aliasing
 				nastyValue1 := nastyValue1
-				nastiesMap1[nastyKey1] = nastyValue1
+				nastyMap1[nastyKey1] = nastyValue1
 			}
-			nastiesList[nastyIndex] = nastiesMap1
+			nastyList[nastyIndex] = nastyMap1
 		}
-		nastiesMap[nastyKey] = nastiesList
+		nastyMap[nastyKey] = nastyList
 	}
-	person.nasty = nastiesMap
+	person.nasty = nastyMap
 
 	// No error
 	return nil
@@ -41,25 +41,25 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// nasty
-	nastiesMap := make(map[string][]map[string]bool)
+	nastyMap := make(map[string][]map[string]bool)
 	for nastyKey, nastyValue := range person.nasty {
 		// Shadow the loop variable to avoid aliasing
 		nastyValue := nastyValue
-		nastiesList := make([]map[string]bool, len(nastyValue))
+		nastyList := make([]map[string]bool, len(nastyValue))
 		for nastyIndex, nastyItem := range nastyValue {
 			// Shadow the loop variable to avoid aliasing
 			nastyItem := nastyItem
-			nastiesMap1 := make(map[string]bool)
+			nastyMap1 := make(map[string]bool)
 			for nastyKey1, nastyValue1 := range nastyItem {
 				// Shadow the loop variable to avoid aliasing
 				nastyValue1 := nastyValue1
-				nastiesMap1[nastyKey1] = nastyValue1
+				nastyMap1[nastyKey1] = nastyValue1
 			}
-			nastiesList[nastyIndex] = nastiesMap1
+			nastyList[nastyIndex] = nastyMap1
 		}
-		nastiesMap[nastyKey] = nastiesList
+		nastyMap[nastyKey] = nastyList
 	}
-	destination.nasty = nastiesMap
+	destination.nasty = nastyMap
 
 	// No error
 	return nil

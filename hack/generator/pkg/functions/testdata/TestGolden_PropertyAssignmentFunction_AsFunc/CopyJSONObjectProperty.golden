@@ -16,13 +16,13 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// JSONObject
-	jsonObjectsMap := make(map[string]v1.JSON)
+	jsonObjectMap := make(map[string]v1.JSON)
 	for jsonObjectKey, jsonObjectValue := range source.JSONObject {
 		// Shadow the loop variable to avoid aliasing
 		jsonObjectValue := jsonObjectValue
-		jsonObjectsMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
+		jsonObjectMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
 	}
-	person.JSONObject = jsonObjectsMap
+	person.JSONObject = jsonObjectMap
 
 	// No error
 	return nil
@@ -32,13 +32,13 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// JSONObject
-	jsonObjectsMap := make(map[string]v1.JSON)
+	jsonObjectMap := make(map[string]v1.JSON)
 	for jsonObjectKey, jsonObjectValue := range person.JSONObject {
 		// Shadow the loop variable to avoid aliasing
 		jsonObjectValue := jsonObjectValue
-		jsonObjectsMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
+		jsonObjectMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
 	}
-	destination.JSONObject = jsonObjectsMap
+	destination.JSONObject = jsonObjectMap
 
 	// No error
 	return nil

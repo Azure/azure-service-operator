@@ -16,7 +16,7 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Keys
-	keysMap := make(map[string]Release)
+	keyMap := make(map[string]Release)
 	for key, keyValue := range source.Keys {
 		// Shadow the loop variable to avoid aliasing
 		keyValue := keyValue
@@ -25,9 +25,9 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 		if err != nil {
 			return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesFromRelease()")
 		}
-		keysMap[key] = keyLocal
+		keyMap[key] = keyLocal
 	}
-	person.Keys = keysMap
+	person.Keys = keyMap
 
 	// No error
 	return nil
@@ -37,7 +37,7 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// Keys
-	keysMap := make(map[string]vNext.Release)
+	keyMap := make(map[string]vNext.Release)
 	for key, keyValue := range person.Keys {
 		// Shadow the loop variable to avoid aliasing
 		keyValue := keyValue
@@ -46,9 +46,9 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 		if err != nil {
 			return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesToRelease()")
 		}
-		keysMap[key] = keyLocal
+		keyMap[key] = keyLocal
 	}
-	destination.Keys = keysMap
+	destination.Keys = keyMap
 
 	// No error
 	return nil
