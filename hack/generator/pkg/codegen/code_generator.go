@@ -238,7 +238,7 @@ func (generator *CodeGenerator) verifyPipeline() error {
 	var errs []error
 
 	// Set of stages that we've already seen, used to confirm prerequisites
-	stagesSeen := make(map[string]struct{})
+	stagesSeen := astmodel.MakeStringSet()
 
 	// Set of stages we expect to see, each associated with a slice containing the earlier stages that expected each
 	stagesExpected := make(map[string][]string)
@@ -250,14 +250,14 @@ func (generator *CodeGenerator) verifyPipeline() error {
 		}
 
 		for _, postreq := range stage.Postrequisites() {
-			if _, ok := stagesSeen[postreq]; ok {
+			if stagesSeen.Contains(postreq) {
 				errs = append(errs, errors.Errorf("postrequisite %q of stage %q satisfied too early", postreq, stage.Id()))
 			} else {
 				stagesExpected[postreq] = append(stagesExpected[postreq], stage.Id())
 			}
 		}
 
-		stagesSeen[stage.Id()] = struct{}{}
+		stagesSeen.Add(stage.Id())
 		delete(stagesExpected, stage.Id())
 	}
 
