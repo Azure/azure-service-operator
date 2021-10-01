@@ -115,6 +115,11 @@ func (m *MapType) String() string {
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (m *MapType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	if m == nil {
+		builder.WriteString("<nilMap>")
+		return
+	}
+
 	builder.WriteString("Map[")
 	m.key.WriteDebugDescription(builder, types)
 	builder.WriteString("]")

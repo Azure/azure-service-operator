@@ -77,3 +77,50 @@ func TestWriteDebugDescription(t *testing.T) {
 		})
 	}
 }
+
+// TestWriteDebugDescriptionNils ensures that WriteDebugDescription() doesn't panic even if called on a nil reference,
+//(this is a diagnostic method that should pretty much always do something useful)
+func TestWriteDebugDescriptionNils(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	var buffer strings.Builder
+
+	// We call WriteDebugDescription on a bunch of zero variables
+	// Declarations are based on the receiver used for the implementation of WriteDebugDescription()
+
+	var p *PrimitiveType
+	g.Expect(func() { p.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+
+	var o *OptionalType
+	g.Expect(func() { o.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+
+	var a *ArrayType
+	g.Expect(func() { a.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+
+	var m *MapType
+	g.Expect(func() { m.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+
+	var e *EnumType
+	g.Expect(func() { e.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+
+	var f *FlaggedType
+	g.Expect(func() { f.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+
+	var n TypeName
+	g.Expect(func() { n.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+
+	var all *AllOfType
+	g.Expect(func() { all.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+
+	var one *OneOfType
+	g.Expect(func() { one.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+
+	var obj *ObjectType
+	g.Expect(func() { obj.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+
+	var rsrc *ResourceType
+	g.Expect(func() { rsrc.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+
+	var v ValidatedType
+	g.Expect(func() { v.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
+}
