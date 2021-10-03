@@ -30,8 +30,8 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 			modifiedTypes, err := astmodel.FindResourceTypes(state.Types()).Process(
 				func(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
 					rsrc, _ := astmodel.AsResourceType(def.Type())
-					hub, ok := state.ConversionGraph().FindHub(def.Name(), state.Types())
-					if !ok {
+					hub := state.ConversionGraph().FindHub(def.Name(), state.Types())
+					if def.Name().Equals(hub) {
 						// The hub storage version doesn't implement Convertible
 						return nil, nil
 					}

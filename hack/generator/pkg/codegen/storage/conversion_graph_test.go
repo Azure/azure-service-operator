@@ -85,17 +85,16 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 		name         string
 		start        astmodel.TypeName
 		expectedName astmodel.TypeName
-		expectedOk   bool
 	}{
-		{"Hub type returns nothing", personHub, astmodel.TypeName{}, false},
-		{"Directly linked api resolves", person2022.Name(), personHub, true},
-		{"Directly linked storage resolves", person2021s.Name(), personHub, true},
-		{"Doubly linked api resolves", person2021.Name(), personHub, true},
-		{"Indirectly linked api resolves", person2020.Name(), personHub, true},
-		{"Indirectly linked storage resolves", person2020s.Name(), personHub, true},
-		{"Hub type returns nothing even when resource does not exist in latest package", addressHub, astmodel.TypeName{}, false},
-		{"Directly linked api resolves when resource does not exist in latest package", address2021.Name(), addressHub, true},
-		{"Indirectly linked api resolves when resource does not exist in latest package", address2020.Name(), addressHub, true},
+		{"Hub type returns self", personHub, personHub},
+		{"Directly linked api resolves", person2022.Name(), personHub},
+		{"Directly linked storage resolves", person2021s.Name(), personHub},
+		{"Doubly linked api resolves", person2021.Name(), personHub},
+		{"Indirectly linked api resolves", person2020.Name(), personHub},
+		{"Indirectly linked storage resolves", person2020s.Name(), personHub},
+		{"Hub type returns self even when resource does not exist in latest package", addressHub, addressHub},
+		{"Directly linked api resolves when resource does not exist in latest package", address2021.Name(), addressHub},
+		{"Indirectly linked api resolves when resource does not exist in latest package", address2020.Name(), addressHub},
 	}
 
 	t.Parallel()
@@ -105,11 +104,8 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 			g := NewGomegaWithT(t)
 			t.Parallel()
 
-			actual, ok := graph.FindHub(c.start, types)
-			g.Expect(ok).To(Equal(c.expectedOk))
-			if ok {
-				g.Expect(actual).To(Equal(c.expectedName))
-			}
+			actual := graph.FindHub(c.start, types)
+			g.Expect(actual).To(Equal(c.expectedName))
 		})
 	}
 }

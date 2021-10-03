@@ -67,22 +67,19 @@ func (graph *ConversionGraph) FindNext(name astmodel.TypeName, types astmodel.Ty
 // persisted using that hub type. This is done by following links in the conversion graph until we either reach the end
 // or we find that a newer version of the type does not exist.
 // Returns the hub type and true if found; an empty name and false if not.
-// If the name passed in is for the hub type for the given resource, no hub type will be found.
-func (graph *ConversionGraph) FindHub(name astmodel.TypeName, types astmodel.Types) (astmodel.TypeName, bool) {
+func (graph *ConversionGraph) FindHub(name astmodel.TypeName, types astmodel.Types) astmodel.TypeName {
 	// Look for the hub step
-	hub, ok := graph.FindNext(name, types)
-	if !ok {
-		// Not found, name is already have the hub type
-		return astmodel.TypeName{}, false
+	result := name
+	for {
+		hub, ok := graph.FindNext(result, types)
+		if !ok {
+			break
+		}
+
+		result = hub
 	}
 
-	// Look for a hub further on and return that if we found one
-	if h, ok := graph.FindHub(hub, types); ok {
-		return h, true
-	}
-
-	// Return the hub we found earlier
-	return hub, true
+	return result
 }
 
 // TransitionCount returns the number of transitions in the graph
