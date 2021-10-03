@@ -155,7 +155,7 @@ var _ genruntime.ConvertibleStatus = &DatabaseAccountGetResults_Status{}
 // ConvertStatusFrom populates our DatabaseAccountGetResults_Status from the provided source
 func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == databaseAccountGetResultsStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(databaseAccountGetResultsStatus)
@@ -164,7 +164,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) Convert
 // ConvertStatusTo populates the provided destination from our DatabaseAccountGetResults_Status
 func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == databaseAccountGetResultsStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(databaseAccountGetResultsStatus)
@@ -218,7 +218,7 @@ var _ genruntime.ConvertibleSpec = &DatabaseAccounts_Spec{}
 // ConvertSpecFrom populates our DatabaseAccounts_Spec from the provided source
 func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == databaseAccountsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(databaseAccountsSpec)
@@ -227,7 +227,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertSpecFrom(source genrun
 // ConvertSpecTo populates the provided destination from our DatabaseAccounts_Spec
 func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == databaseAccountsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(databaseAccountsSpec)

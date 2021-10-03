@@ -130,7 +130,7 @@ var _ genruntime.ConvertibleSpec = &Namespaces_Spec{}
 // ConvertSpecFrom populates our Namespaces_Spec from the provided source
 func (namespacesSpec *Namespaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == namespacesSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(namespacesSpec)
@@ -139,7 +139,7 @@ func (namespacesSpec *Namespaces_Spec) ConvertSpecFrom(source genruntime.Convert
 // ConvertSpecTo populates the provided destination from our Namespaces_Spec
 func (namespacesSpec *Namespaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == namespacesSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(namespacesSpec)
@@ -174,7 +174,7 @@ var _ genruntime.ConvertibleStatus = &SBNamespace_Status{}
 // ConvertStatusFrom populates our SBNamespace_Status from the provided source
 func (sbNamespaceStatus *SBNamespace_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == sbNamespaceStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(sbNamespaceStatus)
@@ -183,7 +183,7 @@ func (sbNamespaceStatus *SBNamespace_Status) ConvertStatusFrom(source genruntime
 // ConvertStatusTo populates the provided destination from our SBNamespace_Status
 func (sbNamespaceStatus *SBNamespace_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == sbNamespaceStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(sbNamespaceStatus)

@@ -137,7 +137,7 @@ var _ genruntime.ConvertibleSpec = &NamespacesTopics_Spec{}
 // ConvertSpecFrom populates our NamespacesTopics_Spec from the provided source
 func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == namespacesTopicsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(namespacesTopicsSpec)
@@ -146,7 +146,7 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecFrom(source genrun
 // ConvertSpecTo populates the provided destination from our NamespacesTopics_Spec
 func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == namespacesTopicsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(namespacesTopicsSpec)
@@ -184,7 +184,7 @@ var _ genruntime.ConvertibleStatus = &SBTopic_Status{}
 // ConvertStatusFrom populates our SBTopic_Status from the provided source
 func (sbTopicStatus *SBTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == sbTopicStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(sbTopicStatus)
@@ -193,7 +193,7 @@ func (sbTopicStatus *SBTopic_Status) ConvertStatusFrom(source genruntime.Convert
 // ConvertStatusTo populates the provided destination from our SBTopic_Status
 func (sbTopicStatus *SBTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == sbTopicStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(sbTopicStatus)
