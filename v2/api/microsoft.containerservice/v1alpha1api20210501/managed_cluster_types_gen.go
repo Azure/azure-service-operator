@@ -12191,7 +12191,7 @@ func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) AssignP
 	// ProvisioningInfo
 	if managedClusterPodIdentityStatus.ProvisioningInfo != nil {
 		var provisioningInfo v1alpha1api20210501storage.ManagedClusterPodIdentity_Status_ProvisioningInfo
-		err := (*managedClusterPodIdentityStatus.ProvisioningInfo).AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo(&provisioningInfo)
+		err = (*managedClusterPodIdentityStatus.ProvisioningInfo).AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo(&provisioningInfo)
 		if err != nil {
 			return errors.Wrap(err, "populating ProvisioningInfo from ProvisioningInfo, calling AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo()")
 		}

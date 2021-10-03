@@ -6,8 +6,6 @@
 package conversions
 
 import (
-	"github.com/gobuffalo/flect"
-
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
@@ -20,10 +18,7 @@ type PropertyConversionContext struct {
 	functionName string
 	// direction is the direction of the conversion we're generating
 	direction Direction
-	// knownLocals is a reference to our set of local variables
-	// (Pointer because it's a reference type, not because it's optional)
-	knownLocals *astmodel.KnownLocalsSet
-	// propertyBagName is the name of the local variable used for a property bag (or "" if we don't have one)
+	// propertyBagName is the name of the local variable used for a property bag, or "" if we don't have one
 	propertyBagName string
 	// idFactory is used for generating method names
 	idFactory astmodel.IdentifierFactory
@@ -34,7 +29,6 @@ func NewPropertyConversionContext(types astmodel.Types, idFactory astmodel.Ident
 	return &PropertyConversionContext{
 		types:           types,
 		idFactory:       idFactory,
-		knownLocals:     astmodel.NewKnownLocalsSet(idFactory),
 		propertyBagName: "",
 	}
 }
@@ -61,13 +55,6 @@ func (c *PropertyConversionContext) WithFunctionName(name string) *PropertyConve
 	return result
 }
 
-// WithKnownLocals returns a new context with the specified known locals set referenced
-func (c *PropertyConversionContext) WithKnownLocals(knownLocals *astmodel.KnownLocalsSet) *PropertyConversionContext {
-	result := c.clone()
-	result.knownLocals = knownLocals
-	return result
-}
-
 // WithDirection returns a new context with the specified direction
 func (c *PropertyConversionContext) WithDirection(dir Direction) *PropertyConversionContext {
 	result := c.clone()
@@ -79,13 +66,6 @@ func (c *PropertyConversionContext) WithDirection(dir Direction) *PropertyConver
 func (c *PropertyConversionContext) WithPropertyBag(name string) *PropertyConversionContext {
 	result := c.clone()
 	result.propertyBagName = name
-	return result
-}
-
-// NestedContext returns a new context with a cloned knownLocals so that nested blocks
-// can declare and reuse locals independently of each other.
-func (c *PropertyConversionContext) NestedContext() *PropertyConversionContext {
-	result := c.clone()
 	return result
 }
 
@@ -105,30 +85,9 @@ func (c *PropertyConversionContext) ResolveType(t astmodel.Type) (astmodel.TypeN
 	return name, actualType, true
 }
 
-// TryCreateLocal returns true if the specified local was successfully created, false if it already existed
-func (c *PropertyConversionContext) TryCreateLocal(local string) bool {
-	if c.knownLocals.HasName(local) {
-		return false
-	}
-
-	c.knownLocals.Add(local)
-	return true
-}
-
-// CreateLocal creates a new unique Go local variable with one of the specified suffixes.
-func (c *PropertyConversionContext) CreateLocal(nameHint string, suffixes ...string) string {
-	hint := flect.Singularize(nameHint)
-	return c.knownLocals.CreateLocal(hint, suffixes...)
-}
-
 // PropertyBagName returns the name to use for a local property bag variable
 func (c *PropertyConversionContext) PropertyBagName() string {
 	return c.propertyBagName
-}
-
-// KnownLocals returns a reference to our set of known local variables
-func (c *PropertyConversionContext) KnownLocals() *astmodel.KnownLocalsSet {
-	return c.knownLocals
 }
 
 // clone returns a new independent copy of this context
@@ -137,7 +96,6 @@ func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 		types:           c.types,
 		functionName:    c.functionName,
 		direction:       c.direction,
-		knownLocals:     c.knownLocals.Clone(),
 		propertyBagName: c.propertyBagName,
 		idFactory:       c.idFactory,
 	}
