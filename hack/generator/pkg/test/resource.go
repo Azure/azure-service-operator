@@ -56,3 +56,12 @@ func CreateObjectDefinition(
 		typeName,
 		astmodel.NewObjectType().WithProperties(properties...))
 }
+
+func CreateSimpleResource(
+	pkg astmodel.PackageReference,
+	name string,
+	specProperties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
+	spec := CreateSpec(pkg, name, specProperties...)
+	status := CreateStatus(pkg, name)
+	return CreateResource(pkg, name, spec, status)
+}
