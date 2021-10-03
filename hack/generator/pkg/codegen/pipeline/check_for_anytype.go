@@ -120,7 +120,11 @@ func collectBadPackages(
 	var groupNames []string
 	for groupName := range grouped {
 		// Only complain about this package if it's one we don't know about.
-		expectedPackages.Remove(groupName)
+		if expectedPackages.Contains(groupName) {
+			expectedPackages.Remove(groupName)
+			continue
+		}
+		
 		groupNames = append(groupNames, groupName)
 	}
 	sort.Strings(groupNames)
