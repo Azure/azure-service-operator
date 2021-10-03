@@ -124,7 +124,7 @@ func collectBadPackages(
 			expectedPackages.Remove(groupName)
 			continue
 		}
-		
+
 		groupNames = append(groupNames, groupName)
 	}
 	sort.Strings(groupNames)
