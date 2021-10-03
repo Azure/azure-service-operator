@@ -11,7 +11,6 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/codegen/storage"
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/functions"
 )
 
@@ -28,30 +27,38 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 		func(ctx context.Context, state *State) (*State, error) {
 			injector := astmodel.NewInterfaceInjector()
 
-			modifiedTypes := make(astmodel.Types)
-			resources := astmodel.FindResourceTypes(state.Types())
-			for name, def := range resources {
-				resource, ok := astmodel.AsResourceType(def.Type())
-				if !ok {
-					// Skip non-resources (though, they should be filtered out, above)
-					continue
-				}
-
-				if resource.IsStorageVersion() {
-					// The hub storage version doesn't implement Convertible
-					continue
-				}
-
-				convertible := createConvertibleInterfaceImplementation(
-					name, resource, state.ConversionGraph(), idFactory)
-				if convertible.FunctionCount() > 0 {
-					modified, err := injector.Inject(def, convertible)
-					if err != nil {
-						return nil, errors.Wrapf(err, "injecting Convertible interface into %s", name)
+			modifiedTypes, err := astmodel.FindResourceTypes(state.Types()).Process(
+				func(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
+					rsrc, _ := astmodel.AsResourceType(def.Type())
+					hub := state.ConversionGraph().FindHub(def.Name(), state.Types())
+					if def.Name().Equals(hub) {
+						// The hub storage version doesn't implement Convertible
+						return nil, nil
 					}
 
-					modifiedTypes.Add(modified)
-				}
+					// For each PropertyAssignmentFunction, create a conversion function that uses it
+					var conversionFunctions []astmodel.Function
+					for _, fn := range rsrc.Functions() {
+						if propertyAssignmentFn, ok := fn.(*functions.PropertyAssignmentFunction); ok {
+
+							conversionFn := functions.NewResourceConversionFunction(hub, propertyAssignmentFn, idFactory)
+							conversionFunctions = append(conversionFunctions, conversionFn)
+						}
+					}
+
+					// Create the interface implementation and inject into the rsrc
+					impl := astmodel.NewInterfaceImplementation(astmodel.ConvertibleInterface, conversionFunctions...)
+
+					modified, err := injector.Inject(def, impl)
+					if err != nil {
+						return nil, errors.Wrapf(err, "injecting conversions.Convertible interface into %s", def.Name())
+					}
+
+					return &modified, nil
+				})
+
+			if err != nil {
+				return nil, errors.Wrap(err, "injecting conversions.Convertible implementations")
 			}
 
 			newTypes := state.Types().OverlayWith(modifiedTypes)
@@ -60,26 +67,4 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 
 	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageID)
 	return stage
-}
-
-// createConvertibleInterfaceImplementation creates the required implementation of conversion.Convertible, ready for
-// injection onto the resource. The ConvertTo() and ConvertFrom() methods chain the required conversion between resource
-// versions, but are dependent upon previously injected AssignPropertiesTo() and AssignPropertiesFrom() methods to
-// actually copy information across. See resource_conversion_function.go for more information.
-func createConvertibleInterfaceImplementation(
-	name astmodel.TypeName,
-	resource *astmodel.ResourceType,
-	conversionGraph *storage.ConversionGraph,
-	idFactory astmodel.IdentifierFactory) *astmodel.InterfaceImplementation {
-	var conversionFunctions []astmodel.Function
-
-	for _, fn := range resource.Functions() {
-		if propertyAssignmentFn, ok := fn.(*functions.PropertyAssignmentFunction); ok {
-			hub := conversionGraph.FindHubTypeName(name)
-			conversionFn := functions.NewResourceConversionFunction(hub, propertyAssignmentFn, idFactory)
-			conversionFunctions = append(conversionFunctions, conversionFn)
-		}
-	}
-
-	return astmodel.NewInterfaceImplementation(astmodel.ConvertibleInterface, conversionFunctions...)
 }
