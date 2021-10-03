@@ -98,5 +98,10 @@ func (prim *PrimitiveType) String() string {
 
 // WriteDebugDescription adds a description of this primitive type to the passed builder
 func (prim *PrimitiveType) WriteDebugDescription(builder *strings.Builder, _ Types) {
+	if prim == nil {
+		builder.WriteString("<nilPrimitive>")
+		return
+	}
+
 	builder.WriteString(prim.name)
 }
