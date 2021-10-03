@@ -251,11 +251,11 @@ func (v ValidatedType) Unwrap() Type {
 // types is a dictionary for resolving named types
 func (v ValidatedType) WriteDebugDescription(builder *strings.Builder, types Types) {
 	builder.WriteString("Validated[")
-	if v.element!= nil {
+	if v.element != nil {
 		v.element.WriteDebugDescription(builder, types)
 	} else {
 		builder.WriteString("<nilType>")
 	}
-	
+
 	builder.WriteString("]")
 }
