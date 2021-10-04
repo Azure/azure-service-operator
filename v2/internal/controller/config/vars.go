@@ -53,7 +53,7 @@ func ReadFromEnvironment() (Values, error) {
 
 	result.SubscriptionID = os.Getenv(subscriptionIDVar)
 	result.PodNamespace = os.Getenv(podNamespaceVar)
-	result.TargetNamespaces = ParseTargetNamespaces(os.Getenv(targetNamespacesVar))
+	result.TargetNamespaces = parseTargetNamespaces(os.Getenv(targetNamespacesVar))
 	// Not calling validate here to support using from tests where we
 	// don't require consistent settings.
 	return result, nil
@@ -87,9 +87,9 @@ func (v Values) Validate() error {
 	return nil
 }
 
-// ParseTargetNamespaces splits a comma-separated string into a slice
+// parseTargetNamespaces splits a comma-separated string into a slice
 // of strings with spaces trimmed.
-func ParseTargetNamespaces(fromEnv string) []string {
+func parseTargetNamespaces(fromEnv string) []string {
 	if len(strings.TrimSpace(fromEnv)) == 0 {
 		return nil
 	}
