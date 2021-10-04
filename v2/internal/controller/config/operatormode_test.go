@@ -4,11 +4,12 @@
 package config_test
 
 import (
+	"strings"
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
-
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 )
 
 func TestIncludesWebhooks(t *testing.T) {
@@ -27,12 +28,15 @@ func TestIncludesWatchers(t *testing.T) {
 
 func TestRoundtripString(t *testing.T) {
 	g := NewGomegaWithT(t)
-	values := []string{"watchers-and-webhooks", "webhooks", "watchers"}
+	values := []string{
+		"watchers-and-webhooks", "webhooks", "watchers",
+		// Check for case insensitivity too.
+		"Watchers-And-Webhooks", "wEbHoOkS", "WATCHERS",
+	}
 	for _, value := range values {
 		mode, err := config.ParseOperatorMode(value)
 		g.Expect(err).ToNot(HaveOccurred(), value)
-		g.Expect(mode.String()).To(Equal(value))
-
+		g.Expect(mode.String()).To(Equal(strings.ToLower(value)))
 	}
 }
 

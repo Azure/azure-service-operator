@@ -5,6 +5,7 @@ package config
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -48,7 +49,7 @@ func (m OperatorMode) String() string {
 // ParseOperatorMode converts a string value into the corresponding
 // operator mode.
 func ParseOperatorMode(value string) (OperatorMode, error) {
-	switch value {
+	switch strings.ToLower(value) {
 	case "watchers":
 		return OperatorModeWatchers, nil
 	case "webhooks":

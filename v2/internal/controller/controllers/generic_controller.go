@@ -234,10 +234,11 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		// be rare.
 		message := fmt.Sprintf("Operators in %q and %q are both configured to manage this resource", gr.Config.PodNamespace, reconcilerNamespace)
 		gr.Recorder.Event(obj, corev1.EventTypeWarning, "Overlap", message)
-		return ctrl.Result{}, gr.KubeClient.Client.Update(ctx, obj)
+		return ctrl.Result{}, nil
 	} else if reconcilerNamespace == "" && gr.Config.PodNamespace != "" {
-		// Set the annotation to this operator's namespace and go around again.
 		genruntime.AddAnnotation(metaObj, NamespaceAnnotation, gr.Config.PodNamespace)
+		// Setting the annotation will trigger another reconcile so we
+		// don't need to requeue explicitly.
 		return ctrl.Result{}, gr.KubeClient.Client.Update(ctx, obj)
 	}
 
