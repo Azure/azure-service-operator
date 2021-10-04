@@ -29,6 +29,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/v2/internal/controller/armclient"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/controller/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/util/kubeclient"
@@ -44,7 +45,7 @@ type GenericReconciler struct {
 	ResourceResolver     *genruntime.Resolver
 	Recorder             record.EventRecorder
 	Name                 string
-	PodNamespace         string
+	Config               config.Values
 	GVK                  schema.GroupVersionKind
 	Controller           controller.Controller
 	RequeueDelayOverride time.Duration
@@ -60,7 +61,7 @@ type Options struct {
 	// options specific to our controller
 	RequeueDelay         time.Duration
 	CreateDeploymentName func(obj metav1.Object) (string, error)
-	PodNamespace         string
+	Config               config.Values
 }
 
 func (options *Options) setDefaults() {
@@ -138,7 +139,7 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 		KubeClient:           kubeClient,
 		ResourceResolver:     genruntime.NewResolver(kubeClient, reconciledResourceLookup),
 		Name:                 t.Name(),
-		PodNamespace:         options.PodNamespace,
+		Config:               options.Config,
 		Log:                  options.Log.WithName(controllerName),
 		Recorder:             mgr.GetEventRecorderFor(controllerName),
 		GVK:                  gvk,
@@ -222,7 +223,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	// Ensure the resource is tagged with the operator's namespace.
 	annotations := metaObj.GetAnnotations()
 	reconcilerNamespace := annotations[NamespaceAnnotation]
-	if reconcilerNamespace != gr.PodNamespace && reconcilerNamespace != "" {
+	if reconcilerNamespace != gr.Config.PodNamespace && reconcilerNamespace != "" {
 		// We don't want to get into a fight with another operator -
 		// so if we see another operator already has this object leave
 		// it alone. This will do the right thing in the case of two
@@ -231,12 +232,12 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		// operator owns a namespace fiddlier (since you'd need to
 		// remove the annotation) but those operations are likely to
 		// be rare.
-		message := fmt.Sprintf("Operators in %q and %q are both configured to manage this resource", gr.PodNamespace, reconcilerNamespace)
+		message := fmt.Sprintf("Operators in %q and %q are both configured to manage this resource", gr.Config.PodNamespace, reconcilerNamespace)
 		gr.Recorder.Event(obj, corev1.EventTypeWarning, "Overlap", message)
 		return ctrl.Result{}, gr.KubeClient.Client.Update(ctx, obj)
-	} else if reconcilerNamespace == "" && gr.PodNamespace != "" {
+	} else if reconcilerNamespace == "" && gr.Config.PodNamespace != "" {
 		// Set the annotation to this operator's namespace and go around again.
-		genruntime.AddAnnotation(metaObj, NamespaceAnnotation, gr.PodNamespace)
+		genruntime.AddAnnotation(metaObj, NamespaceAnnotation, gr.Config.PodNamespace)
 		return ctrl.Result{}, gr.KubeClient.Client.Update(ctx, obj)
 	}
 

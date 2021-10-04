@@ -28,7 +28,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
 )
 
-func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, error) {
+func createEnvtestContext(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
 	perTestContext.T.Logf("Creating envtest test: %s", perTestContext.TestName)
 
 	environment := envtest.Environment{
@@ -57,10 +57,9 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		}
 	})
 
-	targetNamespaces := config.GetTargetNamespaces()
 	var cacheFunc cache.NewCacheFunc
-	if targetNamespaces != nil {
-		cacheFunc = cache.MultiNamespacedCacheBuilder(targetNamespaces)
+	if cfg.TargetNamespaces != nil {
+		cacheFunc = cache.MultiNamespacedCacheBuilder(cfg.TargetNamespaces)
 	}
 
 	perTestContext.T.Log("Creating & starting controller-runtime manager")
@@ -83,12 +82,7 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		requeueDelay = 100 * time.Millisecond
 	}
 
-	selectedMode, err := config.GetOperatorMode()
-	if err != nil {
-		return nil, errors.Wrap(err, "getting operator mode")
-	}
-
-	if selectedMode.IncludesWatchers() {
+	if cfg.OperatorMode.IncludesWatchers() {
 		err = controllers.RegisterAll(
 			mgr,
 			perTestContext.AzureClient,
@@ -100,7 +94,7 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 					return fmt.Sprintf("k8s_%s", result.String()), nil
 				},
 				RequeueDelay: requeueDelay,
-				PodNamespace: config.GetPodNamespace(),
+				Config:       cfg,
 				Options: controller.Options{
 					Log:         perTestContext.logger,
 					RateLimiter: controllers.NewRateLimiter(5*time.Millisecond, 1*time.Minute),
@@ -111,7 +105,7 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		}
 	}
 
-	if selectedMode.IncludesWebhooks() {
+	if cfg.OperatorMode.IncludesWebhooks() {
 		err = controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes())
 		if err != nil {
 			return nil, errors.Wrapf(err, "registering webhooks")
@@ -133,13 +127,13 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		cancelFunc()
 	})
 
-	if selectedMode.IncludesWebhooks() {
+	if cfg.OperatorMode.IncludesWebhooks() {
 		waitForWebhooks(perTestContext.T, environment)
 
 		webhookServer := mgr.GetWebhookServer()
 		perTestContext.T.Logf("Webhook server running at: %s:%d", webhookServer.Host, webhookServer.Port)
 	} else {
-		perTestContext.T.Logf("Operator mode is %q, webhooks not running", selectedMode)
+		perTestContext.T.Logf("Operator mode is %q, webhooks not running", cfg.OperatorMode)
 	}
 
 	return &KubeBaseTestContext{

@@ -23,6 +23,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -107,6 +108,14 @@ func CreateTestResourceGroupDefaultTags() map[string]string {
 }
 
 func (ctx KubeGlobalContext) ForTest(t *testing.T) KubePerTestContext {
+	cfg, err := config.ReadFromEnvironment()
+	if err != nil {
+		t.Fatal(err)
+	}
+	return ctx.ForTestWithConfig(t, cfg)
+}
+
+func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) KubePerTestContext {
 	/*
 		Note: if you update this method you might also need to update TestContext.Subtest.
 	*/
@@ -116,7 +125,7 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) KubePerTestContext {
 		t.Fatal(err)
 	}
 
-	baseCtx, err := ctx.createBaseTestContext(perTestContext)
+	baseCtx, err := ctx.createBaseTestContext(perTestContext, cfg)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -7,11 +7,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 	"time"
 
-	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/go-logr/logr"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/klog/v2"
@@ -43,10 +41,15 @@ func main() {
 
 	ctrl.SetLogger(klogr.New())
 
-	targetNamespaces := config.GetTargetNamespaces()
+	cfg, err := config.ReadAndValidate()
+	if err != nil {
+		setupLog.Error(err, "unable to get env configuration values")
+		os.Exit(1)
+	}
+
 	var cacheFunc cache.NewCacheFunc
-	if targetNamespaces != nil {
-		cacheFunc = cache.MultiNamespacedCacheBuilder(targetNamespaces)
+	if cfg.TargetNamespaces != nil {
+		cacheFunc = cache.MultiNamespacedCacheBuilder(cfg.TargetNamespaces)
 	}
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
@@ -68,33 +71,21 @@ func main() {
 		os.Exit(1)
 	}
 
-	subID := os.Getenv(auth.SubscriptionID)
-	if subID == "" {
-		setupLog.Error(err, fmt.Sprintf("unable to get env var %q", auth.SubscriptionID))
-		os.Exit(1)
-	}
-
-	selectedMode, err := config.GetOperatorMode()
-	if err != nil {
-		setupLog.Error(err, "getting operator mode")
-		os.Exit(1)
-	}
-
-	armApplier, err := armclient.NewAzureTemplateClient(authorizer, subID)
+	armApplier, err := armclient.NewAzureTemplateClient(authorizer, cfg.SubscriptionID)
 	if err != nil {
 		setupLog.Error(err, "failed to create ARM applier")
 		os.Exit(1)
 	}
 
 	log := ctrl.Log.WithName("controllers")
-	if selectedMode.IncludesWatchers() {
-		if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), makeControllerOptions(log)); errs != nil {
+	if cfg.OperatorMode.IncludesWatchers() {
+		if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), makeControllerOptions(log, cfg)); errs != nil {
 			setupLog.Error(err, "failed to register gvks")
 			os.Exit(1)
 		}
 	}
 
-	if selectedMode.IncludesWebhooks() {
+	if cfg.OperatorMode.IncludesWebhooks() {
 		if errs := controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes()); errs != nil {
 			setupLog.Error(err, "failed to register webhook for gvks")
 			os.Exit(1)
@@ -108,9 +99,9 @@ func main() {
 	}
 }
 
-func makeControllerOptions(log logr.Logger) controllers.Options {
+func makeControllerOptions(log logr.Logger, cfg config.Values) controllers.Options {
 	return controllers.Options{
-		PodNamespace: config.GetPodNamespace(),
+		Config: cfg,
 		Options: controller.Options{
 			MaxConcurrentReconciles: 1,
 			Log:                     log,
