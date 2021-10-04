@@ -25,6 +25,7 @@ import (
 // 	if !ok {
 // 		return fmt.Errorf("expected <hub.Type> but received %T instead", hub)
 // 	}
+//
 // 	return <receiver>.AssignProperties<From|To><Type>(source)
 // }
 //
@@ -168,6 +169,7 @@ func (fn *ResourceConversionFunction) directConversion(
 
 	copyAndReturn := astbuilder.Returns(
 		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), localIdent))
+	copyAndReturn.Decorations().Before = dst.EmptyLine
 
 	return astbuilder.Statements(
 		assignLocal,
