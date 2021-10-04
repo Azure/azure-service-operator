@@ -4,9 +4,7 @@
 package controllers_test
 
 import (
-	"context"
 	"fmt"
-	"os"
 	"testing"
 	"time"
 
@@ -18,6 +16,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
@@ -34,15 +33,14 @@ const (
 
 func TestTargetNamespaces(t *testing.T) {
 	t.Parallel()
-	tc := globalTestContext.ForTest(t)
+	podNamespace := "some-operator"
+	tc := globalTestContext.ForTestWithConfig(t, config.Values{
+		OperatorMode:     config.OperatorModeBoth,
+		PodNamespace:     podNamespace,
+		TargetNamespaces: []string{"default", "watched"},
+	})
 
 	createNamespaces(tc, "watched", "unwatched")
-	configuredNamespaces := os.Getenv("AZURE_TARGET_NAMESPACES")
-	podNamespace := os.Getenv("POD_NAMESPACE")
-
-	// We can't check for operator namespace if there's not one set.
-	tc.Expect(podNamespace).ToNot(Equal(""), "no POD_NAMESPACE set")
-
 	standardSpec := resources.ResourceGroupSpec{
 		Location: tc.AzureRegion,
 		Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
@@ -87,51 +85,18 @@ func TestTargetNamespaces(t *testing.T) {
 
 	name := types.NamespacedName{Name: unwatchedName, Namespace: "unwatched"}
 
-	gotNamespaceAnnotation := func(g Gomega) bool {
-		var instance resources.ResourceGroup
-		ctx := context.Background()
-		err := tc.KubeClient.Get(ctx, name, &instance)
-		g.Expect(err).NotTo(HaveOccurred())
-		res, err := meta.Accessor(&instance)
-		g.Expect(err).NotTo(HaveOccurred())
-		return res.GetAnnotations()[controllers.NamespaceAnnotation] == podNamespace
-	}
-
-	if configuredNamespaces == "" {
-		t.Log("**** all namespaces mode")
-		// The operator should be watching all namespaces.
-		tc.G.Eventually(
-			gotFinalizer(tc, name),
-			timeoutFast,
-			retry,
-		).Should(
-			BeTrue(),
-			"instance in some namespace never got a finalizer",
-		)
-		// And there should also be a namespace annotation.
-		tc.G.Eventually(
-			gotNamespaceAnnotation,
-			timeoutFast,
-			retry,
-		).Should(
-			BeTrue(),
-			"instance in some namespace never got an operator namespace annotation",
-		)
-	} else {
-		t.Log("**** restricted namespaces mode")
-		// We can tell that the resource isn't being reconciled if it
-		// never gets a finalizer.
-		tc.G.Consistently(
-			gotFinalizer(tc, name),
-			20*time.Second,
-			time.Second,
-		).Should(
-			BeFalse(),
-			"instance in unwatched namespace got finalizer",
-		)
-		// There also shouldn't be a namespace annotation.
-		checkNoNamespaceAnnotation(tc, &rgUnwatched)
-	}
+	// We can tell that the resource isn't being reconciled if it
+	// never gets a finalizer.
+	tc.G.Consistently(
+		gotFinalizer(tc, name),
+		20*time.Second,
+		time.Second,
+	).Should(
+		BeFalse(),
+		"instance in unwatched namespace got finalizer",
+	)
+	// There also shouldn't be a namespace annotation.
+	checkNoNamespaceAnnotation(tc, &rgUnwatched)
 }
 
 func checkNamespaceAnnotation(tc testcommon.KubePerTestContext, instance metav1.Object, expected string) {
@@ -187,12 +152,11 @@ func gotFinalizer(tc testcommon.KubePerTestContext, name types.NamespacedName) f
 
 func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 	t.Parallel()
-	tc := globalTestContext.ForTest(t)
-
-	podNamespace := os.Getenv("POD_NAMESPACE")
-
-	// We can't check for operator namespace if there's not one set.
-	tc.Expect(podNamespace).ToNot(Equal(""), "no POD_NAMESPACE set")
+	podNamespace := "this-operator"
+	tc := globalTestContext.ForTestWithConfig(t, config.Values{
+		OperatorMode: config.OperatorModeBoth,
+		PodNamespace: podNamespace,
+	})
 
 	// If a resource has a different operator's namespace it won't be
 	// reconciled.
