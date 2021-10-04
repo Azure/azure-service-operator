@@ -36,11 +36,6 @@ func TestOperatorMode_Webhooks(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	// AzureName should have been defaulted on the group on the
 	// way in (it doesn't require waiting for a reconcile).
-	// TODO: this works here, but it's possibly because envtest
-	// has the apiserver running in-process - I'm not sure that
-	// the client would reflect changes made by webhooks in a
-	// remote cluster. Does this test need to work if it's run
-	// against a non-envtest cluster as well?
 	tc.Expect(rg.Spec.AzureName).To(Equal(rg.ObjectMeta.Name))
 
 	checkNeverGetsFinalizer(tc, &rg,
@@ -98,11 +93,6 @@ func TestOperatorMode_Both(t *testing.T) {
 
 	// AzureName should have been defaulted on the group on the
 	// way in (it doesn't require waiting for a reconcile).
-	// TODO: this works here, but it's possibly because envtest
-	// has the apiserver running in-process - I'm not sure that
-	// the client would reflect changes made by webhooks in a
-	// remote cluster. Does this test need to work if it's run
-	// against a non-envtest cluster as well?
 	tc.Expect(rg.Spec.AzureName).To(Equal(rg.ObjectMeta.Name))
 	tc.Eventually(&rg).Should(tc.Match.BeProvisioned())
 }
