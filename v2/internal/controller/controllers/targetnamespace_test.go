@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	. "github.com/onsi/gomega"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -20,16 +21,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
-
-	. "github.com/onsi/gomega"
 )
 
 const finalizerName = reconcilers.GenericControllerFinalizer
-
-const (
-	timeoutFast = time.Minute * 3
-	retry       = time.Second * 3
-)
 
 func TestTargetNamespaces(t *testing.T) {
 	t.Parallel()
@@ -73,33 +67,27 @@ func TestTargetNamespaces(t *testing.T) {
 
 	// But the unwatched namespace isn't...
 	unwatchedName := tc.Namer.GenerateName("rg")
+	unwatchedNamespace := "unwatched"
 	rgUnwatched := resources.ResourceGroup{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      unwatchedName,
-			Namespace: "unwatched",
+			Namespace: unwatchedNamespace,
 		},
 		Spec: standardSpec,
 	}
 	_, err := tc.CreateResourceGroup(&rgUnwatched)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	name := types.NamespacedName{Name: unwatchedName, Namespace: "unwatched"}
-
 	// We can tell that the resource isn't being reconciled if it
 	// never gets a finalizer.
-	tc.G.Consistently(
-		gotFinalizer(tc, name),
-		20*time.Second,
-		time.Second,
-	).Should(
-		BeFalse(),
-		"instance in unwatched namespace got finalizer",
-	)
+	checkNeverGetsFinalizer(tc, &rgUnwatched, "instance in unwatched namespace got finalizer")
+
 	// There also shouldn't be a namespace annotation.
 	checkNoNamespaceAnnotation(tc, &rgUnwatched)
 }
 
 func checkNamespaceAnnotation(tc testcommon.KubePerTestContext, instance metav1.Object, expected string) {
+	tc.T.Helper()
 	res, err := meta.Accessor(instance)
 	namespace := res.GetNamespace()
 	tc.Expect(err).ToNot(HaveOccurred(), namespace)
@@ -109,6 +97,7 @@ func checkNamespaceAnnotation(tc testcommon.KubePerTestContext, instance metav1.
 }
 
 func checkNoNamespaceAnnotation(tc testcommon.KubePerTestContext, instance metav1.Object) {
+	tc.T.Helper()
 	res, err := meta.Accessor(instance)
 	namespace := res.GetNamespace()
 	tc.Expect(err).ToNot(HaveOccurred(), namespace)
@@ -116,9 +105,38 @@ func checkNoNamespaceAnnotation(tc testcommon.KubePerTestContext, instance metav
 	tc.Expect(found).To(BeFalse(), namespace)
 }
 
-// HasFinalizer accepts a metav1 object and returns true if the the
+func checkNeverGetsFinalizer(tc testcommon.KubePerTestContext, original metav1.Object, message string) {
+	tc.T.Helper()
+	res, err := meta.Accessor(original)
+	tc.Expect(err).ToNot(HaveOccurred())
+
+	name := types.NamespacedName{
+		Namespace: res.GetNamespace(),
+		Name:      res.GetName(),
+	}
+
+	gotFinalizer := func(g Gomega) bool {
+		var instance resources.ResourceGroup
+		err := tc.KubeClient.Get(tc.Ctx, name, &instance)
+		g.Expect(err).NotTo(HaveOccurred())
+		res, err := meta.Accessor(&instance)
+		g.Expect(err).NotTo(HaveOccurred())
+		return hasFinalizer(res, finalizerName)
+	}
+
+	tc.G.Consistently(
+		gotFinalizer,
+		20*time.Second,
+		time.Second,
+	).Should(
+		BeFalse(),
+		message,
+	)
+}
+
+// hasFinalizer accepts a metav1 object and returns true if the the
 // object has the provided finalizer.
-func HasFinalizer(o metav1.Object, finalizer string) bool {
+func hasFinalizer(o metav1.Object, finalizer string) bool {
 	f := o.GetFinalizers()
 	for _, e := range f {
 		if e == finalizer {
@@ -136,17 +154,6 @@ func createNamespaces(tc testcommon.KubePerTestContext, names ...string) {
 			},
 		})
 		tc.Expect(err).NotTo(HaveOccurred())
-	}
-}
-
-func gotFinalizer(tc testcommon.KubePerTestContext, name types.NamespacedName) func(Gomega) bool {
-	return func(g Gomega) bool {
-		var instance resources.ResourceGroup
-		err := tc.KubeClient.Get(tc.Ctx, name, &instance)
-		g.Expect(err).NotTo(HaveOccurred())
-		res, err := meta.Accessor(&instance)
-		g.Expect(err).NotTo(HaveOccurred())
-		return HasFinalizer(res, finalizerName)
 	}
 }
 
@@ -176,19 +183,7 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 	_, err := tc.CreateResourceGroup(&notMine)
 	tc.Expect(err).NotTo(HaveOccurred())
 
-	name := types.NamespacedName{
-		Name:      notMine.ObjectMeta.Name,
-		Namespace: tc.Namespace(),
-	}
-
-	tc.G.Consistently(
-		gotFinalizer(tc, name),
-		20*time.Second,
-		time.Second,
-	).Should(
-		BeFalse(),
-		"instance claimed by some other operator got finalizer",
-	)
+	checkNeverGetsFinalizer(tc, &notMine, "instance claimed by some other operator got finalizer")
 
 	var events corev1.EventList
 	err = tc.KubeClient.List(tc.Ctx, &events, &client.ListOptions{

@@ -5,16 +5,13 @@ package controllers_test
 
 import (
 	"testing"
-	"time"
 
+	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
-
-	. "github.com/onsi/gomega"
 )
 
 func TestOperatorMode_Webhooks(t *testing.T) {
@@ -46,19 +43,8 @@ func TestOperatorMode_Webhooks(t *testing.T) {
 	// against a non-envtest cluster as well?
 	tc.Expect(rg.Spec.AzureName).To(Equal(rg.ObjectMeta.Name))
 
-	hasFinalizer := gotFinalizer(tc, types.NamespacedName{
-		Name:      rg.ObjectMeta.Name,
-		Namespace: rg.ObjectMeta.Namespace,
-	})
-
-	tc.G.Consistently(
-		hasFinalizer,
-		20*time.Second,
-		time.Second,
-	).Should(
-		BeFalse(),
-		"instance got a finalizer when operator mode is webhooks",
-	)
+	checkNeverGetsFinalizer(tc, &rg,
+		"instance got a finalizer when operator mode is webhooks")
 }
 
 func TestOperatorMode_Watchers(t *testing.T) {
@@ -118,22 +104,5 @@ func TestOperatorMode_Both(t *testing.T) {
 	// remote cluster. Does this test need to work if it's run
 	// against a non-envtest cluster as well?
 	tc.Expect(rg.Spec.AzureName).To(Equal(rg.ObjectMeta.Name))
-
-	hasFinalizer := gotFinalizer(tc, types.NamespacedName{
-		Name:      rg.ObjectMeta.Name,
-		Namespace: rg.ObjectMeta.Namespace,
-	})
-	tc.G.Eventually(
-		hasFinalizer,
-		timeoutFast,
-		retry,
-	).Should(
-		BeTrue(),
-		"instance never got finalizer even though operator mode is watchers-and-webhooks",
-	)
-	// Wait for resource group to be provisioned, otherwise we
-	// might get no requests to ARM, and then trying to run the
-	// tests without credentials fails because there's no
-	// recording.
 	tc.Eventually(&rg).Should(tc.Match.BeProvisioned())
 }
