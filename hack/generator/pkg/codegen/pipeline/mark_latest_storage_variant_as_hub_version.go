@@ -23,9 +23,21 @@ func MarkLatestStorageVariantAsHubVersion() Stage {
 		MarkLatestStorageVariantAsHubVersionID,
 		"Mark the latest GA storage variant of each resource as the hub version",
 		func(ctx context.Context, state *State) (*State, error) {
-			updatedDefs, err := MarkLatestStorageVariantsAsHubs(state)
+			updatedDefs, err := astmodel.FindResourceTypes(state.Types()).Process(
+				func(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
+					rsrc, _ := astmodel.AsResourceType(def.Type())
+					hub := state.ConversionGraph().FindHub(def.Name(), state.Types())
+					if def.Name().Equals(hub) {
+						// We have the hub type
+						def = def.WithType(rsrc.MarkAsStorageVersion())
+						return &def, nil
+					}
+
+					return nil, nil
+				})
+
 			if err != nil {
-				return nil, errors.Wrapf(err, "unable to mark latest resource version as storage version")
+				return nil, errors.Wrap(err, "marking storage versions")
 			}
 
 			types := state.Types().OverlayWith(updatedDefs)
@@ -35,25 +47,4 @@ func MarkLatestStorageVariantAsHubVersion() Stage {
 	stage.RequiresPrerequisiteStages(CreateConversionGraphStageId)
 
 	return stage
-}
-
-// MarkLatestStorageVariantsAsHubs marks the latest version of each resource as the storage version, returning
-// a set that contains only the modified types
-func MarkLatestStorageVariantsAsHubs(state *State) (astmodel.Types, error) {
-	modified := make(astmodel.Types)
-	for _, def := range state.Types() {
-		// see if it is a resource
-		if resourceType, ok := def.Type().(*astmodel.ResourceType); ok {
-
-			// Check whether this is the hub type for this resource
-			name := def.Name()
-			hubType := state.ConversionGraph().FindHubTypeName(name)
-			if name.Equals(hubType) {
-				def = def.WithType(resourceType.MarkAsStorageVersion())
-				modified.Add(def)
-			}
-		}
-	}
-
-	return modified, nil
 }
