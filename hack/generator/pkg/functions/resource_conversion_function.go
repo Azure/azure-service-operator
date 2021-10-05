@@ -168,6 +168,7 @@ func (fn *ResourceConversionFunction) directConversion(
 
 	copyAndReturn := astbuilder.Returns(
 		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), localIdent))
+	copyAndReturn.Decorations().Before = dst.EmptyLine
 
 	return astbuilder.Statements(
 		assignLocal,
