@@ -30,6 +30,7 @@ func (person *Person) ConvertFrom(hub conversion.Hub) error {
 	if !ok {
 		return fmt.Errorf("expected storage:microsoft.person/v20211231storage/Person but received %T instead", hub)
 	}
+
 	return person.AssignPropertiesFromPerson(source)
 }
 
@@ -39,6 +40,7 @@ func (person *Person) ConvertTo(hub conversion.Hub) error {
 	if !ok {
 		return fmt.Errorf("expected storage:microsoft.person/v20211231storage/Person but received %T instead", hub)
 	}
+
 	return person.AssignPropertiesToPerson(destination)
 }
 
