@@ -150,6 +150,11 @@ func (optional *OptionalType) Unwrap() Type {
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (optional *OptionalType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	if optional == nil {
+		builder.WriteString("<nilOptional>")
+		return
+	}
+
 	builder.WriteString("Optional[")
 	optional.element.WriteDebugDescription(builder, types)
 	builder.WriteString("]")

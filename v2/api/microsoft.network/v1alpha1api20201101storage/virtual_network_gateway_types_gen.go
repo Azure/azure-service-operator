@@ -143,7 +143,7 @@ var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_Status{}
 // ConvertStatusFrom populates our VirtualNetworkGateway_Status from the provided source
 func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == virtualNetworkGatewayStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(virtualNetworkGatewayStatus)
@@ -152,7 +152,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) ConvertStatusFr
 // ConvertStatusTo populates the provided destination from our VirtualNetworkGateway_Status
 func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == virtualNetworkGatewayStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(virtualNetworkGatewayStatus)
@@ -196,7 +196,7 @@ var _ genruntime.ConvertibleSpec = &VirtualNetworkGateways_Spec{}
 // ConvertSpecFrom populates our VirtualNetworkGateways_Spec from the provided source
 func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == virtualNetworkGatewaysSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(virtualNetworkGatewaysSpec)
@@ -205,7 +205,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertSpecFrom(s
 // ConvertSpecTo populates the provided destination from our VirtualNetworkGateways_Spec
 func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == virtualNetworkGatewaysSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(virtualNetworkGatewaysSpec)

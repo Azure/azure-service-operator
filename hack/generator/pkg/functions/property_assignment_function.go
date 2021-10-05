@@ -50,7 +50,10 @@ type PropertyAssignmentFunction struct {
 // destination is an expression that returns the destination we are converting to (again, a Resource or other Object)
 // The function returns a sequence of statements to carry out the stated conversion/copy
 type StoragePropertyConversion func(
-	source dst.Expr, destination dst.Expr, generationContext *astmodel.CodeGenerationContext) []dst.Stmt
+	source dst.Expr,
+	destination dst.Expr,
+	knownLocals *astmodel.KnownLocalsSet,
+	generationContext *astmodel.CodeGenerationContext) []dst.Stmt
 
 // Ensure that PropertyAssignmentFunction implements Function
 var _ astmodel.Function = &PropertyAssignmentFunction{}
@@ -93,7 +96,6 @@ func NewPropertyAssignmentFunction(
 	result.writesToPropertyBag = writesToPropertyBag
 
 	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
-		WithKnownLocals(knownLocals).
 		WithDirection(direction).
 		WithPropertyBag(propertyBagName)
 
@@ -166,11 +168,6 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 	// We always use a pointer receiver, so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
 
-	// Generation of our function body can result in modifications to our set of known local variable names, resulting
-	// in different results if we are rendered multiple times. To mitigate against this, checkpoint the set before
-	// code generation and restore to that point afterwards
-	knownLocalsCheckpoint := fn.conversionContext.KnownLocals().Checkpoint()
-
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: fn.receiverName,
 		ReceiverType:  receiverType,
@@ -188,8 +185,6 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(description)
-
-	fn.conversionContext.KnownLocals().Restore(knownLocalsCheckpoint)
 
 	return funcDetails.DefineFunc()
 }
@@ -214,7 +209,7 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	destination := fn.direction.SelectString(receiver, parameter)
 
 	bagPrologue := fn.createPropertyBagPrologue(source, generationContext)
-	assignments := fn.generateAssignments(dst.NewIdent(source), dst.NewIdent(destination), generationContext)
+	assignments := fn.generateAssignments(receiver, dst.NewIdent(source), dst.NewIdent(destination), generationContext)
 	bagEpilogue := fn.propertyBagEpilogue(destination)
 
 	return astbuilder.Statements(
@@ -302,10 +297,10 @@ func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 
 // generateAssignments generates a sequence of statements to copy information between the two types
 func (fn *PropertyAssignmentFunction) generateAssignments(
+	receiver string,
 	source dst.Expr,
 	destination dst.Expr,
-	generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
+	generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 	var result []dst.Stmt
 
 	// Find all the properties for which we have a conversion
@@ -320,9 +315,12 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 	})
 
 	// Accumulate all the statements required for conversions, in alphabetical order
+	knownLocals := astmodel.NewKnownLocalsSet(fn.idFactory)
+	knownLocals.Add(receiver)
+
 	for _, prop := range properties {
 		conversion := fn.conversions[prop]
-		block := conversion(source, destination, generationContext)
+		block := conversion(source, destination, knownLocals, generationContext)
 		if len(block) > 0 {
 			firstStatement := block[0]
 			firstStatement.Decorations().Before = dst.EmptyLine
@@ -380,13 +378,13 @@ func (fn *PropertyAssignmentFunction) createConversion(
 			sourceEndpoint, destinationEndpoint)
 	}
 
-	return func(source dst.Expr, destination dst.Expr, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(source dst.Expr, destination dst.Expr, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		reader := sourceEndpoint.Read(source)
 		writer := func(expr dst.Expr) []dst.Stmt {
 			return destinationEndpoint.Write(destination, expr)
 		}
 
-		return conversion(reader, writer, generationContext)
+		return conversion(reader, writer, knownLocals, generationContext)
 	}, nil
 }
 

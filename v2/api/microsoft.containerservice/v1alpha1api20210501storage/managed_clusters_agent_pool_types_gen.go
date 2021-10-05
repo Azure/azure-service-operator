@@ -158,7 +158,7 @@ var _ genruntime.ConvertibleStatus = &AgentPool_Status{}
 // ConvertStatusFrom populates our AgentPool_Status from the provided source
 func (agentPoolStatus *AgentPool_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == agentPoolStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(agentPoolStatus)
@@ -167,7 +167,7 @@ func (agentPoolStatus *AgentPool_Status) ConvertStatusFrom(source genruntime.Con
 // ConvertStatusTo populates the provided destination from our AgentPool_Status
 func (agentPoolStatus *AgentPool_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == agentPoolStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(agentPoolStatus)
@@ -237,7 +237,7 @@ var _ genruntime.ConvertibleSpec = &ManagedClustersAgentPools_Spec{}
 // ConvertSpecFrom populates our ManagedClustersAgentPools_Spec from the provided source
 func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == managedClustersAgentPoolsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(managedClustersAgentPoolsSpec)
@@ -246,7 +246,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertSpec
 // ConvertSpecTo populates the provided destination from our ManagedClustersAgentPools_Spec
 func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == managedClustersAgentPoolsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(managedClustersAgentPoolsSpec)

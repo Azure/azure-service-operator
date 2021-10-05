@@ -8,10 +8,12 @@ package astmodel
 import (
 	"fmt"
 	"strings"
+
+	"github.com/gobuffalo/flect"
 )
 
 type KnownLocalsSet struct {
-	names     knownNameSet
+	names     map[string]struct{}
 	idFactory IdentifierFactory
 }
 
@@ -19,9 +21,21 @@ type KnownLocalsSet struct {
 // idFactory is a reference to an identifier factory for creating valid Go identifiers
 func NewKnownLocalsSet(idFactory IdentifierFactory) *KnownLocalsSet {
 	return &KnownLocalsSet{
-		names:     make(knownNameSet),
+		names:     make(map[string]struct{}),
 		idFactory: idFactory,
 	}
+}
+
+// CreateSingularLocal creates a new unique Go local variable for a single value with one of the specified suffixes.
+func (locals *KnownLocalsSet) CreateSingularLocal(nameHint string, suffixes ...string) string {
+	hint := flect.Singularize(nameHint)
+	return locals.CreateLocal(hint, suffixes...)
+}
+
+// CreatePluralLocal creates a new unique Go local variable for multiple values with one of the specified suffixes.
+func (locals *KnownLocalsSet) CreatePluralLocal(nameHint string, suffixes ...string) string {
+	hint := flect.Pluralize(nameHint)
+	return locals.CreateLocal(hint, suffixes...)
 }
 
 // CreateLocal creates a new unique Go local variable with one of the specified suffixes.
@@ -60,6 +74,16 @@ func (locals *KnownLocalsSet) CreateLocal(nameHint string, suffixes ...string) s
 	}
 }
 
+// TryCreateLocal returns true if the specified local was successfully created, false if it already existed
+func (locals *KnownLocalsSet) TryCreateLocal(local string) bool {
+	if locals.HasName(local) {
+		return false
+	}
+
+	locals.Add(local)
+	return true
+}
+
 // tryCreateLocal attempts to create a new local, returning the new identifier and true if
 // successful (local hasn't been used before) or "" and false if not (local already exists)
 func (locals *KnownLocalsSet) tryCreateLocal(name string) (string, bool) {
@@ -89,36 +113,13 @@ func (locals *KnownLocalsSet) HasName(name string) bool {
 
 // Clone clones the KnownLocalsSet
 func (locals *KnownLocalsSet) Clone() *KnownLocalsSet {
+	names := make(map[string]struct{}, len(locals.names))
+	for n := range locals.names {
+		names[n] = struct{}{}
+	}
+
 	return &KnownLocalsSet{
 		idFactory: locals.idFactory,
-		names:     locals.names.clone(),
+		names:     names,
 	}
-}
-
-// Checkpoint returns an opaque checkpoint for the collection allowing it to be reset later on
-func (locals *KnownLocalsSet) Checkpoint() KnownNameSet {
-	return locals.names.clone()
-}
-
-// Restore returns the state of the set to what it was when checkpointed
-func (locals *KnownLocalsSet) Restore(set KnownNameSet) {
-	locals.names = set.clone()
-}
-
-// KnownNameSet is an interface with no public members used for checkpointing
-type KnownNameSet interface {
-	clone() knownNameSet
-}
-
-// knownNameSet is the internal type of a set of names
-type knownNameSet map[string]struct{}
-
-// clone returns a new, independent, copy of the knownNameSet
-func (s knownNameSet) clone() knownNameSet {
-	result := make(knownNameSet, len(s))
-	for name := range s {
-		result[name] = struct{}{}
-	}
-
-	return result
 }

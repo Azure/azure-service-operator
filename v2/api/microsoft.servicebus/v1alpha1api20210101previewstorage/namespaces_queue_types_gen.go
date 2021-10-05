@@ -142,7 +142,7 @@ var _ genruntime.ConvertibleSpec = &NamespacesQueues_Spec{}
 // ConvertSpecFrom populates our NamespacesQueues_Spec from the provided source
 func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == namespacesQueuesSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(namespacesQueuesSpec)
@@ -151,7 +151,7 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertSpecFrom(source genrun
 // ConvertSpecTo populates the provided destination from our NamespacesQueues_Spec
 func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == namespacesQueuesSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(namespacesQueuesSpec)
@@ -194,7 +194,7 @@ var _ genruntime.ConvertibleStatus = &SBQueue_Status{}
 // ConvertStatusFrom populates our SBQueue_Status from the provided source
 func (sbQueueStatus *SBQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == sbQueueStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(sbQueueStatus)
@@ -203,7 +203,7 @@ func (sbQueueStatus *SBQueue_Status) ConvertStatusFrom(source genruntime.Convert
 // ConvertStatusTo populates the provided destination from our SBQueue_Status
 func (sbQueueStatus *SBQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == sbQueueStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(sbQueueStatus)

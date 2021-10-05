@@ -38,9 +38,9 @@ func EnsureDefinitionsDoNotUseAnyTypes() Stage {
 }
 
 func checkForAnyType(description string, packages []string) Stage {
-	expectedPackages := make(map[string]struct{}, len(packages))
+	expectedPackages := astmodel.MakeStringSet()
 	for _, p := range packages {
-		expectedPackages[p] = struct{}{}
+		expectedPackages.Add(p)
 	}
 
 	return MakeLegacyStage(
@@ -54,14 +54,13 @@ func checkForAnyType(description string, packages []string) Stage {
 					badNames = append(badNames, name)
 				}
 
-				packageName := packageName(name)
-
 				// We only want to include this type in the output if
 				// it's not in a package that we know contains
 				// AnyTypes.
-				if _, found := expectedPackages[packageName]; found {
+				if expectedPackages.Contains(packageName(name)) {
 					continue
 				}
+
 				output.Add(def)
 			}
 
@@ -110,7 +109,7 @@ func packageName(name astmodel.TypeName) string {
 
 func collectBadPackages(
 	names []astmodel.TypeName,
-	expectedPackages map[string]struct{},
+	expectedPackages astmodel.StringSet,
 ) ([]string, error) {
 	grouped := make(map[string][]string)
 	for _, name := range names {
@@ -121,10 +120,11 @@ func collectBadPackages(
 	var groupNames []string
 	for groupName := range grouped {
 		// Only complain about this package if it's one we don't know about.
-		if _, found := expectedPackages[groupName]; found {
-			delete(expectedPackages, groupName)
+		if expectedPackages.Contains(groupName) {
+			expectedPackages.Remove(groupName)
 			continue
 		}
+
 		groupNames = append(groupNames, groupName)
 	}
 	sort.Strings(groupNames)

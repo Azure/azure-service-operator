@@ -143,10 +143,10 @@ func (stage *Stage) Run(ctx context.Context, state *State) (*State, error) {
 }
 
 // CheckPrerequisites returns an error if the prerequisites of this stage have not been met
-func (stage *Stage) CheckPrerequisites(priorStages map[string]struct{}) error {
+func (stage *Stage) CheckPrerequisites(priorStages astmodel.StringSet) error {
 	var errs []error
 	for _, prereq := range stage.prerequisites {
-		if _, ok := priorStages[prereq]; !ok {
+		if !priorStages.Contains(prereq) {
 			errs = append(errs, errors.Errorf("prerequisite %q of stage %q not satisfied.", prereq, stage.id))
 		}
 	}

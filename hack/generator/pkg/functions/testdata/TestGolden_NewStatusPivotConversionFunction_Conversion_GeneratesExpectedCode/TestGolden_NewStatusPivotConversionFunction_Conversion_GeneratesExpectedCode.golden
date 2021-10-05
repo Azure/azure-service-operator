@@ -4,7 +4,7 @@
  package v20200101
  
 +import (
-+	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
++	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 +	"github.com/pkg/errors"
 +)
 +
@@ -15,7 +15,7 @@
 +// ConvertStatusFrom populates our Person_Status from the provided source
 +func (personStatus *Person_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 +	if source == personStatus {
-+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
++		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 +	}
 +
 +	return source.ConvertStatusTo(personStatus)
@@ -24,7 +24,7 @@
 +// ConvertStatusTo populates the provided destination from our Person_Status
 +func (personStatus *Person_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 +	if destination == personStatus {
-+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
++		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 +	}
 +
 +	return destination.ConvertStatusFrom(personStatus)

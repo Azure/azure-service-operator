@@ -41,17 +41,20 @@ var (
 	PropertyBagProperty = astmodel.NewPropertyDefinition("PropertyBag", "$propertyBag", astmodel.PropertyBagType).
 				WithDescription("Stash for extra properties")
 
-	// Reference Package 2020
-	Pkg2020 = MakeLocalPackageReference(Group, "v20200101")
+	// Reference Packages for 2020
+	Pkg2020  = MakeLocalPackageReference(Group, "v20200101")
+	Pkg2020s = astmodel.MakeStoragePackageReference(Pkg2020)
 
 	// Reference Package 2021 preview
 	Pkg2021Preview = MakeLocalPackageReference(Group, "v20211231preview")
 
-	// Reference Package 2021
-	Pkg2021 = MakeLocalPackageReference(Group, "v20211231")
+	// Reference Packages for 2021
+	Pkg2021  = MakeLocalPackageReference(Group, "v20211231")
+	Pkg2021s = astmodel.MakeStoragePackageReference(Pkg2021)
 
-	// Reference Package 2022
-	Pkg2022 = MakeLocalPackageReference(Group, "v20220630")
+	// Reference Packages for 2022
+	Pkg2022  = MakeLocalPackageReference(Group, "v20220630")
+	Pkg2022s = astmodel.MakeStoragePackageReference(Pkg2022)
 
 	// Reference Package Batch 2020
 	BatchPkg2020 = MakeLocalPackageReference(BatchGroup, "v20200101")
