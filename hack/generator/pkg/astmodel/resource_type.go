@@ -700,6 +700,11 @@ func (resource *ResourceType) HasTestCases() bool {
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	if resource == nil {
+		builder.WriteString("<nilResource>")
+		return
+	}
+
 	builder.WriteString("Resource[spec:")
 	resource.spec.WriteDebugDescription(builder, types)
 	builder.WriteString("|status:")

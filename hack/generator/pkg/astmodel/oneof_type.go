@@ -127,6 +127,11 @@ func (oneOf *OneOfType) String() string {
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	if oneOf == nil {
+		builder.WriteString("<nilOneOf>")
+		return
+	}
+
 	builder.WriteString("OneOf[")
 	oneOf.types.ForEach(func(t Type, ix int) {
 		if ix > 0 {

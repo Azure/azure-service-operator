@@ -2118,7 +2118,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	// Encryption
 	if disksSpec.Encryption != nil {
 		var encryption v1alpha1api20200930storage.Encryption
-		err := (*disksSpec.Encryption).AssignPropertiesToEncryption(&encryption)
+		err = (*disksSpec.Encryption).AssignPropertiesToEncryption(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesToEncryption()")
 		}
@@ -2130,7 +2130,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	// EncryptionSettingsCollection
 	if disksSpec.EncryptionSettingsCollection != nil {
 		var encryptionSettingsCollection v1alpha1api20200930storage.EncryptionSettingsCollection
-		err := (*disksSpec.EncryptionSettingsCollection).AssignPropertiesToEncryptionSettingsCollection(&encryptionSettingsCollection)
+		err = (*disksSpec.EncryptionSettingsCollection).AssignPropertiesToEncryptionSettingsCollection(&encryptionSettingsCollection)
 		if err != nil {
 			return errors.Wrap(err, "populating EncryptionSettingsCollection from EncryptionSettingsCollection, calling AssignPropertiesToEncryptionSettingsCollection()")
 		}
@@ -2142,7 +2142,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	// ExtendedLocation
 	if disksSpec.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20200930storage.ExtendedLocation
-		err := (*disksSpec.ExtendedLocation).AssignPropertiesToExtendedLocation(&extendedLocation)
+		err = (*disksSpec.ExtendedLocation).AssignPropertiesToExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocation()")
 		}
@@ -2196,7 +2196,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	// PurchasePlan
 	if disksSpec.PurchasePlan != nil {
 		var purchasePlan v1alpha1api20200930storage.PurchasePlan
-		err := (*disksSpec.PurchasePlan).AssignPropertiesToPurchasePlan(&purchasePlan)
+		err = (*disksSpec.PurchasePlan).AssignPropertiesToPurchasePlan(&purchasePlan)
 		if err != nil {
 			return errors.Wrap(err, "populating PurchasePlan from PurchasePlan, calling AssignPropertiesToPurchasePlan()")
 		}
@@ -2208,7 +2208,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	// Sku
 	if disksSpec.Sku != nil {
 		var sku v1alpha1api20200930storage.DiskSku
-		err := (*disksSpec.Sku).AssignPropertiesToDiskSku(&sku)
+		err = (*disksSpec.Sku).AssignPropertiesToDiskSku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToDiskSku()")
 		}

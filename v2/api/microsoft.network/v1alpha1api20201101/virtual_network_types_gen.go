@@ -1458,7 +1458,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesToVirtualNetwor
 	// BgpCommunities
 	if virtualNetworksSpec.BgpCommunities != nil {
 		var bgpCommunity v1alpha1api20201101storage.VirtualNetworkBgpCommunities
-		err := (*virtualNetworksSpec.BgpCommunities).AssignPropertiesToVirtualNetworkBgpCommunities(&bgpCommunity)
+		err = (*virtualNetworksSpec.BgpCommunities).AssignPropertiesToVirtualNetworkBgpCommunities(&bgpCommunity)
 		if err != nil {
 			return errors.Wrap(err, "populating BgpCommunities from BgpCommunities, calling AssignPropertiesToVirtualNetworkBgpCommunities()")
 		}
@@ -1470,7 +1470,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesToVirtualNetwor
 	// DdosProtectionPlan
 	if virtualNetworksSpec.DdosProtectionPlan != nil {
 		var ddosProtectionPlan v1alpha1api20201101storage.SubResource
-		err := (*virtualNetworksSpec.DdosProtectionPlan).AssignPropertiesToSubResource(&ddosProtectionPlan)
+		err = (*virtualNetworksSpec.DdosProtectionPlan).AssignPropertiesToSubResource(&ddosProtectionPlan)
 		if err != nil {
 			return errors.Wrap(err, "populating DdosProtectionPlan from DdosProtectionPlan, calling AssignPropertiesToSubResource()")
 		}
@@ -1482,7 +1482,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesToVirtualNetwor
 	// DhcpOptions
 	if virtualNetworksSpec.DhcpOptions != nil {
 		var dhcpOption v1alpha1api20201101storage.DhcpOptions
-		err := (*virtualNetworksSpec.DhcpOptions).AssignPropertiesToDhcpOptions(&dhcpOption)
+		err = (*virtualNetworksSpec.DhcpOptions).AssignPropertiesToDhcpOptions(&dhcpOption)
 		if err != nil {
 			return errors.Wrap(err, "populating DhcpOptions from DhcpOptions, calling AssignPropertiesToDhcpOptions()")
 		}
@@ -1510,7 +1510,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesToVirtualNetwor
 	// ExtendedLocation
 	if virtualNetworksSpec.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20201101storage.ExtendedLocation
-		err := (*virtualNetworksSpec.ExtendedLocation).AssignPropertiesToExtendedLocation(&extendedLocation)
+		err = (*virtualNetworksSpec.ExtendedLocation).AssignPropertiesToExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocation()")
 		}
@@ -1525,7 +1525,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesToVirtualNetwor
 		// Shadow the loop variable to avoid aliasing
 		ipAllocationItem := ipAllocationItem
 		var ipAllocation v1alpha1api20201101storage.SubResource
-		err := ipAllocationItem.AssignPropertiesToSubResource(&ipAllocation)
+		err = ipAllocationItem.AssignPropertiesToSubResource(&ipAllocation)
 		if err != nil {
 			return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesToSubResource()")
 		}
@@ -1549,7 +1549,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesToVirtualNetwor
 		// Shadow the loop variable to avoid aliasing
 		subnetItem := subnetItem
 		var subnet v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets
-		err := subnetItem.AssignPropertiesToVirtualNetworksSpecPropertiesSubnets(&subnet)
+		err = subnetItem.AssignPropertiesToVirtualNetworksSpecPropertiesSubnets(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "populating Subnets from Subnets, calling AssignPropertiesToVirtualNetworksSpecPropertiesSubnets()")
 		}

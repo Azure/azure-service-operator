@@ -252,7 +252,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 	needToInitializeToProp := false // we need to init the target if it is optional
 	var toPropTypeName astmodel.TypeName
 	// (2.)  resolve any optional type
-	if optType, ok := toPropType.(*astmodel.OptionalType); ok {
+	if optType, ok := astmodel.AsOptionalType(toPropType); ok {
 		needToInitializeToProp = true
 		// (3.) resolve any inner typename
 		toPropTypeName = optType.Element().(astmodel.TypeName)
@@ -263,7 +263,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 	}
 
 	// (4.) we have found the underlying object type
-	toPropObjType := toPropType.(*astmodel.ObjectType)
+	toPropObjType, _ := astmodel.AsObjectType(toPropType)
 
 	// *** Now generate the code! ***
 
@@ -301,7 +301,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 				Locals:            builder.locals,
 			})
 
-		// we were unable to generate an inner conversion so we cannot generate the overall conversion
+		// we were unable to generate an inner conversion, so we cannot generate the overall conversion
 		if len(stmts) == 0 {
 			return nil, false
 		}

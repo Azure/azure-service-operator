@@ -186,16 +186,23 @@ func (typeName TypeName) Plural() TypeName {
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, types Types) {
-	builder.WriteString(typeName.PackageReference.String())
+
+	if typeName.PackageReference == nil {
+		builder.WriteString("<nilRef>")
+	} else {
+		builder.WriteString(typeName.PackageReference.String())
+	}
 	builder.WriteString("/")
 	builder.WriteString(typeName.name)
 
-	if _, ok := typeName.PackageReference.AsLocalPackage(); ok {
-		builder.WriteString(":")
-		if definition, ok := types[typeName]; ok {
-			definition.Type().WriteDebugDescription(builder, types)
-		} else {
-			builder.WriteString("NOTDEFINED")
+	if typeName.PackageReference != nil {
+		if _, ok := typeName.PackageReference.AsLocalPackage(); ok {
+			builder.WriteString(":")
+			if definition, ok := types[typeName]; ok {
+				definition.Type().WriteDebugDescription(builder, types)
+			} else {
+				builder.WriteString("NOTDEFINED")
+			}
 		}
 	}
 }

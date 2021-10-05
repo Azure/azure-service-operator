@@ -93,6 +93,11 @@ func (array *ArrayType) String() string {
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (array *ArrayType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	if array == nil {
+		builder.WriteString("<nilArray>")
+		return
+	}
+
 	builder.WriteString("Array[")
 	array.element.WriteDebugDescription(builder, types)
 	builder.WriteString("]")

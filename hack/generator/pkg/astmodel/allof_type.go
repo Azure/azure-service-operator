@@ -164,6 +164,11 @@ func (allOf *AllOfType) String() string {
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (allOf *AllOfType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	if allOf == nil {
+		builder.WriteString("<nilAllOf>")
+		return
+	}
+
 	builder.WriteString("AllOf[")
 	allOf.types.ForEach(func(t Type, ix int) {
 		if ix > 0 {

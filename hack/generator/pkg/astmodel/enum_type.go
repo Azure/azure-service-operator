@@ -226,6 +226,11 @@ func (enum *EnumType) String() string {
 // builder receives the full description
 // types is a dictionary for resolving named types
 func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	if enum == nil {
+		builder.WriteString("<nilEnum>")
+		return
+	}
+
 	builder.WriteString("Enum[")
 	enum.baseType.WriteDebugDescription(builder, types)
 	builder.WriteString(":")
