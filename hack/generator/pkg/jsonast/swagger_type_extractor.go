@@ -22,7 +22,7 @@ import (
 type SwaggerTypeExtractor struct {
 	idFactory   astmodel.IdentifierFactory
 	config      *config.Configuration
-	cache       OpenAPISchemaCache
+	cache       CachingFileLoader
 	swagger     spec.Swagger
 	swaggerPath string
 	// package for output types (e.g. Microsoft.Network.Frontdoor/v20200101)
@@ -36,7 +36,7 @@ func NewSwaggerTypeExtractor(
 	swagger spec.Swagger,
 	swaggerPath string,
 	outputPackage astmodel.LocalPackageReference,
-	cache OpenAPISchemaCache) SwaggerTypeExtractor {
+	cache CachingFileLoader) SwaggerTypeExtractor {
 
 	return SwaggerTypeExtractor{
 		idFactory:     idFactory,

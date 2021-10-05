@@ -189,7 +189,7 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 		return jsonast.SwaggerTypes{}, err
 	}
 
-	cache := jsonast.NewOpenAPISchemaCache(schemas)
+	loader := jsonast.NewCachingFileLoader(schemas)
 
 	typesByGroup := make(map[astmodel.LocalPackageReference][]typesFromFile)
 	for schemaPath, schema := range schemas {
@@ -200,7 +200,7 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 			schema.Swagger,
 			schemaPath,
 			*schema.Package, // always set during generation
-			cache)
+			loader)
 
 		types, err := extractor.ExtractTypes(ctx)
 		if err != nil {

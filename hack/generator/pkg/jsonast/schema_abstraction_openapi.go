@@ -7,7 +7,6 @@ package jsonast
 
 import (
 	"fmt"
-	"io/ioutil"
 	"math/big"
 	"net/url"
 	"path/filepath"
@@ -27,7 +26,7 @@ type OpenAPISchema struct {
 	fileName      string
 	outputPackage astmodel.LocalPackageReference
 	idFactory     astmodel.IdentifierFactory
-	cache         OpenAPISchemaCache
+	loader        OpenAPIFileLoader
 }
 
 // MakeOpenAPISchema wraps a spec.Swagger to conform to the Schema abstraction
@@ -36,7 +35,7 @@ func MakeOpenAPISchema(
 	fileName string,
 	outputPackage astmodel.LocalPackageReference,
 	idFactory astmodel.IdentifierFactory,
-	cache OpenAPISchemaCache) Schema {
+	cache OpenAPIFileLoader) Schema {
 	return &OpenAPISchema{schema, fileName, outputPackage, idFactory, cache}
 }
 
@@ -262,12 +261,12 @@ func (schema *OpenAPISchema) isRef() bool {
 }
 
 func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
-	absRefPath, err := refAbsSchemaPath(schema.inner.Ref, schema.fileName)
+	absRefPath, err := findFileForRef(schema.fileName, schema.inner.Ref)
 	if err != nil {
 		return astmodel.TypeName{}, err
 	}
 
-	packageAndSwagger, err := schema.cache.fetchFileAbsolute(absRefPath)
+	packageAndSwagger, err := schema.loader.loadFile(absRefPath)
 	if err != nil {
 		return astmodel.TypeName{}, err
 	}
@@ -285,9 +284,9 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 		// any definitions in that package
 		// note that this won’t detect collisions with another sibling file but it’s better than nothing
 		if absRefPath != schema.fileName {
-			referringPackage, err := schema.cache.fetchFileAbsolute(schema.fileName)
+			referringPackage, err := schema.loader.loadFile(schema.fileName)
 			if err != nil {
-				panic(err) // assert, not error; should always have been loaded already
+				panic(err) // assert, not error; should always have been loaded already - it is the current file
 			}
 
 			if _, ok := referringPackage.Swagger.Definitions[name]; ok {
@@ -305,7 +304,7 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 }
 
 func (schema *OpenAPISchema) refSchema() Schema {
-	fileName, result, pkg := loadRefSchema(schema.inner.Ref, schema.fileName, schema.cache)
+	fileName, result, pkg := loadRefSchema(schema.inner.Ref, schema.fileName, schema.loader)
 
 	// if the pkg comes back nil, that means we should keep using the current package
 	// this happens for some ‘common’ types defined in files that don’t have groups or versions
@@ -320,11 +319,12 @@ func (schema *OpenAPISchema) refSchema() Schema {
 		fileName,
 		outputPackage,
 		schema.idFactory,
-		schema.cache,
+		schema.loader,
 	}
 }
 
-func refAbsSchemaPath(ref spec.Ref, schemaPath string) (string, error) {
+// findFileForRef identifies the schema path for a ref, relative to the give schema path
+func findFileForRef(schemaPath string, ref spec.Ref) (string, error) {
 	if ref.HasFragmentOnly {
 		// same file
 		return schemaPath, nil
@@ -337,14 +337,14 @@ func refAbsSchemaPath(ref spec.Ref, schemaPath string) (string, error) {
 func loadRefSchema(
 	ref spec.Ref,
 	schemaPath string,
-	cache OpenAPISchemaCache) (string, spec.Schema, *astmodel.LocalPackageReference) {
+	loader OpenAPIFileLoader) (string, spec.Schema, *astmodel.LocalPackageReference) {
 
-	absPath, err := refAbsSchemaPath(ref, schemaPath)
+	absPath, err := findFileForRef(schemaPath, ref)
 	if err != nil {
 		panic(err)
 	}
 
-	packageAndSwagger, err := cache.fetchFileAbsolute(absPath)
+	packageAndSwagger, err := loader.loadFile(absPath)
 	if err != nil {
 		panic(err)
 	}
@@ -372,28 +372,6 @@ func objectNameFromPointer(ptr *jsonpointer.Pointer) string {
 	return tokens[1]
 }
 
-// OpenAPISchemaCache is a cache of schema that have been loaded,
-// identified by file path
-type OpenAPISchemaCache struct {
-	files map[string]PackageAndSwagger
-}
-
-type PackageAndSwagger struct {
-	Package *astmodel.LocalPackageReference
-	Swagger spec.Swagger
-}
-
-// NewOpenAPISchemaCache creates an OpenAPISchemaCache with the initial
-// file path → spec mapping
-func NewOpenAPISchemaCache(specs map[string]PackageAndSwagger) OpenAPISchemaCache {
-	files := make(map[string]PackageAndSwagger)
-	for specPath, spec := range specs {
-		files[specPath] = spec
-	}
-
-	return OpenAPISchemaCache{files}
-}
-
 // resolveAbsolutePath makes an absolute path by combining 'baseFileName' and 'url'
 func resolveAbsolutePath(baseFileName string, url *url.URL) (string, error) {
 	if url.IsAbs() {
@@ -406,35 +384,4 @@ func resolveAbsolutePath(baseFileName string, url *url.URL) (string, error) {
 	}
 
 	return fileURL.ResolveReference(url).Path, nil
-}
-
-// fetchFileAbsolute fetches the schema for the absolute path specified
-func (fileCache OpenAPISchemaCache) fetchFileAbsolute(filePath string) (PackageAndSwagger, error) {
-	if !filepath.IsAbs(filePath) {
-		panic("filePath must be absolute") // assertion, not error
-	}
-
-	if swagger, ok := fileCache.files[filePath]; ok {
-		return swagger, nil
-	}
-
-	// here the package will be unpopulated,
-	// which indicates to the caller to reuse the existing package for definitions
-	result := PackageAndSwagger{}
-
-	klog.V(3).Infof("Loading file into cache %q", filePath)
-
-	fileContent, err := ioutil.ReadFile(filePath)
-	if err != nil {
-		return result, errors.Wrapf(err, "unable to read swagger file %q", filePath)
-	}
-
-	err = result.Swagger.UnmarshalJSON(fileContent)
-	if err != nil {
-		return result, errors.Wrapf(err, "unable to parse swagger file %q", filePath)
-	}
-
-	fileCache.files[filePath] = result
-
-	return result, err
 }
