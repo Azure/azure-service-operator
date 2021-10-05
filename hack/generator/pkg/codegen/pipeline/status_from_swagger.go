@@ -13,6 +13,7 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strings"
 	"sync"
 
@@ -239,8 +240,18 @@ type typesFromFile struct {
 	filePath string
 }
 
+type typesFromFilesSorter struct{ x []typesFromFile }
+
+var _ sort.Interface = typesFromFilesSorter{}
+
+func (s typesFromFilesSorter) Len() int           { return len(s.x) }
+func (s typesFromFilesSorter) Swap(i, j int)      { s.x[i], s.x[j] = s.x[j], s.x[i] }
+func (s typesFromFilesSorter) Less(i, j int) bool { return s.x[i].filePath < s.x[j].filePath }
+
 // mergeTypesForPackage merges the types for a single package from multiple files
 func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles []typesFromFile) jsonast.SwaggerTypes {
+	sort.Sort(typesFromFilesSorter{typesFromFiles})
+
 	typeNameCounts := make(map[astmodel.TypeName]int)
 	for _, typesFromFile := range typesFromFiles {
 		for name := range typesFromFile.OtherTypes {
@@ -280,7 +291,7 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 	mergedResult := jsonast.SwaggerTypes{ResourceTypes: make(astmodel.Types), OtherTypes: make(astmodel.Types)}
 	for _, typesFromFile := range typesFromFiles {
 		for _, t := range typesFromFile.OtherTypes {
-			// TODO: for consistent results we must sort typesFromFiles first
+			// for consistent results we always sort typesFromFiles first (at top of this function)
 			// so that we always pick the same one when there are multiple
 			_ = mergedResult.OtherTypes.AddAllowDuplicates(t)
 			// errors ignored since we already checked for structural equality
