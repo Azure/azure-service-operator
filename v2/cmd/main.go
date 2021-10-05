@@ -7,19 +7,19 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 	"time"
 
-	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/go-logr/logr"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/klog/v2"
 	"k8s.io/klog/v2/klogr"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
 	"github.com/Azure/azure-service-operator/v2/internal/controller/armclient"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/version"
 )
@@ -41,9 +41,21 @@ func main() {
 
 	ctrl.SetLogger(klogr.New())
 
+	cfg, err := config.ReadAndValidate()
+	if err != nil {
+		setupLog.Error(err, "unable to get env configuration values")
+		os.Exit(1)
+	}
+
+	var cacheFunc cache.NewCacheFunc
+	if cfg.TargetNamespaces != nil {
+		cacheFunc = cache.MultiNamespacedCacheBuilder(cfg.TargetNamespaces)
+	}
+
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:             scheme,
 		MetricsBindAddress: metricsAddr,
+		NewCache:           cacheFunc,
 		LeaderElection:     enableLeaderElection,
 		LeaderElectionID:   "controllers-leader-election-azinfra-generated",
 		Port:               9443,
@@ -59,27 +71,25 @@ func main() {
 		os.Exit(1)
 	}
 
-	subID := os.Getenv(auth.SubscriptionID)
-	if subID == "" {
-		setupLog.Error(err, fmt.Sprintf("unable to get env var %q", auth.SubscriptionID))
-		os.Exit(1)
-	}
-
-	armApplier, err := armclient.NewAzureTemplateClient(authorizer, subID)
+	armApplier, err := armclient.NewAzureTemplateClient(authorizer, cfg.SubscriptionID)
 	if err != nil {
 		setupLog.Error(err, "failed to create ARM applier")
 		os.Exit(1)
 	}
 
 	log := ctrl.Log.WithName("controllers")
-	if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), makeControllerOptions(log)); errs != nil {
-		setupLog.Error(err, "failed to register gvks")
-		os.Exit(1)
+	if cfg.OperatorMode.IncludesWatchers() {
+		if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), makeControllerOptions(log, cfg)); errs != nil {
+			setupLog.Error(err, "failed to register gvks")
+			os.Exit(1)
+		}
 	}
 
-	if errs := controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes()); errs != nil {
-		setupLog.Error(err, "failed to register webhook for gvks")
-		os.Exit(1)
+	if cfg.OperatorMode.IncludesWebhooks() {
+		if errs := controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes()); errs != nil {
+			setupLog.Error(err, "failed to register webhook for gvks")
+			os.Exit(1)
+		}
 	}
 
 	setupLog.Info("starting manager")
@@ -89,8 +99,9 @@ func main() {
 	}
 }
 
-func makeControllerOptions(log logr.Logger) controllers.Options {
+func makeControllerOptions(log logr.Logger, cfg config.Values) controllers.Options {
 	return controllers.Options{
+		Config: cfg,
 		Options: controller.Options{
 			MaxConcurrentReconciles: 1,
 			Log:                     log,

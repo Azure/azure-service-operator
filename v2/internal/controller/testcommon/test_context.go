@@ -11,6 +11,7 @@ import (
 	"crypto/rsa"
 	"io"
 	"net/http"
+	"os"
 	"regexp"
 	"strings"
 	"testing"
@@ -97,6 +98,18 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 				logger.Error(err, "unable to stop ARM client recorder")
 				t.Fail()
 			}
+			if tc.RecordReplay {
+				// If the cassette file doesn't exist at this point
+				// then the operator must not have made any ARM
+				// requests. Create an empty cassette to record that
+				// so subsequent replay tests can run without needing
+				// credentials.
+				err = ensureCassetteFileExists(cassetteName)
+				if err != nil {
+					logger.Error(err, "ensuring cassette file exists")
+					t.Fail()
+				}
+			}
 		}
 	})
 
@@ -111,6 +124,25 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		AzureClientRecorder: recorder,
 		TestName:            t.Name(),
 	}, nil
+}
+
+func ensureCassetteFileExists(cassetteName string) error {
+	filename := cassetteName + ".yaml"
+	_, err := os.Stat(filename)
+	if err == nil {
+		return nil
+	}
+	if !os.IsNotExist(err) {
+		return err
+	}
+	f, err := os.OpenFile(filename, os.O_RDONLY|os.O_CREATE, 0644)
+	if err != nil {
+		return errors.Wrapf(err, "creating empty cassette %q", filename)
+	}
+	if err := f.Close(); err != nil {
+		return errors.Wrapf(err, "failed to close empty cassette %q", filename)
+	}
+	return nil
 }
 
 func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer, string, *recorder.Recorder, error) {
@@ -169,7 +201,7 @@ func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer
 	r.AddSaveFilter(func(i *cassette.Interaction) error {
 		// rewrite all request/response fields to hide the real subscription ID
 		// this is *not* a security measure but intended to make the tests updateable from
-		// any subscription, so a contributer can update the tests against their own sub
+		// any subscription, so a contributor can update the tests against their own sub.
 		hideSubID := func(s string) string {
 			return strings.ReplaceAll(s, subscriptionID, uuid.Nil.String())
 		}
