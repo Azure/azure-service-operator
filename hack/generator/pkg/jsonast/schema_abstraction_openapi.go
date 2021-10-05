@@ -266,12 +266,14 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 		return astmodel.TypeName{}, err
 	}
 
+	// this is the basic type name for the reference
+	name := schema.refObjectName()
+
+	// now locate the package name for the reference
 	packageAndSwagger, err := schema.loader.loadFile(absRefPath)
 	if err != nil {
 		return astmodel.TypeName{}, err
 	}
-
-	name := schema.refObjectName()
 
 	// default to using same package as the referring type
 	pkg := schema.outputPackage
