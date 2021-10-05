@@ -300,12 +300,11 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 			// or is nil (so could be set to the pulling-in package)
 			if otherSchema.Package == nil || otherSchema.Package.Equals(schema.outputPackage) {
 				if _, ok := otherSchema.Swagger.Definitions[name]; ok {
-					return astmodel.TypeName{}, errors.Errorf("importing type %s from file %s into package %s could generate collision with type in %s: %"+"+v",
+					return astmodel.TypeName{}, errors.Errorf("importing type %s from file %s into package %s could generate collision with type in %s",
 						name,
 						absRefPath,
 						pkg,
 						otherFile,
-						otherSchema.Package,
 					)
 				}
 			}
