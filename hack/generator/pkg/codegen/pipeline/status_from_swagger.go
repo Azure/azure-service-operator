@@ -590,7 +590,7 @@ func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOv
 }
 
 // supports date-based versions or v1, v2 (as used by common types)
-var swaggerVersionRegex = regexp.MustCompile(`/(\d{4}-\d{2}-\d{2}(-preview|-privatepreview)?)|(v\d+)/`)
+var swaggerVersionRegex = regexp.MustCompile(`/(\d{4}-\d{2}-\d{2}(-preview|-privatepreview)?)|(v\d+)|(\d+\.\d+)/`)
 
 func versionFromPath(filePath string) string {
 	// must trim leading & trailing '/' as golang does not support lookaround

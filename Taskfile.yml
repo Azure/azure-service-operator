@@ -14,7 +14,6 @@ vars:
 
   TEST_RESOURCE_PREFIX: asotest
 
-
   SCRIPTS_ROOT: ./scripts
 
   VERSION: 

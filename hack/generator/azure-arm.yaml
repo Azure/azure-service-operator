@@ -379,6 +379,26 @@ status:
       basePath: 'common-types/resource-management',
       namespace: 'Microsoft.Common'
     },
+    {
+      # force the namespace here or it can fall foul of the sibling-name-collision test
+      basePath: 'sql/resource-manager/common',
+      namespace: 'Microsoft.Sql'
+    },
+    {
+      # force the namespace here or it can fall foul of the sibling-name-collision test
+      basePath: 'security/resource-manager/common',
+      namespace: 'Microsoft.Security'
+    },
+    {
+      # force the namespace here or it can fall foul of the sibling-name-collision test
+      basePath: 'eventhub/resource-manager/common',
+      namespace: 'Microsoft.EventHub'
+    },
+    {
+      # force the namespace here or it can fall foul of the sibling-name-collision test
+      basePath: 'securityinsights/resource-manager/common',
+      namespace: 'Microsoft.SecurityInsights'
+    },
   # the rest of the configuration below is copied from the ARM schema repo:
   # https://github.com/Azure/azure-resource-manager-schemas/blob/master/generator/autogenlist.ts
     {

@@ -214,5 +214,70 @@ func Test_GeneratingCollidingTypeNamesReturnsError(t *testing.T) {
 
 	_, err := wrappedSchema.refTypeName()
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err).To(MatchError("importing type TheDefinition from file /dev/null/path/to/other.json into package github.com/Azure/azure-service-operator/v2/api/Microsoft.Test/v1 would generate collision with type in /dev/null/path/to/schema.json"))
+	g.Expect(err).To(MatchError("importing type TheDefinition from file /dev/null/path/to/other.json into package github.com/Azure/azure-service-operator/v2/api/Microsoft.Test/v1 could generate collision with type in /dev/null/path/to/schema.json"))
+}
+
+func Test_GeneratingCollidingTypeNamesWithSiblingFilesReturnsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	schemaPath := "/dev/null/path/to/schema.json"
+	schemaPackage := astmodel.MakeLocalPackageReference(
+		"github.com/Azure/azure-service-operator/v2/api",
+		"Microsoft.Test",
+		"v1")
+
+	externalSchemaPath := "/dev/null/path/to/other.json"
+	siblingSchemaPath := "/dev/null/path/to/sibling.json"
+
+	loader := NewCachingFileLoader(map[string]PackageAndSwagger{
+		schemaPath: {
+			Package: &schemaPackage,
+			Swagger: spec.Swagger{
+				SwaggerProps: spec.SwaggerProps{
+					Definitions: spec.Definitions{
+						"TheDefinition": spec.Schema{ /* contents not used */ },
+					},
+				},
+			},
+		},
+
+		externalSchemaPath: {
+			Package: nil,
+			Swagger: spec.Swagger{
+				SwaggerProps: spec.SwaggerProps{
+					Definitions: spec.Definitions{
+						"ExternalDefinition": spec.Schema{ /* contents not used */ },
+					},
+				},
+			},
+		},
+
+		siblingSchemaPath: {
+			Package: nil,
+			Swagger: spec.Swagger{
+				SwaggerProps: spec.SwaggerProps{
+					Definitions: spec.Definitions{
+						"ExternalDefinition": spec.Schema{ /* contents not used */ },
+					},
+				},
+			},
+		},
+	})
+
+	schema := spec.Schema{
+		SchemaProps: spec.SchemaProps{
+			Ref: spec.MustCreateRef(externalSchemaPath + "#/definitions/ExternalDefinition"),
+		},
+	}
+
+	wrappedSchema := MakeOpenAPISchema(
+		schema,
+		schemaPath,
+		schemaPackage,
+		astmodel.NewIdentifierFactory(),
+		loader)
+
+	_, err := wrappedSchema.refTypeName()
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err).To(MatchError("importing type ExternalDefinition from file /dev/null/path/to/other.json into package github.com/Azure/azure-service-operator/v2/api/Microsoft.Test/v1 could generate collision with type in /dev/null/path/to/sibling.json"))
 }

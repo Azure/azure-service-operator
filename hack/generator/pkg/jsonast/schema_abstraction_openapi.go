@@ -282,22 +282,32 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 	if packageAndSwagger.Package != nil {
 		pkg = *packageAndSwagger.Package
 	} else {
-		// make sure that pullling the type into the other package wouldn’t conflict with
-		// any definitions in that package
-		// note that this won’t detect collisions with another sibling file but it’s better than nothing
-		if absRefPath != schema.fileName {
-			referringPackage, err := schema.loader.loadFile(schema.fileName)
-			if err != nil {
-				panic(err) // assert, not error; should always have been loaded already - it is the current file
+		// make sure that pulling the type into the other package wouldn’t conflict with
+		// any definitions in that package; we iterate over all files to ensure that
+		// we don’t conflict with “sibling” files as well as the pulling-in file
+		otherFiles := schema.loader.knownFiles()
+		for _, otherFile := range otherFiles {
+			if otherFile == absRefPath {
+				continue // skip containing file
 			}
 
-			if _, ok := referringPackage.Swagger.Definitions[name]; ok {
-				return astmodel.TypeName{}, errors.Errorf("importing type %s from file %s into package %s would generate collision with type in %s",
-					name,
-					absRefPath,
-					pkg,
-					schema.fileName,
-				)
+			otherSchema, err := schema.loader.loadFile(otherFile)
+			if err != nil {
+				panic(err) // assert, not error: file should already be loaded if it is known
+			}
+
+			// check only applies if package is the same as the pulling-in package
+			// or is nil (so could be set to the pulling-in package)
+			if otherSchema.Package == nil || otherSchema.Package.Equals(schema.outputPackage) {
+				if _, ok := otherSchema.Swagger.Definitions[name]; ok {
+					return astmodel.TypeName{}, errors.Errorf("importing type %s from file %s into package %s could generate collision with type in %s: %"+"+v",
+						name,
+						absRefPath,
+						pkg,
+						otherFile,
+						otherSchema.Package,
+					)
+				}
 			}
 		}
 	}

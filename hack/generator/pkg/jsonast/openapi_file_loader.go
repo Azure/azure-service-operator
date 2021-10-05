@@ -18,6 +18,8 @@ import (
 
 type OpenAPIFileLoader interface {
 	loadFile(absPath string) (PackageAndSwagger, error)
+
+	knownFiles() []string
 }
 
 type PackageAndSwagger struct {
@@ -42,6 +44,15 @@ func NewCachingFileLoader(specs map[string]PackageAndSwagger) CachingFileLoader 
 	}
 
 	return CachingFileLoader{files}
+}
+
+func (fileCache CachingFileLoader) knownFiles() []string {
+	result := make([]string, 0, len(fileCache.files))
+	for k := range fileCache.files {
+		result = append(result, k)
+	}
+
+	return result
 }
 
 // fetchFileAbsolute fetches the schema for the absolute path specified
