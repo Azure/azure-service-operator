@@ -22,8 +22,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	"github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -108,6 +108,14 @@ func CreateTestResourceGroupDefaultTags() map[string]string {
 }
 
 func (ctx KubeGlobalContext) ForTest(t *testing.T) KubePerTestContext {
+	cfg, err := config.ReadFromEnvironment()
+	if err != nil {
+		t.Fatal(err)
+	}
+	return ctx.ForTestWithConfig(t, cfg)
+}
+
+func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) KubePerTestContext {
 	/*
 		Note: if you update this method you might also need to update TestContext.Subtest.
 	*/
@@ -117,7 +125,7 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) KubePerTestContext {
 		t.Fatal(err)
 	}
 
-	baseCtx, err := ctx.createBaseTestContext(perTestContext)
+	baseCtx, err := ctx.createBaseTestContext(perTestContext, cfg)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -169,8 +177,8 @@ func (tc KubePerTestContext) CreateResourceGroupAndWait(rg *resources.ResourceGr
 	return createdResourceGroup
 }
 
-// CreateResourceGroup creates a new resource group
-// and registers it to be deleted up when the context is cleaned up
+// CreateResourceGroup creates a new resource group and registers it
+// to be deleted up when the test context is cleaned up.
 func (tc KubePerTestContext) CreateResourceGroup(rg *resources.ResourceGroup) (*resources.ResourceGroup, error) {
 	ctx := context.Background()
 
@@ -278,7 +286,7 @@ func (tc *KubePerTestContext) Eventually(actual interface{}, intervals ...interf
 	return tc.G.Eventually(actual, tc.RemainingTime(), tc.PollingInterval())
 }
 
-func (tc *KubePerTestContext) CreateTestResourceGroupAndWait() *v1alpha1api20200601.ResourceGroup {
+func (tc *KubePerTestContext) CreateTestResourceGroupAndWait() *resources.ResourceGroup {
 	return tc.CreateResourceGroupAndWait(tc.NewTestResourceGroup())
 }
 
