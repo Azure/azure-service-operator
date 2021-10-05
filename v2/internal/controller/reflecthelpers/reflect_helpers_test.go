@@ -129,29 +129,6 @@ func MakeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.
 
 type DummyStruct struct{}
 
-func Test_ConvertResourceToDeployableResource(t *testing.T) {
-	g := NewGomegaWithT(t)
-	ctx := context.Background()
-
-	test, err := makeTestResolver()
-	g.Expect(err).ToNot(HaveOccurred())
-
-	rg := createResourceGroup()
-	g.Expect(test.client.Create(ctx, rg)).To(Succeed())
-	account := createDummyResource()
-	g.Expect(test.client.Create(ctx, account)).To(Succeed())
-
-	resource, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, test.resolver, account)
-	g.Expect(err).ToNot(HaveOccurred())
-
-	rgResource, ok := resource.(*genruntime.ResourceGroupResource)
-	g.Expect(ok).To(BeTrue())
-	g.Expect("myrg").To(Equal(rgResource.ResourceGroup()))
-	g.Expect("azureName").To(Equal(rgResource.Spec().GetName()))
-	g.Expect("2021-01-01").To(Equal(rgResource.Spec().GetAPIVersion()))
-	g.Expect(string(batch.BatchAccountsSpecTypeMicrosoftBatchBatchAccounts)).To(Equal(rgResource.Spec().GetType()))
-}
-
 func Test_FindReferences(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
