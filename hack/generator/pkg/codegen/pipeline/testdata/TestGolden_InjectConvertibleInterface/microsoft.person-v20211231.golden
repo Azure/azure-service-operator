@@ -29,6 +29,7 @@
 +	if !ok {
 +		return fmt.Errorf("expected storage:microsoft.person/v20211231storage/Person but received %T instead", hub)
 +	}
++
 +	return person.AssignPropertiesFromPerson(source)
 +}
 +
@@ -38,6 +39,7 @@
 +	if !ok {
 +		return fmt.Errorf("expected storage:microsoft.person/v20211231storage/Person but received %T instead", hub)
 +	}
++
 +	return person.AssignPropertiesToPerson(destination)
 +}
 +
