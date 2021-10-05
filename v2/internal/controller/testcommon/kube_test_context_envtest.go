@@ -20,13 +20,15 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
 )
 
-func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, error) {
+func createEnvtestContext(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
 	perTestContext.T.Logf("Creating envtest test: %s", perTestContext.TestName)
 
 	environment := envtest.Environment{
@@ -42,7 +44,7 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 	}
 
 	perTestContext.T.Log("Starting envtest")
-	config, err := environment.Start()
+	kubeConfig, err := environment.Start()
 	if err != nil {
 		return nil, errors.Wrapf(err, "starting envtest environment")
 	}
@@ -55,13 +57,19 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		}
 	})
 
+	var cacheFunc cache.NewCacheFunc
+	if cfg.TargetNamespaces != nil {
+		cacheFunc = cache.MultiNamespacedCacheBuilder(cfg.TargetNamespaces)
+	}
+
 	perTestContext.T.Log("Creating & starting controller-runtime manager")
-	mgr, err := ctrl.NewManager(config, ctrl.Options{
+	mgr, err := ctrl.NewManager(kubeConfig, ctrl.Options{
 		Scheme:             controllers.CreateScheme(),
 		CertDir:            environment.WebhookInstallOptions.LocalServingCertDir,
 		Port:               environment.WebhookInstallOptions.LocalServingPort,
 		EventBroadcaster:   record.NewBroadcasterForTests(1 * time.Second),
 		MetricsBindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
+		NewCache:           cacheFunc,
 	})
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating controller-runtime manager")
@@ -74,30 +82,34 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		requeueDelay = 100 * time.Millisecond
 	}
 
-	err = controllers.RegisterAll(
-		mgr,
-		perTestContext.AzureClient,
-		controllers.GetKnownStorageTypes(),
-		controllers.Options{
-			CreateDeploymentName: func(obj metav1.Object) (string, error) {
-				// create deployment name based on test name and kubernetes name
-				result := uuid.NewSHA1(uuid.Nil, []byte(perTestContext.TestName+"/"+obj.GetNamespace()+"/"+obj.GetName()))
-				return fmt.Sprintf("k8s_%s", result.String()), nil
-			},
-			RequeueDelay: requeueDelay,
-			Options: controller.Options{
-				Log:         perTestContext.logger,
-				RateLimiter: controllers.NewRateLimiter(5*time.Millisecond, 1*time.Minute),
-			},
-		})
-
-	if err != nil {
-		return nil, errors.Wrapf(err, "registering reconcilers")
+	if cfg.OperatorMode.IncludesWatchers() {
+		err = controllers.RegisterAll(
+			mgr,
+			perTestContext.AzureClient,
+			controllers.GetKnownStorageTypes(),
+			controllers.Options{
+				CreateDeploymentName: func(obj metav1.Object) (string, error) {
+					// create deployment name based on test name and kubernetes name
+					result := uuid.NewSHA1(uuid.Nil, []byte(perTestContext.TestName+"/"+obj.GetNamespace()+"/"+obj.GetName()))
+					return fmt.Sprintf("k8s_%s", result.String()), nil
+				},
+				RequeueDelay: requeueDelay,
+				Config:       cfg,
+				Options: controller.Options{
+					Log:         perTestContext.logger,
+					RateLimiter: controllers.NewRateLimiter(5*time.Millisecond, 1*time.Minute),
+				},
+			})
+		if err != nil {
+			return nil, errors.Wrapf(err, "registering reconcilers")
+		}
 	}
 
-	err = controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes())
-	if err != nil {
-		return nil, errors.Wrapf(err, "registering webhooks")
+	if cfg.OperatorMode.IncludesWebhooks() {
+		err = controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes())
+		if err != nil {
+			return nil, errors.Wrapf(err, "registering webhooks")
+		}
 	}
 
 	ctx, cancelFunc := context.WithCancel(context.TODO())
@@ -115,14 +127,18 @@ func createEnvtestContext(perTestContext PerTestContext) (*KubeBaseTestContext, 
 		cancelFunc()
 	})
 
-	waitForWebhooks(perTestContext.T, environment)
+	if cfg.OperatorMode.IncludesWebhooks() {
+		waitForWebhooks(perTestContext.T, environment)
 
-	webhookServer := mgr.GetWebhookServer()
-	perTestContext.T.Logf("Webhook server running at: %s:%d", webhookServer.Host, webhookServer.Port)
+		webhookServer := mgr.GetWebhookServer()
+		perTestContext.T.Logf("Webhook server running at: %s:%d", webhookServer.Host, webhookServer.Port)
+	} else {
+		perTestContext.T.Logf("Operator mode is %q, webhooks not running", cfg.OperatorMode)
+	}
 
 	return &KubeBaseTestContext{
 		PerTestContext: perTestContext,
-		KubeConfig:     config,
+		KubeConfig:     kubeConfig,
 	}, nil
 }
 

@@ -16,7 +16,7 @@ require (
 	github.com/kr/pretty v0.2.0
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.8
-	github.com/onsi/gomega v1.14.0
+	github.com/onsi/gomega v1.16.0
 	github.com/pkg/errors v0.9.1
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83
 	golang.org/x/time v0.0.0-20210611083556-38a9dc6acbc6

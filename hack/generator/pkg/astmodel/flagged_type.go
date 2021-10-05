@@ -188,6 +188,11 @@ func (ft *FlaggedType) Unwrap() Type {
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (ft *FlaggedType) WriteDebugDescription(builder *strings.Builder, types Types) {
+	if ft == nil {
+		builder.WriteString("<nilFlagged>")
+		return
+	}
+
 	ft.element.WriteDebugDescription(builder, types)
 	for f := range ft.flags {
 		builder.WriteString("[#")

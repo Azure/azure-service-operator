@@ -547,7 +547,11 @@ func extractEmbeddedTypeName(t Type) (TypeName, error) {
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, _ Types) {
-	builder.WriteString("Object")
+	if objectType == nil {
+		builder.WriteString("<nilObject>")
+	} else {
+		builder.WriteString("Object")
+	}
 }
 
 // FindPropertyWithTagValue finds the property with the given tag and value if it exists. The boolean return

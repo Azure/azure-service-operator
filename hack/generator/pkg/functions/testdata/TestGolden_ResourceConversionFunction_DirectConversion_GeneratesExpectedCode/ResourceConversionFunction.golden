@@ -26,6 +26,7 @@
 +	if !ok {
 +		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231/Person but received %T instead", hub)
 +	}
++
 +	return person.AssignPropertiesFromPerson(source)
 +}
 +
@@ -35,6 +36,7 @@
 +	if !ok {
 +		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231/Person but received %T instead", hub)
 +	}
++
 +	return person.AssignPropertiesToPerson(destination)
 +}
 +
