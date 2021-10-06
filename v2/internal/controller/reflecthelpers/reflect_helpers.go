@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package reflecthelpers
 
 import (
-	"context"
 	"fmt"
 	"reflect"
 
@@ -101,67 +100,3 @@ func FindResourceReferences(transformer interface{}) (map[genruntime.ResourceRef
 	return result, nil
 }
 
-// TODO: Consider moving this into genruntime.Resolver - need to fix package hierarchy to make that work though
-func resolve(
-	ctx context.Context,
-	resolver *genruntime.Resolver,
-	metaObject genruntime.MetaObject) (genruntime.ResourceHierarchy, genruntime.ConvertToARMResolvedDetails, error) {
-
-	resourceHierarchy, err := resolver.ResolveResourceHierarchy(ctx, metaObject)
-	if err != nil {
-		return nil, genruntime.ConvertToARMResolvedDetails{}, err
-	}
-
-	// Find all of the references
-	refs, err := FindResourceReferences(metaObject)
-	if err != nil {
-		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
-	}
-
-	// resolve them
-	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, refs)
-	if err != nil {
-		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
-	}
-
-	resolvedDetails := genruntime.ConvertToARMResolvedDetails{
-		Name:               resourceHierarchy.FullAzureName(),
-		ResolvedReferences: resolvedRefs,
-	}
-
-	// Augment with Scope information if the resource is an extension resource
-	if metaObject.GetResourceKind() == genruntime.ResourceKindExtension {
-		scope, err := resourceHierarchy.Scope()
-		if err != nil {
-			return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "couldn't get resource scope")
-		}
-		resolvedDetails.Scope = &scope
-	}
-
-	return resourceHierarchy, resolvedDetails, nil
-}
-
-func extractARMTransformer(metaObject genruntime.MetaObject) (genruntime.ARMTransformer, error) {
-	metaObjReflector := reflect.Indirect(reflect.ValueOf(metaObject))
-	if !metaObjReflector.IsValid() {
-		return nil, errors.Errorf("couldn't indirect %T", metaObject)
-	}
-
-	specField := metaObjReflector.FieldByName("Spec")
-	if !specField.IsValid() {
-		return nil, errors.Errorf("couldn't find spec field on type %T", metaObject)
-	}
-
-	// Spec fields are values, we want a ptr
-	specFieldPtr := reflect.New(specField.Type())
-	specFieldPtr.Elem().Set(specField)
-
-	spec := specFieldPtr.Interface()
-
-	armTransformer, ok := spec.(genruntime.ARMTransformer)
-	if !ok {
-		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
-	}
-
-	return armTransformer, nil
-}
