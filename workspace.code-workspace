@@ -10,6 +10,9 @@
 			"path": "hack/generator"
 		},
 		{
+			"path": "hack/crossplane"
+		},
+		{
 			"path": "v2"
 		}
 	],

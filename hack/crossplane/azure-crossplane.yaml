@@ -1,8 +1,8 @@
 schemaUrl: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json'
 schemaUrlRewrite:
   from: 'https://schema.management.azure.com/schemas/'
-  to: 'specs/azure-resource-manager-schemas/schemas/'
-destinationGoModuleFile: ../crossplane/go.mod
+  to: '../../v2/specs/azure-resource-manager-schemas/schemas/'
+destinationGoModuleFile: go.mod
 typesOutputPath: apis
 pipeline: crossplane
 typeFilters:
@@ -153,7 +153,7 @@ typeTransformers:
     because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
 
 status:
-  schemaRoot: "./specs/azure-rest-api-specs/specification"
+  schemaRoot: "../../v2/specs/azure-rest-api-specs/specification"
 
   # the configuration below is copied from the ARM schema repo:
   # https://github.com/Azure/azure-resource-manager-schemas/blob/master/generator/autogenlist.ts
