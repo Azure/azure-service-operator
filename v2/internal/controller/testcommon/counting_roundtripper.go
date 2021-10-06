@@ -40,7 +40,7 @@ func (rt *requestCounter) RoundTrip(req *http.Request) (*http.Response, error) {
 	count := rt.counts[key]
 	rt.counts[key] = count + 1
 	rt.countsMutex.Unlock()
-	req.Header.Add(COUNT_HEADER, fmt.Sprintf("%d", count))
+	req.Header.Set(COUNT_HEADER, fmt.Sprintf("%d", count))
 	return rt.inner.RoundTrip(req)
 }
 
