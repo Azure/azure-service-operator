@@ -26,7 +26,7 @@ func Test_ManagedIdentity_UserAssignedIdentity_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("mi"),
 		Spec: managedidentity.UserAssignedIdentities_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 		},
 	}
 

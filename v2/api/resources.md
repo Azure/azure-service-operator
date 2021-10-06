@@ -1,3 +1,9 @@
+### microsoft.authorization
+
+v1alpha1api20200801preview
+
+- RoleAssignment
+
 ### microsoft.batch
 
 v1alpha1api20210101

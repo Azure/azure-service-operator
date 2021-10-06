@@ -38,7 +38,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
 		Spec: network.PublicIPAddresses_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Sku: &network.PublicIPAddressSku{
 				Name: &sku,
 			},
@@ -57,7 +57,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(lbName),
 		Spec: network.LoadBalancers_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},

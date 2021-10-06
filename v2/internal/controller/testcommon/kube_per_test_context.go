@@ -16,6 +16,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -378,4 +379,28 @@ func (tc *KubePerTestContext) RunParallelSubtests(tests ...Subtest) {
 			})
 		}
 	})
+}
+
+func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) genruntime.ArbitraryOwnerReference {
+	// Set the GVK, because for some horrible reason Kubernetes clears it during deserialization.
+	// See https://github.com/kubernetes/kubernetes/issues/3030 for details.
+	gvks, _, err := tc.KubeClient.Scheme().ObjectKinds(obj)
+	tc.Expect(err).ToNot(gomega.HaveOccurred())
+
+	var gvk schema.GroupVersionKind
+	for _, gvk = range gvks {
+		if gvk.Kind == "" {
+			continue
+		}
+		if gvk.Version == "" || gvk.Version == runtime.APIVersionInternal {
+			continue
+		}
+		break
+	}
+
+	return genruntime.ArbitraryOwnerReference{
+		Name:  obj.GetName(),
+		Group: gvk.Group,
+		Kind:  gvk.Kind,
+	}
 }
