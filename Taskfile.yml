@@ -191,7 +191,7 @@ tasks:
     - "pkg/**/*.go"
     - "cmd/main.go"
     cmds:
-    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build {{.VERSION_FLAGS}} -o ./bin/{{.CONTROLLER_APP}} cmd/main.go
+    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build {{.VERSION_FLAGS}} -o ./bin/{{.CONTROLLER_APP}} ./cmd/controller/
 
   controller:docker-build:
     desc: Builds the {{.CONTROLLER_APP}} Docker image.
