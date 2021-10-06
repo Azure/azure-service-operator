@@ -17,7 +17,7 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/v2/internal/generator/astmodel"
 )
 
 // OpenAPISchema implements the Schema abstraction for go-openapi

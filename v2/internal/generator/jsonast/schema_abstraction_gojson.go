@@ -14,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/xeipuuv/gojsonschema"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/v2/internal/generator/astmodel"
 )
 
 // GoJSONSchema implements the Schema abstraction for gojsonschema

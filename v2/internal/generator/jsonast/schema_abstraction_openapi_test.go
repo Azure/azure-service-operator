@@ -11,7 +11,7 @@ import (
 	"github.com/go-openapi/spec"
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
+	"github.com/Azure/azure-service-operator/v2/internal/generator/astmodel"
 )
 
 func Test_CanExtractTypeNameFromSameFile(t *testing.T) {
