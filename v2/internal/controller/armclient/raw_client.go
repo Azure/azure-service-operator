@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Azure/azure-service-operator/v2/internal/controller/version"
+	"github.com/Azure/azure-service-operator/v2/pkg/version"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/devigned/tab"
@@ -28,7 +28,6 @@ var UserAgent = "aso-controller/" + version.BuildVersion
 
 // NewClient creates a new raw client
 func NewClient(authorizer autorest.Authorizer) *Client {
-
 	autorestClient := autorest.NewClientWithUserAgent(UserAgent)
 	// Disable retries by default
 	autorestClient.RetryAttempts = 0
@@ -93,7 +92,6 @@ func (c *Client) PutDeployment(ctx context.Context, deployment *Deployment) erro
 	// the autorest.Respond call below, suppressing the false positive.
 	// nolint:bodyclose
 	resp, err := c.Send(req)
-
 	if err != nil {
 		tab.For(ctx).Error(err)
 		return err
@@ -115,7 +113,6 @@ func (c *Client) PutDeployment(ctx context.Context, deployment *Deployment) erro
 var zeroDuration time.Duration = 0
 
 func (c *Client) GetResource(ctx context.Context, resourceID string, resource interface{}) (time.Duration, error) {
-
 	preparer := autorest.CreatePreparer(
 		autorest.AsContentType("application/json"))
 
@@ -205,7 +202,6 @@ func (c *Client) DeleteResource(ctx context.Context, resourceID string, resource
 	// the autorest.Respond call below, suppressing the false positive.
 	// nolint:bodyclose
 	resp, err := c.Send(req)
-
 	if err != nil {
 		tab.For(ctx).Error(err)
 		return zeroDuration, err

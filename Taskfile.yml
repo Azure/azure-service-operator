@@ -4,21 +4,22 @@ run: when_changed
 output: prefixed
 
 vars:
+  PACKAGE: github.com/Azure/azure-service-operator/v2
+
   GENERATOR_APP: aso-gen
-  GENERATOR_ROOT: ./hack/generator/
-  GENERATOR_PACKAGE: github.com/Azure/azure-service-operator/hack/generator
+  GENERATOR_ROOT: v2/
 
   CONTROLLER_APP: aso-controller
-  CONTROLLER_ROOT: ./v2/
-  CONTROLLER_PACKAGE: github.com/Azure/azure-service-operator/v2
+  CONTROLLER_ROOT: v2/
 
   TEST_RESOURCE_PREFIX: asotest
-
   SCRIPTS_ROOT: ./scripts
 
   VERSION: 
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
     sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
+
+  VERSION_FLAGS: -ldflags "-X {{.PACKAGE}}/pkg/version.BuildVersion={{.VERSION}}"
 
   CONTROLLER_DOCKER_IMAGE: azureserviceoperator:{{.VERSION}}
   PUBLIC_REGISTRY: mcr.microsoft.com/k8s/
@@ -120,10 +121,9 @@ tasks:
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
-    dir: "{{.GENERATOR_ROOT}}"
-    sources: ["**/*.go", "go.mod", "go.sum"]
+    dir: v2
     cmds:
-    - go build -ldflags "-X {{.GENERATOR_PACKAGE}}/pkg/codegen.Version={{.VERSION}}" -o ./bin/{{.GENERATOR_APP}}
+    - go build {{.VERSION_FLAGS}} -o ./bin/{{.GENERATOR_APP}} ./tools/generator
 
   generator:diagrams:
     desc: Regenerate all GraphViz diagrams
@@ -203,7 +203,7 @@ tasks:
     - "pkg/**/*.go"
     - "cmd/main.go"
     cmds:
-    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X {{.CONTROLLER_PACKAGE}}/internal/controller/version.BuildVersion={{.VERSION}}" -o ./bin/{{.CONTROLLER_APP}} cmd/main.go
+    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X {{.PACKAGE}}/pkg/version.BuildVersion={{.VERSION}}" -o ./bin/{{.CONTROLLER_APP}} cmd/main.go
 
   controller:docker-build:
     desc: Builds the {{.CONTROLLER_APP}} Docker image.
@@ -264,7 +264,7 @@ tasks:
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
-    dir: "{{.GENERATOR_ROOT}}"
+    dir: v2
     deps: [generator:build]
     sources:
       - ./bin/{{.GENERATOR_APP}}
