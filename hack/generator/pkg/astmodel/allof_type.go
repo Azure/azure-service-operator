@@ -133,7 +133,7 @@ func (allOf AllOfType) RequiredPackageReferences() *PackageReferenceSet {
 
 // Equals returns true if the other Type is a AllOf that contains
 // the same set of types
-func (allOf *AllOfType) Equals(t Type) bool {
+func (allOf *AllOfType) Equals(t Type, overrides EqualityOverrides) bool {
 	if allOf == t {
 		return true // short-circuit
 	}
@@ -143,7 +143,7 @@ func (allOf *AllOfType) Equals(t Type) bool {
 		return false
 	}
 
-	return allOf.types.Equals(other.types)
+	return allOf.types.Equals(other.types, overrides)
 }
 
 // String implements fmt.Stringer

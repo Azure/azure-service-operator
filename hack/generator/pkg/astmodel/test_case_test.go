@@ -37,7 +37,7 @@ func (f FakeTestCase) AsFuncs(subject TypeName, codeGenerationContext *CodeGener
 	panic("implement me")
 }
 
-func (f FakeTestCase) Equals(tc TestCase) bool {
+func (f FakeTestCase) Equals(tc TestCase, _ EqualityOverrides) bool {
 	other, ok := tc.(*FakeTestCase)
 	if !ok {
 		return false

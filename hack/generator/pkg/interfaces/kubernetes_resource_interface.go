@@ -130,7 +130,7 @@ func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.Obje
 	// handle different types of AzureName property
 	switch azureNamePropType := t.(type) {
 	case *astmodel.ValidatedType:
-		if !azureNamePropType.ElementType().Equals(astmodel.StringType) {
+		if !astmodel.TypeEquals(azureNamePropType.ElementType(), astmodel.StringType) {
 			return nil, nil, errors.Errorf("unable to handle non-string validated types in AzureName property")
 		}
 
@@ -159,7 +159,7 @@ func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.Obje
 		}
 
 		if t, ok := resolvedPropType.(*astmodel.EnumType); ok {
-			if !t.BaseType().Equals(astmodel.StringType) {
+			if !astmodel.TypeEquals(t.BaseType(), astmodel.StringType) {
 				return nil, nil, errors.Errorf("unable to handle non-string enum base type in Name property")
 			}
 
@@ -180,7 +180,7 @@ func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.Obje
 		}
 
 	case *astmodel.PrimitiveType:
-		if !azureNamePropType.Equals(astmodel.StringType) {
+		if !astmodel.TypeEquals(azureNamePropType, astmodel.StringType) {
 			return nil, nil, errors.Errorf("cannot use type %s as type of AzureName property", azureNamePropType.String())
 		}
 

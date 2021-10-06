@@ -31,7 +31,7 @@ func (m *MapType) ValueType() Type {
 }
 
 func (m *MapType) WithKeyType(t Type) *MapType {
-	if m.key.Equals(t) {
+	if TypeEquals(m.key, t) {
 		return m
 	}
 
@@ -41,7 +41,7 @@ func (m *MapType) WithKeyType(t Type) *MapType {
 }
 
 func (m *MapType) WithValueType(t Type) *MapType {
-	if m.value.Equals(t) {
+	if TypeEquals(m.value, t) {
 		return m
 	}
 
@@ -94,13 +94,14 @@ func (m *MapType) References() TypeNameSet {
 }
 
 // Equals returns true if the passed type is a map type with the same kinds of keys and elements, false otherwise
-func (m *MapType) Equals(t Type) bool {
+func (m *MapType) Equals(t Type, overrides EqualityOverrides) bool {
 	if m == t {
 		return true // short-circuit
 	}
 
 	if mt, ok := t.(*MapType); ok {
-		return m.key.Equals(mt.key) && m.value.Equals(mt.value)
+		return m.key.Equals(mt.key, overrides) &&
+			m.value.Equals(mt.value, overrides)
 	}
 
 	return false

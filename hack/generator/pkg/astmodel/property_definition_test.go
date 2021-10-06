@@ -517,7 +517,7 @@ func TestPropertyDefinition_Equals_WhenGivenPropertyDefinition_ReturnsExpectedRe
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			areEqual := c.thisProperty.Equals(c.otherProperty)
+			areEqual := c.thisProperty.Equals(c.otherProperty, EqualityOverrides{})
 
 			g.Expect(areEqual).To(Equal(c.expected))
 		})
@@ -557,7 +557,7 @@ func TestPropertyDefinitionsWithDifferentFlattenSettingsAreNotEqual(t *testing.T
 
 	strProperty := createStringProperty("FullName", "Full Legal Name")
 	strPropertyFlatten := strProperty.SetFlatten(true)
-	g.Expect(strProperty.Equals(strPropertyFlatten)).To(BeFalse())
+	g.Expect(strProperty.Equals(strPropertyFlatten, EqualityOverrides{})).To(BeFalse())
 }
 
 func TestPropertyDefinitionsWithDifferentFlattenedFromSettingsAreNotEqual(t *testing.T) {
@@ -566,7 +566,7 @@ func TestPropertyDefinitionsWithDifferentFlattenedFromSettingsAreNotEqual(t *tes
 	strProperty := createStringProperty("FullName", "Full Legal Name")
 	strPropertyFlatten1 := strProperty.AddFlattenedFrom("foo")
 	strPropertyFlatten2 := strProperty.AddFlattenedFrom("bar")
-	g.Expect(strProperty.Equals(strPropertyFlatten1)).To(BeFalse())
-	g.Expect(strProperty.Equals(strPropertyFlatten2)).To(BeFalse())
-	g.Expect(strPropertyFlatten1.Equals(strPropertyFlatten2)).To(BeFalse())
+	g.Expect(strProperty.Equals(strPropertyFlatten1, EqualityOverrides{})).To(BeFalse())
+	g.Expect(strProperty.Equals(strPropertyFlatten2, EqualityOverrides{})).To(BeFalse())
+	g.Expect(strPropertyFlatten1.Equals(strPropertyFlatten2, EqualityOverrides{})).To(BeFalse())
 }

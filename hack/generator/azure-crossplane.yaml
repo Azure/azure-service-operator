@@ -11,6 +11,9 @@ typeFilters:
     name: Expression
     because: expression is an ARM template construct which doesn't belong in CRDs
   - action: include
+    group: microsoft.common
+    matchRequired: false # only triggers for Status types
+  - action: include
     version: v*api20201101
     group: microsoft.network
     because: Including microsoft.network for Crossplane
@@ -22,6 +25,16 @@ typeFilters:
     version: v*api20201101preview
     group: microsoft.sql
     because: Including microsoft.sql
+  - action: include
+    group: microsoft.sql
+    version: '*v1'
+    because: Including microsoft.sql v1 common types
+    matchRequired: false # only triggers for Status types
+  - action: include
+    group: microsoft.sql
+    version: '*v2'
+    because: Including microsoft.sql v2 common types
+    matchRequired: false # only triggers for Status types
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default
@@ -154,10 +167,18 @@ typeTransformers:
 
 status:
   schemaRoot: "./specs/azure-rest-api-specs/specification"
-
-  # the configuration below is copied from the ARM schema repo:
-  # https://github.com/Azure/azure-resource-manager-schemas/blob/master/generator/autogenlist.ts
   overrides: [
+    {
+      # give the common types their own namespace
+      basePath: 'common-types/resource-management',
+      namespace: 'Microsoft.Common'
+    },
+    {
+      basePath: 'sql/resource-manager/common',
+      namespace: 'Microsoft.Sql'
+    },
+    # the rest of the configuration below is copied from the ARM schema repo:
+    # https://github.com/Azure/azure-resource-manager-schemas/blob/master/generator/autogenlist.ts
     {
         basePath: 'blueprint/resource-manager',
         namespace: 'Microsoft.Blueprint',

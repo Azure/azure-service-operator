@@ -158,7 +158,7 @@ func (v *ValidatedType) ElementType() Type {
 }
 
 func (v *ValidatedType) WithElement(t Type) Type {
-	if v.element.Equals(t) {
+	if TypeEquals(v.element, t) {
 		return v
 	}
 
@@ -204,7 +204,7 @@ func (v *ValidatedType) String() string {
 	return fmt.Sprintf("Validated(%s)", v.element.String())
 }
 
-func (v *ValidatedType) Equals(t Type) bool {
+func (v *ValidatedType) Equals(t Type, overrides EqualityOverrides) bool {
 	if v == t {
 		return true
 	}
@@ -215,7 +215,7 @@ func (v *ValidatedType) Equals(t Type) bool {
 	}
 
 	return v.validations.Equals(other.validations) &&
-		v.element.Equals(other.element)
+		v.element.Equals(other.element, overrides)
 }
 
 func equalOptionalInt64s(left *int64, right *int64) bool {

@@ -62,7 +62,7 @@ func (e *ErroredType) WithType(t Type) *ErroredType {
 	return e
 }
 
-func (e *ErroredType) Equals(t Type) bool {
+func (e *ErroredType) Equals(t Type, overrides EqualityOverrides) bool {
 	if e == t {
 		return true // short-circuit
 	}
@@ -72,7 +72,7 @@ func (e *ErroredType) Equals(t Type) bool {
 		return false
 	}
 
-	return ((e.inner == nil && other.inner == nil) || e.inner.Equals(other.inner)) &&
+	return ((e.inner == nil && other.inner == nil) || e.inner.Equals(other.inner, overrides)) &&
 		stringSlicesEqual(e.warnings, other.warnings) &&
 		stringSlicesEqual(e.errors, other.errors)
 }

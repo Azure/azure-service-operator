@@ -24,7 +24,7 @@ type TestCase interface {
 	AsFuncs(subject TypeName, codeGenerationContext *CodeGenerationContext) []dst.Decl
 
 	// Equals determines if this TestCase is equal to another one
-	Equals(f TestCase) bool
+	Equals(f TestCase, overrides EqualityOverrides) bool
 }
 
 // TestCaseContainer represents types that can contain test cases

@@ -147,14 +147,14 @@ func (o *JSONSerializationTestCase) RequiredImports() *astmodel.PackageImportSet
 }
 
 // Equals determines if this TestCase is equal to another one
-func (o *JSONSerializationTestCase) Equals(other astmodel.TestCase) bool {
+func (o *JSONSerializationTestCase) Equals(other astmodel.TestCase, overrides astmodel.EqualityOverrides) bool {
 	otherTC, ok := other.(*JSONSerializationTestCase)
 	if !ok {
 		return false
 	}
 
 	return o.testName == otherTC.testName &&
-		o.subject.Equals(otherTC.subject) &&
+		o.subject.Equals(otherTC.subject, overrides) &&
 		o.container == otherTC.container
 }
 

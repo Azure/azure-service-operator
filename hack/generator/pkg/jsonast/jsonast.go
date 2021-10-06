@@ -635,28 +635,10 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (ast
 		return scanner.RunHandlerForSchema(ctx, refSchema)
 	}
 
-	// make a new topic based on the ref URL
-	name, err := schema.refObjectName()
+	typeName, err := schema.refTypeName()
 	if err != nil {
 		return nil, err
 	}
-
-	group, err := schema.refGroupName()
-	if err != nil {
-		return nil, err
-	}
-
-	version, err := schema.refVersion()
-	if err != nil {
-		return nil, err
-	}
-
-	// produce a usable name:
-	typeName := astmodel.MakeTypeName(
-		scanner.configuration.MakeLocalPackageReference(
-			scanner.idFactory.CreateGroupName(group),
-			astmodel.CreateLocalPackageNameFromVersion(version)),
-		scanner.idFactory.CreateIdentifier(name, astmodel.Exported))
 
 	// Prune the graph according to the configuration
 	shouldPrune, because := scanner.configuration.ShouldPrune(typeName)

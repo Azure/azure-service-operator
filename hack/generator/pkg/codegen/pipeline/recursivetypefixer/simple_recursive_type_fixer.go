@@ -134,7 +134,7 @@ func isPropertyMatchingTypeName(name astmodel.TypeName, prop *astmodel.PropertyD
 		return false
 	}
 
-	if !name.Equals(propTypeName) {
+	if !astmodel.TypeEquals(name, propTypeName) {
 		return false
 	}
 
