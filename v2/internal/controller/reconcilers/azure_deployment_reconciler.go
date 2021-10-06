@@ -1021,6 +1021,9 @@ func (r *AzureDeploymentReconciler) convertResourceToDeployableResource(ctx cont
 
 	// Get a spec from the object with the right version for deployment
 	spec, err := r.getApiSpec(metaObject)
+	if err != nil {
+		return nil, errors.Wrapf(err, "getting API version of Spec from resource %s", metaObject.GetName())
+	}
 
 	armTransformer, ok := spec.(genruntime.ARMTransformer)
 	if !ok {
