@@ -301,7 +301,7 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 
 		err := mergedResult.ResourceTypes.AddTypesAllowDuplicates(typesFromFile.ResourceTypes)
 		if err != nil {
-			panic(err)
+			panic(fmt.Sprintf("While merging file %s: %s", typesFromFile.filePath, err.Error()))
 		}
 	}
 
@@ -524,7 +524,7 @@ func loadAllSchemas(
 			filepath.Ext(filePath) == ".json" {
 
 			group := groupFromPath(filePath, rootPath, overrides)
-			version := versionFromPath(filePath)
+			version := versionFromPath(filePath, rootPath)
 			if group == "" || version == "" {
 				return nil
 			}
@@ -603,7 +603,11 @@ func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOv
 // supports date-based versions or v1, v2 (as used by common types)
 var swaggerVersionRegex = regexp.MustCompile(`/(\d{4}-\d{2}-\d{2}(-preview|-privatepreview)?)|(v\d+)|(\d+\.\d+)/`)
 
-func versionFromPath(filePath string) string {
+func versionFromPath(filePath string, rootPath string) string {
+	// we want to ignore anything in the root path, since, e.g.
+	// the specs can be nested inside a directory that matches the swaggerVersionRegex
+	// (and indeed this is the case with the /v2/ package)
+	filePath = strings.TrimPrefix(filePath, rootPath)
 	// must trim leading & trailing '/' as golang does not support lookaround
 	return strings.Trim(swaggerVersionRegex.FindString(filePath), "/")
 }
