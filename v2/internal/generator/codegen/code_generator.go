@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/generator/astmodel"
 	"github.com/Azure/azure-service-operator/v2/internal/generator/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/v2/internal/generator/config"
-	"github.com/Azure/azure-service-operator/v2/pkg/version"
+	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
 
 // CodeGenerator is a generator of code

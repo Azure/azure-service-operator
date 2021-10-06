@@ -18,7 +18,7 @@ vars:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
     sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
 
-  VERSION_FLAGS: -ldflags "-X {{.PACKAGE}}/pkg/version.BuildVersion={{.VERSION}}"
+  VERSION_FLAGS: -ldflags "-X {{.PACKAGE}}/internal/version.BuildVersion={{.VERSION}}"
 
   CONTROLLER_DOCKER_IMAGE: azureserviceoperator:{{.VERSION}}
   PUBLIC_REGISTRY: mcr.microsoft.com/k8s/

@@ -13,10 +13,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/version"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/devigned/tab"
+
+	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
 
 type Client struct {

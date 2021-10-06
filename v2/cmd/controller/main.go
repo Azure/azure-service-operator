@@ -21,7 +21,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controller/armclient"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
-	"github.com/Azure/azure-service-operator/v2/pkg/version"
+	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
 
 func main() {
