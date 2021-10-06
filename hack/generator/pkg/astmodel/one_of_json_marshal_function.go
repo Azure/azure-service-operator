@@ -35,9 +35,9 @@ func (f *OneOfJSONMarshalFunction) Name() string {
 }
 
 // Equals determines if this function is equal to the passed in function
-func (f *OneOfJSONMarshalFunction) Equals(other Function) bool {
+func (f *OneOfJSONMarshalFunction) Equals(other Function, overrides EqualityOverrides) bool {
 	if o, ok := other.(*OneOfJSONMarshalFunction); ok {
-		return f.oneOfObject.Equals(o.oneOfObject)
+		return f.oneOfObject.Equals(o.oneOfObject, overrides)
 	}
 
 	return false

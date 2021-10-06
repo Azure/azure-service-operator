@@ -9,6 +9,8 @@ import (
 	"math/big"
 	"net/url"
 	"regexp"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // Schema abstracts over the exact implementation of
@@ -66,9 +68,7 @@ type Schema interface {
 
 	// ref things
 	isRef() bool
-	refGroupName() (string, error)
-	refObjectName() (string, error)
-	refVersion() (string, error)
+	refTypeName() (astmodel.TypeName, error)
 	refSchema() Schema
 }
 

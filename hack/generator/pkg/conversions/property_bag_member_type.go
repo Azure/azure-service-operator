@@ -33,7 +33,6 @@ var _ astmodel.MetaType = &PropertyBagMemberType{}
 // NewPropertyBagMemberType returns a new PropertyBagMemberType, ready for use by the conversion framework
 // A bag item can't be optional, so if we're given an optional type we just unwrap it
 func NewPropertyBagMemberType(element astmodel.Type) *PropertyBagMemberType {
-
 	e := element
 	if opt, ok := astmodel.AsOptionalType(e); ok {
 		// Unwrap the optional type
@@ -76,9 +75,9 @@ func (b *PropertyBagMemberType) AsZero(types astmodel.Types, ctx *astmodel.CodeG
 }
 
 // Equals returns true if the passed type is a PropertyBagMemberType with the same element this one, false otherwise
-func (b *PropertyBagMemberType) Equals(t astmodel.Type) bool {
+func (b *PropertyBagMemberType) Equals(t astmodel.Type, override astmodel.EqualityOverrides) bool {
 	other, ok := t.(*PropertyBagMemberType)
-	return ok && other.element.Equals(b.element)
+	return ok && other.element.Equals(b.element, override)
 }
 
 // String returns a string representing the type

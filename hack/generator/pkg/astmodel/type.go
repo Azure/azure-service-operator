@@ -35,7 +35,7 @@ type Type interface {
 	AsZero(types Types, ctx *CodeGenerationContext) dst.Expr
 
 	// Equals returns true if the passed type is the same as this one, false otherwise
-	Equals(t Type) bool
+	Equals(t Type, overrides EqualityOverrides) bool
 
 	// Make sure all Types have a printable version for debugging/user info.
 	// This doesn't need to be a full representation of the type.
@@ -45,6 +45,10 @@ type Type interface {
 	// builder receives the full description, including nested types
 	// types is a dictionary for resolving named types
 	WriteDebugDescription(builder *strings.Builder, types Types)
+}
+
+type EqualityOverrides struct {
+	TypeName func(left TypeName, right TypeName) bool
 }
 
 // IgnoringErrors returns the type stripped of any ErroredType wrapper
@@ -64,10 +68,20 @@ type DeclarationContext struct {
 }
 
 // TypeEquals decides if the types are the same and handles the `nil` case
-func TypeEquals(left, right Type) bool {
+// overrides can be passed to combe
+func TypeEquals(left, right Type, overrides ...EqualityOverrides) bool {
 	if left == nil {
 		return right == nil
 	}
 
-	return left.Equals(right)
+	override := EqualityOverrides{}
+	if len(overrides) > 0 {
+		if len(overrides) > 1 {
+			panic("can only pass one EqualityOverrides")
+		}
+
+		override = overrides[0]
+	}
+
+	return left.Equals(right, override)
 }

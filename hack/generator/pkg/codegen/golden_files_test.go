@@ -228,7 +228,8 @@ func loadTestSchemaIntoTypes(
 
 			klog.V(0).Infof("Walking deployment template")
 
-			_, err = scanner.GenerateAllDefinitions(ctx, jsonast.MakeGoJSONSchema(schema.Root()))
+			schemaAbstraction := jsonast.MakeGoJSONSchema(schema.Root(), configuration.MakeLocalPackageReference, idFactory)
+			_, err = scanner.GenerateAllDefinitions(ctx, schemaAbstraction)
 			if err != nil {
 				return nil, errors.Wrapf(err, "failed to walk JSON schema")
 			}

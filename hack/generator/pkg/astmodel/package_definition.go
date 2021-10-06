@@ -36,7 +36,7 @@ func (p *PackageDefinition) Definitions() Types {
 
 func (p *PackageDefinition) GetDefinition(typeName TypeName) (TypeDefinition, error) {
 	for _, def := range p.definitions {
-		if def.Name().Equals(typeName) {
+		if TypeEquals(def.Name(), typeName) {
 			return def, nil
 		}
 	}

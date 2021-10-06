@@ -48,7 +48,6 @@ func UnrollRecursiveTypes() Stage {
 		UnrollRecursiveTypesStageID,
 		"Unroll directly recursive types since they are not supported by controller-gen",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			result := make(astmodel.Types)
 
 			// Find object types that reference themselves
@@ -63,7 +62,7 @@ func UnrollRecursiveTypes() Stage {
 				// Confirm that all the changed types have Error in their name. If the type doesn't have Error
 				// we can't be sure it's safe to unroll, so we raise an error. This is fatal because controller-gen
 				// will error on recursive types when we run it later and we want to fail fast.
-				if !def.Type().Equals(updatedDef.Type()) && !strings.Contains(def.Name().Name(), "Error") {
+				if !astmodel.TypeEquals(def.Type(), updatedDef.Type()) && !strings.Contains(def.Name().Name(), "Error") {
 					return nil, errors.Errorf("%q is directly recursive and cannot be unrolled because it doesn't contain 'Error'", def.Name())
 				}
 

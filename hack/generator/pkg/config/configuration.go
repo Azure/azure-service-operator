@@ -185,7 +185,6 @@ func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Config
 // initialize checks for common errors and initializes structures inside the configuration
 // which need additional setup after json deserialization
 func (config *Configuration) initialize(configPath string) error {
-
 	if config.SchemaURL == "" {
 		return errors.New("SchemaURL missing")
 	}
@@ -295,7 +294,6 @@ func (config *Configuration) initialize(configPath string) error {
 }
 
 func absDirectoryPathToURL(path string) *url.URL {
-
 	if strings.Contains(path, "\\") {
 		// assume it's a Windows path:
 		// fixup  to work in URI
@@ -419,7 +417,6 @@ func (config *Configuration) TransformType(name astmodel.TypeName) (astmodel.Typ
 
 // TransformTypeProperties applies any property transformers to the type
 func (config *Configuration) TransformTypeProperties(name astmodel.TypeName, objectType *astmodel.ObjectType) []*PropertyTransformResult {
-
 	var results []*PropertyTransformResult
 	toTransform := objectType
 
@@ -472,6 +469,9 @@ type StatusConfiguration struct {
 type SchemaOverride struct {
 	// The root for this group (relative to SchemaRoot)
 	BasePath string `yaml:"basePath"`
+
+	// A specific namespace (group name, in our domain language)
+	Namespace string `yaml:"namespace"`
 
 	// A suffix to add on to the group name
 	Suffix string `yaml:"suffix"`

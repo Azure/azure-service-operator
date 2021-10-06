@@ -7,7 +7,6 @@ package jsonast
 
 import (
 	"fmt"
-	"io/ioutil"
 	"math/big"
 	"net/url"
 	"path/filepath"
@@ -17,35 +16,33 @@ import (
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // OpenAPISchema implements the Schema abstraction for go-openapi
 type OpenAPISchema struct {
-	inner     spec.Schema
-	fileName  string
-	groupName string
-	version   string
-	cache     OpenAPISchemaCache
+	inner         spec.Schema
+	fileName      string
+	outputPackage astmodel.LocalPackageReference
+	idFactory     astmodel.IdentifierFactory
+	loader        OpenAPIFileLoader
 }
 
 // MakeOpenAPISchema wraps a spec.Swagger to conform to the Schema abstraction
 func MakeOpenAPISchema(
 	schema spec.Schema,
 	fileName string,
-	groupName string,
-	version string,
-	cache OpenAPISchemaCache) Schema {
-	return &OpenAPISchema{schema, fileName, groupName, version, cache}
+	outputPackage astmodel.LocalPackageReference,
+	idFactory astmodel.IdentifierFactory,
+	cache OpenAPIFileLoader) Schema {
+	return &OpenAPISchema{schema, fileName, outputPackage, idFactory, cache}
 }
 
 func (schema *OpenAPISchema) withNewSchema(newSchema spec.Schema) Schema {
-	return &OpenAPISchema{
-		newSchema,
-		schema.fileName,
-		schema.groupName,
-		schema.version,
-		schema.cache,
-	}
+	result := *schema
+	result.inner = newSchema
+	return &result
 }
 
 var _ Schema = &OpenAPISchema{}
@@ -263,59 +260,116 @@ func (schema *OpenAPISchema) isRef() bool {
 	return schema.inner.Ref.GetURL() != nil
 }
 
+func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
+	absRefPath, err := findFileForRef(schema.fileName, schema.inner.Ref)
+	if err != nil {
+		return astmodel.TypeName{}, err
+	}
+
+	// this is the basic type name for the reference
+	name := schema.refObjectName()
+
+	// now locate the package name for the reference
+	packageAndSwagger, err := schema.loader.loadFile(absRefPath)
+	if err != nil {
+		return astmodel.TypeName{}, err
+	}
+
+	// default to using same package as the referring type
+	pkg := schema.outputPackage
+	// however, if referree type has known package, use that instead
+	// this allows us to override e.g. the Microsoft.Common namespace in config
+	if packageAndSwagger.Package != nil {
+		pkg = *packageAndSwagger.Package
+	} else {
+		// make sure that pulling the type into the other package wouldn’t conflict with
+		// any definitions in that package; we iterate over all files to ensure that
+		// we don’t conflict with “sibling” files as well as the pulling-in file
+		otherFiles := schema.loader.knownFiles()
+		for _, otherFile := range otherFiles {
+			if otherFile == absRefPath {
+				continue // skip containing file
+			}
+
+			otherSchema, err := schema.loader.loadFile(otherFile)
+			if err != nil {
+				panic(err) // assert, not error: file should already be loaded if it is known
+			}
+
+			// check only applies if package is the same as the pulling-in package
+			// or is nil (so could be set to the pulling-in package)
+			if otherSchema.Package == nil || otherSchema.Package.Equals(schema.outputPackage) {
+				if _, ok := otherSchema.Swagger.Definitions[name]; ok {
+					return astmodel.TypeName{}, errors.Errorf("importing type %s from file %s into package %s could generate collision with type in %s",
+						name,
+						absRefPath,
+						pkg,
+						otherFile,
+					)
+				}
+			}
+		}
+	}
+
+	return astmodel.MakeTypeName(pkg, schema.idFactory.CreateIdentifier(name, astmodel.Exported)), nil
+}
+
 func (schema *OpenAPISchema) refSchema() Schema {
-	fileName, result := loadRefSchema(schema.inner.Ref, schema.fileName, schema.cache)
+	fileName, result, pkg := loadRefSchema(schema.inner.Ref, schema.fileName, schema.loader)
+
+	// if the pkg comes back nil, that means we should keep using the current package
+	// this happens for some ‘common’ types defined in files that don’t have groups or versions
+
+	outputPackage := schema.outputPackage
+	if pkg != nil {
+		outputPackage = *pkg
+	}
+
 	return &OpenAPISchema{
 		result,
 		fileName,
-		// Note that we preserve the groupName and version that were input at the start,
-		// even if we are reading a file from a different group or version. this is intentional;
-		// essentially all imported types are copied into the target group/version, which avoids
-		// issues with types from the 'common-types' files which have no group and a version of 'v1'.
-		schema.groupName,
-		schema.version,
-		schema.cache,
+		outputPackage,
+		schema.idFactory,
+		schema.loader,
 	}
+}
+
+// findFileForRef identifies the schema path for a ref, relative to the give schema path
+func findFileForRef(schemaPath string, ref spec.Ref) (string, error) {
+	if ref.HasFragmentOnly {
+		// same file
+		return schemaPath, nil
+	}
+
+	// an external path
+	return resolveAbsolutePath(schemaPath, ref.GetURL())
 }
 
 func loadRefSchema(
 	ref spec.Ref,
 	schemaPath string,
-	cache OpenAPISchemaCache) (string, spec.Schema) {
+	loader OpenAPIFileLoader) (string, spec.Schema, *astmodel.LocalPackageReference) {
 
-	var err error
-
-	if !ref.HasFragmentOnly {
-		// it is in another file
-		schemaPath, err = resolveAbsolutePath(schemaPath, ref.GetURL())
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	swagger, err := cache.fetchFileAbsolute(schemaPath)
+	absPath, err := findFileForRef(schemaPath, ref)
 	if err != nil {
 		panic(err)
 	}
 
-	reffed := objectNameFromPointer(ref.GetPointer())
-	if result, ok := swagger.Definitions[reffed]; !ok {
-		panic(fmt.Sprintf("couldn't find: %s in %s", reffed, schemaPath))
+	packageAndSwagger, err := loader.loadFile(absPath)
+	if err != nil {
+		panic(err)
+	}
+
+	defName := objectNameFromPointer(ref.GetPointer())
+	if result, ok := packageAndSwagger.Swagger.Definitions[defName]; !ok {
+		panic(fmt.Sprintf("couldn't find: %s in %s (reffed from %s)", defName, absPath, schemaPath))
 	} else {
-		return schemaPath, result
+		return absPath, result, packageAndSwagger.Package
 	}
 }
 
-func (schema *OpenAPISchema) refVersion() (string, error) {
-	return schema.version, nil
-}
-
-func (schema *OpenAPISchema) refGroupName() (string, error) {
-	return schema.groupName, nil
-}
-
-func (schema *OpenAPISchema) refObjectName() (string, error) {
-	return objectNameFromPointer(schema.inner.Ref.GetPointer()), nil
+func (schema *OpenAPISchema) refObjectName() string {
+	return objectNameFromPointer(schema.inner.Ref.GetPointer())
 }
 
 func objectNameFromPointer(ptr *jsonpointer.Pointer) string {
@@ -327,23 +381,6 @@ func objectNameFromPointer(ptr *jsonpointer.Pointer) string {
 	}
 
 	return tokens[1]
-}
-
-// OpenAPISchemaCache is a cache of schema that have been loaded,
-// identified by file path
-type OpenAPISchemaCache struct {
-	files map[string]spec.Swagger
-}
-
-// NewOpenAPISchemaCache creates an OpenAPISchemaCache with the initial
-// file path → spec mapping
-func NewOpenAPISchemaCache(specs map[string]spec.Swagger) OpenAPISchemaCache {
-	files := make(map[string]spec.Swagger)
-	for specPath, spec := range specs {
-		files[specPath] = spec
-	}
-
-	return OpenAPISchemaCache{files}
 }
 
 // resolveAbsolutePath makes an absolute path by combining 'baseFileName' and 'url'
@@ -358,27 +395,4 @@ func resolveAbsolutePath(baseFileName string, url *url.URL) (string, error) {
 	}
 
 	return fileURL.ResolveReference(url).Path, nil
-}
-
-// fetchFileAbsolute fetches the schema for the absolute path specified
-func (fileCache OpenAPISchemaCache) fetchFileAbsolute(filePath string) (spec.Swagger, error) {
-	if swagger, ok := fileCache.files[filePath]; ok {
-		return swagger, nil
-	}
-
-	var swagger spec.Swagger
-
-	fileContent, err := ioutil.ReadFile(filePath)
-	if err != nil {
-		return swagger, errors.Wrapf(err, "unable to read swagger file %q", filePath)
-	}
-
-	err = swagger.UnmarshalJSON(fileContent)
-	if err != nil {
-		return swagger, errors.Wrapf(err, "unable to parse swagger file %q", filePath)
-	}
-
-	fileCache.files[filePath] = swagger
-
-	return swagger, err
 }

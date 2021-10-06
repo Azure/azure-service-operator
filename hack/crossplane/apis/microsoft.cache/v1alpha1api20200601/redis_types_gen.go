@@ -203,10 +203,11 @@ type RedisResourceObservation struct {
 
 //Generated from:
 type PrivateEndpointConnection_Status struct {
-	//Id: Resource ID.
+	//Id: Fully qualified resource ID for the resource. Ex -
+	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Name: Resource name.
+	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	//PrivateEndpoint: The resource of private end point.
@@ -220,7 +221,8 @@ type PrivateEndpointConnection_Status struct {
 	//resource.
 	ProvisioningState *PrivateEndpointConnectionProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//Type: Resource type.
+	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+	//"Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 

@@ -16,12 +16,10 @@ import (
 
 // NameTypesForCRD - for CRDs all inner enums and objects and validated types must be named, so we do it here
 func NameTypesForCRD(idFactory astmodel.IdentifierFactory) Stage {
-
 	return MakeLegacyStage(
 		"nameTypes",
 		"Name inner types for CRD",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-
 			result := make(astmodel.Types)
 
 			// this is a little bit of a hack, better way to do it?
@@ -107,7 +105,7 @@ func nameInnerTypes(
 		// There are no words for how much I want LINQ right here
 		var found astmodel.TypeDefinition
 		for i, item := range resultTypes {
-			if item.Name().Equals(name) {
+			if astmodel.TypeEquals(item.Name(), name) {
 				found = item
 				resultTypes[i] = resultTypes[len(resultTypes)-1]
 				resultTypes = resultTypes[:len(resultTypes)-1]

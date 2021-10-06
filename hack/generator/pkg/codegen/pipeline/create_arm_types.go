@@ -168,7 +168,6 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 		convertObjectPropertiesForARM,
 		addOneOfConversionFunctionIfNeeded,
 		removeFlattening)
-
 	if err != nil {
 		return astmodel.TypeDefinition{},
 			errors.Wrapf(err, "creating ARM prototype %s from Kubernetes definition %s", armName, def.Name())
@@ -208,7 +207,7 @@ func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmod
 			return nil, errors.Wrapf(err, "failed to update definition %s", def.Name())
 		}
 
-		if updatedType.Equals(def.Type()) {
+		if astmodel.TypeEquals(updatedType, def.Type()) {
 			return it, nil
 		}
 
@@ -233,8 +232,10 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 			// all resource Spec Name properties must be strings on their way to ARM
 			// as nested resources will have the owner etc added to the start:
 			result = result.WithProperty(prop.WithType(astmodel.StringType))
-		} else if prop.PropertyType().Equals(astmodel.ResourceReferenceType) || prop.PropertyType().Equals(astmodel.NewOptionalType(astmodel.ResourceReferenceType)) {
-			isRequired := prop.PropertyType().Equals(astmodel.ResourceReferenceType)
+		} else if astmodel.TypeEquals(prop.PropertyType(), astmodel.ResourceReferenceType) ||
+			astmodel.TypeEquals(prop.PropertyType(), astmodel.NewOptionalType(astmodel.ResourceReferenceType)) {
+
+			isRequired := astmodel.TypeEquals(prop.PropertyType(), astmodel.ResourceReferenceType)
 
 			// Extract expected property name
 			values, ok := prop.Tag(astmodel.ARMReferenceTag)
@@ -281,7 +282,6 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 	result = result.WithoutEmbeddedProperties() // Clear them out first so we're starting with a clean slate
 	for _, prop := range t.EmbeddedProperties() {
 		newType, err := c.convertARMPropertyTypeIfNeeded(prop.PropertyType())
-
 		if err != nil {
 			errs = append(errs, err)
 			continue

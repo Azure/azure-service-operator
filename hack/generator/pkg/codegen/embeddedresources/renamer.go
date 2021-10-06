@@ -94,7 +94,7 @@ func (r renamer) simplifyEmbeddedName(_ astmodel.TypeName, associatedNames astmo
 		}
 
 		possibleRename := embeddedName.ToSimplifiedTypeName()
-		if !possibleRename.Equals(associated) {
+		if !astmodel.TypeEquals(possibleRename, associated) {
 			renames[associated] = possibleRename
 		}
 	}

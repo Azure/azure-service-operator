@@ -168,11 +168,11 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 	typeWalker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx interface{}) (astmodel.TypeDefinition, error) {
 		typedCtx := ctx.(resourceRemovalVisitorContext)
 
-		if !original.Name().Equals(updated.Name()) {
+		if !astmodel.TypeEquals(original.Name(), updated.Name()) {
 			panic(fmt.Sprintf("Unexpected name mismatch during type walk: %q -> %q", original.Name(), updated.Name()))
 		}
 
-		if original.Type().Equals(updated.Type()) {
+		if astmodel.TypeEquals(original.Type(), updated.Type()) {
 			return updated, nil
 		}
 
@@ -190,7 +190,7 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 			if !ok {
 				break
 			}
-			if existing.Type().Equals(flaggedType) {
+			if astmodel.TypeEquals(existing.Type(), flaggedType) {
 				exists = true
 				// Shape matches what we have already, can proceed
 				break

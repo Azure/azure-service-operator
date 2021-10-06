@@ -69,7 +69,7 @@ func (optional *OptionalType) Element() Type {
 }
 
 func (optional *OptionalType) WithElement(t Type) Type {
-	if optional.element.Equals(t) {
+	if TypeEquals(optional.element, t) {
 		return optional
 	}
 
@@ -119,13 +119,13 @@ func (optional *OptionalType) References() TypeNameSet {
 }
 
 // Equals returns true if this type is equal to the other type
-func (optional *OptionalType) Equals(t Type) bool {
+func (optional *OptionalType) Equals(t Type, overrides EqualityOverrides) bool {
 	if optional == t {
 		return true // reference equality short-cut
 	}
 
 	if otherOptional, ok := t.(*OptionalType); ok {
-		return optional.element.Equals(otherOptional.element)
+		return optional.element.Equals(otherOptional.element, overrides)
 	}
 
 	return false

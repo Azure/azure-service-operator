@@ -79,7 +79,6 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 		isNameOptional := false
 		isTypeOptional := false
 		for _, property := range objectType.Properties() {
-
 			// force this string because otherwise linter complains thinking it's an enum without an exhaustive switch...
 			// It turns out there are other reasons to alias string than just to make an enum, seems like the linter doesn't
 			// realize that
@@ -272,7 +271,7 @@ func (resource *ResourceType) AsZero(_ Types, _ *CodeGenerationContext) dst.Expr
 }
 
 // Equals returns true if the other type is also a ResourceType and has Equal fields
-func (resource *ResourceType) Equals(other Type) bool {
+func (resource *ResourceType) Equals(other Type, override EqualityOverrides) bool {
 	if resource == other {
 		// Same reference
 		return true
@@ -287,11 +286,11 @@ func (resource *ResourceType) Equals(other Type) bool {
 	if resource.isStorageVersion != otherResource.isStorageVersion ||
 		len(resource.testcases) != len(otherResource.testcases) ||
 		len(resource.functions) != len(otherResource.functions) ||
-		!TypeEquals(resource.spec, otherResource.spec) ||
-		!TypeEquals(resource.status, otherResource.status) ||
+		!TypeEquals(resource.spec, otherResource.spec, override) ||
+		!TypeEquals(resource.status, otherResource.status, override) ||
 		len(resource.annotations) != len(otherResource.annotations) ||
 		resource.kind != otherResource.kind ||
-		!resource.InterfaceImplementer.Equals(otherResource.InterfaceImplementer) {
+		!resource.InterfaceImplementer.Equals(otherResource.InterfaceImplementer, override) {
 		return false
 	}
 
@@ -302,7 +301,7 @@ func (resource *ResourceType) Equals(other Type) bool {
 			return false
 		}
 
-		if !ourFn.Equals(fn) {
+		if !ourFn.Equals(fn, override) {
 			return false
 		}
 	}
@@ -315,7 +314,7 @@ func (resource *ResourceType) Equals(other Type) bool {
 			return false
 		}
 
-		if !ourCase.Equals(testcase) {
+		if !ourCase.Equals(testcase, override) {
 			// Different testcase, even though same name; not-equal
 			return false
 		}
