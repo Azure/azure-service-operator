@@ -45,8 +45,8 @@ func TestOneOfEqualityDoesNotCareAboutOrder(t *testing.T) {
 	x := BuildOneOfType(StringType, BoolType)
 	y := BuildOneOfType(BoolType, StringType)
 
-	g.Expect(x.Equals(y)).To(BeTrue())
-	g.Expect(y.Equals(x)).To(BeTrue())
+	g.Expect(TypeEquals(x, y)).To(BeTrue())
+	g.Expect(TypeEquals(y, x)).To(BeTrue())
 }
 
 func TestOneOfMustHaveAllTypesToBeEqual(t *testing.T) {
@@ -55,8 +55,8 @@ func TestOneOfMustHaveAllTypesToBeEqual(t *testing.T) {
 	x := BuildOneOfType(StringType, BoolType, FloatType)
 	y := BuildOneOfType(BoolType, StringType)
 
-	g.Expect(x.Equals(y)).To(BeFalse())
-	g.Expect(y.Equals(x)).To(BeFalse())
+	g.Expect(TypeEquals(x, y)).To(BeFalse())
+	g.Expect(TypeEquals(y, x)).To(BeFalse())
 }
 
 func TestOneOfsWithDifferentTypesAreNotEqual(t *testing.T) {
@@ -65,8 +65,8 @@ func TestOneOfsWithDifferentTypesAreNotEqual(t *testing.T) {
 	x := BuildOneOfType(StringType, FloatType)
 	y := BuildOneOfType(BoolType, StringType)
 
-	g.Expect(x.Equals(y)).To(BeFalse())
-	g.Expect(y.Equals(x)).To(BeFalse())
+	g.Expect(TypeEquals(x, y)).To(BeFalse())
+	g.Expect(TypeEquals(y, x)).To(BeFalse())
 }
 
 var expectedOneOfPanic = "OneOfType should have been replaced by generation time by 'convertAllOfAndOneOf' phase"

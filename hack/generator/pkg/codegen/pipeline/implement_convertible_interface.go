@@ -20,7 +20,6 @@ const ImplementConvertibleInterfaceStageId = "implementConvertibleInterface"
 // ImplementConvertibleInterface injects the functions ConvertTo() and ConvertFrom() into each non-hub Resource
 // Type, providing the required implementation of the Convertible interface needed by the controller
 func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
-
 	stage := MakeStage(
 		ImplementConvertibleInterfaceStageId,
 		"Implement the Convertible interface on each non-hub Resource type",
@@ -31,7 +30,7 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 				func(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
 					rsrc, _ := astmodel.AsResourceType(def.Type())
 					hub := state.ConversionGraph().FindHub(def.Name(), state.Types())
-					if def.Name().Equals(hub) {
+					if astmodel.TypeEquals(def.Name(), hub) {
 						// The hub storage version doesn't implement Convertible
 						return nil, nil
 					}
@@ -56,7 +55,6 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) Stage {
 
 					return &modified, nil
 				})
-
 			if err != nil {
 				return nil, errors.Wrap(err, "injecting conversions.Convertible implementations")
 			}

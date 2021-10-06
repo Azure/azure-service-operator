@@ -111,7 +111,7 @@ func TestFlaggedType_Equals_GivenOther_HasExpectedResult(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
-			equal := c.left.Equals(c.right)
+			equal := TypeEquals(c.left, c.right)
 			g.Expect(equal).To(Equal(c.expectedEqual))
 		})
 	}

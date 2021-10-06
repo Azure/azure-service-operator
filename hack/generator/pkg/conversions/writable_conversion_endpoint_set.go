@@ -57,7 +57,7 @@ func (set WritableConversionEndpointSet) addForEachProperty(
 				continue
 			}
 
-			if prop.PropertyType().Equals(astmodel.PropertyBagType) {
+			if prop.PropertyType().Equals(astmodel.PropertyBagType, astmodel.EqualityOverrides{}) {
 				// We don't create endpoints for property bag properties, they're special cased elsewhere
 				continue
 			}

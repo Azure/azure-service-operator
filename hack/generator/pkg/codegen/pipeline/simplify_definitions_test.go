@@ -6,15 +6,14 @@
 package pipeline
 
 import (
-	. "github.com/onsi/gomega"
-
 	"testing"
+
+	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 func Test_SimplifyDefinitionsPipelineStage_GivenTypes_FlattensToExpectedTypes(t *testing.T) {
-
 	fullName := astmodel.NewPropertyDefinition("FullName", "full-name", astmodel.StringType)
 	familyName := astmodel.NewPropertyDefinition("FamilyName", "family-name", astmodel.StringType)
 	knownAs := astmodel.NewPropertyDefinition("KnownAs", "known-as", astmodel.StringType)
@@ -41,7 +40,7 @@ func Test_SimplifyDefinitionsPipelineStage_GivenTypes_FlattensToExpectedTypes(t 
 			visitor := createSimplifyingVisitor()
 			result, err := visitor.Visit(c.original, nil)
 			g.Expect(err).To(BeNil())
-			g.Expect(result.Equals(c.expected)).To(BeTrue())
+			g.Expect(astmodel.TypeEquals(result, c.expected)).To(BeTrue())
 		})
 	}
 }

@@ -107,7 +107,7 @@ func Test_EnumTypeEquals_GivenEnums_ReturnsExpectedResult(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			areEqual := c.thisEnum.Equals(c.otherEnum)
+			areEqual := TypeEquals(c.thisEnum, c.otherEnum)
 
 			g.Expect(areEqual).To(Equal(c.expected))
 		})

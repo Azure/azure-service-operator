@@ -10,6 +10,8 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 func Test_ShouldSkipDir_GivenPath_HasExpectedResult(t *testing.T) {
@@ -64,4 +66,70 @@ func Test_ShouldSkipDir_GivenPath_HasExpectedResult(t *testing.T) {
 			g.Expect(skipped).To(Equal(c.shouldSkip))
 		})
 	}
+}
+
+func makeTestLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
+	return astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", group, version)
+}
+
+func Test_StructurallyIdentical_RecursesIntoTypeNames(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	pkg := makeTestLocalPackageReference("abc", "123")
+	name := func(n string) astmodel.TypeName { return astmodel.MakeTypeName(pkg, n) }
+
+	types1 := astmodel.MakeTypes(map[astmodel.TypeName]astmodel.Type{
+		name("LeafInt"): astmodel.IntType,
+		name("X"): astmodel.NewObjectType().WithProperties(
+			astmodel.NewPropertyDefinition("Prop", "prop", name("LeafInt")),
+		),
+	})
+
+	types2 := astmodel.MakeTypes(map[astmodel.TypeName]astmodel.Type{
+		name("AnotherLeafInt"): astmodel.IntType,
+		name("X"): astmodel.NewObjectType().WithProperties(
+			astmodel.NewPropertyDefinition("Prop", "prop", name("AnotherLeafInt")),
+		),
+	})
+
+	x1 := types1[name("X")].Type()
+	x2 := types2[name("X")].Type()
+
+	// safety check - they should be not TypeEquals
+	g.Expect(astmodel.TypeEquals(x1, x2)).ToNot(BeTrue())
+
+	// actual check - they should be structurallyIdentical
+	identical := structurallyIdentical(x1, types1, x2, types2)
+	g.Expect(identical).To(BeTrue())
+}
+
+func Test_StructurallyIdentical_DistinguishesIdenticalTypeNames(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	pkg := makeTestLocalPackageReference("abc", "123")
+	name := func(n string) astmodel.TypeName { return astmodel.MakeTypeName(pkg, n) }
+
+	types1 := astmodel.MakeTypes(map[astmodel.TypeName]astmodel.Type{
+		name("Leaf"): astmodel.IntType,
+		name("X"): astmodel.NewObjectType().WithProperties(
+			astmodel.NewPropertyDefinition("Prop", "prop", name("Leaf")),
+		),
+	})
+
+	types2 := astmodel.MakeTypes(map[astmodel.TypeName]astmodel.Type{
+		name("Leaf"): astmodel.StringType, // string, not int
+		name("X"): astmodel.NewObjectType().WithProperties(
+			astmodel.NewPropertyDefinition("Prop", "prop", name("Leaf")),
+		),
+	})
+
+	x1 := types1[name("X")].Type()
+	x2 := types2[name("X")].Type()
+
+	// safety check - they should be TypeEquals
+	g.Expect(astmodel.TypeEquals(x1, x2)).To(BeTrue())
+
+	// actual check - they should not be structurallyIdentical
+	identical := structurallyIdentical(x1, types1, x2, types2)
+	g.Expect(identical).To(BeFalse())
 }
