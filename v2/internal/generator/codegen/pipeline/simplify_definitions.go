@@ -24,13 +24,13 @@ func SimplifyDefinitions() Stage {
 			var errs []error
 			result := make(astmodel.Types)
 			for _, def := range defs {
-				d, err := visitor.VisitDefinition(def, nil)
+				visited, err := visitor.VisitDefinition(def, nil)
 				if err != nil {
 					errs = append(errs, err)
 				} else {
-					result.Add(d)
-					if !def.Type().Equals(d.Type()) {
-						klog.V(3).Infof("Simplified %s from %s to %s", def.Name(), def.Type(), d.Type())
+					result.Add(visited)
+					if !astmodel.TypeEquals(def.Type(), visited.Type()) {
+						klog.V(3).Infof("Simplified %s from %s to %s", def.Name(), def.Type(), visited.Type())
 					}
 				}
 			}

@@ -62,10 +62,12 @@ func NewResourceConversionTestCase(
 	if result.fromFn == nil {
 		return nil, errors.Errorf("expected to find function ConvertFrom() on %s", name)
 	}
+
 	if result.toFn == nil {
 		return nil, errors.Errorf("expected to find function ConvertTo() on %s", name)
 	}
-	if !result.fromFn.Hub().Equals(result.toFn.Hub()) {
+
+	if !astmodel.TypeEquals(result.fromFn.Hub(), result.toFn.Hub()) {
 		return nil, errors.Errorf(
 			"expected ConvertFrom(%s) and ConvertTo(%s) on %s to have the same parameter type",
 			result.fromFn.Hub(),
@@ -125,16 +127,16 @@ func (tc *ResourceConversionTestCase) AsFuncs(receiver astmodel.TypeName, codeGe
 }
 
 // Equals determines if this TestCase is equal to another one
-func (tc *ResourceConversionTestCase) Equals(other astmodel.TestCase) bool {
+func (tc *ResourceConversionTestCase) Equals(other astmodel.TestCase, override astmodel.EqualityOverrides) bool {
 	fn, ok := other.(*ResourceConversionTestCase)
 	if !ok {
 		return false
 	}
 
 	return tc.testName == fn.testName &&
-		tc.subject.Equals(fn.subject) &&
-		tc.toFn.Equals(fn.toFn) &&
-		tc.fromFn.Equals(fn.fromFn)
+		tc.subject.Equals(fn.subject, override) &&
+		tc.toFn.Equals(fn.toFn, override) &&
+		tc.fromFn.Equals(fn.fromFn, override)
 }
 
 // createTestRunner generates the AST for the test runner itself

@@ -185,8 +185,8 @@ func (builder *convertFromARMBuilder) referencePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
 
-	isResourceReference := toProp.PropertyType().Equals(astmodel.ResourceReferenceType)
-	isOptionalResourceReference := toProp.PropertyType().Equals(astmodel.NewOptionalType(astmodel.ResourceReferenceType))
+	isResourceReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.ResourceReferenceType)
+	isOptionalResourceReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewOptionalType(astmodel.ResourceReferenceType))
 
 	if !isResourceReference && !isOptionalResourceReference {
 		return nil, false
@@ -433,7 +433,7 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(_ *astmodel
 	}
 
 	// This is for handling type names that aren't equal
-	if sourceType.Equals(destinationType) {
+	if astmodel.TypeEquals(sourceType, destinationType) {
 		return nil
 	}
 

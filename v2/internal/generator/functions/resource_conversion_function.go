@@ -116,7 +116,7 @@ func (fn *ResourceConversionFunction) AsFunc(
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(fn.declarationDocComment(receiver))
 
-	if fn.hub.Equals(fn.propertyFunction.ParameterType()) {
+	if astmodel.TypeEquals(fn.hub, fn.propertyFunction.ParameterType()) {
 		// Not using an intermediate step
 		funcDetails.Body = fn.directConversion(receiverName, generationContext)
 	} else {
@@ -302,16 +302,16 @@ func (fn *ResourceConversionFunction) declarationDocComment(receiver astmodel.Ty
 		fmt.Sprintf("populates the provided hub %s from our %s", fn.hub.Name(), receiver.Name()))
 }
 
-func (fn *ResourceConversionFunction) Equals(otherFn astmodel.Function) bool {
+func (fn *ResourceConversionFunction) Equals(otherFn astmodel.Function, override astmodel.EqualityOverrides) bool {
 	rcf, ok := otherFn.(*ResourceConversionFunction)
 	if !ok {
 		return false
 	}
 
-	if !fn.propertyFunction.Equals(rcf.propertyFunction) {
+	if !fn.propertyFunction.Equals(rcf.propertyFunction, override) {
 		return false
 	}
 
 	return fn.Name() == rcf.Name() &&
-		fn.hub.Equals(rcf.hub)
+		fn.hub.Equals(rcf.hub, override)
 }

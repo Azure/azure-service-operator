@@ -118,16 +118,21 @@ func (typeName TypeName) RequiredPackageReferences() *PackageReferenceSet {
 }
 
 // Equals returns true if the passed type is the same TypeName, false otherwise
-func (typeName TypeName) Equals(t Type) bool {
-	if typeName == t {
+func (typeName TypeName) Equals(t Type, override EqualityOverrides) bool {
+	if typeName == t && override.TypeName == nil {
 		return true
 	}
 
-	if d, ok := t.(TypeName); ok {
-		return typeName.name == d.name && typeName.PackageReference.Equals(d.PackageReference)
+	other, ok := t.(TypeName)
+	if !ok {
+		return false
 	}
 
-	return false
+	if override.TypeName != nil {
+		return override.TypeName(typeName, other)
+	}
+
+	return typeName.name == other.name && typeName.PackageReference.Equals(other.PackageReference)
 }
 
 // String returns the string representation of the type name, and implements fmt.Stringer.

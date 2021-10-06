@@ -42,7 +42,7 @@ func (fake *FakeFunction) AsFunc(_ *CodeGenerationContext, _ TypeName) *dst.Func
 	panic("implement me")
 }
 
-func (fake *FakeFunction) Equals(f Function) bool {
+func (fake *FakeFunction) Equals(f Function, _ EqualityOverrides) bool {
 	if fake == nil && f == nil {
 		return true
 	}

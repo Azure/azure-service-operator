@@ -64,7 +64,7 @@ func (fake *FakeFunction) AsFunc(generationContext *astmodel.CodeGenerationConte
 	return details.DefineFunc()
 }
 
-func (fake *FakeFunction) Equals(f astmodel.Function) bool {
+func (fake *FakeFunction) Equals(f astmodel.Function, _ astmodel.EqualityOverrides) bool {
 	if fake == nil && f == nil {
 		return true
 	}

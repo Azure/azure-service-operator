@@ -270,7 +270,7 @@ func (fn *ChainedConversionFunction) declarationDocComment(receiver astmodel.Typ
 		fmt.Sprintf("populates the provided %s from our %s", parameter, receiver.Name()))
 }
 
-func (fn *ChainedConversionFunction) Equals(otherFn astmodel.Function) bool {
+func (fn *ChainedConversionFunction) Equals(otherFn astmodel.Function, override astmodel.EqualityOverrides) bool {
 	rcf, ok := otherFn.(*ChainedConversionFunction)
 	if !ok {
 		return false
@@ -279,5 +279,5 @@ func (fn *ChainedConversionFunction) Equals(otherFn astmodel.Function) bool {
 	return fn.Name() == rcf.Name() &&
 		fn.direction == rcf.direction &&
 		fn.propertyAssignmentFunctionName == rcf.propertyAssignmentFunctionName &&
-		fn.propertyAssignmentParameterType.Equals(rcf.propertyAssignmentParameterType)
+		fn.propertyAssignmentParameterType.Equals(rcf.propertyAssignmentParameterType, override)
 }

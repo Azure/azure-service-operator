@@ -172,7 +172,7 @@ func (property *PropertyDefinition) WithType(newType Type) *PropertyDefinition {
 		panic("nil type provided to WithType")
 	}
 
-	if property.propertyType == newType || property.propertyType.Equals(newType) {
+	if TypeEquals(property.propertyType, newType) {
 		return property
 	}
 
@@ -434,9 +434,9 @@ func (property *PropertyDefinition) tagsEqual(f *PropertyDefinition) bool {
 }
 
 // Equals tests to see if the specified PropertyDefinition specifies the same property
-func (property *PropertyDefinition) Equals(o *PropertyDefinition) bool {
+func (property *PropertyDefinition) Equals(o *PropertyDefinition, overrides EqualityOverrides) bool {
 	return property == o || (property.propertyName == o.propertyName &&
-		property.propertyType.Equals(o.propertyType) &&
+		property.propertyType.Equals(o.propertyType, overrides) &&
 		property.flatten == o.flatten &&
 		propertyNameSlicesEqual(property.flattenedFrom, o.flattenedFrom) &&
 		property.tagsEqual(o) &&

@@ -83,7 +83,7 @@ func TestTypeFlag_RemoveFrom_ReturnsExpectedValue(t *testing.T) {
 
 			removed, err := c.flag.RemoveFrom(c.subject)
 			g.Expect(err).ToNot(HaveOccurred())
-			g.Expect(removed.Equals(c.expected)).To(BeTrue())
+			g.Expect(TypeEquals(removed, c.expected)).To(BeTrue())
 		})
 	}
 }

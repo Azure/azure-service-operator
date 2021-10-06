@@ -470,6 +470,9 @@ type SchemaOverride struct {
 	// The root for this group (relative to SchemaRoot)
 	BasePath string `yaml:"basePath"`
 
+	// A specific namespace (group name, in our domain language)
+	Namespace string `yaml:"namespace"`
+
 	// A suffix to add on to the group name
 	Suffix string `yaml:"suffix"`
 }

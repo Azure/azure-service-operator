@@ -85,7 +85,7 @@ func (c *PopulateFromARMFunction) AsFunc(codeGenerationContext *astmodel.CodeGen
 }
 
 // Equals determines if this function is equal to the passed in function
-func (c *ConvertToARMFunction) Equals(other astmodel.Function) bool {
+func (c *ConvertToARMFunction) Equals(other astmodel.Function, overrides astmodel.EqualityOverrides) bool {
 	// TODO: Equality on functions is currently awkward because we can't easily pass
 	// TODO: a reference to the object the function is on to the function (since both
 	// TODO: are immutable and it's impossible to have two immutable objects with
@@ -95,14 +95,15 @@ func (c *ConvertToARMFunction) Equals(other astmodel.Function) bool {
 	// TODO: the receiver type.
 
 	if o, ok := other.(*ConvertToARMFunction); ok {
-		return c.armType.Equals(o.armType) && c.armTypeName.Equals(o.armTypeName)
+		return c.armType.Equals(o.armType, overrides) &&
+			c.armTypeName.Equals(o.armTypeName, overrides)
 	}
 
 	return false
 }
 
 // Equals determines if this function is equal to the passed in function
-func (c *PopulateFromARMFunction) Equals(other astmodel.Function) bool {
+func (c *PopulateFromARMFunction) Equals(other astmodel.Function, overrides astmodel.EqualityOverrides) bool {
 	// TODO: Equality on functions is currently awkward because we can't easily pass
 	// TODO: a reference to the object the function is on to the function (since both
 	// TODO: are immutable and it's impossible to have two immutable objects with
@@ -112,7 +113,8 @@ func (c *PopulateFromARMFunction) Equals(other astmodel.Function) bool {
 	// TODO: the receiver type.
 
 	if o, ok := other.(*PopulateFromARMFunction); ok {
-		return c.armType.Equals(o.armType) && c.armTypeName.Equals(o.armTypeName)
+		return c.armType.Equals(o.armType, overrides) &&
+			c.armTypeName.Equals(o.armTypeName, overrides)
 	}
 
 	return false

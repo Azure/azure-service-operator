@@ -11,12 +11,16 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-const group = "grp"
-const version = "v1"
+const (
+	group   = "grp"
+	version = "v1"
+)
 
-var rootTypeName = MakeTypeName(makeTestLocalPackageReference(group, version), "Root")
-var leftTypeName = MakeTypeName(makeTestLocalPackageReference(group, version), "Left")
-var rightTypeName = MakeTypeName(makeTestLocalPackageReference(group, version), "Right")
+var (
+	rootTypeName  = MakeTypeName(makeTestLocalPackageReference(group, version), "Root")
+	leftTypeName  = MakeTypeName(makeTestLocalPackageReference(group, version), "Left")
+	rightTypeName = MakeTypeName(makeTestLocalPackageReference(group, version), "Right")
+)
 
 func makeSimpleTestTypeGraph() Types {
 	result := make(Types)
@@ -122,7 +126,7 @@ func TestTypeWalker_IdentityWalkReturnsIdenticalTypes(t *testing.T) {
 	g.Expect(walked).To(ContainElement("Root"))
 
 	for _, updated := range updatedTypes {
-		g.Expect(updated.Type().Equals(types[updated.Name()].Type())).To(BeTrue())
+		g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeTrue())
 	}
 }
 
@@ -152,7 +156,7 @@ func TestTypeWalker_DuplicateTypesAreWalkedOnceEach_ReturnedOnce(t *testing.T) {
 	g.Expect(walked[2].Name().Name()).To(Equal("Root"))
 
 	for _, updated := range updatedTypes {
-		g.Expect(updated.Type().Equals(types[updated.Name()].Type())).To(BeTrue())
+		g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeTrue())
 	}
 }
 
@@ -182,7 +186,7 @@ func TestTypeWalker_CyclesAllowed_AreNotWalked(t *testing.T) {
 	g.Expect(walked).To(ContainElement("Root"))
 
 	for _, updated := range updatedTypes {
-		g.Expect(updated.Type().Equals(types[updated.Name()].Type())).To(BeTrue())
+		g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeTrue())
 	}
 }
 
@@ -218,13 +222,13 @@ func TestTypeWalker_CanPruneCycles(t *testing.T) {
 
 	for _, updated := range updatedTypes {
 		// Expect only left to be updated - that is only type with cycle property
-		if updated.Name().Equals(leftTypeName) {
-			g.Expect(updated.Type().Equals(types[updated.Name()].Type())).To(BeFalse())
+		if TypeEquals(updated.Name(), leftTypeName) {
+			g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeFalse())
 			obj, ok := updated.Type().(*ObjectType)
 			g.Expect(ok).To(BeTrue())
 			g.Expect(len(obj.Properties())).To(Equal(0))
 		} else {
-			g.Expect(updated.Type().Equals(types[updated.Name()].Type())).To(BeTrue())
+			g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeTrue())
 		}
 	}
 }
@@ -265,7 +269,7 @@ func TestTypeWalker_ContextPropagated(t *testing.T) {
 	g.Expect(walked[rightTypeName]).To(Equal(1))
 
 	for _, updated := range updatedTypes {
-		g.Expect(updated.Type().Equals(types[updated.Name()].Type())).To(BeTrue())
+		g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeTrue())
 	}
 }
 
@@ -301,14 +305,14 @@ func TestTypeWalker_VisitorApplied(t *testing.T) {
 
 	for _, updated := range updatedTypes {
 		// Expect only left to be updated - that is only type with string property
-		if updated.Name().Equals(leftTypeName) {
-			g.Expect(updated.Type().Equals(types[updated.Name()].Type())).To(BeFalse())
+		if TypeEquals(updated.Name(), leftTypeName) {
+			g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeFalse())
 			obj, ok := updated.Type().(*ObjectType)
 			g.Expect(ok).To(BeTrue())
 
 			g.Expect(len(obj.Properties())).To(Equal(0))
 		} else {
-			g.Expect(updated.Type().Equals(types[updated.Name()].Type())).To(BeTrue())
+			g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeTrue())
 		}
 	}
 }
@@ -338,5 +342,5 @@ func TestTypeWalker_CanChangeNameInOnlyCertainPlaces(t *testing.T) {
 	g.Expect(len(updatedTypes)).To(Equal(3))
 	g.Expect(updatedTypes).To(HaveKey(left2TypeName))
 	g.Expect(updatedTypes).To(HaveKey(leftTypeName))
-	g.Expect(updatedTypes[left2TypeName].Type().Equals(updatedTypes[leftTypeName].Type())).To(BeTrue())
+	g.Expect(TypeEquals(updatedTypes[left2TypeName].Type(), updatedTypes[leftTypeName].Type())).To(BeTrue())
 }

@@ -128,7 +128,7 @@ func (fn *PropertyAssignmentFunction) References() astmodel.TypeNameSet {
 }
 
 // Equals checks to see if the supplied function is the same as this one
-func (fn *PropertyAssignmentFunction) Equals(f astmodel.Function) bool {
+func (fn *PropertyAssignmentFunction) Equals(f astmodel.Function, _ astmodel.EqualityOverrides) bool {
 	if other, ok := f.(*PropertyAssignmentFunction); ok {
 		if fn.Name() != other.Name() {
 			// Different name means not-equal
@@ -392,7 +392,7 @@ func (fn *PropertyAssignmentFunction) createConversion(
 func (fn *PropertyAssignmentFunction) findPropertyBagProperty(instance astmodel.Type) (*astmodel.PropertyDefinition, bool) {
 	if container, ok := astmodel.AsPropertyContainer(instance); ok {
 		for _, prop := range container.Properties() {
-			if prop.PropertyType().Equals(astmodel.PropertyBagType) {
+			if astmodel.TypeEquals(prop.PropertyType(), astmodel.PropertyBagType) {
 				return prop, true
 			}
 		}

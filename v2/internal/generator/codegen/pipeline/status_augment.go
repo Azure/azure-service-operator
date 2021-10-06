@@ -109,7 +109,7 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 						return nil, err
 					}
 
-					if !newType.Equals(specProp.PropertyType()) {
+					if !astmodel.TypeEquals(newType, specProp.PropertyType()) {
 						changed = true
 					}
 
@@ -144,7 +144,7 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 			}
 
 			// return original typename if not changed
-			if newSpec.Equals(specType) {
+			if astmodel.TypeEquals(newSpec, specType) {
 				return spec, nil
 			}
 

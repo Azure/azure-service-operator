@@ -204,7 +204,7 @@ func writeToBagItem(
 	// exactly the expected type, so no conversion should be required. Plus, our conversions are designed to isolate
 	// the source and destination from each other (so that changes to one don't impact the other), but with the
 	// property bag everything gets immediately serialized so everything is already nicely isolated.
-	if !destinationBagItem.Element().Equals(actualSourceType) {
+	if !astmodel.TypeEquals(destinationBagItem.Element(), actualSourceType) {
 		return nil
 	}
 
@@ -328,7 +328,7 @@ func pullFromBagItem(
 	// exactly the expected type, so no conversion should be required. Plus, our conversions are designed to isolate
 	// the source and destination from each other (so that changes to one don't impact the other), but with the
 	// property bag everything gets immediately serialized so everything is already nicely isolated.
-	if !sourceBagItem.Element().Equals(actualDestinationType) {
+	if !astmodel.TypeEquals(sourceBagItem.Element(), actualDestinationType) {
 		return nil
 	}
 
@@ -565,7 +565,7 @@ func assignPrimitiveFromPrimitive(
 	}
 
 	// Require both properties to have the same primitive type
-	if !sourcePrimitive.Equals(destinationPrimitive) {
+	if !astmodel.TypeEquals(sourcePrimitive, destinationPrimitive) {
 		return nil
 	}
 
@@ -625,7 +625,7 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 	}
 
 	// Require both properties to have the same primitive type
-	if !sourcePrimitive.Equals(destinationPrimitive) {
+	if !astmodel.TypeEquals(sourcePrimitive, destinationPrimitive) {
 		return nil
 	}
 
@@ -863,7 +863,7 @@ func assignMapFromMap(
 	}
 
 	// Require map keys to be identical
-	if !sourceMap.KeyType().Equals(destinationMap.KeyType()) {
+	if !astmodel.TypeEquals(sourceMap.KeyType(), destinationMap.KeyType()) {
 		// Keys are different types
 		return nil
 	}
@@ -975,7 +975,7 @@ func assignEnumFromEnum(
 	}
 
 	// Require enumerations to have the same base types
-	if !sourceEnum.BaseType().Equals(destinationEnum.BaseType()) {
+	if !astmodel.TypeEquals(sourceEnum.BaseType(), destinationEnum.BaseType()) {
 		return nil
 	}
 
@@ -1039,7 +1039,7 @@ func assignPrimitiveFromEnum(
 	}
 
 	// Require enumeration to have the destination as base type
-	if !srcEnum.BaseType().Equals(dstPrimitive) {
+	if !astmodel.TypeEquals(srcEnum.BaseType(), dstPrimitive) {
 		return nil
 	}
 
@@ -1208,12 +1208,12 @@ func AssignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *Typ
 		}
 
 		// Require source to be our specific type
-		if !sourceName.Equals(name) {
+		if !astmodel.TypeEquals(sourceName, name) {
 			return nil
 		}
 
 		// Require destination to be our specific type
-		if !destinationName.Equals(name) {
+		if !astmodel.TypeEquals(destinationName, name) {
 			return nil
 		}
 
@@ -1269,12 +1269,12 @@ func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTy
 		}
 
 		// Require source to be our specific type
-		if !sourceName.Equals(name) {
+		if !astmodel.TypeEquals(sourceName, name) {
 			return nil
 		}
 
 		// Require destination to be our specific type
-		if !destinationName.Equals(name) {
+		if !astmodel.TypeEquals(destinationName, name) {
 			return nil
 		}
 

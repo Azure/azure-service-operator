@@ -40,7 +40,7 @@ func Test_SimplifyDefinitionsPipelineStage_GivenTypes_FlattensToExpectedTypes(t 
 			visitor := createSimplifyingVisitor()
 			result, err := visitor.Visit(c.original, nil)
 			g.Expect(err).To(BeNil())
-			g.Expect(result.Equals(c.expected)).To(BeTrue())
+			g.Expect(astmodel.TypeEquals(result, c.expected)).To(BeTrue())
 		})
 	}
 }

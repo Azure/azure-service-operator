@@ -456,7 +456,7 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 }
 
 func (s synthesizer) handleEnumEnum(leftEnum *astmodel.EnumType, rightEnum *astmodel.EnumType) (astmodel.Type, error) {
-	if !leftEnum.BaseType().Equals(rightEnum.BaseType()) {
+	if !astmodel.TypeEquals(leftEnum.BaseType(), rightEnum.BaseType()) {
 		return nil, errors.Errorf("cannot merge enums with differing base types")
 	}
 
@@ -476,8 +476,8 @@ func (s synthesizer) handleEnumEnum(leftEnum *astmodel.EnumType, rightEnum *astm
 
 func (s synthesizer) handleEnum(leftEnum *astmodel.EnumType, right astmodel.Type) (astmodel.Type, error) {
 	// we can restrict from a (maybe optional) base type to an enum type
-	if leftEnum.BaseType().Equals(right) ||
-		astmodel.NewOptionalType(leftEnum.BaseType()).Equals(right) {
+	if astmodel.TypeEquals(leftEnum.BaseType(), right) ||
+		astmodel.TypeEquals(astmodel.NewOptionalType(leftEnum.BaseType()), right) {
 		return leftEnum, nil
 	}
 
@@ -504,7 +504,7 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 	{
 		var result astmodel.Type
 		leftOneOf.Types().ForEach(func(lType astmodel.Type, _ int) {
-			if lType.Equals(right) {
+			if astmodel.TypeEquals(lType, right) {
 				result = lType
 			}
 		})
@@ -545,7 +545,7 @@ func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.T
 		// so that their innards are resolved already and we can retain
 		// the names?
 
-		if result.Equals(found.Type()) {
+		if astmodel.TypeEquals(result, found.Type()) {
 			// if we got back the same thing we are referencing, preserve the reference
 			return leftName, nil
 		}
@@ -556,7 +556,7 @@ func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.T
 
 // any type always disappears when intersected with another type
 func (synthesizer) handleAnyType(left *astmodel.PrimitiveType, right astmodel.Type) (astmodel.Type, error) {
-	if left.Equals(astmodel.AnyType) {
+	if astmodel.TypeEquals(left, astmodel.AnyType) {
 		return right, nil
 	}
 
@@ -565,7 +565,7 @@ func (synthesizer) handleAnyType(left *astmodel.PrimitiveType, right astmodel.Ty
 
 // two identical types can become the same type
 func (synthesizer) handleEqualTypes(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
-	if left.Equals(right) {
+	if astmodel.TypeEquals(left, right) {
 		return left, nil
 	}
 
@@ -574,12 +574,12 @@ func (synthesizer) handleEqualTypes(left astmodel.Type, right astmodel.Type) (as
 
 // a validated and non-validated version of the same type become the valiated version
 func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedType, right astmodel.Type) (astmodel.Type, error) {
-	if validated.ElementType().Equals(right) {
+	if astmodel.TypeEquals(validated.ElementType(), right) {
 		return validated, nil
 	}
 
 	// validated(optional(T)) combined with a non-optional T becomes validated(T)
-	if validated.ElementType().Equals(astmodel.NewOptionalType(right)) {
+	if astmodel.TypeEquals(validated.ElementType(), astmodel.NewOptionalType(right)) {
 		return validated.WithElement(right), nil
 	}
 
@@ -588,7 +588,7 @@ func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedT
 
 // a string map and object can be combined with the map type becoming additionalProperties
 func (synthesizer) handleMapObject(leftMap *astmodel.MapType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
-	if leftMap.KeyType().Equals(astmodel.StringType) {
+	if astmodel.TypeEquals(leftMap.KeyType(), astmodel.StringType) {
 		if len(rightObj.Properties()) == 0 {
 			// no properties, treat as map
 			// TODO: there could be other things in the object to check?

@@ -20,55 +20,57 @@ import (
 )
 
 type SwaggerTypeExtractor struct {
-	idFactory astmodel.IdentifierFactory
-	config    *config.Configuration
-	cache     OpenAPISchemaCache
-	// group for output types (e.g. Microsoft.Network.Frontdoor)
-	outputGroup   string
-	outputVersion string
-	outputPackage astmodel.LocalPackageReference // derived from outputGroup/outputVersion
+	idFactory   astmodel.IdentifierFactory
+	config      *config.Configuration
+	cache       CachingFileLoader
+	swagger     spec.Swagger
+	swaggerPath string
+	// package for output types (e.g. Microsoft.Network.Frontdoor/v20200101)
+	outputPackage astmodel.LocalPackageReference
 }
 
 // NewSwaggerTypeExtractor creates a new SwaggerTypeExtractor
 func NewSwaggerTypeExtractor(
 	config *config.Configuration,
 	idFactory astmodel.IdentifierFactory,
-	outputGroup string,
-	outputVersion string,
-	cache OpenAPISchemaCache) SwaggerTypeExtractor {
+	swagger spec.Swagger,
+	swaggerPath string,
+	outputPackage astmodel.LocalPackageReference,
+	cache CachingFileLoader) SwaggerTypeExtractor {
 
-	packageGroup := idFactory.CreateGroupName(outputGroup)
-	packageName := astmodel.CreateLocalPackageNameFromVersion(outputVersion)
 	return SwaggerTypeExtractor{
 		idFactory:     idFactory,
-		outputGroup:   outputGroup,
-		outputVersion: outputVersion,
-		outputPackage: config.MakeLocalPackageReference(packageGroup, packageName),
+		swaggerPath:   swaggerPath,
+		swagger:       swagger,
+		outputPackage: outputPackage,
 		cache:         cache,
 		config:        config,
 	}
 }
 
+type SwaggerTypes struct {
+	ResourceTypes, OtherTypes astmodel.Types
+}
+
 // ExtractTypes finds all operations in the Swagger spec that
 // have a PUT verb and a path like "Microsoft.GroupName/…/resourceName/{resourceId}",
-// and extracts the types for those operations, into the 'resources' parameter.
-// Any additional types required by the resource types are placed into the 'otherTypes' parameter.
-func (extractor *SwaggerTypeExtractor) ExtractTypes(
-	ctx context.Context,
-	filePath string,
-	swagger spec.Swagger,
-	resources astmodel.Types,
-	otherTypes astmodel.Types) error {
+// and extracts the types for those operations, into the 'resourceTypes' result.
+// Any additional types required by the resource types are placed into the 'otherTypes' result.
+func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (SwaggerTypes, error) {
+	result := SwaggerTypes{
+		ResourceTypes: make(astmodel.Types),
+		OtherTypes:    make(astmodel.Types),
+	}
 
 	scanner := NewSchemaScanner(extractor.idFactory, extractor.config)
 
-	for rawOperationPath, op := range swagger.Paths.Paths {
+	for rawOperationPath, op := range extractor.swagger.Paths.Paths {
 		put := op.Put
 		if put == nil {
 			continue
 		}
 
-		resourceSchema := extractor.findARMResourceSchema(filePath, *put)
+		resourceSchema := extractor.findARMResourceSchema(*put)
 		if resourceSchema == nil {
 			// klog.Warningf("No ARM schema found for %s in %q", rawOperationPath, filePath)
 			continue
@@ -78,17 +80,17 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 
 			resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 			if err != nil {
-				klog.Errorf("Error extracting resource name (%s): %s", filePath, err.Error())
+				klog.Errorf("Error extracting resource name (%s): %s", extractor.swaggerPath, err.Error())
 				continue
 			}
 
 			resourceType, err := scanner.RunHandlerForSchema(ctx, *resourceSchema)
 			if err != nil {
 				if errors.Is(err, context.Canceled) {
-					return err
+					return SwaggerTypes{}, err
 				}
 
-				return errors.Wrapf(err, "unable to produce type for resource %s", resourceName)
+				return SwaggerTypes{}, errors.Wrapf(err, "unable to produce type for resource %s", resourceName)
 			}
 
 			if resourceType == nil {
@@ -96,42 +98,45 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(
 				continue
 			}
 
-			if existingResource, ok := resources[resourceName]; ok {
+			if existingResource, ok := result.ResourceTypes[resourceName]; ok {
 				if !astmodel.TypeEquals(existingResource.Type(), resourceType) {
-					return errors.Errorf("resource already defined differently: %s", resourceName)
+					return SwaggerTypes{}, errors.Errorf("resource already defined differently: %s\ndiff: %s",
+						resourceName,
+						astmodel.DiffTypes(existingResource.Type(), resourceType))
 				}
 			} else {
-				resources.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
+				result.ResourceTypes.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
 			}
 		}
 	}
 
 	for _, def := range scanner.Definitions() {
 		// now add in the additional type definitions required by the resources
-		if existingDef, ok := otherTypes[def.Name()]; ok {
+		if existingDef, ok := result.OtherTypes[def.Name()]; ok {
 			if !astmodel.TypeEquals(existingDef.Type(), def.Type()) {
-				klog.Errorf("type already defined differently: %s", def.Name())
+				return SwaggerTypes{}, errors.Errorf("type already defined differently: %s\nwas %s is %s\ndiff: %s",
+					def.Name(),
+					existingDef.Type(),
+					def.Type(),
+					astmodel.DiffTypes(existingDef.Type(), def.Type()))
 			}
 		} else {
-			otherTypes.Add(def)
+			result.OtherTypes.Add(def)
 		}
 	}
 
-	return nil
+	return result, nil
 }
 
 // Look at the responses of the PUT to determine if this represents an ARM resource,
 // and if so, return the schema for it.
 // see: https://github.com/Azure/autorest/issues/1936#issuecomment-286928591
-func (extractor *SwaggerTypeExtractor) findARMResourceSchema(
-	filePath string,
-	op spec.Operation) *Schema {
-
+func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.Operation) *Schema {
 	if op.Responses != nil {
 		for statusCode, response := range op.Responses.StatusCodeResponses {
 			// only check OK and Created (per above linked comment)
 			if statusCode == 200 || statusCode == 201 {
-				result := extractor.getARMResourceSchemaFromResponse(filePath, response)
+				result := extractor.getARMResourceSchemaFromResponse(response)
 				if result != nil {
 					return result
 				}
@@ -143,15 +148,15 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(
 	return nil
 }
 
-func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(filePath string, response spec.Response) *Schema {
+func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(response spec.Response) *Schema {
 	if response.Schema != nil {
 		// the schema can either be directly included
 
 		schema := MakeOpenAPISchema(
 			*response.Schema,
-			filePath,
-			extractor.outputGroup,
-			extractor.outputVersion,
+			extractor.swaggerPath,
+			extractor.outputPackage,
+			extractor.idFactory,
 			extractor.cache)
 
 		if isMarkedAsARMResource(schema) {
@@ -160,12 +165,17 @@ func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(filePath
 	} else if response.Ref.GetURL() != nil {
 		// or it can be under a $ref
 
-		refFilePath, refSchema := loadRefSchema(response.Ref, filePath, extractor.cache)
+		refFilePath, refSchema, pkg := loadRefSchema(response.Ref, extractor.swaggerPath, extractor.cache)
+		outputPackage := extractor.outputPackage
+		if pkg != nil {
+			outputPackage = *pkg
+		}
+
 		schema := MakeOpenAPISchema(
 			refSchema,
 			refFilePath,
-			extractor.outputGroup,
-			extractor.outputVersion,
+			outputPackage,
+			extractor.idFactory,
 			extractor.cache)
 
 		if isMarkedAsARMResource(schema) {

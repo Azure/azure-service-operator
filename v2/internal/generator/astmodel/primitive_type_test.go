@@ -39,7 +39,7 @@ func TestPrimitiveType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) 
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			areEqual := c.thisType.Equals(c.otherType)
+			areEqual := TypeEquals(c.thisType, c.otherType)
 
 			g.Expect(areEqual).To(Equal(c.expected))
 		})

@@ -75,9 +75,9 @@ func (b *PropertyBagMemberType) AsZero(types astmodel.Types, ctx *astmodel.CodeG
 }
 
 // Equals returns true if the passed type is a PropertyBagMemberType with the same element this one, false otherwise
-func (b *PropertyBagMemberType) Equals(t astmodel.Type) bool {
+func (b *PropertyBagMemberType) Equals(t astmodel.Type, override astmodel.EqualityOverrides) bool {
 	other, ok := t.(*PropertyBagMemberType)
-	return ok && other.element.Equals(b.element)
+	return ok && other.element.Equals(b.element, override)
 }
 
 // String returns a string representing the type

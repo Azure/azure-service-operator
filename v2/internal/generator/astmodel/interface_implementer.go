@@ -97,7 +97,7 @@ func (i InterfaceImplementer) AsDeclarations(
 	return result
 }
 
-func (i InterfaceImplementer) Equals(other InterfaceImplementer) bool {
+func (i InterfaceImplementer) Equals(other InterfaceImplementer, overrides EqualityOverrides) bool {
 	if len(i.interfaces) != len(other.interfaces) {
 		return false
 	}
@@ -108,7 +108,7 @@ func (i InterfaceImplementer) Equals(other InterfaceImplementer) bool {
 			return false
 		}
 
-		if !iface.Equals(otherIface) {
+		if !iface.Equals(otherIface, overrides) {
 			return false
 		}
 	}

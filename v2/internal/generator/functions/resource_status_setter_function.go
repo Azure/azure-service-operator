@@ -130,7 +130,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(genContext *astmodel.CodeGeneratio
 }
 
 // Equals returns true if the passed function is equal
-func (fn ResourceStatusSetterFunction) Equals(other astmodel.Function) bool {
+func (fn ResourceStatusSetterFunction) Equals(other astmodel.Function, _ astmodel.EqualityOverrides) bool {
 	otherFn, ok := other.(*ResourceStatusSetterFunction)
 	if !ok {
 		return false

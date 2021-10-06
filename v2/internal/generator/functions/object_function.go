@@ -65,13 +65,14 @@ func (fn *ObjectFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationC
 }
 
 // Equals checks if this function is equal to the passed in function
-func (fn *ObjectFunction) Equals(f astmodel.Function) bool {
+func (fn *ObjectFunction) Equals(f astmodel.Function, _ astmodel.EqualityOverrides) bool {
 	typedF, ok := f.(*ObjectFunction)
 	if !ok {
 		return false
 	}
 
 	// TODO: We're not actually checking function structure here
+	// - ensure overrides is used if/when we do so
 	return fn.name == typedF.name
 }
 

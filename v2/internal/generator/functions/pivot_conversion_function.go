@@ -193,7 +193,7 @@ func (fn *PivotConversionFunction) declarationDocComment(receiver astmodel.TypeN
 		fmt.Sprintf("populates the provided %s from our %s", parameter, receiver.Name()))
 }
 
-func (fn *PivotConversionFunction) Equals(otherFn astmodel.Function) bool {
+func (fn *PivotConversionFunction) Equals(otherFn astmodel.Function, _ astmodel.EqualityOverrides) bool {
 	rcf, ok := otherFn.(*PivotConversionFunction)
 	if !ok {
 		return false

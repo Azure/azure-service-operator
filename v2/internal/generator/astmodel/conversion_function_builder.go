@@ -398,7 +398,7 @@ func IdentityAssignTypeName(_ *ConversionFunctionBuilder, params ConversionParam
 	}
 
 	// Can only apply basic assignment for typeNames that are the same
-	if !sourceType.Equals(destinationType) {
+	if !TypeEquals(sourceType, destinationType) {
 		return nil
 	}
 
@@ -437,7 +437,7 @@ func AssignToOptional(builder *ConversionFunctionBuilder, params ConversionParam
 		return nil
 	}
 
-	if optDest.Element().Equals(params.SourceType) {
+	if TypeEquals(optDest.Element(), params.SourceType) {
 		return []dst.Stmt{
 			params.AssignmentHandlerOrDefault()(params.GetDestination(), astbuilder.AddrOf(params.GetSource())),
 		}
@@ -486,7 +486,7 @@ func AssignFromOptional(builder *ConversionFunctionBuilder, params ConversionPar
 		return nil
 	}
 
-	if optSrc.Element().Equals(params.DestinationType) {
+	if TypeEquals(optSrc.Element(), params.DestinationType) {
 		return []dst.Stmt{
 			astbuilder.IfNotNil(params.GetSource(),
 				params.AssignmentHandlerOrDefault()(params.GetDestination(), astbuilder.Dereference(params.GetSource())),
@@ -549,7 +549,7 @@ func IdentityAssignValidatedTypeSource(builder *ConversionFunctionBuilder, param
 // It generates code that looks like:
 //     <destination> = *<source>.DeepCopy()
 func IdentityDeepCopyJSON(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
-	if !params.DestinationType.Equals(JSONType) {
+	if !TypeEquals(params.DestinationType, JSONType) {
 		return nil
 	}
 
