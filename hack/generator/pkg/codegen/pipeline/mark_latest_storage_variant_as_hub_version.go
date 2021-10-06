@@ -16,7 +16,7 @@ import (
 // MarkLatestStorageVariantAsHubVersionID is the unique identifier for this pipeline stage
 const MarkLatestStorageVariantAsHubVersionID = "markLatestStorageVariantAsHubVersion"
 
-// MarkLatestStorageVariantAsHubVersionID creates a Stage to mark the latest non-preview storage variant of a resource
+// MarkLatestStorageVariantAsHubVersion creates a Stage to mark the latest non-preview storage variant of a resource
 // as the hub version of that resource for persistence
 func MarkLatestStorageVariantAsHubVersion() Stage {
 	stage := MakeStage(
