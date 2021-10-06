@@ -21,7 +21,7 @@ func (ts TypeAssociation) Equals(other TypeAssociation) bool {
 			return false
 		}
 
-		if !val.Equals(otherVal) {
+		if !TypeEquals(val, otherVal) {
 			// Values don't match, not equal
 			return false
 		}

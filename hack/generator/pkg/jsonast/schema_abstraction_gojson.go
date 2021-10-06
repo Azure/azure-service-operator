@@ -13,24 +13,40 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/xeipuuv/gojsonschema"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astmodel"
 )
 
 // GoJSONSchema implements the Schema abstraction for gojsonschema
 type GoJSONSchema struct {
-	inner *gojsonschema.SubSchema
+	inner                     *gojsonschema.SubSchema
+	makeLocalPackageReference func(groupName, version string) astmodel.LocalPackageReference
+	idFactory                 astmodel.IdentifierFactory
 }
 
 // MakeGoJSONSchema wrapes a gojsonschema.SubSchema to conform to the Schema abstraction
-func MakeGoJSONSchema(schema *gojsonschema.SubSchema) Schema {
-	return GoJSONSchema{schema}
+func MakeGoJSONSchema(
+	schema *gojsonschema.SubSchema,
+	makeLocalPackageReference func(groupName, version string) astmodel.LocalPackageReference,
+	idFactory astmodel.IdentifierFactory) Schema {
+	return GoJSONSchema{
+		schema,
+		makeLocalPackageReference,
+		idFactory,
+	}
+}
+
+func (schema GoJSONSchema) withInner(new *gojsonschema.SubSchema) GoJSONSchema {
+	schema.inner = new
+	return schema
 }
 
 var _ Schema = GoJSONSchema{}
 
-func transformGoJSONSlice(slice []*gojsonschema.SubSchema) []Schema {
+func (schema GoJSONSchema) transformGoJSONSlice(slice []*gojsonschema.SubSchema) []Schema {
 	result := make([]Schema, len(slice))
 	for i := range slice {
-		result[i] = GoJSONSchema{slice[i]}
+		result[i] = schema.withInner(slice[i])
 	}
 
 	return result
@@ -61,7 +77,7 @@ func (schema GoJSONSchema) hasAllOf() bool {
 }
 
 func (schema GoJSONSchema) allOf() []Schema {
-	return transformGoJSONSlice(schema.inner.AllOf)
+	return schema.transformGoJSONSlice(schema.inner.AllOf)
 }
 
 func (schema GoJSONSchema) hasAnyOf() bool {
@@ -69,7 +85,7 @@ func (schema GoJSONSchema) hasAnyOf() bool {
 }
 
 func (schema GoJSONSchema) anyOf() []Schema {
-	return transformGoJSONSlice(schema.inner.AnyOf)
+	return schema.transformGoJSONSlice(schema.inner.AnyOf)
 }
 
 func (schema GoJSONSchema) hasOneOf() bool {
@@ -77,13 +93,13 @@ func (schema GoJSONSchema) hasOneOf() bool {
 }
 
 func (schema GoJSONSchema) oneOf() []Schema {
-	return transformGoJSONSlice(schema.inner.OneOf)
+	return schema.transformGoJSONSlice(schema.inner.OneOf)
 }
 
 func (schema GoJSONSchema) properties() map[string]Schema {
 	result := make(map[string]Schema)
 	for _, prop := range schema.inner.PropertiesChildren {
-		result[prop.Property] = GoJSONSchema{prop}
+		result[prop.Property] = schema.withInner(prop)
 	}
 
 	return result
@@ -157,7 +173,7 @@ func (schema GoJSONSchema) description() *string {
 }
 
 func (schema GoJSONSchema) items() []Schema {
-	return transformGoJSONSlice(schema.inner.ItemsChildren)
+	return schema.transformGoJSONSlice(schema.inner.ItemsChildren)
 }
 
 func (schema GoJSONSchema) additionalPropertiesAllowed() bool {
@@ -168,12 +184,11 @@ func (schema GoJSONSchema) additionalPropertiesAllowed() bool {
 
 func (schema GoJSONSchema) additionalPropertiesSchema() Schema {
 	result := schema.inner.AdditionalProperties
-
 	if result == nil {
 		return nil
 	}
 
-	return GoJSONSchema{result.(*gojsonschema.SubSchema)}
+	return schema.withInner(result.(*gojsonschema.SubSchema))
 }
 
 func (schema GoJSONSchema) enumValues() []string {
@@ -185,11 +200,33 @@ func (schema GoJSONSchema) isRef() bool {
 }
 
 func (schema GoJSONSchema) refSchema() Schema {
-	return GoJSONSchema{schema.inner.RefSchema}
+	return schema.withInner(schema.inner.RefSchema)
 }
 
 func isURLPathSeparator(c rune) bool {
 	return c == '/'
+}
+
+func (schema GoJSONSchema) refTypeName() (astmodel.TypeName, error) {
+	// make a new topic based on the ref URL
+	name, err := schema.refObjectName()
+	if err != nil {
+		return astmodel.TypeName{}, err
+	}
+
+	group, err := schema.refGroupName()
+	if err != nil {
+		return astmodel.TypeName{}, err
+	}
+
+	version := schema.refVersion()
+
+	// produce a usable name:
+	return astmodel.MakeTypeName(
+		schema.makeLocalPackageReference(
+			schema.idFactory.CreateGroupName(group),
+			astmodel.CreateLocalPackageNameFromVersion(version)),
+		schema.idFactory.CreateIdentifier(name, astmodel.Exported)), nil
 }
 
 func (schema GoJSONSchema) refObjectName() (string, error) {
@@ -223,8 +260,8 @@ func groupOf(url *url.URL) (string, error) {
 
 var versionRegex = regexp.MustCompile(`\d{4}-\d{2}-\d{2}(-preview)?`)
 
-func (schema GoJSONSchema) refVersion() (string, error) {
-	return versionOf(schema.inner.Ref.GetUrl()), nil
+func (schema GoJSONSchema) refVersion() string {
+	return versionOf(schema.inner.Ref.GetUrl())
 }
 
 func versionOf(url *url.URL) string {

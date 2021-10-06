@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-//TODO (theunrepentantgeek): MOAR TESTS
+// TODO (theunrepentantgeek): MOAR TESTS
 
 var (
 	emptySpec   = NewObjectType()
@@ -53,7 +53,6 @@ func TestResourceType_WithFunction_ReturnsExpectedInstance(t *testing.T) {
 	g.Expect(base).NotTo(Equal(resource)) // Ensure the original wasn't modified
 	g.Expect(resource.functions).To(HaveLen(1))
 	g.Expect(resource.functions[name]).To(Equal(fake))
-
 }
 
 /*
@@ -160,7 +159,7 @@ func TestResourceType_WithAnnotation_ReturnsExpectedInstance(t *testing.T) {
 	updated := base.WithAnnotation(annotation)
 
 	g.Expect(base).NotTo(Equal(updated)) // Ensure the original wasn't modified
-	g.Expect(base.Equals(updated)).To(BeFalse())
+	g.Expect(TypeEquals(base, updated)).To(BeFalse())
 	g.Expect(updated.annotations).To(HaveLen(1))
 	g.Expect(updated.annotations[0]).To(Equal(annotation))
 }

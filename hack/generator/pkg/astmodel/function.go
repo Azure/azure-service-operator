@@ -26,7 +26,7 @@ type Function interface {
 	AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName) *dst.FuncDecl
 
 	// Equals determines if this Function is equal to another one
-	Equals(f Function) bool
+	Equals(f Function, overrides EqualityOverrides) bool
 }
 
 type resourceFunctionHandler func(f *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl
@@ -65,12 +65,12 @@ func (r *resourceFunction) AsFunc(codeGenerationContext *CodeGenerationContext, 
 }
 
 // Equals determines if this Function is equal to another one
-func (r *resourceFunction) Equals(f Function) bool {
+func (r *resourceFunction) Equals(f Function, overrides EqualityOverrides) bool {
 	typedF, ok := f.(*resourceFunction)
 	if !ok {
 		return false
 	}
 
 	// TODO: We're not actually checking function structure here
-	return r.resource.Equals(typedF.resource) && r.name == typedF.name
+	return r.resource.Equals(typedF.resource, overrides) && r.name == typedF.name
 }

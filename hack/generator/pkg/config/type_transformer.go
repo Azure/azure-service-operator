@@ -240,7 +240,7 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 
 	for _, prop := range objectType.Properties().AsSlice() {
 		if transformer.propertyNameMatches(prop.PropertyName()) &&
-			(transformer.ifType == nil || transformer.ifType.Equals(prop.PropertyType())) {
+			(transformer.ifType == nil || astmodel.TypeEquals(transformer.ifType, prop.PropertyType())) {
 
 			found = true
 			propName = prop.PropertyName()

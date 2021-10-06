@@ -253,7 +253,6 @@ func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema
 
 // Definitions produces a set of all the types defined so far
 func (scanner *SchemaScanner) Definitions() astmodel.Types {
-
 	defs := make(astmodel.Types)
 	for defName, def := range scanner.definitions {
 		if def == nil {
@@ -345,8 +344,10 @@ func numberHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 	return t, nil
 }
 
-var zero *big.Rat = big.NewRat(0, 1)
-var maxUint32 *big.Rat = big.NewRat(1, 1).SetUint64(math.MaxUint32)
+var (
+	zero      *big.Rat = big.NewRat(0, 1)
+	maxUint32 *big.Rat = big.NewRat(1, 1).SetUint64(math.MaxUint32)
+)
 
 func intHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
 	t := astmodel.IntType
@@ -599,28 +600,10 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (ast
 		return scanner.RunHandlerForSchema(ctx, refSchema)
 	}
 
-	// make a new topic based on the ref URL
-	name, err := schema.refObjectName()
+	typeName, err := schema.refTypeName()
 	if err != nil {
 		return nil, err
 	}
-
-	group, err := schema.refGroupName()
-	if err != nil {
-		return nil, err
-	}
-
-	version, err := schema.refVersion()
-	if err != nil {
-		return nil, err
-	}
-
-	// produce a usable name:
-	typeName := astmodel.MakeTypeName(
-		scanner.configuration.MakeLocalPackageReference(
-			scanner.idFactory.CreateGroupName(group),
-			astmodel.CreateLocalPackageNameFromVersion(version)),
-		scanner.idFactory.CreateIdentifier(name, astmodel.Exported))
 
 	// Prune the graph according to the configuration
 	shouldPrune, because := scanner.configuration.ShouldPrune(typeName)
@@ -661,7 +644,6 @@ func generateDefinitionsFor(
 	// we will overwrite this later (this is checked below)
 	scanner.addEmptyTypeDefinition(typeName)
 	result, err := scanner.RunHandler(ctx, schemaType, schema)
-
 	if err != nil {
 		scanner.removeTypeDefinition(typeName) // we weren't able to generate it, remove placeholder
 		return nil, err
@@ -808,7 +790,6 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 }
 
 func withArrayValidations(schema Schema, t *astmodel.ArrayType) astmodel.Type {
-
 	maxItems := schema.maxItems()
 	minItems := schema.minItems()
 	uniqueItems := schema.uniqueItems()

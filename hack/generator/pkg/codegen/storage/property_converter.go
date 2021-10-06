@@ -48,7 +48,6 @@ func NewPropertyConverter(types astmodel.Types) *PropertyConverter {
 
 // ConvertProperty applies our conversion rules to a specific property
 func (p *PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
-
 	for _, conv := range p.propertyConversions {
 		prop, err := conv(property)
 		if err != nil {
@@ -161,13 +160,13 @@ func (p *PropertyConverter) preserveResourceReferenceProperties(
 
 	propertyType := prop.PropertyType()
 	if opt, ok := astmodel.AsOptionalType(propertyType); ok {
-		if opt.Element().Equals(astmodel.ResourceReferenceType) {
+		if astmodel.TypeEquals(opt.Element(), astmodel.ResourceReferenceType) {
 			// Keep these unchanged
 			return prop, nil
 		}
 	}
 
-	if propertyType.Equals(astmodel.ResourceReferenceType) {
+	if astmodel.TypeEquals(propertyType, astmodel.ResourceReferenceType) {
 		// Keep these unchanged
 		return prop, nil
 	}

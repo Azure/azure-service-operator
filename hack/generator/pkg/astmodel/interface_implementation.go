@@ -90,7 +90,7 @@ func (iface *InterfaceImplementation) HasFunctionWithName(functionName string) b
 }
 
 // Equals determines if this interface is equal to another interface
-func (iface *InterfaceImplementation) Equals(other *InterfaceImplementation) bool {
+func (iface *InterfaceImplementation) Equals(other *InterfaceImplementation, overrides EqualityOverrides) bool {
 	if len(iface.functions) != len(other.functions) {
 		return false
 	}
@@ -101,7 +101,7 @@ func (iface *InterfaceImplementation) Equals(other *InterfaceImplementation) boo
 			return false
 		}
 
-		if !f.Equals(otherF) {
+		if !f.Equals(otherF, overrides) {
 			return false
 		}
 	}

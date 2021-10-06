@@ -13,9 +13,11 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var exampleTypeFlag = astmodel.TypeFlag("flag")
-var resourceTypeName = newTestName("Resource")
-var resourceTypeName2 = newTestName("Resource2")
+var (
+	exampleTypeFlag   = astmodel.TypeFlag("flag")
+	resourceTypeName  = newTestName("Resource")
+	resourceTypeName2 = newTestName("Resource2")
+)
 
 var goModulePrefix = "github.com/Azure/azure-service-operator/testing"
 
@@ -91,7 +93,7 @@ func typesWithSubresourceTypeMultipleUsageContextsOneResource() astmodel.Types {
 	modifiedObject2 := newTestObject(modifiedTypeName2)
 	result.Add(modifiedObject2.WithType(exampleTypeFlag.ApplyTo(modifiedObject2.Type())))
 
-	//result.Add(newTestObject(originalTypeName))
+	// result.Add(newTestObject(originalTypeName))
 
 	prop1 := astmodel.NewPropertyDefinition(
 		"prop1",
@@ -156,7 +158,7 @@ func TestCleanupTypeNames_TypeWithNoOriginalName_UpdatedNameCollapsed(t *testing
 	propertyTypeName, ok := astmodel.AsTypeName(property.PropertyType())
 	g.Expect(ok).To(BeTrue())
 
-	g.Expect(propertyTypeName.Equals(expectedUpdatedTypeName)).To(BeTrue())
+	g.Expect(astmodel.TypeEquals(propertyTypeName, expectedUpdatedTypeName)).To(BeTrue())
 }
 
 func TestCleanupTypeNames_TypeWithOriginalNameExists_UpdatedNamePartiallyCollapsed(t *testing.T) {
@@ -177,13 +179,13 @@ func TestCleanupTypeNames_TypeWithOriginalNameExists_UpdatedNamePartiallyCollaps
 	g.Expect(ok).To(BeTrue())
 	prop1TypeName, ok := astmodel.AsTypeName(prop1.PropertyType())
 	g.Expect(ok).To(BeTrue())
-	g.Expect(prop1TypeName.Equals(expectedUpdatedTypeName)).To(BeTrue())
+	g.Expect(astmodel.TypeEquals(prop1TypeName, expectedUpdatedTypeName)).To(BeTrue())
 
 	prop2, ok := ot.Property("prop2")
 	g.Expect(ok).To(BeTrue())
 	prop2TypeName, ok := astmodel.AsTypeName(prop2.PropertyType())
 	g.Expect(ok).To(BeTrue())
-	g.Expect(prop2TypeName.Equals(expectedOriginalTypeName)).To(BeTrue())
+	g.Expect(astmodel.TypeEquals(prop2TypeName, expectedOriginalTypeName)).To(BeTrue())
 }
 
 func TestCleanupTypeNames_UpdatedNamesAreAllForSameResource_UpdatedNamesStrippedOfResourceContext(t *testing.T) {
@@ -204,13 +206,13 @@ func TestCleanupTypeNames_UpdatedNamesAreAllForSameResource_UpdatedNamesStripped
 	g.Expect(ok).To(BeTrue())
 	prop1TypeName, ok := astmodel.AsTypeName(prop1.PropertyType())
 	g.Expect(ok).To(BeTrue())
-	g.Expect(prop1TypeName.Equals(expectedUpdatedTypeName1)).To(BeTrue())
+	g.Expect(astmodel.TypeEquals(prop1TypeName, expectedUpdatedTypeName1)).To(BeTrue())
 
 	prop2, ok := ot.Property("prop2")
 	g.Expect(ok).To(BeTrue())
 	prop2TypeName, ok := astmodel.AsTypeName(prop2.PropertyType())
 	g.Expect(ok).To(BeTrue())
-	g.Expect(prop2TypeName.Equals(expectedUpdatedTypeName2)).To(BeTrue())
+	g.Expect(astmodel.TypeEquals(prop2TypeName, expectedUpdatedTypeName2)).To(BeTrue())
 }
 
 func TestCleanupTypeNames_UpdatedNamesAreEachForDifferentResource_UpdatedNamesStrippedOfCount(t *testing.T) {
@@ -231,11 +233,11 @@ func TestCleanupTypeNames_UpdatedNamesAreEachForDifferentResource_UpdatedNamesSt
 	g.Expect(ok).To(BeTrue())
 	prop1TypeName, ok := astmodel.AsTypeName(prop1.PropertyType())
 	g.Expect(ok).To(BeTrue())
-	g.Expect(prop1TypeName.Equals(expectedUpdatedTypeName1)).To(BeTrue())
+	g.Expect(astmodel.TypeEquals(prop1TypeName, expectedUpdatedTypeName1)).To(BeTrue())
 
 	prop2, ok := ot.Property("prop2")
 	g.Expect(ok).To(BeTrue())
 	prop2TypeName, ok := astmodel.AsTypeName(prop2.PropertyType())
 	g.Expect(ok).To(BeTrue())
-	g.Expect(prop2TypeName.Equals(expectedUpdatedTypeName2)).To(BeTrue())
+	g.Expect(astmodel.TypeEquals(prop2TypeName, expectedUpdatedTypeName2)).To(BeTrue())
 }

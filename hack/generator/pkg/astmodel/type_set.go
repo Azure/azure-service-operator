@@ -12,7 +12,7 @@ type TypeSet struct {
 
 // ReadonlyTypeSet is a readonly version of the TypeSet API.
 type ReadonlyTypeSet interface {
-	Contains(Type) bool
+	Contains(Type, EqualityOverrides) bool
 	ForEach(func(t Type, ix int))
 	ForEachError(func(t Type, ix int) error) error
 }
@@ -53,7 +53,7 @@ func (ts TypeSet) ForEachError(action func(t Type, ix int) error) error {
 // Add adds the type to the set if it does not already exist
 // and returns if it was added or not
 func (ts *TypeSet) Add(t Type) bool {
-	if ts.Contains(t) {
+	if ts.Contains(t, EqualityOverrides{}) {
 		return false
 	}
 
@@ -62,10 +62,10 @@ func (ts *TypeSet) Add(t Type) bool {
 }
 
 // Contains checks if the set already contains the type
-func (ts TypeSet) Contains(t Type) bool {
+func (ts TypeSet) Contains(t Type, overrides EqualityOverrides) bool {
 	// this is slow, but what can you do?
 	for _, other := range ts.types {
-		if t.Equals(other) {
+		if t.Equals(other, overrides) {
 			return true
 		}
 	}
@@ -74,13 +74,22 @@ func (ts TypeSet) Contains(t Type) bool {
 }
 
 // Equals returns true if both sets contain the same types
-func (ts TypeSet) Equals(other TypeSet) bool {
+func (ts TypeSet) Equals(other TypeSet, overrides ...EqualityOverrides) bool {
 	if len(ts.types) != len(other.types) {
 		return false
 	}
 
+	override := EqualityOverrides{}
+	if len(overrides) > 0 {
+		if len(overrides) > 1 {
+			panic("can only pass one EqualityOverrides")
+		}
+
+		override = overrides[0]
+	}
+
 	for _, t := range ts.types {
-		if !other.Contains(t) {
+		if !other.Contains(t, override) {
 			return false
 		}
 	}

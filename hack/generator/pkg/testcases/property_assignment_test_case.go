@@ -54,10 +54,12 @@ func NewPropertyAssignmentTestCase(
 	if result.fromFn == nil {
 		panic(fmt.Sprintf("expected to find PropertyAssignmentFrom() on %s", name))
 	}
+
 	if result.toFn == nil {
 		panic(fmt.Sprintf("expected to find PropertyAssignmentTo() on %s", name))
 	}
-	if !result.fromFn.ParameterType().Equals(result.toFn.ParameterType()) {
+
+	if !astmodel.TypeEquals(result.fromFn.ParameterType(), result.toFn.ParameterType()) {
 		panic(fmt.Sprintf("expected PropertyAssignmentFrom() and PropertyAssignmentTo() on %s to be consistent", name))
 	}
 
@@ -114,16 +116,16 @@ func (p *PropertyAssignmentTestCase) AsFuncs(
 }
 
 // Equals determines if this TestCase is equal to another one
-func (p *PropertyAssignmentTestCase) Equals(other astmodel.TestCase) bool {
+func (p *PropertyAssignmentTestCase) Equals(other astmodel.TestCase, override astmodel.EqualityOverrides) bool {
 	fn, ok := other.(*PropertyAssignmentTestCase)
 	if !ok {
 		return false
 	}
 
 	return p.testName == fn.testName &&
-		p.subject.Equals(fn.subject) &&
-		p.toFn.Equals(fn.toFn) &&
-		p.fromFn.Equals(fn.fromFn)
+		p.subject.Equals(fn.subject, override) &&
+		p.toFn.Equals(fn.toFn, override) &&
+		p.fromFn.Equals(fn.fromFn, override)
 }
 
 // createTestRunner generates the AST for the test runner itself

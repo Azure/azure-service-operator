@@ -215,7 +215,7 @@ func updateChildResourceDefinitionsWithOwner(
 		childResourceDef = childResourceDef.WithType(childResource.WithOwner(&owningResourceName))
 		if updatedDef, ok := updatedDefs[typeName]; ok {
 			// already exists, make sure it is the same
-			if !updatedDef.Type().Equals(childResourceDef.Type()) {
+			if !astmodel.TypeEquals(updatedDef.Type(), childResourceDef.Type()) {
 				return errors.Errorf("conflicting child resource already defined for %s", typeName)
 			}
 		} else {
