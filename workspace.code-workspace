@@ -4,12 +4,6 @@
 			"path": "."
 		},
 		{
-			"path": "hack/generated"
-		},
-		{
-			"path": "hack/generator"
-		},
-		{
 			"path": "hack/crossplane"
 		},
 		{
