@@ -35,10 +35,10 @@ func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.FromARMConvert
 	// This needs to return the right kind of status
 	status := metaObject.GetStatus()
 
-	statusPtr := reflect.New(reflect.TypeOf(status))
+	statusPtr := reflect.New(reflect.TypeOf(status).Elem())
 	armStatus, ok := statusPtr.Interface().(genruntime.FromARMConverter)
 	if !ok {
-		return nil, errors.Errorf("status did not implement genruntime.ArmTransformer")
+		return nil, errors.Errorf("status of type %T does not implement genruntime.FromARMConverter", statusPtr.Interface())
 	}
 
 	return armStatus, nil
