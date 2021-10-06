@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	storage "github.com/Azure/azure-service-operator/v2/api/microsoft.storage/v1alpha1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
@@ -31,7 +31,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Kind:     storage.StorageAccountsSpecKindBlobStorage,
 			Sku: storage.Sku{
 				Name: storage.SkuNameStandardLRS,
@@ -54,7 +54,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Blob Services CRUD",
 			Test: func(tc testcommon.KubePerTestContext) {
-				StorageAccount_BlobServices_CRUD(tc, acct.ObjectMeta)
+				StorageAccount_BlobServices_CRUD(tc, acct)
 			},
 		},
 	)
@@ -70,7 +70,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func StorageAccount_BlobServices_CRUD(tc testcommon.KubePerTestContext, storageAccount metav1.ObjectMeta) {
+func StorageAccount_BlobServices_CRUD(tc testcommon.KubePerTestContext, storageAccount client.Object) {
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
 		Spec: storage.StorageAccountsBlobServices_Spec{
@@ -85,7 +85,7 @@ func StorageAccount_BlobServices_CRUD(tc testcommon.KubePerTestContext, storageA
 		testcommon.Subtest{
 			Name: "Container CRUD",
 			Test: func(testContext testcommon.KubePerTestContext) {
-				StorageAccount_BlobServices_Container_CRUD(testContext, blobService.ObjectMeta)
+				StorageAccount_BlobServices_Container_CRUD(testContext, blobService)
 			},
 		})
 
@@ -99,7 +99,7 @@ func StorageAccount_BlobServices_CRUD(tc testcommon.KubePerTestContext, storageA
 	*/
 }
 
-func StorageAccount_BlobServices_Container_CRUD(tc testcommon.KubePerTestContext, blobService metav1.ObjectMeta) {
+func StorageAccount_BlobServices_Container_CRUD(tc testcommon.KubePerTestContext, blobService client.Object) {
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("container"),
 		Spec: storage.StorageAccountsBlobServicesContainers_Spec{
