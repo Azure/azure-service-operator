@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	servicebus "github.com/Azure/azure-service-operator/v2/api/microsoft.servicebus/v1alpha1api20210101preview"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
@@ -27,7 +27,7 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sbnamespace")),
 		Spec: servicebus.Namespaces_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Sku: &servicebus.SBSku{
 				Name: servicebus.SBSkuNameBasic,
 			},
@@ -44,7 +44,7 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Queue CRUD",
 			Test: func(testContext testcommon.KubePerTestContext) {
-				ServiceBus_Queue_CRUD(testContext, namespace.ObjectMeta)
+				ServiceBus_Queue_CRUD(testContext, namespace)
 			},
 		},
 	)
@@ -58,7 +58,7 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func ServiceBus_Queue_CRUD(tc testcommon.KubePerTestContext, sbNamespace metav1.ObjectMeta) {
+func ServiceBus_Queue_CRUD(tc testcommon.KubePerTestContext, sbNamespace client.Object) {
 	queue := &servicebus.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
 		Spec: servicebus.NamespacesQueues_Spec{

@@ -204,6 +204,7 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 	compute20201201 := configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201")
 	containerService20210501 := configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501")
 	dbForPostgreSQL20210601 := configuration.MakeLocalPackageReference("microsoft.dbforpostgresql", "v1alpha1api20210601")
+	authorization20200801 := configuration.MakeLocalPackageReference("microsoft.authorization", "v1alpha1api20200801preview")
 
 	return map[referencePair]bool{
 		// Batch
@@ -353,6 +354,11 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 		{
 			typeName: astmodel.MakeTypeName(dbForPostgreSQL20210601, "ServerProperties"),
 			propName: "SourceServerResourceId",
+		}: true,
+		// Authorization
+		{
+			typeName: astmodel.MakeTypeName(authorization20200801, "RoleAssignmentProperties"),
+			propName: "RoleDefinitionId",
 		}: true,
 	}
 }

@@ -10,7 +10,6 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	network "github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101"
@@ -27,7 +26,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 	vnet := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Location: testcommon.DefaultTestRegion,
 			AddressSpace: network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/8"},
@@ -44,7 +43,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Subnet CRUD",
 			Test: func(testContext testcommon.KubePerTestContext) {
-				Subnet_CRUD(testContext, vnet.ObjectMeta)
+				Subnet_CRUD(testContext, vnet)
 			},
 		},
 	)
@@ -58,7 +57,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func Subnet_CRUD(tc testcommon.KubePerTestContext, vnet metav1.ObjectMeta) {
+func Subnet_CRUD(tc testcommon.KubePerTestContext, vnet *network.VirtualNetwork) {
 	subnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnets_Spec{

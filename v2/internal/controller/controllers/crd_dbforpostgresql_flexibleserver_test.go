@@ -31,7 +31,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServers_Spec{
 			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &postgresql.Sku{
 				Name: "Standard_D4s_v3",
@@ -100,7 +100,7 @@ func FlexibleServer_Database_CRUD(tc testcommon.KubePerTestContext, flexibleServ
 	database := &postgresql.FlexibleServersDatabase{
 		ObjectMeta: tc.MakeObjectMeta("db"),
 		Spec: postgresql.FlexibleServersDatabases_Spec{
-			Owner:   testcommon.AsOwner(flexibleServer.ObjectMeta),
+			Owner:   testcommon.AsOwner(flexibleServer),
 			Charset: to.StringPtr("utf8"),
 		},
 	}
@@ -114,7 +114,7 @@ func FlexibleServer_FirewallRule_CRUD(tc testcommon.KubePerTestContext, flexible
 	firewall := &postgresql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
 		Spec: postgresql.FlexibleServersFirewallRules_Spec{
-			Owner: testcommon.AsOwner(flexibleServer.ObjectMeta),
+			Owner: testcommon.AsOwner(flexibleServer),
 			// I think that these rules are allow rules - somebody with this IP can access the server.
 			StartIpAddress: "1.2.3.4",
 			EndIpAddress:   "1.2.3.4",

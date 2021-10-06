@@ -10,7 +10,6 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	aks "github.com/Azure/azure-service-operator/v2/api/microsoft.containerservice/v1alpha1api20210501"
@@ -36,7 +35,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("mc"),
 		Spec: aks.ManagedClusters_Spec{
 			Location:  tc.AzureRegion,
-			Owner:     testcommon.AsOwner(rg.ObjectMeta),
+			Owner:     testcommon.AsOwner(rg),
 			DnsPrefix: to.StringPtr("aso"),
 			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
 				{
@@ -92,7 +91,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "AKS AgentPool CRUD",
 			Test: func(testContext testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_AgentPool_CRUD(testContext, cluster.ObjectMeta)
+				AKS_ManagedCluster_AgentPool_CRUD(testContext, cluster)
 			},
 		},
 	)
@@ -106,7 +105,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func AKS_ManagedCluster_AgentPool_CRUD(tc testcommon.KubePerTestContext, cluster metav1.ObjectMeta) {
+func AKS_ManagedCluster_AgentPool_CRUD(tc testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	osType := aks.ManagedClusterAgentPoolProfilePropertiesOsTypeLinux
 	agentPoolMode := aks.ManagedClusterAgentPoolProfilePropertiesModeSystem
 
