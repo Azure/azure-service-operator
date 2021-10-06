@@ -30,7 +30,7 @@ func Test_CosmosDB_DatabaseAccount_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(namer.GenerateName("db")),
 		Spec: documentdb.DatabaseAccounts_Spec{
 			Location:                 &tc.AzureRegion,
-			Owner:                    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:                    testcommon.AsOwner(rg),
 			Kind:                     &kind,
 			DatabaseAccountOfferType: documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard,
 			Locations: []documentdb.Location{

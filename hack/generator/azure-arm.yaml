@@ -16,6 +16,10 @@ typeFilters:
     group: microsoft.servicebus
     version: v*api20210101preview
     because: We want to export this particular preview version
+  - action: include
+    group: microsoft.authorization
+    version: v*api20200801preview
+    because: We want to export this particular preview version
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default
@@ -188,6 +192,7 @@ exportFilters:
     group: microsoft.managedidentity
     version: v*20181130
     name: UserAssignedIdentity
+    because: "including user assigned managed identity"
   - action: include-transitive
     group: microsoft.containerservice
     version: v*20210501
@@ -213,6 +218,11 @@ exportFilters:
     version: v*20210601
     name: FlexibleServersFirewallRule
     because: "including PostgreSQL Flexible server Firewall rule"
+  - action: include-transitive
+    group: microsoft.authorization
+    version: v*20200801preview
+    name: RoleAssignment
+    because: "including role assignments extension resource"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.

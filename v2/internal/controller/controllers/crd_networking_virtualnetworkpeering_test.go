@@ -26,7 +26,7 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 	vnet1 := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
 			AddressSpace: network.AddressSpace{
 				AddressPrefixes: []string{"10.0.0.0/16"},
@@ -37,7 +37,7 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 	vnet2 := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
-			Owner:    testcommon.AsOwner(rg.ObjectMeta),
+			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
 			AddressSpace: network.AddressSpace{
 				AddressPrefixes: []string{"10.1.0.0/16"},
@@ -50,7 +50,7 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 	peering := &network.VirtualNetworksVirtualNetworkPeering{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vgateway")),
 		Spec: network.VirtualNetworksVirtualNetworkPeerings_Spec{
-			Owner: testcommon.AsOwner(vnet1.ObjectMeta),
+			Owner: testcommon.AsOwner(vnet1),
 			RemoteVirtualNetwork: network.SubResource{
 				Reference: tc.MakeReferenceFromResource(vnet2),
 			},
