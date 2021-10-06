@@ -14,7 +14,7 @@ import (
 func Test_ValidateRequired(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	validation := ValidateRequired()
+	validation := MakeRequiredValidation()
 	comment := GenerateKubebuilderComment(validation)
 
 	g.Expect(comment).To(Equal("// +kubebuilder:validation:Required"))
@@ -23,7 +23,7 @@ func Test_ValidateRequired(t *testing.T) {
 func Test_ValidateEnum(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	validation := ValidateEnum([]interface{}{1, true, "hello"})
+	validation := MakeEnumValidation([]interface{}{1, true, "hello"})
 	comment := GenerateKubebuilderComment(validation)
 
 	g.Expect(comment).To(Equal("// +kubebuilder:validation:Enum={1,true,hello}"))

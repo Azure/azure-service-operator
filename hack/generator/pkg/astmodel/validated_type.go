@@ -38,15 +38,15 @@ func (av ArrayValidations) Equals(other Validations) bool {
 func (av ArrayValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
 	var result []KubeBuilderValidation
 	if av.MaxItems != nil {
-		result = append(result, ValidateMaxItems(*av.MaxItems))
+		result = append(result, MakeMaxItemsValidation(*av.MaxItems))
 	}
 
 	if av.MinItems != nil {
-		result = append(result, ValidateMinItems(*av.MinItems))
+		result = append(result, MakeMinItemsValidation(*av.MinItems))
 	}
 
 	if av.UniqueItems {
-		result = append(result, ValidateUniqueItems())
+		result = append(result, MakeUniqueItemsValidation())
 	}
 
 	return result
@@ -72,15 +72,15 @@ func (sv StringValidations) Equals(other Validations) bool {
 func (sv StringValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
 	var result []KubeBuilderValidation
 	if sv.MaxLength != nil {
-		result = append(result, ValidateMaxLength(*sv.MaxLength))
+		result = append(result, MakeMaxLengthValidation(*sv.MaxLength))
 	}
 
 	if sv.MinLength != nil {
-		result = append(result, ValidateMinLength(*sv.MinLength))
+		result = append(result, MakeMinLengthValidation(*sv.MinLength))
 	}
 
 	for _, pattern := range sv.Patterns {
-		result = append(result, ValidatePattern(pattern))
+		result = append(result, MakePatternValidation(pattern))
 	}
 
 	return result
@@ -112,23 +112,23 @@ func (nv NumberValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
 	var result []KubeBuilderValidation
 
 	if nv.Maximum != nil {
-		result = append(result, ValidateMaximum(nv.Maximum))
+		result = append(result, MakeMaximumValidation(nv.Maximum))
 	}
 
 	if nv.ExclusiveMaximum {
-		result = append(result, ValidateExclusiveMaximum())
+		result = append(result, MakeExclusiveMaxiumValidation())
 	}
 
 	if nv.Minimum != nil {
-		result = append(result, ValidateMinimum(nv.Minimum))
+		result = append(result, MaxMinimumValidation(nv.Minimum))
 	}
 
 	if nv.ExclusiveMinimum {
-		result = append(result, ValidateExclusiveMinimum())
+		result = append(result, MakeExclusiveMinimumValidation())
 	}
 
 	if nv.MultipleOf != nil {
-		result = append(result, ValidateMultipleOf(nv.MultipleOf))
+		result = append(result, MakeMultipleOfValidation(nv.MultipleOf))
 	}
 
 	return result
