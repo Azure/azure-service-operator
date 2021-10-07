@@ -389,10 +389,8 @@ func resolveAbsolutePath(baseFileName string, url *url.URL) (string, error) {
 		return "", errors.Errorf("absolute path %q not supported (only relative URLs)", url)
 	}
 
-	fileURL, err := url.Parse("file://" + filepath.ToSlash(baseFileName))
-	if err != nil {
-		return "", errors.Wrapf(err, "cannot convert filename to file URI")
-	}
+	dir := filepath.Dir(baseFileName)
 
-	return fileURL.ResolveReference(url).Path, nil
+	result := filepath.Clean(filepath.Join(dir, url.Path))
+	return result, nil
 }
