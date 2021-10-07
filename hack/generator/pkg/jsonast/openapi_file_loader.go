@@ -40,7 +40,7 @@ var _ OpenAPIFileLoader = CachingFileLoader{}
 func NewCachingFileLoader(specs map[string]PackageAndSwagger) CachingFileLoader {
 	files := make(map[string]PackageAndSwagger)
 	for specPath, spec := range specs {
-		files[specPath] = spec
+		files[filepath.ToSlash(specPath)] = spec
 	}
 
 	return CachingFileLoader{files}
@@ -61,7 +61,8 @@ func (fileCache CachingFileLoader) loadFile(absPath string) (PackageAndSwagger, 
 		panic(fmt.Sprintf("filePath %s must be absolute", absPath)) // assertion, not error
 	}
 
-	if swagger, ok := fileCache.files[absPath]; ok {
+	key := filepath.ToSlash(absPath)
+	if swagger, ok := fileCache.files[key]; ok {
 		return swagger, nil
 	}
 
@@ -81,7 +82,7 @@ func (fileCache CachingFileLoader) loadFile(absPath string) (PackageAndSwagger, 
 		return result, errors.Wrapf(err, "unable to parse swagger file %q", absPath)
 	}
 
-	fileCache.files[absPath] = result
+	fileCache.files[key] = result
 
 	return result, err
 }
