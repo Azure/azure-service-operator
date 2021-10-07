@@ -244,7 +244,7 @@ tasks:
     deps: [controller:generate-kustomize]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -v -run '{{default ".*" .TEST_FILTER}}' ./internal/controller/controllers
+    - go test -run '{{default ".*" .TEST_FILTER}}' ./internal/controller/controllers
 
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.

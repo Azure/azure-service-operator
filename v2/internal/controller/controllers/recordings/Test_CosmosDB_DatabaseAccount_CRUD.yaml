@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-lvmdpj","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
+    body: '{"name":"k8s_e1374620-dc37-5977-8a87-4a94abce7f29","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-lvmdpj","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
       ''asotest-rg-lvmdpj'')]"}}}}}'
     form: {}
     headers:
@@ -10,14 +10,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","name":"k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6413126001501856970","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29","name":"k8s_e1374620-dc37-5977-8a87-4a94abce7f29","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6413126001501856970","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.8040286S","correlationId":"58e1410a-1b8f-4f04-8c3c-cef14aec272f","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987/operationStatuses/08585699508218320026?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29/operationStatuses/08585699508218320026?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -43,10 +43,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","name":"k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6413126001501856970","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29","name":"k8s_e1374620-dc37-5977-8a87-4a94abce7f29","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6413126001501856970","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.9949066S","correlationId":"58e1410a-1b8f-4f04-8c3c-cef14aec272f","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
@@ -76,10 +76,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","name":"k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6413126001501856970","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29","name":"k8s_e1374620-dc37-5977-8a87-4a94abce7f29","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6413126001501856970","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6588779S","correlationId":"58e1410a-1b8f-4f04-8c3c-cef14aec272f","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-lvmdpj"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj"}]}}'
     headers:
       Cache-Control:
@@ -107,7 +107,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29?api-version=2019-10-01
     method: DELETE
   response:
     body: ""
@@ -162,7 +162,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-05-15","kind":"GlobalDocumentDB","location":"westus2","name":"asotestdbjqiyrn","properties":{"databaseAccountOfferType":"Standard","locations":[{"locationName":"westus2"}]},"type":"Microsoft.DocumentDB/databaseAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.DocumentDB/databaseAccounts'',
+    body: '{"name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-05-15","kind":"GlobalDocumentDB","location":"westus2","name":"asotestdbjqiyrn","properties":{"databaseAccountOfferType":"Standard","locations":[{"locationName":"westus2"}]},"type":"Microsoft.DocumentDB/databaseAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.DocumentDB/databaseAccounts'',
       ''asotestdbjqiyrn'')]"}}}}}'
     form: {}
     headers:
@@ -170,14 +170,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1607348S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4/operationStatuses/08585699508123172029?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be/operationStatuses/08585699508123172029?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -203,10 +203,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1607348S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
@@ -236,10 +236,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT2.131944S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
@@ -269,10 +269,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.152806S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
@@ -302,10 +302,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT21.6454257S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
@@ -335,10 +335,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT37.3140277S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
@@ -368,10 +368,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT52.4606697S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
@@ -401,10 +401,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M8.327228S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
@@ -434,10 +434,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M24.6095022S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
@@ -467,10 +467,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
       ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M41.0354459S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn"}]}}'
     headers:
       Cache-Control:
@@ -498,7 +498,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: DELETE
   response:
     body: ""
