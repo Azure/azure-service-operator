@@ -23,12 +23,12 @@ func CollapseCrossGroupReferences() Stage {
 		CollapseCrossGroupReferencesStageID,
 		"Find and remove cross group references",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			resources := astmodel.CollectResourceDefinitions(types)
+			resources := astmodel.FindResourceTypes(types)
 			result := make(astmodel.Types)
 
-			for resourceName := range resources {
-				walker := newTypeWalker(types, resourceName)
-				updatedTypes, err := walker.Walk(types[resourceName])
+			for _, def := range resources {
+				walker := newTypeWalker(types, def.Name())
+				updatedTypes, err := walker.Walk(types[def.Name()])
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed walking types")
 				}
