@@ -291,7 +291,7 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 		// we don’t conflict with “sibling” files as well as the pulling-in file
 		otherFiles := schema.loader.knownFiles()
 		for _, otherFile := range otherFiles {
-			if otherFile == absRefPath {
+			if otherFile == filepath.ToSlash(absRefPath) {
 				continue // skip containing file
 			}
 

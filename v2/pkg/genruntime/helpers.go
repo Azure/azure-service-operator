@@ -26,3 +26,37 @@ func NewObjectFromExemplar(obj client.Object, scheme *runtime.Scheme) (client.Ob
 	}
 	return newObj.(client.Object), nil
 }
+
+// InterleaveStrSlice interleaves the elements of the two provided slices. The resulting slice looks like:
+// []{<element 1 from a>, <element 1 from b>, <element 2 from a>, <element 2 from b>...}. If one slice is longer than
+// the other, the elements are interleaved until the shorter slice is out of elements, at which point all remaining
+// elements are from the longer slice.
+func InterleaveStrSlice(a []string, b []string) []string {
+	smallestLen := MinInt(len(a), len(b))
+	var larger []string
+	if len(a) == smallestLen {
+		larger = b
+	} else {
+		larger = a
+	}
+
+	var result []string
+
+	for i := 0; i < smallestLen; i++ {
+		result = append(result, a[i])
+		result = append(result, b[i])
+	}
+
+	result = append(result, larger[smallestLen:]...)
+
+	return result
+}
+
+// MinInt returns the minimum of the two provided ints.
+// The fact that this doesn't exist in the Go standard library is depressing.
+func MinInt(a int, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
