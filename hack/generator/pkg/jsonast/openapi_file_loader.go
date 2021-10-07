@@ -6,6 +6,7 @@
 package jsonast
 
 import (
+	"fmt"
 	"io/ioutil"
 	"path/filepath"
 
