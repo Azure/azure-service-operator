@@ -52,7 +52,6 @@ type GenericReconciler struct {
 	Name                 string
 	Config               config.Values
 	GVK                  schema.GroupVersionKind
-	Controller           controller.Controller
 	RequeueDelayOverride time.Duration
 	PositiveConditions   *conditions.PositiveConditionBuilder
 	CreateDeploymentName func(obj metav1.Object) (string, error)
@@ -164,18 +163,16 @@ func register(
 		CreateDeploymentName: options.CreateDeploymentName,
 	}
 
-	c, err := ctrl.NewControllerManagedBy(mgr).
+	err = ctrl.NewControllerManagedBy(mgr).
 		For(obj).
 		// Note: These predicates prevent status updates from triggering a reconcile.
 		// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
 		WithEventFilter(predicate.Or(predicate.GenerationChangedPredicate{}, predicate.AnnotationChangedPredicate{})).
 		WithOptions(options.Options).
-		Build(reconciler)
+		Complete(reconciler)
 	if err != nil {
 		return errors.Wrap(err, "unable to build controllers / reconciler")
 	}
-
-	reconciler.Controller = c
 
 	return nil
 }
