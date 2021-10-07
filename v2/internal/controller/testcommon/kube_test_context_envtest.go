@@ -281,7 +281,7 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 
 		// use minimized-delay controller if we are replaying tests
 		if perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying {
-			cfg.RequeueDelay = 100 * time.Millisecond
+			cfg.RequeueDelay = 10 * time.Millisecond
 		}
 
 		envtest, err := envTests.getEnvTestForConfig(cfg)
