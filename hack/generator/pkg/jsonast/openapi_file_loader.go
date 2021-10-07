@@ -58,7 +58,7 @@ func (fileCache CachingFileLoader) knownFiles() []string {
 // fetchFileAbsolute fetches the schema for the absolute path specified
 func (fileCache CachingFileLoader) loadFile(absPath string) (PackageAndSwagger, error) {
 	if !filepath.IsAbs(absPath) {
-		panic("filePath must be absolute") // assertion, not error
+		panic(fmt.Sprintf("filePath %s must be absolute", absPath)) // assertion, not error
 	}
 
 	if swagger, ok := fileCache.files[absPath]; ok {
