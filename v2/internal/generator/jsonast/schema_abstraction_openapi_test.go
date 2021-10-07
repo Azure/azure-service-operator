@@ -6,6 +6,8 @@
 package jsonast
 
 import (
+	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/go-openapi/spec"
@@ -14,10 +16,15 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/generator/astmodel"
 )
 
+var (
+	schemaPath         = "/dev/null/path/to/schema.json"
+	externalSchemaPath = "/dev/null/path/to/other.json"
+	siblingSchemaPath  = "/dev/null/path/to/sibling.json"
+)
+
 func Test_CanExtractTypeNameFromSameFile(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	schemaPath := "/dev/null/path/to/schema.json"
 	schemaPackage := astmodel.MakeLocalPackageReference(
 		"github.com/Azure/azure-service-operator/v2/api",
 		"Microsoft.Test",
@@ -57,13 +64,10 @@ func Test_CanExtractTypeNameFromSameFile(t *testing.T) {
 func Test_CanExtractTypeNameFromDifferentFile_AndInheritPackage(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	schemaPath := "/dev/null/path/to/schema.json"
 	schemaPackage := astmodel.MakeLocalPackageReference(
 		"github.com/Azure/azure-service-operator/v2/api",
 		"Microsoft.Test",
 		"v1")
-
-	externalSchemaPath := "/dev/null/path/to/other.json"
 
 	loader := NewCachingFileLoader(map[string]PackageAndSwagger{
 		schemaPath: {
@@ -91,7 +95,7 @@ func Test_CanExtractTypeNameFromDifferentFile_AndInheritPackage(t *testing.T) {
 
 	schema := spec.Schema{
 		SchemaProps: spec.SchemaProps{
-			Ref: spec.MustCreateRef(externalSchemaPath + "#/definitions/ExternalDefinition"),
+			Ref: spec.MustCreateRef(filepath.Base(externalSchemaPath) + "#/definitions/ExternalDefinition"),
 		},
 	}
 
@@ -110,13 +114,11 @@ func Test_CanExtractTypeNameFromDifferentFile_AndInheritPackage(t *testing.T) {
 func Test_CanExtractTypeNameFromDifferentFile_AndUsePresetPackage(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	schemaPath := "/dev/null/path/to/schema.json"
 	schemaPackage := astmodel.MakeLocalPackageReference(
 		"github.com/Azure/azure-service-operator/v2/api",
 		"Microsoft.Test",
 		"v1")
 
-	externalSchemaPath := "/dev/null/path/to/other.json"
 	externalPackage := astmodel.MakeLocalPackageReference(
 		"github.com/Azure/azure-service-operator/v2/api",
 		"Microsoft.Common",
@@ -148,7 +150,7 @@ func Test_CanExtractTypeNameFromDifferentFile_AndUsePresetPackage(t *testing.T) 
 
 	schema := spec.Schema{
 		SchemaProps: spec.SchemaProps{
-			Ref: spec.MustCreateRef(externalSchemaPath + "#/definitions/ExternalDefinition"),
+			Ref: spec.MustCreateRef(filepath.Base(externalSchemaPath) + "#/definitions/ExternalDefinition"),
 		},
 	}
 
@@ -167,13 +169,10 @@ func Test_CanExtractTypeNameFromDifferentFile_AndUsePresetPackage(t *testing.T) 
 func Test_GeneratingCollidingTypeNamesReturnsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	schemaPath := "/dev/null/path/to/schema.json"
 	schemaPackage := astmodel.MakeLocalPackageReference(
 		"github.com/Azure/azure-service-operator/v2/api",
 		"Microsoft.Test",
 		"v1")
-
-	externalSchemaPath := "/dev/null/path/to/other.json"
 
 	loader := NewCachingFileLoader(map[string]PackageAndSwagger{
 		schemaPath: {
@@ -201,7 +200,7 @@ func Test_GeneratingCollidingTypeNamesReturnsError(t *testing.T) {
 
 	schema := spec.Schema{
 		SchemaProps: spec.SchemaProps{
-			Ref: spec.MustCreateRef(externalSchemaPath + "#/definitions/TheDefinition"),
+			Ref: spec.MustCreateRef(filepath.Base(externalSchemaPath) + "#/definitions/TheDefinition"),
 		},
 	}
 
@@ -214,20 +213,24 @@ func Test_GeneratingCollidingTypeNamesReturnsError(t *testing.T) {
 
 	_, err := wrappedSchema.refTypeName()
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err).To(MatchError("importing type TheDefinition from file /dev/null/path/to/other.json into package github.com/Azure/azure-service-operator/v2/api/Microsoft.Test/v1 could generate collision with type in /dev/null/path/to/schema.json"))
+
+	// Check the error message contains the bits we want
+	//(checking for parts allows the message to be modified without breaking the test)
+	// We don't want to fuss with / vs \ so we normalise
+	msg := filepath.ToSlash(err.Error())
+	g.Expect(msg).To(ContainSubstring(filepath.ToSlash(schemaPath)))
+	g.Expect(msg).To(ContainSubstring(filepath.ToSlash(externalSchemaPath)))
+	g.Expect(msg).To(ContainSubstring(schemaPackage.String()))
+	g.Expect(msg).To(ContainSubstring("could generate collision"))
 }
 
 func Test_GeneratingCollidingTypeNamesWithSiblingFilesReturnsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	schemaPath := "/dev/null/path/to/schema.json"
 	schemaPackage := astmodel.MakeLocalPackageReference(
 		"github.com/Azure/azure-service-operator/v2/api",
 		"Microsoft.Test",
 		"v1")
-
-	externalSchemaPath := "/dev/null/path/to/other.json"
-	siblingSchemaPath := "/dev/null/path/to/sibling.json"
 
 	loader := NewCachingFileLoader(map[string]PackageAndSwagger{
 		schemaPath: {
@@ -266,7 +269,7 @@ func Test_GeneratingCollidingTypeNamesWithSiblingFilesReturnsError(t *testing.T)
 
 	schema := spec.Schema{
 		SchemaProps: spec.SchemaProps{
-			Ref: spec.MustCreateRef(externalSchemaPath + "#/definitions/ExternalDefinition"),
+			Ref: spec.MustCreateRef(filepath.Base(externalSchemaPath) + "#/definitions/ExternalDefinition"),
 		},
 	}
 
@@ -279,5 +282,21 @@ func Test_GeneratingCollidingTypeNamesWithSiblingFilesReturnsError(t *testing.T)
 
 	_, err := wrappedSchema.refTypeName()
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err).To(MatchError("importing type ExternalDefinition from file /dev/null/path/to/other.json into package github.com/Azure/azure-service-operator/v2/api/Microsoft.Test/v1 could generate collision with type in /dev/null/path/to/sibling.json"))
+
+	// Check the error message contains the bits we want
+	//(checking for parts allows the message to be modified without breaking the test)
+	// We don't want to fuss with / vs \ so we normalise
+	msg := filepath.ToSlash(err.Error())
+	g.Expect(msg).To(ContainSubstring(filepath.ToSlash(externalSchemaPath)))
+	g.Expect(msg).To(ContainSubstring(filepath.ToSlash(siblingSchemaPath)))
+	g.Expect(msg).To(ContainSubstring(schemaPackage.String()))
+	g.Expect(msg).To(ContainSubstring("could generate collision"))
+}
+
+func init() {
+	if runtime.GOOS == "windows" {
+		schemaPath = "C:" + filepath.FromSlash(schemaPath)
+		externalSchemaPath = "C:" + filepath.FromSlash(externalSchemaPath)
+		siblingSchemaPath = "C:" + filepath.FromSlash(siblingSchemaPath)
+	}
 }

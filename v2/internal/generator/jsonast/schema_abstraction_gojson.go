@@ -113,6 +113,10 @@ func (schema GoJSONSchema) minLength() *int64 {
 	return intPointerToInt64Pointer(schema.inner.MinLength)
 }
 
+func (schema GoJSONSchema) format() string {
+	return schema.inner.Format
+}
+
 func intPointerToInt64Pointer(ptr *int) *int64 {
 	if ptr == nil {
 		return nil

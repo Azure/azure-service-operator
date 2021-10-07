@@ -12,6 +12,7 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/internal/generator/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/internal/generator/astmodel"
@@ -134,13 +135,14 @@ func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.Obje
 		}
 
 		validations := azureNamePropType.Validations().(astmodel.StringValidations)
-		if validations.Pattern != nil {
-			if validations.Pattern.String() == "^.*/default$" {
+		if len(validations.Patterns) != 0 {
+			if len(validations.Patterns) == 1 &&
+				validations.Patterns[0].String() == "^.*/default$" {
 				*r = (*r).WithSpec(spec.WithoutProperty(astmodel.AzureNameProperty))
 				return fixedValueGetAzureNameFunction("default"), nil, nil // no SetAzureName for this case
 			} else {
 				// ignoring for now:
-				// return nil, errors.Errorf("unable to handle pattern in Name property: %s", validations.Pattern.String())
+				klog.Warningf("unable to handle pattern in Name property: %s", validations.Patterns[0].String())
 				return getStringAzureNameFunction, setStringAzureNameFunction, nil
 			}
 		} else {

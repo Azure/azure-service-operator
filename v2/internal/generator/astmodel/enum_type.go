@@ -195,7 +195,7 @@ func (enum *EnumType) CreateValidation() KubeBuilderValidation {
 		values = append(values, opt.Value)
 	}
 
-	return ValidateEnum(values)
+	return MakeEnumValidation(values)
 }
 
 // BaseType returns the base type of the enum
