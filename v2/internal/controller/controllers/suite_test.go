@@ -17,13 +17,13 @@ import (
 )
 
 const (
-	TestNamespace          = "aso-test-ns"
 	DefaultResourceTimeout = 10 * time.Minute
 )
 
 var globalTestContext testcommon.KubeGlobalContext
 
-func setup(options Options) {
+func setup() error {
+	options := getOptions()
 	log.Println("Running test setup")
 
 	// Note: These are set just so we have somewhat reasonable defaults. Almost all
@@ -34,27 +34,25 @@ func setup(options Options) {
 	gomega.SetDefaultEventuallyPollingInterval(5 * time.Second)
 
 	// set global context var
-	globalTestContext = testcommon.NewKubeContext(
+	newGlobalTestContext, err := testcommon.NewKubeContext(
 		options.useEnvTest,
 		options.recordReplay,
-		TestNamespace,
 		testcommon.DefaultTestRegion)
+	if err != nil {
+		return err
+	}
 
 	log.Print("Done with test setup")
+	globalTestContext = newGlobalTestContext
+	return nil
+}
+
+func teardown() error {
+	return globalTestContext.Cleanup()
 }
 
 func TestMain(m *testing.M) {
-	options := getOptions()
-	os.Exit(testcommon.SetupTeardownTestMain(
-		m,
-		true,
-		func() error {
-			setup(options)
-			return nil
-		},
-		func() error {
-			return nil
-		}))
+	os.Exit(testcommon.SetupTeardownTestMain(m, setup, teardown))
 }
 
 type Options struct {

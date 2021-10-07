@@ -170,7 +170,7 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 	notMine := resources.ResourceGroup{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      tc.Namer.GenerateName("rg"),
-			Namespace: tc.Namespace(),
+			Namespace: tc.Namespace,
 			Annotations: map[string]string{
 				controllers.NamespaceAnnotation: "some-other-operator",
 			},
@@ -188,7 +188,7 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 	var events corev1.EventList
 	err = tc.KubeClient.List(tc.Ctx, &events, &client.ListOptions{
 		FieldSelector: fields.ParseSelectorOrDie("involvedObject.name=" + notMine.ObjectMeta.Name),
-		Namespace:     tc.Namespace(),
+		Namespace:     tc.Namespace,
 	})
 	tc.Expect(err).NotTo(HaveOccurred())
 	tc.Expect(events.Items).To(HaveLen(1))
@@ -203,7 +203,7 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 	mine := resources.ResourceGroup{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      tc.Namer.GenerateName("rg"),
-			Namespace: tc.Namespace(),
+			Namespace: tc.Namespace,
 			Annotations: map[string]string{
 				controllers.NamespaceAnnotation: podNamespace,
 			},

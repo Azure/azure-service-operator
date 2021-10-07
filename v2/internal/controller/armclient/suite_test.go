@@ -20,7 +20,9 @@ const DefaultEventuallyTimeout = 3 * time.Minute
 
 var testContext testcommon.TestContext
 
-func setup(recordReplay bool) error {
+func setup() error {
+	recordReplay := os.Getenv("RECORD_REPLAY") != "0"
+
 	log.Println("Running test setup")
 
 	gomega.SetDefaultEventuallyTimeout(DefaultEventuallyTimeout)
@@ -41,11 +43,5 @@ func teardown() error {
 }
 
 func TestMain(m *testing.M) {
-	recordReplay := os.Getenv("RECORD_REPLAY") != "0"
-	os.Exit(testcommon.SetupTeardownTestMain(
-		m,
-		true,
-		func() error {
-			return setup(recordReplay)
-		}, teardown))
+	os.Exit(testcommon.SetupTeardownTestMain(m, setup, teardown))
 }

@@ -8,28 +8,31 @@ package testcommon
 import (
 	"context"
 	"fmt"
-	"net"
-	"os"
-	"strconv"
-	"testing"
+	"log"
+	"strings"
+	"sync"
 	"time"
 
 	"github.com/dnaeon/go-vcr/recorder"
+	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
+	"github.com/Azure/azure-service-operator/v2/internal/controller/armclient"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func createEnvtestContext(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
-	perTestContext.T.Logf("Creating envtest test: %s", perTestContext.TestName)
+func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResources) (*runningEnvTest, error) {
+	log.Printf("Creating shared envtest environment: %s\n", cfgToKey(cfg))
 
 	environment := envtest.Environment{
 		ErrorIfCRDPathMissing: true,
@@ -43,26 +46,25 @@ func createEnvtestContext(perTestContext PerTestContext, cfg config.Values) (*Ku
 		},
 	}
 
-	perTestContext.T.Log("Starting envtest")
+	log.Println("Starting envtest")
 	kubeConfig, err := environment.Start()
 	if err != nil {
 		return nil, errors.Wrapf(err, "starting envtest environment")
 	}
 
-	perTestContext.T.Cleanup(func() {
-		perTestContext.T.Log("Stopping envtest")
+	stopEnvironment := func() {
 		stopErr := environment.Stop()
 		if stopErr != nil {
-			perTestContext.T.Logf("unable to stop envtest environment: %s", stopErr.Error())
+			panic(stopErr)
 		}
-	})
+	}
 
 	var cacheFunc cache.NewCacheFunc
 	if cfg.TargetNamespaces != nil {
 		cacheFunc = cache.MultiNamespacedCacheBuilder(cfg.TargetNamespaces)
 	}
 
-	perTestContext.T.Log("Creating & starting controller-runtime manager")
+	log.Println("Creating & starting controller-runtime manager")
 	mgr, err := ctrl.NewManager(kubeConfig, ctrl.Options{
 		Scheme:             controllers.CreateScheme(),
 		CertDir:            environment.WebhookInstallOptions.LocalServingCertDir,
@@ -72,35 +74,50 @@ func createEnvtestContext(perTestContext PerTestContext, cfg config.Values) (*Ku
 		NewCache:           cacheFunc,
 	})
 	if err != nil {
+		stopEnvironment()
 		return nil, errors.Wrapf(err, "creating controller-runtime manager")
 	}
 
-	var requeueDelay time.Duration
-	if perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying {
-		perTestContext.T.Log("Minimizing requeue delay")
-		// skip requeue delays when replaying
-		requeueDelay = 100 * time.Millisecond
+	var clientFactory controllers.ARMClientFactory = func(mo genruntime.MetaObject) (armclient.Applier, error) {
+		result := namespaceResources.Lookup(mo.GetNamespace())
+		if result == nil {
+			return nil, errors.Errorf("unable to locate ARM client for namespace %s", mo.GetNamespace())
+		}
+
+		return result.armClient, nil
 	}
 
 	if cfg.OperatorMode.IncludesWatchers() {
 		err = controllers.RegisterAll(
 			mgr,
-			perTestContext.AzureClient,
+			clientFactory,
 			controllers.GetKnownStorageTypes(),
 			controllers.Options{
+				LoggerFactory: func(obj metav1.Object) logr.Logger {
+					result := namespaceResources.Lookup(obj.GetNamespace())
+					if result == nil {
+						panic(fmt.Sprintf("no logger registered for %s: %s", obj.GetNamespace(), obj.GetName()))
+					}
+
+					return result.logger
+				},
 				CreateDeploymentName: func(obj metav1.Object) (string, error) {
-					// create deployment name based on test name and kubernetes name
-					result := uuid.NewSHA1(uuid.Nil, []byte(perTestContext.TestName+"/"+obj.GetNamespace()+"/"+obj.GetName()))
+					// create deployment name based on namespace and kubernetes name
+					result := uuid.NewSHA1(uuid.Nil, []byte(obj.GetNamespace()+"/"+obj.GetName()))
 					return fmt.Sprintf("k8s_%s", result.String()), nil
 				},
-				RequeueDelay: requeueDelay,
+				RequeueDelay: cfg.RequeueDelay,
 				Config:       cfg,
 				Options: controller.Options{
-					Log:         perTestContext.logger,
+					// Allow concurrent reconciliation in tests
+					MaxConcurrentReconciles: 5,
+
+					// Reduce minimum backoff
 					RateLimiter: controllers.NewRateLimiter(5*time.Millisecond, 1*time.Minute),
 				},
 			})
 		if err != nil {
+			stopEnvironment()
 			return nil, errors.Wrapf(err, "registering reconcilers")
 		}
 	}
@@ -108,40 +125,184 @@ func createEnvtestContext(perTestContext PerTestContext, cfg config.Values) (*Ku
 	if cfg.OperatorMode.IncludesWebhooks() {
 		err = controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes())
 		if err != nil {
+			stopEnvironment()
 			return nil, errors.Wrapf(err, "registering webhooks")
 		}
 	}
 
-	ctx, cancelFunc := context.WithCancel(context.TODO())
+	ctx, stopManager := context.WithCancel(context.Background())
 	go func() {
 		// this blocks until the input ctx is cancelled
 		err := mgr.Start(ctx)
 		if err != nil {
-			perTestContext.T.Errorf("error running controller-runtime manager: %s", err.Error())
-			os.Exit(1)
+			panic(fmt.Sprintf("error running controller-runtime manager: %s\n", err.Error()))
 		}
 	}()
 
-	perTestContext.T.Cleanup(func() {
-		perTestContext.T.Log("Stopping controller-runtime manager")
-		cancelFunc()
-	})
-
-	if cfg.OperatorMode.IncludesWebhooks() {
-		waitForWebhooks(perTestContext.T, environment)
-
-		webhookServer := mgr.GetWebhookServer()
-		perTestContext.T.Logf("Webhook server running at: %s:%d", webhookServer.Host, webhookServer.Port)
-	} else {
-		perTestContext.T.Logf("Operator mode is %q, webhooks not running", cfg.OperatorMode)
+	cancelFunc := func() {
+		stopManager()
+		stopEnvironment()
 	}
 
-	return &KubeBaseTestContext{
-		PerTestContext: perTestContext,
-		KubeConfig:     kubeConfig,
+	/*
+		if cfg.OperatorMode.IncludesWebhooks() {
+			waitForWebhooks(perTestContext.T, environment)
+
+			webhookServer := mgr.GetWebhookServer()
+			perTestContext.T.Logf("Webhook server running at: %s:%d", webhookServer.Host, webhookServer.Port)
+		} else {
+			perTestContext.T.Logf("Operator mode is %q, webhooks not running", cfg.OperatorMode)
+		}
+	*/
+
+	return &runningEnvTest{
+		KubeConfig: kubeConfig,
+		Cancel:     cancelFunc,
 	}, nil
 }
 
+// sharedEnvTests stores all the envTests we are running
+// we run one per config (cfg.Values)
+type sharedEnvTests struct {
+	envtestLock sync.Mutex
+	envtests    map[string]*runningEnvTest
+
+	namespaceResources *namespaceResources
+}
+
+func cfgToKey(cfg config.Values) string {
+	return fmt.Sprintf(
+		"%s/%s/%s/%d/%s",
+		cfg.SubscriptionID,
+		cfg.PodNamespace,
+		cfg.OperatorMode,
+		cfg.RequeueDelay,
+		strings.Join(cfg.TargetNamespaces, "|"))
+}
+
+func (set *sharedEnvTests) stopAll() {
+	set.envtestLock.Lock()
+	defer set.envtestLock.Unlock()
+	for _, v := range set.envtests {
+		v.Cancel()
+	}
+}
+
+func (set *sharedEnvTests) getEnvTestForConfig(cfg config.Values) (*runningEnvTest, error) {
+	envTestKey := cfgToKey(cfg)
+	set.envtestLock.Lock()
+	defer set.envtestLock.Unlock()
+
+	if envtest, ok := set.envtests[envTestKey]; ok {
+		return envtest, nil
+	}
+
+	// no envtest exists for this config; make one
+	newEnvTest, err := createSharedEnvTest(cfg, set.namespaceResources)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to create shared envtest environment")
+	}
+
+	set.envtests[envTestKey] = newEnvTest
+	return newEnvTest, nil
+}
+
+type runningEnvTest struct {
+	KubeConfig *rest.Config
+	Cancel     context.CancelFunc
+}
+
+// each test is run in its own namespace
+// in order for the controller to access the
+// right ARM client and logger we store them in here
+type perNamespace struct {
+	armClient armclient.Applier
+	logger    logr.Logger
+}
+
+type namespaceResources struct {
+	lock    sync.Mutex
+	clients map[string]*perNamespace
+}
+
+func (acl *namespaceResources) Add(namespace string, resources *perNamespace) {
+	acl.lock.Lock()
+	defer acl.lock.Unlock()
+
+	if _, ok := acl.clients[namespace]; ok {
+		panic(fmt.Sprintf("bad test configuration: multiple tests using the same namespace %s", namespace))
+	}
+
+	acl.clients[namespace] = resources
+}
+
+func (acl *namespaceResources) Lookup(namespace string) *perNamespace {
+	acl.lock.Lock()
+	defer acl.lock.Unlock()
+	return acl.clients[namespace]
+}
+
+func (acl *namespaceResources) Remove(namespace string) {
+	acl.lock.Lock()
+	defer acl.lock.Unlock()
+	delete(acl.clients, namespace)
+}
+
+func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
+	perNamespaceResources := &namespaceResources{
+		lock:    sync.Mutex{},
+		clients: make(map[string]*perNamespace),
+	}
+
+	envTests := sharedEnvTests{
+		envtestLock:        sync.Mutex{},
+		envtests:           make(map[string]*runningEnvTest),
+		namespaceResources: perNamespaceResources,
+	}
+
+	create := func(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
+		// register resources needed by controller for namespace
+		{
+			resources := &perNamespace{
+				armClient: perTestContext.AzureClient,
+				logger:    perTestContext.logger,
+			}
+
+			namespace := perTestContext.Namespace
+			perNamespaceResources.Add(namespace, resources)
+			perTestContext.T.Cleanup(func() { perNamespaceResources.Remove(namespace) })
+
+			for _, otherNs := range cfg.TargetNamespaces {
+				otherNs := otherNs
+				perNamespaceResources.Add(otherNs, resources)
+				perTestContext.T.Cleanup(func() { perNamespaceResources.Remove(otherNs) })
+			}
+		}
+
+		// use minimized-delay controller if we are replaying tests
+		if perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying {
+			cfg.RequeueDelay = 100 * time.Millisecond
+		}
+
+		envtest, err := envTests.getEnvTestForConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+
+		return &KubeBaseTestContext{
+			PerTestContext: perTestContext,
+			KubeConfig:     envtest.KubeConfig,
+		}, nil
+	}
+
+	cleanup := func() {
+		envTests.stopAll()
+	}
+
+	return create, cleanup
+}
+
+/*
 func waitForWebhooks(t *testing.T, env envtest.Environment) {
 	port := env.WebhookInstallOptions.LocalServingPort
 	address := net.JoinHostPort("127.0.0.1", strconv.Itoa(port))
@@ -159,3 +320,4 @@ func waitForWebhooks(t *testing.T, env envtest.Environment) {
 		return
 	}
 }
+*/

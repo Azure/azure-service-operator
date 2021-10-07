@@ -22,6 +22,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/version"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func main() {
@@ -77,9 +78,14 @@ func main() {
 		os.Exit(1)
 	}
 
+	var clientFactory controllers.ARMClientFactory = func(_ genruntime.MetaObject) (armclient.Applier, error) {
+		// always use the configured ARM client
+		return armApplier, nil
+	}
+
 	log := ctrl.Log.WithName("controllers")
 	if cfg.OperatorMode.IncludesWatchers() {
-		if errs := controllers.RegisterAll(mgr, armApplier, controllers.GetKnownStorageTypes(), makeControllerOptions(log, cfg)); errs != nil {
+		if errs := controllers.RegisterAll(mgr, clientFactory, controllers.GetKnownStorageTypes(), makeControllerOptions(log, cfg)); errs != nil {
 			setupLog.Error(err, "failed to register gvks")
 			os.Exit(1)
 		}

@@ -244,7 +244,7 @@ tasks:
     deps: [controller:generate-kustomize]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -v -run '{{default ".*" .TEST_FILTER}}' ./internal/controller/controllers
 
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
@@ -260,7 +260,9 @@ tasks:
     deps: [controller:generate-kustomize, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
-    - RECORD_REPLAY=0 go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controller/controllers
+    env:
+      RECORD_REPLAY: 0
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
