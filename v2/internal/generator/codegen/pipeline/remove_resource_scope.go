@@ -25,24 +25,19 @@ func RemoveResourceScope() Stage {
 			newDefs := make(astmodel.Types)
 			scopePropertyRemovalVisitor := makeScopePropertyRemovalVisitor()
 
-			for _, def := range astmodel.FindResourceTypes(state.Types()) {
-				resource, ok := astmodel.AsResourceType(def.Type())
-				if !ok {
-					// panic here because this must be a bug
-					panic("FindResourceTypes returned a type that wasn't a resource")
+			resources := astmodel.FindResourceTypes(state.Types())
+			for _, resource := range resources {
+				resolved, err := state.Types().ResolveResourceSpecAndStatus(resource)
+				if err != nil {
+					return nil, errors.Wrapf(err, "unable to find resource %s spec and status", resource.Name())
 				}
 
 				// If the resource is an extension resource, we don't do anything to it
-				if resource.Kind() == astmodel.ResourceKindExtension {
+				if resolved.ResourceType.Kind() == astmodel.ResourceKindExtension {
 					continue
 				}
 
-				specDef, err := state.Types().ResolveResourceSpecDefinition(resource)
-				if err != nil {
-					return nil, err
-				}
-
-				updatedDef, err := scopePropertyRemovalVisitor.VisitDefinition(specDef, nil)
+				updatedDef, err := scopePropertyRemovalVisitor.VisitDefinition(resolved.SpecDef, nil)
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to remove scope property from %s", updatedDef.Name())
 				}

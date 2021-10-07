@@ -29,65 +29,43 @@ func DetermineResourceOwnership(configuration *config.Configuration) Stage {
 func determineOwnership(definitions astmodel.Types, configuration *config.Configuration) (astmodel.Types, error) {
 	updatedDefs := make(astmodel.Types)
 
-	for _, def := range definitions {
-		if resourceType, ok := def.Type().(*astmodel.ResourceType); ok {
-			specDef, err := definitions.ResolveResourceSpecDefinition(resourceType)
-			if err != nil {
-				return nil, errors.Wrapf(err, "couldn't get spec definition for resource %s", def.Name())
-			}
-
-			specType, err := resourceSpecTypeAsObject(specDef)
-			if err != nil {
-				return nil, errors.Wrapf(err, "Couldn't extract resource %s spec type as object", def.Name())
-			}
-
-			childResourcePropertyTypeDef, err := extractChildResourcePropertyTypeDef(
-				definitions,
-				def.Name(),
-				specDef.Name(),
-				specType)
-			if err != nil {
-				return nil, err
-			}
-			if childResourcePropertyTypeDef == nil {
-				continue // This just means skip
-			}
-
-			childResourceTypeNames, err := extractChildResourceTypeNames(*childResourcePropertyTypeDef)
-			if err != nil {
-				return nil, err
-			}
-
-			err = updateChildResourceDefinitionsWithOwner(definitions, childResourceTypeNames, def.Name(), updatedDefs)
-			if err != nil {
-				return nil, err
-			}
-
-			// Remove the resources property from the owning resource spec
-			specDef = specDef.WithType(specType.WithoutProperty(resourcesPropertyName))
-
-			updatedDefs[specDef.Name()] = specDef
+	resources := astmodel.FindResourceTypes(definitions)
+	for _, def := range resources {
+		resolved, err := definitions.ResolveResourceSpecAndStatus(def)
+		if err != nil {
+			return nil, errors.Wrapf(err, "unable to find resource %s spec and status", def.Name())
 		}
+
+		childResourcePropertyTypeDef, err := extractChildResourcePropertyTypeDef(
+			definitions,
+			def.Name(),
+			resolved.SpecDef.Name(),
+			resolved.SpecType)
+		if err != nil {
+			return nil, err
+		}
+		if childResourcePropertyTypeDef == nil {
+			continue // This just means skip
+		}
+
+		childResourceTypeNames, err := extractChildResourceTypeNames(*childResourcePropertyTypeDef)
+		if err != nil {
+			return nil, err
+		}
+
+		err = updateChildResourceDefinitionsWithOwner(definitions, childResourceTypeNames, def.Name(), updatedDefs)
+		if err != nil {
+			return nil, err
+		}
+
+		// Remove the resources property from the owning resource spec
+		newDef := resolved.SpecDef.WithType(resolved.SpecType.WithoutProperty(resourcesPropertyName))
+		updatedDefs[resolved.SpecDef.Name()] = newDef
 	}
 
 	setDefaultOwner(configuration, definitions, updatedDefs)
 
 	return definitions.OverlayWith(updatedDefs), nil
-}
-
-func resourceSpecTypeAsObject(resourceSpecDef astmodel.TypeDefinition) (*astmodel.ObjectType, error) {
-	// There's an expectation here that the spec is a typename pointing to an object. Even if the resource
-	// uses AnyOf/OneOf to model some sort of inheritance at this point that will be rendered
-	// as an object (with properties, etc)
-	specType, ok := astmodel.AsObjectType(resourceSpecDef.Type())
-	if !ok {
-		return nil, errors.Errorf(
-			"spec (%s) type is %T, not *astmodel.ObjectType",
-			resourceSpecDef.Name(),
-			resourceSpecDef.Type())
-	}
-
-	return specType, nil
 }
 
 func extractChildResourcePropertyTypeDef(
