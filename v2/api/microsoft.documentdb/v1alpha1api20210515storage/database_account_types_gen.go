@@ -67,7 +67,12 @@ func (databaseAccount *DatabaseAccount) GetType() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (databaseAccount *DatabaseAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(databaseAccount.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: databaseAccount.Namespace, Name: databaseAccount.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: databaseAccount.Namespace,
+		Name:      databaseAccount.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

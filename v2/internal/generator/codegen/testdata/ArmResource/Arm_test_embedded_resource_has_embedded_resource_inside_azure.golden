@@ -73,7 +73,12 @@ func (a *A) GetType() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (a *A) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(a.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: a.Namespace, Name: a.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: a.Namespace,
+		Name:      a.Spec.Owner.Name,
+	}
 }
 
 // +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1beta1
@@ -251,7 +256,12 @@ func (b *B) GetType() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (b *B) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(b.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: b.Namespace, Name: b.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: b.Namespace,
+		Name:      b.Spec.Owner.Name,
+	}
 }
 
 // +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-b,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.bs.test.azure.com,admissionReviewVersions=v1beta1
@@ -429,7 +439,12 @@ func (c *C) GetType() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (c *C) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(c.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: c.Namespace, Name: c.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: c.Namespace,
+		Name:      c.Spec.Owner.Name,
+	}
 }
 
 // +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-c,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.cs.test.azure.com,admissionReviewVersions=v1beta1

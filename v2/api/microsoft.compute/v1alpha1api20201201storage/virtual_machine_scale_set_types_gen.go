@@ -68,7 +68,12 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) GetType() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualMachineScaleSet *VirtualMachineScaleSet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualMachineScaleSet.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualMachineScaleSet.Namespace, Name: virtualMachineScaleSet.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: virtualMachineScaleSet.Namespace,
+		Name:      virtualMachineScaleSet.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

@@ -67,7 +67,12 @@ func (virtualNetworkGateway *VirtualNetworkGateway) GetType() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworkGateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworkGateway.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualNetworkGateway.Namespace, Name: virtualNetworkGateway.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: virtualNetworkGateway.Namespace,
+		Name:      virtualNetworkGateway.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

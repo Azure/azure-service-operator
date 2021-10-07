@@ -99,7 +99,12 @@ func (flexibleServer *FlexibleServer) GetType() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (flexibleServer *FlexibleServer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(flexibleServer.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: flexibleServer.Namespace, Name: flexibleServer.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: flexibleServer.Namespace,
+		Name:      flexibleServer.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

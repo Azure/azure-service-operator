@@ -92,7 +92,12 @@ func (storageAccountsBlobService *StorageAccountsBlobService) GetType() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (storageAccountsBlobService *StorageAccountsBlobService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccountsBlobService.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: storageAccountsBlobService.Namespace, Name: storageAccountsBlobService.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: storageAccountsBlobService.Namespace,
+		Name:      storageAccountsBlobService.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource
