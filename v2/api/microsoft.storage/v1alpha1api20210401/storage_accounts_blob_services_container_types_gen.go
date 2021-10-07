@@ -5,10 +5,10 @@ package v1alpha1api20210401
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.storage/v1alpha1api20210401storage"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -410,7 +410,7 @@ func (blobContainerStatus *BlobContainer_Status) CreateEmptyARMValue() genruntim
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (blobContainerStatus *BlobContainer_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (blobContainerStatus *BlobContainer_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BlobContainer_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BlobContainer_StatusARM, got %T", armInput)
@@ -1054,7 +1054,7 @@ type StorageAccountsBlobServicesContainers_Spec struct {
 var _ genruntime.ARMTransformer = &StorageAccountsBlobServicesContainers_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if storageAccountsBlobServicesContainersSpec == nil {
 		return nil, nil
 	}
@@ -1070,7 +1070,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	}
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if storageAccountsBlobServicesContainersSpec.DefaultEncryptionScope != nil || storageAccountsBlobServicesContainersSpec.DenyEncryptionScopeOverride != nil || storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning != nil || storageAccountsBlobServicesContainersSpec.Metadata != nil || storageAccountsBlobServicesContainersSpec.PublicAccess != nil {
@@ -1085,7 +1085,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 		result.Properties.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	}
 	if storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning != nil {
-		immutableStorageWithVersioningARM, err := (*storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning).ConvertToARM(name, resolvedReferences)
+		immutableStorageWithVersioningARM, err := (*storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1122,7 +1122,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(StorageAccountsBlobServicesContainers_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsBlobServicesContainers_SpecARM, got %T", armInput)
@@ -1181,7 +1181,9 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	}
 
 	// Set property ‘Owner’:
-	storageAccountsBlobServicesContainersSpec.Owner = owner
+	storageAccountsBlobServicesContainersSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘PublicAccess’:
 	// copying flattened property:
@@ -1462,7 +1464,7 @@ func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) C
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ImmutabilityPolicyProperties_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutabilityPolicyProperties_StatusARM, got %T", armInput)
@@ -1636,7 +1638,7 @@ type ImmutableStorageWithVersioning struct {
 var _ genruntime.ARMTransformer = &ImmutableStorageWithVersioning{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if immutableStorageWithVersioning == nil {
 		return nil, nil
 	}
@@ -1656,7 +1658,7 @@ func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) CreateEmpt
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ImmutableStorageWithVersioningARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioningARM, got %T", armInput)
@@ -1729,7 +1731,7 @@ func (immutableStorageWithVersioningStatus *ImmutableStorageWithVersioning_Statu
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (immutableStorageWithVersioningStatus *ImmutableStorageWithVersioning_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (immutableStorageWithVersioningStatus *ImmutableStorageWithVersioning_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ImmutableStorageWithVersioning_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioning_StatusARM, got %T", armInput)
@@ -1844,7 +1846,7 @@ func (legalHoldPropertiesStatus *LegalHoldProperties_Status) CreateEmptyARMValue
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (legalHoldPropertiesStatus *LegalHoldProperties_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (legalHoldPropertiesStatus *LegalHoldProperties_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(LegalHoldProperties_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LegalHoldProperties_StatusARM, got %T", armInput)
@@ -1967,7 +1969,7 @@ func (tagPropertyStatus *TagProperty_Status) CreateEmptyARMValue() genruntime.AR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (tagPropertyStatus *TagProperty_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (tagPropertyStatus *TagProperty_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(TagProperty_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TagProperty_StatusARM, got %T", armInput)
@@ -2140,7 +2142,7 @@ func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) CreateEmptyARMV
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(UpdateHistoryProperty_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UpdateHistoryProperty_StatusARM, got %T", armInput)

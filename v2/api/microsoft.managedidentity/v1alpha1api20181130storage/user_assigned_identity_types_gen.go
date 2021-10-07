@@ -4,8 +4,8 @@
 package v1alpha1api20181130storage
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -127,7 +127,7 @@ var _ genruntime.ConvertibleStatus = &Identity_Status{}
 // ConvertStatusFrom populates our Identity_Status from the provided source
 func (identityStatus *Identity_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == identityStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(identityStatus)
@@ -136,7 +136,7 @@ func (identityStatus *Identity_Status) ConvertStatusFrom(source genruntime.Conve
 // ConvertStatusTo populates the provided destination from our Identity_Status
 func (identityStatus *Identity_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == identityStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(identityStatus)
@@ -161,7 +161,7 @@ var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_Spec{}
 // ConvertSpecFrom populates our UserAssignedIdentities_Spec from the provided source
 func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == userAssignedIdentitiesSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(userAssignedIdentitiesSpec)
@@ -170,7 +170,7 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertSpecFrom(s
 // ConvertSpecTo populates the provided destination from our UserAssignedIdentities_Spec
 func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == userAssignedIdentitiesSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(userAssignedIdentitiesSpec)

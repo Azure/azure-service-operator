@@ -4,8 +4,8 @@
 package v1alpha1api20210101storage
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -139,7 +139,7 @@ var _ genruntime.ConvertibleStatus = &BatchAccount_Status{}
 // ConvertStatusFrom populates our BatchAccount_Status from the provided source
 func (batchAccountStatus *BatchAccount_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == batchAccountStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(batchAccountStatus)
@@ -148,7 +148,7 @@ func (batchAccountStatus *BatchAccount_Status) ConvertStatusFrom(source genrunti
 // ConvertStatusTo populates the provided destination from our BatchAccount_Status
 func (batchAccountStatus *BatchAccount_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == batchAccountStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(batchAccountStatus)
@@ -183,7 +183,7 @@ var _ genruntime.ConvertibleSpec = &BatchAccounts_Spec{}
 // ConvertSpecFrom populates our BatchAccounts_Spec from the provided source
 func (batchAccountsSpec *BatchAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == batchAccountsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(batchAccountsSpec)
@@ -192,7 +192,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertSpecFrom(source genruntime.C
 // ConvertSpecTo populates the provided destination from our BatchAccounts_Spec
 func (batchAccountsSpec *BatchAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == batchAccountsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(batchAccountsSpec)

@@ -4,8 +4,8 @@
 package v1alpha1api20201101storage
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -136,7 +136,7 @@ var _ genruntime.ConvertibleStatus = &LoadBalancer_Status{}
 // ConvertStatusFrom populates our LoadBalancer_Status from the provided source
 func (loadBalancerStatus *LoadBalancer_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == loadBalancerStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(loadBalancerStatus)
@@ -145,7 +145,7 @@ func (loadBalancerStatus *LoadBalancer_Status) ConvertStatusFrom(source genrunti
 // ConvertStatusTo populates the provided destination from our LoadBalancer_Status
 func (loadBalancerStatus *LoadBalancer_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == loadBalancerStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(loadBalancerStatus)
@@ -178,7 +178,7 @@ var _ genruntime.ConvertibleSpec = &LoadBalancers_Spec{}
 // ConvertSpecFrom populates our LoadBalancers_Spec from the provided source
 func (loadBalancersSpec *LoadBalancers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == loadBalancersSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(loadBalancersSpec)
@@ -187,7 +187,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) ConvertSpecFrom(source genruntime.C
 // ConvertSpecTo populates the provided destination from our LoadBalancers_Spec
 func (loadBalancersSpec *LoadBalancers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == loadBalancersSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(loadBalancersSpec)

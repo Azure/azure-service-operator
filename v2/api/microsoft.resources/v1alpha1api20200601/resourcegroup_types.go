@@ -9,8 +9,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
 // TODO: it doesn't really matter where these are (as long as they're in 'apis', where is where we run controller-gen).
@@ -147,7 +147,7 @@ func (status *ResourceGroupStatus) CreateEmptyARMValue() genruntime.ARMResourceS
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (status *ResourceGroupStatus) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ResourceGroupStatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected ResourceGroupStatusArm, got %T", armInput)
@@ -244,14 +244,14 @@ func (spec *ResourceGroupSpec) CreateEmptyARMValue() genruntime.ARMResourceStatu
 }
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spec *ResourceGroupSpec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (spec *ResourceGroupSpec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if spec == nil {
 		return nil, nil
 	}
 	result := ResourceGroupSpecARM{}
 	result.APIVersion = "2020-06-01" // TODO: Update this to match what the codegenerated resources do with APIVersion eventually
 	result.Location = spec.Location
-	result.Name = name
+	result.Name = resolved.Name
 	result.ManagedBy = spec.ManagedBy
 	result.Tags = spec.Tags
 	result.Type = ResourceGroupTypeResourceGroup
@@ -259,7 +259,7 @@ func (spec *ResourceGroupSpec) ConvertToARM(name string, resolvedReferences genr
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spec *ResourceGroupSpec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (spec *ResourceGroupSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ResourceGroupSpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected ResourceGroupSpecArm, got %T", armInput)

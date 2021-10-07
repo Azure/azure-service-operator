@@ -4,8 +4,8 @@
 package v1alpha1api20210401storage
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -158,7 +158,7 @@ var _ genruntime.ConvertibleStatus = &StorageAccount_Status{}
 // ConvertStatusFrom populates our StorageAccount_Status from the provided source
 func (storageAccountStatus *StorageAccount_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == storageAccountStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(storageAccountStatus)
@@ -167,7 +167,7 @@ func (storageAccountStatus *StorageAccount_Status) ConvertStatusFrom(source genr
 // ConvertStatusTo populates the provided destination from our StorageAccount_Status
 func (storageAccountStatus *StorageAccount_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == storageAccountStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(storageAccountStatus)
@@ -215,7 +215,7 @@ var _ genruntime.ConvertibleSpec = &StorageAccounts_Spec{}
 // ConvertSpecFrom populates our StorageAccounts_Spec from the provided source
 func (storageAccountsSpec *StorageAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == storageAccountsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(storageAccountsSpec)
@@ -224,7 +224,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertSpecFrom(source genrunti
 // ConvertSpecTo populates the provided destination from our StorageAccounts_Spec
 func (storageAccountsSpec *StorageAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == storageAccountsSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(storageAccountsSpec)

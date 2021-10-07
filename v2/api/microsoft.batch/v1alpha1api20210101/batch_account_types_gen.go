@@ -5,10 +5,10 @@ package v1alpha1api20210101
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v1alpha1api20210101storage"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -398,7 +398,7 @@ func (batchAccountStatus *BatchAccount_Status) CreateEmptyARMValue() genruntime.
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (batchAccountStatus *BatchAccount_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (batchAccountStatus *BatchAccount_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BatchAccount_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccount_StatusARM, got %T", armInput)
@@ -1065,7 +1065,7 @@ type BatchAccounts_Spec struct {
 var _ genruntime.ARMTransformer = &BatchAccounts_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if batchAccountsSpec == nil {
 		return nil, nil
 	}
@@ -1076,7 +1076,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(name string, resolvedR
 
 	// Set property ‘Identity’:
 	if batchAccountsSpec.Identity != nil {
-		identityARM, err := (*batchAccountsSpec.Identity).ConvertToARM(name, resolvedReferences)
+		identityARM, err := (*batchAccountsSpec.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1088,11 +1088,11 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(name string, resolvedR
 	result.Location = batchAccountsSpec.Location
 
 	// Set property ‘Name’:
-	result.Name = name
+	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if batchAccountsSpec.AutoStorage != nil {
-		autoStorageARM, err := (*batchAccountsSpec.AutoStorage).ConvertToARM(name, resolvedReferences)
+		autoStorageARM, err := (*batchAccountsSpec.AutoStorage).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1100,7 +1100,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(name string, resolvedR
 		result.Properties.AutoStorage = &autoStorage
 	}
 	if batchAccountsSpec.Encryption != nil {
-		encryptionARM, err := (*batchAccountsSpec.Encryption).ConvertToARM(name, resolvedReferences)
+		encryptionARM, err := (*batchAccountsSpec.Encryption).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1108,7 +1108,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(name string, resolvedR
 		result.Properties.Encryption = &encryption
 	}
 	if batchAccountsSpec.KeyVaultReference != nil {
-		keyVaultReferenceARM, err := (*batchAccountsSpec.KeyVaultReference).ConvertToARM(name, resolvedReferences)
+		keyVaultReferenceARM, err := (*batchAccountsSpec.KeyVaultReference).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1143,7 +1143,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) CreateEmptyARMValue() genruntime.AR
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (batchAccountsSpec *BatchAccounts_Spec) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (batchAccountsSpec *BatchAccounts_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BatchAccounts_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccounts_SpecARM, got %T", armInput)
@@ -1203,7 +1203,9 @@ func (batchAccountsSpec *BatchAccounts_Spec) PopulateFromARM(owner genruntime.Kn
 	batchAccountsSpec.Location = typedInput.Location
 
 	// Set property ‘Owner’:
-	batchAccountsSpec.Owner = owner
+	batchAccountsSpec.Owner = genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
 
 	// Set property ‘PoolAllocationMode’:
 	// copying flattened property:
@@ -1492,14 +1494,14 @@ type AutoStorageBaseProperties struct {
 var _ genruntime.ARMTransformer = &AutoStorageBaseProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (autoStorageBaseProperties *AutoStorageBaseProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (autoStorageBaseProperties *AutoStorageBaseProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if autoStorageBaseProperties == nil {
 		return nil, nil
 	}
 	var result AutoStorageBasePropertiesARM
 
 	// Set property ‘StorageAccountId’:
-	storageAccountReferenceARMID, err := resolvedReferences.ARMIDOrErr(autoStorageBaseProperties.StorageAccountReference)
+	storageAccountReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(autoStorageBaseProperties.StorageAccountReference)
 	if err != nil {
 		return nil, err
 	}
@@ -1513,7 +1515,7 @@ func (autoStorageBaseProperties *AutoStorageBaseProperties) CreateEmptyARMValue(
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (autoStorageBaseProperties *AutoStorageBaseProperties) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (autoStorageBaseProperties *AutoStorageBaseProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	_, ok := armInput.(AutoStorageBasePropertiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoStorageBasePropertiesARM, got %T", armInput)
@@ -1571,7 +1573,7 @@ func (autoStoragePropertiesStatus *AutoStorageProperties_Status) CreateEmptyARMV
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (autoStoragePropertiesStatus *AutoStorageProperties_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (autoStoragePropertiesStatus *AutoStorageProperties_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AutoStorageProperties_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoStorageProperties_StatusARM, got %T", armInput)
@@ -1654,7 +1656,7 @@ type BatchAccountIdentity struct {
 var _ genruntime.ARMTransformer = &BatchAccountIdentity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (batchAccountIdentity *BatchAccountIdentity) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (batchAccountIdentity *BatchAccountIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if batchAccountIdentity == nil {
 		return nil, nil
 	}
@@ -1671,7 +1673,7 @@ func (batchAccountIdentity *BatchAccountIdentity) CreateEmptyARMValue() genrunti
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (batchAccountIdentity *BatchAccountIdentity) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (batchAccountIdentity *BatchAccountIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BatchAccountIdentityARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccountIdentityARM, got %T", armInput)
@@ -1743,7 +1745,7 @@ func (batchAccountIdentityStatus *BatchAccountIdentity_Status) CreateEmptyARMVal
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (batchAccountIdentityStatus *BatchAccountIdentity_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (batchAccountIdentityStatus *BatchAccountIdentity_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BatchAccountIdentity_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccountIdentity_StatusARM, got %T", armInput)
@@ -1895,7 +1897,7 @@ type EncryptionProperties struct {
 var _ genruntime.ARMTransformer = &EncryptionProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (encryptionProperties *EncryptionProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (encryptionProperties *EncryptionProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if encryptionProperties == nil {
 		return nil, nil
 	}
@@ -1909,7 +1911,7 @@ func (encryptionProperties *EncryptionProperties) ConvertToARM(name string, reso
 
 	// Set property ‘KeyVaultProperties’:
 	if encryptionProperties.KeyVaultProperties != nil {
-		keyVaultPropertiesARM, err := (*encryptionProperties.KeyVaultProperties).ConvertToARM(name, resolvedReferences)
+		keyVaultPropertiesARM, err := (*encryptionProperties.KeyVaultProperties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1925,7 +1927,7 @@ func (encryptionProperties *EncryptionProperties) CreateEmptyARMValue() genrunti
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (encryptionProperties *EncryptionProperties) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (encryptionProperties *EncryptionProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(EncryptionPropertiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionPropertiesARM, got %T", armInput)
@@ -2028,7 +2030,7 @@ func (encryptionPropertiesStatus *EncryptionProperties_Status) CreateEmptyARMVal
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (encryptionPropertiesStatus *EncryptionProperties_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (encryptionPropertiesStatus *EncryptionProperties_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(EncryptionProperties_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionProperties_StatusARM, got %T", armInput)
@@ -2129,14 +2131,14 @@ type KeyVaultReference struct {
 var _ genruntime.ARMTransformer = &KeyVaultReference{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (keyVaultReference *KeyVaultReference) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (keyVaultReference *KeyVaultReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if keyVaultReference == nil {
 		return nil, nil
 	}
 	var result KeyVaultReferenceARM
 
 	// Set property ‘Id’:
-	referenceARMID, err := resolvedReferences.ARMIDOrErr(keyVaultReference.Reference)
+	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(keyVaultReference.Reference)
 	if err != nil {
 		return nil, err
 	}
@@ -2153,7 +2155,7 @@ func (keyVaultReference *KeyVaultReference) CreateEmptyARMValue() genruntime.ARM
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (keyVaultReference *KeyVaultReference) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (keyVaultReference *KeyVaultReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(KeyVaultReferenceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultReferenceARM, got %T", armInput)
@@ -2223,7 +2225,7 @@ func (keyVaultReferenceStatus *KeyVaultReference_Status) CreateEmptyARMValue() g
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (keyVaultReferenceStatus *KeyVaultReference_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (keyVaultReferenceStatus *KeyVaultReference_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(KeyVaultReference_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultReference_StatusARM, got %T", armInput)
@@ -2314,7 +2316,7 @@ func (privateEndpointConnectionStatus *PrivateEndpointConnection_Status) CreateE
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (privateEndpointConnectionStatus *PrivateEndpointConnection_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (privateEndpointConnectionStatus *PrivateEndpointConnection_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PrivateEndpointConnection_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_StatusARM, got %T", armInput)
@@ -2557,7 +2559,7 @@ func (virtualMachineFamilyCoreQuotaStatus *VirtualMachineFamilyCoreQuota_Status)
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (virtualMachineFamilyCoreQuotaStatus *VirtualMachineFamilyCoreQuota_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (virtualMachineFamilyCoreQuotaStatus *VirtualMachineFamilyCoreQuota_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(VirtualMachineFamilyCoreQuota_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineFamilyCoreQuota_StatusARM, got %T", armInput)
@@ -2646,7 +2648,7 @@ func (batchAccountIdentityStatusUserAssignedIdentities *BatchAccountIdentity_Sta
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (batchAccountIdentityStatusUserAssignedIdentities *BatchAccountIdentity_Status_UserAssignedIdentities) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (batchAccountIdentityStatusUserAssignedIdentities *BatchAccountIdentity_Status_UserAssignedIdentities) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(BatchAccountIdentity_Status_UserAssignedIdentitiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccountIdentity_Status_UserAssignedIdentitiesARM, got %T", armInput)
@@ -2749,7 +2751,7 @@ type KeyVaultProperties struct {
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (keyVaultProperties *KeyVaultProperties) ConvertToARM(name string, resolvedReferences genruntime.ResolvedReferences) (interface{}, error) {
+func (keyVaultProperties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if keyVaultProperties == nil {
 		return nil, nil
 	}
@@ -2769,7 +2771,7 @@ func (keyVaultProperties *KeyVaultProperties) CreateEmptyARMValue() genruntime.A
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (keyVaultProperties *KeyVaultProperties) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (keyVaultProperties *KeyVaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(KeyVaultPropertiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultPropertiesARM, got %T", armInput)
@@ -2840,7 +2842,7 @@ func (keyVaultPropertiesStatus *KeyVaultProperties_Status) CreateEmptyARMValue()
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (keyVaultPropertiesStatus *KeyVaultProperties_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (keyVaultPropertiesStatus *KeyVaultProperties_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(KeyVaultProperties_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultProperties_StatusARM, got %T", armInput)
@@ -2912,7 +2914,7 @@ func (privateEndpointStatus *PrivateEndpoint_Status) CreateEmptyARMValue() genru
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (privateEndpointStatus *PrivateEndpoint_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (privateEndpointStatus *PrivateEndpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PrivateEndpoint_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpoint_StatusARM, got %T", armInput)
@@ -2980,7 +2982,7 @@ func (privateLinkServiceConnectionStateStatus *PrivateLinkServiceConnectionState
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (privateLinkServiceConnectionStateStatus *PrivateLinkServiceConnectionState_Status) PopulateFromARM(owner genruntime.KnownResourceReference, armInput interface{}) error {
+func (privateLinkServiceConnectionStateStatus *PrivateLinkServiceConnectionState_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(PrivateLinkServiceConnectionState_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnectionState_StatusARM, got %T", armInput)

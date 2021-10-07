@@ -4,21 +4,21 @@ run: when_changed
 output: prefixed
 
 vars:
+  PACKAGE: github.com/Azure/azure-service-operator/v2
+
   GENERATOR_APP: aso-gen
-  GENERATOR_ROOT: ./hack/generator/
-  GENERATOR_PACKAGE: github.com/Azure/azure-service-operator/hack/generator
 
   CONTROLLER_APP: aso-controller
-  CONTROLLER_ROOT: ./hack/generated/
-  CONTROLLER_PACKAGE: github.com/Azure/azure-service-operator/hack/generated
+  CONTROLLER_ROOT: v2/
 
-  V2_ROOT: v2/
-
+  TEST_RESOURCE_PREFIX: asotest
   SCRIPTS_ROOT: ./scripts
 
   VERSION: 
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
     sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
+
+  VERSION_FLAGS: -ldflags "-X {{.PACKAGE}}/internal/version.BuildVersion={{.VERSION}}"
 
   CONTROLLER_DOCKER_IMAGE: azureserviceoperator:{{.VERSION}}
   PUBLIC_REGISTRY: mcr.microsoft.com/k8s/
@@ -26,10 +26,6 @@ vars:
 
   CROSSPLANE_APP: crossplane-gen
   CROSSPLANE_ROOT: ./hack/crossplane/
-
-  # the 'api' dir contains generated code so we want to exclude it
-  # for go-fmt the root dir must be excluded (it recurses)
-  GENERATED_DIRS_TO_FMT_CMD: go list -f '{{"{{.Dir}}"}}' ./...  | grep -vE '/apis(/|$)|/generated$' | tr '\n' ' '
 
   # how long to let tests against live resources run for
   LIVE_TEST_TIMEOUT: 2h
@@ -61,7 +57,7 @@ tasks:
 
   format-code:
     desc: Ensure all code is formatted
-    dir: hack
+    dir: v2
     cmds:
     - gofmt -l -s -w .
 
@@ -83,40 +79,39 @@ tasks:
 
   generator:unit-tests:
     desc: Run {{.GENERATOR_APP}} unit tests.
-    dir: "{{.GENERATOR_ROOT}}"
+    dir: v2
     cmds:
-    - go test ./... -tags=noexit -run '{{default ".*" .TEST_FILTER}}'
+    - go test ./internal/generator/... -tags=noexit -run '{{default ".*" .TEST_FILTER}}'
 
   generator:unit-tests-cover:
     desc: Run {{.GENERATOR_APP}} unit tests and output coverage.
-    dir: "{{.GENERATOR_ROOT}}"
+    dir: v2
     cmds:
-    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}'
+    - go test ./internal/generator/... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}'
 
   generator:update-golden-tests:
     desc: Update {{.GENERATOR_APP}} golden test outputs.
-    dir: "{{.GENERATOR_ROOT}}"
+    dir: v2
     cmds:
-    - go test ./pkg/codegen -run ^TestGolden -update
+    - go test ./internal/generator/... -run ^TestGolden -update
 
   generator:lint:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
-    dir: "{{.GENERATOR_ROOT}}"
+    dir: v2/internal/generator
     cmds:
     - golangci-lint run -v
 
   generator:lint-full:
     desc: Run {{.GENERATOR_APP}} all lint checks.
-    dir: "{{.GENERATOR_ROOT}}"
+    dir: v2/internal/generator
     cmds:
     - golangci-lint run -v --fast=false
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
-    dir: "{{.GENERATOR_ROOT}}"
-    sources: ["**/*.go", "go.mod", "go.sum"]
+    dir: v2
     cmds:
-    - go build -ldflags "-X {{.GENERATOR_PACKAGE}}/pkg/codegen.Version={{.VERSION}}" -o ./bin/{{.GENERATOR_APP}}
+    - go build {{.VERSION_FLAGS}} -o ./bin/{{.GENERATOR_APP}} ./tools/generator
 
   generator:diagrams:
     desc: Regenerate all GraphViz diagrams
@@ -192,10 +187,11 @@ tasks:
     - "go.mod"
     - "go.sum"
     - "*.go"
-    - "controllers/**/*.go"
+    - "internal/**/*.go"
     - "pkg/**/*.go"
+    - "cmd/main.go"
     cmds:
-    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X {{.CONTROLLER_PACKAGE}}/pkg/version.BuildVersion={{.VERSION}}" -o ./bin/{{.CONTROLLER_APP}}
+    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build {{.VERSION_FLAGS}} -o ./bin/{{.CONTROLLER_APP}} ./cmd/controller/
 
   controller:docker-build:
     desc: Builds the {{.CONTROLLER_APP}} Docker image.
@@ -256,7 +252,7 @@ tasks:
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
-    dir: "{{.GENERATOR_ROOT}}"
+    dir: v2
     deps: [generator:build]
     sources:
       - ./bin/{{.GENERATOR_APP}}
@@ -266,10 +262,10 @@ tasks:
 
   controller:generate-crds:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
-    deps: [controller:generate-types]
+    deps: [controller:generate-types, controller:generate-genruntime-deepcopy]
     sources:
     - "v2/api/**/*_gen.go" # depends on all generated types
-    - "hack/generated/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
+    - "v2/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
     cmds:
     - mkdir -p v2/api
     - find v2/api -type f -name "zz_generated.*" -delete
@@ -279,7 +275,7 @@ tasks:
     - cd v2/api && gofmt -l -s -w . # format all generated code
     vars:
       HEADER_FILE:
-        sh: 'realpath hack/boilerplate.go.txt #controller:generate-crds'
+        sh: 'realpath v2/boilerplate.go.txt #controller:generate-crds'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}} 
 
       OUTPUT:
@@ -299,24 +295,25 @@ tasks:
       - cd pkg/genruntime && gofmt -l -s -w .  # We do this because controller-gen can generate these files in a way that isn't gofmt'ed which can break things down the line
     vars:
       HEADER_FILE:
-        sh: 'realpath ../boilerplate.go.txt #controller:generate-genruntime-deepcopy'
+        sh: 'realpath boilerplate.go.txt #controller:generate-genruntime-deepcopy'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
 
   controller:generate-kustomize:
     desc: Run {{.GENERATOR_APP}} to generate the Kustomize file for registering CRDs.
-    deps: [controller:generate-crds, controller:generate-genruntime-deepcopy]
+    deps: [controller:generate-crds]
+    dir: v2
     sources:
-      - "{{.GENERATOR_ROOT}}bin/{{.GENERATOR_APP}}"
-      - "{{.V2_ROOT}}config/crd/bases/**/*.yaml"
+      - bin/{{.GENERATOR_APP}}
+      - config/crd/bases/**/*.yaml
     generates:
-      - "{{.V2_ROOT}}config/crd/kustomization.yaml"
+      - config/crd/kustomization.yaml
     cmds:
-      - "{{.GENERATOR_ROOT}}bin/{{.GENERATOR_APP}} gen-kustomize {{.V2_ROOT}}config/crd"
+      - bin/{{.GENERATOR_APP}} gen-kustomize config/crd
 
   controller:run-kustomize:
     desc: Generates the CRD & configuration bundle.
     deps: [controller:generate-kustomize]
-    dir: "{{.V2_ROOT}}"
+    dir: "v2/"
     cmds:
     - mkdir -p bin # in case it doesn’t exist
     - kustomize build config/default | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
@@ -335,7 +332,7 @@ tasks:
     desc: Installs the controller, webhooks, and CRDs into the default kubectl cluster
     deps: [controller:generate-kustomize]
     cmds:
-      - "cd {{.V2_ROOT}} && kustomize build config/default  | kubectl apply -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
+      - "cd v2/ && kustomize build config/default  | kubectl apply -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
       - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh"
 
   controller:install-cert-manager:
@@ -383,9 +380,10 @@ tasks:
       - if [ -d "{{.OUTPUT}}/crd/bases" ]; then find "{{.OUTPUT}}/crd/bases" -type f -delete; fi
       - cd apis && controller-gen {{.OBJECT_OPTIONS}} paths=./...
       - cd apis && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+      - cd apis && gofmt -l -s -w . # format all generated code
     vars:
       HEADER_FILE: 
-        sh: 'realpath ../boilerplate.go.txt #crossplane:generate-crds'
+        sh: 'realpath ../../v2/boilerplate.go.txt #crossplane:generate-crds'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
 
       OUTPUT:
@@ -396,28 +394,37 @@ tasks:
 
   crossplane:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CROSSPLANE_APP}}.
-    dir: "{{.GENERATOR_ROOT}}"
+    dir: "{{.CROSSPLANE_ROOT}}"
     deps: [generator:build]
     sources:
-      - ./bin/{{.GENERATOR_APP}}
+      - ../../v2/bin/{{.GENERATOR_APP}}
       - azure-crossplane.yaml
     cmds:
-      - ./bin/{{.GENERATOR_APP}} gen-types azure-crossplane.yaml
+      - ../../v2/bin/{{.GENERATOR_APP}} gen-types azure-crossplane.yaml
 
   crossplane:ci:
     deps: [header-check, specifier-check, crossplane:generate-crds]
 
   ############### Shared targets ###############
-
   cleanup-azure-resources:
-    desc: Removes any old resources created by integration tests.
+    desc: Removes any resources created by the integration tests.
+    cmds:
+      - |
+        for rgname in `az group list --query "[*].[name]" -o table | grep '^{{.TEST_RESOURCE_PREFIX}}' `; do \
+          echo "$rgname will be deleted"; \
+          az group delete --name $rgname --no-wait --yes; \
+        done
+
+  # Note: This isn't actually used anywhere right now, but keeping it as a standalone target in case 
+  cleanup-old-azure-resources:
+    desc: Removes any old resources created by the integration tests (old means older than 24 hours).
     # This finds all resource groups which match the specified pattern (asotest*)
     # and are older than a day (86400 seconds). This is a bit horrible but it works...
     # [*]: this must match what is specified in raw_client.go
     cmds:
       - |
         rgs=`az group list --query '[*].{Name: name, CreatedAt: tags.CreatedAt}' \
-          | jq -r '.[] | select(.Name | test("^asotest")) | select(.CreatedAt == null or now-(.CreatedAt | fromdate) > 86400) | .Name'`; \
+          | jq -r '.[] | select(.Name | test("^{{.TEST_RESOURCE_PREFIX}}")) | select(.CreatedAt == null or now-(.CreatedAt | fromdate) > 86400) | .Name'`; \
         for rgname in ${rgs[@]} ; do \
           echo "$rgname will be deleted"; \
           az group delete --name $rgname --no-wait --yes; \

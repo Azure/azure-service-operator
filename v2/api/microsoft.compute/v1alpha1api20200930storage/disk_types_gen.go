@@ -4,9 +4,9 @@
 package v1alpha1api20200930storage
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.compute/v1alpha1api20201201storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -152,7 +152,7 @@ var _ genruntime.ConvertibleStatus = &Disk_Status{}
 // ConvertStatusFrom populates our Disk_Status from the provided source
 func (diskStatus *Disk_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == diskStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(diskStatus)
@@ -161,7 +161,7 @@ func (diskStatus *Disk_Status) ConvertStatusFrom(source genruntime.ConvertibleSt
 // ConvertStatusTo populates the provided destination from our Disk_Status
 func (diskStatus *Disk_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == diskStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(diskStatus)
@@ -208,7 +208,7 @@ var _ genruntime.ConvertibleSpec = &Disks_Spec{}
 // ConvertSpecFrom populates our Disks_Spec from the provided source
 func (disksSpec *Disks_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == disksSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(disksSpec)
@@ -217,7 +217,7 @@ func (disksSpec *Disks_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 // ConvertSpecTo populates the provided destination from our Disks_Spec
 func (disksSpec *Disks_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == disksSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(disksSpec)

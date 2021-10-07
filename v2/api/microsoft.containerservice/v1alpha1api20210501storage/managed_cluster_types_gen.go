@@ -4,8 +4,8 @@
 package v1alpha1api20210501storage
 
 import (
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -156,7 +156,7 @@ var _ genruntime.ConvertibleStatus = &ManagedCluster_Status{}
 // ConvertStatusFrom populates our ManagedCluster_Status from the provided source
 func (managedClusterStatus *ManagedCluster_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == managedClusterStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(managedClusterStatus)
@@ -165,7 +165,7 @@ func (managedClusterStatus *ManagedCluster_Status) ConvertStatusFrom(source genr
 // ConvertStatusTo populates the provided destination from our ManagedCluster_Status
 func (managedClusterStatus *ManagedCluster_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == managedClusterStatus {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleStatus")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return destination.ConvertStatusFrom(managedClusterStatus)
@@ -222,7 +222,7 @@ var _ genruntime.ConvertibleSpec = &ManagedClusters_Spec{}
 // ConvertSpecFrom populates our ManagedClusters_Spec from the provided source
 func (managedClustersSpec *ManagedClusters_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == managedClustersSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(managedClustersSpec)
@@ -231,7 +231,7 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertSpecFrom(source genrunti
 // ConvertSpecTo populates the provided destination from our ManagedClusters_Spec
 func (managedClustersSpec *ManagedClusters_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == managedClustersSpec {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/hack/generated/pkg/genruntime/ConvertibleSpec")
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(managedClustersSpec)
