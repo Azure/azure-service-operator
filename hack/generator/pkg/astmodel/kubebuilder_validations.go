@@ -12,9 +12,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 	"github.com/dave/dst"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/hack/generator/pkg/astbuilder"
 )
 
 // KubeBuilderValidation represents some kind of data validation on a property
@@ -111,42 +112,42 @@ const (
  * Factory methods for Validation instances
  */
 
-// ValidateEnum returns a Validation that requires the value be one of the
+// MakeEnumValidation returns a Validation that requires the value be one of the
 // passed 'permittedValues'
-func ValidateEnum(permittedValues []interface{}) KubeBuilderValidation {
+func MakeEnumValidation(permittedValues []interface{}) KubeBuilderValidation {
 	return KubeBuilderValidation{EnumValidationName, permittedValues}
 }
 
-// ValidateRequired returns a Validation that requires a value be present
-func ValidateRequired() KubeBuilderValidation {
+// MakeRequiredValidation returns a Validation that requires a value be present
+func MakeRequiredValidation() KubeBuilderValidation {
 	return KubeBuilderValidation{RequiredValidationName, nil}
 }
 
-func ValidateMinLength(length int64) KubeBuilderValidation {
+func MakeMinLengthValidation(length int64) KubeBuilderValidation {
 	return KubeBuilderValidation{MinLengthValidationName, length}
 }
 
-func ValidateMaxLength(length int64) KubeBuilderValidation {
+func MakeMaxLengthValidation(length int64) KubeBuilderValidation {
 	return KubeBuilderValidation{MaxLengthValidationName, length}
 }
 
-func ValidatePattern(pattern regexp.Regexp) KubeBuilderValidation {
+func MakePatternValidation(pattern *regexp.Regexp) KubeBuilderValidation {
 	return KubeBuilderValidation{PatternValidationName, fmt.Sprintf("%q", pattern.String())}
 }
 
-func ValidateMinItems(length int64) KubeBuilderValidation {
+func MakeMinItemsValidation(length int64) KubeBuilderValidation {
 	return KubeBuilderValidation{MinItemsValidationName, length}
 }
 
-func ValidateMaxItems(length int64) KubeBuilderValidation {
+func MakeMaxItemsValidation(length int64) KubeBuilderValidation {
 	return KubeBuilderValidation{MaxItemsValidationName, length}
 }
 
-func ValidateUniqueItems() KubeBuilderValidation {
+func MakeUniqueItemsValidation() KubeBuilderValidation {
 	return KubeBuilderValidation{UniqueItemsValidationName, true}
 }
 
-func ValidateMaximum(value *big.Rat) KubeBuilderValidation {
+func MakeMaximumValidation(value *big.Rat) KubeBuilderValidation {
 	if value.IsInt() {
 		return KubeBuilderValidation{MaximumValidationName, value.RatString()}
 	} else {
@@ -159,7 +160,7 @@ func ValidateMaximum(value *big.Rat) KubeBuilderValidation {
 	}
 }
 
-func ValidateMinimum(value *big.Rat) KubeBuilderValidation {
+func MaxMinimumValidation(value *big.Rat) KubeBuilderValidation {
 	if value.IsInt() {
 		return KubeBuilderValidation{MinimumValidationName, value.RatString()}
 	} else {
@@ -172,15 +173,15 @@ func ValidateMinimum(value *big.Rat) KubeBuilderValidation {
 	}
 }
 
-func ValidateExclusiveMaximum() KubeBuilderValidation {
+func MakeExclusiveMaxiumValidation() KubeBuilderValidation {
 	return KubeBuilderValidation{ExclusiveMaximumValidationName, true}
 }
 
-func ValidateExclusiveMinimum() KubeBuilderValidation {
+func MakeExclusiveMinimumValidation() KubeBuilderValidation {
 	return KubeBuilderValidation{ExclusiveMinimumValidationName, true}
 }
 
-func ValidateMultipleOf(value *big.Rat) KubeBuilderValidation {
+func MakeMultipleOfValidation(value *big.Rat) KubeBuilderValidation {
 	if value.IsInt() {
 		return KubeBuilderValidation{MultipleOfValidationName, value.RatString()}
 	} else {

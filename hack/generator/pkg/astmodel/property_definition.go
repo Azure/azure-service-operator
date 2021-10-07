@@ -367,7 +367,7 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 
 	var doc dst.Decorations
 	if property.HasKubebuilderRequiredValidation() {
-		AddValidationComments(&doc, []KubeBuilderValidation{ValidateRequired()})
+		AddValidationComments(&doc, []KubeBuilderValidation{MakeRequiredValidation()})
 	}
 
 	// if we have validations, unwrap them
