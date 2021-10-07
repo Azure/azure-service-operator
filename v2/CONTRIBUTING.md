@@ -118,7 +118,7 @@ When you're done with the local cluster, tear it down with `task controller:kind
 ### Error loading schema from root
 
 Full error:
-> error loading schema from root ... open /azure-service-operator/hack/generator/specs/azure-resource-manager-schemas/schemas/2019-04-01/deploymentTemplate.json no such file or directory
+> error loading schema from root ... open /azure-service-operator/v2/specs/azure-resource-manager-schemas/schemas/2019-04-01/deploymentTemplate.json no such file or directory
 
 This git repo contains submodules. This error occurs when the submodules are missing, possibly because the repo was not cloned with `--recurse-submodules`.
 

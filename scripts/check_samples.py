@@ -51,7 +51,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         me = sys.argv[0]
         sys.stderr.write(f"usage: {me} <path to config directory> \n")
-        sys.stderr.write(f"example: {me} ./hack/generated/config\n")
+        sys.stderr.write(f"example: {me} ./v2/config\n")
         sys.exit(1)
 
     config_dir = pathlib.Path(sys.argv[1])
