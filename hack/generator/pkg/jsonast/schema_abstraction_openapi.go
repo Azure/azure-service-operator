@@ -386,7 +386,7 @@ func objectNameFromPointer(ptr *jsonpointer.Pointer) string {
 // resolveAbsolutePath makes an absolute path by combining 'baseFileName' and 'url'
 func resolveAbsolutePath(baseFileName string, url *url.URL) (string, error) {
 	if url.IsAbs() {
-		return "", errors.Errorf("only relative URLs can be handled")
+		return "", errors.Errorf("absolute path %q not supported (only relative URLs)", url)
 	}
 
 	fileURL, err := url.Parse("file://" + filepath.ToSlash(baseFileName))
