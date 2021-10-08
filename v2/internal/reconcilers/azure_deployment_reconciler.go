@@ -11,11 +11,9 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"strings"
 	"time"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
@@ -275,7 +273,6 @@ func (r *AzureDeploymentReconciler) SpecSignature() (string, error) {
 }
 
 func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *genericarmclient.CloudError) conditions.Condition {
-	// TODO: error classification probably should not be happening here.
 	var severity conditions.ConditionSeverity
 	errorDetails := ClassifyCloudError(cloudError)
 	switch errorDetails.Classification {
@@ -290,18 +287,6 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *gene
 	}
 
 	return r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, r.obj.GetGeneration(), errorDetails.Code, errorDetails.Message)
-}
-
-func (r *AzureDeploymentReconciler) createReadyConditionFromPollerStatus(err *genericarmclient.CloudError, poller *genericarmclient.PollerResponse) conditions.Condition {
-	if err != nil {
-		return r.makeReadyConditionFromError(err)
-	}
-
-	if poller.Poller.Done() {
-		return r.PositiveConditions.Ready.Succeeded(r.obj.GetGeneration())
-	}
-
-	return r.PositiveConditions.Ready.Reconciling(r.obj.GetGeneration())
 }
 
 func (r *AzureDeploymentReconciler) AddInitialResourceState(resourceID string) (bool, error) {
@@ -525,26 +510,13 @@ func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ct
 	pollerResp, err := r.ARMClient.BeginCreateOrUpdateByID(ctx, armResource.GetID(), armResource.Spec().GetAPIVersion(), armResource.Spec())
 
 	if err != nil {
-		var cloudError *genericarmclient.CloudError
-		isCloudErr := errors.As(err, &cloudError)
-		if isCloudErr {
-			ready := r.makeReadyConditionFromError(cloudError)
-			conditions.SetCondition(r.obj, ready)
-			err = r.CommitUpdate(ctx)
-			if err != nil {
-				// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-				// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-				return ctrl.Result{}, client.IgnoreNotFound(err)
-			}
-
-			r.log.Error(cloudError, "Error creating resource", "id", armResource.GetID())
-
-			// Only requeue if the spec hasn't changed (this can happen if we've been through attempting to create a new resource more than once)
-			return ctrl.Result{Requeue: !changed}, nil
-		} else {
-			// TODO: For now we don't handle this (since it shouldn't ever happen)
+		var result ctrl.Result
+		result, err = r.handlePollerFailed(ctx, err)
+		if err != nil {
 			return ctrl.Result{}, err
 		}
+		result.Requeue = result.Requeue || !changed
+		return result, nil
 	}
 
 	r.log.V(Status).Info("Began creating resource in Azure", "id", armResource.GetID())
@@ -553,7 +525,7 @@ func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ct
 	// If we are done here it means the deployment succeeded immediately. It can't have failed because if it did
 	// we would have taken the err path above.
 	if pollerResp.Poller.Done() {
-		return r.handlePollerSuccess(ctx, pollerResp)
+		return r.handlePollerSuccess(ctx)
 	}
 
 	resumeToken, err := pollerResp.Poller.ResumeToken()
@@ -582,10 +554,10 @@ func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ct
 	return result, nil
 }
 
-func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err error, poller *genericarmclient.PollerResponse) (ctrl.Result, error) {
+func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err error) (ctrl.Result, error) {
 	var cloudError *genericarmclient.CloudError
-	var httpErr azcore.HTTPResponse
-	isHttpErr := errors.As(err, &httpErr)
+	//var httpErr azcore.HTTPResponse
+	//isHttpErr := errors.As(err, &httpErr)
 	isCloudErr := errors.As(err, &cloudError)
 
 	r.log.V(Status).Info(
@@ -593,59 +565,29 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 		"resourceID", genruntime.GetResourceIDOrDefault(r.obj),
 		"error", err.Error())
 
-	if isHttpErr && isCloudErr {
-		// The linter doesn't realize the body has already been closed
-		// nolint:bodyclose
-		switch httpErr.RawResponse().StatusCode {
-		case http.StatusNotFound:
-			// Something happened to the async operation URL we were polling... clear it and try again
-			// This is an RP bug (it shouldn't happen), but we're just being defensive
-			r.SetPollerResumeToken("", "")
-			err = r.CommitUpdate(ctx)
-			if err != nil {
-				// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-				// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-				return ctrl.Result{}, client.IgnoreNotFound(err)
-			}
-
-			r.log.Error(err, "poller returned notfound when polling. Will attempt to reconcile again")
-			// We just modified spec so don't need to requeue this
-			return ctrl.Result{}, nil
-		default:
-			ready := r.createReadyConditionFromPollerStatus(cloudError, poller)
-			conditions.SetCondition(r.obj, ready)
-			r.SetPollerResumeToken("", "")
-			err = r.CommitUpdate(ctx)
-			if err != nil {
-				// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-				// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-				return ctrl.Result{}, client.IgnoreNotFound(err)
-			}
-			// We just modified spec so don't need to requeue this
-			return ctrl.Result{}, nil
-		}
-	} else {
-		// This means that there was probably something wrong with our poller token (or something else went wrong)
-		r.SetPollerResumeToken("", "")
-		err = r.CommitUpdate(ctx)
-		if err != nil {
-			// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-			// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-			return ctrl.Result{}, client.IgnoreNotFound(err)
-		}
-
-		r.log.Error(err, "poller error was not cloudError or httpError. Will attempt to reconcile again")
-		// We just modified spec so don't need to requeue this
-		return ctrl.Result{}, nil
+	if isCloudErr {
+		ready := r.makeReadyConditionFromError(cloudError)
+		conditions.SetCondition(r.obj, ready)
 	}
+
+	r.SetPollerResumeToken("", "")
+	err = r.CommitUpdate(ctx)
+	if err != nil {
+		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	// We just modified spec so don't need to requeue this
+	return ctrl.Result{}, nil
 }
 
-func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context, poller *genericarmclient.PollerResponse) (ctrl.Result, error) {
+func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ctrl.Result, error) {
 	r.log.V(Status).Info(
 		"Resource successfully created",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.obj))
-	ready := r.createReadyConditionFromPollerStatus(nil, poller)
 
+	ready := r.PositiveConditions.Ready.Succeeded(r.obj.GetGeneration())
 	resourceID, hasResourceID := genruntime.GetResourceID(r.obj)
 	if !hasResourceID {
 		return ctrl.Result{}, errors.Errorf("poller succeeded but resource has no resource id")
@@ -689,10 +631,10 @@ func (r *AzureDeploymentReconciler) MonitorResourceCreation(ctx context.Context)
 	poller := &genericarmclient.PollerResponse{ID: pollerID}
 	err := poller.Resume(ctx, r.ARMClient, pollerResumeToken)
 	if err != nil {
-		return r.handlePollerFailed(ctx, err, poller)
+		return r.handlePollerFailed(ctx, err)
 	}
 	if poller.Poller.Done() {
-		return r.handlePollerSuccess(ctx, poller)
+		return r.handlePollerSuccess(ctx)
 	}
 
 	// Requeue to check again later
