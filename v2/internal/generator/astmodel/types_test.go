@@ -259,6 +259,35 @@ func TestFindStatusTypes(t *testing.T) {
 }
 
 /*
+ * ResolveResourceSpecAndStatus() tests
+ */
+
+func TestResolveResourceSpecAndStatus(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	// Define a test resource
+	spec := createTestSpec("Person", fullNameProperty, knownAsProperty)
+	status := createTestStatus("Person")
+	resource := createTestResource("Person", spec, status)
+
+	types := make(Types)
+	types.AddAll(resource, status, spec)
+
+	resolved, err := types.ResolveResourceSpecAndStatus(resource)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	g.Expect(resolved.SpecDef.Name()).To(Equal(spec.Name()))
+	g.Expect(resolved.SpecDef.Type()).To(Equal(spec.Type()))
+	g.Expect(resolved.SpecType).To(Equal(spec.Type()))
+	g.Expect(resolved.StatusDef.Name()).To(Equal(status.Name()))
+	g.Expect(resolved.StatusDef.Type()).To(Equal(status.Type()))
+	g.Expect(resolved.StatusType).To(Equal(status.Type()))
+	g.Expect(resolved.ResourceDef.Name()).To(Equal(resource.Name()))
+	g.Expect(resolved.ResourceDef.Type()).To(Equal(resource.Type()))
+	g.Expect(resolved.ResourceType).To(Equal(resource.Type()))
+}
+
+/*
  * Utility functions
  */
 
