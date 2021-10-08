@@ -175,7 +175,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.SimplifyDefinitions(),
 
-		pipeline.MarkStorageVersion(),
+		pipeline.MarkLatestAPIVersionAsStorageVersion(),
 
 		/*
 		 * Disabled until we have the Convertible interface implemented
