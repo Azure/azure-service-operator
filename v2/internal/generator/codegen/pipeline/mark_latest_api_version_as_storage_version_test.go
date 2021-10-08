@@ -41,5 +41,6 @@ func TestMarkLatestAPIVersionAsStorageVersion(t *testing.T) {
 	g.Expect(err).To(Succeed())
 
 	// Check that the expected types are flagged as storage types
+	// Look for the version of Person flagged with the comment "// +kubebuilder:storageversion"
 	test.AssertPackagesGenerateExpectedCode(t, finalState.types, test.DiffWithTypes(initialState.Types()))
 }
