@@ -14,14 +14,14 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/generator/astmodel"
 )
 
-// MarkStorageVersionStageId is the unique identifier for this pipeline stage
-const MarkStorageVersionStageId = "markStorageVersion"
+// MarkLatestAPIVersionAsStorageVersionId is the unique identifier for this pipeline stage
+const MarkLatestAPIVersionAsStorageVersionId = "markStorageVersion"
 
-// MarkStorageVersion creates a Stage to mark a particular version as a storage version
-func MarkStorageVersion() Stage {
+// MarkLatestAPIVersionAsStorageVersion creates a Stage to mark a particular version as a storage version
+func MarkLatestAPIVersionAsStorageVersion() Stage {
 	return MakeLegacyStage(
-		MarkStorageVersionStageId,
-		"Mark the latest version of each resource as the storage version",
+		MarkLatestAPIVersionAsStorageVersionId,
+		"Mark the latest API version of each resource as the storage version",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			updatedDefs, err := MarkLatestResourceVersionsForStorage(types)
 			if err != nil {
@@ -74,10 +74,8 @@ func groupResourcesByVersion(types astmodel.Types) (map[unversionedName][]astmod
 
 	for _, def := range types {
 
-		// TODO: Remove this
-		// We want to explicitly avoid storage types for now, as we want to tag the latest API version to avoid a bug
-		// Once we get the full conversion functions in place, and a mapping that allows us to find correct API version
-		// within the controller, we can delete this
+		// We want to explicitly avoid storage types, as as this approach for flagging the hub version is
+		// used when we aren't leveraging the conversions between storage versions.
 		if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
 			continue
 		}
