@@ -4,10 +4,10 @@
 			"path": "."
 		},
 		{
-			"path": "hack/generated"
+			"path": "hack/crossplane"
 		},
 		{
-			"path": "hack/generator"
+			"path": "v2"
 		}
 	],
 	"settings": {
