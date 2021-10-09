@@ -295,6 +295,60 @@ func (types Types) ResolveResourceStatusDefinition(
 	return resourceStatusDef.WithName(statusName), nil
 }
 
+type ResolvedResourceDefinition struct {
+	ResourceDef  TypeDefinition
+	ResourceType *ResourceType
+
+	SpecDef  TypeDefinition
+	SpecType *ObjectType
+
+	StatusDef  TypeDefinition
+	StatusType *ObjectType
+}
+
+// ResolveResourceSpecAndStatus takes a TypeDefinition that is a ResourceType and looks up its Spec and Status (as well as
+// the TypeDefinition's corresponding to them and returns a ResolvedResourceDefinition
+func (types Types) ResolveResourceSpecAndStatus(resourceDef TypeDefinition) (*ResolvedResourceDefinition, error) {
+	resource, ok := AsResourceType(resourceDef.Type())
+	if !ok {
+		return nil, errors.Errorf("expected %q to be a Resource but instead it was a %T", resourceDef.Name(), resourceDef.Type())
+	}
+
+	// Resolve the spec
+	specDef, err := types.ResolveResourceSpecDefinition(resource)
+	if err != nil {
+		return nil, err
+	}
+	spec, ok := AsObjectType(specDef.Type())
+	if !ok {
+		return nil, errors.Errorf("resource spec %q did not contain an object", resource.SpecType().String())
+	}
+
+	// Resolve the status if it's there (we need this because our golden file tests don't have status currently)
+	var statusDef TypeDefinition
+	var status *ObjectType
+
+	if IgnoringErrors(resource.StatusType()) != nil {
+		statusDef, err = types.ResolveResourceStatusDefinition(resource)
+		if err != nil {
+			return nil, err
+		}
+		status, ok = AsObjectType(statusDef.Type())
+		if !ok {
+			return nil, errors.Errorf("resource status %q did not contain an object", resource.StatusType().String())
+		}
+	}
+
+	return &ResolvedResourceDefinition{
+		ResourceDef:  resourceDef,
+		ResourceType: resource,
+		SpecDef:      specDef,
+		SpecType:     spec,
+		StatusDef:    statusDef,
+		StatusType:   status,
+	}, nil
+}
+
 // Process applies a func to transform all members of this set of type definitions, returning a new set of type
 // definitions containing the results of the transformation, or possibly an error
 // Only definitions returned by the func will be included in the results of the function. The func may return a nil

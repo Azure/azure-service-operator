@@ -175,7 +175,12 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.SimplifyDefinitions(),
 
-		pipeline.MarkStorageVersion(),
+		//TODO (@unrepentantgeek or @matthchr): When integrating versioning, switch to
+		//MarkLatestStorageVariantAsHubVersion for ARM
+		pipeline.MarkLatestAPIVersionAsStorageVersion().UsedFor(pipeline.ARMTarget),
+		//pipeline.MarkLatestStorageVariantAsHubVersion().UsedFor(pipeline.ARMTarget),
+
+		pipeline.MarkLatestAPIVersionAsStorageVersion().UsedFor(pipeline.CrossplaneTarget),
 
 		/*
 		 * Disabled until we have the Convertible interface implemented
