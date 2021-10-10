@@ -173,7 +173,7 @@ type sharedEnvTests struct {
 
 func cfgToKey(cfg config.Values) string {
 	return fmt.Sprintf(
-		"%s/%s/%s/%d/%s",
+		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/RequeueDelay:%d/TargetNamespaces:%s",
 		cfg.SubscriptionID,
 		cfg.PodNamespace,
 		cfg.OperatorMode,
