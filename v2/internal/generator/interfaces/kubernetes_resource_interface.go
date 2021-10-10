@@ -61,7 +61,7 @@ func AddKubernetesResourceInterfaceImpls(
 	getOwnerProperty := functions.NewObjectFunction(astmodel.OwnerProperty, idFactory, newOwnerFunction(r))
 	getOwnerProperty.AddPackageReference(astmodel.GenRuntimeReference)
 
-	getSpecFunction := functions.NewObjectFunction("GetSpec", idFactory, createGetSpecFunction)
+	getSpecFunction := functions.NewGetSpecFunction(idFactory)
 
 	getTypeFunction := functions.NewObjectFunction("Get"+astmodel.TypeProperty, idFactory, newGetTypeFunction(resourceARMType))
 	getTypeFunction.AddPackageReference(astmodel.GenRuntimeReference)
@@ -332,29 +332,6 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 
 		return fn.DefineFunc()
 	}
-}
-
-func createGetSpecFunction(
-	f *functions.ObjectFunction,
-	genContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
-	_ string) *dst.FuncDecl {
-	receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
-	receiverType := astmodel.NewOptionalType(receiver)
-
-	ret := astbuilder.Returns(astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))
-
-	fn := &astbuilder.FuncDetails{
-		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(genContext),
-		Name:          "GetSpec",
-		Body:          astbuilder.Statements(ret),
-	}
-
-	fn.AddReturn(astmodel.ConvertibleSpecInterfaceType.AsType(genContext))
-	fn.AddComments("returns the specification of this resource")
-
-	return fn.DefineFunc()
 }
 
 func createGetStatusFunction(
