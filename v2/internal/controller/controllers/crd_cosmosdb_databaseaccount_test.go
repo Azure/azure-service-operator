@@ -110,25 +110,9 @@ func CosmosDB_MongoDB_Database_CRUD(tc testcommon.KubePerTestContext, acct clien
 	tc.CreateResourceAndWait(&db)
 	defer tc.DeleteResourceAndWait(&db)
 
-	// TODO: for reasons I don't understand tags set on the database
-	// never come back on the status. The tags are in the API
-	// reference and I can't see anything wrong with the ARM-to-k8s
-	// conversion for the status type. :(
-
-	// tc.T.Log("updating tags on database")
-	// old := db.DeepCopy()
-	// db.Spec.Tags = map[string]string{"scratchcard": "lanyard"}
-	// tc.Patch(old, &db)
-
-	// objectKey := client.ObjectKeyFromObject(&db)
-
-	// tc.T.Log("waiting for new tag in status")
-	// tc.Eventually(func() map[string]string {
-	// 	var updated documentdb.DatabaseAccountsMongodbDatabase
-	// 	tc.GetResource(objectKey, &updated)
-	// 	tc.T.Log(pretty.Sprint("current tags:", updated.Status.Tags))
-	// 	return updated.Status.Tags
-	// }).Should(HaveKey("scratchcard"))
+	// Although the API reference and generated code indicate there
+	// are tags for this resource, values set in them never come back
+	// from ARM, so we don't try updating them here.
 
 	tc.RunParallelSubtests(testcommon.Subtest{
 		Name: "CosmosDB MongoDB Collection CRUD",
