@@ -79,10 +79,16 @@ func AddKubernetesResourceInterfaceImpls(
 
 	if r.StatusType() != nil {
 		// Skip Status functions if no status
+		status, ok := astmodel.AsTypeName(r.StatusType())
+		if !ok {
+			return nil, errors.Wrapf(err, "unable to create NewEmptyStatus function for resource %s", resourceName)
+		}
+
+		emptyStatusFunction := functions.NewEmptyStatusFunction(status, idFactory)
 		getStatusFunction := functions.NewGetStatusFunction(idFactory)
 		setStatusFunction := functions.NewResourceStatusSetterFunction(r, idFactory)
 
-		fns = append(fns, getStatusFunction, setStatusFunction)
+		fns = append(fns, emptyStatusFunction, getStatusFunction, setStatusFunction)
 	}
 
 	kubernetesResourceImplementation := astmodel.NewInterfaceImplementation(astmodel.KubernetesResourceType, fns...)
