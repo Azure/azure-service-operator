@@ -158,7 +158,7 @@ func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResourc
 
 	return &runningEnvTest{
 		KubeConfig: kubeConfig,
-		Cancel:     cancelFunc,
+		Stop:       cancelFunc,
 	}, nil
 }
 
@@ -185,7 +185,7 @@ func (set *sharedEnvTests) stopAll() {
 	set.envtestLock.Lock()
 	defer set.envtestLock.Unlock()
 	for _, v := range set.envtests {
-		v.Cancel()
+		v.Stop()
 	}
 }
 
@@ -210,7 +210,7 @@ func (set *sharedEnvTests) getEnvTestForConfig(cfg config.Values) (*runningEnvTe
 
 type runningEnvTest struct {
 	KubeConfig *rest.Config
-	Cancel     context.CancelFunc
+	Stop       context.CancelFunc
 }
 
 // each test is run in its own namespace
