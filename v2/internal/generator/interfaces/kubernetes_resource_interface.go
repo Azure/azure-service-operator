@@ -79,7 +79,7 @@ func AddKubernetesResourceInterfaceImpls(
 
 	if r.StatusType() != nil {
 		// Skip Status functions if no status
-		getStatusFunction := functions.NewObjectFunction("GetStatus", idFactory, createGetStatusFunction)
+		getStatusFunction := functions.NewGetStatusFunction(idFactory)
 		setStatusFunction := functions.NewResourceStatusSetterFunction(r, idFactory)
 
 		fns = append(fns, getStatusFunction, setStatusFunction)
@@ -332,29 +332,6 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 
 		return fn.DefineFunc()
 	}
-}
-
-func createGetStatusFunction(
-	f *functions.ObjectFunction,
-	genContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
-	_ string) *dst.FuncDecl {
-	receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
-	receiverType := astmodel.NewOptionalType(receiver)
-
-	fn := &astbuilder.FuncDetails{
-		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(genContext),
-		Name:          "GetStatus",
-		Body: astbuilder.Statements(
-			astbuilder.Returns(
-				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")))),
-	}
-
-	fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsType(genContext))
-	fn.AddComments("returns the status of this resource")
-
-	return fn.DefineFunc()
 }
 
 // newGetTypeFunction returns a function that returns the type of the resource (such as microsoft.compute/disks)
