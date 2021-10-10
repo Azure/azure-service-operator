@@ -78,9 +78,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	var clientFactory controllers.ARMClientFactory = func(_ genruntime.MetaObject) (armclient.Applier, error) {
+	var clientFactory controllers.ARMClientFactory = func(_ genruntime.MetaObject) armclient.Applier {
 		// always use the configured ARM client
-		return armApplier, nil
+		return armApplier
 	}
 
 	log := ctrl.Log.WithName("controllers")

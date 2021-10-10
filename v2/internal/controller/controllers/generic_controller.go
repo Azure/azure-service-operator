@@ -38,7 +38,7 @@ import (
 )
 
 type (
-	ARMClientFactory func(genruntime.MetaObject) (armclient.Applier, error)
+	ARMClientFactory func(genruntime.MetaObject) armclient.Applier
 	LoggerFactory    func(genruntime.MetaObject) logr.Logger
 )
 
@@ -256,16 +256,11 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, gr.KubeClient.Client.Update(ctx, obj)
 	}
 
-	armClient, err := gr.ARMClientFactory(metaObj)
-	if err != nil {
-		return ctrl.Result{}, errors.Wrapf(err, "unable to create ARM client for metaobject")
-	}
-
 	// TODO: We need some factory-lookup here
 	reconciler := reconcilers.NewAzureDeploymentReconciler(
 		metaObj,
 		log,
-		armClient,
+		gr.ARMClientFactory(metaObj),
 		gr.Recorder,
 		gr.KubeClient,
 		gr.ResourceResolver,
