@@ -6,7 +6,7 @@
 package astmodel
 
 const (
-	reflectHelpersPath = "github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	reflectHelpersPath = "github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 )
 
 var (
