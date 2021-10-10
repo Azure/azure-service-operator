@@ -24,9 +24,15 @@ type State struct {
  */
 
 // NewState returns a new empty state
-func NewState() *State {
+// typeses is a (possibly empty) sequence of types to combine for the intitial state
+func NewState(typeses ...astmodel.Types) *State {
+	types := make(astmodel.Types)
+	for _, ts := range typeses {
+		types = types.OverlayWith(ts)
+	}
+
 	return &State{
-		types:           make(astmodel.Types),
+		types:           types,
 		conversionGraph: nil,
 	}
 }
