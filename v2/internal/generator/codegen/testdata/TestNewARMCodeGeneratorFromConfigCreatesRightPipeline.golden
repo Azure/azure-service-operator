@@ -4,17 +4,17 @@ loadSchema                                           Load and walk schema
 addStatusFromSwagger                                 Add information from Swagger specs for 'status' fields
 allof-anyof-objects                                  Convert allOf and oneOf to object types
 flattenResources                                     Flatten nested resource types
-augmentSpecWithStatus                                Merges information from Status into Spec
+augmentSpecWithStatus                                Merge information from Status into Spec
 stripUnreferenced                                    Strip unreferenced types
 nameTypes                                            Name inner types for CRD
 propertyRewrites                                     Modify property types using configured transforms
-removeResourceScope                                  Removes scope from all resources except extension resources
-makeStatusPropertiesOptional                         Forces all status properties to be optional
-removeStatusPropertyValidation                       Removes validation from all status properties
+removeResourceScope                                  Remove scope from all resources except extension resources
+makeStatusPropertiesOptional                         Force all status properties to be optional
+removeStatusPropertyValidation                       Remove validation from all status properties
 unrollRecursiveTypes                                 Unroll directly recursive types since they are not supported by controller-gen
 determineResourceOwnership                           Determine ARM resource relationships
 removeAliases                                        Remove type aliases
-collapseCrossGroupReferences                         Finds and removes cross group references
+collapseCrossGroupReferences                         Find and remove cross group references
 pluralizeNames                                       Improve resource pluralization
 stripUnreferenced                                    Strip unreferenced types
 assertTypesStructureValid                            Verify that all local TypeNames refer to a type
@@ -30,7 +30,7 @@ applyArmConversionInterface               azure      Add ARM conversion interfac
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnreferenced                                    Strip unreferenced types
-addStatusConditions                       azure      Adds the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
+addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                        azure      Create storage versions of CRD types

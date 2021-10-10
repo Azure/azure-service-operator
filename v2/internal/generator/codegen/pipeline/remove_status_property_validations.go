@@ -34,7 +34,7 @@ const RemoveStatusPropertyValidationsStageID = "removeStatusPropertyValidation"
 func RemoveStatusValidations() Stage {
 	return MakeStage(
 		RemoveStatusPropertyValidationsStageID,
-		"Removes validation from all status properties",
+		"Remove validation from all status properties",
 		func(ctx context.Context, state *State) (*State, error) {
 			result, err := removeStatusTypeValidations(state.Types())
 			if err != nil {
