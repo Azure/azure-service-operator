@@ -27,7 +27,7 @@ There are three key pieces of information required before adding a resource to t
    This is usually a date, sometimes with a `-preview` suffix. In our example entry from above, this is `2020-11-01`.
 
 ## Adding the resource to the code generation configuration file
-The code generation configuration file is located [here](../../hack/generator/azure-arm.yaml). To add a new resource to this file, find the `exportFilters` section of the file and scroll down until you get to a block of `exportFilters` for individual resources. 
+The code generation configuration file is located [here](../../v2/azure-arm.yaml). To add a new resource to this file, find the `exportFilters` section of the file and scroll down until you get to a block of `exportFilters` for individual resources. 
 
 Add a new `exportFilter` of kind `include-transitive` at the end of that block, right _above_ this section:
 ```yaml
@@ -56,7 +56,7 @@ In the case of our example above, that ends up being:
 
 ## Run the code generator
 
-Follow the steps in the [contributing guide](/hack/CONTRIBUTING.md) to set up your development environment.
+Follow the steps in the [contributing guide](/v2/CONTRIBUTING.md) to set up your development environment.
 Once you have a working development environment, run the `task` command to run the code generator.
 
 ## Fix any errors raised by the code generator
@@ -68,7 +68,7 @@ Example:
 > It might need to be manually added to `newKnownReferencesMap`,
 
 To fix this error, determine whether the property in question is an ARM ID or not, and then update the `newKnownReferencesMap` function 
-in [add_cross_resource_references.go](hack/generator/pkg/codegen/pipeline/add_cross_resource_references.go#L185).
+in [add_cross_resource_references.go](/v2/internal/generator/codegen/pipeline/add_cross_resource_references.go#L185).
 
 If the property is an ARM ID, update `newKnownReferencesMap` to flag that property as a reference:
 ```go
@@ -121,13 +121,13 @@ If you do identify properties which should be removed or changed, you can make c
 2. `# Deal with properties that should have been marked readOnly but weren't`
 
 ## Write a CRUD test for the resource
-The best way to do this is to start from an [existing test](/hack/generated/controllers/crd_cosmosdb_test.go) and modify it to work for your resource. It can also be helpful to refer to examples in the [ARM templates GitHub repo](https://github.com/Azure/azure-quickstart-templates).
+The best way to do this is to start from an [existing test](/v2/internal/controller/controllers/crd_cosmosdb_databaseaccount_test.go) and modify it to work for your resource. It can also be helpful to refer to examples in the [ARM templates GitHub repo](https://github.com/Azure/azure-quickstart-templates).
 
 ## Run the CRUD test for the resource and commit the recording
-See [the code generator README](/hack/CONTRIBUTING.md#running-integration-tests) for how to run recording tests.
+See [the code generator README](/v2/CONTRIBUTING.md#running-integration-tests) for how to run recording tests.
 
 ## Add a new sample
-The samples are located in the [samples directory](/hack/generated/config/samples). There should be at least one sample for each kind of supported resource. These currently need to be added manually. It's possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn't happen today.
+The samples are located in the [samples directory](/v2/config/samples). There should be at least one sample for each kind of supported resource. These currently need to be added manually. It's possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn't happen today.
 
 ## Send a PR
 You're all done!
