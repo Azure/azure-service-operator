@@ -23,10 +23,9 @@ func ConvertResourceToDeployableResource(
 	resolver *genruntime.Resolver,
 	metaObject genruntime.MetaObject) (genruntime.DeployableResource, error) {
 
-	// TODO: This should be replaced by metaObject.GetSpec() eventually
-	armTransformer, err := extractARMTransformer(metaObject)
-	if err != nil {
-		return nil, err
+	armTransformer, ok := metaObject.GetSpec().(genruntime.ARMTransformer)
+	if !ok {
+		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", metaObject.GetSpec())
 	}
 
 	resourceHierarchy, resolvedDetails, err := resolve(ctx, resolver, metaObject)
@@ -77,68 +76,32 @@ func NewEmptyArmResourceStatus(metaObject genruntime.MetaObject) (genruntime.ARM
 
 // NewEmptyStatus creates a new empty Status object (which implements FromArmConverter) from
 // a genruntime.MetaObject.
+//TODO: this no longer uses reflection, inline it where used
 func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.FromARMConverter, error) {
-	t := reflect.TypeOf(metaObject).Elem()
-
-	statusField, ok := t.FieldByName("Status")
+	status, ok := metaObject.NewEmptyStatus().(genruntime.FromARMConverter)
 	if !ok {
-		return nil, errors.Errorf("couldn't find status field on type %T", metaObject)
-	}
-
-	statusPtr := reflect.New(statusField.Type)
-	status, ok := statusPtr.Interface().(genruntime.FromARMConverter)
-	if !ok {
-		return nil, errors.Errorf("status did not implement genruntime.ArmTransformer")
+		return nil, errors.Errorf(
+			"status %s did not implement genruntime.ArmTransformer", metaObject.GetObjectKind().GroupVersionKind())
 	}
 
 	return status, nil
 }
 
-// TODO: hacking this for now -- replace with a code-generated method later
+// SetStatus updates a genruntime.MetaObject with a new status
+//TODO: this no longer uses reflection, inline it where used
 func SetStatus(metaObj genruntime.MetaObject, status interface{}) error {
-	ptr := reflect.ValueOf(metaObj)
-	val := ptr.Elem()
 
-	if val.Kind() != reflect.Struct {
-		return errors.Errorf("metaObj kind was not struct")
+	s, ok := status.(genruntime.ConvertibleStatus)
+	if !ok {
+		return errors.Errorf("expected SetStatus() to be passed a genruntime.ConvertibleStatus but received %T", status)
 	}
 
-	field := val.FieldByName("Status")
-	statusVal := reflect.ValueOf(status).Elem()
-	field.Set(statusVal)
-
-	return nil
+	return metaObj.SetStatus(s)
 }
 
-func HasStatus(metaObj genruntime.MetaObject) (bool, error) {
-	ptr := reflect.ValueOf(metaObj)
-	val := ptr.Elem()
-
-	if val.Kind() != reflect.Struct {
-		return false, errors.Errorf("metaObj kind was not struct")
-	}
-
-	field := val.FieldByName("Status")
-	emptyStatusPtr := reflect.New(field.Type())
-	emptyStatus := emptyStatusPtr.Elem().Interface()
-
-	return !reflect.DeepEqual(field.Interface(), emptyStatus), nil
-}
-
-// NewPtrFromValue creates a new pointer type from a value
-func NewPtrFromValue(value interface{}) interface{} {
-	v := reflect.ValueOf(value)
-
-	// Spec fields are values, we want a ptr
-	ptr := reflect.New(v.Type())
-	ptr.Elem().Set(v)
-
-	return ptr.Interface()
-}
-
-// TODO: Can we delete this helper later when we have some better code generated functions?
 // ValueOfPtr dereferences a pointer and returns the value the pointer points to.
 // Use this as carefully as you would the * operator
+// TODO: Can we delete this helper later when we have some better code generated functions?
 func ValueOfPtr(ptr interface{}) interface{} {
 	v := reflect.ValueOf(ptr)
 	if v.Kind() != reflect.Ptr {
@@ -220,29 +183,4 @@ func resolve(
 	}
 
 	return resourceHierarchy, resolvedDetails, nil
-}
-
-func extractARMTransformer(metaObject genruntime.MetaObject) (genruntime.ARMTransformer, error) {
-	metaObjReflector := reflect.Indirect(reflect.ValueOf(metaObject))
-	if !metaObjReflector.IsValid() {
-		return nil, errors.Errorf("couldn't indirect %T", metaObject)
-	}
-
-	specField := metaObjReflector.FieldByName("Spec")
-	if !specField.IsValid() {
-		return nil, errors.Errorf("couldn't find spec field on type %T", metaObject)
-	}
-
-	// Spec fields are values, we want a ptr
-	specFieldPtr := reflect.New(specField.Type())
-	specFieldPtr.Elem().Set(specField)
-
-	spec := specFieldPtr.Interface()
-
-	armTransformer, ok := spec.(genruntime.ARMTransformer)
-	if !ok {
-		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
-	}
-
-	return armTransformer, nil
 }

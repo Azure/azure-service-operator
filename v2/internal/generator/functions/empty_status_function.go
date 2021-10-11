@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package functions
 
 import (
@@ -6,7 +11,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/generator/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/internal/generator/astmodel"
 )
-
 
 func NewEmptyStatusFunction(
 	status astmodel.TypeName,

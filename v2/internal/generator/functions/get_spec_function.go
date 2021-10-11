@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package functions
 
 import (
@@ -35,4 +40,3 @@ func createGetSpecFunction(
 
 	return fn.DefineFunc()
 }
-
