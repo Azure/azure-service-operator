@@ -576,22 +576,23 @@ func loadAllSchemas(
 }
 
 func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOverride) string {
-	group := jsonast.SwaggerGroupRegex.FindString(filePath)
+	fp := filepath.ToSlash(filePath)
+	group := jsonast.SwaggerGroupRegex.FindString(fp)
 
 	// see if there is a config override for this file
 	for _, schemaOverride := range overrides {
-		configSchemaPath := path.Join(rootPath, schemaOverride.BasePath)
-		if strings.HasPrefix(filePath, configSchemaPath) {
+		configSchemaPath := filepath.ToSlash(path.Join(rootPath, schemaOverride.BasePath))
+		if strings.HasPrefix(fp, configSchemaPath) {
 			// a forced namespace: use it
 			if schemaOverride.Namespace != "" {
-				klog.V(1).Infof("Overriding namespace to %s for file %s", schemaOverride.Namespace, filePath)
+				klog.V(1).Infof("Overriding namespace to %s for file %s", schemaOverride.Namespace, fp)
 				return schemaOverride.Namespace
 			}
 
 			// found a suffix override: apply it
 			if schemaOverride.Suffix != "" {
 				group = group + "." + schemaOverride.Suffix
-				klog.V(1).Infof("Overriding namespace to %s for file %s", group, filePath)
+				klog.V(1).Infof("Overriding namespace to %s for file %s", group, fp)
 				return group
 			}
 		}
@@ -609,5 +610,6 @@ func versionFromPath(filePath string, rootPath string) string {
 	// (and indeed this is the case with the /v2/ package)
 	filePath = strings.TrimPrefix(filePath, rootPath)
 	// must trim leading & trailing '/' as golang does not support lookaround
-	return strings.Trim(swaggerVersionRegex.FindString(filePath), "/")
+	fp := filepath.ToSlash(filePath)
+	return strings.Trim(swaggerVersionRegex.FindString(fp), "/")
 }
