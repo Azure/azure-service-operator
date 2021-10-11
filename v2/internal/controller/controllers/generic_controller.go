@@ -74,6 +74,11 @@ func (options *Options) setDefaults() {
 	if options.CreateDeploymentName == nil {
 		options.CreateDeploymentName = createDeploymentName
 	}
+
+	// default logger to the controller-runtime logger
+	if options.Log == nil {
+		options.Log = ctrl.Log
+	}
 }
 
 func RegisterWebhooks(mgr ctrl.Manager, objs []client.Object) error {
@@ -136,7 +141,6 @@ func register(
 		return errors.Wrapf(err, "creating GVK for obj %T", obj)
 	}
 
-	options.Log = ctrl.Log // TODO
 	options.Log.V(Status).Info("Registering", "GVK", gvk)
 
 	// TODO: Do we need to add any index fields here? DavidJ's controller index's status.id - see its usage
@@ -151,10 +155,14 @@ func register(
 		Name:             t.Name(),
 		Config:           options.Config,
 		LoggerFactory: func(mo genruntime.MetaObject) logr.Logger {
-			// options.Log.WithName(controllerName),
-			result := options.LoggerFactory(mo)
-			// TODO: fallback if nil
-			return result //.WithName(controllerName)
+			result := options.Log
+			if options.LoggerFactory != nil {
+				if factoryResult := options.LoggerFactory(mo); factoryResult != nil {
+					result = factoryResult
+				}
+			}
+
+			return result.WithName(controllerName)
 		},
 		Recorder:             mgr.GetEventRecorderFor(controllerName),
 		GVK:                  gvk,
@@ -226,8 +234,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, errors.Errorf("object is not a genruntime.MetaObject, found type: %T", obj)
 	}
 
-	logger := gr.LoggerFactory(metaObj)
-	log := logger.WithValues("name", req.Name, "namespace", req.Namespace, "azureName", metaObj.AzureName())
+	log := gr.LoggerFactory(metaObj).WithValues("name", req.Name, "namespace", req.Namespace, "azureName", metaObj.AzureName())
 	log.V(Verbose).Info(
 		"Reconcile invoked",
 		"kind", fmt.Sprintf("%T", obj),
