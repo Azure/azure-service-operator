@@ -60,7 +60,7 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 
 			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other types)", len(swaggerTypes.ResourceTypes), len(swaggerTypes.OtherTypes))
 
-			if len(swaggerTypes.ResourceTypes) == 0 || len(swaggerTypes.OtherTypes)==0 {
+			if len(swaggerTypes.ResourceTypes) == 0 || len(swaggerTypes.OtherTypes) == 0 {
 				return nil, errors.Errorf("Failed to load swagger information")
 			}
 
