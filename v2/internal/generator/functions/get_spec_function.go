@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/generator/astmodel"
 )
 
+// NewGetSpecFunction returns a new function to GetSpec() on resource types
 func NewGetSpecFunction(idFactory astmodel.IdentifierFactory) *ObjectFunction {
 	result := NewObjectFunction("GetSpec", idFactory, createGetSpecFunction)
 	result.AddReferencedTypes(astmodel.ConvertibleSpecInterfaceType)

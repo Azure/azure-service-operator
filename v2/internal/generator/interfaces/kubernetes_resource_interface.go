@@ -81,7 +81,11 @@ func AddKubernetesResourceInterfaceImpls(
 		// Skip Status functions if no status
 		status, ok := astmodel.AsTypeName(r.StatusType())
 		if !ok {
-			return nil, errors.Wrapf(err, "unable to create NewEmptyStatus function for resource %s", resourceName)
+			msg := fmt.Sprintf(
+				"Unable to create NewEmptyStatus() for resource %s (expected Status to be a TypeName but had %T)",
+				resourcename,
+				r.StatusType())
+			return nil, errors.Error(msg)
 		}
 
 		emptyStatusFunction := functions.NewEmptyStatusFunction(status, idFactory)

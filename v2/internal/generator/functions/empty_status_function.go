@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/generator/astmodel"
 )
 
+// NewEmptyStatusFunction creates a new function to generate NewEmptyStatus() on resource types
 func NewEmptyStatusFunction(
 	status astmodel.TypeName,
 	idFactory astmodel.IdentifierFactory) *ObjectFunction {
@@ -30,13 +31,12 @@ func createNewEmptyStatusFunction(
 		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 		receiverType := astmodel.NewOptionalType(receiver)
 
-		// When Storage variants are created of resources, any existing functions are copied across - which means
+		// When Storage variants are created from resources, any existing functions are copied across - which means
 		// the statusType we've been passed in above may be from the wrong package. We always want to use the status
 		// type that's in the current package, never from a different one, so we just use the name, bypassing any
 		// potential imports.
 
-		literal := astbuilder.NewCompositeLiteralDetails(dst.NewIdent(statusType.Name())).
-			Build()
+		literal := astbuilder.NewCompositeLiteralDetails(dst.NewIdent(statusType.Name())).Build()
 
 		fn := &astbuilder.FuncDetails{
 			ReceiverIdent: receiverIdent,

@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/generator/astmodel"
 )
 
+// NewGetStatusFunction returns a function to generate GetStatus() on resource types
 func NewGetStatusFunction(idFactory astmodel.IdentifierFactory) *ObjectFunction {
 	result := NewObjectFunction("GetStatus", idFactory, createGetStatusFunction)
 	result.AddReferencedTypes(astmodel.ConvertibleStatusInterfaceType)
