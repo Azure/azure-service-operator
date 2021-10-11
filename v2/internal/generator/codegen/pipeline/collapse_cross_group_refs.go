@@ -21,7 +21,7 @@ const CollapseCrossGroupReferencesStageID = "collapseCrossGroupReferences"
 func CollapseCrossGroupReferences() Stage {
 	return MakeLegacyStage(
 		CollapseCrossGroupReferencesStageID,
-		"Finds and removes cross group references",
+		"Find and remove cross group references",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			resources := astmodel.CollectResourceDefinitions(types)
 			result := make(astmodel.Types)

@@ -18,7 +18,7 @@ const AddStatusConditionsStageID = "addStatusConditions"
 func AddStatusConditions(idFactory astmodel.IdentifierFactory) Stage {
 	return MakeStage(
 		AddStatusConditionsStageID,
-		"Adds the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources",
+		"Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources",
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Types()
 			result := make(astmodel.Types)
