@@ -41,7 +41,7 @@ Azure Service Operator v2 was built based on the lessons learned from ASO v1, wi
 * Uniformity. ASO v2 resources are very uniform due to their code-generated nature. 
 * Clearer resource states. The state a resource is in is exposed via a [Ready condition](/docs/v2/design/resource-states.md). 
 
-[Learn more about Azure Service Operator v2](/hack/README.md)
+[Learn more about Azure Service Operator v2](/v2/README.md)
 
 ## Contributing
 
