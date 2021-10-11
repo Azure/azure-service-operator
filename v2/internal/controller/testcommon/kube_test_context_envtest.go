@@ -145,17 +145,6 @@ func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResourc
 		stopEnvironment()
 	}
 
-	/*
-		if cfg.OperatorMode.IncludesWebhooks() {
-			waitForWebhooks(perTestContext.T, environment)
-
-			webhookServer := mgr.GetWebhookServer()
-			perTestContext.T.Logf("Webhook server running at: %s:%d", webhookServer.Host, webhookServer.Port)
-		} else {
-			perTestContext.T.Logf("Operator mode is %q, webhooks not running", cfg.OperatorMode)
-		}
-	*/
-
 	return &runningEnvTest{
 		KubeConfig: kubeConfig,
 		Stop:       cancelFunc,
@@ -302,23 +291,3 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 
 	return create, cleanup
 }
-
-/*
-func waitForWebhooks(t *testing.T, env envtest.Environment) {
-	port := env.WebhookInstallOptions.LocalServingPort
-	address := net.JoinHostPort("127.0.0.1", strconv.Itoa(port))
-
-	t.Logf("Checking for webhooks at: %s", address)
-	timeout := 1 * time.Second
-	for {
-		conn, err := net.DialTimeout("tcp", address, timeout)
-		if err != nil {
-			time.Sleep(time.Second / 2)
-			continue
-		}
-		_ = conn.Close()
-		t.Logf("Webhooks available at: %s", address)
-		return
-	}
-}
-*/
