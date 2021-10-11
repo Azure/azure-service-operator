@@ -261,7 +261,7 @@ vet:
 # Generate code
 .PHONY: generate
 generate: manifests
-	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
+	$(CONTROLLER_GEN) object:headerFile=./v2/boilerplate.go.txt paths=./api/...
 
 .PHONY: install-bindata
 install-bindata:
