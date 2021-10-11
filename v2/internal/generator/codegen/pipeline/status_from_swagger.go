@@ -580,23 +580,23 @@ func loadAllSchemas(
 }
 
 func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOverride) string {
-	fp := filepath.ToSlash(filePath)
-	group := jsonast.SwaggerGroupRegex.FindString(fp)
+	filePath = filepath.ToSlash(filePath)
+	group := jsonast.SwaggerGroupRegex.FindString(filePath)
 
 	// see if there is a config override for this file
 	for _, schemaOverride := range overrides {
 		configSchemaPath := filepath.ToSlash(path.Join(rootPath, schemaOverride.BasePath))
-		if strings.HasPrefix(fp, configSchemaPath) {
+		if strings.HasPrefix(filePath, configSchemaPath) {
 			// a forced namespace: use it
 			if schemaOverride.Namespace != "" {
-				klog.V(1).Infof("Overriding namespace to %s for file %s", schemaOverride.Namespace, fp)
+				klog.V(1).Infof("Overriding namespace to %s for file %s", schemaOverride.Namespace, filePath)
 				return schemaOverride.Namespace
 			}
 
 			// found a suffix override: apply it
 			if schemaOverride.Suffix != "" {
 				group = group + "." + schemaOverride.Suffix
-				klog.V(1).Infof("Overriding namespace to %s for file %s", group, fp)
+				klog.V(1).Infof("Overriding namespace to %s for file %s", group, filePath)
 				return group
 			}
 		}
