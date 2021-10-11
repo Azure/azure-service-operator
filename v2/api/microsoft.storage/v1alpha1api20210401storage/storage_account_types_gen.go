@@ -64,6 +64,11 @@ func (storageAccount *StorageAccount) GetType() string {
 	return "Microsoft.Storage/storageAccounts"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (storageAccount *StorageAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &StorageAccount_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (storageAccount *StorageAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccount.Spec)

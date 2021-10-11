@@ -98,6 +98,11 @@ func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) GetType(
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &MongoDBDatabaseGetResults_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsMongodbDatabase.Spec)

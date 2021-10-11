@@ -65,6 +65,11 @@ func (managedCluster *ManagedCluster) GetType() string {
 	return "Microsoft.ContainerService/managedClusters"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (managedCluster *ManagedCluster) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &ManagedCluster_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (managedCluster *ManagedCluster) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(managedCluster.Spec)

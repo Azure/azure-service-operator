@@ -64,6 +64,11 @@ func (storageAccountsBlobService *StorageAccountsBlobService) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (storageAccountsBlobService *StorageAccountsBlobService) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &BlobServiceProperties_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (storageAccountsBlobService *StorageAccountsBlobService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccountsBlobService.Spec)

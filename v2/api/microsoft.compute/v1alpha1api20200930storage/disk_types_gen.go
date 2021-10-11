@@ -65,6 +65,11 @@ func (disk *Disk) GetType() string {
 	return "Microsoft.Compute/disks"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (disk *Disk) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &Disk_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (disk *Disk) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(disk.Spec)
