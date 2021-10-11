@@ -83,9 +83,9 @@ func AddKubernetesResourceInterfaceImpls(
 		if !ok {
 			msg := fmt.Sprintf(
 				"Unable to create NewEmptyStatus() for resource %s (expected Status to be a TypeName but had %T)",
-				resourcename,
+				resourceName,
 				r.StatusType())
-			return nil, errors.Error(msg)
+			return nil, errors.New(msg)
 		}
 
 		emptyStatusFunction := functions.NewEmptyStatusFunction(status, idFactory)
