@@ -211,31 +211,32 @@ type perNamespace struct {
 }
 
 type namespaceResources struct {
+	// accessed from many controllers at once so needs to be threadsafe
 	lock    sync.Mutex
 	clients map[string]*perNamespace
 }
 
-func (acl *namespaceResources) Add(namespace string, resources *perNamespace) {
-	acl.lock.Lock()
-	defer acl.lock.Unlock()
+func (nr *namespaceResources) Add(namespace string, resources *perNamespace) {
+	nr.lock.Lock()
+	defer nr.lock.Unlock()
 
-	if _, ok := acl.clients[namespace]; ok {
+	if _, ok := nr.clients[namespace]; ok {
 		panic(fmt.Sprintf("bad test configuration: multiple tests using the same namespace %s", namespace))
 	}
 
-	acl.clients[namespace] = resources
+	nr.clients[namespace] = resources
 }
 
-func (acl *namespaceResources) Lookup(namespace string) *perNamespace {
-	acl.lock.Lock()
-	defer acl.lock.Unlock()
-	return acl.clients[namespace]
+func (nr *namespaceResources) Lookup(namespace string) *perNamespace {
+	nr.lock.Lock()
+	defer nr.lock.Unlock()
+	return nr.clients[namespace]
 }
 
-func (acl *namespaceResources) Remove(namespace string) {
-	acl.lock.Lock()
-	defer acl.lock.Unlock()
-	delete(acl.clients, namespace)
+func (nr *namespaceResources) Remove(namespace string) {
+	nr.lock.Lock()
+	defer nr.lock.Unlock()
+	delete(nr.clients, namespace)
 }
 
 func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
