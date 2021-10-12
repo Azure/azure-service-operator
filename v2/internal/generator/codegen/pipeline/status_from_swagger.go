@@ -589,14 +589,14 @@ func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOv
 		if strings.HasPrefix(filePath, configSchemaPath) {
 			// a forced namespace: use it
 			if schemaOverride.Namespace != "" {
-				klog.V(1).Infof("Overriding namespace to %s for file %s", schemaOverride.Namespace, fp)
+				klog.V(1).Infof("Overriding namespace to %s for file %s", schemaOverride.Namespace, filePath)
 				return schemaOverride.Namespace
 			}
 
 			// found a suffix override: apply it
 			if schemaOverride.Suffix != "" {
 				group = group + "." + schemaOverride.Suffix
-				klog.V(1).Infof("Overriding namespace to %s for file %s", group, fp)
+				klog.V(1).Infof("Overriding namespace to %s for file %s", group, filePath)
 				return group
 			}
 		}
