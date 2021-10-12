@@ -106,7 +106,12 @@ func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabas
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsMongodbDatabasesCollection.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: databaseAccountsMongodbDatabasesCollection.Namespace, Name: databaseAccountsMongodbDatabasesCollection.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: databaseAccountsMongodbDatabasesCollection.Namespace,
+		Name:      databaseAccountsMongodbDatabasesCollection.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

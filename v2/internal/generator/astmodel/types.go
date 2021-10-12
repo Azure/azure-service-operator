@@ -187,6 +187,16 @@ func (types Types) OverlayWith(t Types) Types {
 	return result
 }
 
+// Names returns the names of all of the types in the set
+func (types Types) Names() TypeNameSet {
+	result := NewTypeNameSet()
+	for name := range types {
+		result.Add(name)
+	}
+
+	return result
+}
+
 // TypesDisjointUnion merges this and other, with a safety check that no type is overwritten.
 // If an attempt is made to overwrite a type, this function panics
 func TypesDisjointUnion(s1 Types, s2 Types) Types {

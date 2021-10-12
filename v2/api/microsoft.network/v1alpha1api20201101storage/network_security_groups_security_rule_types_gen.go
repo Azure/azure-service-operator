@@ -72,7 +72,12 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) NewE
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroupsSecurityRule.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: networkSecurityGroupsSecurityRule.Namespace, Name: networkSecurityGroupsSecurityRule.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: networkSecurityGroupsSecurityRule.Namespace,
+		Name:      networkSecurityGroupsSecurityRule.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

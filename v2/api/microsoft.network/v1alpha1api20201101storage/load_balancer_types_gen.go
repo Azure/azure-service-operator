@@ -72,7 +72,12 @@ func (loadBalancer *LoadBalancer) NewEmptyStatus() genruntime.ConvertibleStatus 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (loadBalancer *LoadBalancer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(loadBalancer.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: loadBalancer.Namespace, Name: loadBalancer.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: loadBalancer.Namespace,
+		Name:      loadBalancer.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

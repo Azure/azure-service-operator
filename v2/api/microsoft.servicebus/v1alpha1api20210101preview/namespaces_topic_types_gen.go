@@ -104,7 +104,12 @@ func (namespacesTopic *NamespacesTopic) NewEmptyStatus() genruntime.ConvertibleS
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (namespacesTopic *NamespacesTopic) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesTopic.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: namespacesTopic.Namespace, Name: namespacesTopic.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: namespacesTopic.Namespace,
+		Name:      namespacesTopic.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

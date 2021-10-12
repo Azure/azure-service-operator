@@ -73,7 +73,12 @@ func (managedCluster *ManagedCluster) NewEmptyStatus() genruntime.ConvertibleSta
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (managedCluster *ManagedCluster) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(managedCluster.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: managedCluster.Namespace, Name: managedCluster.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: managedCluster.Namespace,
+		Name:      managedCluster.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

@@ -72,7 +72,12 @@ func (userAssignedIdentity *UserAssignedIdentity) NewEmptyStatus() genruntime.Co
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (userAssignedIdentity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(userAssignedIdentity.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: userAssignedIdentity.Namespace, Name: userAssignedIdentity.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: userAssignedIdentity.Namespace,
+		Name:      userAssignedIdentity.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

@@ -74,7 +74,12 @@ func (fakeResource *FakeResource) GetType() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (fakeResource *FakeResource) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(fakeResource.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: fakeResource.Namespace, Name: fakeResource.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: fakeResource.Namespace,
+		Name:      fakeResource.Spec.Owner.Name,
+	}
 }
 
 // +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-fakeresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.fakeresources.test.azure.com,admissionReviewVersions=v1beta1

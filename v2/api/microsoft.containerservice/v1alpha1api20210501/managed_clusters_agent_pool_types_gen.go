@@ -106,7 +106,12 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) NewEmptyStatus() genru
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (managedClustersAgentPool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(managedClustersAgentPool.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: managedClustersAgentPool.Namespace, Name: managedClustersAgentPool.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: managedClustersAgentPool.Namespace,
+		Name:      managedClustersAgentPool.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource
