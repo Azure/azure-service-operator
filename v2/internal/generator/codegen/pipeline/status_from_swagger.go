@@ -60,6 +60,10 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 
 			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other types)", len(swaggerTypes.ResourceTypes), len(swaggerTypes.OtherTypes))
 
+			if len(swaggerTypes.ResourceTypes) == 0 || len(swaggerTypes.OtherTypes) == 0 {
+				return nil, errors.Errorf("Failed to load swagger information")
+			}
+
 			statusTypes, err := generateStatusTypes(swaggerTypes)
 			if err != nil {
 				return nil, err
@@ -576,13 +580,13 @@ func loadAllSchemas(
 }
 
 func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOverride) string {
-	fp := filepath.ToSlash(filePath)
-	group := jsonast.SwaggerGroupRegex.FindString(fp)
+	filePath = filepath.ToSlash(filePath)
+	group := jsonast.SwaggerGroupRegex.FindString(filePath)
 
 	// see if there is a config override for this file
 	for _, schemaOverride := range overrides {
 		configSchemaPath := filepath.ToSlash(path.Join(rootPath, schemaOverride.BasePath))
-		if strings.HasPrefix(fp, configSchemaPath) {
+		if strings.HasPrefix(filePath, configSchemaPath) {
 			// a forced namespace: use it
 			if schemaOverride.Namespace != "" {
 				klog.V(1).Infof("Overriding namespace to %s for file %s", schemaOverride.Namespace, fp)
