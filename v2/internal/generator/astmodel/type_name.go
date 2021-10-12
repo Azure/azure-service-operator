@@ -57,8 +57,9 @@ func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) ds
 	packageName, err := codeGenerationContext.GetImportedPackageName(typeName.PackageReference)
 	if err != nil {
 		panic(fmt.Sprintf(
-			"no reference for %s included in package %s",
-			typeName.name,
+			"no reference for %s from %s available in package %s",
+			typeName.Name(),
+			typeName.PackageReference,
 			codeGenerationContext.currentPackage))
 	}
 

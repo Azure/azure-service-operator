@@ -64,6 +64,11 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) GetType() string {
 	return "Microsoft.Network/virtualNetworks/subnets"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (virtualNetworksSubnet *VirtualNetworksSubnet) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworksSubnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksSubnet.Spec)

@@ -96,6 +96,11 @@ func (roleAssignment *RoleAssignment) GetType() string {
 	return "Microsoft.Authorization/roleAssignments"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (roleAssignment *RoleAssignment) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &RoleAssignment_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (roleAssignment *RoleAssignment) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{Group: roleAssignment.Spec.Owner.Group, Kind: roleAssignment.Spec.Owner.Kind, Namespace: roleAssignment.Namespace, Name: roleAssignment.Spec.Owner.Name}
