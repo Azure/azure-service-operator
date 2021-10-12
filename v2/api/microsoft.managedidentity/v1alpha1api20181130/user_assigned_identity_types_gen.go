@@ -98,6 +98,11 @@ func (userAssignedIdentity *UserAssignedIdentity) GetType() string {
 	return "Microsoft.ManagedIdentity/userAssignedIdentities"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (userAssignedIdentity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &Identity_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (userAssignedIdentity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(userAssignedIdentity.Spec)

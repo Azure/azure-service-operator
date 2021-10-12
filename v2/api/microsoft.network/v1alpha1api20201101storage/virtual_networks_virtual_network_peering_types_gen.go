@@ -64,6 +64,11 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &VirtualNetworkPeering_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksVirtualNetworkPeering.Spec)

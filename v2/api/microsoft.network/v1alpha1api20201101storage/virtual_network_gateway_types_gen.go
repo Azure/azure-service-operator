@@ -64,6 +64,11 @@ func (virtualNetworkGateway *VirtualNetworkGateway) GetType() string {
 	return "Microsoft.Network/virtualNetworkGateways"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (virtualNetworkGateway *VirtualNetworkGateway) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &VirtualNetworkGateway_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetworkGateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworkGateway.Spec)

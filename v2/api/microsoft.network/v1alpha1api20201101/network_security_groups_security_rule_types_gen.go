@@ -98,6 +98,11 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetT
 	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroupsSecurityRule.Spec)

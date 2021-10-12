@@ -96,6 +96,11 @@ func (batchAccount *BatchAccount) GetType() string {
 	return "Microsoft.Batch/batchAccounts"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (batchAccount *BatchAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &BatchAccount_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (batchAccount *BatchAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(batchAccount.Spec)
