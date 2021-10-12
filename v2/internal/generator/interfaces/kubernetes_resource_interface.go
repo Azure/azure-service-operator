@@ -501,10 +501,9 @@ func getStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationConte
 		ReceiverType: &dst.StarExpr{
 			X: receiverType,
 		},
-		Body: []dst.Stmt{
+		Body: astbuilder.Statements(
 			astbuilder.Returns(
-				astbuilder.Selector(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec"), astmodel.AzureNameProperty)),
-		},
+				astbuilder.Selector(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec"), astmodel.AzureNameProperty))),
 	}
 
 	fn.AddComments("returns the Azure name of the resource")

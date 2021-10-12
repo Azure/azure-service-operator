@@ -26,9 +26,9 @@ func CollapseCrossGroupReferences() Stage {
 			resources := astmodel.FindResourceTypes(types)
 			result := make(astmodel.Types)
 
-			for _, def := range resources {
-				walker := newTypeWalker(types, def.Name())
-				updatedTypes, err := walker.Walk(types[def.Name()])
+			for name, def := range resources {
+				walker := newTypeWalker(types, name)
+				updatedTypes, err := walker.Walk(def)
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed walking types")
 				}
