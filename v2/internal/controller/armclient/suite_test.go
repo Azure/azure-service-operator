@@ -31,7 +31,7 @@ func setup() error {
 	gomega.SetDefaultEventuallyPollingInterval(5 * time.Second)
 
 	// setup global logger for controller-runtime:
-	ctrl.SetLogger(klogr.New().WithName("global setup"))
+	ctrl.SetLogger(klogr.New())
 
 	// set global test context
 	testContext = testcommon.NewTestContext(testcommon.DefaultTestRegion, recordReplay)
