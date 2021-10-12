@@ -64,10 +64,20 @@ func (flexibleServer *FlexibleServer) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (flexibleServer *FlexibleServer) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &Server_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (flexibleServer *FlexibleServer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(flexibleServer.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: flexibleServer.Namespace, Name: flexibleServer.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: flexibleServer.Namespace,
+		Name:      flexibleServer.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

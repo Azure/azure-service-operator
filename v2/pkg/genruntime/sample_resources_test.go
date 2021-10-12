@@ -33,6 +33,10 @@ func (r *SimpleExtensionResource) GetSpec() genruntime.ConvertibleSpec {
 	return &r.Spec
 }
 
+func (r *SimpleExtensionResource) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &SimpleExtensionResourceStatus{}
+}
+
 func (r *SimpleExtensionResource) GetStatus() genruntime.ConvertibleStatus {
 	return &r.Status
 }

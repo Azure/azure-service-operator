@@ -64,10 +64,20 @@ func (publicIPAddress *PublicIPAddress) GetType() string {
 	return "Microsoft.Network/publicIPAddresses"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (publicIPAddress *PublicIPAddress) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (publicIPAddress *PublicIPAddress) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(publicIPAddress.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: publicIPAddress.Namespace, Name: publicIPAddress.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: publicIPAddress.Namespace,
+		Name:      publicIPAddress.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

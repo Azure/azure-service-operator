@@ -96,10 +96,20 @@ func (virtualNetwork *VirtualNetwork) GetType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (virtualNetwork *VirtualNetwork) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &VirtualNetwork_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (virtualNetwork *VirtualNetwork) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetwork.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: virtualNetwork.Namespace, Name: virtualNetwork.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: virtualNetwork.Namespace,
+		Name:      virtualNetwork.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource
