@@ -23,9 +23,14 @@ func ConvertResourceToDeployableResource(
 	resolver *genruntime.Resolver,
 	metaObject genruntime.MetaObject) (genruntime.DeployableResource, error) {
 
-	armTransformer, ok := metaObject.GetSpec().(genruntime.ARMTransformer)
+	spec, err := genruntime.GetVersionedSpec(metaObject, resolver.Scheme())
+	if err !=nil {
+		return nil, errors.Errorf("unable to get spec from %s", metaObject.GetObjectKind().GroupVersionKind())
+	}
+
+	armTransformer, ok := spec.(genruntime.ARMTransformer)
 	if !ok {
-		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", metaObject.GetSpec())
+		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
 	}
 
 	resourceHierarchy, resolvedDetails, err := resolve(ctx, resolver, metaObject)
