@@ -6,6 +6,8 @@
 package astmodel
 
 import (
+	"fmt"
+
 	"github.com/pkg/errors"
 )
 
@@ -13,18 +15,6 @@ import (
 type ReferenceGraph struct {
 	roots      TypeNameSet
 	references map[TypeName]TypeNameSet
-}
-
-// CollectResourceDefinitions returns a TypeNameSet of all of the
-// root definitions in the definitions passed in.
-func CollectResourceDefinitions(definitions Types) TypeNameSet {
-	resources := NewTypeNameSet()
-	for _, def := range definitions {
-		if _, ok := def.Type().(*ResourceType); ok {
-			resources.Add(def.Name())
-		}
-	}
-	return resources
 }
 
 // CollectARMSpecAndStatusDefinitions returns a TypeNameSet of all of the ARM spec definitions
@@ -46,23 +36,26 @@ func CollectARMSpecAndStatusDefinitions(definitions Types) TypeNameSet {
 	}
 
 	armSpecAndStatus := NewTypeNameSet()
-	for _, def := range definitions {
-		if resourceType, ok := definitions.ResolveResourceType(def.Type()); ok {
+	resources := FindResourceTypes(definitions)
+	for _, def := range resources {
+		resourceType, ok := AsResourceType(def.Type())
+		if !ok {
+			panic(fmt.Sprintf("FindResourceTypes() returned non-resource type %T", def.Type()))
+		}
 
-			armSpecName, err := findARMType(resourceType.spec)
+		armSpecName, err := findARMType(resourceType.spec)
+		if err != nil {
+			continue // No ARM type here - skip
+		}
+		armSpecAndStatus.Add(armSpecName)
+
+		statusType := IgnoringErrors(resourceType.status)
+		if statusType != nil {
+			armStatusName, err := findARMType(statusType)
 			if err != nil {
 				continue // No ARM type here - skip
 			}
-			armSpecAndStatus.Add(armSpecName)
-
-			statusType := IgnoringErrors(resourceType.status)
-			if statusType != nil {
-				armStatusName, err := findARMType(statusType)
-				if err != nil {
-					continue // No ARM type here - skip
-				}
-				armSpecAndStatus.Add(armStatusName)
-			}
+			armSpecAndStatus.Add(armStatusName)
 		}
 	}
 	return armSpecAndStatus
@@ -90,9 +83,9 @@ func MakeReferenceGraphWithRoots(roots TypeNameSet, types Types) ReferenceGraph 
 // MakeReferenceGraphWithResourcesAsRoots produces a ReferenceGraph for the given set of
 // types, where the Resource types (and their ARM spec/status) are the roots.
 func MakeReferenceGraphWithResourcesAsRoots(types Types) ReferenceGraph {
-	resources := CollectResourceDefinitions(types)
+	resources := FindResourceTypes(types)
 	armSpecAndStatus := CollectARMSpecAndStatusDefinitions(types)
-	roots := SetUnion(resources, armSpecAndStatus)
+	roots := SetUnion(resources.Names(), armSpecAndStatus)
 
 	return MakeReferenceGraphWithRoots(roots, types)
 }

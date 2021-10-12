@@ -73,6 +73,9 @@ type KubernetesResource interface {
 	// GetStatus returns the current status of the resource
 	GetStatus() ConvertibleStatus
 
+	// NewEmptyStatus returns a blank status ready for population
+	NewEmptyStatus() ConvertibleStatus
+
 	// SetStatus updates the status of the resource
 	SetStatus(status ConvertibleStatus) error
 }

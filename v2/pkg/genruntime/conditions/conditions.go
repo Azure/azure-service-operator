@@ -194,7 +194,7 @@ func (c Condition) Copy() Condition {
 // String returns a string representation of this condition
 func (c Condition) String() string {
 	return fmt.Sprintf(
-		"Condition [%s], Status = %q, ObservedGeneration = %q, Severity = %q, Reason = %q, Message = %q, LastTransitionTime = %q",
+		"Condition [%s], Status = %q, ObservedGeneration = %d, Severity = %q, Reason = %q, Message = %q, LastTransitionTime = %q",
 		c.Type,
 		c.Status,
 		c.ObservedGeneration,

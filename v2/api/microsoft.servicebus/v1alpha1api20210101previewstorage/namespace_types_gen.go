@@ -64,10 +64,20 @@ func (namespace *Namespace) GetType() string {
 	return "Microsoft.ServiceBus/namespaces"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (namespace *Namespace) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &SBNamespace_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespace.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: namespace.Namespace, Name: namespace.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: namespace.Namespace,
+		Name:      namespace.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

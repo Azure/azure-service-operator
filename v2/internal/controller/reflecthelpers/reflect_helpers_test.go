@@ -193,39 +193,3 @@ func Test_EmptyArmResourceStatus(t *testing.T) {
 	g.Expect(err).To(BeNil())
 	g.Expect(status).To(BeAssignableToTypeOf(&batch.BatchAccount_StatusARM{}))
 }
-
-func Test_HasStatus(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	account := createDummyResource()
-	result, err := reflecthelpers.HasStatus(account)
-	g.Expect(err).To(BeNil())
-	g.Expect(result).To(BeFalse())
-}
-
-func Test_NewPtrFromStruct_ReturnsPtr(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	v := DummyStruct{}
-	ptr := reflecthelpers.NewPtrFromValue(v)
-	g.Expect(ptr).To(BeAssignableToTypeOf(&DummyStruct{}))
-}
-
-func Test_NewPtrFromPrimitive_ReturnsPtr(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	v := 5
-	ptr := reflecthelpers.NewPtrFromValue(v)
-
-	expectedValue := &v
-
-	g.Expect(ptr).To(Equal(expectedValue))
-}
-
-func Test_NewPtrFromPtr_ReturnsPtrPtr(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	ptr := &DummyStruct{}
-	ptrPtr := reflecthelpers.NewPtrFromValue(ptr)
-	g.Expect(ptrPtr).To(BeAssignableToTypeOf(&ptr))
-}
