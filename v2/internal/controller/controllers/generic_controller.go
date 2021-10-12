@@ -148,22 +148,24 @@ func register(
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient(), mgr.GetScheme())
 
-	reconciler := &GenericReconciler{
-		ARMClientFactory: clientFactory,
-		KubeClient:       kubeClient,
-		ResourceResolver: genruntime.NewResolver(kubeClient, reconciledResourceLookup),
-		Name:             t.Name(),
-		Config:           options.Config,
-		LoggerFactory: func(mo genruntime.MetaObject) logr.Logger {
-			result := options.Log
-			if options.LoggerFactory != nil {
-				if factoryResult := options.LoggerFactory(mo); factoryResult != nil {
-					result = factoryResult
-				}
+	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
+		result := options.Log
+		if options.LoggerFactory != nil {
+			if factoryResult := options.LoggerFactory(mo); factoryResult != nil {
+				result = factoryResult
 			}
+		}
 
-			return result.WithName(controllerName)
-		},
+		return result.WithName(controllerName)
+	}
+
+	reconciler := &GenericReconciler{
+		ARMClientFactory:     clientFactory,
+		KubeClient:           kubeClient,
+		ResourceResolver:     genruntime.NewResolver(kubeClient, reconciledResourceLookup),
+		Name:                 t.Name(),
+		Config:               options.Config,
+		LoggerFactory:        loggerFactory,
 		Recorder:             mgr.GetEventRecorderFor(controllerName),
 		GVK:                  gvk,
 		RequeueDelayOverride: options.RequeueDelay,

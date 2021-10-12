@@ -88,20 +88,22 @@ func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResourc
 		return result.armClient
 	}
 
+	loggerFactory := func(obj metav1.Object) logr.Logger {
+		result := namespaceResources.Lookup(obj.GetNamespace())
+		if result == nil {
+			panic(fmt.Sprintf("no logger registered for %s: %s", obj.GetNamespace(), obj.GetName()))
+		}
+
+		return result.logger
+	}
+
 	if cfg.OperatorMode.IncludesWatchers() {
 		err = controllers.RegisterAll(
 			mgr,
 			clientFactory,
 			controllers.GetKnownStorageTypes(),
 			controllers.Options{
-				LoggerFactory: func(obj metav1.Object) logr.Logger {
-					result := namespaceResources.Lookup(obj.GetNamespace())
-					if result == nil {
-						panic(fmt.Sprintf("no logger registered for %s: %s", obj.GetNamespace(), obj.GetName()))
-					}
-
-					return result.logger
-				},
+				LoggerFactory: loggerFactory,
 				CreateDeploymentName: func(obj metav1.Object) (string, error) {
 					// create deployment name based on namespace and kubernetes name
 					result := uuid.NewSHA1(uuid.Nil, []byte(obj.GetNamespace()+"/"+obj.GetName()))
