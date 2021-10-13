@@ -243,7 +243,7 @@ func (tc *KubePerTestContext) DefaultTimeout() time.Duration {
 // TODO: This happens when the test sees a Status update and makes an update to the resource while racing with the Spec update
 // TODO: in azure_deployment_reconciler CommitUpdate. If we fix https://github.com/Azure/azure-service-operator/issues/1744 we can
 // TODO: shorten this interval.
-var PollingIntervalReplaying = 1 * time.Second
+var PollingIntervalReplaying = 100 * time.Millisecond
 
 // PollingIntervalRecording is the polling interval to use when recording.
 var PollingIntervalRecording = 5 * time.Second

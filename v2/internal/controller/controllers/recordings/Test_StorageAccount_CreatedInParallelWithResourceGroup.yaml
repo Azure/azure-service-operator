@@ -69,40 +69,6 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
-      ''asoteststormbvstt'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
     body: ""
     form: {}
     headers:
@@ -143,7 +109,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "2"
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -210,7 +176,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "3"
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -277,7 +243,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "4"
+      - "3"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -377,7 +343,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "5"
+      - "4"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -477,7 +443,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "6"
+      - "5"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -513,6 +479,40 @@ interactions:
       - "8"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
       could not be found."}}'
@@ -637,40 +637,6 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
-      ''asoteststormbvstt'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
     body: ""
     form: {}
     headers:
@@ -711,7 +677,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "9"
+      - "8"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -778,7 +744,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "10"
+      - "9"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -845,7 +811,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "11"
+      - "10"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -881,6 +847,40 @@ interactions:
       - "14"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "11"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
       could not be found."}}'
@@ -1072,16 +1072,15 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
-      ''asoteststormbvstt'')]"}}}}}'
+    body: ""
     form: {}
     headers:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "14"
+      - "18"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: PUT
+    method: GET
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
       could not be found."}}'
@@ -1106,15 +1105,16 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: ""
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
     form: {}
     headers:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "18"
+      - "14"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: GET
+    method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
       could not be found."}}'
@@ -1306,6 +1306,39 @@ interactions:
     code: 404
     duration: ""
 - request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "22"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
     body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
       ''asoteststormbvstt'')]"}}}}}'
     form: {}
@@ -1346,7 +1379,40 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "22"
+      - "23"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "24"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
@@ -1413,7 +1479,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "23"
+      - "25"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
@@ -1450,106 +1516,6 @@ interactions:
       - "19"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "24"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
-      ''asoteststormbvstt'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "20"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "25"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: GET
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
       could not be found."}}'
@@ -1614,7 +1580,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "21"
+      - "20"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -1648,6 +1614,139 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "27"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "28"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "21"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "29"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "30"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
@@ -1714,173 +1813,6 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "28"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
-      ''asoteststormbvstt'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "23"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "29"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
-      ''asoteststormbvstt'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "24"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "30"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
       - "31"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
@@ -1915,7 +1847,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "25"
+      - "23"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -1982,7 +1914,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "26"
+      - "24"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -2018,6 +1950,40 @@ interactions:
       - "33"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "25"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
       could not be found."}}'
@@ -2082,7 +2048,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "27"
+      - "26"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -2118,6 +2084,40 @@ interactions:
       - "35"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "27"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
       could not be found."}}'
@@ -2677,40 +2677,6 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
-      ''asoteststormbvstt'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "35"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
     body: ""
     form: {}
     headers:
@@ -2751,7 +2717,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "36"
+      - "35"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -2787,6 +2753,40 @@ interactions:
       - "46"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "36"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
       could not be found."}}'
@@ -2911,39 +2911,6 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "49"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
     body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
       ''asoteststormbvstt'')]"}}}}}'
     form: {}
@@ -2984,7 +2951,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "50"
+      - "49"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
@@ -3011,40 +2978,6 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"name":"k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-xkioks","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
-      ''asotest-rg-xkioks'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","name":"k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"13008411325350992083","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.0677062S","correlationId":"cbde873c-ba08-4cb6-9268-0470645d8e93","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482/operationStatuses/08585680299652939753?api-version=2019-10-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "693"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
     body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
       ''asoteststormbvstt'')]"}}}}}'
     form: {}
@@ -3055,6 +2988,39 @@ interactions:
       - "39"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "50"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
       could not be found."}}'
@@ -3244,39 +3210,6 @@ interactions:
       - gateway
     status: 404 Not Found
     code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","name":"k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"13008411325350992083","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.0677062S","correlationId":"cbde873c-ba08-4cb6-9268-0470645d8e93","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
     duration: ""
 - request:
     body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
@@ -3614,40 +3547,6 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
-      ''asoteststormbvstt'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "47"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
     body: ""
     form: {}
     headers:
@@ -3688,7 +3587,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "48"
+      - "47"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -3724,6 +3623,40 @@ interactions:
       - "60"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "48"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
       could not be found."}}'
@@ -3848,6 +3781,40 @@ interactions:
     code: 404
     duration: ""
 - request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "50"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
     body: ""
     form: {}
     headers:
@@ -3888,7 +3855,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "50"
+      - "51"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -3955,7 +3922,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "51"
+      - "52"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -4055,7 +4022,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "52"
+      - "53"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -4155,7 +4122,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "53"
+      - "54"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -4255,106 +4222,6 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "54"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "71"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "72"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
-      ''asoteststormbvstt'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
       - "55"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
@@ -4388,7 +4255,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "73"
+      - "71"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
@@ -4455,7 +4322,40 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "74"
+      - "72"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "73"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
@@ -4522,7 +4422,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "75"
+      - "74"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
@@ -4581,6 +4481,73 @@ interactions:
       - gateway
     status: 404 Not Found
     code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "75"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-xkioks","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
+      ''asotest-rg-xkioks'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","name":"k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"1832441040168088545","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT8.3155693S","correlationId":"7d1903f6-3a30-44e1-b08e-31b3f8a86230","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482/operationStatuses/08585675222639202134?api-version=2019-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "692"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
     duration: ""
 - request:
     body: ""
@@ -4783,6 +4750,39 @@ interactions:
     code: 404
     duration: ""
 - request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","name":"k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"1832441040168088545","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT8.3155693S","correlationId":"7d1903f6-3a30-44e1-b08e-31b3f8a86230","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
     body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
       ''asoteststormbvstt'')]"}}}}}'
     form: {}
@@ -4850,40 +4850,6 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
-      ''asoteststormbvstt'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "62"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
     body: ""
     form: {}
     headers:
@@ -4924,7 +4890,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "63"
+      - "62"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -4991,7 +4957,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "64"
+      - "63"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -5058,7 +5024,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "65"
+      - "64"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: PUT
   response:
@@ -5092,6 +5058,139 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "84"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "85"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "65"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "86"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "87"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
@@ -5158,17 +5257,1188 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "85"
+      - "88"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
-    body: '{"error":{"code":"DeploymentNotFound","message":"Deployment ''k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
       could not be found."}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "125"
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "67"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "89"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "68"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "90"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "69"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "91"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "70"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "92"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "71"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "93"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "94"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "72"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "95"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "73"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "96"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "74"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "97"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "98"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "75"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "99"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "76"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "100"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "77"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "101"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "102"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "78"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "103"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "79"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "104"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "80"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "105"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "81"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "106"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "82"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "107"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xkioks''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -5195,8 +6465,108 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","name":"k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"13008411325350992083","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT12.1376879S","correlationId":"cbde873c-ba08-4cb6-9268-0470645d8e93","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-xkioks"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks"}]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","name":"k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"1832441040168088545","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT10.088223S","correlationId":"7d1903f6-3a30-44e1-b08e-31b3f8a86230","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
+      ''asoteststormbvstt'')]"}}}}}'
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "83"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15401449511431142916","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.8403828S","correlationId":"4248647e-c46c-46b8-bfe0-cfed05bbe456","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d/operationStatuses/08585675222476979251?api-version=2019-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "704"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "108"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15401449511431142916","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6606616S","correlationId":"4248647e-c46c-46b8-bfe0-cfed05bbe456","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","name":"k8s_4d1d596e-365c-5134-ac3c-b8f14e0cc482","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"1832441040168088545","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT15.4787032S","correlationId":"7d1903f6-3a30-44e1-b08e-31b3f8a86230","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-xkioks"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks"}]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -5278,52 +6648,18 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-04-01","kind":"BlobStorage","location":"westus2","name":"asoteststormbvstt","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Storage/storageAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Storage/storageAccounts'',
-      ''asoteststormbvstt'')]"}}}}}'
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "67"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15401449511431142916","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.584896S","correlationId":"f99ecc73-7b24-440a-932a-64d2bb281e17","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d/operationStatuses/08585680299507534067?api-version=2019-10-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "703"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
     body: ""
     form: {}
     headers:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "86"
+      - "109"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15401449511431142916","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.584896S","correlationId":"f99ecc73-7b24-440a-932a-64d2bb281e17","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6606616S","correlationId":"4248647e-c46c-46b8-bfe0-cfed05bbe456","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -5351,12 +6687,45 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "87"
+      - "110"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15401449511431142916","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6310451S","correlationId":"f99ecc73-7b24-440a-932a-64d2bb281e17","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT9.6658302S","correlationId":"4248647e-c46c-46b8-bfe0-cfed05bbe456","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "111"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15401449511431142916","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT9.6658302S","correlationId":"4248647e-c46c-46b8-bfe0-cfed05bbe456","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -5384,45 +6753,12 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "88"
+      - "112"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15401449511431142916","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT11.1076536S","correlationId":"f99ecc73-7b24-440a-932a-64d2bb281e17","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "17"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "89"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15401449511431142916","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT28.2461259S","correlationId":"f99ecc73-7b24-440a-932a-64d2bb281e17","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT29.3034332S","correlationId":"4248647e-c46c-46b8-bfe0-cfed05bbe456","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -5450,12 +6786,12 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "90"
+      - "113"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15401449511431142916","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT28.2461259S","correlationId":"f99ecc73-7b24-440a-932a-64d2bb281e17","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT29.3034332S","correlationId":"4248647e-c46c-46b8-bfe0-cfed05bbe456","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -5483,12 +6819,12 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "91"
+      - "114"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d?api-version=2019-10-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Resources/deployments/k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","name":"k8s_7d9215f5-7490-5d23-8c5b-13b6aa66ed7d","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15401449511431142916","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT39.6592365S","correlationId":"f99ecc73-7b24-440a-932a-64d2bb281e17","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Storage/storageAccounts/asoteststormbvstt"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Storage/storageAccounts/asoteststormbvstt"}]}}'
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT40.8092984S","correlationId":"4248647e-c46c-46b8-bfe0-cfed05bbe456","providers":[{"namespace":"Microsoft.Storage","resourceTypes":[{"resourceType":"storageAccounts","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Storage/storageAccounts/asoteststormbvstt"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xkioks/providers/Microsoft.Storage/storageAccounts/asoteststormbvstt"}]}}'
     headers:
       Cache-Control:
       - no-cache

@@ -7,6 +7,7 @@ package controllers_test
 
 import (
 	"testing"
+	"time"
 
 	. "github.com/onsi/gomega"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -16,6 +17,7 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/microsoft.storage/v1alpha1api20210401"
+	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -73,13 +75,20 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	tc.Expect(err).ToNot(HaveOccurred())
 
 	// The storage account should also be created successfully
-	tc.G.Eventually(acct, tc.RemainingTime()).Should(tc.Match.BeProvisioned())
+	tc.Eventually(acct).Should(tc.Match.BeProvisioned())
 }
 
 func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc testcommon.KubePerTestContext, obj client.Object)) {
 	t.Parallel()
 
-	tc := globalTestContext.ForTest(t)
+	tc := globalTestContext.ForTestWithConfig(t, config.Values{
+		OperatorMode: config.OperatorModeBoth,
+
+		// having RequeueDelay be too low causes this test to fail
+		// due to recording mismatches; not entirely sure why…
+		RequeueDelay: 100 * time.Millisecond,
+	})
+
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	vnet := &network.VirtualNetwork{
@@ -102,14 +111,14 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 	}
 
 	// Create the subnet - initially this will not succeed, but it should keep trying
-	tc.G.Expect(tc.KubeClient.Create(tc.Ctx, subnet)).To(Succeed())
+	tc.Expect(tc.KubeClient.Create(tc.Ctx, subnet)).To(Succeed())
 
 	waitHelper(tc, subnet)
 
 	// Now created the vnet
 	tc.CreateResourceAndWait(vnet)
 	// The subnet account should also be created successfully eventually
-	tc.G.Eventually(subnet, tc.RemainingTime()).Should(tc.Match.BeProvisioned())
+	tc.Eventually(subnet).Should(tc.Match.BeProvisioned())
 }
 
 func Test_StorageAccount_CreatedBeforeResourceGroup(t *testing.T) {
@@ -117,7 +126,6 @@ func Test_StorageAccount_CreatedBeforeResourceGroup(t *testing.T) {
 }
 
 func Test_StorageAccount_CreatedInParallelWithResourceGroup(t *testing.T) {
-	t.Skip("unsure why this is failing, need to investigate")
 	storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t, doNotWait)
 }
 
