@@ -44,3 +44,20 @@ func GetVersionedStatus(metaObject MetaObject, scheme *runtime.Scheme) (Converti
 
 	return status, nil
 }
+
+// NewEmptyVersionedStatus returns a blank versioned status for the provided resource; the original API version used
+// when the resource was first created is used to identify the version to return
+func NewEmptyVersionedStatus(metaObject MetaObject, scheme *runtime.Scheme) (ConvertibleStatus, error) {
+	rsrc, err := NewEmptyVersionedResource(metaObject, scheme)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating new empty versioned status")
+	}
+
+	if rsrc == nil {
+		// No conversion needed, return an empty status from metaObject
+		return metaObject.NewEmptyStatus(), nil
+	}
+
+	// Return the versioned one
+	return rsrc.NewEmptyStatus(), nil
+}

@@ -27,3 +27,19 @@ func TestGetVersionedStatus_WorksWhenNoPivotNeeded(t *testing.T) {
 //TODO: once we have multiple versions of a resource, we should test that the pivot works too
 //func TestGetVersionedStatus_WorksWhenPivotNeeded(t *testing.T) {
 
+func TestNewEmptyVersionedStatus_WorksWhenNoPivotNeeded(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	scheme := runtime.NewScheme()
+	err := batch.AddToScheme(scheme)
+	g.Expect(err).To(Succeed())
+
+	account := &batch.BatchAccount{}
+
+	rsrc, err := genruntime.NewEmptyVersionedStatus(account, scheme)
+	g.Expect(err).To(Succeed())
+	g.Expect(rsrc).NotTo(BeNil())
+}
+
+//TODO: once we have multiple versions of a resource, we should test that the pivot works too
+//func TestNewEmptyVersionedStatus_WorksWhenPivotNeeded(t *testing.T) {

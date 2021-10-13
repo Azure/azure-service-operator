@@ -24,7 +24,7 @@ func ConvertResourceToDeployableResource(
 	metaObject genruntime.MetaObject) (genruntime.DeployableResource, error) {
 
 	spec, err := genruntime.GetVersionedSpec(metaObject, resolver.Scheme())
-	if err !=nil {
+	if err != nil {
 		return nil, errors.Errorf("unable to get spec from %s", metaObject.GetObjectKind().GroupVersionKind())
 	}
 
