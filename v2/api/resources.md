@@ -42,6 +42,11 @@ v1alpha1api20210515
 - DatabaseAccount
 - DatabaseAccountsMongodbDatabase
 - DatabaseAccountsMongodbDatabasesCollection
+- DatabaseAccountsSqlDatabase
+- DatabaseAccountsSqlDatabasesContainer
+- DatabaseAccountsSqlDatabasesContainersStoredProcedure
+- DatabaseAccountsSqlDatabasesContainersTrigger
+- DatabaseAccountsSqlDatabasesContainersUserDefinedFunction
 
 ### microsoft.managedidentity
 
