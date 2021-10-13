@@ -1,0 +1,17 @@
+apiVersion: microsoft.documentdb.azure.com/v1alpha1api20210515
+kind: DatabaseAccountsSqlDatabasesContainersStoredProcedure
+metadata:
+  name: sample-sql-stored-procedure
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: sample-sql-container
+  resource:
+    id: sample-sql-stored-procedure
+    body: |
+      function () {
+          var context = getContext();
+          var response = context.getResponse();
+          response.setBody('Hello, World');
+      }

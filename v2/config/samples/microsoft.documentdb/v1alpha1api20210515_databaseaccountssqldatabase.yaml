@@ -1,0 +1,11 @@
+apiVersion: microsoft.documentdb.azure.com/v1alpha1api20210515
+kind: DatabaseAccountsSqlDatabase
+metadata:
+  name: sample-sql-db
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: sample-sqldb-account
+  resource:
+    id: sample-sql-db

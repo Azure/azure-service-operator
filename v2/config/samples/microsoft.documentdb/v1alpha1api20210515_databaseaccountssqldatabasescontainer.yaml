@@ -1,0 +1,25 @@
+apiVersion: microsoft.documentdb.azure.com/v1alpha1api20210515
+kind: DatabaseAccountsSqlDatabasesContainer
+metadata:
+  name: sample-sql-container
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: sample-sql-db
+  options:
+    throughput: 400
+  resource:
+    id: sample-sql-container
+    conflictResolutionPolicy:
+      mode: LastWriterWins
+    defaultTtl: 200
+    indexingPolicy:
+      indexingMode: Consistent
+      includedPaths:
+        - path: "/*"
+      excludedPaths:
+        - path: "/myPathToNotIndex/*"
+    partitionKey:
+      kind: Hash
+      paths: "/myPartitionKey"
