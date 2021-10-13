@@ -38,6 +38,11 @@ func (typeName TypeName) Name() string {
 	return typeName.name
 }
 
+// WithName returns a new TypeName in the same package but with a different name
+func (typeName TypeName) WithName(name string) TypeName {
+	return MakeTypeName(typeName.PackageReference, name)
+}
+
 // A TypeName can be used as a Type,
 // it is simply a reference to the name.
 var _ Type = TypeName{}
