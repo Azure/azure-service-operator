@@ -35,10 +35,11 @@ func filterTypes(
 	newDefinitions := make(astmodel.Types)
 
 	filterer := configuration.BuildExportFilterer(state.types)
+	renames := make(map[astmodel.TypeName]astmodel.TypeName)
 
 	for _, def := range state.types {
 		defName := def.Name()
-		shouldExport, reason := filterer(defName)
+		shouldExport, newName, reason := filterer(defName)
 
 		switch shouldExport {
 		case config.Skip:
@@ -52,16 +53,26 @@ func filterTypes(
 			}
 
 			newDefinitions[def.Name()] = def
+			if newName != nil {
+				renames[defName] = *newName
+			}
 		default:
 			panic(fmt.Sprintf("unhandled shouldExport case %q", shouldExport))
 		}
 	}
 
-	// Ensure that the export filters had no issues
-	err := configuration.GetExportFiltersError()
+	// Now apply all the renames
+	renamingVisitor := astmodel.NewRenamingVisitor(renames)
+	result, err := renamingVisitor.RenameAll(newDefinitions)
 	if err != nil {
 		return nil, err
 	}
 
-	return state.WithTypes(newDefinitions), nil
+	// Ensure that the export filters had no issues
+	err = configuration.GetExportFiltersError()
+	if err != nil {
+		return nil, err
+	}
+
+	return state.WithTypes(result), nil
 }

@@ -118,13 +118,15 @@ func (config *Configuration) GetPropertyTransformersError() error {
 }
 
 func (config *Configuration) GetExportFiltersError() error {
+	var errs []error
 	for _, filter := range config.ExportFilters {
-		if !filter.MatchedRequiredTypes() {
-			return errors.Errorf("Export filter action: %q, target: %q matched no types", filter.Action, filter.String())
+		err := filter.Error()
+		if err != nil {
+			errs = append(errs, err)
 		}
 	}
 
-	return nil
+	return kerrors.NewAggregate(errs)
 }
 
 // NewConfiguration returns a new empty Configuration
@@ -308,42 +310,53 @@ func absDirectoryPathToURL(path string) *url.URL {
 	return result
 }
 
-type ExportFilterFunc func(astmodel.TypeName) (result ShouldExportResult, because string)
+type ExportFilterFunc func(astmodel.TypeName) (result ShouldExportResult, newName *astmodel.TypeName, because string)
 
 func buildExportFilterFunc(f *ExportFilter, allTypes astmodel.Types) ExportFilterFunc {
 	switch f.Action {
 	case ExportFilterExclude:
-		return func(typeName astmodel.TypeName) (ShouldExportResult, string) {
+		return func(typeName astmodel.TypeName) (ShouldExportResult, *astmodel.TypeName, string) {
 			if f.AppliesToType(typeName) {
-				return Skip, f.Because
+				return Skip, nil, f.Because
 			}
 
-			return "", ""
+			return "", nil, ""
 		}
 
 	case ExportFilterInclude:
-		return func(typeName astmodel.TypeName) (ShouldExportResult, string) {
+		return func(typeName astmodel.TypeName) (ShouldExportResult, *astmodel.TypeName, string) {
 			if f.AppliesToType(typeName) {
-				return Export, f.Because
+				return Export, nil, f.Because
 			}
 
-			return "", ""
+			return "", nil, ""
 		}
 
 	case ExportFilterIncludeTransitive:
 		applicableTypes := astmodel.NewTypeNameSet()
+		renames := make(map[astmodel.TypeName]astmodel.TypeName)
+
 		for tn := range allTypes {
 			if f.AppliesToType(tn) {
+				if f.RenameTo != "" {
+					renames[tn] = tn.WithName(f.RenameTo)
+				}
 				collectAllReferencedTypes(allTypes, tn, applicableTypes)
 			}
 		}
 
-		return func(typeName astmodel.TypeName) (ShouldExportResult, string) {
+		return func(typeName astmodel.TypeName) (ShouldExportResult, *astmodel.TypeName, string) {
 			if applicableTypes.Contains(typeName) {
-				return Export, f.Because
+				var renamePtr *astmodel.TypeName
+				rename, ok := renames[typeName]
+				if ok {
+					renamePtr = &rename
+				}
+
+				return Export, renamePtr, f.Because
 			}
 
-			return "", ""
+			return "", nil, ""
 		}
 
 	default:
@@ -369,16 +382,16 @@ func (config *Configuration) BuildExportFilterer(allTypes astmodel.Types) Export
 		filters = append(filters, filter)
 	}
 
-	return func(typeName astmodel.TypeName) (result ShouldExportResult, because string) {
+	return func(typeName astmodel.TypeName) (result ShouldExportResult, newName *astmodel.TypeName, because string) {
 		for _, filter := range filters {
-			result, because := filter(typeName)
+			result, newName, because := filter(typeName)
 			if result != "" {
-				return result, because
+				return result, newName, because
 			}
 		}
 
 		// By default we export all types
-		return Export, ""
+		return Export, nil, ""
 	}
 }
 
