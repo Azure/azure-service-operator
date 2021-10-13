@@ -9,6 +9,8 @@ import (
 	"bytes"
 	"crypto/rand"
 	"crypto/rsa"
+	"crypto/sha256"
+	"encoding/hex"
 	"io"
 	"net/http"
 	"os"
@@ -48,6 +50,7 @@ type PerTestContext struct {
 	AzureMatch          *ArmMatcher
 	Namer               ResourceNamer
 	TestName            string
+	Namespace           string
 }
 
 // If you modify this make sure to modify the cleanup-test-azure-resources target in the Makefile too
@@ -123,7 +126,25 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		AzureMatch:          NewArmMatcher(armClient),
 		AzureClientRecorder: recorder,
 		TestName:            t.Name(),
+		Namespace:           createTestNamespaceName(t),
 	}, nil
+}
+
+func createTestNamespaceName(t *testing.T) string {
+	const maxLen = 63
+	const disambigLength = 5
+
+	result := "aso-" + strings.ReplaceAll(strings.ToLower(t.Name()), "_", "-")
+	if len(result) <= maxLen {
+		return result
+	}
+
+	// we need to trim it but also add disambiguation; append a shortened hash
+	hash := sha256.Sum256([]byte(result))
+	hashStr := hex.EncodeToString(hash[:])
+	disambig := hashStr[0:disambigLength]
+	result = result[0:(maxLen - disambigLength - 1 /* hyphen */)]
+	return result + "-" + disambig
 }
 
 func ensureCassetteFileExists(cassetteName string) error {

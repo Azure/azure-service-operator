@@ -12,6 +12,8 @@ import (
 	"time"
 
 	"github.com/onsi/gomega"
+	"k8s.io/klog/v2/klogr"
+	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
 )
@@ -20,11 +22,16 @@ const DefaultEventuallyTimeout = 3 * time.Minute
 
 var testContext testcommon.TestContext
 
-func setup(recordReplay bool) error {
+func setup() error {
+	recordReplay := os.Getenv("RECORD_REPLAY") != "0"
+
 	log.Println("Running test setup")
 
 	gomega.SetDefaultEventuallyTimeout(DefaultEventuallyTimeout)
 	gomega.SetDefaultEventuallyPollingInterval(5 * time.Second)
+
+	// setup global logger for controller-runtime:
+	ctrl.SetLogger(klogr.New())
 
 	// set global test context
 	testContext = testcommon.NewTestContext(testcommon.DefaultTestRegion, recordReplay)
@@ -41,11 +48,5 @@ func teardown() error {
 }
 
 func TestMain(m *testing.M) {
-	recordReplay := os.Getenv("RECORD_REPLAY") != "0"
-	os.Exit(testcommon.SetupTeardownTestMain(
-		m,
-		true,
-		func() error {
-			return setup(recordReplay)
-		}, teardown))
+	os.Exit(testcommon.SetupTeardownTestMain(m, setup, teardown))
 }

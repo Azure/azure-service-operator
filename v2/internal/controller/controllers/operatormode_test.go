@@ -23,7 +23,7 @@ func TestOperatorMode_Webhooks(t *testing.T) {
 	rg := resources.ResourceGroup{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      tc.Namer.GenerateName("rg"),
-			Namespace: tc.Namespace(),
+			Namespace: tc.Namespace,
 		},
 		Spec: resources.ResourceGroupSpec{
 			Location: tc.AzureRegion,
@@ -51,7 +51,7 @@ func TestOperatorMode_Watchers(t *testing.T) {
 	rg := resources.ResourceGroup{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      tc.Namer.GenerateName("rg"),
-			Namespace: tc.Namespace(),
+			Namespace: tc.Namespace,
 		},
 		Spec: resources.ResourceGroupSpec{
 			Location: tc.AzureRegion,
@@ -79,7 +79,7 @@ func TestOperatorMode_Both(t *testing.T) {
 	rg := resources.ResourceGroup{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      tc.Namer.GenerateName("rg"),
-			Namespace: tc.Namespace(),
+			Namespace: tc.Namespace,
 		},
 		Spec: resources.ResourceGroupSpec{
 			Location: tc.AzureRegion,

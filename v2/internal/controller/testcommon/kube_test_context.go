@@ -6,45 +6,56 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	"context"
+
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-// TODO: State Annotation parameter should be removed once the interface for Status determined and promoted
-// TODO: to genruntime. Same for errorAnnotation
 type KubeGlobalContext struct {
 	TestContext
 
-	createBaseTestContext func(PerTestContext, config.Values) (*KubeBaseTestContext, error)
-
-	namespace string
+	createBaseTestContext BaseTestContextFactory
+	cleanup               context.CancelFunc
 }
 
-func (ctx KubeGlobalContext) Namespace() string {
-	return ctx.namespace
-}
+type BaseTestContextFactory func(PerTestContext, config.Values) (*KubeBaseTestContext, error)
 
 func NewKubeContext(
 	useEnvTest bool,
 	recordReplay bool,
-	namespace string,
-	region string) KubeGlobalContext {
+	region string) (KubeGlobalContext, error) {
 
-	result := KubeGlobalContext{
-		TestContext: NewTestContext(region, recordReplay),
-		namespace:   namespace,
-	}
+	var err error
+	var cbtc BaseTestContextFactory
+	var cleanup func() = func() {}
 
 	if useEnvTest {
-		result.createBaseTestContext = createEnvtestContext
+		cbtc, cleanup = createEnvtestContext()
 	} else {
-		result.createBaseTestContext = createRealKubeContext
+		cbtc, err = createRealKubeContext()
+		if err != nil {
+			return KubeGlobalContext{}, errors.Wrap(err, "unable to create real Kube context")
+		}
 	}
 
-	return result
+	return KubeGlobalContext{
+		TestContext:           NewTestContext(region, recordReplay),
+		createBaseTestContext: cbtc,
+		cleanup:               cleanup,
+	}, nil
+}
+
+func (ctx KubeGlobalContext) Cleanup() error {
+	if ctx.cleanup != nil {
+		ctx.cleanup()
+	}
+	return nil
 }
 
 type KubeBaseTestContext struct {

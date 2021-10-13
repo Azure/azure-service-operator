@@ -6,6 +6,7 @@ package config
 import (
 	"os"
 	"strings"
+	"time"
 
 	"github.com/pkg/errors"
 )
@@ -34,6 +35,11 @@ type Values struct {
 	// for Azure resources (if the mode includes running watchers). If
 	// it's empty the operator will watch all namespaces.
 	TargetNamespaces []string
+
+	// RequeueDelay overrides the default requeue delay
+	// when the operator knows it needs to retry. This is only
+	// used by testing code at the moment.
+	RequeueDelay time.Duration
 }
 
 // ReadFromEnvironment loads configuration values from the AZURE_*
