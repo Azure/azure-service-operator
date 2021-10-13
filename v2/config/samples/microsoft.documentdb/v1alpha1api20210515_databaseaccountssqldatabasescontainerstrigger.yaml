@@ -1,3 +1,5 @@
+# Adapted from CosmosDB SQL Bicep examples:
+# https://docs.microsoft.com/en-us/azure/cosmos-db/sql/manage-with-bicep#create-sproc
 apiVersion: microsoft.documentdb.azure.com/v1alpha1api20210515
 kind: DatabaseAccountsSqlDatabasesContainersTrigger
 metadata:

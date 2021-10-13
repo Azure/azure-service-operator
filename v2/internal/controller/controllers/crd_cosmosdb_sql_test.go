@@ -22,7 +22,8 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Custom namer because storage accounts have strict names
+	// Custom namer because cosmosdb accounts have stricter name
+	// requirements - no hyphens allowed.
 	namer := tc.Namer.WithSeparator("")
 
 	// Create a Cosmos DB account
