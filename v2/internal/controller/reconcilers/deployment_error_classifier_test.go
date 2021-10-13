@@ -19,11 +19,6 @@ var badRequestError = armclient.DeploymentError{
 	Message: "That was not a good request",
 }
 
-var badRequestError2 = armclient.DeploymentError{
-	Code:    "BadRequest",
-	Message: "There was something wrong with that request",
-}
-
 var conflictError = armclient.DeploymentError{
 	Code:    "Conflict",
 	Message: "That doesn't match what I have",
