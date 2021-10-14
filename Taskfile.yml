@@ -61,6 +61,12 @@ tasks:
     cmds:
     - gofmt -l -s -w .
 
+  build-docs-site:
+    dir: docs/hugo
+    cmds:
+    - hugo 
+    - htmltest 
+
   ############### Generator targets ###############
   basic-checks:
     deps: [header-check, specifier-check]
