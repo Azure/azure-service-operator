@@ -14,7 +14,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	documentdb "github.com/Azure/azure-service-operator/v2/api/microsoft.documentdb/v1alpha1api20210515"
-	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
 func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {

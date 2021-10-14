@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
+	"github.com/Azure/azure-service-operator/v2/internal/config"
 )
 
 func Test_CfgToKey_HasAllConfigDotValuesKeys(t *testing.T) {

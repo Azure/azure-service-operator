@@ -17,8 +17,7 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/microsoft.storage/v1alpha1api20210401"
-	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
-	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
