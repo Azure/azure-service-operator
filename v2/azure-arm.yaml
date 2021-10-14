@@ -223,6 +223,72 @@ exportFilters:
     version: v*20200801preview
     name: RoleAssignment
     because: "including role assignments extension resource"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v*api20210515
+    name: DatabaseAccountsMongodbDatabase
+    renameTo: MongodbDatabase
+    because: "including MongoDB database resource"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v*api20210515
+    name: DatabaseAccountsMongodbDatabasesCollection
+    renameTo: MongodbDatabaseCollection
+    because: "including MongoDB collection resource"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v*api20210515
+    name: DatabaseAccountsMongodbDatabasesThroughputSetting
+    renameTo: MongodbDatabaseThroughputSetting
+    because: "including MongoDB database throughputsettings resource"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v*api20210515
+    name: DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting
+    renameTo: MongodbDatabaseCollectionThroughputSetting
+    because: "including MongoDB collection throughputsettings resource"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v*api20210515
+    name: DatabaseAccountsSqlDatabase
+    renameTo: SqlDatabase
+    because: "including CosmosDB SQL database resources"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v*api20210515
+    name: DatabaseAccountsSqlDatabasesContainer
+    renameTo: SqlDatabaseContainer
+    because: "including CosmosDB SQL database resources"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v*api20210515
+    name: DatabaseAccountsSqlDatabasesContainersStoredProcedure
+    renameTo: SqlDatabaseContainerStoredProcedure
+    because: "including CosmosDB SQL database resources"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v*api20210515
+    name: DatabaseAccountsSqlDatabasesContainersTrigger
+    renameTo: SqlDatabaseContainerTrigger
+    because: "including CosmosDB SQL database resources"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v*api20210515
+    name: DatabaseAccountsSqlDatabasesContainersUserDefinedFunction
+    renameTo: SqlDatabaseContainerUserDefinedFunction
+    because: "including CosmosDB SQL database resources"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v*api20210515
+    name: DatabaseAccountsSqlDatabasesThroughputSetting
+    renameTo: SqlDatabaseThroughputSetting
+    because: "including SQL database throughputsettings resource"
+  - action: include-transitive
+    group: microsoft.documentdb
+    version: v*api20210515
+    name: DatabaseAccountsSqlDatabasesContainersThroughputSetting
+    renameTo: SqlDatabaseContainerThroughputSetting
+    because: "including SQL container throughputsettings resource"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.

@@ -98,10 +98,20 @@ func (networkSecurityGroup *NetworkSecurityGroup) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (networkSecurityGroup *NetworkSecurityGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (networkSecurityGroup *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroup.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: networkSecurityGroup.Namespace, Name: networkSecurityGroup.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: networkSecurityGroup.Namespace,
+		Name:      networkSecurityGroup.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

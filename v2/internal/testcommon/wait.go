@@ -40,7 +40,6 @@ func WaitFor(ctx context.Context, timeout time.Duration, check func(context.Cont
 
 func SetupTeardownTestMain(
 	m *testing.M,
-	skipSlowTests bool,
 	setup func() error,
 	teardown func() error) int {
 
@@ -49,7 +48,7 @@ func SetupTeardownTestMain(
 		flag.Parse()
 	}
 
-	if skipSlowTests && testing.Short() {
+	if testing.Short() {
 		log.Println("Skipping slow tests in short mode")
 		return 0
 	}

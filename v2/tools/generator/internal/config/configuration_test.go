@@ -16,7 +16,7 @@ import (
 
 // TODO: in a common test function rather than in a bunch of test modules?
 func makeTestLocalPackageReference(group string, version string) astmodel.LocalPackageReference {
-	return astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/hack/generated", group, version)
+	return astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/v2", group, version)
 }
 
 // Shared test values:

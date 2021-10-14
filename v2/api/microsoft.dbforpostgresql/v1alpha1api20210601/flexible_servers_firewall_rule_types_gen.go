@@ -98,10 +98,20 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) GetType() string
 	return "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (flexibleServersFirewallRule *FlexibleServersFirewallRule) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &FirewallRule_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (flexibleServersFirewallRule *FlexibleServersFirewallRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(flexibleServersFirewallRule.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: flexibleServersFirewallRule.Namespace, Name: flexibleServersFirewallRule.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: flexibleServersFirewallRule.Namespace,
+		Name:      flexibleServersFirewallRule.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

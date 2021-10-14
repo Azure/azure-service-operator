@@ -98,10 +98,20 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &BlobContainer_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccountsBlobServicesContainer.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: storageAccountsBlobServicesContainer.Namespace, Name: storageAccountsBlobServicesContainer.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: storageAccountsBlobServicesContainer.Namespace,
+		Name:      storageAccountsBlobServicesContainer.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

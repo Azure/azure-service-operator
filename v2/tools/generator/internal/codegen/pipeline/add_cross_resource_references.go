@@ -220,6 +220,34 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 			typeName: astmodel.MakeTypeName(documentDB20210515, "VirtualNetworkRule"),
 			propName: "Id",
 		}: true,
+		{
+			typeName: astmodel.MakeTypeName(documentDB20210515, "MongoDBCollectionResource"),
+			propName: "Id",
+		}: false,
+		{
+			typeName: astmodel.MakeTypeName(documentDB20210515, "MongoDBDatabaseResource"),
+			propName: "Id",
+		}: false,
+		{
+			typeName: astmodel.MakeTypeName(documentDB20210515, "SqlDatabaseResource"),
+			propName: "Id",
+		}: false,
+		{
+			typeName: astmodel.MakeTypeName(documentDB20210515, "SqlContainerResource"),
+			propName: "Id",
+		}: false,
+		{
+			typeName: astmodel.MakeTypeName(documentDB20210515, "SqlTriggerResource"),
+			propName: "Id",
+		}: false,
+		{
+			typeName: astmodel.MakeTypeName(documentDB20210515, "SqlStoredProcedureResource"),
+			propName: "Id",
+		}: false,
+		{
+			typeName: astmodel.MakeTypeName(documentDB20210515, "SqlUserDefinedFunctionResource"),
+			propName: "Id",
+		}: false,
 		// Storage
 		{
 			typeName: astmodel.MakeTypeName(storage20210401, "VirtualNetworkRule"),

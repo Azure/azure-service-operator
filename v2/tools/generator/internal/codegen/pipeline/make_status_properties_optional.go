@@ -25,7 +25,7 @@ const MakeStatusPropertiesOptionalStageID = "makeStatusPropertiesOptional"
 func MakeStatusPropertiesOptional() Stage {
 	return MakeStage(
 		MakeStatusPropertiesOptionalStageID,
-		"Forces all status properties to be optional",
+		"Force all status properties to be optional",
 		func(ctx context.Context, state *State) (*State, error) {
 			statusTypes := astmodel.FindStatusTypes(state.Types())
 			var errs []error

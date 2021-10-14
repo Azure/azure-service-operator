@@ -37,17 +37,21 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
+type (
+	ARMClientFactory func(genruntime.MetaObject) armclient.Applier
+	LoggerFactory    func(genruntime.MetaObject) logr.Logger
+)
+
 // GenericReconciler reconciles resources
 type GenericReconciler struct {
-	Log                  logr.Logger
-	ARMClient            armclient.Applier
+	LoggerFactory        LoggerFactory
+	ARMClientFactory     ARMClientFactory
 	KubeClient           *kubeclient.Client
 	ResourceResolver     *genruntime.Resolver
 	Recorder             record.EventRecorder
 	Name                 string
 	Config               config.Values
 	GVK                  schema.GroupVersionKind
-	Controller           controller.Controller
 	RequeueDelayOverride time.Duration
 	PositiveConditions   *conditions.PositiveConditionBuilder
 	CreateDeploymentName func(obj metav1.Object) (string, error)
@@ -60,14 +64,20 @@ type Options struct {
 
 	// options specific to our controller
 	RequeueDelay         time.Duration
-	CreateDeploymentName func(obj metav1.Object) (string, error)
 	Config               config.Values
+	CreateDeploymentName func(obj metav1.Object) (string, error)
+	LoggerFactory        func(obj metav1.Object) logr.Logger
 }
 
 func (options *Options) setDefaults() {
 	// override deployment name generator, if provided
 	if options.CreateDeploymentName == nil {
 		options.CreateDeploymentName = createDeploymentName
+	}
+
+	// default logger to the controller-runtime logger
+	if options.Log == nil {
+		options.Log = ctrl.Log
 	}
 }
 
@@ -89,12 +99,10 @@ func registerWebhook(mgr ctrl.Manager, obj client.Object) error {
 		return errors.Wrap(err, "obj was expected to be ptr but was not")
 	}
 
-	return ctrl.NewWebhookManagedBy(mgr).
-		For(obj).
-		Complete()
+	return ctrl.NewWebhookManagedBy(mgr).For(obj).Complete()
 }
 
-func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []client.Object, options Options) error {
+func RegisterAll(mgr ctrl.Manager, clientFactory ARMClientFactory, objs []client.Object, options Options) error {
 	options.setDefaults()
 
 	reconciledResourceLookup, err := MakeResourceGVKLookup(mgr, objs)
@@ -104,7 +112,7 @@ func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []client.Obje
 
 	var errs []error
 	for _, obj := range objs {
-		if err := register(mgr, reconciledResourceLookup, applier, obj, options); err != nil {
+		if err := register(mgr, reconciledResourceLookup, clientFactory, obj, options); err != nil {
 			errs = append(errs, err)
 		}
 	}
@@ -112,7 +120,13 @@ func RegisterAll(mgr ctrl.Manager, applier armclient.Applier, objs []client.Obje
 	return kerrors.NewAggregate(errs)
 }
 
-func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind, applier armclient.Applier, obj client.Object, options Options) error {
+func register(
+	mgr ctrl.Manager,
+	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind,
+	clientFactory ARMClientFactory,
+	obj client.Object,
+	options Options) error {
+
 	v, err := conversion.EnforcePtr(obj)
 	if err != nil {
 		return errors.Wrap(err, "obj was expected to be ptr but was not")
@@ -134,13 +148,24 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient(), mgr.GetScheme())
 
+	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
+		result := options.Log
+		if options.LoggerFactory != nil {
+			if factoryResult := options.LoggerFactory(mo); factoryResult != nil {
+				result = factoryResult
+			}
+		}
+
+		return result.WithName(controllerName)
+	}
+
 	reconciler := &GenericReconciler{
-		ARMClient:            applier,
+		ARMClientFactory:     clientFactory,
 		KubeClient:           kubeClient,
 		ResourceResolver:     genruntime.NewResolver(kubeClient, reconciledResourceLookup),
 		Name:                 t.Name(),
 		Config:               options.Config,
-		Log:                  options.Log.WithName(controllerName),
+		LoggerFactory:        loggerFactory,
 		Recorder:             mgr.GetEventRecorderFor(controllerName),
 		GVK:                  gvk,
 		RequeueDelayOverride: options.RequeueDelay,
@@ -148,18 +173,16 @@ func register(mgr ctrl.Manager, reconciledResourceLookup map[schema.GroupKind]sc
 		CreateDeploymentName: options.CreateDeploymentName,
 	}
 
-	c, err := ctrl.NewControllerManagedBy(mgr).
+	err = ctrl.NewControllerManagedBy(mgr).
 		For(obj).
 		// Note: These predicates prevent status updates from triggering a reconcile.
 		// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
 		WithEventFilter(predicate.Or(predicate.GenerationChangedPredicate{}, predicate.AnnotationChangedPredicate{})).
 		WithOptions(options.Options).
-		Build(reconciler)
+		Complete(reconciler)
 	if err != nil {
 		return errors.Wrap(err, "unable to build controllers / reconciler")
 	}
-
-	reconciler.Controller = c
 
 	return nil
 }
@@ -213,7 +236,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, errors.Errorf("object is not a genruntime.MetaObject, found type: %T", obj)
 	}
 
-	log := gr.Log.WithValues("name", req.Name, "namespace", req.Namespace, "azureName", metaObj.AzureName())
+	log := gr.LoggerFactory(metaObj).WithValues("name", req.Name, "namespace", req.Namespace, "azureName", metaObj.AzureName())
 	log.V(Verbose).Info(
 		"Reconcile invoked",
 		"kind", fmt.Sprintf("%T", obj),
@@ -246,7 +269,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	reconciler := reconcilers.NewAzureDeploymentReconciler(
 		metaObj,
 		log,
-		gr.ARMClient,
+		gr.ARMClientFactory(metaObj),
 		gr.Recorder,
 		gr.KubeClient,
 		gr.ResourceResolver,

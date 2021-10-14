@@ -81,6 +81,11 @@ func (rg *ResourceGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &rg.Status
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (rg *ResourceGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &ResourceGroupStatus{}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Resources/resourceGroups"
 func (rg *ResourceGroup) GetType() string { return "Microsoft.Resources/resourceGroups" }
 

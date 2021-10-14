@@ -46,37 +46,10 @@ func ImproveResourcePluralization() Stage {
 
 			// On the off chance that one of the names we changed is referenced someplace, fix it up. This is pretty
 			// rare since usually resources don't refer directly to other resources, but there are a few places it does happen.
-			return fixNameReferences(result, renames)
+			renamingVisitor := astmodel.NewRenamingVisitor(renames)
+			return renamingVisitor.RenameAll(result)
 		})
 
 	stage.RequiresPrerequisiteStages(RemoveTypeAliasesStageID)
 	return stage
-}
-
-func fixNameReferences(types astmodel.Types, renames map[astmodel.TypeName]astmodel.TypeName) (astmodel.Types, error) {
-	result := make(astmodel.Types)
-
-	// On the off chance that something is referring to a top level resource type which was renamed (rare but possible) go fix up the references
-	fixName := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
-		if newName, ok := renames[it]; ok {
-			return astmodel.IdentityVisitOfTypeName(this, newName, ctx)
-		}
-
-		return astmodel.IdentityVisitOfTypeName(this, it, ctx)
-	}
-
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitTypeName: fixName,
-	}.Build()
-
-	for _, def := range types {
-		updated, err := visitor.VisitDefinition(def, nil)
-		if err != nil {
-			return nil, err
-		}
-
-		result.Add(updated)
-	}
-
-	return result, nil
 }

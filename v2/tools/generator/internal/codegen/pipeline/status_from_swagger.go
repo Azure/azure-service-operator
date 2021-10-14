@@ -60,6 +60,10 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 
 			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other types)", len(swaggerTypes.ResourceTypes), len(swaggerTypes.OtherTypes))
 
+			if len(swaggerTypes.ResourceTypes) == 0 || len(swaggerTypes.OtherTypes) == 0 {
+				return nil, errors.Errorf("Failed to load swagger information")
+			}
+
 			statusTypes, err := generateStatusTypes(swaggerTypes)
 			if err != nil {
 				return nil, err
@@ -137,7 +141,7 @@ func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmode
 }
 
 // statusTypeRenamer appends "_Status" to all types
-var statusTypeRenamer astmodel.TypeVisitor = makeRenamingVisitor(appendStatusSuffix)
+var statusTypeRenamer = astmodel.NewRenamingVisitorFromLambda(appendStatusSuffix)
 
 func appendStatusSuffix(typeName astmodel.TypeName) astmodel.TypeName {
 	return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+"_Status")
@@ -147,41 +151,30 @@ func appendStatusSuffix(typeName astmodel.TypeName) astmodel.TypeName {
 // all types (apart from Resources) are renamed to have "_Status" as a
 // suffix, to avoid name clashes.
 func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (statusTypes, error) {
-	var errs []error
-	otherTypes := make(astmodel.Types)
-	for _, typeDef := range swaggerTypes.OtherTypes {
-		renamedDef, err := statusTypeRenamer.VisitDefinition(typeDef, nil)
-		if err != nil {
-			errs = append(errs, err)
-		} else {
-			otherTypes.Add(renamedDef)
-		}
+	otherTypes, err := statusTypeRenamer.RenameAll(swaggerTypes.OtherTypes)
+	if err != nil {
+		return statusTypes{}, err
 	}
 
 	resources := make(resourceLookup)
+	var errs []error
 	for resourceName, resourceDef := range swaggerTypes.ResourceTypes {
 		// resourceName is not renamed as this is a lookup for the Spec type
-		renamedDef, err := statusTypeRenamer.Visit(resourceDef.Type(), nil)
+		var renamedType astmodel.Type
+		renamedType, err = statusTypeRenamer.Rename(resourceDef.Type())
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			resources.add(resourceName, renamedDef)
+			resources.add(resourceName, renamedType)
 		}
 	}
 
-	if len(errs) > 0 {
-		return statusTypes{}, kerrors.NewAggregate(errs)
+	err = kerrors.NewAggregate(errs)
+	if err != nil {
+		return statusTypes{}, err
 	}
 
 	return statusTypes{resources, otherTypes}, nil
-}
-
-func makeRenamingVisitor(rename func(astmodel.TypeName) astmodel.TypeName) astmodel.TypeVisitor {
-	return astmodel.TypeVisitorBuilder{
-		VisitTypeName: func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
-			return rename(it), nil
-		},
-	}.Build()
 }
 
 func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, config *config.Configuration) (jsonast.SwaggerTypes, error) {
@@ -388,35 +381,18 @@ func generateRenaming(
 }
 
 func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile typesFromFile) typesFromFile {
-	visitor := makeRenamingVisitor(func(name astmodel.TypeName) astmodel.TypeName {
-		if newName, ok := renames[name]; ok {
-			return newName
-		}
-
-		return name
-	})
+	visitor := astmodel.NewRenamingVisitor(renames)
 
 	// visit all other types
-	newOtherTypes := make(astmodel.Types)
-	for _, def := range typesFromFile.OtherTypes {
-		newDef, err := visitor.VisitDefinition(def, nil)
-		if err != nil {
-			panic(err)
-		}
-
-		newOtherTypes.Add(newDef)
+	newOtherTypes, err := visitor.RenameAll(typesFromFile.OtherTypes)
+	if err != nil {
+		panic(err)
 	}
 
 	// visit all resource types
-	newResourceTypes := make(astmodel.Types)
-	for _, resourceDef := range typesFromFile.ResourceTypes {
-		// must not rename the resource name, only within it
-		newType, err := visitor.Visit(resourceDef.Type(), nil)
-		if err != nil {
-			panic(err)
-		}
-
-		newResourceTypes.Add(resourceDef.WithType(newType))
+	newResourceTypes, err := visitor.RenameAll(typesFromFile.ResourceTypes)
+	if err != nil {
+		panic(err)
 	}
 
 	typesFromFile.OtherTypes = newOtherTypes
@@ -576,11 +552,12 @@ func loadAllSchemas(
 }
 
 func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOverride) string {
+	filePath = filepath.ToSlash(filePath)
 	group := jsonast.SwaggerGroupRegex.FindString(filePath)
 
 	// see if there is a config override for this file
 	for _, schemaOverride := range overrides {
-		configSchemaPath := path.Join(rootPath, schemaOverride.BasePath)
+		configSchemaPath := filepath.ToSlash(path.Join(rootPath, schemaOverride.BasePath))
 		if strings.HasPrefix(filePath, configSchemaPath) {
 			// a forced namespace: use it
 			if schemaOverride.Namespace != "" {
@@ -609,5 +586,6 @@ func versionFromPath(filePath string, rootPath string) string {
 	// (and indeed this is the case with the /v2/ package)
 	filePath = strings.TrimPrefix(filePath, rootPath)
 	// must trim leading & trailing '/' as golang does not support lookaround
-	return strings.Trim(swaggerVersionRegex.FindString(filePath), "/")
+	fp := filepath.ToSlash(filePath)
+	return strings.Trim(swaggerVersionRegex.FindString(fp), "/")
 }

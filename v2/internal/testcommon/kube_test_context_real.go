@@ -12,14 +12,16 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 )
 
-func createRealKubeContext(perTestContext PerTestContext, _ config.Values) (*KubeBaseTestContext, error) {
+func createRealKubeContext() (BaseTestContextFactory, error) {
 	kubeConfig, err := ctrl.GetConfig()
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to retrieve kubeconfig")
 	}
 
-	return &KubeBaseTestContext{
-		PerTestContext: perTestContext,
-		KubeConfig:     kubeConfig,
+	return func(perTestContext PerTestContext, _ config.Values) (*KubeBaseTestContext, error) {
+		return &KubeBaseTestContext{
+			PerTestContext: perTestContext,
+			KubeConfig:     kubeConfig,
+		}, nil
 	}, nil
 }

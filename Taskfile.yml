@@ -171,14 +171,14 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:generate-crds]
     cmds:
-    - go test -short -tags=noexit -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -short -tags=noexit -timeout 10m -run '{{default ".*" .TEST_FILTER}}' ./...
 
   controller:test-cover:
     desc: Run {{.CONTROLLER_APP}} unit tests and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:generate-crds]
     cmds: 
-    - go test -short -tags=noexit -race -covermode atomic -coverprofile=controller-coverage.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -short -tags=noexit -timeout 10m -race -covermode atomic -coverprofile=controller-coverage.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
 
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
@@ -233,7 +233,7 @@ tasks:
     deps: [controller:generate-kustomize]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controller/controllers
 
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
@@ -241,7 +241,7 @@ tasks:
     deps: [controller:generate-kustomize]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./...
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
@@ -249,7 +249,9 @@ tasks:
     deps: [controller:generate-kustomize, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
-    - RECORD_REPLAY=0 go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controller/controllers
+    env:
+      RECORD_REPLAY: 0
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
@@ -354,13 +356,13 @@ tasks:
 #    desc: Run {{.CROSSPLANE_APP}} unit tests.
 #    dir: "{{.CROSSPLANE_ROOT}}"
 #    cmds:
-#      - go test ./... -tags=noexit
+#      - go test ./... -tags=noexit -timeout 10m
 
 #  crossplane:update-golden-tests:
 #    desc: Update {{.CROSSPLANE_APP}} golden test outputs.
 #    dir: "{{.CROSSPLANE_ROOT}}"
 #    cmds:
-#      - go test ./pkg/codegen -run ^TestGolden$ -update
+#      - go test ./pkg/codegen -run ^TestGolden$ -update -timeout 10m
 
   # TODO: No non-generated code in this directory at the moment
   # crossplane:lint:

@@ -84,8 +84,10 @@ func (fn *ObjectFunction) AddPackageReference(refs ...astmodel.PackageReference)
 }
 
 // AddReferencedTypes adds one or more types that are required
+// Their packages are automatically included as well.
 func (fn *ObjectFunction) AddReferencedTypes(types ...astmodel.TypeName) {
 	for _, t := range types {
 		fn.referencedTypes.Add(t)
+		fn.requiredPackages.AddReference(t.PackageReference)
 	}
 }

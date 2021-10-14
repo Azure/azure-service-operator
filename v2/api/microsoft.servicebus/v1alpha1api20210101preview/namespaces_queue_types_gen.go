@@ -96,10 +96,20 @@ func (namespacesQueue *NamespacesQueue) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/queues"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (namespacesQueue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &SBQueue_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (namespacesQueue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesQueue.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: namespacesQueue.Namespace, Name: namespacesQueue.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: namespacesQueue.Namespace,
+		Name:      namespacesQueue.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource

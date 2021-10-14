@@ -20,7 +20,7 @@ const RemoveResourceScopeStageID = "removeResourceScope"
 func RemoveResourceScope() Stage {
 	return MakeStage(
 		RemoveResourceScopeStageID,
-		"Removes scope from all resources except extension resources",
+		"Remove scope from all resources except extension resources",
 		func(ctx context.Context, state *State) (*State, error) {
 			newDefs := make(astmodel.Types)
 			scopePropertyRemovalVisitor := makeScopePropertyRemovalVisitor()

@@ -14,6 +14,7 @@ import (
 	"github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
+	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,17 +44,16 @@ type KubePerTestContext struct {
 }
 
 func (tc KubePerTestContext) createTestNamespace() error {
-	ctx := context.Background()
-
 	ns := &corev1.Namespace{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: tc.namespace,
+			Name: tc.Namespace,
 		},
 	}
-	_, err := controllerutil.CreateOrUpdate(ctx, tc.KubeClient, ns, func() error {
+	_, err := controllerutil.CreateOrUpdate(tc.Ctx, tc.KubeClient, ns, func() error {
 		return nil
 	})
-	if err != nil {
+
+	if err != nil && !kerrors.IsAlreadyExists(err) {
 		return errors.Wrapf(err, "creating namespace")
 	}
 
@@ -61,16 +61,13 @@ func (tc KubePerTestContext) createTestNamespace() error {
 }
 
 func (tc KubePerTestContext) MakeObjectMeta(prefix string) ctrl.ObjectMeta {
-	return ctrl.ObjectMeta{
-		Name:      tc.Namer.GenerateName(prefix),
-		Namespace: tc.namespace,
-	}
+	return tc.MakeObjectMetaWithName(tc.Namer.GenerateName(prefix))
 }
 
 func (tc KubePerTestContext) MakeObjectMetaWithName(name string) ctrl.ObjectMeta {
 	return ctrl.ObjectMeta{
 		Name:      name,
-		Namespace: tc.namespace,
+		Namespace: tc.Namespace,
 	}
 }
 
@@ -246,7 +243,7 @@ func (tc *KubePerTestContext) DefaultTimeout() time.Duration {
 // TODO: This happens when the test sees a Status update and makes an update to the resource while racing with the Spec update
 // TODO: in azure_deployment_reconciler CommitUpdate. If we fix https://github.com/Azure/azure-service-operator/issues/1744 we can
 // TODO: shorten this interval.
-var PollingIntervalReplaying = 1 * time.Second
+var PollingIntervalReplaying = 100 * time.Millisecond
 
 // PollingIntervalRecording is the polling interval to use when recording.
 var PollingIntervalRecording = 5 * time.Second

@@ -61,7 +61,7 @@ func AddKubernetesResourceInterfaceImpls(
 	getOwnerProperty := functions.NewObjectFunction(astmodel.OwnerProperty, idFactory, newOwnerFunction(r))
 	getOwnerProperty.AddPackageReference(astmodel.GenRuntimeReference)
 
-	getSpecFunction := functions.NewObjectFunction("GetSpec", idFactory, createGetSpecFunction)
+	getSpecFunction := functions.NewGetSpecFunction(idFactory)
 
 	getTypeFunction := functions.NewObjectFunction("Get"+astmodel.TypeProperty, idFactory, newGetTypeFunction(resourceARMType))
 	getTypeFunction.AddPackageReference(astmodel.GenRuntimeReference)
@@ -79,10 +79,20 @@ func AddKubernetesResourceInterfaceImpls(
 
 	if r.StatusType() != nil {
 		// Skip Status functions if no status
-		getStatusFunction := functions.NewObjectFunction("GetStatus", idFactory, createGetStatusFunction)
+		status, ok := astmodel.AsTypeName(r.StatusType())
+		if !ok {
+			msg := fmt.Sprintf(
+				"Unable to create NewEmptyStatus() for resource %s (expected Status to be a TypeName but had %T)",
+				resourceName,
+				r.StatusType())
+			return nil, errors.New(msg)
+		}
+
+		emptyStatusFunction := functions.NewEmptyStatusFunction(status, idFactory)
+		getStatusFunction := functions.NewGetStatusFunction(idFactory)
 		setStatusFunction := functions.NewResourceStatusSetterFunction(r, idFactory)
 
-		fns = append(fns, getStatusFunction, setStatusFunction)
+		fns = append(fns, emptyStatusFunction, getStatusFunction, setStatusFunction)
 	}
 
 	kubernetesResourceImplementation := astmodel.NewInterfaceImplementation(astmodel.KubernetesResourceType, fns...)
@@ -226,12 +236,10 @@ func setEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 			Name:          methodName,
 			ReceiverIdent: receiverIdent,
 			ReceiverType:  &dst.StarExpr{X: receiverType},
-			Body: []dst.Stmt{
+			Body: astbuilder.Statements(
 				astbuilder.SimpleAssignment(
 					azureNameProp,
-					astbuilder.CallFunc(enumType.Name(), dst.NewIdent("azureName")),
-				),
-			},
+					astbuilder.CallFunc(enumType.Name(), dst.NewIdent("azureName")))),
 		}
 
 		fn.AddComments(fmt.Sprintf("sets the Azure name from the given %s value", enumType.String()))
@@ -260,21 +268,9 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 			Name:          methodName,
 			ReceiverIdent: receiverIdent,
 			ReceiverType:  &dst.StarExpr{X: receiverType},
-			Body: []dst.Stmt{
-				&dst.ReturnStmt{
-					Decs: dst.ReturnStmtDecorations{
-						NodeDecs: dst.NodeDecs{
-							Before: dst.NewLine,
-						},
-					},
-					Results: []dst.Expr{
-						&dst.BasicLit{
-							Kind:  token.STRING,
-							Value: fixedValue,
-						},
-					},
-				},
-			},
+			Body: astbuilder.Statements(
+				astbuilder.Returns(
+					astbuilder.TextLiteral(fixedValue))),
 		}
 
 		fn.AddComments(fmt.Sprintf("returns the Azure name of the resource (always %s)", fixedValue))
@@ -332,52 +328,6 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 
 		return fn.DefineFunc()
 	}
-}
-
-func createGetSpecFunction(
-	f *functions.ObjectFunction,
-	genContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
-	_ string) *dst.FuncDecl {
-	receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
-	receiverType := astmodel.NewOptionalType(receiver)
-
-	ret := astbuilder.Returns(astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))
-
-	fn := &astbuilder.FuncDetails{
-		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(genContext),
-		Name:          "GetSpec",
-		Body:          astbuilder.Statements(ret),
-	}
-
-	fn.AddReturn(astmodel.ConvertibleSpecInterfaceType.AsType(genContext))
-	fn.AddComments("returns the specification of this resource")
-
-	return fn.DefineFunc()
-}
-
-func createGetStatusFunction(
-	f *functions.ObjectFunction,
-	genContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
-	_ string) *dst.FuncDecl {
-	receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
-	receiverType := astmodel.NewOptionalType(receiver)
-
-	fn := &astbuilder.FuncDetails{
-		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(genContext),
-		Name:          "GetStatus",
-		Body: astbuilder.Statements(
-			astbuilder.Returns(
-				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")))),
-	}
-
-	fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsType(genContext))
-	fn.AddComments("returns the status of this resource")
-
-	return fn.DefineFunc()
 }
 
 // newGetTypeFunction returns a function that returns the type of the resource (such as microsoft.compute/disks)
@@ -451,15 +401,10 @@ func lookupGroupAndKindStmt(
 		},
 		Tok: token.DEFINE,
 		Rhs: []dst.Expr{
-			&dst.CallExpr{
-				Fun: &dst.SelectorExpr{
-					X:   dst.NewIdent(astmodel.GenRuntimeReference.PackageName()),
-					Sel: dst.NewIdent("LookupOwnerGroupKind"),
-				},
-				Args: []dst.Expr{
-					specSelector,
-				},
-			},
+			astbuilder.CallExpr(
+				dst.NewIdent(astmodel.GenRuntimeReference.PackageName()),
+				"LookupOwnerGroupKind",
+				specSelector),
 		},
 	}
 }
@@ -469,36 +414,18 @@ func createResourceReference(
 	kind dst.Expr,
 	receiverIdent string) dst.Expr {
 
-	specSelector := &dst.SelectorExpr{
-		X:   dst.NewIdent(receiverIdent),
-		Sel: dst.NewIdent("Spec"),
-	}
+	specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
 
-	return astbuilder.AddrOf(
-		&dst.CompositeLit{
-			Type: &dst.SelectorExpr{
-				X:   dst.NewIdent(astmodel.GenRuntimeReference.PackageName()),
-				Sel: dst.NewIdent("ResourceReference"),
-			},
-			Elts: []dst.Expr{
-				&dst.KeyValueExpr{
-					Key:   dst.NewIdent("Group"),
-					Value: group,
-				},
-				&dst.KeyValueExpr{
-					Key:   dst.NewIdent("Kind"),
-					Value: kind,
-				},
-				&dst.KeyValueExpr{
-					Key:   dst.NewIdent("Namespace"),
-					Value: astbuilder.Selector(dst.NewIdent(receiverIdent), "Namespace"),
-				},
-				&dst.KeyValueExpr{
-					Key:   dst.NewIdent("Name"),
-					Value: astbuilder.Selector(astbuilder.Selector(specSelector, astmodel.OwnerProperty), "Name"),
-				},
-			},
-		})
+	compositeLitDetails := astbuilder.NewCompositeLiteralDetails(
+		astbuilder.Selector(
+			dst.NewIdent(astmodel.GenRuntimeReference.PackageName()),
+			"ResourceReference"))
+	compositeLitDetails.AddField("Group", group)
+	compositeLitDetails.AddField("Kind", kind)
+	compositeLitDetails.AddField("Namespace", astbuilder.Selector(dst.NewIdent(receiverIdent), "Namespace"))
+	compositeLitDetails.AddField("Name", astbuilder.Selector(astbuilder.Selector(specSelector, astmodel.OwnerProperty), "Name"))
+
+	return astbuilder.AddrOf(compositeLitDetails.Build())
 }
 
 // setStringAzureNameFunction returns a function that sets the Name property of
@@ -538,24 +465,9 @@ func getStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationConte
 		ReceiverType: &dst.StarExpr{
 			X: receiverType,
 		},
-		Body: []dst.Stmt{
-			&dst.ReturnStmt{
-				Decs: dst.ReturnStmtDecorations{
-					NodeDecs: dst.NodeDecs{
-						Before: dst.NewLine,
-					},
-				},
-				Results: []dst.Expr{
-					&dst.SelectorExpr{
-						X: &dst.SelectorExpr{
-							X:   dst.NewIdent(receiverIdent),
-							Sel: dst.NewIdent("Spec"),
-						},
-						Sel: dst.NewIdent(astmodel.AzureNameProperty),
-					},
-				},
-			},
-		},
+		Body: astbuilder.Statements(
+			astbuilder.Returns(
+				astbuilder.Selector(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec"), astmodel.AzureNameProperty))),
 	}
 
 	fn.AddComments("returns the Azure name of the resource")

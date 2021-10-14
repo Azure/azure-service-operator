@@ -64,10 +64,20 @@ func (databaseAccount *DatabaseAccount) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
+// NewEmptyStatus returns a new empty (blank) status
+func (databaseAccount *DatabaseAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &DatabaseAccountGetResults_Status{}
+}
+
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (databaseAccount *DatabaseAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(databaseAccount.Spec)
-	return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: databaseAccount.Namespace, Name: databaseAccount.Spec.Owner.Name}
+	return &genruntime.ResourceReference{
+		Group:     group,
+		Kind:      kind,
+		Namespace: databaseAccount.Namespace,
+		Name:      databaseAccount.Spec.Owner.Name,
+	}
 }
 
 // SetStatus sets the status of this resource
