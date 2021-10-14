@@ -71,6 +71,9 @@
 | DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion        | v1alpha1api20210515 |
 | DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecType              | v1alpha1api20210515 |
 | DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec                 | v1alpha1api20210515 |
+| DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion      | v1alpha1api20210515 |
+| DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecType            | v1alpha1api20210515 |
+| DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec               | v1alpha1api20210515 |
 | DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion                | v1alpha1api20210515 |
 | DatabaseAccountsSqlDatabasesContainersTriggersSpecType                      | v1alpha1api20210515 |
 | DatabaseAccountsSqlDatabasesContainersTriggers_Spec                         | v1alpha1api20210515 |
@@ -80,6 +83,9 @@
 | DatabaseAccountsSqlDatabasesContainers_Spec                                 | v1alpha1api20210515 |
 | DatabaseAccountsSqlDatabasesSpecAPIVersion                                  | v1alpha1api20210515 |
 | DatabaseAccountsSqlDatabasesSpecType                                        | v1alpha1api20210515 |
+| DatabaseAccountsSqlDatabasesThroughputSettingsSpecAPIVersion                | v1alpha1api20210515 |
+| DatabaseAccountsSqlDatabasesThroughputSettingsSpecType                      | v1alpha1api20210515 |
+| DatabaseAccountsSqlDatabasesThroughputSettings_Spec                         | v1alpha1api20210515 |
 | DatabaseAccountsSqlDatabases_Spec                                           | v1alpha1api20210515 |
 | DatabaseAccounts_Spec                                                       | v1alpha1api20210515 |
 | ExcludedPath                                                                | v1alpha1api20210515 |
@@ -145,6 +151,7 @@
 | SqlDatabase                                                                 | v1alpha1api20210515 |
 | SqlDatabaseContainer                                                        | v1alpha1api20210515 |
 | SqlDatabaseContainerStoredProcedure                                         | v1alpha1api20210515 |
+| SqlDatabaseContainerThroughputSetting                                       | v1alpha1api20210515 |
 | SqlDatabaseContainerTrigger                                                 | v1alpha1api20210515 |
 | SqlDatabaseContainerUserDefinedFunction                                     | v1alpha1api20210515 |
 | SqlDatabaseCreateUpdateProperties                                           | v1alpha1api20210515 |
@@ -152,6 +159,7 @@
 | SqlDatabaseGetProperties_Status_Resource                                    | v1alpha1api20210515 |
 | SqlDatabaseGetResults_Status                                                | v1alpha1api20210515 |
 | SqlDatabaseResource                                                         | v1alpha1api20210515 |
+| SqlDatabaseThroughputSetting                                                | v1alpha1api20210515 |
 | SqlStoredProcedureCreateUpdateProperties                                    | v1alpha1api20210515 |
 | SqlStoredProcedureGetProperties_Status                                      | v1alpha1api20210515 |
 | SqlStoredProcedureGetProperties_Status_Resource                             | v1alpha1api20210515 |

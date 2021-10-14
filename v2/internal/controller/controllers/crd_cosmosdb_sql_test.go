@@ -8,13 +8,13 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	documentdb "github.com/Azure/azure-service-operator/v2/api/microsoft.documentdb/v1alpha1api20210515"
 	"github.com/Azure/azure-service-operator/v2/internal/controller/testcommon"
-	"github.com/Azure/go-autorest/autorest/to"
 )
 
 func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
@@ -49,6 +49,11 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 		Spec: documentdb.DatabaseAccountsSqlDatabases_Spec{
 			Location: &tc.AzureRegion,
 			Owner:    testcommon.AsOwner(&acct),
+			Options: &documentdb.CreateUpdateOptions{
+				AutoscaleSettings: &documentdb.AutoscaleSettings{
+					MaxThroughput: to.IntPtr(4000),
+				},
+			},
 			Resource: documentdb.SqlDatabaseResource{
 				Id: dbName,
 			},
@@ -58,12 +63,20 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	tc.CreateResourcesAndWait(&acct, &db)
 	defer tc.DeleteResourcesAndWait(&acct, &db)
 
-	tc.RunParallelSubtests(testcommon.Subtest{
-		Name: "CosmosDB SQL Container CRUD",
-		Test: func(tc testcommon.KubePerTestContext) {
-			CosmosDB_SQL_Container_CRUD(tc, &db)
+	tc.T.Logf("SQL account and database successfully created")
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "CosmosDB SQL Container CRUD",
+			Test: func(tc testcommon.KubePerTestContext) {
+				CosmosDB_SQL_Container_CRUD(tc, &db)
+			},
 		},
-	})
+		testcommon.Subtest{
+			Name: "CosmosDB SQL Database throughputsettings CRUD",
+			Test: func(tc testcommon.KubePerTestContext) {
+				CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc, &db)
+			},
+		})
 
 	// There aren't any attributes to update for databases, other than
 	// throughput settings once they're available.
@@ -109,22 +122,31 @@ func CosmosDB_SQL_Container_CRUD(tc testcommon.KubePerTestContext, db client.Obj
 	tc.CreateResourceAndWait(&container)
 	defer tc.DeleteResourceAndWait(&container)
 
-	tc.RunParallelSubtests([]testcommon.Subtest{{
-		Name: "CosmosDB SQL Trigger CRUD",
-		Test: func(tc testcommon.KubePerTestContext) {
-			CosmosDB_SQL_Trigger_CRUD(tc, &container)
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "CosmosDB SQL Trigger CRUD",
+			Test: func(tc testcommon.KubePerTestContext) {
+				CosmosDB_SQL_Trigger_CRUD(tc, &container)
+			},
 		},
-	}, {
-		Name: "CosmosDB SQL Stored Procedure CRUD",
-		Test: func(tc testcommon.KubePerTestContext) {
-			CosmosDB_SQL_StoredProcedure_CRUD(tc, &container)
+		testcommon.Subtest{
+			Name: "CosmosDB SQL Stored Procedure CRUD",
+			Test: func(tc testcommon.KubePerTestContext) {
+				CosmosDB_SQL_StoredProcedure_CRUD(tc, &container)
+			},
 		},
-	}, {
-		Name: "CosmosDB SQL User-defined Function CRUD",
-		Test: func(tc testcommon.KubePerTestContext) {
-			CosmosDB_SQL_UserDefinedFunction_CRUD(tc, &container)
+		testcommon.Subtest{
+			Name: "CosmosDB SQL User-defined Function CRUD",
+			Test: func(tc testcommon.KubePerTestContext) {
+				CosmosDB_SQL_UserDefinedFunction_CRUD(tc, &container)
+			},
 		},
-	}}...)
+		testcommon.Subtest{
+			Name: "CosmosDB SQL Container ThroughputSettings CRUD",
+			Test: func(tc testcommon.KubePerTestContext) {
+				CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc, &container)
+			},
+		})
 
 	tc.T.Logf("Updating the default TTL on container %q", name)
 	old := container.DeepCopy()
@@ -317,3 +339,79 @@ function tax(income) {
     else
         return income*0.4;
 }`
+
+func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc testcommon.KubePerTestContext, db client.Object) {
+	throughputSettings := documentdb.SqlDatabaseThroughputSetting{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
+		Spec: documentdb.DatabaseAccountsSqlDatabasesThroughputSettings_Spec{
+			Owner: testcommon.AsOwner(db),
+			Resource: documentdb.ThroughputSettingsResource{
+				// We cannot change this to be a fixed throughput as we already created the database using
+				// autoscale and they do not allow switching back to fixed from that.
+				AutoscaleSettings: &documentdb.AutoscaleSettingsResource{
+					MaxThroughput: 5000,
+				},
+			},
+		},
+	}
+
+	tc.T.Log("creating SQL database throughput")
+	tc.CreateResourceAndWait(&throughputSettings)
+	// no DELETE, this is not a real resource - to delete it you must delete its parent
+
+	// Ensure that the status is what we expect
+	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
+	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(5000))
+
+	tc.T.Log("increase max throughput to 6000")
+	old := throughputSettings.DeepCopy()
+	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = 6000
+	tc.Patch(old, &throughputSettings)
+
+	objectKey := client.ObjectKeyFromObject(&throughputSettings)
+
+	tc.T.Log("waiting for new throughput in status")
+	tc.Eventually(func() int {
+		var updated documentdb.SqlDatabaseThroughputSetting
+		tc.GetResource(objectKey, &updated)
+		return updated.Status.Resource.AutoscaleSettings.MaxThroughput
+	}).Should(Equal(6000))
+	tc.T.Log("throughput successfully updated in status")
+}
+
+func CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc testcommon.KubePerTestContext, container client.Object) {
+	throughputSettings := documentdb.SqlDatabaseContainerThroughputSetting{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
+		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{
+			Owner: testcommon.AsOwner(container),
+			Resource: documentdb.ThroughputSettingsResource{
+				Throughput: to.IntPtr(500),
+			},
+		},
+	}
+
+	tc.T.Log("creating SQL database container throughput")
+	tc.CreateResourceAndWait(&throughputSettings)
+	// no DELETE, this is not a real resource - to delete it you must delete its parent
+
+	// Ensure that the status is what we expect
+	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
+	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
+	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.IntPtr(500)))
+
+	tc.T.Log("increase throughput to 600")
+	old := throughputSettings.DeepCopy()
+	throughputSettings.Spec.Resource.Throughput = to.IntPtr(600)
+	tc.Patch(old, &throughputSettings)
+
+	objectKey := client.ObjectKeyFromObject(&throughputSettings)
+
+	tc.T.Log("waiting for new throughput in status")
+	tc.Eventually(func() *int {
+		var updated documentdb.SqlDatabaseContainerThroughputSetting
+		tc.GetResource(objectKey, &updated)
+		return updated.Status.Resource.Throughput
+	}).Should(Equal(to.IntPtr(600)))
+	tc.T.Log("throughput successfully updated in status")
+}

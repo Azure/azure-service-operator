@@ -47,8 +47,10 @@ v1alpha1api20210515
 - SqlDatabase
 - SqlDatabaseContainer
 - SqlDatabaseContainerStoredProcedure
+- SqlDatabaseContainerThroughputSetting
 - SqlDatabaseContainerTrigger
 - SqlDatabaseContainerUserDefinedFunction
+- SqlDatabaseThroughputSetting
 
 ### microsoft.managedidentity
 
