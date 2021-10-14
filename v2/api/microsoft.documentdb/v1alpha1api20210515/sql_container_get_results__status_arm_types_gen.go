@@ -133,6 +133,21 @@ type CompositePath_StatusARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
+type ConflictResolutionPolicyStatusMode string
+
+const (
+	ConflictResolutionPolicyStatusModeCustom         = ConflictResolutionPolicyStatusMode("Custom")
+	ConflictResolutionPolicyStatusModeLastWriterWins = ConflictResolutionPolicyStatusMode("LastWriterWins")
+)
+
+type ContainerPartitionKeyStatusKind string
+
+const (
+	ContainerPartitionKeyStatusKindHash      = ContainerPartitionKeyStatusKind("Hash")
+	ContainerPartitionKeyStatusKindMultiHash = ContainerPartitionKeyStatusKind("MultiHash")
+	ContainerPartitionKeyStatusKindRange     = ContainerPartitionKeyStatusKind("Range")
+)
+
 //Generated from:
 type ExcludedPath_StatusARM struct {
 	//Path: The path for which the indexing behavior applies to. Index paths typically
@@ -149,6 +164,14 @@ type IncludedPath_StatusARM struct {
 	//start with root and end with wildcard (/path/*)
 	Path *string `json:"path,omitempty"`
 }
+
+type IndexingPolicyStatusIndexingMode string
+
+const (
+	IndexingPolicyStatusIndexingModeConsistent = IndexingPolicyStatusIndexingMode("consistent")
+	IndexingPolicyStatusIndexingModeLazy       = IndexingPolicyStatusIndexingMode("lazy")
+	IndexingPolicyStatusIndexingModeNone       = IndexingPolicyStatusIndexingMode("none")
+)
 
 //Generated from:
 type SpatialSpec_StatusARM struct {
@@ -167,6 +190,13 @@ type UniqueKey_StatusARM struct {
 	Paths []string `json:"paths,omitempty"`
 }
 
+type CompositePathStatusOrder string
+
+const (
+	CompositePathStatusOrderAscending  = CompositePathStatusOrder("ascending")
+	CompositePathStatusOrderDescending = CompositePathStatusOrder("descending")
+)
+
 //Generated from:
 type Indexes_StatusARM struct {
 	//DataType: The datatype for which the indexing behavior is applied to.
@@ -178,3 +208,32 @@ type Indexes_StatusARM struct {
 	//Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
 }
+
+//Generated from:
+type SpatialType_Status string
+
+const (
+	SpatialType_StatusLineString   = SpatialType_Status("LineString")
+	SpatialType_StatusMultiPolygon = SpatialType_Status("MultiPolygon")
+	SpatialType_StatusPoint        = SpatialType_Status("Point")
+	SpatialType_StatusPolygon      = SpatialType_Status("Polygon")
+)
+
+type IndexesStatusDataType string
+
+const (
+	IndexesStatusDataTypeLineString   = IndexesStatusDataType("LineString")
+	IndexesStatusDataTypeMultiPolygon = IndexesStatusDataType("MultiPolygon")
+	IndexesStatusDataTypeNumber       = IndexesStatusDataType("Number")
+	IndexesStatusDataTypePoint        = IndexesStatusDataType("Point")
+	IndexesStatusDataTypePolygon      = IndexesStatusDataType("Polygon")
+	IndexesStatusDataTypeString       = IndexesStatusDataType("String")
+)
+
+type IndexesStatusKind string
+
+const (
+	IndexesStatusKindHash    = IndexesStatusKind("Hash")
+	IndexesStatusKindRange   = IndexesStatusKind("Range")
+	IndexesStatusKindSpatial = IndexesStatusKind("Spatial")
+)

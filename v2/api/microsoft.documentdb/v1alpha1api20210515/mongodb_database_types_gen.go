@@ -17,8 +17,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources=databaseaccountsmongodbdatabases,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources={databaseaccountsmongodbdatabases/status,databaseaccountsmongodbdatabases/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources=mongodbdatabases,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources={mongodbdatabases/status,mongodbdatabases/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
@@ -27,98 +27,96 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
-type DatabaseAccountsMongodbDatabase struct {
+type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsMongodbDatabases_Spec `json:"spec,omitempty"`
 	Status            MongoDBDatabaseGetResults_Status      `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsMongodbDatabase{}
+var _ conditions.Conditioner = &MongodbDatabase{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) GetConditions() conditions.Conditions {
-	return databaseAccountsMongodbDatabase.Status.Conditions
+func (mongodbDatabase *MongodbDatabase) GetConditions() conditions.Conditions {
+	return mongodbDatabase.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsMongodbDatabase.Status.Conditions = conditions
+func (mongodbDatabase *MongodbDatabase) SetConditions(conditions conditions.Conditions) {
+	mongodbDatabase.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccountsmongodbdatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccountsmongodbdatabases,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.databaseaccountsmongodbdatabases.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-mongodbdatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=mongodbdatabases,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.mongodbdatabases.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
 
-var _ admission.Defaulter = &DatabaseAccountsMongodbDatabase{}
+var _ admission.Defaulter = &MongodbDatabase{}
 
-// Default applies defaults to the DatabaseAccountsMongodbDatabase resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) Default() {
-	databaseAccountsMongodbDatabase.defaultImpl()
-	var temp interface{} = databaseAccountsMongodbDatabase
+// Default applies defaults to the MongodbDatabase resource
+func (mongodbDatabase *MongodbDatabase) Default() {
+	mongodbDatabase.defaultImpl()
+	var temp interface{} = mongodbDatabase
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) defaultAzureName() {
-	if databaseAccountsMongodbDatabase.Spec.AzureName == "" {
-		databaseAccountsMongodbDatabase.Spec.AzureName = databaseAccountsMongodbDatabase.Name
+func (mongodbDatabase *MongodbDatabase) defaultAzureName() {
+	if mongodbDatabase.Spec.AzureName == "" {
+		mongodbDatabase.Spec.AzureName = mongodbDatabase.Name
 	}
 }
 
-// defaultImpl applies the code generated defaults to the DatabaseAccountsMongodbDatabase resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) defaultImpl() {
-	databaseAccountsMongodbDatabase.defaultAzureName()
-}
+// defaultImpl applies the code generated defaults to the MongodbDatabase resource
+func (mongodbDatabase *MongodbDatabase) defaultImpl() { mongodbDatabase.defaultAzureName() }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsMongodbDatabase{}
+var _ genruntime.KubernetesResource = &MongodbDatabase{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) AzureName() string {
-	return databaseAccountsMongodbDatabase.Spec.AzureName
+func (mongodbDatabase *MongodbDatabase) AzureName() string {
+	return mongodbDatabase.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) GetResourceKind() genruntime.ResourceKind {
+func (mongodbDatabase *MongodbDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsMongodbDatabase.Spec
+func (mongodbDatabase *MongodbDatabase) GetSpec() genruntime.ConvertibleSpec {
+	return &mongodbDatabase.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsMongodbDatabase.Status
+func (mongodbDatabase *MongodbDatabase) GetStatus() genruntime.ConvertibleStatus {
+	return &mongodbDatabase.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) GetType() string {
+func (mongodbDatabase *MongodbDatabase) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (mongodbDatabase *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &MongoDBDatabaseGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsMongodbDatabase.Spec)
+func (mongodbDatabase *MongodbDatabase) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(mongodbDatabase.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsMongodbDatabase.Namespace,
-		Name:      databaseAccountsMongodbDatabase.Spec.Owner.Name,
+		Namespace: mongodbDatabase.Namespace,
+		Name:      mongodbDatabase.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
+func (mongodbDatabase *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*MongoDBDatabaseGetResults_Status); ok {
-		databaseAccountsMongodbDatabase.Status = *st
+		mongodbDatabase.Status = *st
 		return nil
 	}
 
@@ -129,18 +127,18 @@ func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) SetStatu
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsMongodbDatabase.Status = st
+	mongodbDatabase.Status = st
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccountsmongodbdatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccountsmongodbdatabases,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.databaseaccountsmongodbdatabases.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-mongodbdatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=mongodbdatabases,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.mongodbdatabases.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
 
-var _ admission.Validator = &DatabaseAccountsMongodbDatabase{}
+var _ admission.Validator = &MongodbDatabase{}
 
 // ValidateCreate validates the creation of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) ValidateCreate() error {
-	validations := databaseAccountsMongodbDatabase.createValidations()
-	var temp interface{} = databaseAccountsMongodbDatabase
+func (mongodbDatabase *MongodbDatabase) ValidateCreate() error {
+	validations := mongodbDatabase.createValidations()
+	var temp interface{} = mongodbDatabase
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -155,9 +153,9 @@ func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) Validate
 }
 
 // ValidateDelete validates the deletion of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) ValidateDelete() error {
-	validations := databaseAccountsMongodbDatabase.deleteValidations()
-	var temp interface{} = databaseAccountsMongodbDatabase
+func (mongodbDatabase *MongodbDatabase) ValidateDelete() error {
+	validations := mongodbDatabase.deleteValidations()
+	var temp interface{} = mongodbDatabase
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -172,9 +170,9 @@ func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) Validate
 }
 
 // ValidateUpdate validates an update of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) ValidateUpdate(old runtime.Object) error {
-	validations := databaseAccountsMongodbDatabase.updateValidations()
-	var temp interface{} = databaseAccountsMongodbDatabase
+func (mongodbDatabase *MongodbDatabase) ValidateUpdate(old runtime.Object) error {
+	validations := mongodbDatabase.updateValidations()
+	var temp interface{} = mongodbDatabase
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -189,35 +187,35 @@ func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) Validate
 }
 
 // createValidations validates the creation of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) createValidations() []func() error {
-	return []func() error{databaseAccountsMongodbDatabase.validateResourceReferences}
+func (mongodbDatabase *MongodbDatabase) createValidations() []func() error {
+	return []func() error{mongodbDatabase.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) deleteValidations() []func() error {
+func (mongodbDatabase *MongodbDatabase) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) updateValidations() []func(old runtime.Object) error {
+func (mongodbDatabase *MongodbDatabase) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return databaseAccountsMongodbDatabase.validateResourceReferences()
+			return mongodbDatabase.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&databaseAccountsMongodbDatabase.Spec)
+func (mongodbDatabase *MongodbDatabase) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&mongodbDatabase.Spec)
 	if err != nil {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// AssignPropertiesFromDatabaseAccountsMongodbDatabase populates our DatabaseAccountsMongodbDatabase from the provided source DatabaseAccountsMongodbDatabase
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) AssignPropertiesFromDatabaseAccountsMongodbDatabase(source *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabase) error {
+// AssignPropertiesFromMongodbDatabase populates our MongodbDatabase from the provided source MongodbDatabase
+func (mongodbDatabase *MongodbDatabase) AssignPropertiesFromMongodbDatabase(source *v1alpha1api20210515storage.MongodbDatabase) error {
 
 	// Spec
 	var spec DatabaseAccountsMongodbDatabases_Spec
@@ -225,7 +223,7 @@ func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) AssignPr
 	if err != nil {
 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec()")
 	}
-	databaseAccountsMongodbDatabase.Spec = spec
+	mongodbDatabase.Spec = spec
 
 	// Status
 	var status MongoDBDatabaseGetResults_Status
@@ -233,18 +231,18 @@ func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) AssignPr
 	if err != nil {
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromMongoDBDatabaseGetResultsStatus()")
 	}
-	databaseAccountsMongodbDatabase.Status = status
+	mongodbDatabase.Status = status
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsMongodbDatabase populates the provided destination DatabaseAccountsMongodbDatabase from our DatabaseAccountsMongodbDatabase
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) AssignPropertiesToDatabaseAccountsMongodbDatabase(destination *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabase) error {
+// AssignPropertiesToMongodbDatabase populates the provided destination MongodbDatabase from our MongodbDatabase
+func (mongodbDatabase *MongodbDatabase) AssignPropertiesToMongodbDatabase(destination *v1alpha1api20210515storage.MongodbDatabase) error {
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsMongodbDatabases_Spec
-	err := databaseAccountsMongodbDatabase.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(&spec)
+	err := mongodbDatabase.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec()")
 	}
@@ -252,7 +250,7 @@ func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) AssignPr
 
 	// Status
 	var status v1alpha1api20210515storage.MongoDBDatabaseGetResults_Status
-	err = databaseAccountsMongodbDatabase.Status.AssignPropertiesToMongoDBDatabaseGetResultsStatus(&status)
+	err = mongodbDatabase.Status.AssignPropertiesToMongoDBDatabaseGetResultsStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToMongoDBDatabaseGetResultsStatus()")
 	}
@@ -263,20 +261,20 @@ func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) AssignPr
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
+func (mongodbDatabase *MongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsMongodbDatabase.Spec.OriginalVersion(),
-		Kind:    "DatabaseAccountsMongodbDatabase",
+		Version: mongodbDatabase.Spec.OriginalVersion(),
+		Kind:    "MongodbDatabase",
 	}
 }
 
 // +kubebuilder:object:root=true
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
-type DatabaseAccountsMongodbDatabaseList struct {
+type MongodbDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsMongodbDatabase `json:"items"`
+	Items           []MongodbDatabase `json:"items"`
 }
 
 type DatabaseAccountsMongodbDatabases_Spec struct {
@@ -1487,5 +1485,5 @@ func (autoscaleSettingsStatus *AutoscaleSettings_Status) AssignPropertiesToAutos
 }
 
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsMongodbDatabase{}, &DatabaseAccountsMongodbDatabaseList{})
+	SchemeBuilder.Register(&MongodbDatabase{}, &MongodbDatabaseList{})
 }

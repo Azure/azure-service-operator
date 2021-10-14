@@ -17,18 +17,18 @@ import (
 	"testing"
 )
 
-func Test_DatabaseAccountsMongodbDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MongodbDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountsMongodbDatabase via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabase, DatabaseAccountsMongodbDatabaseGenerator()))
+		"Round trip of MongodbDatabase via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongodbDatabase, MongodbDatabaseGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsMongodbDatabase runs a test to see if a specific instance of DatabaseAccountsMongodbDatabase round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsMongodbDatabase(subject DatabaseAccountsMongodbDatabase) string {
+// RunJSONSerializationTestForMongodbDatabase runs a test to see if a specific instance of MongodbDatabase round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongodbDatabase(subject MongodbDatabase) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -36,7 +36,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabase(subject Database
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountsMongodbDatabase
+	var actual MongodbDatabase
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -54,25 +54,24 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabase(subject Database
 	return ""
 }
 
-// Generator of DatabaseAccountsMongodbDatabase instances for property testing - lazily instantiated by
-//DatabaseAccountsMongodbDatabaseGenerator()
-var databaseAccountsMongodbDatabaseGenerator gopter.Gen
+// Generator of MongodbDatabase instances for property testing - lazily instantiated by MongodbDatabaseGenerator()
+var mongodbDatabaseGenerator gopter.Gen
 
-// DatabaseAccountsMongodbDatabaseGenerator returns a generator of DatabaseAccountsMongodbDatabase instances for property testing.
-func DatabaseAccountsMongodbDatabaseGenerator() gopter.Gen {
-	if databaseAccountsMongodbDatabaseGenerator != nil {
-		return databaseAccountsMongodbDatabaseGenerator
+// MongodbDatabaseGenerator returns a generator of MongodbDatabase instances for property testing.
+func MongodbDatabaseGenerator() gopter.Gen {
+	if mongodbDatabaseGenerator != nil {
+		return mongodbDatabaseGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabase(generators)
-	databaseAccountsMongodbDatabaseGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabase{}), generators)
+	AddRelatedPropertyGeneratorsForMongodbDatabase(generators)
+	mongodbDatabaseGenerator = gen.Struct(reflect.TypeOf(MongodbDatabase{}), generators)
 
-	return databaseAccountsMongodbDatabaseGenerator
+	return mongodbDatabaseGenerator
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabase is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabase(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForMongodbDatabase is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongodbDatabase(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsMongodbDatabasesSpecGenerator()
 	gens["Status"] = MongoDBDatabaseGetResultsStatusGenerator()
 }

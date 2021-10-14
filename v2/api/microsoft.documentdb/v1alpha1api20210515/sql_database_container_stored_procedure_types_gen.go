@@ -17,8 +17,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabasescontainersstoredprocedures,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources={databaseaccountssqldatabasescontainersstoredprocedures/status,databaseaccountssqldatabasescontainersstoredprocedures/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources=sqldatabasecontainerstoredprocedures,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources={sqldatabasecontainerstoredprocedures/status,sqldatabasecontainerstoredprocedures/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
@@ -27,98 +27,98 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
-type DatabaseAccountsSqlDatabasesContainersStoredProcedure struct {
+type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec `json:"spec,omitempty"`
 	Status            SqlStoredProcedureGetResults_Status                         `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsSqlDatabasesContainersStoredProcedure{}
+var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) GetConditions() conditions.Conditions {
-	return databaseAccountsSqlDatabasesContainersStoredProcedure.Status.Conditions
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetConditions() conditions.Conditions {
+	return sqlDatabaseContainerStoredProcedure.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsSqlDatabasesContainersStoredProcedure.Status.Conditions = conditions
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) SetConditions(conditions conditions.Conditions) {
+	sqlDatabaseContainerStoredProcedure.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccountssqldatabasescontainersstoredprocedure,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabasescontainersstoredprocedures,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.databaseaccountssqldatabasescontainersstoredprocedures.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-sqldatabasecontainerstoredprocedure,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=sqldatabasecontainerstoredprocedures,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.sqldatabasecontainerstoredprocedures.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
 
-var _ admission.Defaulter = &DatabaseAccountsSqlDatabasesContainersStoredProcedure{}
+var _ admission.Defaulter = &SqlDatabaseContainerStoredProcedure{}
 
-// Default applies defaults to the DatabaseAccountsSqlDatabasesContainersStoredProcedure resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) Default() {
-	databaseAccountsSqlDatabasesContainersStoredProcedure.defaultImpl()
-	var temp interface{} = databaseAccountsSqlDatabasesContainersStoredProcedure
+// Default applies defaults to the SqlDatabaseContainerStoredProcedure resource
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) Default() {
+	sqlDatabaseContainerStoredProcedure.defaultImpl()
+	var temp interface{} = sqlDatabaseContainerStoredProcedure
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) defaultAzureName() {
-	if databaseAccountsSqlDatabasesContainersStoredProcedure.Spec.AzureName == "" {
-		databaseAccountsSqlDatabasesContainersStoredProcedure.Spec.AzureName = databaseAccountsSqlDatabasesContainersStoredProcedure.Name
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) defaultAzureName() {
+	if sqlDatabaseContainerStoredProcedure.Spec.AzureName == "" {
+		sqlDatabaseContainerStoredProcedure.Spec.AzureName = sqlDatabaseContainerStoredProcedure.Name
 	}
 }
 
-// defaultImpl applies the code generated defaults to the DatabaseAccountsSqlDatabasesContainersStoredProcedure resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) defaultImpl() {
-	databaseAccountsSqlDatabasesContainersStoredProcedure.defaultAzureName()
+// defaultImpl applies the code generated defaults to the SqlDatabaseContainerStoredProcedure resource
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) defaultImpl() {
+	sqlDatabaseContainerStoredProcedure.defaultAzureName()
 }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsSqlDatabasesContainersStoredProcedure{}
+var _ genruntime.KubernetesResource = &SqlDatabaseContainerStoredProcedure{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) AzureName() string {
-	return databaseAccountsSqlDatabasesContainersStoredProcedure.Spec.AzureName
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) AzureName() string {
+	return sqlDatabaseContainerStoredProcedure.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) GetResourceKind() genruntime.ResourceKind {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsSqlDatabasesContainersStoredProcedure.Spec
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetSpec() genruntime.ConvertibleSpec {
+	return &sqlDatabaseContainerStoredProcedure.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsSqlDatabasesContainersStoredProcedure.Status
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetStatus() genruntime.ConvertibleStatus {
+	return &sqlDatabaseContainerStoredProcedure.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) GetType() string {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlStoredProcedureGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsSqlDatabasesContainersStoredProcedure.Spec)
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerStoredProcedure.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsSqlDatabasesContainersStoredProcedure.Namespace,
-		Name:      databaseAccountsSqlDatabasesContainersStoredProcedure.Spec.Owner.Name,
+		Namespace: sqlDatabaseContainerStoredProcedure.Namespace,
+		Name:      sqlDatabaseContainerStoredProcedure.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlStoredProcedureGetResults_Status); ok {
-		databaseAccountsSqlDatabasesContainersStoredProcedure.Status = *st
+		sqlDatabaseContainerStoredProcedure.Status = *st
 		return nil
 	}
 
@@ -129,18 +129,18 @@ func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSql
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsSqlDatabasesContainersStoredProcedure.Status = st
+	sqlDatabaseContainerStoredProcedure.Status = st
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccountssqldatabasescontainersstoredprocedure,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabasescontainersstoredprocedures,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.databaseaccountssqldatabasescontainersstoredprocedures.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-sqldatabasecontainerstoredprocedure,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=sqldatabasecontainerstoredprocedures,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.sqldatabasecontainerstoredprocedures.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
 
-var _ admission.Validator = &DatabaseAccountsSqlDatabasesContainersStoredProcedure{}
+var _ admission.Validator = &SqlDatabaseContainerStoredProcedure{}
 
 // ValidateCreate validates the creation of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) ValidateCreate() error {
-	validations := databaseAccountsSqlDatabasesContainersStoredProcedure.createValidations()
-	var temp interface{} = databaseAccountsSqlDatabasesContainersStoredProcedure
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) ValidateCreate() error {
+	validations := sqlDatabaseContainerStoredProcedure.createValidations()
+	var temp interface{} = sqlDatabaseContainerStoredProcedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -155,9 +155,9 @@ func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSql
 }
 
 // ValidateDelete validates the deletion of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) ValidateDelete() error {
-	validations := databaseAccountsSqlDatabasesContainersStoredProcedure.deleteValidations()
-	var temp interface{} = databaseAccountsSqlDatabasesContainersStoredProcedure
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) ValidateDelete() error {
+	validations := sqlDatabaseContainerStoredProcedure.deleteValidations()
+	var temp interface{} = sqlDatabaseContainerStoredProcedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -172,9 +172,9 @@ func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSql
 }
 
 // ValidateUpdate validates an update of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) ValidateUpdate(old runtime.Object) error {
-	validations := databaseAccountsSqlDatabasesContainersStoredProcedure.updateValidations()
-	var temp interface{} = databaseAccountsSqlDatabasesContainersStoredProcedure
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) ValidateUpdate(old runtime.Object) error {
+	validations := sqlDatabaseContainerStoredProcedure.updateValidations()
+	var temp interface{} = sqlDatabaseContainerStoredProcedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -189,35 +189,35 @@ func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSql
 }
 
 // createValidations validates the creation of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) createValidations() []func() error {
-	return []func() error{databaseAccountsSqlDatabasesContainersStoredProcedure.validateResourceReferences}
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) createValidations() []func() error {
+	return []func() error{sqlDatabaseContainerStoredProcedure.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) deleteValidations() []func() error {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) updateValidations() []func(old runtime.Object) error {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return databaseAccountsSqlDatabasesContainersStoredProcedure.validateResourceReferences()
+			return sqlDatabaseContainerStoredProcedure.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&databaseAccountsSqlDatabasesContainersStoredProcedure.Spec)
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&sqlDatabaseContainerStoredProcedure.Spec)
 	if err != nil {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedure populates our DatabaseAccountsSqlDatabasesContainersStoredProcedure from the provided source DatabaseAccountsSqlDatabasesContainersStoredProcedure
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedure(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedure) error {
+// AssignPropertiesFromSqlDatabaseContainerStoredProcedure populates our SqlDatabaseContainerStoredProcedure from the provided source SqlDatabaseContainerStoredProcedure
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesFromSqlDatabaseContainerStoredProcedure(source *v1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure) error {
 
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
@@ -225,7 +225,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSql
 	if err != nil {
 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec()")
 	}
-	databaseAccountsSqlDatabasesContainersStoredProcedure.Spec = spec
+	sqlDatabaseContainerStoredProcedure.Spec = spec
 
 	// Status
 	var status SqlStoredProcedureGetResults_Status
@@ -233,18 +233,18 @@ func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSql
 	if err != nil {
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromSqlStoredProcedureGetResultsStatus()")
 	}
-	databaseAccountsSqlDatabasesContainersStoredProcedure.Status = status
+	sqlDatabaseContainerStoredProcedure.Status = status
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedure populates the provided destination DatabaseAccountsSqlDatabasesContainersStoredProcedure from our DatabaseAccountsSqlDatabasesContainersStoredProcedure
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedure(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedure) error {
+// AssignPropertiesToSqlDatabaseContainerStoredProcedure populates the provided destination SqlDatabaseContainerStoredProcedure from our SqlDatabaseContainerStoredProcedure
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesToSqlDatabaseContainerStoredProcedure(destination *v1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure) error {
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
-	err := databaseAccountsSqlDatabasesContainersStoredProcedure.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(&spec)
+	err := sqlDatabaseContainerStoredProcedure.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec()")
 	}
@@ -252,7 +252,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSql
 
 	// Status
 	var status v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status
-	err = databaseAccountsSqlDatabasesContainersStoredProcedure.Status.AssignPropertiesToSqlStoredProcedureGetResultsStatus(&status)
+	err = sqlDatabaseContainerStoredProcedure.Status.AssignPropertiesToSqlStoredProcedureGetResultsStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlStoredProcedureGetResultsStatus()")
 	}
@@ -263,20 +263,20 @@ func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSql
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) OriginalGVK() *schema.GroupVersionKind {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsSqlDatabasesContainersStoredProcedure.Spec.OriginalVersion(),
-		Kind:    "DatabaseAccountsSqlDatabasesContainersStoredProcedure",
+		Version: sqlDatabaseContainerStoredProcedure.Spec.OriginalVersion(),
+		Kind:    "SqlDatabaseContainerStoredProcedure",
 	}
 }
 
 // +kubebuilder:object:root=true
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
-type DatabaseAccountsSqlDatabasesContainersStoredProcedureList struct {
+type SqlDatabaseContainerStoredProcedureList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsSqlDatabasesContainersStoredProcedure `json:"items"`
+	Items           []SqlDatabaseContainerStoredProcedure `json:"items"`
 }
 
 type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
@@ -293,7 +293,7 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"DatabaseAccountsSqlDatabasesContainer"`
+	Owner genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"SqlDatabaseContainer"`
 
 	// +kubebuilder:validation:Required
 	//Resource: Cosmos DB SQL storedProcedure resource object
@@ -1128,5 +1128,5 @@ func (sqlStoredProcedureResource *SqlStoredProcedureResource) AssignPropertiesTo
 }
 
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsSqlDatabasesContainersStoredProcedure{}, &DatabaseAccountsSqlDatabasesContainersStoredProcedureList{})
+	SchemeBuilder.Register(&SqlDatabaseContainerStoredProcedure{}, &SqlDatabaseContainerStoredProcedureList{})
 }

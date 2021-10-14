@@ -16,75 +16,75 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction
+//Storage version of v1alpha1api20210515.SqlDatabaseContainerUserDefinedFunction
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
-type DatabaseAccountsSqlDatabasesContainersUserDefinedFunction struct {
+type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec `json:"spec,omitempty"`
 	Status            SqlUserDefinedFunctionGetResults_Status                         `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction{}
+var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) GetConditions() conditions.Conditions {
-	return databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status.Conditions
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetConditions() conditions.Conditions {
+	return sqlDatabaseContainerUserDefinedFunction.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status.Conditions = conditions
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) SetConditions(conditions conditions.Conditions) {
+	sqlDatabaseContainerUserDefinedFunction.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction{}
+var _ genruntime.KubernetesResource = &SqlDatabaseContainerUserDefinedFunction{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) AzureName() string {
-	return databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec.AzureName
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) AzureName() string {
+	return sqlDatabaseContainerUserDefinedFunction.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) GetResourceKind() genruntime.ResourceKind {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetSpec() genruntime.ConvertibleSpec {
+	return &sqlDatabaseContainerUserDefinedFunction.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetStatus() genruntime.ConvertibleStatus {
+	return &sqlDatabaseContainerUserDefinedFunction.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) GetType() string {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlUserDefinedFunctionGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec)
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerUserDefinedFunction.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsSqlDatabasesContainersUserDefinedFunction.Namespace,
-		Name:      databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec.Owner.Name,
+		Namespace: sqlDatabaseContainerUserDefinedFunction.Namespace,
+		Name:      sqlDatabaseContainerUserDefinedFunction.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlUserDefinedFunctionGetResults_Status); ok {
-		databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status = *st
+		sqlDatabaseContainerUserDefinedFunction.Status = *st
 		return nil
 	}
 
@@ -95,26 +95,26 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccount
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status = st
+	sqlDatabaseContainerUserDefinedFunction.Status = st
 	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) OriginalGVK() *schema.GroupVersionKind {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec.OriginalVersion,
-		Kind:    "DatabaseAccountsSqlDatabasesContainersUserDefinedFunction",
+		Version: sqlDatabaseContainerUserDefinedFunction.Spec.OriginalVersion,
+		Kind:    "SqlDatabaseContainerUserDefinedFunction",
 	}
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction
+//Storage version of v1alpha1api20210515.SqlDatabaseContainerUserDefinedFunction
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
-type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionList struct {
+type SqlDatabaseContainerUserDefinedFunctionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsSqlDatabasesContainersUserDefinedFunction `json:"items"`
+	Items           []SqlDatabaseContainerUserDefinedFunction `json:"items"`
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
@@ -127,7 +127,7 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
 	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"DatabaseAccountsSqlDatabasesContainer"`
+	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"SqlDatabaseContainer"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	Resource    *SqlUserDefinedFunctionResource   `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
@@ -205,5 +205,5 @@ type SqlUserDefinedFunctionResource struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsSqlDatabasesContainersUserDefinedFunction{}, &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionList{})
+	SchemeBuilder.Register(&SqlDatabaseContainerUserDefinedFunction{}, &SqlDatabaseContainerUserDefinedFunctionList{})
 }

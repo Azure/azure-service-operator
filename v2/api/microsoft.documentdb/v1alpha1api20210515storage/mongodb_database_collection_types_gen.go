@@ -16,75 +16,75 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollection
+//Storage version of v1alpha1api20210515.MongodbDatabaseCollection
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
-type DatabaseAccountsMongodbDatabasesCollection struct {
+type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsMongodbDatabasesCollections_Spec `json:"spec,omitempty"`
 	Status            MongoDBCollectionGetResults_Status               `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsMongodbDatabasesCollection{}
+var _ conditions.Conditioner = &MongodbDatabaseCollection{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) GetConditions() conditions.Conditions {
-	return databaseAccountsMongodbDatabasesCollection.Status.Conditions
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) GetConditions() conditions.Conditions {
+	return mongodbDatabaseCollection.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsMongodbDatabasesCollection.Status.Conditions = conditions
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) SetConditions(conditions conditions.Conditions) {
+	mongodbDatabaseCollection.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsMongodbDatabasesCollection{}
+var _ genruntime.KubernetesResource = &MongodbDatabaseCollection{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) AzureName() string {
-	return databaseAccountsMongodbDatabasesCollection.Spec.AzureName
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) AzureName() string {
+	return mongodbDatabaseCollection.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) GetResourceKind() genruntime.ResourceKind {
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsMongodbDatabasesCollection.Spec
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) GetSpec() genruntime.ConvertibleSpec {
+	return &mongodbDatabaseCollection.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsMongodbDatabasesCollection.Status
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) GetStatus() genruntime.ConvertibleStatus {
+	return &mongodbDatabaseCollection.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
-func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) GetType() string {
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &MongoDBCollectionGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsMongodbDatabasesCollection.Spec)
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(mongodbDatabaseCollection.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsMongodbDatabasesCollection.Namespace,
-		Name:      databaseAccountsMongodbDatabasesCollection.Spec.Owner.Name,
+		Namespace: mongodbDatabaseCollection.Namespace,
+		Name:      mongodbDatabaseCollection.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) SetStatus(status genruntime.ConvertibleStatus) error {
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*MongoDBCollectionGetResults_Status); ok {
-		databaseAccountsMongodbDatabasesCollection.Status = *st
+		mongodbDatabaseCollection.Status = *st
 		return nil
 	}
 
@@ -95,26 +95,26 @@ func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabas
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsMongodbDatabasesCollection.Status = st
+	mongodbDatabaseCollection.Status = st
 	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsMongodbDatabasesCollection *DatabaseAccountsMongodbDatabasesCollection) OriginalGVK() *schema.GroupVersionKind {
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsMongodbDatabasesCollection.Spec.OriginalVersion,
-		Kind:    "DatabaseAccountsMongodbDatabasesCollection",
+		Version: mongodbDatabaseCollection.Spec.OriginalVersion,
+		Kind:    "MongodbDatabaseCollection",
 	}
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollection
+//Storage version of v1alpha1api20210515.MongodbDatabaseCollection
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
-type DatabaseAccountsMongodbDatabasesCollectionList struct {
+type MongodbDatabaseCollectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsMongodbDatabasesCollection `json:"items"`
+	Items           []MongodbDatabaseCollection `json:"items"`
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollections_Spec
@@ -127,7 +127,7 @@ type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
 	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"DatabaseAccountsMongodbDatabase"`
+	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"MongodbDatabase"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	Resource    *MongoDBCollectionResource        `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
@@ -256,5 +256,5 @@ type MongoIndexOptions_Status struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsMongodbDatabasesCollection{}, &DatabaseAccountsMongodbDatabasesCollectionList{})
+	SchemeBuilder.Register(&MongodbDatabaseCollection{}, &MongodbDatabaseCollectionList{})
 }

@@ -16,75 +16,75 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersTrigger
+//Storage version of v1alpha1api20210515.SqlDatabaseContainerTrigger
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_triggers
-type DatabaseAccountsSqlDatabasesContainersTrigger struct {
+type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersTriggers_Spec `json:"spec,omitempty"`
 	Status            SqlTriggerGetResults_Status                         `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsSqlDatabasesContainersTrigger{}
+var _ conditions.Conditioner = &SqlDatabaseContainerTrigger{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabasesContainersTrigger) GetConditions() conditions.Conditions {
-	return databaseAccountsSqlDatabasesContainersTrigger.Status.Conditions
+func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) GetConditions() conditions.Conditions {
+	return sqlDatabaseContainerTrigger.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabasesContainersTrigger) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsSqlDatabasesContainersTrigger.Status.Conditions = conditions
+func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) SetConditions(conditions conditions.Conditions) {
+	sqlDatabaseContainerTrigger.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsSqlDatabasesContainersTrigger{}
+var _ genruntime.KubernetesResource = &SqlDatabaseContainerTrigger{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabasesContainersTrigger) AzureName() string {
-	return databaseAccountsSqlDatabasesContainersTrigger.Spec.AzureName
+func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AzureName() string {
+	return sqlDatabaseContainerTrigger.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabasesContainersTrigger) GetResourceKind() genruntime.ResourceKind {
+func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabasesContainersTrigger) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsSqlDatabasesContainersTrigger.Spec
+func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) GetSpec() genruntime.ConvertibleSpec {
+	return &sqlDatabaseContainerTrigger.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabasesContainersTrigger) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsSqlDatabasesContainersTrigger.Status
+func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) GetStatus() genruntime.ConvertibleStatus {
+	return &sqlDatabaseContainerTrigger.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
-func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabasesContainersTrigger) GetType() string {
+func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabasesContainersTrigger) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlTriggerGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabasesContainersTrigger) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsSqlDatabasesContainersTrigger.Spec)
+func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerTrigger.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsSqlDatabasesContainersTrigger.Namespace,
-		Name:      databaseAccountsSqlDatabasesContainersTrigger.Spec.Owner.Name,
+		Namespace: sqlDatabaseContainerTrigger.Namespace,
+		Name:      sqlDatabaseContainerTrigger.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabasesContainersTrigger) SetStatus(status genruntime.ConvertibleStatus) error {
+func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlTriggerGetResults_Status); ok {
-		databaseAccountsSqlDatabasesContainersTrigger.Status = *st
+		sqlDatabaseContainerTrigger.Status = *st
 		return nil
 	}
 
@@ -95,26 +95,26 @@ func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabase
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsSqlDatabasesContainersTrigger.Status = st
+	sqlDatabaseContainerTrigger.Status = st
 	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsSqlDatabasesContainersTrigger *DatabaseAccountsSqlDatabasesContainersTrigger) OriginalGVK() *schema.GroupVersionKind {
+func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsSqlDatabasesContainersTrigger.Spec.OriginalVersion,
-		Kind:    "DatabaseAccountsSqlDatabasesContainersTrigger",
+		Version: sqlDatabaseContainerTrigger.Spec.OriginalVersion,
+		Kind:    "SqlDatabaseContainerTrigger",
 	}
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersTrigger
+//Storage version of v1alpha1api20210515.SqlDatabaseContainerTrigger
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_triggers
-type DatabaseAccountsSqlDatabasesContainersTriggerList struct {
+type SqlDatabaseContainerTriggerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsSqlDatabasesContainersTrigger `json:"items"`
+	Items           []SqlDatabaseContainerTrigger `json:"items"`
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersTriggers_Spec
@@ -127,7 +127,7 @@ type DatabaseAccountsSqlDatabasesContainersTriggers_Spec struct {
 	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"DatabaseAccountsSqlDatabasesContainer"`
+	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"SqlDatabaseContainer"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	Resource    *SqlTriggerResource               `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
@@ -209,5 +209,5 @@ type SqlTriggerResource struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsSqlDatabasesContainersTrigger{}, &DatabaseAccountsSqlDatabasesContainersTriggerList{})
+	SchemeBuilder.Register(&SqlDatabaseContainerTrigger{}, &SqlDatabaseContainerTriggerList{})
 }

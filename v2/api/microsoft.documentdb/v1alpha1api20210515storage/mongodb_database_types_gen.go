@@ -16,75 +16,75 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabase
+//Storage version of v1alpha1api20210515.MongodbDatabase
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
-type DatabaseAccountsMongodbDatabase struct {
+type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsMongodbDatabases_Spec `json:"spec,omitempty"`
 	Status            MongoDBDatabaseGetResults_Status      `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsMongodbDatabase{}
+var _ conditions.Conditioner = &MongodbDatabase{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) GetConditions() conditions.Conditions {
-	return databaseAccountsMongodbDatabase.Status.Conditions
+func (mongodbDatabase *MongodbDatabase) GetConditions() conditions.Conditions {
+	return mongodbDatabase.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsMongodbDatabase.Status.Conditions = conditions
+func (mongodbDatabase *MongodbDatabase) SetConditions(conditions conditions.Conditions) {
+	mongodbDatabase.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsMongodbDatabase{}
+var _ genruntime.KubernetesResource = &MongodbDatabase{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) AzureName() string {
-	return databaseAccountsMongodbDatabase.Spec.AzureName
+func (mongodbDatabase *MongodbDatabase) AzureName() string {
+	return mongodbDatabase.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) GetResourceKind() genruntime.ResourceKind {
+func (mongodbDatabase *MongodbDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsMongodbDatabase.Spec
+func (mongodbDatabase *MongodbDatabase) GetSpec() genruntime.ConvertibleSpec {
+	return &mongodbDatabase.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsMongodbDatabase.Status
+func (mongodbDatabase *MongodbDatabase) GetStatus() genruntime.ConvertibleStatus {
+	return &mongodbDatabase.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) GetType() string {
+func (mongodbDatabase *MongodbDatabase) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (mongodbDatabase *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &MongoDBDatabaseGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsMongodbDatabase.Spec)
+func (mongodbDatabase *MongodbDatabase) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(mongodbDatabase.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsMongodbDatabase.Namespace,
-		Name:      databaseAccountsMongodbDatabase.Spec.Owner.Name,
+		Namespace: mongodbDatabase.Namespace,
+		Name:      mongodbDatabase.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
+func (mongodbDatabase *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*MongoDBDatabaseGetResults_Status); ok {
-		databaseAccountsMongodbDatabase.Status = *st
+		mongodbDatabase.Status = *st
 		return nil
 	}
 
@@ -95,26 +95,26 @@ func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) SetStatu
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsMongodbDatabase.Status = st
+	mongodbDatabase.Status = st
 	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsMongodbDatabase *DatabaseAccountsMongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
+func (mongodbDatabase *MongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsMongodbDatabase.Spec.OriginalVersion,
-		Kind:    "DatabaseAccountsMongodbDatabase",
+		Version: mongodbDatabase.Spec.OriginalVersion,
+		Kind:    "MongodbDatabase",
 	}
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabase
+//Storage version of v1alpha1api20210515.MongodbDatabase
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
-type DatabaseAccountsMongodbDatabaseList struct {
+type MongodbDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsMongodbDatabase `json:"items"`
+	Items           []MongodbDatabase `json:"items"`
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabases_Spec
@@ -234,5 +234,5 @@ type AutoscaleSettings_Status struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsMongodbDatabase{}, &DatabaseAccountsMongodbDatabaseList{})
+	SchemeBuilder.Register(&MongodbDatabase{}, &MongodbDatabaseList{})
 }

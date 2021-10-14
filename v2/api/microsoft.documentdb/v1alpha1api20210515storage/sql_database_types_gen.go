@@ -16,75 +16,75 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabase
+//Storage version of v1alpha1api20210515.SqlDatabase
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases
-type DatabaseAccountsSqlDatabase struct {
+type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabases_Spec `json:"spec,omitempty"`
 	Status            SqlDatabaseGetResults_Status      `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsSqlDatabase{}
+var _ conditions.Conditioner = &SqlDatabase{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) GetConditions() conditions.Conditions {
-	return databaseAccountsSqlDatabase.Status.Conditions
+func (sqlDatabase *SqlDatabase) GetConditions() conditions.Conditions {
+	return sqlDatabase.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsSqlDatabase.Status.Conditions = conditions
+func (sqlDatabase *SqlDatabase) SetConditions(conditions conditions.Conditions) {
+	sqlDatabase.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsSqlDatabase{}
+var _ genruntime.KubernetesResource = &SqlDatabase{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) AzureName() string {
-	return databaseAccountsSqlDatabase.Spec.AzureName
+func (sqlDatabase *SqlDatabase) AzureName() string {
+	return sqlDatabase.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) GetResourceKind() genruntime.ResourceKind {
+func (sqlDatabase *SqlDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsSqlDatabase.Spec
+func (sqlDatabase *SqlDatabase) GetSpec() genruntime.ConvertibleSpec {
+	return &sqlDatabase.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsSqlDatabase.Status
+func (sqlDatabase *SqlDatabase) GetStatus() genruntime.ConvertibleStatus {
+	return &sqlDatabase.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) GetType() string {
+func (sqlDatabase *SqlDatabase) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (sqlDatabase *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlDatabaseGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsSqlDatabase.Spec)
+func (sqlDatabase *SqlDatabase) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabase.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsSqlDatabase.Namespace,
-		Name:      databaseAccountsSqlDatabase.Spec.Owner.Name,
+		Namespace: sqlDatabase.Namespace,
+		Name:      sqlDatabase.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
+func (sqlDatabase *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlDatabaseGetResults_Status); ok {
-		databaseAccountsSqlDatabase.Status = *st
+		sqlDatabase.Status = *st
 		return nil
 	}
 
@@ -95,26 +95,26 @@ func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) SetStatus(status
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsSqlDatabase.Status = st
+	sqlDatabase.Status = st
 	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) OriginalGVK() *schema.GroupVersionKind {
+func (sqlDatabase *SqlDatabase) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsSqlDatabase.Spec.OriginalVersion,
-		Kind:    "DatabaseAccountsSqlDatabase",
+		Version: sqlDatabase.Spec.OriginalVersion,
+		Kind:    "SqlDatabase",
 	}
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabase
+//Storage version of v1alpha1api20210515.SqlDatabase
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases
-type DatabaseAccountsSqlDatabaseList struct {
+type SqlDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsSqlDatabase `json:"items"`
+	Items           []SqlDatabase `json:"items"`
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabases_Spec
@@ -206,5 +206,5 @@ type SqlDatabaseResource struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsSqlDatabase{}, &DatabaseAccountsSqlDatabaseList{})
+	SchemeBuilder.Register(&SqlDatabase{}, &SqlDatabaseList{})
 }

@@ -16,75 +16,75 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainer
+//Storage version of v1alpha1api20210515.SqlDatabaseContainer
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
-type DatabaseAccountsSqlDatabasesContainer struct {
+type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainers_Spec `json:"spec,omitempty"`
 	Status            SqlContainerGetResults_Status               `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsSqlDatabasesContainer{}
+var _ conditions.Conditioner = &SqlDatabaseContainer{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) GetConditions() conditions.Conditions {
-	return databaseAccountsSqlDatabasesContainer.Status.Conditions
+func (sqlDatabaseContainer *SqlDatabaseContainer) GetConditions() conditions.Conditions {
+	return sqlDatabaseContainer.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsSqlDatabasesContainer.Status.Conditions = conditions
+func (sqlDatabaseContainer *SqlDatabaseContainer) SetConditions(conditions conditions.Conditions) {
+	sqlDatabaseContainer.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsSqlDatabasesContainer{}
+var _ genruntime.KubernetesResource = &SqlDatabaseContainer{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) AzureName() string {
-	return databaseAccountsSqlDatabasesContainer.Spec.AzureName
+func (sqlDatabaseContainer *SqlDatabaseContainer) AzureName() string {
+	return sqlDatabaseContainer.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) GetResourceKind() genruntime.ResourceKind {
+func (sqlDatabaseContainer *SqlDatabaseContainer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsSqlDatabasesContainer.Spec
+func (sqlDatabaseContainer *SqlDatabaseContainer) GetSpec() genruntime.ConvertibleSpec {
+	return &sqlDatabaseContainer.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsSqlDatabasesContainer.Status
+func (sqlDatabaseContainer *SqlDatabaseContainer) GetStatus() genruntime.ConvertibleStatus {
+	return &sqlDatabaseContainer.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) GetType() string {
+func (sqlDatabaseContainer *SqlDatabaseContainer) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (sqlDatabaseContainer *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlContainerGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsSqlDatabasesContainer.Spec)
+func (sqlDatabaseContainer *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainer.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsSqlDatabasesContainer.Namespace,
-		Name:      databaseAccountsSqlDatabasesContainer.Spec.Owner.Name,
+		Namespace: sqlDatabaseContainer.Namespace,
+		Name:      sqlDatabaseContainer.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) SetStatus(status genruntime.ConvertibleStatus) error {
+func (sqlDatabaseContainer *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlContainerGetResults_Status); ok {
-		databaseAccountsSqlDatabasesContainer.Status = *st
+		sqlDatabaseContainer.Status = *st
 		return nil
 	}
 
@@ -95,26 +95,26 @@ func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContain
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsSqlDatabasesContainer.Status = st
+	sqlDatabaseContainer.Status = st
 	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) OriginalGVK() *schema.GroupVersionKind {
+func (sqlDatabaseContainer *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsSqlDatabasesContainer.Spec.OriginalVersion,
-		Kind:    "DatabaseAccountsSqlDatabasesContainer",
+		Version: sqlDatabaseContainer.Spec.OriginalVersion,
+		Kind:    "SqlDatabaseContainer",
 	}
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainer
+//Storage version of v1alpha1api20210515.SqlDatabaseContainer
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
-type DatabaseAccountsSqlDatabasesContainerList struct {
+type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsSqlDatabasesContainer `json:"items"`
+	Items           []SqlDatabaseContainer `json:"items"`
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainers_Spec
@@ -127,7 +127,7 @@ type DatabaseAccountsSqlDatabasesContainers_Spec struct {
 	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"DatabaseAccountsSqlDatabase"`
+	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"SqlDatabase"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	Resource    *SqlContainerResource             `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
@@ -385,5 +385,5 @@ type Indexes_Status struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsSqlDatabasesContainer{}, &DatabaseAccountsSqlDatabasesContainerList{})
+	SchemeBuilder.Register(&SqlDatabaseContainer{}, &SqlDatabaseContainerList{})
 }

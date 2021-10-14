@@ -275,7 +275,7 @@ type DatabaseAccountsMongodbDatabasesThroughputSettings_Spec struct {
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"DatabaseAccountsMongodbDatabase"`
+	Owner genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"MongodbDatabase"`
 
 	// +kubebuilder:validation:Required
 	//Resource: Cosmos DB resource throughput object. Either throughput is required or

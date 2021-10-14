@@ -16,75 +16,75 @@ import (
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedure
+//Storage version of v1alpha1api20210515.SqlDatabaseContainerStoredProcedure
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
-type DatabaseAccountsSqlDatabasesContainersStoredProcedure struct {
+type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec `json:"spec,omitempty"`
 	Status            SqlStoredProcedureGetResults_Status                         `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsSqlDatabasesContainersStoredProcedure{}
+var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) GetConditions() conditions.Conditions {
-	return databaseAccountsSqlDatabasesContainersStoredProcedure.Status.Conditions
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetConditions() conditions.Conditions {
+	return sqlDatabaseContainerStoredProcedure.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsSqlDatabasesContainersStoredProcedure.Status.Conditions = conditions
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) SetConditions(conditions conditions.Conditions) {
+	sqlDatabaseContainerStoredProcedure.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsSqlDatabasesContainersStoredProcedure{}
+var _ genruntime.KubernetesResource = &SqlDatabaseContainerStoredProcedure{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) AzureName() string {
-	return databaseAccountsSqlDatabasesContainersStoredProcedure.Spec.AzureName
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) AzureName() string {
+	return sqlDatabaseContainerStoredProcedure.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) GetResourceKind() genruntime.ResourceKind {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsSqlDatabasesContainersStoredProcedure.Spec
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetSpec() genruntime.ConvertibleSpec {
+	return &sqlDatabaseContainerStoredProcedure.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsSqlDatabasesContainersStoredProcedure.Status
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetStatus() genruntime.ConvertibleStatus {
+	return &sqlDatabaseContainerStoredProcedure.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) GetType() string {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlStoredProcedureGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsSqlDatabasesContainersStoredProcedure.Spec)
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerStoredProcedure.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsSqlDatabasesContainersStoredProcedure.Namespace,
-		Name:      databaseAccountsSqlDatabasesContainersStoredProcedure.Spec.Owner.Name,
+		Namespace: sqlDatabaseContainerStoredProcedure.Namespace,
+		Name:      sqlDatabaseContainerStoredProcedure.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlStoredProcedureGetResults_Status); ok {
-		databaseAccountsSqlDatabasesContainersStoredProcedure.Status = *st
+		sqlDatabaseContainerStoredProcedure.Status = *st
 		return nil
 	}
 
@@ -95,26 +95,26 @@ func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSql
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsSqlDatabasesContainersStoredProcedure.Status = st
+	sqlDatabaseContainerStoredProcedure.Status = st
 	return nil
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsSqlDatabasesContainersStoredProcedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure) OriginalGVK() *schema.GroupVersionKind {
+func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsSqlDatabasesContainersStoredProcedure.Spec.OriginalVersion,
-		Kind:    "DatabaseAccountsSqlDatabasesContainersStoredProcedure",
+		Version: sqlDatabaseContainerStoredProcedure.Spec.OriginalVersion,
+		Kind:    "SqlDatabaseContainerStoredProcedure",
 	}
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedure
+//Storage version of v1alpha1api20210515.SqlDatabaseContainerStoredProcedure
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
-type DatabaseAccountsSqlDatabasesContainersStoredProcedureList struct {
+type SqlDatabaseContainerStoredProcedureList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsSqlDatabasesContainersStoredProcedure `json:"items"`
+	Items           []SqlDatabaseContainerStoredProcedure `json:"items"`
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
@@ -127,7 +127,7 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
 	OriginalVersion string               `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"DatabaseAccountsSqlDatabasesContainer"`
+	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"SqlDatabaseContainer"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	Resource    *SqlStoredProcedureResource       `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
@@ -205,5 +205,5 @@ type SqlStoredProcedureResource struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsSqlDatabasesContainersStoredProcedure{}, &DatabaseAccountsSqlDatabasesContainersStoredProcedureList{})
+	SchemeBuilder.Register(&SqlDatabaseContainerStoredProcedure{}, &SqlDatabaseContainerStoredProcedureList{})
 }

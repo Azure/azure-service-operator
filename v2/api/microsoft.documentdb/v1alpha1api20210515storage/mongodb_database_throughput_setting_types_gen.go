@@ -123,7 +123,7 @@ type DatabaseAccountsMongodbDatabasesThroughputSettings_Spec struct {
 	OriginalVersion string  `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"DatabaseAccountsMongodbDatabase"`
+	Owner       genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"MongodbDatabase"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	Resource    *ThroughputSettingsResource       `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`

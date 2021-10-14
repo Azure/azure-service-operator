@@ -17,8 +17,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabasescontainersuserdefinedfunctions,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources={databaseaccountssqldatabasescontainersuserdefinedfunctions/status,databaseaccountssqldatabasescontainersuserdefinedfunctions/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources=sqldatabasecontaineruserdefinedfunctions,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources={sqldatabasecontaineruserdefinedfunctions/status,sqldatabasecontaineruserdefinedfunctions/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
@@ -27,98 +27,98 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
-type DatabaseAccountsSqlDatabasesContainersUserDefinedFunction struct {
+type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec `json:"spec,omitempty"`
 	Status            SqlUserDefinedFunctionGetResults_Status                         `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction{}
+var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) GetConditions() conditions.Conditions {
-	return databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status.Conditions
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetConditions() conditions.Conditions {
+	return sqlDatabaseContainerUserDefinedFunction.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status.Conditions = conditions
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) SetConditions(conditions conditions.Conditions) {
+	sqlDatabaseContainerUserDefinedFunction.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccountssqldatabasescontainersuserdefinedfunction,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabasescontainersuserdefinedfunctions,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.databaseaccountssqldatabasescontainersuserdefinedfunctions.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-sqldatabasecontaineruserdefinedfunction,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=sqldatabasecontaineruserdefinedfunctions,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.sqldatabasecontaineruserdefinedfunctions.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
 
-var _ admission.Defaulter = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction{}
+var _ admission.Defaulter = &SqlDatabaseContainerUserDefinedFunction{}
 
-// Default applies defaults to the DatabaseAccountsSqlDatabasesContainersUserDefinedFunction resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) Default() {
-	databaseAccountsSqlDatabasesContainersUserDefinedFunction.defaultImpl()
-	var temp interface{} = databaseAccountsSqlDatabasesContainersUserDefinedFunction
+// Default applies defaults to the SqlDatabaseContainerUserDefinedFunction resource
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) Default() {
+	sqlDatabaseContainerUserDefinedFunction.defaultImpl()
+	var temp interface{} = sqlDatabaseContainerUserDefinedFunction
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) defaultAzureName() {
-	if databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec.AzureName == "" {
-		databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec.AzureName = databaseAccountsSqlDatabasesContainersUserDefinedFunction.Name
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) defaultAzureName() {
+	if sqlDatabaseContainerUserDefinedFunction.Spec.AzureName == "" {
+		sqlDatabaseContainerUserDefinedFunction.Spec.AzureName = sqlDatabaseContainerUserDefinedFunction.Name
 	}
 }
 
-// defaultImpl applies the code generated defaults to the DatabaseAccountsSqlDatabasesContainersUserDefinedFunction resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) defaultImpl() {
-	databaseAccountsSqlDatabasesContainersUserDefinedFunction.defaultAzureName()
+// defaultImpl applies the code generated defaults to the SqlDatabaseContainerUserDefinedFunction resource
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) defaultImpl() {
+	sqlDatabaseContainerUserDefinedFunction.defaultAzureName()
 }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction{}
+var _ genruntime.KubernetesResource = &SqlDatabaseContainerUserDefinedFunction{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) AzureName() string {
-	return databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec.AzureName
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) AzureName() string {
+	return sqlDatabaseContainerUserDefinedFunction.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) GetResourceKind() genruntime.ResourceKind {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetSpec() genruntime.ConvertibleSpec {
+	return &sqlDatabaseContainerUserDefinedFunction.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetStatus() genruntime.ConvertibleStatus {
+	return &sqlDatabaseContainerUserDefinedFunction.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) GetType() string {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlUserDefinedFunctionGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec)
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerUserDefinedFunction.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsSqlDatabasesContainersUserDefinedFunction.Namespace,
-		Name:      databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec.Owner.Name,
+		Namespace: sqlDatabaseContainerUserDefinedFunction.Namespace,
+		Name:      sqlDatabaseContainerUserDefinedFunction.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlUserDefinedFunctionGetResults_Status); ok {
-		databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status = *st
+		sqlDatabaseContainerUserDefinedFunction.Status = *st
 		return nil
 	}
 
@@ -129,18 +129,18 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccount
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status = st
+	sqlDatabaseContainerUserDefinedFunction.Status = st
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccountssqldatabasescontainersuserdefinedfunction,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabasescontainersuserdefinedfunctions,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.databaseaccountssqldatabasescontainersuserdefinedfunctions.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-sqldatabasecontaineruserdefinedfunction,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=sqldatabasecontaineruserdefinedfunctions,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.sqldatabasecontaineruserdefinedfunctions.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
 
-var _ admission.Validator = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction{}
+var _ admission.Validator = &SqlDatabaseContainerUserDefinedFunction{}
 
 // ValidateCreate validates the creation of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) ValidateCreate() error {
-	validations := databaseAccountsSqlDatabasesContainersUserDefinedFunction.createValidations()
-	var temp interface{} = databaseAccountsSqlDatabasesContainersUserDefinedFunction
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) ValidateCreate() error {
+	validations := sqlDatabaseContainerUserDefinedFunction.createValidations()
+	var temp interface{} = sqlDatabaseContainerUserDefinedFunction
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -155,9 +155,9 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccount
 }
 
 // ValidateDelete validates the deletion of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) ValidateDelete() error {
-	validations := databaseAccountsSqlDatabasesContainersUserDefinedFunction.deleteValidations()
-	var temp interface{} = databaseAccountsSqlDatabasesContainersUserDefinedFunction
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) ValidateDelete() error {
+	validations := sqlDatabaseContainerUserDefinedFunction.deleteValidations()
+	var temp interface{} = sqlDatabaseContainerUserDefinedFunction
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -172,9 +172,9 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccount
 }
 
 // ValidateUpdate validates an update of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) ValidateUpdate(old runtime.Object) error {
-	validations := databaseAccountsSqlDatabasesContainersUserDefinedFunction.updateValidations()
-	var temp interface{} = databaseAccountsSqlDatabasesContainersUserDefinedFunction
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) ValidateUpdate(old runtime.Object) error {
+	validations := sqlDatabaseContainerUserDefinedFunction.updateValidations()
+	var temp interface{} = sqlDatabaseContainerUserDefinedFunction
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -189,35 +189,35 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccount
 }
 
 // createValidations validates the creation of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) createValidations() []func() error {
-	return []func() error{databaseAccountsSqlDatabasesContainersUserDefinedFunction.validateResourceReferences}
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) createValidations() []func() error {
+	return []func() error{sqlDatabaseContainerUserDefinedFunction.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) deleteValidations() []func() error {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) updateValidations() []func(old runtime.Object) error {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return databaseAccountsSqlDatabasesContainersUserDefinedFunction.validateResourceReferences()
+			return sqlDatabaseContainerUserDefinedFunction.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec)
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&sqlDatabaseContainerUserDefinedFunction.Spec)
 	if err != nil {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunction populates our DatabaseAccountsSqlDatabasesContainersUserDefinedFunction from the provided source DatabaseAccountsSqlDatabasesContainersUserDefinedFunction
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunction(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) error {
+// AssignPropertiesFromSqlDatabaseContainerUserDefinedFunction populates our SqlDatabaseContainerUserDefinedFunction from the provided source SqlDatabaseContainerUserDefinedFunction
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) AssignPropertiesFromSqlDatabaseContainerUserDefinedFunction(source *v1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction) error {
 
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
@@ -225,7 +225,7 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccount
 	if err != nil {
 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec()")
 	}
-	databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec = spec
+	sqlDatabaseContainerUserDefinedFunction.Spec = spec
 
 	// Status
 	var status SqlUserDefinedFunctionGetResults_Status
@@ -233,18 +233,18 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccount
 	if err != nil {
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus()")
 	}
-	databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status = status
+	sqlDatabaseContainerUserDefinedFunction.Status = status
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunction populates the provided destination DatabaseAccountsSqlDatabasesContainersUserDefinedFunction from our DatabaseAccountsSqlDatabasesContainersUserDefinedFunction
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunction(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) error {
+// AssignPropertiesToSqlDatabaseContainerUserDefinedFunction populates the provided destination SqlDatabaseContainerUserDefinedFunction from our SqlDatabaseContainerUserDefinedFunction
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) AssignPropertiesToSqlDatabaseContainerUserDefinedFunction(destination *v1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction) error {
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
-	err := databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(&spec)
+	err := sqlDatabaseContainerUserDefinedFunction.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec()")
 	}
@@ -252,7 +252,7 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccount
 
 	// Status
 	var status v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status
-	err = databaseAccountsSqlDatabasesContainersUserDefinedFunction.Status.AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus(&status)
+	err = sqlDatabaseContainerUserDefinedFunction.Status.AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus()")
 	}
@@ -263,20 +263,20 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccount
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunction *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) OriginalGVK() *schema.GroupVersionKind {
+func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsSqlDatabasesContainersUserDefinedFunction.Spec.OriginalVersion(),
-		Kind:    "DatabaseAccountsSqlDatabasesContainersUserDefinedFunction",
+		Version: sqlDatabaseContainerUserDefinedFunction.Spec.OriginalVersion(),
+		Kind:    "SqlDatabaseContainerUserDefinedFunction",
 	}
 }
 
 // +kubebuilder:object:root=true
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
-type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionList struct {
+type SqlDatabaseContainerUserDefinedFunctionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsSqlDatabasesContainersUserDefinedFunction `json:"items"`
+	Items           []SqlDatabaseContainerUserDefinedFunction `json:"items"`
 }
 
 type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
@@ -293,7 +293,7 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"DatabaseAccountsSqlDatabasesContainer"`
+	Owner genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"SqlDatabaseContainer"`
 
 	// +kubebuilder:validation:Required
 	//Resource: Cosmos DB SQL userDefinedFunction resource object
@@ -1128,5 +1128,5 @@ func (sqlUserDefinedFunctionResource *SqlUserDefinedFunctionResource) AssignProp
 }
 
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsSqlDatabasesContainersUserDefinedFunction{}, &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionList{})
+	SchemeBuilder.Register(&SqlDatabaseContainerUserDefinedFunction{}, &SqlDatabaseContainerUserDefinedFunctionList{})
 }

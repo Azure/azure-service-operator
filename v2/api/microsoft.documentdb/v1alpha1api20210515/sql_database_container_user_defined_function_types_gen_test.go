@@ -18,28 +18,28 @@ import (
 	"testing"
 )
 
-func Test_DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_SqlDatabaseContainerUserDefinedFunction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DatabaseAccountsSqlDatabasesContainersUserDefinedFunction to DatabaseAccountsSqlDatabasesContainersUserDefinedFunction via AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunction & AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersUserDefinedFunction, DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionGenerator()))
+		"Round trip from SqlDatabaseContainerUserDefinedFunction to SqlDatabaseContainerUserDefinedFunction via AssignPropertiesToSqlDatabaseContainerUserDefinedFunction & AssignPropertiesFromSqlDatabaseContainerUserDefinedFunction returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction, SqlDatabaseContainerUserDefinedFunctionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersUserDefinedFunction tests if a specific instance of DatabaseAccountsSqlDatabasesContainersUserDefinedFunction can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersUserDefinedFunction(subject DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) string {
+// RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction tests if a specific instance of SqlDatabaseContainerUserDefinedFunction can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction(subject SqlDatabaseContainerUserDefinedFunction) string {
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction
-	err := subject.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunction(&other)
+	var other v1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction
+	err := subject.AssignPropertiesToSqlDatabaseContainerUserDefinedFunction(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DatabaseAccountsSqlDatabasesContainersUserDefinedFunction
-	err = actual.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunction(&other)
+	var actual SqlDatabaseContainerUserDefinedFunction
+	err = actual.AssignPropertiesFromSqlDatabaseContainerUserDefinedFunction(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -56,18 +56,18 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersUserDefin
 	return ""
 }
 
-func Test_DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlDatabaseContainerUserDefinedFunction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountsSqlDatabasesContainersUserDefinedFunction via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersUserDefinedFunction, DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionGenerator()))
+		"Round trip of SqlDatabaseContainerUserDefinedFunction via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlDatabaseContainerUserDefinedFunction, SqlDatabaseContainerUserDefinedFunctionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersUserDefinedFunction runs a test to see if a specific instance of DatabaseAccountsSqlDatabasesContainersUserDefinedFunction round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersUserDefinedFunction(subject DatabaseAccountsSqlDatabasesContainersUserDefinedFunction) string {
+// RunJSONSerializationTestForSqlDatabaseContainerUserDefinedFunction runs a test to see if a specific instance of SqlDatabaseContainerUserDefinedFunction round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlDatabaseContainerUserDefinedFunction(subject SqlDatabaseContainerUserDefinedFunction) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -75,7 +75,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersUserDefine
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountsSqlDatabasesContainersUserDefinedFunction
+	var actual SqlDatabaseContainerUserDefinedFunction
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -93,25 +93,25 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersUserDefine
 	return ""
 }
 
-// Generator of DatabaseAccountsSqlDatabasesContainersUserDefinedFunction instances for property testing - lazily
-//instantiated by DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionGenerator()
-var databaseAccountsSqlDatabasesContainersUserDefinedFunctionGenerator gopter.Gen
+// Generator of SqlDatabaseContainerUserDefinedFunction instances for property testing - lazily instantiated by
+//SqlDatabaseContainerUserDefinedFunctionGenerator()
+var sqlDatabaseContainerUserDefinedFunctionGenerator gopter.Gen
 
-// DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersUserDefinedFunction instances for property testing.
-func DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionGenerator() gopter.Gen {
-	if databaseAccountsSqlDatabasesContainersUserDefinedFunctionGenerator != nil {
-		return databaseAccountsSqlDatabasesContainersUserDefinedFunctionGenerator
+// SqlDatabaseContainerUserDefinedFunctionGenerator returns a generator of SqlDatabaseContainerUserDefinedFunction instances for property testing.
+func SqlDatabaseContainerUserDefinedFunctionGenerator() gopter.Gen {
+	if sqlDatabaseContainerUserDefinedFunctionGenerator != nil {
+		return sqlDatabaseContainerUserDefinedFunctionGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersUserDefinedFunction(generators)
-	databaseAccountsSqlDatabasesContainersUserDefinedFunctionGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersUserDefinedFunction{}), generators)
+	AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction(generators)
+	sqlDatabaseContainerUserDefinedFunctionGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseContainerUserDefinedFunction{}), generators)
 
-	return databaseAccountsSqlDatabasesContainersUserDefinedFunctionGenerator
+	return sqlDatabaseContainerUserDefinedFunctionGenerator
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersUserDefinedFunction is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersUserDefinedFunction(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecGenerator()
 	gens["Status"] = SqlUserDefinedFunctionGetResultsStatusGenerator()
 }

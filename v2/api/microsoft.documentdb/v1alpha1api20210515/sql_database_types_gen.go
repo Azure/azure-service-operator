@@ -17,8 +17,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabases,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources={databaseaccountssqldatabases/status,databaseaccountssqldatabases/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources=sqldatabases,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources={sqldatabases/status,sqldatabases/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
@@ -27,98 +27,96 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases
-type DatabaseAccountsSqlDatabase struct {
+type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabases_Spec `json:"spec,omitempty"`
 	Status            SqlDatabaseGetResults_Status      `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsSqlDatabase{}
+var _ conditions.Conditioner = &SqlDatabase{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) GetConditions() conditions.Conditions {
-	return databaseAccountsSqlDatabase.Status.Conditions
+func (sqlDatabase *SqlDatabase) GetConditions() conditions.Conditions {
+	return sqlDatabase.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsSqlDatabase.Status.Conditions = conditions
+func (sqlDatabase *SqlDatabase) SetConditions(conditions conditions.Conditions) {
+	sqlDatabase.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccountssqldatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabases,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.databaseaccountssqldatabases.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-sqldatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=sqldatabases,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.sqldatabases.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
 
-var _ admission.Defaulter = &DatabaseAccountsSqlDatabase{}
+var _ admission.Defaulter = &SqlDatabase{}
 
-// Default applies defaults to the DatabaseAccountsSqlDatabase resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) Default() {
-	databaseAccountsSqlDatabase.defaultImpl()
-	var temp interface{} = databaseAccountsSqlDatabase
+// Default applies defaults to the SqlDatabase resource
+func (sqlDatabase *SqlDatabase) Default() {
+	sqlDatabase.defaultImpl()
+	var temp interface{} = sqlDatabase
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) defaultAzureName() {
-	if databaseAccountsSqlDatabase.Spec.AzureName == "" {
-		databaseAccountsSqlDatabase.Spec.AzureName = databaseAccountsSqlDatabase.Name
+func (sqlDatabase *SqlDatabase) defaultAzureName() {
+	if sqlDatabase.Spec.AzureName == "" {
+		sqlDatabase.Spec.AzureName = sqlDatabase.Name
 	}
 }
 
-// defaultImpl applies the code generated defaults to the DatabaseAccountsSqlDatabase resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) defaultImpl() {
-	databaseAccountsSqlDatabase.defaultAzureName()
-}
+// defaultImpl applies the code generated defaults to the SqlDatabase resource
+func (sqlDatabase *SqlDatabase) defaultImpl() { sqlDatabase.defaultAzureName() }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsSqlDatabase{}
+var _ genruntime.KubernetesResource = &SqlDatabase{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) AzureName() string {
-	return databaseAccountsSqlDatabase.Spec.AzureName
+func (sqlDatabase *SqlDatabase) AzureName() string {
+	return sqlDatabase.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) GetResourceKind() genruntime.ResourceKind {
+func (sqlDatabase *SqlDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsSqlDatabase.Spec
+func (sqlDatabase *SqlDatabase) GetSpec() genruntime.ConvertibleSpec {
+	return &sqlDatabase.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsSqlDatabase.Status
+func (sqlDatabase *SqlDatabase) GetStatus() genruntime.ConvertibleStatus {
+	return &sqlDatabase.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) GetType() string {
+func (sqlDatabase *SqlDatabase) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (sqlDatabase *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlDatabaseGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsSqlDatabase.Spec)
+func (sqlDatabase *SqlDatabase) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabase.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsSqlDatabase.Namespace,
-		Name:      databaseAccountsSqlDatabase.Spec.Owner.Name,
+		Namespace: sqlDatabase.Namespace,
+		Name:      sqlDatabase.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
+func (sqlDatabase *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlDatabaseGetResults_Status); ok {
-		databaseAccountsSqlDatabase.Status = *st
+		sqlDatabase.Status = *st
 		return nil
 	}
 
@@ -129,18 +127,18 @@ func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) SetStatus(status
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsSqlDatabase.Status = st
+	sqlDatabase.Status = st
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccountssqldatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabases,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.databaseaccountssqldatabases.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-sqldatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=sqldatabases,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.sqldatabases.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
 
-var _ admission.Validator = &DatabaseAccountsSqlDatabase{}
+var _ admission.Validator = &SqlDatabase{}
 
 // ValidateCreate validates the creation of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) ValidateCreate() error {
-	validations := databaseAccountsSqlDatabase.createValidations()
-	var temp interface{} = databaseAccountsSqlDatabase
+func (sqlDatabase *SqlDatabase) ValidateCreate() error {
+	validations := sqlDatabase.createValidations()
+	var temp interface{} = sqlDatabase
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -155,9 +153,9 @@ func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) ValidateCreate()
 }
 
 // ValidateDelete validates the deletion of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) ValidateDelete() error {
-	validations := databaseAccountsSqlDatabase.deleteValidations()
-	var temp interface{} = databaseAccountsSqlDatabase
+func (sqlDatabase *SqlDatabase) ValidateDelete() error {
+	validations := sqlDatabase.deleteValidations()
+	var temp interface{} = sqlDatabase
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -172,9 +170,9 @@ func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) ValidateDelete()
 }
 
 // ValidateUpdate validates an update of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) ValidateUpdate(old runtime.Object) error {
-	validations := databaseAccountsSqlDatabase.updateValidations()
-	var temp interface{} = databaseAccountsSqlDatabase
+func (sqlDatabase *SqlDatabase) ValidateUpdate(old runtime.Object) error {
+	validations := sqlDatabase.updateValidations()
+	var temp interface{} = sqlDatabase
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -189,35 +187,35 @@ func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) ValidateUpdate(o
 }
 
 // createValidations validates the creation of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) createValidations() []func() error {
-	return []func() error{databaseAccountsSqlDatabase.validateResourceReferences}
+func (sqlDatabase *SqlDatabase) createValidations() []func() error {
+	return []func() error{sqlDatabase.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) deleteValidations() []func() error {
+func (sqlDatabase *SqlDatabase) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) updateValidations() []func(old runtime.Object) error {
+func (sqlDatabase *SqlDatabase) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return databaseAccountsSqlDatabase.validateResourceReferences()
+			return sqlDatabase.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&databaseAccountsSqlDatabase.Spec)
+func (sqlDatabase *SqlDatabase) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&sqlDatabase.Spec)
 	if err != nil {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// AssignPropertiesFromDatabaseAccountsSqlDatabase populates our DatabaseAccountsSqlDatabase from the provided source DatabaseAccountsSqlDatabase
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) AssignPropertiesFromDatabaseAccountsSqlDatabase(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabase) error {
+// AssignPropertiesFromSqlDatabase populates our SqlDatabase from the provided source SqlDatabase
+func (sqlDatabase *SqlDatabase) AssignPropertiesFromSqlDatabase(source *v1alpha1api20210515storage.SqlDatabase) error {
 
 	// Spec
 	var spec DatabaseAccountsSqlDatabases_Spec
@@ -225,7 +223,7 @@ func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) AssignProperties
 	if err != nil {
 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec()")
 	}
-	databaseAccountsSqlDatabase.Spec = spec
+	sqlDatabase.Spec = spec
 
 	// Status
 	var status SqlDatabaseGetResults_Status
@@ -233,18 +231,18 @@ func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) AssignProperties
 	if err != nil {
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromSqlDatabaseGetResultsStatus()")
 	}
-	databaseAccountsSqlDatabase.Status = status
+	sqlDatabase.Status = status
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSqlDatabase populates the provided destination DatabaseAccountsSqlDatabase from our DatabaseAccountsSqlDatabase
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) AssignPropertiesToDatabaseAccountsSqlDatabase(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabase) error {
+// AssignPropertiesToSqlDatabase populates the provided destination SqlDatabase from our SqlDatabase
+func (sqlDatabase *SqlDatabase) AssignPropertiesToSqlDatabase(destination *v1alpha1api20210515storage.SqlDatabase) error {
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabases_Spec
-	err := databaseAccountsSqlDatabase.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(&spec)
+	err := sqlDatabase.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsSqlDatabasesSpec()")
 	}
@@ -252,7 +250,7 @@ func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) AssignProperties
 
 	// Status
 	var status v1alpha1api20210515storage.SqlDatabaseGetResults_Status
-	err = databaseAccountsSqlDatabase.Status.AssignPropertiesToSqlDatabaseGetResultsStatus(&status)
+	err = sqlDatabase.Status.AssignPropertiesToSqlDatabaseGetResultsStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlDatabaseGetResultsStatus()")
 	}
@@ -263,20 +261,20 @@ func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) AssignProperties
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsSqlDatabase *DatabaseAccountsSqlDatabase) OriginalGVK() *schema.GroupVersionKind {
+func (sqlDatabase *SqlDatabase) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsSqlDatabase.Spec.OriginalVersion(),
-		Kind:    "DatabaseAccountsSqlDatabase",
+		Version: sqlDatabase.Spec.OriginalVersion(),
+		Kind:    "SqlDatabase",
 	}
 }
 
 // +kubebuilder:object:root=true
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases
-type DatabaseAccountsSqlDatabaseList struct {
+type SqlDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsSqlDatabase `json:"items"`
+	Items           []SqlDatabase `json:"items"`
 }
 
 type DatabaseAccountsSqlDatabases_Spec struct {
@@ -1163,5 +1161,5 @@ func (sqlDatabaseResource *SqlDatabaseResource) AssignPropertiesToSqlDatabaseRes
 }
 
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsSqlDatabase{}, &DatabaseAccountsSqlDatabaseList{})
+	SchemeBuilder.Register(&SqlDatabase{}, &SqlDatabaseList{})
 }

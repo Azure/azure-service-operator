@@ -17,8 +17,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabasescontainers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources={databaseaccountssqldatabasescontainers/status,databaseaccountssqldatabasescontainers/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources=sqldatabasecontainers,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.documentdb.azure.com,resources={sqldatabasecontainers/status,sqldatabasecontainers/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
@@ -27,98 +27,98 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
-type DatabaseAccountsSqlDatabasesContainer struct {
+type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainers_Spec `json:"spec,omitempty"`
 	Status            SqlContainerGetResults_Status               `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &DatabaseAccountsSqlDatabasesContainer{}
+var _ conditions.Conditioner = &SqlDatabaseContainer{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) GetConditions() conditions.Conditions {
-	return databaseAccountsSqlDatabasesContainer.Status.Conditions
+func (sqlDatabaseContainer *SqlDatabaseContainer) GetConditions() conditions.Conditions {
+	return sqlDatabaseContainer.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) SetConditions(conditions conditions.Conditions) {
-	databaseAccountsSqlDatabasesContainer.Status.Conditions = conditions
+func (sqlDatabaseContainer *SqlDatabaseContainer) SetConditions(conditions conditions.Conditions) {
+	sqlDatabaseContainer.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccountssqldatabasescontainer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabasescontainers,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.databaseaccountssqldatabasescontainers.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-sqldatabasecontainer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=sqldatabasecontainers,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.sqldatabasecontainers.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
 
-var _ admission.Defaulter = &DatabaseAccountsSqlDatabasesContainer{}
+var _ admission.Defaulter = &SqlDatabaseContainer{}
 
-// Default applies defaults to the DatabaseAccountsSqlDatabasesContainer resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) Default() {
-	databaseAccountsSqlDatabasesContainer.defaultImpl()
-	var temp interface{} = databaseAccountsSqlDatabasesContainer
+// Default applies defaults to the SqlDatabaseContainer resource
+func (sqlDatabaseContainer *SqlDatabaseContainer) Default() {
+	sqlDatabaseContainer.defaultImpl()
+	var temp interface{} = sqlDatabaseContainer
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) defaultAzureName() {
-	if databaseAccountsSqlDatabasesContainer.Spec.AzureName == "" {
-		databaseAccountsSqlDatabasesContainer.Spec.AzureName = databaseAccountsSqlDatabasesContainer.Name
+func (sqlDatabaseContainer *SqlDatabaseContainer) defaultAzureName() {
+	if sqlDatabaseContainer.Spec.AzureName == "" {
+		sqlDatabaseContainer.Spec.AzureName = sqlDatabaseContainer.Name
 	}
 }
 
-// defaultImpl applies the code generated defaults to the DatabaseAccountsSqlDatabasesContainer resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) defaultImpl() {
-	databaseAccountsSqlDatabasesContainer.defaultAzureName()
+// defaultImpl applies the code generated defaults to the SqlDatabaseContainer resource
+func (sqlDatabaseContainer *SqlDatabaseContainer) defaultImpl() {
+	sqlDatabaseContainer.defaultAzureName()
 }
 
-var _ genruntime.KubernetesResource = &DatabaseAccountsSqlDatabasesContainer{}
+var _ genruntime.KubernetesResource = &SqlDatabaseContainer{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) AzureName() string {
-	return databaseAccountsSqlDatabasesContainer.Spec.AzureName
+func (sqlDatabaseContainer *SqlDatabaseContainer) AzureName() string {
+	return sqlDatabaseContainer.Spec.AzureName
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) GetResourceKind() genruntime.ResourceKind {
+func (sqlDatabaseContainer *SqlDatabaseContainer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccountsSqlDatabasesContainer.Spec
+func (sqlDatabaseContainer *SqlDatabaseContainer) GetSpec() genruntime.ConvertibleSpec {
+	return &sqlDatabaseContainer.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccountsSqlDatabasesContainer.Status
+func (sqlDatabaseContainer *SqlDatabaseContainer) GetStatus() genruntime.ConvertibleStatus {
+	return &sqlDatabaseContainer.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) GetType() string {
+func (sqlDatabaseContainer *SqlDatabaseContainer) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (sqlDatabaseContainer *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlContainerGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccountsSqlDatabasesContainer.Spec)
+func (sqlDatabaseContainer *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainer.Spec)
 	return &genruntime.ResourceReference{
 		Group:     group,
 		Kind:      kind,
-		Namespace: databaseAccountsSqlDatabasesContainer.Namespace,
-		Name:      databaseAccountsSqlDatabasesContainer.Spec.Owner.Name,
+		Namespace: sqlDatabaseContainer.Namespace,
+		Name:      sqlDatabaseContainer.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) SetStatus(status genruntime.ConvertibleStatus) error {
+func (sqlDatabaseContainer *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlContainerGetResults_Status); ok {
-		databaseAccountsSqlDatabasesContainer.Status = *st
+		sqlDatabaseContainer.Status = *st
 		return nil
 	}
 
@@ -129,18 +129,18 @@ func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContain
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccountsSqlDatabasesContainer.Status = st
+	sqlDatabaseContainer.Status = st
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccountssqldatabasescontainer,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccountssqldatabasescontainers,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.databaseaccountssqldatabasescontainers.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-sqldatabasecontainer,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=sqldatabasecontainers,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.sqldatabasecontainers.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
 
-var _ admission.Validator = &DatabaseAccountsSqlDatabasesContainer{}
+var _ admission.Validator = &SqlDatabaseContainer{}
 
 // ValidateCreate validates the creation of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) ValidateCreate() error {
-	validations := databaseAccountsSqlDatabasesContainer.createValidations()
-	var temp interface{} = databaseAccountsSqlDatabasesContainer
+func (sqlDatabaseContainer *SqlDatabaseContainer) ValidateCreate() error {
+	validations := sqlDatabaseContainer.createValidations()
+	var temp interface{} = sqlDatabaseContainer
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -155,9 +155,9 @@ func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContain
 }
 
 // ValidateDelete validates the deletion of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) ValidateDelete() error {
-	validations := databaseAccountsSqlDatabasesContainer.deleteValidations()
-	var temp interface{} = databaseAccountsSqlDatabasesContainer
+func (sqlDatabaseContainer *SqlDatabaseContainer) ValidateDelete() error {
+	validations := sqlDatabaseContainer.deleteValidations()
+	var temp interface{} = sqlDatabaseContainer
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -172,9 +172,9 @@ func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContain
 }
 
 // ValidateUpdate validates an update of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) ValidateUpdate(old runtime.Object) error {
-	validations := databaseAccountsSqlDatabasesContainer.updateValidations()
-	var temp interface{} = databaseAccountsSqlDatabasesContainer
+func (sqlDatabaseContainer *SqlDatabaseContainer) ValidateUpdate(old runtime.Object) error {
+	validations := sqlDatabaseContainer.updateValidations()
+	var temp interface{} = sqlDatabaseContainer
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -189,35 +189,35 @@ func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContain
 }
 
 // createValidations validates the creation of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) createValidations() []func() error {
-	return []func() error{databaseAccountsSqlDatabasesContainer.validateResourceReferences}
+func (sqlDatabaseContainer *SqlDatabaseContainer) createValidations() []func() error {
+	return []func() error{sqlDatabaseContainer.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) deleteValidations() []func() error {
+func (sqlDatabaseContainer *SqlDatabaseContainer) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) updateValidations() []func(old runtime.Object) error {
+func (sqlDatabaseContainer *SqlDatabaseContainer) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return databaseAccountsSqlDatabasesContainer.validateResourceReferences()
+			return sqlDatabaseContainer.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&databaseAccountsSqlDatabasesContainer.Spec)
+func (sqlDatabaseContainer *SqlDatabaseContainer) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&sqlDatabaseContainer.Spec)
 	if err != nil {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
-// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer populates our DatabaseAccountsSqlDatabasesContainer from the provided source DatabaseAccountsSqlDatabasesContainer
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainer) error {
+// AssignPropertiesFromSqlDatabaseContainer populates our SqlDatabaseContainer from the provided source SqlDatabaseContainer
+func (sqlDatabaseContainer *SqlDatabaseContainer) AssignPropertiesFromSqlDatabaseContainer(source *v1alpha1api20210515storage.SqlDatabaseContainer) error {
 
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainers_Spec
@@ -225,7 +225,7 @@ func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContain
 	if err != nil {
 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec()")
 	}
-	databaseAccountsSqlDatabasesContainer.Spec = spec
+	sqlDatabaseContainer.Spec = spec
 
 	// Status
 	var status SqlContainerGetResults_Status
@@ -233,18 +233,18 @@ func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContain
 	if err != nil {
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromSqlContainerGetResultsStatus()")
 	}
-	databaseAccountsSqlDatabasesContainer.Status = status
+	sqlDatabaseContainer.Status = status
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSqlDatabasesContainer populates the provided destination DatabaseAccountsSqlDatabasesContainer from our DatabaseAccountsSqlDatabasesContainer
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) AssignPropertiesToDatabaseAccountsSqlDatabasesContainer(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainer) error {
+// AssignPropertiesToSqlDatabaseContainer populates the provided destination SqlDatabaseContainer from our SqlDatabaseContainer
+func (sqlDatabaseContainer *SqlDatabaseContainer) AssignPropertiesToSqlDatabaseContainer(destination *v1alpha1api20210515storage.SqlDatabaseContainer) error {
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_Spec
-	err := databaseAccountsSqlDatabasesContainer.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec(&spec)
+	err := sqlDatabaseContainer.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec()")
 	}
@@ -252,7 +252,7 @@ func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContain
 
 	// Status
 	var status v1alpha1api20210515storage.SqlContainerGetResults_Status
-	err = databaseAccountsSqlDatabasesContainer.Status.AssignPropertiesToSqlContainerGetResultsStatus(&status)
+	err = sqlDatabaseContainer.Status.AssignPropertiesToSqlContainerGetResultsStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlContainerGetResultsStatus()")
 	}
@@ -263,20 +263,20 @@ func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContain
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccountsSqlDatabasesContainer *DatabaseAccountsSqlDatabasesContainer) OriginalGVK() *schema.GroupVersionKind {
+func (sqlDatabaseContainer *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccountsSqlDatabasesContainer.Spec.OriginalVersion(),
-		Kind:    "DatabaseAccountsSqlDatabasesContainer",
+		Version: sqlDatabaseContainer.Spec.OriginalVersion(),
+		Kind:    "SqlDatabaseContainer",
 	}
 }
 
 // +kubebuilder:object:root=true
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
-type DatabaseAccountsSqlDatabasesContainerList struct {
+type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DatabaseAccountsSqlDatabasesContainer `json:"items"`
+	Items           []SqlDatabaseContainer `json:"items"`
 }
 
 type DatabaseAccountsSqlDatabasesContainers_Spec struct {
@@ -293,7 +293,7 @@ type DatabaseAccountsSqlDatabasesContainers_Spec struct {
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"DatabaseAccountsSqlDatabase"`
+	Owner genruntime.KnownResourceReference `group:"microsoft.documentdb.azure.com" json:"owner" kind:"SqlDatabase"`
 
 	// +kubebuilder:validation:Required
 	//Resource: Cosmos DB SQL container resource object
@@ -3105,38 +3105,6 @@ func (compositePathStatus *CompositePath_Status) AssignPropertiesToCompositePath
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Custom","LastWriterWins"}
-type ConflictResolutionPolicyMode string
-
-const (
-	ConflictResolutionPolicyModeCustom         = ConflictResolutionPolicyMode("Custom")
-	ConflictResolutionPolicyModeLastWriterWins = ConflictResolutionPolicyMode("LastWriterWins")
-)
-
-type ConflictResolutionPolicyStatusMode string
-
-const (
-	ConflictResolutionPolicyStatusModeCustom         = ConflictResolutionPolicyStatusMode("Custom")
-	ConflictResolutionPolicyStatusModeLastWriterWins = ConflictResolutionPolicyStatusMode("LastWriterWins")
-)
-
-// +kubebuilder:validation:Enum={"Hash","MultiHash","Range"}
-type ContainerPartitionKeyKind string
-
-const (
-	ContainerPartitionKeyKindHash      = ContainerPartitionKeyKind("Hash")
-	ContainerPartitionKeyKindMultiHash = ContainerPartitionKeyKind("MultiHash")
-	ContainerPartitionKeyKindRange     = ContainerPartitionKeyKind("Range")
-)
-
-type ContainerPartitionKeyStatusKind string
-
-const (
-	ContainerPartitionKeyStatusKindHash      = ContainerPartitionKeyStatusKind("Hash")
-	ContainerPartitionKeyStatusKindMultiHash = ContainerPartitionKeyStatusKind("MultiHash")
-	ContainerPartitionKeyStatusKindRange     = ContainerPartitionKeyStatusKind("Range")
-)
-
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath
 type ExcludedPath struct {
 	//Path: The path for which the indexing behavior applies to. Index paths typically
@@ -3522,23 +3490,6 @@ func (includedPathStatus *IncludedPath_Status) AssignPropertiesToIncludedPathSta
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"consistent","lazy","none"}
-type IndexingPolicyIndexingMode string
-
-const (
-	IndexingPolicyIndexingModeConsistent = IndexingPolicyIndexingMode("consistent")
-	IndexingPolicyIndexingModeLazy       = IndexingPolicyIndexingMode("lazy")
-	IndexingPolicyIndexingModeNone       = IndexingPolicyIndexingMode("none")
-)
-
-type IndexingPolicyStatusIndexingMode string
-
-const (
-	IndexingPolicyStatusIndexingModeConsistent = IndexingPolicyStatusIndexingMode("consistent")
-	IndexingPolicyStatusIndexingModeLazy       = IndexingPolicyStatusIndexingMode("lazy")
-	IndexingPolicyStatusIndexingModeNone       = IndexingPolicyStatusIndexingMode("none")
-)
-
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec
 type SpatialSpec struct {
 	//Path: The path for which the indexing behavior applies to. Index paths typically
@@ -3891,21 +3842,6 @@ func (uniqueKeyStatus *UniqueKey_Status) AssignPropertiesToUniqueKeyStatus(desti
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"ascending","descending"}
-type CompositePathOrder string
-
-const (
-	CompositePathOrderAscending  = CompositePathOrder("ascending")
-	CompositePathOrderDescending = CompositePathOrder("descending")
-)
-
-type CompositePathStatusOrder string
-
-const (
-	CompositePathStatusOrderAscending  = CompositePathStatusOrder("ascending")
-	CompositePathStatusOrderDescending = CompositePathStatusOrder("descending")
-)
-
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes
 type Indexes struct {
 	//DataType: The datatype for which the indexing behavior is applied to.
@@ -4163,66 +4099,6 @@ func (indexesStatus *Indexes_Status) AssignPropertiesToIndexesStatus(destination
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"LineString","MultiPolygon","Point","Polygon"}
-type SpatialSpecTypes string
-
-const (
-	SpatialSpecTypesLineString   = SpatialSpecTypes("LineString")
-	SpatialSpecTypesMultiPolygon = SpatialSpecTypes("MultiPolygon")
-	SpatialSpecTypesPoint        = SpatialSpecTypes("Point")
-	SpatialSpecTypesPolygon      = SpatialSpecTypes("Polygon")
-)
-
-//Generated from:
-type SpatialType_Status string
-
-const (
-	SpatialType_StatusLineString   = SpatialType_Status("LineString")
-	SpatialType_StatusMultiPolygon = SpatialType_Status("MultiPolygon")
-	SpatialType_StatusPoint        = SpatialType_Status("Point")
-	SpatialType_StatusPolygon      = SpatialType_Status("Polygon")
-)
-
-// +kubebuilder:validation:Enum={"LineString","MultiPolygon","Number","Point","Polygon","String"}
-type IndexesDataType string
-
-const (
-	IndexesDataTypeLineString   = IndexesDataType("LineString")
-	IndexesDataTypeMultiPolygon = IndexesDataType("MultiPolygon")
-	IndexesDataTypeNumber       = IndexesDataType("Number")
-	IndexesDataTypePoint        = IndexesDataType("Point")
-	IndexesDataTypePolygon      = IndexesDataType("Polygon")
-	IndexesDataTypeString       = IndexesDataType("String")
-)
-
-// +kubebuilder:validation:Enum={"Hash","Range","Spatial"}
-type IndexesKind string
-
-const (
-	IndexesKindHash    = IndexesKind("Hash")
-	IndexesKindRange   = IndexesKind("Range")
-	IndexesKindSpatial = IndexesKind("Spatial")
-)
-
-type IndexesStatusDataType string
-
-const (
-	IndexesStatusDataTypeLineString   = IndexesStatusDataType("LineString")
-	IndexesStatusDataTypeMultiPolygon = IndexesStatusDataType("MultiPolygon")
-	IndexesStatusDataTypeNumber       = IndexesStatusDataType("Number")
-	IndexesStatusDataTypePoint        = IndexesStatusDataType("Point")
-	IndexesStatusDataTypePolygon      = IndexesStatusDataType("Polygon")
-	IndexesStatusDataTypeString       = IndexesStatusDataType("String")
-)
-
-type IndexesStatusKind string
-
-const (
-	IndexesStatusKindHash    = IndexesStatusKind("Hash")
-	IndexesStatusKindRange   = IndexesStatusKind("Range")
-	IndexesStatusKindSpatial = IndexesStatusKind("Spatial")
-)
-
 func init() {
-	SchemeBuilder.Register(&DatabaseAccountsSqlDatabasesContainer{}, &DatabaseAccountsSqlDatabasesContainerList{})
+	SchemeBuilder.Register(&SqlDatabaseContainer{}, &SqlDatabaseContainerList{})
 }

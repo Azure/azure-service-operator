@@ -18,28 +18,28 @@ import (
 	"testing"
 )
 
-func Test_DatabaseAccountsMongodbDatabasesCollection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_MongodbDatabaseCollection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DatabaseAccountsMongodbDatabasesCollection to DatabaseAccountsMongodbDatabasesCollection via AssignPropertiesToDatabaseAccountsMongodbDatabasesCollection & AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollection returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollection, DatabaseAccountsMongodbDatabasesCollectionGenerator()))
+		"Round trip from MongodbDatabaseCollection to MongodbDatabaseCollection via AssignPropertiesToMongodbDatabaseCollection & AssignPropertiesFromMongodbDatabaseCollection returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongodbDatabaseCollection, MongodbDatabaseCollectionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollection tests if a specific instance of DatabaseAccountsMongodbDatabasesCollection can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollection(subject DatabaseAccountsMongodbDatabasesCollection) string {
+// RunPropertyAssignmentTestForMongodbDatabaseCollection tests if a specific instance of MongodbDatabaseCollection can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForMongodbDatabaseCollection(subject MongodbDatabaseCollection) string {
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollection
-	err := subject.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollection(&other)
+	var other v1alpha1api20210515storage.MongodbDatabaseCollection
+	err := subject.AssignPropertiesToMongodbDatabaseCollection(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DatabaseAccountsMongodbDatabasesCollection
-	err = actual.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollection(&other)
+	var actual MongodbDatabaseCollection
+	err = actual.AssignPropertiesFromMongodbDatabaseCollection(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -56,18 +56,18 @@ func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollection(subj
 	return ""
 }
 
-func Test_DatabaseAccountsMongodbDatabasesCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MongodbDatabaseCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountsMongodbDatabasesCollection via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection, DatabaseAccountsMongodbDatabasesCollectionGenerator()))
+		"Round trip of MongodbDatabaseCollection via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongodbDatabaseCollection, MongodbDatabaseCollectionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection runs a test to see if a specific instance of DatabaseAccountsMongodbDatabasesCollection round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection(subject DatabaseAccountsMongodbDatabasesCollection) string {
+// RunJSONSerializationTestForMongodbDatabaseCollection runs a test to see if a specific instance of MongodbDatabaseCollection round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongodbDatabaseCollection(subject MongodbDatabaseCollection) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -75,7 +75,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection(subje
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountsMongodbDatabasesCollection
+	var actual MongodbDatabaseCollection
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -93,25 +93,25 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection(subje
 	return ""
 }
 
-// Generator of DatabaseAccountsMongodbDatabasesCollection instances for property testing - lazily instantiated by
-//DatabaseAccountsMongodbDatabasesCollectionGenerator()
-var databaseAccountsMongodbDatabasesCollectionGenerator gopter.Gen
+// Generator of MongodbDatabaseCollection instances for property testing - lazily instantiated by
+//MongodbDatabaseCollectionGenerator()
+var mongodbDatabaseCollectionGenerator gopter.Gen
 
-// DatabaseAccountsMongodbDatabasesCollectionGenerator returns a generator of DatabaseAccountsMongodbDatabasesCollection instances for property testing.
-func DatabaseAccountsMongodbDatabasesCollectionGenerator() gopter.Gen {
-	if databaseAccountsMongodbDatabasesCollectionGenerator != nil {
-		return databaseAccountsMongodbDatabasesCollectionGenerator
+// MongodbDatabaseCollectionGenerator returns a generator of MongodbDatabaseCollection instances for property testing.
+func MongodbDatabaseCollectionGenerator() gopter.Gen {
+	if mongodbDatabaseCollectionGenerator != nil {
+		return mongodbDatabaseCollectionGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection(generators)
-	databaseAccountsMongodbDatabasesCollectionGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesCollection{}), generators)
+	AddRelatedPropertyGeneratorsForMongodbDatabaseCollection(generators)
+	mongodbDatabaseCollectionGenerator = gen.Struct(reflect.TypeOf(MongodbDatabaseCollection{}), generators)
 
-	return databaseAccountsMongodbDatabasesCollectionGenerator
+	return mongodbDatabaseCollectionGenerator
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForMongodbDatabaseCollection is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongodbDatabaseCollection(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsMongodbDatabasesCollectionsSpecGenerator()
 	gens["Status"] = MongoDBCollectionGetResultsStatusGenerator()
 }
