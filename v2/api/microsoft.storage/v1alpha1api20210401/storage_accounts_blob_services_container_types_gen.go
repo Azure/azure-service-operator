@@ -46,7 +46,7 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	storageAccountsBlobServicesContainer.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservicescontainer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.azure.com,resources=storageaccountsblobservicescontainers,verbs=create;update,versions=v1alpha1api20210401,name=default.v1alpha1api20210401.storageaccountsblobservicescontainers.microsoft.storage.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservicescontainer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.azure.com,resources=storageaccountsblobservicescontainers,verbs=create;update,versions=v1alpha1api20210401,name=default.v1alpha1api20210401.storageaccountsblobservicescontainers.microsoft.storage.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &StorageAccountsBlobServicesContainer{}
 
@@ -133,7 +133,7 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservicescontainer,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.azure.com,resources=storageaccountsblobservicescontainers,verbs=create;update,versions=v1alpha1api20210401,name=validate.v1alpha1api20210401.storageaccountsblobservicescontainers.microsoft.storage.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservicescontainer,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.azure.com,resources=storageaccountsblobservicescontainers,verbs=create;update,versions=v1alpha1api20210401,name=validate.v1alpha1api20210401.storageaccountsblobservicescontainers.microsoft.storage.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &StorageAccountsBlobServicesContainer{}
 

@@ -46,7 +46,7 @@ func (storageAccountsBlobService *StorageAccountsBlobService) SetConditions(cond
 	storageAccountsBlobService.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservice,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.azure.com,resources=storageaccountsblobservices,verbs=create;update,versions=v1alpha1api20210401,name=default.v1alpha1api20210401.storageaccountsblobservices.microsoft.storage.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservice,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.azure.com,resources=storageaccountsblobservices,verbs=create;update,versions=v1alpha1api20210401,name=default.v1alpha1api20210401.storageaccountsblobservices.microsoft.storage.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &StorageAccountsBlobService{}
 
@@ -124,7 +124,7 @@ func (storageAccountsBlobService *StorageAccountsBlobService) SetStatus(status g
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservice,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.azure.com,resources=storageaccountsblobservices,verbs=create;update,versions=v1alpha1api20210401,name=validate.v1alpha1api20210401.storageaccountsblobservices.microsoft.storage.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-storage-azure-com-v1alpha1api20210401-storageaccountsblobservice,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.azure.com,resources=storageaccountsblobservices,verbs=create;update,versions=v1alpha1api20210401,name=validate.v1alpha1api20210401.storageaccountsblobservices.microsoft.storage.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &StorageAccountsBlobService{}
 

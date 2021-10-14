@@ -46,7 +46,7 @@ func (flexibleServersDatabase *FlexibleServersDatabase) SetConditions(conditions
 	flexibleServersDatabase.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserversdatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.dbforpostgresql.azure.com,resources=flexibleserversdatabases,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.flexibleserversdatabases.microsoft.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserversdatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.dbforpostgresql.azure.com,resources=flexibleserversdatabases,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.flexibleserversdatabases.microsoft.dbforpostgresql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &FlexibleServersDatabase{}
 
@@ -133,7 +133,7 @@ func (flexibleServersDatabase *FlexibleServersDatabase) SetStatus(status genrunt
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserversdatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.dbforpostgresql.azure.com,resources=flexibleserversdatabases,verbs=create;update,versions=v1alpha1api20210601,name=validate.v1alpha1api20210601.flexibleserversdatabases.microsoft.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserversdatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.dbforpostgresql.azure.com,resources=flexibleserversdatabases,verbs=create;update,versions=v1alpha1api20210601,name=validate.v1alpha1api20210601.flexibleserversdatabases.microsoft.dbforpostgresql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &FlexibleServersDatabase{}
 

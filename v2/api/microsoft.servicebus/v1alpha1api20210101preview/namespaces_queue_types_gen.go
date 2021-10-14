@@ -46,7 +46,7 @@ func (namespacesQueue *NamespacesQueue) SetConditions(conditions conditions.Cond
 	namespacesQueue.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1alpha1api20210101preview,name=default.v1alpha1api20210101preview.namespacesqueues.microsoft.servicebus.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1alpha1api20210101preview,name=default.v1alpha1api20210101preview.namespacesqueues.microsoft.servicebus.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &NamespacesQueue{}
 
@@ -131,7 +131,7 @@ func (namespacesQueue *NamespacesQueue) SetStatus(status genruntime.ConvertibleS
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1alpha1api20210101preview,name=validate.v1alpha1api20210101preview.namespacesqueues.microsoft.servicebus.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1alpha1api20210101preview,name=validate.v1alpha1api20210101preview.namespacesqueues.microsoft.servicebus.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &NamespacesQueue{}
 

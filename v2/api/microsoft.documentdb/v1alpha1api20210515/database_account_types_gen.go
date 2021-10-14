@@ -46,7 +46,7 @@ func (databaseAccount *DatabaseAccount) SetConditions(conditions conditions.Cond
 	databaseAccount.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccounts,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.databaseaccounts.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccounts,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.databaseaccounts.microsoft.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &DatabaseAccount{}
 
@@ -131,7 +131,7 @@ func (databaseAccount *DatabaseAccount) SetStatus(status genruntime.ConvertibleS
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccounts,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.databaseaccounts.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-databaseaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=databaseaccounts,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.databaseaccounts.microsoft.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &DatabaseAccount{}
 

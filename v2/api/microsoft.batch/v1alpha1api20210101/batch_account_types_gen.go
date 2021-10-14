@@ -46,7 +46,7 @@ func (batchAccount *BatchAccount) SetConditions(conditions conditions.Conditions
 	batchAccount.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-batch-azure-com-v1alpha1api20210101-batchaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.batch.azure.com,resources=batchaccounts,verbs=create;update,versions=v1alpha1api20210101,name=default.v1alpha1api20210101.batchaccounts.microsoft.batch.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-batch-azure-com-v1alpha1api20210101-batchaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.batch.azure.com,resources=batchaccounts,verbs=create;update,versions=v1alpha1api20210101,name=default.v1alpha1api20210101.batchaccounts.microsoft.batch.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &BatchAccount{}
 
@@ -131,7 +131,7 @@ func (batchAccount *BatchAccount) SetStatus(status genruntime.ConvertibleStatus)
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-batch-azure-com-v1alpha1api20210101-batchaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.batch.azure.com,resources=batchaccounts,verbs=create;update,versions=v1alpha1api20210101,name=validate.v1alpha1api20210101.batchaccounts.microsoft.batch.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-batch-azure-com-v1alpha1api20210101-batchaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.batch.azure.com,resources=batchaccounts,verbs=create;update,versions=v1alpha1api20210101,name=validate.v1alpha1api20210101.batchaccounts.microsoft.batch.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &BatchAccount{}
 

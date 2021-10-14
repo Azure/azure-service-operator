@@ -46,7 +46,7 @@ func (roleAssignment *RoleAssignment) SetConditions(conditions conditions.Condit
 	roleAssignment.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-authorization-azure-com-v1alpha1api20200801preview-roleassignment,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.authorization.azure.com,resources=roleassignments,verbs=create;update,versions=v1alpha1api20200801preview,name=default.v1alpha1api20200801preview.roleassignments.microsoft.authorization.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-authorization-azure-com-v1alpha1api20200801preview-roleassignment,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.authorization.azure.com,resources=roleassignments,verbs=create;update,versions=v1alpha1api20200801preview,name=default.v1alpha1api20200801preview.roleassignments.microsoft.authorization.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &RoleAssignment{}
 
@@ -130,7 +130,7 @@ func (roleAssignment *RoleAssignment) SetStatus(status genruntime.ConvertibleSta
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-authorization-azure-com-v1alpha1api20200801preview-roleassignment,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.authorization.azure.com,resources=roleassignments,verbs=create;update,versions=v1alpha1api20200801preview,name=validate.v1alpha1api20200801preview.roleassignments.microsoft.authorization.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-authorization-azure-com-v1alpha1api20200801preview-roleassignment,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.authorization.azure.com,resources=roleassignments,verbs=create;update,versions=v1alpha1api20200801preview,name=validate.v1alpha1api20200801preview.roleassignments.microsoft.authorization.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &RoleAssignment{}
 

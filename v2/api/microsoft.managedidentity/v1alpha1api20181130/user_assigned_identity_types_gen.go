@@ -46,7 +46,7 @@ func (userAssignedIdentity *UserAssignedIdentity) SetConditions(conditions condi
 	userAssignedIdentity.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-managedidentity-azure-com-v1alpha1api20181130-userassignedidentity,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1alpha1api20181130,name=default.v1alpha1api20181130.userassignedidentities.microsoft.managedidentity.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-managedidentity-azure-com-v1alpha1api20181130-userassignedidentity,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1alpha1api20181130,name=default.v1alpha1api20181130.userassignedidentities.microsoft.managedidentity.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &UserAssignedIdentity{}
 
@@ -133,7 +133,7 @@ func (userAssignedIdentity *UserAssignedIdentity) SetStatus(status genruntime.Co
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-managedidentity-azure-com-v1alpha1api20181130-userassignedidentity,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1alpha1api20181130,name=validate.v1alpha1api20181130.userassignedidentities.microsoft.managedidentity.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-managedidentity-azure-com-v1alpha1api20181130-userassignedidentity,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1alpha1api20181130,name=validate.v1alpha1api20181130.userassignedidentities.microsoft.managedidentity.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &UserAssignedIdentity{}
 

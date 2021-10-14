@@ -36,7 +36,7 @@ type ResourceGroup struct {
 	Status            ResourceGroupStatus `json:"status,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-resources-azure-com-v1alpha1api20200601-resourcegroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.resources.azure.com,resources=resourcegroups,verbs=create;update,versions=v1alpha1api20200601,name=default.v1alpha1api20200601.resourcegroups.microsoft.resources.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-resources-azure-com-v1alpha1api20200601-resourcegroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.resources.azure.com,resources=resourcegroups,verbs=create;update,versions=v1alpha1api20200601,name=default.v1alpha1api20200601.resourcegroups.microsoft.resources.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &ResourceGroup{}
 
@@ -144,8 +144,10 @@ type ResourceGroupStatus struct {
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ResourceGroupStatus{}
-var _ genruntime.ConvertibleStatus = &ResourceGroupStatus{}
+var (
+	_ genruntime.FromARMConverter  = &ResourceGroupStatus{}
+	_ genruntime.ConvertibleStatus = &ResourceGroupStatus{}
+)
 
 func (status *ResourceGroupStatus) CreateEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ResourceGroupStatusARM{}
@@ -241,8 +243,10 @@ type ResourceGroupSpec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ResourceGroupSpec{}
-var _ genruntime.ConvertibleSpec = &ResourceGroupSpec{}
+var (
+	_ genruntime.ARMTransformer  = &ResourceGroupSpec{}
+	_ genruntime.ConvertibleSpec = &ResourceGroupSpec{}
+)
 
 func (spec *ResourceGroupSpec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
 	return ResourceGroupSpecARM{}

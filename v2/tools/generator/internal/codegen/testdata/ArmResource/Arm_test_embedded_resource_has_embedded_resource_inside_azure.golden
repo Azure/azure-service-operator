@@ -25,7 +25,7 @@ type A struct {
 	Spec              A_Spec `json:"spec,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &A{}
 
@@ -81,7 +81,7 @@ func (a *A) Owner() *genruntime.ResourceReference {
 	}
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &A{}
 
@@ -208,7 +208,7 @@ type B struct {
 	Spec              B_Spec `json:"spec,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-b,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.bs.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-b,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.bs.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &B{}
 
@@ -264,7 +264,7 @@ func (b *B) Owner() *genruntime.ResourceReference {
 	}
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-b,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.bs.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-b,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.bs.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &B{}
 
@@ -391,7 +391,7 @@ type C struct {
 	Spec              C_Spec `json:"spec,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-c,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.cs.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-c,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.cs.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &C{}
 
@@ -447,7 +447,7 @@ func (c *C) Owner() *genruntime.ResourceReference {
 	}
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-c,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.cs.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1alpha1api20200101-c,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1alpha1api20200101,name=validate.v1alpha1api20200101.cs.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &C{}
 

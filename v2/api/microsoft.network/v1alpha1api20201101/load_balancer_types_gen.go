@@ -46,7 +46,7 @@ func (loadBalancer *LoadBalancer) SetConditions(conditions conditions.Conditions
 	loadBalancer.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-network-azure-com-v1alpha1api20201101-loadbalancer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=loadbalancers,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.loadbalancers.microsoft.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-network-azure-com-v1alpha1api20201101-loadbalancer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=loadbalancers,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.loadbalancers.microsoft.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &LoadBalancer{}
 
@@ -131,7 +131,7 @@ func (loadBalancer *LoadBalancer) SetStatus(status genruntime.ConvertibleStatus)
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-loadbalancer,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=loadbalancers,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.loadbalancers.microsoft.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-loadbalancer,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=loadbalancers,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.loadbalancers.microsoft.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &LoadBalancer{}
 

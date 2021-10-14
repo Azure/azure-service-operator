@@ -46,7 +46,7 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) SetCon
 	mongodbDatabaseThroughputSetting.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasethroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=mongodbdatabasethroughputsettings,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.mongodbdatabasethroughputsettings.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasethroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=mongodbdatabasethroughputsettings,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.mongodbdatabasethroughputsettings.microsoft.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &MongodbDatabaseThroughputSetting{}
 
@@ -124,7 +124,7 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) SetSta
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasethroughputsetting,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=mongodbdatabasethroughputsettings,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.mongodbdatabasethroughputsettings.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasethroughputsetting,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=mongodbdatabasethroughputsettings,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.mongodbdatabasethroughputsettings.microsoft.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &MongodbDatabaseThroughputSetting{}
 

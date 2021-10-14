@@ -46,7 +46,7 @@ func (virtualNetwork *VirtualNetwork) SetConditions(conditions conditions.Condit
 	virtualNetwork.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetwork,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=virtualnetworks,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.virtualnetworks.microsoft.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetwork,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=virtualnetworks,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.virtualnetworks.microsoft.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &VirtualNetwork{}
 
@@ -131,7 +131,7 @@ func (virtualNetwork *VirtualNetwork) SetStatus(status genruntime.ConvertibleSta
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetwork,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=virtualnetworks,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.virtualnetworks.microsoft.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-virtualnetwork,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=virtualnetworks,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.virtualnetworks.microsoft.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &VirtualNetwork{}
 

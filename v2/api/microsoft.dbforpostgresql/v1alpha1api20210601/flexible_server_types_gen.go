@@ -46,7 +46,7 @@ func (flexibleServer *FlexibleServer) SetConditions(conditions conditions.Condit
 	flexibleServer.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.dbforpostgresql.azure.com,resources=flexibleservers,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.flexibleservers.microsoft.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.dbforpostgresql.azure.com,resources=flexibleservers,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.flexibleservers.microsoft.dbforpostgresql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &FlexibleServer{}
 
@@ -131,7 +131,7 @@ func (flexibleServer *FlexibleServer) SetStatus(status genruntime.ConvertibleSta
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserver,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.dbforpostgresql.azure.com,resources=flexibleservers,verbs=create;update,versions=v1alpha1api20210601,name=validate.v1alpha1api20210601.flexibleservers.microsoft.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserver,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.dbforpostgresql.azure.com,resources=flexibleservers,verbs=create;update,versions=v1alpha1api20210601,name=validate.v1alpha1api20210601.flexibleservers.microsoft.dbforpostgresql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &FlexibleServer{}
 

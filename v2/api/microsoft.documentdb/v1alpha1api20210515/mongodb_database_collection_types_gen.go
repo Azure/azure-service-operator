@@ -46,7 +46,7 @@ func (mongodbDatabaseCollection *MongodbDatabaseCollection) SetConditions(condit
 	mongodbDatabaseCollection.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasecollection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.mongodbdatabasecollections.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasecollection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.mongodbdatabasecollections.microsoft.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &MongodbDatabaseCollection{}
 
@@ -133,7 +133,7 @@ func (mongodbDatabaseCollection *MongodbDatabaseCollection) SetStatus(status gen
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasecollection,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.mongodbdatabasecollections.microsoft.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasecollection,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1alpha1api20210515,name=validate.v1alpha1api20210515.mongodbdatabasecollections.microsoft.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &MongodbDatabaseCollection{}
 

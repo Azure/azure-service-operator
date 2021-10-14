@@ -46,7 +46,7 @@ func (networkSecurityGroup *NetworkSecurityGroup) SetConditions(conditions condi
 	networkSecurityGroup.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-microsoft-network-azure-com-v1alpha1api20201101-networksecuritygroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=networksecuritygroups,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.networksecuritygroups.microsoft.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-microsoft-network-azure-com-v1alpha1api20201101-networksecuritygroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=networksecuritygroups,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.networksecuritygroups.microsoft.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &NetworkSecurityGroup{}
 
@@ -133,7 +133,7 @@ func (networkSecurityGroup *NetworkSecurityGroup) SetStatus(status genruntime.Co
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-networksecuritygroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=networksecuritygroups,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.networksecuritygroups.microsoft.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-microsoft-network-azure-com-v1alpha1api20201101-networksecuritygroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.network.azure.com,resources=networksecuritygroups,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.networksecuritygroups.microsoft.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &NetworkSecurityGroup{}
 
