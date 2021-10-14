@@ -84,3 +84,22 @@ type SqlTriggerResourceARM struct {
 	//TriggerType: Type of the Trigger.
 	TriggerType *SqlTriggerResourceTriggerType `json:"triggerType,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"All","Create","Delete","Replace","Update"}
+type SqlTriggerResourceTriggerOperation string
+
+const (
+	SqlTriggerResourceTriggerOperationAll     = SqlTriggerResourceTriggerOperation("All")
+	SqlTriggerResourceTriggerOperationCreate  = SqlTriggerResourceTriggerOperation("Create")
+	SqlTriggerResourceTriggerOperationDelete  = SqlTriggerResourceTriggerOperation("Delete")
+	SqlTriggerResourceTriggerOperationReplace = SqlTriggerResourceTriggerOperation("Replace")
+	SqlTriggerResourceTriggerOperationUpdate  = SqlTriggerResourceTriggerOperation("Update")
+)
+
+// +kubebuilder:validation:Enum={"Post","Pre"}
+type SqlTriggerResourceTriggerType string
+
+const (
+	SqlTriggerResourceTriggerTypePost = SqlTriggerResourceTriggerType("Post")
+	SqlTriggerResourceTriggerTypePre  = SqlTriggerResourceTriggerType("Pre")
+)

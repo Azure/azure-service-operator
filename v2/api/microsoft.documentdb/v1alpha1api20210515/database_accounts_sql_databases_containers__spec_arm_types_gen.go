@@ -161,6 +161,23 @@ type CompositePathARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Custom","LastWriterWins"}
+type ConflictResolutionPolicyMode string
+
+const (
+	ConflictResolutionPolicyModeCustom         = ConflictResolutionPolicyMode("Custom")
+	ConflictResolutionPolicyModeLastWriterWins = ConflictResolutionPolicyMode("LastWriterWins")
+)
+
+// +kubebuilder:validation:Enum={"Hash","MultiHash","Range"}
+type ContainerPartitionKeyKind string
+
+const (
+	ContainerPartitionKeyKindHash      = ContainerPartitionKeyKind("Hash")
+	ContainerPartitionKeyKindMultiHash = ContainerPartitionKeyKind("MultiHash")
+	ContainerPartitionKeyKindRange     = ContainerPartitionKeyKind("Range")
+)
+
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath
 type ExcludedPathARM struct {
 	//Path: The path for which the indexing behavior applies to. Index paths typically
@@ -177,6 +194,15 @@ type IncludedPathARM struct {
 	//start with root and end with wildcard (/path/*)
 	Path *string `json:"path,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"consistent","lazy","none"}
+type IndexingPolicyIndexingMode string
+
+const (
+	IndexingPolicyIndexingModeConsistent = IndexingPolicyIndexingMode("consistent")
+	IndexingPolicyIndexingModeLazy       = IndexingPolicyIndexingMode("lazy")
+	IndexingPolicyIndexingModeNone       = IndexingPolicyIndexingMode("none")
+)
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec
 type SpatialSpecARM struct {
@@ -195,6 +221,14 @@ type UniqueKeyARM struct {
 	Paths []string `json:"paths,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"ascending","descending"}
+type CompositePathOrder string
+
+const (
+	CompositePathOrderAscending  = CompositePathOrder("ascending")
+	CompositePathOrderDescending = CompositePathOrder("descending")
+)
+
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes
 type IndexesARM struct {
 	//DataType: The datatype for which the indexing behavior is applied to.
@@ -206,3 +240,34 @@ type IndexesARM struct {
 	//Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"LineString","MultiPolygon","Point","Polygon"}
+type SpatialSpecTypes string
+
+const (
+	SpatialSpecTypesLineString   = SpatialSpecTypes("LineString")
+	SpatialSpecTypesMultiPolygon = SpatialSpecTypes("MultiPolygon")
+	SpatialSpecTypesPoint        = SpatialSpecTypes("Point")
+	SpatialSpecTypesPolygon      = SpatialSpecTypes("Polygon")
+)
+
+// +kubebuilder:validation:Enum={"LineString","MultiPolygon","Number","Point","Polygon","String"}
+type IndexesDataType string
+
+const (
+	IndexesDataTypeLineString   = IndexesDataType("LineString")
+	IndexesDataTypeMultiPolygon = IndexesDataType("MultiPolygon")
+	IndexesDataTypeNumber       = IndexesDataType("Number")
+	IndexesDataTypePoint        = IndexesDataType("Point")
+	IndexesDataTypePolygon      = IndexesDataType("Polygon")
+	IndexesDataTypeString       = IndexesDataType("String")
+)
+
+// +kubebuilder:validation:Enum={"Hash","Range","Spatial"}
+type IndexesKind string
+
+const (
+	IndexesKindHash    = IndexesKind("Hash")
+	IndexesKindRange   = IndexesKind("Range")
+	IndexesKindSpatial = IndexesKind("Spatial")
+)

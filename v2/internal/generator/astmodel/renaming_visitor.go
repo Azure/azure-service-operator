@@ -5,7 +5,9 @@
 
 package astmodel
 
-import kerrors "k8s.io/apimachinery/pkg/util/errors"
+import (
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+)
 
 // RenamingVisitor is a visitor for performing simple TypeName renames
 type RenamingVisitor struct {
@@ -35,19 +37,29 @@ func NewRenamingVisitorFromLambda(f func(name TypeName) TypeName) *RenamingVisit
 		f: f,
 	}
 
-	rename := func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error) {
-		newName := f(it)
-		return IdentityVisitOfTypeName(this, newName, ctx)
-	}
-
 	r.visitor = TypeVisitorBuilder{
-		VisitTypeName: rename,
+		VisitTypeName:     r.updateTypeName,
+		VisitResourceType: r.updateResourceOwner,
 	}.Build()
 
 	return r
 }
 
-// Rename applies the renames to the Type
+func (r *RenamingVisitor) updateTypeName(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error) {
+	newName := r.f(it)
+	return IdentityVisitOfTypeName(this, newName, ctx)
+}
+
+func (r *RenamingVisitor) updateResourceOwner(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error) {
+	if it.Owner() != nil {
+		// TODO: Should this actually happen in TypeVisitor itself?
+		newOwner := r.f(*it.Owner())
+		it = it.WithOwner(&newOwner)
+	}
+	return IdentityVisitOfResourceType(this, it, ctx)
+}
+
+// Rename applies the renames to the Type whose definition is passed in.
 func (r *RenamingVisitor) Rename(t Type) (Type, error) {
 	return r.visitor.Visit(t, nil)
 }
