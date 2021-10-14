@@ -49,7 +49,7 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 
 	// Create a mongo database
 	name := tc.Namer.GenerateName("mongo")
-	db := documentdb.DatabaseAccountsMongodbDatabase{
+	db := documentdb.MongodbDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsMongodbDatabases_Spec{
 			Location: &tc.AzureRegion,
@@ -109,7 +109,7 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 
 func CosmosDB_MongoDB_Collection_CRUD(tc testcommon.KubePerTestContext, db client.Object) {
 	name := tc.Namer.GenerateName("collection")
-	collection := documentdb.DatabaseAccountsMongodbDatabasesCollection{
+	collection := documentdb.MongodbDatabaseCollection{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollections_Spec{
 			Location: &tc.AzureRegion,
@@ -154,7 +154,7 @@ func CosmosDB_MongoDB_Collection_CRUD(tc testcommon.KubePerTestContext, db clien
 
 	tc.T.Log("waiting for new index in status")
 	tc.Eventually(func() []documentdb.MongoIndex_Status {
-		var updated documentdb.DatabaseAccountsMongodbDatabasesCollection
+		var updated documentdb.MongodbDatabaseCollection
 		tc.GetResource(objectKey, &updated)
 		tc.T.Log(pretty.Sprint("current indexes:", updated.Status.Resource.Indexes))
 		return updated.Status.Resource.Indexes

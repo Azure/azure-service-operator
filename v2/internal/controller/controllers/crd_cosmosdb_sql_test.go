@@ -44,7 +44,7 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	}
 
 	dbName := tc.Namer.GenerateName("sqldb")
-	db := documentdb.DatabaseAccountsSqlDatabase{
+	db := documentdb.SqlDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(dbName),
 		Spec: documentdb.DatabaseAccountsSqlDatabases_Spec{
 			Location: &tc.AzureRegion,
@@ -74,7 +74,7 @@ func CosmosDB_SQL_Container_CRUD(tc testcommon.KubePerTestContext, db client.Obj
 	lastWriterWins := documentdb.ConflictResolutionPolicyModeLastWriterWins
 	consistent := documentdb.IndexingPolicyIndexingModeConsistent
 	hash := documentdb.ContainerPartitionKeyKindHash
-	container := documentdb.DatabaseAccountsSqlDatabasesContainer{
+	container := documentdb.SqlDatabaseContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsSqlDatabasesContainers_Spec{
 			Location: &tc.AzureRegion,
@@ -135,7 +135,7 @@ func CosmosDB_SQL_Container_CRUD(tc testcommon.KubePerTestContext, db client.Obj
 
 	tc.T.Log("Waiting for new TTL in status")
 	tc.Eventually(func() int {
-		var updated documentdb.DatabaseAccountsSqlDatabasesContainer
+		var updated documentdb.SqlDatabaseContainer
 		tc.GetResource(objectKey, &updated)
 		resource := updated.Status.Resource
 		if resource == nil {
@@ -156,7 +156,7 @@ func CosmosDB_SQL_Trigger_CRUD(tc testcommon.KubePerTestContext, container clien
 	name := tc.Namer.GenerateName("trigger")
 	pre := documentdb.SqlTriggerResourceTriggerTypePre
 	create := documentdb.SqlTriggerResourceTriggerOperationCreate
-	trigger := documentdb.DatabaseAccountsSqlDatabasesContainersTrigger{
+	trigger := documentdb.SqlDatabaseContainerTrigger{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersTriggers_Spec{
 			Location: &tc.AzureRegion,
@@ -183,7 +183,7 @@ func CosmosDB_SQL_Trigger_CRUD(tc testcommon.KubePerTestContext, container clien
 
 	tc.T.Log("Waiting for new type in status")
 	tc.Eventually(func() string {
-		var updated documentdb.DatabaseAccountsSqlDatabasesContainersTrigger
+		var updated documentdb.SqlDatabaseContainerTrigger
 		tc.GetResource(objectKey, &updated)
 		resource := updated.Status.Resource
 		if resource == nil {
@@ -214,7 +214,7 @@ function validateToDoItemTimestamp(){
 
 func CosmosDB_SQL_StoredProcedure_CRUD(tc testcommon.KubePerTestContext, container client.Object) {
 	name := tc.Namer.GenerateName("storedproc")
-	storedProcedure := documentdb.DatabaseAccountsSqlDatabasesContainersStoredProcedure{
+	storedProcedure := documentdb.SqlDatabaseContainerStoredProcedure{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec{
 			Location: &tc.AzureRegion,
@@ -238,7 +238,7 @@ func CosmosDB_SQL_StoredProcedure_CRUD(tc testcommon.KubePerTestContext, contain
 
 	tc.T.Log("Waiting for new body in status")
 	tc.Eventually(func() string {
-		var updated documentdb.DatabaseAccountsSqlDatabasesContainersStoredProcedure
+		var updated documentdb.SqlDatabaseContainerStoredProcedure
 		tc.GetResource(objectKey, &updated)
 		resource := updated.Status.Resource
 		if resource == nil {
@@ -264,7 +264,7 @@ function () {
 
 func CosmosDB_SQL_UserDefinedFunction_CRUD(tc testcommon.KubePerTestContext, container client.Object) {
 	name := tc.Namer.GenerateName("udf")
-	userDefinedFunction := documentdb.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction{
+	userDefinedFunction := documentdb.SqlDatabaseContainerUserDefinedFunction{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec{
 			AzureName: name,
@@ -289,7 +289,7 @@ func CosmosDB_SQL_UserDefinedFunction_CRUD(tc testcommon.KubePerTestContext, con
 
 	tc.T.Log("Waiting for new body in status")
 	tc.Eventually(func() string {
-		var updated documentdb.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction
+		var updated documentdb.SqlDatabaseContainerUserDefinedFunction
 		tc.GetResource(objectKey, &updated)
 		resource := updated.Status.Resource
 		if resource == nil {
