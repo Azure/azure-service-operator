@@ -115,8 +115,8 @@ tasks:
 
   generator:diagrams:
     desc: Regenerate all GraphViz diagrams
-    dir: "./docs/design/images"
-    sources: ["*/*.dot"]
+    dir: "./docs/hugo/static/images"
+    sources: ["**/*.dot"]
     cmds:
     - "for f in **/*.dot; do dot -Tpng -o${f%.dot}.png $f; done"
 

@@ -58,6 +58,10 @@ go get \
     sigs.k8s.io/kind@v0.11.1 \
     sigs.k8s.io/kustomize/kustomize/v4@v4.2.0 
 
+# for docs site
+go install -tags extended github.com/gohugoio/hugo@v0.88.1
+go install github.com/wjdp/htmltest@v0.15.0
+
 if [ "$1" != "devcontainer" ]; then 
     echo "Installing golangci-lint…"
     # golangci-lint is provided by base image if in devcontainer

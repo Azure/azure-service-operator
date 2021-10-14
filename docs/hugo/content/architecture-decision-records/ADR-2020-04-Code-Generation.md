@@ -1,3 +1,8 @@
+---
+title: '2020-04: Why Code Generation?'
+date: 2020-04-01
+---
+
 # Why Code Generation?
 
 ## Context
@@ -41,4 +46,3 @@ Migration of the code generator into the ASO repo occurred in [PR #1427](https:/
 ## References
 
 None.
-

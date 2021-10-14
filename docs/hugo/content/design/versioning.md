@@ -1,39 +1,8 @@
-<!-- omit in toc -->
 # Versioning 
-
 
 Specification for how storage versioning will operate for code generated CRD definitions.
 
 We're generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
-
-<!-- omit in toc -->
-## Table of Contents
-
-- [Goals](#goals)
-- [Non-Goals](#non-goals)
-- [Other Constraints](#other-constraints)
-- [Case Studies](#case-studies)
-- [Proposed Solution](#proposed-solution)
-  - [Defining Storage Versions](#defining-storage-versions)
-  - [Generated conversion methods](#generated-conversion-methods)
-  - [External Metadata for common changes](#external-metadata-for-common-changes)
-  - [Standard extension points](#standard-extension-points)
-- [Testing](#testing)
-  - [Round Trip Testing](#round-trip-testing)
-  - [Relibility Testing](#relibility-testing)
-  - [Golden Tests](#golden-tests)
-- [Conversion Flow](#conversion-flow)
-  - [Direct conversion to storage type](#direct-conversion-to-storage-type)
-  - [Two step conversion to storage type](#two-step-conversion-to-storage-type)
-  - [Multiple step conversion to storage type](#multiple-step-conversion-to-storage-type)
-  - [Two step conversion from storage type](#two-step-conversion-from-storage-type)
-- [Alternative Solutions](#alternative-solutions)
-  - [Alternative: Fixed storage version](#alternative-fixed-storage-version)
-  - [Alternative: Use the latest API version](#alternative-use-the-latest-api-version)
-- [Metadata Design](#metadata-design)
-- [Outstanding Issues](#outstanding-issues)
-  - [Service Operator Upgrades](#service-operator-upgrades)
-- [See Also](#see-also)
 
 ## Goals
 
@@ -64,11 +33,11 @@ Unlike the typical situation with a hand written service operator, we don't have
 
 There are three case studies that accompany this specification, each one walking through one possible solution and showing how it will perform as a synthetic ARM style API evolves over time.
 
-The [**Chained Versions**](case-study-chained-storage-versions.md) case study shows how the preferred solution adapts to changes as the API is modified.
+The [**Chained Versions**](/design/case-studies/case-study-chained-storage-versions/) case study shows how the preferred solution adapts to changes as the API is modified.
 
-The [**Rolling Versions**](case-study-rolling-storage-versions.md) case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.
+The [**Rolling Versions**](/design/case-studies/case-study-rolling-storage-versions/) case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.
 
-The [**Fixed Version**](case-study-fixed-storage-version.md) case study shows how a popular alternative would fare, calling out some specific problems that will occur.
+The [**Fixed Version**](/design/case-studies/case-study-fixed-storage-version/) case study shows how a popular alternative would fare, calling out some specific problems that will occur.
 
 **TL;DR:** Using a *fixed storage version* appears simpler at first, and works well as long as the changes from version to version are simple. However, when the changes become complex (as they are bound to do over time), this approach starts to break down. While there is up front complexity to address with *chained storage versions*, the approach doesn't break down over time and we can generate useful automated tests for verification. The *rolling storage version* approach is viable, but requires additional ongoing maintenance when manual conversions are introduced between versions.
 
@@ -157,7 +126,7 @@ The `ConvertToStorage()` method is responsible for copying all of the properties
 
 Each property defined in the API type is considered in turn, and will require different handling based on its type and whether a suitable match is found on the storage type:
 
-![](images/versioning/property-mapping-flowchart.png)
+![](/images/versioning/property-mapping-flowchart.png)
 
 **For properties with a primitive type** a matching property must have the same name and the identical type. If found, a simple assignment will copy the value over. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type.
 
@@ -267,7 +236,7 @@ We'll generate two golden tests for each type in each API type, one to test veri
 
 **Testing conversion to the latest version** will check that an instance of a older version of the API can be up-converted to the latest version:
 
-![](images/versioning/golden-tests-to-latest.png)
+![](/images/versioning/golden-tests-to-latest.png)
 
 The test will involve these steps:
 
@@ -284,7 +253,7 @@ If neither rule is satisfied, the test will silently null out.
 
 **Testing conversion from the latest version** will check that an instance of the latest version of the API can be down-converted to an older version.
 
-![](images/versioning/golden-tests-from-latest.png)
+![](/images/versioning/golden-tests-from-latest.png)
 
 * Create an exemplar instance of the latest API type 
 * Convert it to the storage type using `ConvertToStorage()`
@@ -301,7 +270,7 @@ If neither rule is satisfied, the test will silently null out.
 
 To illustrate the operation of conversions, consider the following graph of related versions of `Person`:
 
-![](images/versioning/conversions.png)
+![](/images/versioning/conversions.png)
 
 API versions are shown across the top, with the associated storage versions directly below. The arrows show the direction of references between the packages, with a package at the start of the arrow importing the package at the end. For example, package `v3` imports `v3storage` and can access the types within. 
 
@@ -311,27 +280,27 @@ The highlighted storage version **v4storage** is the currently nominated hub ver
 
 The simplest case is a conversion directly between **v4** and **v4storage**, which simply involves copying properties across:
 
-![](images/versioning/direct-conversion.png)
+![](/images/versioning/direct-conversion.png)
 
 
 ### Two step conversion to storage type
 
 There's no direct conversion between a **v3.Person** and a **v4storage.Person**, so an intermediate step is required: we convert first to a **v3storage.Person**, and then to the final type:
 
-![](images/versioning/two-step-conversion.png)
+![](/images/versioning/two-step-conversion.png)
 
 
 ### Multiple step conversion to storage type
 
 The approach generalizes - at each stage, an intermediate instance is created, one step closer to the current hub type, and the properties are copied across:
 
-![](images/versioning/multiple-step-conversion.png)
+![](/images/versioning/multiple-step-conversion.png)
 
 ### Two step conversion from storage type
 
 When converting in the other direction, the process is similar - we show here just the two step case to illustrate.
 
-![](images/versioning/two-step-reverse-conversion.png)
+![](/images/versioning/two-step-reverse-conversion.png)
 
 
 ## Alternative Solutions
@@ -344,7 +313,7 @@ The "v1" storage version of each supported resource type will be created by merg
 
 To maintain backward compatibility as Azure APIs evolve over time, we will include properties across all versions of the API, even for versions we are not currently generating as output. This ensures that properties in use by older APIs are still present and available for forward conversion to newer APIs, even as those older APIs age out of use.
 
-This approach has a number of issues that are called out in detail in the [fixed storage version case study](case-study-fixed-storage-version.md).
+This approach has a number of issues that are called out in detail in the [fixed storage version case study](/design/case-studies/case-study-fixed-storage-version/).
 
 **Property Bloat**: As our API evolves over time, our storage version is accumulating all the properties that have ever existed, bloating the storage version with obsolete properties that are seldom (if ever) used. Even properties that only ever existed on a single preview release of an ARM API need to be correctly managed for the lifetime of the service operator.
 
