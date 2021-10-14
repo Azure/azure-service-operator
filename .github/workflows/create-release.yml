@@ -46,7 +46,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
-          file: hack/generated/bin/azureserviceoperator_*.yaml
+          file: v2/bin/azureserviceoperator_*.yaml
           file_glob: true
 
       - name: Login to registry
