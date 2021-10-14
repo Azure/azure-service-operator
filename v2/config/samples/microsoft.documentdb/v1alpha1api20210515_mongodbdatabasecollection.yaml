@@ -1,5 +1,5 @@
 apiVersion: microsoft.documentdb.azure.com/v1alpha1api20210515
-kind: DatabaseAccountsMongodbDatabasesCollection
+kind: MongodbDatabaseCollection
 metadata:
   name: sample-mongo-collection
   namespace: default
