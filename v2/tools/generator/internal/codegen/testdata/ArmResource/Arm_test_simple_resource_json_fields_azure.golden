@@ -313,6 +313,11 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
+func (fakeResourceSpec *FakeResource_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
 // SetAzureName sets the Azure name of the resource
 func (fakeResourceSpec *FakeResource_Spec) SetAzureName(azureName string) {
 	fakeResourceSpec.AzureName = azureName

@@ -682,6 +682,11 @@ func (aSpec *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
+func (aSpec *A_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
 // SetAzureName sets the Azure name of the resource
 func (aSpec *A_Spec) SetAzureName(azureName string) { aSpec.AzureName = azureName }
 
@@ -776,6 +781,11 @@ func (bSpec *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
+func (bSpec *B_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
 // SetAzureName sets the Azure name of the resource
 func (bSpec *B_Spec) SetAzureName(azureName string) { bSpec.AzureName = azureName }
 
@@ -868,6 +878,11 @@ func (cSpec *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 
 	// No error
 	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (cSpec *C_Spec) OriginalVersion() string {
+	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource

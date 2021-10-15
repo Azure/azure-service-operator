@@ -254,6 +254,11 @@ func (aResourceSpec *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
+func (aResourceSpec *AResource_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
 func init() {
 	SchemeBuilder.Register(&AResource{}, &AResourceList{})
 }

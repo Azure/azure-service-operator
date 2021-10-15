@@ -268,6 +268,11 @@ func (aResourceSpec *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
+func (aResourceSpec *AResource_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
 // SetAzureName sets the Azure name from the given github.com/Azure/azure-service-operator/testing/test/v1alpha1api20200101/AResourceSpecName value
 func (aResourceSpec *AResource_Spec) SetAzureName(azureName string) {
 	aResourceSpec.AzureName = AResourceSpecName(azureName)
