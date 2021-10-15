@@ -152,7 +152,6 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			// TODO: Once the stage is enabled in the pipeline, we may need to remove it here for testing
 			// pipeline.InjectHubFunctionStageID,
 			// pipeline.ImplementConvertibleInterfaceStageId,
-			pipeline.ImplementConvertibleStatusInterfaceStageId,
 			pipeline.ReportOnTypesAndVersionsStageID,
 			pipeline.AddStatusConditionsStageID,
 			pipeline.ReportResourceVersionsStageID)
