@@ -77,5 +77,3 @@ func NewEmptyARMStatus(metaObject MetaObject, scheme *runtime.Scheme) (ARMResour
 
 	return converter.CreateEmptyARMValue(), nil
 }
-
-
