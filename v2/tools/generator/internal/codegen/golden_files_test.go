@@ -149,7 +149,6 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
 			pipeline.CreateStorageTypesStageID,
-			pipeline.InjectOriginalGVKFunctionStageID,
 			pipeline.InjectOriginalVersionFunctionStageID,
 			pipeline.InjectOriginalVersionPropertyStageID,
 			pipeline.InjectPropertyAssignmentFunctionsStageID,

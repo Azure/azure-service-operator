@@ -10,6 +10,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -163,6 +164,15 @@ func (fakeResource *FakeResource) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
+func (fakeResource *FakeResource) OriginalGVK() *schema.GroupVersionKind {
+	return &schema.GroupVersionKind{
+		Group:   GroupVersion.Group,
+		Version: fakeResource.Spec.OriginalVersion(),
+		Kind:    "FakeResource",
+	}
 }
 
 // +kubebuilder:object:root=true
