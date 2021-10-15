@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -20,11 +21,26 @@ import (
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/AResource
 type AResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              AResource_Spec `json:"spec,omitempty"`
+}
+
+var _ conditions.Conditioner = &AResource{}
+
+// GetConditions returns the conditions of the resource
+func (aResource *AResource) GetConditions() conditions.Conditions {
+	return aResource.Status.Conditions
+}
+
+// SetConditions sets the conditions on the resource status
+func (aResource *AResource) SetConditions(conditions conditions.Conditions) {
+	aResource.Status.Conditions = conditions
 }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-aresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=aresources,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.aresources.test.azure.com,admissionReviewVersions=v1beta1

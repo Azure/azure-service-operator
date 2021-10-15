@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -20,12 +21,25 @@ import (
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              A_Spec `json:"spec,omitempty"`
 }
+
+var _ conditions.Conditioner = &A{}
+
+// GetConditions returns the conditions of the resource
+func (a *A) GetConditions() conditions.Conditions {
+	return a.Status.Conditions
+}
+
+// SetConditions sets the conditions on the resource status
+func (a *A) SetConditions(conditions conditions.Conditions) { a.Status.Conditions = conditions }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1beta1
 
@@ -211,12 +225,25 @@ func (aSpecARM A_SpecARM) GetType() string {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type B struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              B_Spec `json:"spec,omitempty"`
 }
+
+var _ conditions.Conditioner = &B{}
+
+// GetConditions returns the conditions of the resource
+func (b *B) GetConditions() conditions.Conditions {
+	return b.Status.Conditions
+}
+
+// SetConditions sets the conditions on the resource status
+func (b *B) SetConditions(conditions conditions.Conditions) { b.Status.Conditions = conditions }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-b,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.bs.test.azure.com,admissionReviewVersions=v1beta1
 
@@ -402,12 +429,25 @@ func (bSpecARM B_SpecARM) GetType() string {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type C struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              C_Spec `json:"spec,omitempty"`
 }
+
+var _ conditions.Conditioner = &C{}
+
+// GetConditions returns the conditions of the resource
+func (c *C) GetConditions() conditions.Conditions {
+	return c.Status.Conditions
+}
+
+// SetConditions sets the conditions on the resource status
+func (c *C) SetConditions(conditions conditions.Conditions) { c.Status.Conditions = conditions }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-c,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.cs.test.azure.com,admissionReviewVersions=v1beta1
 
@@ -593,12 +633,25 @@ func (cSpecARM C_SpecARM) GetType() string {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
 type D struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              D_Spec `json:"spec,omitempty"`
 }
+
+var _ conditions.Conditioner = &D{}
+
+// GetConditions returns the conditions of the resource
+func (d *D) GetConditions() conditions.Conditions {
+	return d.Status.Conditions
+}
+
+// SetConditions sets the conditions on the resource status
+func (d *D) SetConditions(conditions conditions.Conditions) { d.Status.Conditions = conditions }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-d,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=ds,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.ds.test.azure.com,admissionReviewVersions=v1beta1
 
