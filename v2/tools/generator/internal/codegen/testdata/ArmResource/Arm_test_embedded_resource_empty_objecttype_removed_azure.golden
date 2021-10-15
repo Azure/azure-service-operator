@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -489,6 +490,26 @@ func (aSpec *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 	return nil
 }
 
+var _ genruntime.ConvertibleSpec = &A_Spec{}
+
+// ConvertSpecFrom populates our A_Spec from the provided source
+func (aSpec *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == aSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(aSpec)
+}
+
+// ConvertSpecTo populates the provided destination from our A_Spec
+func (aSpec *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == aSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(aSpec)
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (aSpec *A_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -585,6 +606,26 @@ func (bSpec *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 
 	// No error
 	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &B_Spec{}
+
+// ConvertSpecFrom populates our B_Spec from the provided source
+func (bSpec *B_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == bSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(bSpec)
+}
+
+// ConvertSpecTo populates the provided destination from our B_Spec
+func (bSpec *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == bSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(bSpec)
 }
 
 // OriginalVersion returns the original API version used to create the resource.

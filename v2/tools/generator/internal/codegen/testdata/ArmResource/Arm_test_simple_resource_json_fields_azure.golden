@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -311,6 +312,26 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Arbi
 
 	// No error
 	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &FakeResource_Spec{}
+
+// ConvertSpecFrom populates our FakeResource_Spec from the provided source
+func (fakeResourceSpec *FakeResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == fakeResourceSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(fakeResourceSpec)
+}
+
+// ConvertSpecTo populates the provided destination from our FakeResource_Spec
+func (fakeResourceSpec *FakeResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == fakeResourceSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(fakeResourceSpec)
 }
 
 // OriginalVersion returns the original API version used to create the resource.

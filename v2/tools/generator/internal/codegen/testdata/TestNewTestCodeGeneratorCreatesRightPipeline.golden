@@ -28,6 +28,7 @@ createConversionGraph                     azure      Create the graph of convers
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
 injectOriginalVersionProperty             azure      Inject the property OriginalVersion into each Storage Spec type
 injectPropertyAssignmentFunctions         azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
+implementConvertibleSpecInterface         azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
 injectOriginalGVKFunction                 azure      Inject the function OriginalGVK() into each Resource type
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
 markStorageVersion                        azure      Mark the latest API version of each resource as the storage version
