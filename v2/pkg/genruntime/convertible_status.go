@@ -61,3 +61,21 @@ func NewEmptyVersionedStatus(metaObject MetaObject, scheme *runtime.Scheme) (Con
 	// Return the versioned one
 	return rsrc.NewEmptyStatus(), nil
 }
+
+// NewEmptyARMStatus returns an empty ARM status object ready for deserialization from ARM; the original API version
+// used when the resource was first created is used to create the appropriate version
+func NewEmptyARMStatus(metaObject MetaObject, scheme *runtime.Scheme) (ARMResourceStatus, error) {
+	status, err := GetVersionedStatus(metaObject, scheme)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating ARM status")
+	}
+
+	converter, ok := status.(FromARMConverter)
+	if !ok {
+		return nil, errors.Errorf("expected %T to implement genruntime.FromARMConverter", status)
+	}
+
+	return converter.CreateEmptyARMValue(), nil
+}
+
+
