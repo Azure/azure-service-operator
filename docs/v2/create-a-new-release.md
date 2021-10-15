@@ -9,7 +9,7 @@
 
 # Testing the new release
 1. Download the yaml file from the release page
-2. Create a kind cluster: `task controller:kind:create`
+2. Create a kind cluster: `task controller:kind-create`
 3. Install cert-manager: `task controller:install-cert-manager`
 4. Create the namespace for the operator: `k create namespace azureoperator-system`
 5. Source the SP credentials to use for the secret and then run `./scripts/deploy_testing_secret.sh`
