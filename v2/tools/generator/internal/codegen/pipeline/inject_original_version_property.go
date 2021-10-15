@@ -43,6 +43,7 @@ func InjectOriginalVersionProperty() Stage {
 
 			for name, def := range storageSpecs {
 				prop := astmodel.NewPropertyDefinition("OriginalVersion", "originalVersion", astmodel.StringType)
+				prop.WithDescription("returns the original API version used to create the resource")
 				defWithProp, err := injector.Inject(def, prop)
 				if err != nil {
 					return nil, errors.Wrapf(err, "injecting OriginalVersion into %s", name)
