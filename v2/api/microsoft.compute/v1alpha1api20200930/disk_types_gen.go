@@ -2260,6 +2260,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (disksSpec *Disks_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

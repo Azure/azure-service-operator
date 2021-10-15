@@ -1195,6 +1195,7 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) AssignPropertiesToRoleAssignmen
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (roleAssignmentsSpec *RoleAssignments_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

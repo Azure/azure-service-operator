@@ -1593,6 +1593,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (loadBalancersSpec *LoadBalancers_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

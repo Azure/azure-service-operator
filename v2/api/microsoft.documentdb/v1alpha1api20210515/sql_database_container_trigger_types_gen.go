@@ -579,6 +579,7 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

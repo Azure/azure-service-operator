@@ -577,6 +577,7 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Assig
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

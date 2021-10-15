@@ -509,6 +509,7 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMo
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

@@ -1889,6 +1889,7 @@ func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) AssignPropertiesT
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

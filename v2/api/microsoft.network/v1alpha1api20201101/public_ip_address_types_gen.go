@@ -1720,6 +1720,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (publicIPAddressesSpec *PublicIPAddresses_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

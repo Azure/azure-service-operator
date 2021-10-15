@@ -2713,6 +2713,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (storageAccountsSpec *StorageAccounts_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

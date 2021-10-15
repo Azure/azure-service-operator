@@ -766,6 +766,7 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) AssignPropertiesToNamespacesT
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (namespacesTopicsSpec *NamespacesTopics_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

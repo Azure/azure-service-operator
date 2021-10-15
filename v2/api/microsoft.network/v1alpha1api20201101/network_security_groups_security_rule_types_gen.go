@@ -947,6 +947,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

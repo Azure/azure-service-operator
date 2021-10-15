@@ -579,6 +579,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
