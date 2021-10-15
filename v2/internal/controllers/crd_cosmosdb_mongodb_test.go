@@ -95,19 +95,19 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "CosmosDB MongoDB Collection CRUD",
-			Test: func(testContext testcommon.KubePerTestContext) {
+			Test: func(testContext *testcommon.KubePerTestContext) {
 				CosmosDB_MongoDB_Collection_CRUD(testContext, &db)
 			},
 		},
 		testcommon.Subtest{
 			Name: "CosmosDB MongoDB Database throughput settings CRUD",
-			Test: func(testContext testcommon.KubePerTestContext) {
+			Test: func(testContext *testcommon.KubePerTestContext) {
 				CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(testContext, &db)
 			},
 		})
 }
 
-func CosmosDB_MongoDB_Collection_CRUD(tc testcommon.KubePerTestContext, db client.Object) {
+func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	name := tc.Namer.GenerateName("collection")
 	collection := documentdb.MongodbDatabaseCollection{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
@@ -167,7 +167,7 @@ func CosmosDB_MongoDB_Collection_CRUD(tc testcommon.KubePerTestContext, db clien
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "CosmosDB MongoDB Database Collection throughput settings CRUD",
-			Test: func(testContext testcommon.KubePerTestContext) {
+			Test: func(testContext *testcommon.KubePerTestContext) {
 				CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(testContext, &collection)
 			},
 		})
@@ -175,7 +175,7 @@ func CosmosDB_MongoDB_Collection_CRUD(tc testcommon.KubePerTestContext, db clien
 	tc.T.Log("cleaning up collection")
 }
 
-func CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc testcommon.KubePerTestContext, db client.Object) {
+func CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	throughputSettings := documentdb.MongodbDatabaseThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
 		Spec: documentdb.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec{
@@ -215,7 +215,7 @@ func CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc testcommon.KubePerTest
 	tc.T.Log("throughput successfully updated in status")
 }
 
-func CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(tc testcommon.KubePerTestContext, collection client.Object) {
+func CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, collection client.Object) {
 	throughputSettings := documentdb.MongodbDatabaseCollectionThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
 		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{

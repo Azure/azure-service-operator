@@ -21,7 +21,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func newVNETForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetwork {
+func newVNETForVMSS(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetwork {
 	return &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
@@ -34,7 +34,7 @@ func newVNETForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownReso
 	}
 }
 
-func newSubnetForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
+func newSubnetForVMSS(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
 	return &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnets_Spec{
@@ -44,7 +44,7 @@ func newSubnetForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownRe
 	}
 }
 
-func newPublicIPAddressForVMSS(tc testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.PublicIPAddress {
+func newPublicIPAddressForVMSS(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.PublicIPAddress {
 	publicIPAddressSku := network.PublicIPAddressSkuNameStandard
 	return &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
@@ -59,7 +59,7 @@ func newPublicIPAddressForVMSS(tc testcommon.KubePerTestContext, owner genruntim
 	}
 }
 
-func newLoadBalancerForVMSS(tc testcommon.KubePerTestContext, rg *resources.ResourceGroup, publicIPAddress *network.PublicIPAddress) *network.LoadBalancer {
+func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, publicIPAddress *network.PublicIPAddress) *network.LoadBalancer {
 	loadBalancerSku := network.LoadBalancerSkuNameStandard
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
@@ -100,7 +100,7 @@ func newLoadBalancerForVMSS(tc testcommon.KubePerTestContext, rg *resources.Reso
 }
 
 func newVMSS(
-	tc testcommon.KubePerTestContext,
+	tc *testcommon.KubePerTestContext,
 	rg *resources.ResourceGroup,
 	loadBalancer *network.LoadBalancer,
 	subnet *network.VirtualNetworksSubnet) *compute.VirtualMachineScaleSet {
