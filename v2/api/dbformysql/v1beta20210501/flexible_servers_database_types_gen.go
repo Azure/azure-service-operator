@@ -66,7 +66,7 @@ func (database *FlexibleServersDatabase) ConvertTo(hub conversion.Hub) error {
 	return database.AssignPropertiesToFlexibleServersDatabase(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1beta20210501-flexibleserversdatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversdatabases,verbs=create;update,versions=v1beta20210501,name=default.v1beta20210501.flexibleserversdatabases.dbformysql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1beta20210501-flexibleserversdatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversdatabases,verbs=create;update,versions=v1beta20210501,name=default.v1beta20210501.flexibleserversdatabases.dbformysql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &FlexibleServersDatabase{}
 
@@ -155,7 +155,7 @@ func (database *FlexibleServersDatabase) SetStatus(status genruntime.Convertible
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-dbformysql-azure-com-v1beta20210501-flexibleserversdatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversdatabases,verbs=create;update,versions=v1beta20210501,name=validate.v1beta20210501.flexibleserversdatabases.dbformysql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-dbformysql-azure-com-v1beta20210501-flexibleserversdatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversdatabases,verbs=create;update,versions=v1beta20210501,name=validate.v1beta20210501.flexibleserversdatabases.dbformysql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &FlexibleServersDatabase{}
 

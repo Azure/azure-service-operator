@@ -81,7 +81,7 @@ func (machine *VirtualMachine) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-compute-azure-com-v1alpha1api20201201-virtualmachine,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=virtualmachines,verbs=create;update,versions=v1alpha1api20201201,name=default.v1alpha1api20201201.virtualmachines.compute.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-compute-azure-com-v1alpha1api20201201-virtualmachine,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=virtualmachines,verbs=create;update,versions=v1alpha1api20201201,name=default.v1alpha1api20201201.virtualmachines.compute.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &VirtualMachine{}
 
@@ -170,7 +170,7 @@ func (machine *VirtualMachine) SetStatus(status genruntime.ConvertibleStatus) er
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-compute-azure-com-v1alpha1api20201201-virtualmachine,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=virtualmachines,verbs=create;update,versions=v1alpha1api20201201,name=validate.v1alpha1api20201201.virtualmachines.compute.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-compute-azure-com-v1alpha1api20201201-virtualmachine,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=virtualmachines,verbs=create;update,versions=v1alpha1api20201201,name=validate.v1alpha1api20201201.virtualmachines.compute.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &VirtualMachine{}
 

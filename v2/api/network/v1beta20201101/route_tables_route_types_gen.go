@@ -66,7 +66,7 @@ func (route *RouteTablesRoute) ConvertTo(hub conversion.Hub) error {
 	return route.AssignPropertiesToRouteTablesRoute(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-routetablesroute,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetablesroutes,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.routetablesroutes.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-routetablesroute,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetablesroutes,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.routetablesroutes.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &RouteTablesRoute{}
 
@@ -155,7 +155,7 @@ func (route *RouteTablesRoute) SetStatus(status genruntime.ConvertibleStatus) er
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-routetablesroute,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetablesroutes,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.routetablesroutes.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-routetablesroute,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetablesroutes,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.routetablesroutes.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &RouteTablesRoute{}
 

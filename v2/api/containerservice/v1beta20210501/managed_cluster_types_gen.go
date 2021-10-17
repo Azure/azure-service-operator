@@ -67,7 +67,7 @@ func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
 	return cluster.AssignPropertiesToManagedCluster(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1beta20210501-managedcluster,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclusters,verbs=create;update,versions=v1beta20210501,name=default.v1beta20210501.managedclusters.containerservice.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1beta20210501-managedcluster,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclusters,verbs=create;update,versions=v1beta20210501,name=default.v1beta20210501.managedclusters.containerservice.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &ManagedCluster{}
 
@@ -156,7 +156,7 @@ func (cluster *ManagedCluster) SetStatus(status genruntime.ConvertibleStatus) er
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-containerservice-azure-com-v1beta20210501-managedcluster,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclusters,verbs=create;update,versions=v1beta20210501,name=validate.v1beta20210501.managedclusters.containerservice.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-containerservice-azure-com-v1beta20210501-managedcluster,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclusters,verbs=create;update,versions=v1beta20210501,name=validate.v1beta20210501.managedclusters.containerservice.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &ManagedCluster{}
 

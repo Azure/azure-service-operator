@@ -80,7 +80,7 @@ func (pool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1alpha1api20210501-managedclustersagentpool,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclustersagentpools,verbs=create;update,versions=v1alpha1api20210501,name=default.v1alpha1api20210501.managedclustersagentpools.containerservice.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1alpha1api20210501-managedclustersagentpool,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclustersagentpools,verbs=create;update,versions=v1alpha1api20210501,name=default.v1alpha1api20210501.managedclustersagentpools.containerservice.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &ManagedClustersAgentPool{}
 
@@ -169,7 +169,7 @@ func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleSta
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-containerservice-azure-com-v1alpha1api20210501-managedclustersagentpool,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclustersagentpools,verbs=create;update,versions=v1alpha1api20210501,name=validate.v1alpha1api20210501.managedclustersagentpools.containerservice.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-containerservice-azure-com-v1alpha1api20210501-managedclustersagentpool,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclustersagentpools,verbs=create;update,versions=v1alpha1api20210501,name=validate.v1alpha1api20210501.managedclustersagentpools.containerservice.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &ManagedClustersAgentPool{}
 
